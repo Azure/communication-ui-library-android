@@ -5,12 +5,14 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
+import com.azure.android.communication.ui.calling.redux.action.Action
+import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class ParticipantListViewModel {
+internal class ParticipantListViewModel(private val dispatch: (Action) -> Unit) {
     private lateinit var remoteParticipantListCellStateFlow: MutableStateFlow<List<ParticipantListCellModel>>
     private lateinit var localParticipantListCellStateFlow: MutableStateFlow<ParticipantListCellModel>
     private val displayParticipantListStateFlow = MutableStateFlow(false)
@@ -34,26 +36,34 @@ internal class ParticipantListViewModel {
         false
     )
 
-    fun init(participantMap: Map<String, ParticipantInfoModel>, localUserState: LocalUserState) {
+    fun init(participantMap: Map<String, ParticipantInfoModel>, localUserState: LocalUserState, canShowLobby: Boolean) {
         val remoteParticipantList: List<ParticipantListCellModel> =
             participantMap.values.map {
                 getRemoteParticipantListCellModel(it)
-            }
+            }.filter { participantListRemoveParticipantVisibility(it, canShowLobby) }
         remoteParticipantListCellStateFlow = MutableStateFlow(remoteParticipantList)
 
         localParticipantListCellStateFlow =
             MutableStateFlow(getLocalParticipantListCellModel(localUserState))
     }
 
-    fun update(participantMap: Map<String, ParticipantInfoModel>, localUserState: LocalUserState) {
-        val remoteParticipantList: List<ParticipantListCellModel> =
+    fun update(participantMap: Map<String, ParticipantInfoModel>, localUserState: LocalUserState, canShowLobby: Boolean) {
+        val remoteParticipantList: MutableList<ParticipantListCellModel> =
             participantMap.values.map {
                 getRemoteParticipantListCellModel(it)
-            }
+            }.filter { participantListRemoveParticipantVisibility(it, canShowLobby) }.toMutableList()
         remoteParticipantListCellStateFlow.value = remoteParticipantList
 
         localParticipantListCellStateFlow.value = getLocalParticipantListCellModel(localUserState)
     }
+
+    private fun participantListRemoveParticipantVisibility(
+        it: ParticipantListCellModel,
+        canShowLobby: Boolean,
+    ) = (
+        it.status == ParticipantStatus.CONNECTED ||
+            (it.status == ParticipantStatus.IN_LOBBY && canShowLobby)
+        )
 
     fun displayParticipantList() {
         displayParticipantListStateFlow.value = true
@@ -61,6 +71,18 @@ internal class ParticipantListViewModel {
 
     fun closeParticipantList() {
         displayParticipantListStateFlow.value = false
+    }
+
+    fun admitParticipant(userIdentifier: String) {
+        dispatch(ParticipantAction.Admit(userIdentifier))
+    }
+
+    fun declineParticipant(userIdentifier: String) {
+        dispatch(ParticipantAction.Decline(userIdentifier))
+    }
+
+    fun admitAllLobbyParticipants() {
+        dispatch(ParticipantAction.AdmitAll())
     }
 
     private fun getLocalParticipantListCellModel(localUserState: LocalUserState): ParticipantListCellModel {
@@ -74,7 +96,12 @@ internal class ParticipantListViewModel {
     }
 
     private fun getRemoteParticipantListCellModel(it: ParticipantInfoModel): ParticipantListCellModel {
-        return ParticipantListCellModel(it.displayName.trim(), it.isMuted, it.userIdentifier, it.participantStatus == ParticipantStatus.HOLD)
+        return ParticipantListCellModel(
+            it.displayName.trim(), it.isMuted,
+            it.userIdentifier,
+            it.participantStatus == ParticipantStatus.HOLD,
+            it.participantStatus,
+        )
     }
 }
 
@@ -83,4 +110,5 @@ internal data class ParticipantListCellModel(
     val isMuted: Boolean,
     val userIdentifier: String,
     val isOnHold: Boolean,
+    val status: ParticipantStatus? = null,
 )

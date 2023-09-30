@@ -48,7 +48,7 @@ internal fun tapWhenDisplayed(id: Int) {
 
     // XXX intermittently, this function seems return without a tap actually taking place.
     // This delay appears to help ¯\_(ツ)_/¯
-    SystemClock.sleep(50L)
+    SystemClock.sleep(200L)
 
     tap(id)
 }

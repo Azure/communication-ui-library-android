@@ -3,8 +3,16 @@
 
 package com.azure.android.communication.ui.redux.middleware.handler
 
-import com.azure.android.communication.ui.calling.error.ErrorCode
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.error.CallStateError
+import com.azure.android.communication.ui.calling.error.ErrorCode
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_END_FAILED
+import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_DECLINED
+import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_EVICTED
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
+import com.azure.android.communication.ui.calling.models.CallInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
@@ -12,37 +20,28 @@ import com.azure.android.communication.ui.calling.redux.action.LifecycleAction
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
-import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandlerImpl
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
-import com.azure.android.communication.ui.calling.service.CallingService
-import com.azure.android.communication.ui.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_END_FAILED
-import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_DECLINED
-import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_EVICTED
-import com.azure.android.communication.ui.helper.UnconfinedTestContextProvider
-import com.azure.android.communication.ui.calling.models.CallInfoModel
-import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
-
-import com.azure.android.communication.ui.calling.models.ParticipantStatus
+import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandlerImpl
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
-import com.azure.android.communication.ui.calling.redux.state.NavigationState
-import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
+import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
+import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
+import com.azure.android.communication.ui.calling.redux.state.AudioState
+import com.azure.android.communication.ui.calling.redux.state.BluetoothState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
-import com.azure.android.communication.ui.calling.redux.state.OperationStatus
-import com.azure.android.communication.ui.calling.redux.state.CameraState
-import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
-import com.azure.android.communication.ui.calling.redux.state.AudioState
-import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
-import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
-import com.azure.android.communication.ui.calling.redux.state.BluetoothState
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
-import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import com.azure.android.communication.ui.calling.redux.state.NavigationState
+import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
+import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
-
+import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import com.azure.android.communication.ui.calling.service.CallingService
+import com.azure.android.communication.ui.helper.UnconfinedTestContextProvider
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -113,7 +112,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = "username"
+            displayName = "username",
+            localParticipantRole = null
         )
         appState.navigationState = NavigationState(NavigationStatus.IN_CALL)
         appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
@@ -361,7 +361,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                         BluetoothState(available = false, deviceName = "bluetooth")
                     ),
                     "",
-                    ""
+                    "",
+                    localParticipantRole = null
                 )
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
@@ -395,6 +396,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
                 on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
+                on { getLocalParticipantRoleSharedFlow() } doReturn MutableSharedFlow()
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -441,7 +443,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                         BluetoothState(available = false, deviceName = "bluetooth")
                     ),
                     "",
-                    ""
+                    "",
+                    localParticipantRole = null
                 )
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
@@ -465,6 +468,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
                 on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
+                on { getLocalParticipantRoleSharedFlow() } doReturn MutableSharedFlow()
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -510,7 +514,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                         BluetoothState(available = false, deviceName = "bluetooth")
                     ),
                     "",
-                    ""
+                    "",
+                    localParticipantRole = null
                 )
             val callingServiceParticipantsSharedFlow: MutableSharedFlow<MutableMap<String, ParticipantInfoModel>> =
                 MutableSharedFlow()
@@ -533,6 +538,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
                 on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
+                on { getLocalParticipantRoleSharedFlow() } doReturn MutableSharedFlow()
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -613,7 +619,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                         BluetoothState(available = false, deviceName = "bluetooth")
                     ),
                     "",
-                    ""
+                    "",
+                    localParticipantRole = null
                 )
 
             val startCallCompletableFuture = CompletableFuture<Void>()
@@ -637,6 +644,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
                 on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
+                on { getLocalParticipantRoleSharedFlow() } doReturn MutableSharedFlow()
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -687,7 +695,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     expectedCameraState,
                     expectedAudioState,
                     "",
-                    ""
+                    "",
+                    localParticipantRole = null
                 )
             val startCallCompletableFuture = CompletableFuture<Void>()
             val callingServiceParticipantsSharedFlow =
@@ -751,7 +760,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     expectedCameraState,
                     expectedAudioState,
                     "",
-                    ""
+                    "",
+                    localParticipantRole = null
                 )
             val startCallCompletableFuture = CompletableFuture<Void>()
             val callingServiceParticipantsSharedFlow =
@@ -815,7 +825,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     expectedCameraState,
                     expectedAudioState,
                     "",
-                    ""
+                    "",
+                    localParticipantRole = null
                 )
             val startCallCompletableFuture = CompletableFuture<Void>()
             val callingServiceParticipantsSharedFlow =
@@ -879,7 +890,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     expectedCameraState,
                     expectedAudioState,
                     "",
-                    ""
+                    "",
+                    localParticipantRole = null
                 )
             val startCallCompletableFuture = CompletableFuture<Void>()
             val callingServiceParticipantsSharedFlow =
@@ -935,7 +947,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 videoStreamID = null,
-                displayName = "username"
+                displayName = "username",
+                localParticipantRole = null
             )
         appState.navigationState = NavigationState(
             NavigationStatus.IN_CALL
@@ -990,7 +1003,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = "username"
+            displayName = "username",
+            localParticipantRole = null
         )
         appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
 
@@ -1042,7 +1056,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = "username"
+            displayName = "username",
+            localParticipantRole = null
         )
         appState.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
 
@@ -1095,7 +1110,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = "username"
+            displayName = "username",
+            localParticipantRole = null
         )
         appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
 
@@ -1143,7 +1159,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = "username"
+            displayName = "username",
+            localParticipantRole = null
         )
         appState.navigationState = NavigationState(NavigationStatus.IN_CALL)
         appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
@@ -1192,7 +1209,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = "username"
+            displayName = "username",
+            localParticipantRole = null
         )
         appState.navigationState = NavigationState(NavigationStatus.IN_CALL)
         appState.callState = CallingState(CallingStatus.LOCAL_HOLD, OperationStatus.NONE)
@@ -1239,7 +1257,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = "username"
+            displayName = "username",
+            localParticipantRole = null
         )
         appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
 
@@ -1287,7 +1306,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = "username"
+            displayName = "username",
+            localParticipantRole = null
         )
         appState.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
 
@@ -1381,7 +1401,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 videoStreamID = null,
-                displayName = "username"
+                displayName = "username",
+                localParticipantRole = null
             )
 
         val mockCallingService: CallingService = mock {
@@ -1426,7 +1447,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = "username"
+            displayName = "username",
+            localParticipantRole = null
         )
 
         val mockCallingService: CallingService = mock {
@@ -1476,7 +1498,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = "username"
+            displayName = "username",
+            localParticipantRole = null
         )
 
         val mockCallingService: CallingService = mock {
@@ -1535,6 +1558,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
                 on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
+                on { getLocalParticipantRoleSharedFlow() } doReturn MutableSharedFlow()
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -1585,7 +1609,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 videoStreamID = null,
-                displayName = "username"
+                displayName = "username",
+                localParticipantRole = null
             )
             appState.callState = CallingState(CallingStatus.LOCAL_HOLD, OperationStatus.NONE)
 
@@ -1615,6 +1640,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { turnCameraOn() } doReturn cameraStateCompletableFuture
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
                 on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
+                on { getLocalParticipantRoleSharedFlow() } doReturn MutableSharedFlow<CallCompositeParticipantRole?>()
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -1669,6 +1695,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
                 on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
+                on { getLocalParticipantRoleSharedFlow() } doReturn MutableSharedFlow()
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -1739,6 +1766,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
                 on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
+                on { getLocalParticipantRoleSharedFlow() } doReturn MutableSharedFlow()
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -1805,6 +1833,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
                 on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
+                on { getLocalParticipantRoleSharedFlow() } doReturn MutableSharedFlow()
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -1875,6 +1904,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
                 on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
+                on { getLocalParticipantRoleSharedFlow() } doReturn MutableSharedFlow()
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -1943,6 +1973,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
                 on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
+                on { getLocalParticipantRoleSharedFlow() } doReturn MutableSharedFlow()
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -2027,6 +2058,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
                 on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
+                on { getLocalParticipantRoleSharedFlow() } doReturn MutableSharedFlow()
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -2099,6 +2131,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
                 on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
+                on { getLocalParticipantRoleSharedFlow() } doReturn MutableSharedFlow()
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -2170,7 +2203,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 videoStreamID = null,
-                displayName = "username"
+                displayName = "username",
+                localParticipantRole = null
             )
             appState.callState = CallingState(CallingStatus.LOCAL_HOLD, OperationStatus.NONE)
 
@@ -2197,6 +2231,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
                 on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
+                on { getLocalParticipantRoleSharedFlow() } doReturn MutableSharedFlow()
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(

@@ -26,7 +26,7 @@ internal class LobbyParticipantsVisibilityTest : BaseUiTest() {
         injectDependencies(testScheduler)
 
         val expectedParticipantCountOnGridView = 2
-        val expectedParticipantCountOnParticipantList = 2
+        val expectedParticipantCountOnParticipantList = 3
         val expectedParticipantCountOnFloatingHeader = 2
 
         lobbyParticipantsVisibilityTests(
@@ -41,7 +41,7 @@ internal class LobbyParticipantsVisibilityTest : BaseUiTest() {
         injectDependencies(testScheduler)
 
         val expectedParticipantCountOnGridView = 2
-        val expectedParticipantCountOnParticipantList = 2
+        val expectedParticipantCountOnParticipantList = 3
         val expectedParticipantCountOnFloatingHeader = 2
 
         lobbyParticipantsVisibilityTests(

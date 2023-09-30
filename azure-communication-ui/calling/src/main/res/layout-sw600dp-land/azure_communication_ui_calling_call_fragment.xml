@@ -38,6 +38,10 @@
 
         <include layout="@layout/azure_communication_ui_calling_call_header" />
 
+        <include layout="@layout/azure_communication_ui_calling_lobby_error_header" />
+
+        <include layout="@layout/azure_communication_ui_calling_lobby_header" />
+
         <include layout="@layout/azure_communication_ui_calling_call_banner" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

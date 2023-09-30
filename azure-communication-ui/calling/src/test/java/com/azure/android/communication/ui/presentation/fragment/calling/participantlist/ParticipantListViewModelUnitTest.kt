@@ -3,11 +3,15 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.participantlist
 
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.models.VideoStreamModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListCellModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListViewModel
+import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
@@ -17,14 +21,14 @@ import com.azure.android.communication.ui.calling.redux.state.CameraOperationalS
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
-import com.azure.android.communication.ui.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.models.ParticipantStatus
+import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
 internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
@@ -43,7 +47,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
                 modifiedTimestamp = 456,
-                speakingTimestamp = 567
+                speakingTimestamp = 567,
             )
             val expectedInitialRemoteParticipantList: List<ParticipantListCellModel> =
                 initialRemoteParticipantsMap.values.map {
@@ -52,6 +56,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                         it.isMuted,
                         it.userIdentifier,
                         false,
+                        status = ParticipantStatus.CONNECTED
                     )
                 }
 
@@ -82,6 +87,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                         it.isMuted,
                         it.userIdentifier,
                         false,
+                        status = ParticipantStatus.CONNECTED
                     )
                 }
 
@@ -96,11 +102,15 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 "video_stream_id",
-                "local_user"
+                "local_user",
+                localParticipantRole = CallCompositeParticipantRole.PRESENTER
             )
 
-            val participantListViewModel = ParticipantListViewModel()
-            participantListViewModel.init(initialRemoteParticipantsMap, localUserState)
+            val mockAppStore = mock<AppStore<ReduxState>> {
+            }
+
+            val participantListViewModel = ParticipantListViewModel(mockAppStore::dispatch)
+            participantListViewModel.init(initialRemoteParticipantsMap, localUserState, true)
 
             val resultListFromRemoteParticipantListCellStateFlow =
                 mutableListOf<List<ParticipantListCellModel>>()
@@ -111,7 +121,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             // act
-            participantListViewModel.update(updatedRemoteParticipantsMap, localUserState)
+            participantListViewModel.update(updatedRemoteParticipantsMap, localUserState, true)
 
             // assert
             Assert.assertEquals(
@@ -155,7 +165,8 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 "video_stream_id",
-                "local_user"
+                "local_user",
+                localParticipantRole = null
             )
 
             val expectedInitialLocalParticipantListCellModel =
@@ -180,7 +191,8 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 "video_stream_id",
-                "local_user"
+                "local_user",
+                localParticipantRole = CallCompositeParticipantRole.PRESENTER
             )
 
             val expectedUpdatedLocalParticipantListCellModel =
@@ -193,10 +205,14 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                     )
                 }
 
-            val participantListViewModel = ParticipantListViewModel()
+            val mockAppStore = mock<AppStore<ReduxState>> {
+            }
+
+            val participantListViewModel = ParticipantListViewModel(mockAppStore::dispatch)
             participantListViewModel.init(
                 initialRemoteParticipantsMap,
-                initialExpectedLocalUserState
+                initialExpectedLocalUserState,
+                true
             )
 
             val resultListFromLocalParticipantListCellStateFlow =
@@ -210,7 +226,8 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             // act
             participantListViewModel.update(
                 initialRemoteParticipantsMap,
-                updatedExpectedLocalUserState
+                updatedExpectedLocalUserState,
+                true
             )
 
             // assert
@@ -257,13 +274,18 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 "video_stream_id",
-                "local_user"
+                "local_user",
+                localParticipantRole = CallCompositeParticipantRole.PRESENTER
             )
 
-            val participantListViewModel = ParticipantListViewModel()
+            val mockAppStore = mock<AppStore<ReduxState>> {
+            }
+
+            val participantListViewModel = ParticipantListViewModel(mockAppStore::dispatch)
             participantListViewModel.init(
                 initialRemoteParticipantsMap,
-                initialExpectedLocalUserState
+                initialExpectedLocalUserState,
+                true
             )
 
             val resultListFromDisplayParticipantListStateFlow =
@@ -316,13 +338,18 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 "video_stream_id",
-                "local_user"
+                "local_user",
+                localParticipantRole = CallCompositeParticipantRole.PRESENTER
             )
 
-            val participantListViewModel = ParticipantListViewModel()
+            val mockAppStore = mock<AppStore<ReduxState>> {
+            }
+
+            val participantListViewModel = ParticipantListViewModel(mockAppStore::dispatch)
             participantListViewModel.init(
                 initialRemoteParticipantsMap,
-                initialExpectedLocalUserState
+                initialExpectedLocalUserState,
+                true
             )
 
             val resultListFromDisplayParticipantListStateFlow =

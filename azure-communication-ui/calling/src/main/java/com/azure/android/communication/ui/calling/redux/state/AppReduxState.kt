@@ -16,6 +16,7 @@ internal class AppReduxState(
         participantMapModifiedTimestamp = 0,
         dominantSpeakersInfo = emptyList(),
         dominantSpeakersModifiedTimestamp = 0,
+        lobbyErrorCode = null
     )
 
     override var localParticipantState: LocalUserState =
@@ -38,7 +39,8 @@ internal class AppReduxState(
             initialCallJoinState = InitialCallControllerState(
                 cameraOnByDefault,
                 microphoneOnByDefault
-            )
+            ),
+            localParticipantRole = null
         )
 
     override var permissionState: PermissionState =

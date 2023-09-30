@@ -11,6 +11,8 @@ import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.PropertyChangedListener
+import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.models.VideoStreamModel
@@ -264,6 +266,21 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     }
 
     override fun getCamerasCountStateFlow(): StateFlow<Int> = getCameraCountStateFlow
+    override fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?> {
+        return completedFuture(null)
+    }
+
+    override fun admit(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
+        return completedFuture(null)
+    }
+
+    override fun decline(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
+        return completedFuture(null)
+    }
+
+    override fun getLocalParticipantRoleSharedFlow(): SharedFlow<CallCompositeParticipantRole?> {
+        return MutableSharedFlow<CallCompositeParticipantRole?>()
+    }
 
     private fun RemoteVideoStream.asVideoStreamModel(): VideoStreamModel {
         return VideoStreamModel(

@@ -3,8 +3,8 @@
 
 package com.azure.android.communication.ui.redux.reducer
 
-import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.CallCompositeError
+import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.reducer.LocalParticipantStateReducerImpl
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
@@ -37,7 +37,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = null
+            displayName = null,
+            localParticipantRole = null
         )
         val action = LocalParticipantAction.CameraOnRequested()
 
@@ -65,7 +66,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = null
+            displayName = null,
+            localParticipantRole = null
         )
         val action = LocalParticipantAction.CameraOnTriggered()
 
@@ -93,7 +95,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = null
+            displayName = null,
+            localParticipantRole = null
         )
         val videoStreamId = "some_videoStreamId"
         val action = LocalParticipantAction.CameraOnSucceeded(videoStreamId)
@@ -124,7 +127,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = null
+            displayName = null,
+            localParticipantRole = null
         )
         val error =
             CallCompositeError(
@@ -158,7 +162,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = null
+            displayName = null,
+            localParticipantRole = null
         )
         val action = LocalParticipantAction.CameraOffTriggered()
 
@@ -187,7 +192,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = null
+            displayName = null,
+            localParticipantRole = null
         )
         val action = LocalParticipantAction.CamerasCountUpdated(8)
 
@@ -215,7 +221,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = "some video streamId",
-            displayName = null
+            displayName = null,
+            localParticipantRole = null
         )
         val action = LocalParticipantAction.CameraOffSucceeded()
 
@@ -246,7 +253,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamId,
-            null
+            null,
+            localParticipantRole = null
         )
         val error = CallCompositeError(
             ErrorCode.TURN_CAMERA_OFF_FAILED,
@@ -280,7 +288,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = null
+            displayName = null,
+            localParticipantRole = null
         )
         val action = LocalParticipantAction.CameraPreviewOnRequested()
 
@@ -308,7 +317,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = null
+            displayName = null,
+            localParticipantRole = null
         )
         val action = LocalParticipantAction.CameraPreviewOnTriggered()
 
@@ -336,7 +346,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = null
+            displayName = null,
+            localParticipantRole = null
         )
         val videoStreamId = "some_videoStreamId"
         val action = LocalParticipantAction.CameraPreviewOnSucceeded(videoStreamId)
@@ -367,7 +378,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = null
+            displayName = null,
+            localParticipantRole = null
         )
         val error =
             CallCompositeError(
@@ -401,7 +413,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = "some video stream id",
-            displayName = null
+            displayName = null,
+            localParticipantRole = null
         )
         val action = LocalParticipantAction.CameraPreviewOffTriggered()
 
@@ -430,7 +443,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = "some video stream id",
-            displayName = null
+            displayName = null,
+            localParticipantRole = null
         )
 
         val action = LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(
@@ -462,7 +476,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = "some video stream id",
-            displayName = null
+            displayName = null,
+            localParticipantRole = null
         )
 
         val action = LocalParticipantAction.AudioDeviceHeadsetAvailable(
@@ -493,7 +508,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = "some video stream id",
-            displayName = null
+            displayName = null,
+            localParticipantRole = null
         )
         val action = LocalParticipantAction.CameraSwitchTriggered()
 
@@ -522,7 +538,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = "some video stream id",
-            displayName = null
+            displayName = null,
+            localParticipantRole = null
         )
         val expectedNewCameraDevice = CameraDeviceSelectionStatus.BACK
         val action = LocalParticipantAction.CameraSwitchSucceeded(expectedNewCameraDevice)
@@ -552,7 +569,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = null
+            displayName = null,
+            localParticipantRole = null
         )
 
         val error = CallCompositeError(
@@ -588,7 +606,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = null
+            displayName = null,
+            localParticipantRole = null
         )
         val action = LocalParticipantAction.MicOnTriggered()
 
@@ -616,7 +635,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = null
+            displayName = null,
+            localParticipantRole = null
         )
         val expectedAudioOperationalStatus = AudioOperationalStatus.ON
         val action =
@@ -646,7 +666,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = null
+            displayName = null,
+            localParticipantRole = null
         )
         val error =
             CallCompositeError(ErrorCode.TURN_MIC_ON_FAILED, Throwable("MicOn failed"))
@@ -677,7 +698,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = null
+            displayName = null,
+            localParticipantRole = null
         )
         val action = LocalParticipantAction.MicOffTriggered()
 
@@ -705,7 +727,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = null
+            displayName = null,
+            localParticipantRole = null
         )
         val error =
             CallCompositeError(ErrorCode.TURN_MIC_OFF_FAILED, Throwable("Mic OFF failed"))
@@ -735,7 +758,8 @@ internal class LocalParticipantReduxStateReducerUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             videoStreamID = null,
-            displayName = null
+            displayName = null,
+            localParticipantRole = null
         )
 
         val action =

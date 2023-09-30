@@ -3,9 +3,11 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyErrorHeaderViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.redux.Store
@@ -37,6 +39,8 @@ internal class CallingViewModel(
     val connectingLobbyOverlayViewModel = callingViewModelProvider.connectingLobbyOverlayViewModel
     val holdOverlayViewModel = callingViewModelProvider.onHoldOverlayViewModel
     val errorInfoViewModel = callingViewModelProvider.errorInfoViewModel
+    val lobbyHeaderViewModel = callingViewModelProvider.lobbyHeaderViewModel
+    val lobbyErrorHeaderViewModel: LobbyErrorHeaderViewModel = callingViewModelProvider.lobbyErrorHeaderViewModel
 
     private var hasSetupCalled = false
 
@@ -84,8 +88,9 @@ internal class CallingViewModel(
         )
 
         participantListViewModel.init(
-            remoteParticipantsExcludingLobbyStatus,
-            state.localParticipantState
+            state.remoteParticipantState.participantMap,
+            state.localParticipantState,
+            canShowLobby(state.localParticipantState.localParticipantRole)
         )
 
         waitingLobbyOverlayViewModel.init(state.callState.callingStatus)
@@ -100,6 +105,19 @@ internal class CallingViewModel(
         holdOverlayViewModel.init(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 
         participantGridViewModel.init(state.callState.callingStatus)
+
+        lobbyHeaderViewModel.init(
+            state.callState.callingStatus,
+            getLobbyParticipantsForHeader(state),
+            canShowLobby(state.localParticipantState.localParticipantRole)
+        )
+
+        lobbyErrorHeaderViewModel.init(
+            state.callState.callingStatus,
+            state.remoteParticipantState.lobbyErrorCode,
+            canShowLobby(state.localParticipantState.localParticipantRole)
+        )
+
         super.init(coroutineScope)
     }
 
@@ -161,6 +179,7 @@ internal class CallingViewModel(
                 dominantSpeakersModifiedTimestamp = System.currentTimeMillis(),
             )
             floatingHeaderViewModel.dismiss()
+            lobbyHeaderViewModel.close()
             participantListViewModel.closeParticipantList()
             localParticipantViewModel.update(
                 state.localParticipantState.displayName,
@@ -185,9 +204,22 @@ internal class CallingViewModel(
                 remoteParticipantsExcludingLobbyStatus.count()
             )
 
+            lobbyHeaderViewModel.update(
+                state.callState.callingStatus,
+                getLobbyParticipantsForHeader(state),
+                canShowLobby(state.localParticipantState.localParticipantRole)
+            )
+
+            lobbyErrorHeaderViewModel.update(
+                state.callState.callingStatus,
+                state.remoteParticipantState.lobbyErrorCode,
+                canShowLobby(state.localParticipantState.localParticipantRole)
+            )
+
             participantListViewModel.update(
-                remoteParticipantsExcludingLobbyStatus,
-                state.localParticipantState
+                state.remoteParticipantState.participantMap,
+                state.localParticipantState,
+                canShowLobby(state.localParticipantState.localParticipantRole)
             )
 
             bannerViewModel.update(state.callState)
@@ -197,6 +229,20 @@ internal class CallingViewModel(
             }
         }
         updateOverlayDisplayedState(state.callState.callingStatus)
+    }
+
+    private fun getLobbyParticipantsForHeader(state: ReduxState) =
+        if (canShowLobby(state.localParticipantState.localParticipantRole))
+            state.remoteParticipantState.participantMap.filter { it.value.participantStatus == ParticipantStatus.IN_LOBBY }
+        else mapOf()
+
+    private fun canShowLobby(role: CallCompositeParticipantRole?): Boolean {
+        role?.let {
+            return it == CallCompositeParticipantRole.ORGANIZER ||
+                it == CallCompositeParticipantRole.PRESENTER ||
+                it == CallCompositeParticipantRole.COORGANIZER
+        }
+        return false
     }
 
     private fun remoteParticipantsExcludingLobbyStatus(participants: Map<String, ParticipantInfoModel>): Map<String, ParticipantInfoModel> =
