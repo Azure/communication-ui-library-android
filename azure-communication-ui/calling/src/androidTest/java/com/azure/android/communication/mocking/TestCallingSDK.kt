@@ -78,6 +78,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     private var dominantSpeakersSharedFlow = MutableSharedFlow<DominantSpeakersInfo>()
     private var isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
     private var getCameraCountStateFlow = MutableStateFlow(2)
+    private val participantRoleSharedFlow = MutableSharedFlow<CallCompositeParticipantRole?>()
 
     @GuardedBy("this")
     private val remoteParticipantsMap: MutableMap<String, RemoteParticipant> = mutableMapOf()
@@ -85,6 +86,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
 
     private var localCameraFacing = CameraFacing.FRONT
     private val localVideoStream = LocalVideoStreamTest(callEvents, localCameraFacing, coroutineScope)
+    private var lobbyResultCompletableFuture: CompletableFuture<CallCompositeLobbyErrorCode?> = CompletableFuture()
 
     suspend fun addRemoteParticipant(
         id: CommunicationIdentifier,
@@ -113,6 +115,34 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         }
 
         emitRemoteParticipantFlow()
+    }
+
+    suspend fun changeParticipantState(id: String, state: ParticipantState) {
+        synchronized(this) {
+            if (!remoteParticipantsMap.containsKey(id)) {
+                return
+            }
+            val rpi = remoteParticipantsMap[id]!!
+            remoteParticipantsMap[id] = RemoteParticipantImpl(
+                identifier = rpi.identifier,
+                displayName = rpi.displayName,
+                isMuted = rpi.isMuted,
+                isSpeaking = rpi.isSpeaking,
+                videoStreams = rpi.videoStreams,
+                state = state
+            )
+        }
+        emitRemoteParticipantFlow()
+    }
+
+    fun setLobbyResultCompletableFuture(lobbyResultCompletableFuture: CompletableFuture<CallCompositeLobbyErrorCode?>) {
+        this.lobbyResultCompletableFuture = lobbyResultCompletableFuture
+    }
+
+    fun setParticipantRoleSharedFlow(participantRole: CallCompositeParticipantRole?) {
+        coroutineScope.launch {
+            participantRoleSharedFlow.emit(participantRole)
+        }
     }
 
     suspend fun removeParticipant(id: String) {
@@ -267,19 +297,19 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
 
     override fun getCamerasCountStateFlow(): StateFlow<Int> = getCameraCountStateFlow
     override fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?> {
-        return completedFuture(null)
+        return lobbyResultCompletableFuture
     }
 
     override fun admit(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
-        return completedFuture(null)
+        return lobbyResultCompletableFuture
     }
 
     override fun decline(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
-        return completedFuture(null)
+        return lobbyResultCompletableFuture
     }
 
     override fun getLocalParticipantRoleSharedFlow(): SharedFlow<CallCompositeParticipantRole?> {
-        return MutableSharedFlow<CallCompositeParticipantRole?>()
+        return participantRoleSharedFlow
     }
 
     private fun RemoteVideoStream.asVideoStreamModel(): VideoStreamModel {

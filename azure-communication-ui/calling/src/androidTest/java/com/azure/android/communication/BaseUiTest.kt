@@ -27,6 +27,7 @@ internal open class BaseUiTest {
     internal val participantListOpenButton = R.id.azure_communication_ui_call_bottom_drawer_button
     internal val bottomDrawer = R.id.bottom_drawer_table
     internal val lobbyHeaderId = R.id.azure_communication_ui_calling_lobby_header
+    internal val lobbyHeaderText = R.id.azure_communication_ui_calling_lobby_header_text
     internal val lobbyHeaderCloseButton = R.id.azure_communication_ui_calling_lobby_close_button
     internal val lobbyHeaderOpenParticipantListButton = R.id.azure_communication_ui_calling_lobby_open_list_button
     internal val lobbyErrorHeaderId = R.id.azure_communication_ui_calling_lobby_error_header

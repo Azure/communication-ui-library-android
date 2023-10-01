@@ -11,7 +11,7 @@ import com.microsoft.fluentui.widget.Button
 
 internal open class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val title: TextView = itemView.findViewById(R.id.azure_communication_ui_cell_text)
-    private val admitAllButton: Button? = itemView.findViewById(R.id.azure_communication_ui_admit_all_button)
+    private val admitAllButton: Button? = itemView.findViewById(R.id.azure_communication_ui_calling_admit_all_button)
 
     open fun setCellData(bottomCellItem: BottomCellItem) {
         title.text = bottomCellItem.title

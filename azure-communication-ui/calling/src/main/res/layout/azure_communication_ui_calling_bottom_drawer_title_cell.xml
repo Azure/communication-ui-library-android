@@ -24,7 +24,7 @@
         />
 
     <com.microsoft.fluentui.widget.Button
-        android:id="@+id/azure_communication_ui_admit_all_button"
+        android:id="@+id/azure_communication_ui_calling_admit_all_button"
         style="@style/Widget.FluentUI.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
         android:focusable="true"
         android:textColor="?attr/azure_communication_ui_calling_primary_color"
         android:text="@string/azure_communication_ui_calling_admit_all"
-        android:visibility="invisible"
+        android:visibility="gone"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
