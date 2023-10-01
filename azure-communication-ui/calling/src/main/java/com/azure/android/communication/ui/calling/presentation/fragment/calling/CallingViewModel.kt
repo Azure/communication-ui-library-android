@@ -178,7 +178,7 @@ internal class CallingViewModel(
                 dominantSpeakersModifiedTimestamp = System.currentTimeMillis(),
             )
             floatingHeaderViewModel.dismiss()
-            lobbyHeaderViewModel.close()
+            lobbyHeaderViewModel.dismiss()
             lobbyErrorHeaderViewModel.dismiss()
             participantListViewModel.closeParticipantList()
             localParticipantViewModel.update(

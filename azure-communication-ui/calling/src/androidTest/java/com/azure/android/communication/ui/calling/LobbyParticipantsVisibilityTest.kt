@@ -22,7 +22,7 @@ import java.util.UUID
 internal class LobbyParticipantsVisibilityTest : BaseUiTest() {
 
     @Test
-    fun testGridViewAndParticipantListHideLobbyParticipantInCall() = runTest {
+    fun testGridViewHideLobbyParticipant() = runTest {
         injectDependencies(testScheduler)
 
         val expectedParticipantCountOnGridView = 2

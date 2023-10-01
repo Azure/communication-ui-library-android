@@ -19,7 +19,7 @@ internal class LobbyHeaderViewModel {
         lobbyParticipants: Map<String, ParticipantInfoModel>,
         canShowLobby: Boolean,
     ) {
-        var isNewLobbyParticipantAdded = displayErrorHeader(lobbyParticipants)
+        var isNewLobbyParticipantAdded = isNewParticipantAdded(lobbyParticipants)
         displayLobbyHeaderFlow.value = lobbyParticipants.isNotEmpty() &&
             (isNewLobbyParticipantAdded || displayLobbyHeaderFlow.value) &&
             callingStatus == CallingStatus.CONNECTED && canShowLobby
@@ -30,7 +30,7 @@ internal class LobbyHeaderViewModel {
         lobbyParticipants: Map<String, ParticipantInfoModel>,
         canShowLobby: Boolean,
     ) {
-        var isNewLobbyParticipantAdded = displayErrorHeader(lobbyParticipants)
+        var isNewLobbyParticipantAdded = isNewParticipantAdded(lobbyParticipants)
         displayLobbyHeaderFlow = MutableStateFlow(
             lobbyParticipants.isNotEmpty() &&
                 (isNewLobbyParticipantAdded || displayLobbyHeaderFlow.value) &&
@@ -38,7 +38,7 @@ internal class LobbyHeaderViewModel {
         )
     }
 
-    private fun displayErrorHeader(
+    private fun isNewParticipantAdded(
         lobbyParticipants: Map<String, ParticipantInfoModel>
     ): Boolean {
         var isNewLobbyParticipantAdded = false
@@ -61,5 +61,13 @@ internal class LobbyHeaderViewModel {
         if (displayLobbyHeaderFlow.value) {
             displayLobbyHeaderFlow.value = false
         }
+    }
+
+    fun dismiss() {
+        // clearing cache will help to reopen on resume state
+        if (displayLobbyHeaderFlow.value) {
+            lobbyParticipantsCache = mapOf()
+        }
+        close()
     }
 }
