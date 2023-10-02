@@ -5,9 +5,9 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.content.Context
 import android.content.res.Configuration
+import android.util.Log
 import android.view.Gravity
 import android.view.View
-import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -42,25 +42,37 @@ internal class ScreenShareViewManager(
 
         screenShareZoomFrameLayout.addView(rendererViewTransformationWrapper)
         screenShareZoomFrameLayout.setFloatingHeaderCallback(showFloatingHeaderCallBack)
-
-        screenShareZoomFrameLayout.viewTreeObserver.addOnGlobalLayoutListener(object :
-                ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    screenShareZoomFrameLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    // update view size only after child is added successfully
-                    // otherwise renderer video size will be 0
-                    screenShareZoomFrameLayout.postDelayed({
-                        setScreenShareLayoutSize()
-                    }, STREAM_SIZE_RETRY_DURATION)
+        videoContainer.addOnLayoutChangeListener(object :
+            View.OnLayoutChangeListener {
+            override fun onLayoutChange(
+                view: View?,
+                left: Int,
+                top: Int,
+                right: Int,
+                bottom: Int,
+                leftWas: Int,
+                topWas: Int,
+                rightWas: Int,
+                bottomWas: Int,
+            ) {
+                if (right != 0 && bottom != 0) {
+                    Log.d("Guvi", " after videoContainer rendererView w h : ${rendererView.width} ${rendererView.height}}")
+                    Log.d("Guvi", " after videoContainer videoContainer w h : ${videoContainer.width} ${videoContainer.height}}")
+                    if (videoContainer.width != 0 && videoContainer.height != 0 && rendererView.width != 0 && rendererView.height != 0) {
+                        videoContainer.removeOnLayoutChangeListener(this)
+                        screenShareZoomFrameLayout.postDelayed({
+                            setScreenShareLayoutSize()
+                        }, STREAM_SIZE_RETRY_DURATION)
+                    }
                 }
-            })
-
+            }
+        })
         return screenShareZoomFrameLayout
     }
 
     private fun setScreenShareLayoutSize() {
         val streamSize = getScreenShareVideoStreamRendererCallback()?.getStreamSize()
-        if (streamSize == null) {
+        if (streamSize == null || streamSize.width == 0 || streamSize.height == 0) {
             screenShareZoomFrameLayout.postDelayed({
                 setScreenShareLayoutSize()
             }, STREAM_SIZE_RETRY_DURATION)
@@ -72,9 +84,13 @@ internal class ScreenShareViewManager(
                 val videoWidth = streamSize.width
                 val videoHeight = streamSize.height
 
+                Log.d("Guvi", " after add screenShareZoomFrameLayout view w h : $viewWidth $viewHeight}")
+                Log.d("Guvi", " after add screenShareZoomFrameLayout video w h : $videoWidth $videoHeight}")
+
                 val scaleWidth = viewWidth / videoWidth
                 val scaleHeight = viewHeight / videoHeight
                 val scale = scaleWidth.coerceAtMost(scaleHeight)
+                Log.d("Guvi", " after add screenShareZoomFrameLayout scale scaleWidth scaleHeight: $scale $scaleWidth $scaleHeight")
 
                 val layoutParams =
                     rendererViewTransformationWrapper.layoutParams as FrameLayout.LayoutParams

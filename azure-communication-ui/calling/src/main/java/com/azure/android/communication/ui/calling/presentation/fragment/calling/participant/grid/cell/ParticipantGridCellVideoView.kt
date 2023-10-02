@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.cell
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
@@ -139,6 +140,7 @@ internal class ParticipantGridCellVideoView(
         detachFromParentView(rendererView)
 
         if (streamType == StreamType.SCREEN_SHARING) {
+            Log.d("Guvi", " setRendererView")
             removeScreenShareZoomView()
             val screenShareFactory = ScreenShareViewManager(
                 context,
@@ -147,7 +149,15 @@ internal class ParticipantGridCellVideoView(
                 showFloatingHeaderCallBack
             )
             screenShareZoomFrameLayout = screenShareFactory.getScreenShareView(rendererView)
+            Log.d("Guvi", " rendererView w h : ${rendererView.width} ${rendererView.height}}")
+            Log.d("Guvi", " videoContainer w h : ${videoContainer.width} ${videoContainer.height}}")
+
             videoContainer.addView(screenShareZoomFrameLayout, 0)
+            Log.d("Guvi", " after add rendererView w h : ${rendererView.width} ${rendererView.height}}")
+            Log.d("Guvi", " after add videoContainer w h : ${videoContainer.width} ${videoContainer.height}}")
+
+
+
             // scaled transformed view round corners are not visible when scroll is not at end
             // to avoid content outside speaking rectangle removing round corners
             videoContainer.background = ContextCompat.getDrawable(
