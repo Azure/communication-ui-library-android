@@ -3,7 +3,9 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.cell
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.util.Log
 import android.view.View
 import android.view.View.INVISIBLE
@@ -136,11 +138,11 @@ internal class ParticipantGridCellVideoView(
         }
     }
 
+    @SuppressLint("ResourceType")
     private fun setRendererView(rendererView: View, streamType: StreamType) {
         detachFromParentView(rendererView)
 
         if (streamType == StreamType.SCREEN_SHARING) {
-            Log.d("Guvi", " setRendererView")
             removeScreenShareZoomView()
             val screenShareFactory = ScreenShareViewManager(
                 context,
@@ -148,21 +150,21 @@ internal class ParticipantGridCellVideoView(
                 getScreenShareVideoStreamRendererCallback,
                 showFloatingHeaderCallBack
             )
+            var count = (rendererView as ViewGroup).childCount
+            Log.d("Inderpal  A", " rendererView child count : $count}")
             screenShareZoomFrameLayout = screenShareFactory.getScreenShareView(rendererView)
-            Log.d("Guvi", " rendererView w h : ${rendererView.width} ${rendererView.height}}")
-            Log.d("Guvi", " videoContainer w h : ${videoContainer.width} ${videoContainer.height}}")
+            Log.d("Inderpal  A", " rendererView w h : ${rendererView.width} ${rendererView.height}}")
+            Log.d("Inderpal  A", " videoContainer w h : ${videoContainer.width} ${videoContainer.height}}")
 
             videoContainer.addView(screenShareZoomFrameLayout, 0)
-            Log.d("Guvi", " after add rendererView w h : ${rendererView.width} ${rendererView.height}}")
-            Log.d("Guvi", " after add videoContainer w h : ${videoContainer.width} ${videoContainer.height}}")
-
-
+            Log.d("Inderpal  A", " after add rendererView w h : ${rendererView.width} ${rendererView.height}}")
+            Log.d("Inderpal  A", " after add videoContainer w h : ${videoContainer.width} ${videoContainer.height}}")
 
             // scaled transformed view round corners are not visible when scroll is not at end
             // to avoid content outside speaking rectangle removing round corners
             videoContainer.background = ContextCompat.getDrawable(
                 context,
-                R.color.azure_communication_ui_calling_color_surface
+                R.color.azure_communication_ui_calling_color_error
             )
             participantVideoContainerSpeakingFrameLayout.background = ContextCompat.getDrawable(
                 context,

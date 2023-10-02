@@ -13,6 +13,7 @@ import android.graphics.PointF
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import kotlin.math.abs
@@ -121,6 +122,8 @@ internal class ScreenShareZoomFrameLayout :
 
     private fun getScreenShareViewBounds(outBounds: RectF) {
         val childView = getChildAt(0)
+        //val childView = (childViewRoot as ViewGroup).getChildAt(0)
+
         if (childView != null) {
             val width = childView.width
             val height = childView.height

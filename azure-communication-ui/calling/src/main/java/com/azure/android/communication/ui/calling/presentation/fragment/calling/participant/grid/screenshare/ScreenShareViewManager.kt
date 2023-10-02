@@ -56,13 +56,15 @@ internal class ScreenShareViewManager(
                 bottomWas: Int,
             ) {
                 if (right != 0 && bottom != 0) {
-                    Log.d("Guvi", " after videoContainer rendererView w h : ${rendererView.width} ${rendererView.height}}")
-                    Log.d("Guvi", " after videoContainer videoContainer w h : ${videoContainer.width} ${videoContainer.height}}")
+                    Log.d("Inderpal  A", " after videoContainer rendererView w h : ${rendererView.width} ${rendererView.height}}")
+                    Log.d("Inderpal  A", " after videoContainer videoContainer w h : ${videoContainer.width} ${videoContainer.height}}")
                     if (videoContainer.width != 0 && videoContainer.height != 0 && rendererView.width != 0 && rendererView.height != 0) {
                         videoContainer.removeOnLayoutChangeListener(this)
                         screenShareZoomFrameLayout.postDelayed({
+                            rendererView.invalidate()
+                            rendererView.refreshDrawableState()
                             setScreenShareLayoutSize()
-                        }, STREAM_SIZE_RETRY_DURATION)
+                        }, 15000)
                     }
                 }
             }
@@ -84,25 +86,32 @@ internal class ScreenShareViewManager(
                 val videoWidth = streamSize.width
                 val videoHeight = streamSize.height
 
-                Log.d("Guvi", " after add screenShareZoomFrameLayout view w h : $viewWidth $viewHeight}")
-                Log.d("Guvi", " after add screenShareZoomFrameLayout video w h : $videoWidth $videoHeight}")
+                Log.d("Inderpal  A", " after add rendererViewTransformationWrapper view w h : ${rendererViewTransformationWrapper.width} ${rendererViewTransformationWrapper.height}}")
+                Log.d("Inderpal  A", " after add screenShareZoomFrameLayout view w h : ${screenShareZoomFrameLayout.width} ${screenShareZoomFrameLayout.height}}")
+                Log.d("Inderpal  A", " after add videoContainer view w h : ${videoContainer.width} ${videoContainer.height}}")
+                Log.d("Inderpal  A", " after add setScreenShareLayoutSize view w h : $viewWidth $viewHeight}")
+                Log.d("Inderpal  A", " after add setScreenShareLayoutSize video w h : $videoWidth $videoHeight}")
 
                 val scaleWidth = viewWidth / videoWidth
                 val scaleHeight = viewHeight / videoHeight
                 val scale = scaleWidth.coerceAtMost(scaleHeight)
-                Log.d("Guvi", " after add screenShareZoomFrameLayout scale scaleWidth scaleHeight: $scale $scaleWidth $scaleHeight")
+                Log.d("Inderpal  A", " after add screenShareZoomFrameLayout scale scaleWidth scaleHeight: $scale $scaleWidth $scaleHeight")
 
                 val layoutParams =
                     rendererViewTransformationWrapper.layoutParams as FrameLayout.LayoutParams
                 if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                     layoutParams.height = (scale * videoHeight).toInt()
-                    layoutParams.gravity = Gravity.CENTER_VERTICAL
+                    layoutParams.gravity = Gravity.TOP
                 } else {
                     layoutParams.width = (scale * videoWidth).toInt()
                     layoutParams.gravity = Gravity.CENTER_HORIZONTAL
                 }
                 rendererViewTransformationWrapper.layoutParams = layoutParams
                 screenShareZoomFrameLayout.enableZoom()
+                screenShareZoomFrameLayout.invalidate()
+                screenShareZoomFrameLayout.refreshDrawableState()
+                videoContainer.invalidate()
+                videoContainer.refreshDrawableState()
             }
         }
     }
