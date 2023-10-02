@@ -265,9 +265,92 @@ internal class LobbyTest : BaseUiTest() {
         assertViewHasChild(bottomDrawer, 3)
     }
 
+    @Test
+    fun testOnLobbyErrorMessageUIForRoleNotPermitted() = runTest {
+        injectDependencies(testScheduler)
+
+        val buttonTextToClick = "Admit"
+
+        // Launch the UI.
+        val appContext = joinTeamsCall()
+
+        lobbyButtonActionsTest(
+            buttonTextToClick, appContext,
+            CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED,
+            R.string.azure_communication_ui_calling_error_lobby_meeting_role_not_allowded
+        )
+    }
+
+    @Test
+    fun testOnLobbyErrorMessageUIForMeetingTypeNotSupported() = runTest {
+        injectDependencies(testScheduler)
+
+        val buttonTextToClick = "Admit"
+
+        // Launch the UI.
+        val appContext = joinTeamsCall()
+
+        lobbyButtonActionsTest(
+            buttonTextToClick, appContext,
+            CallCompositeLobbyErrorCode.LOBBY_CONVERSATION_TYPE_NOT_SUPPORTED,
+            R.string.azure_communication_ui_calling_error_lobby_conversation_type_not_supported
+        )
+    }
+
+    @Test
+    fun testOnLobbyErrorMessageUIForFailedToRemove() = runTest {
+        injectDependencies(testScheduler)
+
+        val buttonTextToClick = "Admit"
+
+        // Launch the UI.
+        val appContext = joinTeamsCall()
+
+        lobbyButtonActionsTest(
+            buttonTextToClick, appContext,
+            CallCompositeLobbyErrorCode.REMOVE_PARTICIPANT_OPERATION_FAILURE,
+            R.string.azure_communication_ui_calling_error_lobby_failed_to_remove_participant
+        )
+    }
+
+    @Test
+    fun testOnLobbyErrorMessageUIForUnknownError() = runTest {
+        injectDependencies(testScheduler)
+
+        val buttonTextToClick = "Admit"
+
+        // Launch the UI.
+        val appContext = joinTeamsCall()
+
+        lobbyButtonActionsTest(
+            buttonTextToClick, appContext,
+            CallCompositeLobbyErrorCode.UNKNOWN_ERROR,
+            R.string.azure_communication_ui_calling_error_lobby_unknown
+        )
+    }
+
+    @Test
+    fun testOnLobbyErrorMessageUIForLobbyDisabledError() = runTest {
+        injectDependencies(testScheduler)
+
+        val buttonTextToClick = "Admit"
+
+        // Launch the UI.
+        val appContext = joinTeamsCall()
+
+        lobbyButtonActionsTest(
+            buttonTextToClick, appContext,
+            CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS,
+            R.string.azure_communication_ui_calling_error_lobby_disabled_by_configuration
+        )
+    }
+
     private suspend fun lobbyButtonActionsTest(
         buttonTextToClick: String,
         appContext: Context?,
+        errorCode: CallCompositeLobbyErrorCode = CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED,
+        errorUIId: Int = R.string.azure_communication_ui_calling_error_lobby_meeting_role_not_allowded
+
     ) {
         callingSDK.setParticipantRoleSharedFlow(CallCompositeParticipantRole.PRESENTER)
 
@@ -287,7 +370,7 @@ internal class LobbyTest : BaseUiTest() {
         assertViewHasChild(bottomDrawer, 4)
 
         val lobbyActionResult = CompletableFuture<CallCompositeLobbyErrorCode?>()
-        lobbyActionResult.complete(CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED)
+        lobbyActionResult.complete(errorCode)
         callingSDK.setLobbyResultCompletableFuture(lobbyActionResult)
 
         tapWithTextWhenDisplayed("ACS User 2")
@@ -302,7 +385,7 @@ internal class LobbyTest : BaseUiTest() {
         // assert error text
         assertViewText(
             lobbyErrorHeaderText,
-            appContext!!.getString(R.string.azure_communication_ui_calling_error_lobby_meeting_role_not_allowded)
+            appContext!!.getString(errorUIId)
         )
 
         // close lobby error header
