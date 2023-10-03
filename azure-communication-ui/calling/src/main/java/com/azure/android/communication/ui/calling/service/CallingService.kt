@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.calling.service
 
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
+import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioState
@@ -93,7 +93,7 @@ internal class CallingService(
         return participantsInfoModelSharedFlow
     }
 
-    fun getLocalParticipantRoleSharedFlow(): SharedFlow<CallCompositeParticipantRole?> {
+    fun getLocalParticipantRoleSharedFlow(): SharedFlow<CallCompositeInternalParticipantRole?> {
         return callingSdk.getLocalParticipantRoleSharedFlow()
     }
 

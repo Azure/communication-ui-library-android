@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
+import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
@@ -236,11 +236,11 @@ internal class CallingViewModel(
             state.remoteParticipantState.participantMap.filter { it.value.participantStatus == ParticipantStatus.IN_LOBBY }
         else mapOf()
 
-    private fun canShowLobby(role: CallCompositeParticipantRole?): Boolean {
+    private fun canShowLobby(role: CallCompositeInternalParticipantRole?): Boolean {
         role?.let {
-            return it == CallCompositeParticipantRole.ORGANIZER ||
-                it == CallCompositeParticipantRole.PRESENTER ||
-                it == CallCompositeParticipantRole.COORGANIZER
+            return it == CallCompositeInternalParticipantRole.ORGANIZER ||
+                it == CallCompositeInternalParticipantRole.PRESENTER ||
+                it == CallCompositeInternalParticipantRole.COORGANIZER
         }
         return false
     }

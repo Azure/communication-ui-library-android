@@ -12,7 +12,7 @@ import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.PropertyChangedListener
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
+import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.models.VideoStreamModel
@@ -78,7 +78,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     private var dominantSpeakersSharedFlow = MutableSharedFlow<DominantSpeakersInfo>()
     private var isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
     private var getCameraCountStateFlow = MutableStateFlow(2)
-    private val participantRoleSharedFlow = MutableSharedFlow<CallCompositeParticipantRole?>()
+    private val participantRoleSharedFlow = MutableSharedFlow<CallCompositeInternalParticipantRole?>()
 
     @GuardedBy("this")
     private val remoteParticipantsMap: MutableMap<String, RemoteParticipant> = mutableMapOf()
@@ -139,7 +139,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         this.lobbyResultCompletableFuture = lobbyResultCompletableFuture
     }
 
-    fun setParticipantRoleSharedFlow(participantRole: CallCompositeParticipantRole?) {
+    fun setParticipantRoleSharedFlow(participantRole: CallCompositeInternalParticipantRole?) {
         coroutineScope.launch {
             participantRoleSharedFlow.emit(participantRole)
         }
@@ -308,7 +308,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         return lobbyResultCompletableFuture
     }
 
-    override fun getLocalParticipantRoleSharedFlow(): SharedFlow<CallCompositeParticipantRole?> {
+    override fun getLocalParticipantRoleSharedFlow(): SharedFlow<CallCompositeInternalParticipantRole?> {
         return participantRoleSharedFlow
     }
 

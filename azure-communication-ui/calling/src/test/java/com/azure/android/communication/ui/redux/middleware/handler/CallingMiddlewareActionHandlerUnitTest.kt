@@ -10,7 +10,7 @@ import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_DECLINED
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_EVICTED
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
+import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
@@ -1641,7 +1641,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { turnCameraOn() } doReturn cameraStateCompletableFuture
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
                 on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
-                on { getLocalParticipantRoleSharedFlow() } doReturn MutableSharedFlow<CallCompositeParticipantRole?>()
+                on { getLocalParticipantRoleSharedFlow() } doReturn MutableSharedFlow<CallCompositeInternalParticipantRole?>()
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -2477,7 +2477,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
             val camerasCountUpdatedStateFlow = MutableStateFlow(2)
             val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
-            val localParticipantRoleSharedFlow = MutableSharedFlow<CallCompositeParticipantRole?>()
+            val localParticipantRoleSharedFlow = MutableSharedFlow<CallCompositeInternalParticipantRole?>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2504,13 +2504,13 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
             // act
             handler.startCall(mockAppStore)
-            localParticipantRoleSharedFlow.emit(CallCompositeParticipantRole.PRESENTER)
+            localParticipantRoleSharedFlow.emit(CallCompositeInternalParticipantRole.PRESENTER)
 
             // assert
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is LocalParticipantAction.RoleChanged &&
-                        action.callCompositeParticipantRole == CallCompositeParticipantRole.PRESENTER
+                        action.callCompositeInternalParticipantRole == CallCompositeInternalParticipantRole.PRESENTER
                 }
             )
         }

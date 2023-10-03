@@ -13,7 +13,7 @@ import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.calling.VideoDeviceType
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
+import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
@@ -56,7 +56,7 @@ internal interface CallingSDK {
     fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?>
     fun admit(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?>
     fun decline(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?>
-    fun getLocalParticipantRoleSharedFlow(): SharedFlow<CallCompositeParticipantRole?>
+    fun getLocalParticipantRoleSharedFlow(): SharedFlow<CallCompositeInternalParticipantRole?>
 }
 
 internal interface RemoteParticipant {

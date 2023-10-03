@@ -14,7 +14,7 @@ import com.azure.android.communication.calling.RecordingCallFeature
 import com.azure.android.communication.calling.RemoteParticipant
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.TranscriptionCallFeature
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
+import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import kotlinx.coroutines.CoroutineScope
@@ -42,7 +42,7 @@ internal class CallingSDKEventHandler(
     private var isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
     private var dominantSpeakersSharedFlow = MutableSharedFlow<DominantSpeakersInfo>()
     private var callingStateWrapperSharedFlow = MutableSharedFlow<CallingStateWrapper>()
-    private var callParticipantRoleSharedFlow = MutableSharedFlow<CallCompositeParticipantRole?>()
+    private var callParticipantRoleSharedFlow = MutableSharedFlow<CallCompositeInternalParticipantRole?>()
     private var callIdSharedFlow = MutableStateFlow<String?>(null)
     private var remoteParticipantsInfoModelSharedFlow =
         MutableSharedFlow<Map<String, ParticipantInfoModel>>()
@@ -74,7 +74,7 @@ internal class CallingSDKEventHandler(
 
     fun getIsTranscribingSharedFlow(): SharedFlow<Boolean> = isTranscribingSharedFlow
 
-    fun getCallParticipantRoleSharedFlow(): SharedFlow<CallCompositeParticipantRole?> =
+    fun getCallParticipantRoleSharedFlow(): SharedFlow<CallCompositeInternalParticipantRole?> =
         callParticipantRoleSharedFlow
 
     fun getDominantSpeakersSharedFlow(): SharedFlow<DominantSpeakersInfo> = dominantSpeakersSharedFlow

@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.presentation.fragment.calling
 
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
+import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.models.StreamType
@@ -704,7 +704,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
     @ExperimentalCoroutinesApi
     fun callingViewModel_onParticipantListChange_then_hideLobbyParticipantsOnGridAndParticipantList_ifRoleIsUninitialized() {
         runScopedTest {
-            val localParticipantRole = CallCompositeParticipantRole.UNINITIALIZED
+            val localParticipantRole = CallCompositeInternalParticipantRole.UNINITIALIZED
             testForParticipantRoleLobbyVisibility(localParticipantRole, false)
         }
     }
@@ -713,7 +713,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
     @ExperimentalCoroutinesApi
     fun callingViewModel_onParticipantListChange_then_hideLobbyParticipantsOnGridAndParticipantList_ifRoleIsAttendee() {
         runScopedTest {
-            val localParticipantRole = CallCompositeParticipantRole.ATTENDEE
+            val localParticipantRole = CallCompositeInternalParticipantRole.ATTENDEE
             testForParticipantRoleLobbyVisibility(localParticipantRole, false)
         }
     }
@@ -722,7 +722,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
     @ExperimentalCoroutinesApi
     fun callingViewModel_onParticipantListChange_then_hideLobbyParticipantsOnGridAndParticipantList_ifRoleIsConsumer() {
         runScopedTest {
-            val localParticipantRole = CallCompositeParticipantRole.CONSUMER
+            val localParticipantRole = CallCompositeInternalParticipantRole.CONSUMER
             testForParticipantRoleLobbyVisibility(localParticipantRole, false)
         }
     }
@@ -731,7 +731,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
     @ExperimentalCoroutinesApi
     fun callingViewModel_onParticipantListChange_then_showLobbyParticipantsOnGridAndParticipantList_ifRoleIsPresenter() {
         runScopedTest {
-            val localParticipantRole = CallCompositeParticipantRole.PRESENTER
+            val localParticipantRole = CallCompositeInternalParticipantRole.PRESENTER
             testForParticipantRoleLobbyVisibility(localParticipantRole, true)
         }
     }
@@ -740,7 +740,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
     @ExperimentalCoroutinesApi
     fun callingViewModel_onParticipantListChange_then_showLobbyParticipantsOnGridAndParticipantList_ifRoleIsOrganizer() {
         runScopedTest {
-            val localParticipantRole = CallCompositeParticipantRole.ORGANIZER
+            val localParticipantRole = CallCompositeInternalParticipantRole.ORGANIZER
             testForParticipantRoleLobbyVisibility(localParticipantRole, true)
         }
     }
@@ -749,13 +749,13 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
     @ExperimentalCoroutinesApi
     fun callingViewModel_onParticipantListChange_then_showLobbyParticipantsOnGridAndParticipantList_ifRoleIsCoorganizer() {
         runScopedTest {
-            val localParticipantRole = CallCompositeParticipantRole.COORGANIZER
+            val localParticipantRole = CallCompositeInternalParticipantRole.COORGANIZER
             testForParticipantRoleLobbyVisibility(localParticipantRole, true)
         }
     }
 
     private suspend fun TestScope.testForParticipantRoleLobbyVisibility(
-        localParticipantRole: CallCompositeParticipantRole,
+        localParticipantRole: CallCompositeInternalParticipantRole,
         showLobby: Boolean
     ) {
         // one lobby participant and two connected participants
@@ -1073,7 +1073,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         modifiedTimestamp,
     )
 
-    private fun getLocalUserState(localParticipantRole: CallCompositeParticipantRole = CallCompositeParticipantRole.PRESENTER) = LocalUserState(
+    private fun getLocalUserState(localParticipantRole: CallCompositeInternalParticipantRole = CallCompositeInternalParticipantRole.PRESENTER) = LocalUserState(
         CameraState(
             CameraOperationalStatus.OFF,
             CameraDeviceSelectionStatus.FRONT,

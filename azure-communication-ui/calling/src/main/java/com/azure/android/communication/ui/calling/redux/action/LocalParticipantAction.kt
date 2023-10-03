@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling.redux.action
 
 import com.azure.android.communication.ui.calling.error.CallCompositeError
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
+import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
@@ -71,5 +71,5 @@ internal sealed class LocalParticipantAction : Action {
 
     class DisplayNameIsSet(val displayName: String) : LocalParticipantAction()
 
-    class RoleChanged(val callCompositeParticipantRole: CallCompositeParticipantRole?) : LocalParticipantAction()
+    class RoleChanged(val callCompositeInternalParticipantRole: CallCompositeInternalParticipantRole?) : LocalParticipantAction()
 }

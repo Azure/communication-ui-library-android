@@ -16,7 +16,7 @@ import com.azure.android.communication.tapOnScreen
 import com.azure.android.communication.tapWhenDisplayed
 import com.azure.android.communication.tapWithTextWhenDisplayed
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
+import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.ui.calling.service.sdk.CommunicationIdentifier
@@ -67,7 +67,7 @@ internal class LobbyTest : BaseUiTest() {
         // Launch the UI.
         joinTeamsCall()
 
-        callingSDK.setParticipantRoleSharedFlow(CallCompositeParticipantRole.ATTENDEE)
+        callingSDK.setParticipantRoleSharedFlow(CallCompositeInternalParticipantRole.ATTENDEE)
 
         callingSDK.addRemoteParticipant(
             CommunicationIdentifier.CommunicationUserIdentifier("ACS User 2"),
@@ -88,7 +88,7 @@ internal class LobbyTest : BaseUiTest() {
         // Launch the UI.
         val appContext = joinTeamsCall()
 
-        callingSDK.setParticipantRoleSharedFlow(CallCompositeParticipantRole.PRESENTER)
+        callingSDK.setParticipantRoleSharedFlow(CallCompositeInternalParticipantRole.PRESENTER)
 
         callingSDK.addRemoteParticipant(
             CommunicationIdentifier.CommunicationUserIdentifier("ACS User 2"),
@@ -131,7 +131,7 @@ internal class LobbyTest : BaseUiTest() {
         // launch the UI.
         joinTeamsCall()
 
-        callingSDK.setParticipantRoleSharedFlow(CallCompositeParticipantRole.PRESENTER)
+        callingSDK.setParticipantRoleSharedFlow(CallCompositeInternalParticipantRole.PRESENTER)
 
         callingSDK.addRemoteParticipant(
             CommunicationIdentifier.CommunicationUserIdentifier("ACS User 2"),
@@ -177,7 +177,7 @@ internal class LobbyTest : BaseUiTest() {
         // Launch the UI.
         val appContext = joinTeamsCall()
 
-        callingSDK.setParticipantRoleSharedFlow(CallCompositeParticipantRole.PRESENTER)
+        callingSDK.setParticipantRoleSharedFlow(CallCompositeInternalParticipantRole.PRESENTER)
 
         callingSDK.addRemoteParticipant(
             CommunicationIdentifier.CommunicationUserIdentifier("ACS User 2"),
@@ -225,7 +225,7 @@ internal class LobbyTest : BaseUiTest() {
         // Launch the UI.
         joinTeamsCall()
 
-        callingSDK.setParticipantRoleSharedFlow(CallCompositeParticipantRole.PRESENTER)
+        callingSDK.setParticipantRoleSharedFlow(CallCompositeInternalParticipantRole.PRESENTER)
 
         callingSDK.addRemoteParticipant(
             CommunicationIdentifier.CommunicationUserIdentifier("ACS User 2"),
@@ -352,7 +352,7 @@ internal class LobbyTest : BaseUiTest() {
         errorUIId: Int = R.string.azure_communication_ui_calling_error_lobby_meeting_role_not_allowded
 
     ) {
-        callingSDK.setParticipantRoleSharedFlow(CallCompositeParticipantRole.PRESENTER)
+        callingSDK.setParticipantRoleSharedFlow(CallCompositeInternalParticipantRole.PRESENTER)
 
         callingSDK.addRemoteParticipant(
             CommunicationIdentifier.CommunicationUserIdentifier("ACS User 2"),

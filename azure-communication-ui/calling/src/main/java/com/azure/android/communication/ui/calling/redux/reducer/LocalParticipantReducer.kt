@@ -241,7 +241,7 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
             }
             is LocalParticipantAction.RoleChanged -> {
                 localUserState.copy(
-                    localParticipantRole = action.callCompositeParticipantRole
+                    localParticipantRole = action.callCompositeInternalParticipantRole
                 )
             }
             else -> localUserState

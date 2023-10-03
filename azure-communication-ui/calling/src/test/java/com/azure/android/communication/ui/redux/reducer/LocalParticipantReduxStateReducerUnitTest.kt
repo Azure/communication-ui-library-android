@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.redux.reducer
 
 import com.azure.android.communication.ui.calling.error.CallCompositeError
 import com.azure.android.communication.ui.calling.error.ErrorCode
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
+import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.reducer.LocalParticipantStateReducerImpl
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
@@ -797,7 +797,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
         )
 
         val action = LocalParticipantAction.RoleChanged(
-            callCompositeParticipantRole = CallCompositeParticipantRole.PRESENTER,
+            callCompositeInternalParticipantRole = CallCompositeInternalParticipantRole.PRESENTER,
         )
 
         // assert
@@ -807,7 +807,7 @@ internal class LocalParticipantReduxStateReducerUnitTest {
         val newState = reducer.reduce(oldState, action)
 
         // assert
-        Assert.assertEquals(CallCompositeParticipantRole.PRESENTER, newState.localParticipantRole)
+        Assert.assertEquals(CallCompositeInternalParticipantRole.PRESENTER, newState.localParticipantRole)
     }
 
     @Test
