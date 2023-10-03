@@ -350,7 +350,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
             }
         }
     }
-    
+
     private fun setNavigationBarColor() {
         window.navigationBarColor =
             ContextCompat.getColor(
