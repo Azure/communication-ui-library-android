@@ -8,7 +8,7 @@ import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.handlers.CallStateHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
-import com.azure.android.communication.ui.calling.models.CallCompositeCallStateEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
@@ -41,9 +41,9 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
                 on { getStateFlow() } doReturn storeStateFlow
             }
             val mockHandler =
-                mock<CallCompositeEventHandler<CallCompositeCallStateEvent>>()
+                mock<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.addOnCallStateEventHandler(
+            configuration.callCompositeEventsHandler.addOnCallStateChangedEventHandler(
                 mockHandler
             )
             val handler = CallStateHandler(
@@ -61,7 +61,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             // assert
             verify(mockHandler, times(1)).handle(
                 argThat { event ->
-                    event is CallCompositeCallStateEvent && event.code == CallCompositeCallStateCode.NONE
+                    event is CallCompositeCallStateChangedEvent && event.code == CallCompositeCallStateCode.NONE
                 }
             )
             job.cancel()
@@ -80,9 +80,9 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
                 on { getStateFlow() } doReturn storeStateFlow
             }
             val mockHandler =
-                mock<CallCompositeEventHandler<CallCompositeCallStateEvent>>()
+                mock<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.addOnCallStateEventHandler(
+            configuration.callCompositeEventsHandler.addOnCallStateChangedEventHandler(
                 mockHandler
             )
             val handler = CallStateHandler(
@@ -106,7 +106,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             )
             verify(mockHandler, times(1)).handle(
                 argThat { event ->
-                    event is CallCompositeCallStateEvent && event.code == CallCompositeCallStateCode.CONNECTED
+                    event is CallCompositeCallStateChangedEvent && event.code == CallCompositeCallStateCode.CONNECTED
                 }
             )
             job.cancel()
@@ -125,9 +125,9 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
                 on { getStateFlow() } doReturn storeStateFlow
             }
             val mockHandler =
-                mock<CallCompositeEventHandler<CallCompositeCallStateEvent>>()
+                mock<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.addOnCallStateEventHandler(
+            configuration.callCompositeEventsHandler.addOnCallStateChangedEventHandler(
                 mockHandler
             )
             val handler = CallStateHandler(
@@ -164,14 +164,14 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
                 on { getStateFlow() } doReturn storeStateFlow
             }
             val mockHandler =
-                mock<CallCompositeEventHandler<CallCompositeCallStateEvent>>()
+                mock<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
             val mockHandler2 =
-                mock<CallCompositeEventHandler<CallCompositeCallStateEvent>>()
+                mock<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
             val configuration = CallCompositeConfiguration()
-            configuration.callCompositeEventsHandler.addOnCallStateEventHandler(
+            configuration.callCompositeEventsHandler.addOnCallStateChangedEventHandler(
                 mockHandler
             )
-            configuration.callCompositeEventsHandler.addOnCallStateEventHandler(
+            configuration.callCompositeEventsHandler.addOnCallStateChangedEventHandler(
                 mockHandler2
             )
             val handler = CallStateHandler(
@@ -192,12 +192,12 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             )
             verify(mockHandler, times(1)).handle(
                 argThat { event ->
-                    event is CallCompositeCallStateEvent && event.code == CallCompositeCallStateCode.CONNECTED
+                    event is CallCompositeCallStateChangedEvent && event.code == CallCompositeCallStateCode.CONNECTED
                 }
             )
             verify(mockHandler2, times(1)).handle(
                 argThat { event ->
-                    event is CallCompositeCallStateEvent && event.code == CallCompositeCallStateCode.CONNECTED
+                    event is CallCompositeCallStateChangedEvent && event.code == CallCompositeCallStateCode.CONNECTED
                 }
             )
             job.cancel()
@@ -266,9 +266,9 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             on { getStateFlow() } doReturn storeStateFlow
         }
         var mockHandler =
-            mock<CallCompositeEventHandler<CallCompositeCallStateEvent>>()
+            mock<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
         var configuration = CallCompositeConfiguration()
-        configuration.callCompositeEventsHandler.addOnCallStateEventHandler(
+        configuration.callCompositeEventsHandler.addOnCallStateChangedEventHandler(
             mockHandler
         )
         var handler = CallStateHandler(
@@ -290,7 +290,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
         )
         verify(mockHandler, times(1)).handle(
             argThat { event ->
-                event is CallCompositeCallStateEvent && event.code == callCompositeCallStateCode
+                event is CallCompositeCallStateChangedEvent && event.code == callCompositeCallStateCode
             }
         )
         job.cancel()
@@ -307,9 +307,9 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             on { getStateFlow() } doReturn storeStateFlow
         }
         var mockHandler =
-            mock<CallCompositeEventHandler<CallCompositeCallStateEvent>>()
+            mock<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
         var configuration = CallCompositeConfiguration()
-        configuration.callCompositeEventsHandler.addOnCallStateEventHandler(
+        configuration.callCompositeEventsHandler.addOnCallStateChangedEventHandler(
             mockHandler
         )
         var handler = CallStateHandler(
@@ -331,7 +331,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
         )
         verify(mockHandler, times(1)).handle(
             argThat { event ->
-                event is CallCompositeCallStateEvent && event.code != callCompositeCallStateCode
+                event is CallCompositeCallStateChangedEvent && event.code != callCompositeCallStateCode
             }
         )
         job.cancel()

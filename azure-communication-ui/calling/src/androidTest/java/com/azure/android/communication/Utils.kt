@@ -11,6 +11,7 @@ import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import junit.framework.AssertionFailedError
 import org.hamcrest.Matchers
 
@@ -28,12 +29,37 @@ internal fun assertDisplayed(id: Int): ViewInteraction {
     ).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 }
 
+internal fun assertNotDisplayed(id: Int) {
+    Espresso.onView(
+        Matchers.allOf(
+            ViewMatchers.withId(id)
+        )
+    ).check(ViewAssertions.matches(Matchers.not(ViewMatchers.isDisplayed())))
+}
+
 internal fun assertViewText(id: Int, text: String) {
     Espresso.onView(
         Matchers.allOf(
             ViewMatchers.withId(id)
         )
     ).check(ViewAssertions.matches(ViewMatchers.withText(text)))
+}
+
+internal fun tapOnScreen() {
+    Espresso.onView(ViewMatchers.isRoot())
+        .perform(ViewActions.click())
+}
+internal fun tapWithTextWhenDisplayed(text: String) {
+    // wait until text is displayed
+    waitUntilViewIsDisplayed {
+        Espresso.onView(
+            Matchers.allOf(ViewMatchers.withText(text), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
+        ).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
+    tapDelay()
+    Espresso.onView(
+        Matchers.allOf(ViewMatchers.withText(text), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
+    ).perform(ViewActions.click())
 }
 
 internal fun tap(id: Int) {
@@ -46,11 +72,15 @@ internal fun tap(id: Int) {
 internal fun tapWhenDisplayed(id: Int) {
     waitUntilDisplayed(id)
 
-    // XXX intermittently, this function seems return without a tap actually taking place.
-    // This delay appears to help ¯\_(ツ)_/¯
-    SystemClock.sleep(50L)
+    tapDelay()
 
     tap(id)
+}
+
+private fun tapDelay() {
+    // XXX intermittently, this function seems return without a tap actually taking place.
+    // This delay appears to help ¯\_(ツ)_/¯
+    SystemClock.sleep(200L)
 }
 
 internal fun waitUntilViewIsDisplayed(idlingCheck: () -> ViewInteraction): ViewInteraction {

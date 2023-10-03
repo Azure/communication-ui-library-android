@@ -4,12 +4,15 @@
 package com.azure.android.communication.ui.calling.service.sdk
 
 import android.content.Context
+import com.azure.android.communication.calling.AdmitLobbyParticipantOptions
 import com.azure.android.communication.calling.AudioOptions
 import com.azure.android.communication.calling.Call
 import com.azure.android.communication.calling.CallAgent
 import com.azure.android.communication.calling.CallAgentOptions
+import com.azure.android.communication.calling.CallBase
 import com.azure.android.communication.calling.CallClient
 import com.azure.android.communication.calling.CallClientOptions
+import com.azure.android.communication.calling.CallingCommunicationException
 import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.DeviceManager
 import com.azure.android.communication.calling.GroupCallLocator
@@ -17,6 +20,8 @@ import com.azure.android.communication.calling.HangUpOptions
 import com.azure.android.communication.calling.JoinCallOptions
 import com.azure.android.communication.calling.JoinMeetingLocator
 import com.azure.android.communication.calling.RoomCallLocator
+import com.azure.android.communication.calling.Lobby
+import com.azure.android.communication.calling.RejectLobbyParticipantOptions
 import com.azure.android.communication.calling.TeamsMeetingLinkLocator
 import com.azure.android.communication.calling.VideoDevicesUpdatedListener
 import com.azure.android.communication.calling.VideoOptions
@@ -25,6 +30,7 @@ import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.logger.Logger
+import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
@@ -37,6 +43,7 @@ import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVideoStream
 
 internal class CallingSDKWrapper(
     private val context: Context,
@@ -56,6 +63,7 @@ internal class CallingSDKWrapper(
 
     private var videoDevicesUpdatedListener: VideoDevicesUpdatedListener? = null
     private var camerasCountStateFlow = MutableStateFlow(0)
+    private var lobby: Lobby? = null
 
     private val callConfig: CallConfiguration
         get() {
@@ -87,6 +95,9 @@ internal class CallingSDKWrapper(
         callingSDKEventHandler.getCallingStateWrapperSharedFlow()
 
     override fun getCallIdStateFlow(): StateFlow<String?> = callingSDKEventHandler.getCallIdStateFlow()
+
+    override fun getLocalParticipantRoleSharedFlow() =
+        callingSDKEventHandler.getCallParticipantRoleSharedFlow()
 
     override fun getIsMutedSharedFlow() = callingSDKEventHandler.getIsMutedSharedFlow()
 
@@ -142,6 +153,63 @@ internal class CallingSDKWrapper(
         return endCallCompletableFuture!!
     }
 
+    override fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?> {
+        val future = CompletableFuture<CallCompositeLobbyErrorCode?>()
+        val options = AdmitLobbyParticipantOptions()
+        lobby?.admitAll(options)?.whenComplete { _, error ->
+            if (error != null) {
+                var errorCode = CallCompositeLobbyErrorCode.UNKNOWN_ERROR
+                if (error.cause is CallingCommunicationException) {
+                    errorCode = getLobbyErrorCode(error.cause as CallingCommunicationException)
+                }
+                future.complete(errorCode)
+            } else {
+                future.complete(null)
+            }
+        }
+        return future
+    }
+
+    override fun admit(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
+        val future = CompletableFuture<CallCompositeLobbyErrorCode?>()
+        val options = AdmitLobbyParticipantOptions()
+        var participant = nullableCall?.remoteParticipants?.find { it.identifier.rawId.equals(userIdentifier) }
+        participant?.let {
+            lobby?.admit(listOf(it.identifier), options)?.whenComplete { _, error ->
+                if (error != null) {
+                    var errorCode = CallCompositeLobbyErrorCode.UNKNOWN_ERROR
+                    if (error.cause is CallingCommunicationException) {
+                        errorCode = getLobbyErrorCode(error.cause as CallingCommunicationException)
+                    }
+                    future.complete(errorCode)
+                } else {
+                    future.complete(null)
+                }
+            }
+        }
+        return future
+    }
+
+    override fun decline(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
+        val future = CompletableFuture<CallCompositeLobbyErrorCode?>()
+
+        var participant = nullableCall?.remoteParticipants?.find { it.identifier.rawId.equals(userIdentifier) }
+        participant?.let {
+            lobby?.reject(it.identifier, RejectLobbyParticipantOptions())?.whenComplete { _, error ->
+                if (error != null) {
+                    var errorCode = CallCompositeLobbyErrorCode.UNKNOWN_ERROR
+                    if (error.cause is CallingCommunicationException) {
+                        errorCode = getLobbyErrorCode(error.cause as CallingCommunicationException)
+                    }
+                    future.complete(errorCode)
+                } else {
+                    future.complete(null)
+                }
+            }
+        }
+        return future
+    }
+
     override fun dispose() {
         callingSDKEventHandler.dispose()
         cleanupResources()
@@ -161,6 +229,7 @@ internal class CallingSDKWrapper(
                 setupCallCompletableFuture.complete(null)
             }
         }
+        createCallAgent()
         return setupCallCompletableFuture
     }
 
@@ -340,6 +409,7 @@ internal class CallingSDKWrapper(
         videoOptions?.let { joinCallOptions.videoOptions = videoOptions }
 
         nullableCall = agent.join(context, joinMeetingLocator, joinCallOptions)
+        lobby = (nullableCall as CallBase).lobby
         callingSDKEventHandler.onJoinCall(call)
     }
 

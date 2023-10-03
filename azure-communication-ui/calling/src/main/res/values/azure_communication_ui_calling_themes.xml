@@ -35,4 +35,25 @@
         </item>
         <item name="actionBarStyle">@style/AzureCommunicationUICalling.ActionBar</item>
     </style>
+
+    <style name="AzureCommunicationUICalling.FluentUI.Button.Borderless" parent="@style/Widget.FluentUI.Button.Borderless">
+        <item name="android:textColor">?attr/azure_communication_ui_calling_primary_color</item>
+    </style>
+
+    <style name="AzureCommunicationUICalling.AlertDialog.Theme" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <!-- Background Color-->
+        <item name="android:background">@drawable/azure_communication_ui_calling_corner_radius_rectangle_4dp</item>
+        <!-- Text Color for title and message -->
+        <item name="colorOnSurface">@color/azure_communication_ui_calling_color_on_surface</item>
+        <!-- Style for positive button -->
+        <item name="buttonBarPositiveButtonStyle">@style/AzureCommunicationUICalling.FluentUI.Button.Borderless</item>
+        <!-- Style for negative button -->
+        <item name="buttonBarNegativeButtonStyle">@style/AzureCommunicationUICalling.FluentUI.Button.Borderless</item>
+
+        <item name="android:backgroundTint">@color/azure_communication_ui_calling_color_bottom_drawer_background</item>
+
+        <item name="android:textColor">?attr/azure_communication_ui_calling_primary_color</item>
+
+        <item name="textAllCaps">false</item>
+    </style>
 </resources>

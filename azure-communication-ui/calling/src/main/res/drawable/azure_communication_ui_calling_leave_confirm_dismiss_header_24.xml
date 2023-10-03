@@ -1,0 +1,13 @@
+<!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:pathData="M4.397,4.554L4.47,4.47C4.736,4.203 5.153,4.179 5.446,4.397L5.53,4.47L12,10.939L18.47,4.47C18.763,4.177 19.237,4.177 19.53,4.47C19.823,4.763 19.823,5.237 19.53,5.53L13.061,12L19.53,18.47C19.797,18.736 19.821,19.153 19.603,19.446L19.53,19.53C19.264,19.797 18.847,19.821 18.554,19.603L18.47,19.53L12,13.061L5.53,19.53C5.237,19.823 4.763,19.823 4.47,19.53C4.177,19.237 4.177,18.763 4.47,18.47L10.939,12L4.47,5.53C4.203,5.264 4.179,4.847 4.397,4.554L4.47,4.47L4.397,4.554Z"
+      android:fillColor="@color/azure_communication_ui_calling_color_white"/>
+</vector>
