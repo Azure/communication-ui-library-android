@@ -649,7 +649,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val callingViewModel = CallingViewModel(
                 mockAppStore,
                 mockCallingViewModelProvider,
-                mockNetworkManager
+                mockNetworkManager,
+                true
             )
 
             val newState = AppReduxState("", false, false)
@@ -851,7 +852,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         val callingViewModel = CallingViewModel(
             mockAppStore,
             mockCallingViewModelProvider,
-            mockNetworkManager
+            mockNetworkManager,
+            true
         )
 
         val newState = AppReduxState("", false, false)
@@ -957,11 +959,11 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         val mockParticipantGridViewModel = mock<ParticipantGridViewModel> {}
 
         val mockControlBarViewModel = mock<ControlBarViewModel> {
-            on { update(any(), any(), any(), any()) } doAnswer { }
+            on { update(any(), any(), any(), any(), any()) } doAnswer { }
         }
         val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
         val mockLocalParticipantViewModel = mock<LocalParticipantViewModel> {
-            on { update(any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
+            on { update(any(), any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
         }
         val mockLobbyHeaderViewModel = mock<LobbyHeaderViewModel> {
             on { update(any(), any(), any()) } doAnswer { }
@@ -997,7 +999,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         val callingViewModel = CallingViewModel(
             mockAppStore,
             mockCallingViewModelProvider,
-            mockNetworkManager
+            mockNetworkManager,
+            true
         )
 
         val newState = AppReduxState("", false, false)
@@ -1028,6 +1031,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             any(),
             argThat { map -> map.size == expectedParticipantCountOnGridView },
             any(),
+            any(),
             any()
         )
         verify(mockFloatingHeaderViewModel, times(1)).update(
@@ -1048,9 +1052,10 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             any(),
             any(),
             any(),
+            any()
         )
         verify(mockLocalParticipantViewModel, times(2)).update(
-            any(), any(), any(), any(), any(), any(), any()
+            any(), any(), any(), any(), any(), any(), any(), any()
         )
         verify(
             mockLobbyErrorHeaderViewModel,

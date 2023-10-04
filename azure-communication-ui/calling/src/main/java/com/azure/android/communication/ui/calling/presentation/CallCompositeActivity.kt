@@ -74,7 +74,6 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     private val logger get() = container.logger
     private val compositeManager get() = container.compositeExitManager
     private val callingSDKWrapper get() = container.callingSDKWrapper
-    private val logger get() = container.logger
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Before super, we'll set up the DI injector and check the PiP state

@@ -38,13 +38,6 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var skipSetupScreenCheckBox: CheckBox
     private lateinit var micOnByDefaultCheckBox: CheckBox
     private lateinit var cameraOnByDefaultCheckBox: CheckBox
-    private lateinit var supportedScreenOrientations: List<String>
-    private lateinit var callScreenOrientationAdapterLayout: TextInputLayout
-    private lateinit var setupScreenOrientationAdapterLayout: TextInputLayout
-    private lateinit var callScreenOrientationAutoCompleteTextView: AutoCompleteTextView
-    private lateinit var setupScreenOrientationAutoCompleteTextView: AutoCompleteTextView
-    private lateinit var callScreenOrientationArrayAdapter: ArrayAdapter<String>
-    private lateinit var setupScreenOrientationArrayAdapter: ArrayAdapter<String>
     private lateinit var endCallOnDefaultCheckBox: CheckBox
     private lateinit var relaunchCompositeOnExitCheckbox: CheckBox
     private lateinit var supportedScreenOrientations: List<String>
