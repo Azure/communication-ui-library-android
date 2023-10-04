@@ -10,6 +10,7 @@ if (project.rootProject.file('local.properties').canRead()) {
     localProps.load(project.rootProject.file('local.properties').newDataInputStream())
 }
 
+/* GitHub publish
 publishing {
     repositories {
         maven {
@@ -111,4 +112,58 @@ publishing {
             }
         }
     }
-}
+}*/
+
+/* ADO publish
+publishing {
+    repositories {
+        maven {
+            url localProps.getProperty('FEED_URL', '""')
+            name localProps.getProperty('FEED_NAME', '""')
+            credentials {
+                username localProps.getProperty('FEED_USER_NAME', '""')
+                password localProps.getProperty('FEED_KEY', '""')
+            }
+        }
+    }
+
+    publications {
+        maven(MavenPublication) {
+            groupId = 'com.azure.android'
+            artifactId = 'azure-communication-ui-calling'
+            version = '1.1.1-validation'
+            artifact("$buildDir/outputs/aar/calling-release.aar")
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                configurations.implementation.allDependencies.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.group)
+                    dependencyNode.appendNode('artifactId', it.name)
+                    dependencyNode.appendNode('version', it.version)
+                }
+            }
+        }
+
+        callingSDK(MavenPublication) {
+            groupId 'com.azure.android'
+            artifactId 'azure-communication-calling'
+            version '2.7.0-preview.1'
+            artifact("/Users/inderpalsinghaulakh/Downloads/aar/azure-communication-calling-2.7.0-beta.1.aar")
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                def dependencyNode = dependenciesNode.appendNode('dependency')
+                dependencyNode.appendNode('groupId', 'com.azure.android')
+                dependencyNode.appendNode('artifactId', 'azure-communication-common')
+                dependencyNode.appendNode('version', '1.1.0')
+                dependencyNode = dependenciesNode.appendNode('dependency')
+                dependencyNode.appendNode('groupId', 'net.sourceforge.streamsupport')
+                dependencyNode.appendNode('artifactId', 'android-retrofuture')
+                dependencyNode.appendNode('version', '1.7.3')
+                dependencyNode = dependenciesNode.appendNode('dependency')
+                dependencyNode.appendNode('groupId', 'com.google.code.gson')
+                dependencyNode.appendNode('artifactId', 'gson')
+                dependencyNode.appendNode('version', '2.10')
+            }
+        }
+    }
+}*/

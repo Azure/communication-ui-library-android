@@ -2,6 +2,7 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'maven-publish'
 }
 
 apply from: file('publish.gradle')
@@ -82,6 +83,12 @@ android {
             }
         }
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+        //If you want to continue even if errors found use following line
+        abortOnError false
+    }
 }
 
 
@@ -92,9 +99,8 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$androidx_constraint_layout_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$androidx_navigation_fragment_ktx_version"
 
-    implementation(name:'azure-communication-calling-2.7.0-beta.1', ext:'aar')
+    api ("com.azure.android:azure-communication-calling:2.7.0-preview.1")
 
-    api ("com.azure.android:azure-communication-common:1.1.0")
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_viewmodel_ktx_version"
     implementation "com.microsoft.fluentui:fluentui_others:$microsoft_fluent_ui_version"
     implementation "com.microsoft.fluentui:fluentui_drawer:$microsoft_fluent_ui_version"

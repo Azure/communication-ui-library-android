@@ -103,6 +103,16 @@ allprojects {
         maven {
             url "https://pkgs.dev.azure.com/MicrosoftDeviceSDK/DuoSDK-Public/_packaging/Duo-SDK-Feed/maven/v1"
         }
+        if (localProps.containsKey('FEED_URL')) {
+            maven {
+                url localProps.getProperty('FEED_URL', '""')
+                name localProps.getProperty('FEED_NAME', '""')
+                credentials {
+                    username localProps.getProperty('FEED_USER_NAME', '""')
+                    password localProps.getProperty('FEED_KEY', '""')
+                }
+            }
+        }
         if (localProps.containsKey('GITHUB_MAVEN_REPO_URL')) {
             maven {
                 name = 'privateGitHubRepo'
