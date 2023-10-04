@@ -10,7 +10,6 @@ if (project.rootProject.file('local.properties').canRead()) {
     localProps.load(project.rootProject.file('local.properties').newDataInputStream())
 }
 
-/* GitHub publish
 publishing {
     repositories {
         maven {
@@ -112,7 +111,7 @@ publishing {
             }
         }
     }
-}*/
+}
 
 /* ADO publish
 publishing {
