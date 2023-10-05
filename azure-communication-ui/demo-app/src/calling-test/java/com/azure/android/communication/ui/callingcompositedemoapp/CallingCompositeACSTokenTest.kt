@@ -6,9 +6,7 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 import android.util.Base64
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.azure.android.communication.ui.callingcompositedemoapp.robots.HomeScreenRobot
 import com.azure.android.communication.ui.callingcompositedemoapp.util.CallIdentifiersHelper
-import com.azure.android.communication.ui.callingcompositedemoapp.util.TestFixture
 import org.json.JSONObject
 import org.junit.Assert
 import org.junit.Assume
