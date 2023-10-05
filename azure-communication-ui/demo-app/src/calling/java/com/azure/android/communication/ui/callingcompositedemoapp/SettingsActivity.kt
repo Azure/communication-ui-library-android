@@ -29,7 +29,6 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var isRTLCheckBox: CheckBox
     private lateinit var languageSettingLabelView: TextView
     private lateinit var callSettingLabelView: TextView
-    private lateinit var callDiagnosticsEnabledCheckBox: CheckBox
     private lateinit var languageSettingLabelDivider: View
     private lateinit var languageAdapterLayout: TextInputLayout
     private lateinit var renderDisplayNameTextView: TextView
@@ -105,8 +104,6 @@ class SettingsActivity : AppCompatActivity() {
         updateMicOnByDefaultCheckbox()
 
         updateCameraOnByDefaultCheckbox()
-
-        updateCallDiagnosticsEnabledCheckbox()
         
         updateEndCallOnDefaultCheckBox()
 
@@ -168,12 +165,6 @@ class SettingsActivity : AppCompatActivity() {
                         view.isChecked
                     ).apply()
                 }
-                R.id.call_diagnostics_control_check_box -> {
-                    sharedPreference.edit().putBoolean(
-                        CALL_DIAGNOSTICS_ON_BY_DEFAULT_KEY,
-                        view.isChecked
-                    ).apply()
-                }
                 R.id.composite_end_call_button_checkbox -> {
                     sharedPreference.edit().putBoolean(
                         END_CALL_ON_BY_DEFAULT_KEY,
@@ -204,7 +195,6 @@ class SettingsActivity : AppCompatActivity() {
         skipSetupScreenCheckBox = findViewById(R.id.skip_setup_screen_check_box)
         micOnByDefaultCheckBox = findViewById(R.id.mic_control_check_box)
         cameraOnByDefaultCheckBox = findViewById(R.id.camera_control_check_box)
-        callDiagnosticsEnabledCheckBox = findViewById(R.id.call_diagnostics_control_check_box)
         callScreenOrientationAdapterLayout = findViewById(R.id.call_screen_orientation_adapter_layout)
         setupScreenOrientationAdapterLayout = findViewById(R.id.setup_screen_orientation_adapter_layout)
         callScreenOrientationAutoCompleteTextView = findViewById(R.id.call_screen_orientation_auto_complete_text_view)
@@ -368,13 +358,6 @@ class SettingsActivity : AppCompatActivity() {
         cameraOnByDefaultCheckBox.isChecked = sharedPreference.getBoolean(
             CAMERA_ON_BY_DEFAULT_KEY,
             DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE
-        )
-    }
-
-    private fun updateCallDiagnosticsEnabledCheckbox() {
-        callDiagnosticsEnabledCheckBox.isChecked = sharedPreference.getBoolean(
-            CALL_DIAGNOSTICS_ON_BY_DEFAULT_KEY,
-            DEFAULT_CALL_DIAGNOSTICS_ON_BY_DEFAULT_VALUE
         )
     }
     

@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.redux.reducer
 
-import com.azure.android.communication.calling.DiagnosticQuality
+import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnostic
@@ -23,16 +23,16 @@ internal class CallDiagnosticsReducerUnitTest {
     fun callingReducer_reduce_when_actionUpdateNetworkQualityDiagnostics_then_changeDiagnosticValue() {
         // arrange
         val reducer = CallDiagnosticsReducerImpl()
-        val networkQualityCallDiagnosticModel = NetworkQualityCallDiagnosticModel(NetworkCallDiagnostic.NETWORK_SEND_QUALITY, DiagnosticQuality.GOOD)
+        val networkQualityCallDiagnosticModel = NetworkQualityCallDiagnosticModel(NetworkCallDiagnostic.NETWORK_SEND_QUALITY, CallDiagnosticQuality.GOOD)
         val previousState = CallDiagnosticsState(networkQualityCallDiagnosticModel, null, null)
-        val newNetworkQualityCallDiagnosticModel = NetworkQualityCallDiagnosticModel(NetworkCallDiagnostic.NETWORK_SEND_QUALITY, DiagnosticQuality.BAD)
+        val newNetworkQualityCallDiagnosticModel = NetworkQualityCallDiagnosticModel(NetworkCallDiagnostic.NETWORK_SEND_QUALITY, CallDiagnosticQuality.BAD)
         val action = CallDiagnosticsAction.NetworkQualityCallDiagnosticsUpdated(newNetworkQualityCallDiagnosticModel)
 
         // act
         val newState = reducer.reduce(previousState, action)
 
         // assert
-        Assert.assertEquals(DiagnosticQuality.BAD, newState.networkQualityCallDiagnostic?.diagnosticValue)
+        Assert.assertEquals(CallDiagnosticQuality.BAD, newState.networkQualityCallDiagnostic?.diagnosticValue)
         Assert.assertEquals(null, newState.networkCallDiagnostic)
         Assert.assertEquals(null, newState.mediaCallDiagnostic)
     }

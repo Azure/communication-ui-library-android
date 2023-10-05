@@ -21,6 +21,7 @@ import com.azure.android.communication.calling.RemoteParticipant
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.TranscriptionCallFeature
 import com.azure.android.communication.ui.calling.models.CallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnostic
@@ -110,10 +111,6 @@ internal class CallingSDKEventHandler(
         call = null
     }
 
-    fun enableCallDiagnostics() {
-        subscribeToUserFacingDiagnosticsEvents()
-    }
-
     fun onJoinCall(call: Call) {
         this.call = call
         call.addOnStateChangedListener(onCallStateChanged)
@@ -125,6 +122,7 @@ internal class CallingSDKEventHandler(
         transcriptionFeature.addOnIsTranscriptionActiveChangedListener(onTranscriptionChanged)
         dominantSpeakersCallFeature = call.feature { DominantSpeakersCallFeature::class.java }
         dominantSpeakersCallFeature.addOnDominantSpeakersChangedListener(onDominantSpeakersChanged)
+        subscribeToUserFacingDiagnosticsEvents()
     }
 
     fun onEndCall() {
@@ -176,7 +174,7 @@ internal class CallingSDKEventHandler(
         Log.d("TEST", "onNetworkReconnectionQualityChanged: ${it.name} value: ${it.value}")
         coroutineScope.launch {
             val model =
-                CallDiagnosticModel(NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY, it.value)
+                CallDiagnosticModel(NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY, CallDiagnosticQuality.valueOf(it.value.toString()))
             networkQualityCallDiagnosticsSharedFlow.emit(model)
         }
     }
@@ -184,7 +182,8 @@ internal class CallingSDKEventHandler(
     private val onNetworkReceiveQualityChanged = DiagnosticQualityChangedListener {
         Log.d("TEST", "onNetworkReceiveQualityChanged: ${it.name} value: ${it.value}")
         coroutineScope.launch {
-            val model = CallDiagnosticModel(NetworkCallDiagnostic.NETWORK_RECEIVE_QUALITY, it.value)
+            val model =
+                CallDiagnosticModel(NetworkCallDiagnostic.NETWORK_RECEIVE_QUALITY, CallDiagnosticQuality.valueOf(it.value.toString()))
             networkQualityCallDiagnosticsSharedFlow.emit(model)
         }
     }
@@ -192,7 +191,8 @@ internal class CallingSDKEventHandler(
     private val onNetworkSendQualityChanged = DiagnosticQualityChangedListener {
         Log.d("TEST", "onNetworkSendQualityChanged: ${it.name} value: ${it.value}")
         coroutineScope.launch {
-            val model = CallDiagnosticModel(NetworkCallDiagnostic.NETWORK_SEND_QUALITY, it.value)
+            val model =
+                CallDiagnosticModel(NetworkCallDiagnostic.NETWORK_SEND_QUALITY, CallDiagnosticQuality.valueOf(it.value.toString()))
             networkQualityCallDiagnosticsSharedFlow.emit(model)
         }
     }

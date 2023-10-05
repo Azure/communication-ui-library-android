@@ -3,24 +3,12 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.notification
 
-import android.view.View
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
+import com.azure.android.communication.ui.calling.models.UpperMessageBarNotificationModel
 import com.azure.android.communication.ui.calling.redux.state.CallDiagnosticsState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-
-internal class UpperMessageBarNotificationModel {
-    var notificationIconId: Int = 0
-    var notificationMessageId: Int = 0
-    var notificationView: View? = null
-
-    lateinit var mediaCallDiagnostic: MediaCallDiagnostic
-
-    fun isEmpty(): Boolean {
-        return notificationIconId == 0 && notificationMessageId == 0 && notificationView == null
-    }
-}
 
 internal class UpperMessageBarNotificationLayoutViewModel {
     private var newUpperMessageBarNotificationFlow: MutableStateFlow<UpperMessageBarNotificationModel> = MutableStateFlow(UpperMessageBarNotificationModel())
@@ -35,23 +23,6 @@ internal class UpperMessageBarNotificationLayoutViewModel {
     fun update(callDiagnosticsState: CallDiagnosticsState) {
 
         when (callDiagnosticsState.mediaCallDiagnostic?.diagnosticKind) {
-            MediaCallDiagnostic.SPEAKING_WHILE_MICROPHONE_IS_MUTED -> {
-                if (mediaDiagnosticNotificationViews[MediaCallDiagnostic.SPEAKING_WHILE_MICROPHONE_IS_MUTED] == null &&
-                    callDiagnosticsState.mediaCallDiagnostic.diagnosticValue
-                ) {
-                    var upperMessageBarNotificationModel = UpperMessageBarNotificationModel()
-                    upperMessageBarNotificationModel.notificationMessageId = R.string.azure_communication_ui_calling_diagnostics_you_are_muted
-                    upperMessageBarNotificationModel.notificationIconId = R.drawable.azure_communication_ui_calling_ic_fluent_mic_off_24_filled
-                    upperMessageBarNotificationModel.mediaCallDiagnostic = MediaCallDiagnostic.SPEAKING_WHILE_MICROPHONE_IS_MUTED
-                    mediaDiagnosticNotificationViews[MediaCallDiagnostic.SPEAKING_WHILE_MICROPHONE_IS_MUTED] = upperMessageBarNotificationModel
-                    newUpperMessageBarNotificationFlow.value = upperMessageBarNotificationModel
-                } /* else if (mediaDiagnosticNotificationViews[MediaCallDiagnostic.SPEAKING_WHILE_MICROPHONE_IS_MUTED] != null &&
-                    !callDiagnosticsState.mediaCallDiagnostic.diagnosticValue) {
-                    // dismissUpperMessageBarNotificationFlow.value = mediaDiagnosticNotificationViews[MediaCallDiagnostic.SPEAKING_WHILE_MICROPHONE_IS_MUTED]!!
-                    // mediaDiagnosticNotificationViews.remove(MediaCallDiagnostic.SPEAKING_WHILE_MICROPHONE_IS_MUTED)
-                    dismissNotification(MediaCallDiagnostic.SPEAKING_WHILE_MICROPHONE_IS_MUTED)
-                }*/
-            }
             MediaCallDiagnostic.NO_SPEAKER_DEVICES_AVAILABLE -> {
                 if (mediaDiagnosticNotificationViews[MediaCallDiagnostic.NO_SPEAKER_DEVICES_AVAILABLE] == null &&
                     callDiagnosticsState.mediaCallDiagnostic.diagnosticValue

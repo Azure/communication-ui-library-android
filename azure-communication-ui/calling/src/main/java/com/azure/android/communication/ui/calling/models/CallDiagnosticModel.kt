@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.calling.models
 
-import com.azure.android.communication.calling.DiagnosticQuality
-
 internal enum class NetworkCallDiagnostic {
     NETWORK_RECONNECTION_QUALITY,
     NETWORK_RECEIVE_QUALITY,
@@ -30,12 +28,19 @@ internal enum class MediaCallDiagnostic {
     CAMERA_PERMISSION_DENIED
 }
 
+internal enum class CallDiagnosticQuality {
+    UNKNOWN,
+    GOOD,
+    POOR,
+    BAD;
+}
+
 internal class CallDiagnosticModel<DiagnosticKind, DiagnosticValue>(
     var diagnosticKind: DiagnosticKind,
     var diagnosticValue: DiagnosticValue
 )
 
 /// Alias types representing different types of Call Diagnostics
-internal typealias NetworkQualityCallDiagnosticModel = CallDiagnosticModel<NetworkCallDiagnostic, DiagnosticQuality>
+internal typealias NetworkQualityCallDiagnosticModel = CallDiagnosticModel<NetworkCallDiagnostic, CallDiagnosticQuality>
 internal typealias NetworkCallDiagnosticModel = CallDiagnosticModel<NetworkCallDiagnostic, Boolean>
 internal typealias MediaCallDiagnosticModel = CallDiagnosticModel<MediaCallDiagnostic, Boolean>

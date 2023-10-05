@@ -3,14 +3,14 @@
 
 package com.azure.android.communication.ui.presentation.fragment.calling.notification
 
-import com.azure.android.communication.calling.DiagnosticQuality
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnostic
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationModel
+import com.azure.android.communication.ui.calling.models.ToastNotificationModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationViewModel
 import com.azure.android.communication.ui.calling.redux.state.CallDiagnosticsState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,7 +28,7 @@ internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
     @Test
     fun toastNotificationViewModel_update_when_NetworkReceiveQualityBAD_then_emitToast() {
         val networkQualityCallDiagnosticModel = NetworkQualityCallDiagnosticModel(
-            NetworkCallDiagnostic.NETWORK_RECEIVE_QUALITY, DiagnosticQuality.BAD
+            NetworkCallDiagnostic.NETWORK_RECEIVE_QUALITY, CallDiagnosticQuality.BAD
         )
         val testCallDiagnosticsState = CallDiagnosticsState(networkQualityCallDiagnosticModel, null, null)
 
@@ -55,7 +55,7 @@ internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
     @Test
     fun toastNotificationViewModel_update_when_NetworkReceiveQualityPOOR_then_emitToast() {
         val networkQualityCallDiagnosticModel = NetworkQualityCallDiagnosticModel(
-            NetworkCallDiagnostic.NETWORK_RECEIVE_QUALITY, DiagnosticQuality.POOR
+            NetworkCallDiagnostic.NETWORK_RECEIVE_QUALITY, CallDiagnosticQuality.POOR
         )
         val testCallDiagnosticsState = CallDiagnosticsState(networkQualityCallDiagnosticModel, null, null)
 
@@ -82,7 +82,7 @@ internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
     @Test
     fun toastNotificationViewModel_update_when_NetworkReconnectionQualityBAD_then_emitToast() {
         val networkQualityCallDiagnosticModel = NetworkQualityCallDiagnosticModel(
-            NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY, DiagnosticQuality.BAD
+            NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY, CallDiagnosticQuality.BAD
         )
         val testCallDiagnosticsState = CallDiagnosticsState(networkQualityCallDiagnosticModel, null, null)
 
@@ -109,7 +109,7 @@ internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
     @Test
     fun toastNotificationViewModel_update_when_NetworkReconnectionQualityPOOR_then_emitToast() {
         val networkQualityCallDiagnosticModel = NetworkQualityCallDiagnosticModel(
-            NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY, DiagnosticQuality.POOR
+            NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY, CallDiagnosticQuality.POOR
         )
         val testCallDiagnosticsState = CallDiagnosticsState(networkQualityCallDiagnosticModel, null, null)
 

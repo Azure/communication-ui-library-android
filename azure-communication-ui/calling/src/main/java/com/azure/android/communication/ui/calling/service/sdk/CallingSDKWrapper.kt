@@ -350,9 +350,6 @@ internal class CallingSDKWrapper(
 
         nullableCall = agent.join(context, joinMeetingLocator, joinCallOptions)
         callingSDKEventHandler.onJoinCall(call)
-        if (callConfig.enableCallDiagnostics) {
-            callingSDKEventHandler.enableCallDiagnostics()
-        }
     }
 
     private fun getDeviceManagerCompletableFuture(): CompletableFuture<DeviceManager> {

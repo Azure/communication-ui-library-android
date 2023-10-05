@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.presentation.fragment.calling.notific
 
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationModel
+import com.azure.android.communication.ui.calling.models.UpperMessageBarNotificationModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList

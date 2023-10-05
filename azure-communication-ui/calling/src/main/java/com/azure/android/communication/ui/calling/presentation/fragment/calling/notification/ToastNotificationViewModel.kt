@@ -3,24 +3,16 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.notification
 
-import com.azure.android.communication.calling.DiagnosticQuality
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnostic
+import com.azure.android.communication.ui.calling.models.ToastNotificationModel
 import com.azure.android.communication.ui.calling.redux.state.CallDiagnosticsState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.util.Timer
 import java.util.TimerTask
-
-internal class ToastNotificationModel {
-    var notificationIconId: Int = 0
-    var notificationMessageId: Int = 0
-
-    fun isEmpty(): Boolean {
-        return notificationIconId == 0 && notificationMessageId == 0
-    }
-}
 
 internal class ToastNotificationViewModel {
     private var displayToastNotificationFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -37,8 +29,8 @@ internal class ToastNotificationViewModel {
     fun update(callDiagnosticsState: CallDiagnosticsState) {
         when (callDiagnosticsState.networkQualityCallDiagnostic?.diagnosticKind) {
             NetworkCallDiagnostic.NETWORK_RECEIVE_QUALITY, NetworkCallDiagnostic.NETWORK_SEND_QUALITY -> {
-                if (callDiagnosticsState.networkQualityCallDiagnostic.diagnosticValue == DiagnosticQuality.BAD ||
-                    callDiagnosticsState.networkQualityCallDiagnostic.diagnosticValue == DiagnosticQuality.POOR
+                if (callDiagnosticsState.networkQualityCallDiagnostic.diagnosticValue == CallDiagnosticQuality.BAD ||
+                    callDiagnosticsState.networkQualityCallDiagnostic.diagnosticValue == CallDiagnosticQuality.POOR
                 ) {
                     displayToastNotification(
                         R.string.azure_communication_ui_calling_diagnostics_network_quality_low,
@@ -47,8 +39,8 @@ internal class ToastNotificationViewModel {
                 }
             }
             NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY -> {
-                if (callDiagnosticsState.networkQualityCallDiagnostic.diagnosticValue == DiagnosticQuality.BAD ||
-                    callDiagnosticsState.networkQualityCallDiagnostic.diagnosticValue == DiagnosticQuality.POOR
+                if (callDiagnosticsState.networkQualityCallDiagnostic.diagnosticValue == CallDiagnosticQuality.BAD ||
+                    callDiagnosticsState.networkQualityCallDiagnostic.diagnosticValue == CallDiagnosticQuality.POOR
                 ) {
                     displayToastNotification(
                         R.string.azure_communication_ui_calling_diagnostics_network_reconnecting,
