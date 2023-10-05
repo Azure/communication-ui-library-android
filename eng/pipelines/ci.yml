@@ -27,7 +27,7 @@ steps:
     BuildOutputUsage: 'test'
 
 - task: ms-devlabs.utilitytasks.task-Shellpp.Shell++@0
-  displayName: 'Install Android SDK for UI Testing'
+  displayName: 'Private aad feed settings'
   inputs:
     type: InlineScript
     script: |
