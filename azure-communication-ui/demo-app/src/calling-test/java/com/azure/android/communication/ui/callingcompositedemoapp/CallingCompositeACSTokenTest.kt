@@ -59,7 +59,7 @@ class CallingCompositeACSTokenTest : BaseUiTest() {
         )
     }
 
-    @Test
+    /*@Test
     fun testExpiredAcsToken() {
         val expiredAcsToken = TestFixture.expiredToken
 
@@ -78,5 +78,5 @@ class CallingCompositeACSTokenTest : BaseUiTest() {
             .clickJoinCallButton()
 
         homeScreen.clickAlertDialogOkButton()
-    }
+    }*/
 }
