@@ -109,7 +109,7 @@ steps:
   displayName: 'Calling - Publish code coverage report'
   inputs:
     summaryFileLocation: $(System.DefaultWorkingDirectory)/azure-communication-ui/build/reports/coverage/test/debug/report.xml
-    reportDirectory: $(System.DefaultWorkingDirectory)/azure-communication-ui/build/reports/coverage/test/debug/index.html
+    reportDirectory: $(System.DefaultWorkingDirectory)/azure-communication-ui/build/reports/coverage/test/debug
     
 - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
   displayName: 'Component Detection'
