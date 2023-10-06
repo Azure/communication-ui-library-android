@@ -56,6 +56,15 @@ steps:
     gradleOptions: '-Xmx3072m'
     tasks: 'ktlintCheck'
 
+- task: Gradle@2
+  displayName: 'build all'
+  inputs:
+    workingDirectory: 'azure-communication-ui/calling'
+    gradleWrapperFile: 'azure-communication-ui/gradlew'
+    gradleOptions: '-Xmx3072m'
+    publishJUnitResults: false
+    tasks: 'build --stacktrace'
+
 # Build task runs assemble and test for all variants.
 # For now, avoid doing this for 'demo-app' - it'll need to be signed, etc.
 # For the demo-app, we'll just verify that we can assemble it.
