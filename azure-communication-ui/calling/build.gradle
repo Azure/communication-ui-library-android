@@ -50,12 +50,6 @@ android {
                 useLegacyPackaging = true
             }
         }
-        unitTests {
-            returnDefaultValues = true
-            all {
-                failFast = true
-            }
-        }
     }
 
     ktlint {
