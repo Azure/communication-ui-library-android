@@ -53,7 +53,7 @@ internal class CallingViewModel(
 
     override fun init(coroutineScope: CoroutineScope) {
         val state = store.getCurrentState()
-        val remoteParticipantsExcludingLobbyStatus = remoteParticipantsExcludingLobbyStatus(state.remoteParticipantState.participantMap)
+        val remoteParticipantsForGridView = remoteParticipantsForGridView(state.remoteParticipantState.participantMap)
 
         controlBarViewModel.init(
             state.permissionState,
@@ -69,7 +69,7 @@ internal class CallingViewModel(
             state.localParticipantState.displayName,
             state.localParticipantState.audioState.operation,
             state.localParticipantState.videoStreamID,
-            remoteParticipantsExcludingLobbyStatus.count(),
+            remoteParticipantsForGridView.count(),
             state.callState.callingStatus,
             state.localParticipantState.cameraState.device,
             state.localParticipantState.cameraState.camerasCount,
@@ -77,7 +77,7 @@ internal class CallingViewModel(
 
         floatingHeaderViewModel.init(
             state.callState.callingStatus,
-            remoteParticipantsExcludingLobbyStatus.count()
+            remoteParticipantsForGridView.count()
         )
         audioDeviceListViewModel.init(
             state.localParticipantState.audioState
@@ -136,7 +136,7 @@ internal class CallingViewModel(
             return
         }
 
-        val remoteParticipantsExcludingLobbyStatus = remoteParticipantsExcludingLobbyStatus(state.remoteParticipantState.participantMap)
+        val remoteParticipantsForGridView = remoteParticipantsForGridView(state.remoteParticipantState.participantMap)
 
         controlBarViewModel.update(
             state.permissionState,
@@ -149,7 +149,7 @@ internal class CallingViewModel(
             state.localParticipantState.displayName,
             state.localParticipantState.audioState.operation,
             state.localParticipantState.videoStreamID,
-            remoteParticipantsExcludingLobbyStatus.count(),
+            remoteParticipantsForGridView.count(),
             state.callState.callingStatus,
             state.localParticipantState.cameraState.device,
             state.localParticipantState.cameraState.camerasCount,
@@ -195,13 +195,13 @@ internal class CallingViewModel(
         if (shouldUpdateRemoteParticipantsViewModels(state)) {
             participantGridViewModel.update(
                 state.remoteParticipantState.participantMapModifiedTimestamp,
-                remoteParticipantsExcludingLobbyStatus,
+                remoteParticipantsForGridView,
                 state.remoteParticipantState.dominantSpeakersInfo,
                 state.remoteParticipantState.dominantSpeakersModifiedTimestamp,
             )
 
             floatingHeaderViewModel.update(
-                remoteParticipantsExcludingLobbyStatus.count()
+                remoteParticipantsForGridView.count()
             )
 
             lobbyHeaderViewModel.update(
@@ -245,8 +245,11 @@ internal class CallingViewModel(
         return false
     }
 
-    private fun remoteParticipantsExcludingLobbyStatus(participants: Map<String, ParticipantInfoModel>): Map<String, ParticipantInfoModel> =
-        participants.filter { it.value.participantStatus != ParticipantStatus.IN_LOBBY }
+    private fun remoteParticipantsForGridView(participants: Map<String, ParticipantInfoModel>): Map<String, ParticipantInfoModel> =
+        participants.filter {
+            it.value.participantStatus == ParticipantStatus.CONNECTED ||
+                it.value.participantStatus == ParticipantStatus.HOLD
+        }
 
     private fun shouldUpdateRemoteParticipantsViewModels(state: ReduxState) =
         state.callState.callingStatus == CallingStatus.CONNECTED
