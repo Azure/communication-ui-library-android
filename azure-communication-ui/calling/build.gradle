@@ -50,6 +50,12 @@ android {
                 useLegacyPackaging = true
             }
         }
+        unitTests {
+            returnDefaultValues = true
+            all {
+                failFast = true
+            }
+        }
     }
 
     ktlint {
@@ -76,12 +82,6 @@ android {
                 includeBuildTypeValues('release')
             }
         }
-    }
-
-    lintOptions {
-        checkReleaseBuilds false
-        //If you want to continue even if errors found use following line
-        abortOnError false
     }
 }
 
