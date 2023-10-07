@@ -32,10 +32,10 @@ steps:
     type: InlineScript
     script: |
      cd azure-communication-ui
-     echo FEED_NAME=$(FEED_NAME) >> local.properties
-     echo FEED_USER_NAME=$(FEED_USER_NAME) >> local.properties
-     echo FEED_URL=$(FEED_URL) >> local.properties
-     echo FEED_KEY=$(FEED_KEY) >> local.properties
+     echo MAVEN_REPO_NAME=$(MAVEN_REPO_NAME) >> local.properties
+     echo MAVEN_REPO_USERNAME=$(MAVEN_REPO_USERNAME) >> local.properties
+     echo MAVEN_REPO_URL=$(MAVEN_REPO_URL) >> local.properties
+     echo MAVEN_REPO_KEY=$(MAVEN_REPO_KEY) >> local.properties
      cd ..
 
 # By default, JAVA_HOME points to java1.8, but we need java11 for the current Android Gradle plugin.
