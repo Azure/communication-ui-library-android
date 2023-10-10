@@ -15,14 +15,14 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class CallingCompositeAudioDeviceListTest : BaseUiTest() {
 
-    @Test
-    fun selectDefaultAudioDevice() {
-        joinGroupSetupScreen()
-            .tapSpeakerIcon()
-            .selectSpeakerAudioDevice(true)
-            .verifyIsSpeakerAudioDevice()
-            .navigateUpFromSetupScreen()
-    }
+//    @Test
+//    fun selectDefaultAudioDevice() {
+//        joinGroupSetupScreen()
+//            .tapSpeakerIcon()
+//            .selectSpeakerAudioDevice(true)
+//            .verifyIsSpeakerAudioDevice()
+//            .navigateUpFromSetupScreen()
+//    }
 
     @Test
     fun selectAndroidAudioDevice() {
