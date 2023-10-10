@@ -39,6 +39,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
         android:fontFamily="sans-serif-medium"
         android:text="@string/azure_communication_ui_calling_lobby_header_text"
         android:textColor="@color/azure_communication_ui_calling_color_white"
