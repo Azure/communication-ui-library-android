@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
+import com.azure.android.communication.ui.calling.redux.state.PictureInPictureStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.CoroutineScope
 
@@ -93,7 +94,7 @@ internal class CallingViewModel(
         participantListViewModel.init(
             remoteParticipantsForGridView,
             state.localParticipantState,
-            canShowLobby(state.localParticipantState.localParticipantRole)
+            canShowLobby(state.localParticipantState.localParticipantRole, state.pipState.status)
         )
 
         waitingLobbyOverlayViewModel.init(state.callState.callingStatus)
@@ -112,13 +113,13 @@ internal class CallingViewModel(
         lobbyHeaderViewModel.init(
             state.callState.callingStatus,
             getLobbyParticipantsForHeader(state),
-            canShowLobby(state.localParticipantState.localParticipantRole)
+            canShowLobby(state.localParticipantState.localParticipantRole, state.pipState.status)
         )
 
         lobbyErrorHeaderViewModel.init(
             state.callState.callingStatus,
             state.remoteParticipantState.lobbyErrorCode,
-            canShowLobby(state.localParticipantState.localParticipantRole)
+            canShowLobby(state.localParticipantState.localParticipantRole, state.pipState.status)
         )
 
         super.init(coroutineScope)
@@ -216,19 +217,19 @@ internal class CallingViewModel(
             lobbyHeaderViewModel.update(
                 state.callState.callingStatus,
                 getLobbyParticipantsForHeader(state),
-                canShowLobby(state.localParticipantState.localParticipantRole)
+                canShowLobby(state.localParticipantState.localParticipantRole, state.pipState.status)
             )
 
             lobbyErrorHeaderViewModel.update(
                 state.callState.callingStatus,
                 state.remoteParticipantState.lobbyErrorCode,
-                canShowLobby(state.localParticipantState.localParticipantRole)
+                canShowLobby(state.localParticipantState.localParticipantRole, state.pipState.status)
             )
 
             participantListViewModel.update(
                 state.remoteParticipantState.participantMap,
                 state.localParticipantState,
-                canShowLobby(state.localParticipantState.localParticipantRole)
+                canShowLobby(state.localParticipantState.localParticipantRole, state.pipState.status)
             )
 
             bannerViewModel.update(state.callState)
@@ -241,15 +242,17 @@ internal class CallingViewModel(
     }
 
     private fun getLobbyParticipantsForHeader(state: ReduxState) =
-        if (canShowLobby(state.localParticipantState.localParticipantRole))
+        if (canShowLobby(state.localParticipantState.localParticipantRole, state.pipState.status))
             state.remoteParticipantState.participantMap.filter { it.value.participantStatus == ParticipantStatus.IN_LOBBY }
         else mapOf()
 
-    private fun canShowLobby(role: CallCompositeInternalParticipantRole?): Boolean {
+    private fun canShowLobby(role: CallCompositeInternalParticipantRole?, pipMode: PictureInPictureStatus): Boolean {
         role?.let {
-            return it == CallCompositeInternalParticipantRole.ORGANIZER ||
-                it == CallCompositeInternalParticipantRole.PRESENTER ||
-                it == CallCompositeInternalParticipantRole.COORGANIZER
+            return pipMode != PictureInPictureStatus.PIP_MODE_ENTERED && (
+                it == CallCompositeInternalParticipantRole.ORGANIZER ||
+                    it == CallCompositeInternalParticipantRole.PRESENTER ||
+                    it == CallCompositeInternalParticipantRole.COORGANIZER
+                )
         }
         return false
     }
