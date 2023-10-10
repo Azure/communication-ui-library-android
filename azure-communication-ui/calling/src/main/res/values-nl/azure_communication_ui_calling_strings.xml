@@ -44,6 +44,7 @@
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Wachten tot anderen deelnemen</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Gesprek met 1 persoon</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Bellen met %1$d personen</string>
+    <string name="azure_communication_ui_calling_view_go_back">Terug</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(ik)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Naamloze deelnemer</string>
     <string name="azure_communication_ui_calling_view_leave_call">Gesprek verlaten?</string>
@@ -104,30 +105,30 @@
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">U neemt deel aan het gesprek</string>
 
     <!--    Participant list-->
-    <string name="azure_communication_ui_calling_participant_list_in_call_n_people">In the call (%1$d)</string>
-    <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">In the lobby (%1$d)</string>
-    <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Double tap to admit/decline participant</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_n_people">In het gesprek (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">In de lobby (%1$d)</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Dubbeltik om deelnemer toe te laten/weigeren</string>
 
     <!--    Admit participant dialog-->
-    <string name="azure_communication_ui_calling_admit_name">Admit %1$s?</string>
-    <string name="azure_communication_ui_calling_admit">Admit</string>
-    <string name="azure_communication_ui_calling_decline">Decline</string>
-    <string name="azure_communication_ui_calling_admit_all">Admit all</string>
+    <string name="azure_communication_ui_calling_admit_name">%1$s toelaten?</string>
+    <string name="azure_communication_ui_calling_admit">Toelaten</string>
+    <string name="azure_communication_ui_calling_decline">Weigeren</string>
+    <string name="azure_communication_ui_calling_admit_all">Allen toelaten</string>
 
     <!--    Lobby header-->
-    <string name="azure_communication_ui_calling_lobby_header_text">People are waiting to join</string>
+    <string name="azure_communication_ui_calling_lobby_header_text">Personen wachten om deel te nemen</string>
     <string name="azure_communication_ui_calling_lobby_header_icon_content_description">Lobby</string>
-    <string name="azure_communication_ui_calling_lobby_header_view_participant_button">View lobby</string>
-    <string name="azure_communication_ui_calling_lobby_header_accessibility_label">View lobby</string>
-    <string name="azure_communication_ui_calling_lobby_header_close_description">Close lobby</string>
+    <string name="azure_communication_ui_calling_lobby_header_view_participant_button">Lobby weergeven</string>
+    <string name="azure_communication_ui_calling_lobby_header_accessibility_label">Lobby weergeven</string>
+    <string name="azure_communication_ui_calling_lobby_header_close_description">Lobby sluiten</string>
 
     <!--    Lobby error header-->
-    <string name="azure_communication_ui_calling_lobby_header_error_close_description">Close lobby error</string>
-    <string name="azure_communication_ui_calling_lobby_error_content_description">Lobby error</string>
-    <string name="azure_communication_ui_calling_error_lobby_disabled_by_configuration">Lobby has been disabled</string>
-    <string name="azure_communication_ui_calling_error_lobby_conversation_type_not_supported">Lobby not supported</string>
-    <string name="azure_communication_ui_calling_error_lobby_meeting_role_not_allowded">Your role cannot act on the lobby</string>
-    <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">Failed to decline</string>
-    <string name="azure_communication_ui_calling_error_lobby_unknown">Lobby action error</string>
+    <string name="azure_communication_ui_calling_lobby_header_error_close_description">Lobbyfout sluiten</string>
+    <string name="azure_communication_ui_calling_lobby_error_content_description">Lobbyfout</string>
+    <string name="azure_communication_ui_calling_error_lobby_disabled_by_configuration">Lobby is uitgeschakeld</string>
+    <string name="azure_communication_ui_calling_error_lobby_conversation_type_not_supported">Lobby wordt niet ondersteund</string>
+    <string name="azure_communication_ui_calling_error_lobby_meeting_role_not_allowded">Uw rol kan niet handelen op de lobby</string>
+    <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">Kan niet weigeren</string>
+    <string name="azure_communication_ui_calling_error_lobby_unknown">Lobbyactiefout</string>
 
 </resources>
