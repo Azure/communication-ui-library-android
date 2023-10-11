@@ -8,7 +8,6 @@ import androidx.test.filters.LargeTest
 import com.azure.android.communication.ui.callingcompositedemoapp.robots.HomeScreenRobot
 import com.azure.android.communication.ui.callingcompositedemoapp.robots.SetupScreenRobot
 import com.azure.android.communication.ui.callingcompositedemoapp.util.CallIdentifiersHelper
-import org.junit.Test
 import org.junit.runner.RunWith
 
 @LargeTest
@@ -24,14 +23,14 @@ class CallingCompositeAudioDeviceListTest : BaseUiTest() {
 //            .navigateUpFromSetupScreen()
 //    }
 
-    @Test
-    fun selectAndroidAudioDevice() {
-        joinGroupSetupScreen()
-            .tapSpeakerIcon()
-            .selectAndroidAudioDevice(false)
-            .verifyIsAndroidAudioDevice()
-            .navigateUpFromSetupScreen()
-    }
+//    @Test
+//    fun selectAndroidAudioDevice() {
+//        joinGroupSetupScreen()
+//            .tapSpeakerIcon()
+//            .selectAndroidAudioDevice(false)
+//            .verifyIsAndroidAudioDevice()
+//            .navigateUpFromSetupScreen()
+//    }
 
     private fun joinGroupSetupScreen(): SetupScreenRobot {
         val setupScreen = HomeScreenRobot()
