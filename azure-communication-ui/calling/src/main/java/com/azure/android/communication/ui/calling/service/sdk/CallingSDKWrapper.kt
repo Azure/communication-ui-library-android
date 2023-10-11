@@ -228,7 +228,6 @@ internal class CallingSDKWrapper(
                 setupCallCompletableFuture.complete(null)
             }
         }
-        createCallAgent()
         return setupCallCompletableFuture
     }
 
@@ -524,6 +523,7 @@ internal class CallingSDKWrapper(
     }
 
     private fun cleanupResources() {
+        lobby = null
         videoDevicesUpdatedListener?.let {
             deviceManagerCompletableFuture?.get()?.removeOnCamerasUpdatedListener(it)
         }
