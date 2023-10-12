@@ -4,6 +4,7 @@
 package com.azure.android.communication
 
 import android.os.SystemClock
+import androidx.annotation.IdRes
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.ViewInteraction
@@ -87,4 +88,9 @@ internal fun waitUntilViewIsDisplayed(idlingCheck: () -> ViewInteraction): ViewI
     }
     if (isReady) return viewInteraction
     throw IllegalStateException("Timed out waiting for view")
+}
+
+internal fun assertViewHasChild(@IdRes id: Int, n: Int) {
+    Espresso.onView(ViewMatchers.withId(id))
+        .check(ViewAssertions.matches(ViewMatchers.hasChildCount(n)))
 }
