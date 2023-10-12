@@ -171,7 +171,6 @@ internal class CallingSDKEventHandler(
 
     //region Call Diagnostics
     private val onNetworkReconnectionQualityChanged = DiagnosticQualityChangedListener {
-        Log.d("TEST", "onNetworkReconnectionQualityChanged: ${it.name} value: ${it.value}")
         coroutineScope.launch {
             val model =
                 CallDiagnosticModel(NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY, CallDiagnosticQuality.valueOf(it.value.toString()))
@@ -180,7 +179,6 @@ internal class CallingSDKEventHandler(
     }
 
     private val onNetworkReceiveQualityChanged = DiagnosticQualityChangedListener {
-        Log.d("TEST", "onNetworkReceiveQualityChanged: ${it.name} value: ${it.value}")
         coroutineScope.launch {
             val model =
                 CallDiagnosticModel(NetworkCallDiagnostic.NETWORK_RECEIVE_QUALITY, CallDiagnosticQuality.valueOf(it.value.toString()))
@@ -189,7 +187,6 @@ internal class CallingSDKEventHandler(
     }
 
     private val onNetworkSendQualityChanged = DiagnosticQualityChangedListener {
-        Log.d("TEST", "onNetworkSendQualityChanged: ${it.name} value: ${it.value}")
         coroutineScope.launch {
             val model =
                 CallDiagnosticModel(NetworkCallDiagnostic.NETWORK_SEND_QUALITY, CallDiagnosticQuality.valueOf(it.value.toString()))
@@ -198,7 +195,6 @@ internal class CallingSDKEventHandler(
     }
 
     private val onIsNetworkUnavailableChanged = DiagnosticFlagChangedListener {
-        Log.d("TEST", "onIsNetworkUnavailableChanged: ${it.name} value: ${it.value}")
         coroutineScope.launch {
             val model = CallDiagnosticModel(NetworkCallDiagnostic.NETWORK_UNAVAILABLE, it.value)
             networkCallDiagnosticsSharedFlow.emit(model)
@@ -206,7 +202,6 @@ internal class CallingSDKEventHandler(
     }
 
     private val onIsNetworkRelaysUnreachableChanged = DiagnosticFlagChangedListener {
-        Log.d("TEST", "onIsNetworkRelaysUnreachableChanged: ${it.name} value: ${it.value}")
         coroutineScope.launch {
             val model = CallDiagnosticModel(NetworkCallDiagnostic.NETWORK_RELAYS_UNREACHABLE, it.value)
             networkCallDiagnosticsSharedFlow.emit(model)
@@ -214,7 +209,6 @@ internal class CallingSDKEventHandler(
     }
 
     private val onIsSpeakerNotFunctioningChanged = DiagnosticFlagChangedListener {
-        Log.d("TEST", "onIsSpeakerNotFunctioningChanged: ${it.name} value: ${it.value}")
         coroutineScope.launch {
             val model = CallDiagnosticModel(MediaCallDiagnostic.SPEAKER_NOT_FUNCTIONING, it.value)
             mediaCallDiagnosticsSharedFlow.emit(model)
@@ -222,7 +216,6 @@ internal class CallingSDKEventHandler(
     }
 
     private val onIsSpeakerBusyChanged = DiagnosticFlagChangedListener {
-        Log.d("TEST", "onIsSpeakerBusyChanged: ${it.name} value: ${it.value}")
         coroutineScope.launch {
             val model = CallDiagnosticModel(MediaCallDiagnostic.SPEAKER_BUSY, it.value)
             mediaCallDiagnosticsSharedFlow.emit(model)
@@ -230,7 +223,6 @@ internal class CallingSDKEventHandler(
     }
 
     private val onIsSpeakerMutedChanged = DiagnosticFlagChangedListener {
-        Log.d("TEST", "onIsSpeakerMutedChanged: ${it.name} value: ${it.value}")
         coroutineScope.launch {
             val model = CallDiagnosticModel(MediaCallDiagnostic.SPEAKER_MUTED, it.value)
             mediaCallDiagnosticsSharedFlow.emit(model)
@@ -238,7 +230,6 @@ internal class CallingSDKEventHandler(
     }
 
     private val onIsSpeakerVolumeZeroChanged = DiagnosticFlagChangedListener {
-        Log.d("TEST", "onIsSpeakerVolumeZeroChanged: ${it.name} value: ${it.value}")
         coroutineScope.launch {
             val model = CallDiagnosticModel(MediaCallDiagnostic.SPEAKER_VOLUME_ZERO, it.value)
             mediaCallDiagnosticsSharedFlow.emit(model)
@@ -246,7 +237,6 @@ internal class CallingSDKEventHandler(
     }
 
     private val onIsNoSpeakerDevicesAvailableChanged = DiagnosticFlagChangedListener {
-        Log.d("TEST", "onIsNoSpeakerDevicesAvailableChanged: ${it.name} value: ${it.value}")
         coroutineScope.launch {
             val model = CallDiagnosticModel(MediaCallDiagnostic.NO_SPEAKER_DEVICES_AVAILABLE, it.value)
             mediaCallDiagnosticsSharedFlow.emit(model)
@@ -254,7 +244,6 @@ internal class CallingSDKEventHandler(
     }
 
     private val onIsSpeakingWhileMicrophoneIsMutedChanged = DiagnosticFlagChangedListener {
-        Log.d("TEST", "onIsSpeakingWhileMicrophoneIsMutedChanged: ${it.name} value: ${it.value}")
         coroutineScope.launch {
             val model = CallDiagnosticModel(MediaCallDiagnostic.SPEAKING_WHILE_MICROPHONE_IS_MUTED, it.value)
             mediaCallDiagnosticsSharedFlow.emit(model)
@@ -262,7 +251,6 @@ internal class CallingSDKEventHandler(
     }
 
     private val onIsMicrophoneNotFunctioningChanged = DiagnosticFlagChangedListener {
-        Log.d("TEST", "onIsMicrophoneNotFunctioningChanged: ${it.name} value: ${it.value}")
         coroutineScope.launch {
             val model = CallDiagnosticModel(MediaCallDiagnostic.MICROPHONE_NOT_FUNCTIONING, it.value)
             mediaCallDiagnosticsSharedFlow.emit(model)
@@ -270,7 +258,6 @@ internal class CallingSDKEventHandler(
     }
 
     private val onIsMicrophoneBusyChanged = DiagnosticFlagChangedListener {
-        Log.d("TEST", "onIsMicrophoneBusyChanged: ${it.name} value: ${it.value}")
         coroutineScope.launch {
             val model = CallDiagnosticModel(MediaCallDiagnostic.MICROPHONE_BUSY, it.value)
             mediaCallDiagnosticsSharedFlow.emit(model)
@@ -278,7 +265,6 @@ internal class CallingSDKEventHandler(
     }
 
     private val onIsMicrophoneMutedUnexpectedlyChanged = DiagnosticFlagChangedListener {
-        Log.d("TEST", "onIsMicrophoneMutedUnexpectedlyChanged: ${it.name} value: ${it.value}")
         coroutineScope.launch {
             val model = CallDiagnosticModel(MediaCallDiagnostic.MICROPHONE_MUTED_UNEXPECTEDLY, it.value)
             mediaCallDiagnosticsSharedFlow.emit(model)
@@ -286,7 +272,6 @@ internal class CallingSDKEventHandler(
     }
 
     private val onIsNoMicrophoneDevicesAvailableChanged = DiagnosticFlagChangedListener {
-        Log.d("TEST", "onIsNoMicrophoneDevicesAvailableChanged: ${it.name} value: ${it.value}")
         coroutineScope.launch {
             val model = CallDiagnosticModel(MediaCallDiagnostic.NO_MICROPHONE_DEVICES_AVAILABLE, it.value)
             mediaCallDiagnosticsSharedFlow.emit(model)
@@ -294,7 +279,6 @@ internal class CallingSDKEventHandler(
     }
 
     private val onIsCameraFrozenChanged = DiagnosticFlagChangedListener {
-        Log.d("TEST", "onIsCameraFrozenChanged: ${it.name} value: ${it.value}")
         coroutineScope.launch {
             val model = CallDiagnosticModel(MediaCallDiagnostic.CAMERA_FROZEN, it.value)
             mediaCallDiagnosticsSharedFlow.emit(model)
@@ -302,7 +286,6 @@ internal class CallingSDKEventHandler(
     }
 
     private val onIsCameraStartFailedChanged = DiagnosticFlagChangedListener {
-        Log.d("TEST", "onIsCameraStartFailedChanged: ${it.name} value: ${it.value}")
         coroutineScope.launch {
             val model = CallDiagnosticModel(MediaCallDiagnostic.CAMERA_START_FAILED, it.value)
             mediaCallDiagnosticsSharedFlow.emit(model)
@@ -310,7 +293,6 @@ internal class CallingSDKEventHandler(
     }
 
     private val onIsCameraStartTimedOutChanged = DiagnosticFlagChangedListener {
-        Log.d("TEST", "onIsCameraStartTimedOutChanged: ${it.name} value: ${it.value}")
         coroutineScope.launch {
             val model = CallDiagnosticModel(MediaCallDiagnostic.CAMERA_START_TIMED_OUT, it.value)
             mediaCallDiagnosticsSharedFlow.emit(model)
@@ -318,7 +300,6 @@ internal class CallingSDKEventHandler(
     }
 
     private val onIsCameraPermissionDeniedChanged = DiagnosticFlagChangedListener {
-        Log.d("TEST", "onIsCameraPermissionDeniedChanged: ${it.name} value: ${it.value}")
         coroutineScope.launch {
             val model = CallDiagnosticModel(MediaCallDiagnostic.CAMERA_PERMISSION_DENIED, it.value)
             mediaCallDiagnosticsSharedFlow.emit(model)
