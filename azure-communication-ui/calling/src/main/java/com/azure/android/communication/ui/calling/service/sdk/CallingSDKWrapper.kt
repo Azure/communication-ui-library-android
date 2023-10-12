@@ -9,7 +9,6 @@ import com.azure.android.communication.calling.AudioOptions
 import com.azure.android.communication.calling.Call
 import com.azure.android.communication.calling.CallAgent
 import com.azure.android.communication.calling.CallAgentOptions
-import com.azure.android.communication.calling.CallBase
 import com.azure.android.communication.calling.CallClient
 import com.azure.android.communication.calling.CallClientOptions
 import com.azure.android.communication.calling.CallingCommunicationException
@@ -20,7 +19,6 @@ import com.azure.android.communication.calling.HangUpOptions
 import com.azure.android.communication.calling.JoinCallOptions
 import com.azure.android.communication.calling.JoinMeetingLocator
 import com.azure.android.communication.calling.RoomCallLocator
-import com.azure.android.communication.calling.Lobby
 import com.azure.android.communication.calling.RejectLobbyParticipantOptions
 import com.azure.android.communication.calling.TeamsMeetingLinkLocator
 import com.azure.android.communication.calling.VideoDevicesUpdatedListener
@@ -62,7 +60,6 @@ internal class CallingSDKWrapper(
 
     private var videoDevicesUpdatedListener: VideoDevicesUpdatedListener? = null
     private var camerasCountStateFlow = MutableStateFlow(0)
-    private var lobby: Lobby? = null
 
     private val callConfig: CallConfiguration
         get() {
@@ -155,7 +152,7 @@ internal class CallingSDKWrapper(
     override fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?> {
         val future = CompletableFuture<CallCompositeLobbyErrorCode?>()
         val options = AdmitLobbyParticipantOptions()
-        lobby?.admitAll(options)?.whenComplete { _, error ->
+        nullableCall?.lobby?.admitAll(options)?.whenComplete { _, error ->
             if (error != null) {
                 var errorCode = CallCompositeLobbyErrorCode.UNKNOWN_ERROR
                 if (error.cause is CallingCommunicationException) {
@@ -174,7 +171,7 @@ internal class CallingSDKWrapper(
         val options = AdmitLobbyParticipantOptions()
         var participant = nullableCall?.remoteParticipants?.find { it.identifier.rawId.equals(userIdentifier) }
         participant?.let {
-            lobby?.admit(listOf(it.identifier), options)?.whenComplete { _, error ->
+            nullableCall?.lobby?.admit(listOf(it.identifier), options)?.whenComplete { _, error ->
                 if (error != null) {
                     var errorCode = CallCompositeLobbyErrorCode.UNKNOWN_ERROR
                     if (error.cause is CallingCommunicationException) {
@@ -194,7 +191,7 @@ internal class CallingSDKWrapper(
 
         var participant = nullableCall?.remoteParticipants?.find { it.identifier.rawId.equals(userIdentifier) }
         participant?.let {
-            lobby?.reject(it.identifier, RejectLobbyParticipantOptions())?.whenComplete { _, error ->
+            nullableCall?.lobby?.reject(it.identifier, RejectLobbyParticipantOptions())?.whenComplete { _, error ->
                 if (error != null) {
                     var errorCode = CallCompositeLobbyErrorCode.UNKNOWN_ERROR
                     if (error.cause is CallingCommunicationException) {
@@ -407,7 +404,6 @@ internal class CallingSDKWrapper(
         videoOptions?.let { joinCallOptions.videoOptions = videoOptions }
 
         nullableCall = agent.join(context, joinMeetingLocator, joinCallOptions)
-        lobby = (nullableCall as CallBase).lobby
         callingSDKEventHandler.onJoinCall(call)
     }
 
@@ -523,7 +519,6 @@ internal class CallingSDKWrapper(
     }
 
     private fun cleanupResources() {
-        lobby = null
         videoDevicesUpdatedListener?.let {
             deviceManagerCompletableFuture?.get()?.removeOnCamerasUpdatedListener(it)
         }
