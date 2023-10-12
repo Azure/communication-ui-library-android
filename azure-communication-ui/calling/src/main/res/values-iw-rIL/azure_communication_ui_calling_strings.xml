@@ -104,18 +104,18 @@
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">הצטרפת לשיחה</string>
 
     <!-- Call Diagnostics -->
-    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Network was lost</string>
-    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">Reconnecting...</string>
-    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">Network quality is low</string>
-    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">You are muted</string>
-    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">Microphone isn\'t working as expected</string>
-    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">Unable to start camera</string>
-    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">Camera stopped working</string>
-    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">Speaker isn\'t working as expected</string>
-    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">Unable to locate speaker</string>
-    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">Unable to locate microphone</string>
-    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">Speaker is muted</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">הרשת אבדה</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">מתחבר מחדש...</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">איכות הרשת נמוכה</string>
+    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">אתה מושתק</string>
+    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">המיקרופון אינו פועל כצפוי</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">לא ניתן להפעיל את המצלמה</string>
+    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">המצלמה הפסיקה לפעול</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">הרמקול אינו פועל כצפוי</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">לא ניתן לאתר את הרמקול</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">לא ניתן לאתר את המיקרופון</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">הרמקול מושתק</string>
 
     <!--    Upper Message Bar Notification -->
-    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Dismiss</string>
+    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">בטל</string>
 </resources>
