@@ -354,7 +354,7 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     private fun subscribeCamerasCountUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
-            callingService.getCamerasCountStateFlow()?.collect {
+            callingService.getCamerasCountStateFlow().collect {
                 store.dispatch(LocalParticipantAction.CamerasCountUpdated(it))
             }
         }
@@ -362,7 +362,7 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     private fun subscribeIsMutedUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
-            callingService.getIsMutedSharedFlow()?.collect {
+            callingService.getIsMutedSharedFlow().collect {
                 val action = if (it) {
                     LocalParticipantAction.AudioStateOperationUpdated(AudioOperationalStatus.OFF)
                 } else {
