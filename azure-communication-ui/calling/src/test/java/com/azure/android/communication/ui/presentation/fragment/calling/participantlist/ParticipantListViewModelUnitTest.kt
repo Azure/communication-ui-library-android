@@ -587,7 +587,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
     }
 
     @Test
-    fun participantListViewModel_update_then_remoteParticipantListCellStateFlowReflectsUpdate_showOnlyConnectedAndLobbyParticipants() {
+    fun participantListViewModel_update_then_remoteParticipantListCellStateFlowReflectsUpdate_showHoldAndConnectedAndLobbyParticipants() {
         runScopedTest {
 
             // arrange
@@ -608,7 +608,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                         it.displayName,
                         it.isMuted,
                         it.userIdentifier,
-                        false,
+                        it.participantStatus == ParticipantStatus.HOLD,
                         status = ParticipantStatus.CONNECTED
                     )
                 }
@@ -625,16 +625,6 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 speakingTimestamp = 3232,
                 status = ParticipantStatus.IN_LOBBY
             )
-            val expectedUpdatedRemoteParticipantList: List<ParticipantListCellModel> =
-                updatedRemoteParticipantsMap.values.map {
-                    ParticipantListCellModel(
-                        it.displayName,
-                        it.isMuted,
-                        it.userIdentifier,
-                        false,
-                        status = it.participantStatus
-                    )
-                }
             updatedRemoteParticipantsMap["user2"] = getParticipantInfoModel(
                 "user two",
                 "user2",
@@ -643,7 +633,27 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 cameraVideoStreamModel = VideoStreamModel("video_stream_2", StreamType.VIDEO),
                 modifiedTimestamp = 111,
                 speakingTimestamp = 222,
-                status = ParticipantStatus.CONNECTING
+                status = ParticipantStatus.HOLD
+            )
+            val expectedUpdatedRemoteParticipantList: List<ParticipantListCellModel> =
+                updatedRemoteParticipantsMap.values.map {
+                    ParticipantListCellModel(
+                        it.displayName,
+                        it.isMuted,
+                        it.userIdentifier,
+                        it.participantStatus == ParticipantStatus.HOLD,
+                        status = it.participantStatus
+                    )
+                }
+            updatedRemoteParticipantsMap["user4"] = getParticipantInfoModel(
+                "user two",
+                "user2",
+                isMuted = true,
+                isSpeaking = true,
+                cameraVideoStreamModel = VideoStreamModel("video_stream_2", StreamType.VIDEO),
+                modifiedTimestamp = 111,
+                speakingTimestamp = 222,
+                status = ParticipantStatus.DISCONNECTED
             )
 
             val localUserState = LocalUserState(
