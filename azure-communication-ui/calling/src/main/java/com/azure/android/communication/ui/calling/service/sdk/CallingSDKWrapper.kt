@@ -151,6 +151,7 @@ internal class CallingSDKWrapper(
 
     override fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?> {
         val future = CompletableFuture<CallCompositeLobbyErrorCode?>()
+        if (lobbyNullCheck(future)) return future
         val options = AdmitLobbyParticipantOptions()
         nullableCall?.lobby?.admitAll(options)?.whenComplete { _, error ->
             if (error != null) {
@@ -168,6 +169,7 @@ internal class CallingSDKWrapper(
 
     override fun admit(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
         val future = CompletableFuture<CallCompositeLobbyErrorCode?>()
+        if (lobbyNullCheck(future)) return future
         val options = AdmitLobbyParticipantOptions()
         var participant = nullableCall?.remoteParticipants?.find { it.identifier.rawId.equals(userIdentifier) }
         participant?.let {
@@ -186,22 +188,31 @@ internal class CallingSDKWrapper(
         return future
     }
 
+    private fun lobbyNullCheck(future: CompletableFuture<CallCompositeLobbyErrorCode?>): Boolean {
+        if (nullableCall == null || nullableCall?.lobby == null) {
+            future.complete(CallCompositeLobbyErrorCode.UNKNOWN_ERROR)
+            return true
+        }
+        return false
+    }
+
     override fun decline(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
         val future = CompletableFuture<CallCompositeLobbyErrorCode?>()
-
+        if (lobbyNullCheck(future)) return future
         var participant = nullableCall?.remoteParticipants?.find { it.identifier.rawId.equals(userIdentifier) }
         participant?.let {
-            nullableCall?.lobby?.reject(it.identifier, RejectLobbyParticipantOptions())?.whenComplete { _, error ->
-                if (error != null) {
-                    var errorCode = CallCompositeLobbyErrorCode.UNKNOWN_ERROR
-                    if (error.cause is CallingCommunicationException) {
-                        errorCode = getLobbyErrorCode(error.cause as CallingCommunicationException)
+            nullableCall?.lobby?.reject(it.identifier, RejectLobbyParticipantOptions())
+                ?.whenComplete { _, error ->
+                    if (error != null) {
+                        var errorCode = CallCompositeLobbyErrorCode.UNKNOWN_ERROR
+                        if (error.cause is CallingCommunicationException) {
+                            errorCode = getLobbyErrorCode(error.cause as CallingCommunicationException)
+                        }
+                        future.complete(errorCode)
+                    } else {
+                        future.complete(null)
                     }
-                    future.complete(errorCode)
-                } else {
-                    future.complete(null)
                 }
-            }
         }
         return future
     }
