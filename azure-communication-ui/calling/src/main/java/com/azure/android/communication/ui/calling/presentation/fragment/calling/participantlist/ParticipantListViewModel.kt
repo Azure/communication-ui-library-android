@@ -61,8 +61,8 @@ internal class ParticipantListViewModel(private val dispatch: (Action) -> Unit) 
         it: ParticipantListCellModel,
         canShowLobby: Boolean,
     ) = (
-        it.status == ParticipantStatus.CONNECTED ||
-            (it.status == ParticipantStatus.IN_LOBBY && canShowLobby)
+        it.status != ParticipantStatus.DISCONNECTED &&
+            if (it.status == ParticipantStatus.IN_LOBBY) canShowLobby else true
         )
 
     fun displayParticipantList() {

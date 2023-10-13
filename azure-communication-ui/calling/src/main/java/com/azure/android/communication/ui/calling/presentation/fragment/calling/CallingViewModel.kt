@@ -92,7 +92,7 @@ internal class CallingViewModel(
         )
 
         participantListViewModel.init(
-            remoteParticipantsForGridView,
+            state.remoteParticipantState.participantMap,
             state.localParticipantState,
             canShowLobby(state.localParticipantState.localParticipantRole, state.pipState.status)
         )
@@ -259,8 +259,8 @@ internal class CallingViewModel(
 
     private fun remoteParticipantsForGridView(participants: Map<String, ParticipantInfoModel>): Map<String, ParticipantInfoModel> =
         participants.filter {
-            it.value.participantStatus == ParticipantStatus.CONNECTED ||
-                it.value.participantStatus == ParticipantStatus.HOLD
+            it.value.participantStatus != ParticipantStatus.DISCONNECTED &&
+                it.value.participantStatus != ParticipantStatus.IN_LOBBY
         }
 
     private fun shouldUpdateRemoteParticipantsViewModels(state: ReduxState) =
