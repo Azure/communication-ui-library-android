@@ -21,13 +21,13 @@ class CallingCompositeBaselineUiTest : BaseUiTest() {
     val screenLockRule = RunWhenScreenOffOrLockedRule()
 
     @Test
-    fun testJoinTeamsCallWithVideoEnabled() {
-        joinTeamsCall()
+    fun testJoinTeamsCallWithVideoDisabled() {
+        joinTeamsCall(false)
     }
 
     @Test
-    fun testJoinTeamsCallWithVideoDisabled() {
-        joinTeamsCall(false)
+    fun testJoinTeamsCallWithVideoEnabled() {
+        joinTeamsCall()
     }
 
     @Test

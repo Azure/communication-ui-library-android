@@ -76,7 +76,7 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
         accessoryImageView.contentDescription = bottomCellItem.accessoryImageDescription
         accessoryImageView.visibility =
             if (isAccessoryImageViewable(bottomCellItem)) View.VISIBLE else View.INVISIBLE
-        additionalText.visibility = if (bottomCellItem.isOnHold) View.VISIBLE else View.INVISIBLE
+        additionalText.visibility = if (bottomCellItem.isOnHold == true) View.VISIBLE else View.INVISIBLE
     }
 
     private fun isAccessoryImageViewable(bottomCellItem: BottomCellItem): Boolean {
@@ -86,7 +86,7 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
             .getString(R.string.azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label)
 
         return (
-            !bottomCellItem.isOnHold && (
+            bottomCellItem.isOnHold == false && (
                 bottomCellItem.enabled == true || bottomCellItem.accessoryImageDescription == muteDescription ||
                     bottomCellItem.accessoryImageDescription == unMutedDescription
                 )

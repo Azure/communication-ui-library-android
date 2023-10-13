@@ -3,10 +3,10 @@
 
 package com.azure.android.communication.ui.calling.redux.middleware.handler
 
-import com.azure.android.communication.ui.calling.error.ErrorCode
-import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.calling.error.CallCompositeError
+import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.FatalError
+import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
@@ -50,6 +50,9 @@ internal interface CallingMiddlewareActionHandler {
     fun callSetupWithSkipSetupScreen(store: Store<ReduxState>)
     fun exit(store: Store<ReduxState>)
     fun dispose()
+    fun admitAll(store: Store<ReduxState>)
+    fun admit(userIdentifier: String, store: Store<ReduxState>)
+    fun decline(userIdentifier: String, store: Store<ReduxState>)
 }
 
 internal class CallingMiddlewareActionHandlerImpl(
@@ -130,6 +133,36 @@ internal class CallingMiddlewareActionHandlerImpl(
     override fun dispose() {
         coroutineScope.cancel()
         callingService.dispose()
+    }
+
+    override fun admitAll(store: Store<ReduxState>) {
+        callingService.admitAll().whenComplete { lobbyErrorCode, _ ->
+            if (lobbyErrorCode != null) {
+                store.dispatch(
+                    ParticipantAction.LobbyError(lobbyErrorCode)
+                )
+            }
+        }
+    }
+
+    override fun admit(userIdentifier: String, store: Store<ReduxState>) {
+        callingService.admit(userIdentifier).whenComplete { lobbyErrorCode, _ ->
+            if (lobbyErrorCode != null) {
+                store.dispatch(
+                    ParticipantAction.LobbyError(lobbyErrorCode)
+                )
+            }
+        }
+    }
+
+    override fun decline(userIdentifier: String, store: Store<ReduxState>) {
+        callingService.decline(userIdentifier).whenComplete { lobbyErrorCode, _ ->
+            if (lobbyErrorCode != null) {
+                store.dispatch(
+                    ParticipantAction.LobbyError(lobbyErrorCode)
+                )
+            }
+        }
     }
 
     override fun exit(store: Store<ReduxState>) {
@@ -234,6 +267,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         subscribeCallIdUpdate(store)
         subscribeCamerasCountUpdate(store)
         subscribeDominantSpeakersUpdate(store)
+        subscribeOnLocalParticipantRoleChanged(store)
 
         callingService.startCall(
             store.getCurrentState().localParticipantState.cameraState,
@@ -356,7 +390,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         store: Store<ReduxState>,
     ) {
         coroutineScope.launch {
-            callingService.getDominantSpeakersSharedFlow().collect {
+            callingService.getDominantSpeakersSharedFlow()?.collect {
                 if (isActive) {
                     store.dispatch(ParticipantAction.DominantSpeakersUpdated(it))
                 }
@@ -366,8 +400,17 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     private fun subscribeIsRecordingUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
-            callingService.getIsRecordingSharedFlow().collect {
+            callingService.getIsRecordingSharedFlow()?.collect {
                 val action = CallingAction.IsRecordingUpdated(it)
+                store.dispatch(action)
+            }
+        }
+    }
+
+    private fun subscribeOnLocalParticipantRoleChanged(store: Store<ReduxState>) {
+        coroutineScope.launch {
+            callingService.getLocalParticipantRoleSharedFlow()?.collect {
+                val action = LocalParticipantAction.RoleChanged(it)
                 store.dispatch(action)
             }
         }
@@ -375,7 +418,7 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     private fun subscribeIsTranscribingUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
-            callingService.getIsTranscribingSharedFlow().collect {
+            callingService.getIsTranscribingSharedFlow()?.collect {
                 val action = CallingAction.IsTranscribingUpdated(it)
                 store.dispatch(action)
             }

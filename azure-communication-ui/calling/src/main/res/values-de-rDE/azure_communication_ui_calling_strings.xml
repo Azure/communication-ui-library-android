@@ -103,4 +103,32 @@
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s ist der Besprechung beigetreten</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s hat die Besprechung verlassen</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">Sie sind dem Anruf beigetreten.</string>
+
+    <!--    Participant list-->
+    <string name="azure_communication_ui_calling_participant_list_in_call_n_people">Im Anruf (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">Im Wartebereich (%1$d)</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Doppeltippen, um Teilnehmer zuzulassen/abzulehnen</string>
+
+    <!--    Admit participant dialog-->
+    <string name="azure_communication_ui_calling_admit_name">%1$s zulassen?</string>
+    <string name="azure_communication_ui_calling_admit">Hineinlassen</string>
+    <string name="azure_communication_ui_calling_decline">Ablehnen</string>
+    <string name="azure_communication_ui_calling_admit_all">Alle zulassen</string>
+
+    <!--    Lobby header-->
+    <string name="azure_communication_ui_calling_lobby_header_text">Personen warten darauf, beizutreten</string>
+    <string name="azure_communication_ui_calling_lobby_header_icon_content_description">Wartebereich</string>
+    <string name="azure_communication_ui_calling_lobby_header_view_participant_button">Wartebereich anzeigen</string>
+    <string name="azure_communication_ui_calling_lobby_header_accessibility_label">Wartebereich anzeigen</string>
+    <string name="azure_communication_ui_calling_lobby_header_close_description">Wartebereich schließen</string>
+
+    <!--    Lobby error header-->
+    <string name="azure_communication_ui_calling_lobby_header_error_close_description">Fehler beim Schließen des Wartebereichs</string>
+    <string name="azure_communication_ui_calling_lobby_error_content_description">Wartebereichsfehler</string>
+    <string name="azure_communication_ui_calling_error_lobby_disabled_by_configuration">Wartebereich wurde deaktiviert</string>
+    <string name="azure_communication_ui_calling_error_lobby_conversation_type_not_supported">Wartebereich wird nicht unterstützt</string>
+    <string name="azure_communication_ui_calling_error_lobby_meeting_role_not_allowded">Ihre Rolle kann nicht auf den Wartebereich reagieren</string>
+    <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">Fehler beim Ablehnen.</string>
+    <string name="azure_communication_ui_calling_error_lobby_unknown">Fehler bei Wartebereichsaktion</string>
+
 </resources>

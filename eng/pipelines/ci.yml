@@ -26,6 +26,18 @@ steps:
     Service: 'e312ec77-9c77-48a7-9837-32fe6d08d460'
     BuildOutputUsage: 'test'
 
+- task: ms-devlabs.utilitytasks.task-Shellpp.Shell++@0
+  displayName: 'Private aad feed settings'
+  inputs:
+    type: InlineScript
+    script: |
+     cd azure-communication-ui
+     echo MAVEN_REPO_NAME=$(MAVEN_REPO_NAME) >> local.properties
+     echo MAVEN_REPO_USERNAME=$(MAVEN_REPO_USERNAME) >> local.properties
+     echo MAVEN_REPO_URL=$(MAVEN_REPO_URL) >> local.properties
+     echo MAVEN_REPO_KEY=$(MAVEN_REPO_KEY) >> local.properties
+     cd ..
+
 # By default, JAVA_HOME points to java1.8, but we need java11 for the current Android Gradle plugin.
 # macos-12 image comes iwth java11 preinstalled, so use that instead.
 - task: JavaToolInstaller@0
@@ -43,6 +55,15 @@ steps:
     gradleWrapperFile: 'azure-communication-ui/gradlew'
     gradleOptions: '-Xmx3072m'
     tasks: 'ktlintCheck'
+
+- task: Gradle@2
+  displayName: 'build all'
+  inputs:
+    workingDirectory: 'azure-communication-ui/calling'
+    gradleWrapperFile: 'azure-communication-ui/gradlew'
+    gradleOptions: '-Xmx3072m'
+    publishJUnitResults: false
+    tasks: 'build --stacktrace'
 
 # Build task runs assemble and test for all variants.
 # For now, avoid doing this for 'demo-app' - it'll need to be signed, etc.
@@ -67,13 +88,13 @@ steps:
     tasks: ':chat:build --stacktrace'
 
 - task: Gradle@2
-  displayName: 'demo-app assembleDebug'
+  displayName: 'build (compile, lint, test)'
   inputs:
     workingDirectory: 'azure-communication-ui'
     gradleWrapperFile: 'azure-communication-ui/gradlew'
     gradleOptions: '-Xmx3072m'
     publishJUnitResults: false
-    tasks: ':demo-app:assembleDebug --stacktrace'
+    tasks: 'build --stacktrace'
 
 - task: Gradle@2
   displayName: 'Coverage report for all packages'
@@ -88,7 +109,7 @@ steps:
   displayName: 'Calling - Publish code coverage report'
   inputs:
     summaryFileLocation: $(System.DefaultWorkingDirectory)/azure-communication-ui/build/reports/coverage/test/debug/report.xml
-    reportDirectory: $(System.DefaultWorkingDirectory)/azure-communication-ui/build/reports/coverage/test/debug/index.html
+    reportDirectory: $(System.DefaultWorkingDirectory)/azure-communication-ui/build/reports/coverage/test/debug
     
 - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
   displayName: 'Component Detection'

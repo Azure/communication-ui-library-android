@@ -35,7 +35,7 @@ buildscript {
             azure_calling_sdk_version = privateDropProps.getProperty('PRIVATE_DROP_VERSION', '""')
         }
         else {
-            azure_calling_sdk_version = '2.6.0.beta-1'
+            azure_calling_sdk_version = '2.7.0-preview.1.5'
         }
 
         // while modifying this version, make sure to modify in ChatContainer
@@ -100,13 +100,14 @@ allprojects {
         maven {
             url "https://pkgs.dev.azure.com/MicrosoftDeviceSDK/DuoSDK-Public/_packaging/Duo-SDK-Feed/maven/v1"
         }
-        if (localProps.containsKey('GITHUB_MAVEN_REPO_URL')) {
+        // to publish to github/azure maven repo
+        if (localProps.containsKey('MAVEN_REPO_URL')) {
             maven {
-                name = 'privateGitHubRepo'
-                url = localProps.getProperty('GITHUB_MAVEN_REPO_URL', '""')
+                name = localProps.getProperty('MAVEN_REPO_NAME', '""')
+                url = localProps.getProperty('MAVEN_REPO_URL', '""')
                 credentials {
-                    username localProps.getProperty('GITHUB_MAVEN_REPO_USERNAME', '""')
-                    password localProps.getProperty('GITHUB_MAVEN_REPO_PASSWORD', '""')
+                    username localProps.getProperty('MAVEN_REPO_USERNAME', '""')
+                    password localProps.getProperty('MAVEN_REPO_KEY', '""')
                 }
             }
         }

@@ -103,4 +103,32 @@
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s 已加入会议</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s 已离开会议。</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">你已加入通话</string>
+
+    <!--    Participant list-->
+    <string name="azure_communication_ui_calling_participant_list_in_call_n_people">在通话中 (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">在大厅中 (%1$d)</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">双击以允许/拒绝参与者</string>
+
+    <!--    Admit participant dialog-->
+    <string name="azure_communication_ui_calling_admit_name">允许 %1$s?</string>
+    <string name="azure_communication_ui_calling_admit">允许</string>
+    <string name="azure_communication_ui_calling_decline">拒绝</string>
+    <string name="azure_communication_ui_calling_admit_all">全部允许</string>
+
+    <!--    Lobby header-->
+    <string name="azure_communication_ui_calling_lobby_header_text">人员正在等待加入</string>
+    <string name="azure_communication_ui_calling_lobby_header_icon_content_description">大厅</string>
+    <string name="azure_communication_ui_calling_lobby_header_view_participant_button">查看大厅</string>
+    <string name="azure_communication_ui_calling_lobby_header_accessibility_label">查看大厅</string>
+    <string name="azure_communication_ui_calling_lobby_header_close_description">关闭大厅</string>
+
+    <!--    Lobby error header-->
+    <string name="azure_communication_ui_calling_lobby_header_error_close_description">关闭大厅错误</string>
+    <string name="azure_communication_ui_calling_lobby_error_content_description">大厅错误</string>
+    <string name="azure_communication_ui_calling_error_lobby_disabled_by_configuration">大厅已禁用</string>
+    <string name="azure_communication_ui_calling_error_lobby_conversation_type_not_supported">不支持大厅</string>
+    <string name="azure_communication_ui_calling_error_lobby_meeting_role_not_allowded">你的角色无法在大厅中操作</string>
+    <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">拒绝失败</string>
+    <string name="azure_communication_ui_calling_error_lobby_unknown">大厅操作错误</string>
+
 </resources>

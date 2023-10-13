@@ -115,9 +115,10 @@ internal class LeaveConfirmView(
                     null,
                     null,
                     false,
-                ) {
-                    viewModel.confirm()
-                },
+                    onClickAction = {
+                        viewModel.confirm()
+                    }
+                ),
 
                 // Cancel
                 BottomCellItem(
@@ -133,9 +134,10 @@ internal class LeaveConfirmView(
                     null,
                     null,
                     false,
-                ) {
-                    cancelLeaveConfirm()
-                },
+                    onClickAction = {
+                        cancelLeaveConfirm()
+                    },
+                )
             )
             return bottomCellItems
         }
