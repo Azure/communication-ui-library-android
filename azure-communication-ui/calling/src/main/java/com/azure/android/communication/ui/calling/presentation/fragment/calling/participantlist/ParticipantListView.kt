@@ -190,24 +190,24 @@ internal class ParticipantListView(
             val finalName =
                 getNameToDisplay(remoteParticipantViewData, remoteParticipant.displayName)
 
-            if (remoteParticipant.status == ParticipantStatus.CONNECTED) {
-                bottomCellItemsInCallParticipants.add(
-                    generateBottomCellItem(
-                        finalName.ifEmpty { context.getString(R.string.azure_communication_ui_calling_view_participant_drawer_unnamed) },
-                        remoteParticipant.isMuted,
-                        remoteParticipantViewData,
-                        remoteParticipant.isOnHold,
-                        remoteParticipant.userIdentifier,
-                        remoteParticipant.status
-                    )
-                )
-            } else if (remoteParticipant.status == ParticipantStatus.IN_LOBBY) {
+            if (remoteParticipant.status == ParticipantStatus.IN_LOBBY) {
                 bottomCellItemsInLobbyParticipants.add(
                     generateBottomCellItem(
                         finalName.ifEmpty { context.getString(R.string.azure_communication_ui_calling_view_participant_drawer_unnamed) },
                         null,
                         remoteParticipantViewData,
                         null,
+                        remoteParticipant.userIdentifier,
+                        remoteParticipant.status
+                    )
+                )
+            } else if (remoteParticipant.status != ParticipantStatus.DISCONNECTED) {
+                bottomCellItemsInCallParticipants.add(
+                    generateBottomCellItem(
+                        finalName.ifEmpty { context.getString(R.string.azure_communication_ui_calling_view_participant_drawer_unnamed) },
+                        remoteParticipant.isMuted,
+                        remoteParticipantViewData,
+                        remoteParticipant.isOnHold,
                         remoteParticipant.userIdentifier,
                         remoteParticipant.status
                     )
