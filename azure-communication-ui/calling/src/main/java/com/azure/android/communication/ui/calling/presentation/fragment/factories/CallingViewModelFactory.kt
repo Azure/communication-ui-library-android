@@ -14,6 +14,8 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyHeaderViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.WaitingLobbyOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser.LocalParticipantViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
@@ -47,6 +49,14 @@ internal class CallingViewModelFactory(
 
     val lobbyHeaderViewModel by lazy {
         LobbyHeaderViewModel()
+    }
+
+    val upperMessageBarNotificationLayoutViewModel by lazy {
+        UpperMessageBarNotificationLayoutViewModel()
+    }
+
+    val toastNotificationViewModel by lazy {
+        ToastNotificationViewModel()
     }
 
     val audioDeviceListViewModel by lazy {

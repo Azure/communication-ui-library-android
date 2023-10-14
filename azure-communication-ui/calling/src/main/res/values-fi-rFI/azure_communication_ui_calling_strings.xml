@@ -131,4 +131,19 @@
     <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">Hylkääminen epäonnistui</string>
     <string name="azure_communication_ui_calling_error_lobby_unknown">Odotustilan toimintovirhe</string>
 
+    <!-- Call Diagnostics -->
+    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Verkkoyhteys katkesi</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">Yhdistetään uudelleen...</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">Verkkoyhteyden laatu on huono</string>
+    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">Sinut on mykistetty</string>
+    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">Mikrofoni ei toimi odotetulla tavalla</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">Kameraa ei voi käynnistää</string>
+    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">Kamera lakkasi toimimasta</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">Kaiutin ei toimi odotetulla tavalla</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">Kaiutinta ei löydy</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">Mikrofonia ei löydy</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">Kaiuttimesi on vaimennettu</string>
+
+    <!--    Upper Message Bar Notification -->
+    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Hylkää</string>
 </resources>

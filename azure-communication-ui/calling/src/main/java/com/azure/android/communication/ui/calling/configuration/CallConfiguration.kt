@@ -22,6 +22,7 @@ internal data class CallConfiguration(
     val roomId: String?,
     val roomRoleHint: CallCompositeParticipantRole?,
     val callType: CallType,
+    val enableCallDiagnostics: Boolean,
 ) {
     val diagnosticConfig = DiagnosticConfig()
 }

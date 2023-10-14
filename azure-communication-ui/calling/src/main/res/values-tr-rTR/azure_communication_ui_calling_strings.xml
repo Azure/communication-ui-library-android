@@ -131,4 +131,19 @@
     <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">Reddedilemedi</string>
     <string name="azure_communication_ui_calling_error_lobby_unknown">Lobi eylemi hatası</string>
 
+    <!-- Call Diagnostics -->
+    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Ağ bağlantısı kesildi</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">Yeniden bağlanıyor...</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">Ağ kalitesi düşük</string>
+    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">Sesiniz kapatıldı</string>
+    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">Mikrofon beklendiği gibi çalışmıyor</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">Kamera başlatılamıyor</string>
+    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">Kamera çalışmayı durdurdu</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">Hoparlör beklendiği gibi çalışmıyor</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">Hoparlör bulunamıyor</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">Mikrofon bulunamıyor</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">Hoparlörün sesi kapatıldı</string>
+
+    <!--    Upper Message Bar Notification -->
+    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Kapat</string>
 </resources>

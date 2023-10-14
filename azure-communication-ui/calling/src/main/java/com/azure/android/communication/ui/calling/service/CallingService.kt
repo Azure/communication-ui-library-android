@@ -7,6 +7,9 @@ import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.calling.models.CallInfoModel
+import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
@@ -43,6 +46,12 @@ internal class CallingService(
     private var callInfoModelSharedFlow = MutableSharedFlow<CallInfoModel>()
     private var callIdStateFlow = MutableStateFlow<String?>(null)
     private var callingStatus: CallingStatus = CallingStatus.NONE
+
+    //region Call Diagnostics
+    private val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
+    private val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
+    private val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+    //endregion
 
     fun turnCameraOn(): CompletableFuture<String> {
         return callingSdk.turnOnVideoAsync().thenApply { stream ->
@@ -117,6 +126,20 @@ internal class CallingService(
         return isTranscribingSharedFlow
     }
 
+    //region Call Diagnostics
+    fun getNetworkQualityCallDiagnosticsFlow() : Flow<NetworkQualityCallDiagnosticModel> {
+        return networkQualityCallDiagnosticsSharedFlow
+    }
+
+    fun getNetworkCallDiagnosticsFlow() : Flow<NetworkCallDiagnosticModel> {
+        return networkCallDiagnosticsSharedFlow
+    }
+
+    fun getMediaCallDiagnosticsFlow() : Flow<MediaCallDiagnosticModel> {
+        return mediaCallDiagnosticsSharedFlow
+    }
+    //endregion
+
     fun getCamerasCountStateFlow() = callingSdk.getCamerasCountStateFlow()
 
     fun endCall(): CompletableFuture<Void> {
@@ -179,6 +202,26 @@ internal class CallingService(
                 isTranscribingSharedFlow.emit(it)
             }
         }
+
+        //region Call Diagnostics
+        coroutineScope.launch {
+            callingSdk.getNetworkQualityCallDiagnosticSharedFlow().collect {
+                networkQualityCallDiagnosticsSharedFlow.emit(it)
+            }
+        }
+
+        coroutineScope.launch {
+            callingSdk.getNetworkCallDiagnosticSharedFlow().collect {
+                networkCallDiagnosticsSharedFlow.emit(it)
+            }
+        }
+
+        coroutineScope.launch {
+            callingSdk.getMediaCallDiagnosticSharedFlow().collect {
+                mediaCallDiagnosticsSharedFlow.emit(it)
+            }
+        }
+        //endregion
 
         coroutineScope.launch {
             callingSdk.getDominantSpeakersSharedFlow().collect {
