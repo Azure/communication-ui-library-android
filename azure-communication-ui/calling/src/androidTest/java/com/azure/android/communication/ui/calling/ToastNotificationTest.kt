@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.calling
 
 import com.azure.android.communication.BaseUiTest
 import com.azure.android.communication.assertDisplayed
-import com.azure.android.communication.assertNotDisplayed
 import com.azure.android.communication.assertViewText
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.tapWhenDisplayed

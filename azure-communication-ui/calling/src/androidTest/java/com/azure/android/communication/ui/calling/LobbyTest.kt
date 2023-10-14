@@ -102,7 +102,8 @@ internal class LobbyTest : BaseUiTest() {
         waitUntilDisplayed(lobbyHeaderId)
 
         // assert lobby header is displayed
-        assertViewText(lobbyHeaderText, appContext!!.getString(R.string.azure_communication_ui_calling_lobby_header_text))
+        assertViewText(lobbyHeaderText, R.string.azure_communication_ui_calling_lobby_header_text)
+
 
         callingSDK.removeParticipant("ACS User 2")
 
@@ -208,9 +209,7 @@ internal class LobbyTest : BaseUiTest() {
 
         // assert error text
         assertViewText(
-            lobbyErrorHeaderText,
-            appContext!!.getString(R.string.azure_communication_ui_calling_error_lobby_meeting_role_not_allowded)
-        )
+            lobbyErrorHeaderText, R.string.azure_communication_ui_calling_error_lobby_meeting_role_not_allowded)
 
         // close lobby error header
         tapWhenDisplayed(lobbyErrorHeaderCloseButton)
@@ -383,10 +382,7 @@ internal class LobbyTest : BaseUiTest() {
         waitUntilDisplayed(lobbyErrorHeaderId)
 
         // assert error text
-        assertViewText(
-            lobbyErrorHeaderText,
-            appContext!!.getString(errorUIId)
-        )
+        assertViewText(lobbyErrorHeaderText, errorUIId)
 
         // close lobby error header
         tapWhenDisplayed(lobbyErrorHeaderCloseButton)
