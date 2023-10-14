@@ -14,7 +14,6 @@ import com.azure.android.communication.waitUntilDisplayed
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
-
 internal class UpperBarMessageNotificationTest : BaseUiTest() {
     @Test
     fun testNoSpeakerDevicesAvailableUpperBarMessageNotification() = runTest {

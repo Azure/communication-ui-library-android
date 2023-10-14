@@ -2589,6 +2589,9 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val camerasCountUpdatedStateFlow = MutableStateFlow(2)
             val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
             val localParticipantRoleSharedFlow = MutableSharedFlow<CallCompositeInternalParticipantRole?>()
+            val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
+            val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
+            val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2601,6 +2604,9 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
                 on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
                 on { getLocalParticipantRoleSharedFlow() } doReturn localParticipantRoleSharedFlow
+                on { getNetworkQualityCallDiagnosticsFlow() } doReturn networkQualityCallDiagnosticsSharedFlow
+                on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
+                on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
             }
 
             val handler = CallingMiddlewareActionHandlerImpl(

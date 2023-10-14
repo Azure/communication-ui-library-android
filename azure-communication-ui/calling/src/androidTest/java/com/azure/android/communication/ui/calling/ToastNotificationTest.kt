@@ -11,8 +11,6 @@ import com.azure.android.communication.tapWhenDisplayed
 import com.azure.android.communication.waitUntilDisplayed
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
-
-
 internal class ToastNotificationTest : BaseUiTest() {
     @Test
     fun testShowLowNetworkReceiveQualityToastNotification() = runTest {

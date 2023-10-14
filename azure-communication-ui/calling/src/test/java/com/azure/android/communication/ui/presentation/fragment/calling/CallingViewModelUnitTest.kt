@@ -647,6 +647,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockMoreCallOptionsListViewModel = mock<MoreCallOptionsListViewModel>()
             val mockNetworkManager = mock<NetworkManager>()
             val mockLocalParticipantViewModel = mock<LocalParticipantViewModel> { }
+            val mockToastNotificationViewModel = mock<ToastNotificationViewModel>()
+            val mockUpperMessageBarNotificationLayoutViewModel = mock<UpperMessageBarNotificationLayoutViewModel>()
 
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { participantGridViewModel } doAnswer { mockParticipantGridViewModel }
@@ -663,6 +665,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 on { moreCallOptionsListViewModel } doAnswer { mockMoreCallOptionsListViewModel }
                 on { lobbyHeaderViewModel } doAnswer { mockLobbyHeaderViewModel }
                 on { lobbyErrorHeaderViewModel } doAnswer { mockLobbyErrorHeaderViewModel }
+                on { toastNotificationViewModel } doAnswer { mockToastNotificationViewModel }
+                on { upperMessageBarNotificationLayoutViewModel } doAnswer { mockUpperMessageBarNotificationLayoutViewModel }
             }
 
             val callingViewModel = CallingViewModel(
@@ -850,6 +854,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         val mockMoreCallOptionsListViewModel = mock<MoreCallOptionsListViewModel>()
         val mockNetworkManager = mock<NetworkManager>()
         val mockLocalParticipantViewModel = mock<LocalParticipantViewModel> { }
+        val mockToastNotificationViewModel = mock<ToastNotificationViewModel>()
+        val mockUpperMessageBarNotificationLayoutViewModel = mock<UpperMessageBarNotificationLayoutViewModel>()
 
         val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
             on { participantGridViewModel } doAnswer { mockParticipantGridViewModel }
@@ -866,6 +872,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             on { moreCallOptionsListViewModel } doAnswer { mockMoreCallOptionsListViewModel }
             on { lobbyHeaderViewModel } doAnswer { mockLobbyHeaderViewModel }
             on { lobbyErrorHeaderViewModel } doAnswer { mockLobbyErrorHeaderViewModel }
+            on { toastNotificationViewModel } doAnswer { mockToastNotificationViewModel }
+            on { upperMessageBarNotificationLayoutViewModel } doAnswer { mockUpperMessageBarNotificationLayoutViewModel }
         }
 
         val callingViewModel = CallingViewModel(
@@ -997,6 +1005,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         val mockOnHoldOverlayViewModel = mock<OnHoldOverlayViewModel>()
         val mockMoreCallOptionsListViewModel = mock<MoreCallOptionsListViewModel>()
         val mockNetworkManager = mock<NetworkManager>()
+        val mockToastNotificationViewModel = mock<ToastNotificationViewModel>()
+        val mockUpperMessageBarNotificationLayoutViewModel = mock<UpperMessageBarNotificationLayoutViewModel>()
 
         val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
             on { participantGridViewModel } doAnswer { mockParticipantGridViewModel }
@@ -1013,6 +1023,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             on { moreCallOptionsListViewModel } doAnswer { mockMoreCallOptionsListViewModel }
             on { lobbyHeaderViewModel } doAnswer { mockLobbyHeaderViewModel }
             on { lobbyErrorHeaderViewModel } doAnswer { mockLobbyErrorHeaderViewModel }
+            on { toastNotificationViewModel } doAnswer { mockToastNotificationViewModel }
+            on { upperMessageBarNotificationLayoutViewModel } doAnswer { mockUpperMessageBarNotificationLayoutViewModel }
         }
 
         val callingViewModel = CallingViewModel(

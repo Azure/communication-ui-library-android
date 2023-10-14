@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.service.sdk
 
-import android.util.Log
 import com.azure.android.communication.calling.Call
 import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.DiagnosticFlagChangedListener

@@ -185,17 +185,17 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     }
 
     suspend fun setLowNetworkRecieveQuality(lowNetworkReceiveQuality: Boolean) {
-        val model = NetworkQualityCallDiagnosticModel(NetworkCallDiagnostic.NETWORK_RECEIVE_QUALITY, if (lowNetworkReceiveQuality) CallDiagnosticQuality.BAD else CallDiagnosticQuality.GOOD )
+        val model = NetworkQualityCallDiagnosticModel(NetworkCallDiagnostic.NETWORK_RECEIVE_QUALITY, if (lowNetworkReceiveQuality) CallDiagnosticQuality.BAD else CallDiagnosticQuality.GOOD)
         networkQualityCallDiagnosticSharedFlow.emit(model)
     }
 
     suspend fun setLowNetworkSendQuality(lowNetworkSendQuality: Boolean) {
-        val model = NetworkQualityCallDiagnosticModel(NetworkCallDiagnostic.NETWORK_SEND_QUALITY, if (lowNetworkSendQuality) CallDiagnosticQuality.BAD else CallDiagnosticQuality.GOOD )
+        val model = NetworkQualityCallDiagnosticModel(NetworkCallDiagnostic.NETWORK_SEND_QUALITY, if (lowNetworkSendQuality) CallDiagnosticQuality.BAD else CallDiagnosticQuality.GOOD)
         networkQualityCallDiagnosticSharedFlow.emit(model)
     }
 
     suspend fun setLowNetworkReconnectionQuality(lowNetworkReconnectionQuality: Boolean) {
-        val model = NetworkQualityCallDiagnosticModel(NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY, if (lowNetworkReconnectionQuality) CallDiagnosticQuality.BAD else CallDiagnosticQuality.GOOD )
+        val model = NetworkQualityCallDiagnosticModel(NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY, if (lowNetworkReconnectionQuality) CallDiagnosticQuality.BAD else CallDiagnosticQuality.GOOD)
         networkQualityCallDiagnosticSharedFlow.emit(model)
     }
 

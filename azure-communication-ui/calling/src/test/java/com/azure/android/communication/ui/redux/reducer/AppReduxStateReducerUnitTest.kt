@@ -73,7 +73,7 @@ internal class AppReduxStateReducerUnitTest {
 
     @Mock
     private lateinit var pipReducer: PipReducerImpl
-    
+
     @Mock
     private lateinit var mockCallDiagnosticsReducerImpl: CallDiagnosticsReducerImpl
 
@@ -177,8 +177,8 @@ internal class AppReduxStateReducerUnitTest {
                 action
             )
         ).thenReturn(state.pipState)
-        
-        Mockito.`when`(    
+
+        Mockito.`when`(
             mockCallDiagnosticsReducerImpl.reduce(
                 state.callDiagnosticsState,
                 action

@@ -43,7 +43,7 @@ internal class UpperMessageBarNotificationLayoutView : LinearLayout {
                         null
                     ) as UpperMessageBarNotificationView
                     val upperMessageBarNotificationViewModel = UpperMessageBarNotificationViewModel()
-                    upperMessageBarNotificationViewModel.init (it) { upperMessageBarNotificationLayoutViewModel.dismissNotification(it.mediaCallDiagnostic) }
+                    upperMessageBarNotificationViewModel.init(it) { upperMessageBarNotificationLayoutViewModel.dismissNotification(it.mediaCallDiagnostic) }
                     upperMessageBarNotificationView.start(
                         viewLifecycleOwner,
                         upperMessageBarNotificationViewModel,

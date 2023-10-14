@@ -127,15 +127,15 @@ internal class CallingService(
     }
 
     //region Call Diagnostics
-    fun getNetworkQualityCallDiagnosticsFlow() : Flow<NetworkQualityCallDiagnosticModel> {
+    fun getNetworkQualityCallDiagnosticsFlow(): Flow<NetworkQualityCallDiagnosticModel> {
         return networkQualityCallDiagnosticsSharedFlow
     }
 
-    fun getNetworkCallDiagnosticsFlow() : Flow<NetworkCallDiagnosticModel> {
+    fun getNetworkCallDiagnosticsFlow(): Flow<NetworkCallDiagnosticModel> {
         return networkCallDiagnosticsSharedFlow
     }
 
-    fun getMediaCallDiagnosticsFlow() : Flow<MediaCallDiagnosticModel> {
+    fun getMediaCallDiagnosticsFlow(): Flow<MediaCallDiagnosticModel> {
         return mediaCallDiagnosticsSharedFlow
     }
     //endregion
