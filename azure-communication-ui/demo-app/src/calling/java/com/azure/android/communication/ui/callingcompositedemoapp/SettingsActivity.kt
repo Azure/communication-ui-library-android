@@ -104,7 +104,7 @@ class SettingsActivity : AppCompatActivity() {
         updateMicOnByDefaultCheckbox()
 
         updateCameraOnByDefaultCheckbox()
-        
+
         updateEndCallOnDefaultCheckBox()
 
         relaunchCompositeOnExitCheckbox()
@@ -360,7 +360,7 @@ class SettingsActivity : AppCompatActivity() {
             DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE
         )
     }
-    
+
     private fun updateEndCallOnDefaultCheckBox() {
         endCallOnDefaultCheckBox.isChecked = sharedPreference.getBoolean(
             END_CALL_ON_BY_DEFAULT_KEY,
