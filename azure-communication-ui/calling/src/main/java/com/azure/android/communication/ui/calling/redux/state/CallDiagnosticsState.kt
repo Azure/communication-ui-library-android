@@ -8,8 +8,8 @@ import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticMo
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
 
 internal data class CallDiagnosticsState(
-    val networkQualityCallDiagnostic : NetworkQualityCallDiagnosticModel?,
-    val networkCallDiagnostic : NetworkCallDiagnosticModel?,
-    val mediaCallDiagnostic : MediaCallDiagnosticModel?
+    val networkQualityCallDiagnostic: NetworkQualityCallDiagnosticModel?,
+    val networkCallDiagnostic: NetworkCallDiagnosticModel?,
+    val mediaCallDiagnostic: MediaCallDiagnosticModel?
 
 )

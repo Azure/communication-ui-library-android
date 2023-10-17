@@ -40,7 +40,7 @@ internal class CallDiagnosticModel<DiagnosticKind, DiagnosticValue>(
     var diagnosticValue: DiagnosticValue
 )
 
-/// Alias types representing different types of Call Diagnostics
+// Alias types representing different types of Call Diagnostics
 internal typealias NetworkQualityCallDiagnosticModel = CallDiagnosticModel<NetworkCallDiagnostic, CallDiagnosticQuality>
 internal typealias NetworkCallDiagnosticModel = CallDiagnosticModel<NetworkCallDiagnostic, Boolean>
 internal typealias MediaCallDiagnosticModel = CallDiagnosticModel<MediaCallDiagnostic, Boolean>
