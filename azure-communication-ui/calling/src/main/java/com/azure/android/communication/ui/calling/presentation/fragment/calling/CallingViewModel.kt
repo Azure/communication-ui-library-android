@@ -165,7 +165,6 @@ internal class CallingViewModel(
             )
             floatingHeaderViewModel.dismiss()
             toastNotificationViewModel.dismiss()
-            upperMessageBarNotificationLayoutViewModel.dismissAllNotifications()
             participantListViewModel.closeParticipantList()
             localParticipantViewModel.update(
                 state.localParticipantState.displayName,

@@ -39,7 +39,7 @@ internal class UpperMessageBarNotificationLayoutViewModel(private val dispatch: 
                         R.string.azure_communication_ui_calling_diagnostics_unable_to_locate_speaker,
                         MediaCallDiagnostic.NO_SPEAKER_DEVICES_AVAILABLE,
                     )
-                    addNewNotitfication(upperMessageBarNotificationModel)
+                    addNewNotification(upperMessageBarNotificationModel)
                 } else if (mediaDiagnosticNotificationViewModels[MediaCallDiagnostic.NO_SPEAKER_DEVICES_AVAILABLE] != null &&
                     !callDiagnosticsState.mediaCallDiagnostic.diagnosticValue
                 ) {
@@ -55,7 +55,7 @@ internal class UpperMessageBarNotificationLayoutViewModel(private val dispatch: 
                         R.string.azure_communication_ui_calling_diagnostics_unable_to_locate_microphone,
                         MediaCallDiagnostic.NO_MICROPHONE_DEVICES_AVAILABLE
                     )
-                    addNewNotitfication(upperMessageBarNotificationModel)
+                    addNewNotification(upperMessageBarNotificationModel)
                 } else if (mediaDiagnosticNotificationViewModels[MediaCallDiagnostic.NO_MICROPHONE_DEVICES_AVAILABLE] != null &&
                     !callDiagnosticsState.mediaCallDiagnostic.diagnosticValue
                 ) {
@@ -71,7 +71,7 @@ internal class UpperMessageBarNotificationLayoutViewModel(private val dispatch: 
                         R.string.azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected,
                         MediaCallDiagnostic.MICROPHONE_NOT_FUNCTIONING
                     )
-                    addNewNotitfication(upperMessageBarNotificationModel)
+                    addNewNotification(upperMessageBarNotificationModel)
                 } else if (mediaDiagnosticNotificationViewModels[MediaCallDiagnostic.MICROPHONE_NOT_FUNCTIONING] != null &&
                     !callDiagnosticsState.mediaCallDiagnostic.diagnosticValue
                 ) {
@@ -87,7 +87,7 @@ internal class UpperMessageBarNotificationLayoutViewModel(private val dispatch: 
                         R.string.azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected,
                         MediaCallDiagnostic.SPEAKER_NOT_FUNCTIONING
                     )
-                    addNewNotitfication(upperMessageBarNotificationModel)
+                    addNewNotification(upperMessageBarNotificationModel)
                 } else if (mediaDiagnosticNotificationViewModels[MediaCallDiagnostic.SPEAKER_NOT_FUNCTIONING] != null &&
                     !callDiagnosticsState.mediaCallDiagnostic.diagnosticValue
                 ) {
@@ -103,7 +103,7 @@ internal class UpperMessageBarNotificationLayoutViewModel(private val dispatch: 
                         R.string.azure_communication_ui_calling_diagnostics_speaker_muted,
                         MediaCallDiagnostic.SPEAKER_MUTED
                     )
-                    addNewNotitfication(upperMessageBarNotificationModel)
+                    addNewNotification(upperMessageBarNotificationModel)
                 } else if (mediaDiagnosticNotificationViewModels[MediaCallDiagnostic.SPEAKER_MUTED] != null &&
                     !callDiagnosticsState.mediaCallDiagnostic.diagnosticValue
                 ) {
@@ -114,7 +114,7 @@ internal class UpperMessageBarNotificationLayoutViewModel(private val dispatch: 
         }
     }
 
-    private fun addNewNotitfication(upperMessageBarNotificationModel: UpperMessageBarNotificationModel) {
+    private fun addNewNotification(upperMessageBarNotificationModel: UpperMessageBarNotificationModel) {
         val upperMessageNotificationViewModel = UpperMessageBarNotificationViewModel(
             dispatch,
             upperMessageBarNotificationModel
@@ -127,11 +127,5 @@ internal class UpperMessageBarNotificationLayoutViewModel(private val dispatch: 
         val upperMessageBarNotificationViewModel = mediaDiagnosticNotificationViewModels[mediaCallDiagnostic]
         upperMessageBarNotificationViewModel?.dismissNotification()
         mediaDiagnosticNotificationViewModels.remove(mediaCallDiagnostic)
-    }
-
-    fun dismissAllNotifications() {
-        mediaDiagnosticNotificationViewModels.forEach { (key, value) ->
-            dismissNotification(key)
-        }
     }
 }

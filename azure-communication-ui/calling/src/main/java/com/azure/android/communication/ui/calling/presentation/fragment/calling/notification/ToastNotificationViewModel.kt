@@ -98,7 +98,7 @@ internal class ToastNotificationViewModel {
         toastNotificationModel.notificationIconId = notificationIconId
         toastNotificationModel.notificationMessageId = notificationMessageId
         toastNotificationModelMessageFlow.value = toastNotificationModel
-
+        timer = Timer()
         timer.schedule(
             object : TimerTask() {
                 override fun run() {
