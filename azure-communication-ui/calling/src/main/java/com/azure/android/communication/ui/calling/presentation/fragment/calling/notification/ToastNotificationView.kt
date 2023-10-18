@@ -29,11 +29,11 @@ internal class ToastNotificationView : ConstraintLayout {
     override fun onFinishInflate() {
         super.onFinishInflate()
         toastNotificationLayout = this
-        toastNotificationView = findViewById(R.id.azure_communication_ui_toast_notification)
+        toastNotificationView = findViewById(R.id.azure_communication_ui_calling_toast_notification)
         toastNotificationMessageTextView =
-            findViewById(R.id.azure_communication_ui_toast_notification_message)
+            findViewById(R.id.azure_communication_ui_calling_toast_notification_message)
         toastNotificationIconImageView =
-            findViewById(R.id.azure_communication_ui_toast_notification_icon)
+            findViewById(R.id.azure_communication_ui_calling_toast_notification_icon)
     }
 
     fun start(

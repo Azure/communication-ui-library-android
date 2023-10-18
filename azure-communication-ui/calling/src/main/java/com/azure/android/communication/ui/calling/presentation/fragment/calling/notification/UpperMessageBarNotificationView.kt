@@ -31,13 +31,13 @@ internal class UpperMessageBarNotificationView : ConstraintLayout {
     override fun onFinishInflate() {
         super.onFinishInflate()
         upperMessageBarNotificationLayout = this
-        upperMessageBarNotificationView = findViewById(R.id.azure_communication_ui_upper_message_bar_notification)
+        upperMessageBarNotificationView = findViewById(R.id.azure_communication_ui_calling_upper_message_bar_notification)
         upperMessageBarNotificationMessage =
-            findViewById(R.id.azure_communication_ui_upper_message_bar_notification_message)
+            findViewById(R.id.azure_communication_ui_calling_upper_message_bar_notification_message)
         upperMessageBarNotificationIconImageView =
-            findViewById(R.id.azure_communication_ui_upper_message_bar_notification_icon)
+            findViewById(R.id.azure_communication_ui_calling_upper_message_bar_notification_icon)
         dismissImageButton =
-            findViewById(R.id.azure_communication_ui_upper_message_bar_notification_dismiss_button)
+            findViewById(R.id.azure_communication_ui_calling_upper_message_bar_notification_dismiss_button)
         dismissImageButton.setOnClickListener {
             upperMessageBarNotificationViewModel.dismissNotification()
         }
