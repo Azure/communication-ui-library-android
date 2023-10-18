@@ -33,6 +33,8 @@ import com.azure.android.communication.ui.calling.CallComposite;
 public final class CallCompositeLocalOptions {
     private CallCompositeParticipantViewData participantViewData = null;
     private CallCompositeSetupScreenViewData setupScreenViewData = null;
+
+    private boolean audioOnly = false;
     private boolean cameraOn = false;
     private boolean microphoneOn = false;
     private boolean skipSetupScreen = false;
@@ -78,6 +80,20 @@ public final class CallCompositeLocalOptions {
      */
     public CallCompositeSetupScreenViewData getSetupScreenViewData() {
         return setupScreenViewData;
+    }
+
+    /**
+     * Sets Composite to be in "Audio Only" mode.
+     * @param audioOnly
+     * @return
+     */
+    public CallCompositeLocalOptions setAudioOnly(final boolean audioOnly) {
+        this.audioOnly = audioOnly;
+        return this;
+    }
+
+    public boolean isAudioOnly() {
+        return this.audioOnly;
     }
 
     /**
