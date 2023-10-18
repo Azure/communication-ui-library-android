@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.configuration
 
+import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.calling.DiagnosticConfig
 import java.util.UUID
@@ -10,6 +11,7 @@ import java.util.UUID
 internal enum class CallType {
     GROUP_CALL,
     TEAMS_MEETING,
+    ONE_ON_ONE_CALL
 }
 
 internal data class CallConfiguration(
@@ -18,6 +20,7 @@ internal data class CallConfiguration(
     val groupId: UUID?,
     val meetingLink: String?,
     val callType: CallType,
+    val participants: List<CommunicationIdentifier>? = null
 ) {
     val diagnosticConfig = DiagnosticConfig()
 }
