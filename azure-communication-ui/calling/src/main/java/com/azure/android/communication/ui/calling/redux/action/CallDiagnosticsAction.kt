@@ -11,4 +11,6 @@ internal sealed class CallDiagnosticsAction : Action {
     class NetworkQualityCallDiagnosticsUpdated(val networkQualityUpdated: NetworkQualityCallDiagnosticModel) : CallDiagnosticsAction()
     class NetworkCallDiagnosticsUpdated(val networkUpdated: NetworkCallDiagnosticModel) : CallDiagnosticsAction()
     class MediaCallDiagnosticsUpdated(val mediaUpdated: MediaCallDiagnosticModel) : CallDiagnosticsAction()
+
+    class MediaCallDiagnosticsDismissed(val mediaDiagnosticDismissed: MediaCallDiagnosticModel) : CallDiagnosticsAction()
 }

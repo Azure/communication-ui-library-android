@@ -11,5 +11,4 @@ internal data class CallDiagnosticsState(
     val networkQualityCallDiagnostic: NetworkQualityCallDiagnosticModel?,
     val networkCallDiagnostic: NetworkCallDiagnosticModel?,
     val mediaCallDiagnostic: MediaCallDiagnosticModel?
-
 )

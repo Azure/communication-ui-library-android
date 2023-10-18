@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -39,7 +40,7 @@ internal class UpperMessageBarNotificationView : ConstraintLayout {
         dismissImageButton =
             findViewById(R.id.azure_communication_ui_calling_upper_message_bar_notification_dismiss_button)
         dismissImageButton.setOnClickListener {
-            upperMessageBarNotificationViewModel.dismissNotification()
+            upperMessageBarNotificationViewModel.dismissNotificationByUser()
         }
     }
 
@@ -62,6 +63,15 @@ internal class UpperMessageBarNotificationView : ConstraintLayout {
                         )
                     )
                     upperMessageBarNotificationMessage.text = context.getString(it.notificationMessageId)
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            upperMessageBarNotificationViewModel.getDismissUpperMessageBarNotificationFlow()?.collect() {
+                if (it) {
+                    val viewGroup = upperMessageBarNotificationLayout.parent as ViewGroup
+                    viewGroup.removeView(upperMessageBarNotificationLayout)
                 }
             }
         }

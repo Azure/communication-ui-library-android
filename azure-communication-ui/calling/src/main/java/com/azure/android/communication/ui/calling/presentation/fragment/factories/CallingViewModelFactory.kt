@@ -45,7 +45,7 @@ internal class CallingViewModelFactory(
     }
 
     val upperMessageBarNotificationLayoutViewModel by lazy {
-        UpperMessageBarNotificationLayoutViewModel()
+        UpperMessageBarNotificationLayoutViewModel(store::dispatch)
     }
 
     val toastNotificationViewModel by lazy {

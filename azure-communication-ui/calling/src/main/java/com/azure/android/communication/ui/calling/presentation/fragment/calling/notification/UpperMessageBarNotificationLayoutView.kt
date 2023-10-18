@@ -36,32 +36,21 @@ internal class UpperMessageBarNotificationLayoutView : LinearLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             upperMessageBarNotificationLayoutViewModel.getNewUpperMessageBarNotificationFlow()?.collect() {
-                if (!it.isEmpty()) {
+                if (!it.upperMessageBarNotificationModel.isEmpty()) {
                     val upperMessageBarNotificationView: UpperMessageBarNotificationView = inflate(
                         context,
                         R.layout.azure_communication_ui_calling_upper_message_bar_notification,
                         null
                     ) as UpperMessageBarNotificationView
-                    val upperMessageBarNotificationViewModel = UpperMessageBarNotificationViewModel()
-                    upperMessageBarNotificationViewModel.init(it) { upperMessageBarNotificationLayoutViewModel.dismissNotification(it.mediaCallDiagnostic) }
                     upperMessageBarNotificationView.start(
                         viewLifecycleOwner,
-                        upperMessageBarNotificationViewModel,
+                        it,
                         accessibilityEnabled
                     )
-                    it.notificationView = upperMessageBarNotificationView
 
                     val layoutParams = LinearLayout.LayoutParams(upperMessageBarNotificationLayout.layoutParams)
                     layoutParams.bottomMargin = (8 * context.resources.displayMetrics.density).toInt()
                     upperMessageBarNotificationLayout.addView(upperMessageBarNotificationView, layoutParams)
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            upperMessageBarNotificationLayoutViewModel.getDismissUpperMessageBarNotificationFlow()?.collect() {
-                if (!it.isEmpty() && it.notificationView != null) {
-                    upperMessageBarNotificationLayout.removeView(it.notificationView)
                 }
             }
         }

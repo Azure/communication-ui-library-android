@@ -3,16 +3,12 @@
 
 package com.azure.android.communication.ui.calling.models
 
-import android.view.View
-
-internal class UpperMessageBarNotificationModel {
-    var notificationIconId: Int = 0
-    var notificationMessageId: Int = 0
-    var notificationView: View? = null
-
-    lateinit var mediaCallDiagnostic: MediaCallDiagnostic
-
+internal class UpperMessageBarNotificationModel(
+    val notificationIconId: Int,
+    val notificationMessageId: Int,
+    val mediaCallDiagnostic: MediaCallDiagnostic?
+) {
     fun isEmpty(): Boolean {
-        return notificationIconId == 0 && notificationMessageId == 0 && notificationView == null
+        return notificationIconId == 0 && notificationMessageId == 0
     }
 }

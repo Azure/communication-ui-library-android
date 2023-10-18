@@ -6,9 +6,11 @@ package com.azure.android.communication.ui.presentation.fragment.calling.notific
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
-import com.azure.android.communication.ui.calling.models.UpperMessageBarNotificationModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationViewModel
+import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.CallDiagnosticsState
+import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -16,6 +18,7 @@ import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
 internal class UpperMessageBarNotificationLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
@@ -29,17 +32,12 @@ internal class UpperMessageBarNotificationLayoutViewModelUnitTest : ACSBaseTestC
         )
         var testCallDiagnosticsState = CallDiagnosticsState(null, null, mediaCallDiagnosticModel)
 
-        // dismiss the notification state
-        var dismissMediaCallDiagnosticModel = MediaCallDiagnosticModel(
-            MediaCallDiagnostic.NO_SPEAKER_DEVICES_AVAILABLE, false
-        )
-        var dismissTestCallDiagnosticsState = CallDiagnosticsState(null, null, dismissMediaCallDiagnosticModel)
-
-        val upperMessageBarNotificationLayoutViewModel = UpperMessageBarNotificationLayoutViewModel()
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+        val upperMessageBarNotificationLayoutViewModel = UpperMessageBarNotificationLayoutViewModel(mockAppStore::dispatch)
 
         runScopedTest {
             // arrange add notification
-            val resultAddUpperMessageBarNotificationLayoutModelMessageFlow = mutableListOf<UpperMessageBarNotificationModel>()
+            val resultAddUpperMessageBarNotificationLayoutModelMessageFlow = mutableListOf<UpperMessageBarNotificationViewModel>()
             var flowJob = launch {
                 upperMessageBarNotificationLayoutViewModel.getNewUpperMessageBarNotificationFlow().toList(resultAddUpperMessageBarNotificationLayoutModelMessageFlow)
             }
@@ -48,21 +46,7 @@ internal class UpperMessageBarNotificationLayoutViewModelUnitTest : ACSBaseTestC
             upperMessageBarNotificationLayoutViewModel.update(testCallDiagnosticsState)
 
             // assert add notification
-            Assert.assertEquals(false, resultAddUpperMessageBarNotificationLayoutModelMessageFlow.last().isEmpty())
-
-            flowJob.cancel()
-
-            // arrange dismiss notification
-            val resultDismissUpperMessageBarNotificationLayoutModelMessageFlow = mutableListOf<UpperMessageBarNotificationModel>()
-            flowJob = launch {
-                upperMessageBarNotificationLayoutViewModel.getDismissUpperMessageBarNotificationFlow().toList(resultDismissUpperMessageBarNotificationLayoutModelMessageFlow)
-            }
-
-            // act dismiss notification
-            upperMessageBarNotificationLayoutViewModel.update(dismissTestCallDiagnosticsState)
-
-            // assert dismiss notification
-            Assert.assertEquals(false, resultDismissUpperMessageBarNotificationLayoutModelMessageFlow.last().isEmpty())
+            Assert.assertEquals(false, resultAddUpperMessageBarNotificationLayoutModelMessageFlow.last().upperMessageBarNotificationModel.isEmpty())
 
             flowJob.cancel()
         }
@@ -77,17 +61,12 @@ internal class UpperMessageBarNotificationLayoutViewModelUnitTest : ACSBaseTestC
         )
         var testCallDiagnosticsState = CallDiagnosticsState(null, null, mediaCallDiagnosticModel)
 
-        // dismiss the notification state
-        var dismissMediaCallDiagnosticModel = MediaCallDiagnosticModel(
-            MediaCallDiagnostic.NO_MICROPHONE_DEVICES_AVAILABLE, false
-        )
-        var dismissTestCallDiagnosticsState = CallDiagnosticsState(null, null, dismissMediaCallDiagnosticModel)
-
-        val upperMessageBarNotificationLayoutViewModel = UpperMessageBarNotificationLayoutViewModel()
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+        val upperMessageBarNotificationLayoutViewModel = UpperMessageBarNotificationLayoutViewModel(mockAppStore::dispatch)
 
         runScopedTest {
             // arrange add notification
-            val resultAddUpperMessageBarNotificationLayoutModelMessageFlow = mutableListOf<UpperMessageBarNotificationModel>()
+            val resultAddUpperMessageBarNotificationLayoutModelMessageFlow = mutableListOf<UpperMessageBarNotificationViewModel>()
             var flowJob = launch {
                 upperMessageBarNotificationLayoutViewModel.getNewUpperMessageBarNotificationFlow().toList(resultAddUpperMessageBarNotificationLayoutModelMessageFlow)
             }
@@ -96,21 +75,7 @@ internal class UpperMessageBarNotificationLayoutViewModelUnitTest : ACSBaseTestC
             upperMessageBarNotificationLayoutViewModel.update(testCallDiagnosticsState)
 
             // assert add notification
-            Assert.assertEquals(false, resultAddUpperMessageBarNotificationLayoutModelMessageFlow.last().isEmpty())
-
-            flowJob.cancel()
-
-            // arrange dismiss notification
-            val resultDismissUpperMessageBarNotificationLayoutModelMessageFlow = mutableListOf<UpperMessageBarNotificationModel>()
-            flowJob = launch {
-                upperMessageBarNotificationLayoutViewModel.getDismissUpperMessageBarNotificationFlow().toList(resultDismissUpperMessageBarNotificationLayoutModelMessageFlow)
-            }
-
-            // act dismiss notification
-            upperMessageBarNotificationLayoutViewModel.update(dismissTestCallDiagnosticsState)
-
-            // assert dismiss notification
-            Assert.assertEquals(false, resultDismissUpperMessageBarNotificationLayoutModelMessageFlow.last().isEmpty())
+            Assert.assertEquals(false, resultAddUpperMessageBarNotificationLayoutModelMessageFlow.last().upperMessageBarNotificationModel.isEmpty())
 
             flowJob.cancel()
         }
@@ -125,17 +90,12 @@ internal class UpperMessageBarNotificationLayoutViewModelUnitTest : ACSBaseTestC
         )
         var testCallDiagnosticsState = CallDiagnosticsState(null, null, mediaCallDiagnosticModel)
 
-        // dismiss the notification state
-        var dismissMediaCallDiagnosticModel = MediaCallDiagnosticModel(
-            MediaCallDiagnostic.MICROPHONE_NOT_FUNCTIONING, false
-        )
-        var dismissTestCallDiagnosticsState = CallDiagnosticsState(null, null, dismissMediaCallDiagnosticModel)
-
-        val upperMessageBarNotificationLayoutViewModel = UpperMessageBarNotificationLayoutViewModel()
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+        val upperMessageBarNotificationLayoutViewModel = UpperMessageBarNotificationLayoutViewModel(mockAppStore::dispatch)
 
         runScopedTest {
             // arrange add notification
-            val resultAddUpperMessageBarNotificationLayoutModelMessageFlow = mutableListOf<UpperMessageBarNotificationModel>()
+            val resultAddUpperMessageBarNotificationLayoutModelMessageFlow = mutableListOf<UpperMessageBarNotificationViewModel>()
             var flowJob = launch {
                 upperMessageBarNotificationLayoutViewModel.getNewUpperMessageBarNotificationFlow().toList(resultAddUpperMessageBarNotificationLayoutModelMessageFlow)
             }
@@ -144,21 +104,7 @@ internal class UpperMessageBarNotificationLayoutViewModelUnitTest : ACSBaseTestC
             upperMessageBarNotificationLayoutViewModel.update(testCallDiagnosticsState)
 
             // assert add notification
-            Assert.assertEquals(false, resultAddUpperMessageBarNotificationLayoutModelMessageFlow.last().isEmpty())
-
-            flowJob.cancel()
-
-            // arrange dismiss notification
-            val resultDismissUpperMessageBarNotificationLayoutModelMessageFlow = mutableListOf<UpperMessageBarNotificationModel>()
-            flowJob = launch {
-                upperMessageBarNotificationLayoutViewModel.getDismissUpperMessageBarNotificationFlow().toList(resultDismissUpperMessageBarNotificationLayoutModelMessageFlow)
-            }
-
-            // act dismiss notification
-            upperMessageBarNotificationLayoutViewModel.update(dismissTestCallDiagnosticsState)
-
-            // assert dismiss notification
-            Assert.assertEquals(false, resultDismissUpperMessageBarNotificationLayoutModelMessageFlow.last().isEmpty())
+            Assert.assertEquals(false, resultAddUpperMessageBarNotificationLayoutModelMessageFlow.last().upperMessageBarNotificationModel.isEmpty())
 
             flowJob.cancel()
         }
@@ -173,17 +119,12 @@ internal class UpperMessageBarNotificationLayoutViewModelUnitTest : ACSBaseTestC
         )
         var testCallDiagnosticsState = CallDiagnosticsState(null, null, mediaCallDiagnosticModel)
 
-        // dismiss the notification state
-        var dismissMediaCallDiagnosticModel = MediaCallDiagnosticModel(
-            MediaCallDiagnostic.SPEAKER_NOT_FUNCTIONING, false
-        )
-        var dismissTestCallDiagnosticsState = CallDiagnosticsState(null, null, dismissMediaCallDiagnosticModel)
-
-        val upperMessageBarNotificationLayoutViewModel = UpperMessageBarNotificationLayoutViewModel()
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+        val upperMessageBarNotificationLayoutViewModel = UpperMessageBarNotificationLayoutViewModel(mockAppStore::dispatch)
 
         runScopedTest {
             // arrange add notification
-            val resultAddUpperMessageBarNotificationLayoutModelMessageFlow = mutableListOf<UpperMessageBarNotificationModel>()
+            val resultAddUpperMessageBarNotificationLayoutModelMessageFlow = mutableListOf<UpperMessageBarNotificationViewModel>()
             var flowJob = launch {
                 upperMessageBarNotificationLayoutViewModel.getNewUpperMessageBarNotificationFlow().toList(resultAddUpperMessageBarNotificationLayoutModelMessageFlow)
             }
@@ -192,21 +133,7 @@ internal class UpperMessageBarNotificationLayoutViewModelUnitTest : ACSBaseTestC
             upperMessageBarNotificationLayoutViewModel.update(testCallDiagnosticsState)
 
             // assert add notification
-            Assert.assertEquals(false, resultAddUpperMessageBarNotificationLayoutModelMessageFlow.last().isEmpty())
-
-            flowJob.cancel()
-
-            // arrange dismiss notification
-            val resultDismissUpperMessageBarNotificationLayoutModelMessageFlow = mutableListOf<UpperMessageBarNotificationModel>()
-            flowJob = launch {
-                upperMessageBarNotificationLayoutViewModel.getDismissUpperMessageBarNotificationFlow().toList(resultDismissUpperMessageBarNotificationLayoutModelMessageFlow)
-            }
-
-            // act dismiss notification
-            upperMessageBarNotificationLayoutViewModel.update(dismissTestCallDiagnosticsState)
-
-            // assert dismiss notification
-            Assert.assertEquals(false, resultDismissUpperMessageBarNotificationLayoutModelMessageFlow.last().isEmpty())
+            Assert.assertEquals(false, resultAddUpperMessageBarNotificationLayoutModelMessageFlow.last().upperMessageBarNotificationModel.isEmpty())
 
             flowJob.cancel()
         }
@@ -221,17 +148,12 @@ internal class UpperMessageBarNotificationLayoutViewModelUnitTest : ACSBaseTestC
         )
         var testCallDiagnosticsState = CallDiagnosticsState(null, null, mediaCallDiagnosticModel)
 
-        // dismiss the notification state
-        var dismissMediaCallDiagnosticModel = MediaCallDiagnosticModel(
-            MediaCallDiagnostic.SPEAKER_MUTED, false
-        )
-        var dismissTestCallDiagnosticsState = CallDiagnosticsState(null, null, dismissMediaCallDiagnosticModel)
-
-        val upperMessageBarNotificationLayoutViewModel = UpperMessageBarNotificationLayoutViewModel()
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+        val upperMessageBarNotificationLayoutViewModel = UpperMessageBarNotificationLayoutViewModel(mockAppStore::dispatch)
 
         runScopedTest {
             // arrange add notification
-            val resultAddUpperMessageBarNotificationLayoutModelMessageFlow = mutableListOf<UpperMessageBarNotificationModel>()
+            val resultAddUpperMessageBarNotificationLayoutModelMessageFlow = mutableListOf<UpperMessageBarNotificationViewModel>()
             var flowJob = launch {
                 upperMessageBarNotificationLayoutViewModel.getNewUpperMessageBarNotificationFlow().toList(resultAddUpperMessageBarNotificationLayoutModelMessageFlow)
             }
@@ -240,21 +162,7 @@ internal class UpperMessageBarNotificationLayoutViewModelUnitTest : ACSBaseTestC
             upperMessageBarNotificationLayoutViewModel.update(testCallDiagnosticsState)
 
             // assert add notification
-            Assert.assertEquals(false, resultAddUpperMessageBarNotificationLayoutModelMessageFlow.last().isEmpty())
-
-            flowJob.cancel()
-
-            // arrange dismiss notification
-            val resultDismissUpperMessageBarNotificationLayoutModelMessageFlow = mutableListOf<UpperMessageBarNotificationModel>()
-            flowJob = launch {
-                upperMessageBarNotificationLayoutViewModel.getDismissUpperMessageBarNotificationFlow().toList(resultDismissUpperMessageBarNotificationLayoutModelMessageFlow)
-            }
-
-            // act dismiss notification
-            upperMessageBarNotificationLayoutViewModel.update(dismissTestCallDiagnosticsState)
-
-            // assert dismiss notification
-            Assert.assertEquals(false, resultDismissUpperMessageBarNotificationLayoutModelMessageFlow.last().isEmpty())
+            Assert.assertEquals(false, resultAddUpperMessageBarNotificationLayoutModelMessageFlow.last().upperMessageBarNotificationModel.isEmpty())
 
             flowJob.cancel()
         }
