@@ -17,6 +17,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
+import com.azure.android.communication.ui.calling.presentation.IVideoViewManager
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRenderer
@@ -40,7 +41,7 @@ internal class ParticipantGridView : GridLayout {
     }
 
     private lateinit var showFloatingHeaderCallBack: () -> Unit
-    private lateinit var videoViewManager: VideoViewManager
+    private lateinit var videoViewManager: IVideoViewManager
     private lateinit var viewLifecycleOwner: LifecycleOwner
     private lateinit var participantGridViewModel: ParticipantGridViewModel
     private lateinit var getVideoStreamCallback: (String, String) -> View?
@@ -57,7 +58,7 @@ internal class ParticipantGridView : GridLayout {
 
     fun start(
         participantGridViewModel: ParticipantGridViewModel,
-        videoViewManager: VideoViewManager,
+        videoViewManager: IVideoViewManager,
         viewLifecycleOwner: LifecycleOwner,
         showFloatingHeader: () -> Unit,
         avatarViewManager: AvatarViewManager,

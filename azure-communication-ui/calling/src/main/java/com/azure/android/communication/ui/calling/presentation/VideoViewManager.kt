@@ -18,11 +18,27 @@ import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRendere
 import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRendererRemoteWrapper
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 
+internal interface IVideoViewManager {
+    fun updateScalingForRemoteStream()
+    fun getScreenShareVideoStreamRenderer(): VideoStreamRenderer?
+    fun destroy()
+    fun removeRemoteParticipantVideoRenderer(
+        userVideoStreams: List<Pair<String, String>>,
+    )
+
+    fun updateLocalVideoRenderer(videoStreamID: String?)
+    fun getLocalVideoRenderer(videoStreamID: String, scalingMode: ScalingMode): View?
+    fun getRemoteVideoStreamRenderer(
+        participantID: String,
+        videoStreamId: String,
+    ): View?
+}
+
 internal class VideoViewManager(
     private val callingSDKWrapper: CallingSDK,
     private val context: Context,
     private val videoStreamRendererFactory: VideoStreamRendererFactory,
-) {
+) : IVideoViewManager {
     private val remoteParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
     private val localParticipantVideoRendererMap: HashMap<String, VideoRenderer> = HashMap()
     private val isAndroidTV = isAndroidTV(context)
@@ -33,7 +49,7 @@ internal class VideoViewManager(
         var isScreenShareView: Boolean,
     )
 
-    fun updateScalingForRemoteStream() {
+    override fun updateScalingForRemoteStream() {
         val remoteParticipants = callingSDKWrapper.getRemoteParticipantsMap()
         // for TV, on new participant join, change first remote participant scaling from fit to crop
         if (isAndroidTV && remoteParticipants.size > 1 && remoteParticipantVideoRendererMap.size == 1) {
@@ -45,7 +61,7 @@ internal class VideoViewManager(
         }
     }
 
-    fun getScreenShareVideoStreamRenderer(): VideoStreamRenderer? {
+    override fun getScreenShareVideoStreamRenderer(): VideoStreamRenderer? {
         remoteParticipantVideoRendererMap.values.forEach {
             if (it.isScreenShareView) {
                 return it.videoStreamRenderer
@@ -54,7 +70,7 @@ internal class VideoViewManager(
         return null
     }
 
-    fun destroy() {
+    override fun destroy() {
         localParticipantVideoRendererMap.values.map { videoRenderer ->
             destroyVideoRenderer(videoRenderer)
         }
@@ -65,7 +81,7 @@ internal class VideoViewManager(
         localParticipantVideoRendererMap.clear()
     }
 
-    fun removeRemoteParticipantVideoRenderer(
+    override fun removeRemoteParticipantVideoRenderer(
         userVideoStreams: List<Pair<String, String>>,
     ) {
         removeRemoteParticipantRenderer(userVideoStreams)
@@ -84,7 +100,7 @@ internal class VideoViewManager(
         }
     }
 
-    fun updateLocalVideoRenderer(videoStreamID: String?) {
+    override fun updateLocalVideoRenderer(videoStreamID: String?) {
         removeLocalParticipantRenderer(videoStreamID)
         if (videoStreamID != null) {
             if (!localParticipantVideoRendererMap.containsKey(videoStreamID)) {
@@ -102,7 +118,7 @@ internal class VideoViewManager(
         }
     }
 
-    fun getLocalVideoRenderer(videoStreamID: String, scalingMode: ScalingMode): View? {
+    override fun getLocalVideoRenderer(videoStreamID: String, scalingMode: ScalingMode): View? {
         var rendererView: VideoStreamRendererView? = null
         if (localParticipantVideoRendererMap.containsKey(videoStreamID)) {
             rendererView = localParticipantVideoRendererMap[videoStreamID]?.rendererView
@@ -114,7 +130,7 @@ internal class VideoViewManager(
         return rendererView?.getView()
     }
 
-    fun getRemoteVideoStreamRenderer(
+    override fun getRemoteVideoStreamRenderer(
         participantID: String,
         videoStreamId: String,
     ): View? {
@@ -236,6 +252,38 @@ internal class VideoViewManager(
         if (view != null && view.parent != null) {
             (view.parent as ViewGroup).removeView(view)
         }
+    }
+}
+
+
+// Stubbed out implementation for Audio Only calls
+internal class VideoViewManagerStubForAudioOnly() : IVideoViewManager {
+    override fun updateScalingForRemoteStream() {
+        // no-op
+    }
+
+    override fun getScreenShareVideoStreamRenderer(): VideoStreamRenderer? {
+        return null;
+    }
+
+    override fun destroy() {
+        // no-op
+    }
+
+    override fun removeRemoteParticipantVideoRenderer(userVideoStreams: List<Pair<String, String>>) {
+        // no-op
+    }
+
+    override fun updateLocalVideoRenderer(videoStreamID: String?) {
+        // no-op
+    }
+
+    override fun getLocalVideoRenderer(videoStreamID: String, scalingMode: ScalingMode): View? {
+        return null;
+    }
+
+    override fun getRemoteVideoStreamRenderer(participantID: String, videoStreamId: String): View? {
+        return null;
     }
 }
 

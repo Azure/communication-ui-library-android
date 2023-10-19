@@ -22,6 +22,7 @@ internal interface CallingMiddleware
 internal class CallingMiddlewareImpl(
     private val callingMiddlewareActionHandler: CallingMiddlewareActionHandler,
     private val logger: Logger,
+    private val isAudioOnly: Boolean
 ) :
     Middleware<ReduxState>,
     CallingMiddleware {
@@ -37,22 +38,27 @@ internal class CallingMiddlewareImpl(
                     callingMiddlewareActionHandler.enterForeground(store)
                 }
                 is LocalParticipantAction.CameraPreviewOnRequested -> {
-                    callingMiddlewareActionHandler.requestCameraPreviewOn(store)
+                    if (!isAudioOnly)
+                        callingMiddlewareActionHandler.requestCameraPreviewOn(store)
                 }
                 is LocalParticipantAction.CameraPreviewOnTriggered -> {
-                    callingMiddlewareActionHandler.turnCameraPreviewOn(store)
+                    if (!isAudioOnly)
+                        callingMiddlewareActionHandler.turnCameraPreviewOn(store)
                 }
                 is LocalParticipantAction.CameraOffTriggered -> {
                     callingMiddlewareActionHandler.turnCameraOff(store)
                 }
                 is LocalParticipantAction.CameraOnRequested -> {
-                    callingMiddlewareActionHandler.requestCameraOn(store)
+                    if (!isAudioOnly)
+                        callingMiddlewareActionHandler.requestCameraOn(store)
                 }
                 is LocalParticipantAction.CameraOnTriggered -> {
-                    callingMiddlewareActionHandler.turnCameraOn(store)
+                    if (!isAudioOnly)
+                        callingMiddlewareActionHandler.turnCameraOn(store)
                 }
                 is LocalParticipantAction.CameraSwitchTriggered -> {
-                    callingMiddlewareActionHandler.switchCamera(store)
+                    if (!isAudioOnly)
+                        callingMiddlewareActionHandler.switchCamera(store)
                 }
                 is LocalParticipantAction.MicOffTriggered -> {
                     callingMiddlewareActionHandler.turnMicOff(store)

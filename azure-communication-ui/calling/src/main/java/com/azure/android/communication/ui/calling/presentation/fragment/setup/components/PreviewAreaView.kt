@@ -11,6 +11,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.presentation.IVideoViewManager
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import kotlinx.coroutines.flow.collect
@@ -21,7 +22,7 @@ internal class PreviewAreaView : ConstraintLayout {
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     private lateinit var viewModel: PreviewAreaViewModel
-    private lateinit var videoViewManager: VideoViewManager
+    private lateinit var videoViewManager: IVideoViewManager
     private lateinit var localParticipantCameraHolder: ConstraintLayout
 
     override fun onFinishInflate() {
@@ -33,7 +34,7 @@ internal class PreviewAreaView : ConstraintLayout {
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         localParticipantRendererViewModel: PreviewAreaViewModel,
-        videoViewManager: VideoViewManager,
+        videoViewManager: IVideoViewManager,
     ) {
 
         this.viewModel = localParticipantRendererViewModel

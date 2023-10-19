@@ -10,6 +10,7 @@ import com.azure.android.communication.ui.calling.error.ErrorHandler
 import com.azure.android.communication.ui.calling.handlers.CallStateHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.logger.Logger
+import com.azure.android.communication.ui.calling.presentation.IVideoViewManager
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
@@ -62,7 +63,7 @@ internal interface DependencyInjectionContainer {
     val audioModeManager: AudioModeManager
 
     // UI
-    val videoViewManager: VideoViewManager
+    val videoViewManager: IVideoViewManager
 
     // Data
     val callHistoryRepository: CallHistoryRepository

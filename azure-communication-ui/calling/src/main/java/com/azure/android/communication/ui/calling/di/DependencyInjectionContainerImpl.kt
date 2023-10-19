@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactory
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactoryImpl
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
+import com.azure.android.communication.ui.calling.presentation.VideoViewManagerStubForAudioOnly
 import com.azure.android.communication.ui.calling.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioModeManager
@@ -90,11 +91,15 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val videoViewManager by lazy {
-        VideoViewManager(
-            callingSDKWrapper,
-            applicationContext,
-            customVideoStreamRendererFactory ?: VideoStreamRendererFactoryImpl()
-        )
+        if (localOptions?.isAudioOnly == true) {
+            VideoViewManagerStubForAudioOnly()
+        } else {
+            VideoViewManager(
+                callingSDKWrapper,
+                applicationContext,
+                customVideoStreamRendererFactory ?: VideoStreamRendererFactoryImpl()
+            )
+        }
     }
 
     override val compositeExitManager by lazy {
@@ -222,7 +227,8 @@ internal class DependencyInjectionContainerImpl(
     private val callingMiddleware: Middleware<ReduxState> by lazy {
         CallingMiddlewareImpl(
             callingMiddlewareActionHandler,
-            logger
+            logger,
+            localOptions?.isAudioOnly ?: false
         )
     }
 

@@ -17,6 +17,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.presentation.IVideoViewManager
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
@@ -32,7 +33,7 @@ internal class LocalParticipantView : ConstraintLayout {
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     private lateinit var viewModel: LocalParticipantViewModel
-    private lateinit var videoViewManager: VideoViewManager
+    private lateinit var videoViewManager: IVideoViewManager
     private lateinit var localParticipantFullCameraHolder: ConstraintLayout
     private lateinit var localParticipantPip: ConstraintLayout
     private lateinit var localPipWrapper: ConstraintLayout
@@ -93,7 +94,7 @@ internal class LocalParticipantView : ConstraintLayout {
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         viewModel: LocalParticipantViewModel,
-        videoViewManager: VideoViewManager,
+        videoViewManager: IVideoViewManager,
         avatarViewManager: AvatarViewManager,
     ) {
 
