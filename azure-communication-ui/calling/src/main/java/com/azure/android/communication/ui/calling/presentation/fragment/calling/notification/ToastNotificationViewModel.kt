@@ -21,6 +21,7 @@ internal class ToastNotificationViewModel {
         MutableStateFlow(ToastNotificationModel())
 
     private var timer: Timer = Timer()
+    private var isPersistentNotificationDisplayed: Boolean = false;
 
     fun getDisplayToastNotificationFlow(): StateFlow<Boolean> = displayToastNotificationFlow
 
@@ -34,9 +35,16 @@ internal class ToastNotificationViewModel {
                 ) {
                     displayToastNotification(
                         R.string.azure_communication_ui_calling_diagnostics_network_quality_low,
-                        R.drawable.azure_communication_ui_calling_ic_fluent_wifi_warning_24_regular
+                        R.drawable.azure_communication_ui_calling_ic_fluent_wifi_warning_24_regular,
+                        false
                     )
+                } else {
+                    if (isPersistentNotificationDisplayed) {
+                        dismiss()
+                    }
                 }
+                isPersistentNotificationDisplayed = callDiagnosticsState.networkQualityCallDiagnostic.diagnosticValue == CallDiagnosticQuality.BAD ||
+                        callDiagnosticsState.networkQualityCallDiagnostic.diagnosticValue == CallDiagnosticQuality.POOR
             }
             NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY -> {
                 if (callDiagnosticsState.networkQualityCallDiagnostic.diagnosticValue == CallDiagnosticQuality.BAD ||
@@ -44,9 +52,16 @@ internal class ToastNotificationViewModel {
                 ) {
                     displayToastNotification(
                         R.string.azure_communication_ui_calling_diagnostics_network_reconnecting,
-                        R.drawable.azure_communication_ui_calling_ic_fluent_wifi_warning_24_regular
+                        R.drawable.azure_communication_ui_calling_ic_fluent_wifi_warning_24_regular,
+                        false
                     )
+                } else {
+                    if (isPersistentNotificationDisplayed) {
+                        dismiss()
+                    }
                 }
+                isPersistentNotificationDisplayed = callDiagnosticsState.networkQualityCallDiagnostic.diagnosticValue == CallDiagnosticQuality.BAD ||
+                        callDiagnosticsState.networkQualityCallDiagnostic.diagnosticValue == CallDiagnosticQuality.POOR
             }
             else -> {}
         }
@@ -70,6 +85,8 @@ internal class ToastNotificationViewModel {
                         R.string.azure_communication_ui_calling_diagnostics_you_are_muted,
                         R.drawable.azure_communication_ui_calling_ic_fluent_mic_off_24_filled
                     )
+                } else if (!isPersistentNotificationDisplayed){
+                    dismiss()
                 }
             }
             MediaCallDiagnostic.CAMERA_START_FAILED, MediaCallDiagnostic.CAMERA_START_TIMED_OUT -> {
@@ -92,20 +109,24 @@ internal class ToastNotificationViewModel {
         }
     }
 
-    private fun displayToastNotification(notificationMessageId: Int, notificationIconId: Int) {
-        displayToastNotificationFlow.value = true
-        val toastNotificationModel = ToastNotificationModel()
-        toastNotificationModel.notificationIconId = notificationIconId
-        toastNotificationModel.notificationMessageId = notificationMessageId
-        toastNotificationModelMessageFlow.value = toastNotificationModel
-        timer = Timer()
-        timer.schedule(
-            object : TimerTask() {
-                override fun run() {
-                    displayToastNotificationFlow.value = false
-                }
-            },
-            4000
-        )
+    private fun displayToastNotification(notificationMessageId: Int, notificationIconId: Int, autoDismiss: Boolean = true) {
+        if (!isPersistentNotificationDisplayed) {
+            displayToastNotificationFlow.value = true
+            val toastNotificationModel = ToastNotificationModel()
+            toastNotificationModel.notificationIconId = notificationIconId
+            toastNotificationModel.notificationMessageId = notificationMessageId
+            toastNotificationModelMessageFlow.value = toastNotificationModel
+            if (autoDismiss) {
+                timer = Timer()
+                timer.schedule(
+                    object : TimerTask() {
+                        override fun run() {
+                            displayToastNotificationFlow.value = false
+                        }
+                    },
+                    4000
+                )
+            }
+        }
     }
 }
