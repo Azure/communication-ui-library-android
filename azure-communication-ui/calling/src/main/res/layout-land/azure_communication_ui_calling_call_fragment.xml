@@ -66,6 +66,9 @@
 
     <include
         layout="@layout/azure_communication_ui_calling_toast_notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/azure_communication_ui_calling_control_bar_view_lands_wrapper"
         app:layout_constraintBottom_toBottomOf="parent" />
