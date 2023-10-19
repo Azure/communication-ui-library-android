@@ -94,22 +94,6 @@ internal class UpperMessageBarNotificationLayoutViewModel(private val dispatch: 
                     dismissNotification(MediaCallDiagnostic.SPEAKER_NOT_FUNCTIONING)
                 }
             }
-            MediaCallDiagnostic.SPEAKER_MUTED, MediaCallDiagnostic.SPEAKER_VOLUME_ZERO -> {
-                if (mediaDiagnosticNotificationViewModels[MediaCallDiagnostic.SPEAKER_MUTED] == null &&
-                    callDiagnosticsState.mediaCallDiagnostic.diagnosticValue
-                ) {
-                    var upperMessageBarNotificationModel = UpperMessageBarNotificationModel(
-                        R.drawable.azure_communication_ui_calling_ic_fluent_speaker_mute_24_regular,
-                        R.string.azure_communication_ui_calling_diagnostics_speaker_muted,
-                        MediaCallDiagnostic.SPEAKER_MUTED
-                    )
-                    addNewNotification(upperMessageBarNotificationModel)
-                } else if (mediaDiagnosticNotificationViewModels[MediaCallDiagnostic.SPEAKER_MUTED] != null &&
-                    !callDiagnosticsState.mediaCallDiagnostic.diagnosticValue
-                ) {
-                    dismissNotification(MediaCallDiagnostic.SPEAKER_MUTED)
-                }
-            }
             else -> {}
         }
     }
