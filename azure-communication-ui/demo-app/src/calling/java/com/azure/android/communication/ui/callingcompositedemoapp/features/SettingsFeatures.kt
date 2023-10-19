@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory
 import android.util.LayoutDirection
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
+import com.azure.android.communication.ui.callingcompositedemoapp.AUDIO_ONLY_VALUE_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.AVATAR_IMAGE
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SUBTITLE
@@ -145,8 +146,12 @@ class SettingsFeatures {
         @JvmStatic
         fun getTitle(): String? = sharedPrefs.getString(CALL_TITLE, null)
 
+
         @JvmStatic
         fun getSubtitle(): String? = sharedPrefs.getString(CALL_SUBTITLE, null)
+
+        @JvmStatic
+        fun isAudioOnly(): Boolean = sharedPrefs.getBoolean(AUDIO_ONLY_VALUE_KEY, false);
 
         @JvmStatic
         fun callScreenOrientation(): String? {

@@ -74,6 +74,7 @@ class CallLauncherViewModel : ViewModel() {
 
         val localOptions = CallCompositeLocalOptions()
             .setParticipantViewData(SettingsFeatures.getParticipantViewData(context.applicationContext))
+            .setAudioOnly(SettingsFeatures.isAudioOnly())
             .setSetupScreenViewData(
                 CallCompositeSetupScreenViewData()
                     .setTitle(SettingsFeatures.getTitle())

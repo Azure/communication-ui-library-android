@@ -141,6 +141,12 @@ class SettingsActivity : AppCompatActivity() {
                         view.isChecked
                     ).apply()
                 }
+                R.id.audio_only_check_box -> {
+                    sharedPreference.edit().putBoolean(
+                        AUDIO_ONLY_VALUE_KEY,
+                        view.isChecked
+                    ).apply()
+                }
                 R.id.remote_avatar_injection_check_box -> {
                     sharedPreference.edit().putBoolean(
                         DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY,
@@ -394,6 +400,7 @@ const val DEFAULT_RTL_VALUE = false
 // Shared pref default values for persona data
 const val RENDERED_DISPLAY_NAME = "RENDERED_DISPLAY_NAME"
 const val AVATAR_IMAGE = "AVATAR_IMAGE"
+const val AUDIO_ONLY_VALUE_KEY = "AUDIO_ONLY_VALUE_KEY"
 const val DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY = "PERSONA_INJECTION_VALUE_PREF_KEY"
 const val REMOTE_PARTICIPANT_PERSONA_INJECTION_VALUE = false
 const val CALL_TITLE = "CALL_TITLE"
