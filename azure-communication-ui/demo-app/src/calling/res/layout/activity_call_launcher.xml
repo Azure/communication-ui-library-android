@@ -62,6 +62,17 @@
             app:layout_constraintTop_toBottomOf="@id/userNameText"
             />
 
+        <RadioButton
+            android:id="@+id/oneToOneRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/one_to_one_call_label"
+            app:layout_constraintStart_toEndOf="@id/teamsMeetingRadioButton"
+            app:layout_constraintTop_toBottomOf="@id/userNameText"
+            />
+
         <EditText
             android:id="@+id/groupIdOrTeamsMeetingLinkText"
             android:layout_width="match_parent"

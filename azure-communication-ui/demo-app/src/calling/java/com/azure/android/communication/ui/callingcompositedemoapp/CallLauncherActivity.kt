@@ -58,6 +58,7 @@ class CallLauncherActivity : AppCompatActivity() {
         val deeplinkName = data?.getQueryParameter("name")
         val deeplinkGroupId = data?.getQueryParameter("groupid")
         val deeplinkTeamsUrl = data?.getQueryParameter("teamsurl")
+        val participantMRI = data?.getQueryParameter("participanturi") ?: BuildConfig.PARTICIPANT_MRI
 
         binding.run {
             if (!deeplinkAcsToken.isNullOrEmpty()) {
@@ -76,10 +77,17 @@ class CallLauncherActivity : AppCompatActivity() {
                 groupIdOrTeamsMeetingLinkText.setText(deeplinkGroupId)
                 groupCallRadioButton.isChecked = true
                 teamsMeetingRadioButton.isChecked = false
+                oneToOneRadioButton.isChecked = false
             } else if (!deeplinkTeamsUrl.isNullOrEmpty()) {
                 groupIdOrTeamsMeetingLinkText.setText(deeplinkTeamsUrl)
                 groupCallRadioButton.isChecked = false
                 teamsMeetingRadioButton.isChecked = true
+                oneToOneRadioButton.isChecked = false
+            } else if (!participantMRI.isNullOrEmpty()) {
+                groupIdOrTeamsMeetingLinkText.setText(participantMRI)
+                groupCallRadioButton.isChecked = false
+                teamsMeetingRadioButton.isChecked = false
+                oneToOneRadioButton.isChecked = true
             } else {
                 groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
             }
@@ -190,12 +198,23 @@ class CallLauncherActivity : AppCompatActivity() {
             }
         }
 
+        var participantMri: String? = null
+        if (binding.oneToOneRadioButton.isChecked) {
+            participantMri = binding.groupIdOrTeamsMeetingLinkText.text.toString()
+            if (participantMri.isBlank()) {
+                val message = "Participant MRI is invalid or empty."
+                showAlert(message)
+                return
+            }
+        }
+
         callLauncherViewModel.launch(
             this@CallLauncherActivity,
             acsToken,
             userName,
             groupId,
             meetingLink,
+            participantMri
         )
     }
 
