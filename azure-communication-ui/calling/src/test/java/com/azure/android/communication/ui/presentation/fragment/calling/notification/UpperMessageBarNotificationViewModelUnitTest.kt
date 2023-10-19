@@ -34,7 +34,7 @@ internal class UpperMessageBarNotificationViewModelUnitTest : ACSBaseTestCorouti
             val upperMessageBarNotificationModel = UpperMessageBarNotificationModel(
                 1,
                 2,
-                MediaCallDiagnostic.SPEAKER_MUTED
+                MediaCallDiagnostic.MICROPHONE_NOT_FUNCTIONING
             )
             val upperMessageBarNotificationViewModel = UpperMessageBarNotificationViewModel(
                 mockAppStore::dispatch,
@@ -50,7 +50,7 @@ internal class UpperMessageBarNotificationViewModelUnitTest : ACSBaseTestCorouti
             // assert
             Assert.assertEquals(1, resultUpperMessageBarNotificationModelMessageFlow.last().notificationIconId)
             Assert.assertEquals(2, resultUpperMessageBarNotificationModelMessageFlow.last().notificationMessageId)
-            Assert.assertEquals(MediaCallDiagnostic.SPEAKER_MUTED, resultUpperMessageBarNotificationModelMessageFlow.last().mediaCallDiagnostic)
+            Assert.assertEquals(MediaCallDiagnostic.MICROPHONE_NOT_FUNCTIONING, resultUpperMessageBarNotificationModelMessageFlow.last().mediaCallDiagnostic)
 
             flowJob.cancel()
         }
@@ -65,7 +65,7 @@ internal class UpperMessageBarNotificationViewModelUnitTest : ACSBaseTestCorouti
             val upperMessageBarNotificationModel = UpperMessageBarNotificationModel(
                 1,
                 2,
-                MediaCallDiagnostic.SPEAKER_MUTED
+                MediaCallDiagnostic.MICROPHONE_NOT_FUNCTIONING
             )
             val upperMessageBarNotificationViewModel = UpperMessageBarNotificationViewModel(
                 mockAppStore::dispatch,
@@ -102,7 +102,7 @@ internal class UpperMessageBarNotificationViewModelUnitTest : ACSBaseTestCorouti
             val upperMessageBarNotificationModel = UpperMessageBarNotificationModel(
                 1,
                 2,
-                MediaCallDiagnostic.SPEAKER_MUTED
+                MediaCallDiagnostic.MICROPHONE_NOT_FUNCTIONING
             )
             val upperMessageBarNotificationViewModel = UpperMessageBarNotificationViewModel(
                 mockAppStore::dispatch,

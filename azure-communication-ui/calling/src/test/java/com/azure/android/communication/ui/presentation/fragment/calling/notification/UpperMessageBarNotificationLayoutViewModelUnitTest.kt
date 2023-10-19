@@ -138,33 +138,4 @@ internal class UpperMessageBarNotificationLayoutViewModelUnitTest : ACSBaseTestC
             flowJob.cancel()
         }
     }
-
-    @ExperimentalCoroutinesApi
-    @Test
-    fun upperMessageBarNotificationLayoutViewModel_update_when_SpeakerMutedTrue_then_addUpperMessageBarNotification_and_dismiss() {
-        // add the notification state
-        var mediaCallDiagnosticModel = MediaCallDiagnosticModel(
-            MediaCallDiagnostic.SPEAKER_MUTED, true
-        )
-        var testCallDiagnosticsState = CallDiagnosticsState(null, null, mediaCallDiagnosticModel)
-
-        val mockAppStore = mock<AppStore<ReduxState>> {}
-        val upperMessageBarNotificationLayoutViewModel = UpperMessageBarNotificationLayoutViewModel(mockAppStore::dispatch)
-
-        runScopedTest {
-            // arrange add notification
-            val resultAddUpperMessageBarNotificationLayoutModelMessageFlow = mutableListOf<UpperMessageBarNotificationViewModel>()
-            var flowJob = launch {
-                upperMessageBarNotificationLayoutViewModel.getNewUpperMessageBarNotificationFlow().toList(resultAddUpperMessageBarNotificationLayoutModelMessageFlow)
-            }
-
-            // act add notification
-            upperMessageBarNotificationLayoutViewModel.update(testCallDiagnosticsState)
-
-            // assert add notification
-            Assert.assertEquals(false, resultAddUpperMessageBarNotificationLayoutModelMessageFlow.last().upperMessageBarNotificationModel.isEmpty())
-
-            flowJob.cancel()
-        }
-    }
 }

@@ -150,38 +150,4 @@ internal class UpperBarMessageNotificationTest : BaseUiTest() {
         // Upper Bar Message Notification not present anymore
         assertNotDisplayed(upperMessageBarNotificationId)
     }
-
-    @Test
-    fun testSpeakerVolumeZeroUpperBarMessageNotification() = runTest {
-        injectDependencies(testScheduler)
-
-        // Launch the UI.
-        launchComposite()
-        tapWhenDisplayed(joinCallId)
-        waitUntilDisplayed(endCallId)
-
-        callingSDK.setSpeakerVolumeZero(true)
-
-        // Check that the upper message bar notification appeared
-        waitUntilDisplayed(upperMessageBarNotificationId)
-
-        // Assert notification appears with correct text
-        assertDisplayed(upperMessageBarNotificationId)
-        assertDisplayed(upperMessageBarNotificationIconId)
-        assertViewText(upperMessageBarNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_speaker_muted)
-
-        callingSDK.setSpeakerVolumeZero(false)
-
-        // Upper Bar Message Notification not present anymore
-        assertNotDisplayed(upperMessageBarNotificationId)
-
-        // Show the Upper Message Bar notification again and dismiss it using the X button
-        callingSDK.setSpeakerVolumeZero(true)
-
-        // Dismiss the notification pressing the X button
-        tap(upperMessageBarNotificationDismissButtonId)
-
-        // Upper Bar Message Notification not present anymore
-        assertNotDisplayed(upperMessageBarNotificationId)
-    }
 }
