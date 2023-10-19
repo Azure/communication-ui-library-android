@@ -21,7 +21,7 @@ internal class ToastNotificationViewModel {
         MutableStateFlow(ToastNotificationModel())
 
     private var timer: Timer = Timer()
-    private var isPersistentNotificationDisplayed: Boolean = false;
+    private var isPersistentNotificationDisplayed: Boolean = false
 
     fun getDisplayToastNotificationFlow(): StateFlow<Boolean> = displayToastNotificationFlow
 
@@ -44,7 +44,7 @@ internal class ToastNotificationViewModel {
                     }
                 }
                 isPersistentNotificationDisplayed = callDiagnosticsState.networkQualityCallDiagnostic.diagnosticValue == CallDiagnosticQuality.BAD ||
-                        callDiagnosticsState.networkQualityCallDiagnostic.diagnosticValue == CallDiagnosticQuality.POOR
+                    callDiagnosticsState.networkQualityCallDiagnostic.diagnosticValue == CallDiagnosticQuality.POOR
             }
             NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY -> {
                 if (callDiagnosticsState.networkQualityCallDiagnostic.diagnosticValue == CallDiagnosticQuality.BAD ||
@@ -61,7 +61,7 @@ internal class ToastNotificationViewModel {
                     }
                 }
                 isPersistentNotificationDisplayed = callDiagnosticsState.networkQualityCallDiagnostic.diagnosticValue == CallDiagnosticQuality.BAD ||
-                        callDiagnosticsState.networkQualityCallDiagnostic.diagnosticValue == CallDiagnosticQuality.POOR
+                    callDiagnosticsState.networkQualityCallDiagnostic.diagnosticValue == CallDiagnosticQuality.POOR
             }
             else -> {}
         }
@@ -85,7 +85,7 @@ internal class ToastNotificationViewModel {
                         R.string.azure_communication_ui_calling_diagnostics_you_are_muted,
                         R.drawable.azure_communication_ui_calling_ic_fluent_mic_off_24_filled
                     )
-                } else if (!isPersistentNotificationDisplayed){
+                } else if (!isPersistentNotificationDisplayed) {
                     dismiss()
                 }
             }
