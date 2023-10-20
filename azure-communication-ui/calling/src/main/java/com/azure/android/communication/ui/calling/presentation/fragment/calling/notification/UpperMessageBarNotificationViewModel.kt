@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.notification
 
 import com.azure.android.communication.ui.calling.models.CallDiagnosticModel
-import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
 import com.azure.android.communication.ui.calling.models.UpperMessageBarNotificationModel
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.CallDiagnosticsAction
@@ -28,7 +27,7 @@ internal class UpperMessageBarNotificationViewModel(
 
     fun dismissNotificationByUser() {
         dismissNotification()
-        val model = CallDiagnosticModel(MediaCallDiagnostic.SPEAKING_WHILE_MICROPHONE_IS_MUTED, false)
+        val model = CallDiagnosticModel(upperMessageBarNotificationModel.mediaCallDiagnostic!!, false)
         dispatch(CallDiagnosticsAction.MediaCallDiagnosticsDismissed(model))
     }
 }

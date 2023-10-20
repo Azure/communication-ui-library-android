@@ -49,7 +49,7 @@ internal class CallingViewModelFactory(
     }
 
     val toastNotificationViewModel by lazy {
-        ToastNotificationViewModel()
+        ToastNotificationViewModel(store::dispatch)
     }
 
     val audioDeviceListViewModel by lazy {

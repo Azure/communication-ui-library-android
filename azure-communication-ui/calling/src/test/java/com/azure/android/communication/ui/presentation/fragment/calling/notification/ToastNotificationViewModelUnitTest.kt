@@ -12,7 +12,9 @@ import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticMo
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.ToastNotificationModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationViewModel
+import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.CallDiagnosticsState
+import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -20,6 +22,7 @@ import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
 internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
@@ -34,7 +37,8 @@ internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val toastNotificationViewModel = ToastNotificationViewModel()
+            val mockAppStore = mock<AppStore<ReduxState>> {}
+            val toastNotificationViewModel = ToastNotificationViewModel(mockAppStore::dispatch)
 
             val resultToastNotificationModelMessageFlow = mutableListOf<ToastNotificationModel>()
             val flowJob = launch {
@@ -61,7 +65,8 @@ internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val toastNotificationViewModel = ToastNotificationViewModel()
+            val mockAppStore = mock<AppStore<ReduxState>> {}
+            val toastNotificationViewModel = ToastNotificationViewModel(mockAppStore::dispatch)
 
             val resultToastNotificationModelMessageFlow = mutableListOf<ToastNotificationModel>()
             val flowJob = launch {
@@ -88,7 +93,8 @@ internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val toastNotificationViewModel = ToastNotificationViewModel()
+            val mockAppStore = mock<AppStore<ReduxState>> {}
+            val toastNotificationViewModel = ToastNotificationViewModel(mockAppStore::dispatch)
 
             val resultToastNotificationModelMessageFlow = mutableListOf<ToastNotificationModel>()
             val flowJob = launch {
@@ -115,7 +121,8 @@ internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val toastNotificationViewModel = ToastNotificationViewModel()
+            val mockAppStore = mock<AppStore<ReduxState>> {}
+            val toastNotificationViewModel = ToastNotificationViewModel(mockAppStore::dispatch)
 
             val resultToastNotificationModelMessageFlow = mutableListOf<ToastNotificationModel>()
             val flowJob = launch {
@@ -142,7 +149,8 @@ internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val toastNotificationViewModel = ToastNotificationViewModel()
+            val mockAppStore = mock<AppStore<ReduxState>> {}
+            val toastNotificationViewModel = ToastNotificationViewModel(mockAppStore::dispatch)
 
             val resultToastNotificationModelMessageFlow = mutableListOf<ToastNotificationModel>()
             val flowJob = launch {
@@ -169,7 +177,8 @@ internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val toastNotificationViewModel = ToastNotificationViewModel()
+            val mockAppStore = mock<AppStore<ReduxState>> {}
+            val toastNotificationViewModel = ToastNotificationViewModel(mockAppStore::dispatch)
 
             val resultToastNotificationModelMessageFlow = mutableListOf<ToastNotificationModel>()
             val flowJob = launch {
@@ -196,7 +205,8 @@ internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val toastNotificationViewModel = ToastNotificationViewModel()
+            val mockAppStore = mock<AppStore<ReduxState>> {}
+            val toastNotificationViewModel = ToastNotificationViewModel(mockAppStore::dispatch)
 
             val resultToastNotificationModelMessageFlow = mutableListOf<ToastNotificationModel>()
             val flowJob = launch {

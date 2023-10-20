@@ -6,19 +6,31 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
+import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnostic
+import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.ToastNotificationModel
+import com.azure.android.communication.ui.calling.redux.action.Action
+import com.azure.android.communication.ui.calling.redux.action.CallDiagnosticsAction
 import com.azure.android.communication.ui.calling.redux.state.CallDiagnosticsState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.util.Timer
 import java.util.TimerTask
 
-internal class ToastNotificationViewModel {
+internal class ToastNotificationViewModel(private val dispatch: (Action) -> Unit) {
     private var displayToastNotificationFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     private var toastNotificationModelMessageFlow: MutableStateFlow<ToastNotificationModel> =
-        MutableStateFlow(ToastNotificationModel())
+        MutableStateFlow(
+            ToastNotificationModel(
+                0,
+                0,
+                null,
+                null
+            )
+        )
 
     private var timer: Timer = Timer()
     private var isPersistentNotificationDisplayed: Boolean = false
@@ -33,9 +45,15 @@ internal class ToastNotificationViewModel {
                 if (callDiagnosticsState.networkQualityCallDiagnostic.diagnosticValue == CallDiagnosticQuality.BAD ||
                     callDiagnosticsState.networkQualityCallDiagnostic.diagnosticValue == CallDiagnosticQuality.POOR
                 ) {
-                    displayToastNotification(
-                        R.string.azure_communication_ui_calling_diagnostics_network_quality_low,
+                    val toastNotificationModel = ToastNotificationModel(
                         R.drawable.azure_communication_ui_calling_ic_fluent_wifi_warning_24_regular,
+                        R.string.azure_communication_ui_calling_diagnostics_network_quality_low,
+                        if (callDiagnosticsState.networkQualityCallDiagnostic?.diagnosticKind == NetworkCallDiagnostic.NETWORK_RECEIVE_QUALITY)
+                            NetworkCallDiagnostic.NETWORK_RECEIVE_QUALITY else NetworkCallDiagnostic.NETWORK_SEND_QUALITY,
+                        null
+                    )
+                    displayToastNotification(
+                        toastNotificationModel,
                         false
                     )
                 } else {
@@ -50,9 +68,14 @@ internal class ToastNotificationViewModel {
                 if (callDiagnosticsState.networkQualityCallDiagnostic.diagnosticValue == CallDiagnosticQuality.BAD ||
                     callDiagnosticsState.networkQualityCallDiagnostic.diagnosticValue == CallDiagnosticQuality.POOR
                 ) {
-                    displayToastNotification(
-                        R.string.azure_communication_ui_calling_diagnostics_network_reconnecting,
+                    val toastNotificationModel = ToastNotificationModel(
                         R.drawable.azure_communication_ui_calling_ic_fluent_wifi_warning_24_regular,
+                        R.string.azure_communication_ui_calling_diagnostics_network_reconnecting,
+                        NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY,
+                        null
+                    )
+                    displayToastNotification(
+                        toastNotificationModel,
                         false
                     )
                 } else {
@@ -69,10 +92,14 @@ internal class ToastNotificationViewModel {
         when (callDiagnosticsState.networkCallDiagnostic?.diagnosticKind) {
             NetworkCallDiagnostic.NETWORK_UNAVAILABLE, NetworkCallDiagnostic.NETWORK_RELAYS_UNREACHABLE -> {
                 if (callDiagnosticsState.networkCallDiagnostic.diagnosticValue) {
-                    displayToastNotification(
+                    val toastNotificationModel = ToastNotificationModel(
+                        R.drawable.azure_communication_ui_calling_ic_fluent_wifi_warning_24_regular,
                         R.string.azure_communication_ui_calling_diagnostics_network_was_lost,
-                        R.drawable.azure_communication_ui_calling_ic_fluent_wifi_warning_24_regular
+                        if (callDiagnosticsState.networkQualityCallDiagnostic?.diagnosticKind == NetworkCallDiagnostic.NETWORK_UNAVAILABLE)
+                            NetworkCallDiagnostic.NETWORK_UNAVAILABLE else NetworkCallDiagnostic.NETWORK_RELAYS_UNREACHABLE,
+                        null
                     )
+                    displayToastNotification(toastNotificationModel)
                 }
             }
             else -> {}
@@ -81,20 +108,27 @@ internal class ToastNotificationViewModel {
         when (callDiagnosticsState.mediaCallDiagnostic?.diagnosticKind) {
             MediaCallDiagnostic.SPEAKING_WHILE_MICROPHONE_IS_MUTED -> {
                 if (callDiagnosticsState.mediaCallDiagnostic.diagnosticValue) {
-                    displayToastNotification(
+                    val toastNotificationModel = ToastNotificationModel(
+                        R.drawable.azure_communication_ui_calling_ic_fluent_mic_off_24_filled,
                         R.string.azure_communication_ui_calling_diagnostics_you_are_muted,
-                        R.drawable.azure_communication_ui_calling_ic_fluent_mic_off_24_filled
+                        null,
+                        MediaCallDiagnostic.SPEAKING_WHILE_MICROPHONE_IS_MUTED
                     )
+                    displayToastNotification(toastNotificationModel)
                 } else if (!isPersistentNotificationDisplayed) {
                     dismiss()
                 }
             }
             MediaCallDiagnostic.CAMERA_START_FAILED, MediaCallDiagnostic.CAMERA_START_TIMED_OUT -> {
                 if (callDiagnosticsState.mediaCallDiagnostic.diagnosticValue) {
-                    displayToastNotification(
+                    val toastNotificationModel = ToastNotificationModel(
+                        R.drawable.azure_communication_ui_calling_ic_fluent_video_off_24_regular,
                         R.string.azure_communication_ui_calling_diagnostics_unable_to_start_camera,
-                        R.drawable.azure_communication_ui_calling_ic_fluent_video_off_24_regular
+                        null,
+                        if (callDiagnosticsState.mediaCallDiagnostic?.diagnosticKind == MediaCallDiagnostic.CAMERA_START_FAILED)
+                            MediaCallDiagnostic.CAMERA_START_FAILED else MediaCallDiagnostic.CAMERA_START_TIMED_OUT,
                     )
+                    displayToastNotification(toastNotificationModel)
                 }
             }
             else -> {}
@@ -109,12 +143,9 @@ internal class ToastNotificationViewModel {
         }
     }
 
-    private fun displayToastNotification(notificationMessageId: Int, notificationIconId: Int, autoDismiss: Boolean = true) {
+    private fun displayToastNotification(toastNotificationModel: ToastNotificationModel, autoDismiss: Boolean = true) {
         if (!isPersistentNotificationDisplayed) {
             displayToastNotificationFlow.value = true
-            val toastNotificationModel = ToastNotificationModel()
-            toastNotificationModel.notificationIconId = notificationIconId
-            toastNotificationModel.notificationMessageId = notificationMessageId
             toastNotificationModelMessageFlow.value = toastNotificationModel
             if (autoDismiss) {
                 timer = Timer()
@@ -122,6 +153,27 @@ internal class ToastNotificationViewModel {
                     object : TimerTask() {
                         override fun run() {
                             displayToastNotificationFlow.value = false
+                            if (toastNotificationModel.networkCallDiagnostic != null) {
+                                if (toastNotificationModel.networkCallDiagnostic == NetworkCallDiagnostic.NETWORK_UNAVAILABLE ||
+                                    toastNotificationModel.networkCallDiagnostic == NetworkCallDiagnostic.NETWORK_RELAYS_UNREACHABLE
+                                ) {
+                                    val model = NetworkCallDiagnosticModel(
+                                        toastNotificationModel.networkCallDiagnostic,
+                                        false
+                                    )
+                                    dispatch(CallDiagnosticsAction.NetworkCallDiagnosticsDismissed(model))
+                                } else {
+                                    val model = NetworkQualityCallDiagnosticModel(
+                                        toastNotificationModel.networkCallDiagnostic,
+                                        CallDiagnosticQuality.UNKNOWN
+                                    )
+                                    dispatch(CallDiagnosticsAction.NetworkQualityCallDiagnosticsDismissed(model))
+                                }
+                            }
+                            if (toastNotificationModel.mediaCallDiagnostic != null) {
+                                val model = MediaCallDiagnosticModel(toastNotificationModel.mediaCallDiagnostic, false)
+                                dispatch(CallDiagnosticsAction.MediaCallDiagnosticsDismissed(model))
+                            }
                         }
                     },
                     4000
