@@ -99,12 +99,15 @@ internal class UpperMessageBarNotificationLayoutViewModel(private val dispatch: 
     }
 
     private fun addNewNotification(upperMessageBarNotificationModel: UpperMessageBarNotificationModel) {
-        val upperMessageNotificationViewModel = UpperMessageBarNotificationViewModel(
-            dispatch,
-            upperMessageBarNotificationModel
-        )
-        mediaDiagnosticNotificationViewModels[upperMessageBarNotificationModel.mediaCallDiagnostic!!] = upperMessageNotificationViewModel
-        newUpperMessageBarNotificationFlow.value = upperMessageNotificationViewModel
+        upperMessageBarNotificationModel.mediaCallDiagnostic?.let {
+            val upperMessageNotificationViewModel = UpperMessageBarNotificationViewModel(
+                dispatch,
+                upperMessageBarNotificationModel
+            )
+            mediaDiagnosticNotificationViewModels[upperMessageBarNotificationModel.mediaCallDiagnostic] =
+                upperMessageNotificationViewModel
+            newUpperMessageBarNotificationFlow.value = upperMessageNotificationViewModel
+        }
     }
 
     private fun dismissNotification(mediaCallDiagnostic: MediaCallDiagnostic) {

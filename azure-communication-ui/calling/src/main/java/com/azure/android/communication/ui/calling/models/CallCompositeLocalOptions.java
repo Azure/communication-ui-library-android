@@ -36,7 +36,6 @@ public final class CallCompositeLocalOptions {
     private boolean cameraOn = false;
     private boolean microphoneOn = false;
     private boolean skipSetupScreen = false;
-    private boolean displayCallDiagnosticsOn = false;
 
     /**
      * Create LocalSettings.

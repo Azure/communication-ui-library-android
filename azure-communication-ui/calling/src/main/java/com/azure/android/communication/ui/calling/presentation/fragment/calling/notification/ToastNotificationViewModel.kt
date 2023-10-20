@@ -37,7 +37,7 @@ internal class ToastNotificationViewModel(private val dispatch: (Action) -> Unit
 
     fun getDisplayToastNotificationFlow(): StateFlow<Boolean> = displayToastNotificationFlow
 
-    fun getToastNotificationModelFlow(): MutableStateFlow<ToastNotificationModel> = toastNotificationModelMessageFlow
+    fun getToastNotificationModelFlow(): StateFlow<ToastNotificationModel> = toastNotificationModelMessageFlow
 
     fun update(callDiagnosticsState: CallDiagnosticsState) {
         when (callDiagnosticsState.networkQualityCallDiagnostic?.diagnosticKind) {

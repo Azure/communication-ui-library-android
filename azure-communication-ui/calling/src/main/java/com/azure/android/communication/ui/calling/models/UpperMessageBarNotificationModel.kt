@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.calling.models
 
-internal class UpperMessageBarNotificationModel(
+internal data class UpperMessageBarNotificationModel(
     val notificationIconId: Int,
     val notificationMessageId: Int,
     val mediaCallDiagnostic: MediaCallDiagnostic?

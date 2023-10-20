@@ -26,8 +26,10 @@ internal class UpperMessageBarNotificationViewModel(
     }
 
     fun dismissNotificationByUser() {
-        dismissNotification()
-        val model = CallDiagnosticModel(upperMessageBarNotificationModel.mediaCallDiagnostic!!, false)
-        dispatch(CallDiagnosticsAction.MediaCallDiagnosticsDismissed(model))
+        upperMessageBarNotificationModel.mediaCallDiagnostic?.let {
+            dismissNotification()
+            val model = CallDiagnosticModel(upperMessageBarNotificationModel.mediaCallDiagnostic, false)
+            dispatch(CallDiagnosticsAction.MediaCallDiagnosticsDismissed(model))
+        }
     }
 }

@@ -164,7 +164,6 @@ internal class CallingViewModel(
                 dominantSpeakersModifiedTimestamp = System.currentTimeMillis(),
             )
             floatingHeaderViewModel.dismiss()
-            toastNotificationViewModel.dismiss()
             participantListViewModel.closeParticipantList()
             localParticipantViewModel.update(
                 state.localParticipantState.displayName,

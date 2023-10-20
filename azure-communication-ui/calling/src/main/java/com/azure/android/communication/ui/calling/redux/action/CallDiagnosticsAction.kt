@@ -8,11 +8,11 @@ import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticMo
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
 
 internal sealed class CallDiagnosticsAction : Action {
-    class NetworkQualityCallDiagnosticsUpdated(val networkQualityUpdated: NetworkQualityCallDiagnosticModel) : CallDiagnosticsAction()
-    class NetworkCallDiagnosticsUpdated(val networkUpdated: NetworkCallDiagnosticModel) : CallDiagnosticsAction()
-    class MediaCallDiagnosticsUpdated(val mediaUpdated: MediaCallDiagnosticModel) : CallDiagnosticsAction()
+    class NetworkQualityCallDiagnosticsUpdated(val networkQualityCallDiagnosticModel: NetworkQualityCallDiagnosticModel) : CallDiagnosticsAction()
+    class NetworkCallDiagnosticsUpdated(val networkCallDiagnosticModel: NetworkCallDiagnosticModel) : CallDiagnosticsAction()
+    class MediaCallDiagnosticsUpdated(val mediaCallDiagnosticModel: MediaCallDiagnosticModel) : CallDiagnosticsAction()
 
-    class NetworkQualityCallDiagnosticsDismissed(val networkQualityDiagnosticDismissed: NetworkQualityCallDiagnosticModel) : CallDiagnosticsAction()
-    class NetworkCallDiagnosticsDismissed(val networkDiagnosticDismissed: NetworkCallDiagnosticModel) : CallDiagnosticsAction()
-    class MediaCallDiagnosticsDismissed(val mediaDiagnosticDismissed: MediaCallDiagnosticModel) : CallDiagnosticsAction()
+    class NetworkQualityCallDiagnosticsDismissed(val networkQualityCallDiagnosticModel: NetworkQualityCallDiagnosticModel) : CallDiagnosticsAction()
+    class NetworkCallDiagnosticsDismissed(val networkCallDiagnosticModel: NetworkCallDiagnosticModel) : CallDiagnosticsAction()
+    class MediaCallDiagnosticsDismissed(val mediaCallDiagnosticModel: MediaCallDiagnosticModel) : CallDiagnosticsAction()
 }

@@ -17,22 +17,22 @@ internal class CallDiagnosticsReducerImpl : CallDiagnosticsReducer {
     ): CallDiagnosticsState {
         return when (action) {
             is CallDiagnosticsAction.NetworkQualityCallDiagnosticsUpdated -> {
-                state.copy(networkQualityCallDiagnostic = action.networkQualityUpdated)
+                state.copy(networkQualityCallDiagnostic = action.networkQualityCallDiagnosticModel)
             }
             is CallDiagnosticsAction.NetworkCallDiagnosticsUpdated -> {
-                state.copy(networkCallDiagnostic = action.networkUpdated)
+                state.copy(networkCallDiagnostic = action.networkCallDiagnosticModel)
             }
             is CallDiagnosticsAction.MediaCallDiagnosticsUpdated -> {
-                state.copy(mediaCallDiagnostic = action.mediaUpdated)
+                state.copy(mediaCallDiagnostic = action.mediaCallDiagnosticModel)
             }
             is CallDiagnosticsAction.NetworkQualityCallDiagnosticsDismissed -> {
-                state.copy(networkQualityCallDiagnostic = action.networkQualityDiagnosticDismissed)
+                state.copy(networkQualityCallDiagnostic = action.networkQualityCallDiagnosticModel)
             }
             is CallDiagnosticsAction.NetworkCallDiagnosticsDismissed -> {
-                state.copy(networkCallDiagnostic = action.networkDiagnosticDismissed)
+                state.copy(networkCallDiagnostic = action.networkCallDiagnosticModel)
             }
             is CallDiagnosticsAction.MediaCallDiagnosticsDismissed -> {
-                state.copy(mediaCallDiagnostic = action.mediaDiagnosticDismissed)
+                state.copy(mediaCallDiagnostic = action.mediaCallDiagnosticModel)
             }
             else -> state
         }

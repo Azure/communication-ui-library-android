@@ -35,9 +35,9 @@ internal enum class CallDiagnosticQuality {
     BAD;
 }
 
-internal class CallDiagnosticModel<DiagnosticKind, DiagnosticValue>(
-    var diagnosticKind: DiagnosticKind,
-    var diagnosticValue: DiagnosticValue
+internal data class CallDiagnosticModel<DiagnosticKind, DiagnosticValue>(
+    val diagnosticKind: DiagnosticKind,
+    val diagnosticValue: DiagnosticValue
 )
 
 // Alias types representing different types of Call Diagnostics

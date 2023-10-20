@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.calling.models
 
-internal class ToastNotificationModel(
+internal data class ToastNotificationModel(
     val notificationIconId: Int,
     val notificationMessageId: Int,
     val networkCallDiagnostic: NetworkCallDiagnostic?,
