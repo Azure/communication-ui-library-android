@@ -33,6 +33,8 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyHeaderView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.WaitingLobbyOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser.LocalParticipantView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListView
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
@@ -59,6 +61,8 @@ internal class CallingFragment :
     private lateinit var confirmLeaveOverlayView: LeaveConfirmView
     private lateinit var localParticipantView: LocalParticipantView
     private lateinit var infoHeaderView: InfoHeaderView
+    private lateinit var upperMessageBarNotificationLayoutView: UpperMessageBarNotificationLayoutView
+    private lateinit var toastNotificationView: ToastNotificationView
     private lateinit var participantGridView: ParticipantGridView
     private lateinit var audioDeviceListView: AudioDeviceListView
     private lateinit var participantListView: ParticipantListView
@@ -137,6 +141,20 @@ internal class CallingFragment :
         lobbyErrorHeaderView.start(
             viewLifecycleOwner,
             viewModel.lobbyErrorHeaderViewModel
+        )
+
+        upperMessageBarNotificationLayoutView = view.findViewById(R.id.azure_communication_ui_calling_upper_message_bar_notifications_layout)
+        upperMessageBarNotificationLayoutView.start(
+            viewLifecycleOwner,
+            viewModel.upperMessageBarNotificationLayoutViewModel,
+            accessibilityManager.isEnabled
+        )
+
+        toastNotificationView = view.findViewById(R.id.azure_communication_ui_calling_toast_notification)
+        toastNotificationView.start(
+            viewLifecycleOwner,
+            viewModel.toastNotificationViewModel,
+            accessibilityManager.isEnabled
         )
 
         audioDeviceListView =
@@ -244,6 +262,8 @@ internal class CallingFragment :
         if (this::holdOverlay.isInitialized) holdOverlay.stop()
         if (this::errorInfoView.isInitialized) errorInfoView.stop()
         if (this::moreCallOptionsListView.isInitialized) moreCallOptionsListView.stop()
+        if (this::upperMessageBarNotificationLayoutView.isInitialized) upperMessageBarNotificationLayoutView.stop()
+        if (this::toastNotificationView.isInitialized) toastNotificationView.stop()
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
