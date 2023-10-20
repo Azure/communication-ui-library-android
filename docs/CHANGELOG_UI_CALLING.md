@@ -2,6 +2,9 @@
 
 ## Upcoming
 
+### Features
+- Display Call Diagnostics.
+
 ### Bug Fixes
 - Hide lobby users in GridView and Participant List
 

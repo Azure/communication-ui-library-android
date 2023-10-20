@@ -26,6 +26,13 @@ internal open class BaseUiTest {
     internal val participantContainerId = R.id.azure_communication_ui_call_participant_container
     internal val participantListOpenButton = R.id.azure_communication_ui_call_bottom_drawer_button
     internal val bottomDrawer = R.id.bottom_drawer_table
+    internal val toastNotificationId = R.id.azure_communication_ui_calling_toast_notification
+    internal val toastNotificationIconId = R.id.azure_communication_ui_calling_toast_notification_icon
+    internal val toastNotificationMessageId = R.id.azure_communication_ui_calling_toast_notification_message
+    internal val upperMessageBarNotificationId = R.id.azure_communication_ui_calling_upper_message_bar_notification
+    internal val upperMessageBarNotificationIconId = R.id.azure_communication_ui_calling_upper_message_bar_notification_icon
+    internal val upperMessageBarNotificationMessageId = R.id.azure_communication_ui_calling_upper_message_bar_notification_message
+    internal val upperMessageBarNotificationDismissButtonId = R.id.azure_communication_ui_calling_upper_message_bar_notification_dismiss_button
 
     @Rule
     @JvmField
