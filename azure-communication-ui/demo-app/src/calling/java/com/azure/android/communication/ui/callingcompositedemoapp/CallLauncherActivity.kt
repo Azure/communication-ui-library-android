@@ -102,12 +102,21 @@ class CallLauncherActivity : AppCompatActivity() {
                 if (groupCallRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
                     teamsMeetingRadioButton.isChecked = false
+                    oneToOneRadioButton.isChecked = false
                 }
             }
             teamsMeetingRadioButton.setOnClickListener {
                 if (teamsMeetingRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.TEAMS_MEETING_LINK)
                     groupCallRadioButton.isChecked = false
+                    oneToOneRadioButton.isChecked = false
+                }
+            }
+            oneToOneRadioButton.setOnClickListener {
+                if (oneToOneRadioButton.isChecked) {
+                    groupIdOrTeamsMeetingLinkText.setText(BuildConfig.PARTICIPANT_MRI)
+                    groupCallRadioButton.isChecked = false
+                    teamsMeetingRadioButton.isChecked = false
                 }
             }
 
