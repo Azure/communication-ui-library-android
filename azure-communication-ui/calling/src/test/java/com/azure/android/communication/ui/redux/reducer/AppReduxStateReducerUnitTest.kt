@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.redux.reducer
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.reducer.AppStateReducer
 import com.azure.android.communication.ui.calling.redux.reducer.AudioSessionStateReducerImpl
+import com.azure.android.communication.ui.calling.redux.reducer.CallDiagnosticsReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.CallStateReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.ErrorReducer
 import com.azure.android.communication.ui.calling.redux.reducer.LifecycleReducerImpl
@@ -23,6 +24,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.BluetoothState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CallDiagnosticsState
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
@@ -71,6 +73,9 @@ internal class AppReduxStateReducerUnitTest {
     @Mock
     private lateinit var pipReducer: PipReducerImpl
 
+    @Mock
+    private lateinit var mockCallDiagnosticsReducerImpl: CallDiagnosticsReducerImpl
+
     @Test
     fun appStateReducer_reduce_when_invoked_then_callAllReducers() {
 
@@ -86,6 +91,7 @@ internal class AppReduxStateReducerUnitTest {
                 mockNavigationReducerImpl,
                 mockAudioSessionReducerImpl,
                 pipReducer,
+                mockCallDiagnosticsReducerImpl
             )
         val action = NavigationAction.CallLaunched()
         val state = AppReduxState("", false, false)
@@ -110,6 +116,8 @@ internal class AppReduxStateReducerUnitTest {
             PermissionState(PermissionStatus.NOT_ASKED, PermissionStatus.NOT_ASKED)
         state.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
         state.audioSessionState = AudioSessionState(AudioFocusStatus.REJECTED)
+
+        state.callDiagnosticsState = CallDiagnosticsState(null, null, null)
 
         Mockito.`when`(mockCallStateReducerImplementation.reduce(state.callState, action))
             .thenReturn(state.callState)
@@ -168,6 +176,13 @@ internal class AppReduxStateReducerUnitTest {
                 action
             )
         ).thenReturn(state.pipState)
+
+        Mockito.`when`(
+            mockCallDiagnosticsReducerImpl.reduce(
+                state.callDiagnosticsState,
+                action
+            )
+        ).thenReturn(state.callDiagnosticsState)
 
         // act
         reducer.reduce(state, action)

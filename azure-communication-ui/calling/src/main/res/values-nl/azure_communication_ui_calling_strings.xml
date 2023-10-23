@@ -131,4 +131,19 @@
     <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">Kan niet weigeren</string>
     <string name="azure_communication_ui_calling_error_lobby_unknown">Lobbyactiefout</string>
 
+    <!-- Call Diagnostics -->
+    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Netwerk verloren </string>
+    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">Opnieuw verbinden...</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">Netwerkkwaliteit is laag</string>
+    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">Uw microfoon is gedempt</string>
+    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">Microfoon werkt niet zoals verwacht</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">Kan camera niet starten</string>
+    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">Camera werkt niet meer</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">Luidspreker werkt niet zoals verwacht</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">Kan luidspreker niet vinden</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">Kan microfoon niet vinden</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">Luidspreker is gedempt</string>
+
+    <!--    Upper Message Bar Notification -->
+    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Sluiten</string>
 </resources>
