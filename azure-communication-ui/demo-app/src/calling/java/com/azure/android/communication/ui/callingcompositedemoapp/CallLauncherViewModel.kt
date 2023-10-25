@@ -74,7 +74,8 @@ class CallLauncherViewModel : ViewModel() {
 
         var skipSetup = SettingsFeatures.getSkipSetupScreenFeatureOption()
         val remoteOptions = if (locator == null && !participantMri.isNullOrEmpty()) {
-            val startCallOption = CallCompositeStartCallOptions(arrayListOf(participantMri))
+            val participantMris = participantMri.split(",")
+            val startCallOption = CallCompositeStartCallOptions(participantMris)
             skipSetup = true
             CallCompositeRemoteOptions(startCallOption, communicationTokenCredential, displayName)
         }
