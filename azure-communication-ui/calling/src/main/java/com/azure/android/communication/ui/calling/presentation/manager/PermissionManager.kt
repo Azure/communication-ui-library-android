@@ -133,6 +133,12 @@ internal class PermissionManager(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
             permissions.add(Manifest.permission.POST_NOTIFICATIONS)
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            permissions.add(Manifest.permission.BIND_TELECOM_CONNECTION_SERVICE)
+
+        permissions.add(Manifest.permission.MANAGE_OWN_CALLS)
+        permissions.add(Manifest.permission.CALL_PHONE)
+
         return permissions.toTypedArray()
     }
 }

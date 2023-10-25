@@ -8,12 +8,12 @@ apply from: file('publish.gradle')
 apply from: file('jacoco.gradle')
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
     resourcePrefix 'azure_communication_ui_calling_'
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 33
+        targetSdkVersion 34
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }

@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
+import android.os.Build
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
@@ -15,6 +16,7 @@ import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import com.azure.android.communication.ui.calling.telecom.TelecomConnectionManager
 import kotlinx.coroutines.CoroutineScope
 
 internal class CallingViewModel(
@@ -100,6 +102,11 @@ internal class CallingViewModel(
         holdOverlayViewModel.init(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 
         participantGridViewModel.init(state.callState.callingStatus)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            TelecomConnectionManager.instance?.TEST_setActive()
+        }
+
         super.init(coroutineScope)
     }
 

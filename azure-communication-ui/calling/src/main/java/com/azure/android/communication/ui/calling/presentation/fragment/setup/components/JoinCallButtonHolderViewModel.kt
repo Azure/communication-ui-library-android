@@ -3,7 +3,9 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.setup.components
 
+import android.content.Context
 import android.media.AudioManager
+import android.os.Build
 import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
@@ -15,6 +17,7 @@ import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.isDisconnected
+import com.azure.android.communication.ui.calling.telecom.TelecomConnectionManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -31,7 +34,7 @@ internal class JoinCallButtonHolderViewModel(
 
     fun getDisableJoinCallButtonFlow(): StateFlow<Boolean> = disableJoinCallButtonFlow
 
-    fun launchCallScreen() {
+    suspend fun launchCallScreen(context: Context) {
         val networkAvailable = isNetworkAvailable()
         // We try to check for mic availability for the current application through current audio mode
         val normalAudioMode = audioManager.mode == AudioManager.MODE_NORMAL
@@ -43,6 +46,13 @@ internal class JoinCallButtonHolderViewModel(
         } else {
             dispatch(CallingAction.CallStartRequested())
             disableJoinCallButtonFlow.value = true
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // phoneAccountId will be received via public API
+            val telecomConnectionManager = TelecomConnectionManager(context, "9a9a0260-1c18-11ec-ba20-e761da70b03f")
+//            telecomConnectionManager.startIncomingConnection(context,"fromDisplayName", true)
+            telecomConnectionManager.startOutgoingConnection(context,"toDisplayName", true)
         }
     }
 

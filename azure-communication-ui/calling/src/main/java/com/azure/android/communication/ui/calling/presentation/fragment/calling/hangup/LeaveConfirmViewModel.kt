@@ -3,6 +3,8 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup
 
+import android.content.Context
+import android.os.Build
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
@@ -10,6 +12,7 @@ import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import com.azure.android.communication.ui.calling.telecom.TelecomConnectionManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -21,7 +24,12 @@ internal class LeaveConfirmViewModel(private val store: Store<ReduxState>) {
         return shouldDisplayLeaveConfirmStateFlow
     }
 
-    fun confirm() {
+    fun confirm(context: Context) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            TelecomConnectionManager.instance?.endConnection(context)
+        }
+
         if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&
             store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTED
         ) {

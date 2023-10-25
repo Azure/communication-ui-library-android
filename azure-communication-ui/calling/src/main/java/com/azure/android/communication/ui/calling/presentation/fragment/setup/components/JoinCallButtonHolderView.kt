@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import com.azure.android.communication.ui.R
+import kotlinx.coroutines.coroutineScope
 
 internal class JoinCallButtonHolderView : ConstraintLayout {
     constructor(context: Context) : super(context)
@@ -51,7 +52,9 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
         joiningCallText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_connecting_call)
 
         setupJoinCallButton.setOnClickListener {
-            viewModel.launchCallScreen()
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.launchCallScreen(context)
+            }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {

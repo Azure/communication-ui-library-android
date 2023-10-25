@@ -116,7 +116,7 @@ internal class LeaveConfirmView(
                     null,
                     false,
                 ) {
-                    viewModel.confirm()
+                    viewModel.confirm(this.context)
                 },
 
                 // Cancel
