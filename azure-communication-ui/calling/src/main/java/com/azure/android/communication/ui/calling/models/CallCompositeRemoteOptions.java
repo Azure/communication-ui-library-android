@@ -38,6 +38,7 @@ public final class CallCompositeRemoteOptions {
     // Optional
     private final String displayName;
 
+    private CallCompositePushNotificationInfo pushNotificationInfo;
     /**
      * Create {@link CallCompositeRemoteOptions}.
      *
@@ -76,6 +77,15 @@ public final class CallCompositeRemoteOptions {
         this.displayName = displayName;
     }
 
+    public CallCompositeRemoteOptions(
+            final CommunicationTokenCredential credential,
+            final CallCompositePushNotificationInfo pushNotificationInfo,
+            final String displayName) {
+        this.credential = credential;
+        this.pushNotificationInfo = pushNotificationInfo;
+        this.displayName = displayName;
+    }
+
     /**
      * Get {@link CommunicationTokenCredential}.
      *
@@ -110,5 +120,14 @@ public final class CallCompositeRemoteOptions {
      */
     public CallCompositeStartCallOptions getStartCallOptions() {
         return startCallOptions;
+    }
+
+    /**
+     * Get push notification info.
+     *
+     * @return  {@link CallCompositePushNotificationInfo}.
+     */
+    public CallCompositePushNotificationInfo getPushNotificationInfo() {
+        return pushNotificationInfo;
     }
 }

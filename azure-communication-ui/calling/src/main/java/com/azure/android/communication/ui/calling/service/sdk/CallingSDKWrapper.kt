@@ -17,6 +17,7 @@ import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVi
 import com.azure.android.communication.calling.HangUpOptions
 import com.azure.android.communication.calling.JoinCallOptions
 import com.azure.android.communication.calling.JoinMeetingLocator
+import com.azure.android.communication.calling.PushNotificationInfo
 import com.azure.android.communication.calling.StartCallOptions
 import com.azure.android.communication.calling.TeamsMeetingLinkLocator
 import com.azure.android.communication.calling.VideoDevicesUpdatedListener
@@ -315,6 +316,40 @@ internal class CallingSDKWrapper(
             }
         }
 
+        return result
+    }
+
+    override fun registerPushNotificationTokenAsync(deviceRegistrationToken: String): CompletableFuture<Void> {
+        val result = CompletableFuture<Void>()
+        createCallAgent().thenAccept { agent: CallAgent ->
+            agent.registerPushNotification(deviceRegistrationToken)
+                .whenComplete() { _, error: Throwable? ->
+                    if (error != null) {
+                        result.completeExceptionally(error)
+                    } else {
+                        result.complete(null)
+                    }
+                }
+        }.exceptionally { error ->
+            onJoinCallFailed(result, error)
+        }
+        return result
+    }
+
+    override fun handlePushNotificationAsync(pushNotificationInfo: PushNotificationInfo): CompletableFuture<Void> {
+        val result = CompletableFuture<Void>()
+        createCallAgent().thenAccept { agent: CallAgent ->
+            agent.handlePushNotification(pushNotificationInfo)
+                .whenComplete() { _, error: Throwable? ->
+                    if (error != null) {
+                        result.completeExceptionally(error)
+                    } else {
+                        result.complete(null)
+                    }
+                }
+        }.exceptionally { error ->
+            onJoinCallFailed(result, error)
+        }
         return result
     }
 

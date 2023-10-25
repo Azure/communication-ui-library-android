@@ -20,6 +20,8 @@ import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallL
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent;
+import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationInfo;
+import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
@@ -312,6 +314,26 @@ public final class CallComposite {
         AndroidThreeTen.init(context.getApplicationContext());
         final DebugInfoManager debugInfoManager = getDebugInfoManager(context.getApplicationContext());
         return debugInfoManager.getDebugInfo();
+    }
+
+    public void registerPushNotification(final Context context, final CallCompositePushNotificationOptions options) {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer.get();
+            if (container != null) {
+                container.getPushNotificationHandler().registerPushNotificationAsync(options);
+            }
+        }
+    }
+
+    public void handlePushNotification(final Context context,
+                                       final CallCompositePushNotificationInfo pushNotificationInfo,
+                                       final CallCompositeRemoteOptions remoteOptions) {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer.get();
+            if (container != null) {
+                container.getPushNotificationHandler().handlePushNotificationAsync(pushNotificationInfo);
+            }
+        }
     }
 
     void setDependencyInjectionContainer(final DependencyInjectionContainer diContainer) {

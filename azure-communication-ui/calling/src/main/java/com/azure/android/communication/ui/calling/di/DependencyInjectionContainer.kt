@@ -8,6 +8,7 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import com.azure.android.communication.ui.calling.data.CallHistoryRepository
 import com.azure.android.communication.ui.calling.error.ErrorHandler
 import com.azure.android.communication.ui.calling.handlers.CallStateHandler
+import com.azure.android.communication.ui.calling.handlers.PushNotificationHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
@@ -66,4 +67,7 @@ internal interface DependencyInjectionContainer {
 
     // Data
     val callHistoryRepository: CallHistoryRepository
+
+    // Notification
+    val pushNotificationHandler: PushNotificationHandler
 }

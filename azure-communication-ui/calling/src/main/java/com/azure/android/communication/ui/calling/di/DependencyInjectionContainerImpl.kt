@@ -9,6 +9,7 @@ import com.azure.android.communication.ui.calling.data.CallHistoryRepositoryImpl
 import com.azure.android.communication.ui.calling.error.ErrorHandler
 import com.azure.android.communication.ui.calling.getConfig
 import com.azure.android.communication.ui.calling.handlers.CallStateHandler
+import com.azure.android.communication.ui.calling.handlers.PushNotificationHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.logger.Logger
@@ -190,6 +191,10 @@ internal class DependencyInjectionContainerImpl(
 
     override val callHistoryRepository by lazy {
         CallHistoryRepositoryImpl(applicationContext, logger)
+    }
+
+    override val pushNotificationHandler by lazy {
+        PushNotificationHandler(callingSDKWrapper)
     }
 
     private val localOptions by lazy {
