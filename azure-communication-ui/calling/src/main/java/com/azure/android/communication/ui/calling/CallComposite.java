@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
-import com.azure.android.communication.common.CommunicationUserIdentifier;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallType;
@@ -35,8 +34,6 @@ import static com.azure.android.communication.ui.calling.CallCompositeExtentions
 import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -360,7 +357,6 @@ public final class CallComposite {
         UUID groupId = null;
         String meetingLink = null;
         final CallType callType;
-        List<CommunicationIdentifier> participants = null;
 
         final CallCompositeJoinLocator locator = remoteOptions.getLocator();
         if (locator != null) {
@@ -371,13 +367,8 @@ public final class CallComposite {
                 callType = CallType.TEAMS_MEETING;
                 meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
             }
-        }
-        else {
-            callType = CallType.ONE_ON_ONE_CALL;
-            participants = new ArrayList<>();
-            for (String participantId : remoteOptions.getStartCallOptions().getParticipants()) {
-                participants.add(new CommunicationUserIdentifier(participantId));
-            }
+        } else {
+            callType = CallType.ONE_TO_N_CALL;
         }
 
         configuration.setCallConfig(new CallConfiguration(
@@ -386,7 +377,7 @@ public final class CallComposite {
                 groupId,
                 meetingLink,
                 callType,
-                participants));
+                remoteOptions.getStartCallOptions().getParticipants()));
 
         if (localOptions != null) {
             configuration.setCallCompositeLocalOptions(localOptions);

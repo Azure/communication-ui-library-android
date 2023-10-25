@@ -13,7 +13,6 @@ import com.azure.android.communication.calling.CallClientOptions
 import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.DeviceManager
 import com.azure.android.communication.calling.GroupCallLocator
-import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVideoStream
 import com.azure.android.communication.calling.HangUpOptions
 import com.azure.android.communication.calling.JoinCallOptions
 import com.azure.android.communication.calling.JoinMeetingLocator
@@ -39,6 +38,7 @@ import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVideoStream
 
 internal class CallingSDKWrapper(
     private val context: Context,
@@ -397,13 +397,18 @@ internal class CallingSDKWrapper(
         agent: CallAgent,
         audioOptions: AudioOptions,
         videoOptions: VideoOptions?,
-        participants: List<CommunicationIdentifier>
+        participants: List<String>
     ) {
+        val communicationIdentifiers = ArrayList<CommunicationIdentifier>()
+        for (participantId in participants) {
+            communicationIdentifiers.add(CommunicationIdentifier.fromRawId(participantId))
+        }
+
         val startCallOptions = StartCallOptions()
         startCallOptions.audioOptions = audioOptions
         videoOptions?.let { startCallOptions.videoOptions = videoOptions }
 
-        nullableCall = agent.startCall(context, participants, startCallOptions)
+        nullableCall = agent.startCall(context, communicationIdentifiers, startCallOptions)
         callingSDKEventHandler.onJoinCall(call)
     }
 

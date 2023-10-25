@@ -76,7 +76,7 @@ class CallLauncherViewModel : ViewModel() {
         val remoteOptions = if (locator == null && !participantMri.isNullOrEmpty()) {
             val startCallOption = CallCompositeStartCallOptions(arrayListOf(participantMri))
             skipSetup = true
-            CallCompositeRemoteOptions(communicationTokenCredential, startCallOption, displayName)
+            CallCompositeRemoteOptions(startCallOption, communicationTokenCredential, displayName)
         }
         else {
             CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
