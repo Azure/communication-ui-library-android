@@ -337,12 +337,16 @@ public final class CallComposite {
         final CallType callType;
 
         final CallCompositeJoinLocator locator = remoteOptions.getLocator();
-        if (locator instanceof CallCompositeGroupCallLocator) {
-            callType = CallType.GROUP_CALL;
-            groupId = ((CallCompositeGroupCallLocator) locator).getGroupId();
+        if (locator != null) {
+            if (locator instanceof CallCompositeGroupCallLocator) {
+                callType = CallType.GROUP_CALL;
+                groupId = ((CallCompositeGroupCallLocator) locator).getGroupId();
+            } else {
+                callType = CallType.TEAMS_MEETING;
+                meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
+            }
         } else {
-            callType = CallType.TEAMS_MEETING;
-            meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
+            callType = CallType.ONE_TO_N_CALL;
         }
 
         configuration.setCallConfig(new CallConfiguration(
@@ -350,7 +354,8 @@ public final class CallComposite {
                 remoteOptions.getDisplayName(),
                 groupId,
                 meetingLink,
-                callType));
+                callType,
+                remoteOptions.getStartCallOptions().getParticipants()));
 
         if (localOptions != null) {
             configuration.setCallCompositeLocalOptions(localOptions);

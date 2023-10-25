@@ -19,6 +19,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptio
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
+import com.azure.android.communication.ui.calling.models.CallCompositeStartCallOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
@@ -39,6 +40,7 @@ class CallLauncherViewModel : ViewModel() {
         displayName: String,
         groupId: UUID?,
         meetingLink: String?,
+        participantMri: String?
     ) {
         val callComposite = createCallComposite(context)
         callComposite.addOnErrorEventHandler(
@@ -65,12 +67,21 @@ class CallLauncherViewModel : ViewModel() {
         val communicationTokenCredential =
             CommunicationTokenCredential(communicationTokenRefreshOptions)
 
-        val locator: CallCompositeJoinLocator =
+        val locator: CallCompositeJoinLocator? =
             if (groupId != null) CallCompositeGroupCallLocator(groupId)
-            else CallCompositeTeamsMeetingLinkLocator(meetingLink)
+            else if (meetingLink != null) CallCompositeTeamsMeetingLinkLocator(meetingLink)
+            else null
 
-        val remoteOptions =
+        var skipSetup = SettingsFeatures.getSkipSetupScreenFeatureOption()
+        val remoteOptions = if (locator == null && !participantMri.isNullOrEmpty()) {
+            val participantMris = participantMri.split(",")
+            val startCallOption = CallCompositeStartCallOptions(participantMris)
+            skipSetup = true
+            CallCompositeRemoteOptions(startCallOption, communicationTokenCredential, displayName)
+        }
+        else {
             CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
+        }
 
         val localOptions = CallCompositeLocalOptions()
             .setParticipantViewData(SettingsFeatures.getParticipantViewData(context.applicationContext))
@@ -79,7 +90,7 @@ class CallLauncherViewModel : ViewModel() {
                     .setTitle(SettingsFeatures.getTitle())
                     .setSubtitle(SettingsFeatures.getSubtitle())
             )
-            .setSkipSetupScreen(SettingsFeatures.getSkipSetupScreenFeatureOption())
+            .setSkipSetupScreen(skipSetup)
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 

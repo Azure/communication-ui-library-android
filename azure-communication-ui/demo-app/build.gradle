@@ -31,6 +31,7 @@ android {
         buildConfigField 'String', 'THREAD_ID', properties.getProperty('THREAD_ID', '""')
         buildConfigField 'String', 'END_POINT_URL', properties.getProperty('END_POINT_URL', '""')
         buildConfigField "String", 'AAD_TOKEN', properties.getProperty('AAD_TOKEN', '""')
+        buildConfigField 'String', 'PARTICIPANT_MRIS', properties.getProperty('PARTICIPANT_MRIS', '""')
     }
 
     signingConfigs {
