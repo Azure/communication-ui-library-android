@@ -182,11 +182,12 @@ internal class CallingSDKWrapper(
                     null
                 }
             }
-            var videoOptions: VideoOptions? = null
+
             // it is possible to have camera state not on, (Example: waiting for local video stream)
             // if camera on is in progress, the waiting will make sure for starting call with right state
             if (camerasCountStateFlow.value != 0 && cameraState.operation != CameraOperationalStatus.OFF) {
                 getLocalVideoStream().whenComplete { videoStream, error ->
+                    var videoOptions: VideoOptions? = null
                     if (error == null) {
                         val localVideoStreams =
                             arrayOf(videoStream.native as NativeLocalVideoStream)
@@ -204,11 +205,11 @@ internal class CallingSDKWrapper(
                 }
             } else {
                 callLocator?.let {
-                    joinCall(agent, audioOptions, videoOptions, callLocator)
+                    joinCall(agent, audioOptions, null, callLocator)
                     return@thenAccept
                 }
                 callConfig.participants?.let {
-                    startCall(agent, audioOptions, videoOptions, it)
+                    startCall(agent, audioOptions, null, it)
                 }
             }
 
