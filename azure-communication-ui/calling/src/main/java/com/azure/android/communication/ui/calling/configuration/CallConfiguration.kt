@@ -11,7 +11,7 @@ import java.util.UUID
 internal enum class CallType {
     GROUP_CALL,
     TEAMS_MEETING,
-    ONE_ON_ONE_CALL
+    ONE_TO_N_CALL
 }
 
 internal data class CallConfiguration(
@@ -20,7 +20,7 @@ internal data class CallConfiguration(
     val groupId: UUID?,
     val meetingLink: String?,
     val callType: CallType,
-    val participants: List<CommunicationIdentifier>? = null
+    val participants: List<String>? = null
 ) {
     val diagnosticConfig = DiagnosticConfig()
 }

@@ -58,7 +58,7 @@ class CallLauncherActivity : AppCompatActivity() {
         val deeplinkName = data?.getQueryParameter("name")
         val deeplinkGroupId = data?.getQueryParameter("groupid")
         val deeplinkTeamsUrl = data?.getQueryParameter("teamsurl")
-        val participantMRI = data?.getQueryParameter("participanturi") ?: BuildConfig.PARTICIPANT_MRI
+        val participantMRI = data?.getQueryParameter("participanturis") ?: BuildConfig.PARTICIPANT_MRIS
 
         binding.run {
             if (!deeplinkAcsToken.isNullOrEmpty()) {
@@ -114,7 +114,7 @@ class CallLauncherActivity : AppCompatActivity() {
             }
             oneToOneRadioButton.setOnClickListener {
                 if (oneToOneRadioButton.isChecked) {
-                    groupIdOrTeamsMeetingLinkText.setText(BuildConfig.PARTICIPANT_MRI)
+                    groupIdOrTeamsMeetingLinkText.setText(BuildConfig.PARTICIPANT_MRIS)
                     groupCallRadioButton.isChecked = false
                     teamsMeetingRadioButton.isChecked = false
                 }

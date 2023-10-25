@@ -69,12 +69,12 @@ public final class CallCompositeRemoteOptions {
     }
 
     public CallCompositeRemoteOptions(
-            final CommunicationTokenCredential credential,
             final CallCompositeStartCallOptions startCallOptions,
+            final CommunicationTokenCredential credential,
             final String displayName) {
         this.credential = credential;
-        this.startCallOptions = startCallOptions;
         this.displayName = displayName;
+        this.startCallOptions = startCallOptions;
     }
 
     public CallCompositeRemoteOptions(
@@ -114,7 +114,7 @@ public final class CallCompositeRemoteOptions {
     }
 
     /**
-     * Get call options.
+     * Get call start options.
      *
      * @return  {@link CallCompositeStartCallOptions}.
      */
