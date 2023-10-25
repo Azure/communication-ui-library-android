@@ -32,6 +32,7 @@ import static com.azure.android.communication.ui.calling.CallCompositeExtentions
 import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -335,6 +336,7 @@ public final class CallComposite {
         UUID groupId = null;
         String meetingLink = null;
         final CallType callType;
+        List<String> participants = null;
 
         final CallCompositeJoinLocator locator = remoteOptions.getLocator();
         if (locator != null) {
@@ -347,6 +349,7 @@ public final class CallComposite {
             }
         } else {
             callType = CallType.ONE_TO_N_CALL;
+            participants = remoteOptions.getStartCallOptions().getParticipants();
         }
 
         configuration.setCallConfig(new CallConfiguration(
@@ -355,7 +358,7 @@ public final class CallComposite {
                 groupId,
                 meetingLink,
                 callType,
-                remoteOptions.getStartCallOptions().getParticipants()));
+                participants));
 
         if (localOptions != null) {
             configuration.setCallCompositeLocalOptions(localOptions);
