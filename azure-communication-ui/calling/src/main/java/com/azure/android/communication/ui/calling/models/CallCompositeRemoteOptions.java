@@ -31,9 +31,7 @@ import com.azure.android.communication.ui.calling.CallComposite;
 public final class CallCompositeRemoteOptions {
     // Mandatory
     private final CommunicationTokenCredential credential;
-    private CallCompositeJoinLocator locator;
-
-    private CallCompositeStartCallOptions startCallOptions;
+    private final CallCompositeJoinLocator locator;
 
     // Optional
     private final String displayName;
@@ -67,15 +65,6 @@ public final class CallCompositeRemoteOptions {
         this.locator = locator;
     }
 
-    public CallCompositeRemoteOptions(
-            final CallCompositeStartCallOptions startCallOptions,
-            final CommunicationTokenCredential credential,
-            final String displayName) {
-        this.credential = credential;
-        this.displayName = displayName;
-        this.startCallOptions = startCallOptions;
-    }
-
     /**
      * Get {@link CommunicationTokenCredential}.
      *
@@ -104,7 +93,7 @@ public final class CallCompositeRemoteOptions {
     }
 
     /**
-     * Get call start options.
+     * Get call options.
      *
      * @return  {@link CallCompositeStartCallOptions}.
      */

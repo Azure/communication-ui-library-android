@@ -11,7 +11,6 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallType;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer;
-import com.azure.android.communication.ui.calling.handlers.PushNotificationHandler;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
@@ -20,6 +19,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallL
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent;
+import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationInfo;
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
@@ -62,8 +62,6 @@ public final class CallComposite {
 
     private final CallCompositeConfiguration configuration;
     private WeakReference<DependencyInjectionContainer> diContainer;
-
-    private final PushNotificationHandler pushNotificationHandler = new PushNotificationHandler();
 
     CallComposite(final CallCompositeConfiguration configuration) {
         this.configuration = configuration;
@@ -315,26 +313,23 @@ public final class CallComposite {
         return debugInfoManager.getDebugInfo();
     }
 
-    /**
-     * Registers push notification token
-     * @param context The android context used to start the Composite.
-     * @param options The {@link CallCompositePushNotificationOptions} has remote parameters
-     */
     public void registerPushNotification(final Context context, final CallCompositePushNotificationOptions options) {
         if (diContainer != null) {
             final DependencyInjectionContainer container = diContainer.get();
             if (container != null) {
-                configuration.setCallConfig(new CallConfiguration(
-                        options.getTokenCredential(),
-                        options.getDisplayName(),
-                        null,
-                        null,
-                        CallType.ONE_TO_N_CALL,
-                        null));
-                container.getPushNotificationHandler().registerPushNotificationAsync(context, options);
+                container.getPushNotificationHandler().registerPushNotificationAsync(options);
             }
-        } else {
-            pushNotificationHandler.registerPushNotificationAsync(context, options);
+        }
+    }
+
+    public void handlePushNotification(final Context context,
+                                       final CallCompositePushNotificationInfo pushNotificationInfo,
+                                       final CallCompositeRemoteOptions remoteOptions) {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer.get();
+            if (container != null) {
+                container.getPushNotificationHandler().handlePushNotificationAsync(pushNotificationInfo);
+            }
         }
     }
 
@@ -364,16 +359,12 @@ public final class CallComposite {
         final CallType callType;
 
         final CallCompositeJoinLocator locator = remoteOptions.getLocator();
-        if (locator != null) {
-            if (locator instanceof CallCompositeGroupCallLocator) {
-                callType = CallType.GROUP_CALL;
-                groupId = ((CallCompositeGroupCallLocator) locator).getGroupId();
-            } else {
-                callType = CallType.TEAMS_MEETING;
-                meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
-            }
+        if (locator instanceof CallCompositeGroupCallLocator) {
+            callType = CallType.GROUP_CALL;
+            groupId = ((CallCompositeGroupCallLocator) locator).getGroupId();
         } else {
-            callType = CallType.ONE_TO_N_CALL;
+            callType = CallType.TEAMS_MEETING;
+            meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
         }
 
         configuration.setCallConfig(new CallConfiguration(
@@ -381,8 +372,7 @@ public final class CallComposite {
                 remoteOptions.getDisplayName(),
                 groupId,
                 meetingLink,
-                callType,
-                remoteOptions.getStartCallOptions().getParticipants()));
+                callType));
 
         if (localOptions != null) {
             configuration.setCallCompositeLocalOptions(localOptions);
