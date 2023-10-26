@@ -11,6 +11,7 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallType;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer;
+import com.azure.android.communication.ui.calling.handlers.PushNotificationHandler;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
@@ -317,8 +318,17 @@ public final class CallComposite {
         if (diContainer != null) {
             final DependencyInjectionContainer container = diContainer.get();
             if (container != null) {
-                container.getPushNotificationHandler().registerPushNotificationAsync(options);
+                configuration.setCallConfig(new CallConfiguration(
+                        options.getTokenCredential(),
+                        options.getDisplayName(),
+                        null,
+                        null,
+                        CallType.ONE_TO_N_CALL,
+                        null));
+                container.getPushNotificationHandler().registerPushNotificationAsync(context, options);
             }
+        } else {
+            new PushNotificationHandler().registerPushNotificationAsync(context, options);
         }
     }
 
@@ -328,8 +338,18 @@ public final class CallComposite {
         if (diContainer != null) {
             final DependencyInjectionContainer container = diContainer.get();
             if (container != null) {
-                container.getPushNotificationHandler().handlePushNotificationAsync(pushNotificationInfo);
+                configuration.setCallConfig(new CallConfiguration(
+                        remoteOptions.getCredential(),
+                        remoteOptions.getDisplayName(),
+                        null,
+                        null,
+                        CallType.ONE_TO_N_CALL,
+                        null));
+                container.getPushNotificationHandler().handlePushNotificationAsync(context, remoteOptions, pushNotificationInfo);
             }
+        }
+        else {
+            new PushNotificationHandler().handlePushNotificationAsync(context, remoteOptions, pushNotificationInfo);
         }
     }
 
