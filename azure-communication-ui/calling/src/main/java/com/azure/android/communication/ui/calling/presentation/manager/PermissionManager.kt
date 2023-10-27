@@ -44,7 +44,7 @@ internal class PermissionManager(
     }
 
     private fun createAudioPermissionRequest() {
-        if (getAudioPermissionState(activity) == PermissionStatus.NOT_ASKED) {
+        if (getAudioPermissionState(activity) == PermissionStatus.NOT_ASKED || true) {
             audioPermissionLauncher.launch(getPermissionsList())
         } else {
             setAudioPermissionsState()
@@ -138,6 +138,8 @@ internal class PermissionManager(
 
         permissions.add(Manifest.permission.MANAGE_OWN_CALLS)
         permissions.add(Manifest.permission.CALL_PHONE)
+        permissions.add(Manifest.permission.READ_CALL_LOG)
+        permissions.add(Manifest.permission.WRITE_CALL_LOG)
 
         return permissions.toTypedArray()
     }

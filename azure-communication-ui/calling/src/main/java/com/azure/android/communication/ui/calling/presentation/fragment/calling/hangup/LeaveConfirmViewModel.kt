@@ -27,7 +27,7 @@ internal class LeaveConfirmViewModel(private val store: Store<ReduxState>) {
     fun confirm(context: Context) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            TelecomConnectionManager.instance?.endConnection(context)
+            TelecomConnectionManager.instance?.endConnection(context, "John Doe")
         }
 
         if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&

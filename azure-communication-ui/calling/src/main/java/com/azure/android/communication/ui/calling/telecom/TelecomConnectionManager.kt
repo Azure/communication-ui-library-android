@@ -2,6 +2,7 @@ package com.azure.android.communication.ui.calling.telecom
 
 import android.Manifest
 import android.content.ComponentName
+import android.content.ContentValues
 import android.content.Context
 import android.content.Context.TELECOM_SERVICE
 import android.content.Intent
@@ -9,6 +10,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.CallLog
 import android.telecom.DisconnectCause
 import android.telecom.PhoneAccount
 import android.telecom.PhoneAccountHandle
@@ -19,10 +21,12 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 
+
 @RequiresApi(Build.VERSION_CODES.M)
 internal class TelecomConnectionManager(context: Context,
                                         val phoneAccountId: String) {
 
+    private val TAG = "TelecomConnectionManager"
     private var phoneAccountHandle: PhoneAccountHandle?
 
     companion object {
@@ -71,8 +75,24 @@ internal class TelecomConnectionManager(context: Context,
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     fun startOutgoingConnection(context: Context, callerDisplayName: String, isVideoCall: Boolean) {
+
         if (context.checkSelfPermission(Manifest.permission.MANAGE_OWN_CALLS) ==
                 PackageManager.PERMISSION_GRANTED) {
+
+            if (context.checkSelfPermission(Manifest.permission.READ_CALL_LOG) ==
+                    PackageManager.PERMISSION_GRANTED) {
+                var columns = arrayOf<String>(CallLog.Calls._ID, CallLog.Calls.NUMBER, CallLog.Calls.TYPE)
+
+                val cursor = context.contentResolver.query(CallLog.Calls.CONTENT_URI, columns, null, null, "${CallLog.Calls.LAST_MODIFIED} DESC")
+
+                cursor?.use {
+                    while (cursor.moveToNext()) {
+                        val number = cursor.getString(cursor.getColumnIndexOrThrow(CallLog.Calls.NUMBER))
+                        Log.d("startOutgoingConnection", number)
+                    }
+                }
+
+            }
 
             try {
                 val telecomManager = context.getSystemService(TELECOM_SERVICE) as TelecomManager
@@ -96,7 +116,7 @@ internal class TelecomConnectionManager(context: Context,
         }
     }
 
-    fun endConnection(context: Context) {
+    fun endConnection(context: Context, callerDisplayName: String) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.MANAGE_OWN_CALLS)
                 == PackageManager.PERMISSION_GRANTED) {
             val connection = TelecomConnectionService.connection
@@ -107,6 +127,20 @@ internal class TelecomConnectionManager(context: Context,
             }
             TelecomConnectionService.connection = null
         }
+
+
+        val values = ContentValues()
+        values.put(CallLog.Calls.NUMBER, callerDisplayName)
+        values.put(CallLog.Calls.DATE, System.currentTimeMillis())
+        values.put(CallLog.Calls.DURATION, 0)
+        values.put(CallLog.Calls.TYPE, CallLog.Calls.OUTGOING_TYPE)
+        values.put(CallLog.Calls.NEW, 1)
+        values.put(CallLog.Calls.CACHED_NAME, "CACHED_NAME")
+        values.put(CallLog.Calls.CACHED_NUMBER_TYPE, 0)
+        values.put(CallLog.Calls.CACHED_NUMBER_LABEL, "CACHED_NUMBER_LABEL")
+
+        context.contentResolver.insert(CallLog.Calls.CONTENT_URI, values)
+
     }
 
     private fun isConnectionServiceSupported(): Boolean {
@@ -117,9 +151,11 @@ internal class TelecomConnectionManager(context: Context,
             telecomManager: TelecomManager, phoneAccountHandle: PhoneAccountHandle) {
         if (isConnectionServiceSupported()) {
             clearExistingAccounts(telecomManager)
-
+            val extras = Bundle()
+            extras.putBoolean(PhoneAccount.EXTRA_LOG_SELF_MANAGED_CALLS, true)
             val account = PhoneAccount.builder(phoneAccountHandle, phoneAccountId)
                 .setCapabilities(PhoneAccount.CAPABILITY_SELF_MANAGED) //custom UI
+                .setExtras(extras)
                 .build()
             try {
                 telecomManager.registerPhoneAccount(account)
@@ -162,6 +198,7 @@ internal class TelecomConnectionManager(context: Context,
         extras.putParcelable(TelecomManager.EXTRA_INCOMING_CALL_ADDRESS, uri)
         extras.putParcelable(TelecomManager.EXTRA_PHONE_ACCOUNT_HANDLE, phoneAccountHandle)
         extras.putBoolean(TelecomManager.EXTRA_START_CALL_WITH_SPEAKERPHONE, true)
+//        extras.putInt(TelecomManager.EXTRA_LOG_SELF_MANAGED_CALLS)
 
         return extras
     }
