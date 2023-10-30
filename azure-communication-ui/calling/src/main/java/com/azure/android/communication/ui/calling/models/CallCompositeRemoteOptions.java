@@ -65,6 +65,15 @@ public final class CallCompositeRemoteOptions {
         this.locator = locator;
     }
 
+    public CallCompositeRemoteOptions(
+            final CallCompositeStartCallOptions startCallOptions,
+            final CommunicationTokenCredential credential,
+            final String displayName) {
+        this.credential = credential;
+        this.displayName = displayName;
+        this.startCallOptions = startCallOptions;
+    }
+
     /**
      * Get {@link CommunicationTokenCredential}.
      *

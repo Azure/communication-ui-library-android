@@ -345,10 +345,11 @@ public final class CallComposite {
                         null,
                         CallType.ONE_TO_N_CALL,
                         null));
-                container.getPushNotificationHandler().handlePushNotificationAsync(context, remoteOptions, pushNotificationInfo);
+                container.getPushNotificationHandler().handlePushNotificationAsync(context,
+                        remoteOptions,
+                        pushNotificationInfo);
             }
-        }
-        else {
+        } else {
             new PushNotificationHandler().handlePushNotificationAsync(context, remoteOptions, pushNotificationInfo);
         }
     }
