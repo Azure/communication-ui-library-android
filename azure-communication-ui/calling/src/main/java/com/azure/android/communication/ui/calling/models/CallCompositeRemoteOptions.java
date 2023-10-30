@@ -93,7 +93,7 @@ public final class CallCompositeRemoteOptions {
     }
 
     /**
-     * Get call options.
+     * Get call start options.
      *
      * @return  {@link CallCompositeStartCallOptions}.
      */

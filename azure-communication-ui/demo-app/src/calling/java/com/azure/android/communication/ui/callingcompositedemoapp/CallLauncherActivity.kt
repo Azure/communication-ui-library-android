@@ -62,9 +62,8 @@ class CallLauncherActivity : AppCompatActivity() {
         val deeplinkName = data?.getQueryParameter("name")
         val deeplinkGroupId = data?.getQueryParameter("groupid")
         val deeplinkTeamsUrl = data?.getQueryParameter("teamsurl")
-        val participantMRI = data?.getQueryParameter("participanturis") ?: BuildConfig.PARTICIPANT_MRIS
 
-        callLauncherViewModel.registerFirebaseToken(this)
+        registerFirebaseToken()
         binding.run {
             if (!deeplinkAcsToken.isNullOrEmpty()) {
                 acsTokenText.setText(deeplinkAcsToken)
@@ -82,17 +81,10 @@ class CallLauncherActivity : AppCompatActivity() {
                 groupIdOrTeamsMeetingLinkText.setText(deeplinkGroupId)
                 groupCallRadioButton.isChecked = true
                 teamsMeetingRadioButton.isChecked = false
-                oneToOneRadioButton.isChecked = false
             } else if (!deeplinkTeamsUrl.isNullOrEmpty()) {
                 groupIdOrTeamsMeetingLinkText.setText(deeplinkTeamsUrl)
                 groupCallRadioButton.isChecked = false
                 teamsMeetingRadioButton.isChecked = true
-                oneToOneRadioButton.isChecked = false
-            } else if (!participantMRI.isNullOrEmpty()) {
-                groupIdOrTeamsMeetingLinkText.setText(participantMRI)
-                groupCallRadioButton.isChecked = false
-                teamsMeetingRadioButton.isChecked = false
-                oneToOneRadioButton.isChecked = true
             } else {
                 groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
             }
@@ -107,21 +99,12 @@ class CallLauncherActivity : AppCompatActivity() {
                 if (groupCallRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
                     teamsMeetingRadioButton.isChecked = false
-                    oneToOneRadioButton.isChecked = false
                 }
             }
             teamsMeetingRadioButton.setOnClickListener {
                 if (teamsMeetingRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.TEAMS_MEETING_LINK)
                     groupCallRadioButton.isChecked = false
-                    oneToOneRadioButton.isChecked = false
-                }
-            }
-            oneToOneRadioButton.setOnClickListener {
-                if (oneToOneRadioButton.isChecked) {
-                    groupIdOrTeamsMeetingLinkText.setText(BuildConfig.PARTICIPANT_MRIS)
-                    groupCallRadioButton.isChecked = false
-                    teamsMeetingRadioButton.isChecked = false
                 }
             }
 
@@ -212,23 +195,12 @@ class CallLauncherActivity : AppCompatActivity() {
             }
         }
 
-        var participantMri: String? = null
-        if (binding.oneToOneRadioButton.isChecked) {
-            participantMri = binding.groupIdOrTeamsMeetingLinkText.text.toString()
-            if (participantMri.isBlank()) {
-                val message = "Participant MRI is invalid or empty."
-                showAlert(message)
-                return
-            }
-        }
-
         callLauncherViewModel.launch(
             this@CallLauncherActivity,
             acsToken,
             userName,
             groupId,
             meetingLink,
-            participantMri
         )
     }
 
@@ -285,5 +257,25 @@ class CallLauncherActivity : AppCompatActivity() {
         } else {
             EndCompositeButtonView.get(this).show(callLauncherViewModel)
         }
+    }
+
+    private fun registerFirebaseToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                println("Fetching FCM registration token failed")
+                return@OnCompleteListener
+            }
+
+            val token = task.result
+            val callComposite = CallCompositeProvider.getInstance().getCallComposite(applicationContext)
+            callComposite.registerPushNotification(
+                applicationContext, CallCompositePushNotificationOptions(
+                    CommunicationTokenCredential(BuildConfig.ACS_TOKEN),
+                    token,
+                    BuildConfig.USER_NAME
+                )
+            )
+        })
+
     }
 }

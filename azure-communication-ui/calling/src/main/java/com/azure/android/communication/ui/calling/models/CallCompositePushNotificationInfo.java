@@ -7,9 +7,9 @@ package com.azure.android.communication.ui.calling.models;
 import java.util.Map;
 
 public class CallCompositePushNotificationInfo {
-    public Map<String, String> notificationInfo;
+    private final Map<String, String> notificationInfo;
 
-    public CallCompositePushNotificationInfo(Map<String, String> notificationInfo) {
+    public CallCompositePushNotificationInfo(final Map<String, String> notificationInfo) {
         this.notificationInfo = notificationInfo;
     }
 
@@ -17,7 +17,7 @@ public class CallCompositePushNotificationInfo {
         return notificationInfo;
     }
 
-    public static CallCompositePushNotificationInfo fromMap(Map<String, String> map) {
+    public static CallCompositePushNotificationInfo fromMap(final Map<String, String> map) {
         return new CallCompositePushNotificationInfo(map);
     }
 }
