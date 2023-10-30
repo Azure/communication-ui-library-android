@@ -30,11 +30,12 @@ internal class PushNotificationHandler(private val callingSDK: CallingSDK? = nul
         callingSDK?.registerPushNotificationTokenAsync(pushNotificationOptions.deviceRegistrationToken)
             ?: run {
                 val result = CompletableFuture<Void>()
-                createCallAgent(
+                val callAgent = createCallAgent(
                     context,
                     pushNotificationOptions.displayName,
                     pushNotificationOptions.tokenCredential
-                )?.registerPushNotification(pushNotificationOptions.deviceRegistrationToken)
+                )
+                callAgent?.registerPushNotification(pushNotificationOptions.deviceRegistrationToken)
                     ?.whenComplete { t, u ->
                         if (u != null) {
                             result.completeExceptionally(u)
@@ -42,18 +43,21 @@ internal class PushNotificationHandler(private val callingSDK: CallingSDK? = nul
                             result.complete(t)
                         }
                     }
+                callAgent?.dispose()
             }
     }
 
     fun handlePushNotificationAsync(context: Context, remoteOptions: CallCompositeRemoteOptions, pushNotificationInfo: CallCompositePushNotificationInfo) {
-        callingSDK?.handlePushNotificationAsync(PushNotificationInfo.fromMap(pushNotificationInfo.getNotificationInfo()))
+        callingSDK?.handlePushNotificationAsync(PushNotificationInfo.fromMap(pushNotificationInfo.notificationInfo))
             ?:  run {
             val result = CompletableFuture<Void>()
-            createCallAgent(
-                context,
-                remoteOptions.displayName,
-                remoteOptions.credential
-            )?.handlePushNotification(PushNotificationInfo.fromMap(pushNotificationInfo.getNotificationInfo()))
+
+                val callAgent = createCallAgent(
+                    context,
+                    remoteOptions.displayName,
+                    remoteOptions.credential
+                )
+                callAgent?.handlePushNotification(PushNotificationInfo.fromMap(pushNotificationInfo.notificationInfo))
                 ?.whenComplete { t, u ->
                     if (u != null) {
                         result.completeExceptionally(u)
@@ -61,6 +65,7 @@ internal class PushNotificationHandler(private val callingSDK: CallingSDK? = nul
                         result.complete(t)
                     }
                 }
+                callAgent?.dispose()
         }
     }
 
