@@ -78,8 +78,8 @@ public final class CallCompositeRemoteOptions {
     }
 
     public CallCompositeRemoteOptions(
-            final CommunicationTokenCredential credential,
             final CallCompositePushNotificationInfo pushNotificationInfo,
+            final CommunicationTokenCredential credential,
             final String displayName) {
         this.credential = credential;
         this.pushNotificationInfo = pushNotificationInfo;
