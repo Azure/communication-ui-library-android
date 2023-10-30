@@ -102,4 +102,20 @@
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s присоединяется к собранию</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s покидает собрание</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">Вы присоединились к вызову</string>
+
+    <!-- Call Diagnostics -->
+    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Сеть потеряна</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">Повторное подключение…</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">Низкое качество работы сети</string>
+    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">Ваш звук приглушен</string>
+    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">Микрофон работает не так, как ожидалось</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">Не удалось запустить камеру</string>
+    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">Камера перестала работать</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">Динамик работает не так, как ожидалось</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">Не удалось найти динамик</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">Не удалось найти микрофон</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">Динамик приглушен</string>
+
+    <!--    Upper Message Bar Notification -->
+    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Закрыть</string>
 </resources>

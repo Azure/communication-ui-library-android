@@ -17,7 +17,7 @@ internal data class CallConfiguration(
     val displayName: String,
     val groupId: UUID?,
     val meetingLink: String?,
-    val callType: CallType,
+    val callType: CallType
 ) {
     val diagnosticConfig = DiagnosticConfig()
 }
