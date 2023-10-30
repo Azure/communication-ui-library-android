@@ -103,6 +103,7 @@ extends:
               - task: Bash@3
                 displayName: Copy Additional Calling String Files
                 inputs:
+                targetType: inline
                   script: |-
                     git config user.email "tdbuild@microsoft.com"
                     git config user.name "TDBuild Bot"
