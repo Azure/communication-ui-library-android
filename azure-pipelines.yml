@@ -130,7 +130,7 @@ extends:
                     git status
 
                     echo "git add"
-                    git add $(system.defaultWorkingDirectory)/$LOCALIZATION_PATH/*
+                    git add $(System.DefaultWorkingDirectory)/$LOCALIZATION_PATH/*
 
                     echo "git status"
                     git status
