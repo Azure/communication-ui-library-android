@@ -7,12 +7,13 @@ import com.azure.android.communication.common.CommunicationTokenCredential;
 
 public final class CallCompositePushNotificationOptions {
 
-    public CommunicationTokenCredential tokenCredential;
-    public String deviceRegistrationToken;
+    private final CommunicationTokenCredential tokenCredential;
+    private final String deviceRegistrationToken;
+    private final String displayName;
 
-    public String displayName;
-
-    public CallCompositePushNotificationOptions(CommunicationTokenCredential tokenCredential, String deviceRegistrationToken, String displayName) {
+    public CallCompositePushNotificationOptions(final CommunicationTokenCredential tokenCredential,
+                                                final String deviceRegistrationToken,
+                                                final String displayName) {
         this.tokenCredential = tokenCredential;
         this.deviceRegistrationToken = deviceRegistrationToken;
         this.displayName = displayName;
