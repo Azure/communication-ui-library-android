@@ -43,6 +43,7 @@ internal class PushNotificationHandler(private val callingSDK: CallingSDK? = nul
                             result.complete(t)
                         }
                     }
+                callAgent?.dispose()
             }
     }
 
