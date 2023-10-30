@@ -10,7 +10,6 @@
 # No trigger found, defaulting to 'none'. Update the trigger as needed.
 # No name found, setting the default value '$(Date:yyyyMMdd).$(Rev:r)'. This value determines how your pipeline runs are numbered. Update the name as needed: https://learn.microsoft.com/en-us/azure/devops/pipelines/process/run-number?view=azure-devops&tabs=yaml
 # The pipeline uses service connection "ServiceTree Gateway", you will need to grant the new pipeline access: https://dev.azure.com/skype/SCC/_settings/adminservices?resourceId=c29e963a-8ea3-4e6a-b28f-a035eaff83ab
-# The following tasks are disabled in "Agent job 1" and not included in the converted pipeline: "Touchdown Build Chat- Commit Changes ", "Copy Additional Chat String Files "
 
 name: $(Date:yyyyMMdd).$(Rev:r)
 variables:
