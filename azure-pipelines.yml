@@ -1,0 +1,156 @@
+# This pipeline was generated from the classic pipeline "SCC-SPOOL-communication-ui-library-android CI" on 2023-10-30 with https://aka.ms/1ESPTMigration (v1.0.0): https://dev.azure.com/skype/SCC/_build?definitionId=12095
+#
+# The following items require attention:
+# Variables were exported from the classic pipeline, confirm that `variables` values do not contain private information. If a variable contains private information, follow the guidance on handling secret variables: https://learn.microsoft.com/en-us/azure/devops/pipelines/process/set-secret-variables
+# Secret variable 'FEED_KEY' detected in `variables`, follow the guidance on handling secret variables: https://learn.microsoft.com/en-us/azure/devops/pipelines/process/set-secret-variables
+# No trigger found, defaulting to 'none'. Update the trigger as needed.
+# The pipeline uses service connection "ServiceTree Gateway", you will need to grant the new pipeline access: https://dev.azure.com/skype/SCC/_settings/adminservices?resourceId=c29e963a-8ea3-4e6a-b28f-a035eaff83ab
+# The following tasks are disabled in "Agent job 1" and not included in the converted pipeline: "build CallWithChat", "assembleDebug everything", "Chat - Publish code coverage Jacoco"
+
+name: $(date:yyyyMMdd)$(rev:.r)
+variables:
+  - name: CSC_MAVEN_REPO_URL
+    value: https://skype.pkgs.visualstudio.com/_packaging/csc/maven/v1
+  - name: FEED_KEY
+    value: null
+  - name: FEED_NAME
+    value: aulakhinderpal
+  - name: FEED_URL
+    value: https://pkgs.dev.azure.com/aulakhinderpal/_packaging/aulakhinderpal/maven/v1
+  - name: FEED_USER_NAME
+    value: aulakhinderpal
+  - name: Ic3PipelineUsage
+    value: production
+  - name: JDK_PATH
+    value: /usr/lib/jvm/openlogic-openjdk-11-hotspot-amd64
+  - name: PRIVATE_DROP_VERSION
+    value: ""
+  - name: system.debug
+    value: false
+  - group: ServiceTreeLinkGroup
+  - group: InfoSec-SecurityResults
+resources:
+  repositories:
+    - repository: self
+      type: git
+      ref: refs/heads/main
+    - repository: 1esPipelines
+      type: git
+      name: 1ESPipelineTemplates/1ESPipelineTemplates
+      ref: refs/tags/release
+trigger: none
+extends:
+  template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
+  parameters:
+    pool:
+      os: windows
+      image: windows-2022
+      name: Azure-Pipelines-1ESPT-ExDShared
+    customBuildTags:
+      - MigrationTooling-skype-SCC-12095-Tool
+    stages:
+      - stage: Stage
+        jobs:
+          - job: Job_1
+            displayName: Agent job 1
+            steps:
+              - checkout: self
+                clean: true
+                fetchTags: false
+              - task: skvso.servicetree-build-tasks.servicetree-link-build-task.servicetree-link-build-task@1
+                displayName: "ServiceTree: [$(BuildOutputUsage)] "
+                condition: always()
+                inputs:
+                  ServiceTreeGateway: ServiceTree Gateway
+                  Service: 5b23174b-8c6d-467d-862d-a3f24958fb74
+              - task: ms-devlabs.utilitytasks.task-Shellpp.Shell++@0
+                displayName: Install SDK
+                inputs:
+                  type: InlineScript
+                  script: |
+                    export ANDROID_CLI_TOOLS_URL="https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip"
+                    export ANDROID_HOME=$PWD/android-sdk
+                    export ANDROID_COMPILE_SDK="31"
+                    export ANDROID_BUILD_TOOLS="32.0.0"
+                    export PATH=$PATH:${ANDROID_HOME}/cmdline-tools/bin/
+                    if [ -d "android-sdk" ]; then rm -Rf android-sdk; fi
+                    mkdir android-sdk
+                    cd android-sdk
+                    curl --output sdk-tools-linux.zip ${ANDROID_CLI_TOOLS_URL}
+                    unzip sdk-tools-linux.zip
+                    yes | sdkmanager --sdk_root=${ANDROID_HOME} --licenses
+                    sdkmanager --sdk_root=${ANDROID_HOME} "platforms;android-${ANDROID_COMPILE_SDK}"
+                    sdkmanager --sdk_root=${ANDROID_HOME} "platform-tools"
+                    sdkmanager --sdk_root=${ANDROID_HOME} "build-tools;${ANDROID_BUILD_TOOLS}"
+                    cd ..
+                    export ANDROID_SDK_ROOT=$PWD/android-sdk
+                    cd azure-communication-ui
+                    echo sdk.dir=$ANDROID_SDK_ROOT > local.properties
+                    echo CSC_MAVEN_REPO_URL=$(CSC_MAVEN_REPO_URL) >> local.properties
+                    echo FEED_NAME=$(FEED_NAME) >> local.properties
+                    echo FEED_USER_NAME=$(FEED_USER_NAME) >> local.properties
+                    echo FEED_URL=$(FEED_URL) >> local.properties
+                    echo FEED_KEY=$(FEED_KEY) >> local.properties
+                    cd ..
+              - task: ms-devlabs.utilitytasks.task-Shellpp.Shell++@0
+                displayName: Set Environment Variables
+                inputs:
+                  type: InlineScript
+                  script: |-
+                    export KEYSTORE_FILEPATH="debug.keystore"
+                    export KEYSTORE_PASSWORD="android"
+                    export KEY_ALIAS="androiddebugkey"
+                    export KEY_PASSWORD="android"
+
+                    ls /usr/lib/jvm/openlogic-openjdk-11-hotspot-amd64
+              - task: Gradle@2
+                displayName: ktlintCheck
+                inputs:
+                  wrapperScript: azure-communication-ui/gradlew
+                  cwd: azure-communication-ui
+                  tasks: ktlintCheck
+                  publishJUnitResults: false
+                  javaHomeSelection: Path
+                  jdkUserInputPath: $(JDK_PATH)
+              - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
+                displayName: Component Detection
+              - task: Gradle@2
+                displayName: build Calling
+                inputs:
+                  wrapperScript: azure-communication-ui/gradlew
+                  cwd: azure-communication-ui/calling
+                  tasks: build --stacktrace
+                  publishJUnitResults: false
+                  javaHomeSelection: Path
+                  jdkUserInputPath: $(JDK_PATH)
+              - task: Gradle@2
+                displayName: build Chat
+                inputs:
+                  wrapperScript: azure-communication-ui/gradlew
+                  cwd: azure-communication-ui/chat
+                  tasks: build --stacktrace
+                  publishJUnitResults: false
+                  javaHomeSelection: Path
+                  jdkUserInputPath: $(JDK_PATH)
+              - task: Gradle@3
+                displayName: build everything
+                inputs:
+                  wrapperScript: azure-communication-ui/gradlew
+                  cwd: azure-communication-ui
+                  tasks: build --stacktrace
+                  javaHomeSelection: Path
+                  jdkUserInputPath: $(JDK_PATH)
+              - task: Gradle@2
+                displayName: JacocoTestReport
+                inputs:
+                  wrapperScript: azure-communication-ui/gradlew
+                  cwd: azure-communication-ui
+                  tasks: "jacocoTestReport "
+                  javaHomeSelection: Path
+                  jdkUserInputPath: $(JDK_PATH)
+              - task: PublishCodeCoverageResults@1
+                displayName: Calling - Publish code coverage Jacoco
+                inputs:
+                  summaryFileLocation: $(System.DefaultWorkingDirectory)/azure-communication-ui/calling/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
+                  pathToSources: $(System.DefaultWorkingDirectory)/azure-communication-ui/calling/src/main/java
+                  reportDirectory: $(System.DefaultWorkingDirectory)/azure-communication-ui/calling/build/reports/jacoco/jacocoTestReport/html/index.html
