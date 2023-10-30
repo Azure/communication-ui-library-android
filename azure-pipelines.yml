@@ -100,7 +100,7 @@ extends:
                   appendRelativeDir: false
                   cultureMappingType: Android
                   gitAction: COMMIT
-              - task: CmdLine@2
+              - task: Bash@3
                 displayName: Copy Additional Calling String Files
                 inputs:
                   script: |-
