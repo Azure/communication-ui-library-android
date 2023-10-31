@@ -49,6 +49,9 @@ extends:
       os: windows
       image: windows-2022
       name: Azure-Pipelines-1ESPT-ExDShared
+    sdl:
+      credscan:
+        enable:false
     customBuildTags:
       - MigrationTooling-skype-SCC-12525-Tool
     stages:
