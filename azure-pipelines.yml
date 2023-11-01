@@ -50,6 +50,8 @@ extends:
       image: windows-2022
       name: Azure-Pipelines-1ESPT-ExDShared
     sdl:
+      baseline:
+        baselineFile: $(Build.SourcesDirectory)\guardian\SDL\.gdnbaselines
       customCheckout:
         scanDirectory: $(System.DefaultWorkingDirectory)/azure-communication-ui/azure-communication-ui/
     customBuildTags:
