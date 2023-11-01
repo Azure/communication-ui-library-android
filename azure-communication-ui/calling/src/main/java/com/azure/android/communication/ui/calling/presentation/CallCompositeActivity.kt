@@ -90,6 +90,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         configureLocalization()
         configureActionBar()
         setStatusBarColor()
+        setNavigationBarColor()
         setActionBarVisibility()
 
         configuration.themeConfig?.let {
@@ -348,6 +349,14 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun setNavigationBarColor() {
+        window.navigationBarColor =
+            ContextCompat.getColor(
+                this,
+                R.color.azure_communication_ui_calling_color_status_bar,
+            )
     }
 
     private fun supportedOSLocale(): Locale {

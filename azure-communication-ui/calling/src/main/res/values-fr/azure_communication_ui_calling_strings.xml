@@ -13,7 +13,7 @@
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Sélectionner le périphérique audio %1$s</string>
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">Périphérique audio %1$s, sélectionné</string>
     <!--    Setup View-->
-    <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Connexion à l\'appel en cours… Merci de patienter.</string>
+    <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Rejoindre l\'appel…</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Vidéo désactivée</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_on">Vidéo activée</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Microphone désactivé</string>
@@ -102,4 +102,20 @@
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s a rejoint la réunion</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s a quitté la réunion</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">Vous avez rejoint l\'appel</string>
+
+    <!-- Call Diagnostics -->
+    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Le réseau a été perdu</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">Reconnexion en cours...</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">La qualité de réseau est faible.</string>
+    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">Votre micro est désactivé</string>
+    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">Le microphone ne fonctionne pas comme prévu</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">Impossible de démarrer l’appareil photo</string>
+    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">La caméra a cessé de fonctionner</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">Le haut-parleur ne fonctionne pas comme prévu</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">Impossible de localiser le haut-parleur</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">Impossible de localiser le microphone</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">Le haut-parleur est désactivé</string>
+
+    <!--    Upper Message Bar Notification -->
+    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Ignorer</string>
 </resources>

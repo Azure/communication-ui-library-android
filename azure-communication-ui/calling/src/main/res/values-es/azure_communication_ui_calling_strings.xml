@@ -102,4 +102,20 @@
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s se ha unido a la reunión</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s ha abandonado la reunión</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">Te has unido a la llamada.</string>
+
+    <!-- Call Diagnostics -->
+    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Se perdió la red</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">Reconectando...</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">La calidad de la red es baja.</string>
+    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">Está silenciado</string>
+    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">El micrófono no funciona como se esperaba</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">No se puede iniciar la cámara</string>
+    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">La cámara dejó de funcionar</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">El altavoz no funciona como se esperaba</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">No se puede encontrar el altavoz</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">No se puede encontrar el micrófono</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">El altavoz está silenciado</string>
+
+    <!--    Upper Message Bar Notification -->
+    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Descartar</string>
 </resources>
