@@ -50,8 +50,8 @@ extends:
       image: windows-2022
       name: Azure-Pipelines-1ESPT-ExDShared
     sdl:
-      credscan:
-        suppressionsFile: $(INETROOT)\\.config\\guardian\\SDL\\CredScanSuppressions.json
+      baseline:
+        baselineFile: $(Build.SourcesDirectory)\guardian\SDL\.gdnbaselines
     customBuildTags:
       - MigrationTooling-skype-SCC-12525-Tool
     stages:
