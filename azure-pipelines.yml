@@ -51,7 +51,7 @@ extends:
       name: Azure-Pipelines-1ESPT-ExDShared
     sdl:
       baseline:
-        baselineFile: $(Build.SourcesDirectory)\guardian\SDL\.gdnbaselines
+        baselineFile: $(Build.SourcesDirectory)\azure-communication-ui\guardian\SDL\.gdnbaselines
     customBuildTags:
       - MigrationTooling-skype-SCC-12525-Tool
     stages:
