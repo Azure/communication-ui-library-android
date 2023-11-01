@@ -51,7 +51,7 @@ extends:
       name: Azure-Pipelines-1ESPT-ExDShared
     sdl:
       credscan:
-        enable:false
+        suppressionsFile: $(INETROOT)\\.config\\guardian\\SDL\\CredScanSuppressions.json
     customBuildTags:
       - MigrationTooling-skype-SCC-12525-Tool
     stages:
