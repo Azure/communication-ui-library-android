@@ -50,8 +50,8 @@ extends:
       image: windows-2022
       name: Azure-Pipelines-1ESPT-ExDShared
     sdl:
-      customCheckout:
-        scanDirectory:azure-communication-ui/azure-communication-ui/
+      suppression:
+        suppressionFile: $(Build.SourcesDirectory)\guardian\SDL\.gdnsuppress
     customBuildTags:
       - MigrationTooling-skype-SCC-12525-Tool
     stages:
