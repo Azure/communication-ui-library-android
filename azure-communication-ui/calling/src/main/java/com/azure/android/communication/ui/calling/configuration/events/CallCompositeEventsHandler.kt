@@ -17,6 +17,8 @@ internal class CallCompositeEventsHandler {
         mutableSetOf<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
     private val exitEventHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeDismissedEvent>>()
+    private val incomingCallEventListeners =
+        mutableSetOf<CallCompositeIncomingCallListener>()
 
     fun getOnErrorHandlers() = errorHandlers.asIterable()
 
@@ -51,4 +53,12 @@ internal class CallCompositeEventsHandler {
     fun removeOnExitEventHandler(handler: CallCompositeEventHandler<CallCompositeDismissedEvent>) {
         exitEventHandlers.remove(handler)
     }
+
+    fun getIncomingCallListeners() = incomingCallEventListeners.asIterable()
+
+    fun addIncomingCallListener(listener: CallCompositeIncomingCallListener) =
+        incomingCallEventListeners.add(listener)
+
+    fun removeIncomingCallListener(listener: CallCompositeIncomingCallListener) =
+        incomingCallEventListeners.remove(listener)
 }

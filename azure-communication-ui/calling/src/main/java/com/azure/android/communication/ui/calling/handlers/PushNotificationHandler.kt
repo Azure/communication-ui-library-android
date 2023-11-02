@@ -11,6 +11,7 @@ import com.azure.android.communication.calling.CallClientOptions
 import com.azure.android.communication.calling.PushNotificationInfo
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.calling.DiagnosticConfig
+import com.azure.android.communication.ui.calling.configuration.events.CallCompositeIncomingCallListener
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationInfo
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
@@ -25,12 +26,15 @@ internal class PushNotificationHandler(private val callingSDK: CallingSDK? = nul
     private val diagnosticConfig: DiagnosticConfig by lazy { DiagnosticConfig() }
     private val logger: Logger by lazy { DefaultLogger() }
 
+    private var callAgent: CallAgent? = null
+    private var callClient: CallClient? = null
+
     fun registerPushNotificationAsync(context: Context,
                                       pushNotificationOptions: CallCompositePushNotificationOptions) {
         callingSDK?.registerPushNotificationTokenAsync(pushNotificationOptions.deviceRegistrationToken)
             ?: run {
                 val result = CompletableFuture<Void>()
-                val callAgent = createCallAgent(
+                callAgent = createCallAgent(
                     context,
                     pushNotificationOptions.displayName,
                     pushNotificationOptions.tokenCredential
@@ -44,19 +48,30 @@ internal class PushNotificationHandler(private val callingSDK: CallingSDK? = nul
                         }
                     }
                 callAgent?.dispose()
+                callClient?.dispose()
             }
     }
 
-    fun handlePushNotificationAsync(context: Context, remoteOptions: CallCompositeRemoteOptions, pushNotificationInfo: CallCompositePushNotificationInfo) {
+    fun handlePushNotificationAsync(
+        context: Context,
+        remoteOptions: CallCompositeRemoteOptions,
+        pushNotificationInfo: CallCompositePushNotificationInfo,
+        incomingCallListeners: MutableIterable<CallCompositeIncomingCallListener>
+    ) {
         callingSDK?.handlePushNotificationAsync(PushNotificationInfo.fromMap(pushNotificationInfo.notificationInfo))
             ?:  run {
             val result = CompletableFuture<Void>()
 
-                val callAgent = createCallAgent(
+                callAgent = createCallAgent(
                     context,
                     remoteOptions.displayName,
                     remoteOptions.credential
                 )
+                callAgent?.addOnIncomingCallListener {
+                    for (incomingCallListener in incomingCallListeners) {
+                        incomingCallListener.onIncomingCall(it.id)
+                    }
+                }
                 callAgent?.handlePushNotification(PushNotificationInfo.fromMap(pushNotificationInfo.notificationInfo))
                 ?.whenComplete { t, u ->
                     if (u != null) {
@@ -65,7 +80,6 @@ internal class PushNotificationHandler(private val callingSDK: CallingSDK? = nul
                         result.complete(t)
                     }
                 }
-                callAgent?.dispose()
         }
     }
 
@@ -73,12 +87,12 @@ internal class PushNotificationHandler(private val callingSDK: CallingSDK? = nul
         val callClientOptions = CallClientOptions().also {
             it.setTags(diagnosticConfig.tags, logger)
         }
-        val callClient = CallClient(callClientOptions)
+        callClient = CallClient(callClientOptions)
         val options = CallAgentOptions().apply { displayName = name }
-        return callClient.createCallAgent(
+        return callClient?.createCallAgent(
             context,
             communicationTokenCredential,
             options
-        ).get()
+        )?.get()
     }
 }

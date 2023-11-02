@@ -10,6 +10,7 @@ import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallType;
+import com.azure.android.communication.ui.calling.configuration.events.CallCompositeIncomingCallListener;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer;
 import com.azure.android.communication.ui.calling.handlers.PushNotificationHandler;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode;
@@ -334,6 +335,16 @@ public final class CallComposite {
         }
     }
 
+    public void addIncomingCallListener(
+            final CallCompositeIncomingCallListener listener) {
+        configuration.getCallCompositeEventsHandler().addIncomingCallListener(listener);
+    }
+
+    public void removeIncomingCallListener(
+            final CallCompositeIncomingCallListener listener) {
+        configuration.getCallCompositeEventsHandler().removeIncomingCallListener(listener);
+    }
+
     public void handlePushNotification(final Context context,
                                        final CallCompositePushNotificationInfo pushNotificationInfo,
                                        final CallCompositeRemoteOptions remoteOptions) {
@@ -349,10 +360,13 @@ public final class CallComposite {
                         null));
                 container.getPushNotificationHandler().handlePushNotificationAsync(context,
                         remoteOptions,
-                        pushNotificationInfo);
+                        pushNotificationInfo, configuration.getCallCompositeEventsHandler().getIncomingCallListeners());
             }
         } else {
-            new PushNotificationHandler().handlePushNotificationAsync(context, remoteOptions, pushNotificationInfo);
+            pushNotificationHandler.handlePushNotificationAsync(context,
+                    remoteOptions,
+                    pushNotificationInfo,
+                    configuration.getCallCompositeEventsHandler().getIncomingCallListeners());
         }
     }
 
