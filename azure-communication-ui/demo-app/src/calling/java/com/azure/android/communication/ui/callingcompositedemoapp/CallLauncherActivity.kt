@@ -64,7 +64,7 @@ class CallLauncherActivity : AppCompatActivity() {
         val deeplinkTeamsUrl = data?.getQueryParameter("teamsurl")
         val participantMRI = data?.getQueryParameter("participanturis") ?: BuildConfig.PARTICIPANT_MRIS
 
-        registerFirebaseToken()
+        callLauncherViewModel.registerFirebaseToken(this)
         binding.run {
             if (!deeplinkAcsToken.isNullOrEmpty()) {
                 acsTokenText.setText(deeplinkAcsToken)
@@ -285,25 +285,5 @@ class CallLauncherActivity : AppCompatActivity() {
         } else {
             EndCompositeButtonView.get(this).show(callLauncherViewModel)
         }
-    }
-
-    private fun registerFirebaseToken() {
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                println("Fetching FCM registration token failed")
-                return@OnCompleteListener
-            }
-
-            val token = task.result
-            val callComposite = CallCompositeProvider.getInstance().getCallComposite(applicationContext)
-            callComposite.registerPushNotification(
-                applicationContext, CallCompositePushNotificationOptions(
-                    CommunicationTokenCredential(BuildConfig.ACS_TOKEN),
-                    token,
-                    BuildConfig.USER_NAME
-                )
-            )
-        })
-
     }
 }

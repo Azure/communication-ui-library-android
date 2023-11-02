@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
@@ -17,6 +18,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallL
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
+import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeStartCallOptions
@@ -24,6 +26,8 @@ import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeeti
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.views.EndCompositeButtonView
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.UUID
 
@@ -160,6 +164,25 @@ class CallLauncherViewModel : ViewModel() {
 
     companion object {
         var callComposite: CallComposite? = null
+    }
+
+    fun registerFirebaseToken(context: Context) {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Toast.makeText(context, "Fetching FCM registration token failed", Toast.LENGTH_SHORT).show()
+                return@OnCompleteListener
+            }
+
+            val token = task.result
+            val callComposite = createCallComposite(context)
+            callComposite.registerPushNotification(
+                context, CallCompositePushNotificationOptions(
+                    CommunicationTokenCredential(BuildConfig.ACS_TOKEN),
+                    token,
+                    BuildConfig.USER_NAME
+                )
+            )
+        })
     }
 }
 
