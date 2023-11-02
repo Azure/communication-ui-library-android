@@ -64,6 +64,8 @@ public final class CallComposite {
     private final CallCompositeConfiguration configuration;
     private WeakReference<DependencyInjectionContainer> diContainer;
 
+    private final PushNotificationHandler pushNotificationHandler = new PushNotificationHandler();
+
     CallComposite(final CallCompositeConfiguration configuration) {
         this.configuration = configuration;
     }
@@ -328,7 +330,7 @@ public final class CallComposite {
                 container.getPushNotificationHandler().registerPushNotificationAsync(context, options);
             }
         } else {
-            new PushNotificationHandler().registerPushNotificationAsync(context, options);
+            pushNotificationHandler.registerPushNotificationAsync(context, options);
         }
     }
 
