@@ -42,6 +42,10 @@ internal class CallingService(
     private var callIdStateFlow = MutableStateFlow<String?>(null)
     private var callingStatus: CallingStatus = CallingStatus.NONE
 
+    fun registerPushNotification(deviceRegistrationToken: String): CompletableFuture<Void> {
+        return callingSdk.registerPushNotification(deviceRegistrationToken)
+    }
+
     fun turnCameraOn(): CompletableFuture<String> {
         return callingSdk.turnOnVideoAsync().thenApply { stream ->
             stream?.source?.id

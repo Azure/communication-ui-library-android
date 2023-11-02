@@ -64,8 +64,6 @@ public final class CallComposite {
     private final CallCompositeConfiguration configuration;
     private WeakReference<DependencyInjectionContainer> diContainer;
 
-    private final PushNotificationHandler pushNotificationHandler = new PushNotificationHandler();
-
     CallComposite(final CallCompositeConfiguration configuration) {
         this.configuration = configuration;
     }
@@ -316,6 +314,13 @@ public final class CallComposite {
         return debugInfoManager.getDebugInfo();
     }
 
+    /**
+     * RegisterPushNotification to receive incoming call notification.
+     *
+     * @param context The {@link Context}.
+     * @param options The {@link CallCompositePushNotificationOptions} if call is already in progress
+     *                existing display name and CommunicationTokenCredential is used.
+     */
     public void registerPushNotification(final Context context, final CallCompositePushNotificationOptions options) {
         if (diContainer != null) {
             final DependencyInjectionContainer container = diContainer.get();
@@ -327,10 +332,10 @@ public final class CallComposite {
                         null,
                         CallType.ONE_TO_N_CALL,
                         null));
-                container.getPushNotificationHandler().registerPushNotificationAsync(context, options);
+                container.getCallingService().registerPushNotification(options.getDeviceRegistrationToken());
             }
         } else {
-            pushNotificationHandler.registerPushNotificationAsync(context, options);
+            new PushNotificationHandler().registerPushNotification(context, options);
         }
     }
 

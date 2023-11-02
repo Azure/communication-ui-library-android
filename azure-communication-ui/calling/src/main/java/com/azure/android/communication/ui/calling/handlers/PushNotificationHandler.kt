@@ -11,35 +11,32 @@ import com.azure.android.communication.calling.CallClientOptions
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.calling.DiagnosticConfig
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationOptions
-import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.ext.setTags
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.logger.Logger
-import java9.util.concurrent.CompletableFuture
 
-internal class PushNotificationHandler(private val callingSDK: CallingSDK? = null) {
-
+internal class PushNotificationHandler {
     private val diagnosticConfig: DiagnosticConfig by lazy { DiagnosticConfig() }
     private val logger: Logger by lazy { DefaultLogger() }
 
-    fun registerPushNotificationAsync(context: Context,
-                                      pushNotificationOptions: CallCompositePushNotificationOptions) {
-        callingSDK?.registerPushNotificationTokenAsync(pushNotificationOptions.deviceRegistrationToken)
-            ?: run {
-                val result = CompletableFuture<Void>()
-                val callAgent = createCallAgent(
-                    context,
-                    pushNotificationOptions.displayName,
-                    pushNotificationOptions.tokenCredential
-                )
-                callAgent?.registerPushNotification(pushNotificationOptions.deviceRegistrationToken)
-                    ?.whenComplete { t, u ->
-                        if (u != null) {
-                            result.completeExceptionally(u)
-                        } else {
-                            result.complete(t)
-                        }
-                    }
+    // if di container is not available, use this method to register push notification
+    fun registerPushNotification(
+        context: Context,
+        pushNotificationOptions: CallCompositePushNotificationOptions
+    ) {
+        logger.debug("registerPushNotification")
+        val callAgent = createCallAgent(
+            context,
+            pushNotificationOptions.displayName,
+            pushNotificationOptions.tokenCredential
+        )
+        callAgent?.registerPushNotification(pushNotificationOptions.deviceRegistrationToken)
+            ?.whenComplete { _, exception ->
+                if (exception != null) {
+                    logger.error("registerPushNotification " + exception.message)
+                    throw exception
+                }
+                logger.debug("registerPushNotification complete")
                 callAgent?.dispose()
             }
     }

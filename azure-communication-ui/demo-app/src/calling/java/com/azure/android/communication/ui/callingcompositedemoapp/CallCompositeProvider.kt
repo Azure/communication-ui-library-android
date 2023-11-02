@@ -23,7 +23,7 @@ class CallCompositeProvider {
     private var callComposite: CallComposite? = null
 
     fun getCallComposite(context: Context): CallComposite {
-        if(callComposite == null) {
+        if (callComposite == null) {
             callComposite = createCallComposite(context)
         }
         return callComposite!!

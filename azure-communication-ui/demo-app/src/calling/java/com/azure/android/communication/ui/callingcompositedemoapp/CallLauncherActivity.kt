@@ -12,16 +12,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.azure.android.communication.common.CommunicationTokenCredential
-import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationOptions
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.FeatureFlags
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.conditionallyRegisterDiagnostics
 import com.azure.android.communication.ui.callingcompositedemoapp.views.EndCompositeButtonView
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.messaging.FirebaseMessaging
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
@@ -32,6 +28,11 @@ import org.threeten.bp.format.DateTimeFormatter
 import java.util.UUID
 
 class CallLauncherActivity : AppCompatActivity() {
+
+    companion object {
+        const val TAG = "communication.ui.demo"
+    }
+
     private lateinit var binding: ActivityCallLauncherBinding
     private val callLauncherViewModel: CallLauncherViewModel by viewModels()
 
@@ -64,12 +65,15 @@ class CallLauncherActivity : AppCompatActivity() {
         val deeplinkTeamsUrl = data?.getQueryParameter("teamsurl")
         val participantMRI = data?.getQueryParameter("participanturis") ?: BuildConfig.PARTICIPANT_MRIS
 
-        callLauncherViewModel.registerFirebaseToken(this)
         binding.run {
             if (!deeplinkAcsToken.isNullOrEmpty()) {
                 acsTokenText.setText(deeplinkAcsToken)
             } else {
                 acsTokenText.setText(BuildConfig.ACS_TOKEN)
+            }
+
+            if (acsTokenText.text.isNotEmpty()) {
+                registerPuhNotification()
             }
 
             if (!deeplinkName.isNullOrEmpty()) {
@@ -129,6 +133,10 @@ class CallLauncherActivity : AppCompatActivity() {
                 showCallHistory()
             }
 
+            registerPushNotification.setOnClickListener {
+                registerPuhNotification()
+            }
+
             lifecycleScope.launch {
                 callLauncherViewModel.callCompositeCallStateStateFlow.collect {
                     runOnUiThread {
@@ -157,6 +165,14 @@ class CallLauncherActivity : AppCompatActivity() {
             } else {
                 versionText.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
             }
+        }
+    }
+
+    private fun registerPuhNotification() {
+        try {
+            callLauncherViewModel.registerFirebaseToken(this@CallLauncherActivity)
+        } catch (e: Exception) {
+            showAlert("Failed to register push notification token. " + e.message)
         }
     }
 

@@ -82,8 +82,7 @@ class CallLauncherViewModel : ViewModel() {
             val startCallOption = CallCompositeStartCallOptions(participantMris)
             skipSetup = true
             CallCompositeRemoteOptions(startCallOption, communicationTokenCredential, displayName)
-        }
-        else {
+        } else {
             CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
         }
 
@@ -167,22 +166,25 @@ class CallLauncherViewModel : ViewModel() {
     }
 
     fun registerFirebaseToken(context: Context) {
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Toast.makeText(context, "Fetching FCM registration token failed", Toast.LENGTH_SHORT).show()
-                return@OnCompleteListener
-            }
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(
+            OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Toast.makeText(context, "Fetching FCM registration token failed", Toast.LENGTH_SHORT).show()
+                    return@OnCompleteListener
+                }
 
-            val token = task.result
-            val callComposite = createCallComposite(context)
-            callComposite.registerPushNotification(
-                context, CallCompositePushNotificationOptions(
-                    CommunicationTokenCredential(BuildConfig.ACS_TOKEN),
-                    token,
-                    BuildConfig.USER_NAME
+                val token = task.result
+                val callComposite = createCallComposite(context)
+                callComposite.registerPushNotification(
+                    context,
+                    CallCompositePushNotificationOptions(
+                        CommunicationTokenCredential(BuildConfig.ACS_TOKEN),
+                        token,
+                        BuildConfig.USER_NAME
+                    )
                 )
-            )
-        })
+            }
+        )
     }
 }
 

@@ -11,7 +11,6 @@ import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.VideoDeviceType
 import com.azure.android.communication.calling.CreateViewOptions
-import com.azure.android.communication.calling.PushNotificationInfo
 import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioState
@@ -54,7 +53,7 @@ internal interface CallingSDK {
     fun getCamerasCountStateFlow(): StateFlow<Int>
 
     // Push Notifications.
-    fun registerPushNotificationTokenAsync(deviceRegistrationToken: String): CompletableFuture<Void>
+    fun registerPushNotification(deviceRegistrationToken: String): CompletableFuture<Void>
 }
 
 internal interface RemoteParticipant {
