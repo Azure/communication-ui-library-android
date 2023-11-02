@@ -8,6 +8,7 @@ import com.azure.android.communication.calling.CallAgent
 import com.azure.android.communication.calling.CallAgentOptions
 import com.azure.android.communication.calling.CallClient
 import com.azure.android.communication.calling.CallClientOptions
+import com.azure.android.communication.calling.PushNotificationInfo
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.calling.DiagnosticConfig
 import com.azure.android.communication.ui.calling.configuration.events.CallCompositeIncomingCallListener
@@ -17,6 +18,7 @@ import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.ext.setTags
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.logger.Logger
+import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import java9.util.concurrent.CompletableFuture
 
 internal class PushNotificationHandler(private val callingSDK: CallingSDK? = null) {
