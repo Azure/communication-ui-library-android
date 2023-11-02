@@ -51,6 +51,9 @@ internal interface CallingSDK {
     fun getCallIdStateFlow(): StateFlow<String?>
     fun getRemoteParticipantInfoModelSharedFlow(): Flow<Map<String, ParticipantInfoModel>>
     fun getCamerasCountStateFlow(): StateFlow<Int>
+
+    // Push Notifications.
+    fun registerPushNotification(deviceRegistrationToken: String): CompletableFuture<Void>
 }
 
 internal interface RemoteParticipant {

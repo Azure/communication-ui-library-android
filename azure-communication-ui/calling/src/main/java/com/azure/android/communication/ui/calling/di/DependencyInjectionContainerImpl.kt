@@ -260,7 +260,7 @@ internal class DependencyInjectionContainerImpl(
         )
     }
 
-    private val callingService by lazy {
+    override val callingService by lazy {
         CallingService(callingSDKWrapper, coroutineContextProvider)
     }
     //endregion

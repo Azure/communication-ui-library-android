@@ -319,6 +319,31 @@ internal class CallingSDKWrapper(
         return result
     }
 
+    override fun registerPushNotification(deviceRegistrationToken: String): CompletableFuture<Void> {
+        val result = CompletableFuture<Void>()
+        setupCall().whenComplete { _, setUpError ->
+            if (setUpError != null) {
+                result.completeExceptionally(setUpError)
+                return@whenComplete
+            }
+
+            createCallAgent().thenAccept { agent: CallAgent ->
+                agent.registerPushNotification(deviceRegistrationToken)
+                    .whenComplete { _, error: Throwable? ->
+                        if (error != null) {
+                            result.completeExceptionally(error)
+                        } else {
+                            result.complete(null)
+                        }
+                    }
+            }.exceptionally { error ->
+                result.completeExceptionally(error)
+                null
+            }
+        }
+        return result
+    }
+
     private fun createCallAgent(): CompletableFuture<CallAgent> {
 
         if (callAgentCompletableFuture == null || callAgentCompletableFuture!!.isCompletedExceptionally) {

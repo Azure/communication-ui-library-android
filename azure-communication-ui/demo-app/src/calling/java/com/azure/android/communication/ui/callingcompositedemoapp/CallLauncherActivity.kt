@@ -28,6 +28,11 @@ import org.threeten.bp.format.DateTimeFormatter
 import java.util.UUID
 
 class CallLauncherActivity : AppCompatActivity() {
+
+    companion object {
+        const val TAG = "communication.ui.demo"
+    }
+
     private lateinit var binding: ActivityCallLauncherBinding
     private val callLauncherViewModel: CallLauncherViewModel by viewModels()
 
@@ -65,6 +70,10 @@ class CallLauncherActivity : AppCompatActivity() {
                 acsTokenText.setText(deeplinkAcsToken)
             } else {
                 acsTokenText.setText(BuildConfig.ACS_TOKEN)
+            }
+
+            if (acsTokenText.text.isNotEmpty()) {
+                registerPuhNotification()
             }
 
             if (!deeplinkName.isNullOrEmpty()) {
@@ -124,6 +133,10 @@ class CallLauncherActivity : AppCompatActivity() {
                 showCallHistory()
             }
 
+            registerPushNotification.setOnClickListener {
+                registerPuhNotification()
+            }
+
             lifecycleScope.launch {
                 callLauncherViewModel.callCompositeCallStateStateFlow.collect {
                     runOnUiThread {
@@ -152,6 +165,14 @@ class CallLauncherActivity : AppCompatActivity() {
             } else {
                 versionText.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
             }
+        }
+    }
+
+    private fun registerPuhNotification() {
+        try {
+            callLauncherViewModel.registerFirebaseToken(this@CallLauncherActivity)
+        } catch (e: Exception) {
+            showAlert("Failed to register push notification token. " + e.message)
         }
     }
 

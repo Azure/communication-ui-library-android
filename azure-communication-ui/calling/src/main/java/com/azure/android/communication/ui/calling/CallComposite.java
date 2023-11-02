@@ -11,6 +11,7 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallType;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer;
+import com.azure.android.communication.ui.calling.handlers.PushNotificationHandler;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
@@ -19,6 +20,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallL
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent;
+import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
@@ -310,6 +312,31 @@ public final class CallComposite {
         AndroidThreeTen.init(context.getApplicationContext());
         final DebugInfoManager debugInfoManager = getDebugInfoManager(context.getApplicationContext());
         return debugInfoManager.getDebugInfo();
+    }
+
+    /**
+     * RegisterPushNotification to receive incoming call notification.
+     *
+     * @param context The {@link Context}.
+     * @param options The {@link CallCompositePushNotificationOptions} if call is already in progress
+     *                existing display name and CommunicationTokenCredential is used.
+     */
+    public void registerPushNotification(final Context context, final CallCompositePushNotificationOptions options) {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer.get();
+            if (container != null) {
+                configuration.setCallConfig(new CallConfiguration(
+                        options.getTokenCredential(),
+                        options.getDisplayName(),
+                        null,
+                        null,
+                        CallType.ONE_TO_N_CALL,
+                        null));
+                container.getCallingService().registerPushNotification(options.getDeviceRegistrationToken());
+            }
+        } else {
+            new PushNotificationHandler().registerPushNotification(context, options);
+        }
     }
 
     void setDependencyInjectionContainer(final DependencyInjectionContainer diContainer) {
