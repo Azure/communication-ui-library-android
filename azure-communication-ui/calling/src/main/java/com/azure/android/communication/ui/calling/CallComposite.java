@@ -21,7 +21,6 @@ import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallL
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent;
-import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationInfo;
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
@@ -36,6 +35,7 @@ import static com.azure.android.communication.ui.calling.CallCompositeExtentions
 import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -394,6 +394,7 @@ public final class CallComposite {
         UUID groupId = null;
         String meetingLink = null;
         final CallType callType;
+        List<String> participants = null;
 
         final CallCompositeJoinLocator locator = remoteOptions.getLocator();
         if (locator != null) {
@@ -406,6 +407,7 @@ public final class CallComposite {
             }
         } else {
             callType = CallType.ONE_TO_N_CALL;
+            participants = remoteOptions.getStartCallOptions().getParticipants();
         }
 
         configuration.setCallConfig(new CallConfiguration(
@@ -414,7 +416,7 @@ public final class CallComposite {
                 groupId,
                 meetingLink,
                 callType,
-                remoteOptions.getStartCallOptions().getParticipants()));
+                participants));
 
         if (localOptions != null) {
             configuration.setCallCompositeLocalOptions(localOptions);

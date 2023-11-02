@@ -55,7 +55,6 @@ internal interface CallingSDK {
 
     // Push Notifications.
     fun registerPushNotificationTokenAsync(deviceRegistrationToken: String): CompletableFuture<Void>
-    fun handlePushNotificationAsync(pushNotificationInfo: PushNotificationInfo): CompletableFuture<Void>
 }
 
 internal interface RemoteParticipant {
