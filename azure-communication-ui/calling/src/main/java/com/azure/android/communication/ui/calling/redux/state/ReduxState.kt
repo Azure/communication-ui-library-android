@@ -12,4 +12,5 @@ internal interface ReduxState {
     var errorState: ErrorState
     var navigationState: NavigationState
     var audioSessionState: AudioSessionState
+    var callDiagnosticsState: CallDiagnosticsState
 }

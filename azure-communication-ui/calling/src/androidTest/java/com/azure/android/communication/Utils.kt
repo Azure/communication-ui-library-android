@@ -10,6 +10,7 @@ import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.matcher.ViewMatchers
 import junit.framework.AssertionFailedError
 import org.hamcrest.Matchers
@@ -28,12 +29,28 @@ internal fun assertDisplayed(id: Int): ViewInteraction {
     ).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 }
 
+internal fun assertNotDisplayed(id: Int): ViewInteraction? {
+    return Espresso.onView(
+        Matchers.allOf(
+            ViewMatchers.withId(id)
+        )
+    ).check(doesNotExist())
+}
+
 internal fun assertViewText(id: Int, text: String) {
     Espresso.onView(
         Matchers.allOf(
             ViewMatchers.withId(id)
         )
     ).check(ViewAssertions.matches(ViewMatchers.withText(text)))
+}
+
+internal fun assertViewText(id: Int, textId: Int) {
+    Espresso.onView(
+        Matchers.allOf(
+            ViewMatchers.withId(id)
+        )
+    ).check(ViewAssertions.matches(ViewMatchers.withText(textId)))
 }
 
 internal fun tap(id: Int) {

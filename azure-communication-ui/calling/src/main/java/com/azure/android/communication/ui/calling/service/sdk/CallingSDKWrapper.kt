@@ -96,6 +96,16 @@ internal class CallingSDKWrapper(
     override fun getIsTranscribingSharedFlow() =
         callingSDKEventHandler.getIsTranscribingSharedFlow()
 
+    //region Call Diagnostics
+    override fun getNetworkQualityCallDiagnosticSharedFlow() =
+        callingSDKEventHandler.getNetworkQualityCallDiagnosticsSharedFlow()
+
+    override fun getNetworkCallDiagnosticSharedFlow() =
+        callingSDKEventHandler.getNetworkCallDiagnosticsSharedFlow()
+
+    override fun getMediaCallDiagnosticSharedFlow() =
+        callingSDKEventHandler.getMediaCallDiagnosticsSharedFlow()
+    //endregion
     override fun getDominantSpeakersSharedFlow() =
         callingSDKEventHandler.getDominantSpeakersSharedFlow()
 
