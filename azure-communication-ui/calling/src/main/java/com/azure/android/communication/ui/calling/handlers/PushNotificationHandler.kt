@@ -8,12 +8,9 @@ import com.azure.android.communication.calling.CallAgent
 import com.azure.android.communication.calling.CallAgentOptions
 import com.azure.android.communication.calling.CallClient
 import com.azure.android.communication.calling.CallClientOptions
-import com.azure.android.communication.calling.PushNotificationInfo
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.calling.DiagnosticConfig
-import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationInfo
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.ext.setTags
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
@@ -45,28 +42,6 @@ internal class PushNotificationHandler(private val callingSDK: CallingSDK? = nul
                     }
                 callAgent?.dispose()
             }
-    }
-
-    fun handlePushNotificationAsync(context: Context, remoteOptions: CallCompositeRemoteOptions, pushNotificationInfo: CallCompositePushNotificationInfo) {
-        callingSDK?.handlePushNotificationAsync(PushNotificationInfo.fromMap(pushNotificationInfo.notificationInfo))
-            ?:  run {
-            val result = CompletableFuture<Void>()
-
-                val callAgent = createCallAgent(
-                    context,
-                    remoteOptions.displayName,
-                    remoteOptions.credential
-                )
-                callAgent?.handlePushNotification(PushNotificationInfo.fromMap(pushNotificationInfo.notificationInfo))
-                ?.whenComplete { t, u ->
-                    if (u != null) {
-                        result.completeExceptionally(u)
-                    } else {
-                        result.complete(t)
-                    }
-                }
-                callAgent?.dispose()
-        }
     }
 
     private fun createCallAgent(context: Context, name: String, communicationTokenCredential: CommunicationTokenCredential): CallAgent? {

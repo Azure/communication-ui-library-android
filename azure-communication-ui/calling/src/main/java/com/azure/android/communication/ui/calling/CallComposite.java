@@ -20,7 +20,6 @@ import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallL
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent;
-import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationInfo;
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
@@ -331,28 +330,6 @@ public final class CallComposite {
             }
         } else {
             pushNotificationHandler.registerPushNotificationAsync(context, options);
-        }
-    }
-
-    public void handlePushNotification(final Context context,
-                                       final CallCompositePushNotificationInfo pushNotificationInfo,
-                                       final CallCompositeRemoteOptions remoteOptions) {
-        if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer.get();
-            if (container != null) {
-                configuration.setCallConfig(new CallConfiguration(
-                        remoteOptions.getCredential(),
-                        remoteOptions.getDisplayName(),
-                        null,
-                        null,
-                        CallType.ONE_TO_N_CALL,
-                        null));
-                container.getPushNotificationHandler().handlePushNotificationAsync(context,
-                        remoteOptions,
-                        pushNotificationInfo);
-            }
-        } else {
-            new PushNotificationHandler().handlePushNotificationAsync(context, remoteOptions, pushNotificationInfo);
         }
     }
 
