@@ -31,7 +31,9 @@ import com.azure.android.communication.ui.calling.CallComposite;
 public final class CallCompositeRemoteOptions {
     // Mandatory
     private final CommunicationTokenCredential credential;
-    private final CallCompositeJoinLocator locator;
+    private CallCompositeJoinLocator locator;
+
+    private CallCompositeStartCallOptions startCallOptions;
 
     // Optional
     private final String displayName;

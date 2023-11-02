@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.configuration
 
+import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.calling.DiagnosticConfig
 import java.util.UUID
