@@ -17,6 +17,9 @@ import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.logger.Logger
 import java9.util.concurrent.CompletableFuture
 
+/**
+ * Handles push notification related functions.
+ */
 internal class PushNotificationHandler(private val callingSDK: CallingSDK? = null) {
 
     private val diagnosticConfig: DiagnosticConfig by lazy { DiagnosticConfig() }

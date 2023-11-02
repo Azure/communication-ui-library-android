@@ -315,6 +315,11 @@ public final class CallComposite {
         return debugInfoManager.getDebugInfo();
     }
 
+    /**
+     * Registers push notification token
+     * @param context The android context used to start the Composite.
+     * @param options The {@link CallCompositePushNotificationOptions} has remote parameters
+     */
     public void registerPushNotification(final Context context, final CallCompositePushNotificationOptions options) {
         if (diContainer != null) {
             final DependencyInjectionContainer container = diContainer.get();
