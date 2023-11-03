@@ -10,11 +10,15 @@ import android.graphics.BitmapFactory
 import android.util.LayoutDirection
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
+import com.azure.android.communication.ui.callingcompositedemoapp.ALLOW_LOCAL_CAMERA_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.ALLOW_REMOTE_VIDEO_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.AVATAR_IMAGE
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SUBTITLE
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_TITLE
 import com.azure.android.communication.ui.callingcompositedemoapp.CAMERA_ON_BY_DEFAULT_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_ALLOW_LOCAL_CAMERA_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_ALLOW_REMOTE_VIDEO_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CALL_SCREEN_ORIENTATION_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE
@@ -90,6 +94,16 @@ class SettingsFeatures {
         fun displayOrientationName(orientation: CallCompositeSupportedScreenOrientation): String {
             val displayName = orientation.toString()
             return displayName
+        }
+
+        @JvmStatic
+        fun getAllowLocalCameraOption(): Boolean {
+            return sharedPrefs.getBoolean(ALLOW_LOCAL_CAMERA_KEY, DEFAULT_ALLOW_LOCAL_CAMERA_VALUE)
+        }
+
+        @JvmStatic
+        fun getAllowRemoteVideoOption(): Boolean {
+            return sharedPrefs.getBoolean(ALLOW_REMOTE_VIDEO_KEY, DEFAULT_ALLOW_REMOTE_VIDEO_VALUE)
         }
 
         @JvmStatic

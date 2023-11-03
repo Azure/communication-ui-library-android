@@ -82,6 +82,8 @@ class CallLauncherViewModel : ViewModel() {
             .setSkipSetupScreen(SettingsFeatures.getSkipSetupScreenFeatureOption())
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
+            .setAllowLocalCamera(SettingsFeatures.getAllowLocalCameraOption())
+            .setAllowRemoteVideo(SettingsFeatures.getAllowRemoteVideoOption())
 
         callCompositeExitSuccessStateFlow.value = false
         exitEventHandler = CallExitEventHandler(callCompositeExitSuccessStateFlow, callCompositeCallStateStateFlow, this)

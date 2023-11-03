@@ -35,6 +35,8 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var titleTextView: TextView
     private lateinit var subtitleTextView: TextView
     private lateinit var remoteAvatarInjectionCheckBox: CheckBox
+    private lateinit var allowRemoteVideoCheckBox: CheckBox
+    private lateinit var allowLocalCameraCheckBox: CheckBox
     private lateinit var skipSetupScreenCheckBox: CheckBox
     private lateinit var micOnByDefaultCheckBox: CheckBox
     private lateinit var cameraOnByDefaultCheckBox: CheckBox
@@ -107,6 +109,10 @@ class SettingsActivity : AppCompatActivity() {
 
         updateEndCallOnDefaultCheckBox()
 
+        updateAllowLocalCameraCheckbox()
+
+        updateAllowRemoteVideoCheckbox()
+
         relaunchCompositeOnExitCheckbox()
 
         saveRenderedDisplayName()
@@ -131,6 +137,18 @@ class SettingsActivity : AppCompatActivity() {
     fun onCheckBoxTap(view: View) {
         if (view is CheckBox) {
             when (view.id) {
+                R.id.allow_remote_video_checkbox -> {
+                    sharedPreference.edit().putBoolean(
+                        ALLOW_REMOTE_VIDEO_KEY,
+                        view.isChecked
+                    ).apply()
+                }
+                R.id.allow_local_camera_checkbox -> {
+                    sharedPreference.edit().putBoolean(
+                        ALLOW_LOCAL_CAMERA_KEY,
+                        view.isChecked
+                    ).apply()
+                }
                 R.id.language_is_rtl_checkbox -> {
                     sharedPreference.edit().putBoolean(
                         LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY +
@@ -193,6 +211,8 @@ class SettingsActivity : AppCompatActivity() {
         titleTextView = findViewById(R.id.call_title)
         subtitleTextView = findViewById(R.id.call_subtitle)
         skipSetupScreenCheckBox = findViewById(R.id.skip_setup_screen_check_box)
+        allowLocalCameraCheckBox = findViewById(R.id.allow_local_camera_checkbox)
+        allowRemoteVideoCheckBox = findViewById(R.id.allow_remote_video_checkbox)
         micOnByDefaultCheckBox = findViewById(R.id.mic_control_check_box)
         cameraOnByDefaultCheckBox = findViewById(R.id.camera_control_check_box)
         callScreenOrientationAdapterLayout = findViewById(R.id.call_screen_orientation_adapter_layout)
@@ -347,6 +367,21 @@ class SettingsActivity : AppCompatActivity() {
         )
     }
 
+    private fun updateAllowLocalCameraCheckbox() {
+        allowLocalCameraCheckBox.isChecked = sharedPreference.getBoolean(
+            ALLOW_LOCAL_CAMERA_KEY,
+            DEFAULT_ALLOW_LOCAL_CAMERA_VALUE
+        )
+    }
+
+    private fun updateAllowRemoteVideoCheckbox() {
+        allowRemoteVideoCheckBox.isChecked = sharedPreference.getBoolean(
+            ALLOW_REMOTE_VIDEO_KEY,
+            DEFAULT_ALLOW_REMOTE_VIDEO_VALUE
+        )
+    }
+
+
     private fun updateMicOnByDefaultCheckbox() {
         micOnByDefaultCheckBox.isChecked = sharedPreference.getBoolean(
             MIC_ON_BY_DEFAULT_KEY,
@@ -408,3 +443,8 @@ const val END_CALL_ON_BY_DEFAULT_KEY = "END_CALL_ON_BY_DEFAULT_KEY"
 const val DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE = false
 const val LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY = "LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY"
 const val LAUNCH_ON_EXIT_ON_BY_DEFAULT_VALUE = false
+const val ALLOW_LOCAL_CAMERA_KEY = "ALLOW_LOCAL_CAMERA_KEY"
+const val ALLOW_REMOTE_VIDEO_KEY = "ALLOW_REMOTE_VIDEO_KEY"
+const val DEFAULT_ALLOW_LOCAL_CAMERA_VALUE = true
+const val DEFAULT_ALLOW_REMOTE_VIDEO_VALUE = true
+

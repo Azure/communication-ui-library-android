@@ -37,6 +37,9 @@ public final class CallCompositeLocalOptions {
     private boolean microphoneOn = false;
     private boolean skipSetupScreen = false;
 
+    private boolean allowLocalCamera = true;
+    private boolean allowRemoteVideo = true;
+
     /**
      * Create LocalSettings.
      *
@@ -106,6 +109,43 @@ public final class CallCompositeLocalOptions {
      */
     public CallCompositeLocalOptions setSkipSetupScreen(final boolean skipSetupScreen) {
         this.skipSetupScreen = skipSetupScreen;
+        return this;
+    }
+
+
+    /**
+     * Determine if the local camera is allowed to be used.
+     * @return The boolean that is currently set.
+     */
+    public boolean isAllowLocalCamera() {
+        return allowLocalCamera;
+    }
+
+    /**
+     * Enable/Disable the local camera globally. Will remove all Local Camera features from the UI
+     * @param allowLocalCamera The boolean value to be used.
+     * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
+     */
+    public CallCompositeLocalOptions setAllowLocalCamera(boolean allowLocalCamera) {
+        this.allowLocalCamera = allowLocalCamera;
+        return this;
+    }
+
+    /**
+     * Determin if the remote video is allowed to be used.
+     * @return The boolean that is currently set.
+     */
+    public boolean isAllowRemoteVideo() {
+        return allowRemoteVideo;
+    }
+
+    /**
+     * Enable/Disable the remote video globally. Will remove all Remote Video features from the UI
+     * @param allowRemoteVideo The boolean value to be used.
+     * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
+     */
+    public CallCompositeLocalOptions setAllowRemoteVideo(boolean allowRemoteVideo) {
+        this.allowRemoteVideo = allowRemoteVideo;
         return this;
     }
 
