@@ -3,8 +3,11 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -38,6 +41,7 @@ class CallLauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        createNotificationChannels()
         if (shouldFinish()) {
             finish()
             return
@@ -300,6 +304,21 @@ class CallLauncherActivity : AppCompatActivity() {
             EndCompositeButtonView.get(this).hide()
         } else {
             EndCompositeButtonView.get(this).show(callLauncherViewModel)
+        }
+    }
+
+    private fun createNotificationChannels() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name: CharSequence = "acs"
+            val description = "acs"
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel =
+                NotificationChannel("acs", name, importance)
+            channel.description = description
+            val notificationManager = getSystemService(
+                NotificationManager::class.java
+            )
+            notificationManager.createNotificationChannel(channel)
         }
     }
 }

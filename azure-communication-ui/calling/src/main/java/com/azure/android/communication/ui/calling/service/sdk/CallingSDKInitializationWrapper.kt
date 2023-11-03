@@ -169,7 +169,15 @@ internal class CallingSDKInitializationWrapper(
         }
         this.incomingCallInternal = incomingCall
         onIncomingCallEventHandlers?.forEach {
-            it.handle(CallCompositeIncomingCallEvent(CallCompositeIncomingCallInfo(incomingCall.id)))
+            it.handle(
+                CallCompositeIncomingCallEvent(
+                    CallCompositeIncomingCallInfo(
+                        incomingCall.id,
+                        incomingCall.callerInfo.displayName,
+                        incomingCall.callerInfo.identifier.rawId
+                    )
+                )
+            )
         }
     }
 }

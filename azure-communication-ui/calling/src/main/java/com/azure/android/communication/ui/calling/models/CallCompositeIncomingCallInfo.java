@@ -8,13 +8,22 @@ package com.azure.android.communication.ui.calling.models;
  */
 public class CallCompositeIncomingCallInfo {
     private final String callId;
+    private final String displayName;
+    private final String rawId;
 
     /**
      * Create {@link CallCompositeIncomingCallInfo}.
-     * @param callId call id.
+     *
+     * @param callId      call id.
+     * @param displayName
+     * @param rawId
      */
-    public CallCompositeIncomingCallInfo(final String callId) {
+    public CallCompositeIncomingCallInfo(final String callId,
+                                         final String displayName,
+                                         final String rawId) {
         this.callId = callId;
+        this.displayName = displayName;
+        this.rawId = rawId;
     }
 
     /**
@@ -23,5 +32,21 @@ public class CallCompositeIncomingCallInfo {
      */
     public String getCallId() {
         return callId;
+    }
+
+    /**
+     * Get display name.
+     * @return display name.
+     */
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    /**
+     * Get raw id.
+     * @return raw id.
+     */
+    public String getRawId() {
+        return rawId;
     }
 }
