@@ -33,7 +33,7 @@ import java.util.UUID
 class CallLauncherActivity : AppCompatActivity() {
 
     companion object {
-        const val TAG = "communication.ui.demo"
+        const val TAG = "communication.ui.push"
     }
 
     private lateinit var binding: ActivityCallLauncherBinding

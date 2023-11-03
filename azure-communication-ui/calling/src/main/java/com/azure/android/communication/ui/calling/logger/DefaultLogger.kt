@@ -7,7 +7,7 @@ import android.util.Log
 
 internal class DefaultLogger : Logger {
 
-    private val tag = "communication.ui"
+    private val tag = "communication.ui.push"
 
     override fun info(message: String) {
         Log.i(tag, message)

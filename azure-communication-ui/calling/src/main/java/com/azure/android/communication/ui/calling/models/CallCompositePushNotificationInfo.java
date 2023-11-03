@@ -44,4 +44,12 @@ public class CallCompositePushNotificationInfo {
     public String getFromDisplayName() {
         return notificationInfo.getFromDisplayName();
     }
+
+    /**
+     * Get PushNotificationInfo.
+     * @return PushNotificationInfo.
+     */
+    public PushNotificationInfo getNotificationInfo() {
+        return notificationInfo;
+    }
 }

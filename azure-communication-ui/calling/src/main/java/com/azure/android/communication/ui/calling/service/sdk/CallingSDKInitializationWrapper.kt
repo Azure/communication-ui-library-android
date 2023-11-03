@@ -11,6 +11,7 @@ import com.azure.android.communication.calling.CallClientOptions
 import com.azure.android.communication.calling.IncomingCall
 import com.azure.android.communication.calling.IncomingCallListener
 import com.azure.android.communication.calling.PropertyChangedListener
+import com.azure.android.communication.calling.PushNotificationInfo
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration
@@ -103,8 +104,10 @@ internal class CallingSDKInitializationWrapper(
                         callAgentCompletableFuture!!.completeExceptionally(error)
                     } else {
                         if (subscribeForIncomingCall) {
+                            logger?.info("Subscribing for incoming call")
                             incomingCallListener = UIIncomingCallListener(this)
                             callAgent.addOnIncomingCallListener(incomingCallListener)
+                            callAgent.handlePushNotification(callConfig.pushNotificationInfo!!.notificationInfo)
                         }
                         callAgentCompletableFuture!!.complete(callAgent)
                     }
@@ -118,6 +121,7 @@ internal class CallingSDKInitializationWrapper(
     }
 
     fun dispose() {
+        logger?.info("Disposing CallingSDKInitializationWrapper")
         incomingCallInternal?.let {
             it.removeOnCallEndedListener(onIncomingCallEnded)
         }
@@ -150,7 +154,6 @@ internal class CallingSDKInitializationWrapper(
     }
 
     fun declineCall() {
-        incomingCallInternal?.addOnCallEndedListener(onIncomingCallEnded)
         incomingCallInternal?.reject()
     }
 
@@ -163,11 +166,16 @@ internal class CallingSDKInitializationWrapper(
     }
 
     override fun onIncomingCall(incomingCall: IncomingCall) {
-        if (incomingCall != null) {
+        logger?.info("Incoming call received")
+        if (this.incomingCallInternal != null) {
             // only one call is supported in UI Library
             return
         }
         this.incomingCallInternal = incomingCall
+        logger?.info("Incoming call received - notifying Contoso")
+
+        incomingCallInternal?.addOnCallEndedListener(onIncomingCallEnded)
+
         onIncomingCallEventHandlers?.forEach {
             it.handle(
                 CallCompositeIncomingCallEvent(
