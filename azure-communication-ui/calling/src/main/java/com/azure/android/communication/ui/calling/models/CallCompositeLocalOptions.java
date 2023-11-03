@@ -149,6 +149,20 @@ public final class CallCompositeLocalOptions {
         return this;
     }
 
+    public CallCompositeLocalOptions setAudioOnlyCall(boolean audioOnlyCall) {
+        this.allowLocalCamera = !audioOnlyCall;
+        this.allowRemoteVideo = !audioOnlyCall;
+        return this;
+    }
+
+    /**
+     * Determine if the call is audio only.
+     * @return The boolean that is currently set.
+     */
+    public boolean isAudioOnly() {
+        return !allowLocalCamera && !allowRemoteVideo;
+    }
+
     /**
      * Get the initial camera configuration boolean value.
      * @return The boolean that is currently set.
