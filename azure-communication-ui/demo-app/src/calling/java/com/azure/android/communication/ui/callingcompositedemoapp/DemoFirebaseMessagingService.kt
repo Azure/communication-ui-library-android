@@ -12,6 +12,7 @@ import com.azure.android.communication.calling.PushNotificationEventType
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEndEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
@@ -22,6 +23,7 @@ import com.google.firebase.messaging.RemoteMessage
 
 interface IncomingCallNotification {
     fun showNotificationForIncomingCall(notification: CallCompositeIncomingCallInfo)
+    fun dismissNotificationForIncomingCall()
 }
 
 class DemoFirebaseMessagingService : FirebaseMessagingService(), IncomingCallNotification {
@@ -46,6 +48,7 @@ class DemoFirebaseMessagingService : FirebaseMessagingService(), IncomingCallNot
         val callComposite = CallCompositeProvider.getInstance().getCallComposite(applicationContext)
 
         callComposite.addOnIncomingCallEventHandler(IncomingCallEvent(this))
+        callComposite.addOnIncomingCallEndEventHandler(IncomingCallEndEvent(this))
 
         val communicationTokenRefreshOptions =
             CommunicationTokenRefreshOptions({ BuildConfig.ACS_TOKEN }, true)
@@ -118,6 +121,10 @@ class DemoFirebaseMessagingService : FirebaseMessagingService(), IncomingCallNot
         notificationManager.notify(1, builder.build())
     }
 
+    override fun dismissNotificationForIncomingCall() {
+        val notificationManager = NotificationManagerCompat.from(this)
+        notificationManager.cancel(1)
+    }
     private fun last10(`in`: String?): String? {
         return if (`in` != null) {
             if (`in`.length >= 10) `in`.substring(`in`.length - 10) else `in`
@@ -130,6 +137,15 @@ class DemoFirebaseMessagingService : FirebaseMessagingService(), IncomingCallNot
         override fun handle(eventArgs: CallCompositeIncomingCallEvent) {
             Log.i(CallLauncherActivity.TAG, "Showing IncomingCallEvent")
             incomingCallNotification.showNotificationForIncomingCall(eventArgs.incomingCallInfo)
+        }
+    }
+
+    class IncomingCallEndEvent(
+        private val incomingCallNotification: IncomingCallNotification
+    ) : CallCompositeEventHandler<CallCompositeIncomingCallEndEvent> {
+        override fun handle(eventArgs: CallCompositeIncomingCallEndEvent?) {
+            Log.i(CallLauncherActivity.TAG, "Dismissing IncomingCallEvent" + eventArgs?.code)
+            incomingCallNotification.dismissNotificationForIncomingCall()
         }
     }
 }

@@ -11,11 +11,11 @@ import com.azure.android.communication.calling.CallClientOptions
 import com.azure.android.communication.calling.IncomingCall
 import com.azure.android.communication.calling.IncomingCallListener
 import com.azure.android.communication.calling.PropertyChangedListener
-import com.azure.android.communication.calling.PushNotificationInfo
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration
 import com.azure.android.communication.ui.calling.logger.Logger
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEndEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
 import com.azure.android.communication.ui.calling.service.sdk.ext.setTags
@@ -37,7 +37,9 @@ internal class CallingSDKInitializationWrapper(
     private val callConfigInjected: CallConfiguration?,
     private val logger: Logger? = null,
     private val onIncomingCallEventHandlers:
-        MutableIterable<CallCompositeEventHandler<CallCompositeIncomingCallEvent>>? = null
+    MutableIterable<CallCompositeEventHandler<CallCompositeIncomingCallEvent>>? = null,
+    private val onIncomingCallEndEventHandlers:
+    MutableIterable<CallCompositeEventHandler<CallCompositeIncomingCallEndEvent>>? = null
 ) : IncomingCallEvent {
     private var callClientInternal: CallClient? = null
     private var callAgentCompletableFuture: CompletableFuture<CallAgent>? = null
@@ -45,11 +47,20 @@ internal class CallingSDKInitializationWrapper(
     private var callClientCompletableFuture: CompletableFuture<Void>? = null
     private var incomingCallInternal: IncomingCall? = null
     private val onIncomingCallEnded =
-        PropertyChangedListener {
+        PropertyChangedListener { _ ->
+            onIncomingCallEndEventHandlers?.forEach {
+                it.handle(
+                    CallCompositeIncomingCallEndEvent(incomingCallInternal?.callEndReason?.code ?: -1,
+                        incomingCallInternal?.callEndReason?.subcode ?: -1)
+                )
+            }
             dispose()
         }
 
-    val incomingCall = incomingCallInternal
+    val incomingCall: IncomingCall?
+        get(){
+            return incomingCallInternal
+        }
 
     val callConfig: CallConfiguration
         get() {

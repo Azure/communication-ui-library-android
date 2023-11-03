@@ -18,6 +18,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallStateC
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEndEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
@@ -223,6 +224,7 @@ public final class CallComposite {
         configuration.setCallCompositeLocalOptions(callCompositeLocalOptions);
         final Intent intent = new Intent(context, CallCompositeActivity.class);
         intent.putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId++);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
@@ -324,6 +326,25 @@ public final class CallComposite {
     public void removeOnIncomingCallEventHandler(
             final CallCompositeEventHandler<CallCompositeIncomingCallEvent> handler) {
         configuration.getCallCompositeEventsHandler().removeOnIncomingCallEventHandler(handler);
+    }
+
+    /**
+     * Add on incoming call end event handler {@link CallCompositeIncomingCallEndEvent}.
+     * @param handler The {@link CallCompositeIncomingCallEndEvent}.
+     */
+    public void addOnIncomingCallEndEventHandler(
+            final CallCompositeEventHandler<CallCompositeIncomingCallEndEvent> handler) {
+        configuration.getCallCompositeEventsHandler().addOnIncomingCallEndEventHandler(handler);
+    }
+
+    /**
+     * Remove on incoming call event handler {@link CallCompositeIncomingCallEvent}.
+     *
+     * @param handler The {@link CallCompositeIncomingCallEndEvent}.
+     */
+    public void removeOnIncomingCallEndEventHandler(
+            final CallCompositeEventHandler<CallCompositeIncomingCallEndEvent> handler) {
+        configuration.getCallCompositeEventsHandler().removeOnIncomingCallEndEventHandler(handler);
     }
 
     /**
@@ -528,7 +549,8 @@ public final class CallComposite {
         final CallingSDKInitializationWrapper callingSDKInitializationWrapper =
                 new CallingSDKInitializationWrapper(configuration.getCallConfig(),
                         new DefaultLogger(),
-                        configuration.getCallCompositeEventsHandler().getOnIncomingCallEventHandlers());
+                        configuration.getCallCompositeEventsHandler().getOnIncomingCallEventHandlers(),
+                        configuration.getCallCompositeEventsHandler().getOnIncomingCallEndEventHandlers());
         CallingSDKInitializationWrapperInjectionHelper.INSTANCE.setCallingSDKInitializationWrapper(
                 callingSDKInitializationWrapper);
         callingSDKInitializationWrapper.setupIncomingCall(context.getApplicationContext());
