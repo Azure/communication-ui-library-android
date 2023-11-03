@@ -10,6 +10,7 @@ import android.telecom.PhoneAccountHandle
 import android.telecom.TelecomManager
 import android.util.Log
 import androidx.annotation.RequiresApi
+import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 
 @RequiresApi(Build.VERSION_CODES.M)
 class TelecomConnectionService : ConnectionService() {
@@ -79,7 +80,9 @@ class TelecomConnectionService : ConnectionService() {
     private fun createTelecomConnection(
             originalBundle: Bundle
     ): TelecomConnection {
-        val connection = TelecomConnection()
+        val instanceId = originalBundle.getInt("instanceId")
+        val callComposite = CallCompositeInstanceManager.getCallComposite(instanceId)
+        val connection = TelecomConnection(callComposite)
         connection.extras = originalBundle
         //custom UI
         connection.setConnectionProperties(Connection.PROPERTY_SELF_MANAGED)

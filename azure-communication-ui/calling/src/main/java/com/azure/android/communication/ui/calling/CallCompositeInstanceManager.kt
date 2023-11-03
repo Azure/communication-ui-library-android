@@ -61,3 +61,7 @@ internal fun CallComposite.getConfig(): CallCompositeConfiguration {
 internal fun CallComposite.setDependencyInjectionContainer(diContainer: DependencyInjectionContainer) {
     return this.setDependencyInjectionContainer(diContainer)
 }
+
+internal fun CallComposite.getDependencyInjectionContainer() : DependencyInjectionContainer {
+    return this.getDependencyInjectionContainer()
+}

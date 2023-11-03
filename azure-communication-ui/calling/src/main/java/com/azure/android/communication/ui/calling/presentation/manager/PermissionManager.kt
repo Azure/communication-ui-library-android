@@ -44,7 +44,7 @@ internal class PermissionManager(
     }
 
     private fun createAudioPermissionRequest() {
-        if (getAudioPermissionState(activity) == PermissionStatus.NOT_ASKED || true) {
+        if (getAudioPermissionState(activity) == PermissionStatus.NOT_ASKED) {
             audioPermissionLauncher.launch(getPermissionsList())
         } else {
             setAudioPermissionsState()

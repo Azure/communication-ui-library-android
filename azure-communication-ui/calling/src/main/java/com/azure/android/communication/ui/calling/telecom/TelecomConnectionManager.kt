@@ -24,7 +24,8 @@ import androidx.core.app.ActivityCompat
 
 @RequiresApi(Build.VERSION_CODES.M)
 internal class TelecomConnectionManager(context: Context,
-                                        val phoneAccountId: String) {
+                                        val phoneAccountId: String,
+                                        private val instanceId: Int) {
 
     private val TAG = "TelecomConnectionManager"
     private var phoneAccountHandle: PhoneAccountHandle?
@@ -108,6 +109,12 @@ internal class TelecomConnectionManager(context: Context,
 
                 val uri = Uri.fromParts("tel", callerDisplayName, "")
                 telecomManager.placeCall(uri, extras)
+            } catch (e: SecurityException) {
+                val intent = Intent()
+                intent.setClassName("com.android.server.telecom",
+                        "com.android.server.telecom.settings.EnableAccountPreferenceActivity")
+                context.startActivity(intent)
+                Log.e("startIncomingCall", e.message, e)
             } catch (e: Exception) {
                 Log.e("startOutgoingCall", e.message, e)
             }
@@ -139,7 +146,7 @@ internal class TelecomConnectionManager(context: Context,
         values.put(CallLog.Calls.CACHED_NUMBER_TYPE, 0)
         values.put(CallLog.Calls.CACHED_NUMBER_LABEL, "CACHED_NUMBER_LABEL")
 
-        context.contentResolver.insert(CallLog.Calls.CONTENT_URI, values)
+//        context.contentResolver.insert(CallLog.Calls.CONTENT_URI, values)
 
     }
 
@@ -151,11 +158,8 @@ internal class TelecomConnectionManager(context: Context,
             telecomManager: TelecomManager, phoneAccountHandle: PhoneAccountHandle) {
         if (isConnectionServiceSupported()) {
             clearExistingAccounts(telecomManager)
-            val extras = Bundle()
-            extras.putBoolean(PhoneAccount.EXTRA_LOG_SELF_MANAGED_CALLS, true)
             val account = PhoneAccount.builder(phoneAccountHandle, phoneAccountId)
                 .setCapabilities(PhoneAccount.CAPABILITY_SELF_MANAGED) //custom UI
-                .setExtras(extras)
                 .build()
             try {
                 telecomManager.registerPhoneAccount(account)
@@ -181,6 +185,7 @@ internal class TelecomConnectionManager(context: Context,
     private fun callExtras(fromDisplayName: String, isVideoCall: Boolean): Bundle {
         val extras = Bundle()
         extras.putString("NAME", fromDisplayName)
+        extras.putInt("instanceId", instanceId)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             if (isVideoCall) {
                 extras.putInt(
@@ -194,7 +199,7 @@ internal class TelecomConnectionManager(context: Context,
                 )
             }
         }
-        val uri = Uri.fromParts(PhoneAccount.SCHEME_TEL, "ACS Demo Call", null)
+        val uri = Uri.fromParts(PhoneAccount.SCHEME_TEL, "ACS Call", null)
         extras.putParcelable(TelecomManager.EXTRA_INCOMING_CALL_ADDRESS, uri)
         extras.putParcelable(TelecomManager.EXTRA_PHONE_ACCOUNT_HANDLE, phoneAccountHandle)
         extras.putBoolean(TelecomManager.EXTRA_START_CALL_WITH_SPEAKERPHONE, true)

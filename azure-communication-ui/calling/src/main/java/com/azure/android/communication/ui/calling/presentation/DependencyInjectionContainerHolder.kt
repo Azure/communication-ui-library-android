@@ -77,7 +77,7 @@ internal class DependencyInjectionContainerHolder(
     val setupViewModel by lazy {
         SetupViewModel(
             container.appStore,
-            SetupViewModelFactory(container.appStore, application),
+            SetupViewModelFactory(container.appStore, application, instanceId = instanceId),
             container.networkManager
         )
     }

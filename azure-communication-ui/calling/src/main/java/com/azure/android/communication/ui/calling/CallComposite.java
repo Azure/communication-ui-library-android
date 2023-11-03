@@ -315,6 +315,10 @@ public final class CallComposite {
         this.diContainer = new WeakReference<>(diContainer);
     }
 
+    DependencyInjectionContainer getDependencyInjectionContainer() {
+        return this.diContainer.get();
+    }
+
     private DebugInfoManager getDebugInfoManager(final Context context) {
         if (diContainer != null) {
             final DependencyInjectionContainer container = diContainer.get();

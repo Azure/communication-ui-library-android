@@ -8,9 +8,12 @@ import android.telecom.Connection
 import android.telecom.DisconnectCause
 import android.util.Log
 import androidx.annotation.RequiresApi
+import com.azure.android.communication.ui.calling.CallComposite
+import com.azure.android.communication.ui.calling.getDependencyInjectionContainer
+import com.azure.android.communication.ui.calling.redux.action.CallingAction
 
 @RequiresApi(Build.VERSION_CODES.M)
-class TelecomConnection : Connection() {
+class TelecomConnection(private val callComposite: CallComposite) : Connection() {
     companion object {
         private const val TAG = "CallConnection"
     }
@@ -59,12 +62,16 @@ class TelecomConnection : Connection() {
 
     override fun onHold() {
         super.onHold()
+        callComposite.getDependencyInjectionContainer().
+            appStore.dispatch(CallingAction.HoldRequested())
         setOnHold()
         Log.d(TAG, "onHold")
     }
 
     override fun onUnhold() {
         super.onUnhold()
+        callComposite.getDependencyInjectionContainer().
+            appStore.dispatch(CallingAction.ResumeRequested())
         setActive()
         Log.d(TAG, "onUnhold")
     }

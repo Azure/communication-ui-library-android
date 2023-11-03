@@ -20,9 +20,9 @@ internal class AudioSessionStateReducerImpl :
             is AudioSessionAction.AudioFocusRejected -> {
                 state.copy(audioFocusStatus = AudioFocusStatus.REJECTED)
             }
-            is AudioSessionAction.AudioFocusInterrupted -> {
-                state.copy(audioFocusStatus = AudioFocusStatus.INTERRUPTED)
-            }
+//            is AudioSessionAction.AudioFocusInterrupted -> {
+//                state.copy(audioFocusStatus = AudioFocusStatus.INTERRUPTED)
+//            }
             is AudioSessionAction.AudioFocusRequesting -> {
                 state.copy(audioFocusStatus = AudioFocusStatus.REQUESTING)
             }
