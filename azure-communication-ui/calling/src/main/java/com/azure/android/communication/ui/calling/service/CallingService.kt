@@ -48,7 +48,7 @@ internal class CallingService(
     fun registerPushNotification(deviceRegistrationToken: String): CompletableFuture<Void> {
         return callingSdk.registerPushNotification(deviceRegistrationToken)
     }
-    
+
     //region Call Diagnostics
     private val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
     private val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()

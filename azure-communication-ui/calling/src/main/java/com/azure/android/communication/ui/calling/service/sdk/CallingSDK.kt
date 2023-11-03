@@ -57,7 +57,7 @@ internal interface CallingSDK {
 
     // Push Notifications.
     fun registerPushNotification(deviceRegistrationToken: String): CompletableFuture<Void>
-    
+
     //region Call Diagnostics
     fun getNetworkQualityCallDiagnosticSharedFlow(): SharedFlow<NetworkQualityCallDiagnosticModel>
     fun getNetworkCallDiagnosticSharedFlow(): SharedFlow<NetworkCallDiagnosticModel>

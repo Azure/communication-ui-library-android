@@ -56,6 +56,8 @@ import com.azure.android.communication.ui.calling.service.CallHistoryServiceImpl
 import com.azure.android.communication.ui.calling.service.NotificationService
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKEventHandler
+import com.azure.android.communication.ui.calling.service.sdk.CallingSDKInitializationWrapper
+import com.azure.android.communication.ui.calling.service.sdk.CallingSDKInitializationWrapperInjectionHelper
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 
@@ -253,7 +255,11 @@ internal class DependencyInjectionContainerImpl(
             ?: CallingSDKWrapper(
                 applicationContext,
                 callingSDKEventHandler,
-                configuration.callConfig
+                CallingSDKInitializationWrapperInjectionHelper.callingSDKInitializationWrapper
+                    ?: CallingSDKInitializationWrapper(
+                        configuration.callConfig,
+                        logger
+                    ),
             )
     }
 

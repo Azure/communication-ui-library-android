@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallHistor
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
@@ -102,6 +103,7 @@ class CallLauncherViewModel : ViewModel() {
         callComposite.addOnCallStateChangedEventHandler(callStateEventHandler)
         callComposite.addOnDismissedEventHandler(exitEventHandler)
         isExitRequested = false
+        callComposite.addOnIncomingCallEventHandler(IncomingCallEvent(callComposite, context))
         callComposite.launch(context, remoteOptions, localOptions)
     }
 
@@ -204,5 +206,14 @@ class CallExitEventHandler(
         event.errorCode?.let {
             callCompositeCallStateStateFlow.value = it.toString()
         }
+    }
+}
+
+class IncomingCallEvent(
+    private val callComposite: CallComposite,
+    private val context: Context,
+) : CallCompositeEventHandler<CallCompositeIncomingCallEvent> {
+    override fun handle(eventArgs: CallCompositeIncomingCallEvent?) {
+        TODO("Not yet implemented")
     }
 }
