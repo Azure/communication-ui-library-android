@@ -14,9 +14,7 @@ import com.azure.android.communication.calling.PropertyChangedListener
 import com.azure.android.communication.calling.PushNotificationInfo
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
-import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.DiagnosticConfig
-import com.azure.android.communication.ui.calling.configuration.CallConfiguration
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEndEvent
@@ -48,7 +46,7 @@ internal class CallingSDKCallAgentWrapper {
         context: Context,
         name: String,
         communicationTokenCredential: CommunicationTokenCredential,
-        deviceRegistrationToken: String
+        deviceRegistrationToken: String,
     ) {
         createCallAgent(context, name, communicationTokenCredential).get()
             ?.registerPushNotification(deviceRegistrationToken)?.whenComplete { _, exception ->
@@ -80,7 +78,7 @@ internal class CallingSDKCallAgentWrapper {
     fun createCallAgent(
         context: Context,
         name: String,
-        communicationTokenCredential: CommunicationTokenCredential
+        communicationTokenCredential: CommunicationTokenCredential,
     ): CompletableFuture<CallAgent> {
         if (callAgentCompletableFuture == null || callAgentCompletableFuture!!.isCompletedExceptionally) {
             callAgentCompletableFuture = CompletableFuture<CallAgent>()
@@ -116,22 +114,20 @@ internal class CallingSDKCallAgentWrapper {
         callAgentCompletableFuture = null
         callClientInternal = null
         callClientCompletableFuture = null
-        CallingSDKInitializationWrapperInjectionHelper.callingSDKCallAgentWrapper = null
     }
 }
 
 internal class CallingSDKInitializationWrapper(
     private val callingSDKCallAgentWrapper: CallingSDKCallAgentWrapper,
-    private val callConfigInjected: CallConfiguration?,
     private val logger: Logger? = null,
-    private val onIncomingCallEventHandlers:
-        MutableIterable<CallCompositeEventHandler<CallCompositeIncomingCallEvent>>? = null,
-    private val onIncomingCallEndEventHandlers:
-        MutableIterable<CallCompositeEventHandler<CallCompositeIncomingCallEndEvent>>? = null
 ) : IncomingCallEvent {
     private var incomingCallListener: UIIncomingCallListener? = null
     private var incomingCallInternal: IncomingCall? = null
     private var callAgent: CallAgent? = null
+    private var onIncomingCallEventHandlers:
+        MutableIterable<CallCompositeEventHandler<CallCompositeIncomingCallEvent>>? = null
+    private var onIncomingCallEndEventHandlers:
+        MutableIterable<CallCompositeEventHandler<CallCompositeIncomingCallEndEvent>>? = null
 
     private val onIncomingCallEnded =
         PropertyChangedListener { _ ->
@@ -153,27 +149,21 @@ internal class CallingSDKInitializationWrapper(
             return incomingCallInternal
         }
 
-    val callConfig: CallConfiguration
-        get() {
-            try {
-                return callConfigInjected!!
-            } catch (ex: Exception) {
-                throw CallCompositeException(
-                    "Call configurations are not set",
-                    IllegalStateException()
-                )
-            }
-        }
-
     fun setupCall(): CompletableFuture<CallClient>? {
         return callingSDKCallAgentWrapper.setupCall()
     }
 
-    fun createCallAgent(subscribeForIncomingCall: Boolean = false, context: Context): CompletableFuture<CallAgent> {
+    fun createCallAgent(
+        subscribeForIncomingCall: Boolean = false,
+        context: Context,
+        displayName: String,
+        communicationTokenCredential: CommunicationTokenCredential,
+        pushNotificationInfo: Map<String, String>? = null,
+    ): CompletableFuture<CallAgent> {
         val callAgentFeature = callingSDKCallAgentWrapper.createCallAgent(
             context,
-            callConfig.displayName,
-            callConfig.communicationTokenCredential
+            displayName,
+            communicationTokenCredential
         )
 
         callAgentFeature.whenComplete { callAgent, error ->
@@ -181,10 +171,10 @@ internal class CallingSDKInitializationWrapper(
                 throw error
             }
             this.callAgent = callAgent
-            if (subscribeForIncomingCall) {
+            if (subscribeForIncomingCall && pushNotificationInfo != null) {
                 incomingCallListener = UIIncomingCallListener(this)
                 callAgent.addOnIncomingCallListener(incomingCallListener)
-                callAgent.handlePushNotification(PushNotificationInfo.fromMap(callConfig.pushNotificationInfo!!.notificationInfo))
+                callAgent.handlePushNotification(PushNotificationInfo.fromMap(pushNotificationInfo))
             }
         }
 
@@ -203,23 +193,32 @@ internal class CallingSDKInitializationWrapper(
     fun dispose() {
         logger?.info("Disposing CallingSDKInitializationWrapper")
         unsubscribeEvents()
+        callAgent = null
         callingSDKCallAgentWrapper.dispose()
-        CallingSDKInitializationWrapperInjectionHelper.callingSDKInitializationWrapper = null
     }
 
     fun setupIncomingCall(
         context: Context,
+        displayName: String,
+        communicationTokenCredential: CommunicationTokenCredential,
+        pushNotificationInfo: Map<String, String>,
+        onIncomingCallEventHandlers:
+            MutableIterable<CallCompositeEventHandler<CallCompositeIncomingCallEvent>>,
+        onIncomingCallEndEventHandlers:
+            MutableIterable<CallCompositeEventHandler<CallCompositeIncomingCallEndEvent>>
     ) {
-        if (onIncomingCallEventHandlers == null) {
-            throw CallCompositeException(
-                "onIncomingCallEventHandlers is null",
-                IllegalArgumentException()
-            )
-        }
+        this.onIncomingCallEventHandlers = onIncomingCallEventHandlers
+        this.onIncomingCallEndEventHandlers = onIncomingCallEndEventHandlers
 
         setupCall()?.whenComplete { _, error ->
             if (error == null) {
-                createCallAgent(true, context)
+                createCallAgent(
+                    true,
+                    context,
+                    displayName,
+                    communicationTokenCredential,
+                    pushNotificationInfo
+                )
             } else {
                 throw error
             }
@@ -231,7 +230,7 @@ internal class CallingSDKInitializationWrapper(
     }
 
     class UIIncomingCallListener(
-        private val incomingCallEvent: IncomingCallEvent
+        private val incomingCallEvent: IncomingCallEvent,
     ) : IncomingCallListener {
         override fun onIncomingCall(incomingCall: IncomingCall) {
             incomingCallEvent.onIncomingCall(incomingCall)

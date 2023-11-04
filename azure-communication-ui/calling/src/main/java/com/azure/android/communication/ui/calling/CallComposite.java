@@ -69,7 +69,7 @@ public final class CallComposite {
 
     private final CallCompositeConfiguration configuration;
     private WeakReference<DependencyInjectionContainer> diContainer;
-
+    private CallingSDKInitializationWrapper callingSDKInitializationWrapper;
     private CallingSDKCallAgentWrapper callAgentWrapper;
 
     CallComposite(final CallCompositeConfiguration configuration) {
@@ -212,6 +212,15 @@ public final class CallComposite {
             if (container != null) {
                 container.getCompositeExitManager().exit();
             }
+            diContainer = null;
+            if (callingSDKInitializationWrapper != null) {
+                callingSDKInitializationWrapper.dispose();
+            }
+            if (callAgentWrapper != null) {
+                callAgentWrapper.dispose();
+            }
+            CallingSDKInitializationWrapperInjectionHelper.INSTANCE.setCallingSDKInitializationWrapper(null);
+            CallingSDKInitializationWrapperInjectionHelper.INSTANCE.setCallingSDKCallAgentWrapper(null);
         }
     }
 
@@ -512,26 +521,11 @@ public final class CallComposite {
      *                existing display name and CommunicationTokenCredential is used.
      */
     public void registerPushNotification(final Context context, final CallCompositePushNotificationOptions options) {
-        if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer.get();
-            if (container != null) {
-                configuration.setCallConfig(new CallConfiguration(
-                        options.getTokenCredential(),
-                        options.getDisplayName(),
-                        null,
-                        null,
-                        CallType.ONE_TO_N_CALL,
-                        null,
-                        null));
-                container.getCallingService().registerPushNotification(options.getDeviceRegistrationToken());
-            }
-        } else {
-            initializeCallAgent();
-            callAgentWrapper.registerPushNotification(context,
-                    options.getDisplayName(),
-                    options.getTokenCredential(),
-                    options.getDeviceRegistrationToken());
-        }
+        initializeCallAgent();
+        callAgentWrapper.registerPushNotification(context,
+                options.getDisplayName(),
+                options.getTokenCredential(),
+                options.getDeviceRegistrationToken());
     }
 
     void setDependencyInjectionContainer(final DependencyInjectionContainer diContainer) {
@@ -593,6 +587,9 @@ public final class CallComposite {
 
         CallCompositeInstanceManager.putCallComposite(instanceId, this);
 
+        initializeCallAgent();
+        initializeCallingSDK();
+
         final Intent intent = new Intent(context, CallCompositeActivity.class);
         intent.putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId++);
         if (isTest) {
@@ -634,18 +631,32 @@ public final class CallComposite {
             throw new IllegalArgumentException("IncomingCallEventHandler cannot be null");
         }
         initializeCallAgent();
-        final CallingSDKInitializationWrapper callingSDKInitializationWrapper =
-                new CallingSDKInitializationWrapper(callAgentWrapper,
-                        configuration.getCallConfig(),
-                        new DefaultLogger(),
-                        configuration.getCallCompositeEventsHandler().getOnIncomingCallEventHandlers(),
-                        configuration.getCallCompositeEventsHandler().getOnIncomingCallEndEventHandlers());
-        CallingSDKInitializationWrapperInjectionHelper.INSTANCE.setCallingSDKInitializationWrapper(
-                callingSDKInitializationWrapper);
-        callingSDKInitializationWrapper.setupIncomingCall(context.getApplicationContext());
+        initializeCallingSDK();
+
+        callingSDKInitializationWrapper.setupIncomingCall(context.getApplicationContext(),
+                remoteOptions.getDisplayName(),
+                remoteOptions.getCredential(),
+                pushNotificationInfo.getNotificationInfo(),
+                configuration.getCallCompositeEventsHandler().getOnIncomingCallEventHandlers(),
+                configuration.getCallCompositeEventsHandler().getOnIncomingCallEndEventHandlers());
+    }
+
+    private void initializeCallingSDK() {
+        initializeCallAgent();
+        callingSDKInitializationWrapper =
+                CallingSDKInitializationWrapperInjectionHelper.INSTANCE.getCallingSDKInitializationWrapper();
+        if (callingSDKInitializationWrapper == null) {
+            callingSDKInitializationWrapper =
+                    new CallingSDKInitializationWrapper(callAgentWrapper,
+                            new DefaultLogger());
+            CallingSDKInitializationWrapperInjectionHelper.INSTANCE.
+                    setCallingSDKInitializationWrapper(
+                    callingSDKInitializationWrapper);
+        }
     }
 
     private void initializeCallAgent() {
+        callAgentWrapper = CallingSDKInitializationWrapperInjectionHelper.INSTANCE.getCallingSDKCallAgentWrapper();
         if (callAgentWrapper == null) {
             callAgentWrapper = new CallingSDKCallAgentWrapper();
             CallingSDKInitializationWrapperInjectionHelper.INSTANCE.
