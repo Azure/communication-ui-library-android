@@ -11,7 +11,6 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallType;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer;
-import com.azure.android.communication.ui.calling.handlers.PushNotificationHandler;
 import com.azure.android.communication.ui.calling.logger.DefaultLogger;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent;
@@ -32,6 +31,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeSetPartici
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
+import com.azure.android.communication.ui.calling.service.sdk.CallingSDKCallAgentWrapper;
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKInitializationWrapper;
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKInitializationWrapperInjectionHelper;
 import com.jakewharton.threetenabp.AndroidThreeTen;
@@ -69,6 +69,8 @@ public final class CallComposite {
 
     private final CallCompositeConfiguration configuration;
     private WeakReference<DependencyInjectionContainer> diContainer;
+
+    private CallingSDKCallAgentWrapper callAgentWrapper;
 
     CallComposite(final CallCompositeConfiguration configuration) {
         this.configuration = configuration;
@@ -524,7 +526,13 @@ public final class CallComposite {
                 container.getCallingService().registerPushNotification(options.getDeviceRegistrationToken());
             }
         } else {
-            new PushNotificationHandler().registerPushNotification(context, options);
+            if (callAgentWrapper == null) {
+                callAgentWrapper = new CallingSDKCallAgentWrapper();
+            }
+            callAgentWrapper.registerPushNotification(context,
+                    options.getDisplayName(),
+                    options.getTokenCredential(),
+                    options.getDeviceRegistrationToken());
         }
     }
 
@@ -627,9 +635,12 @@ public final class CallComposite {
         if (configuration.getCallCompositeEventsHandler().getOnIncomingCallEventHandlers() == null) {
             throw new IllegalArgumentException("IncomingCallEventHandler cannot be null");
         }
-
+        if (callAgentWrapper == null) {
+            callAgentWrapper = new CallingSDKCallAgentWrapper();
+        }
         final CallingSDKInitializationWrapper callingSDKInitializationWrapper =
-                new CallingSDKInitializationWrapper(configuration.getCallConfig(),
+                new CallingSDKInitializationWrapper(callAgentWrapper,
+                        configuration.getCallConfig(),
                         new DefaultLogger(),
                         configuration.getCallCompositeEventsHandler().getOnIncomingCallEventHandlers(),
                         configuration.getCallCompositeEventsHandler().getOnIncomingCallEndEventHandlers());

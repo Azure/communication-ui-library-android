@@ -38,6 +38,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 import java.util.Locale
+import kotlinx.coroutines.GlobalScope
 
 internal class CallCompositeActivity : AppCompatActivity() {
     private val diContainerHolder: DependencyInjectionContainerHolder by viewModels {
@@ -159,10 +160,13 @@ internal class CallCompositeActivity : AppCompatActivity() {
             audioModeManager.onDestroy()
             if (isFinishing) {
                 store.dispatch(CallingAction.CallEndRequested())
-                compositeManager.onCompositeDestroy()
-                CallCompositeInstanceManager.removeCallComposite(instanceId)
+                GlobalScope.launch {
+                    compositeManager.onCompositeDestroy()
+                    CallCompositeInstanceManager.removeCallComposite(instanceId)
+                }
             }
         }
+
         super.onDestroy()
     }
 

@@ -8,6 +8,7 @@ import com.azure.android.communication.calling.AcceptCallOptions
 import com.azure.android.communication.calling.AudioOptions
 import com.azure.android.communication.calling.Call
 import com.azure.android.communication.calling.CallAgent
+import com.azure.android.communication.calling.CallClient
 import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.DeviceManager
 import com.azure.android.communication.calling.GroupCallLocator
@@ -51,11 +52,21 @@ internal class CallingSDKWrapper(
 
     private val callConfig = callingSDKInitializationWrapper.callConfig
     private var nullableCall: Call? = null
+    private var callClientInternal: CallClient? = null
 
     val call: Call
         get() {
             try {
                 return nullableCall!!
+            } catch (ex: Exception) {
+                throw CallCompositeException("Call is not started", IllegalStateException())
+            }
+        }
+
+    val callClient: CallClient
+        get() {
+            try {
+                return callClientInternal!!
             } catch (ex: Exception) {
                 throw CallCompositeException("Call is not started", IllegalStateException())
             }
@@ -155,7 +166,8 @@ internal class CallingSDKWrapper(
     }
 
     override fun setupCall(): CompletableFuture<Void> {
-        callingSDKInitializationWrapper.setupCall()?.whenComplete { _, _ ->
+        callingSDKInitializationWrapper.setupCall()?.whenComplete { callClient, _ ->
+            callClientInternal = callClient
             createDeviceManager().handle { _, error: Throwable? ->
                 if (error != null) {
                     setupCallCompletableFuture.completeExceptionally(error)
@@ -406,7 +418,7 @@ internal class CallingSDKWrapper(
         if (deviceManagerCompletableFuture.isCompletedExceptionally ||
             !deviceManagerCompletableFuture.isDone
         ) {
-            callingSDKInitializationWrapper.callClient.getDeviceManager(context)
+            callClient.getDeviceManager(context)
                 .whenComplete { deviceManager: DeviceManager, getDeviceManagerError ->
                     if (getDeviceManagerError != null) {
                         deviceManagerCompletableFuture.completeExceptionally(
@@ -509,6 +521,7 @@ internal class CallingSDKWrapper(
         }
         callingSDKInitializationWrapper.dispose()
         nullableCall = null
+        callClientInternal = null
         localVideoStreamCompletableFuture = null
         camerasInitializedCompletableFuture = null
         deviceManagerCompletableFuture = null
@@ -516,7 +529,7 @@ internal class CallingSDKWrapper(
     }
 
     private fun canCreateLocalVideoStream() =
-        deviceManagerCompletableFuture != null || callingSDKInitializationWrapper.callClient != null
+        deviceManagerCompletableFuture != null || callClient != null
 
     private fun switchCameraAsyncAndroidTV(): CompletableFuture<CameraDeviceSelectionStatus> {
         val result = CompletableFuture<CameraDeviceSelectionStatus>()
