@@ -153,10 +153,6 @@ internal class CallingSDKInitializationWrapper(
         return callingSDKCallAgentWrapper.setupCall()
     }
 
-    fun onIncomingCallAccepted() {
-        unsubscribeEvents()
-    }
-
     fun createCallAgent(
         subscribeForIncomingCall: Boolean = false,
         context: Context,
@@ -185,7 +181,7 @@ internal class CallingSDKInitializationWrapper(
         return callAgentFeature
     }
 
-    private fun unsubscribeEvents() {
+    fun unsubscribeEvents() {
         incomingCallInternal?.removeOnCallEndedListener(onIncomingCallEnded)
         incomingCallInternal = null
         incomingCallListener?.let {

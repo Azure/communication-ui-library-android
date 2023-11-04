@@ -175,6 +175,7 @@ internal class CallingSDKWrapper(
 
     override fun dispose() {
         callingSDKEventHandler.dispose()
+        callingSDKInitializationWrapper?.unsubscribeEvents()
         cleanupResources()
     }
 
@@ -226,7 +227,6 @@ internal class CallingSDKWrapper(
                         val acceptCallOptions = AcceptCallOptions()
                         videoOptions?.let { acceptCallOptions.videoOptions = videoOptions }
                         nullableCall = it?.accept(context, acceptCallOptions)?.get()
-                        callingSDKInitializationWrapper.onIncomingCallAccepted()
                         callingSDKEventHandler.onJoinCall(call)
                         return@whenComplete
                     }
@@ -245,7 +245,6 @@ internal class CallingSDKWrapper(
                     val acceptCallOptions = AcceptCallOptions()
                     acceptCallOptions.videoOptions = null
                     nullableCall = it.accept(context, acceptCallOptions)?.get()
-                    callingSDKInitializationWrapper.onIncomingCallAccepted()
                     callingSDKEventHandler.onJoinCall(call)
                     return@thenAccept
                 }
