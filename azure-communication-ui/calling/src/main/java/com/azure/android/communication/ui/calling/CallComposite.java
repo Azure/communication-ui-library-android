@@ -235,7 +235,6 @@ public final class CallComposite {
         configuration.setCallCompositeLocalOptions(callCompositeLocalOptions);
         final Intent intent = new Intent(context, CallCompositeActivity.class);
         intent.putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId++);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
