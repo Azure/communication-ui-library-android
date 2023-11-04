@@ -49,15 +49,17 @@ internal class CallingSDKInitializationWrapper(
     private var incomingCallInternal: IncomingCall? = null
     private val onIncomingCallEnded =
         PropertyChangedListener { _ ->
+            val code = incomingCallInternal?.callEndReason?.code ?: -1
+            val subCode = incomingCallInternal?.callEndReason?.subcode ?: -1
+            dispose()
             onIncomingCallEndEventHandlers?.forEach {
                 it.handle(
                     CallCompositeIncomingCallEndEvent(
-                        incomingCallInternal?.callEndReason?.code ?: -1,
-                        incomingCallInternal?.callEndReason?.subcode ?: -1
+                        code,
+                        subCode
                     )
                 )
             }
-            dispose()
         }
 
     val incomingCall: IncomingCall?
