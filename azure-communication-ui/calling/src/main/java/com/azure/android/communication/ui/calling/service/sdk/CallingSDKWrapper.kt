@@ -245,6 +245,7 @@ internal class CallingSDKWrapper(
                     val acceptCallOptions = AcceptCallOptions()
                     acceptCallOptions.videoOptions = null
                     nullableCall = it.accept(context, acceptCallOptions)?.get()
+                    callingSDKInitializationWrapper.onIncomingCallAccepted()
                     callingSDKEventHandler.onJoinCall(call)
                     return@thenAccept
                 }
