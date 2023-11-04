@@ -258,7 +258,7 @@ internal class DependencyInjectionContainerImpl(
                 callingSDKEventHandler,
                 CallingSDKInitializationWrapperInjectionHelper.callingSDKInitializationWrapper
                     ?: CallingSDKInitializationWrapper(
-                        CallingSDKCallAgentWrapper(),
+                        CallingSDKInitializationWrapperInjectionHelper.callingSDKCallAgentWrapper ?: CallingSDKCallAgentWrapper(),
                         configuration.callConfig,
                         logger
                     ),

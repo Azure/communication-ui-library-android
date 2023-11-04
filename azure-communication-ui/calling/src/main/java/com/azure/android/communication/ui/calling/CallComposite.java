@@ -526,9 +526,7 @@ public final class CallComposite {
                 container.getCallingService().registerPushNotification(options.getDeviceRegistrationToken());
             }
         } else {
-            if (callAgentWrapper == null) {
-                callAgentWrapper = new CallingSDKCallAgentWrapper();
-            }
+            initializeCallAgent();
             callAgentWrapper.registerPushNotification(context,
                     options.getDisplayName(),
                     options.getTokenCredential(),
@@ -635,9 +633,7 @@ public final class CallComposite {
         if (configuration.getCallCompositeEventsHandler().getOnIncomingCallEventHandlers() == null) {
             throw new IllegalArgumentException("IncomingCallEventHandler cannot be null");
         }
-        if (callAgentWrapper == null) {
-            callAgentWrapper = new CallingSDKCallAgentWrapper();
-        }
+        initializeCallAgent();
         final CallingSDKInitializationWrapper callingSDKInitializationWrapper =
                 new CallingSDKInitializationWrapper(callAgentWrapper,
                         configuration.getCallConfig(),
@@ -647,6 +643,14 @@ public final class CallComposite {
         CallingSDKInitializationWrapperInjectionHelper.INSTANCE.setCallingSDKInitializationWrapper(
                 callingSDKInitializationWrapper);
         callingSDKInitializationWrapper.setupIncomingCall(context.getApplicationContext());
+    }
+
+    private void initializeCallAgent() {
+        if (callAgentWrapper == null) {
+            callAgentWrapper = new CallingSDKCallAgentWrapper();
+            CallingSDKInitializationWrapperInjectionHelper.INSTANCE.
+                    setCallingSDKCallAgentWrapper(callAgentWrapper);
+        }
     }
 
     CallCompositeConfiguration getConfiguration() {

@@ -31,6 +31,7 @@ import java9.util.concurrent.CompletableFuture
 */
 internal object CallingSDKInitializationWrapperInjectionHelper {
     var callingSDKInitializationWrapper: CallingSDKInitializationWrapper? = null
+    var callingSDKCallAgentWrapper: CallingSDKCallAgentWrapper? = null
 }
 
 internal interface IncomingCallEvent {
@@ -115,6 +116,7 @@ internal class CallingSDKCallAgentWrapper {
         callAgentCompletableFuture = null
         callClientInternal = null
         callClientCompletableFuture = null
+        CallingSDKInitializationWrapperInjectionHelper.callingSDKCallAgentWrapper = null
     }
 }
 
