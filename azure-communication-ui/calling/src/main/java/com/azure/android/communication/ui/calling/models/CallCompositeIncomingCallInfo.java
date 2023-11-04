@@ -4,26 +4,26 @@
 package com.azure.android.communication.ui.calling.models;
 
 /**
- * CallCompositeIncomingCallInfo for forwarding calling push notifications to UI.
+ * Incoming call data.
  */
 public class CallCompositeIncomingCallInfo {
     private final String callId;
-    private final String displayName;
-    private final String rawId;
+    private final String callerDisplayName;
+    private final String callerIdentifierRawId;
 
     /**
      * Create {@link CallCompositeIncomingCallInfo}.
      *
-     * @param callId      call id.
-     * @param displayName
-     * @param rawId
+     * @param callId
+     * @param callerDisplayName
+     * @param callerIdentifierRawId
      */
     public CallCompositeIncomingCallInfo(final String callId,
-                                         final String displayName,
-                                         final String rawId) {
+                                         final String callerDisplayName,
+                                         final String callerIdentifierRawId) {
         this.callId = callId;
-        this.displayName = displayName;
-        this.rawId = rawId;
+        this.callerDisplayName = callerDisplayName;
+        this.callerIdentifierRawId = callerIdentifierRawId;
     }
 
     /**
@@ -35,18 +35,18 @@ public class CallCompositeIncomingCallInfo {
     }
 
     /**
-     * Get display name.
-     * @return display name.
+     * Get caller display name.
+     * @return caller display name.
      */
-    public String getDisplayName() {
-        return displayName;
+    public String getCallerDisplayName() {
+        return callerDisplayName;
     }
 
     /**
-     * Get raw id.
-     * @return raw id.
+     * Get caller raw id.
+     * @return caller raw id.
      */
-    public String getRawId() {
-        return rawId;
+    public String getCallerIdentifierRawId() {
+        return callerIdentifierRawId;
     }
 }

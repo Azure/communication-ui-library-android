@@ -83,6 +83,13 @@ public final class CallCompositeRemoteOptions {
         this.displayName = displayName;
     }
 
+    /**
+     * Create {@link CallCompositeRemoteOptions}.
+     *
+     * @param startCallOptions {@link CallCompositeStartCallOptions}.
+     * @param credential {@link CommunicationTokenCredential}.
+     * @param displayName User display name other call participants will see.
+     */
     public CallCompositeRemoteOptions(
             final CallCompositeStartCallOptions startCallOptions,
             final CommunicationTokenCredential credential,

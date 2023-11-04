@@ -338,7 +338,7 @@ public final class CallComposite {
     }
 
     /**
-     * Start audio. Will be helpful in start audio sessions
+     * Start audio session
      *
      */
     public void startAudio() {
@@ -351,7 +351,7 @@ public final class CallComposite {
     }
 
     /**
-     * Stop audio. Will be helpful in stop audio sessions
+     * Stop audio session.
      *
      */
     public void stopAudio() {
@@ -364,7 +364,7 @@ public final class CallComposite {
     }
 
     /**
-     * Turn on video. Will be helpful in turn on video
+     * Turn on video.
      *
      */
     public void turnMicOn() {
@@ -377,7 +377,7 @@ public final class CallComposite {
     }
 
     /**
-     * Turn off video. Will be helpful in turn off video
+     * Turn off video.
      *
      */
     public void turnMicOff() {
@@ -390,7 +390,7 @@ public final class CallComposite {
     }
 
     /**
-     * Turn on video. Will be helpful in turn on video
+     * Turn on video.
      *
      */
     public void hold() {
@@ -403,7 +403,7 @@ public final class CallComposite {
     }
 
     /**
-     * Turn off video. Will be helpful in turn off video
+     * Turn off video.
      *
      */
     public void resume() {

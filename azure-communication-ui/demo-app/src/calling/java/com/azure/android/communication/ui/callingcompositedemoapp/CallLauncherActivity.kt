@@ -392,6 +392,10 @@ class CallLauncherActivity : AppCompatActivity(), CallCompositeEvents {
         }
     }
 
+    override fun incomingCallEnded() {
+        registerPuhNotification()
+    }
+
     private fun showNotificationForIncomingCall(notification: CallCompositeIncomingCallInfo) {
         Log.i(TAG, "Showing notification for incoming call")
         val resultIntent = Intent(this, CallLauncherActivity::class.java).apply {
@@ -425,7 +429,7 @@ class CallLauncherActivity : AppCompatActivity(), CallCompositeEvents {
         )
         val content = java.lang.String.format(
             "%s",
-            notification.displayName
+            notification.callerDisplayName
         )
         val builder: NotificationCompat.Builder = NotificationCompat.Builder(this, "acs")
             .setContentIntent(resultPendingIntent)

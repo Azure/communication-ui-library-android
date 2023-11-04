@@ -312,7 +312,8 @@ class IncomingCallEvent : CallCompositeEventHandler<CallCompositeIncomingCallEve
 
 class IncomingCallEndEvent : CallCompositeEventHandler<CallCompositeIncomingCallEndEvent> {
     override fun handle(eventArgs: CallCompositeIncomingCallEndEvent?) {
-        Log.i(CallLauncherActivity.TAG, "Dismissing IncomingCallEvent" + eventArgs?.code)
+        Log.i(CallLauncherActivity.TAG, "Dismissing IncomingCallEvent " + eventArgs?.code)
         CallLauncherActivity.callCompositeEvents?.hideIncomingCallUI()
+        CallLauncherActivity.callCompositeEvents?.incomingCallEnded()
     }
 }

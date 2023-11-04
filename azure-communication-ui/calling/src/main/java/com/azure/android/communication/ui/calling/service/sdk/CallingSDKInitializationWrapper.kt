@@ -11,6 +11,7 @@ import com.azure.android.communication.calling.CallClientOptions
 import com.azure.android.communication.calling.IncomingCall
 import com.azure.android.communication.calling.IncomingCallListener
 import com.azure.android.communication.calling.PropertyChangedListener
+import com.azure.android.communication.calling.PushNotificationInfo
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration
@@ -119,7 +120,7 @@ internal class CallingSDKInitializationWrapper(
                         if (subscribeForIncomingCall) {
                             incomingCallListener = UIIncomingCallListener(this)
                             callAgent.addOnIncomingCallListener(incomingCallListener)
-                            callAgent.handlePushNotification(callConfig.pushNotificationInfo!!.notificationInfo)
+                            callAgent.handlePushNotification(PushNotificationInfo.fromMap(callConfig.pushNotificationInfo!!.notificationInfo))
                         }
                         callAgentCompletableFuture!!.complete(callAgent)
                     }

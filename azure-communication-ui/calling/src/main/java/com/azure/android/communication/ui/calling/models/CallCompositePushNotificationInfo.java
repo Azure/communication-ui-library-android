@@ -3,38 +3,80 @@
 
 package com.azure.android.communication.ui.calling.models;
 
-import com.azure.android.communication.calling.PushNotificationInfo;
+import com.azure.android.communication.common.CommunicationIdentifier;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
+import java.util.UUID;
 
 /**
- * CallCompositePushNotificationInfo for forwarding calling push notifications to UI.
+ * CallCompositePushNotificationInfo for forwarding calling push notifications to UI Library.
  */
 public class CallCompositePushNotificationInfo {
-    private final PushNotificationInfo notificationInfo;
+    private final Map<String, String> notificationInfoMap;
+    private final String fromDisplayName;
+    private final String from;
+    private final boolean isIncomingWithVideo;
+    private final String callId;
+    private final String to;
+    private final String eventTypeResult;
 
     /**
      * Create {@link CallCompositePushNotificationInfo}.
      * @param notificationInfoMap Notification info map.
      */
-    public CallCompositePushNotificationInfo(final Map<String, String> notificationInfoMap) {
-        notificationInfo = PushNotificationInfo.fromMap(notificationInfoMap);
+    public CallCompositePushNotificationInfo(final Map<String, String> notificationInfoMap)
+            throws ClassNotFoundException, NoSuchMethodException,
+            InvocationTargetException, IllegalAccessException, InstantiationException {
+
+        final Class<?> pushNotificationInfoClass =
+                Class.forName("com.azure.android.communication.calling.PushNotificationInfo");
+
+        final Object pushNotificationInfo = pushNotificationInfoClass
+                .getMethod("fromMap", Map.class)
+                .invoke(null, notificationInfoMap);
+
+        fromDisplayName = (String) pushNotificationInfoClass
+                .getMethod("getFromDisplayName")
+                .invoke(pushNotificationInfo);
+
+        from = ((CommunicationIdentifier) pushNotificationInfoClass
+                .getMethod("getFrom")
+                .invoke(pushNotificationInfo)).getRawId();
+
+        isIncomingWithVideo = (boolean) pushNotificationInfoClass
+                .getMethod("isIncomingWithVideo")
+                .invoke(pushNotificationInfo);
+
+        callId = ((UUID) pushNotificationInfoClass
+                .getMethod("getCallId")
+                .invoke(pushNotificationInfo)).toString();
+
+        to = ((CommunicationIdentifier) pushNotificationInfoClass
+                .getMethod("getTo")
+                .invoke(pushNotificationInfo)).getRawId();
+
+        eventTypeResult = pushNotificationInfoClass
+                .getMethod("getEventType")
+                .invoke(pushNotificationInfo).toString();
+
+        this.notificationInfoMap = notificationInfoMap;
     }
 
     /**
-     * Get call id.
-     * @return call id.
+     * Get from.
+     * @return caller token.
      */
-    public String getCallId() {
-        return notificationInfo.getCallId().toString();
+    public String getFrom() {
+        return from;
     }
 
     /**
-     * Get event type.
-     * @return event type.
+     * Get to.
+     * @return return Callee raw identifier.
      */
-    public String getEventType() {
-        return notificationInfo.getEventType().toString();
+    public String getTo() {
+        return to;
     }
 
     /**
@@ -42,14 +84,39 @@ public class CallCompositePushNotificationInfo {
      * @return from display name.
      */
     public String getFromDisplayName() {
-        return notificationInfo.getFromDisplayName();
+        return fromDisplayName;
+    }
+
+    /**
+     * Is Incoming with Video.
+     * @return is incoming with video.
+     */
+    public boolean isIncomingWithVideo() {
+        return isIncomingWithVideo;
+    }
+
+
+    /**
+     * Get call id.
+     * @return call id.
+     */
+    public String getCallId() {
+        return callId;
+    }
+
+    /**
+     * Get push notification event type.
+     * @return {@link CallCompositePushNotificationEventType}.
+     */
+    public CallCompositePushNotificationEventType getEventType() {
+        return CallCompositePushNotificationEventType.fromString(eventTypeResult);
     }
 
     /**
      * Get PushNotificationInfo.
      * @return PushNotificationInfo.
      */
-    public PushNotificationInfo getNotificationInfo() {
-        return notificationInfo;
+    public Map<String, String> getNotificationInfo() {
+        return notificationInfoMap;
     }
 }

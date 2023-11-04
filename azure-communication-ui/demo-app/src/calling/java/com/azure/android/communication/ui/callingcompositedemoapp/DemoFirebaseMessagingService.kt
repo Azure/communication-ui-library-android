@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.util.Log
-import com.azure.android.communication.calling.PushNotificationEventType
+import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationEventType
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationInfo
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -21,8 +21,8 @@ class DemoFirebaseMessagingService : FirebaseMessagingService() {
         Log.d(CallLauncherActivity.TAG, remoteMessage.data.toString())
         if (remoteMessage.data.isNotEmpty()) {
             val pushNotificationInfo = CallCompositePushNotificationInfo(remoteMessage.data)
-            if (pushNotificationInfo.eventType == PushNotificationEventType.INCOMING_CALL.toString()) {
-                Log.d(CallLauncherActivity.TAG, pushNotificationInfo.eventType + " handleIncomingCall")
+            if (pushNotificationInfo.eventType == CallCompositePushNotificationEventType.INCOMING_CALL) {
+                Log.d(CallLauncherActivity.TAG, pushNotificationInfo.eventType.toString() + " handleIncomingCall")
                 CallLauncherActivity.callCompositeEvents?.handleIncomingCall(remoteMessage.data)
             }
         }
