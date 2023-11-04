@@ -54,4 +54,6 @@
     <string name="setup_screen_orientation_dropdown_hint">Setup Screen Orientation</string>
     <string name="one_to_one_call_label">1:N call</string>
     <string name="register_push_notification">Register Push</string>
+    <string name="accept_call">Accept</string>
+    <string name="decline_call">Decline</string>
 </resources>

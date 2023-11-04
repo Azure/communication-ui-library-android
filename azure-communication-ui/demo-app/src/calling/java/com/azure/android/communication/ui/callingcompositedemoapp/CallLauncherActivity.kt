@@ -3,15 +3,30 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.TaskStackBuilder
 import android.content.Intent
+import android.media.RingtoneManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.lifecycleScope
+import com.azure.android.communication.common.CommunicationIdentifier
+import com.azure.android.communication.ui.calling.CallComposite
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.FeatureFlags
@@ -22,15 +37,15 @@ import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.UUID
 
-class CallLauncherActivity : AppCompatActivity() {
+class CallLauncherActivity : AppCompatActivity(), CallCompositeEvents {
 
     companion object {
         const val TAG = "communication.ui.demo"
+        var callCompositeEvents: CallCompositeEvents? = null
     }
 
     private lateinit var binding: ActivityCallLauncherBinding
@@ -38,6 +53,11 @@ class CallLauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        createNotificationChannels()
+
+        // event handler to update UI for incoming call
+        callCompositeEvents = this
+
         if (shouldFinish()) {
             finish()
             return
@@ -129,6 +149,16 @@ class CallLauncherActivity : AppCompatActivity() {
                 }
             }
 
+            acceptCallButton.setOnClickListener {
+                incomingCallLayout.visibility = LinearLayout.GONE
+                callLauncherViewModel.createCallComposite(applicationContext).acceptIncomingCall(applicationContext)
+            }
+
+            declineCallButton.setOnClickListener {
+                incomingCallLayout.visibility = LinearLayout.GONE
+                callLauncherViewModel.createCallComposite(applicationContext).declineIncomingCall()
+            }
+
             showCallHistoryButton.setOnClickListener {
                 showCallHistory()
             }
@@ -180,7 +210,7 @@ class CallLauncherActivity : AppCompatActivity() {
         super.onDestroy()
         EndCompositeButtonView.get(this).hide()
         EndCompositeButtonView.buttonView = null
-        callLauncherViewModel.unsubscribe()
+        callLauncherViewModel.close()
 
         if (isFinishing) {
             callLauncherViewModel.close()
@@ -301,5 +331,122 @@ class CallLauncherActivity : AppCompatActivity() {
         } else {
             EndCompositeButtonView.get(this).show(callLauncherViewModel)
         }
+    }
+
+    private fun createNotificationChannels() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name: CharSequence = "acs"
+            val description = "acs"
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel =
+                NotificationChannel("acs", name, importance)
+            channel.description = description
+            val notificationManager = getSystemService(
+                NotificationManager::class.java
+            )
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    override fun getCallComposite(): CallComposite = callLauncherViewModel.createCallComposite(applicationContext)
+
+    override fun showIncomingCallUI(incomingCallInfo: CallCompositeIncomingCallInfo) {
+        this.runOnUiThread {
+            showNotificationForIncomingCall(incomingCallInfo)
+            binding.incomingCallLayout.visibility = View.VISIBLE
+        }
+    }
+
+    override fun hideIncomingCallUI() {
+        this.runOnUiThread {
+            dismissNotificationForIncomingCall()
+            binding.incomingCallLayout.visibility = View.GONE
+        }
+    }
+
+    override fun handleIncomingCall(data: Map<String, String>) {
+        val userName = binding.userNameText.text.toString()
+        val acsToken = binding.acsTokenText.text.toString()
+        callLauncherViewModel.handleIncomingCall(
+            data.toMutableMap(),
+            applicationContext,
+            acsToken,
+            userName
+        )
+    }
+
+    override fun onCompositeDismiss() {
+        callLauncherViewModel.destroy()
+        registerPuhNotification()
+    }
+
+    override fun onRemoteParticipantJoined(rawId: String) {
+        callLauncherViewModel?.mapOfDisplayNames?.get(rawId)?.let { data ->
+            callLauncherViewModel.createCallComposite(applicationContext)?.let {
+                it.setRemoteParticipantViewData(
+                    CommunicationIdentifier.fromRawId(rawId),
+                    CallCompositeParticipantViewData()
+                        .setDisplayName(data)
+                )
+            }
+        }
+    }
+
+    private fun showNotificationForIncomingCall(notification: CallCompositeIncomingCallInfo) {
+        Log.i(TAG, "Showing notification for incoming call")
+        val resultIntent = Intent(this, CallLauncherActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val stackBuilder = TaskStackBuilder.create(this)
+        stackBuilder.addNextIntentWithParentStack(resultIntent)
+
+        val resultPendingIntent =
+            stackBuilder.getPendingIntent(0, PendingIntent.FLAG_IMMUTABLE)
+
+        val answerCallIntent = Intent(applicationContext, HandleNotification::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        answerCallIntent.putExtra("action", "answer")
+        val answerCallPendingIntent = PendingIntent.getBroadcast(
+            applicationContext,
+            1200,
+            answerCallIntent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+        val declineCallIntent = Intent(applicationContext, HandleNotification::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        declineCallIntent.putExtra("action", "decline")
+        val declineCallPendingIntent = PendingIntent.getBroadcast(
+            applicationContext,
+            1201,
+            declineCallIntent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+        val content = java.lang.String.format(
+            "%s",
+            notification.displayName
+        )
+        val builder: NotificationCompat.Builder = NotificationCompat.Builder(this, "acs")
+            .setContentIntent(resultPendingIntent)
+            .setSmallIcon(android.R.drawable.ic_menu_call)
+            .setCategory(NotificationCompat.CATEGORY_CALL)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
+            .setWhen(System.currentTimeMillis())
+            .setContentTitle("Incoming Call")
+            .setContentText(content)
+            .addAction(android.R.drawable.ic_menu_call, "Accept", answerCallPendingIntent)
+            .addAction(android.R.drawable.ic_menu_call, "Decline", declineCallPendingIntent)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE))
+            .setOngoing(true)
+            .setAutoCancel(true)
+        val notificationManager = NotificationManagerCompat.from(this)
+        notificationManager.notify(1, builder.build())
+    }
+
+    private fun dismissNotificationForIncomingCall() {
+        val notificationManager = NotificationManagerCompat.from(this)
+        notificationManager.cancel(1)
     }
 }

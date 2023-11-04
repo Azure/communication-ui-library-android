@@ -32,6 +32,9 @@ internal class CallCompositeInstanceManager {
 
         @JvmStatic
         fun removeCallComposite(id: Int) {
+            instances[id]?.let {
+                it.setDependencyInjectionContainer(null)
+            }
             instances.remove(id)
         }
 

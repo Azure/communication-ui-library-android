@@ -32,8 +32,8 @@ public final class CallCompositeRemoteOptions {
     // Mandatory
     private final CommunicationTokenCredential credential;
     private CallCompositeJoinLocator locator;
-
     private CallCompositeStartCallOptions startCallOptions;
+    private CallCompositePushNotificationInfo pushNotificationInfo;
 
     // Optional
     private final String displayName;
@@ -65,6 +65,22 @@ public final class CallCompositeRemoteOptions {
         this.credential = credential;
         this.displayName = displayName;
         this.locator = locator;
+    }
+
+    /**
+     * Create {@link CallCompositeRemoteOptions}.
+     *
+     * @param pushNotificationInfo {@link CallCompositePushNotificationInfo}.
+     * @param credential {@link CommunicationTokenCredential}.
+     * @param displayName User display name other call participants will see.
+     */
+    public CallCompositeRemoteOptions(
+            final CallCompositePushNotificationInfo pushNotificationInfo,
+            final CommunicationTokenCredential credential,
+            final String displayName) {
+        this.credential = credential;
+        this.pushNotificationInfo = pushNotificationInfo;
+        this.displayName = displayName;
     }
 
     public CallCompositeRemoteOptions(
@@ -110,5 +126,14 @@ public final class CallCompositeRemoteOptions {
      */
     public CallCompositeStartCallOptions getStartCallOptions() {
         return startCallOptions;
+    }
+
+    /**
+     * Get push notification info.
+     *
+     * @return  {@link CallCompositePushNotificationInfo}.
+     */
+    public CallCompositePushNotificationInfo getPushNotificationInfo() {
+        return pushNotificationInfo;
     }
 }

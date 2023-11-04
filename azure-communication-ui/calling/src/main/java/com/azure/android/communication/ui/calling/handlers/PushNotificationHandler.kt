@@ -24,7 +24,7 @@ internal class PushNotificationHandler {
         context: Context,
         pushNotificationOptions: CallCompositePushNotificationOptions
     ) {
-        logger.debug("registerPushNotification")
+        logger.info("registerPushNotification")
         val callAgent = createCallAgent(
             context,
             pushNotificationOptions.displayName,
@@ -33,10 +33,10 @@ internal class PushNotificationHandler {
         callAgent?.registerPushNotification(pushNotificationOptions.deviceRegistrationToken)
             ?.whenComplete { _, exception ->
                 if (exception != null) {
-                    logger.error("registerPushNotification " + exception.message)
+                    logger.error("registerPushNotification error " + exception.message)
                     throw exception
                 }
-                logger.debug("registerPushNotification complete")
+                logger.debug("registerPushNotification success")
                 callAgent?.dispose()
             }
     }

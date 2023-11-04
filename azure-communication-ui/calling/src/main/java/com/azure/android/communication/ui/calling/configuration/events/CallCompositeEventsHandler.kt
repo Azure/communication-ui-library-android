@@ -7,7 +7,9 @@ import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEndEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent
 
 internal class CallCompositeEventsHandler {
     private val errorHandlers = mutableSetOf<CallCompositeEventHandler<CallCompositeErrorEvent>>()
@@ -17,6 +19,10 @@ internal class CallCompositeEventsHandler {
         mutableSetOf<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
     private val exitEventHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeDismissedEvent>>()
+    private val incomingCallEventHandlers =
+        mutableSetOf<CallCompositeEventHandler<CallCompositeIncomingCallEvent>>()
+    private val incomingCallEndEventHandlers =
+        mutableSetOf<CallCompositeEventHandler<CallCompositeIncomingCallEndEvent>>()
 
     fun getOnErrorHandlers() = errorHandlers.asIterable()
 
@@ -50,5 +56,25 @@ internal class CallCompositeEventsHandler {
 
     fun removeOnExitEventHandler(handler: CallCompositeEventHandler<CallCompositeDismissedEvent>) {
         exitEventHandlers.remove(handler)
+    }
+
+    fun getOnIncomingCallEventHandlers() = incomingCallEventHandlers.asIterable()
+
+    fun addOnIncomingCallEventHandler(handler: CallCompositeEventHandler<CallCompositeIncomingCallEvent>) {
+        incomingCallEventHandlers.add(handler)
+    }
+
+    fun removeOnIncomingCallEventHandler(handler: CallCompositeEventHandler<CallCompositeIncomingCallEvent>) {
+        incomingCallEventHandlers.remove(handler)
+    }
+
+    fun getOnIncomingCallEndEventHandlers() = incomingCallEndEventHandlers.asIterable()
+
+    fun addOnIncomingCallEndEventHandler(handler: CallCompositeEventHandler<CallCompositeIncomingCallEndEvent>) {
+        incomingCallEndEventHandlers.add(handler)
+    }
+
+    fun removeOnIncomingCallEndEventHandler(handler: CallCompositeEventHandler<CallCompositeIncomingCallEndEvent>) {
+        incomingCallEndEventHandlers.remove(handler)
     }
 }

@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import java.net.URL
 
 class RemoteParticipantJoinedHandler(
@@ -25,10 +26,13 @@ class RemoteParticipantJoinedHandler(
 
     override fun handle(event: CallCompositeRemoteParticipantJoinedEvent) {
         event.identifiers.forEach { communicationIdentifier ->
-            if (context.resources.getBoolean(R.bool.remote_url_persona_injection)) {
-                getImageFromServer(communicationIdentifier)
-            } else {
-                selectRandomAvatar(communicationIdentifier)
+            CallLauncherActivity.callCompositeEvents?.onRemoteParticipantJoined(communicationIdentifier.rawId)
+            if (SettingsFeatures.getRemoteParticipantPersonaInjectionSelection()) {
+                if (context.resources.getBoolean(R.bool.remote_url_persona_injection)) {
+                    getImageFromServer(communicationIdentifier)
+                } else {
+                    selectRandomAvatar(communicationIdentifier)
+                }
             }
         }
     }

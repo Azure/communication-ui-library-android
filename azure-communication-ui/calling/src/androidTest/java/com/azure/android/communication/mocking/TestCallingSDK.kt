@@ -295,6 +295,12 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         return completedNullFuture()
     }
 
+    override fun startAudio() {
+    }
+
+    override fun stopAudio() {
+    }
+
     override fun getLocalVideoStream(): CompletableFuture<LocalVideoStream> {
         return completedFuture(LocalVideoStreamTest(callEvents, localCameraFacing, coroutineScope))
     }
@@ -338,6 +344,9 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     }
 
     override fun getCamerasCountStateFlow(): StateFlow<Int> = getCameraCountStateFlow
+    override fun registerPushNotification(deviceRegistrationToken: String): CompletableFuture<Void> {
+        TODO("Not yet implemented")
+    }
 
     override fun getNetworkQualityCallDiagnosticSharedFlow(): SharedFlow<NetworkQualityCallDiagnosticModel> {
         return networkQualityCallDiagnosticSharedFlow

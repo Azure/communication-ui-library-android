@@ -112,6 +112,16 @@ internal class CallingSDKEventHandler(
 
     fun onJoinCall(call: Call) {
         this.call = call
+
+        // add existing participants
+        // helpful in incoming call scenario
+        call.remoteParticipants.forEach { participant ->
+            val id = ParticipantIdentifierHelper.getRemoteParticipantId(participant.identifier)
+            if (!remoteParticipantsCacheMap.containsKey(id)) {
+                onParticipantAdded(id, participant)
+            }
+        }
+
         call.addOnStateChangedListener(onCallStateChanged)
         call.addOnIsMutedChangedListener(onIsMutedChanged)
         call.addOnRemoteParticipantsUpdatedListener(onParticipantsUpdated)
@@ -122,6 +132,7 @@ internal class CallingSDKEventHandler(
         dominantSpeakersCallFeature = call.feature { DominantSpeakersCallFeature::class.java }
         dominantSpeakersCallFeature.addOnDominantSpeakersChangedListener(onDominantSpeakersChanged)
         subscribeToUserFacingDiagnosticsEvents()
+        onRemoteParticipantUpdated()
     }
 
     fun onEndCall() {

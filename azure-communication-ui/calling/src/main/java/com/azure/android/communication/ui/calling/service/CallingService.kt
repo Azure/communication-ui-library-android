@@ -48,7 +48,7 @@ internal class CallingService(
     fun registerPushNotification(deviceRegistrationToken: String): CompletableFuture<Void> {
         return callingSdk.registerPushNotification(deviceRegistrationToken)
     }
-    
+
     //region Call Diagnostics
     private val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
     private val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
@@ -75,6 +75,14 @@ internal class CallingService(
 
     fun turnMicOn(): CompletableFuture<Void> {
         return callingSdk.turnOnMicAsync()
+    }
+
+    fun startAudio() {
+        callingSdk.startAudio()
+    }
+
+    fun stopAudio() {
+        callingSdk.stopAudio()
     }
 
     fun turnLocalCameraOn(): CompletableFuture<String> {
