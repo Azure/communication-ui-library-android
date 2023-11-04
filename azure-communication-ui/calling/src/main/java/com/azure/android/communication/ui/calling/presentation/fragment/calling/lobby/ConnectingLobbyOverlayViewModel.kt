@@ -94,9 +94,10 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
     }
 
     private fun shouldDisplayLobbyOverlay(callingState: CallingState, permissionState: PermissionState) =
-        ((callingState.callingStatus == CallingStatus.NONE) || (callingState.callingStatus == CallingStatus.CONNECTING)) &&
-            (permissionState.audioPermissionState != PermissionStatus.DENIED) &&
-            (callingState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN)
+        ((callingState.callingStatus == CallingStatus.NONE) || (callingState.callingStatus == CallingStatus.CONNECTING)) ||
+            (callingState.callingStatus == CallingStatus.RINGING) &&
+                (permissionState.audioPermissionState != PermissionStatus.DENIED) &&
+                (callingState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN)
 
     private fun handleOffline(networkManager: NetworkManager) {
         if (!networkManager.isNetworkConnectionAvailable()) {
