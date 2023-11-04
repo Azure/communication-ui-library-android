@@ -239,9 +239,6 @@ class CallLauncherViewModel : ViewModel() {
             composite.removeOnCallStateChangedEventHandler(callStateEventHandler)
             composite.removeOnErrorEventHandler(errorHandler)
             composite.removeOnRemoteParticipantJoinedEventHandler(remoteParticipantJoinedEvent)
-            exitEventHandler?.let {
-                composite.removeOnDismissedEventHandler(exitEventHandler)
-            }
             incomingCallEvent?.let {
                 composite.removeOnIncomingCallEventHandler(incomingCallEvent)
             }
