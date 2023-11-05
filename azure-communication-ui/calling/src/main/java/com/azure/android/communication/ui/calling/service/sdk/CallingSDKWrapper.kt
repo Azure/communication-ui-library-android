@@ -76,7 +76,7 @@ internal class CallingSDKWrapper(
             }
         }
 
-    val callClient: CallClient
+    private val callClient: CallClient
         get() {
             try {
                 return callClientInternal!!
