@@ -11,7 +11,8 @@ import java.util.UUID
 internal enum class CallType {
     GROUP_CALL,
     TEAMS_MEETING,
-    ONE_TO_N_CALL
+    ONE_TO_N_CALL_OUTGOING,
+    ONE_TO_N_CALL_INCOMING
 }
 
 internal data class CallConfiguration(

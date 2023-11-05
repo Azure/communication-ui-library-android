@@ -16,6 +16,8 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.configuration.CallType
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 
 internal class JoinCallButtonHolderView : ConstraintLayout {
     constructor(context: Context) : super(context)
@@ -47,8 +49,13 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
         viewModel: JoinCallButtonHolderViewModel
     ) {
         this.viewModel = viewModel
-        setupJoinCallButtonText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_join_call)
-        joiningCallText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_connecting_call)
+        if (viewModel.getCallType() == CallType.ONE_TO_N_CALL_OUTGOING) {
+            setupJoinCallButtonText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_start_call)
+            joiningCallText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_starting_call)
+        } else {
+            setupJoinCallButtonText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_join_call)
+            joiningCallText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_connecting_call)
+        }
 
         setupJoinCallButton.setOnClickListener {
             viewModel.launchCallScreen()
@@ -57,6 +64,14 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getJoinCallButtonEnabledFlow().collect {
                 onJoinCallEnabledChanged(it)
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getCallingStatusStateFlow().collect {
+                if (it == CallingStatus.RINGING) {
+                    joiningCallText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_ringing_call)
+                }
             }
         }
 

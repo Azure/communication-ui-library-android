@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
+import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
@@ -20,7 +21,8 @@ import kotlinx.coroutines.CoroutineScope
 internal class CallingViewModel(
     store: Store<ReduxState>,
     callingViewModelProvider: CallingViewModelFactory,
-    private val networkManager: NetworkManager
+    private val networkManager: NetworkManager,
+    private val callType: CallType? = null
 ) :
     BaseViewModel(store) {
 
@@ -99,6 +101,7 @@ internal class CallingViewModel(
             networkManager,
             state.localParticipantState.cameraState,
             state.localParticipantState.audioState,
+            callType
         )
         holdOverlayViewModel.init(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 

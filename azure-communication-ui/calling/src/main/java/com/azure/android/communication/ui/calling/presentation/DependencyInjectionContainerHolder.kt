@@ -75,14 +75,17 @@ internal class DependencyInjectionContainerHolder(
     }
 
     val setupViewModel by lazy {
+        val callType = container.configuration.callConfig?.callType
         SetupViewModel(
             container.appStore,
             SetupViewModelFactory(container.appStore, application),
-            container.networkManager
+            container.networkManager,
+            callType
         )
     }
 
     val callingViewModel by lazy {
+        val callType = container.configuration.callConfig?.callType
         CallingViewModel(
             container.appStore,
             CallingViewModelFactory(
@@ -91,7 +94,8 @@ internal class DependencyInjectionContainerHolder(
                 application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants),
                 container.debugInfoManager
             ),
-            container.networkManager
+            container.networkManager,
+            callType
         )
     }
 }

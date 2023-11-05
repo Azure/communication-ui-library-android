@@ -88,7 +88,6 @@ class CallLauncherViewModel : ViewModel() {
                 mapOfDisplayNames[it] = "Outgoing User $i"
             }
             val startCallOption = CallCompositeStartCallOptions(participantMris)
-            skipSetup = true
             CallCompositeRemoteOptions(startCallOption, communicationTokenCredential, displayName)
         } else {
             CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
@@ -167,6 +166,7 @@ class CallLauncherViewModel : ViewModel() {
             communicationTokenCredential,
             displayName
         )
+        var skipSetup = SettingsFeatures.getSkipSetupScreenFeatureOption()
 
         val localOptions = CallCompositeLocalOptions()
             .setParticipantViewData(SettingsFeatures.getParticipantViewData(applicationContext))
@@ -175,7 +175,7 @@ class CallLauncherViewModel : ViewModel() {
                     .setTitle(SettingsFeatures.getTitle())
                     .setSubtitle(SettingsFeatures.getSubtitle())
             )
-            .setSkipSetupScreen(true)
+            .setSkipSetupScreen(skipSetup)
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 

@@ -229,10 +229,6 @@ public final class CallComposite {
      *
      */
     public void acceptIncomingCall(final Context context) {
-        final CallCompositeLocalOptions callCompositeLocalOptions = configuration.getCallCompositeLocalOptions();
-        // skip setup screen is forced true for incoming call
-        callCompositeLocalOptions.setSkipSetupScreen(true);
-        configuration.setCallCompositeLocalOptions(callCompositeLocalOptions);
         final Intent intent = new Intent(context, CallCompositeActivity.class);
         intent.putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId++);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -568,7 +564,7 @@ public final class CallComposite {
                 meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
             }
         } else {
-            callType = CallType.ONE_TO_N_CALL;
+            callType = CallType.ONE_TO_N_CALL_OUTGOING;
             participants = remoteOptions.getStartCallOptions().getParticipants();
         }
 
@@ -604,7 +600,7 @@ public final class CallComposite {
                                  final boolean isTest) {
         AndroidThreeTen.init(context.getApplicationContext());
 
-        final CallType callType = CallType.ONE_TO_N_CALL;
+        final CallType callType = CallType.ONE_TO_N_CALL_INCOMING;
 
         final CallCompositePushNotificationInfo pushNotificationInfo = remoteOptions.getPushNotificationInfo();
 
