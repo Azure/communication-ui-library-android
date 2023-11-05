@@ -21,7 +21,8 @@ class DemoFirebaseMessagingService : FirebaseMessagingService() {
         Log.d(CallLauncherActivity.TAG, remoteMessage.data.toString())
         if (remoteMessage.data.isNotEmpty()) {
             val pushNotificationInfo = CallCompositePushNotificationInfo(remoteMessage.data)
-            if (pushNotificationInfo.eventType == CallCompositePushNotificationEventType.INCOMING_CALL) {
+            if (pushNotificationInfo.eventType == CallCompositePushNotificationEventType.INCOMING_CALL ||
+                pushNotificationInfo.eventType == CallCompositePushNotificationEventType.INCOMING_GROUP_CALL) {
                 Log.d(CallLauncherActivity.TAG, pushNotificationInfo.eventType.toString() + " handleIncomingCall")
                 CallLauncherActivity.callCompositeEvents?.handleIncomingCall(remoteMessage.data)
             }
