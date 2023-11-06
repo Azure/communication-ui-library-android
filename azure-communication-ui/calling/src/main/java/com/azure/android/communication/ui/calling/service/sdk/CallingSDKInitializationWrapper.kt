@@ -23,11 +23,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCa
 import com.azure.android.communication.ui.calling.service.sdk.ext.setTags
 import java9.util.concurrent.CompletableFuture
 
-/*
-* This class is a wrapper around the CallingSDKInitializationWrapper class. It is used to inject a custom CallingSDK
-* We need to have callingSDK for handling push notifications without UI layer
-*/
-internal object CallingSDKInitializationWrapperInjectionHelper {
+internal object CallingSDKInstanceManager {
     var callingSDKInitializationWrapper: CallingSDKInitializationWrapper? = null
     var callingSDKCallAgentWrapper: CallingSDKCallAgentWrapper? = null
 }

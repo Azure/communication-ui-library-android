@@ -33,7 +33,7 @@ import com.azure.android.communication.ui.calling.presentation.CallCompositeActi
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKCallAgentWrapper;
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKInitializationWrapper;
-import com.azure.android.communication.ui.calling.service.sdk.CallingSDKInitializationWrapperInjectionHelper;
+import com.azure.android.communication.ui.calling.service.sdk.CallingSDKInstanceManager;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import static com.azure.android.communication.ui.calling.CallCompositeExtentionsKt.createDebugInfoManager;
@@ -219,8 +219,8 @@ public final class CallComposite {
             if (callAgentWrapper != null) {
                 callAgentWrapper.dispose();
             }
-            CallingSDKInitializationWrapperInjectionHelper.INSTANCE.setCallingSDKInitializationWrapper(null);
-            CallingSDKInitializationWrapperInjectionHelper.INSTANCE.setCallingSDKCallAgentWrapper(null);
+            CallingSDKInstanceManager.INSTANCE.setCallingSDKInitializationWrapper(null);
+            CallingSDKInstanceManager.INSTANCE.setCallingSDKCallAgentWrapper(null);
         }
     }
 
@@ -240,7 +240,7 @@ public final class CallComposite {
      *
      */
     public void declineIncomingCall() {
-        CallingSDKInitializationWrapperInjectionHelper.INSTANCE.getCallingSDKInitializationWrapper().declineCall();
+        CallingSDKInstanceManager.INSTANCE.getCallingSDKInitializationWrapper().declineCall();
     }
 
     /**
@@ -640,22 +640,22 @@ public final class CallComposite {
     private void initializeCallingSDK() {
         initializeCallAgent();
         callingSDKInitializationWrapper =
-                CallingSDKInitializationWrapperInjectionHelper.INSTANCE.getCallingSDKInitializationWrapper();
+                CallingSDKInstanceManager.INSTANCE.getCallingSDKInitializationWrapper();
         if (callingSDKInitializationWrapper == null) {
             callingSDKInitializationWrapper =
                     new CallingSDKInitializationWrapper(callAgentWrapper,
                             new DefaultLogger());
-            CallingSDKInitializationWrapperInjectionHelper.INSTANCE.
+            CallingSDKInstanceManager.INSTANCE.
                     setCallingSDKInitializationWrapper(
                     callingSDKInitializationWrapper);
         }
     }
 
     private void initializeCallAgent() {
-        callAgentWrapper = CallingSDKInitializationWrapperInjectionHelper.INSTANCE.getCallingSDKCallAgentWrapper();
+        callAgentWrapper = CallingSDKInstanceManager.INSTANCE.getCallingSDKCallAgentWrapper();
         if (callAgentWrapper == null) {
             callAgentWrapper = new CallingSDKCallAgentWrapper();
-            CallingSDKInitializationWrapperInjectionHelper.INSTANCE.
+            CallingSDKInstanceManager.INSTANCE.
                     setCallingSDKCallAgentWrapper(callAgentWrapper);
         }
     }
