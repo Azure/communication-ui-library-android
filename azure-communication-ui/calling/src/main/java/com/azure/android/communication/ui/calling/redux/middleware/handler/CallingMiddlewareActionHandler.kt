@@ -47,6 +47,10 @@ internal interface CallingMiddlewareActionHandler {
     fun startCall(store: Store<ReduxState>)
     fun turnMicOn(store: Store<ReduxState>)
     fun turnMicOff(store: Store<ReduxState>)
+
+    fun onAudioFocusApproved(store: Store<ReduxState>)
+    fun onAudioFocusInterrupted(store: Store<ReduxState>)
+
     fun onCameraPermissionIsSet(store: Store<ReduxState>)
     fun callSetupWithSkipSetupScreen(store: Store<ReduxState>)
     fun exit(store: Store<ReduxState>)
@@ -55,7 +59,7 @@ internal interface CallingMiddlewareActionHandler {
 
 internal class CallingMiddlewareActionHandlerImpl(
     private val callingService: CallingService,
-    coroutineContextProvider: CoroutineContextProvider
+    coroutineContextProvider: CoroutineContextProvider,
 ) :
     CallingMiddlewareActionHandler {
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
@@ -318,6 +322,14 @@ internal class CallingMiddlewareActionHandlerImpl(
                 }
             }
         }
+    }
+
+    override fun onAudioFocusApproved(store: Store<ReduxState>) {
+        store.dispatch(CallingAction.ResumeRequested())
+    }
+
+    override fun onAudioFocusInterrupted(store: Store<ReduxState>) {
+        store.dispatch(CallingAction.HoldRequested())
     }
 
     private fun subscribeCamerasCountUpdate(store: Store<ReduxState>) {

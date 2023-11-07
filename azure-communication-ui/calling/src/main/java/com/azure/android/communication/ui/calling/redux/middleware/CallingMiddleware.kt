@@ -58,10 +58,11 @@ internal class CallingMiddlewareImpl(
                     callingMiddlewareActionHandler.turnMicOff(store)
                 }
                 is AudioSessionAction.AudioFocusApproved -> {
+                    callingMiddlewareActionHandler.onAudioFocusApproved(store)
                     store.dispatch(CallingAction.ResumeRequested())
                 }
                 is AudioSessionAction.AudioFocusInterrupted -> {
-                    store.dispatch(CallingAction.HoldRequested())
+                    callingMiddlewareActionHandler.onAudioFocusInterrupted(store)
                 }
                 is LocalParticipantAction.MicOnTriggered -> {
                     callingMiddlewareActionHandler.turnMicOn(store)

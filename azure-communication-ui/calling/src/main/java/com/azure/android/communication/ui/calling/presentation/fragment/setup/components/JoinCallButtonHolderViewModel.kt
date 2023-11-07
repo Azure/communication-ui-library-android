@@ -41,7 +41,7 @@ internal class JoinCallButtonHolderViewModel(
     fun launchCallScreen() {
         val networkAvailable = isNetworkAvailable()
         // We try to check for mic availability for the current application through current audio mode
-        val normalAudioMode = audioManager.mode == AudioManager.MODE_NORMAL
+        val normalAudioMode = true// audioManager.mode == AudioManager.MODE_NORMAL
 
         if (!networkAvailable) {
             handleOffline()
