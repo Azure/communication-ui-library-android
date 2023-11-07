@@ -10,6 +10,7 @@ import android.telecom.TelecomManager
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.azure.android.communication.ui.calling.CallComposite
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -26,7 +27,7 @@ class TelecomConnectionService : ConnectionService() {
     ): Connection? {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             val bundle = request.extras
-            val name = bundle.getString("NAME")
+            val name = bundle.getString("DISPLAY_NAME")
             val connection = createTelecomConnection(bundle)
 
             connection.setCallerDisplayName(name, TelecomManager.PRESENTATION_ALLOWED)
@@ -79,15 +80,21 @@ class TelecomConnectionService : ConnectionService() {
     private fun createTelecomConnection(
             originalBundle: Bundle
     ): TelecomConnection {
-        val callComposite: CallComposite = CallLauncherViewModel.callComposite!!
-        val connection = TelecomConnection(callComposite)
+        val callInfo = CallCompositeIncomingCallInfo(
+            originalBundle.getString("CALL_ID"),
+            originalBundle.getString("DISPLAY_NAME"),
+            originalBundle.getString("RAW_ID")
+        )
+
+        val callComposite: CallComposite? = CallLauncherViewModel.callComposite
+        val connection = TelecomConnection(callComposite, callInfo)
         connection.extras = originalBundle
         connection.connectionProperties = Connection.PROPERTY_SELF_MANAGED
         connection.connectionCapabilities = Connection.CAPABILITY_SUPPORT_HOLD or Connection.CAPABILITY_HOLD
 
         val callerDisplayName = originalBundle.getString("EXTRA_CALLER_DISPLAY_NAME")
         connection.setCallerDisplayName(callerDisplayName, TelecomManager.PRESENTATION_ALLOWED)
-        connection.setAudioModeIsVoip(true)
+        connection.audioModeIsVoip = true
 
         return connection
     }

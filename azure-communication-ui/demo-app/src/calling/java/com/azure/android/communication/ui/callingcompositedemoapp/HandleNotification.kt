@@ -5,10 +5,15 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationManagerCompat
+import com.azure.android.communication.ui.callingcompositedemoapp.telecom.TelecomConnectionManager
+import com.azure.android.communication.ui.callingcompositedemoapp.telecom.TelecomConnectionService
 
 class HandleNotification : BroadcastReceiver() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onReceive(context: Context, intent: Intent) {
         NotificationManagerCompat.from(context).cancelAll()
         Log.i(CallLauncherActivity.TAG, "HandleNotification.onReceive()")
@@ -22,8 +27,10 @@ class HandleNotification : BroadcastReceiver() {
 
             if (action == "answer") {
                 CallLauncherActivity.callCompositeEvents?.getCallComposite()?.acceptIncomingCall(context.applicationContext)
+                TelecomConnectionService.connection?.onAnswer()
             } else if (action == "decline") {
                 CallLauncherActivity.callCompositeEvents?.getCallComposite()?.declineIncomingCall()
+                TelecomConnectionManager.getInstance(context, TelecomConnectionManager.PHONE_ACCOUNT_ID).endConnection(context)
             }
         }
     }

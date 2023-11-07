@@ -7,6 +7,7 @@ import android.content.Context
 import android.os.Build
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
@@ -118,6 +119,7 @@ class CallLauncherViewModel : ViewModel() {
         callComposite?.launch(context, remoteOptions, localOptions)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun subscribeToEvents(context: Context, displayName: String) {
         errorHandler = CallLauncherActivityErrorHandler(
             context,
@@ -141,6 +143,7 @@ class CallLauncherViewModel : ViewModel() {
             }
         }
 
+        this.telecomConnectionManager = TelecomConnectionManager.getInstance(context,"ac6d0d70-7d14-11ee-aeeb-e5eb7e1d49a9")
         callComposite?.addOnCallStateChangedEventHandler {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 if (it.code == CallCompositeCallStateCode.CONNECTING) {
@@ -153,8 +156,7 @@ class CallLauncherViewModel : ViewModel() {
                     this.telecomConnectionManager?.setConnectionActive()
                 }
 
-                if (it.code == CallCompositeCallStateCode.NONE
-                        || it.code == CallCompositeCallStateCode.DISCONNECTING
+                if (it.code == CallCompositeCallStateCode.DISCONNECTING
                         || it.code == CallCompositeCallStateCode.DISCONNECTED) {
                     this.telecomConnectionManager?.endConnection(context)
                 }
@@ -332,7 +334,7 @@ class CallExitEventHandler(
 class IncomingCallEvent : CallCompositeEventHandler<CallCompositeIncomingCallEvent> {
     override fun handle(eventArgs: CallCompositeIncomingCallEvent) {
         Log.i(CallLauncherActivity.TAG, "Showing IncomingCallEvent")
-        CallLauncherActivity.callCompositeEvents?.showIncomingCallUI(eventArgs.incomingCallInfo)
+//        CallLauncherActivity.callCompositeEvents?.showIncomingCallUI(eventArgs.incomingCallInfo)
     }
 }
 

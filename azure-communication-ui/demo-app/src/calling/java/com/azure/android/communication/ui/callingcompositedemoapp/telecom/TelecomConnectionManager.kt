@@ -21,6 +21,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationInfo
 
 @RequiresApi(Build.VERSION_CODES.O)
 /***
@@ -34,6 +35,14 @@ internal class TelecomConnectionManager(context: Context,
     companion object {
         var instance: TelecomConnectionManager? = null
         private const val TAG = "TelecomIntegration"
+        const val PHONE_ACCOUNT_ID = ""
+
+        fun getInstance(context: Context, phoneAccountId: String): TelecomConnectionManager {
+            if (instance == null) {
+                instance = TelecomConnectionManager(context.applicationContext, phoneAccountId)
+            }
+            return instance!!
+        }
     }
 
     init {
@@ -51,12 +60,12 @@ internal class TelecomConnectionManager(context: Context,
         }
     }
 
-    fun startIncomingConnection(context: Context, fromDisplayName: String, isVideoCall: Boolean) {
+    fun startIncomingConnection(context: Context, callCompositePushNotificationInfo: CallCompositePushNotificationInfo, isVideoCall: Boolean) {
         if (context.checkSelfPermission(Manifest.permission.MANAGE_OWN_CALLS) ==
                 PackageManager.PERMISSION_GRANTED) {
             try {
                 val telecomManager = context.getSystemService(TELECOM_SERVICE) as TelecomManager
-                telecomManager.addNewIncomingCall(phoneAccountHandle, callExtras(fromDisplayName, isVideoCall))
+                telecomManager.addNewIncomingCall(phoneAccountHandle, callExtras(callCompositePushNotificationInfo))
             } catch (e: SecurityException) {
                 val intent = Intent()
                 intent.setClassName("com.android.server.telecom",
@@ -147,17 +156,22 @@ internal class TelecomConnectionManager(context: Context,
             // Native phone app is crashing when user dials 911 when large number of accounts are registered with the phone
             val clearMethod = TelecomManager::class.java.getMethod("clearPhoneAccounts", null)
             clearMethod.invoke(telecomManager)
-        } catch (ex: java.lang.Exception) {
+        }
+        catch (ex: Exception) {
+            Log.e(TAG,"clearExistingAccounts failed: ${ex.message}", ex)
+        } catch (ex: NoSuchMethodException) {
             Log.e(TAG,"clearExistingAccounts failed: ${ex.message}", ex)
         }
     }
 
-    private fun callExtras(fromDisplayName: String, isVideoCall: Boolean): Bundle {
+    private fun callExtras(callCompositePushNotificationInfo: CallCompositePushNotificationInfo): Bundle {
         val extras = Bundle()
-        extras.putString("NAME", fromDisplayName)
+        extras.putString("DISPLAY_NAME", callCompositePushNotificationInfo.fromDisplayName)
+        extras.putString("CALL_ID", callCompositePushNotificationInfo.callId)
+        extras.putString("RAW_ID", callCompositePushNotificationInfo.callId)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            if (isVideoCall) {
+            if (callCompositePushNotificationInfo.isIncomingWithVideo) {
                 extras.putInt(
                         TelecomManager.EXTRA_INCOMING_VIDEO_STATE,
                         VideoProfile.STATE_BIDIRECTIONAL
