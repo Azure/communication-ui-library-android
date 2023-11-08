@@ -11,6 +11,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
+import com.azure.android.communication.ui.callingcompositedemoapp.CallCompositeManager
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -18,13 +19,14 @@ class TelecomConnectionService : ConnectionService() {
 
     companion object {
         var connection: TelecomConnection? = null
-        private const val TAG = "TelecomIntegration"
+        private const val TAG = "communication.ui.demo"
     }
 
     override fun onCreateIncomingConnection(
             connectionManagerPhoneAccount: PhoneAccountHandle?,
             request: ConnectionRequest,
     ): Connection? {
+        Log.e(TAG, "onCreateIncomingConnection")
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             val bundle = request.extras
             val name = bundle.getString("DISPLAY_NAME")
@@ -86,8 +88,11 @@ class TelecomConnectionService : ConnectionService() {
             originalBundle.getString("RAW_ID")
         )
 
-        val callComposite: CallComposite? = CallLauncherViewModel.callComposite
-        val connection = TelecomConnection(callComposite, callInfo)
+        var callComposite: CallComposite? = CallCompositeManager.getInstance().getCallComposite()
+        if(callComposite == null) {
+            callComposite = CallCompositeManager.getInstance().createCallComposite()
+        }
+        val connection = TelecomConnection(applicationContext, callComposite, callInfo)
         connection.extras = originalBundle
         connection.connectionProperties = Connection.PROPERTY_SELF_MANAGED
         connection.connectionCapabilities = Connection.CAPABILITY_SUPPORT_HOLD or Connection.CAPABILITY_HOLD

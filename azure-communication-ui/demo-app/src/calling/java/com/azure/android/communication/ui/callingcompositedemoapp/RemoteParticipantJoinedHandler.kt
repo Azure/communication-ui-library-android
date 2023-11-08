@@ -26,7 +26,7 @@ class RemoteParticipantJoinedHandler(
 
     override fun handle(event: CallCompositeRemoteParticipantJoinedEvent) {
         event.identifiers.forEach { communicationIdentifier ->
-            CallLauncherActivity.callCompositeEvents?.onRemoteParticipantJoined(communicationIdentifier.rawId)
+            //CallLauncherActivity.callCompositeEvents?.onRemoteParticipantJoined(communicationIdentifier.rawId)
             if (SettingsFeatures.getRemoteParticipantPersonaInjectionSelection()) {
                 if (context.resources.getBoolean(R.bool.remote_url_persona_injection)) {
                     getImageFromServer(communicationIdentifier)

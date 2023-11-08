@@ -21,20 +21,20 @@ import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
-import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationInfo
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
 
 @RequiresApi(Build.VERSION_CODES.O)
 /***
  * phoneAccountId - an unique per application string to register phone account.
  */
-internal class TelecomConnectionManager(context: Context,
-                                        private val phoneAccountId: String) {
+class TelecomConnectionManager(context: Context,
+                               private val phoneAccountId: String) {
 
     private var phoneAccountHandle: PhoneAccountHandle?
 
     companion object {
         var instance: TelecomConnectionManager? = null
-        private const val TAG = "TelecomIntegration"
+        private const val TAG = "communication.ui.demo"
         const val PHONE_ACCOUNT_ID = ""
 
         fun getInstance(context: Context, phoneAccountId: String): TelecomConnectionManager {
@@ -60,12 +60,13 @@ internal class TelecomConnectionManager(context: Context,
         }
     }
 
-    fun startIncomingConnection(context: Context, callCompositePushNotificationInfo: CallCompositePushNotificationInfo, isVideoCall: Boolean) {
+    fun startIncomingConnection(context: Context, callInfo: CallCompositeIncomingCallInfo, isVideoCall: Boolean) {
         if (context.checkSelfPermission(Manifest.permission.MANAGE_OWN_CALLS) ==
                 PackageManager.PERMISSION_GRANTED) {
             try {
+                Log.e(TAG, "startIncomingConnection")
                 val telecomManager = context.getSystemService(TELECOM_SERVICE) as TelecomManager
-                telecomManager.addNewIncomingCall(phoneAccountHandle, callExtras(callCompositePushNotificationInfo))
+                telecomManager.addNewIncomingCall(phoneAccountHandle, callExtras(callInfo, isVideoCall))
             } catch (e: SecurityException) {
                 val intent = Intent()
                 intent.setClassName("com.android.server.telecom",
@@ -117,6 +118,15 @@ internal class TelecomConnectionManager(context: Context,
         }
     }
 
+    fun declineCall(context: Context) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.MANAGE_OWN_CALLS)
+                == PackageManager.PERMISSION_GRANTED) {
+            val connection = TelecomConnectionService.connection
+            connection?.onReject()
+            TelecomConnectionService.connection = null
+        }
+    }
+
     fun endConnection(context: Context) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.MANAGE_OWN_CALLS)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -164,14 +174,14 @@ internal class TelecomConnectionManager(context: Context,
         }
     }
 
-    private fun callExtras(callCompositePushNotificationInfo: CallCompositePushNotificationInfo): Bundle {
+    private fun callExtras(callInfo: CallCompositeIncomingCallInfo, isVideoCall: Boolean): Bundle {
         val extras = Bundle()
-        extras.putString("DISPLAY_NAME", callCompositePushNotificationInfo.fromDisplayName)
-        extras.putString("CALL_ID", callCompositePushNotificationInfo.callId)
-        extras.putString("RAW_ID", callCompositePushNotificationInfo.callId)
+        extras.putString("DISPLAY_NAME", callInfo.callerDisplayName)
+        extras.putString("CALL_ID", callInfo.callId)
+        extras.putString("RAW_ID", callInfo.callerIdentifierRawId)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            if (callCompositePushNotificationInfo.isIncomingWithVideo) {
+            if (isVideoCall) {
                 extras.putInt(
                         TelecomManager.EXTRA_INCOMING_VIDEO_STATE,
                         VideoProfile.STATE_BIDIRECTIONAL

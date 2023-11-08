@@ -23,27 +23,23 @@ class DemoFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
-        val telecomConnectionManager = TelecomConnectionManager.getInstance(
-            applicationContext,
-            TelecomConnectionManager.PHONE_ACCOUNT_ID
-        )
+        CallCompositeManager.initialize(applicationContext)
+
+        Log.d(CallLauncherActivity.TAG, "onMessageReceived")
         Log.d(CallLauncherActivity.TAG, remoteMessage.data.toString())
         if (remoteMessage.data.isNotEmpty()) {
             val pushNotificationInfo = CallCompositePushNotificationInfo(remoteMessage.data)
             if (pushNotificationInfo.eventType == CallCompositePushNotificationEventType.INCOMING_CALL ||
                 pushNotificationInfo.eventType == CallCompositePushNotificationEventType.INCOMING_GROUP_CALL
             ) {
+                Log.d(CallLauncherActivity.TAG, "onMessageReceived - ${pushNotificationInfo.eventType}")
                 Log.d(
                     CallLauncherActivity.TAG,
                     pushNotificationInfo.eventType.toString() + " handleIncomingCall"
                 )
-                CallLauncherActivity.callCompositeEvents?.handleIncomingCall(remoteMessage.data)
-
-                telecomConnectionManager.startIncomingConnection(
-                    applicationContext,
-                    pushNotificationInfo,
-                    false
-                )
+                CallCompositeManager.getInstance().handleIncomingCall(remoteMessage.data,
+                    BuildConfig.ACS_TOKEN,
+                    pushNotificationInfo.fromDisplayName)
             } else if (pushNotificationInfo.eventType == CallCompositePushNotificationEventType.STOP_RINGING) {
                 // Check if connection established else end connection
 //                telecomConnectionManager.endConnection(

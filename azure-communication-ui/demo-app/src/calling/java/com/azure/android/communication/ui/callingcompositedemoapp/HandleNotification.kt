@@ -23,14 +23,13 @@ class HandleNotification : BroadcastReceiver() {
             Log.i(CallLauncherActivity.TAG, String.format("action:%s", action))
             assert(action != null)
             context.stopService(Intent(context, HandleNotification::class.java))
-            CallLauncherActivity.callCompositeEvents?.hideIncomingCallUI()
+            CallCompositeManager.getInstance().hideIncomingCallUI()
 
             if (action == "answer") {
-                CallLauncherActivity.callCompositeEvents?.getCallComposite()?.acceptIncomingCall(context.applicationContext)
                 TelecomConnectionService.connection?.onAnswer()
             } else if (action == "decline") {
-                CallLauncherActivity.callCompositeEvents?.getCallComposite()?.declineIncomingCall()
-                TelecomConnectionManager.getInstance(context, TelecomConnectionManager.PHONE_ACCOUNT_ID).endConnection(context)
+                CallCompositeManager.getInstance().getCallComposite()?.declineIncomingCall()
+                TelecomConnectionManager.getInstance(context, TelecomConnectionManager.PHONE_ACCOUNT_ID).declineCall(context)
             }
         }
     }

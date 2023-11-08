@@ -41,14 +41,13 @@ import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.UUID
 
+@RequiresApi(Build.VERSION_CODES.O)
 class CallLauncherViewModel : ViewModel() {
     val callCompositeCallStateStateFlow = MutableStateFlow("")
     val callCompositeExitSuccessStateFlow = MutableStateFlow(false)
     var isExitRequested = false
     private val callStateEventHandler = CallStateEventHandler(callCompositeCallStateStateFlow)
     private var exitEventHandler: CallExitEventHandler? = null
-    private var incomingCallEvent: IncomingCallEvent? = null
-    private var incomingCallEndEvent: IncomingCallEndEvent? = null
     private var errorHandler: CallLauncherActivityErrorHandler? = null
     private var remoteParticipantJoinedEvent: RemoteParticipantJoinedHandler? = null
     private var telecomConnectionManager: TelecomConnectionManager? = null
@@ -68,7 +67,7 @@ class CallLauncherViewModel : ViewModel() {
         meetingLink: String?,
         participantMri: String?
     ) {
-        createCallComposite(context)
+        createCallComposite()
 
         if (!SettingsFeatures.getEndCallOnByDefaultOption()) {
             EndCompositeButtonView.get(context).hide()
@@ -163,12 +162,6 @@ class CallLauncherViewModel : ViewModel() {
 
             }
         }
-
-        incomingCallEvent = IncomingCallEvent()
-        callComposite?.addOnIncomingCallEventHandler(incomingCallEvent)
-
-        incomingCallEndEvent = IncomingCallEndEvent()
-        callComposite?.addOnIncomingCallEndEventHandler(incomingCallEndEvent)
     }
 
     fun handleIncomingCall(
@@ -177,47 +170,18 @@ class CallLauncherViewModel : ViewModel() {
         acsToken: String,
         displayName: String,
     ) {
-        createCallComposite(applicationContext)
-
         if (!SettingsFeatures.getEndCallOnByDefaultOption()) {
             EndCompositeButtonView.get(applicationContext).hide()
         } else {
             EndCompositeButtonView.get(applicationContext).show(this)
         }
 
-        val communicationTokenRefreshOptions =
-            CommunicationTokenRefreshOptions({ acsToken }, true)
-        val communicationTokenCredential =
-            CommunicationTokenCredential(communicationTokenRefreshOptions)
+        CallCompositeManager.getInstance().handleIncomingCall(data, acsToken, displayName)
 
         callCompositeExitSuccessStateFlow.value = false
         isExitRequested = false
 
         subscribeToEvents(applicationContext, displayName)
-
-        val remoteOptions = CallCompositeRemoteOptions(
-            CallCompositePushNotificationInfo(data),
-            communicationTokenCredential,
-            displayName
-        )
-        var skipSetup = SettingsFeatures.getSkipSetupScreenFeatureOption()
-
-        val localOptions = CallCompositeLocalOptions()
-            .setParticipantViewData(SettingsFeatures.getParticipantViewData(applicationContext))
-            .setSetupScreenViewData(
-                CallCompositeSetupScreenViewData()
-                    .setTitle(SettingsFeatures.getTitle())
-                    .setSubtitle(SettingsFeatures.getSubtitle())
-            )
-            .setSkipSetupScreen(skipSetup)
-            .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
-            .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
-
-        callComposite?.handlePushNotification(
-            applicationContext,
-            remoteOptions,
-            localOptions
-        )
     }
 
     fun close() {
@@ -227,41 +191,23 @@ class CallLauncherViewModel : ViewModel() {
     fun getCallHistory(context: Context): List<CallCompositeCallHistoryRecord> {
         return (
             callComposite
-                ?: createCallComposite(context)
+                ?: createCallComposite()
             ).getDebugInfo(context).callHistoryRecords
     }
 
-    fun createCallComposite(context: Context): CallComposite {
+    fun createCallComposite(): CallComposite {
         if (callComposite != null) {
             return callComposite!!
         }
 
-        SettingsFeatures.initialize(context.applicationContext)
-
-        val selectedLanguage = SettingsFeatures.language()
-        val locale = selectedLanguage?.let { SettingsFeatures.locale(it) }
-        val selectedCallScreenOrientation = SettingsFeatures.callScreenOrientation()
-        val callScreenOrientation = selectedCallScreenOrientation?.let { SettingsFeatures.orientation(it) }
-        val selectedSetupScreenOrientation = SettingsFeatures.setupScreenOrientation()
-        val setupScreenOrientation = selectedSetupScreenOrientation?.let { SettingsFeatures.orientation(it) }
-
-        val callCompositeBuilder = CallCompositeBuilder()
-            .setupScreenOrientation(setupScreenOrientation)
-            .callScreenOrientation(callScreenOrientation)
-
-        locale?.let { callCompositeBuilder.localization(CallCompositeLocalizationOptions(locale, SettingsFeatures.getLayoutDirection())) }
-
-        if (AdditionalFeatures.secondaryThemeFeature.active)
-            callCompositeBuilder.theme(R.style.MyCompany_Theme_Calling)
-
-        val telecomOptions = CallCompositeTelecomOptions(CallCompositeTelecomIntegration.APPLICATION_IMPLEMENTED_TELECOM_MANAGER)
-        callCompositeBuilder.telecom(telecomOptions)
-        val callComposite = callCompositeBuilder.build()
+        var callComposite = CallCompositeManager.getInstance().getCallComposite()
+        if(callComposite == null) {
+            callComposite = CallCompositeManager.getInstance().createCallComposite()
+        }
 
         // For test purposes we will keep a static ref to CallComposite
         CallLauncherViewModel.callComposite = callComposite
 
-        CallLauncherViewModel.callComposite = callComposite
         return callComposite
     }
 
@@ -270,12 +216,6 @@ class CallLauncherViewModel : ViewModel() {
             composite.removeOnCallStateChangedEventHandler(callStateEventHandler)
             composite.removeOnErrorEventHandler(errorHandler)
             composite.removeOnRemoteParticipantJoinedEventHandler(remoteParticipantJoinedEvent)
-            incomingCallEvent?.let {
-                composite.removeOnIncomingCallEventHandler(incomingCallEvent)
-            }
-            incomingCallEndEvent?.let {
-                composite.removeOnIncomingCallEndEventHandler(incomingCallEndEvent)
-            }
         }
     }
 
@@ -287,28 +227,6 @@ class CallLauncherViewModel : ViewModel() {
     companion object {
         var callComposite: CallComposite? = null
     }
-
-    fun registerFirebaseToken(context: Context) {
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(
-            OnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    Toast.makeText(context, "Fetching FCM registration token failed", Toast.LENGTH_SHORT).show()
-                    return@OnCompleteListener
-                }
-
-                val token = task.result
-                val callComposite = createCallComposite(context)
-                callComposite.registerPushNotification(
-                    context,
-                    CallCompositePushNotificationOptions(
-                        CommunicationTokenCredential(BuildConfig.ACS_TOKEN),
-                        token,
-                        BuildConfig.USER_NAME
-                    )
-                )
-            }
-        )
-    }
 }
 
 class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>) : CallCompositeEventHandler<CallCompositeCallStateChangedEvent> {
@@ -317,6 +235,7 @@ class CallStateEventHandler(private val callCompositeCallStateStateFlow: Mutable
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 class CallExitEventHandler(
     private val exitStateFlow: MutableStateFlow<Boolean>,
     private val callCompositeCallStateStateFlow: MutableStateFlow<String>,
@@ -327,21 +246,6 @@ class CallExitEventHandler(
         event.errorCode?.let {
             callCompositeCallStateStateFlow.value = it.toString()
         }
-        CallLauncherActivity.callCompositeEvents?.onCompositeDismiss()
-    }
-}
-
-class IncomingCallEvent : CallCompositeEventHandler<CallCompositeIncomingCallEvent> {
-    override fun handle(eventArgs: CallCompositeIncomingCallEvent) {
-        Log.i(CallLauncherActivity.TAG, "Showing IncomingCallEvent")
-//        CallLauncherActivity.callCompositeEvents?.showIncomingCallUI(eventArgs.incomingCallInfo)
-    }
-}
-
-class IncomingCallEndEvent : CallCompositeEventHandler<CallCompositeIncomingCallEndEvent> {
-    override fun handle(eventArgs: CallCompositeIncomingCallEndEvent?) {
-        Log.i(CallLauncherActivity.TAG, "Dismissing IncomingCallEvent " + eventArgs?.code)
-        CallLauncherActivity.callCompositeEvents?.hideIncomingCallUI()
-        CallLauncherActivity.callCompositeEvents?.incomingCallEnded()
+        CallCompositeManager.getInstance().onCompositeDismiss()
     }
 }
