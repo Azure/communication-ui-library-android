@@ -211,6 +211,7 @@ public final class CallComposite {
             if (container != null) {
                 container.getCompositeExitManager().exit();
             }
+            diContainer = null;
         }
     }
 
@@ -219,7 +220,7 @@ public final class CallComposite {
      *
      */
     public void dispose() {
-        diContainer = null;
+        dismiss();
         if (callAgentWrapper != null) {
             callAgentWrapper.dispose();
         }
@@ -232,9 +233,16 @@ public final class CallComposite {
      */
     public void acceptIncomingCall(final Context context,
                                    final CallCompositeLocalOptions localOptions) {
+        AndroidThreeTen.init(context.getApplicationContext());
+
         if (localOptions != null) {
             configuration.setCallCompositeLocalOptions(localOptions);
         }
+
+        CallCompositeInstanceManager.putCallComposite(instanceId, this);
+
+        initializeCallAgent();
+
         final Intent intent = new Intent(context, CallCompositeActivity.class);
         intent.putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId++);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -526,6 +534,15 @@ public final class CallComposite {
      */
     public void registerPushNotification(final Context context, final CallCompositePushNotificationOptions options) {
         initializeCallAgent();
+        // for device token, we need to set the call config. with ONE_TO_N_CALL_INCOMING
+        configuration.setCallConfig(new CallConfiguration(
+                options.getTokenCredential(),
+                options.getDisplayName(),
+                null,
+                null,
+                CallType.ONE_TO_N_CALL_INCOMING,
+                null,
+                null));
         callAgentWrapper.registerPushNotification(context,
                 options.getDisplayName(),
                 options.getTokenCredential(),

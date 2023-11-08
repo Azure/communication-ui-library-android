@@ -14,6 +14,7 @@ import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEndEvent
@@ -46,7 +47,12 @@ class CallLauncherViewModel : ViewModel() {
     private var errorHandler: CallLauncherActivityErrorHandler? = null
     private var remoteParticipantJoinedEvent: RemoteParticipantJoinedHandler? = null
     private var callComposite: CallComposite? = null
+    private var exitedCompositeToAcceptCall: Boolean = false
     val mapOfDisplayNames = mutableMapOf<String, String>()
+
+    fun exitedCompositeToAcceptIncomingCall(): Boolean {
+        return exitedCompositeToAcceptCall
+    }
 
     fun destroy() {
         unsubscribe()
@@ -172,6 +178,17 @@ class CallLauncherViewModel : ViewModel() {
     }
 
     fun acceptIncomingCall(applicationContext: Context) {
+
+        if (callComposite?.callState != CallCompositeCallStateCode.NONE) {
+            exitedCompositeToAcceptCall = true
+            callComposite?.dismiss()
+            return
+        }
+
+        exitedCompositeToAcceptCall = false
+
+        // end existing call if any
+
         createCallComposite(applicationContext)
         var skipSetup = SettingsFeatures.getSkipSetupScreenFeatureOption()
 
@@ -191,6 +208,7 @@ class CallLauncherViewModel : ViewModel() {
 
     fun close() {
         callComposite?.dismiss()
+        callComposite?.dispose()
     }
 
     fun getCallHistory(context: Context): List<CallCompositeCallHistoryRecord> {

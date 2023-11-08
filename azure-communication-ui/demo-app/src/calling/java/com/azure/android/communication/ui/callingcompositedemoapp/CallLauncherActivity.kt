@@ -376,8 +376,12 @@ class CallLauncherActivity : AppCompatActivity(), CallCompositeEvents {
     }
 
     override fun onCompositeDismiss() {
-        callLauncherViewModel.destroy()
-        registerPuhNotification()
+        if (callLauncherViewModel.exitedCompositeToAcceptIncomingCall()) {
+            callLauncherViewModel.acceptIncomingCall(applicationContext)
+        } else {
+            registerPuhNotification()
+            callLauncherViewModel.destroy()
+        }
     }
 
     override fun onRemoteParticipantJoined(rawId: String) {

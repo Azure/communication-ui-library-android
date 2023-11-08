@@ -176,7 +176,6 @@ internal class CallingSDKWrapper(
 
     override fun dispose() {
         callingSDKEventHandler.dispose()
-        callingSDKCallAgentWrapper?.dispose()
         cleanupResources()
     }
 
