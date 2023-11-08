@@ -235,6 +235,15 @@ public final class CallComposite {
                                    final CallCompositeLocalOptions localOptions) {
         AndroidThreeTen.init(context.getApplicationContext());
 
+        configuration.setCallConfig(new CallConfiguration(
+                configuration.getCallConfig().getCommunicationTokenCredential(),
+                configuration.getCallConfig().getDisplayName(),
+                null,
+                null,
+                CallType.ONE_TO_N_CALL_INCOMING,
+                null,
+                null));
+
         if (localOptions != null) {
             configuration.setCallCompositeLocalOptions(localOptions);
         }
