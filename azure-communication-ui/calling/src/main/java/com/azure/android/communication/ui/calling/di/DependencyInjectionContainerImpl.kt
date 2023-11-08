@@ -255,7 +255,7 @@ internal class DependencyInjectionContainerImpl(
                 applicationContext,
                 callingSDKEventHandler,
                 configuration.callConfig,
-                CallingSDKInstanceManager.callingSDKInitializationWrapper!!,
+                CallingSDKInstanceManager.callingSDKCallAgentWrapper!!,
             )
     }
 

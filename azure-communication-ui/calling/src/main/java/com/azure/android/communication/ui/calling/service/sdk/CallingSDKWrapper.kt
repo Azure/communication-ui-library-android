@@ -40,7 +40,7 @@ internal class CallingSDKWrapper(
     private val context: Context,
     private val callingSDKEventHandler: CallingSDKEventHandler,
     private val callConfigInjected: CallConfiguration?,
-    private val callingSDKInitializationWrapper: CallingSDKInitializationWrapper,
+    private val callingSDKCallAgentWrapper: CallingSDKCallAgentWrapper
 ) : CallingSDK {
     private var setupCallCompletableFuture: CompletableFuture<Void> = CompletableFuture()
 
@@ -54,6 +54,7 @@ internal class CallingSDKWrapper(
 
     private var nullableCall: Call? = null
     private var callClientInternal: CallClient? = null
+    private val incomingCallWrapper: IncomingCallWrapper? = callingSDKCallAgentWrapper.incomingCallWrapper
 
     private val callConfig: CallConfiguration
         get() {
@@ -175,12 +176,12 @@ internal class CallingSDKWrapper(
 
     override fun dispose() {
         callingSDKEventHandler.dispose()
-        callingSDKInitializationWrapper?.unsubscribeEvents()
+        callingSDKCallAgentWrapper?.dispose()
         cleanupResources()
     }
 
     override fun setupCall(): CompletableFuture<Void> {
-        callingSDKInitializationWrapper.setupCall()?.whenComplete { callClient, _ ->
+        callingSDKCallAgentWrapper.setupCall()?.whenComplete { callClient, _ ->
             callClientInternal = callClient
             createDeviceManager().handle { _, error: Throwable? ->
                 if (error != null) {
@@ -199,9 +200,9 @@ internal class CallingSDKWrapper(
     ): CompletableFuture<Void> {
 
         val startCallCompletableFuture = CompletableFuture<Void>()
-        callingSDKInitializationWrapper.createCallAgent(
+        callingSDKCallAgentWrapper.createCallAgent(
             context = context,
-            displayName = callConfig.displayName,
+            name = callConfig.displayName,
             communicationTokenCredential = callConfig.communicationTokenCredential
         ).thenAccept { agent: CallAgent ->
             val audioOptions = AudioOptions()
@@ -223,37 +224,53 @@ internal class CallingSDKWrapper(
                             arrayOf(videoStream.native as NativeLocalVideoStream)
                         videoOptions = VideoOptions(localVideoStreams)
                     }
-                    callingSDKInitializationWrapper.incomingCall?.let {
-                        val acceptCallOptions = AcceptCallOptions()
-                        videoOptions?.let { acceptCallOptions.videoOptions = videoOptions }
-                        nullableCall = it?.accept(context, acceptCallOptions)?.get()
-                        callingSDKEventHandler.onJoinCall(call)
-                        return@whenComplete
-                    }
-                    callLocator?.let {
-                        joinCall(agent, audioOptions, videoOptions, callLocator)
-                        return@whenComplete
-                    }
-                    callConfig.participants?.let {
-                        startCall(agent, audioOptions, videoOptions, it)
+                    when (callConfig.callType) {
+                        CallType.ONE_TO_N_CALL_INCOMING -> {
+                            incomingCallWrapper?.incomingCall()?.let {
+                                val acceptCallOptions = AcceptCallOptions()
+                                videoOptions?.let { acceptCallOptions.videoOptions = videoOptions }
+                                nullableCall = it?.accept(context, acceptCallOptions)?.get()
+                                callingSDKEventHandler.onJoinCall(call)
+                                return@whenComplete
+                            }
+                        }
+                        CallType.ONE_TO_N_CALL_OUTGOING -> {
+                            callConfig.participants?.let {
+                                startCall(agent, audioOptions, videoOptions, it)
+                            }
+                        }
+                        else -> {
+                            callLocator?.let {
+                                joinCall(agent, audioOptions, videoOptions, callLocator)
+                                return@whenComplete
+                            }
+                        }
                     }
                 }.exceptionally { error ->
                     onJoinCallFailed(startCallCompletableFuture, error)
                 }
             } else {
-                callingSDKInitializationWrapper.incomingCall?.let {
-                    val acceptCallOptions = AcceptCallOptions()
-                    acceptCallOptions.videoOptions = null
-                    nullableCall = it.accept(context, acceptCallOptions)?.get()
-                    callingSDKEventHandler.onJoinCall(call)
-                    return@thenAccept
-                }
-                callLocator?.let {
-                    joinCall(agent, audioOptions, null, callLocator)
-                    return@thenAccept
-                }
-                callConfig.participants?.let {
-                    startCall(agent, audioOptions, null, it)
+                when (callConfig.callType) {
+                    CallType.ONE_TO_N_CALL_INCOMING -> {
+                        incomingCallWrapper?.incomingCall()?.let {
+                            val acceptCallOptions = AcceptCallOptions()
+                            acceptCallOptions.videoOptions = null
+                            nullableCall = it.accept(context, acceptCallOptions)?.get()
+                            callingSDKEventHandler.onJoinCall(call)
+                            return@thenAccept
+                        }
+                    }
+                    CallType.ONE_TO_N_CALL_OUTGOING -> {
+                        callConfig.participants?.let {
+                            startCall(agent, audioOptions, null, it)
+                        }
+                    }
+                    else -> {
+                        callLocator?.let {
+                            joinCall(agent, audioOptions, null, callLocator)
+                            return@thenAccept
+                        }
+                    }
                 }
             }
 
@@ -372,9 +389,9 @@ internal class CallingSDKWrapper(
                 return@whenComplete
             }
 
-            callingSDKInitializationWrapper.createCallAgent(
+            callingSDKCallAgentWrapper.createCallAgent(
                 context = context,
-                displayName = callConfig.displayName,
+                name = callConfig.displayName,
                 communicationTokenCredential = callConfig.communicationTokenCredential
             ).thenAccept { agent: CallAgent ->
                 agent.registerPushNotification(deviceRegistrationToken)

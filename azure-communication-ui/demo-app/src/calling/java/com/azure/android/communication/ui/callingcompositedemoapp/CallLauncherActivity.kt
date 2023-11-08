@@ -151,7 +151,7 @@ class CallLauncherActivity : AppCompatActivity(), CallCompositeEvents {
 
             acceptCallButton.setOnClickListener {
                 incomingCallLayout.visibility = LinearLayout.GONE
-                callLauncherViewModel.createCallComposite(applicationContext).acceptIncomingCall(applicationContext)
+                callLauncherViewModel.acceptIncomingCall(applicationContext)
             }
 
             declineCallButton.setOnClickListener {
@@ -394,6 +394,10 @@ class CallLauncherActivity : AppCompatActivity(), CallCompositeEvents {
 
     override fun incomingCallEnded() {
         registerPuhNotification()
+    }
+
+    override fun acceptIncomingCall() {
+        callLauncherViewModel.acceptIncomingCall(applicationContext)
     }
 
     private fun showNotificationForIncomingCall(notification: CallCompositeIncomingCallInfo) {
