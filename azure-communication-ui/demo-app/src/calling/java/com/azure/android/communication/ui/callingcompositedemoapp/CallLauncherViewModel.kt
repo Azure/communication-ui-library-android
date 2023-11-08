@@ -56,6 +56,7 @@ class CallLauncherViewModel : ViewModel() {
 
     fun destroy() {
         unsubscribe()
+        callComposite?.dispose()
         callComposite = null
     }
 
@@ -208,7 +209,6 @@ class CallLauncherViewModel : ViewModel() {
 
     fun close() {
         callComposite?.dismiss()
-        callComposite?.dispose()
     }
 
     fun getCallHistory(context: Context): List<CallCompositeCallHistoryRecord> {

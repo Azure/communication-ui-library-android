@@ -190,6 +190,10 @@ class CallLauncherActivity : AppCompatActivity(), CallCompositeEvents {
                 }
             }
 
+            disposeCompositeButton.setOnClickListener {
+                callLauncherViewModel.destroy()
+            }
+
             if (BuildConfig.DEBUG) {
                 versionText.text = "${BuildConfig.VERSION_NAME}"
             } else {
