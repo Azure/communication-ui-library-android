@@ -126,7 +126,7 @@ public final class CallCompositeLocalOptions {
      * @param allowLocalCamera The boolean value to be used.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
-    public CallCompositeLocalOptions setAllowLocalCamera(boolean allowLocalCamera) {
+    public CallCompositeLocalOptions setAllowLocalCamera(final boolean allowLocalCamera) {
         this.allowLocalCamera = allowLocalCamera;
         return this;
     }
@@ -144,12 +144,12 @@ public final class CallCompositeLocalOptions {
      * @param allowRemoteVideo The boolean value to be used.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
-    public CallCompositeLocalOptions setAllowRemoteVideo(boolean allowRemoteVideo) {
+    public CallCompositeLocalOptions setAllowRemoteVideo(final boolean allowRemoteVideo) {
         this.allowRemoteVideo = allowRemoteVideo;
         return this;
     }
 
-    public CallCompositeLocalOptions setAudioOnlyCall(boolean audioOnlyCall) {
+    public CallCompositeLocalOptions setAudioOnlyCall(final boolean audioOnlyCall) {
         this.allowLocalCamera = !audioOnlyCall;
         this.allowRemoteVideo = !audioOnlyCall;
         return this;
