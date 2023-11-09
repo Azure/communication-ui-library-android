@@ -120,20 +120,18 @@ class CallCompositeManager(private var applicationContext: Context?): CallCompos
 
     override fun onCompositeDismiss() {
         registerFirebaseToken()
+        destroy()
     }
 
     override fun onRemoteParticipantJoined(rawId: String) {
 
     }
 
-    override fun incomingCallEnded() {
-        registerFirebaseToken()
-    }
-
     override fun acceptIncomingCall() {
         if (applicationContext == null) {
             return
         }
+        hideIncomingCallUI()
         if (callComposite?.callState != CallCompositeCallStateCode.NONE) {
             callComposite?.dismiss()
             return
@@ -154,6 +152,14 @@ class CallCompositeManager(private var applicationContext: Context?): CallCompos
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
         callComposite?.acceptIncomingCall(applicationContext, localOptions)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun declineIncomingCall() {
+        telecomConnectionManager.endConnection(applicationContext!!)
+        hideIncomingCallUI()
+        callComposite?.declineIncomingCall()
+        destroy()
     }
 
     fun destroy() {
@@ -207,34 +213,32 @@ class CallCompositeManager(private var applicationContext: Context?): CallCompos
         applicationContext?.let { applicationContext ->
             Log.i(CallLauncherActivity.TAG, "Showing notification for incoming call")
             val resultIntent = Intent(applicationContext, CallLauncherActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             }
             val stackBuilder = TaskStackBuilder.create(applicationContext)
             stackBuilder.addNextIntentWithParentStack(resultIntent)
 
             val resultPendingIntent =
-                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_IMMUTABLE)
+                stackBuilder.getPendingIntent(0,
+                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
 
-            val answerCallIntent = Intent(applicationContext, HandleNotification::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            val answerCallIntent = Intent(applicationContext, CallLauncherActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             }
+            answerCallIntent.action = "answer"
             answerCallIntent.putExtra("action", "answer")
-            val answerCallPendingIntent = PendingIntent.getBroadcast(
-                applicationContext,
-                1200,
-                answerCallIntent,
-                PendingIntent.FLAG_IMMUTABLE
-            )
-            val declineCallIntent = Intent(applicationContext, HandleNotification::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            stackBuilder.addNextIntent(answerCallIntent)
+            val answerCallPendingIntent = stackBuilder.getPendingIntent(1200, PendingIntent.FLAG_IMMUTABLE)
+
+            val declineCallIntent = Intent(applicationContext, CallLauncherActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             }
+            declineCallIntent.action = "decline"
             declineCallIntent.putExtra("action", "decline")
-            val declineCallPendingIntent = PendingIntent.getBroadcast(
-                applicationContext,
-                1201,
-                declineCallIntent,
-                PendingIntent.FLAG_IMMUTABLE
-            )
+            stackBuilder.addNextIntent(declineCallIntent)
+            val declineCallPendingIntent = stackBuilder.getPendingIntent(1201,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+
             val content = java.lang.String.format(
                 "%s",
                 notification.callerDisplayName
@@ -331,7 +335,7 @@ class CallCompositeManager(private var applicationContext: Context?): CallCompos
         override fun handle(eventArgs: CallCompositeIncomingCallEndEvent?) {
             Log.i(CallLauncherActivity.TAG, "Dismissing IncomingCallEvent " + eventArgs?.code)
             getInstance().hideIncomingCallUI()
-            getInstance().incomingCallEnded()
+            getInstance().onCompositeDismiss()
         }
     }
 }

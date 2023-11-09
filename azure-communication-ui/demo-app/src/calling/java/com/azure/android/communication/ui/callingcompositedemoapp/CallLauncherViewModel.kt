@@ -13,6 +13,7 @@ import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
@@ -182,6 +183,35 @@ class CallLauncherViewModel : ViewModel() {
         subscribeToEvents(context)
 
         return callComposite
+    }
+
+    fun acceptIncomingCall(applicationContext: Context) {
+
+        // end existing call if any
+        createCallComposite(applicationContext)
+
+        if (callComposite?.callState != CallCompositeCallStateCode.NONE) {
+            exitedCompositeToAcceptCall = true
+            callComposite?.dismiss()
+            return
+        }
+
+        exitedCompositeToAcceptCall = false
+
+        var skipSetup = SettingsFeatures.getSkipSetupScreenFeatureOption()
+
+        val localOptions = CallCompositeLocalOptions()
+            .setParticipantViewData(SettingsFeatures.getParticipantViewData(applicationContext))
+            .setSetupScreenViewData(
+                CallCompositeSetupScreenViewData()
+                    .setTitle(SettingsFeatures.getTitle())
+                    .setSubtitle(SettingsFeatures.getSubtitle())
+            )
+            .setSkipSetupScreen(skipSetup)
+            .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
+            .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
+
+        callComposite?.acceptIncomingCall(applicationContext, localOptions)
     }
 
     private fun unsubscribe() {

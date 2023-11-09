@@ -74,9 +74,6 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="acs"/>
-        <receiver
-            android:name=".HandleNotification"
-            android:exported="false" />
         <service
             android:name=".DemoFirebaseMessagingService"
             android:exported="false">

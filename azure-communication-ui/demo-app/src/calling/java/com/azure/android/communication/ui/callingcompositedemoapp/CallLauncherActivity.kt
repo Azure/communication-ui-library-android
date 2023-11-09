@@ -13,6 +13,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.LinearLayout
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
@@ -190,6 +191,24 @@ class CallLauncherActivity : AppCompatActivity() {
                 versionText.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
             }
         }
+
+        handlePushNotificationAction()
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        handlePushNotificationAction()
+    }
+
+    private fun handlePushNotificationAction() {
+        if(intent.action != null) {
+            val action = intent.action
+            if(action == "answer") {
+                callLauncherViewModel.acceptIncomingCall(applicationContext)
+            } else if(action == "decline") {
+                CallCompositeManager.getInstance().declineIncomingCall()
+            }
+        }
     }
 
     private fun registerPuhNotification() {
@@ -342,6 +361,16 @@ class CallLauncherActivity : AppCompatActivity() {
         }
     }
 
+    private fun onCompositeDismiss() {
+        if (callLauncherViewModel.exitedCompositeToAcceptIncomingCall()) {
+            callLauncherViewModel.acceptIncomingCall(applicationContext)
+        } else {
+            registerPuhNotification()
+            callLauncherViewModel.destroy()
+        }
+    }
+
+
     fun handleIncomingCall(data: Map<String, String>) {
         val userName = binding.userNameText.text.toString()
         val acsToken = binding.acsTokenText.text.toString()
@@ -357,10 +386,5 @@ class CallLauncherActivity : AppCompatActivity() {
                 )
             }
         }
-    }
-
-    private fun dismissNotificationForIncomingCall() {
-        val notificationManager = NotificationManagerCompat.from(this)
-        notificationManager.cancel(1)
     }
 }
