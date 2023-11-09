@@ -168,7 +168,6 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         unsubscribe()
         callComposite?.dispose()
         callComposite = null
-        instance = null
     }
 
     fun createCallComposite(): CallComposite {
