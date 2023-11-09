@@ -21,7 +21,7 @@ class HandleNotification : BroadcastReceiver() {
             CallLauncherActivity.callCompositeEvents?.hideIncomingCallUI()
 
             if (action == "answer") {
-                CallLauncherActivity.callCompositeEvents?.getCallComposite()?.acceptIncomingCall(context.applicationContext)
+                CallLauncherActivity.callCompositeEvents?.acceptIncomingCall()
             } else if (action == "decline") {
                 CallLauncherActivity.callCompositeEvents?.getCallComposite()?.declineIncomingCall()
             }

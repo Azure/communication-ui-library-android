@@ -124,6 +124,16 @@
             app:layout_constraintTop_toBottomOf="@+id/closeCompositeButton"
             />
 
+        <Button
+            android:id="@+id/disposeCompositeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dispose_composite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/registerPushNotification"
+            />
+
         <TextView
             android:id="@+id/callStateText"
             android:layout_width="wrap_content"
@@ -131,7 +141,7 @@
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/registerPushNotification"
+            app:layout_constraintTop_toBottomOf="@+id/disposeCompositeButton"
             />
 
         <LinearLayout

@@ -14,6 +14,7 @@ import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEndEvent
@@ -46,10 +47,16 @@ class CallLauncherViewModel : ViewModel() {
     private var errorHandler: CallLauncherActivityErrorHandler? = null
     private var remoteParticipantJoinedEvent: RemoteParticipantJoinedHandler? = null
     private var callComposite: CallComposite? = null
+    private var exitedCompositeToAcceptCall: Boolean = false
     val mapOfDisplayNames = mutableMapOf<String, String>()
+
+    fun exitedCompositeToAcceptIncomingCall(): Boolean {
+        return exitedCompositeToAcceptCall
+    }
 
     fun destroy() {
         unsubscribe()
+        callComposite?.dispose()
         callComposite = null
     }
 
@@ -107,8 +114,6 @@ class CallLauncherViewModel : ViewModel() {
         callCompositeExitSuccessStateFlow.value = false
         isExitRequested = false
 
-        subscribeToEvents(context)
-
         callComposite?.launch(context, remoteOptions, localOptions)
     }
 
@@ -159,13 +164,33 @@ class CallLauncherViewModel : ViewModel() {
         callCompositeExitSuccessStateFlow.value = false
         isExitRequested = false
 
-        subscribeToEvents(applicationContext)
-
         val remoteOptions = CallCompositeRemoteOptions(
             CallCompositePushNotificationInfo(data),
             communicationTokenCredential,
             displayName
         )
+
+        mapOfDisplayNames[remoteOptions.pushNotificationInfo.from] = remoteOptions.pushNotificationInfo.fromDisplayName
+
+        callComposite?.handlePushNotification(
+            applicationContext,
+            remoteOptions
+        )
+    }
+
+    fun acceptIncomingCall(applicationContext: Context) {
+
+        if (callComposite?.callState != CallCompositeCallStateCode.NONE) {
+            exitedCompositeToAcceptCall = true
+            callComposite?.dismiss()
+            return
+        }
+
+        exitedCompositeToAcceptCall = false
+
+        // end existing call if any
+
+        createCallComposite(applicationContext)
         var skipSetup = SettingsFeatures.getSkipSetupScreenFeatureOption()
 
         val localOptions = CallCompositeLocalOptions()
@@ -179,11 +204,7 @@ class CallLauncherViewModel : ViewModel() {
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
-        callComposite?.handlePushNotification(
-            applicationContext,
-            remoteOptions,
-            localOptions
-        )
+        callComposite?.acceptIncomingCall(applicationContext, localOptions)
     }
 
     fun close() {
@@ -231,6 +252,9 @@ class CallLauncherViewModel : ViewModel() {
         CallLauncherViewModel.callComposite = callComposite
 
         this.callComposite = callComposite
+
+        subscribeToEvents(context)
+
         return callComposite
     }
 
