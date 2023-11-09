@@ -35,8 +35,8 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.microsoft.appcenter.utils.HandlerUtils.runOnUiThread
 
-@RequiresApi(Build.VERSION_CODES.O)
 class CallCompositeManager(private var applicationContext: Context?): CallCompositeEvents {
+    @RequiresApi(Build.VERSION_CODES.O)
     private val telecomConnectionManager: TelecomConnectionManager = TelecomConnectionManager.getInstance(
         applicationContext!!,
         TelecomConnectionManager.PHONE_ACCOUNT_ID
@@ -94,7 +94,7 @@ class CallCompositeManager(private var applicationContext: Context?): CallCompos
             communicationTokenCredential,
             displayName
         )
-        val skipSetup = SettingsFeatures.getSkipSetupScreenFeatureOption()
+        /*val skipSetup = SettingsFeatures.getSkipSetupScreenFeatureOption()
 
         val localOptions = CallCompositeLocalOptions()
             .setParticipantViewData(SettingsFeatures.getParticipantViewData(applicationContext!!))
@@ -105,17 +105,16 @@ class CallCompositeManager(private var applicationContext: Context?): CallCompos
             )
             .setSkipSetupScreen(skipSetup)
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
-            .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
+            .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())*/
 
         if(callComposite == null) {
             callComposite = createCallComposite()
-            subscribeToIncomingCallEvents(displayName)
         }
 
+        Log.d(CallLauncherActivity.TAG, "handleIncomingCall$callComposite")
         callComposite?.handlePushNotification(
             applicationContext!!,
-            remoteOptions,
-            localOptions
+            remoteOptions
         )
     }
 
@@ -131,8 +130,35 @@ class CallCompositeManager(private var applicationContext: Context?): CallCompos
         registerFirebaseToken()
     }
 
+    override fun acceptIncomingCall() {
+        if (applicationContext == null) {
+            return
+        }
+        if (callComposite?.callState != CallCompositeCallStateCode.NONE) {
+            callComposite?.dismiss()
+            return
+        }
+
+        createCallComposite()
+        val skipSetup = SettingsFeatures.getSkipSetupScreenFeatureOption()
+
+        val localOptions = CallCompositeLocalOptions()
+            .setParticipantViewData(SettingsFeatures.getParticipantViewData(applicationContext!!))
+            .setSetupScreenViewData(
+                CallCompositeSetupScreenViewData()
+                    .setTitle(SettingsFeatures.getTitle())
+                    .setSubtitle(SettingsFeatures.getSubtitle())
+            )
+            .setSkipSetupScreen(skipSetup)
+            .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
+            .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
+
+        callComposite?.acceptIncomingCall(applicationContext, localOptions)
+    }
+
     fun destroy() {
         unsubscribe()
+        callComposite?.dispose()
         callComposite = null
         instance = null
     }
@@ -171,7 +197,10 @@ class CallCompositeManager(private var applicationContext: Context?): CallCompos
         val telecomOptions =
             CallCompositeTelecomOptions(CallCompositeTelecomIntegration.APPLICATION_IMPLEMENTED_TELECOM_MANAGER)
         callCompositeBuilder.telecom(telecomOptions)
-        return callCompositeBuilder.build()
+
+        callComposite = callCompositeBuilder.build()
+        subscribeToIncomingCallEvents(BuildConfig.USER_NAME)
+        return callComposite!!
     }
 
     private fun showNotificationForIncomingCall(notification: CallCompositeIncomingCallInfo) {
@@ -290,6 +319,7 @@ class CallCompositeManager(private var applicationContext: Context?): CallCompos
     }
 
     class IncomingCallEvent : CallCompositeEventHandler<CallCompositeIncomingCallEvent> {
+        @RequiresApi(Build.VERSION_CODES.O)
         override fun handle(eventArgs: CallCompositeIncomingCallEvent) {
             Log.i(CallLauncherActivity.TAG, "Showing IncomingCallEvent")
             getInstance().telecomConnectionManager.startIncomingConnection(instance?.applicationContext!!,

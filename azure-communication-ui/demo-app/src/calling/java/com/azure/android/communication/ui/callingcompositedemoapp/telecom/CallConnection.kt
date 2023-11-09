@@ -54,14 +54,14 @@ class TelecomConnection(private val context: Context,
         super.onAnswer(videoState)
         Log.d(TAG, "onAnswer videoState: $videoState" )
         setActive()
-        callComposite.acceptIncomingCall(context)
+        CallCompositeManager.getInstance().acceptIncomingCall()
     }
 
     override fun onAnswer() {
         super.onAnswer()
         Log.d(TAG, "onAnswer" )
         setActive()
-        callComposite.acceptIncomingCall(context)
+        CallCompositeManager.getInstance().acceptIncomingCall()
     }
 
     override fun onHold() {

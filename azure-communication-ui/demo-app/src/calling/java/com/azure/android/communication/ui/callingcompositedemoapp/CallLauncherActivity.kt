@@ -141,12 +141,12 @@ class CallLauncherActivity : AppCompatActivity() {
 
             acceptCallButton.setOnClickListener {
                 incomingCallLayout.visibility = LinearLayout.GONE
-                callLauncherViewModel.acceptIncomingCall(applicationContext)
+                CallCompositeManager.getInstance().acceptIncomingCall()
             }
 
             declineCallButton.setOnClickListener {
                 incomingCallLayout.visibility = LinearLayout.GONE
-                callLauncherViewModel.createCallComposite().declineIncomingCall()
+                callLauncherViewModel.createCallComposite(this@CallLauncherActivity).declineIncomingCall()
             }
 
             showCallHistoryButton.setOnClickListener {
@@ -349,7 +349,7 @@ class CallLauncherActivity : AppCompatActivity() {
 
     fun onRemoteParticipantJoined(rawId: String) {
         callLauncherViewModel.mapOfDisplayNames.get(rawId)?.let { data ->
-            callLauncherViewModel.createCallComposite()?.let {
+            callLauncherViewModel.createCallComposite(this)?.let {
                 it.setRemoteParticipantViewData(
                     CommunicationIdentifier.fromRawId(rawId),
                     CallCompositeParticipantViewData()
