@@ -52,10 +52,17 @@ class CallLauncherViewModel : ViewModel() {
     private var remoteParticipantJoinedEvent: RemoteParticipantJoinedHandler? = null
     private var telecomConnectionManager: TelecomConnectionManager? = null
 
+    private var callComposite: CallComposite? = null
+    private var exitedCompositeToAcceptCall: Boolean = false
     val mapOfDisplayNames = mutableMapOf<String, String>()
+
+    fun exitedCompositeToAcceptIncomingCall(): Boolean {
+        return exitedCompositeToAcceptCall
+    }
 
     fun destroy() {
         unsubscribe()
+        callComposite?.dispose()
         callComposite = null
     }
 
@@ -207,6 +214,10 @@ class CallLauncherViewModel : ViewModel() {
 
         // For test purposes we will keep a static ref to CallComposite
         CallLauncherViewModel.callComposite = callComposite
+
+        this.callComposite = callComposite
+
+        subscribeToEvents(context)
 
         return callComposite
     }

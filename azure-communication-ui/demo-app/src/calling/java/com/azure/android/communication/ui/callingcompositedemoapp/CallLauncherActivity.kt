@@ -141,7 +141,7 @@ class CallLauncherActivity : AppCompatActivity() {
 
             acceptCallButton.setOnClickListener {
                 incomingCallLayout.visibility = LinearLayout.GONE
-                callLauncherViewModel.createCallComposite().acceptIncomingCall(applicationContext)
+                callLauncherViewModel.acceptIncomingCall(applicationContext)
             }
 
             declineCallButton.setOnClickListener {
@@ -178,6 +178,10 @@ class CallLauncherActivity : AppCompatActivity() {
                         }
                     }
                 }
+            }
+
+            disposeCompositeButton.setOnClickListener {
+                callLauncherViewModel.destroy()
             }
 
             if (BuildConfig.DEBUG) {

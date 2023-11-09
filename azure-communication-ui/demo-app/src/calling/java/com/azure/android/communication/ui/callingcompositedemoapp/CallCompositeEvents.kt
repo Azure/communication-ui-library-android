@@ -16,4 +16,6 @@ interface CallCompositeEvents {
     fun onCompositeDismiss()
     fun onRemoteParticipantJoined(rawId: String)
     fun incomingCallEnded()
+
+    fun acceptIncomingCall()
 }

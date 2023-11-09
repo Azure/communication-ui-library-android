@@ -56,4 +56,5 @@
     <string name="register_push_notification">Register Push</string>
     <string name="accept_call">Accept</string>
     <string name="decline_call">Decline</string>
+    <string name="dispose_composite">Dispose Composite</string>
 </resources>
