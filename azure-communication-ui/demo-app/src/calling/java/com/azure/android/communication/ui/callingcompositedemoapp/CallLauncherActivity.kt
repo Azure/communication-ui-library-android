@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Intent
@@ -202,6 +203,7 @@ class CallLauncherActivity : AppCompatActivity() {
 
     private fun handlePushNotificationAction() {
         if(intent.action != null) {
+            callLauncherViewModel.handleIncomingCall(this)
             val action = intent.action
             if(action == "answer") {
                 callLauncherViewModel.acceptIncomingCall(applicationContext)
@@ -354,6 +356,7 @@ class CallLauncherActivity : AppCompatActivity() {
             val channel =
                 NotificationChannel("acs", name, importance)
             channel.description = description
+            channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
             val notificationManager = getSystemService(
                 NotificationManager::class.java
             )
@@ -367,24 +370,6 @@ class CallLauncherActivity : AppCompatActivity() {
         } else {
             registerPuhNotification()
             callLauncherViewModel.destroy()
-        }
-    }
-
-
-    fun handleIncomingCall(data: Map<String, String>) {
-        val userName = binding.userNameText.text.toString()
-        val acsToken = binding.acsTokenText.text.toString()
-    }
-
-    fun onRemoteParticipantJoined(rawId: String) {
-        callLauncherViewModel.mapOfDisplayNames.get(rawId)?.let { data ->
-            callLauncherViewModel.createCallComposite(this)?.let {
-                it.setRemoteParticipantViewData(
-                    CommunicationIdentifier.fromRawId(rawId),
-                    CallCompositeParticipantViewData()
-                        .setDisplayName(data)
-                )
-            }
         }
     }
 }

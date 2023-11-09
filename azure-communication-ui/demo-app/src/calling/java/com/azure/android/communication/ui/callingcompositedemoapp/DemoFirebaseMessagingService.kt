@@ -37,14 +37,11 @@ class DemoFirebaseMessagingService : FirebaseMessagingService() {
                     CallLauncherActivity.TAG,
                     pushNotificationInfo.eventType.toString() + " handleIncomingCall"
                 )
+
                 CallCompositeManager.getInstance().handleIncomingCall(remoteMessage.data,
                     BuildConfig.ACS_TOKEN,
                     pushNotificationInfo.fromDisplayName)
             } else if (pushNotificationInfo.eventType == CallCompositePushNotificationEventType.STOP_RINGING) {
-                // Check if connection established else end connection
-//                telecomConnectionManager.endConnection(
-//                    applicationContext
-//                )
             }
         }
     }

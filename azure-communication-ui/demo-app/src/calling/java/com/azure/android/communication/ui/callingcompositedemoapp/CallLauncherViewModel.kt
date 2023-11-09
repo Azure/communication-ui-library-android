@@ -38,7 +38,7 @@ class CallLauncherViewModel : ViewModel() {
 
     private var callComposite: CallComposite? = null
     private var exitedCompositeToAcceptCall: Boolean = false
-    val mapOfDisplayNames = mutableMapOf<String, String>()
+    private var callCompositeManager = CallCompositeManager.getInstance()
 
     fun exitedCompositeToAcceptIncomingCall(): Boolean {
         return exitedCompositeToAcceptCall
@@ -48,7 +48,7 @@ class CallLauncherViewModel : ViewModel() {
         unsubscribe()
         callComposite?.dispose()
         callComposite = null
-        CallCompositeManager.getInstance().destroy()
+        callCompositeManager.destroy()
     }
 
     fun launch(
@@ -83,7 +83,7 @@ class CallLauncherViewModel : ViewModel() {
             var i = 0
             participantMris.forEach {
                 i++
-                mapOfDisplayNames[it] = "Outgoing User $i"
+                callCompositeManager.mapOfDisplayNames[it] = "Outgoing User $i"
             }
             val startCallOption = CallCompositeStartCallOptions(participantMris)
             CallCompositeRemoteOptions(startCallOption, communicationTokenCredential, displayName)
@@ -133,25 +133,16 @@ class CallLauncherViewModel : ViewModel() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun handleIncomingCall(
-        data: MutableMap<String, String>,
-        applicationContext: Context,
-        acsToken: String,
-        displayName: String,
+        applicationContext: Context
     ) {
         if (!SettingsFeatures.getEndCallOnByDefaultOption()) {
             EndCompositeButtonView.get(applicationContext).hide()
         } else {
             EndCompositeButtonView.get(applicationContext).show(this)
         }
-
-        CallCompositeManager.getInstance().handleIncomingCall(data, acsToken, displayName)
-
         callCompositeExitSuccessStateFlow.value = false
         isExitRequested = false
-
-        subscribeToEvents(applicationContext)
     }
 
     fun close() {
@@ -170,9 +161,9 @@ class CallLauncherViewModel : ViewModel() {
             return callComposite!!
         }
 
-        var callComposite = CallCompositeManager.getInstance().getCallComposite()
+        var callComposite = callCompositeManager.getCallComposite()
         if(callComposite == null) {
-            callComposite = CallCompositeManager.getInstance().createCallComposite()
+            callComposite = callCompositeManager.createCallComposite()
         }
 
         // For test purposes we will keep a static ref to CallComposite
@@ -186,7 +177,6 @@ class CallLauncherViewModel : ViewModel() {
     }
 
     fun acceptIncomingCall(applicationContext: Context) {
-
         // end existing call if any
         createCallComposite(applicationContext)
 
@@ -198,7 +188,7 @@ class CallLauncherViewModel : ViewModel() {
 
         exitedCompositeToAcceptCall = false
 
-        var skipSetup = SettingsFeatures.getSkipSetupScreenFeatureOption()
+        val skipSetup = SettingsFeatures.getSkipSetupScreenFeatureOption()
 
         val localOptions = CallCompositeLocalOptions()
             .setParticipantViewData(SettingsFeatures.getParticipantViewData(applicationContext))
@@ -232,7 +222,7 @@ class CallLauncherViewModel : ViewModel() {
     }
 }
 
-class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>) : CallCompositeEventHandler<CallCompositeCallStateChangedEvent> {
+class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>): CallCompositeEventHandler<CallCompositeCallStateChangedEvent> {
     override fun handle(callStateEvent: CallCompositeCallStateChangedEvent) {
         callCompositeCallStateStateFlow.value = callStateEvent.code.toString()
     }

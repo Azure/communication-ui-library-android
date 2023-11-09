@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
@@ -22,6 +23,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCa
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationInfo
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
@@ -35,14 +37,16 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.microsoft.appcenter.utils.HandlerUtils.runOnUiThread
 
-class CallCompositeManager(private var applicationContext: Context?): CallCompositeEvents {
+class CallCompositeManager(private var applicationContext: Context?) : CallCompositeEvents {
     @RequiresApi(Build.VERSION_CODES.O)
-    private val telecomConnectionManager: TelecomConnectionManager = TelecomConnectionManager.getInstance(
-        applicationContext!!,
-        TelecomConnectionManager.PHONE_ACCOUNT_ID
-    )
+    private val telecomConnectionManager: TelecomConnectionManager =
+        TelecomConnectionManager.getInstance(
+            applicationContext!!,
+            TelecomConnectionManager.PHONE_ACCOUNT_ID
+        )
     private var incomingCallEvent: IncomingCallEvent? = null
     private var incomingCallEndEvent: IncomingCallEndEvent? = null
+    val mapOfDisplayNames = mutableMapOf<String, String>()
 
     companion object {
         private var instance: CallCompositeManager? = null
@@ -80,9 +84,11 @@ class CallCompositeManager(private var applicationContext: Context?): CallCompos
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun handleIncomingCall(data: Map<String, String>,
-                                    acsToken: String,
-                                    displayName: String) {
+    override fun handleIncomingCall(
+        data: Map<String, String>,
+        acsToken: String,
+        displayName: String
+    ) {
 
         val communicationTokenRefreshOptions =
             CommunicationTokenRefreshOptions({ acsToken }, true)
@@ -94,18 +100,6 @@ class CallCompositeManager(private var applicationContext: Context?): CallCompos
             communicationTokenCredential,
             displayName
         )
-        /*val skipSetup = SettingsFeatures.getSkipSetupScreenFeatureOption()
-
-        val localOptions = CallCompositeLocalOptions()
-            .setParticipantViewData(SettingsFeatures.getParticipantViewData(applicationContext!!))
-            .setSetupScreenViewData(
-                CallCompositeSetupScreenViewData()
-                    .setTitle(SettingsFeatures.getTitle())
-                    .setSubtitle(SettingsFeatures.getSubtitle())
-            )
-            .setSkipSetupScreen(skipSetup)
-            .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
-            .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())*/
 
         if(callComposite == null) {
             callComposite = createCallComposite()
@@ -124,7 +118,15 @@ class CallCompositeManager(private var applicationContext: Context?): CallCompos
     }
 
     override fun onRemoteParticipantJoined(rawId: String) {
-
+        mapOfDisplayNames[rawId]?.let { data ->
+            getCallComposite()?.let {
+                it.setRemoteParticipantViewData(
+                    CommunicationIdentifier.fromRawId(rawId),
+                    CallCompositeParticipantViewData()
+                        .setDisplayName(data)
+                )
+            }
+        }
     }
 
     override fun acceptIncomingCall() {
@@ -219,46 +221,62 @@ class CallCompositeManager(private var applicationContext: Context?): CallCompos
             stackBuilder.addNextIntentWithParentStack(resultIntent)
 
             val resultPendingIntent =
-                stackBuilder.getPendingIntent(0,
-                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+                stackBuilder.getPendingIntent(
+                    0,
+                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                )
 
-            val answerCallIntent = Intent(applicationContext, CallLauncherActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            }
+            val answerCallIntent =
+                Intent(applicationContext, CallLauncherActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                }
             answerCallIntent.action = "answer"
             answerCallIntent.putExtra("action", "answer")
             stackBuilder.addNextIntent(answerCallIntent)
-            val answerCallPendingIntent = stackBuilder.getPendingIntent(1200, PendingIntent.FLAG_IMMUTABLE)
+            val answerCallPendingIntent =
+                stackBuilder.getPendingIntent(1200, PendingIntent.FLAG_IMMUTABLE)
 
-            val declineCallIntent = Intent(applicationContext, CallLauncherActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            }
+            val declineCallIntent =
+                Intent(applicationContext, CallLauncherActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                }
             declineCallIntent.action = "decline"
             declineCallIntent.putExtra("action", "decline")
             stackBuilder.addNextIntent(declineCallIntent)
-            val declineCallPendingIntent = stackBuilder.getPendingIntent(1201,
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+            val declineCallPendingIntent = stackBuilder.getPendingIntent(
+                1201,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
 
             val content = java.lang.String.format(
                 "%s",
                 notification.callerDisplayName
             )
-            val builder: NotificationCompat.Builder = NotificationCompat.Builder(applicationContext, "acs")
-                .setContentIntent(resultPendingIntent)
-                .setSmallIcon(android.R.drawable.ic_menu_call)
-                .setCategory(NotificationCompat.CATEGORY_CALL)
-                .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setWhen(System.currentTimeMillis())
-                .setContentTitle("Incoming Call")
-                .setContentText(content)
-                .addAction(android.R.drawable.ic_menu_call, "Accept", answerCallPendingIntent)
-                .addAction(android.R.drawable.ic_menu_call, "Decline", declineCallPendingIntent)
-                .setStyle(NotificationCompat.DecoratedCustomViewStyle())
-                .setCategory(NotificationCompat.CATEGORY_CALL)
-                .setPriority(NotificationManagerCompat.IMPORTANCE_MAX)
-                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE))
-                .setOngoing(true)
-                .setAutoCancel(true)
+            val builder: NotificationCompat.Builder =
+                NotificationCompat.Builder(applicationContext, "acs")
+                    .setContentIntent(resultPendingIntent)
+                    .setSmallIcon(android.R.drawable.ic_menu_call)
+                    .setCategory(NotificationCompat.CATEGORY_CALL)
+                    .setDefaults(NotificationCompat.DEFAULT_ALL)
+                    .setWhen(System.currentTimeMillis())
+                    .setContentTitle("Incoming Call")
+                    .setContentText(content)
+                    .addAction(
+                        android.R.drawable.ic_menu_call,
+                        "Accept",
+                        answerCallPendingIntent
+                    )
+                    .addAction(
+                        android.R.drawable.ic_menu_call,
+                        "Decline",
+                        declineCallPendingIntent
+                    )
+                    .setStyle(NotificationCompat.DecoratedCustomViewStyle())
+                    .setCategory(NotificationCompat.CATEGORY_CALL)
+                    .setPriority(NotificationManagerCompat.IMPORTANCE_MAX)
+                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE))
+                    .setOngoing(true)
+                    .setAutoCancel(true)
             val notificationManager = NotificationManagerCompat.from(applicationContext)
             notificationManager.notify(1, builder.build())
         }
@@ -268,7 +286,11 @@ class CallCompositeManager(private var applicationContext: Context?): CallCompos
         FirebaseMessaging.getInstance().token.addOnCompleteListener(
             OnCompleteListener { task ->
                 if (!task.isSuccessful) {
-                    Toast.makeText(applicationContext!!, "Fetching FCM registration token failed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        applicationContext!!,
+                        "Fetching FCM registration token failed",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return@OnCompleteListener
                 }
 
@@ -290,7 +312,11 @@ class CallCompositeManager(private var applicationContext: Context?): CallCompos
         callComposite?.addOnCallStateChangedEventHandler {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 if (it.code == CallCompositeCallStateCode.CONNECTING) {
-                    telecomConnectionManager.startOutgoingConnection(applicationContext!!, displayName, false)
+                    telecomConnectionManager.startOutgoingConnection(
+                        applicationContext!!,
+                        displayName,
+                        false
+                    )
                 }
 
                 if (it.code == CallCompositeCallStateCode.CONNECTED) {
@@ -298,7 +324,8 @@ class CallCompositeManager(private var applicationContext: Context?): CallCompos
                 }
 
                 if (it.code == CallCompositeCallStateCode.DISCONNECTING
-                    || it.code == CallCompositeCallStateCode.DISCONNECTED) {
+                    || it.code == CallCompositeCallStateCode.DISCONNECTED
+                ) {
                     this.telecomConnectionManager.endConnection(applicationContext!!)
                 }
             }
@@ -326,8 +353,10 @@ class CallCompositeManager(private var applicationContext: Context?): CallCompos
         @RequiresApi(Build.VERSION_CODES.O)
         override fun handle(eventArgs: CallCompositeIncomingCallEvent) {
             Log.i(CallLauncherActivity.TAG, "Showing IncomingCallEvent")
-            getInstance().telecomConnectionManager.startIncomingConnection(instance?.applicationContext!!,
-                eventArgs.incomingCallInfo, false)
+            getInstance().telecomConnectionManager.startIncomingConnection(
+                instance?.applicationContext!!,
+                eventArgs.incomingCallInfo, false
+            )
         }
     }
 
