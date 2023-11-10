@@ -40,9 +40,6 @@ class CallLauncherViewModel : ViewModel() {
     private var exitedCompositeToAcceptCall: Boolean = false
     private var callCompositeManager = CallCompositeManager.getInstance()
 
-    private var exitedCompositeToAcceptCall: Boolean = false
-    val mapOfDisplayNames = mutableMapOf<String, String>()
-
     fun exitedCompositeToAcceptIncomingCall(): Boolean {
         return exitedCompositeToAcceptCall
     }
