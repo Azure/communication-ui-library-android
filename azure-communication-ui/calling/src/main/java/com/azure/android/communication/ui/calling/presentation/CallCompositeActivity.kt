@@ -178,6 +178,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
     private fun configureActionBar() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeActionContentDescription(getString(R.string.azure_communication_ui_calling_back_button))
         supportActionBar?.setBackgroundDrawable(
             ColorDrawable(
                 ContextCompat.getColor(
