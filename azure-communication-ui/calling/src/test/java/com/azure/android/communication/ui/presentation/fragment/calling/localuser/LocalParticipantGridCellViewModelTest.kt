@@ -42,7 +42,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
 
             val isMutedFlow = mutableListOf<Boolean>()
@@ -59,7 +59,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
 
             viewModel.update(
@@ -70,7 +70,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
 
             viewModel.update(
@@ -81,7 +81,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
 
             viewModel.update(
@@ -92,7 +92,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
 
             // assert
@@ -123,7 +123,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
 
             val displayNameFlow = mutableListOf<String?>()
@@ -140,7 +140,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
 
             // assert
@@ -169,7 +169,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
 
             val modelFlow = mutableListOf<LocalParticipantViewModel.VideoModel>()
@@ -186,7 +186,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
 
             viewModel.update(
@@ -197,7 +197,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
 
             viewModel.update(
@@ -208,7 +208,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
 
             // assert
@@ -252,7 +252,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
 
             val modelFlow = mutableListOf<Boolean>()
@@ -269,7 +269,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
             viewModel.update(
                 displayName,
@@ -279,7 +279,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
             viewModel.update(
                 displayName,
@@ -289,7 +289,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
             viewModel.update(
                 displayName,
@@ -299,7 +299,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
 
             // assert
@@ -335,7 +335,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
 
             val modelFlow = mutableListOf<Boolean>()
@@ -352,7 +352,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
             viewModel.update(
                 displayName,
@@ -362,7 +362,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.SWITCHING,
                 2,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
             viewModel.update(
                 displayName,
@@ -372,7 +372,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
             viewModel.update(
                 displayName,
@@ -382,7 +382,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.SWITCHING,
                 2,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
             viewModel.update(
                 displayName,
@@ -392,7 +392,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
             viewModel.update(
                 displayName,
@@ -402,7 +402,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
 
             // assert
@@ -440,7 +440,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 0,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
 
             val getDisplayPipSwitchCameraButtonFlow = mutableListOf<Boolean>()
@@ -463,7 +463,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
             viewModel.update(
                 displayName,
@@ -473,7 +473,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 0,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
             viewModel.update(
                 displayName,
@@ -483,7 +483,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
             viewModel.update(
                 displayName,
@@ -493,7 +493,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 0,
-                PictureInPictureStatus.NONE,
+                PictureInPictureStatus.VISIBLE,
             )
 
             // assert

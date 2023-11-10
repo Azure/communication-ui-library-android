@@ -17,6 +17,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
 import android.view.WindowManager
+import android.window.OnBackInvokedDispatcher
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -29,15 +30,15 @@ import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
+import com.azure.android.communication.ui.calling.onExit
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
-import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.PipAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
-import com.azure.android.communication.ui.calling.setActivity
-import com.azure.android.communication.ui.calling.utilities.TestHelper
+import com.azure.android.communication.ui.calling.redux.state.PictureInPictureStatus
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.microsoft.fluentui.util.activity
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -46,11 +47,9 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     private val diContainerHolder: DependencyInjectionContainerHolder by viewModels {
         DependencyInjectionContainerHolderFactory(
             this@CallCompositeActivity.application,
-            TestHelper.callingSDK,
-            TestHelper.videoStreamRendererFactory,
-            TestHelper.coroutineContextProvider
         )
     }
+
     private val container by lazy { diContainerHolder.container }
 
     private val navigationRouter get() = container.navigationRouter
@@ -75,6 +74,8 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     private val compositeManager get() = container.compositeExitManager
     private val callingSDKWrapper get() = container.callingSDKWrapper
 
+    private lateinit var visibilityStatusFlow: MutableStateFlow<PictureInPictureStatus>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         // Before super, we'll set up the DI injector and check the PiP state
         try {
@@ -83,6 +84,8 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             finish() // Container has vanished (probably due to process death); we cannot continue
             return
         }
+
+        visibilityStatusFlow = MutableStateFlow(store.getCurrentState().pipState.status)
 
         // Call super
         super.onCreate(savedInstanceState)
@@ -99,8 +102,6 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         setStatusBarColor()
         setNavigationBarColor()
         setActionBarVisibility()
-
-        diContainerHolder.container.callComposite.setActivity(this)
 
         configuration.themeConfig?.let {
             theme.applyStyle(it, true)
@@ -138,9 +139,31 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
         multitaskingManager.start(lifecycleScope)
 
-        notificationService.start(lifecycleScope)
+        notificationService.start(lifecycleScope, instanceId)
+
         callHistoryService.start(lifecycleScope)
+
+        lifecycleScope.launch {
+            visibilityStatusFlow.collect {
+                if (it == PictureInPictureStatus.HIDE_REQUESTED) {
+                    hide()
+                    store.dispatch(PipAction.HideEntered())
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            store.getStateFlow().collect {
+                visibilityStatusFlow.value = it.pipState.status
+            }
+        }
         callStateHandler.start(lifecycleScope)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            onBackInvokedDispatcher.registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT) {
+                onBackPressedDispatcher.onBackPressed()
+            }
+        }
     }
 
     override fun onStart() {
@@ -166,7 +189,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         ) {
             store.dispatch(
                 if (isInPictureInPictureMode) PipAction.PipModeEntered()
-                else PipAction.PipModeExited()
+                else PipAction.ShowNormalEntered()
             )
         }
     }
@@ -188,13 +211,6 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             audioFocusManager.stop()
             audioSessionManager.onDestroy(this)
             audioModeManager.onDestroy()
-            if (isFinishing) {
-                store.dispatch(CallingAction.CallEndRequested())
-                notificationService.removeNotification()
-                callingSDKWrapper.dispose()
-                compositeManager.onCompositeDestroy()
-                CallCompositeInstanceManager.removeCallComposite(instanceId)
-            }
         }
 
         super.onDestroy()
@@ -223,7 +239,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                     .build()
 
                 if (enterPictureInPictureMode(params))
-                    reduxStartPipMode()
+                    syncPipMode()
             }
         } catch (_: Exception) {
             // on some samsung devices(API 26) enterPictureInPictureMode crashes even FEATURE_PICTURE_IN_PICTURE is true
@@ -234,7 +250,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         isInPictureInPictureMode: Boolean,
         newConfig: Configuration?
     ) {
-        store.dispatch(if (isInPictureInPictureMode) PipAction.PipModeEntered() else PipAction.PipModeExited())
+        store.dispatch(if (isInPictureInPictureMode) PipAction.PipModeEntered() else PipAction.ShowNormalEntered())
     }
     private fun syncPipMode() {
         if (configuration.enableSystemPiPWhenMultitasking &&
@@ -242,17 +258,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true &&
             store.getCurrentState().navigationState.navigationState == NavigationStatus.IN_CALL
         ) {
-            store.dispatch(if (isInPictureInPictureMode) PipAction.PipModeEntered() else PipAction.PipModeExited())
-        }
-    }
-
-    private fun reduxStartPipMode() {
-        if (configuration.enableSystemPiPWhenMultitasking &&
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true &&
-            store.getCurrentState().navigationState.navigationState == NavigationStatus.IN_CALL
-        ) {
-            store.dispatch(if (isInPictureInPictureMode) PipAction.PipModeEntered() else PipAction.PipModeExited())
+            store.dispatch(if (isInPictureInPictureMode) PipAction.PipModeEntered() else PipAction.ShowNormalEntered())
         }
     }
 
@@ -260,6 +266,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         if (!configuration.enableMultitasking)
             return
 
+        // TODO: should we enter PiP if we are on the setup screen?
         if (configuration.enableSystemPiPWhenMultitasking &&
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
             activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
@@ -268,14 +275,16 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 .Builder()
                 .setAspectRatio(Rational(1, 1))
                 .build()
+
             var enteredPiPSucceeded = false
             try {
                 enteredPiPSucceeded = enterPictureInPictureMode(params)
             } catch (_: Exception) {
                 // on some samsung devices(API 26) enterPictureInPictureMode crashes even FEATURE_PICTURE_IN_PICTURE is true
             }
+
             if (enteredPiPSucceeded)
-                reduxStartPipMode()
+                syncPipMode()
             else
                 activity?.moveTaskToBack(true)
         } else {
@@ -352,6 +361,9 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 store.end()
                 callingMiddlewareActionHandler.dispose()
                 videoViewManager.destroy()
+                compositeManager.onCompositeDestroy()
+                CallCompositeInstanceManager.removeCallComposite(instanceId)
+                container.callComposite.onExit()
                 finish()
             }
             NavigationStatus.IN_CALL -> {
