@@ -112,7 +112,9 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         )
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCompositeDismiss() {
+        instance?.telecomConnectionManager?.endConnection(applicationContext!!)
         registerFirebaseToken()
         destroy()
     }
@@ -158,8 +160,8 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun declineIncomingCall() {
-        telecomConnectionManager.endConnection(applicationContext!!)
         hideIncomingCallUI()
+        telecomConnectionManager.declineCall(applicationContext!!)
         callComposite?.declineIncomingCall()
         destroy()
     }
@@ -360,6 +362,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
     }
 
     class IncomingCallEndEvent : CallCompositeEventHandler<CallCompositeIncomingCallEndEvent> {
+        @RequiresApi(Build.VERSION_CODES.O)
         override fun handle(eventArgs: CallCompositeIncomingCallEndEvent?) {
             Log.i(CallLauncherActivity.TAG, "Dismissing IncomingCallEvent " + eventArgs?.code)
             getInstance().hideIncomingCallUI()

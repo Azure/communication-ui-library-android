@@ -1,6 +1,5 @@
 package com.azure.android.communication.ui.callingcompositedemoapp.telecom
 
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.telecom.CallAudioState
@@ -13,9 +12,10 @@ import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCa
 import com.azure.android.communication.ui.callingcompositedemoapp.CallCompositeManager
 
 @RequiresApi(Build.VERSION_CODES.M)
-class TelecomConnection(private val context: Context,
-                        private val callComposite: CallComposite,
-                        private var pushNotificationInfo: CallCompositeIncomingCallInfo? = null) : Connection() {
+class TelecomConnection(
+    private val callComposite: CallComposite,
+    private var pushNotificationInfo: CallCompositeIncomingCallInfo? = null
+) : Connection() {
     companion object {
         private const val TAG = "communication.ui.demo"
     }
@@ -73,7 +73,7 @@ class TelecomConnection(private val context: Context,
 
     override fun onUnhold() {
         super.onUnhold()
-        callComposite?.resume()
+        callComposite.resume()
         setActive()
         Log.d(TAG, "onUnhold")
     }
@@ -82,8 +82,6 @@ class TelecomConnection(private val context: Context,
     override fun onShowIncomingCallUi() {
         super.onShowIncomingCallUi()
         Log.d(TAG, "onShowIncomingCallUi")
-        // TODO: show UI notification. If user accepts then call setActive(),
-        //  if user declines call setDisconnected(DisconnectCause(DisconnectCause.REJECTED, "Rejected"))
         pushNotificationInfo?.let { CallCompositeManager.getInstance().showIncomingCallUI(it) }
     }
 

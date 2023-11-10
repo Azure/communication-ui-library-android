@@ -12,7 +12,6 @@ import androidx.annotation.RequiresApi
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
 import com.azure.android.communication.ui.callingcompositedemoapp.CallCompositeManager
-import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
 class TelecomConnectionService : ConnectionService() {
@@ -92,7 +91,7 @@ class TelecomConnectionService : ConnectionService() {
         if(callComposite == null) {
             callComposite = CallCompositeManager.getInstance().createCallComposite()
         }
-        val connection = TelecomConnection(applicationContext, callComposite, callInfo)
+        val connection = TelecomConnection(callComposite, callInfo)
         connection.extras = originalBundle
         connection.connectionProperties = Connection.PROPERTY_SELF_MANAGED
         connection.connectionCapabilities = Connection.CAPABILITY_SUPPORT_HOLD or Connection.CAPABILITY_HOLD
