@@ -188,7 +188,6 @@ class CallLauncherActivity : AppCompatActivity() {
         EndCompositeButtonView.get(this).hide()
         EndCompositeButtonView.buttonView = null
         callLauncherViewModel.unsubscribe()
-
     }
 
     // check whether new Activity instance was brought to top of stack,
