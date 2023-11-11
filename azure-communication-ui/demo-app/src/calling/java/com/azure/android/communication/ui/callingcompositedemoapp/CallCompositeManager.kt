@@ -116,7 +116,6 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
     override fun onCompositeDismiss() {
         instance?.telecomConnectionManager?.endConnection(applicationContext!!)
         registerFirebaseToken()
-        destroy()
     }
 
     override fun onRemoteParticipantJoined(rawId: String) {
