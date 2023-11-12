@@ -48,7 +48,6 @@ class CallLauncherViewModel : ViewModel() {
     private var remoteParticipantJoinedEvent: RemoteParticipantJoinedHandler? = null
     private var callComposite: CallComposite? = null
     private var exitedCompositeToAcceptCall: Boolean = false
-    val mapOfDisplayNames = mutableMapOf<String, String>()
 
     fun exitedCompositeToAcceptIncomingCall(): Boolean {
         return exitedCompositeToAcceptCall
@@ -89,11 +88,6 @@ class CallLauncherViewModel : ViewModel() {
         var skipSetup = SettingsFeatures.getSkipSetupScreenFeatureOption()
         val remoteOptions = if (locator == null && !participantMri.isNullOrEmpty()) {
             val participantMris = participantMri.split(",")
-            var i = 0
-            participantMris.forEach {
-                i++
-                mapOfDisplayNames[it] = "Outgoing User $i"
-            }
             val startCallOption = CallCompositeStartCallOptions(participantMris)
             CallCompositeRemoteOptions(startCallOption, communicationTokenCredential, displayName)
         } else {
@@ -169,9 +163,6 @@ class CallLauncherViewModel : ViewModel() {
             communicationTokenCredential,
             displayName
         )
-
-        mapOfDisplayNames[remoteOptions.pushNotificationInfo.from] = remoteOptions.pushNotificationInfo.fromDisplayName
-
         callComposite?.handlePushNotification(
             applicationContext,
             remoteOptions

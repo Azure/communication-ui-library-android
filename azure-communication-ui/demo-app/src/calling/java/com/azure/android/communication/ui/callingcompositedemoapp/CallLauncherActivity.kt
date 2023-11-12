@@ -23,10 +23,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.lifecycleScope
-import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.FeatureFlags
@@ -389,15 +387,6 @@ class CallLauncherActivity : AppCompatActivity(), CallCompositeEvents {
     }
 
     override fun onRemoteParticipantJoined(rawId: String) {
-        callLauncherViewModel?.mapOfDisplayNames?.get(rawId)?.let { data ->
-            callLauncherViewModel.createCallComposite(applicationContext)?.let {
-                it.setRemoteParticipantViewData(
-                    CommunicationIdentifier.fromRawId(rawId),
-                    CallCompositeParticipantViewData()
-                        .setDisplayName(data)
-                )
-            }
-        }
     }
 
     override fun incomingCallEnded() {
