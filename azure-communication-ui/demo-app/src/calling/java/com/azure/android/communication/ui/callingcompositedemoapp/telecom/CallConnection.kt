@@ -45,21 +45,21 @@ class TelecomConnection(
 
     override fun onDisconnect() {
         super.onDisconnect()
-        Log.d(TAG,"onDisconnect")
+        Log.d(TAG, "onDisconnect")
         setDisconnected(DisconnectCause(DisconnectCause.LOCAL, "Missed"))
         destroy()
     }
 
     override fun onAnswer(videoState: Int) {
         super.onAnswer(videoState)
-        Log.d(TAG, "onAnswer videoState: $videoState" )
+        Log.d(TAG, "onAnswer videoState: $videoState")
         setActive()
         CallCompositeManager.getInstance().acceptIncomingCall()
     }
 
     override fun onAnswer() {
         super.onAnswer()
-        Log.d(TAG, "onAnswer" )
+        Log.d(TAG, "onAnswer")
         setActive()
         CallCompositeManager.getInstance().acceptIncomingCall()
     }

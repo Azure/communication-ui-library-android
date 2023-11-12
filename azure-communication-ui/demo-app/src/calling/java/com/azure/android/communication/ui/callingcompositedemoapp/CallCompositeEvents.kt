@@ -10,9 +10,11 @@ interface CallCompositeEvents {
     fun getCallComposite(): CallComposite?
     fun showIncomingCallUI(incomingCallInfo: CallCompositeIncomingCallInfo)
     fun hideIncomingCallUI()
-    fun handleIncomingCall(data: Map<String, String>,
-                           acsToken: String,
-                           displayName: String)
+    fun handleIncomingCall(
+        data: Map<String, String>,
+        acsToken: String,
+        displayName: String
+    )
     fun onCompositeDismiss()
     fun onRemoteParticipantJoined(rawId: String)
     fun acceptIncomingCall()

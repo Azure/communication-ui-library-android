@@ -27,8 +27,10 @@ import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCa
 /***
  * phoneAccountId - an unique per application string to register phone account.
  */
-class TelecomConnectionManager(context: Context,
-                               private val phoneAccountId: String) {
+class TelecomConnectionManager(
+    context: Context,
+    private val phoneAccountId: String
+) {
 
     private var phoneAccountHandle: PhoneAccountHandle?
 
@@ -62,20 +64,23 @@ class TelecomConnectionManager(context: Context,
 
     fun startIncomingConnection(context: Context, callInfo: CallCompositeIncomingCallInfo, isVideoCall: Boolean) {
         if (context.checkSelfPermission(Manifest.permission.MANAGE_OWN_CALLS) ==
-                PackageManager.PERMISSION_GRANTED) {
+            PackageManager.PERMISSION_GRANTED
+        ) {
             try {
                 Log.e(TAG, "startIncomingConnection")
                 val telecomManager = context.getSystemService(TELECOM_SERVICE) as TelecomManager
                 telecomManager.addNewIncomingCall(phoneAccountHandle, callExtras(callInfo, isVideoCall))
             } catch (e: SecurityException) {
                 val intent = Intent()
-                intent.setClassName("com.android.server.telecom",
-                        "com.android.server.telecom.settings.EnableAccountPreferenceActivity")
+                intent.setClassName(
+                    "com.android.server.telecom",
+                    "com.android.server.telecom.settings.EnableAccountPreferenceActivity"
+                )
                 context.startActivity(intent)
                 Log.e(TAG, "startIncomingConnection failed: ${e.message}", e)
             } catch (e: Exception) {
                 Log.e(TAG, "startIncomingConnection failed: ${e.message}", e)
-                Toast.makeText(context,"Error occurred: ${e.message}", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Error occurred: ${e.message}", Toast.LENGTH_LONG).show()
             }
         } else {
             Log.e(TAG, "startIncomingCall: Permission not granted")
@@ -88,7 +93,8 @@ class TelecomConnectionManager(context: Context,
 
     fun startOutgoingConnection(context: Context, callerDisplayName: String, isVideoCall: Boolean) {
         if (context.checkSelfPermission(Manifest.permission.MANAGE_OWN_CALLS) ==
-                PackageManager.PERMISSION_GRANTED) {
+            PackageManager.PERMISSION_GRANTED
+        ) {
 
             try {
                 val telecomManager = context.getSystemService(TELECOM_SERVICE) as TelecomManager
@@ -106,10 +112,12 @@ class TelecomConnectionManager(context: Context,
                 telecomManager.placeCall(uri, extras)
             } catch (e: SecurityException) {
                 val intent = Intent()
-                intent.setClassName("com.android.server.telecom",
-                        "com.android.server.telecom.settings.EnableAccountPreferenceActivity")
+                intent.setClassName(
+                    "com.android.server.telecom",
+                    "com.android.server.telecom.settings.EnableAccountPreferenceActivity"
+                )
                 context.startActivity(intent)
-                Log.e(TAG,"startOutgoingConnection: ${e.message}", e)
+                Log.e(TAG, "startOutgoingConnection: ${e.message}", e)
             } catch (e: Exception) {
                 Log.e(TAG, "startOutgoingConnection: ${e.message}", e)
             }
@@ -120,7 +128,8 @@ class TelecomConnectionManager(context: Context,
 
     fun declineCall(context: Context) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.MANAGE_OWN_CALLS)
-                == PackageManager.PERMISSION_GRANTED) {
+            == PackageManager.PERMISSION_GRANTED
+        ) {
             val connection = TelecomConnectionService.connection
             connection?.onReject()
             TelecomConnectionService.connection = null
@@ -129,7 +138,8 @@ class TelecomConnectionManager(context: Context,
 
     fun endConnection(context: Context) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.MANAGE_OWN_CALLS)
-                == PackageManager.PERMISSION_GRANTED) {
+            == PackageManager.PERMISSION_GRANTED
+        ) {
             val connection = TelecomConnectionService.connection
 
             connection?.apply {
@@ -145,11 +155,13 @@ class TelecomConnectionManager(context: Context,
     }
 
     private fun registerPhoneAccount(
-            telecomManager: TelecomManager, phoneAccountHandle: PhoneAccountHandle) {
+        telecomManager: TelecomManager,
+        phoneAccountHandle: PhoneAccountHandle
+    ) {
         if (isConnectionServiceSupported()) {
             clearExistingAccounts(telecomManager)
             val account = PhoneAccount.builder(phoneAccountHandle, phoneAccountId)
-                .setCapabilities(PhoneAccount.CAPABILITY_SELF_MANAGED) //custom UI
+                .setCapabilities(PhoneAccount.CAPABILITY_SELF_MANAGED) // custom UI
                 .build()
             try {
                 telecomManager.registerPhoneAccount(account)
@@ -166,11 +178,10 @@ class TelecomConnectionManager(context: Context,
             // Native phone app is crashing when user dials 911 when large number of accounts are registered with the phone
             val clearMethod = TelecomManager::class.java.getMethod("clearPhoneAccounts", null)
             clearMethod.invoke(telecomManager)
-        }
-        catch (ex: Exception) {
-            Log.e(TAG,"clearExistingAccounts failed: ${ex.message}", ex)
+        } catch (ex: Exception) {
+            Log.e(TAG, "clearExistingAccounts failed: ${ex.message}", ex)
         } catch (ex: NoSuchMethodException) {
-            Log.e(TAG,"clearExistingAccounts failed: ${ex.message}", ex)
+            Log.e(TAG, "clearExistingAccounts failed: ${ex.message}", ex)
         }
     }
 
@@ -183,13 +194,13 @@ class TelecomConnectionManager(context: Context,
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             if (isVideoCall) {
                 extras.putInt(
-                        TelecomManager.EXTRA_INCOMING_VIDEO_STATE,
-                        VideoProfile.STATE_BIDIRECTIONAL
+                    TelecomManager.EXTRA_INCOMING_VIDEO_STATE,
+                    VideoProfile.STATE_BIDIRECTIONAL
                 )
             } else {
                 extras.putInt(
-                        TelecomManager.EXTRA_INCOMING_VIDEO_STATE,
-                        VideoProfile.STATE_AUDIO_ONLY
+                    TelecomManager.EXTRA_INCOMING_VIDEO_STATE,
+                    VideoProfile.STATE_AUDIO_ONLY
                 )
             }
         }

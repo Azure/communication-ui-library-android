@@ -46,7 +46,6 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         )
     private var incomingCallEvent: IncomingCallEvent? = null
     private var incomingCallEndEvent: IncomingCallEndEvent? = null
-    val mapOfDisplayNames = mutableMapOf<String, String>()
 
     companion object {
         private var instance: CallCompositeManager? = null
@@ -101,7 +100,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
             displayName
         )
 
-        if(callComposite == null) {
+        if (callComposite == null) {
             callComposite = createCallComposite()
         }
 
@@ -112,22 +111,14 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         )
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCompositeDismiss() {
-        instance?.telecomConnectionManager?.endConnection(applicationContext!!)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            instance?.telecomConnectionManager?.endConnection(applicationContext!!)
+        }
         registerFirebaseToken()
     }
 
     override fun onRemoteParticipantJoined(rawId: String) {
-        mapOfDisplayNames[rawId]?.let { data ->
-            getCallComposite()?.let {
-                it.setRemoteParticipantViewData(
-                    CommunicationIdentifier.fromRawId(rawId),
-                    CallCompositeParticipantViewData()
-                        .setDisplayName(data)
-                )
-            }
-        }
     }
 
     override fun acceptIncomingCall() {
@@ -157,10 +148,11 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         callComposite?.acceptIncomingCall(applicationContext, localOptions)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun declineIncomingCall() {
         hideIncomingCallUI()
-        telecomConnectionManager.declineCall(applicationContext!!)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            telecomConnectionManager.declineCall(applicationContext!!)
+        }
         callComposite?.declineIncomingCall()
         destroy()
     }
@@ -323,8 +315,8 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
                     this.telecomConnectionManager.setConnectionActive()
                 }
 
-                if (it.code == CallCompositeCallStateCode.DISCONNECTING
-                    || it.code == CallCompositeCallStateCode.DISCONNECTED
+                if (it.code == CallCompositeCallStateCode.DISCONNECTING ||
+                    it.code == CallCompositeCallStateCode.DISCONNECTED
                 ) {
                     this.telecomConnectionManager.endConnection(applicationContext!!)
                 }

@@ -4,8 +4,6 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.content.Context
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
@@ -39,10 +37,6 @@ class CallLauncherViewModel : ViewModel() {
     private var callComposite: CallComposite? = null
     private var exitedCompositeToAcceptCall: Boolean = false
     private var callCompositeManager = CallCompositeManager.getInstance()
-
-    fun exitedCompositeToAcceptIncomingCall(): Boolean {
-        return exitedCompositeToAcceptCall
-    }
 
     fun destroy() {
         unsubscribe()
@@ -80,11 +74,6 @@ class CallLauncherViewModel : ViewModel() {
         var skipSetup = SettingsFeatures.getSkipSetupScreenFeatureOption()
         val remoteOptions = if (locator == null && !participantMri.isNullOrEmpty()) {
             val participantMris = participantMri.split(",")
-            var i = 0
-            participantMris.forEach {
-                i++
-                callCompositeManager.mapOfDisplayNames[it] = "Outgoing User $i"
-            }
             val startCallOption = CallCompositeStartCallOptions(participantMris)
             CallCompositeRemoteOptions(startCallOption, communicationTokenCredential, displayName)
         } else {
@@ -108,7 +97,6 @@ class CallLauncherViewModel : ViewModel() {
         callComposite?.launch(context, remoteOptions, localOptions)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun subscribeToEvents(context: Context) {
         errorHandler = CallLauncherActivityErrorHandler(
             context,
@@ -126,9 +114,6 @@ class CallLauncherViewModel : ViewModel() {
         )
         callComposite?.addOnCallStateChangedEventHandler(callStateEventHandler)
         callComposite?.addOnDismissedEventHandler(exitEventHandler)
-        callComposite?.addOnDismissedEventHandler {
-
-        }
     }
 
     fun handleIncomingCall(
@@ -160,7 +145,7 @@ class CallLauncherViewModel : ViewModel() {
         }
 
         var callComposite = callCompositeManager.getCallComposite()
-        if(callComposite == null) {
+        if (callComposite == null) {
             callComposite = callCompositeManager.createCallComposite()
         }
 
@@ -220,13 +205,12 @@ class CallLauncherViewModel : ViewModel() {
     }
 }
 
-class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>): CallCompositeEventHandler<CallCompositeCallStateChangedEvent> {
+class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>) : CallCompositeEventHandler<CallCompositeCallStateChangedEvent> {
     override fun handle(callStateEvent: CallCompositeCallStateChangedEvent) {
         callCompositeCallStateStateFlow.value = callStateEvent.code.toString()
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 class CallExitEventHandler(
     private val exitStateFlow: MutableStateFlow<Boolean>,
     private val callCompositeCallStateStateFlow: MutableStateFlow<String>,

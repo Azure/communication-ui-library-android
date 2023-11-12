@@ -46,9 +46,11 @@ class DemoFirebaseMessagingService : FirebaseMessagingService() {
                 if (!isForeground(applicationContext.packageName)) {
                     wakeApp()
                 }
-                CallCompositeManager.getInstance().handleIncomingCall(remoteMessage.data,
+                CallCompositeManager.getInstance().handleIncomingCall(
+                    remoteMessage.data,
                     BuildConfig.ACS_TOKEN,
-                    pushNotificationInfo.fromDisplayName)
+                    pushNotificationInfo.fromDisplayName
+                )
             }
         }
     }
@@ -63,10 +65,10 @@ class DemoFirebaseMessagingService : FirebaseMessagingService() {
                 PowerManager.ON_AFTER_RELEASE, wakeLockTag
             )
 
-            //acquire will turn on the display
-            wakeLock.acquire(10*60*1000L /*10 minutes*/)
+            // acquire will turn on the display
+            wakeLock.acquire(10 * 60 * 1000L /*10 minutes*/)
 
-            //release will release the lock from CPU, in case of that, screen will go back to sleep mode in defined time bt device settings
+            // release will release the lock from CPU, in case of that, screen will go back to sleep mode in defined time bt device settings
             wakeLock.release()
         }
     }

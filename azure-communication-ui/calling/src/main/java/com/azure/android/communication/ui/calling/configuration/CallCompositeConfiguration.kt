@@ -19,5 +19,4 @@ internal class CallCompositeConfiguration {
     var callScreenOrientation: CallCompositeSupportedScreenOrientation? = null
     var setupScreenOrientation: CallCompositeSupportedScreenOrientation? = null
     var telecomOptions: CallCompositeTelecomOptions? = null
-
 }

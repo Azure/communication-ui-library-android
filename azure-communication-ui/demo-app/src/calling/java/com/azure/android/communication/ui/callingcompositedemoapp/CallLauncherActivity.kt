@@ -14,13 +14,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.LinearLayout
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.lifecycleScope
-import com.azure.android.communication.common.CommunicationIdentifier
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.FeatureFlags
@@ -202,12 +198,12 @@ class CallLauncherActivity : AppCompatActivity() {
     }
 
     private fun handlePushNotificationAction() {
-        if(intent.action != null) {
+        if (intent.action != null) {
             callLauncherViewModel.handleIncomingCall(this)
             val action = intent.action
-            if(action == "answer") {
+            if (action == "answer") {
                 callLauncherViewModel.acceptIncomingCall(applicationContext)
-            } else if(action == "decline") {
+            } else if (action == "decline") {
                 CallCompositeManager.getInstance().declineIncomingCall()
             }
         }
@@ -361,15 +357,6 @@ class CallLauncherActivity : AppCompatActivity() {
                 NotificationManager::class.java
             )
             notificationManager.createNotificationChannel(channel)
-        }
-    }
-
-    private fun onCompositeDismiss() {
-        if (callLauncherViewModel.exitedCompositeToAcceptIncomingCall()) {
-            callLauncherViewModel.acceptIncomingCall(applicationContext)
-        } else {
-            registerPuhNotification()
-            callLauncherViewModel.destroy()
         }
     }
 }

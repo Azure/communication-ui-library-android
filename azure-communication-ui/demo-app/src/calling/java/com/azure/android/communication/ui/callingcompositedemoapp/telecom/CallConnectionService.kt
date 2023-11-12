@@ -22,8 +22,8 @@ class TelecomConnectionService : ConnectionService() {
     }
 
     override fun onCreateIncomingConnection(
-            connectionManagerPhoneAccount: PhoneAccountHandle?,
-            request: ConnectionRequest,
+        connectionManagerPhoneAccount: PhoneAccountHandle?,
+        request: ConnectionRequest,
     ): Connection? {
         Log.e(TAG, "onCreateIncomingConnection")
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
@@ -41,25 +41,24 @@ class TelecomConnectionService : ConnectionService() {
     }
 
     override fun onCreateIncomingConnectionFailed(
-            connectionManagerPhoneAccount: PhoneAccountHandle?,
-            request: ConnectionRequest?,
+        connectionManagerPhoneAccount: PhoneAccountHandle?,
+        request: ConnectionRequest?,
     ) {
         super.onCreateIncomingConnectionFailed(connectionManagerPhoneAccount, request)
-        Log.e(TAG, "onCreateIncomingFailed: ${request.toString()}")
+        Log.e(TAG, "onCreateIncomingFailed: $request")
     }
 
     override fun onCreateOutgoingConnectionFailed(
-            connectionManagerPhoneAccount: PhoneAccountHandle?,
-            request: ConnectionRequest?,
+        connectionManagerPhoneAccount: PhoneAccountHandle?,
+        request: ConnectionRequest?,
     ) {
         super.onCreateOutgoingConnectionFailed(connectionManagerPhoneAccount, request)
-        Log.e(TAG ,"onCreateOutgoingFailed: ${request.toString()}")
-
+        Log.e(TAG, "onCreateOutgoingFailed: $request")
     }
 
     override fun onCreateOutgoingConnection(
-            connectionManagerPhoneAccount: PhoneAccountHandle,
-            request: ConnectionRequest,
+        connectionManagerPhoneAccount: PhoneAccountHandle,
+        request: ConnectionRequest,
     ): Connection? {
         val bundle = request.extras
 
@@ -71,7 +70,6 @@ class TelecomConnectionService : ConnectionService() {
                 TelecomConnectionService.connection = connection
                 return connection
             } catch (e: Exception) {
-
             }
         }
 
@@ -79,7 +77,7 @@ class TelecomConnectionService : ConnectionService() {
     }
 
     private fun createTelecomConnection(
-            originalBundle: Bundle
+        originalBundle: Bundle
     ): TelecomConnection {
         val callInfo = CallCompositeIncomingCallInfo(
             originalBundle.getString("CALL_ID"),
@@ -88,7 +86,7 @@ class TelecomConnectionService : ConnectionService() {
         )
 
         var callComposite: CallComposite? = CallCompositeManager.getInstance().getCallComposite()
-        if(callComposite == null) {
+        if (callComposite == null) {
             callComposite = CallCompositeManager.getInstance().createCallComposite()
         }
         val connection = TelecomConnection(callComposite, callInfo)
