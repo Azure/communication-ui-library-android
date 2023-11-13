@@ -80,10 +80,6 @@ class CallLauncherActivity : AppCompatActivity() {
                 acsTokenText.setText(BuildConfig.ACS_TOKEN)
             }
 
-            if (acsTokenText.text.isNotEmpty()) {
-                registerPuhNotification()
-            }
-
             if (!deeplinkName.isNullOrEmpty()) {
                 userNameText.setText(deeplinkName)
             } else {
