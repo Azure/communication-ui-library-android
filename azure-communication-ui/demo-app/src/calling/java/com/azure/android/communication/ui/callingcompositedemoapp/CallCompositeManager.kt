@@ -97,7 +97,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         val remoteOptions = CallCompositeRemoteOptions(
             CallCompositePushNotificationInfo(data),
             communicationTokenCredential,
-            displayName
+            BuildConfig.USER_NAME
         )
 
         if (callComposite == null) {
