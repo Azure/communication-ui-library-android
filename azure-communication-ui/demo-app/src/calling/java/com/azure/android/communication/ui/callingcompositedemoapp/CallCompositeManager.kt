@@ -16,6 +16,7 @@ import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
+import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEndEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent
@@ -44,10 +45,11 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         )
     private var incomingCallEvent: IncomingCallEvent? = null
     private var incomingCallEndEvent: IncomingCallEndEvent? = null
+    private var callStateEventHandler: CallStateEventHandler? = null
+    private var callComposite: CallComposite? = null
 
     companion object {
         private var instance: CallCompositeManager? = null
-        private var callComposite: CallComposite? = null
 
         fun initialize(applicationContext: Context) {
             if (instance == null) {
@@ -102,7 +104,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
             callComposite = createCallComposite()
         }
 
-        Log.d(CallLauncherActivity.TAG, "handleIncomingCall$callComposite")
+        Log.d(CallLauncherActivity.TAG, "handleIncomingCall $callComposite")
         callComposite?.handlePushNotification(
             applicationContext!!,
             remoteOptions
@@ -113,7 +115,6 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             instance?.telecomConnectionManager?.endConnection(applicationContext!!)
         }
-        registerFirebaseToken()
     }
 
     override fun onRemoteParticipantJoined(rawId: String) {
@@ -197,7 +198,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         callCompositeBuilder.telecom(telecomOptions)
 
         callComposite = callCompositeBuilder.build()
-        subscribeToIncomingCallEvents(BuildConfig.USER_NAME)
+        subscribeToEvents()
         return callComposite!!
     }
 
@@ -298,27 +299,13 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         )
     }
 
-    private fun subscribeToIncomingCallEvents(displayName: String) {
-        callComposite?.addOnCallStateChangedEventHandler {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                if (it.code == CallCompositeCallStateCode.CONNECTING) {
-                    telecomConnectionManager.startOutgoingConnection(
-                        applicationContext!!,
-                        displayName,
-                        false
-                    )
-                }
-
-                if (it.code == CallCompositeCallStateCode.CONNECTED) {
-                    this.telecomConnectionManager.setConnectionActive()
-                }
-
-                if (it.code == CallCompositeCallStateCode.DISCONNECTING ||
-                    it.code == CallCompositeCallStateCode.DISCONNECTED
-                ) {
-                    this.telecomConnectionManager.endConnection(applicationContext!!)
-                }
-            }
+    private fun subscribeToEvents() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            callStateEventHandler = CallStateEventHandler(
+                telecomConnectionManager,
+                applicationContext!!
+            )
+            callComposite?.addOnCallStateChangedEventHandler(callStateEventHandler)
         }
 
         incomingCallEvent = IncomingCallEvent()
@@ -330,6 +317,9 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
 
     private fun unsubscribe() {
         callComposite?.let { composite ->
+            callStateEventHandler?.let {
+                composite.removeOnCallStateChangedEventHandler(it)
+            }
             incomingCallEvent?.let {
                 composite.removeOnIncomingCallEventHandler(incomingCallEvent)
             }
@@ -356,6 +346,33 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
             Log.i(CallLauncherActivity.TAG, "Dismissing IncomingCallEvent " + eventArgs?.code)
             getInstance().hideIncomingCallUI()
             getInstance().onCompositeDismiss()
+        }
+    }
+
+    class CallStateEventHandler(
+        private val telecomConnectionManager: TelecomConnectionManager,
+        private val applicationContext: Context
+    ) : CallCompositeEventHandler<CallCompositeCallStateChangedEvent> {
+        override fun handle(callStateEvent: CallCompositeCallStateChangedEvent) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if (callStateEvent.code == CallCompositeCallStateCode.CONNECTING) {
+                    telecomConnectionManager.startOutgoingConnection(
+                        applicationContext!!,
+                        "Outgoing call",
+                        false
+                    )
+                }
+
+                if (callStateEvent.code == CallCompositeCallStateCode.CONNECTED) {
+                    this.telecomConnectionManager.setConnectionActive()
+                }
+
+                if (callStateEvent.code == CallCompositeCallStateCode.DISCONNECTING ||
+                    callStateEvent.code == CallCompositeCallStateCode.DISCONNECTED
+                ) {
+                    this.telecomConnectionManager.endConnection(applicationContext!!)
+                }
+            }
         }
     }
 }

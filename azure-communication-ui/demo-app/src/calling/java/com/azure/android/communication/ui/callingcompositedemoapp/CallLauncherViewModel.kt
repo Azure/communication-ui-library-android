@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
@@ -33,15 +34,12 @@ class CallLauncherViewModel : ViewModel() {
     private var exitEventHandler: CallExitEventHandler? = null
     private var errorHandler: CallLauncherActivityErrorHandler? = null
     private var remoteParticipantJoinedEvent: RemoteParticipantJoinedHandler? = null
-
-    private var callComposite: CallComposite? = null
     private var exitedCompositeToAcceptCall: Boolean = false
     private var callCompositeManager = CallCompositeManager.getInstance()
+    private var callComposite: CallComposite? = null
 
     fun destroy() {
         unsubscribe()
-        callComposite?.dispose()
-        callComposite = null
         callCompositeManager.destroy()
     }
 
@@ -149,9 +147,6 @@ class CallLauncherViewModel : ViewModel() {
             callComposite = callCompositeManager.createCallComposite()
         }
 
-        // For test purposes we will keep a static ref to CallComposite
-        CallLauncherViewModel.callComposite = callComposite
-
         this.callComposite = callComposite
 
         subscribeToEvents(context)
@@ -161,6 +156,7 @@ class CallLauncherViewModel : ViewModel() {
 
     fun acceptIncomingCall(applicationContext: Context) {
         // end existing call if any
+        Log.d(CallLauncherActivity.TAG, "CallLauncherViewModel acceptIncomingCall")
         createCallComposite(applicationContext)
 
         if (callComposite?.callState != CallCompositeCallStateCode.NONE) {
@@ -192,16 +188,13 @@ class CallLauncherViewModel : ViewModel() {
             composite.removeOnCallStateChangedEventHandler(callStateEventHandler)
             composite.removeOnErrorEventHandler(errorHandler)
             composite.removeOnRemoteParticipantJoinedEventHandler(remoteParticipantJoinedEvent)
+            composite.removeOnDismissedEventHandler(exitEventHandler)
         }
     }
 
     fun callHangup() {
         isExitRequested = true
         callComposite?.dismiss()
-    }
-
-    companion object {
-        var callComposite: CallComposite? = null
     }
 }
 

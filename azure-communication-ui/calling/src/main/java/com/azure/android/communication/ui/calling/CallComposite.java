@@ -233,6 +233,7 @@ public final class CallComposite {
      */
     public void acceptIncomingCall(final Context context,
                                    final CallCompositeLocalOptions localOptions) {
+        logger.info("Call Composite acceptIncomingCall");
         AndroidThreeTen.init(context.getApplicationContext());
 
         configuration.setCallConfig(new CallConfiguration(
@@ -639,8 +640,6 @@ public final class CallComposite {
         if (pushNotificationInfo == null) {
             throw new IllegalArgumentException("PushNotificationInfo cannot be null");
         }
-
-        CallCompositeInstanceManager.putCallComposite(instanceId, this);
 
         configuration.setCallConfig(new CallConfiguration(
                 remoteOptions.getCredential(),

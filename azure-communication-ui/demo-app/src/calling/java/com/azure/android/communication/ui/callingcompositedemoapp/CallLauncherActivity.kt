@@ -34,7 +34,7 @@ import java.util.UUID
 class CallLauncherActivity : AppCompatActivity() {
 
     companion object {
-        const val TAG = "communication.ui.demo"
+        const val TAG = "communic.inder"
     }
 
     private lateinit var binding: ActivityCallLauncherBinding
@@ -217,11 +217,6 @@ class CallLauncherActivity : AppCompatActivity() {
         super.onDestroy()
         EndCompositeButtonView.get(this).hide()
         EndCompositeButtonView.buttonView = null
-        callLauncherViewModel.close()
-
-        if (isFinishing) {
-            callLauncherViewModel.close()
-        }
     }
 
     // check whether new Activity instance was brought to top of stack,
