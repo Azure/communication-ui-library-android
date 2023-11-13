@@ -90,10 +90,6 @@ class CallLauncherActivity : AppCompatActivity(), CallCompositeEvents {
                 acsTokenText.setText(BuildConfig.ACS_TOKEN)
             }
 
-            if (acsTokenText.text.isNotEmpty()) {
-                registerPuhNotification()
-            }
-
             if (!deeplinkName.isNullOrEmpty()) {
                 userNameText.setText(deeplinkName)
             } else {
@@ -381,7 +377,7 @@ class CallLauncherActivity : AppCompatActivity(), CallCompositeEvents {
         if (callLauncherViewModel.exitedCompositeToAcceptIncomingCall()) {
             callLauncherViewModel.acceptIncomingCall(applicationContext)
         } else {
-            registerPuhNotification()
+            // registerPuhNotification()
             callLauncherViewModel.destroy()
         }
     }
@@ -390,7 +386,7 @@ class CallLauncherActivity : AppCompatActivity(), CallCompositeEvents {
     }
 
     override fun incomingCallEnded() {
-        registerPuhNotification()
+        // registerPuhNotification()
     }
 
     override fun acceptIncomingCall() {
