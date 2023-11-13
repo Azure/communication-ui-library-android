@@ -30,8 +30,7 @@ class DemoFirebaseMessagingService : FirebaseMessagingService() {
 
         CallCompositeManager.initialize(applicationContext)
 
-        Log.d(CallLauncherActivity.TAG, "onMessageReceived")
-        Log.d(CallLauncherActivity.TAG, remoteMessage.data.toString())
+        Log.d(CallLauncherActivity.TAG, "onMessageReceived firebase push notification " + remoteMessage.data.toString())
         if (remoteMessage.data.isNotEmpty()) {
             val pushNotificationInfo = CallCompositePushNotificationInfo(remoteMessage.data)
             if (pushNotificationInfo.eventType == CallCompositePushNotificationEventType.INCOMING_CALL ||
