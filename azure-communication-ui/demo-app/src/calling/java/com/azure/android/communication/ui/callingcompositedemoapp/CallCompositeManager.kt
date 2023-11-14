@@ -374,7 +374,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
                 if (callStateEvent.code == CallCompositeCallStateCode.DISCONNECTING ||
                     callStateEvent.code == CallCompositeCallStateCode.DISCONNECTED
                 ) {
-                    this.telecomConnectionManager?.endConnection(applicationContext!!)
+                    this.telecomConnectionManager?.endConnection(applicationContext)
                 }
             }
         }
