@@ -53,8 +53,9 @@ class DemoFirebaseMessagingService : FirebaseMessagingService() {
             val wakeLockTag: String = applicationContext.packageName + "WAKELOCK"
             val wakeLock = pm.newWakeLock(
                 PowerManager.FULL_WAKE_LOCK or
-                        PowerManager.ACQUIRE_CAUSES_WAKEUP or
-                        PowerManager.ON_AFTER_RELEASE, wakeLockTag
+                    PowerManager.ACQUIRE_CAUSES_WAKEUP or
+                    PowerManager.ON_AFTER_RELEASE,
+                wakeLockTag
             )
 
             // acquire will turn on the display
