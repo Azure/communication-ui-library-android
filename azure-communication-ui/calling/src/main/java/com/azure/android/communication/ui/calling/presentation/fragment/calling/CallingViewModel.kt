@@ -180,6 +180,7 @@ internal class CallingViewModel(
         }
 
         if (shouldUpdateRemoteParticipantsViewModels(state)) {
+
             participantGridViewModel.update(
                 state.remoteParticipantState.participantMapModifiedTimestamp,
                 remoteParticipantsExcludingLobbyStatus,
@@ -217,7 +218,8 @@ internal class CallingViewModel(
         participants.filter { it.value.participantStatus != ParticipantStatus.IN_LOBBY }
 
     private fun shouldUpdateRemoteParticipantsViewModels(state: ReduxState) =
-        state.callState.callingStatus == CallingStatus.CONNECTED
+        state.callState.callingStatus == CallingStatus.CONNECTED ||
+            state.callState.callingStatus == CallingStatus.REMOTE_HOLD
 
     private fun updateOverlayDisplayedState(callingStatus: CallingStatus) {
         floatingHeaderViewModel.updateIsOverlayDisplayed(callingStatus)
