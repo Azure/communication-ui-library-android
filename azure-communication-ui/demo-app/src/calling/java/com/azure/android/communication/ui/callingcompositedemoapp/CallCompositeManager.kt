@@ -37,12 +37,16 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.microsoft.appcenter.utils.HandlerUtils.runOnUiThread
 
 class CallCompositeManager(private var applicationContext: Context?) : CallCompositeEvents {
-    @RequiresApi(Build.VERSION_CODES.O)
-    private val telecomConnectionManager: TelecomConnectionManager =
-        TelecomConnectionManager.getInstance(
-            applicationContext!!,
-            TelecomConnectionManager.PHONE_ACCOUNT_ID
-        )
+
+    private val telecomConnectionManager: TelecomConnectionManager? =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            TelecomConnectionManager.getInstance(
+                applicationContext!!,
+                TelecomConnectionManager.PHONE_ACCOUNT_ID
+            )
+        } else {
+            null
+        }
     private var incomingCallEvent: IncomingCallEvent? = null
     private var incomingCallEndEvent: IncomingCallEndEvent? = null
     private var callStateEventHandler: CallStateEventHandler? = null
@@ -82,7 +86,6 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun handleIncomingCall(
         data: Map<String, String>,
         acsToken: String,
@@ -150,7 +153,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
     fun declineIncomingCall() {
         hideIncomingCallUI()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            telecomConnectionManager.declineCall(applicationContext!!)
+            telecomConnectionManager?.declineCall(applicationContext!!)
         }
         callComposite?.declineIncomingCall()
         destroy()
@@ -247,7 +250,6 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
                 NotificationCompat.Builder(applicationContext, "acs")
                     .setContentIntent(resultPendingIntent)
                     .setSmallIcon(android.R.drawable.ic_menu_call)
-                    .setCategory(NotificationCompat.CATEGORY_CALL)
                     .setDefaults(NotificationCompat.DEFAULT_ALL)
                     .setWhen(System.currentTimeMillis())
                     .setContentTitle("Incoming Call")
@@ -265,6 +267,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
                     .setStyle(NotificationCompat.DecoratedCustomViewStyle())
                     .setCategory(NotificationCompat.CATEGORY_CALL)
                     .setPriority(NotificationManagerCompat.IMPORTANCE_MAX)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                     .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE))
                     .setOngoing(true)
                     .setAutoCancel(true)
@@ -330,18 +333,21 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
     }
 
     class IncomingCallEvent : CallCompositeEventHandler<CallCompositeIncomingCallEvent> {
-        @RequiresApi(Build.VERSION_CODES.O)
         override fun handle(eventArgs: CallCompositeIncomingCallEvent) {
             Log.i(CallLauncherActivity.TAG, "Showing IncomingCallEvent")
-            getInstance().telecomConnectionManager.startIncomingConnection(
-                instance?.applicationContext!!,
-                eventArgs.incomingCallInfo, false
-            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                getInstance().telecomConnectionManager?.startIncomingConnection(
+                    instance?.applicationContext!!,
+                    eventArgs.incomingCallInfo, false
+                )
+            }
+            else {
+                getInstance().showIncomingCallUI(eventArgs.incomingCallInfo)
+            }
         }
     }
 
     class IncomingCallEndEvent : CallCompositeEventHandler<CallCompositeIncomingCallEndEvent> {
-        @RequiresApi(Build.VERSION_CODES.O)
         override fun handle(eventArgs: CallCompositeIncomingCallEndEvent?) {
             Log.i(CallLauncherActivity.TAG, "Dismissing IncomingCallEvent " + eventArgs?.code)
             getInstance().hideIncomingCallUI()
@@ -350,27 +356,27 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
     }
 
     class CallStateEventHandler(
-        private val telecomConnectionManager: TelecomConnectionManager,
+        private val telecomConnectionManager: TelecomConnectionManager?,
         private val applicationContext: Context
     ) : CallCompositeEventHandler<CallCompositeCallStateChangedEvent> {
         override fun handle(callStateEvent: CallCompositeCallStateChangedEvent) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 if (callStateEvent.code == CallCompositeCallStateCode.CONNECTING) {
-                    telecomConnectionManager.startOutgoingConnection(
-                        applicationContext!!,
+                    telecomConnectionManager?.startOutgoingConnection(
+                        applicationContext,
                         "Outgoing call",
                         false
                     )
                 }
 
                 if (callStateEvent.code == CallCompositeCallStateCode.CONNECTED) {
-                    this.telecomConnectionManager.setConnectionActive()
+                    this.telecomConnectionManager?.setConnectionActive()
                 }
 
                 if (callStateEvent.code == CallCompositeCallStateCode.DISCONNECTING ||
                     callStateEvent.code == CallCompositeCallStateCode.DISCONNECTED
                 ) {
-                    this.telecomConnectionManager.endConnection(applicationContext!!)
+                    this.telecomConnectionManager?.endConnection(applicationContext!!)
                 }
             }
         }
