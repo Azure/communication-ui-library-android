@@ -84,9 +84,6 @@ class CallLauncherActivity : AppCompatActivity() {
                 acsTokenText.setText(BuildConfig.ACS_TOKEN)
             }
 
-            // It is for demo only, storing token in shared preferences is not recommended (security issue)
-            sharedPreference.edit().putString(CACHED_TOKEN, acsTokenText.text.toString()).apply()
-
             if (!deeplinkName.isNullOrEmpty()) {
                 userNameText.setText(deeplinkName)
             } else {
@@ -155,6 +152,9 @@ class CallLauncherActivity : AppCompatActivity() {
             }
 
             registerPushNotification.setOnClickListener {
+                // It is for demo only, storing token in shared preferences is not recommended (security issue)
+                sharedPreference.edit().putString(CACHED_TOKEN, acsTokenText.text.toString()).apply()
+                sharedPreference.edit().putString(CACHED_USER_NAME, userNameText.text.toString()).apply()
                 registerPuhNotification()
             }
 

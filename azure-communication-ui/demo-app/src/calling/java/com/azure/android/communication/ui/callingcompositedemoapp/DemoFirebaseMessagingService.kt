@@ -45,10 +45,11 @@ class DemoFirebaseMessagingService : FirebaseMessagingService() {
                 // Storing token in shared preferences for demo purpose as this app is not public and internal
                 // In production, token should be fetched from server (storing token in pref can be a security issue)
                 val acsIdentityToken = sharedPreference.getString(CACHED_TOKEN, "")
+                val displayName = sharedPreference.getString(CACHED_USER_NAME, "")
                 CallCompositeManager.getInstance().handleIncomingCall(
                     remoteMessage.data,
                     acsIdentityToken!!,
-                    pushNotificationInfo.fromDisplayName
+                    displayName!!
                 )
             }
         }

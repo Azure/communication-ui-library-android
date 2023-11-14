@@ -88,7 +88,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
     override fun handleIncomingCall(
         data: Map<String, String>,
         acsToken: String,
-        displayName: String
+        displayName: String,
     ) {
 
         val communicationTokenRefreshOptions =
@@ -99,7 +99,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         val remoteOptions = CallCompositeRemoteOptions(
             CallCompositePushNotificationInfo(data),
             communicationTokenCredential,
-            BuildConfig.USER_NAME
+            displayName
         )
 
         if (callComposite == null) {
