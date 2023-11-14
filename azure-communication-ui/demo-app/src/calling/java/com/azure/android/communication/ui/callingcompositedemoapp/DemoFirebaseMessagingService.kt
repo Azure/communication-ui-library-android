@@ -13,6 +13,10 @@ import com.google.firebase.messaging.RemoteMessage
 
 class DemoFirebaseMessagingService : FirebaseMessagingService() {
 
+    private val sharedPreference by lazy {
+        getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
+    }
+
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Log.d(CallLauncherActivity.TAG, token)
@@ -36,9 +40,14 @@ class DemoFirebaseMessagingService : FirebaseMessagingService() {
                 )
 
                 wakeAppIfScreenOff()
+
+                // We need to make a service call to get token for user in case application is not running
+                // Storing token in shared preferences for demo purpose as this app is not public and internal
+                // In production, token should be fetched from server (storing token in pref can be a security issue)
+                val acsIdentityToken = sharedPreference.getString(CACHED_TOKEN, "")
                 CallCompositeManager.getInstance().handleIncomingCall(
                     remoteMessage.data,
-                    BuildConfig.ACS_TOKEN,
+                    acsIdentityToken!!,
                     pushNotificationInfo.fromDisplayName
                 )
             }

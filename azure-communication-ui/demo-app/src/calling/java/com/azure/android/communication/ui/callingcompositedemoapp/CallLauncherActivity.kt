@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -34,11 +35,14 @@ import java.util.UUID
 class CallLauncherActivity : AppCompatActivity() {
 
     companion object {
-        const val TAG = "communic.inder"
+        const val TAG = "communication.ui.demo"
     }
 
     private lateinit var binding: ActivityCallLauncherBinding
     private val callLauncherViewModel: CallLauncherViewModel by viewModels()
+    private val sharedPreference by lazy {
+        getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,6 +83,9 @@ class CallLauncherActivity : AppCompatActivity() {
             } else {
                 acsTokenText.setText(BuildConfig.ACS_TOKEN)
             }
+
+            // It is for demo only, storing token in shared preferences is not recommended (security issue)
+            sharedPreference.edit().putString(CACHED_TOKEN, acsTokenText.text.toString()).apply()
 
             if (!deeplinkName.isNullOrEmpty()) {
                 userNameText.setText(deeplinkName)
