@@ -4,11 +4,8 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.content.Context
-import android.media.Ringtone
-import android.os.Build
 import android.os.PowerManager
 import android.util.Log
-import androidx.annotation.RequiresApi
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationEventType
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationInfo
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -21,9 +18,6 @@ class DemoFirebaseMessagingService : FirebaseMessagingService() {
         Log.d(CallLauncherActivity.TAG, token)
     }
 
-    private var ringtone: Ringtone? = null
-
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
