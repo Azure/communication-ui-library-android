@@ -55,8 +55,8 @@ internal interface DependencyInjectionContainer {
     val audioSessionManager: AudioSessionManager
     val accessibilityManager: AccessibilityAnnouncementManager
     val lifecycleManager: LifecycleManager
-    val compositeExitManager: CompositeExitManager
     val multitaskingManager: MultitaskingManager
+    val compositeExitManager: CompositeExitManager
     val navigationRouter: NavigationRouter
     val notificationService: NotificationService
     val audioFocusManager: AudioFocusManager

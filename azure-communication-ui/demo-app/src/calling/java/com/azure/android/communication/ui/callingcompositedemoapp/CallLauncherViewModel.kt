@@ -36,7 +36,9 @@ class CallLauncherViewModel : ViewModel() {
     private val callStateEventHandler = CallStateEventHandler(callCompositeCallStateStateFlow)
     private var exitEventHandler: CallExitEventHandler? = null
 
-    var callComposite: CallComposite? = null
+    companion object {
+        var callComposite: CallComposite? = null
+    }
 
     fun launch(
         context: Context,
@@ -61,14 +63,14 @@ class CallLauncherViewModel : ViewModel() {
             )
         }
 
+        callComposite.addOnPictureInPictureChangedEventHandler {
+            println("addOnMultitaskingStateChangedEventHandler it.isInPictureInPicture: " + it.isInPictureInPicture)
+        }
+
         if (!SettingsFeatures.getEndCallOnByDefaultOption()) {
             EndCompositeButtonView.get(context).hide()
         } else {
             EndCompositeButtonView.get(context).show(this)
-        }
-
-        callComposite.addOnPictureInPictureChangedEventHandler {
-            println("addOnMultitaskingStateChangedEventHandler it.isInPictureInPicture: " + it.isInPictureInPicture)
         }
 
         val communicationTokenRefreshOptions =
@@ -110,10 +112,7 @@ class CallLauncherViewModel : ViewModel() {
     }
 
     fun getCallHistory(context: Context): List<CallCompositeCallHistoryRecord> {
-        return (
-            callComposite
-                ?: createCallComposite(context)
-            ).getDebugInfo(context).callHistoryRecords
+        return (callComposite ?: createCallComposite(context)).getDebugInfo(context).callHistoryRecords
     }
 
     private fun createCallComposite(context: Context): CallComposite {
@@ -136,11 +135,14 @@ class CallLauncherViewModel : ViewModel() {
 
         callCompositeBuilder.multitasking(CallCompositeMultitaskingOptions(true, true))
 
-        val callComposite = callCompositeBuilder.build()
+        val newCallComposite = callCompositeBuilder.build()
 
-        // For test purposes we will keep a static ref to CallComposite
-        this.callComposite = callComposite
-        return callComposite
+        callComposite = newCallComposite
+        return newCallComposite
+    }
+
+    fun displayCallCompositeIfWasHidden(context: Context) {
+        callComposite?.displayCallCompositeIfWasHidden(context)
     }
 
     fun unsubscribe() {

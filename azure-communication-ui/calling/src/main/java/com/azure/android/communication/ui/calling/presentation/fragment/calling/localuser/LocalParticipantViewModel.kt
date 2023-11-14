@@ -67,12 +67,12 @@ internal class LocalParticipantViewModel(
         displaySwitchCameraButtonFlow.value =
             displayVideo &&
             viewMode == LocalParticipantViewMode.FULL_SCREEN && camerasCount > 1 &&
-            pipStatus == PictureInPictureStatus.NONE
+            pipStatus == PictureInPictureStatus.VISIBLE
         displayPipSwitchCameraButtonFlow.value =
             displayVideo &&
             viewMode == LocalParticipantViewMode.SELFIE_PIP &&
             camerasCount > 1 &&
-            pipStatus == PictureInPictureStatus.NONE
+            pipStatus == PictureInPictureStatus.VISIBLE
 
         enableCameraSwitchFlow.value =
             cameraDeviceSelectionStatus != CameraDeviceSelectionStatus.SWITCHING &&
@@ -121,7 +121,7 @@ internal class LocalParticipantViewModel(
             MutableStateFlow(
                 displayVideo &&
                     viewMode == LocalParticipantViewMode.FULL_SCREEN && camerasCount > 1 &&
-                    pipStatus == PictureInPictureStatus.NONE
+                    pipStatus == PictureInPictureStatus.VISIBLE
             )
         displayPipSwitchCameraButtonFlow =
             MutableStateFlow(displayVideo && viewMode == LocalParticipantViewMode.SELFIE_PIP && camerasCount > 1)

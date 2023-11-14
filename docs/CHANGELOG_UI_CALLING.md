@@ -1,5 +1,6 @@
 # Azure Communication UI Calling Release History
 
+
 ## Next release
 
 ### Features
@@ -8,6 +9,13 @@
 
 ### Bug Fixes
 - Hide lobby users in GridView and Participant List
+
+
+## 1.5.0-beta.1 (2023-08-31)
+
+### Features
+- Introducing Picture in Picture which allows video call to continue when navigating away from calling screen.
+
 
 ## 1.4.0 (2023-08-30)
 
@@ -29,6 +37,7 @@
 
 ### Features
 - Use Dominant Speakers feature to determine which remove participants to display on the grid when number of participants more then 6.
+
 
 ## 1.3.0 (2023-04-06)
 

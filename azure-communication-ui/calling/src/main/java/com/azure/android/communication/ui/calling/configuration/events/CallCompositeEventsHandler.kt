@@ -38,6 +38,14 @@ internal class CallCompositeEventsHandler {
     fun removeOnRemoteParticipantJoinedEventHandler(handler: CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>) =
         remoteParticipantJoinedHandlers.remove(handler)
 
+    fun getOnMultitaskingStateChangedEventHandlers() = multitaskingStateChangedEvent.asIterable()
+
+    fun addOnMultitaskingStateChangedEventHandler(handler: CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent>) =
+        multitaskingStateChangedEvent.add(handler)
+
+    fun removeOnMultitaskingStateChangedEventHandler(handler: CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent>) =
+        multitaskingStateChangedEvent.remove(handler)
+
     fun getCallStateHandler() = callStateHandlers.asIterable()
 
     fun removeOnCallStateEventHandler(eventHandler: CallCompositeEventHandler<CallCompositeCallStateChangedEvent>) =
@@ -55,11 +63,4 @@ internal class CallCompositeEventsHandler {
     fun removeOnExitEventHandler(handler: CallCompositeEventHandler<CallCompositeDismissedEvent>) {
         exitEventHandlers.remove(handler)
     }
-
-    fun getOnMultitaskingStateChangedEventHandlers() = multitaskingStateChangedEvent.asIterable()
-    fun addOnMultitaskingStateChangedEventHandler(handler: CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent>) =
-        multitaskingStateChangedEvent.add(handler)
-
-    fun removeOnMultitaskingStateChangedEventHandler(handler: CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent>) =
-        multitaskingStateChangedEvent.remove(handler)
 }

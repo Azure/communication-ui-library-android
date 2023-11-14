@@ -12,12 +12,14 @@ if (project.rootProject.file('local.properties').canRead()) {
 
 publishing {
     repositories {
-        maven {
-            name = localProps.getProperty('MAVEN_REPO_NAME', '""')
-            url = localProps.getProperty('MAVEN_REPO_URL', '""')
-            credentials {
-                username localProps.getProperty('MAVEN_REPO_USERNAME', '""')
-                password localProps.getProperty('MAVEN_REPO_KEY', '""')
+        if (localProps.containsKey('MAVEN_REPO_URL')) {
+            maven {
+                name = localProps.getProperty('MAVEN_REPO_NAME', '""')
+                url = localProps.getProperty('MAVEN_REPO_URL', '""')
+                credentials {
+                    username localProps.getProperty('MAVEN_REPO_USERNAME', '""')
+                    password localProps.getProperty('MAVEN_REPO_KEY', '""')
+                }
             }
         }
         maven {
