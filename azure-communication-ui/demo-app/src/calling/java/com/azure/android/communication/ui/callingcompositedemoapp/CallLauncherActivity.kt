@@ -207,7 +207,12 @@ class CallLauncherActivity : AppCompatActivity() {
 
     private fun registerPuhNotification() {
         try {
-            CallCompositeManager.getInstance().registerFirebaseToken()
+            val userName = binding.userNameText.text.toString()
+            val acsToken = binding.acsTokenText.text.toString()
+            CallCompositeManager.getInstance().registerFirebaseToken(
+                acsToken,
+                userName
+            )
         } catch (e: Exception) {
             showAlert("Failed to register push notification token. " + e.message)
         }

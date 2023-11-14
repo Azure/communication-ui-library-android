@@ -8,7 +8,6 @@ import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.azure.android.communication.common.CommunicationTokenCredential
@@ -276,7 +275,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         }
     }
 
-    fun registerFirebaseToken() {
+    fun registerFirebaseToken(token: String, displayName: String) {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(
             OnCompleteListener { task ->
                 if (!task.isSuccessful) {
@@ -288,14 +287,14 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
                     return@OnCompleteListener
                 }
 
-                val token = task.result
+                val deviceRegistrationToken = task.result
                 val callComposite = createCallComposite()
                 callComposite.registerPushNotification(
                     applicationContext!!,
                     CallCompositePushNotificationOptions(
-                        CommunicationTokenCredential(BuildConfig.ACS_TOKEN),
-                        token,
-                        BuildConfig.USER_NAME
+                        CommunicationTokenCredential(token),
+                        deviceRegistrationToken,
+                        displayName
                     )
                 )
             }
@@ -340,8 +339,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
                     instance?.applicationContext!!,
                     eventArgs.incomingCallInfo, false
                 )
-            }
-            else {
+            } else {
                 getInstance().showIncomingCallUI(eventArgs.incomingCallInfo)
             }
         }
