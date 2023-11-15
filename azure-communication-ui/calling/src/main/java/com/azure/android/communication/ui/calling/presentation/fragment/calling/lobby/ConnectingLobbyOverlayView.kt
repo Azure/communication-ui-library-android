@@ -16,6 +16,8 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.configuration.CallType
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -39,15 +41,29 @@ internal class ConnectingLobbyOverlayView : LinearLayout {
     ) {
         this.viewModel = viewModel
 
+        if (viewModel.getCallType() == CallType.ONE_TO_N_CALL_OUTGOING) {
+            overlayInfo.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_starting_call)
+        } else {
+            overlayInfo.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_connecting_call)
+        }
+
         val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         // This checks before joining the call, the microphone is free to use or not
-        if (viewModel.getDisplayLobbyOverlayFlow().value && (audioManager.mode != AudioManager.MODE_NORMAL)) {
+        if (viewModel.getDisplayLobbyOverlayFlow().value && (false/*audioManager.mode != AudioManager.MODE_NORMAL*/)) {
             viewModel.handleMicrophoneAccessFailed()
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getDisplayLobbyOverlayFlow().collect {
                 visibility = if (it) VISIBLE else GONE
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getCallingStatusStateFlow().collect {
+                if (it == CallingStatus.RINGING) {
+                    overlayInfo.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_ringing_call)
+                }
             }
         }
 

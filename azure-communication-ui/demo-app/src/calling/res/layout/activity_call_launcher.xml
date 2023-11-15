@@ -62,6 +62,17 @@
             app:layout_constraintTop_toBottomOf="@id/userNameText"
             />
 
+        <RadioButton
+            android:id="@+id/oneToOneRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/one_to_one_call_label"
+            app:layout_constraintStart_toEndOf="@id/teamsMeetingRadioButton"
+            app:layout_constraintTop_toBottomOf="@id/userNameText"
+            />
+
         <EditText
             android:id="@+id/groupIdOrTeamsMeetingLinkText"
             android:layout_width="match_parent"
@@ -103,6 +114,26 @@
             app:layout_constraintTop_toBottomOf="@+id/launchButton"
             />
 
+        <Button
+            android:id="@+id/registerPushNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/register_push_notification"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/closeCompositeButton"
+            />
+
+        <Button
+            android:id="@+id/disposeCompositeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dispose_composite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/registerPushNotification"
+            />
+
         <TextView
             android:id="@+id/callStateText"
             android:layout_width="wrap_content"
@@ -110,10 +141,11 @@
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/closeCompositeButton"
+            app:layout_constraintTop_toBottomOf="@+id/disposeCompositeButton"
             />
 
         <LinearLayout
+            android:id="@+id/appVersionLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -136,6 +168,41 @@
                 android:layout_height="wrap_content"
                 android:text="@string/debug"
                 android:textSize="14sp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/incomingCallLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:layout_margin="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appVersionLayout"
+            >
+
+            <Button
+                android:id="@+id/acceptCallButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/accept_call"
+                android:layout_margin="2dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/closeCompositeButton"
+                />
+
+            <Button
+                android:id="@+id/declineCallButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/decline_call"
+                android:layout_margin="2dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/closeCompositeButton"
                 />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

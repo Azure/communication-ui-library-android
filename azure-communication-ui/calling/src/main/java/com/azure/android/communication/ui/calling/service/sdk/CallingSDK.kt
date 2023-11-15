@@ -43,6 +43,9 @@ internal interface CallingSDK {
     fun hold(): CompletableFuture<Void>
     fun resume(): CompletableFuture<Void>
 
+    fun startAudio()
+    fun stopAudio()
+
     // State.
     fun getLocalVideoStream(): CompletableFuture<LocalVideoStream>
     fun getRemoteParticipantsMap(): Map<String, RemoteParticipant>
@@ -54,6 +57,9 @@ internal interface CallingSDK {
     fun getCallIdStateFlow(): StateFlow<String?>
     fun getRemoteParticipantInfoModelSharedFlow(): Flow<Map<String, ParticipantInfoModel>>
     fun getCamerasCountStateFlow(): StateFlow<Int>
+
+    // Push Notifications.
+    fun registerPushNotification(deviceRegistrationToken: String): CompletableFuture<Void>
 
     //region Call Diagnostics
     fun getNetworkQualityCallDiagnosticSharedFlow(): SharedFlow<NetworkQualityCallDiagnosticModel>

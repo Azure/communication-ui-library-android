@@ -53,7 +53,7 @@ internal class LeaveConfirmViewModelUnitTest {
     fun leaveConfirmViewModel_confirm_then_dispatchNavigationExit() {
 
         val appState = AppReduxState("", false, false)
-        appState.callState = CallingState(CallingStatus.CONNECTING, OperationStatus.SKIP_SETUP_SCREEN)
+        appState.callState = CallingState(CallingStatus.DISCONNECTING, OperationStatus.SKIP_SETUP_SCREEN)
 
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState

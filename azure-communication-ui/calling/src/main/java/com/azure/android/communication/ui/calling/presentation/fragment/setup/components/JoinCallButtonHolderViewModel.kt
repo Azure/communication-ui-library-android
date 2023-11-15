@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.setup.components
 
 import android.media.AudioManager
+import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
@@ -24,17 +25,23 @@ internal class JoinCallButtonHolderViewModel(
 ) {
 
     private lateinit var joinCallButtonEnabledFlow: MutableStateFlow<Boolean>
+    private lateinit var callingStatusStateFlow: MutableStateFlow<CallingStatus>
     private var disableJoinCallButtonFlow = MutableStateFlow(false)
     private lateinit var networkManager: NetworkManager
+    private var callType: CallType? = null
 
     fun getJoinCallButtonEnabledFlow(): StateFlow<Boolean> = joinCallButtonEnabledFlow
 
     fun getDisableJoinCallButtonFlow(): StateFlow<Boolean> = disableJoinCallButtonFlow
 
+    fun getCallingStatusStateFlow(): StateFlow<CallingStatus> = callingStatusStateFlow
+
+    fun getCallType(): CallType? = callType
+
     fun launchCallScreen() {
         val networkAvailable = isNetworkAvailable()
         // We try to check for mic availability for the current application through current audio mode
-        val normalAudioMode = audioManager.mode == AudioManager.MODE_NORMAL
+        val normalAudioMode = true // audioManager.mode == AudioManager.MODE_NORMAL
 
         if (!networkAvailable) {
             handleOffline()
@@ -52,6 +59,7 @@ internal class JoinCallButtonHolderViewModel(
         cameraOperationalStatus: CameraOperationalStatus,
         camerasCount: Int,
         networkManager: NetworkManager,
+        callType: CallType? = null,
     ) {
         joinCallButtonEnabledFlow =
             MutableStateFlow(
@@ -61,6 +69,8 @@ internal class JoinCallButtonHolderViewModel(
             )
         disableJoinCallButtonFlow.value = false
         this.networkManager = networkManager
+        this.callType = callType
+        callingStatusStateFlow = MutableStateFlow(CallingStatus.NONE)
     }
 
     fun update(
@@ -84,17 +94,18 @@ internal class JoinCallButtonHolderViewModel(
             disableJoinCallButtonFlow.value =
                 callingState.callingStatus != CallingStatus.NONE || callingState.joinCallIsRequested
         }
+        callingStatusStateFlow.value = callingState.callingStatus
     }
 
-    fun handleOffline() {
+    private fun handleOffline() {
         dispatch(ErrorAction.CallStateErrorOccurred(CallStateError(ErrorCode.NETWORK_NOT_AVAILABLE)))
     }
 
-    fun handleMicrophoneUnavailability() {
+    private fun handleMicrophoneUnavailability() {
         dispatch(ErrorAction.CallStateErrorOccurred(CallStateError(ErrorCode.MICROPHONE_NOT_AVAILABLE)))
     }
 
-    fun isNetworkAvailable(): Boolean {
+    private fun isNetworkAvailable(): Boolean {
         return this.networkManager.isNetworkConnectionAvailable()
     }
 }

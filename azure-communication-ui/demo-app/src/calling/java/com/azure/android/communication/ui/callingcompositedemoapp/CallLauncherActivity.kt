@@ -3,11 +3,17 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -22,17 +28,28 @@ import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.UUID
 
 class CallLauncherActivity : AppCompatActivity() {
+
+    companion object {
+        const val TAG = "communication.ui.demo"
+    }
+
     private lateinit var binding: ActivityCallLauncherBinding
     private val callLauncherViewModel: CallLauncherViewModel by viewModels()
+    private val sharedPreference by lazy {
+        getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        createNotificationChannels()
+
+        CallCompositeManager.initialize(applicationContext)
+
         if (shouldFinish()) {
             finish()
             return
@@ -58,6 +75,7 @@ class CallLauncherActivity : AppCompatActivity() {
         val deeplinkName = data?.getQueryParameter("name")
         val deeplinkGroupId = data?.getQueryParameter("groupid")
         val deeplinkTeamsUrl = data?.getQueryParameter("teamsurl")
+        val participantMRI = data?.getQueryParameter("participanturis") ?: BuildConfig.PARTICIPANT_MRIS
 
         binding.run {
             if (!deeplinkAcsToken.isNullOrEmpty()) {
@@ -76,10 +94,17 @@ class CallLauncherActivity : AppCompatActivity() {
                 groupIdOrTeamsMeetingLinkText.setText(deeplinkGroupId)
                 groupCallRadioButton.isChecked = true
                 teamsMeetingRadioButton.isChecked = false
+                oneToOneRadioButton.isChecked = false
             } else if (!deeplinkTeamsUrl.isNullOrEmpty()) {
                 groupIdOrTeamsMeetingLinkText.setText(deeplinkTeamsUrl)
                 groupCallRadioButton.isChecked = false
                 teamsMeetingRadioButton.isChecked = true
+                oneToOneRadioButton.isChecked = false
+            } else if (!participantMRI.isNullOrEmpty()) {
+                groupIdOrTeamsMeetingLinkText.setText(participantMRI)
+                groupCallRadioButton.isChecked = false
+                teamsMeetingRadioButton.isChecked = false
+                oneToOneRadioButton.isChecked = true
             } else {
                 groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
             }
@@ -94,17 +119,43 @@ class CallLauncherActivity : AppCompatActivity() {
                 if (groupCallRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
                     teamsMeetingRadioButton.isChecked = false
+                    oneToOneRadioButton.isChecked = false
                 }
             }
             teamsMeetingRadioButton.setOnClickListener {
                 if (teamsMeetingRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.TEAMS_MEETING_LINK)
                     groupCallRadioButton.isChecked = false
+                    oneToOneRadioButton.isChecked = false
                 }
+            }
+            oneToOneRadioButton.setOnClickListener {
+                if (oneToOneRadioButton.isChecked) {
+                    groupIdOrTeamsMeetingLinkText.setText(BuildConfig.PARTICIPANT_MRIS)
+                    groupCallRadioButton.isChecked = false
+                    teamsMeetingRadioButton.isChecked = false
+                }
+            }
+
+            acceptCallButton.setOnClickListener {
+                incomingCallLayout.visibility = LinearLayout.GONE
+                CallCompositeManager.getInstance().acceptIncomingCall()
+            }
+
+            declineCallButton.setOnClickListener {
+                incomingCallLayout.visibility = LinearLayout.GONE
+                callLauncherViewModel.createCallComposite(this@CallLauncherActivity).declineIncomingCall()
             }
 
             showCallHistoryButton.setOnClickListener {
                 showCallHistory()
+            }
+
+            registerPushNotification.setOnClickListener {
+                // It is for demo only, storing token in shared preferences is not recommended (security issue)
+                sharedPreference.edit().putString(CACHED_TOKEN, acsTokenText.text.toString()).apply()
+                sharedPreference.edit().putString(CACHED_USER_NAME, userNameText.text.toString()).apply()
+                registerPuhNotification()
             }
 
             lifecycleScope.launch {
@@ -130,11 +181,47 @@ class CallLauncherActivity : AppCompatActivity() {
                 }
             }
 
+            disposeCompositeButton.setOnClickListener {
+                callLauncherViewModel.destroy()
+            }
+
             if (BuildConfig.DEBUG) {
                 versionText.text = "${BuildConfig.VERSION_NAME}"
             } else {
                 versionText.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
             }
+        }
+
+        handlePushNotificationAction()
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        handlePushNotificationAction()
+    }
+
+    private fun handlePushNotificationAction() {
+        if (intent.action != null) {
+            callLauncherViewModel.handleIncomingCall(this)
+            val action = intent.action
+            if (action == "answer") {
+                callLauncherViewModel.acceptIncomingCall(applicationContext)
+            } else if (action == "decline") {
+                CallCompositeManager.getInstance().declineIncomingCall()
+            }
+        }
+    }
+
+    private fun registerPuhNotification() {
+        try {
+            val userName = binding.userNameText.text.toString()
+            val acsToken = binding.acsTokenText.text.toString()
+            CallCompositeManager.getInstance().registerFirebaseToken(
+                acsToken,
+                userName
+            )
+        } catch (e: Exception) {
+            showAlert("Failed to register push notification token. " + e.message)
         }
     }
 
@@ -142,11 +229,6 @@ class CallLauncherActivity : AppCompatActivity() {
         super.onDestroy()
         EndCompositeButtonView.get(this).hide()
         EndCompositeButtonView.buttonView = null
-        callLauncherViewModel.unsubscribe()
-
-        if (isFinishing) {
-            callLauncherViewModel.close()
-        }
     }
 
     // check whether new Activity instance was brought to top of stack,
@@ -190,12 +272,23 @@ class CallLauncherActivity : AppCompatActivity() {
             }
         }
 
+        var participantMri: String? = null
+        if (binding.oneToOneRadioButton.isChecked) {
+            participantMri = binding.groupIdOrTeamsMeetingLinkText.text.toString()
+            if (participantMri.isBlank()) {
+                val message = "Participant MRI is invalid or empty."
+                showAlert(message)
+                return
+            }
+        }
+
         callLauncherViewModel.launch(
             this@CallLauncherActivity,
             acsToken,
             userName,
             groupId,
             meetingLink,
+            participantMri
         )
     }
 
@@ -251,6 +344,22 @@ class CallLauncherActivity : AppCompatActivity() {
             EndCompositeButtonView.get(this).hide()
         } else {
             EndCompositeButtonView.get(this).show(callLauncherViewModel)
+        }
+    }
+
+    private fun createNotificationChannels() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name: CharSequence = "acs"
+            val description = "acs"
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel =
+                NotificationChannel("acs", name, importance)
+            channel.description = description
+            channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+            val notificationManager = getSystemService(
+                NotificationManager::class.java
+            )
+            notificationManager.createNotificationChannel(channel)
         }
     }
 }

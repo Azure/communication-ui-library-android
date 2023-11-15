@@ -180,6 +180,7 @@ internal class ParticipantGridCellVideoView(
         if (displayName.isBlank()) {
             displayNameOnVideoTextView.visibility = GONE
         } else {
+            displayNameOnVideoTextView.visibility = VISIBLE
             displayNameOnVideoTextView.text = displayName
         }
     }

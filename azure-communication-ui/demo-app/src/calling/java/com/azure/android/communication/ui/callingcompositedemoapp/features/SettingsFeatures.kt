@@ -11,6 +11,7 @@ import android.util.LayoutDirection
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
 import com.azure.android.communication.ui.callingcompositedemoapp.AVATAR_IMAGE
+import com.azure.android.communication.ui.callingcompositedemoapp.CACHED_TOKEN
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SUBTITLE
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_TITLE
@@ -53,6 +54,14 @@ class SettingsFeatures {
         fun language(): String? {
             return sharedPrefs.getString(
                 LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY, DEFAULT_LANGUAGE_VALUE
+            )
+        }
+
+        @JvmStatic
+        // It is for demo only, storing token in shared preferences is not recommended (security issue)
+        fun tempToken(): String? {
+            return sharedPrefs.getString(
+                CACHED_TOKEN, ""
             )
         }
 

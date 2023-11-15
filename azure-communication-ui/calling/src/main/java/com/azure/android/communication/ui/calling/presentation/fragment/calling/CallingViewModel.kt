@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
+import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
@@ -20,7 +21,8 @@ import kotlinx.coroutines.CoroutineScope
 internal class CallingViewModel(
     store: Store<ReduxState>,
     callingViewModelProvider: CallingViewModelFactory,
-    private val networkManager: NetworkManager
+    private val networkManager: NetworkManager,
+    private val callType: CallType? = null
 ) :
     BaseViewModel(store) {
 
@@ -99,6 +101,7 @@ internal class CallingViewModel(
             networkManager,
             state.localParticipantState.cameraState,
             state.localParticipantState.audioState,
+            callType
         )
         holdOverlayViewModel.init(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 
@@ -177,6 +180,7 @@ internal class CallingViewModel(
         }
 
         if (shouldUpdateRemoteParticipantsViewModels(state)) {
+
             participantGridViewModel.update(
                 state.remoteParticipantState.participantMapModifiedTimestamp,
                 remoteParticipantsExcludingLobbyStatus,
@@ -214,7 +218,8 @@ internal class CallingViewModel(
         participants.filter { it.value.participantStatus != ParticipantStatus.IN_LOBBY }
 
     private fun shouldUpdateRemoteParticipantsViewModels(state: ReduxState) =
-        state.callState.callingStatus == CallingStatus.CONNECTED
+        state.callState.callingStatus == CallingStatus.CONNECTED ||
+            state.callState.callingStatus == CallingStatus.REMOTE_HOLD
 
     private fun updateOverlayDisplayedState(callingStatus: CallingStatus) {
         floatingHeaderViewModel.updateIsOverlayDisplayed(callingStatus)

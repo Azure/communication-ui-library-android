@@ -70,6 +70,7 @@ internal class CallingSDKEventHandler(
     private val mutedChangedListenersMap = mutableMapOf<String, PropertyChangedListener>()
     private val isSpeakingChangedListenerMap = mutableMapOf<String, PropertyChangedListener>()
     private val isStateChangedListenerMap = mutableMapOf<String, PropertyChangedListener>()
+    private val isDisplayNameChangedListenerMap = mutableMapOf<String, PropertyChangedListener>()
 
     private val remoteParticipantsCacheMap = mutableMapOf<String, RemoteParticipant>()
     private var call: Call? = null
@@ -112,6 +113,16 @@ internal class CallingSDKEventHandler(
 
     fun onJoinCall(call: Call) {
         this.call = call
+
+        // add existing participants
+        // helpful in incoming call scenario
+        call.remoteParticipants.forEach { participant ->
+            val id = ParticipantIdentifierHelper.getRemoteParticipantId(participant.identifier)
+            if (!remoteParticipantsCacheMap.containsKey(id)) {
+                onParticipantAdded(id, participant)
+            }
+        }
+
         call.addOnStateChangedListener(onCallStateChanged)
         call.addOnIsMutedChangedListener(onIsMutedChanged)
         call.addOnRemoteParticipantsUpdatedListener(onParticipantsUpdated)
@@ -122,6 +133,7 @@ internal class CallingSDKEventHandler(
         dominantSpeakersCallFeature = call.feature { DominantSpeakersCallFeature::class.java }
         dominantSpeakersCallFeature.addOnDominantSpeakersChangedListener(onDominantSpeakersChanged)
         subscribeToUserFacingDiagnosticsEvents()
+        onRemoteParticipantUpdated()
     }
 
     fun onEndCall() {
@@ -132,11 +144,13 @@ internal class CallingSDKEventHandler(
             remoteParticipant.removeOnIsMutedChangedListener(mutedChangedListenersMap[id])
             remoteParticipant.removeOnIsSpeakingChangedListener(isSpeakingChangedListenerMap[id])
             remoteParticipant.removeOnStateChangedListener(isStateChangedListenerMap[id])
+            remoteParticipant.removeOnDisplayNameChangedListener(isDisplayNameChangedListenerMap[id])
         }
         remoteParticipantsCacheMap.clear()
         videoStreamsUpdatedListenersMap.clear()
         mutedChangedListenersMap.clear()
         isSpeakingChangedListenerMap.clear()
+        remoteParticipantsInfoModelMap.clear()
         isStateChangedListenerMap.clear()
         recordingFeature.removeOnIsRecordingActiveChangedListener(onRecordingChanged)
         transcriptionFeature.removeOnIsTranscriptionActiveChangedListener(
@@ -440,10 +454,12 @@ internal class CallingSDKEventHandler(
                 removedParticipant.removeOnIsMutedChangedListener(mutedChangedListenersMap[id])
                 removedParticipant.removeOnIsSpeakingChangedListener(isSpeakingChangedListenerMap[id])
                 removedParticipant.removeOnStateChangedListener(isStateChangedListenerMap[id])
+                removedParticipant.removeOnDisplayNameChangedListener(isDisplayNameChangedListenerMap[id])
 
                 videoStreamsUpdatedListenersMap.remove(id)
                 mutedChangedListenersMap.remove(id)
                 isSpeakingChangedListenerMap.remove(id)
+                isDisplayNameChangedListenerMap.remove(id)
                 remoteParticipantsInfoModelMap.remove(id)
                 remoteParticipantsCacheMap.remove(id)
                 isStateChangedListenerMap.remove(id)
@@ -510,11 +526,19 @@ internal class CallingSDKEventHandler(
 
         isSpeakingChangedListenerMap[id] = addOnIsSpeakingChangedEvent
         addedParticipant.addOnIsSpeakingChangedListener(isSpeakingChangedListenerMap[id])
+        val addOnIsDisplayNameChangedEvent =
+            PropertyChangedListener {
+                remoteParticipantsInfoModelMap[id]?.displayName =
+                    remoteParticipantsCacheMap[id]!!.displayName
+                onRemoteParticipantPropertyChange(id)
+            }
+        isDisplayNameChangedListenerMap[id] = addOnIsDisplayNameChangedEvent
+        addedParticipant.addOnDisplayNameChangedListener(addOnIsDisplayNameChangedEvent)
     }
 
     private fun onRemoteParticipantUpdated() {
         val state = call?.state
-        if (state == CallState.CONNECTED) {
+        if (state == CallState.CONNECTED || state == CallState.REMOTE_HOLD) {
             coroutineScope.launch {
                 remoteParticipantsInfoModelSharedFlow.emit(remoteParticipantsInfoModelMap)
             }

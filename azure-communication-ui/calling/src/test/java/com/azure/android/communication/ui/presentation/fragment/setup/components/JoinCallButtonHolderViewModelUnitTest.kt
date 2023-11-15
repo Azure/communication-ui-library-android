@@ -41,7 +41,8 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
                 2,
-                mockNetworkManager
+                mockNetworkManager,
+                null
             )
 
             val emitResult = mutableListOf<Boolean>()
@@ -89,7 +90,8 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
                 2,
-                networkManager = mockNetworkManager
+                networkManager = mockNetworkManager,
+                null
             )
 
             val emitResult = mutableListOf<Boolean>()
@@ -137,7 +139,8 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
                 2,
-                mockNetworkManager
+                mockNetworkManager,
+                null
             )
 
             val emitResult = mutableListOf<Boolean>()
@@ -197,7 +200,8 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
                 2,
-                mockNetworkManager
+                mockNetworkManager,
+                null
             )
 
             val emitResult = mutableListOf<Boolean>()
@@ -245,7 +249,8 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
                 2,
-                mockNetworkManager
+                mockNetworkManager,
+                null
             )
 
             val emitResult = mutableListOf<Boolean>()

@@ -160,9 +160,9 @@ internal class CallCompositeActivity : AppCompatActivity() {
             if (isFinishing) {
                 store.dispatch(CallingAction.CallEndRequested())
                 compositeManager.onCompositeDestroy()
-                CallCompositeInstanceManager.removeCallComposite(instanceId)
             }
         }
+
         super.onDestroy()
     }
 
