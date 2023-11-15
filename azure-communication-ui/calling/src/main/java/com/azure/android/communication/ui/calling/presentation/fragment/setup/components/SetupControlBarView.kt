@@ -101,6 +101,12 @@ internal class SetupControlBarView : LinearLayout {
                 audioDeviceButton.isEnabled = it
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getCameraIsVisible().collect() {
+                cameraButton.visibility = if (it) VISIBLE else GONE
+            }
+        }
     }
 
     private fun setMicButtonState(audioOperationalStatus: AudioOperationalStatus) {

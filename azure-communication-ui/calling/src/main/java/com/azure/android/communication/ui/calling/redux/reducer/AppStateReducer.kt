@@ -23,6 +23,8 @@ internal class AppStateReducer(
             state.localParticipantState.displayName,
             cameraOnByDefault = state.localParticipantState.initialCallJoinState.startWithCameraOn,
             microphoneOnByDefault = state.localParticipantState.initialCallJoinState.startWithMicrophoneOn,
+            allowCamera = state.localParticipantState.initialCallJoinState.startWithAllowCamera,
+            allowRemoteVideo = state.localParticipantState.initialCallJoinState.startWithAllowRemoteVideo,
         )
 
         appState.callState = callStateReducer.reduce(

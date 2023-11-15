@@ -49,6 +49,7 @@ internal data class CameraState(
     val transmission: CameraTransmissionStatus,
     val camerasCount: Int = 0,
     val error: CallCompositeError? = null,
+    val showControls: Boolean = true,
 )
 
 internal data class AudioState(
@@ -66,7 +67,9 @@ internal data class BluetoothState(
 
 internal data class InitialCallControllerState(
     val startWithCameraOn: Boolean,
-    val startWithMicrophoneOn: Boolean
+    val startWithMicrophoneOn: Boolean,
+    val startWithAllowCamera: Boolean,
+    val startWithAllowRemoteVideo: Boolean,
 )
 
 internal data class LocalUserState(
@@ -75,7 +78,9 @@ internal data class LocalUserState(
     val videoStreamID: String?,
     val displayName: String?,
     val initialCallJoinState: InitialCallControllerState = InitialCallControllerState(
-        false,
-        false
+        startWithCameraOn = false,
+        startWithMicrophoneOn = false,
+        startWithAllowCamera = true,
+        startWithAllowRemoteVideo = true,
     ),
 )

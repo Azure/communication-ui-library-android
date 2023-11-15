@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 internal class SetupControlBarViewModel(private val dispatch: (Action) -> Unit) {
+    private lateinit var cameraIsVisibleStateFlow: MutableStateFlow<Boolean>
     private lateinit var cameraIsEnabledStateFlow: MutableStateFlow<Boolean>
     private lateinit var micIsEnabledStateFlow: MutableStateFlow<Boolean>
     private lateinit var deviceIsEnabledStateFlow: MutableStateFlow<Boolean>
@@ -41,6 +42,7 @@ internal class SetupControlBarViewModel(private val dispatch: (Action) -> Unit) 
     ) {
         visibleStateFlow = MutableStateFlow(isVisible(permissionState.audioPermissionState))
         cameraIsEnabledStateFlow = MutableStateFlow(permissionState.cameraPermissionState != PermissionStatus.DENIED)
+        cameraIsVisibleStateFlow = MutableStateFlow(cameraState.showControls)
         micIsEnabledStateFlow = MutableStateFlow(isMicEnabled(callingState, audioState.operation))
         deviceIsEnabledStateFlow = MutableStateFlow(!isControlsDisabled(callingState))
 
@@ -65,7 +67,7 @@ internal class SetupControlBarViewModel(private val dispatch: (Action) -> Unit) 
         cameraIsEnabledStateFlow.value = isCameraEnabled(callingState, permissionState.cameraPermissionState)
         micIsEnabledStateFlow.value = isMicEnabled(callingState, audioState.operation)
         deviceIsEnabledStateFlow.value = !isControlsDisabled(callingState)
-
+        cameraIsVisibleStateFlow.value = cameraState.showControls
         cameraStateFlow.value = cameraState.operation
         audioOperationalStatusStateFlow.value = audioState.operation
         audioDeviceSelectionStatusStateFlow.value = audioState
@@ -76,6 +78,7 @@ internal class SetupControlBarViewModel(private val dispatch: (Action) -> Unit) 
         return audioPermissionState != PermissionStatus.DENIED
     }
 
+    fun getCameraIsVisible(): StateFlow<Boolean> = cameraIsVisibleStateFlow
     fun getCameraIsEnabled(): StateFlow<Boolean> = cameraIsEnabledStateFlow
     fun getMicIsEnabled(): StateFlow<Boolean> = micIsEnabledStateFlow
     fun getDeviceIsEnabled(): StateFlow<Boolean> = deviceIsEnabledStateFlow

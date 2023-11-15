@@ -6,7 +6,9 @@ package com.azure.android.communication.ui.calling.redux.state
 internal class AppReduxState(
     displayName: String?,
     cameraOnByDefault: Boolean,
-    microphoneOnByDefault: Boolean
+    microphoneOnByDefault: Boolean,
+    allowCamera: Boolean,
+    allowRemoteVideo: Boolean
 ) : ReduxState {
 
     override var callState: CallingState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
@@ -23,7 +25,8 @@ internal class AppReduxState(
             CameraState(
                 operation = CameraOperationalStatus.OFF,
                 device = CameraDeviceSelectionStatus.FRONT,
-                transmission = CameraTransmissionStatus.LOCAL
+                transmission = CameraTransmissionStatus.LOCAL,
+                showControls = allowCamera
             ),
             AudioState(
                 operation = AudioOperationalStatus.OFF,
@@ -37,7 +40,9 @@ internal class AppReduxState(
             displayName = displayName,
             initialCallJoinState = InitialCallControllerState(
                 cameraOnByDefault,
-                microphoneOnByDefault
+                microphoneOnByDefault,
+                allowCamera,
+                allowRemoteVideo
             )
         )
 
