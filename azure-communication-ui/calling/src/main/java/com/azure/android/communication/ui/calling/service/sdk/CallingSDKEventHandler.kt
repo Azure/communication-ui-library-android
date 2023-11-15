@@ -121,9 +121,8 @@ internal class CallingSDKEventHandler(
         // add existing participants
         // helpful in incoming call scenario
         call.remoteParticipants.forEach { participant ->
-            val id = ParticipantIdentifierHelper.getRemoteParticipantId(participant.identifier)
-            if (!remoteParticipantsCacheMap.containsKey(id)) {
-                onParticipantAdded(id, participant)
+            if (!remoteParticipantsCacheMap.containsKey(participant.identifier.rawId)) {
+                onParticipantAdded(participant.identifier.rawId, participant)
             }
         }
 

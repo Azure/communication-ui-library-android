@@ -17,9 +17,8 @@ import com.azure.android.communication.ui.calling.models.CallCompositeDismissedE
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
+import com.azure.android.communication.ui.calling.models.CallCompositePictureInPictureChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
@@ -41,14 +40,11 @@ class CallLauncherViewModel : ViewModel() {
     private var exitedCompositeToAcceptCall: Boolean = false
     private var callCompositeManager = CallCompositeManager.getInstance()
     private var callComposite: CallComposite? = null
+    private var callCompositePictureInPictureChangedEvent: PiPListener? = null
 
     fun destroy() {
         unsubscribe()
         callCompositeManager.destroy()
-    }
-
-    companion object {
-        var callComposite: CallComposite? = null
     }
 
     fun launch(
@@ -62,10 +58,6 @@ class CallLauncherViewModel : ViewModel() {
         participantMri: String?
     ) {
         createCallComposite(context)
-
-        callComposite.addOnPictureInPictureChangedEventHandler {
-            println("addOnMultitaskingStateChangedEventHandler it.isInPictureInPicture: " + it.isInPictureInPicture)
-        }
 
         if (!SettingsFeatures.getEndCallOnByDefaultOption()) {
             EndCompositeButtonView.get(context).hide()
@@ -81,6 +73,7 @@ class CallLauncherViewModel : ViewModel() {
         val locator: CallCompositeJoinLocator? =
             if (groupId != null) CallCompositeGroupCallLocator(groupId)
             else if (meetingLink != null) CallCompositeTeamsMeetingLinkLocator(meetingLink)
+            else if (roomId != null && roomRoleHint != null) CallCompositeRoomLocator(roomId)
             else null
 
         var skipSetup = SettingsFeatures.getSkipSetupScreenFeatureOption()
@@ -89,10 +82,6 @@ class CallLauncherViewModel : ViewModel() {
             val startCallOption = CallCompositeStartCallOptions(participantMris)
             CallCompositeRemoteOptions(startCallOption, communicationTokenCredential, displayName)
         } else {
-            else if (roomId != null && roomRoleHint != null) CallCompositeRoomLocator(roomId)
-            else throw IllegalArgumentException("Cannot launch call composite with provided arguments.")
-
-        val remoteOptions =
             CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
         }
 
@@ -116,6 +105,9 @@ class CallLauncherViewModel : ViewModel() {
     }
 
     private fun subscribeToEvents(context: Context) {
+        callCompositePictureInPictureChangedEvent = PiPListener()
+        callComposite?.addOnPictureInPictureChangedEventHandler(callCompositePictureInPictureChangedEvent!!)
+
         errorHandler = CallLauncherActivityErrorHandler(
             context,
             callComposite!!
@@ -154,23 +146,10 @@ class CallLauncherViewModel : ViewModel() {
         return (callComposite ?: createCallComposite(context)).getDebugInfo(context).callHistoryRecords
     }
 
-    private fun createCallComposite(context: Context): CallComposite {
+    fun createCallComposite(context: Context): CallComposite {
         if (callComposite != null) {
             return callComposite!!
         }
-        SettingsFeatures.initialize(context.applicationContext)
-
-        val selectedLanguage = SettingsFeatures.language()
-        val locale = selectedLanguage?.let { SettingsFeatures.locale(it) }
-        val selectedCallScreenOrientation = SettingsFeatures.callScreenOrientation()
-        val callScreenOrientation = selectedCallScreenOrientation?.let { SettingsFeatures.orientation(it) }
-        val selectedSetupScreenOrientation = SettingsFeatures.setupScreenOrientation()
-        val setupScreenOrientation = selectedSetupScreenOrientation?.let { SettingsFeatures.orientation(it) }
-
-        val callCompositeBuilder = CallCompositeBuilder()
-            .localization(CallCompositeLocalizationOptions(locale!!, SettingsFeatures.getLayoutDirection()))
-            .setupScreenOrientation(setupScreenOrientation)
-            .callScreenOrientation(callScreenOrientation)
 
         var callComposite = callCompositeManager.getCallComposite()
         if (callComposite == null) {
@@ -180,13 +159,7 @@ class CallLauncherViewModel : ViewModel() {
         this.callComposite = callComposite
 
         subscribeToEvents(context)
-
-        callCompositeBuilder.multitasking(CallCompositeMultitaskingOptions(true, true))
-
-        val newCallComposite = callCompositeBuilder.build()
-
-        callComposite = newCallComposite
-        return newCallComposite
+        return callComposite
     }
 
     fun displayCallCompositeIfWasHidden(context: Context) {
@@ -224,6 +197,7 @@ class CallLauncherViewModel : ViewModel() {
 
     private fun unsubscribe() {
         callComposite?.let { composite ->
+            composite.removeOnPictureInPictureChangedEventHandler(callCompositePictureInPictureChangedEvent)
             composite.removeOnCallStateChangedEventHandler(callStateEventHandler)
             composite.removeOnErrorEventHandler(errorHandler)
             composite.removeOnRemoteParticipantJoinedEventHandler(remoteParticipantJoinedEvent)
@@ -254,5 +228,11 @@ class CallExitEventHandler(
             callCompositeCallStateStateFlow.value = it.toString()
         }
         CallCompositeManager.getInstance().onCompositeDismiss()
+    }
+}
+
+class PiPListener() : CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent> {
+    override fun handle(event: CallCompositePictureInPictureChangedEvent) {
+        println("addOnMultitaskingStateChangedEventHandler it.isInPictureInPicture: ")
     }
 }

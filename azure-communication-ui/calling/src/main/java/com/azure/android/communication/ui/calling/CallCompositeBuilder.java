@@ -74,6 +74,9 @@ public final class CallCompositeBuilder {
     public CallCompositeBuilder telecom(
             final CallCompositeTelecomOptions telecomOptions) {
         this.telecomOptions = telecomOptions;
+        return this;
+    }
+
     /***
      * While on the call, user can go back to previous activity from the call composite.
      *

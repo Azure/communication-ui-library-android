@@ -74,7 +74,7 @@ internal class DependencyInjectionContainerHolder(
                 container.configuration.enableMultitasking
             ),
             container.networkManager,
-            callType
+            callType,
             container.configuration.enableMultitasking
         )
     }

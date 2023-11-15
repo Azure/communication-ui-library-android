@@ -211,10 +211,6 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             audioFocusManager.stop()
             audioSessionManager.onDestroy(this)
             audioModeManager.onDestroy()
-            if (isFinishing) {
-                store.dispatch(CallingAction.CallEndRequested())
-                compositeManager.onCompositeDestroy()
-            }
         }
 
         super.onDestroy()

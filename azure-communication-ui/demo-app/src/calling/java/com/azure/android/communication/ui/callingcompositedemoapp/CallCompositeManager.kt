@@ -22,6 +22,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCa
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationInfo
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
@@ -180,8 +181,10 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
             selectedSetupScreenOrientation?.let { SettingsFeatures.orientation(it) }
 
         val callCompositeBuilder = CallCompositeBuilder()
+            .localization(CallCompositeLocalizationOptions(locale!!, SettingsFeatures.getLayoutDirection()))
             .setupScreenOrientation(setupScreenOrientation)
             .callScreenOrientation(callScreenOrientation)
+            .multitasking(CallCompositeMultitaskingOptions(true, true))
 
         locale?.let {
             callCompositeBuilder.localization(

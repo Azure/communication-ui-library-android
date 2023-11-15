@@ -328,9 +328,11 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     }
 
     override fun startAudio() {
+        TODO("Not yet implemented")
     }
 
     override fun stopAudio() {
+        TODO("Not yet implemented")
     }
 
     override fun getLocalVideoStream(): CompletableFuture<LocalVideoStream> {
@@ -378,6 +380,8 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     override fun getCamerasCountStateFlow(): StateFlow<Int> = getCameraCountStateFlow
     override fun registerPushNotification(deviceRegistrationToken: String): CompletableFuture<Void> {
         TODO("Not yet implemented")
+    }
+
     override fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?> {
         return lobbyResultCompletableFuture
     }

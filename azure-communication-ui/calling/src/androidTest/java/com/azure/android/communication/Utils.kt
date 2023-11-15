@@ -30,7 +30,6 @@ internal fun assertDisplayed(id: Int): ViewInteraction {
     ).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 }
 
-internal fun assertNotDisplayed(id: Int): ViewInteraction? {
 internal fun assertNotDisplayed(id: Int) {
     Espresso.onView(
         Matchers.allOf(
@@ -90,9 +89,6 @@ internal fun tap(id: Int) {
 internal fun tapWhenDisplayed(id: Int) {
     waitUntilDisplayed(id)
 
-    // XXX intermittently, this function seems return without a tap actually taking place.
-    // This delay appears to help ¯\_(ツ)_/¯
-    SystemClock.sleep(500L)
     tapDelay()
 
     tap(id)

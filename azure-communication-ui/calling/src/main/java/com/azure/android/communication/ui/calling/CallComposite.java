@@ -48,7 +48,6 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 import static com.azure.android.communication.ui.calling.CallCompositeExtentionsKt.createDebugInfoManager;
 import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.UUID;
 
@@ -78,9 +77,7 @@ public final class CallComposite {
     // on each launch, an InstanceID will be assigned and incremented.
     private static int instanceIdCounter = 0;
     private final int instanceId = instanceIdCounter++;
-
     private final CallCompositeConfiguration configuration;
-    private WeakReference<DependencyInjectionContainer> diContainer;
     private CallingSDKCallAgentWrapper callAgentWrapper;
     private IncomingCallWrapper incomingCallWrapper;
     private Logger logger = new DefaultLogger();
@@ -218,12 +215,9 @@ public final class CallComposite {
      *
      */
     public void dismiss() {
-        if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer.get();
-            if (container != null) {
-                container.getCompositeExitManager().exit();
-            }
-            diContainer = null;
+        final DependencyInjectionContainer container = diContainer;
+        if (container != null) {
+            container.getCompositeExitManager().exit();
         }
     }
 
@@ -253,6 +247,8 @@ public final class CallComposite {
                 configuration.getCallConfig().getDisplayName(),
                 null,
                 null,
+                null,
+                null,
                 CallType.ONE_TO_N_CALL_INCOMING,
                 null,
                 null));
@@ -261,14 +257,16 @@ public final class CallComposite {
             configuration.setCallCompositeLocalOptions(localOptions);
         }
 
-        CallCompositeInstanceManager.putCallComposite(instanceId, this);
+        diContainer = new DependencyInjectionContainerImpl(
+                instanceId,
+                context.getApplicationContext(),
+                this,
+                TestHelper.INSTANCE.getCallingSDK(),
+                TestHelper.INSTANCE.getVideoStreamRendererFactory(),
+                TestHelper.INSTANCE.getCoroutineContextProvider()
+        );
 
-        initializeCallAgent();
-
-        final Intent intent = new Intent(context, CallCompositeActivity.class);
-        intent.putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId++);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        showUI(context, false, true);
     }
 
     /**
@@ -278,9 +276,6 @@ public final class CallComposite {
     public void declineIncomingCall() {
         if (incomingCallWrapper != null) {
             incomingCallWrapper.declineCall();
-        final DependencyInjectionContainer container = diContainer;
-        if (container != null) {
-            container.getCompositeExitManager().exit();
         }
     }
 
@@ -391,7 +386,7 @@ public final class CallComposite {
      */
     public void startAudio() {
         if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer.get();
+            final DependencyInjectionContainer container = diContainer;
             if (container != null) {
                 container.getCallingService().startAudio();
             }
@@ -404,7 +399,7 @@ public final class CallComposite {
      */
     public void stopAudio() {
         if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer.get();
+            final DependencyInjectionContainer container = diContainer;
             if (container != null) {
                 container.getCallingService().stopAudio();
             }
@@ -417,7 +412,7 @@ public final class CallComposite {
      */
     public void turnMicOn() {
         if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer.get();
+            final DependencyInjectionContainer container = diContainer;
             if (container != null) {
                 container.getCallingService().turnMicOn();
             }
@@ -430,7 +425,7 @@ public final class CallComposite {
      */
     public void turnMicOff() {
         if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer.get();
+            final DependencyInjectionContainer container = diContainer;
             if (container != null) {
                 container.getCallingService().turnMicOff();
             }
@@ -443,7 +438,7 @@ public final class CallComposite {
      */
     public void hold() {
         if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer.get();
+            final DependencyInjectionContainer container = diContainer;
             if (container != null) {
                 container.getCallingService().hold();
             }
@@ -456,7 +451,7 @@ public final class CallComposite {
      */
     public void resume() {
         if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer.get();
+            final DependencyInjectionContainer container = diContainer;
             if (container != null) {
                 container.getCallingService().resume();
             }
@@ -566,6 +561,15 @@ public final class CallComposite {
     }
 
     /**
+     * Display Call Composite if it was hidden by user going Back in navigation while on the call.
+     *
+     * @param context
+     */
+    public void displayCallCompositeIfWasHidden(final Context context) {
+        showUI(context, false, false);
+    }
+
+    /**
      * RegisterPushNotification to receive incoming call notification.
      *
      * @param context The {@link Context}.
@@ -580,6 +584,8 @@ public final class CallComposite {
                 options.getDisplayName(),
                 null,
                 null,
+                null,
+                null,
                 CallType.ONE_TO_N_CALL_INCOMING,
                 null,
                 null));
@@ -587,20 +593,6 @@ public final class CallComposite {
                 options.getDisplayName(),
                 options.getTokenCredential(),
                 options.getDeviceRegistrationToken());
-    }
-
-    void setDependencyInjectionContainer(final DependencyInjectionContainer diContainer) {
-        if (diContainer == null) {
-            this.diContainer = null;
-        } else {
-            this.diContainer = new WeakReference<>(diContainer);
-        }
-     * Display Call Composite if it was hidden by user going Back in navigation while on the call.
-     *
-     * @param context
-     */
-    public void displayCallCompositeIfWasHidden(final Context context) {
-        showUI(context, false);
     }
 
     /**
@@ -638,6 +630,10 @@ public final class CallComposite {
             if (locator instanceof CallCompositeGroupCallLocator) {
                 callType = CallType.GROUP_CALL;
                 groupId = ((CallCompositeGroupCallLocator) locator).getGroupId();
+            } else if (locator instanceof CallCompositeRoomLocator) {
+                callType = CallType.ROOMS_CALL;
+                final CallCompositeRoomLocator roomLocator = (CallCompositeRoomLocator) locator;
+                roomId = roomLocator.getRoomId();
             } else {
                 callType = CallType.TEAMS_MEETING;
                 meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
@@ -645,18 +641,6 @@ public final class CallComposite {
         } else {
             callType = CallType.ONE_TO_N_CALL_OUTGOING;
             participants = remoteOptions.getStartCallOptions().getParticipants();
-        if (locator instanceof CallCompositeGroupCallLocator) {
-            callType = CallType.GROUP_CALL;
-            groupId = ((CallCompositeGroupCallLocator) locator).getGroupId();
-        } else if (locator instanceof CallCompositeTeamsMeetingLinkLocator) {
-            callType = CallType.TEAMS_MEETING;
-            meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
-        } else if (locator instanceof CallCompositeRoomLocator) {
-            callType = CallType.ROOMS_CALL;
-            final CallCompositeRoomLocator roomLocator = (CallCompositeRoomLocator) locator;
-            roomId = roomLocator.getRoomId();
-        } else {
-            throw new CallCompositeException("Not supported Call Locator type");
         }
 
         if (localOptions != null) {
@@ -669,12 +653,12 @@ public final class CallComposite {
                 remoteOptions.getDisplayName(),
                 groupId,
                 meetingLink,
-                callType,
-                participants,
-                null));
                 roomId,
                 roomRole,
-                callType));
+                callType,
+                participants,
+                null
+                ));
 
 
         diContainer = new DependencyInjectionContainerImpl(
@@ -686,11 +670,12 @@ public final class CallComposite {
                 TestHelper.INSTANCE.getCoroutineContextProvider()
         );
 
-        showUI(context, isTest);
+        showUI(context, isTest, false);
     }
 
     private void showUI(final Context context,
-                        final boolean isTest) {
+                        final boolean isTest,
+                        final boolean isAcceptIncomingCall) {
 
         Class activityClass = CallCompositeActivity.class;
 
@@ -705,11 +690,9 @@ public final class CallComposite {
 
         initializeCallAgent();
 
-        final Intent intent = new Intent(context, CallCompositeActivity.class);
-        intent.putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId++);
         final Intent intent = new Intent(context, activityClass);
         intent.putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId);
-        if (isTest) {
+        if (isTest || isAcceptIncomingCall) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
 
@@ -732,6 +715,8 @@ public final class CallComposite {
         configuration.setCallConfig(new CallConfiguration(
                 remoteOptions.getCredential(),
                 remoteOptions.getDisplayName(),
+                null,
+                null,
                 null,
                 null,
                 callType,

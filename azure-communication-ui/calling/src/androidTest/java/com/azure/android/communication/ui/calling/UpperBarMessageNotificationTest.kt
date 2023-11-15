@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.calling
 
 import com.azure.android.communication.BaseUiTest
 import com.azure.android.communication.assertDisplayed
-import com.azure.android.communication.assertNotDisplayed
 import com.azure.android.communication.assertNotExist
 import com.azure.android.communication.assertViewText
 import com.azure.android.communication.tap
@@ -38,7 +37,6 @@ internal class UpperBarMessageNotificationTest : BaseUiTest() {
         callingSDK.setNoSpeakerDevicesAvailable(false)
 
         // Upper Bar Message Notification not present anymore due to UFD state change
-        assertNotDisplayed(upperMessageBarNotificationId)
         assertNotExist(upperMessageBarNotificationId)
 
         // Show the Upper Message Bar notification again and dismiss it using the X button
@@ -48,7 +46,6 @@ internal class UpperBarMessageNotificationTest : BaseUiTest() {
         tap(upperMessageBarNotificationDismissButtonId)
 
         // Upper Bar Message Notification not present anymore
-        assertNotDisplayed(upperMessageBarNotificationId)
         assertNotExist(upperMessageBarNotificationId)
     }
 
@@ -74,7 +71,6 @@ internal class UpperBarMessageNotificationTest : BaseUiTest() {
         callingSDK.setNoMicrophoneDevicesAvailable(false)
 
         // Upper Bar Message Notification not present anymore
-        assertNotDisplayed(upperMessageBarNotificationId)
         assertNotExist(upperMessageBarNotificationId)
 
         // Show the Upper Message Bar notification again and dismiss it using the X button
@@ -84,7 +80,6 @@ internal class UpperBarMessageNotificationTest : BaseUiTest() {
         tap(upperMessageBarNotificationDismissButtonId)
 
         // Upper Bar Message Notification not present anymore
-        assertNotDisplayed(upperMessageBarNotificationId)
         assertNotExist(upperMessageBarNotificationId)
     }
 
@@ -110,7 +105,6 @@ internal class UpperBarMessageNotificationTest : BaseUiTest() {
         callingSDK.setMicrophoneNotFunctioning(false)
 
         // Upper Bar Message Notification not present anymore
-        assertNotDisplayed(upperMessageBarNotificationId)
         assertNotExist(upperMessageBarNotificationId)
 
         // Show the Upper Message Bar notification again and dismiss it using the X button
@@ -120,7 +114,6 @@ internal class UpperBarMessageNotificationTest : BaseUiTest() {
         tap(upperMessageBarNotificationDismissButtonId)
 
         // Upper Bar Message Notification not present anymore
-        assertNotDisplayed(upperMessageBarNotificationId)
         assertNotExist(upperMessageBarNotificationId)
     }
 
@@ -146,7 +139,6 @@ internal class UpperBarMessageNotificationTest : BaseUiTest() {
         callingSDK.setSpeakerNotFunctioning(false)
 
         // Upper Bar Message Notification not present anymore
-        assertNotDisplayed(upperMessageBarNotificationId)
         assertNotExist(upperMessageBarNotificationId)
 
         // Show the Upper Message Bar notification again and dismiss it using the X button
@@ -156,7 +148,6 @@ internal class UpperBarMessageNotificationTest : BaseUiTest() {
         tap(upperMessageBarNotificationDismissButtonId)
 
         // Upper Bar Message Notification not present anymore
-        assertNotDisplayed(upperMessageBarNotificationId)
         assertNotExist(upperMessageBarNotificationId)
     }
 }
