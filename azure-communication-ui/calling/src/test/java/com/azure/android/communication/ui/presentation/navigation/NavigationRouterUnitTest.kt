@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.presentation.navigation
 import com.azure.android.communication.ui.calling.presentation.navigation.NavigationRouter
 import com.azure.android.communication.ui.calling.presentation.navigation.NavigationRouterImpl
 import com.azure.android.communication.ui.calling.redux.AppStore
-import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.NavigationState
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
@@ -51,12 +50,12 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
     fun store_onSubscribe_then_invoke_navigationRouterOnStateChange() =
         runScopedTest {
             // arrange
-            val appState = AppReduxState("", false, false).apply {
+            val appState = ReduxState("", false, false).apply {
                 navigationState = NavigationState(NavigationStatus.IN_CALL)
             }
 
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(
-                AppReduxState(
+                ReduxState(
                     "",
                     false,
                     false
@@ -72,7 +71,7 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
             stateFlow.value = appState
             // a new state but with same navigation state
             stateFlow.value =
-                AppReduxState("", false, false).apply {
+                ReduxState("", false, false).apply {
                     navigationState = NavigationState(NavigationStatus.IN_CALL)
                 }
 
@@ -88,8 +87,8 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
     fun store_onSubscribe_then_test_navigationRouterOnStateChange_emits_initial_state() =
         runScopedTest {
             // arrange
-            val initialState = AppReduxState("", false, false)
-            val appState = AppReduxState("", false, false).apply {
+            val initialState = ReduxState("", false, false)
+            val appState = ReduxState("", false, false).apply {
                 navigationState = NavigationState(NavigationStatus.EXIT)
             }
 
@@ -115,10 +114,10 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
     fun store_onSubscribe_then_test_navigationRouterNewButSameNavigationStateOnNavigationStateChange_called_1x() =
         runScopedTest {
             // arrange
-            val initialState = AppReduxState("", false, false).apply {
+            val initialState = ReduxState("", false, false).apply {
                 navigationState = NavigationState(NavigationStatus.IN_CALL)
             }
-            val appState = AppReduxState("", false, false).apply {
+            val appState = ReduxState("", false, false).apply {
                 navigationState = NavigationState(NavigationStatus.IN_CALL)
             }
 
@@ -133,7 +132,7 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
             stateFlow.value = appState
             // a new state but with same navigation state
             stateFlow.value =
-                AppReduxState("", false, false).apply {
+                ReduxState("", false, false).apply {
                     navigationState = NavigationState(NavigationStatus.IN_CALL)
                 }
 
@@ -148,7 +147,7 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
     fun store_onSubscribe_then_test_navigationRouterWithSameStateOnNavigationStateChange_called_once() =
         runScopedTest {
             // arrange
-            val appState = AppReduxState("", false, false).apply {
+            val appState = ReduxState("", false, false).apply {
                 navigationState = NavigationState(NavigationStatus.SETUP)
             }
 
@@ -163,7 +162,7 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
             stateFlow.value = appState
             // a new state but with same navigation state
             stateFlow.value =
-                AppReduxState("", false, false).apply {
+                ReduxState("", false, false).apply {
                     navigationState = NavigationState(NavigationStatus.SETUP)
                 }
 
@@ -178,8 +177,8 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
     fun store_onSubscribe_then_test_navigationRouterOnNavigationStateChange_called_3x() =
         runScopedTest {
             // arrange
-            val initialState = AppReduxState("", false, false)
-            val appState = AppReduxState("", false, false).apply {
+            val initialState = ReduxState("", false, false)
+            val appState = ReduxState("", false, false).apply {
                 navigationState = NavigationState(NavigationStatus.NONE)
             }
 
@@ -194,12 +193,12 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
             stateFlow.value = appState
             // a new state but with different navigation state
             stateFlow.value =
-                AppReduxState("", false, false).apply {
+                ReduxState("", false, false).apply {
                     navigationState = NavigationState(NavigationStatus.SETUP)
                 }
 
             stateFlow.value =
-                AppReduxState("", false, false).apply {
+                ReduxState("", false, false).apply {
                     navigationState = NavigationState(NavigationStatus.IN_CALL)
                 }
 

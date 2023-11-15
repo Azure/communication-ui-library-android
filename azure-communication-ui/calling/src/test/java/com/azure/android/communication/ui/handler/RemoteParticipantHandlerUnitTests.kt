@@ -13,7 +13,6 @@ import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.models.VideoStreamModel
 import com.azure.android.communication.ui.calling.redux.AppStore
-import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
@@ -39,7 +38,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
     fun remoteParticipantHandler_start_onStateChangeWithNoRemoteParticipant_then_eventIsNotFiredToContoso() {
         runScopedTest {
             // arrange
-            val storeStateFlow = MutableStateFlow<ReduxState>(AppReduxState("", false, false))
+            val storeStateFlow = MutableStateFlow<ReduxState>(ReduxState("", false, false))
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getStateFlow() } doReturn storeStateFlow
             }
@@ -75,7 +74,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
     fun remoteParticipantHandler_start_onStateChangeWithOneRemoteParticipant_then_eventIsFiredToOnce() {
         runScopedTest {
             // arrange
-            val reduxState = AppReduxState("", false, false)
+            val reduxState = ReduxState("", false, false)
             reduxState.remoteParticipantState =
                 RemoteParticipantsState(
                     mapOf(
@@ -155,7 +154,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
     fun remoteParticipantHandler_start_add_remove_handler_then_eventIsNotFired() {
         runScopedTest {
             // arrange
-            val reduxState = AppReduxState("", false, false)
+            val reduxState = ReduxState("", false, false)
             reduxState.remoteParticipantState =
                 RemoteParticipantsState(
                     mapOf(
@@ -228,7 +227,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
     fun remoteParticipantHandler_start_onStateChangeWithTwoRemoteParticipant_then_eventIsFiredToOnce() {
         runScopedTest {
             // arrange
-            val reduxState = AppReduxState("", false, false)
+            val reduxState = ReduxState("", false, false)
             reduxState.remoteParticipantState =
                 RemoteParticipantsState(
                     mapOf(
@@ -337,7 +336,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
     fun remoteParticipantHandler_start_onStateChangeMultipleTimes_then_eventIsFiredForNewJoinedParticipants() {
         runScopedTest {
             // arrange
-            val reduxState = AppReduxState("", false, false)
+            val reduxState = ReduxState("", false, false)
             reduxState.remoteParticipantState =
                 RemoteParticipantsState(
                     mapOf(
@@ -450,7 +449,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             job.cancel()
 
             // arrange
-            val newReduxState = AppReduxState("", false, false)
+            val newReduxState = ReduxState("", false, false)
             newReduxState.remoteParticipantState =
                 RemoteParticipantsState(
                     mapOf(
@@ -541,7 +540,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
     fun remoteParticipantHandler_start_onStateChangeMultipleTimes_then_eventIsNotFiredForRemovedParticipants() {
         runScopedTest {
             // arrange
-            val reduxState = AppReduxState("", false, false)
+            val reduxState = ReduxState("", false, false)
             reduxState.remoteParticipantState =
                 RemoteParticipantsState(
                     mapOf(
@@ -652,7 +651,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             job.cancel()
 
             // arrange
-            val newReduxState = AppReduxState("", false, false)
+            val newReduxState = ReduxState("", false, false)
             newReduxState.remoteParticipantState =
                 RemoteParticipantsState(
                     mapOf(

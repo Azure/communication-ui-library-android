@@ -11,7 +11,6 @@ import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.reducer.AppStateReducer
-import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
@@ -31,14 +30,14 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
     private lateinit var mockAppStateReducer: AppStateReducer
 
     @Mock
-    private lateinit var mockAppState: AppReduxState
+    private lateinit var mockAppState: ReduxState
 
     @Test
     fun appStore_dispatch_when_invoked_then_updateStoreState() =
         runScopedTest {
             // arrange
             val action = CallingAction.CallStartRequested()
-            val stateTest = AppReduxState("", false, false)
+            val stateTest = ReduxState("", false, false)
             val participantMap: MutableMap<String, ParticipantInfoModel> = HashMap()
             participantMap["user"] =
                 ParticipantInfoModel(
@@ -56,7 +55,7 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
             val store = AppStore(
                 mockAppState,
                 mockAppStateReducer,
-                mutableListOf(TestMiddlewareImplementation() as Middleware<AppReduxState>),
+                mutableListOf(TestMiddlewareImplementation() as Middleware<ReduxState>),
                 this.coroutineContext
             )
 
@@ -74,8 +73,8 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val action = CallingAction.CallStartRequested()
-            val middleware1 = TestMiddlewareImplementation() as Middleware<AppReduxState>
-            val middleware2 = TestMiddlewareImplementation() as Middleware<AppReduxState>
+            val middleware1 = TestMiddlewareImplementation() as Middleware<ReduxState>
+            val middleware2 = TestMiddlewareImplementation() as Middleware<ReduxState>
             val middleware1Spy = Mockito.spy(middleware1)
             val middleware2Spy = Mockito.spy(middleware2)
 
@@ -103,12 +102,12 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
             val store = AppStore(
                 mockAppState,
                 mockAppStateReducer,
-                mutableListOf(TestMiddlewareImplementation() as Middleware<AppReduxState>),
+                mutableListOf(TestMiddlewareImplementation() as Middleware<ReduxState>),
                 this.coroutineContext
             )
 
             Mockito.`when`(mockAppStateReducer.reduce(mockAppState, action))
-                .thenReturn(AppReduxState("", false, false))
+                .thenReturn(ReduxState("", false, false))
 
             // act
             store.dispatch(action)
@@ -122,12 +121,12 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val action = CallingAction.CallStartRequested()
-            val testState = AppReduxState("", false, false)
+            val testState = ReduxState("", false, false)
 
             val store = AppStore(
                 mockAppState,
                 mockAppStateReducer,
-                mutableListOf(TestMiddlewareImplementation() as Middleware<AppReduxState>),
+                mutableListOf(TestMiddlewareImplementation() as Middleware<ReduxState>),
                 this.coroutineContext
             )
             Mockito.`when`(mockAppStateReducer.reduce(mockAppState, action)).thenReturn(testState)

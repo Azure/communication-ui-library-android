@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling.redux.reducer
 
 import com.azure.android.communication.ui.calling.redux.action.Action
-import com.azure.android.communication.ui.calling.redux.state.AppReduxState
+import com.azure.android.communication.ui.calling.redux.state.ReduxState
 
 internal class AppStateReducer(
     private val callStateReducer: CallStateReducer,
@@ -17,36 +17,27 @@ internal class AppStateReducer(
     private val audioSessionReducer: AudioSessionReducer,
     private val callDiagnosticsReducer: CallDiagnosticsReducer
 ) :
-    Reducer<AppReduxState> {
-    override fun reduce(state: AppReduxState, action: Action): AppReduxState {
-
-        val appState = AppReduxState(
-            state.localParticipantState.displayName,
-            cameraOnByDefault = state.localParticipantState.initialCallJoinState.startWithCameraOn,
-            microphoneOnByDefault = state.localParticipantState.initialCallJoinState.startWithMicrophoneOn,
+    Reducer<ReduxState> {
+    override fun reduce(state: ReduxState, action: Action): ReduxState {
+        return state.copy(
+            callState = callStateReducer.reduce(
+                state.callState,
+                action
+            ),
+            remoteParticipantState = participantStateReducer.reduce(
+                state.remoteParticipantState,
+                action
+            ),
+            localParticipantState = deviceStateReducer.reduce(
+                state.localParticipantState,
+                action
+            ),
+            permissionState = permissionStateReducer.reduce(state.permissionState, action),
+            lifecycleState = lifecycleReducer.reduce(state.lifecycleState, action),
+            errorState = errorReducer.reduce(state.errorState, action),
+            navigationState = navigationReducer.reduce(state.navigationState, action),
+            audioSessionState = audioSessionReducer.reduce(state.audioSessionState, action),
+            callDiagnosticsState = callDiagnosticsReducer.reduce(state.callDiagnosticsState, action)
         )
-
-        appState.callState = callStateReducer.reduce(
-            state.callState,
-            action
-        )
-
-        appState.remoteParticipantState = participantStateReducer.reduce(
-            state.remoteParticipantState,
-            action
-        )
-
-        appState.localParticipantState = deviceStateReducer.reduce(
-            state.localParticipantState,
-            action
-        )
-
-        appState.permissionState = permissionStateReducer.reduce(state.permissionState, action)
-        appState.lifecycleState = lifecycleReducer.reduce(state.lifecycleState, action)
-        appState.errorState = errorReducer.reduce(state.errorState, action)
-        appState.navigationState = navigationReducer.reduce(state.navigationState, action)
-        appState.audioSessionState = audioSessionReducer.reduce(state.audioSessionState, action)
-        appState.callDiagnosticsState = callDiagnosticsReducer.reduce(state.callDiagnosticsState, action)
-        return appState
     }
 }

@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.presentation.fragment.calling.header
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderViewModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
-import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
@@ -28,7 +27,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
     fun floatingHeaderViewModel_update_then_numberOfParticipantsFlowReflectsUpdate() {
         runScopedTest {
 
-            val appState = AppReduxState("", false, false)
+            val appState = ReduxState("", false, false)
 
             val participantInfoModel1 = mock<ParticipantInfoModel> {}
             val participantInfoModel2 = mock<ParticipantInfoModel> {}
@@ -86,7 +85,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
     fun floatingHeaderViewModel_updateIsLobbyOverlayDisplayed_then_isLobbyOverlayDisplayedFlowReflectsUpdate() {
         runScopedTest {
 
-            val appState = AppReduxState("", false, false)
+            val appState = ReduxState("", false, false)
 
             val participantInfoModel1 = mock<ParticipantInfoModel> {}
             val participantInfoModel2 = mock<ParticipantInfoModel> {}

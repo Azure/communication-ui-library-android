@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.service
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.data.CallHistoryRepository
 import com.azure.android.communication.ui.calling.redux.AppStore
-import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
@@ -36,7 +35,7 @@ internal class CallHistoryServiceTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val appState1 = AppReduxState("", false, false)
+            val appState1 = ReduxState("", false, false)
             appState1.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
 
             val stateFlow = MutableStateFlow<ReduxState>(appState1)
@@ -55,7 +54,7 @@ internal class CallHistoryServiceTest : ACSBaseTestCoroutine() {
             }
 
             // update state
-            val appState2 = AppReduxState("", false, false)
+            val appState2 = ReduxState("", false, false)
             val callID = "callID"
             appState2.callState = CallingState(
                 CallingStatus.CONNECTING,

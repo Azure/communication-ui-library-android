@@ -15,7 +15,6 @@ import com.azure.android.communication.ui.calling.redux.reducer.PermissionStateR
 import com.azure.android.communication.ui.calling.redux.reducer.NavigationReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.AppStateReducer
 import com.azure.android.communication.ui.calling.redux.reducer.CallDiagnosticsReducerImpl
-import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
@@ -45,7 +44,7 @@ import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class AppReduxStateReducerUnitTest {
+internal class ReduxStateReducerUnitTest {
 
     @Mock
     private lateinit var mockCallStateReducerImplementation: CallStateReducerImpl
@@ -91,7 +90,7 @@ internal class AppReduxStateReducerUnitTest {
                 mockCallDiagnosticsReducerImpl
             )
         val action = NavigationAction.CallLaunched()
-        val state = AppReduxState("", false, false)
+        val state = ReduxState("", false, false)
         state.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
         state.remoteParticipantState = RemoteParticipantsState(HashMap(), 0, listOf(), 0)
         state.localParticipantState = LocalUserState(

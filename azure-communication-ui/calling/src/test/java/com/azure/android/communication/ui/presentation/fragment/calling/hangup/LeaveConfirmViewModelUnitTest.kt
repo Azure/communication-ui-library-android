@@ -7,7 +7,6 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
-import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
@@ -30,7 +29,7 @@ internal class LeaveConfirmViewModelUnitTest {
     @Test
     fun leaveConfirmViewModel_confirm_then_dispatchEndCall() {
 
-        val appState = AppReduxState("", false, false)
+        val appState = ReduxState("", false, false)
         appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
 
         val mockAppStore = mock<AppStore<ReduxState>> {
@@ -52,7 +51,7 @@ internal class LeaveConfirmViewModelUnitTest {
     @Test
     fun leaveConfirmViewModel_confirm_then_dispatchNavigationExit() {
 
-        val appState = AppReduxState("", false, false)
+        val appState = ReduxState("", false, false)
         appState.callState = CallingState(CallingStatus.CONNECTING, OperationStatus.SKIP_SETUP_SCREEN)
 
         val mockAppStore = mock<AppStore<ReduxState>> {

@@ -10,7 +10,6 @@ import com.azure.android.communication.ui.calling.handlers.CallStateHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.redux.AppStore
-import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
@@ -36,7 +35,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
     fun callStateEventHandler_start_onCallStateChange_then_eventIsFiredToContoso() {
         runScopedTest {
             // arrange
-            val storeStateFlow = MutableStateFlow<ReduxState>(AppReduxState("", false, false))
+            val storeStateFlow = MutableStateFlow<ReduxState>(ReduxState("", false, false))
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getStateFlow() } doReturn storeStateFlow
             }
@@ -72,7 +71,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
     fun callStateEventHandler_start_onMultipleSameCallStateChange_then_eventIsFiredToContosoOnce() {
         runScopedTest {
             // arrange
-            val appState = AppReduxState("", false, false)
+            val appState = ReduxState("", false, false)
             appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
 
             val storeStateFlow = MutableStateFlow<ReduxState>(appState)
@@ -95,7 +94,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
                 handler.start(this)
             }
             testScheduler.runCurrent()
-            val appStateNew = AppReduxState("", false, false)
+            val appStateNew = ReduxState("", false, false)
             appStateNew.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
             storeStateFlow.value = appStateNew
 
@@ -117,7 +116,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
     fun callStateEventHandler_start_onCallStateChangeWithNoHandler_then_eventIsNotFiredToContoso() {
         runScopedTest {
             // arrange
-            val appState = AppReduxState("", false, false)
+            val appState = ReduxState("", false, false)
             appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
 
             val storeStateFlow = MutableStateFlow<ReduxState>(appState)
@@ -156,7 +155,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
     fun callStateEventHandler_start_onCallStateChange_then_allHandlersAreNotified() {
         runScopedTest {
             // arrange
-            val appState = AppReduxState("", false, false)
+            val appState = ReduxState("", false, false)
             appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
 
             val storeStateFlow = MutableStateFlow<ReduxState>(appState)
@@ -260,7 +259,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
         callCompositeCallStateCode: CallCompositeCallStateCode,
     ) {
         // arrange
-        val appState = AppReduxState("", false, false)
+        val appState = ReduxState("", false, false)
         val storeStateFlow = MutableStateFlow<ReduxState>(appState)
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getStateFlow() } doReturn storeStateFlow
@@ -301,7 +300,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
         callCompositeCallStateCode: CallCompositeCallStateCode,
     ) {
         // arrange
-        val appState = AppReduxState("", false, false)
+        val appState = ReduxState("", false, false)
         val storeStateFlow = MutableStateFlow<ReduxState>(appState)
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getStateFlow() } doReturn storeStateFlow

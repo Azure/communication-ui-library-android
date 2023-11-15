@@ -27,7 +27,6 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutViewModel
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
-import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.LifecycleState
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
@@ -67,7 +66,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val appState = AppReduxState("", false, false)
+            val appState = ReduxState("", false, false)
             appState.localParticipantState = getLocalUserState()
             val stateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -128,7 +127,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockNetworkManager
             )
 
-            val newBackgroundState = AppReduxState("", false, false)
+            val newBackgroundState = ReduxState("", false, false)
             newBackgroundState.lifecycleState = LifecycleState(LifecycleStatus.BACKGROUND)
             newBackgroundState.localParticipantState = getLocalUserState()
 
@@ -160,7 +159,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val appState = AppReduxState("", false, false)
+            val appState = ReduxState("", false, false)
             appState.localParticipantState = getLocalUserState()
             val stateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -219,7 +218,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockNetworkManager
             )
 
-            val newForegroundState = AppReduxState("", false, false)
+            val newForegroundState = ReduxState("", false, false)
             newForegroundState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
             newForegroundState.localParticipantState = getLocalUserState()
 
@@ -251,7 +250,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val appState = AppReduxState("", false, false)
+            val appState = ReduxState("", false, false)
             appState.localParticipantState = getLocalUserState()
             val stateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -310,7 +309,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockNetworkManager
             )
 
-            val storeState = AppReduxState("", false, false)
+            val storeState = ReduxState("", false, false)
             storeState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
             storeState.localParticipantState = getLocalUserState()
             storeState.callState = CallingState(
@@ -351,7 +350,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val appState = AppReduxState("", false, false)
+            val appState = ReduxState("", false, false)
             appState.localParticipantState = getLocalUserState()
             val stateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -409,7 +408,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockNetworkManager
             )
 
-            val newForegroundState = AppReduxState("", false, false)
+            val newForegroundState = ReduxState("", false, false)
             newForegroundState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
             newForegroundState.localParticipantState = getLocalUserState()
 
@@ -551,7 +550,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         expectedParticipantCountOnParticipantList: Int
     ) {
         // arrange
-        val appState = AppReduxState("", false, false)
+        val appState = ReduxState("", false, false)
         appState.localParticipantState = getLocalUserState()
 
         val timestamp: Number = System.currentTimeMillis()
@@ -606,7 +605,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             mockNetworkManager
         )
 
-        val newState = AppReduxState("", false, false)
+        val newState = ReduxState("", false, false)
         newState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
         newState.localParticipantState = getLocalUserState()
         newState.callState = CallingState(

@@ -48,7 +48,6 @@ import com.azure.android.communication.ui.calling.redux.reducer.NavigationReduce
 import com.azure.android.communication.ui.calling.redux.reducer.ParticipantStateReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.PermissionStateReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.Reducer
-import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.service.CallHistoryService
@@ -175,7 +174,7 @@ internal class DependencyInjectionContainerImpl(
     override val appStore by lazy {
         AppStore(
             initialState,
-            appReduxStateReducer,
+            ReduxStateReducer,
             appMiddleware,
             storeDispatcher
         )
@@ -200,7 +199,7 @@ internal class DependencyInjectionContainerImpl(
     //region Redux
     // Initial State
     private val initialState by lazy {
-        AppReduxState(
+        ReduxState.createWithParams(
             configuration.callConfig?.displayName,
             localOptions?.isCameraOn == true,
             localOptions?.isMicrophoneOn == true
@@ -228,7 +227,7 @@ internal class DependencyInjectionContainerImpl(
         )
     }
 
-    private val appReduxStateReducer: Reducer<ReduxState> by lazy {
+    private val ReduxStateReducer: Reducer<ReduxState> by lazy {
         AppStateReducer(
             callStateReducer,
             participantStateReducer,

@@ -18,7 +18,6 @@ import com.azure.android.communication.ui.calling.models.CallCompositeSetPartici
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.redux.AppStore
-import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
 import com.azure.android.communication.ui.calling.service.sdk.CommunicationIdentifier
@@ -162,7 +161,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
     fun avatarViewManager_onSetRemoteParticipantPersonaData_returnSuccess_ifCalledWithValidParticipantID() {
         runScopedTest {
             // arrange
-            val reduxState = AppReduxState("", false, false)
+            val reduxState = ReduxState("", false, false)
             reduxState.remoteParticipantState =
                 RemoteParticipantsState(
                     mapOf(
@@ -223,7 +222,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
     fun avatarViewManager_onSetRemoteParticipantPersonaData_returnFail_ifCalledWithInValidParticipantID() {
         runScopedTest {
             // arrange
-            val reduxState = AppReduxState("", false, false)
+            val reduxState = ReduxState("", false, false)
             reduxState.remoteParticipantState =
                 RemoteParticipantsState(
                     mapOf(
@@ -284,7 +283,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
     fun avatarViewManager_onSetRemoteParticipantPersonaData_then_remoteParticipantSharedFlow_notify_subscribers_onPersonaInjected() {
         runScopedTest {
             // arrange
-            val reduxState = AppReduxState("", false, false)
+            val reduxState = ReduxState("", false, false)
             reduxState.remoteParticipantState =
                 RemoteParticipantsState(
                     mapOf(
@@ -354,7 +353,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
     fun avatarViewManager_onSetRemoteParticipantPersonaData_then_remoteParticipantSharedFlow_notify_subscribers_onPersonaUpdated() {
         runScopedTest {
             // arrange
-            val reduxState = AppReduxState("", false, false)
+            val reduxState = ReduxState("", false, false)
             reduxState.remoteParticipantState =
                 RemoteParticipantsState(
                     mapOf(
@@ -439,7 +438,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
     fun avatarViewManager_onSetRemoteParticipantPersonaData_then_remoteParticipantSharedFlow_notify_subscribers_onPersonaWithBitmapInjected() {
         runScopedTest {
             // arrange
-            val reduxState = AppReduxState("", false, false)
+            val reduxState = ReduxState("", false, false)
             reduxState.remoteParticipantState =
                 RemoteParticipantsState(
                     mapOf(
@@ -515,7 +514,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
     fun avatarViewManager_onRemoveParticipantPersonaData_then_remoteParticipantSharedFlow_notify_subscribers_ifIdentifierIsValid() {
         runScopedTest {
             // arrange
-            val reduxState = AppReduxState("", false, false)
+            val reduxState = ReduxState("", false, false)
             reduxState.remoteParticipantState =
                 RemoteParticipantsState(
                     mapOf(
@@ -611,7 +610,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
     fun avatarViewManager_onRemoveParticipantPersonaData_then_remoteParticipantSharedFlow_doesNot_subscribers_ifIdentifierIsNotValid() {
         runScopedTest {
             // arrange
-            val reduxState = AppReduxState("", false, false)
+            val reduxState = ReduxState("", false, false)
             reduxState.remoteParticipantState =
                 RemoteParticipantsState(
                     mapOf(
