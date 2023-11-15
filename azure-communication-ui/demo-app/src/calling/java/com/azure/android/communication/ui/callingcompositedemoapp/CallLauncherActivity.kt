@@ -13,11 +13,12 @@ import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.LinearLayout
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.FeatureFlags
@@ -76,6 +77,7 @@ class CallLauncherActivity : AppCompatActivity() {
         val deeplinkGroupId = data?.getQueryParameter("groupid")
         val deeplinkTeamsUrl = data?.getQueryParameter("teamsurl")
         val participantMRI = data?.getQueryParameter("participanturis") ?: BuildConfig.PARTICIPANT_MRIS
+        val deepLinkRoomsId = data?.getQueryParameter("roomsid")
 
         binding.run {
             if (!deeplinkAcsToken.isNullOrEmpty()) {
@@ -95,6 +97,7 @@ class CallLauncherActivity : AppCompatActivity() {
                 groupCallRadioButton.isChecked = true
                 teamsMeetingRadioButton.isChecked = false
                 oneToOneRadioButton.isChecked = false
+                roomsMeetingRadioButton.isChecked = false
             } else if (!deeplinkTeamsUrl.isNullOrEmpty()) {
                 groupIdOrTeamsMeetingLinkText.setText(deeplinkTeamsUrl)
                 groupCallRadioButton.isChecked = false
@@ -105,12 +108,22 @@ class CallLauncherActivity : AppCompatActivity() {
                 groupCallRadioButton.isChecked = false
                 teamsMeetingRadioButton.isChecked = false
                 oneToOneRadioButton.isChecked = true
+                roomsMeetingRadioButton.isChecked = false
+            } else if (!deepLinkRoomsId.isNullOrEmpty()) {
+                groupIdOrTeamsMeetingLinkText.setText(deepLinkRoomsId)
+                groupCallRadioButton.isChecked = false
+                teamsMeetingRadioButton.isChecked = false
+                roomsMeetingRadioButton.isChecked = true
             } else {
                 groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
             }
 
             launchButton.setOnClickListener {
                 launch()
+            }
+
+            showUIButton.setOnClickListener {
+                showUI()
             }
 
             closeCompositeButton.setOnClickListener { callLauncherViewModel.close() }
@@ -120,6 +133,9 @@ class CallLauncherActivity : AppCompatActivity() {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
                     teamsMeetingRadioButton.isChecked = false
                     oneToOneRadioButton.isChecked = false
+                    roomsMeetingRadioButton.isChecked = false
+                    attendeeRoleRadioButton.visibility = View.GONE
+                    presenterRoleRadioButton.visibility = View.GONE
                 }
             }
             teamsMeetingRadioButton.setOnClickListener {
@@ -127,6 +143,34 @@ class CallLauncherActivity : AppCompatActivity() {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.TEAMS_MEETING_LINK)
                     groupCallRadioButton.isChecked = false
                     oneToOneRadioButton.isChecked = false
+                    roomsMeetingRadioButton.isChecked = false
+                    attendeeRoleRadioButton.visibility = View.GONE
+                    presenterRoleRadioButton.visibility = View.GONE
+                }
+            }
+            roomsMeetingRadioButton.setOnClickListener {
+                if (roomsMeetingRadioButton.isChecked) {
+                    groupIdOrTeamsMeetingLinkText.setText(BuildConfig.ROOMS_ID)
+                    presenterRoleRadioButton.visibility = View.VISIBLE
+                    attendeeRoleRadioButton.visibility = View.VISIBLE
+                    attendeeRoleRadioButton.isChecked = true
+                    groupCallRadioButton.isChecked = false
+                    teamsMeetingRadioButton.isChecked = false
+                } else {
+                    presenterRoleRadioButton.visibility = View.GONE
+                    attendeeRoleRadioButton.visibility = View.GONE
+                }
+            }
+
+            presenterRoleRadioButton.setOnClickListener {
+                if (presenterRoleRadioButton.isChecked) {
+                    attendeeRoleRadioButton.isChecked = false
+                }
+            }
+
+            attendeeRoleRadioButton.setOnClickListener {
+                if (attendeeRoleRadioButton.isChecked) {
+                    presenterRoleRadioButton.isChecked = false
                 }
             }
             oneToOneRadioButton.setOnClickListener {
@@ -229,6 +273,7 @@ class CallLauncherActivity : AppCompatActivity() {
         super.onDestroy()
         EndCompositeButtonView.get(this).hide()
         EndCompositeButtonView.buttonView = null
+        callLauncherViewModel.unsubscribe()
     }
 
     // check whether new Activity instance was brought to top of stack,
@@ -250,6 +295,11 @@ class CallLauncherActivity : AppCompatActivity() {
     private fun launch() {
         val userName = binding.userNameText.text.toString()
         val acsToken = binding.acsTokenText.text.toString()
+
+        val roomId = binding.groupIdOrTeamsMeetingLinkText.text.toString()
+        val roomRole = if (binding.attendeeRoleRadioButton.isChecked) CallCompositeParticipantRole.ATTENDEE
+        else if (binding.presenterRoleRadioButton.isChecked) CallCompositeParticipantRole.PRESENTER
+        else null
 
         var groupId: UUID? = null
         if (binding.groupCallRadioButton.isChecked) {
@@ -287,9 +337,15 @@ class CallLauncherActivity : AppCompatActivity() {
             acsToken,
             userName,
             groupId,
+            roomId,
+            roomRole,
             meetingLink,
             participantMri
         )
+    }
+
+    private fun showUI() {
+        callLauncherViewModel.displayCallCompositeIfWasHidden(this)
     }
 
     private fun showCallHistory() {

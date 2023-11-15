@@ -5,7 +5,7 @@ buildscript {
     }
 
     ext {
-        call_library_version_name = '1.4.0'
+        call_library_version_name = '1.6.0-alpha.0'
         chat_library_version_name = '1.0.0-beta.2'
 
         ui_library_version_code = getVersionCode()
@@ -35,7 +35,7 @@ buildscript {
             azure_calling_sdk_version = privateDropProps.getProperty('PRIVATE_DROP_VERSION', '""')
         }
         else {
-            azure_calling_sdk_version = '2.5.0'
+            azure_calling_sdk_version = '2.7.0-preview.1.5'
         }
 
         // while modifying this version, make sure to modify in ChatContainer
@@ -68,7 +68,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.2'
+        classpath 'com.android.tools.build:gradle:7.4.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jacoco:org.jacoco.core:$jacoco_version"
         classpath 'com.google.gms:google-services:4.3.15'
@@ -100,13 +100,14 @@ allprojects {
         maven {
             url "https://pkgs.dev.azure.com/MicrosoftDeviceSDK/DuoSDK-Public/_packaging/Duo-SDK-Feed/maven/v1"
         }
-        if (localProps.containsKey('GITHUB_MAVEN_REPO_URL')) {
+        // to publish to github/azure maven repo
+        if (localProps.containsKey('MAVEN_REPO_URL')) {
             maven {
-                name = 'privateGitHubRepo'
-                url = localProps.getProperty('GITHUB_MAVEN_REPO_URL', '""')
+                name = localProps.getProperty('MAVEN_REPO_NAME', '""')
+                url = localProps.getProperty('MAVEN_REPO_URL', '""')
                 credentials {
-                    username localProps.getProperty('GITHUB_MAVEN_REPO_USERNAME', '""')
-                    password localProps.getProperty('GITHUB_MAVEN_REPO_PASSWORD', '""')
+                    username localProps.getProperty('MAVEN_REPO_USERNAME', '""')
+                    password localProps.getProperty('MAVEN_REPO_KEY', '""')
                 }
             }
         }

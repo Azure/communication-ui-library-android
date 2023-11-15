@@ -31,7 +31,7 @@ internal class ParticipantInfoModelStateReducerUnitTest {
                 participantStatus = ParticipantStatus.HOLD,
             )
         val reducer = ParticipantStateReducerImpl()
-        val oldState = RemoteParticipantsState(HashMap(), 0, listOf(), 0)
+        val oldState = RemoteParticipantsState(HashMap(), 0, listOf(), 0, null)
 
         val action = ParticipantAction.ListUpdated(participantMap)
 
@@ -57,7 +57,7 @@ internal class ParticipantInfoModelStateReducerUnitTest {
                 participantStatus = ParticipantStatus.HOLD,
             )
         val reducer = ParticipantStateReducerImpl()
-        val oldState = RemoteParticipantsState(HashMap(), 0, listOf(), 0)
+        val oldState = RemoteParticipantsState(HashMap(), 0, listOf(), 0, null)
         val action = NavigationAction.CallLaunched()
 
         // act
@@ -83,7 +83,7 @@ internal class ParticipantInfoModelStateReducerUnitTest {
             )
         val dominantSpeakers = listOf<String>()
         val reducer = ParticipantStateReducerImpl()
-        val oldState = RemoteParticipantsState(HashMap(), 0, dominantSpeakers, 0)
+        val oldState = RemoteParticipantsState(HashMap(), 0, dominantSpeakers, 0, null)
 
         val updatedDominantSpeakers = listOf("id")
         val action = ParticipantAction.DominantSpeakersUpdated(updatedDominantSpeakers)

@@ -12,12 +12,14 @@ if (project.rootProject.file('local.properties').canRead()) {
 
 publishing {
     repositories {
-        maven {
-            name = 'privateGitHubRepo'
-            url = localProps.getProperty('GITHUB_MAVEN_REPO_URL', '""')
-            credentials {
-                username localProps.getProperty('GITHUB_MAVEN_REPO_USERNAME', '""')
-                password localProps.getProperty('GITHUB_MAVEN_REPO_PASSWORD', '""')
+        if (localProps.containsKey('MAVEN_REPO_URL')) {
+            maven {
+                name = localProps.getProperty('MAVEN_REPO_NAME', '""')
+                url = localProps.getProperty('MAVEN_REPO_URL', '""')
+                credentials {
+                    username localProps.getProperty('MAVEN_REPO_USERNAME', '""')
+                    password localProps.getProperty('MAVEN_REPO_KEY', '""')
+                }
             }
         }
         maven {
@@ -86,17 +88,17 @@ publishing {
 
             groupId 'com.azure.android'
             artifactId 'azure-communication-calling'
-            version '2.2.0-pre-validation'
+            version "$azure_calling_sdk_version"
 
-            artifact("/Users/pavelprystinka/Documents/GitHub/package-host/SDK/calling/azure-communication-calling-2.2.0-pre-validation.aar")
+            // Add the aar file as an artifact
+            artifact("/Users/inderpalsinghaulakh/Downloads/aar/azure-communication-calling-2.7.0-beta.1.5.aar")
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-
                 def dependencyNode = dependenciesNode.appendNode('dependency')
                 dependencyNode.appendNode('groupId', 'com.azure.android')
                 dependencyNode.appendNode('artifactId', 'azure-communication-common')
-                dependencyNode.appendNode('version', '1.0.0')
+                dependencyNode.appendNode('version', '1.1.0')
 
                 dependencyNode = dependenciesNode.appendNode('dependency')
                 dependencyNode.appendNode('groupId', 'net.sourceforge.streamsupport')
@@ -106,9 +108,10 @@ publishing {
                 dependencyNode = dependenciesNode.appendNode('dependency')
                 dependencyNode.appendNode('groupId', 'com.google.code.gson')
                 dependencyNode.appendNode('artifactId', 'gson')
-                dependencyNode.appendNode('version', '2.8.6')
+                dependencyNode.appendNode('version', '2.10')
 
             }
         }
     }
 }
+

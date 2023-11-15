@@ -7,6 +7,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeLocalizati
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation;
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomOptions;
+import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions;
 
 /**
  * Builder for creating {@link CallComposite}.
@@ -21,6 +22,8 @@ public final class CallCompositeBuilder {
     private CallCompositeSupportedScreenOrientation callScreenOrientation = null;
     private CallCompositeSupportedScreenOrientation setupScreenOrientation = null;
     private CallCompositeTelecomOptions telecomOptions = null;
+    private Boolean enableMultitasking = false;
+    private Boolean enableSystemPiPWhenMultitasking = false;
 
     /**
      * Sets an optional theme for call-composite to use by {@link CallComposite}.
@@ -71,6 +74,16 @@ public final class CallCompositeBuilder {
     public CallCompositeBuilder telecom(
             final CallCompositeTelecomOptions telecomOptions) {
         this.telecomOptions = telecomOptions;
+    /***
+     * While on the call, user can go back to previous activity from the call composite.
+     *
+     * @param options Multitasking options.
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    public CallCompositeBuilder multitasking(
+            final CallCompositeMultitaskingOptions options) {
+        this.enableMultitasking = options.isEnableMultitasking();
+        this.enableSystemPiPWhenMultitasking = options.isEnableSystemPictureInPictureWhenMultitasking();
         return this;
     }
 
@@ -86,6 +99,8 @@ public final class CallCompositeBuilder {
         config.setCallScreenOrientation(this.callScreenOrientation);
         config.setSetupScreenOrientation(this.setupScreenOrientation);
         config.setTelecomOptions(this.telecomOptions);
+        config.setEnableMultitasking(enableMultitasking);
+        config.setEnableSystemPiPWhenMultitasking(enableSystemPiPWhenMultitasking);
         return new CallComposite(config);
     }
 }

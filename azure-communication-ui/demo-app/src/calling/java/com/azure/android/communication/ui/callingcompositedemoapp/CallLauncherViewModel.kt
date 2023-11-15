@@ -17,7 +17,11 @@ import com.azure.android.communication.ui.calling.models.CallCompositeDismissedE
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeStartCallOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
@@ -43,15 +47,25 @@ class CallLauncherViewModel : ViewModel() {
         callCompositeManager.destroy()
     }
 
+    companion object {
+        var callComposite: CallComposite? = null
+    }
+
     fun launch(
         context: Context,
         acsToken: String,
         displayName: String,
         groupId: UUID?,
+        roomId: String?,
+        roomRoleHint: CallCompositeParticipantRole?,
         meetingLink: String?,
         participantMri: String?
     ) {
         createCallComposite(context)
+
+        callComposite.addOnPictureInPictureChangedEventHandler {
+            println("addOnMultitaskingStateChangedEventHandler it.isInPictureInPicture: " + it.isInPictureInPicture)
+        }
 
         if (!SettingsFeatures.getEndCallOnByDefaultOption()) {
             EndCompositeButtonView.get(context).hide()
@@ -75,6 +89,10 @@ class CallLauncherViewModel : ViewModel() {
             val startCallOption = CallCompositeStartCallOptions(participantMris)
             CallCompositeRemoteOptions(startCallOption, communicationTokenCredential, displayName)
         } else {
+            else if (roomId != null && roomRoleHint != null) CallCompositeRoomLocator(roomId)
+            else throw IllegalArgumentException("Cannot launch call composite with provided arguments.")
+
+        val remoteOptions =
             CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
         }
 
@@ -86,6 +104,8 @@ class CallLauncherViewModel : ViewModel() {
                     .setSubtitle(SettingsFeatures.getSubtitle())
             )
             .setSkipSetupScreen(skipSetup)
+            .setRoleHint(roomRoleHint)
+            .setSkipSetupScreen(SettingsFeatures.getSkipSetupScreenFeatureOption())
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
@@ -131,16 +151,26 @@ class CallLauncherViewModel : ViewModel() {
     }
 
     fun getCallHistory(context: Context): List<CallCompositeCallHistoryRecord> {
-        return (
-            callComposite
-                ?: createCallComposite(context)
-            ).getDebugInfo(context).callHistoryRecords
+        return (callComposite ?: createCallComposite(context)).getDebugInfo(context).callHistoryRecords
     }
 
-    fun createCallComposite(context: Context): CallComposite {
+    private fun createCallComposite(context: Context): CallComposite {
         if (callComposite != null) {
             return callComposite!!
         }
+        SettingsFeatures.initialize(context.applicationContext)
+
+        val selectedLanguage = SettingsFeatures.language()
+        val locale = selectedLanguage?.let { SettingsFeatures.locale(it) }
+        val selectedCallScreenOrientation = SettingsFeatures.callScreenOrientation()
+        val callScreenOrientation = selectedCallScreenOrientation?.let { SettingsFeatures.orientation(it) }
+        val selectedSetupScreenOrientation = SettingsFeatures.setupScreenOrientation()
+        val setupScreenOrientation = selectedSetupScreenOrientation?.let { SettingsFeatures.orientation(it) }
+
+        val callCompositeBuilder = CallCompositeBuilder()
+            .localization(CallCompositeLocalizationOptions(locale!!, SettingsFeatures.getLayoutDirection()))
+            .setupScreenOrientation(setupScreenOrientation)
+            .callScreenOrientation(callScreenOrientation)
 
         var callComposite = callCompositeManager.getCallComposite()
         if (callComposite == null) {
@@ -151,7 +181,16 @@ class CallLauncherViewModel : ViewModel() {
 
         subscribeToEvents(context)
 
-        return callComposite
+        callCompositeBuilder.multitasking(CallCompositeMultitaskingOptions(true, true))
+
+        val newCallComposite = callCompositeBuilder.build()
+
+        callComposite = newCallComposite
+        return newCallComposite
+    }
+
+    fun displayCallCompositeIfWasHidden(context: Context) {
+        callComposite?.displayCallCompositeIfWasHidden(context)
     }
 
     fun acceptIncomingCall(applicationContext: Context) {

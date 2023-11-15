@@ -11,6 +11,8 @@ import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.PropertyChangedListener
+import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
+import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
@@ -82,6 +84,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     private var dominantSpeakersSharedFlow = MutableSharedFlow<DominantSpeakersInfo>()
     private var isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
     private var getCameraCountStateFlow = MutableStateFlow(2)
+    private val participantRoleSharedFlow = MutableSharedFlow<CallCompositeInternalParticipantRole?>()
     private var networkQualityCallDiagnosticSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
     private var networkCallDiagnosticSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
     private var mediaCallDiagnosticSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
@@ -92,6 +95,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
 
     private var localCameraFacing = CameraFacing.FRONT
     private val localVideoStream = LocalVideoStreamTest(callEvents, localCameraFacing, coroutineScope)
+    private var lobbyResultCompletableFuture: CompletableFuture<CallCompositeLobbyErrorCode?> = CompletableFuture()
 
     suspend fun addRemoteParticipant(
         id: CommunicationIdentifier,
@@ -120,6 +124,34 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         }
 
         emitRemoteParticipantFlow()
+    }
+
+    suspend fun changeParticipantState(id: String, state: ParticipantState) {
+        synchronized(this) {
+            if (!remoteParticipantsMap.containsKey(id)) {
+                return
+            }
+            val rpi = remoteParticipantsMap[id]!!
+            remoteParticipantsMap[id] = RemoteParticipantImpl(
+                identifier = rpi.identifier,
+                displayName = rpi.displayName,
+                isMuted = rpi.isMuted,
+                isSpeaking = rpi.isSpeaking,
+                videoStreams = rpi.videoStreams,
+                state = state
+            )
+        }
+        emitRemoteParticipantFlow()
+    }
+
+    fun setLobbyResultCompletableFuture(lobbyResultCompletableFuture: CompletableFuture<CallCompositeLobbyErrorCode?>) {
+        this.lobbyResultCompletableFuture = lobbyResultCompletableFuture
+    }
+
+    fun setParticipantRoleSharedFlow(participantRole: CallCompositeInternalParticipantRole?) {
+        coroutineScope.launch {
+            participantRoleSharedFlow.emit(participantRole)
+        }
     }
 
     suspend fun removeParticipant(id: String) {
@@ -346,6 +378,20 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     override fun getCamerasCountStateFlow(): StateFlow<Int> = getCameraCountStateFlow
     override fun registerPushNotification(deviceRegistrationToken: String): CompletableFuture<Void> {
         TODO("Not yet implemented")
+    override fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?> {
+        return lobbyResultCompletableFuture
+    }
+
+    override fun admit(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
+        return lobbyResultCompletableFuture
+    }
+
+    override fun decline(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
+        return lobbyResultCompletableFuture
+    }
+
+    override fun getLocalParticipantRoleSharedFlow(): SharedFlow<CallCompositeInternalParticipantRole?> {
+        return participantRoleSharedFlow
     }
 
     override fun getNetworkQualityCallDiagnosticSharedFlow(): SharedFlow<NetworkQualityCallDiagnosticModel> {

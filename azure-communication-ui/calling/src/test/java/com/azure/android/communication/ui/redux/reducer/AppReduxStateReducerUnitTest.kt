@@ -4,39 +4,45 @@
 package com.azure.android.communication.ui.redux.reducer
 
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
-import com.azure.android.communication.ui.calling.redux.reducer.CallStateReducerImpl
-import com.azure.android.communication.ui.calling.redux.reducer.LocalParticipantStateReducer
-import com.azure.android.communication.ui.calling.redux.reducer.ParticipantStateReducerImpl
+import com.azure.android.communication.ui.calling.redux.reducer.AppStateReducer
 import com.azure.android.communication.ui.calling.redux.reducer.AudioSessionStateReducerImpl
-
-import com.azure.android.communication.ui.calling.redux.reducer.LifecycleReducerImpl
+import com.azure.android.communication.ui.calling.redux.reducer.CallDiagnosticsReducerImpl
+import com.azure.android.communication.ui.calling.redux.reducer.CallStateReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.ErrorReducer
+import com.azure.android.communication.ui.calling.redux.reducer.LifecycleReducerImpl
+import com.azure.android.communication.ui.calling.redux.reducer.LocalParticipantStateReducer
+import com.azure.android.communication.ui.calling.redux.reducer.NavigationReducerImpl
+import com.azure.android.communication.ui.calling.redux.reducer.ParticipantStateReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.PermissionStateReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.NavigationReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.AppStateReducer
 import com.azure.android.communication.ui.calling.redux.reducer.CallDiagnosticsReducerImpl
+import com.azure.android.communication.ui.calling.redux.reducer.PipReducerImpl
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
+import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
+import com.azure.android.communication.ui.calling.redux.state.AudioFocusStatus
+import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
+import com.azure.android.communication.ui.calling.redux.state.AudioSessionState
+import com.azure.android.communication.ui.calling.redux.state.AudioState
+import com.azure.android.communication.ui.calling.redux.state.BluetoothState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
-import com.azure.android.communication.ui.calling.redux.state.PermissionState
-import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
-import com.azure.android.communication.ui.calling.redux.state.OperationStatus
-import com.azure.android.communication.ui.calling.redux.state.CameraState
-import com.azure.android.communication.ui.calling.redux.state.AudioState
-import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
+import com.azure.android.communication.ui.calling.redux.state.CallDiagnosticsState
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
-import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
-import com.azure.android.communication.ui.calling.redux.state.LocalUserState
-import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
-import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
-import com.azure.android.communication.ui.calling.redux.state.BluetoothState
 import com.azure.android.communication.ui.calling.redux.state.LifecycleState
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioSessionState
 import com.azure.android.communication.ui.calling.redux.state.AudioFocusStatus
 import com.azure.android.communication.ui.calling.redux.state.CallDiagnosticsState
 
+import com.azure.android.communication.ui.calling.redux.state.LocalUserState
+import com.azure.android.communication.ui.calling.redux.state.OperationStatus
+import com.azure.android.communication.ui.calling.redux.state.PermissionState
+import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
+import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -72,6 +78,9 @@ internal class AppReduxStateReducerUnitTest {
     private lateinit var mockAudioSessionReducerImpl: AudioSessionStateReducerImpl
 
     @Mock
+    private lateinit var pipReducer: PipReducerImpl
+
+    @Mock
     private lateinit var mockCallDiagnosticsReducerImpl: CallDiagnosticsReducerImpl
 
     @Test
@@ -88,12 +97,13 @@ internal class AppReduxStateReducerUnitTest {
                 mockErrorReducer,
                 mockNavigationReducerImpl,
                 mockAudioSessionReducerImpl,
+                pipReducer,
                 mockCallDiagnosticsReducerImpl
             )
         val action = NavigationAction.CallLaunched()
         val state = AppReduxState("", false, false)
         state.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
-        state.remoteParticipantState = RemoteParticipantsState(HashMap(), 0, listOf(), 0)
+        state.remoteParticipantState = RemoteParticipantsState(HashMap(), 0, listOf(), 0, null)
         state.localParticipantState = LocalUserState(
             CameraState(
                 CameraOperationalStatus.OFF,
@@ -106,7 +116,8 @@ internal class AppReduxStateReducerUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             "",
-            ""
+            "",
+            localParticipantRole = null
         )
         state.permissionState =
             PermissionState(PermissionStatus.NOT_ASKED, PermissionStatus.NOT_ASKED)
@@ -165,6 +176,13 @@ internal class AppReduxStateReducerUnitTest {
                 action
             )
         ).thenReturn(state.audioSessionState)
+
+        Mockito.`when`(
+            pipReducer.reduce(
+                state.pipState,
+                action
+            )
+        ).thenReturn(state.pipState)
 
         Mockito.`when`(
             mockCallDiagnosticsReducerImpl.reduce(

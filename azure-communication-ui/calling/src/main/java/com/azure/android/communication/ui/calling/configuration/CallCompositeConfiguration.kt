@@ -19,4 +19,6 @@ internal class CallCompositeConfiguration {
     var callScreenOrientation: CallCompositeSupportedScreenOrientation? = null
     var setupScreenOrientation: CallCompositeSupportedScreenOrientation? = null
     var telecomOptions: CallCompositeTelecomOptions? = null
+    var enableMultitasking: Boolean = false
+    var enableSystemPiPWhenMultitasking: Boolean = false
 }

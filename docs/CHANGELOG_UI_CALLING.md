@@ -1,12 +1,20 @@
 # Azure Communication UI Calling Release History
 
-## Upcoming
+## 1.6.0-beta.1 (**)
 
 ### Features
+- TFL Lobby Admit
 - Display Call Diagnostics.
+- 1 to N ACS Calling support
 
 ### Bug Fixes
 - Hide lobby users in GridView and Participant List
+
+## 1.5.0-beta.1 (2023-08-31)
+
+### Features
+- Introducing Picture in Picture which allows video call to continue when navigating away from calling screen.
+
 
 ## 1.4.0 (2023-08-30)
 
@@ -23,6 +31,7 @@
 - API Level 29, call resume from hold bug is fixed
 - Audio Speaker issue fix for Samsung devices
 
+
 ## 1.4.0-beta.1 (2023-04-26)
 
 ### Features
@@ -36,6 +45,13 @@
 - Introducing camera and microphone configuration capability for initial call join configuration with `cameraOn` and `microphoneOn` on `CallCompositeLocalOptions`
 - Ongoing call in background notification permission update for API 33
 
+## 1.3.0-beta.1 (2023-04-05)
+
+### Features
+- Skip setup screen `CallCompositeLocalOptions().setSkipSetupScreen`
+- API to set camera and mic on/off before call join `CallCompositeLocalOptions().setCameraOn` `CallCompositeLocalOptions().setMicrophoneOn`
+- Capability to support Rooms join `CallCompositeRoomLocator`
+  
 ## 1.2.0 (2023-03-09)
 
 ### Features

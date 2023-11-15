@@ -8,24 +8,33 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
 import android.util.LayoutDirection
 import android.view.View
 import android.view.accessibility.AccessibilityManager
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.presentation.DependencyInjectionContainerHolder
+import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.OnHoldOverlayView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.ConnectingLobbyOverlayView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyErrorHeaderView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyHeaderView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.WaitingLobbyOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser.LocalParticipantView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListView
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
@@ -34,10 +43,9 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
-import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 
 internal class CallingFragment :
-    Fragment(R.layout.azure_communication_ui_calling_call_fragment), BackNavigation, SensorEventListener {
+    Fragment(R.layout.azure_communication_ui_calling_call_fragment), SensorEventListener {
     companion object {
         private const val LEAVE_CONFIRM_VIEW_KEY = "LeaveConfirmView"
         private const val AUDIO_DEVICE_LIST_VIEW_KEY = "AudioDeviceListView"
@@ -71,6 +79,8 @@ internal class CallingFragment :
     private lateinit var accessibilityManager: AccessibilityManager
     private lateinit var wakeLock: PowerManager.WakeLock
     private lateinit var moreCallOptionsListView: MoreCallOptionsListView
+    private lateinit var lobbyHeaderView: LobbyHeaderView
+    private lateinit var lobbyErrorHeaderView: LobbyErrorHeaderView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -121,6 +131,32 @@ internal class CallingFragment :
             viewLifecycleOwner,
             viewModel.floatingHeaderViewModel,
             this::displayParticipantList,
+            accessibilityManager.isEnabled
+        )
+        lobbyHeaderView = view.findViewById(R.id.azure_communication_ui_calling_lobby_header)
+        lobbyHeaderView.start(
+            viewLifecycleOwner,
+            viewModel.lobbyHeaderViewModel,
+            this::displayParticipantList
+        )
+
+        lobbyErrorHeaderView = view.findViewById(R.id.azure_communication_ui_calling_lobby_error_header)
+        lobbyErrorHeaderView.start(
+            viewLifecycleOwner,
+            viewModel.lobbyErrorHeaderViewModel
+        )
+
+        upperMessageBarNotificationLayoutView = view.findViewById(R.id.azure_communication_ui_calling_upper_message_bar_notifications_layout)
+        upperMessageBarNotificationLayoutView.start(
+            viewLifecycleOwner,
+            viewModel.upperMessageBarNotificationLayoutViewModel,
+            accessibilityManager.isEnabled
+        )
+
+        toastNotificationView = view.findViewById(R.id.azure_communication_ui_calling_toast_notification)
+        toastNotificationView.start(
+            viewLifecycleOwner,
+            viewModel.toastNotificationViewModel,
             accessibilityManager.isEnabled
         )
 
@@ -174,6 +210,27 @@ internal class CallingFragment :
         moreCallOptionsListView.start(viewLifecycleOwner)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireActivity().onBackInvokedDispatcher.registerOnBackInvokedCallback(1000, ::onBackPressed)
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback {
+            onBackPressed()
+        }
+    }
+
+    private fun onBackPressed() {
+
+        if (viewModel.multitaskingEnabled) {
+            (activity as? MultitaskingCallCompositeActivity)?.hide()
+        } else {
+            viewModel.requestCallEnd()
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         sensorManager =
@@ -202,6 +259,9 @@ internal class CallingFragment :
     }
 
     override fun onDestroy() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireActivity().onBackInvokedDispatcher.unregisterOnBackInvokedCallback(::onBackPressed)
+        }
         super.onDestroy()
         if (activity?.isChangingConfigurations == false) {
             if (this::participantGridView.isInitialized) participantGridView.stop()
@@ -240,10 +300,6 @@ internal class CallingFragment :
         }
     }
 
-    override fun onBackPressed() {
-        requestCallEnd()
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         mapOf(
             LEAVE_CONFIRM_VIEW_KEY to viewModel.confirmLeaveOverlayViewModel.getShouldDisplayLeaveConfirmFlow(),
@@ -263,10 +319,6 @@ internal class CallingFragment :
                 PARTICIPANT_LIST_VIEW_KEY to viewModel.participantListViewModel::displayParticipantList
             ).forEach { (key, showDialog) -> if (it.getBoolean(key)) showDialog() }
         }
-    }
-
-    private fun requestCallEnd() {
-        viewModel.requestCallEnd()
     }
 
     private fun displayParticipantList() {

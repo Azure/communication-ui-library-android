@@ -5,11 +5,17 @@ package com.azure.android.communication.ui.calling.presentation.fragment.factori
 
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.OnHoldOverlayViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.ConnectingLobbyOverlayViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyErrorHeaderViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyHeaderViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.WaitingLobbyOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser.LocalParticipantViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
@@ -17,6 +23,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.ConnectingLobbyOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutViewModel
+
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
@@ -25,7 +32,8 @@ internal class CallingViewModelFactory(
     private val store: Store<ReduxState>,
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
     private val maxRemoteParticipants: Int,
-    private val debugInfoManager: DebugInfoManager
+    private val debugInfoManager: DebugInfoManager,
+    private val enableMultitasking: Boolean,
 ) : BaseViewModelFactory(store) {
 
     val moreCallOptionsListViewModel by lazy {
@@ -41,7 +49,19 @@ internal class CallingViewModelFactory(
     }
 
     val floatingHeaderViewModel by lazy {
-        InfoHeaderViewModel()
+        InfoHeaderViewModel(enableMultitasking)
+    }
+
+    val lobbyHeaderViewModel by lazy {
+        LobbyHeaderViewModel()
+    }
+
+    val upperMessageBarNotificationLayoutViewModel by lazy {
+        UpperMessageBarNotificationLayoutViewModel(store::dispatch)
+    }
+
+    val toastNotificationViewModel by lazy {
+        ToastNotificationViewModel(store::dispatch)
     }
 
     val upperMessageBarNotificationLayoutViewModel by lazy {
@@ -67,7 +87,7 @@ internal class CallingViewModelFactory(
     }
 
     val participantListViewModel by lazy {
-        ParticipantListViewModel()
+        ParticipantListViewModel(store::dispatch)
     }
 
     val bannerViewModel by lazy {
@@ -85,4 +105,6 @@ internal class CallingViewModelFactory(
     val onHoldOverlayViewModel by lazy {
         OnHoldOverlayViewModel { store.dispatch(it) }
     }
+
+    val lobbyErrorHeaderViewModel by lazy { LobbyErrorHeaderViewModel(store::dispatch) }
 }

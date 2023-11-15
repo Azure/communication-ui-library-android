@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.calling
 
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
-import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer
 import java.lang.IllegalStateException
 
 internal class CallCompositeInstanceManager {
@@ -59,8 +58,4 @@ internal class CallCompositeInstanceManager {
 
 internal fun CallComposite.getConfig(): CallCompositeConfiguration {
     return this.configuration
-}
-
-internal fun CallComposite.setDependencyInjectionContainer(diContainer: DependencyInjectionContainer) {
-    return this.setDependencyInjectionContainer(diContainer)
 }

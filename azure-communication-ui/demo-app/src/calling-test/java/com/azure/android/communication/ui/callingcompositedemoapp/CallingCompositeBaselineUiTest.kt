@@ -21,13 +21,13 @@ class CallingCompositeBaselineUiTest : BaseUiTest() {
     val screenLockRule = RunWhenScreenOffOrLockedRule()
 
     @Test
-    fun testJoinTeamsCallWithVideoEnabled() {
-        joinTeamsCall()
+    fun testJoinTeamsCallWithVideoDisabled() {
+        joinTeamsCall(false)
     }
 
     @Test
-    fun testJoinTeamsCallWithVideoDisabled() {
-        joinTeamsCall(false)
+    fun testJoinTeamsCallWithVideoEnabled() {
+        joinTeamsCall()
     }
 
     @Test
@@ -91,6 +91,7 @@ class CallingCompositeBaselineUiTest : BaseUiTest() {
     fun testJoinAndLeaveMultipleTimes() {
         for (i in 0..5) {
             joinGroupCall()
+            Thread.sleep(1000)
         }
     }
 }

@@ -7,7 +7,7 @@ internal class DiagnosticConfig {
     val tags: Array<String> by lazy { arrayOf(getApplicationId()) }
 
     private fun getApplicationId(): String {
-        val callingCompositeVersionName = "1.4.0"
+        val callingCompositeVersionName = "1.6.0-alpha.0"
         val baseTag = "ac"
         // Tag template is: acXYYY/<version>
         // Where:
