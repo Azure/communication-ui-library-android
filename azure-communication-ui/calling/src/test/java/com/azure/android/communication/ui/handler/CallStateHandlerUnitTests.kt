@@ -10,6 +10,7 @@ import com.azure.android.communication.ui.calling.handlers.CallStateHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.redux.AppStore
+import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
@@ -282,10 +283,8 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             mockAppStore
         )
 
-        // act
-        // NOTE: We were mutating callState here, but it's not entirely clear why in the test
+        storeStateFlow.value = appState.copy(callState = CallingState(callingStatus, OperationStatus.NONE))
 
-        appState = appState.copy(callState = CallingState(callingStatus, OperationStatus.NONE))
         var job = launch {
             handler.start(this)
         }
