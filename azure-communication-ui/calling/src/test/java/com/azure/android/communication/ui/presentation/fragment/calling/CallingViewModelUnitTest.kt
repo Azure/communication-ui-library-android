@@ -573,7 +573,6 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             localParticipantState = getLocalUserState()
         )
 
-
         val timestamp: Number = System.currentTimeMillis()
 
         val stateFlow = MutableStateFlow<ReduxState>(appState)

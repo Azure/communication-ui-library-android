@@ -447,32 +447,32 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             // arrange
             val reduxState = ReduxState.createWithParams("", false, false).copy(
                 remoteParticipantState =
-                    RemoteParticipantsState(
-                        mapOf(
-                            Pair(
-                                "test",
-                                ParticipantInfoModel(
-                                    displayName = "user one",
-                                    userIdentifier = "test",
-                                    isMuted = true,
-                                    isSpeaking = true,
-                                    cameraVideoStreamModel = VideoStreamModel(
-                                        videoStreamID = "video",
-                                        StreamType.VIDEO
-                                    ),
-                                    screenShareVideoStreamModel = VideoStreamModel(
-                                        videoStreamID = "video",
-                                        StreamType.SCREEN_SHARING
-                                    ),
-                                    modifiedTimestamp = 456,
-                                    participantStatus = ParticipantStatus.HOLD,
-                                )
+                RemoteParticipantsState(
+                    mapOf(
+                        Pair(
+                            "test",
+                            ParticipantInfoModel(
+                                displayName = "user one",
+                                userIdentifier = "test",
+                                isMuted = true,
+                                isSpeaking = true,
+                                cameraVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.VIDEO
+                                ),
+                                screenShareVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.SCREEN_SHARING
+                                ),
+                                modifiedTimestamp = 456,
+                                participantStatus = ParticipantStatus.HOLD,
                             )
-                        ),
-                        123,
-                        listOf(),
-                        0
-                    )
+                        )
+                    ),
+                    123,
+                    listOf(),
+                    0
+                )
 
             )
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -525,32 +525,32 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             // arrange
             val reduxState = ReduxState.createWithParams("", false, false).copy(
                 remoteParticipantState =
-                    RemoteParticipantsState(
-                        mapOf(
-                            Pair(
-                                "test",
-                                ParticipantInfoModel(
-                                    displayName = "user one",
-                                    userIdentifier = "test",
-                                    isMuted = true,
-                                    isSpeaking = true,
-                                    cameraVideoStreamModel = VideoStreamModel(
-                                        videoStreamID = "video",
-                                        StreamType.VIDEO
-                                    ),
-                                    screenShareVideoStreamModel = VideoStreamModel(
-                                        videoStreamID = "video",
-                                        StreamType.SCREEN_SHARING
-                                    ),
-                                    modifiedTimestamp = 456,
-                                    participantStatus = ParticipantStatus.HOLD,
-                                )
+                RemoteParticipantsState(
+                    mapOf(
+                        Pair(
+                            "test",
+                            ParticipantInfoModel(
+                                displayName = "user one",
+                                userIdentifier = "test",
+                                isMuted = true,
+                                isSpeaking = true,
+                                cameraVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.VIDEO
+                                ),
+                                screenShareVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.SCREEN_SHARING
+                                ),
+                                modifiedTimestamp = 456,
+                                participantStatus = ParticipantStatus.HOLD,
                             )
-                        ),
-                        123,
-                        listOf(),
-                        0
-                    )
+                        )
+                    ),
+                    123,
+                    listOf(),
+                    0
+                )
 
             )
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -623,32 +623,32 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             // arrange
             val reduxState = ReduxState.createWithParams("", false, false).copy(
                 remoteParticipantState =
-                    RemoteParticipantsState(
-                        mapOf(
-                            Pair(
-                                "test",
-                                ParticipantInfoModel(
-                                    displayName = "user one",
-                                    userIdentifier = "test",
-                                    isMuted = true,
-                                    isSpeaking = true,
-                                    cameraVideoStreamModel = VideoStreamModel(
-                                        videoStreamID = "video",
-                                        StreamType.VIDEO
-                                    ),
-                                    screenShareVideoStreamModel = VideoStreamModel(
-                                        videoStreamID = "video",
-                                        StreamType.SCREEN_SHARING
-                                    ),
-                                    modifiedTimestamp = 456,
-                                    participantStatus = ParticipantStatus.HOLD,
-                                )
+                RemoteParticipantsState(
+                    mapOf(
+                        Pair(
+                            "test",
+                            ParticipantInfoModel(
+                                displayName = "user one",
+                                userIdentifier = "test",
+                                isMuted = true,
+                                isSpeaking = true,
+                                cameraVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.VIDEO
+                                ),
+                                screenShareVideoStreamModel = VideoStreamModel(
+                                    videoStreamID = "video",
+                                    StreamType.SCREEN_SHARING
+                                ),
+                                modifiedTimestamp = 456,
+                                participantStatus = ParticipantStatus.HOLD,
                             )
-                        ),
-                        123,
-                        listOf(),
-                        0
-                    )
+                        )
+                    ),
+                    123,
+                    listOf(),
+                    0
+                )
 
             )
             val mockAppStore = mock<AppStore<ReduxState>> {

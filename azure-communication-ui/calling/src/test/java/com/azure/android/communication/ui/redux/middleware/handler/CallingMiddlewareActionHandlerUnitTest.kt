@@ -181,9 +181,9 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
                 (
-                        action is LocalParticipantAction.CameraOnSucceeded &&
-                                action.videoStreamID == "1345"
-                        )
+                    action is LocalParticipantAction.CameraOnSucceeded &&
+                        action.videoStreamID == "1345"
+                    )
             }
         )
     }
@@ -277,7 +277,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
                 action is LocalParticipantAction.CameraPreviewOnSucceeded &&
-                        action.videoStreamID == "1345"
+                    action.videoStreamID == "1345"
             }
         )
     }
@@ -434,7 +434,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is ParticipantAction.ListUpdated &&
-                            action.participantMap == participantMap
+                        action.participantMap == participantMap
                 }
             )
         }
@@ -512,7 +512,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is ParticipantAction.DominantSpeakersUpdated &&
-                            action.dominantSpeakersInfo == dominantSpeakers
+                        action.dominantSpeakersInfo == dominantSpeakers
                 }
             )
         }
@@ -588,7 +588,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is CallingAction.StateUpdated &&
-                            action.callingState == CallingStatus.CONNECTED
+                        action.callingState == CallingStatus.CONNECTED
                 }
             )
         }
@@ -623,7 +623,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is ErrorAction.FatalErrorOccurred &&
-                            action.error.fatalError == exception && action.error.errorCode == ErrorCode.CAMERA_INIT_FAILED
+                        action.error.fatalError == exception && action.error.errorCode == ErrorCode.CAMERA_INIT_FAILED
                 }
             )
         }
@@ -703,7 +703,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is ErrorAction.FatalErrorOccurred &&
-                            action.error.fatalError == exception && action.error.errorCode == ErrorCode.CALL_JOIN_FAILED
+                        action.error.fatalError == exception && action.error.errorCode == ErrorCode.CALL_JOIN_FAILED
                 }
             )
         }
@@ -1445,7 +1445,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
                 action is LocalParticipantAction.CameraOnFailed &&
-                        action.error.cause == error && action.error.errorCode == ErrorCode.TURN_CAMERA_ON_FAILED
+                    action.error.cause == error && action.error.errorCode == ErrorCode.TURN_CAMERA_ON_FAILED
             }
         )
     }
@@ -1542,7 +1542,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
                 action is LocalParticipantAction.MicOffFailed &&
-                        action.error.cause == error && action.error.errorCode == ErrorCode.TURN_MIC_OFF_FAILED
+                    action.error.cause == error && action.error.errorCode == ErrorCode.TURN_MIC_OFF_FAILED
             }
         )
         verify(mockCallingService, times(1)).turnMicOff()
@@ -1593,7 +1593,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
                 action is LocalParticipantAction.MicOnFailed &&
-                        action.error.cause == error && action.error.errorCode == ErrorCode.TURN_MIC_ON_FAILED
+                    action.error.cause == error && action.error.errorCode == ErrorCode.TURN_MIC_ON_FAILED
             }
         )
         verify(mockCallingService, times(1)).turnMicOn()
@@ -1658,7 +1658,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                            action.callStateError.errorCode == ErrorCode.TOKEN_EXPIRED
+                        action.callStateError.errorCode == ErrorCode.TOKEN_EXPIRED
                 }
             )
         }
@@ -1745,7 +1745,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is LocalParticipantAction.CameraOnSucceeded &&
-                            action.videoStreamID == "1345"
+                        action.videoStreamID == "1345"
                 }
             )
         }
@@ -1807,7 +1807,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is CallingAction.StateUpdated &&
-                            action.callingState == CallingStatus.DISCONNECTED
+                        action.callingState == CallingStatus.DISCONNECTED
                 }
             )
             verify(mockAppStore, times(1)).dispatch(
@@ -1816,13 +1816,13 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                            action.callStateError.callCompositeEventCode == CALL_DECLINED
+                        action.callStateError.callCompositeEventCode == CALL_DECLINED
                 }
             )
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                            action.callStateError.errorCode == CALL_END_FAILED
+                        action.callStateError.errorCode == CALL_END_FAILED
                 }
             )
         }
@@ -1885,14 +1885,14 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             appStoreSequence.verify(mockAppStore).dispatch(
                 argThat { action ->
                     action is CallingAction.StateUpdated &&
-                            action.callingState == CallingStatus.DISCONNECTED
+                        action.callingState == CallingStatus.DISCONNECTED
                 }
             )
             appStoreSequence.verify(mockAppStore).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                            action.callStateError.errorCode == CALL_END_FAILED &&
-                            action.callStateError.callCompositeEventCode == CALL_DECLINED
+                        action.callStateError.errorCode == CALL_END_FAILED &&
+                        action.callStateError.callCompositeEventCode == CALL_DECLINED
                 }
             )
             appStoreSequence.verify(mockAppStore).dispatch(
@@ -1957,7 +1957,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is CallingAction.StateUpdated &&
-                            action.callingState == CallingStatus.DISCONNECTED
+                        action.callingState == CallingStatus.DISCONNECTED
                 }
             )
             verify(mockAppStore, times(1)).dispatch(
@@ -1966,13 +1966,13 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                            action.callStateError.callCompositeEventCode == CALL_EVICTED
+                        action.callStateError.callCompositeEventCode == CALL_EVICTED
                 }
             )
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                            action.callStateError.errorCode == CALL_END_FAILED
+                        action.callStateError.errorCode == CALL_END_FAILED
                 }
             )
         }
@@ -2035,14 +2035,14 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             appStoreSequence.verify(mockAppStore).dispatch(
                 argThat { action ->
                     action is CallingAction.StateUpdated &&
-                            action.callingState == CallingStatus.DISCONNECTED
+                        action.callingState == CallingStatus.DISCONNECTED
                 }
             )
             appStoreSequence.verify(mockAppStore).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                            action.callStateError.errorCode == CALL_END_FAILED &&
-                            action.callStateError.callCompositeEventCode == CALL_EVICTED
+                        action.callStateError.errorCode == CALL_END_FAILED &&
+                        action.callStateError.callCompositeEventCode == CALL_EVICTED
                 }
             )
             appStoreSequence.verify(mockAppStore).dispatch(
@@ -2109,28 +2109,28 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is CallingAction.IsTranscribingUpdated &&
-                            !action.isTranscribing
+                        !action.isTranscribing
                 }
             )
 
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is CallingAction.IsRecordingUpdated &&
-                            !action.isRecording
+                        !action.isRecording
                 }
             )
 
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                            action.callStateError.errorCode == CALL_END_FAILED
+                        action.callStateError.errorCode == CALL_END_FAILED
                 }
             )
 
             verify(mockAppStore, times(3)).dispatch(
                 argThat { action ->
                     action is CallingAction.StateUpdated &&
-                            action.callingState == CallingStatus.NONE
+                        action.callingState == CallingStatus.NONE
                 }
             )
 
@@ -2195,21 +2195,21 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(0)).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                            action.callStateError.errorCode == CALL_END_FAILED
+                        action.callStateError.errorCode == CALL_END_FAILED
                 }
             )
 
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is CallingAction.StateUpdated &&
-                            action.callingState == CallingStatus.NONE
+                        action.callingState == CallingStatus.NONE
                 }
             )
 
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is CallingAction.StateUpdated &&
-                            action.callingState == CallingStatus.DISCONNECTED
+                        action.callingState == CallingStatus.DISCONNECTED
                 }
             )
 
@@ -2281,21 +2281,21 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(0)).dispatch(
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
-                            action.callStateError.errorCode == CALL_END_FAILED
+                        action.callStateError.errorCode == CALL_END_FAILED
                 }
             )
 
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is CallingAction.StateUpdated &&
-                            action.callingState == CallingStatus.NONE
+                        action.callingState == CallingStatus.NONE
                 }
             )
 
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is CallingAction.StateUpdated &&
-                            action.callingState == CallingStatus.DISCONNECTED
+                        action.callingState == CallingStatus.DISCONNECTED
                 }
             )
 
@@ -2381,7 +2381,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is LocalParticipantAction.CamerasCountUpdated &&
-                            action.count == 8
+                        action.count == 8
                 }
             )
         }

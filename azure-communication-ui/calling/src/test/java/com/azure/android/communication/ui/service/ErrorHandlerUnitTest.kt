@@ -51,7 +51,6 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
                 errorState = ErrorState(null, null)
             )
 
-
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(
                 ReduxState.createWithParams(
                     "",
@@ -175,7 +174,6 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
                 )
             )
 
-
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(
                 ReduxState.createWithParams(
                     "",
@@ -279,7 +277,6 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
                     CallStateError(CALL_END_FAILED, CALL_EVICTED)
                 )
             )
-
 
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(
                 ReduxState.createWithParams(

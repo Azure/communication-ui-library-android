@@ -39,7 +39,6 @@ internal class CallHistoryServiceTest : ACSBaseTestCoroutine() {
                 callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
             )
 
-
             val stateFlow = MutableStateFlow<ReduxState>(appState1)
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getStateFlow() } doAnswer { stateFlow }
@@ -65,7 +64,6 @@ internal class CallHistoryServiceTest : ACSBaseTestCoroutine() {
                     callStartDateTime = OffsetDateTime.now()
                 )
             )
-
 
             stateFlow.value = appState2
             verify(callHistoryRepository, times(1)).insert(eq(callID), any())

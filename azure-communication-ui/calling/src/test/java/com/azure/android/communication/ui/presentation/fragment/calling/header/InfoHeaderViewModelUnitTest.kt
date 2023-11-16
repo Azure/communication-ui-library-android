@@ -28,7 +28,6 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
     fun floatingHeaderViewModel_update_then_numberOfParticipantsFlowReflectsUpdate() {
         runScopedTest {
 
-
             val participantInfoModel1 = mock<ParticipantInfoModel> {}
             val participantInfoModel2 = mock<ParticipantInfoModel> {}
             val participantInfoModel3 = mock<ParticipantInfoModel> {}
@@ -54,7 +53,6 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 )
 
             )
-
 
             val floatingHeaderViewModel = InfoHeaderViewModel()
             floatingHeaderViewModel.init(
@@ -88,7 +86,6 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
     fun floatingHeaderViewModel_updateIsLobbyOverlayDisplayed_then_isLobbyOverlayDisplayedFlowReflectsUpdate() {
         runScopedTest {
 
-
             val participantInfoModel1 = mock<ParticipantInfoModel> {}
             val participantInfoModel2 = mock<ParticipantInfoModel> {}
             val participantInfoModel3 = mock<ParticipantInfoModel> {}
@@ -114,7 +111,6 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 )
 
             )
-
 
             val floatingHeaderViewModel = InfoHeaderViewModel()
             floatingHeaderViewModel.init(

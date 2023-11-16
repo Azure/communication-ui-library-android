@@ -30,7 +30,7 @@ import org.mockito.kotlin.mock
 internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
 
     private fun createNavigationRouter(stateFlow: MutableStateFlow<ReduxState>):
-            Pair<NavigationRouter, List<NavigationStatus>> {
+        Pair<NavigationRouter, List<NavigationStatus>> {
 
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getStateFlow() } doReturn stateFlow

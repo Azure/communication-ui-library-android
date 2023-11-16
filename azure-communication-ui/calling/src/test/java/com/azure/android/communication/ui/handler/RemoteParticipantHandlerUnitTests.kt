@@ -332,8 +332,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             verify(mockParticipantJoinedHandler, times(1)).handle(
                 argThat { event ->
                     event.identifiers.size == 2 &&
-                            event.identifiers.toList()[0] == communicationIdentifierFirst.into() &&
-                            event.identifiers.toList()[1] == communicationIdentifierSecond.into()
+                        event.identifiers.toList()[0] == communicationIdentifierFirst.into() &&
+                        event.identifiers.toList()[1] == communicationIdentifierSecond.into()
                 }
             )
 
@@ -454,8 +454,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             verify(mockParticipantJoinedHandler, times(1)).handle(
                 argThat { event ->
                     event.identifiers.size == 2 &&
-                            event.identifiers.toList()[0] == communicationIdentifierFirst.into() &&
-                            event.identifiers.toList()[1] == communicationIdentifierSecond.into()
+                        event.identifiers.toList()[0] == communicationIdentifierFirst.into() &&
+                        event.identifiers.toList()[1] == communicationIdentifierSecond.into()
                 }
             )
 
@@ -542,7 +542,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             verify(mockParticipantJoinedHandler, times(1)).handle(
                 argThat { event ->
                     event.identifiers.size == 1 &&
-                            event.identifiers.toList()[0] == communicationIdentifierNew.into()
+                        event.identifiers.toList()[0] == communicationIdentifierNew.into()
                 }
             )
 
@@ -660,8 +660,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             verify(mockParticipantJoinedHandler, times(1)).handle(
                 argThat { event ->
                     event.identifiers.size == 2 &&
-                            event.identifiers.toList()[0] == communicationIdentifierFirst.into() &&
-                            event.identifiers.toList()[1] == communicationIdentifierSecond.into()
+                        event.identifiers.toList()[0] == communicationIdentifierFirst.into() &&
+                        event.identifiers.toList()[1] == communicationIdentifierSecond.into()
                 }
             )
 

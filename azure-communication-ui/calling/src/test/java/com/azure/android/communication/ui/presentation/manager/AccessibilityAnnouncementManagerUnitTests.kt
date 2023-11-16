@@ -85,7 +85,6 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
             )
         )
 
-
         // Act
         val message = cameraStatusHook.message(
             ReduxState.createWithParams("", false, false),
@@ -114,7 +113,6 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 mockAudioState, "", ""
             )
         )
-
 
         // Act
         val message = cameraStatusHook.message(
@@ -483,7 +481,6 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
             callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
         )
 
-
         // Act
         val result = meetingJoinedHook.shouldTrigger(reduxState, reduxState)
 
@@ -502,7 +499,6 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
             callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
         )
 
-
         // Act
         val message = meetingJoinedHook.message(reduxState, reduxState, mockContext)
 
@@ -519,7 +515,6 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
             remoteParticipantState =
             RemoteParticipantsState(mapOf(Pair("a", mock { })), 5000, listOf(), 0)
         )
-
 
         // Act
         val result = meetingJoinedHook.shouldTrigger(
@@ -577,7 +572,6 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
 
         )
 
-
         // Act
         val message =
             participantAddedOrRemovedHook.message(
@@ -620,7 +614,6 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
             )
 
         )
-
 
         // Act
         val message =

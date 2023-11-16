@@ -33,7 +33,6 @@ internal class LeaveConfirmViewModelUnitTest {
             callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
         )
 
-
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState
             on { dispatch(any()) } doAnswer { }
@@ -56,7 +55,6 @@ internal class LeaveConfirmViewModelUnitTest {
         val appState = ReduxState.createWithParams("", false, false).copy(
             callState = CallingState(CallingStatus.CONNECTING, OperationStatus.SKIP_SETUP_SCREEN)
         )
-
 
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState

@@ -164,7 +164,6 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
                     callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
                 )
 
-
             val storeStateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getStateFlow() } doReturn storeStateFlow
@@ -328,7 +327,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
 
         // act
         // NOTE: Was same here, not clear, side effect in test?
-        //appState.callState = CallingState(callingStatus, OperationStatus.NONE)
+        // appState.callState = CallingState(callingStatus, OperationStatus.NONE)
         appState = appState.copy(callState = CallingState(callingStatus, OperationStatus.NONE))
 
         var job = launch {

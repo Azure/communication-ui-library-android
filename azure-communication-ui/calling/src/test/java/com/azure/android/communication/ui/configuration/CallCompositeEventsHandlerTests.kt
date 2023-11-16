@@ -27,7 +27,6 @@ internal class CallCompositeEventsHandlerTests : ACSBaseTestCoroutine() {
                 errorState = ErrorState(null, null)
             )
 
-
         val handler1 = mock<CallCompositeEventHandler<CallCompositeErrorEvent>> { }
         val handler2 = mock<CallCompositeEventHandler<CallCompositeErrorEvent>> { }
 
