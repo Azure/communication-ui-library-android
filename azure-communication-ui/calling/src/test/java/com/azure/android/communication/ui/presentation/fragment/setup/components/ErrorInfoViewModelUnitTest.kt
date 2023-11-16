@@ -8,6 +8,7 @@ import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoViewModel
 import com.azure.android.communication.ui.calling.redux.state.ErrorState
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -25,8 +26,9 @@ internal class ErrorInfoViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val expectedPermissionState = CallStateError(ErrorCode.CALL_END_FAILED, null)
-            val appState = ReduxState("", false, false)
-            appState.errorState = ErrorState(null, expectedPermissionState)
+            val appState = ReduxState.createWithParams("", false, false).copy(
+                errorState = ErrorState(null, expectedPermissionState)
+            )
 
             val snackBarViewModel = ErrorInfoViewModel()
 
@@ -60,9 +62,9 @@ internal class ErrorInfoViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val expectedPermissionState = CallStateError(ErrorCode.NETWORK_NOT_AVAILABLE, null)
-            val appState = ReduxState("", false, false)
-
-            appState.errorState = ErrorState(null, expectedPermissionState)
+            val appState = ReduxState.createWithParams("", false, false).copy(
+                errorState = ErrorState(null, expectedPermissionState)
+            )
 
             val snackBarViewModel = ErrorInfoViewModel()
 

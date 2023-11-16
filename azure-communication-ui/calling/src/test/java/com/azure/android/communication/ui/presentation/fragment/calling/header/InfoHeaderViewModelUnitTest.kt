@@ -10,6 +10,7 @@ import com.azure.android.communication.ui.calling.redux.state.RemoteParticipants
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingState
+import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -27,7 +28,6 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
     fun floatingHeaderViewModel_update_then_numberOfParticipantsFlowReflectsUpdate() {
         runScopedTest {
 
-            val appState = ReduxState("", false, false)
 
             val participantInfoModel1 = mock<ParticipantInfoModel> {}
             val participantInfoModel2 = mock<ParticipantInfoModel> {}
@@ -38,20 +38,23 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 "p3" to participantInfoModel3
             )
             val timestamp: Number = System.currentTimeMillis()
+            val appState = ReduxState.createWithParams("", false, false).copy(
+                remoteParticipantState = RemoteParticipantsState(
+                    expectedParticipantMap,
+                    timestamp,
+                    listOf(),
+                    0
+                ),
+                callState = CallingState(
+                    CallingStatus.CONNECTED,
+                    OperationStatus.NONE,
+                    joinCallIsRequested = false,
+                    isRecording = false,
+                    isTranscribing = false
+                )
 
-            appState.remoteParticipantState = RemoteParticipantsState(
-                expectedParticipantMap,
-                timestamp,
-                listOf(),
-                0
             )
-            appState.callState = CallingState(
-                CallingStatus.CONNECTED,
-                OperationStatus.NONE,
-                joinCallIsRequested = false,
-                isRecording = false,
-                isTranscribing = false
-            )
+
 
             val floatingHeaderViewModel = InfoHeaderViewModel()
             floatingHeaderViewModel.init(
@@ -85,7 +88,6 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
     fun floatingHeaderViewModel_updateIsLobbyOverlayDisplayed_then_isLobbyOverlayDisplayedFlowReflectsUpdate() {
         runScopedTest {
 
-            val appState = ReduxState("", false, false)
 
             val participantInfoModel1 = mock<ParticipantInfoModel> {}
             val participantInfoModel2 = mock<ParticipantInfoModel> {}
@@ -96,20 +98,23 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 "p3" to participantInfoModel3
             )
             val timestamp: Number = System.currentTimeMillis()
+            val appState = ReduxState.createWithParams("", false, false).copy(
+                remoteParticipantState = RemoteParticipantsState(
+                    expectedParticipantMap,
+                    timestamp,
+                    listOf(),
+                    0
+                ),
+                callState = CallingState(
+                    CallingStatus.CONNECTED,
+                    OperationStatus.NONE,
+                    joinCallIsRequested = false,
+                    isRecording = false,
+                    isTranscribing = false
+                )
 
-            appState.remoteParticipantState = RemoteParticipantsState(
-                expectedParticipantMap,
-                timestamp,
-                listOf(),
-                0
             )
-            appState.callState = CallingState(
-                CallingStatus.CONNECTED,
-                OperationStatus.NONE,
-                joinCallIsRequested = false,
-                isRecording = false,
-                isTranscribing = false
-            )
+
 
             val floatingHeaderViewModel = InfoHeaderViewModel()
             floatingHeaderViewModel.init(

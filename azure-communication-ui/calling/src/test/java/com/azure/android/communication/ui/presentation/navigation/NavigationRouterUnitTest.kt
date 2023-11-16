@@ -30,7 +30,7 @@ import org.mockito.kotlin.mock
 internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
 
     private fun createNavigationRouter(stateFlow: MutableStateFlow<ReduxState>):
-        Pair<NavigationRouter, List<NavigationStatus>> {
+            Pair<NavigationRouter, List<NavigationStatus>> {
 
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getStateFlow() } doReturn stateFlow
@@ -50,12 +50,12 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
     fun store_onSubscribe_then_invoke_navigationRouterOnStateChange() =
         runScopedTest {
             // arrange
-            val appState = ReduxState("", false, false).apply {
+            val appState = ReduxState.createWithParams("", false, false).copy(
                 navigationState = NavigationState(NavigationStatus.IN_CALL)
-            }
+            )
 
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(
-                ReduxState(
+                ReduxState.createWithParams(
                     "",
                     false,
                     false
@@ -71,9 +71,9 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
             stateFlow.value = appState
             // a new state but with same navigation state
             stateFlow.value =
-                ReduxState("", false, false).apply {
+                ReduxState.createWithParams("", false, false).copy(
                     navigationState = NavigationState(NavigationStatus.IN_CALL)
-                }
+                )
 
             // assert
             Assert.assertEquals(2, receivedUpdates.count())
@@ -87,10 +87,10 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
     fun store_onSubscribe_then_test_navigationRouterOnStateChange_emits_initial_state() =
         runScopedTest {
             // arrange
-            val initialState = ReduxState("", false, false)
-            val appState = ReduxState("", false, false).apply {
+            val initialState = ReduxState.createWithParams("", false, false)
+            val appState = ReduxState.createWithParams("", false, false).copy(
                 navigationState = NavigationState(NavigationStatus.EXIT)
-            }
+            )
 
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(initialState)
             val (navigationRouter, receivedUpdates) = createNavigationRouter(stateFlow)
@@ -114,12 +114,12 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
     fun store_onSubscribe_then_test_navigationRouterNewButSameNavigationStateOnNavigationStateChange_called_1x() =
         runScopedTest {
             // arrange
-            val initialState = ReduxState("", false, false).apply {
+            val initialState = ReduxState.createWithParams("", false, false).copy(
                 navigationState = NavigationState(NavigationStatus.IN_CALL)
-            }
-            val appState = ReduxState("", false, false).apply {
+            )
+            val appState = ReduxState.createWithParams("", false, false).copy(
                 navigationState = NavigationState(NavigationStatus.IN_CALL)
-            }
+            )
 
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(initialState)
             val (navigationRouter, receivedUpdates) = createNavigationRouter(stateFlow)
@@ -132,9 +132,9 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
             stateFlow.value = appState
             // a new state but with same navigation state
             stateFlow.value =
-                ReduxState("", false, false).apply {
+                ReduxState.createWithParams("", false, false).copy(
                     navigationState = NavigationState(NavigationStatus.IN_CALL)
-                }
+                )
 
             // assert
             Assert.assertEquals(2, receivedUpdates.count())
@@ -147,9 +147,9 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
     fun store_onSubscribe_then_test_navigationRouterWithSameStateOnNavigationStateChange_called_once() =
         runScopedTest {
             // arrange
-            val appState = ReduxState("", false, false).apply {
+            val appState = ReduxState.createWithParams("", false, false).copy(
                 navigationState = NavigationState(NavigationStatus.SETUP)
-            }
+            )
 
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(appState)
             val (navigationRouter, receivedUpdates) = createNavigationRouter(stateFlow)
@@ -162,9 +162,9 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
             stateFlow.value = appState
             // a new state but with same navigation state
             stateFlow.value =
-                ReduxState("", false, false).apply {
+                ReduxState.createWithParams("", false, false).copy(
                     navigationState = NavigationState(NavigationStatus.SETUP)
-                }
+                )
 
             // assert
             Assert.assertEquals(2, receivedUpdates.count())
@@ -177,10 +177,10 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
     fun store_onSubscribe_then_test_navigationRouterOnNavigationStateChange_called_3x() =
         runScopedTest {
             // arrange
-            val initialState = ReduxState("", false, false)
-            val appState = ReduxState("", false, false).apply {
+            val initialState = ReduxState.createWithParams("", false, false)
+            val appState = ReduxState.createWithParams("", false, false).copy(
                 navigationState = NavigationState(NavigationStatus.NONE)
-            }
+            )
 
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(initialState)
             val (navigationRouter, receivedUpdates) = createNavigationRouter(stateFlow)
@@ -193,14 +193,14 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
             stateFlow.value = appState
             // a new state but with different navigation state
             stateFlow.value =
-                ReduxState("", false, false).apply {
+                ReduxState.createWithParams("", false, false).copy(
                     navigationState = NavigationState(NavigationStatus.SETUP)
-                }
+                )
 
             stateFlow.value =
-                ReduxState("", false, false).apply {
+                ReduxState.createWithParams("", false, false).copy(
                     navigationState = NavigationState(NavigationStatus.IN_CALL)
-                }
+                )
 
             // assert
             Assert.assertEquals(3, receivedUpdates.count())

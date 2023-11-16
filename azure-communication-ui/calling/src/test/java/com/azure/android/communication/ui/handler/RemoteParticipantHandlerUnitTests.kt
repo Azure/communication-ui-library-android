@@ -38,7 +38,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
     fun remoteParticipantHandler_start_onStateChangeWithNoRemoteParticipant_then_eventIsNotFiredToContoso() {
         runScopedTest {
             // arrange
-            val storeStateFlow = MutableStateFlow<ReduxState>(ReduxState("", false, false))
+            val storeStateFlow =
+                MutableStateFlow<ReduxState>(ReduxState.createWithParams("", false, false))
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getStateFlow() } doReturn storeStateFlow
             }
@@ -74,8 +75,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
     fun remoteParticipantHandler_start_onStateChangeWithOneRemoteParticipant_then_eventIsFiredToOnce() {
         runScopedTest {
             // arrange
-            val reduxState = ReduxState("", false, false)
-            reduxState.remoteParticipantState =
+            val reduxState = ReduxState.createWithParams("", false, false).copy(
+                remoteParticipantState =
                 RemoteParticipantsState(
                     mapOf(
                         Pair(
@@ -102,6 +103,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                     listOf(),
                     0
                 )
+            )
             val storeStateFlow = MutableStateFlow<ReduxState>(reduxState)
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getStateFlow() } doReturn storeStateFlow
@@ -109,7 +111,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             val mockParticipantJoinedHandler =
                 mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
-            val communicationIdentifier = CommunicationIdentifier.CommunicationUserIdentifier("test")
+            val communicationIdentifier =
+                CommunicationIdentifier.CommunicationUserIdentifier("test")
 
             val mockRemoteParticipant = mock<RemoteParticipant> {
                 on { identifier } doReturn communicationIdentifier
@@ -154,8 +157,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
     fun remoteParticipantHandler_start_add_remove_handler_then_eventIsNotFired() {
         runScopedTest {
             // arrange
-            val reduxState = ReduxState("", false, false)
-            reduxState.remoteParticipantState =
+            val reduxState = ReduxState.createWithParams("", false, false).copy(
+                remoteParticipantState =
                 RemoteParticipantsState(
                     mapOf(
                         Pair(
@@ -182,6 +185,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                     listOf(),
                     0
                 )
+            )
+
             val storeStateFlow = MutableStateFlow<ReduxState>(reduxState)
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getStateFlow() } doReturn storeStateFlow
@@ -227,8 +232,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
     fun remoteParticipantHandler_start_onStateChangeWithTwoRemoteParticipant_then_eventIsFiredToOnce() {
         runScopedTest {
             // arrange
-            val reduxState = ReduxState("", false, false)
-            reduxState.remoteParticipantState =
+            val reduxState = ReduxState.createWithParams("", false, false).copy(
+                remoteParticipantState =
                 RemoteParticipantsState(
                     mapOf(
                         Pair(
@@ -274,6 +279,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                     listOf(),
                     0
                 )
+            )
+
             val storeStateFlow = MutableStateFlow<ReduxState>(reduxState)
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getStateFlow() } doReturn storeStateFlow
@@ -281,8 +288,10 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             val mockParticipantJoinedHandler =
                 mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
-            val communicationIdentifierFirst = CommunicationIdentifier.CommunicationUserIdentifier("test")
-            val communicationIdentifierSecond = CommunicationIdentifier.CommunicationUserIdentifier("test2")
+            val communicationIdentifierFirst =
+                CommunicationIdentifier.CommunicationUserIdentifier("test")
+            val communicationIdentifierSecond =
+                CommunicationIdentifier.CommunicationUserIdentifier("test2")
 
             val mockRemoteParticipantFirst = mock<RemoteParticipant> {
                 on { identifier } doReturn communicationIdentifierFirst
@@ -323,8 +332,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             verify(mockParticipantJoinedHandler, times(1)).handle(
                 argThat { event ->
                     event.identifiers.size == 2 &&
-                        event.identifiers.toList()[0] == communicationIdentifierFirst.into() &&
-                        event.identifiers.toList()[1] == communicationIdentifierSecond.into()
+                            event.identifiers.toList()[0] == communicationIdentifierFirst.into() &&
+                            event.identifiers.toList()[1] == communicationIdentifierSecond.into()
                 }
             )
 
@@ -336,8 +345,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
     fun remoteParticipantHandler_start_onStateChangeMultipleTimes_then_eventIsFiredForNewJoinedParticipants() {
         runScopedTest {
             // arrange
-            val reduxState = ReduxState("", false, false)
-            reduxState.remoteParticipantState =
+            val reduxState = ReduxState.createWithParams("", false, false).copy(
+                remoteParticipantState =
                 RemoteParticipantsState(
                     mapOf(
                         Pair(
@@ -383,6 +392,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                     listOf(),
                     0
                 )
+            )
             val storeStateFlow = MutableStateFlow<ReduxState>(reduxState)
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getStateFlow() } doReturn storeStateFlow
@@ -390,9 +400,12 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             val mockParticipantJoinedHandler =
                 mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
-            val communicationIdentifierFirst = CommunicationIdentifier.CommunicationUserIdentifier("test")
-            val communicationIdentifierSecond = CommunicationIdentifier.CommunicationUserIdentifier("test2")
-            val communicationIdentifierNew = CommunicationIdentifier.CommunicationUserIdentifier("testNew")
+            val communicationIdentifierFirst =
+                CommunicationIdentifier.CommunicationUserIdentifier("test")
+            val communicationIdentifierSecond =
+                CommunicationIdentifier.CommunicationUserIdentifier("test2")
+            val communicationIdentifierNew =
+                CommunicationIdentifier.CommunicationUserIdentifier("testNew")
 
             val mockRemoteParticipantFirst = mock<RemoteParticipant> {
                 on { identifier } doReturn communicationIdentifierFirst
@@ -441,16 +454,16 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             verify(mockParticipantJoinedHandler, times(1)).handle(
                 argThat { event ->
                     event.identifiers.size == 2 &&
-                        event.identifiers.toList()[0] == communicationIdentifierFirst.into() &&
-                        event.identifiers.toList()[1] == communicationIdentifierSecond.into()
+                            event.identifiers.toList()[0] == communicationIdentifierFirst.into() &&
+                            event.identifiers.toList()[1] == communicationIdentifierSecond.into()
                 }
             )
 
             job.cancel()
 
             // arrange
-            val newReduxState = ReduxState("", false, false)
-            newReduxState.remoteParticipantState =
+            val newReduxState = ReduxState.createWithParams("", false, false).copy(
+                remoteParticipantState =
                 RemoteParticipantsState(
                     mapOf(
                         Pair(
@@ -515,6 +528,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                     listOf(),
                     0
                 )
+            )
 
             // act
             storeStateFlow.value = newReduxState
@@ -528,7 +542,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             verify(mockParticipantJoinedHandler, times(1)).handle(
                 argThat { event ->
                     event.identifiers.size == 1 &&
-                        event.identifiers.toList()[0] == communicationIdentifierNew.into()
+                            event.identifiers.toList()[0] == communicationIdentifierNew.into()
                 }
             )
 
@@ -540,8 +554,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
     fun remoteParticipantHandler_start_onStateChangeMultipleTimes_then_eventIsNotFiredForRemovedParticipants() {
         runScopedTest {
             // arrange
-            val reduxState = ReduxState("", false, false)
-            reduxState.remoteParticipantState =
+            val reduxState = ReduxState.createWithParams("", false, false).copy(
+                remoteParticipantState =
                 RemoteParticipantsState(
                     mapOf(
                         Pair(
@@ -587,6 +601,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                     listOf(),
                     0
                 )
+            )
             val storeStateFlow = MutableStateFlow<ReduxState>(reduxState)
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getStateFlow() } doReturn storeStateFlow
@@ -594,8 +609,10 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             val mockParticipantJoinedHandler =
                 mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
-            val communicationIdentifierFirst = CommunicationIdentifier.CommunicationUserIdentifier("test")
-            val communicationIdentifierSecond = CommunicationIdentifier.CommunicationUserIdentifier("test2")
+            val communicationIdentifierFirst =
+                CommunicationIdentifier.CommunicationUserIdentifier("test")
+            val communicationIdentifierSecond =
+                CommunicationIdentifier.CommunicationUserIdentifier("test2")
 
             val mockRemoteParticipantFirst = mock<RemoteParticipant> {
                 on { identifier } doReturn communicationIdentifierFirst
@@ -643,16 +660,16 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             verify(mockParticipantJoinedHandler, times(1)).handle(
                 argThat { event ->
                     event.identifiers.size == 2 &&
-                        event.identifiers.toList()[0] == communicationIdentifierFirst.into() &&
-                        event.identifiers.toList()[1] == communicationIdentifierSecond.into()
+                            event.identifiers.toList()[0] == communicationIdentifierFirst.into() &&
+                            event.identifiers.toList()[1] == communicationIdentifierSecond.into()
                 }
             )
 
             job.cancel()
 
             // arrange
-            val newReduxState = ReduxState("", false, false)
-            newReduxState.remoteParticipantState =
+            val newReduxState = ReduxState.createWithParams("", false, false).copy(
+                remoteParticipantState =
                 RemoteParticipantsState(
                     mapOf(
                         Pair(
@@ -679,6 +696,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                     listOf(),
                     0
                 )
+            )
 
             // act
             storeStateFlow.value = newReduxState

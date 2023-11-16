@@ -35,8 +35,10 @@ internal class CallHistoryServiceTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val appState1 = ReduxState("", false, false)
-            appState1.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
+            val appState1 = ReduxState.createWithParams("", false, false).copy(
+                callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
+            )
+
 
             val stateFlow = MutableStateFlow<ReduxState>(appState1)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -54,18 +56,19 @@ internal class CallHistoryServiceTest : ACSBaseTestCoroutine() {
             }
 
             // update state
-            val appState2 = ReduxState("", false, false)
             val callID = "callID"
-            appState2.callState = CallingState(
-                CallingStatus.CONNECTING,
-                OperationStatus.NONE,
-                callID,
-                callStartDateTime = OffsetDateTime.now()
+            val appState2 = ReduxState.createWithParams("", false, false).copy(
+                callState = CallingState(
+                    CallingStatus.CONNECTING,
+                    OperationStatus.NONE,
+                    callID,
+                    callStartDateTime = OffsetDateTime.now()
+                )
             )
+
+
             stateFlow.value = appState2
-
             verify(callHistoryRepository, times(1)).insert(eq(callID), any())
-
             flowJob.cancel()
         }
     }

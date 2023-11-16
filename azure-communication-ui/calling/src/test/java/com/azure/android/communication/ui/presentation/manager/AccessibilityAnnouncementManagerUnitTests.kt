@@ -23,6 +23,7 @@ import com.azure.android.communication.ui.calling.redux.state.CameraTransmission
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.BluetoothState
+import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
 
 import org.junit.Assert
@@ -37,23 +38,29 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
     @Test
     fun cameraStatusHook_message_reduxStateOn_then_returnVideoOn() {
         // Arrange
-        val reduxState = ReduxState("", false, false)
+
         val cameraStatusHook = CameraStatusHook()
         val mockContext = mock<Context> {
             on { getString(R.string.azure_communication_ui_calling_setup_view_button_video_on) } doAnswer { "Video on" }
         }
         val mockAudioState = mock<AudioState> {}
-        reduxState.localParticipantState = LocalUserState(
-            CameraState(
-                CameraOperationalStatus.ON,
-                CameraDeviceSelectionStatus.BACK,
-                CameraTransmissionStatus.LOCAL
-            ),
-            mockAudioState, "", ""
+        val reduxState = ReduxState.createWithParams("", false, false).copy(
+            localParticipantState = LocalUserState(
+                CameraState(
+                    CameraOperationalStatus.ON,
+                    CameraDeviceSelectionStatus.BACK,
+                    CameraTransmissionStatus.LOCAL
+                ),
+                mockAudioState, "", ""
+            )
         )
 
         // Act
-        val message = cameraStatusHook.message(ReduxState("", false, false), reduxState, mockContext)
+        val message = cameraStatusHook.message(
+            ReduxState.createWithParams("", false, false),
+            reduxState,
+            mockContext
+        )
 
         // Assert
         Assert.assertEquals(message, "Video on")
@@ -62,23 +69,29 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
     @Test
     fun cameraStatusHook_message_reduxStateOff_then_returnVideoOff() {
         // Arrange
-        val reduxState = ReduxState("", false, false)
         val cameraStatusHook = CameraStatusHook()
         val mockContext = mock<Context> {
             on { getString(R.string.azure_communication_ui_calling_setup_view_button_video_off) } doAnswer { "Video off" }
         }
         val mockAudioState = mock<AudioState> {}
-        reduxState.localParticipantState = LocalUserState(
-            CameraState(
-                CameraOperationalStatus.OFF,
-                CameraDeviceSelectionStatus.BACK,
-                CameraTransmissionStatus.LOCAL
-            ),
-            mockAudioState, "", ""
+        val reduxState = ReduxState.createWithParams("", false, false).copy(
+            localParticipantState = LocalUserState(
+                CameraState(
+                    CameraOperationalStatus.OFF,
+                    CameraDeviceSelectionStatus.BACK,
+                    CameraTransmissionStatus.LOCAL
+                ),
+                mockAudioState, "", ""
+            )
         )
 
+
         // Act
-        val message = cameraStatusHook.message(ReduxState("", false, false), reduxState, mockContext)
+        val message = cameraStatusHook.message(
+            ReduxState.createWithParams("", false, false),
+            reduxState,
+            mockContext
+        )
 
         // Assert
         Assert.assertEquals(message, "Video off")
@@ -87,11 +100,11 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
     @Test
     fun cameraStatusHook_message_reduxStateOthers_then_returnEmpty() {
         // Arrange
-        val reduxState = ReduxState("", false, false)
         val cameraStatusHook = CameraStatusHook()
         val mockContext = mock<Context> { }
         val mockAudioState = mock<AudioState> {}
-        reduxState.localParticipantState =
+        val reduxState = ReduxState.createWithParams("", false, false).copy(
+            localParticipantState =
             LocalUserState(
                 CameraState(
                     CameraOperationalStatus.PAUSED,
@@ -100,9 +113,15 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 ),
                 mockAudioState, "", ""
             )
+        )
+
 
         // Act
-        val message = cameraStatusHook.message(ReduxState("", false, false), reduxState, mockContext)
+        val message = cameraStatusHook.message(
+            ReduxState.createWithParams("", false, false),
+            reduxState,
+            mockContext
+        )
 
         // Assert
         Assert.assertEquals(message, "")
@@ -111,9 +130,9 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
     @Test
     fun cameraStatusHook_shouldTrigger_reduxStateDiffer_then_returnTrue() {
         // Arrange
-        val reduxState = ReduxState("", false, false)
         val mockAudioState = mock<AudioState> {}
-        reduxState.localParticipantState =
+        val reduxState = ReduxState.createWithParams("", false, false).copy(
+            localParticipantState =
             LocalUserState(
                 CameraState(
                     CameraOperationalStatus.PAUSED,
@@ -122,10 +141,14 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 ),
                 mockAudioState, "", ""
             )
+        )
         val cameraStatusHook = CameraStatusHook()
 
         // Act
-        val result = cameraStatusHook.shouldTrigger(ReduxState("", false, false), reduxState)
+        val result = cameraStatusHook.shouldTrigger(
+            ReduxState.createWithParams("", false, false),
+            reduxState
+        )
 
         // Assert
         Assert.assertEquals(result, true)
@@ -134,9 +157,9 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
     @Test
     fun cameraStatusHook_shouldTrigger_reduxStateSame_then_returnFalse() {
         // Arrange
-        val reduxState = ReduxState("", false, false)
         val mockAudioState = mock<AudioState> {}
-        reduxState.localParticipantState =
+        val reduxState = ReduxState.createWithParams("", false, false).copy(
+            localParticipantState =
             LocalUserState(
                 CameraState(
                     CameraOperationalStatus.PAUSED,
@@ -145,6 +168,8 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 ),
                 mockAudioState, "", ""
             )
+
+        )
         val cameraStatusHook = CameraStatusHook()
 
         // Act
@@ -157,25 +182,27 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
     @Test
     fun micStatusHook_message_reduxStateOn_then_returnMicOn() {
         // Arrange
-        val reduxState = ReduxState("", false, false)
         val micStatusHook = MicStatusHook()
         val mockContext = mock<Context> {
             on { getString(R.string.azure_communication_ui_calling_setup_view_button_mic_on) } doAnswer { "Mic on" }
         }
-        reduxState.localParticipantState = LocalUserState(
-            mock {},
-            AudioState(
-                AudioOperationalStatus.ON,
-                AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
-                BluetoothState(true, "")
-            ),
-            "",
-            ""
+        val reduxState = ReduxState.createWithParams("", false, false).copy(
+            localParticipantState = LocalUserState(
+                mock {},
+                AudioState(
+                    AudioOperationalStatus.ON,
+                    AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
+                    BluetoothState(true, "")
+                ),
+                "",
+                ""
+            )
+
         )
 
         // Act
         val message = micStatusHook.message(
-            ReduxState("", false, false),
+            ReduxState.createWithParams("", false, false),
             reduxState, mockContext
         )
 
@@ -186,25 +213,27 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
     @Test
     fun micStatusHook_message_reduxStateOff_then_returnVideoOff() {
         // Arrange
-        val reduxState = ReduxState("", false, false)
         val micStatusHook = MicStatusHook()
         val mockContext = mock<Context> {
             on { getString(R.string.azure_communication_ui_calling_setup_view_button_mic_off) } doAnswer { "Mic off" }
         }
-        reduxState.localParticipantState = LocalUserState(
-            mock {},
-            AudioState(
-                AudioOperationalStatus.OFF,
-                AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
-                BluetoothState(true, "")
-            ),
-            "",
-            ""
+        val reduxState = ReduxState.createWithParams("", false, false).copy(
+            localParticipantState = LocalUserState(
+                mock {},
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
+                    BluetoothState(true, "")
+                ),
+                "",
+                ""
+            )
+
         )
 
         // Act
         val message = micStatusHook.message(
-            ReduxState("", false, false),
+            ReduxState.createWithParams("", false, false),
             reduxState,
             mockContext
         )
@@ -216,23 +245,24 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
     @Test
     fun micStatusHook_message_reduxStateOthers_then_returnEmpty() {
         // Arrange
-        val reduxState = ReduxState("", false, false)
         val micStatusHook = MicStatusHook()
         val mockContext = mock<Context> { }
-        reduxState.localParticipantState = LocalUserState(
-            mock {},
-            AudioState(
-                AudioOperationalStatus.PENDING,
-                AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
-                BluetoothState(true, "")
-            ),
-            "",
-            ""
+        val reduxState = ReduxState.createWithParams("", false, false).copy(
+            localParticipantState = LocalUserState(
+                mock {},
+                AudioState(
+                    AudioOperationalStatus.PENDING,
+                    AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
+                    BluetoothState(true, "")
+                ),
+                "",
+                ""
+            )
         )
 
         // Act
         val message = micStatusHook.message(
-            ReduxState("", false, false),
+            ReduxState.createWithParams("", false, false),
             reduxState, mockContext
         )
 
@@ -243,21 +273,24 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
     @Test
     fun micStatusHook_shouldTrigger_reduxStateDiffer_then_returnTrue() {
         // Arrange
-        val reduxState = ReduxState("", false, false)
+
         val micStatusHook = MicStatusHook()
-        reduxState.localParticipantState = LocalUserState(
-            mock {},
-            AudioState(
-                AudioOperationalStatus.PENDING,
-                AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
-                BluetoothState(true, "")
-            ),
-            "",
-            ""
+        val reduxState = ReduxState.createWithParams("", false, false).copy(
+            localParticipantState = LocalUserState(
+                mock {},
+                AudioState(
+                    AudioOperationalStatus.PENDING,
+                    AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
+                    BluetoothState(true, "")
+                ),
+                "",
+                ""
+            )
         )
 
         // Act
-        val result = micStatusHook.shouldTrigger(ReduxState("", false, false), reduxState)
+        val result =
+            micStatusHook.shouldTrigger(ReduxState.createWithParams("", false, false), reduxState)
 
         // Assert
         Assert.assertEquals(result, true)
@@ -266,17 +299,18 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
     @Test
     fun micStatusHook_shouldTrigger_reduxStateSame_then_returnFalse() {
         // Arrange
-        val reduxState = ReduxState("", false, false)
         val micStatusHook = MicStatusHook()
-        reduxState.localParticipantState = LocalUserState(
-            mock {},
-            AudioState(
-                AudioOperationalStatus.PENDING,
-                AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
-                BluetoothState(true, "")
-            ),
-            "",
-            ""
+        val reduxState = ReduxState.createWithParams("", false, false).copy(
+            localParticipantState = LocalUserState(
+                mock {},
+                AudioState(
+                    AudioOperationalStatus.PENDING,
+                    AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
+                    BluetoothState(true, "")
+                ),
+                "",
+                ""
+            )
         )
 
         // Act
@@ -289,24 +323,26 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
     @Test
     fun switchCameraStatusHook_message_reduxStateFront_then_returnFrontCamera() {
         // Arrange
-        val reduxState = ReduxState("", false, false)
+
         val switchCameraStatusHook = SwitchCameraStatusHook()
         val mockContext = mock<Context> {
             on { getString(R.string.azure_communication_ui_calling_switch_camera_button_front) } doAnswer { "Front camera on, switch to back camera" }
         }
         val mockAudioState = mock<AudioState> {}
-        reduxState.localParticipantState = LocalUserState(
-            CameraState(
-                CameraOperationalStatus.ON,
-                CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
-            ),
-            mockAudioState, "", ""
+        val reduxState = ReduxState.createWithParams("", false, false).copy(
+            localParticipantState = LocalUserState(
+                CameraState(
+                    CameraOperationalStatus.ON,
+                    CameraDeviceSelectionStatus.FRONT,
+                    CameraTransmissionStatus.LOCAL
+                ),
+                mockAudioState, "", ""
+            )
         )
 
         // Act
         val message = switchCameraStatusHook.message(
-            ReduxState("", false, false),
+            ReduxState.createWithParams("", false, false),
             reduxState, mockContext
         )
 
@@ -317,24 +353,26 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
     @Test
     fun switchCameraStatusHook_message_reduxStateBack_then_returnBackCamera() {
         // Arrange
-        val reduxState = ReduxState("", false, false)
+
         val switchCameraStatusHook = SwitchCameraStatusHook()
         val mockContext = mock<Context> {
             on { getString(R.string.azure_communication_ui_calling_switch_camera_button_back) } doAnswer { "Back camera on, switch to front camera" }
         }
         val mockAudioState = mock<AudioState> {}
-        reduxState.localParticipantState = LocalUserState(
-            CameraState(
-                CameraOperationalStatus.ON,
-                CameraDeviceSelectionStatus.BACK,
-                CameraTransmissionStatus.LOCAL
-            ),
-            mockAudioState, "", ""
+        val reduxState = ReduxState.createWithParams("", false, false).copy(
+            localParticipantState = LocalUserState(
+                CameraState(
+                    CameraOperationalStatus.ON,
+                    CameraDeviceSelectionStatus.BACK,
+                    CameraTransmissionStatus.LOCAL
+                ),
+                mockAudioState, "", ""
+            )
         )
 
         // Act
         val message = switchCameraStatusHook.message(
-            ReduxState("", false, false),
+            ReduxState.createWithParams("", false, false),
             reduxState, mockContext
         )
 
@@ -345,21 +383,26 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
     @Test
     fun switchCameraStatusHook_message_reduxStateOthers_then_returnEmpty() {
         // Arrange
-        val reduxState = ReduxState("", false, false)
         val switchCameraStatusHook = SwitchCameraStatusHook()
         val mockContext = mock<Context> { }
         val mockAudioState = mock<AudioState> {}
-        reduxState.localParticipantState = LocalUserState(
-            CameraState(
-                CameraOperationalStatus.ON,
-                CameraDeviceSelectionStatus.SWITCHING,
-                CameraTransmissionStatus.LOCAL
-            ),
-            mockAudioState, "", ""
+        val reduxState = ReduxState.createWithParams("", false, false).copy(
+            localParticipantState = LocalUserState(
+                CameraState(
+                    CameraOperationalStatus.ON,
+                    CameraDeviceSelectionStatus.SWITCHING,
+                    CameraTransmissionStatus.LOCAL
+                ),
+                mockAudioState, "", ""
+            )
         )
 
         // Act
-        val message = switchCameraStatusHook.message(ReduxState("", false, false), reduxState, mockContext)
+        val message = switchCameraStatusHook.message(
+            ReduxState.createWithParams("", false, false),
+            reduxState,
+            mockContext
+        )
 
         // Assert
         Assert.assertEquals(message, "")
@@ -368,16 +411,17 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
     @Test
     fun switchCameraStatusHook_shouldTrigger_reduxStateSame_then_returnFalse() {
         // Arrange
-        val reduxState = ReduxState("", false, false)
         val switchCameraStatusHook = SwitchCameraStatusHook()
         val mockAudioState = mock<AudioState> {}
-        reduxState.localParticipantState = LocalUserState(
-            CameraState(
-                CameraOperationalStatus.ON,
-                CameraDeviceSelectionStatus.SWITCHING,
-                CameraTransmissionStatus.LOCAL
-            ),
-            mockAudioState, "", ""
+        val reduxState = ReduxState.createWithParams("", false, false).copy(
+            localParticipantState = LocalUserState(
+                CameraState(
+                    CameraOperationalStatus.ON,
+                    CameraDeviceSelectionStatus.SWITCHING,
+                    CameraTransmissionStatus.LOCAL
+                ),
+                mockAudioState, "", ""
+            )
         )
 
         // Act
@@ -390,20 +434,24 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
     @Test
     fun switchCameraStatusHook_shouldTrigger_reduxStateDiffer_then_returnTrue() {
         // Arrange
-        val reduxState = ReduxState("", false, false)
         val switchCameraStatusHook = SwitchCameraStatusHook()
         val mockAudioState = mock<AudioState> {}
-        reduxState.localParticipantState = LocalUserState(
-            CameraState(
-                CameraOperationalStatus.ON,
-                CameraDeviceSelectionStatus.SWITCHING,
-                CameraTransmissionStatus.LOCAL
-            ),
-            mockAudioState, "", ""
+        val reduxState = ReduxState.createWithParams("", false, false).copy(
+            localParticipantState = LocalUserState(
+                CameraState(
+                    CameraOperationalStatus.ON,
+                    CameraDeviceSelectionStatus.SWITCHING,
+                    CameraTransmissionStatus.LOCAL
+                ),
+                mockAudioState, "", ""
+            )
         )
 
         // Act
-        val result = switchCameraStatusHook.shouldTrigger(ReduxState("", false, false), reduxState)
+        val result = switchCameraStatusHook.shouldTrigger(
+            ReduxState.createWithParams("", false, false),
+            reduxState
+        )
 
         // Assert
         Assert.assertEquals(result, true)
@@ -412,12 +460,16 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
     @Test
     fun meetingJoinedHook_shouldTrigger_reduxStateDiffer_then_returnTrue() {
         // Arrange
-        val reduxState = ReduxState("", false, false)
         val meetingJoinedHook = MeetingJoinedHook()
-        reduxState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+        val reduxState = ReduxState.createWithParams("", false, false).copy(
+            callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+        )
 
         // Act
-        val result = meetingJoinedHook.shouldTrigger(ReduxState("", false, false), reduxState)
+        val result = meetingJoinedHook.shouldTrigger(
+            ReduxState.createWithParams("", false, false),
+            reduxState
+        )
 
         // Assert
         Assert.assertEquals(result, true)
@@ -426,9 +478,11 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
     @Test
     fun meetingJoinedHook_shouldTrigger_reduxStateSame_then_returnFalse() {
         // Arrange
-        val reduxState = ReduxState("", false, false)
         val meetingJoinedHook = MeetingJoinedHook()
-        reduxState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+        val reduxState = ReduxState.createWithParams("", false, false).copy(
+            callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+        )
+
 
         // Act
         val result = meetingJoinedHook.shouldTrigger(reduxState, reduxState)
@@ -440,12 +494,14 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
     @Test
     fun meetingJoinedHook_message_reduxStateAny_then_returnJoined() {
         // Arrange
-        val reduxState = ReduxState("", false, false)
         val meetingJoinedHook = MeetingJoinedHook()
         val mockContext = mock<Context> {
             on { getString(R.string.azure_communication_ui_calling_accessibility_meeting_connected) } doAnswer { "You have joined the call" }
         }
-        reduxState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+        val reduxState = ReduxState.createWithParams("", false, false).copy(
+            callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+        )
+
 
         // Act
         val message = meetingJoinedHook.message(reduxState, reduxState, mockContext)
@@ -457,13 +513,19 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
     @Test
     fun participantAddedOrRemovedHook_shouldTrigger_reduxStateDiffer_then_returnTrue() {
         // Arrange
-        val reduxState = ReduxState("", false, false)
         val meetingJoinedHook = MeetingJoinedHook()
-        reduxState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
-        reduxState.remoteParticipantState =
+        val reduxState = ReduxState.createWithParams("", false, false).copy(
+            callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE),
+            remoteParticipantState =
             RemoteParticipantsState(mapOf(Pair("a", mock { })), 5000, listOf(), 0)
+        )
+
+
         // Act
-        val result = meetingJoinedHook.shouldTrigger(ReduxState("", false, false), reduxState)
+        val result = meetingJoinedHook.shouldTrigger(
+            ReduxState.createWithParams("", false, false),
+            reduxState
+        )
 
         // Assert
         Assert.assertEquals(result, true)
@@ -472,12 +534,13 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
     @Test
     fun participantAddedOrRemovedHook_shouldTrigger_reduxStateSame_then_returnFalse() {
         // Arrange
-        val reduxState = ReduxState("", false, false)
         val meetingJoinedHook = MeetingJoinedHook()
-        reduxState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
-        reduxState.remoteParticipantState =
+        val reduxState = ReduxState.createWithParams("", false, false).copy(
+            callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE),
+            remoteParticipantState =
             RemoteParticipantsState(mapOf(Pair("a", mock { })), 5000, listOf(), 0)
-        // Act
+        )
+
         val result = meetingJoinedHook.shouldTrigger(reduxState, reduxState)
 
         // Assert
@@ -487,7 +550,6 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
     @Test
     fun participantAddedOrRemovedHook_message_reduxStateHasParticipants_then_returnJoinedMessage() {
         // Arrange
-        val reduxState = ReduxState("", false, false)
         val participantAddedOrRemovedHook = ParticipantAddedOrRemovedHook()
         val mockContext = mock<Context> {
             on {
@@ -497,24 +559,32 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 )
             } doAnswer { "user has joined the meeting" }
         }
-        reduxState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
-        reduxState.remoteParticipantState = RemoteParticipantsState(
-            mapOf(
-                Pair(
-                    "a",
-                    mock {
-                        on { displayName } doAnswer { "user" }
-                    }
-                )
-            ),
-            5000,
-            listOf(),
-            0
+        val reduxState = ReduxState.createWithParams("", false, false).copy(
+            callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE),
+            remoteParticipantState = RemoteParticipantsState(
+                mapOf(
+                    Pair(
+                        "a",
+                        mock {
+                            on { displayName } doAnswer { "user" }
+                        }
+                    )
+                ),
+                5000,
+                listOf(),
+                0
+            )
+
         )
+
 
         // Act
         val message =
-            participantAddedOrRemovedHook.message(ReduxState("", false, false), reduxState, mockContext)
+            participantAddedOrRemovedHook.message(
+                ReduxState.createWithParams("", false, false),
+                reduxState,
+                mockContext
+            )
 
         // Assert
         Assert.assertEquals(message, "user has joined the meeting")
@@ -523,7 +593,6 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
     @Test
     fun participantAddedOrRemovedHook_message_reduxStateHasRemovedParticipants_then_returnLeftMessage() {
         // Arrange
-        val reduxState = ReduxState("", false, false)
         val participantAddedOrRemovedHook = ParticipantAddedOrRemovedHook()
         val mockContext = mock<Context> {
             on {
@@ -533,24 +602,33 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 )
             } doAnswer { "user has left the meeting" }
         }
-        reduxState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
-        reduxState.remoteParticipantState = RemoteParticipantsState(
-            mapOf(
-                Pair(
-                    "a",
-                    mock {
-                        on { displayName } doAnswer { "user" }
-                    }
-                )
-            ),
-            5000,
-            listOf(),
-            0
+
+        val reduxState = ReduxState.createWithParams("", false, false).copy(
+            callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE),
+            remoteParticipantState = RemoteParticipantsState(
+                mapOf(
+                    Pair(
+                        "a",
+                        mock {
+                            on { displayName } doAnswer { "user" }
+                        }
+                    )
+                ),
+                5000,
+                listOf(),
+                0
+            )
+
         )
+
 
         // Act
         val message =
-            participantAddedOrRemovedHook.message(reduxState, ReduxState("", false, false), mockContext)
+            participantAddedOrRemovedHook.message(
+                reduxState,
+                ReduxState.createWithParams("", false, false),
+                mockContext
+            )
 
         // Assert
         Assert.assertEquals(message, "user has left the meeting")

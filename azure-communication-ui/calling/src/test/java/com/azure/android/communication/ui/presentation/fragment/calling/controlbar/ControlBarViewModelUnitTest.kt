@@ -42,20 +42,22 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @Test
     fun controlBarViewModel_turnMicOn_then_dispatchTurnMicOn() {
-        val appState = ReduxState("", false, false)
-        appState.localParticipantState = LocalUserState(
-            CameraState(
-                CameraOperationalStatus.PAUSED,
-                CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
-            ),
-            AudioState(
-                AudioOperationalStatus.PENDING,
-                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
-                BluetoothState(available = false, deviceName = "bluetooth")
-            ),
-            videoStreamID = null,
-            displayName = "username"
+        val appState = ReduxState.createWithParams("", false, false).copy(
+            localParticipantState = LocalUserState(
+                CameraState(
+                    CameraOperationalStatus.PAUSED,
+                    CameraDeviceSelectionStatus.FRONT,
+                    CameraTransmissionStatus.LOCAL
+                ),
+                AudioState(
+                    AudioOperationalStatus.PENDING,
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                ),
+                videoStreamID = null,
+                displayName = "username"
+            )
+
         )
 
         val mockAppStore = mock<AppStore<ReduxState>> {
@@ -74,20 +76,21 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @Test
     fun controlBarViewModel_turnMicOn_then_dispatchTurnMicOff() {
-        val appState = ReduxState("", false, false)
-        appState.localParticipantState = LocalUserState(
-            CameraState(
-                CameraOperationalStatus.PAUSED,
-                CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
-            ),
-            AudioState(
-                AudioOperationalStatus.PENDING,
-                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
-                BluetoothState(available = false, deviceName = "bluetooth")
-            ),
-            videoStreamID = null,
-            displayName = "username"
+        val appState = ReduxState.createWithParams("", false, false).copy(
+            localParticipantState = LocalUserState(
+                CameraState(
+                    CameraOperationalStatus.PAUSED,
+                    CameraDeviceSelectionStatus.FRONT,
+                    CameraTransmissionStatus.LOCAL
+                ),
+                AudioState(
+                    AudioOperationalStatus.PENDING,
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                ),
+                videoStreamID = null,
+                displayName = "username"
+            )
         )
 
         val mockAppStore = mock<AppStore<ReduxState>> {
@@ -411,7 +414,8 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultListFromOnHoldCallStatusStateFlow = mutableListOf<Boolean>()
             val flowJob = launch {
-                callingViewModel.getOnHoldCallStatusStateFlowStateFlow().toList(resultListFromOnHoldCallStatusStateFlow)
+                callingViewModel.getOnHoldCallStatusStateFlowStateFlow()
+                    .toList(resultListFromOnHoldCallStatusStateFlow)
             }
 
             // act

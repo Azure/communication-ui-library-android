@@ -66,8 +66,10 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val appState = ReduxState("", false, false)
-            appState.localParticipantState = getLocalUserState()
+            val appState = ReduxState.createWithParams("", false, false).copy(
+                localParticipantState = getLocalUserState()
+            )
+
             val stateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getStateFlow() } doAnswer { stateFlow }
@@ -77,7 +79,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(),) } doAnswer { }
+                on { update(any(), any(), any(), any()) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -101,7 +103,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockMoreCallOptionsListViewModel = mock<MoreCallOptionsListViewModel>()
 
             val mockToastNotificationViewModel = mock<ToastNotificationViewModel>()
-            val mockUpperMessageBarNotificationLayoutViewModel = mock<UpperMessageBarNotificationLayoutViewModel>()
+            val mockUpperMessageBarNotificationLayoutViewModel =
+                mock<UpperMessageBarNotificationLayoutViewModel>()
 
             val mockNetworkManager = mock<NetworkManager>()
 
@@ -127,9 +130,10 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockNetworkManager
             )
 
-            val newBackgroundState = ReduxState("", false, false)
-            newBackgroundState.lifecycleState = LifecycleState(LifecycleStatus.BACKGROUND)
-            newBackgroundState.localParticipantState = getLocalUserState()
+            val newBackgroundState = ReduxState.createWithParams("", false, false).copy(
+                lifecycleState = LifecycleState(LifecycleStatus.BACKGROUND),
+                localParticipantState = getLocalUserState()
+            )
 
             // act
             val flowJob = launch {
@@ -159,8 +163,10 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val appState = ReduxState("", false, false)
-            appState.localParticipantState = getLocalUserState()
+            val appState = ReduxState.createWithParams("", false, false).copy(
+                localParticipantState = getLocalUserState()
+            )
+
             val stateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getStateFlow() } doAnswer { stateFlow }
@@ -170,7 +176,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(),) } doAnswer { }
+                on { update(any(), any(), any(), any()) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -193,7 +199,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockMoreCallOptionsListViewModel = mock<MoreCallOptionsListViewModel>()
             val mockNetworkManager = mock<NetworkManager>()
             val mockToastNotificationViewModel = mock<ToastNotificationViewModel>()
-            val mockUpperMessageBarNotificationLayoutViewModel = mock<UpperMessageBarNotificationLayoutViewModel>()
+            val mockUpperMessageBarNotificationLayoutViewModel =
+                mock<UpperMessageBarNotificationLayoutViewModel>()
 
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { participantGridViewModel } doAnswer { mockParticipantGridViewModel }
@@ -218,9 +225,11 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockNetworkManager
             )
 
-            val newForegroundState = ReduxState("", false, false)
-            newForegroundState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
-            newForegroundState.localParticipantState = getLocalUserState()
+            val newForegroundState = ReduxState.createWithParams("", false, false).copy(
+                lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND),
+                localParticipantState = getLocalUserState()
+
+            )
 
             // act
             val flowJob = launch {
@@ -250,8 +259,10 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val appState = ReduxState("", false, false)
-            appState.localParticipantState = getLocalUserState()
+            val appState = ReduxState.createWithParams("", false, false).copy(
+                localParticipantState = getLocalUserState()
+            )
+
             val stateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getStateFlow() } doAnswer { stateFlow }
@@ -262,7 +273,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(),) } doAnswer { }
+                on { update(any(), any(), any(), any()) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -284,7 +295,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockMoreCallOptionsListViewModel = mock<MoreCallOptionsListViewModel>()
             val mockNetworkManager = mock<NetworkManager>()
             val mockToastNotificationViewModel = mock<ToastNotificationViewModel>()
-            val mockUpperMessageBarNotificationLayoutViewModel = mock<UpperMessageBarNotificationLayoutViewModel>()
+            val mockUpperMessageBarNotificationLayoutViewModel =
+                mock<UpperMessageBarNotificationLayoutViewModel>()
 
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { participantGridViewModel } doAnswer { mockParticipantGridViewModel }
@@ -309,14 +321,16 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockNetworkManager
             )
 
-            val storeState = ReduxState("", false, false)
-            storeState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
-            storeState.localParticipantState = getLocalUserState()
-            storeState.callState = CallingState(
-                CallingStatus.CONNECTED,
-                OperationStatus.NONE,
-                isRecording = false,
-                isTranscribing = false
+            val storeState = ReduxState.createWithParams("", false, false).copy(
+                lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND),
+                localParticipantState = getLocalUserState(),
+                callState = CallingState(
+                    CallingStatus.CONNECTED,
+                    OperationStatus.NONE,
+                    isRecording = false,
+                    isTranscribing = false
+                )
+
             )
 
             // act
@@ -350,8 +364,10 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val appState = ReduxState("", false, false)
-            appState.localParticipantState = getLocalUserState()
+            val appState = ReduxState.createWithParams("", false, false).copy(
+                localParticipantState = getLocalUserState()
+            )
+
             val stateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getStateFlow() } doAnswer { stateFlow }
@@ -361,7 +377,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(),) } doAnswer { }
+                on { update(any(), any(), any(), any()) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -383,7 +399,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockMoreCallOptionsListViewModel = mock<MoreCallOptionsListViewModel>()
             val mockNetworkManager = mock<NetworkManager>()
             val mockToastNotificationViewModel = mock<ToastNotificationViewModel>()
-            val mockUpperMessageBarNotificationLayoutViewModel = mock<UpperMessageBarNotificationLayoutViewModel>()
+            val mockUpperMessageBarNotificationLayoutViewModel =
+                mock<UpperMessageBarNotificationLayoutViewModel>()
 
             val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
                 on { participantGridViewModel } doAnswer { mockParticipantGridViewModel }
@@ -408,9 +425,11 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockNetworkManager
             )
 
-            val newForegroundState = ReduxState("", false, false)
-            newForegroundState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
-            newForegroundState.localParticipantState = getLocalUserState()
+            val newForegroundState = ReduxState.createWithParams("", false, false).copy(
+                lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND),
+                localParticipantState = getLocalUserState()
+
+            )
 
             // act
             val flowJob = launch {
@@ -550,8 +569,10 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         expectedParticipantCountOnParticipantList: Int
     ) {
         // arrange
-        val appState = ReduxState("", false, false)
-        appState.localParticipantState = getLocalUserState()
+        val appState = ReduxState.createWithParams("", false, false).copy(
+            localParticipantState = getLocalUserState()
+        )
+
 
         val timestamp: Number = System.currentTimeMillis()
 
@@ -580,7 +601,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         val mockMoreCallOptionsListViewModel = mock<MoreCallOptionsListViewModel>()
         val mockNetworkManager = mock<NetworkManager>()
         val mockToastNotificationViewModel = mock<ToastNotificationViewModel>()
-        val mockUpperMessageBarNotificationLayoutViewModel = mock<UpperMessageBarNotificationLayoutViewModel>()
+        val mockUpperMessageBarNotificationLayoutViewModel =
+            mock<UpperMessageBarNotificationLayoutViewModel>()
 
         val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
             on { participantGridViewModel } doAnswer { mockParticipantGridViewModel }
@@ -605,20 +627,22 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             mockNetworkManager
         )
 
-        val newState = ReduxState("", false, false)
-        newState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
-        newState.localParticipantState = getLocalUserState()
-        newState.callState = CallingState(
-            CallingStatus.CONNECTED,
-            OperationStatus.NONE,
-            isRecording = false,
-            isTranscribing = false
-        )
-        newState.remoteParticipantState = RemoteParticipantsState(
-            participantMap,
-            timestamp,
-            listOf(),
-            0
+        val newState = ReduxState.createWithParams("", false, false).copy(
+            lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND),
+            localParticipantState = getLocalUserState(),
+            callState = CallingState(
+                CallingStatus.CONNECTED,
+                OperationStatus.NONE,
+                isRecording = false,
+                isTranscribing = false
+            ),
+            remoteParticipantState = RemoteParticipantsState(
+                participantMap,
+                timestamp,
+                listOf(),
+                0
+            )
+
         )
 
         // act

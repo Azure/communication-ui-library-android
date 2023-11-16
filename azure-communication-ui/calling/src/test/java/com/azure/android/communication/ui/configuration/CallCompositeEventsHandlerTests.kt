@@ -8,6 +8,7 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import com.azure.android.communication.ui.calling.redux.state.ErrorState
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
+import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -21,8 +22,11 @@ internal class CallCompositeEventsHandlerTests : ACSBaseTestCoroutine() {
     fun errorHandler_onStateChange_andAdnRemoveErrorHandler_callsNothing() = runScopedTest {
 
         // arrange
-        val appState = ReduxState("", false, false)
-        appState.errorState = ErrorState(null, null)
+        val appState = ReduxState.createWithParams("", false, false)
+            .copy(
+                errorState = ErrorState(null, null)
+            )
+
 
         val handler1 = mock<CallCompositeEventHandler<CallCompositeErrorEvent>> { }
         val handler2 = mock<CallCompositeEventHandler<CallCompositeErrorEvent>> { }

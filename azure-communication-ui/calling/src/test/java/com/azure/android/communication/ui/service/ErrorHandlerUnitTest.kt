@@ -47,11 +47,13 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
     fun errorHandler_onStateChange_withNoError_callsNothing() =
         runScopedTest {
             // arrange
-            val appState = ReduxState("", false, false)
-            appState.errorState = ErrorState(null, null)
+            val appState = ReduxState.createWithParams("", false, false).copy(
+                errorState = ErrorState(null, null)
+            )
+
 
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(
-                ReduxState(
+                ReduxState.createWithParams(
                     "",
                     false,
                     false
@@ -93,27 +95,28 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
     fun errorHandler_onStateChange_withCameraError_doNotCallException() =
         runScopedTest {
             // arrange
-            val appState = ReduxState("", false, false)
             val error = Exception("Camera error")
-            appState.errorState = ErrorState(null, null)
-            appState.localParticipantState = LocalUserState(
-                CameraState(
-                    CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT,
-                    CameraTransmissionStatus.REMOTE,
-                    2,
-                    CallCompositeError(ErrorCode.TURN_CAMERA_OFF_FAILED, error),
-                ),
-                AudioState(
-                    AudioOperationalStatus.OFF,
-                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
-                    BluetoothState(available = false, deviceName = "bluetooth")
-                ),
-                videoStreamID = null,
-                displayName = "name"
+            val appState = ReduxState.createWithParams("", false, false).copy(
+                errorState = ErrorState(null, null),
+                localParticipantState = LocalUserState(
+                    CameraState(
+                        CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT,
+                        CameraTransmissionStatus.REMOTE,
+                        2,
+                        CallCompositeError(ErrorCode.TURN_CAMERA_OFF_FAILED, error),
+                    ),
+                    AudioState(
+                        AudioOperationalStatus.OFF,
+                        AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                        BluetoothState(available = false, deviceName = "bluetooth")
+                    ),
+                    videoStreamID = null,
+                    displayName = "name"
+                )
             )
 
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(
-                ReduxState(
+                ReduxState.createWithParams(
                     "",
                     false,
                     false
@@ -153,26 +156,28 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
     fun errorHandler_onStateChange_withMicError_doNotCallException() =
         runScopedTest {
             // arrange
-            val appState = ReduxState("", false, false)
             val error = Exception("Mic error")
-            appState.errorState = ErrorState(null, null)
-            appState.localParticipantState = LocalUserState(
-                CameraState(
-                    CameraOperationalStatus.OFF,
-                    CameraDeviceSelectionStatus.FRONT,
-                    CameraTransmissionStatus.REMOTE
-                ),
-                AudioState(
-                    AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED,
-                    BluetoothState(available = false, deviceName = "bluetooth"),
-                    CallCompositeError(ErrorCode.TURN_MIC_OFF_FAILED, error),
-                ),
-                videoStreamID = null,
-                displayName = "name"
+            val appState = ReduxState.createWithParams("", false, false).copy(
+                errorState = ErrorState(null, null),
+                localParticipantState = LocalUserState(
+                    CameraState(
+                        CameraOperationalStatus.OFF,
+                        CameraDeviceSelectionStatus.FRONT,
+                        CameraTransmissionStatus.REMOTE
+                    ),
+                    AudioState(
+                        AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                        BluetoothState(available = false, deviceName = "bluetooth"),
+                        CallCompositeError(ErrorCode.TURN_MIC_OFF_FAILED, error),
+                    ),
+                    videoStreamID = null,
+                    displayName = "name"
+                )
             )
 
+
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(
-                ReduxState(
+                ReduxState.createWithParams(
                     "",
                     false,
                     false
@@ -212,12 +217,13 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
     fun errorHandler_onStateChange_withCallStateErrorTokenExpired_callsOnException() =
         runScopedTest {
             // arrange
-            val appState = ReduxState("", false, false)
-            appState.errorState =
+            val appState = ReduxState.createWithParams("", false, false).copy(
+                errorState =
                 ErrorState(null, CallStateError(ErrorCode.TOKEN_EXPIRED, null))
+            )
 
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(
-                ReduxState(
+                ReduxState.createWithParams(
                     "",
                     false,
                     false
@@ -266,15 +272,17 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
     fun errorHandler_onStateChange_withCallStateErrorCallEvicted_callsNothing() =
         runScopedTest {
             // arrange
-            val appState = ReduxState("", false, false)
-            appState.errorState =
+            val appState = ReduxState.createWithParams("", false, false).copy(
+                errorState =
                 ErrorState(
                     null,
                     CallStateError(CALL_END_FAILED, CALL_EVICTED)
                 )
+            )
+
 
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(
-                ReduxState(
+                ReduxState.createWithParams(
                     "",
                     false,
                     false
@@ -315,15 +323,16 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
     fun errorHandler_onStateChange_withCallStateErrorCallDeclined_callsNothing() =
         runScopedTest {
             // arrange
-            val appState = ReduxState("", false, false)
-            appState.errorState =
+            val appState = ReduxState.createWithParams("", false, false).copy(
+                errorState =
                 ErrorState(
                     null,
                     CallStateError(CALL_END_FAILED, CALL_DECLINED)
                 )
+            )
 
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(
-                ReduxState(
+                ReduxState.createWithParams(
                     "",
                     false,
                     false
@@ -364,12 +373,13 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
     fun errorHandler_onStateChange_withNetworkError_notifyCallJoinFailed() =
         runScopedTest {
             // arrange
-            val appState = ReduxState("", false, false)
-            appState.errorState =
+            val appState = ReduxState.createWithParams("", false, false).copy(
+                errorState =
                 ErrorState(null, CallStateError(ErrorCode.NETWORK_NOT_AVAILABLE, null))
+            )
 
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(
-                ReduxState(
+                ReduxState.createWithParams(
                     "",
                     false,
                     false

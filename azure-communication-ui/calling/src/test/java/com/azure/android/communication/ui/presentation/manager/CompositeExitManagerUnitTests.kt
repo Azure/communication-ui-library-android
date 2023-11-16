@@ -31,8 +31,10 @@ internal class CompositeExitManagerUnitTests : ACSBaseTestCoroutine() {
     fun lifecycleManager_callStateConnected_then_callEndRequestedTriggered() {
         runScopedTest {
             // Arrange
-            val state = ReduxState(displayName = "", cameraOnByDefault = false, microphoneOnByDefault = false)
-            state.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val state = ReduxState.createWithParams(displayName = "", cameraOnByDefault = false, microphoneOnByDefault = false).copy(
+                callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            )
+
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn state
                 on { dispatch(any()) } doAnswer { }
@@ -56,8 +58,10 @@ internal class CompositeExitManagerUnitTests : ACSBaseTestCoroutine() {
     fun lifecycleManager_callStateNotChanged_then_navigationActionTriggered() {
         runScopedTest {
             // Arrange
-            val state = ReduxState(displayName = "", cameraOnByDefault = false, microphoneOnByDefault = false)
-            state.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
+            val state = ReduxState.createWithParams(displayName = "", cameraOnByDefault = false, microphoneOnByDefault = false).copy(
+                callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
+            )
+
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn state
                 on { dispatch(any()) } doAnswer { }
