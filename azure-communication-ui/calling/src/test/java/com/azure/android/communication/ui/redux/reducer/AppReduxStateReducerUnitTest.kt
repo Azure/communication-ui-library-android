@@ -35,6 +35,7 @@ import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioSessionState
 import com.azure.android.communication.ui.calling.redux.state.AudioFocusStatus
 import com.azure.android.communication.ui.calling.redux.state.CallDiagnosticsState
+import com.azure.android.communication.ui.calling.redux.state.ReduxState
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -90,29 +91,30 @@ internal class ReduxStateReducerUnitTest {
                 mockCallDiagnosticsReducerImpl
             )
         val action = NavigationAction.CallLaunched()
-        val state = ReduxState("", false, false)
-        state.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
-        state.remoteParticipantState = RemoteParticipantsState(HashMap(), 0, listOf(), 0)
-        state.localParticipantState = LocalUserState(
-            CameraState(
-                CameraOperationalStatus.OFF,
-                CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
-            ),
-            AudioState(
-                AudioOperationalStatus.OFF,
-                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
-                BluetoothState(available = false, deviceName = "bluetooth")
-            ),
-            "",
-            ""
-        )
-        state.permissionState =
-            PermissionState(PermissionStatus.NOT_ASKED, PermissionStatus.NOT_ASKED)
-        state.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
-        state.audioSessionState = AudioSessionState(AudioFocusStatus.REJECTED)
+        val state = ReduxState.createWithParams("", false, false).copy(
+            callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE),
+            remoteParticipantState = RemoteParticipantsState(HashMap(), 0, listOf(), 0),
 
-        state.callDiagnosticsState = CallDiagnosticsState(null, null, null)
+            localParticipantState = LocalUserState(
+                CameraState(
+                    CameraOperationalStatus.OFF,
+                    CameraDeviceSelectionStatus.FRONT,
+                    CameraTransmissionStatus.LOCAL
+                ),
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth")
+                ),
+                "",
+                ""
+            ),
+            permissionState =
+            PermissionState(PermissionStatus.NOT_ASKED, PermissionStatus.NOT_ASKED),
+            lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND),
+            audioSessionState = AudioSessionState(AudioFocusStatus.REJECTED),
+            callDiagnosticsState = CallDiagnosticsState(null, null, null),
+        )
 
         Mockito.`when`(mockCallStateReducerImplementation.reduce(state.callState, action))
             .thenReturn(state.callState)
