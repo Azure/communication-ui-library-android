@@ -11,6 +11,10 @@ class IncomingCallActivity : AppCompatActivity() {
     private lateinit var binding: ActivityIncomingCallBinding
     private val callLauncherViewModel: CallLauncherViewModel by viewModels()
 
+    companion object {
+        const val TAG = "IncomingCallActivity"
+        const val DISPLAY_NAME = "DisplayName"
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_incoming_call)
@@ -35,6 +39,12 @@ class IncomingCallActivity : AppCompatActivity() {
                 CallCompositeManager.getInstance().declineIncomingCall()
                 finish()
             }
+
+            intent.getStringExtra(DISPLAY_NAME)?.let {
+                profileName.text = it
+            }
         }
+
+        supportActionBar?.hide();
     }
 }

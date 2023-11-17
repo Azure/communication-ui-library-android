@@ -1,36 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-   Copyright (c) Microsoft Corporation. All rights reserved.
-   Licensed under the MIT License.
-  -->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".IncomingCallActivity"
-    android:background="#242424"
-    android:padding="16dp">
+    android:layout_marginTop="16dp">
 
-
-
-    <Button
-        android:id="@+id/accept"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Accept"
+    <ImageView
+        android:id="@+id/profile_image"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/dialer_image"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/decline"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="100dp"/>
 
-
-    <Button
-        android:id="@+id/decline"
+    <TextView
+        android:id="@+id/profile_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Decline"
-        app:layout_constraintStart_toEndOf="@id/accept"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/profile_image"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/incoming_Call"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_name"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:text="@string/incoming_call"/>
+
+    <LinearLayout
+        android:id="@+id/decline_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/accept_layout"
+        android:layout_marginBottom="64dp"
+        android:gravity="center">
+        <ImageButton
+            android:id="@+id/decline"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:textColor="@color/white"
+            android:padding="14dp"
+            android:src="@drawable/ic_decline"
+            android:background="@drawable/bg_decline_circle"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/decline"
+            android:layout_marginTop="5dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/accept_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/decline_layout"
+        android:layout_marginBottom="64dp"
+        android:gravity="center">
+        <ImageButton
+            android:id="@+id/accept"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:textColor="@color/white"
+            android:padding="14dp"
+            android:src="@drawable/ic_accept"
+            android:background="@drawable/bg_accept_circle"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/accept"
+            android:layout_marginTop="5dp"/>
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

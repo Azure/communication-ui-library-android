@@ -28,6 +28,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOpti
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomIntegration
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomOptions
+import com.azure.android.communication.ui.callingcompositedemoapp.IncomingCallActivity.Companion.DISPLAY_NAME
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.telecom.TelecomConnectionManager
@@ -247,6 +248,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
             )
 
             val intent = Intent(applicationContext, IncomingCallActivity::class.java)
+            intent.putExtra(DISPLAY_NAME, notification.callerDisplayName)
             val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent,
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
 
@@ -260,12 +262,12 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
                     .setContentText(content)
                     .addAction(
                         android.R.drawable.ic_menu_call,
-                        "Accept",
+                        applicationContext.getString(R.string.accept),
                         answerCallPendingIntent
                     )
                     .addAction(
                         android.R.drawable.ic_menu_call,
-                        "Decline",
+                        applicationContext.getString(R.string.decline),
                         declineCallPendingIntent
                     )
                     .setStyle(NotificationCompat.DecoratedCustomViewStyle())
