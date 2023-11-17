@@ -167,8 +167,6 @@ class CallLauncherViewModel : ViewModel() {
 
         exitedCompositeToAcceptCall = false
 
-        val skipSetup = SettingsFeatures.getSkipSetupScreenFeatureOption()
-
         val localOptions = CallCompositeLocalOptions()
             .setParticipantViewData(SettingsFeatures.getParticipantViewData(applicationContext))
             .setSetupScreenViewData(
@@ -176,7 +174,7 @@ class CallLauncherViewModel : ViewModel() {
                     .setTitle(SettingsFeatures.getTitle())
                     .setSubtitle(SettingsFeatures.getSubtitle())
             )
-            .setSkipSetupScreen(skipSetup)
+            .setSkipSetupScreen(true) //Always skip setup screen for incoming call
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 

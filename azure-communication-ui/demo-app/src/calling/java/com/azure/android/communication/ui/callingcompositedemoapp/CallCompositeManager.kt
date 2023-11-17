@@ -245,6 +245,11 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
                 "%s",
                 notification.callerDisplayName
             )
+
+            val intent = Intent(applicationContext, IncomingCallActivity::class.java)
+            val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+
             val builder: NotificationCompat.Builder =
                 NotificationCompat.Builder(applicationContext, "acs")
                     .setContentIntent(resultPendingIntent)
@@ -270,6 +275,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
                     .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE))
                     .setOngoing(true)
                     .setAutoCancel(true)
+                    .setFullScreenIntent(pendingIntent, true)
             val notificationManager = NotificationManagerCompat.from(applicationContext)
             notificationManager.notify(1, builder.build())
         }
