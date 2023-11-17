@@ -211,6 +211,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
             val resultIntent = Intent(applicationContext, CallLauncherActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             }
+            resultIntent.action = "incoming_call"
             val stackBuilder = TaskStackBuilder.create(applicationContext)
             stackBuilder.addNextIntentWithParentStack(resultIntent)
 

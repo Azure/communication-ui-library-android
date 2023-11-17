@@ -16,6 +16,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -206,11 +207,18 @@ class CallLauncherActivity : AppCompatActivity() {
     private fun handlePushNotificationAction() {
         if (intent.action != null) {
             callLauncherViewModel.handleIncomingCall(this)
-            val action = intent.action
-            if (action == "answer") {
-                callLauncherViewModel.acceptIncomingCall(applicationContext)
-            } else if (action == "decline") {
-                CallCompositeManager.getInstance().declineIncomingCall()
+            when (intent.action) {
+                "incoming_call" -> {
+                    binding.incomingCallLayout.visibility = View.VISIBLE
+                }
+                "answer" -> {
+                    binding.incomingCallLayout.visibility = View.GONE
+                    callLauncherViewModel.acceptIncomingCall(applicationContext)
+                }
+                "decline" -> {
+                    binding.incomingCallLayout.visibility = View.GONE
+                    CallCompositeManager.getInstance().declineIncomingCall()
+                }
             }
         }
     }
