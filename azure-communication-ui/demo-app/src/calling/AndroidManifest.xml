@@ -25,6 +25,11 @@
         android:enableOnBackInvokedCallback="true"
         android:theme="@style/Theme.AppCompat">
         <activity
+            android:name=".IncomingCallActivity"
+            android:exported="false"
+            android:showOnLockScreen="true"/>
+
+        <activity
             android:name="com.azure.android.communication.ui.callingcompositedemoapp.SettingsActivity"
             android:exported="false"
             android:theme="@style/Launcher.Theme"
