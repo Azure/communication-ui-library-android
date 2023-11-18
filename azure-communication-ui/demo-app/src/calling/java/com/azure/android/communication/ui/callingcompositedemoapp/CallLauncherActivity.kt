@@ -8,11 +8,15 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.media.AudioAttributes
+import android.media.AudioManager
+import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -37,7 +41,7 @@ class CallLauncherActivity : AppCompatActivity() {
     companion object {
         const val TAG = "communication.ui.demo"
     }
-
+    private val ringToneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
     private lateinit var binding: ActivityCallLauncherBinding
     private val callLauncherViewModel: CallLauncherViewModel by viewModels()
     private val sharedPreference by lazy {
@@ -203,11 +207,18 @@ class CallLauncherActivity : AppCompatActivity() {
     private fun handlePushNotificationAction() {
         if (intent.action != null) {
             callLauncherViewModel.handleIncomingCall(this)
-            val action = intent.action
-            if (action == "answer") {
-                callLauncherViewModel.acceptIncomingCall(applicationContext)
-            } else if (action == "decline") {
-                CallCompositeManager.getInstance().declineIncomingCall()
+            when (intent.action) {
+                "incoming_call" -> {
+                    binding.incomingCallLayout.visibility = View.VISIBLE
+                }
+                "answer" -> {
+                    binding.incomingCallLayout.visibility = View.GONE
+                    callLauncherViewModel.acceptIncomingCall(applicationContext)
+                }
+                "decline" -> {
+                    binding.incomingCallLayout.visibility = View.GONE
+                    CallCompositeManager.getInstance().declineIncomingCall()
+                }
             }
         }
     }
@@ -352,10 +363,24 @@ class CallLauncherActivity : AppCompatActivity() {
             val name: CharSequence = "acs"
             val description = "acs"
             val importance = NotificationManager.IMPORTANCE_HIGH
-            val channel =
-                NotificationChannel("acs", name, importance)
+
+            val channel = NotificationChannel(
+                "acs",
+                name,
+                importance)
+
             channel.description = description
             channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+            channel.enableVibration(true)
+            channel.setSound(ringToneUri,
+            AudioAttributes.Builder()
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .setLegacyStreamType(AudioManager.STREAM_RING)
+                .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE).build())
+            channel.enableLights(true)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                channel.setAllowBubbles(true)
+            }
             val notificationManager = getSystemService(
                 NotificationManager::class.java
             )

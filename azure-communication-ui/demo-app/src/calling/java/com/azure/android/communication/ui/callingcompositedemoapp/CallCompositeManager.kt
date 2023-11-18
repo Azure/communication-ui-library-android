@@ -28,6 +28,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOpti
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomIntegration
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomOptions
+import com.azure.android.communication.ui.callingcompositedemoapp.IncomingCallActivity.Companion.DISPLAY_NAME
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.telecom.TelecomConnectionManager
@@ -210,6 +211,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
             val resultIntent = Intent(applicationContext, CallLauncherActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             }
+            resultIntent.action = "incoming_call"
             val stackBuilder = TaskStackBuilder.create(applicationContext)
             stackBuilder.addNextIntentWithParentStack(resultIntent)
 
@@ -245,6 +247,12 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
                 "%s",
                 notification.callerDisplayName
             )
+
+            val intent = Intent(applicationContext, IncomingCallActivity::class.java)
+            intent.putExtra(DISPLAY_NAME, notification.callerDisplayName)
+            val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+
             val builder: NotificationCompat.Builder =
                 NotificationCompat.Builder(applicationContext, "acs")
                     .setContentIntent(resultPendingIntent)
@@ -255,12 +263,12 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
                     .setContentText(content)
                     .addAction(
                         android.R.drawable.ic_menu_call,
-                        "Accept",
+                        applicationContext.getString(R.string.accept),
                         answerCallPendingIntent
                     )
                     .addAction(
                         android.R.drawable.ic_menu_call,
-                        "Decline",
+                        applicationContext.getString(R.string.decline),
                         declineCallPendingIntent
                     )
                     .setStyle(NotificationCompat.DecoratedCustomViewStyle())
@@ -270,6 +278,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
                     .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE))
                     .setOngoing(true)
                     .setAutoCancel(true)
+                    .setFullScreenIntent(pendingIntent, true)
             val notificationManager = NotificationManagerCompat.from(applicationContext)
             notificationManager.notify(1, builder.build())
         }

@@ -21,9 +21,12 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS" />
 
-    <application
+    <application android:theme="@style/Theme.AppCompat">
+        <activity
+            android:name=".IncomingCallActivity"
+            android:exported="false"
+            android:showOnLockScreen="true"/>
 
-        android:theme="@style/Theme.AppCompat">
         <activity
             android:name="com.azure.android.communication.ui.callingcompositedemoapp.SettingsActivity"
             android:exported="false"
