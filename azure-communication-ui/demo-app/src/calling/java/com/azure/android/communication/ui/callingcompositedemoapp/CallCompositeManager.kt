@@ -253,8 +253,10 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
 
             val intent = Intent(applicationContext, IncomingCallActivity::class.java)
             intent.putExtra(DISPLAY_NAME, notification.callerDisplayName)
-            val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent,
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+            val pendingIntent = PendingIntent.getActivity(
+                applicationContext, 0, intent,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
 
             val builder: NotificationCompat.Builder =
                 NotificationCompat.Builder(applicationContext, "acs")
