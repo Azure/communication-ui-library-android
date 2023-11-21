@@ -6,7 +6,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityIncomingCallBinding
 
-
 class IncomingCallActivity : AppCompatActivity() {
     private lateinit var binding: ActivityIncomingCallBinding
     private val callLauncherViewModel: CallLauncherViewModel by viewModels()
@@ -26,8 +25,8 @@ class IncomingCallActivity : AppCompatActivity() {
 
         window.addFlags(
             WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-                    or WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-                    or WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                or WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+                or WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
         )
 
         binding.run {
@@ -45,6 +44,6 @@ class IncomingCallActivity : AppCompatActivity() {
             }
         }
 
-        supportActionBar?.hide();
+        supportActionBar?.hide()
     }
 }

@@ -367,16 +367,19 @@ class CallLauncherActivity : AppCompatActivity() {
             val channel = NotificationChannel(
                 "acs",
                 name,
-                importance)
+                importance
+            )
 
             channel.description = description
             channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
             channel.enableVibration(true)
-            channel.setSound(ringToneUri,
-            AudioAttributes.Builder()
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                .setLegacyStreamType(AudioManager.STREAM_RING)
-                .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE).build())
+            channel.setSound(
+                ringToneUri,
+                AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .setLegacyStreamType(AudioManager.STREAM_RING)
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE).build()
+            )
             channel.enableLights(true)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 channel.setAllowBubbles(true)
