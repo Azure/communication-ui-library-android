@@ -174,7 +174,7 @@ class CallLauncherViewModel : ViewModel() {
                     .setTitle(SettingsFeatures.getTitle())
                     .setSubtitle(SettingsFeatures.getSubtitle())
             )
-            .setSkipSetupScreen(true) //Always skip setup screen for incoming call
+            .setSkipSetupScreen(true) // Always skip setup screen for incoming call
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
