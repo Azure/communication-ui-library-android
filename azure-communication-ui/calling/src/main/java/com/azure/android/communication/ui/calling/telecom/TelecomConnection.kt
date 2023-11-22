@@ -15,7 +15,7 @@ import com.azure.android.communication.ui.calling.redux.action.CallingAction
 @RequiresApi(Build.VERSION_CODES.M)
 class TelecomConnection(private val callComposite: CallComposite) : Connection() {
     companion object {
-        private const val TAG = "CallConnection"
+        private const val TAG = "TelecomIntegration"
     }
 
     override fun onStateChanged(state: Int) {

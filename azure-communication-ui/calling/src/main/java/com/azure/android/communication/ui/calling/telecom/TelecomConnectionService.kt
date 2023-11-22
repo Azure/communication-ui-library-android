@@ -17,6 +17,7 @@ class TelecomConnectionService : ConnectionService() {
 
     companion object {
         var connection: TelecomConnection? = null
+        private const val TAG = "TelecomIntegration"
     }
 
     override fun onCreateIncomingConnection(
@@ -43,7 +44,7 @@ class TelecomConnectionService : ConnectionService() {
             request: ConnectionRequest?,
     ) {
         super.onCreateIncomingConnectionFailed(connectionManagerPhoneAccount, request)
-        Log.e("onCreateIncomingFailed:",request.toString())
+        Log.e(TAG, "onCreateIncomingFailed: ${request.toString()}")
     }
 
     override fun onCreateOutgoingConnectionFailed(
@@ -51,7 +52,7 @@ class TelecomConnectionService : ConnectionService() {
             request: ConnectionRequest?,
     ) {
         super.onCreateOutgoingConnectionFailed(connectionManagerPhoneAccount, request)
-        Log.e("onCreateOutgoingFailed:",request.toString())
+        Log.e(TAG, "onCreateOutgoingFailed: ${request.toString()}")
 
     }
 

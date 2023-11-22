@@ -27,7 +27,7 @@ internal class TelecomConnectionManager(context: Context,
                                         val phoneAccountId: String,
                                         private val instanceId: Int) {
 
-    private val TAG = "TelecomConnectionManager"
+    private val TAG = "TelecomIntegration"
     private var phoneAccountHandle: PhoneAccountHandle?
 
     companion object {
@@ -65,12 +65,12 @@ internal class TelecomConnectionManager(context: Context,
                 intent.setClassName("com.android.server.telecom",
                         "com.android.server.telecom.settings.EnableAccountPreferenceActivity")
                 context.startActivity(intent)
-                Log.e("startIncomingCall", e.message, e)
+                Log.e(TAG, "startIncomingCall: ${e.message}", e)
             } catch (e: Exception) {
                 Toast.makeText(context,"Error occurred:"+e.message,Toast.LENGTH_LONG).show()
             }
         } else {
-            Log.e("startIncomingCall: ","Permission not granted")
+            Log.e(TAG, "startIncomingCall: Permission not granted")
         }
     }
 
@@ -89,7 +89,7 @@ internal class TelecomConnectionManager(context: Context,
                 cursor?.use {
                     while (cursor.moveToNext()) {
                         val number = cursor.getString(cursor.getColumnIndexOrThrow(CallLog.Calls.NUMBER))
-                        Log.d("startOutgoingConnection", number)
+                        Log.d(TAG, "startOutgoingConnection $number")
                     }
                 }
 
@@ -114,16 +114,17 @@ internal class TelecomConnectionManager(context: Context,
                 intent.setClassName("com.android.server.telecom",
                         "com.android.server.telecom.settings.EnableAccountPreferenceActivity")
                 context.startActivity(intent)
-                Log.e("startIncomingCall", e.message, e)
+               Log.e(TAG, "startIncomingCall: ${e.message}", e)
             } catch (e: Exception) {
-                Log.e("startOutgoingCall", e.message, e)
+                Log.e(TAG, "startOutgoingCall: ${e.message}", e)
             }
         } else {
-            Log.e("startOutgoingCall: ","Permission not granted")
+            Log.e(TAG, "startOutgoingCall: Permission not granted")
         }
     }
 
     fun endConnection(context: Context, callerDisplayName: String) {
+        Log.d(TAG, "endConnection")
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.MANAGE_OWN_CALLS)
                 == PackageManager.PERMISSION_GRANTED) {
             val connection = TelecomConnectionService.connection
@@ -164,7 +165,7 @@ internal class TelecomConnectionManager(context: Context,
             try {
                 telecomManager.registerPhoneAccount(account)
             } catch (ex: java.lang.Exception) {
-                Log.e("registerPhoneAccount", ex.message, ex)
+                Log.e(TAG, "registerPhoneAccount ${ex.message}", ex)
             }
         }
     }
@@ -178,7 +179,7 @@ internal class TelecomConnectionManager(context: Context,
             clearMethod.invoke(telecomManager)
 //            logger.log(LogPriority.INFO, LOG_TAG, "Called clearPhoneAccounts successfully")
         } catch (ex: java.lang.Exception) {
-            Log.e("clearExistingAccounts", ex.message, ex)
+            Log.e(TAG, "clearExistingAccounts ${ex.message}", ex)
         }
     }
 
