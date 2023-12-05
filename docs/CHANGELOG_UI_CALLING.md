@@ -1,6 +1,6 @@
 # Azure Communication UI Calling Release History
 
-## 1.5.0 (2023-11-15)
+## 1.5.0 (2023-12-04)
 
 ### Features
 - Display Call Diagnostics.
