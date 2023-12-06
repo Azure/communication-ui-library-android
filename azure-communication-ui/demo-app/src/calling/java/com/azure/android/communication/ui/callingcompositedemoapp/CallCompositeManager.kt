@@ -116,6 +116,9 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
     }
 
     override fun onCompositeDismiss() {
+        val acsToken = applicationContext!!.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE).getString(CACHED_TOKEN, "")
+        val userName = applicationContext!!.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE).getString(CACHED_USER_NAME, "")
+        registerFirebaseToken(acsToken!!, userName!!)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             instance?.telecomConnectionManager?.endConnection(applicationContext!!)
         }
@@ -290,6 +293,10 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
     }
 
     fun registerFirebaseToken(token: String, displayName: String) {
+        if (token.isEmpty()) {
+            return
+        }
+
         FirebaseMessaging.getInstance().token.addOnCompleteListener(
             OnCompleteListener { task ->
                 if (!task.isSuccessful) {
@@ -300,7 +307,6 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
                     ).show()
                     return@OnCompleteListener
                 }
-
                 val deviceRegistrationToken = task.result
                 val callComposite = createCallComposite()
                 callComposite.registerPushNotification(

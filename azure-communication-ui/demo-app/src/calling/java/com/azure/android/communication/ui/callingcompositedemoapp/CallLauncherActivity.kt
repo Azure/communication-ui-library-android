@@ -201,6 +201,10 @@ class CallLauncherActivity : AppCompatActivity() {
 
             registerPushNotification.setOnClickListener {
                 // It is for demo only, storing token in shared preferences is not recommended (security issue)
+                if (acsTokenText.text.toString().isEmpty()) {
+                    showAlert("ACS token is empty.")
+                    return@setOnClickListener
+                }
                 sharedPreference.edit().putString(CACHED_TOKEN, acsTokenText.text.toString()).apply()
                 sharedPreference.edit().putString(CACHED_USER_NAME, userNameText.text.toString()).apply()
                 registerPuhNotification()
@@ -269,12 +273,13 @@ class CallLauncherActivity : AppCompatActivity() {
 
     private fun registerPuhNotification() {
         try {
-            val userName = binding.userNameText.text.toString()
-            val acsToken = binding.acsTokenText.text.toString()
+            val acsToken = sharedPreference.getString(CACHED_TOKEN, "")
+            val userName = sharedPreference.getString(CACHED_USER_NAME, "")
             CallCompositeManager.getInstance().registerFirebaseToken(
-                acsToken,
-                userName
+                acsToken!!,
+                userName!!
             )
+            showAlert("Register for push notification successfully.")
         } catch (e: Exception) {
             showAlert("Failed to register push notification token. " + e.message)
         }
@@ -305,7 +310,8 @@ class CallLauncherActivity : AppCompatActivity() {
     private fun launch() {
         val userName = binding.userNameText.text.toString()
         val acsToken = binding.acsTokenText.text.toString()
-
+        sharedPreference.edit().putString(CACHED_TOKEN, acsToken).apply()
+        sharedPreference.edit().putString(CACHED_USER_NAME, userName).apply()
         val roomId = binding.groupIdOrTeamsMeetingLinkText.text.toString()
         val roomRole = if (binding.attendeeRoleRadioButton.isChecked) CallCompositeParticipantRole.ATTENDEE
         else if (binding.presenterRoleRadioButton.isChecked) CallCompositeParticipantRole.PRESENTER
