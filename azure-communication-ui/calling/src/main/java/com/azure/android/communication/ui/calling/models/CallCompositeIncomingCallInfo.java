@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling.models;
 
 /**
- * Incoming call data.
+ * CallCompositeIncomingCallInfo
  */
 public class CallCompositeIncomingCallInfo {
     private final String callId;

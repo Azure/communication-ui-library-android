@@ -181,7 +181,11 @@ internal class CallingService(
                 logger?.debug(it.toString())
                 val callStateError = it.asCallStateError(currentStatus = callingStatus)
                 callingStatus = it.toCallingStatus()
-                callInfoModelSharedFlow.emit(CallInfoModel(callingStatus, callStateError))
+                if (callingStatus == CallingStatus.DISCONNECTED) {
+                    callInfoModelSharedFlow.emit(CallInfoModel(callingStatus, callStateError, it.callEndReason, it.callEndReasonSubCode))
+                } else {
+                    callInfoModelSharedFlow.emit(CallInfoModel(callingStatus, callStateError))
+                }
             }
         }
 

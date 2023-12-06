@@ -14,6 +14,9 @@
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">تم تحديد جهاز صوت %1$s</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">جارٍ الانضمام إلى مكالمة…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">جارٍ بدء المكالمة…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_ringing_call">يتم الآن الاتصال…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_start_call">بدء مكالمة</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">الفيديو قيد الإيقاف</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_on">تشغيل الفيديو</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">الميكروفون قيد الإيقاف</string>

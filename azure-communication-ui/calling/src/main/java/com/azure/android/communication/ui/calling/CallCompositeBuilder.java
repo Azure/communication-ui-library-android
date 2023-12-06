@@ -71,6 +71,12 @@ public final class CallCompositeBuilder {
         return this;
     }
 
+    /***
+     * Sets an optional telecom options for call-composite
+     *
+     * @param telecomOptions {@link CallCompositeTelecomOptions}
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
     public CallCompositeBuilder telecom(
             final CallCompositeTelecomOptions telecomOptions) {
         this.telecomOptions = telecomOptions;

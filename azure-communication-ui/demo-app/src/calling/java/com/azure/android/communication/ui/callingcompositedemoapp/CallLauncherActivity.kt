@@ -53,7 +53,7 @@ class CallLauncherActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         createNotificationChannels()
 
-        CallCompositeManager.initialize(applicationContext)
+        CallCompositeManager.initialize(this@CallLauncherActivity)
 
         if (shouldFinish()) {
             finish()
@@ -78,10 +78,10 @@ class CallLauncherActivity : AppCompatActivity() {
         val data: Uri? = intent?.data
         val deeplinkAcsToken = data?.getQueryParameter("acstoken")
         val deeplinkName = data?.getQueryParameter("name")
-        val deeplinkGroupId = data?.getQueryParameter("groupid")
+        var deeplinkGroupId = data?.getQueryParameter("groupid")
         val deeplinkTeamsUrl = data?.getQueryParameter("teamsurl")
         val participantMRI = data?.getQueryParameter("participanturis") ?: BuildConfig.PARTICIPANT_MRIS
-        val deepLinkRoomsId = data?.getQueryParameter("roomsid")
+        var deepLinkRoomsId = data?.getQueryParameter("roomsid")
 
         binding.run {
             if (!deeplinkAcsToken.isNullOrEmpty()) {
@@ -94,6 +94,10 @@ class CallLauncherActivity : AppCompatActivity() {
                 userNameText.setText(deeplinkName)
             } else {
                 userNameText.setText(BuildConfig.USER_NAME)
+            }
+
+            if (deeplinkGroupId.isNullOrEmpty()) {
+                deeplinkGroupId = BuildConfig.GROUP_CALL_ID
             }
 
             if (!deeplinkGroupId.isNullOrEmpty()) {
@@ -201,6 +205,10 @@ class CallLauncherActivity : AppCompatActivity() {
 
             registerPushNotification.setOnClickListener {
                 // It is for demo only, storing token in shared preferences is not recommended (security issue)
+                if (acsTokenText.text.toString().isEmpty()) {
+                    showAlert("ACS token is empty.")
+                    return@setOnClickListener
+                }
                 sharedPreference.edit().putString(CACHED_TOKEN, acsTokenText.text.toString()).apply()
                 sharedPreference.edit().putString(CACHED_USER_NAME, userNameText.text.toString()).apply()
                 registerPuhNotification()
@@ -224,6 +232,16 @@ class CallLauncherActivity : AppCompatActivity() {
                             SettingsFeatures.getReLaunchOnExitByDefaultOption()
                         ) {
                             launch()
+                        }
+                    }
+                }
+            }
+
+            lifecycleScope.launch {
+                callLauncherViewModel.callCompositeShowAlertStateStateFlow.collect {
+                    runOnUiThread {
+                        if (it.isNotEmpty()) {
+                            showAlert(it + "Call ID: " + callLauncherViewModel.getLastCallId(applicationContext))
                         }
                     }
                 }
@@ -257,7 +275,7 @@ class CallLauncherActivity : AppCompatActivity() {
                 }
                 "answer" -> {
                     binding.incomingCallLayout.visibility = View.GONE
-                    callLauncherViewModel.acceptIncomingCall(applicationContext)
+                    callLauncherViewModel.acceptIncomingCall(this@CallLauncherActivity)
                 }
                 "decline" -> {
                     binding.incomingCallLayout.visibility = View.GONE
@@ -269,12 +287,13 @@ class CallLauncherActivity : AppCompatActivity() {
 
     private fun registerPuhNotification() {
         try {
-            val userName = binding.userNameText.text.toString()
-            val acsToken = binding.acsTokenText.text.toString()
+            val acsToken = sharedPreference.getString(CACHED_TOKEN, "")
+            val userName = sharedPreference.getString(CACHED_USER_NAME, "")
             CallCompositeManager.getInstance().registerFirebaseToken(
-                acsToken,
-                userName
+                acsToken!!,
+                userName!!
             )
+            showAlert("Register for push notification successfully.")
         } catch (e: Exception) {
             showAlert("Failed to register push notification token. " + e.message)
         }
@@ -305,7 +324,8 @@ class CallLauncherActivity : AppCompatActivity() {
     private fun launch() {
         val userName = binding.userNameText.text.toString()
         val acsToken = binding.acsTokenText.text.toString()
-
+        sharedPreference.edit().putString(CACHED_TOKEN, acsToken).apply()
+        sharedPreference.edit().putString(CACHED_USER_NAME, userName).apply()
         val roomId = binding.groupIdOrTeamsMeetingLinkText.text.toString()
         val roomRole = if (binding.attendeeRoleRadioButton.isChecked) CallCompositeParticipantRole.ATTENDEE
         else if (binding.presenterRoleRadioButton.isChecked) CallCompositeParticipantRole.PRESENTER

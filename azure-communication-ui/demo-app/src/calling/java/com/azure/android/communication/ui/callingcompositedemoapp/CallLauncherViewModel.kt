@@ -10,6 +10,7 @@ import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
@@ -29,8 +30,9 @@ import com.azure.android.communication.ui.callingcompositedemoapp.views.EndCompo
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.UUID
 
-class CallLauncherViewModel : ViewModel() {
+class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
     val callCompositeCallStateStateFlow = MutableStateFlow("")
+    val callCompositeShowAlertStateStateFlow = MutableStateFlow("")
     val callCompositeExitSuccessStateFlow = MutableStateFlow(false)
     var isExitRequested = false
     private val callStateEventHandler = CallStateEventHandler(callCompositeCallStateStateFlow)
@@ -41,10 +43,17 @@ class CallLauncherViewModel : ViewModel() {
     private var callCompositeManager = CallCompositeManager.getInstance()
     private var callComposite: CallComposite? = null
     private var callCompositePictureInPictureChangedEvent: PiPListener? = null
+    private var audioSelectionChangedEvent: AudioSelectionSelection? = null
 
     fun destroy() {
         unsubscribe()
         callCompositeManager.destroy()
+        callComposite = null
+    }
+
+    fun onCompositeDismiss() {
+        unsubscribe()
+        callComposite = null
     }
 
     fun launch(
@@ -58,7 +67,7 @@ class CallLauncherViewModel : ViewModel() {
         participantMri: String?
     ) {
         createCallComposite(context)
-
+        callCompositeShowAlertStateStateFlow.value = ""
         if (!SettingsFeatures.getEndCallOnByDefaultOption()) {
             EndCompositeButtonView.get(context).hide()
         } else {
@@ -76,7 +85,7 @@ class CallLauncherViewModel : ViewModel() {
             else if (roomId != null && roomRoleHint != null) CallCompositeRoomLocator(roomId)
             else null
 
-        var skipSetup = SettingsFeatures.getSkipSetupScreenFeatureOption()
+        var skipSetup = SettingsFeatures.getSkipSetupScreenFeatureValue()
         val remoteOptions = if (locator == null && !participantMri.isNullOrEmpty()) {
             val participantMris = participantMri.split(",")
             val startCallOption = CallCompositeStartCallOptions(participantMris)
@@ -94,7 +103,6 @@ class CallLauncherViewModel : ViewModel() {
             )
             .setSkipSetupScreen(skipSetup)
             .setRoleHint(roomRoleHint)
-            .setSkipSetupScreen(SettingsFeatures.getSkipSetupScreenFeatureOption())
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
@@ -109,8 +117,7 @@ class CallLauncherViewModel : ViewModel() {
         callComposite?.addOnPictureInPictureChangedEventHandler(callCompositePictureInPictureChangedEvent!!)
 
         errorHandler = CallLauncherActivityErrorHandler(
-            context,
-            callComposite!!
+            this
         )
         callComposite?.addOnErrorEventHandler(errorHandler)
 
@@ -124,6 +131,9 @@ class CallLauncherViewModel : ViewModel() {
         )
         callComposite?.addOnCallStateChangedEventHandler(callStateEventHandler)
         callComposite?.addOnDismissedEventHandler(exitEventHandler)
+
+        audioSelectionChangedEvent = AudioSelectionSelection()
+        callComposite?.addOnAudioSelectionChangedEventHandler(audioSelectionChangedEvent!!)
     }
 
     fun handleIncomingCall(
@@ -168,6 +178,7 @@ class CallLauncherViewModel : ViewModel() {
 
     fun acceptIncomingCall(applicationContext: Context) {
         // end existing call if any
+        CallCompositeManager.getInstance().hideIncomingCallUI()
         Log.d(CallLauncherActivity.TAG, "CallLauncherViewModel acceptIncomingCall")
         createCallComposite(applicationContext)
 
@@ -178,7 +189,7 @@ class CallLauncherViewModel : ViewModel() {
         }
 
         exitedCompositeToAcceptCall = false
-
+        val skipSetup = SettingsFeatures.getSkipSetupScreenFeatureValue()
         val localOptions = CallCompositeLocalOptions()
             .setParticipantViewData(SettingsFeatures.getParticipantViewData(applicationContext))
             .setSetupScreenViewData(
@@ -186,7 +197,7 @@ class CallLauncherViewModel : ViewModel() {
                     .setTitle(SettingsFeatures.getTitle())
                     .setSubtitle(SettingsFeatures.getSubtitle())
             )
-            .setSkipSetupScreen(true) // Always skip setup screen for incoming call
+            .setSkipSetupScreen(skipSetup) // Always skip setup screen for incoming call
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
@@ -200,6 +211,7 @@ class CallLauncherViewModel : ViewModel() {
             composite.removeOnErrorEventHandler(errorHandler)
             composite.removeOnRemoteParticipantJoinedEventHandler(remoteParticipantJoinedEvent)
             composite.removeOnDismissedEventHandler(exitEventHandler)
+            composite.removeOnAudioSelectionChangedEventHandler(audioSelectionChangedEvent)
         }
     }
 
@@ -207,11 +219,24 @@ class CallLauncherViewModel : ViewModel() {
         isExitRequested = true
         callComposite?.dismiss()
     }
+
+    fun getLastCallId(context: Context): String {
+        return callComposite?.getDebugInfo(context)?.callHistoryRecords?.lastOrNull()?.callIds?.lastOrNull()?.toString() ?: ""
+    }
+
+    override fun showError(message: String) {
+        callCompositeShowAlertStateStateFlow.value = message
+    }
+}
+
+interface OnErrorEventHandler {
+    fun showError(message: String)
 }
 
 class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>) : CallCompositeEventHandler<CallCompositeCallStateChangedEvent> {
     override fun handle(callStateEvent: CallCompositeCallStateChangedEvent) {
         callCompositeCallStateStateFlow.value = callStateEvent.code.toString()
+        Log.d(CallLauncherActivity.TAG, "CallStateEventHandler handle demo app: ${callStateEvent.code} ${callStateEvent.callEndReasonCode} ${callStateEvent.callEndReasonSubCode}")
     }
 }
 
@@ -226,11 +251,19 @@ class CallExitEventHandler(
             callCompositeCallStateStateFlow.value = it.toString()
         }
         CallCompositeManager.getInstance().onCompositeDismiss()
+        callLauncherViewModel.onCompositeDismiss()
     }
 }
 
-class PiPListener() : CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent> {
+class PiPListener : CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent> {
     override fun handle(event: CallCompositePictureInPictureChangedEvent) {
         println("addOnMultitaskingStateChangedEventHandler it.isInPictureInPicture: ")
+    }
+}
+
+class AudioSelectionSelection : CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent> {
+    override fun handle(event: CallCompositeAudioSelectionChangedEvent) {
+        println("addOnAudioSelectionChangedEventHandler it: " + event.selectionType)
+        CallCompositeManager.getInstance().onAudioSelectionChanged(event.selectionType)
     }
 }

@@ -60,7 +60,6 @@ internal class CallingMiddlewareImpl(
                 }
                 is AudioSessionAction.AudioFocusApproved -> {
                     callingMiddlewareActionHandler.onAudioFocusApproved(store)
-                    store.dispatch(CallingAction.ResumeRequested())
                 }
                 is AudioSessionAction.AudioFocusInterrupted -> {
                     callingMiddlewareActionHandler.onAudioFocusInterrupted(store)

@@ -14,6 +14,7 @@ import com.azure.android.communication.ui.calling.di.DependencyInjectionContaine
 import com.azure.android.communication.ui.calling.logger.DefaultLogger;
 import com.azure.android.communication.ui.calling.logger.Logger;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainerImpl;
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
@@ -48,6 +49,8 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 import static com.azure.android.communication.ui.calling.CallCompositeExtentionsKt.createDebugInfoManager;
 import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
 
+import androidx.core.util.Consumer;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -71,7 +74,6 @@ import java.util.UUID;
  * @see CallCompositeBuilder
  */
 public final class CallComposite {
-
     static DependencyInjectionContainer diContainer;
 
     // on each launch, an InstanceID will be assigned and incremented.
@@ -150,7 +152,7 @@ public final class CallComposite {
     }
 
     /**
-     * Launch group call composite.
+     * Handle incoming call push notification.
      *
      * <pre>
      *
@@ -162,10 +164,7 @@ public final class CallComposite {
      *                 new CallCompositePushNotificationInfo&#40;notificationMap&#41;;
      * final CallCompositeRemoteOptions remoteOptions =
      *                 new CallCompositeRemoteOptions&#40;pushNotificationInfo, credential, displayName&#41;;
-     * callComposite.launch&#40;context, groupCallOptions&#41;;
-     * final CallCompositeLocalOptions localOptions =
-     *                 new CallCompositeLocalOptions&#40;participantViewData&#41;;
-     * callComposite.launch&#40;context, groupCallOptions, localOptions&#41;;
+     * callComposite.launch&#40;context, remoteOptions&#41;;
      *
      * </pre>
      *
@@ -208,6 +207,43 @@ public final class CallComposite {
      */
     public void removeOnDismissedEventHandler(final CallCompositeEventHandler<CallCompositeDismissedEvent> handler) {
         configuration.getCallCompositeEventsHandler().removeOnExitEventHandler(handler);
+    }
+
+    /**
+     * Add {@link CallCompositeEventHandler}.
+     *
+     * <p> Add a callback for Call Composite Audio Selection Changed Event.
+     * See {@link com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent}
+     * for values.</p>
+     * <pre>
+     *
+     * &#47;&#47; add audio selection changed handler
+     * callComposite.addOnAudioSelectionChangedEventHandler&#40;event -> {
+     *     &#47;&#47; Process audio selection changed event
+     *     System.out.println&#40;event.getSelectionType&#40;&#41;&#41;;
+     * }&#41;;
+     *
+     * </pre>
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void addOnAudioSelectionChangedEventHandler(
+            final CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().addOnAudioSelectionChangedEventHandler(eventHandler);
+    }
+
+    /**
+     * Remove {@link CallCompositeEventHandler}.
+     *
+     * <p> Remove a callback for Call Composite Audio Selection Changed Event.
+     * See {@link com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent}
+     * for values.</p>
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnAudioSelectionChangedEventHandler(
+            final CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().removeOnAudioSelectionChangedEventHandler(eventHandler);
     }
 
     /**
@@ -575,8 +611,11 @@ public final class CallComposite {
      * @param context The {@link Context}.
      * @param options The {@link CallCompositePushNotificationOptions} if call is already in progress
      *                existing display name and CommunicationTokenCredential is used.
+     * @param onCompleteCallback The {@link Consumer} to be called when registration is complete.
      */
-    public void registerPushNotification(final Context context, final CallCompositePushNotificationOptions options) {
+    public void registerPushNotification(final Context context,
+                                         final CallCompositePushNotificationOptions options,
+                                         final Consumer<Boolean> onCompleteCallback) {
         initializeCallAgent();
         // for device token, we need to set the call config. with ONE_TO_N_CALL_INCOMING
         configuration.setCallConfig(new CallConfiguration(
@@ -592,7 +631,8 @@ public final class CallComposite {
         callAgentWrapper.registerPushNotification(context,
                 options.getDisplayName(),
                 options.getTokenCredential(),
-                options.getDeviceRegistrationToken());
+                options.getDeviceRegistrationToken(),
+                onCompleteCallback);
     }
 
     /**

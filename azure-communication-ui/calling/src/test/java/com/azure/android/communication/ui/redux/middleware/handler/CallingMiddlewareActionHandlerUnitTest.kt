@@ -2111,13 +2111,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 }
             )
 
-            verify(mockAppStore, times(3)).dispatch(
-                argThat { action ->
-                    action is CallingAction.StateUpdated &&
-                        action.callingState == CallingStatus.NONE
-                }
-            )
-
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is NavigationAction.SetupLaunched

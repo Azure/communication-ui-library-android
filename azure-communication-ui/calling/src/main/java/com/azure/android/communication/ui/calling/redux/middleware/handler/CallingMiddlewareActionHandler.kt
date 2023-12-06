@@ -467,7 +467,7 @@ internal class CallingMiddlewareActionHandlerImpl(
             callingService.getCallInfoModelEventSharedFlow().collect { callInfoModel ->
                 val previousCallState = store.getCurrentState().callState.callingStatus
 
-                store.dispatch(CallingAction.StateUpdated(callInfoModel.callingStatus))
+                store.dispatch(CallingAction.StateUpdated(callInfoModel.callingStatus, callInfoModel.callEndReasonCode, callInfoModel.callEndReasonSubCode))
 
                 if (previousCallState == CallingStatus.LOCAL_HOLD &&
                     callInfoModel.callingStatus == CallingStatus.CONNECTED
@@ -498,8 +498,8 @@ internal class CallingMiddlewareActionHandlerImpl(
                         store.dispatch(CallingAction.IsTranscribingUpdated(false))
                         store.dispatch(CallingAction.IsRecordingUpdated(false))
                         store.dispatch(ParticipantAction.ListUpdated(HashMap()))
-                        store.dispatch(CallingAction.StateUpdated(CallingStatus.NONE))
-                        if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
+                        if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN
+                        ) {
                             store.dispatch(NavigationAction.Exit())
                         } else {
                             store.dispatch(NavigationAction.SetupLaunched())

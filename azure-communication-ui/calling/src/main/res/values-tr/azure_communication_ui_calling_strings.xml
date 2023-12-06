@@ -14,6 +14,9 @@
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s ses cihazı, seçildi</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Aramaya katılıyorsunuz…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Arama başlatılıyor…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_ringing_call">Çalan arama…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_start_call">Aramayı başlat</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Görüntü kapalı</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_on">Görüntü açık</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Mikrofon kapalı</string>

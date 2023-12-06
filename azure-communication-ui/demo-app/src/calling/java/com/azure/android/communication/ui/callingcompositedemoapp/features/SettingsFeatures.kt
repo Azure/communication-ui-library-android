@@ -107,7 +107,7 @@ class SettingsFeatures {
         }
 
         @JvmStatic
-        fun getSkipSetupScreenFeatureOption(): Boolean {
+        fun getSkipSetupScreenFeatureValue(): Boolean {
             return sharedPrefs.getBoolean(SKIP_SETUP_SCREEN_VALUE_KEY, DEFAULT_SKIP_SETUP_SCREEN_VALUE)
         }
 

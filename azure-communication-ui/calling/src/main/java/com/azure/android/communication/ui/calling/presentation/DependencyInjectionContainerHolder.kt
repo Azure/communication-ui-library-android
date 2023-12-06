@@ -57,7 +57,11 @@ internal class DependencyInjectionContainerHolder(
         val callType = container.configuration.callConfig?.callType
         SetupViewModel(
             container.appStore,
-            SetupViewModelFactory(container.appStore, application),
+            SetupViewModelFactory(
+                container.appStore,
+                application,
+                container.configuration.telecomOptions != null
+            ),
             container.networkManager,
             callType
         )
@@ -71,7 +75,8 @@ internal class DependencyInjectionContainerHolder(
                 ParticipantGridCellViewModelFactory(),
                 application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants),
                 container.debugInfoManager,
-                container.configuration.enableMultitasking
+                container.configuration.enableMultitasking,
+                container.configuration.telecomOptions != null
             ),
             container.networkManager,
             callType,

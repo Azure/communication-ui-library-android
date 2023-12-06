@@ -14,6 +14,9 @@
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">Выбрано аудиоустройство %1$s</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Присоединение к звонку…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Начало звонка…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_ringing_call">Звонок…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_start_call">Позвонить</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Видео отключено</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_on">Видео включено</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Микрофон выключен</string>

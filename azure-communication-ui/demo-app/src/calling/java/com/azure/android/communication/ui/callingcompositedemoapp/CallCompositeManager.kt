@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.app.PendingIntent
@@ -7,7 +10,6 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.azure.android.communication.common.CommunicationTokenCredential
@@ -70,6 +72,16 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         }
     }
 
+    fun onAudioSelectionChanged(selectionType: String) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            return
+        }
+
+        telecomConnectionManager?.let {
+            it.setAudioSelection(selectionType)
+        }
+    }
+
     override fun getCallComposite(): CallComposite? {
         return callComposite
     }
@@ -119,6 +131,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             instance?.telecomConnectionManager?.endConnection(applicationContext!!)
         }
+        registerIncomingCallAndDispose()
     }
 
     override fun onRemoteParticipantJoined(rawId: String) {
@@ -135,7 +148,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         }
 
         createCallComposite()
-        val skipSetup = SettingsFeatures.getSkipSetupScreenFeatureOption()
+        val skipSetup = SettingsFeatures.getSkipSetupScreenFeatureValue()
 
         val localOptions = CallCompositeLocalOptions()
             .setParticipantViewData(SettingsFeatures.getParticipantViewData(applicationContext!!))
@@ -157,7 +170,6 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
             telecomConnectionManager?.declineCall(applicationContext!!)
         }
         callComposite?.declineIncomingCall()
-        destroy()
     }
 
     fun destroy() {
@@ -206,6 +218,16 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         callComposite = callCompositeBuilder.build()
         subscribeToEvents()
         return callComposite!!
+    }
+
+    private fun registerIncomingCallAndDispose() {
+        val acsToken =
+            applicationContext!!.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
+                .getString(CACHED_TOKEN, "")
+        val userName =
+            applicationContext!!.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
+                .getString(CACHED_USER_NAME, "")
+        registerFirebaseToken(acsToken!!, userName!!, true)
     }
 
     private fun showNotificationForIncomingCall(notification: CallCompositeIncomingCallInfo) {
@@ -289,18 +311,22 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         }
     }
 
-    fun registerFirebaseToken(token: String, displayName: String) {
+    fun registerFirebaseToken(token: String, displayName: String, dispose: Boolean = false) {
+        if (token.isEmpty()) {
+            if (dispose) {
+                destroy()
+            }
+            return
+        }
+
         FirebaseMessaging.getInstance().token.addOnCompleteListener(
             OnCompleteListener { task ->
                 if (!task.isSuccessful) {
-                    Toast.makeText(
-                        applicationContext!!,
-                        "Fetching FCM registration token failed",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    if (dispose) {
+                        destroy()
+                    }
                     return@OnCompleteListener
                 }
-
                 val deviceRegistrationToken = task.result
                 val callComposite = createCallComposite()
                 callComposite.registerPushNotification(
@@ -310,7 +336,11 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
                         deviceRegistrationToken,
                         displayName
                     )
-                )
+                ) {
+                    if (dispose) {
+                        destroy()
+                    }
+                }
             }
         )
     }
@@ -371,6 +401,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         private val telecomConnectionManager: TelecomConnectionManager?,
         private val applicationContext: Context
     ) : CallCompositeEventHandler<CallCompositeCallStateChangedEvent> {
+
         override fun handle(callStateEvent: CallCompositeCallStateChangedEvent) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 if (callStateEvent.code == CallCompositeCallStateCode.CONNECTING) {

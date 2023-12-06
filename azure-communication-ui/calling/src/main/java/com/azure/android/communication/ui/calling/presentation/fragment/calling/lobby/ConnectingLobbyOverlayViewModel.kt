@@ -22,7 +22,10 @@ import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) -> Unit) {
+internal class ConnectingLobbyOverlayViewModel(
+    private val dispatch: (Action) -> Unit,
+    private val isTelecomManagerEnabled: Boolean = false
+) {
 
     private lateinit var displayLobbyOverlayFlow: MutableStateFlow<Boolean>
     private lateinit var networkManager: NetworkManager
@@ -85,14 +88,16 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
     }
 
     fun handleMicrophoneAccessFailed() {
-        dispatchAction(
-            action = ErrorAction.FatalErrorOccurred(
-                FatalError(
-                    Throwable(),
-                    ErrorCode.MICROPHONE_NOT_AVAILABLE
+        if (!isTelecomManagerEnabled) {
+            dispatchAction(
+                action = ErrorAction.FatalErrorOccurred(
+                    FatalError(
+                        Throwable(),
+                        ErrorCode.MICROPHONE_NOT_AVAILABLE
+                    )
                 )
             )
-        )
+        }
     }
 
     private fun requestAudioPermission() {

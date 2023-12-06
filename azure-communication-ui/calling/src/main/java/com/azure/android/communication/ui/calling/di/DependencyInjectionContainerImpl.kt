@@ -114,6 +114,7 @@ internal class DependencyInjectionContainerImpl(
         AudioSessionManager(
             appStore,
             applicationContext,
+            configuration.callCompositeEventsHandler,
         )
     }
 

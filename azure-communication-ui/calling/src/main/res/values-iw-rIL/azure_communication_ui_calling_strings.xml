@@ -14,6 +14,9 @@
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">התקן שמע %1$s, נבחר</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">מצטרף לשיחה…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">מתחיל התקשרות…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_ringing_call">מתקשר…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_start_call">התחל התקשרות</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">וידאו כבוי</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_on">וידאו מופעל</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">מיקרופון כבוי</string>

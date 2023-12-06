@@ -21,7 +21,8 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class JoinCallButtonHolderViewModel(
     private val dispatch: (Action) -> Unit,
-    private val audioManager: AudioManager
+    private val audioManager: AudioManager,
+    private val isTelecomManagerEnabled: Boolean = false
 ) {
 
     private lateinit var joinCallButtonEnabledFlow: MutableStateFlow<Boolean>
@@ -41,11 +42,11 @@ internal class JoinCallButtonHolderViewModel(
     fun launchCallScreen() {
         val networkAvailable = isNetworkAvailable()
         // We try to check for mic availability for the current application through current audio mode
-        val normalAudioMode = true // audioManager.mode == AudioManager.MODE_NORMAL
+        val normalAudioMode = audioManager.mode == AudioManager.MODE_NORMAL
 
         if (!networkAvailable) {
             handleOffline()
-        } else if (!normalAudioMode) {
+        } else if (!normalAudioMode && !isTelecomManagerEnabled) {
             handleMicrophoneUnavailability()
         } else {
             dispatch(CallingAction.CallStartRequested())

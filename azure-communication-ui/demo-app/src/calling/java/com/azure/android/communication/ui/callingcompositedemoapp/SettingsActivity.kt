@@ -71,6 +71,12 @@ class SettingsActivity : AppCompatActivity() {
         updateSubtitle()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        // recreate the call composite manager to apply the new settings
+        CallCompositeManager.getInstance().destroy()
+    }
+
     override fun onResume() {
         super.onResume()
 
@@ -341,10 +347,11 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun updateSkipSetupScreenCheckbox() {
-        skipSetupScreenCheckBox.isChecked = sharedPreference.getBoolean(
+        var isChecked = sharedPreference.getBoolean(
             SKIP_SETUP_SCREEN_VALUE_KEY,
             DEFAULT_SKIP_SETUP_SCREEN_VALUE
         )
+        skipSetupScreenCheckBox.isChecked = isChecked
     }
 
     private fun updateMicOnByDefaultCheckbox() {

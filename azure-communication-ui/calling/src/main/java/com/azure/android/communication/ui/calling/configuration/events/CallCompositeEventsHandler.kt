@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.configuration.events
 
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.models.CallCompositePictureInPictureChangedEvent
@@ -27,6 +28,9 @@ internal class CallCompositeEventsHandler {
 
     private val multitaskingStateChangedEvent =
         mutableSetOf<CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent>>()
+
+    private val audioSelectionChangedEvent =
+        mutableSetOf<CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent>>()
 
     fun getOnErrorHandlers() = errorHandlers.asIterable()
 
@@ -88,5 +92,15 @@ internal class CallCompositeEventsHandler {
 
     fun removeOnIncomingCallEndEventHandler(handler: CallCompositeEventHandler<CallCompositeIncomingCallEndEvent>) {
         incomingCallEndEventHandlers.remove(handler)
+    }
+
+    fun getOnAudioSelectionChangedEventHandlers() = audioSelectionChangedEvent.asIterable()
+
+    fun addOnAudioSelectionChangedEventHandler(handler: CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent>) {
+        audioSelectionChangedEvent.add(handler)
+    }
+
+    fun removeOnAudioSelectionChangedEventHandler(handler: CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent>) {
+        audioSelectionChangedEvent.remove(handler)
     }
 }
