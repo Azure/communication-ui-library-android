@@ -116,12 +116,12 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
     }
 
     override fun onCompositeDismiss() {
-        val acsToken = applicationContext!!.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE).getString(CACHED_TOKEN, "")
-        val userName = applicationContext!!.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE).getString(CACHED_USER_NAME, "")
-        registerFirebaseToken(acsToken!!, userName!!)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             instance?.telecomConnectionManager?.endConnection(applicationContext!!)
         }
+        val acsToken = applicationContext!!.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE).getString(CACHED_TOKEN, "")
+        val userName = applicationContext!!.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE).getString(CACHED_USER_NAME, "")
+        registerFirebaseToken(acsToken!!, userName!!)
     }
 
     override fun onRemoteParticipantJoined(rawId: String) {
@@ -392,7 +392,8 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
                 }
 
                 if (callStateEvent.code == CallCompositeCallStateCode.DISCONNECTING ||
-                    callStateEvent.code == CallCompositeCallStateCode.DISCONNECTED
+                    callStateEvent.code == CallCompositeCallStateCode.DISCONNECTED ||
+                    callStateEvent.code == CallCompositeCallStateCode.NONE
                 ) {
                     this.telecomConnectionManager?.endConnection(applicationContext)
                 }
