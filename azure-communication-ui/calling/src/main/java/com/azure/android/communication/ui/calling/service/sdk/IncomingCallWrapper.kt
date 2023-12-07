@@ -30,6 +30,7 @@ internal class IncomingCallWrapper(
         PropertyChangedListener { _ ->
             val code = incomingCallInternal?.callEndReason?.code ?: -1
             val subCode = incomingCallInternal?.callEndReason?.subcode ?: -1
+            dispose()
             incomingCallEndEventHandlers?.forEach {
                 it.handle(
                     CallCompositeIncomingCallEndEvent(

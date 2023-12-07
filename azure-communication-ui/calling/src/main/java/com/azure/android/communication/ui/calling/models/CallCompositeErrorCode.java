@@ -23,6 +23,17 @@ public final class CallCompositeErrorCode extends ExpandableStringEnum<CallCompo
     public static final CallCompositeErrorCode CALL_END_FAILED = fromString("callEndFailed");
 
     /**
+     * There is a call declined.
+     */
+    public static final CallCompositeErrorCode CALL_DECLINED = fromString("callDeclined");
+
+    /**
+     * There is a failure make a call.
+     */
+    public static final CallCompositeErrorCode CALL_CAN_NOT_MAKE = fromString("callCanNotMake");
+
+
+    /**
      * ACS Token supplied is no longer valid (expired).
      */
     public static final CallCompositeErrorCode TOKEN_EXPIRED = fromString("tokenExpired");

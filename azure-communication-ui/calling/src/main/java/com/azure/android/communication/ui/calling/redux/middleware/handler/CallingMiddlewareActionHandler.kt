@@ -493,13 +493,18 @@ internal class CallingMiddlewareActionHandlerImpl(
                             store.dispatch(NavigationAction.SetupLaunched())
                         }
                     } else if (it.errorCode == ErrorCode.CALL_END_FAILED ||
-                        it.errorCode == ErrorCode.CALL_JOIN_FAILED
+                        it.errorCode == ErrorCode.CALL_JOIN_FAILED ||
+                        it.errorCode == ErrorCode.CALL_DECLINED ||
+                        it.errorCode == ErrorCode.CALL_CAN_NOT_MAKE
                     ) {
                         store.dispatch(CallingAction.IsTranscribingUpdated(false))
                         store.dispatch(CallingAction.IsRecordingUpdated(false))
                         store.dispatch(ParticipantAction.ListUpdated(HashMap()))
                         store.dispatch(CallingAction.StateUpdated(CallingStatus.NONE))
-                        if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
+                        if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN ||
+                            it.errorCode == ErrorCode.CALL_DECLINED ||
+                            it.errorCode == ErrorCode.CALL_CAN_NOT_MAKE
+                        ) {
                             store.dispatch(NavigationAction.Exit())
                         } else {
                             store.dispatch(NavigationAction.SetupLaunched())

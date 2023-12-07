@@ -81,6 +81,10 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
     }
 
     override fun hideIncomingCallUI() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            getInstance().telecomConnectionManager?.endConnection(applicationContext!!)
+        }
+
         applicationContext?.let { context ->
             val notificationManager = NotificationManagerCompat.from(context)
             notificationManager.cancel(1)

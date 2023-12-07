@@ -51,6 +51,9 @@ class DemoFirebaseMessagingService : FirebaseMessagingService() {
                     acsIdentityToken!!,
                     displayName!!
                 )
+            } else {
+                CallCompositeManager.getInstance().hideIncomingCallUI()
+                Log.d(CallLauncherActivity.TAG, "onMessageReceived - ${pushNotificationInfo.eventType}")
             }
         }
     }

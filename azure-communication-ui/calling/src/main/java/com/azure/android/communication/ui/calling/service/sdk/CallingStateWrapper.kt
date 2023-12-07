@@ -29,6 +29,7 @@ internal data class CallingStateWrapper(
         * Expected behavior.
         * */
         internal const val CALL_END_REASON_DECLINED = 603
+        internal const val CALL_CAN_NOT_MAKE = 408
         internal const val CALL_END_REASON_TEAMS_EVICTED = 5300
         internal const val CALL_END_REASON_EVICTED = 5000
         internal const val CALL_END_REASON_SUB_CODE_DECLINED = 5854
@@ -59,9 +60,13 @@ internal data class CallingStateWrapper(
             )
             isDeclined() -> CallStateError(
                 ErrorCode.CALL_END_FAILED,
-                CallCompositeEventCode.CALL_DECLINED
+                null
             )
             callEndedNormally() -> null
+            callEndReason == CALL_CAN_NOT_MAKE ->
+                CallStateError(ErrorCode.CALL_CAN_NOT_MAKE, null)
+            callEndReason == CALL_END_REASON_DECLINED ->
+                CallStateError(ErrorCode.CALL_DECLINED, null)
             callEndReason == CALL_END_REASON_TOKEN_EXPIRED ->
                 CallStateError(ErrorCode.TOKEN_EXPIRED, null)
             else -> {
@@ -75,7 +80,7 @@ internal data class CallingStateWrapper(
     }
 
     private fun callEndedNormally() = when (callEndReason) {
-        CALL_END_REASON_SUCCESS, CALL_END_REASON_CANCELED, CALL_END_REASON_DECLINED -> true
+        CALL_END_REASON_SUCCESS, CALL_END_REASON_CANCELED -> true
         else -> false
     }
 
