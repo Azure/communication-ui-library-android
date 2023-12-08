@@ -12,6 +12,7 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import junit.framework.AssertionFailedError
 import org.hamcrest.Matchers
 
@@ -35,6 +36,14 @@ internal fun assertNotDisplayed(id: Int): ViewInteraction? {
             ViewMatchers.withId(id)
         )
     ).check(doesNotExist())
+}
+
+internal fun assertViewGone(id: Int): ViewInteraction? {
+    return Espresso.onView(
+        Matchers.allOf(
+            ViewMatchers.withId(id)
+        )
+    ).check(ViewAssertions.matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
 }
 
 internal fun assertViewText(id: Int, text: String) {
