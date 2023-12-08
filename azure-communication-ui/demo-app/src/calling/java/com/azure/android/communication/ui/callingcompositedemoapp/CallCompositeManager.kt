@@ -81,10 +81,6 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
     }
 
     override fun hideIncomingCallUI() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            getInstance().telecomConnectionManager?.endConnection(applicationContext!!)
-        }
-
         applicationContext?.let { context ->
             val notificationManager = NotificationManagerCompat.from(context)
             notificationManager.cancel(1)
@@ -381,6 +377,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         private val telecomConnectionManager: TelecomConnectionManager?,
         private val applicationContext: Context
     ) : CallCompositeEventHandler<CallCompositeCallStateChangedEvent> {
+
         override fun handle(callStateEvent: CallCompositeCallStateChangedEvent) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 if (callStateEvent.code == CallCompositeCallStateCode.CONNECTING) {
@@ -396,8 +393,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
                 }
 
                 if (callStateEvent.code == CallCompositeCallStateCode.DISCONNECTING ||
-                    callStateEvent.code == CallCompositeCallStateCode.DISCONNECTED ||
-                    callStateEvent.code == CallCompositeCallStateCode.NONE
+                    callStateEvent.code == CallCompositeCallStateCode.DISCONNECTED
                 ) {
                     this.telecomConnectionManager?.endConnection(applicationContext)
                 }
