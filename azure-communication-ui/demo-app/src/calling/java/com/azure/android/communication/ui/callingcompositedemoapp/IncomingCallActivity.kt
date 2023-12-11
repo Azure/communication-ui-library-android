@@ -31,7 +31,7 @@ class IncomingCallActivity : AppCompatActivity() {
 
         binding.run {
             accept.setOnClickListener {
-                callLauncherViewModel.acceptIncomingCall(applicationContext)
+                callLauncherViewModel.acceptIncomingCall(this@IncomingCallActivity)
                 finish()
             }
             decline.setOnClickListener {

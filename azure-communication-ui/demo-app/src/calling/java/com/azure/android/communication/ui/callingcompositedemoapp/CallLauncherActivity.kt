@@ -53,7 +53,7 @@ class CallLauncherActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         createNotificationChannels()
 
-        CallCompositeManager.initialize(applicationContext)
+        CallCompositeManager.initialize(this@CallLauncherActivity)
 
         if (shouldFinish()) {
             finish()
@@ -261,7 +261,7 @@ class CallLauncherActivity : AppCompatActivity() {
                 }
                 "answer" -> {
                     binding.incomingCallLayout.visibility = View.GONE
-                    callLauncherViewModel.acceptIncomingCall(applicationContext)
+                    callLauncherViewModel.acceptIncomingCall(this@CallLauncherActivity)
                 }
                 "decline" -> {
                     binding.incomingCallLayout.visibility = View.GONE

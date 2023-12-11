@@ -168,6 +168,7 @@ class CallLauncherViewModel : ViewModel() {
 
     fun acceptIncomingCall(applicationContext: Context) {
         // end existing call if any
+        CallCompositeManager.getInstance().hideIncomingCallUI()
         Log.d(CallLauncherActivity.TAG, "CallLauncherViewModel acceptIncomingCall")
         createCallComposite(applicationContext)
 
@@ -178,7 +179,7 @@ class CallLauncherViewModel : ViewModel() {
         }
 
         exitedCompositeToAcceptCall = false
-
+        val skipSetup = SettingsFeatures.getSkipSetupScreenFeatureOption()
         val localOptions = CallCompositeLocalOptions()
             .setParticipantViewData(SettingsFeatures.getParticipantViewData(applicationContext))
             .setSetupScreenViewData(
@@ -186,7 +187,7 @@ class CallLauncherViewModel : ViewModel() {
                     .setTitle(SettingsFeatures.getTitle())
                     .setSubtitle(SettingsFeatures.getSubtitle())
             )
-            .setSkipSetupScreen(true) // Always skip setup screen for incoming call
+            .setSkipSetupScreen(skipSetup) // Always skip setup screen for incoming call
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
