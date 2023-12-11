@@ -156,20 +156,6 @@ internal class CallingFragment :
             accessibilityManager.isEnabled
         )
 
-        upperMessageBarNotificationLayoutView = view.findViewById(R.id.azure_communication_ui_calling_upper_message_bar_notifications_layout)
-        upperMessageBarNotificationLayoutView.start(
-            viewLifecycleOwner,
-            viewModel.upperMessageBarNotificationLayoutViewModel,
-            accessibilityManager.isEnabled
-        )
-
-        toastNotificationView = view.findViewById(R.id.azure_communication_ui_calling_toast_notification)
-        toastNotificationView.start(
-            viewLifecycleOwner,
-            viewModel.toastNotificationViewModel,
-            accessibilityManager.isEnabled
-        )
-
         audioDeviceListView =
             AudioDeviceListView(viewModel.audioDeviceListViewModel, this.requireContext())
         audioDeviceListView.layoutDirection =
