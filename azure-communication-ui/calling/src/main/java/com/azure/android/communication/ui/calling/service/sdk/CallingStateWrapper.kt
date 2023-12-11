@@ -60,7 +60,7 @@ internal data class CallingStateWrapper(
             )
             isDeclined() -> CallStateError(
                 ErrorCode.CALL_END_FAILED,
-                null
+                CallCompositeEventCode.CALL_DECLINED
             )
             callEndedNormally() -> null
             callEndReason == CALL_CAN_NOT_MAKE ->
