@@ -88,9 +88,16 @@ internal class AudioFocusManager(
     }
 
     suspend fun start() {
-
-        if (configuration.telecomOptions != null)
+        if (configuration.telecomOptions != null) {
+            store.getStateFlow().collect {
+                // todo: GA: create new action resume and in middleware decide if telecom manager is on
+                // then call service layer directly
+                if (it.audioSessionState.audioFocusStatus == AudioFocusStatus.REQUESTING) {
+                    store.dispatch(AudioSessionAction.AudioFocusApproved())
+                }
+            }
             return
+        }
 
         if (audioFocusHandler?.getAudioFocus() == false) {
             store.dispatch(AudioSessionAction.AudioFocusRejected())
