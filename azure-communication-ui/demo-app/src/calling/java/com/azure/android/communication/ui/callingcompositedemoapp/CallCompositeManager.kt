@@ -141,7 +141,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         }
 
         createCallComposite()
-        val skipSetup = SettingsFeatures.getSkipSetupScreenFeatureOption()
+        val skipSetup = SettingsFeatures.getSkipSetupScreenFeatureValue()
 
         val localOptions = CallCompositeLocalOptions()
             .setParticipantViewData(SettingsFeatures.getParticipantViewData(applicationContext!!))

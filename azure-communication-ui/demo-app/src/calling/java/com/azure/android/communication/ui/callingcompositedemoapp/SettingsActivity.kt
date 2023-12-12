@@ -71,6 +71,12 @@ class SettingsActivity : AppCompatActivity() {
         updateSubtitle()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        // recreate the call composite manager to apply the new settings
+        CallCompositeManager.getInstance().destroy()
+    }
+
     override fun onResume() {
         super.onResume()
 
@@ -399,7 +405,7 @@ const val DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY = "PERSONA_INJECTION_VALUE_PR
 const val REMOTE_PARTICIPANT_PERSONA_INJECTION_VALUE = false
 const val CALL_TITLE = "CALL_TITLE"
 const val CALL_SUBTITLE = "CALL_SUBTITLE"
-const val SKIP_SETUP_SCREEN_VALUE_KEY = "SKIP_SETUP_SCREEN_VALUE_KEY"
+const val SKIP_SETUP_SCREEN_VALUE_KEY = "SKIP_SETUP_SCREEN_KEY"
 const val DEFAULT_SKIP_SETUP_SCREEN_VALUE = false
 const val MIC_ON_BY_DEFAULT_KEY = "MIC_ON_BY_DEFAULT_KEY"
 const val DEFAULT_MIC_ON_BY_DEFAULT_VALUE = false

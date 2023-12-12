@@ -76,7 +76,7 @@ class CallLauncherViewModel : ViewModel() {
             else if (roomId != null && roomRoleHint != null) CallCompositeRoomLocator(roomId)
             else null
 
-        var skipSetup = SettingsFeatures.getSkipSetupScreenFeatureOption()
+        var skipSetup = SettingsFeatures.getSkipSetupScreenFeatureValue()
         val remoteOptions = if (locator == null && !participantMri.isNullOrEmpty()) {
             val participantMris = participantMri.split(",")
             val startCallOption = CallCompositeStartCallOptions(participantMris)
@@ -178,7 +178,7 @@ class CallLauncherViewModel : ViewModel() {
         }
 
         exitedCompositeToAcceptCall = false
-        val skipSetup = SettingsFeatures.getSkipSetupScreenFeatureOption()
+        val skipSetup = SettingsFeatures.getSkipSetupScreenFeatureValue()
         val localOptions = CallCompositeLocalOptions()
             .setParticipantViewData(SettingsFeatures.getParticipantViewData(applicationContext))
             .setSetupScreenViewData(
