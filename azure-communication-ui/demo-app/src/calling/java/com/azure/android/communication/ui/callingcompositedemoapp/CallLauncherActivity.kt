@@ -78,10 +78,10 @@ class CallLauncherActivity : AppCompatActivity() {
         val data: Uri? = intent?.data
         val deeplinkAcsToken = data?.getQueryParameter("acstoken")
         val deeplinkName = data?.getQueryParameter("name")
-        val deeplinkGroupId = data?.getQueryParameter("groupid")
+        var deeplinkGroupId = data?.getQueryParameter("groupid")
         val deeplinkTeamsUrl = data?.getQueryParameter("teamsurl")
         val participantMRI = data?.getQueryParameter("participanturis") ?: BuildConfig.PARTICIPANT_MRIS
-        val deepLinkRoomsId = data?.getQueryParameter("roomsid")
+        var deepLinkRoomsId = data?.getQueryParameter("roomsid")
 
         binding.run {
             if (!deeplinkAcsToken.isNullOrEmpty()) {
@@ -94,6 +94,10 @@ class CallLauncherActivity : AppCompatActivity() {
                 userNameText.setText(deeplinkName)
             } else {
                 userNameText.setText(BuildConfig.USER_NAME)
+            }
+
+            if (deeplinkGroupId.isNullOrEmpty()) {
+                deeplinkGroupId = BuildConfig.GROUP_CALL_ID
             }
 
             if (!deeplinkGroupId.isNullOrEmpty()) {
