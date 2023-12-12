@@ -57,7 +57,11 @@ internal class DependencyInjectionContainerHolder(
         val callType = container.configuration.callConfig?.callType
         SetupViewModel(
             container.appStore,
-            SetupViewModelFactory(container.appStore, application),
+            SetupViewModelFactory(
+                container.appStore,
+                application,
+                container.configuration.telecomOptions != null
+            ),
             container.networkManager,
             callType
         )
