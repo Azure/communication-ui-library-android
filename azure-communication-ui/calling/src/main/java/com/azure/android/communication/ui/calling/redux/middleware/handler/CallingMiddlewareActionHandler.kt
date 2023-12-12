@@ -467,7 +467,7 @@ internal class CallingMiddlewareActionHandlerImpl(
             callingService.getCallInfoModelEventSharedFlow().collect { callInfoModel ->
                 val previousCallState = store.getCurrentState().callState.callingStatus
 
-                store.dispatch(CallingAction.StateUpdated(callInfoModel.callingStatus))
+                store.dispatch(CallingAction.StateUpdated(callInfoModel.callingStatus, callInfoModel.callEndReasonCode, callInfoModel.callEndReasonSubCode))
 
                 if (previousCallState == CallingStatus.LOCAL_HOLD &&
                     callInfoModel.callingStatus == CallingStatus.CONNECTED
@@ -493,17 +493,12 @@ internal class CallingMiddlewareActionHandlerImpl(
                             store.dispatch(NavigationAction.SetupLaunched())
                         }
                     } else if (it.errorCode == ErrorCode.CALL_END_FAILED ||
-                        it.errorCode == ErrorCode.CALL_JOIN_FAILED ||
-                        it.errorCode == ErrorCode.CALL_DECLINED ||
-                        it.errorCode == ErrorCode.CALL_CAN_NOT_MAKE
+                        it.errorCode == ErrorCode.CALL_JOIN_FAILED
                     ) {
                         store.dispatch(CallingAction.IsTranscribingUpdated(false))
                         store.dispatch(CallingAction.IsRecordingUpdated(false))
                         store.dispatch(ParticipantAction.ListUpdated(HashMap()))
-                        store.dispatch(CallingAction.StateUpdated(CallingStatus.NONE))
-                        if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN ||
-                            it.errorCode == ErrorCode.CALL_DECLINED ||
-                            it.errorCode == ErrorCode.CALL_CAN_NOT_MAKE
+                        if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN
                         ) {
                             store.dispatch(NavigationAction.Exit())
                         } else {

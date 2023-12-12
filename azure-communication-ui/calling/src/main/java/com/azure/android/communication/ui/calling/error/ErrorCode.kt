@@ -9,8 +9,6 @@ internal class ErrorCode : ExpandableStringEnum<ErrorCode?>() {
     companion object {
         val CALL_JOIN_FAILED = fromString("callJoinFailed")
         val CALL_END_FAILED = fromString("callEndFailed")
-        val CALL_DECLINED = fromString("callDeclined")
-        val CALL_CAN_NOT_MAKE = fromString("callCanNotMake")
         val TOKEN_EXPIRED = fromString("tokenExpired")
         val SWITCH_CAMERA_FAILED = fromString("switchCameraFailed")
         val TURN_CAMERA_ON_FAILED = fromString("turnCameraOnFailed")
@@ -51,12 +49,6 @@ internal class ErrorCode : ExpandableStringEnum<ErrorCode?>() {
                 }
                 MICROPHONE_NOT_AVAILABLE -> {
                     return CallCompositeErrorCode.MICROPHONE_NOT_AVAILABLE
-                }
-                CALL_DECLINED -> {
-                    return CallCompositeErrorCode.CALL_DECLINED
-                }
-                CALL_CAN_NOT_MAKE -> {
-                    return CallCompositeErrorCode.CALL_CAN_NOT_MAKE
                 }
                 else -> {
                     return null

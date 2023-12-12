@@ -212,6 +212,7 @@ class CallLauncherViewModel : ViewModel() {
 class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>) : CallCompositeEventHandler<CallCompositeCallStateChangedEvent> {
     override fun handle(callStateEvent: CallCompositeCallStateChangedEvent) {
         callCompositeCallStateStateFlow.value = callStateEvent.code.toString()
+        Log.d(CallLauncherActivity.TAG, "CallStateEventHandler handle demo app: ${callStateEvent.code} ${callStateEvent.callEndReasonCode} ${callStateEvent.callEndReasonSubCode}")
     }
 }
 

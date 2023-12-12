@@ -34,6 +34,8 @@ internal data class CallingState(
     val isTranscribing: Boolean = false,
     // set once for the duration of the call in the CallStateReducer when call start requested.
     val callStartDateTime: OffsetDateTime? = null,
+    val callEndReasonCode: Int? = null,
+    val callEndReasonSubCode: Int? = null,
 )
 
 internal fun CallingState.isDisconnected() =

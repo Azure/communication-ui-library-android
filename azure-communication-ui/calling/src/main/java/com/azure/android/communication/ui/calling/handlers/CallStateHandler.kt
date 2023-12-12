@@ -24,7 +24,13 @@ internal class CallStateHandler(
             store.getStateFlow().collect { state ->
                 if (lastSentCallingStatus != state.callState.callingStatus) {
                     lastSentCallingStatus = state.callState.callingStatus
-                    lastSentCallingStatus?.let { sendCallStateChangedEvent(it) }
+                    lastSentCallingStatus?.let {
+                        sendCallStateChangedEvent(
+                            it,
+                            state.callState.callEndReasonCode,
+                            state.callState.callEndReasonSubCode
+                        )
+                    }
                 }
             }
         }
@@ -34,10 +40,20 @@ internal class CallStateHandler(
         return store.getStateFlow().value.callState.callingStatus.callCompositeCallState()
     }
 
-    private fun sendCallStateChangedEvent(status: CallingStatus) {
+    private fun sendCallStateChangedEvent(
+        status: CallingStatus,
+        callEndReasonCode: Int?,
+        callEndReasonSubCode: Int?
+    ) {
         try {
             configuration.callCompositeEventsHandler.getCallStateHandler().forEach {
-                it.handle(CallCompositeCallStateChangedEvent(status.callCompositeCallState()))
+                it.handle(
+                    CallCompositeCallStateChangedEvent(
+                        status.callCompositeCallState(),
+                        callEndReasonCode,
+                        callEndReasonSubCode
+                    )
+                )
             }
         } catch (error: Throwable) {
             // suppress any possible application errors

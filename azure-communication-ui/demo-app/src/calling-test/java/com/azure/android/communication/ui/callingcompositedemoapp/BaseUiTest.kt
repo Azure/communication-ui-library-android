@@ -8,7 +8,6 @@ import androidx.test.rule.ActivityTestRule
 import androidx.test.rule.GrantPermissionRule
 import com.microsoft.appcenter.espresso.Factory
 import com.microsoft.appcenter.espresso.ReportHelper
-import leakcanary.DetectLeaksAfterTestSuccess
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
