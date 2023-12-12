@@ -341,10 +341,11 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun updateSkipSetupScreenCheckbox() {
-        skipSetupScreenCheckBox.isChecked = sharedPreference.getBoolean(
+        var isChecked = sharedPreference.getBoolean(
             SKIP_SETUP_SCREEN_VALUE_KEY,
             DEFAULT_SKIP_SETUP_SCREEN_VALUE
         )
+        skipSetupScreenCheckBox.isChecked = isChecked
     }
 
     private fun updateMicOnByDefaultCheckbox() {

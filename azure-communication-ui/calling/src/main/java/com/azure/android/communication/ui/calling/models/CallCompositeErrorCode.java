@@ -28,7 +28,7 @@ public final class CallCompositeErrorCode extends ExpandableStringEnum<CallCompo
     public static final CallCompositeErrorCode CALL_DECLINED = fromString("callDeclined");
 
     /**
-     * There is a failure make a call.
+     * There is a failure staring call.
      */
     public static final CallCompositeErrorCode CALL_CAN_NOT_MAKE = fromString("callCanNotMake");
 

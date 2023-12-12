@@ -94,7 +94,6 @@ class CallLauncherViewModel : ViewModel() {
             )
             .setSkipSetupScreen(skipSetup)
             .setRoleHint(roomRoleHint)
-            .setSkipSetupScreen(SettingsFeatures.getSkipSetupScreenFeatureOption())
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 

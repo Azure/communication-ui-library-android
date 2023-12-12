@@ -150,7 +150,7 @@ public final class CallComposite {
     }
 
     /**
-     * Launch group call composite.
+     * Handle incoming call push notification.
      *
      * <pre>
      *
@@ -162,10 +162,7 @@ public final class CallComposite {
      *                 new CallCompositePushNotificationInfo&#40;notificationMap&#41;;
      * final CallCompositeRemoteOptions remoteOptions =
      *                 new CallCompositeRemoteOptions&#40;pushNotificationInfo, credential, displayName&#41;;
-     * callComposite.launch&#40;context, groupCallOptions&#41;;
-     * final CallCompositeLocalOptions localOptions =
-     *                 new CallCompositeLocalOptions&#40;participantViewData&#41;;
-     * callComposite.launch&#40;context, groupCallOptions, localOptions&#41;;
+     * callComposite.launch&#40;context, remoteOptions&#41;;
      *
      * </pre>
      *
