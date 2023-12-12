@@ -73,6 +73,16 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         }
     }
 
+    fun onAudioSelectionChanged(selectionType: String) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            return
+        }
+
+        telecomConnectionManager?.let {
+            it.setAudioSelection(selectionType)
+        }
+    }
+
     override fun getCallComposite(): CallComposite? {
         return callComposite
     }

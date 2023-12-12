@@ -10,6 +10,7 @@ import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
@@ -41,6 +42,7 @@ class CallLauncherViewModel : ViewModel() {
     private var callCompositeManager = CallCompositeManager.getInstance()
     private var callComposite: CallComposite? = null
     private var callCompositePictureInPictureChangedEvent: PiPListener? = null
+    private var audioSelectionChangedEvent: AudioSelectionSelection? = null
 
     fun destroy() {
         unsubscribe()
@@ -123,6 +125,9 @@ class CallLauncherViewModel : ViewModel() {
         )
         callComposite?.addOnCallStateChangedEventHandler(callStateEventHandler)
         callComposite?.addOnDismissedEventHandler(exitEventHandler)
+
+        audioSelectionChangedEvent = AudioSelectionSelection()
+        callComposite?.addOnAudioSelectionChangedEventHandler(audioSelectionChangedEvent!!)
     }
 
     fun handleIncomingCall(
@@ -200,6 +205,7 @@ class CallLauncherViewModel : ViewModel() {
             composite.removeOnErrorEventHandler(errorHandler)
             composite.removeOnRemoteParticipantJoinedEventHandler(remoteParticipantJoinedEvent)
             composite.removeOnDismissedEventHandler(exitEventHandler)
+            composite.removeOnAudioSelectionChangedEventHandler(audioSelectionChangedEvent)
         }
     }
 
@@ -233,5 +239,12 @@ class CallExitEventHandler(
 class PiPListener() : CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent> {
     override fun handle(event: CallCompositePictureInPictureChangedEvent) {
         println("addOnMultitaskingStateChangedEventHandler it.isInPictureInPicture: ")
+    }
+}
+
+class AudioSelectionSelection : CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent> {
+    override fun handle(event: CallCompositeAudioSelectionChangedEvent) {
+        println("addOnAudioSelectionChangedEventHandler it: " + event.selectionType)
+        CallCompositeManager.getInstance().onAudioSelectionChanged(event.selectionType)
     }
 }

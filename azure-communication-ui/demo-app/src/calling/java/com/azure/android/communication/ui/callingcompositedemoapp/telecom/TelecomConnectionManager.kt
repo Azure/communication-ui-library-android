@@ -12,6 +12,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.telecom.CallAudioState
 import android.telecom.DisconnectCause
 import android.telecom.PhoneAccount
 import android.telecom.PhoneAccountHandle
@@ -210,5 +211,19 @@ class TelecomConnectionManager(
         extras.putBoolean(TelecomManager.EXTRA_START_CALL_WITH_SPEAKERPHONE, true)
 
         return extras
+    }
+
+    fun setAudioSelection(selectionType: String) {
+        when (selectionType) {
+            "SPEAKER_SELECTED" -> {
+                TelecomConnectionService.connection?.setAudioRoute(CallAudioState.ROUTE_SPEAKER)
+            }
+            "RECEIVER_SELECTED" -> {
+                TelecomConnectionService.connection?.setAudioRoute(CallAudioState.ROUTE_EARPIECE)
+            }
+            "BLUETOOTH_SCO_SELECTED" -> {
+                TelecomConnectionService.connection?.setAudioRoute(CallAudioState.ROUTE_BLUETOOTH)
+            }
+        }
     }
 }
