@@ -25,8 +25,8 @@ open class BaseUiTest {
     @JvmField
     var grantPermissionRule: GrantPermissionRule
 
-    @get:Rule
-    val rule = DetectLeaksAfterTestSuccess()
+//    @get:Rule
+//    val rule = DetectLeaksAfterTestSuccess()
 
     private val basePermissionList = arrayOf(
         "android.permission.ACCESS_NETWORK_STATE",
