@@ -10,7 +10,6 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.azure.android.communication.common.CommunicationTokenCredential
@@ -314,17 +313,18 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
 
     fun registerFirebaseToken(token: String, displayName: String, dispose: Boolean = false) {
         if (token.isEmpty()) {
+            if (dispose) {
+                destroy()
+            }
             return
         }
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(
             OnCompleteListener { task ->
                 if (!task.isSuccessful) {
-                    Toast.makeText(
-                        applicationContext!!,
-                        "Fetching FCM registration token failed",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    if (dispose) {
+                        destroy()
+                    }
                     return@OnCompleteListener
                 }
                 val deviceRegistrationToken = task.result
