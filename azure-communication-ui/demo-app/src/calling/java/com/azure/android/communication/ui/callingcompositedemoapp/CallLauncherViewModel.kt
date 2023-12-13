@@ -30,8 +30,9 @@ import com.azure.android.communication.ui.callingcompositedemoapp.views.EndCompo
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.UUID
 
-class CallLauncherViewModel : ViewModel() {
+class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
     val callCompositeCallStateStateFlow = MutableStateFlow("")
+    val callCompositeShowAlertStateStateFlow = MutableStateFlow("")
     val callCompositeExitSuccessStateFlow = MutableStateFlow(false)
     var isExitRequested = false
     private val callStateEventHandler = CallStateEventHandler(callCompositeCallStateStateFlow)
@@ -60,7 +61,7 @@ class CallLauncherViewModel : ViewModel() {
         participantMri: String?
     ) {
         createCallComposite(context)
-
+        callCompositeShowAlertStateStateFlow.value = ""
         if (!SettingsFeatures.getEndCallOnByDefaultOption()) {
             EndCompositeButtonView.get(context).hide()
         } else {
@@ -110,8 +111,7 @@ class CallLauncherViewModel : ViewModel() {
         callComposite?.addOnPictureInPictureChangedEventHandler(callCompositePictureInPictureChangedEvent!!)
 
         errorHandler = CallLauncherActivityErrorHandler(
-            context,
-            callComposite!!
+            this
         )
         callComposite?.addOnErrorEventHandler(errorHandler)
 
@@ -213,6 +213,18 @@ class CallLauncherViewModel : ViewModel() {
         isExitRequested = true
         callComposite?.dismiss()
     }
+
+    fun getLastCallId(context: Context): String {
+        return callComposite?.getDebugInfo(context)?.callHistoryRecords?.lastOrNull()?.callIds?.lastOrNull()?.toString() ?: ""
+    }
+
+    override fun showError(message: String) {
+        callCompositeShowAlertStateStateFlow.value = message
+    }
+}
+
+interface OnErrorEventHandler {
+    fun showError(message: String)
 }
 
 class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>) : CallCompositeEventHandler<CallCompositeCallStateChangedEvent> {
@@ -236,7 +248,7 @@ class CallExitEventHandler(
     }
 }
 
-class PiPListener() : CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent> {
+class PiPListener : CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent> {
     override fun handle(event: CallCompositePictureInPictureChangedEvent) {
         println("addOnMultitaskingStateChangedEventHandler it.isInPictureInPicture: ")
     }

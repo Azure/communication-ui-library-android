@@ -237,6 +237,16 @@ class CallLauncherActivity : AppCompatActivity() {
                 }
             }
 
+            lifecycleScope.launch {
+                callLauncherViewModel.callCompositeShowAlertStateStateFlow.collect {
+                    runOnUiThread {
+                        if (it.isNotEmpty()) {
+                            showAlert(it + "Call ID: " + callLauncherViewModel.getLastCallId(applicationContext))
+                        }
+                    }
+                }
+            }
+
             disposeCompositeButton.setOnClickListener {
                 callLauncherViewModel.destroy()
             }
