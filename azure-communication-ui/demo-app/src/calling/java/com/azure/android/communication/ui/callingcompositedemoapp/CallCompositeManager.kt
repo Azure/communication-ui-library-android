@@ -135,6 +135,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         val acsToken = applicationContext!!.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE).getString(CACHED_TOKEN, "")
         val userName = applicationContext!!.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE).getString(CACHED_USER_NAME, "")
         registerFirebaseToken(acsToken!!, userName!!)
+        destroy()
     }
 
     override fun onRemoteParticipantJoined(rawId: String) {
