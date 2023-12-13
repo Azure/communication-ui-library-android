@@ -49,6 +49,8 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 import static com.azure.android.communication.ui.calling.CallCompositeExtentionsKt.createDebugInfoManager;
 import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
 
+import androidx.core.util.Consumer;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -609,8 +611,11 @@ public final class CallComposite {
      * @param context The {@link Context}.
      * @param options The {@link CallCompositePushNotificationOptions} if call is already in progress
      *                existing display name and CommunicationTokenCredential is used.
+     * @param onCompleteCallback The {@link Consumer} to be called when registration is complete.
      */
-    public void registerPushNotification(final Context context, final CallCompositePushNotificationOptions options) {
+    public void registerPushNotification(final Context context,
+                                         final CallCompositePushNotificationOptions options,
+                                         final Consumer<Boolean> onCompleteCallback) {
         initializeCallAgent();
         // for device token, we need to set the call config. with ONE_TO_N_CALL_INCOMING
         configuration.setCallConfig(new CallConfiguration(
@@ -626,7 +631,8 @@ public final class CallComposite {
         callAgentWrapper.registerPushNotification(context,
                 options.getDisplayName(),
                 options.getTokenCredential(),
-                options.getDeviceRegistrationToken());
+                options.getDeviceRegistrationToken(),
+                onCompleteCallback);
     }
 
     /**

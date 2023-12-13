@@ -132,10 +132,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             instance?.telecomConnectionManager?.endConnection(applicationContext!!)
         }
-        val acsToken = applicationContext!!.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE).getString(CACHED_TOKEN, "")
-        val userName = applicationContext!!.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE).getString(CACHED_USER_NAME, "")
-        registerFirebaseToken(acsToken!!, userName!!)
-        destroy()
+        registerIncomingCallAndDispose()
     }
 
     override fun onRemoteParticipantJoined(rawId: String) {
@@ -174,7 +171,6 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
             telecomConnectionManager?.declineCall(applicationContext!!)
         }
         callComposite?.declineIncomingCall()
-        destroy()
     }
 
     fun destroy() {
@@ -223,6 +219,16 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         callComposite = callCompositeBuilder.build()
         subscribeToEvents()
         return callComposite!!
+    }
+
+    private fun registerIncomingCallAndDispose() {
+        val acsToken =
+            applicationContext!!.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
+                .getString(CACHED_TOKEN, "")
+        val userName =
+            applicationContext!!.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
+                .getString(CACHED_USER_NAME, "")
+        registerFirebaseToken(acsToken!!, userName!!, true)
     }
 
     private fun showNotificationForIncomingCall(notification: CallCompositeIncomingCallInfo) {
@@ -306,7 +312,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         }
     }
 
-    fun registerFirebaseToken(token: String, displayName: String) {
+    fun registerFirebaseToken(token: String, displayName: String, dispose: Boolean = false) {
         if (token.isEmpty()) {
             return
         }
@@ -330,7 +336,11 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
                         deviceRegistrationToken,
                         displayName
                     )
-                )
+                ) {
+                    if (dispose) {
+                        destroy()
+                    }
+                }
             }
         )
     }

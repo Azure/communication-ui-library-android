@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.service.sdk
 
 import android.content.Context
+import androidx.core.util.Consumer
 import com.azure.android.communication.calling.CallAgent
 import com.azure.android.communication.calling.CallAgentOptions
 import com.azure.android.communication.calling.CallClient
@@ -37,14 +38,17 @@ internal class CallingSDKCallAgentWrapper(private val logger: Logger) {
         name: String,
         communicationTokenCredential: CommunicationTokenCredential,
         deviceRegistrationToken: String,
+        onCompleteCallback: Consumer<Boolean>,
     ) {
         createCallAgent(context, name, communicationTokenCredential).get()
             ?.registerPushNotification(deviceRegistrationToken)?.whenComplete { _, exception ->
                 if (exception != null) {
                     logger.error("registerPushNotification error " + exception.message)
+                    onCompleteCallback.accept(false)
                     throw exception
                 }
                 logger.debug("registerPushNotification success")
+                onCompleteCallback.accept(true)
             }
     }
 
