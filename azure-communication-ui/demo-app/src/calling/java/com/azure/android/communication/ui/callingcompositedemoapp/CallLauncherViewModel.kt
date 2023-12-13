@@ -48,6 +48,12 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
     fun destroy() {
         unsubscribe()
         callCompositeManager.destroy()
+        callComposite = null
+    }
+
+    fun onCompositeDismiss() {
+        unsubscribe()
+        callComposite = null
     }
 
     fun launch(
@@ -245,6 +251,7 @@ class CallExitEventHandler(
             callCompositeCallStateStateFlow.value = it.toString()
         }
         CallCompositeManager.getInstance().onCompositeDismiss()
+        callLauncherViewModel.onCompositeDismiss()
     }
 }
 
