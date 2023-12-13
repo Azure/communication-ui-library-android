@@ -4,12 +4,15 @@
 package com.azure.android.communication
 
 import android.os.SystemClock
+import androidx.annotation.IdRes
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import junit.framework.AssertionFailedError
 import org.hamcrest.Matchers
 
@@ -27,12 +30,36 @@ internal fun assertDisplayed(id: Int): ViewInteraction {
     ).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 }
 
+internal fun assertNotDisplayed(id: Int): ViewInteraction? {
+    return Espresso.onView(
+        Matchers.allOf(
+            ViewMatchers.withId(id)
+        )
+    ).check(doesNotExist())
+}
+
+internal fun assertViewGone(id: Int): ViewInteraction? {
+    return Espresso.onView(
+        Matchers.allOf(
+            ViewMatchers.withId(id)
+        )
+    ).check(ViewAssertions.matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
+}
+
 internal fun assertViewText(id: Int, text: String) {
     Espresso.onView(
         Matchers.allOf(
             ViewMatchers.withId(id)
         )
     ).check(ViewAssertions.matches(ViewMatchers.withText(text)))
+}
+
+internal fun assertViewText(id: Int, textId: Int) {
+    Espresso.onView(
+        Matchers.allOf(
+            ViewMatchers.withId(id)
+        )
+    ).check(ViewAssertions.matches(ViewMatchers.withText(textId)))
 }
 
 internal fun tap(id: Int) {
@@ -70,4 +97,9 @@ internal fun waitUntilViewIsDisplayed(idlingCheck: () -> ViewInteraction): ViewI
     }
     if (isReady) return viewInteraction
     throw IllegalStateException("Timed out waiting for view")
+}
+
+internal fun assertViewHasChild(@IdRes id: Int, n: Int) {
+    Espresso.onView(ViewMatchers.withId(id))
+        .check(ViewAssertions.matches(ViewMatchers.hasChildCount(n)))
 }

@@ -70,19 +70,19 @@
          <u>מדיניות פרטיות</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>ההקלטה נשמרת. </b> ההקלטה הופסקה.
          <u>מידע נוסף</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>התעתוק התחיל.</b> על-ידי הצטרפות, אתה
-        נותן את הסכמתך לתעתוק של פגישה זו. <u>מדיניות פרטיות</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>התעתוק נשמר.</b> התעתוק
-        הופסק. <u>מידע נוסף</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>ההקלטה והתעתוק
-        התחילו.</b> על-ידי הצטרפות, אתה נותן את הסכמתך לתעתוק של פגישה זו
-        . <u>מדיניות פרטיות</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>ההקלטה והתעתוק
-        נשמרים.</b> ההקלטה והתעתוק הפסיקו. <u>מידע נוסף</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>התמלול התחיל.</b> על-ידי הצטרפות, אתה
+        נותן את הסכמתך לתמלול של פגישה זו. <u>מדיניות פרטיות</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>התמלול נשמר.</b> התמלול
+        הופסק. <u>למידע נוסף</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>ההקלטה והתמלול
+        התחילו.</b> על-ידי הצטרפות, אתה נותן את הסכמתך לתמלול של פגישה זו
+        .<u>מדיניות פרטיות</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>ההקלטה והתמלול
+        נשמרים.</b> ההקלטה והתמלול הפסיקו. <u>למידע נוסף</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>ההקלטה הופסקה.</b> אתה
         מתעתק כעת רק את פגישה זו. <u>מדיניות הפרטיות של</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>התעתוק הופסק.
-    </b> אתה מתעתק כעת רק הקלטה של פגישה זו. <u>מדיניות פרטיות</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>התמלול הופסק.
+    </b> אתה מתמלל כעת רק הקלטה של פגישה זו. <u>מדיניות פרטיות</u></string>
     <string name="azure_communication_ui_calling_view_link">קישור</string>
 
     <!--    PopUp warning-->
@@ -102,4 +102,20 @@
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s הצטרף לפגישה</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s עזב את הפגישה</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">הצטרפת לשיחה</string>
+
+    <!-- Call Diagnostics -->
+    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">הרשת אבדה</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">מתחבר מחדש...</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">איכות הרשת נמוכה</string>
+    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">אתה מושתק</string>
+    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">המיקרופון אינו פועל כצפוי</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">לא ניתן להפעיל את המצלמה</string>
+    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">המצלמה הפסיקה לפעול</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">הרמקול אינו פועל כצפוי</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">לא ניתן לאתר את הרמקול</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">לא ניתן לאתר את המיקרופון</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">הרמקול מושתק</string>
+
+    <!--    Upper Message Bar Notification -->
+    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">בטל</string>
 </resources>
