@@ -14,14 +14,11 @@
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">Выбрано аудиоустройство %1$s</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Присоединение к звонку…</string>
-    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Starting call…</string>
-    <string name="azure_communication_ui_calling_setup_view_button_ringing_call">Ringing call…</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Видео отключено</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_on">Видео включено</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Микрофон выключен</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">Микрофон включен</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">Присоединиться к звонку</string>
-    <string name="azure_communication_ui_calling_setup_view_button_start_call">Start call</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Звук отключен. Для включения перейдите в раздел "Параметры", чтобы разрешить доступ. Чтобы начать
         этот звонок, включите звук.</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Камера отключена. Для включения перейдите в раздел "Параметры",
@@ -32,6 +29,9 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Настройка градиента</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Переключение на другую камеру</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Настройка</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Starting call…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_ringing_call">Ringing call…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_start_call">Start call</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">Ожидание организатора</string>
@@ -47,7 +47,7 @@
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Ожидание присоединения других участников</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Звонок с 1 пользователем</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Звонок с несколькими (%1$d) людьми</string>
-    <string name="azure_communication_ui_calling_view_go_back">Back</string>
+    <string name="azure_communication_ui_calling_view_go_back">Назад</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(Я)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Участник без имени</string>
     <string name="azure_communication_ui_calling_view_leave_call">Покинуть звонок?</string>
@@ -108,31 +108,31 @@
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">Вы присоединились к вызову</string>
 
     <!--    Participant list-->
-    <string name="azure_communication_ui_calling_participant_list_in_call_n_people">In the call (%1$d)</string>
-    <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">In the lobby (%1$d)</string>
-    <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Double tap to admit/decline participant</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_n_people">Во время звонка (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">В зале ожидания (%1$d)</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Коснитесь дважды, чтобы допустить или отклонить участника</string>
 
     <!--    Admit participant dialog-->
-    <string name="azure_communication_ui_calling_admit_name">Admit %1$s?</string>
-    <string name="azure_communication_ui_calling_admit">Admit</string>
-    <string name="azure_communication_ui_calling_decline">Decline</string>
-    <string name="azure_communication_ui_calling_admit_all">Admit all</string>
+    <string name="azure_communication_ui_calling_admit_name">Допустить %1$s?</string>
+    <string name="azure_communication_ui_calling_admit">Допустить</string>
+    <string name="azure_communication_ui_calling_decline">Отклонить</string>
+    <string name="azure_communication_ui_calling_admit_all">Допустить всех</string>
 
     <!--    Lobby header-->
-    <string name="azure_communication_ui_calling_lobby_header_text">People are waiting to join</string>
-    <string name="azure_communication_ui_calling_lobby_header_icon_content_description">Lobby</string>
-    <string name="azure_communication_ui_calling_lobby_header_view_participant_button">View lobby</string>
-    <string name="azure_communication_ui_calling_lobby_header_accessibility_label">View lobby</string>
-    <string name="azure_communication_ui_calling_lobby_header_close_description">Close lobby</string>
+    <string name="azure_communication_ui_calling_lobby_header_text">Люди ожидают присоединения</string>
+    <string name="azure_communication_ui_calling_lobby_header_icon_content_description">"Зал ожидания"</string>
+    <string name="azure_communication_ui_calling_lobby_header_view_participant_button">Просмотреть "зал ожидания"</string>
+    <string name="azure_communication_ui_calling_lobby_header_accessibility_label">Просмотреть "зал ожидания"</string>
+    <string name="azure_communication_ui_calling_lobby_header_close_description">Закрыть "зал ожидания"</string>
 
     <!--    Lobby error header-->
-    <string name="azure_communication_ui_calling_lobby_header_error_close_description">Close lobby error</string>
-    <string name="azure_communication_ui_calling_lobby_error_content_description">Lobby error</string>
-    <string name="azure_communication_ui_calling_error_lobby_disabled_by_configuration">Lobby has been disabled</string>
-    <string name="azure_communication_ui_calling_error_lobby_conversation_type_not_supported">Lobby not supported</string>
-    <string name="azure_communication_ui_calling_error_lobby_meeting_role_not_allowded">Your role cannot act on the lobby</string>
-    <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">Failed to decline</string>
-    <string name="azure_communication_ui_calling_error_lobby_unknown">Lobby action error</string>
+    <string name="azure_communication_ui_calling_lobby_header_error_close_description">Ошибка закрытия "зала ожидания"</string>
+    <string name="azure_communication_ui_calling_lobby_error_content_description">Ошибка "зала ожидания"</string>
+    <string name="azure_communication_ui_calling_error_lobby_disabled_by_configuration">"Зал ожидания" отключен</string>
+    <string name="azure_communication_ui_calling_error_lobby_conversation_type_not_supported">"Зал ожидания" не поддерживается</string>
+    <string name="azure_communication_ui_calling_error_lobby_meeting_role_not_allowded">Ваша роль не может действовать в "зале ожидания"</string>
+    <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">Не удалось отклонить</string>
+    <string name="azure_communication_ui_calling_error_lobby_unknown">Ошибка действия "зала ожидания"</string>
 
     <!-- Call Diagnostics -->
     <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Сеть потеряна</string>

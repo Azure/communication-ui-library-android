@@ -14,14 +14,11 @@
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">התקן שמע %1$s, נבחר</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">מצטרף לשיחה…</string>
-    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Starting call…</string>
-    <string name="azure_communication_ui_calling_setup_view_button_ringing_call">Ringing call…</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">וידאו כבוי</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_on">וידאו מופעל</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">מיקרופון כבוי</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">מיקרופון מופעל</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">הצטרף לשיחה</string>
-    <string name="azure_communication_ui_calling_setup_view_button_start_call">Start call</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">השמע שלך מושבת. כדי להפעיל אותו, עבור אל \'הגדרות\' כדי לאפשר גישה. עליך
        להפעיל שמע כדי להתחיל את שיחה זו.</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">המצלמה שלך מושבתת. כדי להפעיל אותה, עבור אל \'הגדרות\'
@@ -32,6 +29,9 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">הגדרה הדרגתית</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">החלף מצלמה</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">הגדרה</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Starting call…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_ringing_call">Ringing call…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_start_call">Start call</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">ממתין למארח</string>
@@ -47,7 +47,7 @@
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">מחכה שאחרים יצטרפו</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">שיחה עם אדם אחד</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">שיחה עם %1$d אנשים</string>
-    <string name="azure_communication_ui_calling_view_go_back">Back</string>
+    <string name="azure_communication_ui_calling_view_go_back">הקודם</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(אני)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">משתתף ללא שם</string>
     <string name="azure_communication_ui_calling_view_leave_call">לעזוב שיחה?</string>
@@ -108,31 +108,31 @@
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">הצטרפת לשיחה</string>
 
     <!--    Participant list-->
-    <string name="azure_communication_ui_calling_participant_list_in_call_n_people">In the call (%1$d)</string>
-    <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">In the lobby (%1$d)</string>
-    <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Double tap to admit/decline participant</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_n_people">בשיחה (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">בחדר הכניסה (%1$d)</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">הקש פעמיים כדי להכניס/לדחות משתתף</string>
 
     <!--    Admit participant dialog-->
-    <string name="azure_communication_ui_calling_admit_name">Admit %1$s?</string>
-    <string name="azure_communication_ui_calling_admit">Admit</string>
-    <string name="azure_communication_ui_calling_decline">Decline</string>
-    <string name="azure_communication_ui_calling_admit_all">Admit all</string>
+    <string name="azure_communication_ui_calling_admit_name">להכניס את %1$s?</string>
+    <string name="azure_communication_ui_calling_admit">הכנס</string>
+    <string name="azure_communication_ui_calling_decline">דחה</string>
+    <string name="azure_communication_ui_calling_admit_all">הכנס את כולם</string>
 
     <!--    Lobby header-->
-    <string name="azure_communication_ui_calling_lobby_header_text">People are waiting to join</string>
-    <string name="azure_communication_ui_calling_lobby_header_icon_content_description">Lobby</string>
-    <string name="azure_communication_ui_calling_lobby_header_view_participant_button">View lobby</string>
-    <string name="azure_communication_ui_calling_lobby_header_accessibility_label">View lobby</string>
-    <string name="azure_communication_ui_calling_lobby_header_close_description">Close lobby</string>
+    <string name="azure_communication_ui_calling_lobby_header_text">אנשים ממתינים להצטרף</string>
+    <string name="azure_communication_ui_calling_lobby_header_icon_content_description">חדר כניסה</string>
+    <string name="azure_communication_ui_calling_lobby_header_view_participant_button">צפה בחדר הכניסה</string>
+    <string name="azure_communication_ui_calling_lobby_header_accessibility_label">צפה בחדר הכניסה</string>
+    <string name="azure_communication_ui_calling_lobby_header_close_description">סגור את חדר הכניסה</string>
 
     <!--    Lobby error header-->
-    <string name="azure_communication_ui_calling_lobby_header_error_close_description">Close lobby error</string>
-    <string name="azure_communication_ui_calling_lobby_error_content_description">Lobby error</string>
-    <string name="azure_communication_ui_calling_error_lobby_disabled_by_configuration">Lobby has been disabled</string>
-    <string name="azure_communication_ui_calling_error_lobby_conversation_type_not_supported">Lobby not supported</string>
-    <string name="azure_communication_ui_calling_error_lobby_meeting_role_not_allowded">Your role cannot act on the lobby</string>
-    <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">Failed to decline</string>
-    <string name="azure_communication_ui_calling_error_lobby_unknown">Lobby action error</string>
+    <string name="azure_communication_ui_calling_lobby_header_error_close_description">סגור שגיאת חדר הכניסה</string>
+    <string name="azure_communication_ui_calling_lobby_error_content_description">שגיאת חדר הכניסה</string>
+    <string name="azure_communication_ui_calling_error_lobby_disabled_by_configuration">חדר הכניסה הפך ללא זמין</string>
+    <string name="azure_communication_ui_calling_error_lobby_conversation_type_not_supported">חדר הכניסה אינו נתמך</string>
+    <string name="azure_communication_ui_calling_error_lobby_meeting_role_not_allowded">התפקיד שלך אינו יכול לפעול בחדר הכניסה</string>
+    <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">דחיית ההודעה נכשלה</string>
+    <string name="azure_communication_ui_calling_error_lobby_unknown">שגיאת פעולת חדר הכניסה</string>
 
     <!-- Call Diagnostics -->
     <string name="azure_communication_ui_calling_diagnostics_network_was_lost">הרשת אבדה</string>

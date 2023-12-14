@@ -14,14 +14,11 @@
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s dispositivo de áudio, selecionado</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Ingressando na chamada…</string>
-    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Starting call…</string>
-    <string name="azure_communication_ui_calling_setup_view_button_ringing_call">Ringing call…</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Vídeo desativado</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_on">Vídeo ligado</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Microfone desligado</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">Microfone ligado</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">Ingressar na chamada</string>
-    <string name="azure_communication_ui_calling_setup_view_button_start_call">Start call</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Seu áudio está desabilitado. Para habilitar, vá para Configurações para permitir o acesso. Você deve
  habilitar o áudio para iniciar essa chamada.</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Sua câmera está desabilitada. Para habilitar, vá para Configurações
@@ -32,6 +29,9 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Configurar Gradiente</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Alternar Câmera</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Configurar</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Starting call…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_ringing_call">Ringing call…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_start_call">Start call</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">Esperando pelo anfitrião</string>
@@ -47,7 +47,7 @@
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Aguardando o ingresso de outros participantes</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Chamada com 1 pessoa</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Ligar com %1$d pessoas</string>
-    <string name="azure_communication_ui_calling_view_go_back">Back</string>
+    <string name="azure_communication_ui_calling_view_go_back">Voltar</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(eu)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Participante Sem Nome</string>
     <string name="azure_communication_ui_calling_view_leave_call">Sair da chamada?</string>
@@ -108,31 +108,31 @@ dando consentimento para que esta reunião seja transcrita.
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">Você ingressou na chamada</string>
 
     <!--    Participant list-->
-    <string name="azure_communication_ui_calling_participant_list_in_call_n_people">In the call (%1$d)</string>
-    <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">In the lobby (%1$d)</string>
-    <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Double tap to admit/decline participant</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_n_people">Na chamada (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">No lobby (%1$d)</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Clique duas vezes para admitir ou recusar um participante</string>
 
     <!--    Admit participant dialog-->
-    <string name="azure_communication_ui_calling_admit_name">Admit %1$s?</string>
-    <string name="azure_communication_ui_calling_admit">Admit</string>
-    <string name="azure_communication_ui_calling_decline">Decline</string>
-    <string name="azure_communication_ui_calling_admit_all">Admit all</string>
+    <string name="azure_communication_ui_calling_admit_name">Admitir %1$s?</string>
+    <string name="azure_communication_ui_calling_admit">Admitir</string>
+    <string name="azure_communication_ui_calling_decline">Recusar</string>
+    <string name="azure_communication_ui_calling_admit_all">Permitir todos</string>
 
     <!--    Lobby header-->
-    <string name="azure_communication_ui_calling_lobby_header_text">People are waiting to join</string>
+    <string name="azure_communication_ui_calling_lobby_header_text">As pessoas estão esperando para ingressar</string>
     <string name="azure_communication_ui_calling_lobby_header_icon_content_description">Lobby</string>
-    <string name="azure_communication_ui_calling_lobby_header_view_participant_button">View lobby</string>
-    <string name="azure_communication_ui_calling_lobby_header_accessibility_label">View lobby</string>
-    <string name="azure_communication_ui_calling_lobby_header_close_description">Close lobby</string>
+    <string name="azure_communication_ui_calling_lobby_header_view_participant_button">Exibir o lobby</string>
+    <string name="azure_communication_ui_calling_lobby_header_accessibility_label">Exibir o lobby</string>
+    <string name="azure_communication_ui_calling_lobby_header_close_description">Fechar o lobby</string>
 
     <!--    Lobby error header-->
-    <string name="azure_communication_ui_calling_lobby_header_error_close_description">Close lobby error</string>
-    <string name="azure_communication_ui_calling_lobby_error_content_description">Lobby error</string>
-    <string name="azure_communication_ui_calling_error_lobby_disabled_by_configuration">Lobby has been disabled</string>
-    <string name="azure_communication_ui_calling_error_lobby_conversation_type_not_supported">Lobby not supported</string>
-    <string name="azure_communication_ui_calling_error_lobby_meeting_role_not_allowded">Your role cannot act on the lobby</string>
-    <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">Failed to decline</string>
-    <string name="azure_communication_ui_calling_error_lobby_unknown">Lobby action error</string>
+    <string name="azure_communication_ui_calling_lobby_header_error_close_description">Ocorreu um erro ao fechar o lobby</string>
+    <string name="azure_communication_ui_calling_lobby_error_content_description">Ocorreu um erro de lobby</string>
+    <string name="azure_communication_ui_calling_error_lobby_disabled_by_configuration">O lobby foi desabilitado</string>
+    <string name="azure_communication_ui_calling_error_lobby_conversation_type_not_supported">Lobby sem suporte</string>
+    <string name="azure_communication_ui_calling_error_lobby_meeting_role_not_allowded">Sua função não pode agir no lobby</string>
+    <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">Ocorreu um erro ao recusar</string>
+    <string name="azure_communication_ui_calling_error_lobby_unknown">Ocorreu um erro de ação do lobby</string>
 
     <!-- Call Diagnostics -->
     <string name="azure_communication_ui_calling_diagnostics_network_was_lost">A rede foi perdida</string>

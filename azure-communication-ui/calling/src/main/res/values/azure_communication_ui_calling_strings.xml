@@ -16,12 +16,12 @@
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Joining call…</string>
     <string name="azure_communication_ui_calling_setup_view_button_starting_call">Starting call…</string>
     <string name="azure_communication_ui_calling_setup_view_button_ringing_call">Ringing call…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_start_call">Start call</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Video off</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_on">Video on</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Mic off</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">Mic on</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">Join call</string>
-    <string name="azure_communication_ui_calling_setup_view_button_start_call">Start call</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Your audio is disabled. To enable, please go to Settings to allow access. You must
         enable audio to start this call.</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Your camera is disabled. To enable, please go to Settings
