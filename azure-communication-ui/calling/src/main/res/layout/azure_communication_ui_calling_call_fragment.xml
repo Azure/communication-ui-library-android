@@ -101,15 +101,6 @@
             android:accessibilityTraversalAfter="@id/azure_communication_ui_call_main_layout"
             />
     </LinearLayout>
-    <com.azure.android.communication.ui.calling.presentation.fragment.calling.support.SupportView
-        android:id="@+id/azure_communication_ui_calling_support_view"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="400dp"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

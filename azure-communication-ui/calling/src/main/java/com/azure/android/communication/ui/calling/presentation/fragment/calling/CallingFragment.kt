@@ -176,7 +176,7 @@ internal class CallingFragment :
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         moreCallOptionsListView.start(viewLifecycleOwner)
 
-        supportFormView = view.findViewById(R.id.azure_communication_ui_calling_support_view)
+        supportFormView = SupportView(requireContext())
         supportFormView.start(
             viewModel.supportFormViewModel,
             viewLifecycleOwner

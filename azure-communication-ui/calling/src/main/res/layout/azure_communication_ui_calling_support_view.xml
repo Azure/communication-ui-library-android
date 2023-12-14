@@ -7,6 +7,25 @@
     android:background="@drawable/azure_communication_ui_calling_corner_radius_rectangle_4dp_drawer_background"
     >
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+        <com.microsoft.fluentui.widget.Button
+            android:id="@+id/buttonSend"
+
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="Send"/>
+
+        <com.microsoft.fluentui.widget.Button
+            android:id="@+id/buttonCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="Cancel"/>
+
+    </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -49,17 +68,5 @@
         </LinearLayout>
     </ScrollView>
 
-    <com.microsoft.fluentui.widget.Button
-        android:id="@+id/buttonSend"
-
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="Send"/>
-
-    <com.microsoft.fluentui.widget.Button
-        android:id="@+id/buttonCancel"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="Cancel"/>
 
 </LinearLayout>
