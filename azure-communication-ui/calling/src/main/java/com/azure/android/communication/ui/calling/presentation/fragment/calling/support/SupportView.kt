@@ -54,6 +54,7 @@ internal class SupportView : FrameLayout {
         val cancelButton : Button = findViewById(R.id.buttonCancel)
 
         sendButton.setOnClickListener {
+            viewModel.forwardEventToUser()
             viewModel.dismissForm()
         }
 

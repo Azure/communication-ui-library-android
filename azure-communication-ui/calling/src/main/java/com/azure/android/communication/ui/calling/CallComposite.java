@@ -24,6 +24,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeRemotePart
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
+import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent;
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
 import com.jakewharton.threetenabp.AndroidThreeTen;
@@ -156,6 +157,43 @@ public final class CallComposite {
      */
     public void removeOnDismissedEventHandler(final CallCompositeEventHandler<CallCompositeDismissedEvent> handler) {
         configuration.getCallCompositeEventsHandler().removeOnExitEventHandler(handler);
+    }
+
+    /**
+     * Add {@link CallCompositeEventHandler}.
+     *
+     * <p> Add a callback for Call Composite User Reported Issue Event.
+     * See {@link CallCompositeUserReportedIssueEvent} for values.</p>
+     * <pre>
+     *
+     * &#47;&#47; add on user reported event handler.
+     * callComposite.addOnUserReportedEventHandler&#40;event -> {
+     *     &#47;&#47; Process user reported event
+     *     System.out.println&#40;event.getUserMessage&#40;&#41;&#41;;
+     *     System.out.println&#40;event.getLogFiles&#40;&#41;&#41;;
+     *     System.out.println&#40;event.getCallIds&#40;&#41;&#41;;
+     * }&#41;;
+     *
+     * </pre>
+     *
+     * @param handler The {@link CallCompositeEventHandler}.
+     */
+    public void addOnUserReportedEventHandler(
+            final CallCompositeEventHandler<CallCompositeUserReportedIssueEvent> handler) {
+        configuration.getCallCompositeEventsHandler().addOnUserReportedEventHandler(handler);
+    }
+
+    /**
+     * Remove {@link CallCompositeEventHandler}.
+     *
+     * <p> Remove a callback for Call Composite user reported Event.
+     * See {@link CallCompositeUserReportedIssueEvent} for values.</p>
+     *
+     * @param handler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnUserReportedEventHandler(
+            final CallCompositeEventHandler<CallCompositeUserReportedIssueEvent> handler) {
+        configuration.getCallCompositeEventsHandler().removeOnUserReportedEventHandler(handler);
     }
 
     /**

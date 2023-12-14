@@ -20,6 +20,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeLocalizati
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
+import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.views.EndCompositeButtonView
@@ -32,6 +33,7 @@ class CallLauncherViewModel : ViewModel() {
     var isExitRequested = false
     private val callStateEventHandler = CallStateEventHandler(callCompositeCallStateStateFlow)
     private var exitEventHandler: CallExitEventHandler? = null
+    private val userReportedIssueEventHandler = UserReportedIssueEventHandler()
 
     fun launch(
         context: Context,
@@ -87,6 +89,7 @@ class CallLauncherViewModel : ViewModel() {
         exitEventHandler = CallExitEventHandler(callCompositeExitSuccessStateFlow, callCompositeCallStateStateFlow, this)
         callComposite.addOnCallStateChangedEventHandler(callStateEventHandler)
         callComposite.addOnDismissedEventHandler(exitEventHandler)
+        callComposite.addOnUserReportedEventHandler(userReportedIssueEventHandler)
         isExitRequested = false
         callComposite.launch(context, remoteOptions, localOptions)
     }
@@ -168,5 +171,11 @@ class CallExitEventHandler(
         event.errorCode?.let {
             callCompositeCallStateStateFlow.value = it.toString()
         }
+    }
+}
+
+class UserReportedIssueEventHandler : CallCompositeEventHandler<CallCompositeUserReportedIssueEvent> {
+    override fun handle(event: CallCompositeUserReportedIssueEvent) {
+        print(event.toString())
     }
 }

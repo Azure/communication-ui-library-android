@@ -6,7 +6,7 @@ import com.azure.android.communication.ui.calling.redux.state.NavigationState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class SupportViewModel(private val dispatch: Dispatch) {
+internal class SupportViewModel(private val dispatch: Dispatch, private val onSubmit:(String, Boolean)->Unit) {
 
     private var _isVisibleStateFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
     private var _userTextStateFlow: MutableStateFlow<String> = MutableStateFlow("")
@@ -32,5 +32,10 @@ internal class SupportViewModel(private val dispatch: Dispatch) {
 
     fun dismissForm() {
         dispatch(NavigationAction.HideSupportForm())
+        userText = ""
+    }
+
+    fun forwardEventToUser() {
+        onSubmit(userText, false)
     }
 }

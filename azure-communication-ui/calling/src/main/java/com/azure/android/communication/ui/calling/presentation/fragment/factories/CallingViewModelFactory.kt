@@ -3,6 +3,8 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.factories
 
+import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
+import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmViewModel
@@ -21,17 +23,20 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import java.util.Collections
 
 internal class CallingViewModelFactory(
     private val store: Store<ReduxState>,
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
     private val maxRemoteParticipants: Int,
-    private val debugInfoManager: DebugInfoManager
+    private val debugInfoManager: DebugInfoManager,
+    private val localConfiguration: CallCompositeConfiguration
 ) : BaseViewModelFactory(store) {
 
     val moreCallOptionsListViewModel by lazy {
         MoreCallOptionsListViewModel(debugInfoManager,
-            true,
+            localConfiguration.callCompositeEventsHandler.getOnUserReportedHandlers().toList()
+                .isNotEmpty(),
             dispatch = store::dispatch)
     }
 
@@ -78,7 +83,9 @@ internal class CallingViewModelFactory(
     }
 
     val supportFormViewModel by lazy {
-        SupportViewModel(dispatch = store::dispatch)
+        SupportViewModel(dispatch = store::dispatch) { userText, isVideoOn ->
+            forwardSupportEventToUser(userText, isVideoOn)
+        }
     }
 
     val waitingLobbyOverlayViewModel by lazy {
@@ -92,4 +99,15 @@ internal class CallingViewModelFactory(
     val onHoldOverlayViewModel by lazy {
         OnHoldOverlayViewModel { store.dispatch(it) }
     }
+
+    private fun forwardSupportEventToUser(userText: String, screenshot: Boolean) {
+        val event = CallCompositeUserReportedIssueEvent(userText, Collections.emptyList(), Collections.emptyList());
+        localConfiguration.callCompositeEventsHandler.getOnUserReportedHandlers().forEach {
+            it.handle(
+                event
+            )
+        }
+        // Pass through local config
+    }
+
 }
