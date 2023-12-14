@@ -26,7 +26,9 @@ public class CallCompositeUserReportedIssueEvent {
      * @param logFiles    A list of files containing diagnostic logs related to the user's experience.
      * @param callIds     A list of identifiers for the calls that the user was involved in.
      */
-    public CallCompositeUserReportedIssueEvent(String userMessage, List<File> logFiles, List<String> callIds) {
+    public CallCompositeUserReportedIssueEvent(final String userMessage,
+                                               final List<File> logFiles,
+                                               final List<String> callIds) {
         this.userMessage = userMessage;
         this.logFiles = logFiles;
         this.callIds = callIds;

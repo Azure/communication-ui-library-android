@@ -2,7 +2,7 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--    Device-->
     <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Speaker</string>
@@ -63,6 +63,8 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">More</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">Share diagnostics info</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnostics info</string>
+    <string name="azure_communication_ui_calling_report_issue" tools:ignore="MissingTranslation">Report Issue</string>
+    <string name="azure_communication_ui_calling_report_issue_title" tools:ignore="MissingTranslation">Report Issue</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Recording has started.</b> By joining, you are

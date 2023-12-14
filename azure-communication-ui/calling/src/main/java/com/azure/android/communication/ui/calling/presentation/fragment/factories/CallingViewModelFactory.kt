@@ -29,7 +29,7 @@ internal class CallingViewModelFactory(
 ) : BaseViewModelFactory(store) {
 
     val moreCallOptionsListViewModel by lazy {
-        MoreCallOptionsListViewModel(debugInfoManager)
+        MoreCallOptionsListViewModel(debugInfoManager, true)
     }
 
     val participantGridViewModel by lazy {
