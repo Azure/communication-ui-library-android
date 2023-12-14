@@ -24,23 +24,10 @@ internal class MoreCallOptionsListViewModel(
 
     val displayStateFlow = MutableStateFlow(false)
 
-    val listEntries = mutableListOf<ListEntryViewModel>().apply {
-        add(ListEntryViewModel(
-            R.string.azure_communication_ui_calling_view_share_diagnostics,
-            null,
-            R.drawable.azure_communication_ui_calling_ic_fluent_share_android_24_regular
-        ) {
-            shareDiagnostics(it)
-        })
-
+    val listEntries = mutableListOf<Entries>().apply {
+        add(Entries.SHARE_DIAGNOSTICS)
         if (showSupportFormOption) {
-            add(ListEntryViewModel(
-                R.string.azure_communication_ui_calling_report_issue_title,
-                null,
-                R.drawable.azure_communication_ui_calling_ic_fluent_share_android_24_regular
-            ) {
-                println("asddsa");
-            })
+            add(Entries.REPORT_ISSUE)
         }
     }
 
@@ -52,19 +39,14 @@ internal class MoreCallOptionsListViewModel(
         displayStateFlow.value = false
     }
 
-    fun shareDiagnostics(context: Context) {
-        val share = Intent.createChooser(
-            Intent().apply {
-                action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, callId)
-                type = "text/plain"
-                putExtra(Intent.EXTRA_TITLE, context.getString(R.string.azure_communication_ui_calling_view_share_diagnostics_title))
-            },
-            null
-        )
-        context.startActivity(share)
-    }
     companion object {
-        class ListEntryViewModel(val title: Int, val description: Int?, val icon: Int?, val action: (Context) -> Unit)
+        enum class Entries(val title: Int, val icon: Int?,) {
+            SHARE_DIAGNOSTICS(
+                R.string.azure_communication_ui_calling_view_share_diagnostics,
+                R.drawable.azure_communication_ui_calling_ic_fluent_share_android_24_regular),
+            REPORT_ISSUE(
+                R.string.azure_communication_ui_calling_report_issue_title,
+                R.drawable.azure_communication_ui_calling_ic_fluent_share_android_24_regular),
+        }
     }
 }

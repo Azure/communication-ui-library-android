@@ -27,6 +27,7 @@ internal class MoreCallOptionsListView(
     private lateinit var menuDrawer: DrawerDialog
     private lateinit var bottomCellAdapter: BottomCellAdapter
 
+
     init {
         inflate(context, R.layout.azure_communication_ui_calling_listview, this)
         recyclerView = findViewById(R.id.bottom_drawer_table)
@@ -65,13 +66,13 @@ internal class MoreCallOptionsListView(
         recyclerView.layoutManager = LinearLayoutManager(context)
     }
 
-    private val bottomCellItems get() = viewModel.listEntries.map { listEntryViewModel ->
+    private val bottomCellItems get() = viewModel.listEntries.map { entry ->
                 BottomCellItem(
                     icon = ContextCompat.getDrawable(
                         context,
-                        listEntryViewModel.icon ?: android.R.drawable.ic_dialog_alert
+                        entry.icon ?: android.R.drawable.ic_dialog_alert
                     ),
-                    title = context.getString(listEntryViewModel.title),
+                    title = context.getString(entry.title),
                     contentDescription = null,
                     accessoryImage = null,
                     accessoryColor = null,
@@ -80,10 +81,25 @@ internal class MoreCallOptionsListView(
                     participantViewData = null,
                     isOnHold = false,
                 ) {
-                    listEntryViewModel.action(context)
+                    when (entry) {
+                        MoreCallOptionsListViewModel.Companion.Entries.SHARE_DIAGNOSTICS -> shareDiagnostics(context)
+                        MoreCallOptionsListViewModel.Companion.Entries.REPORT_ISSUE -> {}
+                    }
                     menuDrawer.dismissDialog()
                 }
         }
 
 
+    private fun shareDiagnostics(context: Context) {
+        val share = Intent.createChooser(
+            Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, viewModel.callId)
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TITLE, context.getString(R.string.azure_communication_ui_calling_view_share_diagnostics_title))
+            },
+            null
+        )
+        context.startActivity(share)
+    }
 }
