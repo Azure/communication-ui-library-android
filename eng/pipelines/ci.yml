@@ -47,6 +47,25 @@ steps:
     jdkArchitectureOption: 'x64'
     jdkSourceOption: 'PreInstalled'
 
+- task: DownloadSecureFile@1
+  displayName: 'Download google-service.json'
+  inputs:
+    secureFile: 'google-services-acs-calling-ui-library-demo-app.json'
+
+- task: CopyFiles@2
+  displayName: 'Copy google-services-acs-calling-ui-library-demo-app.json to demo app copy'
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)'
+    Contents: '*.json'
+    TargetFolder: '$(system.defaultWorkingDirectory)/azure-communication-ui/demo-app'
+
+- task: ms-devlabs.utilitytasks.task-Shellpp.Shell++@0
+  displayName: 'Rename google service'
+  inputs:
+    type: InlineScript
+    script: |
+     mv $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app/google-services-acs-calling-ui-library-demo-app.json $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app/google-services.json
+
 # Run linters first to fail quickly on code style issues.
 - task: Gradle@2
   displayName: 'ktlintCheck'
