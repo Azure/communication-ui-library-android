@@ -35,6 +35,7 @@ internal class CallingViewModel(
     val audioDeviceListViewModel = callingViewModelProvider.audioDeviceListViewModel
     val participantListViewModel = callingViewModelProvider.participantListViewModel
     val bannerViewModel = callingViewModelProvider.bannerViewModel
+    val supportFormViewModel = callingViewModelProvider.supportFormViewModel
     val waitingLobbyOverlayViewModel = callingViewModelProvider.waitingLobbyOverlayViewModel
     val connectingLobbyOverlayViewModel = callingViewModelProvider.connectingLobbyOverlayViewModel
     val holdOverlayViewModel = callingViewModelProvider.onHoldOverlayViewModel
@@ -53,6 +54,8 @@ internal class CallingViewModel(
     override fun init(coroutineScope: CoroutineScope) {
         val state = store.getCurrentState()
         val remoteParticipantsExcludingLobbyStatus = remoteParticipantsExcludingLobbyStatus(state.remoteParticipantState.participantMap)
+
+        supportFormViewModel.init(state.navigationState)
 
         controlBarViewModel.init(
             state.permissionState,
@@ -123,6 +126,8 @@ internal class CallingViewModel(
         }
 
         val remoteParticipantsExcludingLobbyStatus = remoteParticipantsExcludingLobbyStatus(state.remoteParticipantState.participantMap)
+
+        supportFormViewModel.update(state.navigationState)
 
         controlBarViewModel.update(
             state.permissionState,

@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
 import com.microsoft.fluentui.drawer.DrawerDialog
@@ -83,7 +84,8 @@ internal class MoreCallOptionsListView(
                 ) {
                     when (entry) {
                         MoreCallOptionsListViewModel.Companion.Entries.SHARE_DIAGNOSTICS -> shareDiagnostics(context)
-                        MoreCallOptionsListViewModel.Companion.Entries.REPORT_ISSUE -> {}
+                        MoreCallOptionsListViewModel.Companion.Entries.REPORT_ISSUE -> viewModel.requestReportIssueScreen();
+
                     }
                     menuDrawer.dismissDialog()
                 }

@@ -9,11 +9,14 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
+import com.azure.android.communication.ui.calling.redux.Dispatch
+import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import kotlinx.coroutines.flow.MutableStateFlow
 
 internal class MoreCallOptionsListViewModel(
     private val debugInfoManager: DebugInfoManager,
-    private val showSupportFormOption: Boolean
+    private val showSupportFormOption: Boolean,
+    private val dispatch: Dispatch
 ) {
     private val unknown = "UNKNOWN"
     val callId: String
@@ -37,6 +40,10 @@ internal class MoreCallOptionsListViewModel(
 
     fun close() {
         displayStateFlow.value = false
+    }
+
+    fun requestReportIssueScreen() {
+        dispatch(NavigationAction.ShowSupportForm())
     }
 
     companion object {

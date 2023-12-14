@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
+
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -174,6 +175,12 @@ internal class CallingFragment :
         moreCallOptionsListView.layoutDirection =
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         moreCallOptionsListView.start(viewLifecycleOwner)
+
+        supportFormView = view.findViewById(R.id.azure_communication_ui_calling_support_view)
+        supportFormView.start(
+            viewModel.supportFormViewModel,
+            viewLifecycleOwner
+        )
     }
 
     override fun onResume() {
