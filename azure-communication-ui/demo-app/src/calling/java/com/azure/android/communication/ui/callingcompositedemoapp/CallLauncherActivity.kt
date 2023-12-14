@@ -53,7 +53,7 @@ class CallLauncherActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         createNotificationChannels()
 
-        CallCompositeManager.initialize(this@CallLauncherActivity)
+        CallCompositeManager.initialize()
 
         if (shouldFinish()) {
             finish()
@@ -81,7 +81,7 @@ class CallLauncherActivity : AppCompatActivity() {
         var deeplinkGroupId = data?.getQueryParameter("groupid")
         val deeplinkTeamsUrl = data?.getQueryParameter("teamsurl")
         val participantMRI = data?.getQueryParameter("participanturis") ?: BuildConfig.PARTICIPANT_MRIS
-        var deepLinkRoomsId = data?.getQueryParameter("roomsid")
+        val deepLinkRoomsId = data?.getQueryParameter("roomsid")
 
         binding.run {
             if (!deeplinkAcsToken.isNullOrEmpty()) {
@@ -111,7 +111,7 @@ class CallLauncherActivity : AppCompatActivity() {
                 groupCallRadioButton.isChecked = false
                 teamsMeetingRadioButton.isChecked = true
                 oneToOneRadioButton.isChecked = false
-            } else if (!participantMRI.isNullOrEmpty()) {
+            } else if (participantMRI.isNotEmpty()) {
                 groupIdOrTeamsMeetingLinkText.setText(participantMRI)
                 groupCallRadioButton.isChecked = false
                 teamsMeetingRadioButton.isChecked = false
@@ -191,7 +191,7 @@ class CallLauncherActivity : AppCompatActivity() {
 
             acceptCallButton.setOnClickListener {
                 incomingCallLayout.visibility = LinearLayout.GONE
-                CallCompositeManager.getInstance().acceptIncomingCall()
+                CallCompositeManager.getInstance().acceptIncomingCall(this@CallLauncherActivity)
             }
 
             declineCallButton.setOnClickListener {
@@ -279,7 +279,7 @@ class CallLauncherActivity : AppCompatActivity() {
                 }
                 "decline" -> {
                     binding.incomingCallLayout.visibility = View.GONE
-                    CallCompositeManager.getInstance().declineIncomingCall()
+                    CallCompositeManager.getInstance().declineIncomingCall(this@CallLauncherActivity)
                 }
             }
         }
@@ -291,7 +291,9 @@ class CallLauncherActivity : AppCompatActivity() {
             val userName = sharedPreference.getString(CACHED_USER_NAME, "")
             CallCompositeManager.getInstance().registerFirebaseToken(
                 acsToken!!,
-                userName!!
+                userName!!,
+                false,
+                this@CallLauncherActivity
             )
             showAlert("Register for push notification successfully.")
         } catch (e: Exception) {

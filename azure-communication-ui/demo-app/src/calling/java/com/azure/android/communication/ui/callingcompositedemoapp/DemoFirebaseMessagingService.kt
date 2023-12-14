@@ -25,7 +25,7 @@ class DemoFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
-        CallCompositeManager.initialize(applicationContext)
+        CallCompositeManager.initialize()
 
         Log.d(CallLauncherActivity.TAG, "onMessageReceived firebase push notification " + remoteMessage.data.toString())
         if (remoteMessage.data.isNotEmpty()) {
@@ -49,10 +49,11 @@ class DemoFirebaseMessagingService : FirebaseMessagingService() {
                 CallCompositeManager.getInstance().handleIncomingCall(
                     remoteMessage.data,
                     acsIdentityToken!!,
-                    displayName!!
+                    displayName!!,
+                    this
                 )
             } else {
-                CallCompositeManager.getInstance().hideIncomingCallUI()
+                CallCompositeManager.getInstance().hideIncomingCallUI(applicationContext)
                 Log.d(CallLauncherActivity.TAG, "onMessageReceived - ${pushNotificationInfo.eventType}")
             }
         }

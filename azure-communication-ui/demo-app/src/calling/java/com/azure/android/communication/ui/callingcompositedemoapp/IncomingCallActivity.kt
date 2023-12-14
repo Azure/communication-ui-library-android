@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.os.Bundle
@@ -11,7 +14,6 @@ class IncomingCallActivity : AppCompatActivity() {
     private val callLauncherViewModel: CallLauncherViewModel by viewModels()
 
     companion object {
-        const val TAG = "IncomingCallActivity"
         const val DISPLAY_NAME = "DisplayName"
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +23,7 @@ class IncomingCallActivity : AppCompatActivity() {
         binding = ActivityIncomingCallBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        CallCompositeManager.initialize(applicationContext)
+        CallCompositeManager.initialize()
 
         window.addFlags(
             WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
@@ -35,7 +37,7 @@ class IncomingCallActivity : AppCompatActivity() {
                 finish()
             }
             decline.setOnClickListener {
-                CallCompositeManager.getInstance().declineIncomingCall()
+                CallCompositeManager.getInstance().declineIncomingCall(this@IncomingCallActivity)
                 finish()
             }
 

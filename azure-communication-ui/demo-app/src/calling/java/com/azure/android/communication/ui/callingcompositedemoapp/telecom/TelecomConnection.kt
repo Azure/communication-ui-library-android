@@ -7,22 +7,17 @@ import android.os.Build
 import android.os.Bundle
 import android.telecom.CallAudioState
 import android.telecom.Connection
+import android.telecom.ConnectionRequest
 import android.telecom.DisconnectCause
+import android.telecom.PhoneAccountHandle
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.azure.android.communication.ui.calling.CallComposite
-import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
-import com.azure.android.communication.ui.callingcompositedemoapp.CallCompositeManager
+import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity.Companion.TAG
 
 @RequiresApi(Build.VERSION_CODES.M)
 class TelecomConnection(
-    private val callComposite: CallComposite,
-    private var pushNotificationInfo: CallCompositeIncomingCallInfo? = null
+    private val telecomConnectionCallBack: TelecomConnectionCallBack
 ) : Connection() {
-    companion object {
-        private const val TAG = "communication.ui.demo"
-    }
-
     override fun onStateChanged(state: Int) {
         super.onStateChanged(state)
 
@@ -57,26 +52,26 @@ class TelecomConnection(
         super.onAnswer(videoState)
         Log.d(TAG, "onAnswer videoState: $videoState")
         setActive()
-        CallCompositeManager.getInstance().acceptIncomingCall()
+        telecomConnectionCallBack.onAnswer()
     }
 
     override fun onAnswer() {
         super.onAnswer()
         Log.d(TAG, "onAnswer")
         setActive()
-        CallCompositeManager.getInstance().acceptIncomingCall()
+        telecomConnectionCallBack.onAnswer()
     }
 
     override fun onHold() {
         super.onHold()
-        callComposite.hold()
+        telecomConnectionCallBack.hold()
         setOnHold()
         Log.d(TAG, "onHold")
     }
 
     override fun onUnhold() {
         super.onUnhold()
-        callComposite.resume()
+        telecomConnectionCallBack.resume()
         setActive()
         Log.d(TAG, "onUnhold")
     }
@@ -85,7 +80,7 @@ class TelecomConnection(
     override fun onShowIncomingCallUi() {
         super.onShowIncomingCallUi()
         Log.d(TAG, "onShowIncomingCallUi")
-        pushNotificationInfo?.let { CallCompositeManager.getInstance().showIncomingCallUI(it) }
+        telecomConnectionCallBack.onShowIncomingCallUi()
     }
 
     override fun onCallEvent(event: String?, extras: Bundle?) {
@@ -98,4 +93,19 @@ class TelecomConnection(
         setDisconnected(DisconnectCause(DisconnectCause.REMOTE, "Rejected"))
         destroy()
     }
+}
+
+interface TelecomConnectionCallBack {
+    fun onShowIncomingCallUi()
+    fun onAnswer()
+    fun hold()
+    fun resume()
+    fun onCreateIncomingConnection(
+        connectionManagerPhoneAccount: PhoneAccountHandle?,
+        request: ConnectionRequest,
+    ): Connection?
+    fun onCreateOutgoingConnection(
+        connectionManagerPhoneAccount: PhoneAccountHandle,
+        request: ConnectionRequest,
+    ): Connection?
 }
