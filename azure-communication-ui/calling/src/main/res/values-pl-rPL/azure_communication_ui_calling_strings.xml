@@ -14,11 +14,14 @@
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">Urządzenie audio %1$s, wybrane</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Trwa dołączanie do rozmowy…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Starting call…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_ringing_call">Ringing call…</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Wideo wyłączone</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_on">Wideo włączone</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Mikrofon wyłączony</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">Mikrofon włączony</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">Dołącz do rozmowy</string>
+    <string name="azure_communication_ui_calling_setup_view_button_start_call">Start call</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Dźwięk jest wyłączony. Aby włączyć, przejdź do ustawień, aby zezwolić na dostęp. Aby rozpocząć to połączenie, musisz
  włączyć dźwięk.</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Kamera jest wyłączona. Aby włączyć, przejdź do obszaru Ustawienia
@@ -44,7 +47,7 @@
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Oczekiwanie na dołączenie innych osób</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Rozmowa z 1 osobą</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Rozmowa z %1$d osobami</string>
-    <string name="azure_communication_ui_calling_view_go_back">Wstecz</string>
+    <string name="azure_communication_ui_calling_view_go_back">Back</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(ja)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Uczestnik bez nazwy</string>
     <string name="azure_communication_ui_calling_view_leave_call">Opuścić rozmowę?</string>
@@ -105,31 +108,31 @@
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">Dołączono do rozmowy</string>
 
     <!--    Participant list-->
-    <string name="azure_communication_ui_calling_participant_list_in_call_n_people">W trakcie rozmowy (%1$d)</string>
-    <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">W poczekalni (%1$d)</string>
-    <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Naciśnij dwukrotnie, aby wpuścić/odrzucić uczestnika</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_n_people">In the call (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">In the lobby (%1$d)</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Double tap to admit/decline participant</string>
 
     <!--    Admit participant dialog-->
-    <string name="azure_communication_ui_calling_admit_name">Wpuścić %1$s?</string>
-    <string name="azure_communication_ui_calling_admit">Wpuść</string>
-    <string name="azure_communication_ui_calling_decline">Odrzuć</string>
-    <string name="azure_communication_ui_calling_admit_all">Wpuść wszystkich</string>
+    <string name="azure_communication_ui_calling_admit_name">Admit %1$s?</string>
+    <string name="azure_communication_ui_calling_admit">Admit</string>
+    <string name="azure_communication_ui_calling_decline">Decline</string>
+    <string name="azure_communication_ui_calling_admit_all">Admit all</string>
 
     <!--    Lobby header-->
-    <string name="azure_communication_ui_calling_lobby_header_text">Osoby oczekujące na dołączenie</string>
-    <string name="azure_communication_ui_calling_lobby_header_icon_content_description">Poczekalnia</string>
-    <string name="azure_communication_ui_calling_lobby_header_view_participant_button">Wyświetl poczekalnię</string>
-    <string name="azure_communication_ui_calling_lobby_header_accessibility_label">Wyświetl poczekalnię</string>
-    <string name="azure_communication_ui_calling_lobby_header_close_description">Zamknij poczekalnię</string>
+    <string name="azure_communication_ui_calling_lobby_header_text">People are waiting to join</string>
+    <string name="azure_communication_ui_calling_lobby_header_icon_content_description">Lobby</string>
+    <string name="azure_communication_ui_calling_lobby_header_view_participant_button">View lobby</string>
+    <string name="azure_communication_ui_calling_lobby_header_accessibility_label">View lobby</string>
+    <string name="azure_communication_ui_calling_lobby_header_close_description">Close lobby</string>
 
     <!--    Lobby error header-->
-    <string name="azure_communication_ui_calling_lobby_header_error_close_description">Błąd zamykania poczekalni</string>
-    <string name="azure_communication_ui_calling_lobby_error_content_description">Błąd poczekalni</string>
-    <string name="azure_communication_ui_calling_error_lobby_disabled_by_configuration">Poczekalnia została wyłączona</string>
-    <string name="azure_communication_ui_calling_error_lobby_conversation_type_not_supported">Poczekalnia nie jest obsługiwana</string>
-    <string name="azure_communication_ui_calling_error_lobby_meeting_role_not_allowded">Twoja rola nie działa w poczekalni</string>
-    <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">Nie można odrzucić</string>
-    <string name="azure_communication_ui_calling_error_lobby_unknown">Błąd działania poczekalni</string>
+    <string name="azure_communication_ui_calling_lobby_header_error_close_description">Close lobby error</string>
+    <string name="azure_communication_ui_calling_lobby_error_content_description">Lobby error</string>
+    <string name="azure_communication_ui_calling_error_lobby_disabled_by_configuration">Lobby has been disabled</string>
+    <string name="azure_communication_ui_calling_error_lobby_conversation_type_not_supported">Lobby not supported</string>
+    <string name="azure_communication_ui_calling_error_lobby_meeting_role_not_allowded">Your role cannot act on the lobby</string>
+    <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">Failed to decline</string>
+    <string name="azure_communication_ui_calling_error_lobby_unknown">Lobby action error</string>
 
     <!-- Call Diagnostics -->
     <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Sieć została utracona</string>
