@@ -36,6 +36,8 @@ import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.io.File
+import java.util.Collections
 
 internal class CallingSDKWrapper(
     private val context: Context,
@@ -103,6 +105,11 @@ internal class CallingSDKWrapper(
 
     override fun getMediaCallDiagnosticSharedFlow() =
         callingSDKEventHandler.getMediaCallDiagnosticsSharedFlow()
+
+    override fun getLogFiles(): List<File> {
+        return callClient?.debugInfo?.supportFiles ?: Collections.emptyList()
+    }
+
     //endregion
     override fun getDominantSpeakersSharedFlow() =
         callingSDKEventHandler.getDominantSpeakersSharedFlow()

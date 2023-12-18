@@ -23,6 +23,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import java.io.File
 import java.util.Collections
 
 internal class CallingViewModelFactory(
@@ -30,7 +31,7 @@ internal class CallingViewModelFactory(
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
     private val maxRemoteParticipants: Int,
     private val debugInfoManager: DebugInfoManager,
-    private val localConfiguration: CallCompositeConfiguration
+    private val localConfiguration: CallCompositeConfiguration,
 ) : BaseViewModelFactory(store) {
 
     val moreCallOptionsListViewModel by lazy {
@@ -101,7 +102,9 @@ internal class CallingViewModelFactory(
     }
 
     private fun forwardSupportEventToUser(userText: String, screenshot: Boolean) {
-        val event = CallCompositeUserReportedIssueEvent(userText, Collections.emptyList(), Collections.emptyList());
+        val debugInfo = debugInfoManager.getDebugInfo()
+        val event = CallCompositeUserReportedIssueEvent(userText, debugInfo.logFiles, debugInfo.callHistoryRecords);
+
         localConfiguration.callCompositeEventsHandler.getOnUserReportedHandlers().forEach {
             it.handle(
                 event

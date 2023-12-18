@@ -3,7 +3,12 @@
 
 package com.azure.android.communication.ui.calling.models;
 
+import android.util.Log;
+
+import java.io.File;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 /**
  * A Call Composite Debug information.
@@ -11,9 +16,12 @@ import java.util.List;
 public final class CallCompositeDebugInfo {
 
     private final List<CallCompositeCallHistoryRecord> callHistoryRecord;
+    private final Callable<List<File>> getLogFilesCallable;
 
-    CallCompositeDebugInfo(final List<CallCompositeCallHistoryRecord> callHistoryRecord) {
+    CallCompositeDebugInfo(final List<CallCompositeCallHistoryRecord> callHistoryRecord,
+                           final Callable<List<File>> getLogFiles) {
         this.callHistoryRecord = callHistoryRecord;
+        this.getLogFilesCallable = getLogFiles;
     }
 
     /**
@@ -22,5 +30,15 @@ public final class CallCompositeDebugInfo {
      */
     public List<CallCompositeCallHistoryRecord> getCallHistoryRecords() {
         return callHistoryRecord;
+    }
+
+    public List<File> getLogFiles() {
+        try {
+            return getLogFilesCallable.call();
+        } catch (Exception e) {
+            // Warn and return empty list
+            Log.w("CallCompositeDebugInfo", "Failure to get log files: ", e);
+            return Collections.EMPTY_LIST;
+        }
     }
 }

@@ -17,21 +17,21 @@ public class CallCompositeUserReportedIssueEvent {
     // A list of files containing logs that may help diagnose the reported issue.
     private final List<File> logFiles;
     // A list of call identifiers that the user was a part of, to provide context for the reported issue.
-    private final List<String> callIds;
+    private final List<CallCompositeCallHistoryRecord> history;
 
     /**
      * Constructs a new {@link CallCompositeUserReportedIssueEvent}.
      *
      * @param userMessage A message provided by the user describing the issue.
      * @param logFiles    A list of files containing diagnostic logs related to the user's experience.
-     * @param callIds     A list of identifiers for the calls that the user was involved in.
+     * @param history     A list of identifiers for the calls that the user was involved in.
      */
     public CallCompositeUserReportedIssueEvent(final String userMessage,
                                                final List<File> logFiles,
-                                               final List<String> callIds) {
+                                               final List<CallCompositeCallHistoryRecord> history) {
         this.userMessage = userMessage;
         this.logFiles = logFiles;
-        this.callIds = callIds;
+        this.history = history;
     }
 
     /**
@@ -52,12 +52,12 @@ public class CallCompositeUserReportedIssueEvent {
         return logFiles;
     }
 
+
     /**
-     * Retrieves the list of call identifiers associated with the user's session.
-     *
-     * @return The list of call IDs.
+     * Retrieves Call-ID's that may be relevant to the support request
+     * @return The list of the CallCompositeHistoryRecords
      */
-    public List<String> getCallIds() {
-        return callIds;
+    public List<CallCompositeCallHistoryRecord> getHistory() {
+        return history;
     }
 }

@@ -24,6 +24,8 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.io.File
+import java.util.Collections
 
 internal class CallingService(
     private val callingSdk: CallingSDK,
@@ -138,6 +140,10 @@ internal class CallingService(
 
     fun setupCall(): CompletableFuture<Void> {
         return callingSdk.setupCall()
+    }
+
+    fun getLogFiles(): List<File> {
+        return callingSdk.getLogFiles();
     }
 
     fun dispose() {

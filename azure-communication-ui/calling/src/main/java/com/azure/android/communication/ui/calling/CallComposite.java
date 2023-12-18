@@ -33,6 +33,7 @@ import static com.azure.android.communication.ui.calling.CallCompositeExtentions
 import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
 
 import java.lang.ref.WeakReference;
+import java.util.Collections;
 import java.util.UUID;
 
 /**
@@ -361,7 +362,8 @@ public final class CallComposite {
             }
         }
 
-        return createDebugInfoManager(context.getApplicationContext());
+        // Fallback if no diContainer
+        return createDebugInfoManager(context.getApplicationContext(), () -> Collections.EMPTY_LIST);
     }
 
     private void launchComposite(final Context context,
