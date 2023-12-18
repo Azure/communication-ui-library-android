@@ -14,6 +14,9 @@
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">오디오 장치 %1$s 선택됨</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">통화에 참가하는 중…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">통화를 시작하는 중…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_ringing_call">전화 벨소리를 울리는 중…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_start_call">통화 시작</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">비디오 끄기</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_on">비디오 켜짐</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">마이크 끄기</string>
@@ -29,9 +32,6 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">설정 그라데이션</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">카메라 전환</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">설정</string>
-    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Starting call…</string>
-    <string name="azure_communication_ui_calling_setup_view_button_ringing_call">Ringing call…</string>
-    <string name="azure_communication_ui_calling_setup_view_button_start_call">Start call</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">호스트 대기 중</string>
