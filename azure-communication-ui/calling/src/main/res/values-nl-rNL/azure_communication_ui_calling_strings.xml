@@ -14,6 +14,9 @@
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s-audioapparaat, geselecteerd</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Deelnemen aan gesprek…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Oproep starten…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_ringing_call">Oproep bellen…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_start_call">Gesprek starten</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Video uit</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_on">Video aan</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Microfoon uit</string>
@@ -29,9 +32,6 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Kleurovergang instellen</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Camera wisselen</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Configuratie</string>
-    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Starting call…</string>
-    <string name="azure_communication_ui_calling_setup_view_button_ringing_call">Ringing call…</string>
-    <string name="azure_communication_ui_calling_setup_view_button_start_call">Start call</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">Wachten op host</string>

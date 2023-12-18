@@ -14,6 +14,9 @@
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s Audiogerät, ausgewählt</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Anruf wird beigetreten…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Anruf wird gestartet…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_ringing_call">Anruf wird angerufen…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_start_call">Anruf starten</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Video aus</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_on">Video ein</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Mikrofon aus</string>
@@ -29,9 +32,6 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Farbverlauf einrichten</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Kamera wechseln</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Setup</string>
-    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Starting call…</string>
-    <string name="azure_communication_ui_calling_setup_view_button_ringing_call">Ringing call…</string>
-    <string name="azure_communication_ui_calling_setup_view_button_start_call">Start call</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">Warten auf Host</string>
