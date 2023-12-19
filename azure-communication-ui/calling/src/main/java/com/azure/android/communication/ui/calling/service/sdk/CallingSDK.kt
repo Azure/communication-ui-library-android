@@ -60,8 +60,8 @@ internal interface CallingSDK {
     fun getNetworkQualityCallDiagnosticSharedFlow(): SharedFlow<NetworkQualityCallDiagnosticModel>
     fun getNetworkCallDiagnosticSharedFlow(): SharedFlow<NetworkCallDiagnosticModel>
     fun getMediaCallDiagnosticSharedFlow(): SharedFlow<MediaCallDiagnosticModel>
-    fun getLogFiles(): List<File>
     //endregion
+    fun getLogFiles(): List<File>
 }
 
 internal interface RemoteParticipant {
