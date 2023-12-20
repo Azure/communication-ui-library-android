@@ -9,13 +9,18 @@ import kotlinx.coroutines.flow.StateFlow
 internal class SupportViewModel(private val dispatch: Dispatch, private val onSubmit:(String, Boolean)->Unit) {
 
     private var _isVisibleStateFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    private var _userTextStateFlow: MutableStateFlow<String> = MutableStateFlow("")
-    var userText get() = _userTextStateFlow.value
+    private val _isSubmitEnabledStateFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    private var _userMessageStateFlow = MutableStateFlow<String>("")
+
+    var userMessage : String get() = _userMessageStateFlow.value
         set(value) {
-            _userTextStateFlow.value = value
+            _userMessageStateFlow.value = value
+            _isSubmitEnabledStateFlow.value = value.isNotEmpty()
         }
 
     val isVisibleStateFlow get() = _isVisibleStateFlow as StateFlow<Boolean>
+
+    val isSubmitEnabledStateFlow get() = _isSubmitEnabledStateFlow as StateFlow<Boolean>
 
     var isVisible get() = _isVisibleStateFlow.value
         set(value) {
@@ -32,10 +37,10 @@ internal class SupportViewModel(private val dispatch: Dispatch, private val onSu
 
     fun dismissForm() {
         dispatch(NavigationAction.HideSupportForm())
-        userText = ""
+        _userMessageStateFlow.value = ""
     }
 
     fun forwardEventToUser() {
-        onSubmit(userText, false)
+        onSubmit(userMessage, false)
     }
 }
