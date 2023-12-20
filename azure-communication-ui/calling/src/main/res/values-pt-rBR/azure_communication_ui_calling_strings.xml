@@ -102,4 +102,20 @@ dando consentimento para que esta reunião seja transcrita.
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s ingressou na reunião</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s saiu da reunião</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">Você ingressou na chamada</string>
+
+    <!-- Call Diagnostics -->
+    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">A rede foi perdida</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">Reconectando...</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">A qualidade da rede é baixa</string>
+    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">Você está com mudo ativado</string>
+    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">O microfone não está funcionando conforme o esperado</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">Não foi possível iniciar a câmera</string>
+    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">A câmera parou de funcionar</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">O alto-falante não está funcionando conforme o esperado</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">Não foi possível localizar o alto-falante</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">Não foi possível localizar o microfone</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">O alto-falante está silenciado</string>
+
+    <!--    Upper Message Bar Notification -->
+    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Ignorar</string>
 </resources>

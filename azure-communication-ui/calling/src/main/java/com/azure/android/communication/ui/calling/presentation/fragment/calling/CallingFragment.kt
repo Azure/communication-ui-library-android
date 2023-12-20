@@ -13,7 +13,6 @@ import android.os.PowerManager
 import android.util.LayoutDirection
 import android.view.View
 import android.view.accessibility.AccessibilityManager
-import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -32,10 +31,13 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.ConnectingLobbyOverlayView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
+import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 
 internal class CallingFragment :
-    Fragment(R.layout.azure_communication_ui_calling_call_fragment), SensorEventListener {
+    Fragment(R.layout.azure_communication_ui_calling_call_fragment), BackNavigation, SensorEventListener {
     companion object {
         private const val LEAVE_CONFIRM_VIEW_KEY = "LeaveConfirmView"
         private const val AUDIO_DEVICE_LIST_VIEW_KEY = "AudioDeviceListView"
@@ -54,6 +56,8 @@ internal class CallingFragment :
     private lateinit var confirmLeaveOverlayView: LeaveConfirmView
     private lateinit var localParticipantView: LocalParticipantView
     private lateinit var infoHeaderView: InfoHeaderView
+    private lateinit var upperMessageBarNotificationLayoutView: UpperMessageBarNotificationLayoutView
+    private lateinit var toastNotificationView: ToastNotificationView
     private lateinit var participantGridView: ParticipantGridView
     private lateinit var audioDeviceListView: AudioDeviceListView
     private lateinit var participantListView: ParticipantListView
@@ -120,6 +124,20 @@ internal class CallingFragment :
             accessibilityManager.isEnabled
         )
 
+        upperMessageBarNotificationLayoutView = view.findViewById(R.id.azure_communication_ui_calling_upper_message_bar_notifications_layout)
+        upperMessageBarNotificationLayoutView.start(
+            viewLifecycleOwner,
+            viewModel.upperMessageBarNotificationLayoutViewModel,
+            accessibilityManager.isEnabled
+        )
+
+        toastNotificationView = view.findViewById(R.id.azure_communication_ui_calling_toast_notification)
+        toastNotificationView.start(
+            viewLifecycleOwner,
+            viewModel.toastNotificationViewModel,
+            accessibilityManager.isEnabled
+        )
+
         audioDeviceListView =
             AudioDeviceListView(viewModel.audioDeviceListViewModel, this.requireContext())
         audioDeviceListView.layoutDirection =
@@ -154,14 +172,6 @@ internal class CallingFragment :
         moreCallOptionsListView.layoutDirection =
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         moreCallOptionsListView.start(viewLifecycleOwner)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        requireActivity().onBackPressedDispatcher.addCallback(this) {
-            viewModel.requestCallEnd()
-        }
     }
 
     override fun onResume() {
@@ -209,6 +219,8 @@ internal class CallingFragment :
         if (this::holdOverlay.isInitialized) holdOverlay.stop()
         if (this::errorInfoView.isInitialized) errorInfoView.stop()
         if (this::moreCallOptionsListView.isInitialized) moreCallOptionsListView.stop()
+        if (this::upperMessageBarNotificationLayoutView.isInitialized) upperMessageBarNotificationLayoutView.stop()
+        if (this::toastNotificationView.isInitialized) toastNotificationView.stop()
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
@@ -226,6 +238,10 @@ internal class CallingFragment :
                 }
             }
         }
+    }
+
+    override fun onBackPressed() {
+        requestCallEnd()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -247,6 +263,10 @@ internal class CallingFragment :
                 PARTICIPANT_LIST_VIEW_KEY to viewModel.participantListViewModel::displayParticipantList
             ).forEach { (key, showDialog) -> if (it.getBoolean(key)) showDialog() }
         }
+    }
+
+    private fun requestCallEnd() {
+        viewModel.requestCallEnd()
     }
 
     private fun displayParticipantList() {

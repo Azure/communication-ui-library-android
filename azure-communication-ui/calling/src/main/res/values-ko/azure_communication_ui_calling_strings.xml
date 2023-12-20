@@ -102,4 +102,20 @@
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s님이 모임에 참가했습니다.</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s님이 모임에서 나갔습니다.</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">통화에 참여하지 않았습니다.</string>
+
+    <!-- Call Diagnostics -->
+    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">네트워크 연결이 끊겼습니다.</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">다시 연결하는 중...</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">네트워크 품질이 낮습니다.</string>
+    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">음소거 상태입니다.</string>
+    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">마이크가 예상대로 작동하지 않습니다.</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">카메라를 시작할 수 없습니다.</string>
+    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">카메라가 작동을 중단했습니다.</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">스피커가 예상대로 작동하지 않습니다.</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">스피커를 찾을 수 없습니다.</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">마이크를 찾을 수 없습니다.</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">스피커를 음소거했습니다.</string>
+
+    <!--    Upper Message Bar Notification -->
+    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">해제</string>
 </resources>

@@ -14,7 +14,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
 import android.view.WindowManager
-import android.window.OnBackInvokedDispatcher
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -25,8 +24,10 @@ import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
+import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
+import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
@@ -59,12 +60,15 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val audioModeManager get() = container.audioModeManager
     private val lifecycleManager get() = container.lifecycleManager
     private val errorHandler get() = container.errorHandler
+    private val callStateHandler get() = container.callStateHandler
     private val remoteParticipantJoinedHandler get() = container.remoteParticipantHandler
     private val notificationService get() = container.notificationService
     private val callingMiddlewareActionHandler get() = container.callingMiddlewareActionHandler
     private val videoViewManager get() = container.videoViewManager
     private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
     private val callHistoryService get() = container.callHistoryService
+    private val logger get() = container.logger
+    private val compositeManager get() = container.compositeExitManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,6 +90,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         configureLocalization()
         configureActionBar()
         setStatusBarColor()
+        setNavigationBarColor()
         setActionBarVisibility()
 
         configuration.themeConfig?.let {
@@ -124,12 +129,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         notificationService.start(lifecycleScope)
         callHistoryService.start(lifecycleScope)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            onBackInvokedDispatcher.registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT) {
-                onBackPressedDispatcher.onBackPressed()
-            }
-        }
+        callStateHandler.start(lifecycleScope)
     }
 
     override fun onStart() {
@@ -159,6 +159,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
             audioModeManager.onDestroy()
             if (isFinishing) {
                 store.dispatch(CallingAction.CallEndRequested())
+                compositeManager.onCompositeDestroy()
                 CallCompositeInstanceManager.removeCallComposite(instanceId)
             }
         }
@@ -229,6 +230,15 @@ internal class CallCompositeActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        val fragment = supportFragmentManager.fragments.firstOrNull()
+        if (fragment !== null) {
+            (fragment as BackNavigation).onBackPressed()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
     @SuppressLint("SourceLockedOrientationActivity", "RestrictedApi")
     private fun onNavigationStateChange(navigationState: NavigationStatus) {
         when (navigationState) {
@@ -249,26 +259,27 @@ internal class CallCompositeActivity : AppCompatActivity() {
             NavigationStatus.IN_CALL -> {
                 supportActionBar?.setShowHideAnimationEnabled(false)
                 supportActionBar?.hide()
-                requestedOrientation = if (isAndroidTV(this)) {
-                    ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
-                } else {
-                    ActivityInfo.SCREEN_ORIENTATION_USER
-                }
+                val callScreenOrientation: Int? = getScreenOrientation(configuration.callScreenOrientation)
+                requestedOrientation =
+                    when {
+                        (callScreenOrientation != null) -> callScreenOrientation
+                        isAndroidTV(this) -> ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+                        else -> ActivityInfo.SCREEN_ORIENTATION_USER
+                    }
                 launchFragment(CallingFragment::class.java.name)
             }
             NavigationStatus.SETUP -> {
                 notificationService.removeNotification()
                 supportActionBar?.show()
-                requestedOrientation = if (isAndroidTV(this)) {
-
-                    ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
-                } else {
-                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-                }
-
+                val setupScreenOrientation: Int? = getScreenOrientation(configuration.setupScreenOrientation)
+                requestedOrientation =
+                    when {
+                        (setupScreenOrientation != null) -> setupScreenOrientation
+                        isAndroidTV(this) -> ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+                        else -> ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                    }
                 launchFragment(SetupFragment::class.java.name)
             }
-            else -> {}
         }
     }
 
@@ -340,6 +351,14 @@ internal class CallCompositeActivity : AppCompatActivity() {
         }
     }
 
+    private fun setNavigationBarColor() {
+        window.navigationBarColor =
+            ContextCompat.getColor(
+                this,
+                R.color.azure_communication_ui_calling_color_status_bar,
+            )
+    }
+
     private fun supportedOSLocale(): Locale {
         val languageCode = Locale.getDefault().language
         val countryCode = Locale.getDefault().country
@@ -349,6 +368,28 @@ internal class CallCompositeActivity : AppCompatActivity() {
             }
         }
         return Locale.US
+    }
+
+    private fun getScreenOrientation(orientation: CallCompositeSupportedScreenOrientation?): Int? {
+        return when (orientation) {
+            CallCompositeSupportedScreenOrientation.PORTRAIT ->
+                ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            CallCompositeSupportedScreenOrientation.LANDSCAPE ->
+                ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            CallCompositeSupportedScreenOrientation.REVERSE_LANDSCAPE ->
+                ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+            CallCompositeSupportedScreenOrientation.USER ->
+                ActivityInfo.SCREEN_ORIENTATION_USER
+            CallCompositeSupportedScreenOrientation.FULL_SENSOR ->
+                ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+            CallCompositeSupportedScreenOrientation.USER_LANDSCAPE ->
+                ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE
+            null -> null
+            else -> {
+                logger.warning("Not supported screen orientation")
+                null
+            }
+        }
     }
 
     companion object {

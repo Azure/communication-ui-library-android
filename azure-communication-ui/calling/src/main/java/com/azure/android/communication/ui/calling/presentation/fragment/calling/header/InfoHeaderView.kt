@@ -55,7 +55,7 @@ internal class InfoHeaderView : ConstraintLayout {
                 floatingHeader.visibility = View.VISIBLE
             } else {
                 infoHeaderViewModel.getDisplayFloatingHeaderFlow().collect {
-                    floatingHeader.visibility = if (it) View.VISIBLE else View.INVISIBLE
+                    floatingHeader.visibility = if (it) View.VISIBLE else View.GONE
                     // If we are on television, set the focus to the participants button
                     if (it && isAndroidTV(context)) {
                         displayParticipantsImageButton.requestFocus()
