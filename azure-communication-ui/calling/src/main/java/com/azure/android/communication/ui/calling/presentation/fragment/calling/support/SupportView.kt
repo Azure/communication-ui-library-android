@@ -21,6 +21,10 @@ import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+/**
+ * SupportView is a custom view that is used to display the support form.
+ * It is displayed when the user clicks on the support button.
+ */
 internal class SupportView : FrameLayout {
 
     private val sendButton : Button by lazy { findViewById(R.id.buttonSend) }
@@ -31,7 +35,6 @@ internal class SupportView : FrameLayout {
         setCanceledOnTouchOutside(true)
         setFade(0.5f)
     }}
-
 
     constructor(context: Context) : super(context) {
         init()

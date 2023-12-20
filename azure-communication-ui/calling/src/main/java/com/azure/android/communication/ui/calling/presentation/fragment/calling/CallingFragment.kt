@@ -73,7 +73,6 @@ internal class CallingFragment :
     private lateinit var accessibilityManager: AccessibilityManager
     private lateinit var wakeLock: PowerManager.WakeLock
     private lateinit var moreCallOptionsListView: MoreCallOptionsListView
-    private lateinit var supportFormView: SupportView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -175,12 +174,6 @@ internal class CallingFragment :
         moreCallOptionsListView.layoutDirection =
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         moreCallOptionsListView.start(viewLifecycleOwner)
-
-        supportFormView = SupportView(requireContext())
-        supportFormView.start(
-            viewModel.supportFormViewModel,
-            viewLifecycleOwner
-        )
     }
 
     override fun onResume() {

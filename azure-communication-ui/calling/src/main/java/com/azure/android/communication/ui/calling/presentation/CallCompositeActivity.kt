@@ -26,6 +26,8 @@ import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.support.SupportView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.support.SupportViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
@@ -49,6 +51,11 @@ internal class CallCompositeActivity : AppCompatActivity() {
         )
     }
     private val container by lazy { diContainerHolder.container }
+
+    private val supportView by lazy { SupportView(this) }
+    private val supportViewModel by lazy { SupportViewModel(store::dispatch, this::onUserReportedIssue).also {
+        it.init(store.getCurrentState().navigationState)
+    }}
 
     private val navigationRouter get() = container.navigationRouter
     private val store get() = container.appStore
@@ -127,9 +134,23 @@ internal class CallCompositeActivity : AppCompatActivity() {
             audioModeManager.start()
         }
 
+        lifecycleScope.launch {
+            supportView.start(supportViewModel, this@CallCompositeActivity)
+        }
+
+        lifecycleScope.launch {
+            store.getStateFlow().collect {
+                supportViewModel.update(it.navigationState)
+            }
+        }
+
         notificationService.start(lifecycleScope)
         callHistoryService.start(lifecycleScope)
         callStateHandler.start(lifecycleScope)
+    }
+
+    fun onUserReportedIssue(message: String, includeScreenshot: Boolean) : Unit {
+
     }
 
     override fun onStart() {
