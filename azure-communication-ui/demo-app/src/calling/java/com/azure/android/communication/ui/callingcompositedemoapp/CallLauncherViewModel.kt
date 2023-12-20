@@ -3,7 +3,13 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
+import android.os.Build
+import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.ViewModel
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
@@ -33,7 +39,6 @@ class CallLauncherViewModel : ViewModel() {
     var isExitRequested = false
     private val callStateEventHandler = CallStateEventHandler(callCompositeCallStateStateFlow)
     private var exitEventHandler: CallExitEventHandler? = null
-    private val userReportedIssueEventHandler = UserReportedIssueEventHandler()
 
     fun launch(
         context: Context,
@@ -89,7 +94,8 @@ class CallLauncherViewModel : ViewModel() {
         exitEventHandler = CallExitEventHandler(callCompositeExitSuccessStateFlow, callCompositeCallStateStateFlow, this)
         callComposite.addOnCallStateChangedEventHandler(callStateEventHandler)
         callComposite.addOnDismissedEventHandler(exitEventHandler)
-        callComposite.addOnUserReportedEventHandler(userReportedIssueEventHandler)
+        callComposite.addOnUserReportedEventHandler(OnUserReportedEventErrorHandler(context))
+
         isExitRequested = false
         callComposite.launch(context, remoteOptions, localOptions)
     }
@@ -174,8 +180,42 @@ class CallExitEventHandler(
     }
 }
 
-class UserReportedIssueEventHandler : CallCompositeEventHandler<CallCompositeUserReportedIssueEvent> {
+class OnUserReportedEventErrorHandler(val context: Context) : CallCompositeEventHandler<CallCompositeUserReportedIssueEvent> {
     override fun handle(event: CallCompositeUserReportedIssueEvent) {
-        print(event.toString())
+        val message = """
+        User reported issue:
+        ${event.userMessage}
+        ${event.logFiles.joinToString(", ") { it.name }}
+        ${event.history.joinToString("\n") { it.toString() }}
+    """.trimIndent()
+
+        // Show Toast message
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+
+        // Create a notification channel (required for Android 8.0 and above)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channelName = "User Issue Channel"
+            val channelDescription = "Notifications for user reported issues"
+            val channelId = "CallLauncherActivity"
+            val channelImportance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(channelId, channelName, channelImportance).apply {
+                description = channelDescription
+            }
+            val notificationManager = context.getSystemService(NotificationManager::class.java)
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        // Create and show the notification
+        val notification = NotificationCompat.Builder(context, "CallLauncherActivity")
+            .setContentTitle("User reported issue")
+            .setSmallIcon(android.R.drawable.ic_dialog_alert)
+            .setContentText(message)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .build()
+
+        val notificationManager = NotificationManagerCompat.from(context)
+        notificationManager.notify(1, notification)
+
     }
 }

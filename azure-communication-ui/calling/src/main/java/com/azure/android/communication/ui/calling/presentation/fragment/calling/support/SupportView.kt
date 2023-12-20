@@ -1,5 +1,7 @@
-@file:OptIn(InternalCoroutinesApi::class)
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
+@file:OptIn(InternalCoroutinesApi::class)
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.support
 
 import android.content.Context
@@ -21,15 +23,15 @@ import kotlinx.coroutines.launch
 
 internal class SupportView : FrameLayout {
 
+    private val sendButton : Button by lazy { findViewById(R.id.buttonSend) }
+    private val cancelButton : Button by lazy { findViewById(R.id.buttonCancel) }
+    private val editText : EditText by lazy { findViewById(R.id.editTextMessage) }
     private val menuDrawer by lazy { DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM).apply {
         setContentView(this@SupportView)
         setCanceledOnTouchOutside(true)
         setFade(0.5f)
     }}
 
-    private val sendButton : Button by lazy { findViewById(R.id.buttonSend) }
-    private val cancelButton : Button by lazy { findViewById(R.id.buttonCancel) }
-    private val editText : EditText by lazy { findViewById(R.id.editTextMessage) }
 
     constructor(context: Context) : super(context) {
         init()
@@ -44,8 +46,10 @@ internal class SupportView : FrameLayout {
     }
 
     fun start(viewModel: SupportViewModel, viewLifecycleOwner: LifecycleOwner) {
-        // Bind listeners (inputs), and Bind outputs.
+        // Text Changed, Submit, Cancel Buttons
         bindViewInputs(viewModel)
+
+        // Send Button stat
         bindViewOutputs(viewLifecycleOwner, viewModel)
     }
 
@@ -68,7 +72,6 @@ internal class SupportView : FrameLayout {
                 sendButton.isEnabled = it
             }
         }
-
     }
 
     private fun bindViewInputs(viewModel: SupportViewModel) {
