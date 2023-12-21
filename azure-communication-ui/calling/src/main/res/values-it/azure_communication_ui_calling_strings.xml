@@ -14,6 +14,9 @@
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s dispositivo audio, selezionato</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Partecipazione alla chiamata…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Avvio chiamata in corso…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_ringing_call">Chiamata in corso…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_start_call">Avvia chiamata</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Video disattivato</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_on">Video attivato</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Microfono disattivato</string>

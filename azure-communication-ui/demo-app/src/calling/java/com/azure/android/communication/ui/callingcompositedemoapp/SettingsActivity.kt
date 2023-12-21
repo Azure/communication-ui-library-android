@@ -71,6 +71,12 @@ class SettingsActivity : AppCompatActivity() {
         updateSubtitle()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        // recreate the call composite manager to apply the new settings
+        CallCompositeManager.getInstance().destroy()
+    }
+
     override fun onResume() {
         super.onResume()
 
@@ -341,10 +347,11 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun updateSkipSetupScreenCheckbox() {
-        skipSetupScreenCheckBox.isChecked = sharedPreference.getBoolean(
+        var isChecked = sharedPreference.getBoolean(
             SKIP_SETUP_SCREEN_VALUE_KEY,
             DEFAULT_SKIP_SETUP_SCREEN_VALUE
         )
+        skipSetupScreenCheckBox.isChecked = isChecked
     }
 
     private fun updateMicOnByDefaultCheckbox() {
@@ -408,3 +415,6 @@ const val END_CALL_ON_BY_DEFAULT_KEY = "END_CALL_ON_BY_DEFAULT_KEY"
 const val DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE = false
 const val LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY = "LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY"
 const val LAUNCH_ON_EXIT_ON_BY_DEFAULT_VALUE = false
+
+const val CACHED_TOKEN = "CACHED_TOKEN"
+const val CACHED_USER_NAME = "CACHED_USER_NAME"

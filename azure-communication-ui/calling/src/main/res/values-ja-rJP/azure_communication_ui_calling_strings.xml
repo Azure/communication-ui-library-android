@@ -14,6 +14,9 @@
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s オーディオ デバイス、選択済み</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">参加中…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">通話を開始しています…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_ringing_call">呼び出しています…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_start_call">通話を開始</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">ビデオ オフ</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_on">ビデオ オン</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">マイク オフ</string>

@@ -17,6 +17,7 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 internal class SetupViewModelFactory(
     private val store: Store<ReduxState>,
     private val context: Context,
+    private val isTelecomManagerEnabled: Boolean = false
 ) : BaseViewModelFactory(store) {
 
     val audioDeviceListViewModel by lazy {
@@ -42,7 +43,8 @@ internal class SetupViewModelFactory(
     val joinCallButtonHolderViewModel by lazy {
         JoinCallButtonHolderViewModel(
             store::dispatch,
-            context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+            context.getSystemService(Context.AUDIO_SERVICE) as AudioManager,
+            isTelecomManagerEnabled
         )
     }
 }

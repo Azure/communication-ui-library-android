@@ -4,13 +4,10 @@
 package com.azure.android.communication.ui.calling.service.sdk
 
 import android.content.Context
-import com.azure.android.communication.calling.AdmitLobbyParticipantOptions
-import com.azure.android.communication.calling.AudioOptions
+import com.azure.android.communication.calling.AcceptCallOptions
 import com.azure.android.communication.calling.Call
 import com.azure.android.communication.calling.CallAgent
-import com.azure.android.communication.calling.CallAgentOptions
 import com.azure.android.communication.calling.CallClient
-import com.azure.android.communication.calling.CallClientOptions
 import com.azure.android.communication.calling.CallingCommunicationException
 import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.DeviceManager
@@ -18,15 +15,16 @@ import com.azure.android.communication.calling.GroupCallLocator
 import com.azure.android.communication.calling.HangUpOptions
 import com.azure.android.communication.calling.JoinCallOptions
 import com.azure.android.communication.calling.JoinMeetingLocator
+import com.azure.android.communication.calling.OutgoingAudioOptions
+import com.azure.android.communication.calling.OutgoingVideoOptions
 import com.azure.android.communication.calling.RoomCallLocator
-import com.azure.android.communication.calling.RejectLobbyParticipantOptions
+import com.azure.android.communication.calling.StartCallOptions
 import com.azure.android.communication.calling.TeamsMeetingLinkLocator
 import com.azure.android.communication.calling.VideoDevicesUpdatedListener
-import com.azure.android.communication.calling.VideoOptions
+import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration
 import com.azure.android.communication.ui.calling.configuration.CallType
-import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
@@ -34,7 +32,6 @@ import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
-import com.azure.android.communication.ui.calling.service.sdk.ext.setTags
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
@@ -46,20 +43,21 @@ internal class CallingSDKWrapper(
     private val context: Context,
     private val callingSDKEventHandler: CallingSDKEventHandler,
     private val callConfigInjected: CallConfiguration?,
-    private val logger: Logger? = null,
+    private val callingSDKCallAgentWrapper: CallingSDKCallAgentWrapper
 ) : CallingSDK {
-    private var nullableCall: Call? = null
-    private var callClient: CallClient? = null
+    private var setupCallCompletableFuture: CompletableFuture<Void> = CompletableFuture()
 
-    private var callAgentCompletableFuture: CompletableFuture<CallAgent>? = null
     private var deviceManagerCompletableFuture: CompletableFuture<DeviceManager>? = null
     private var localVideoStreamCompletableFuture: CompletableFuture<LocalVideoStream>? = null
     private var endCallCompletableFuture: CompletableFuture<Void>? = null
     private var camerasInitializedCompletableFuture: CompletableFuture<Void>? = null
-    private var setupCallCompletableFuture: CompletableFuture<Void> = CompletableFuture()
 
     private var videoDevicesUpdatedListener: VideoDevicesUpdatedListener? = null
     private var camerasCountStateFlow = MutableStateFlow(0)
+
+    private var nullableCall: Call? = null
+    private var callClientInternal: CallClient? = null
+    private val incomingCallWrapper: IncomingCallWrapper? = callingSDKCallAgentWrapper.incomingCallWrapper
 
     private val callConfig: CallConfiguration
         get() {
@@ -73,10 +71,19 @@ internal class CallingSDKWrapper(
             }
         }
 
-    private val call: Call
+    val call: Call
         get() {
             try {
                 return nullableCall!!
+            } catch (ex: Exception) {
+                throw CallCompositeException("Call is not started", IllegalStateException())
+            }
+        }
+
+    private val callClient: CallClient
+        get() {
+            try {
+                return callClientInternal!!
             } catch (ex: Exception) {
                 throw CallCompositeException("Call is not started", IllegalStateException())
             }
@@ -144,6 +151,20 @@ internal class CallingSDKWrapper(
         return call.resume()
     }
 
+    override fun startAudio() {
+        call.startAudio(context, call.activeIncomingAudioStream)
+        call.startAudio(context, call.activeOutgoingAudioStream)
+        call.unmuteIncomingAudio(context)
+        call.unmuteOutgoingAudio(context)
+    }
+
+    override fun stopAudio() {
+        call.stopAudio(context, call.activeIncomingAudioStream)
+        call.stopAudio(context, call.activeOutgoingAudioStream)
+        call.muteIncomingAudio(context)
+        call.muteOutgoingAudio(context)
+    }
+
     override fun endCall(): CompletableFuture<Void> {
         val call: Call?
 
@@ -162,8 +183,7 @@ internal class CallingSDKWrapper(
     override fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?> {
         val future = CompletableFuture<CallCompositeLobbyErrorCode?>()
         if (lobbyNullCheck(future)) return future
-        val options = AdmitLobbyParticipantOptions()
-        nullableCall?.lobby?.admitAll(options)?.whenComplete { _, error ->
+        nullableCall?.callLobby?.admitAll()?.whenComplete { _, error ->
             if (error != null) {
                 var errorCode = CallCompositeLobbyErrorCode.UNKNOWN_ERROR
                 if (error.cause is CallingCommunicationException) {
@@ -180,10 +200,9 @@ internal class CallingSDKWrapper(
     override fun admit(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
         val future = CompletableFuture<CallCompositeLobbyErrorCode?>()
         if (lobbyNullCheck(future)) return future
-        val options = AdmitLobbyParticipantOptions()
-        var participant = nullableCall?.remoteParticipants?.find { it.identifier.rawId.equals(userIdentifier) }
+        val participant = nullableCall?.remoteParticipants?.find { it.identifier.rawId.equals(userIdentifier) }
         participant?.let {
-            nullableCall?.lobby?.admit(listOf(it.identifier), options)?.whenComplete { _, error ->
+            nullableCall?.callLobby?.admit(listOf(it.identifier))?.whenComplete { _, error ->
                 if (error != null) {
                     var errorCode = CallCompositeLobbyErrorCode.UNKNOWN_ERROR
                     if (error.cause is CallingCommunicationException) {
@@ -199,7 +218,7 @@ internal class CallingSDKWrapper(
     }
 
     private fun lobbyNullCheck(future: CompletableFuture<CallCompositeLobbyErrorCode?>): Boolean {
-        if (nullableCall == null || nullableCall?.lobby == null) {
+        if (nullableCall == null || nullableCall?.callLobby == null) {
             future.complete(CallCompositeLobbyErrorCode.UNKNOWN_ERROR)
             return true
         }
@@ -209,9 +228,9 @@ internal class CallingSDKWrapper(
     override fun decline(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
         val future = CompletableFuture<CallCompositeLobbyErrorCode?>()
         if (lobbyNullCheck(future)) return future
-        var participant = nullableCall?.remoteParticipants?.find { it.identifier.rawId.equals(userIdentifier) }
+        val participant = nullableCall?.remoteParticipants?.find { it.identifier.rawId.equals(userIdentifier) }
         participant?.let {
-            nullableCall?.lobby?.reject(it.identifier, RejectLobbyParticipantOptions())
+            nullableCall?.callLobby?.reject(it.identifier)
                 ?.whenComplete { _, error ->
                     if (error != null) {
                         var errorCode = CallCompositeLobbyErrorCode.UNKNOWN_ERROR
@@ -228,22 +247,20 @@ internal class CallingSDKWrapper(
     }
 
     override fun dispose() {
+        callingSDKCallAgentWrapper.incomingCallWrapper?.dispose()
         callingSDKEventHandler.dispose()
         cleanupResources()
     }
 
     override fun setupCall(): CompletableFuture<Void> {
-        if (callClient == null) {
-            val callClientOptions = CallClientOptions().also {
-                it.setTags(callConfig.diagnosticConfig.tags, logger)
-            }
-            callClient = CallClient(callClientOptions)
-        }
-        createDeviceManager().handle { _, error: Throwable? ->
-            if (error != null) {
-                setupCallCompletableFuture.completeExceptionally(error)
-            } else {
-                setupCallCompletableFuture.complete(null)
+        callingSDKCallAgentWrapper.setupCall()?.whenComplete { callClient, _ ->
+            callClientInternal = callClient
+            createDeviceManager().handle { _, error: Throwable? ->
+                if (error != null) {
+                    setupCallCompletableFuture.completeExceptionally(error)
+                } else {
+                    setupCallCompletableFuture.complete(null)
+                }
             }
         }
         return setupCallCompletableFuture
@@ -255,30 +272,80 @@ internal class CallingSDKWrapper(
     ): CompletableFuture<Void> {
 
         val startCallCompletableFuture = CompletableFuture<Void>()
-        createCallAgent().thenAccept { agent: CallAgent ->
-            val audioOptions = AudioOptions()
+        callingSDKCallAgentWrapper.createCallAgent(
+            context = context,
+            name = callConfig.displayName,
+            communicationTokenCredential = callConfig.communicationTokenCredential
+        ).thenAccept { agent: CallAgent ->
+            val audioOptions = OutgoingAudioOptions()
             audioOptions.isMuted = (audioState.operation != AudioOperationalStatus.ON)
-            val callLocator: JoinMeetingLocator = when (callConfig.callType) {
+            audioOptions.isCommunicationAudioModeEnabled = true
+            val callLocator: JoinMeetingLocator? = when (callConfig.callType) {
                 CallType.GROUP_CALL -> GroupCallLocator(callConfig.groupId)
                 CallType.TEAMS_MEETING -> TeamsMeetingLinkLocator(callConfig.meetingLink)
                 CallType.ROOMS_CALL -> RoomCallLocator(callConfig.roomId)
+                else -> {
+                    null
+                }
             }
-            var videoOptions: VideoOptions? = null
             // it is possible to have camera state not on, (Example: waiting for local video stream)
             // if camera on is in progress, the waiting will make sure for starting call with right state
             if (camerasCountStateFlow.value != 0 && cameraState.operation != CameraOperationalStatus.OFF) {
                 getLocalVideoStream().whenComplete { videoStream, error ->
+                    val videoOptions = OutgoingVideoOptions()
                     if (error == null) {
                         val localVideoStreams =
                             arrayOf(videoStream.native as NativeLocalVideoStream)
-                        videoOptions = VideoOptions(localVideoStreams)
+                        videoOptions.setOutgoingVideoStreams(localVideoStreams.asList())
                     }
-                    joinCall(agent, audioOptions, videoOptions, callLocator)
+                    when (callConfig.callType) {
+                        CallType.ONE_TO_N_CALL_INCOMING -> {
+                            incomingCallWrapper?.incomingCall()?.let {
+                                val acceptCallOptions = AcceptCallOptions()
+                                videoOptions.let { acceptCallOptions.outgoingVideoOptions = videoOptions }
+                                nullableCall = it.accept(context, acceptCallOptions)?.get()
+                                callingSDKEventHandler.onJoinCall(call)
+                                return@whenComplete
+                            }
+                        }
+                        CallType.ONE_TO_N_CALL_OUTGOING -> {
+                            callConfig.participants?.let {
+                                startCall(agent, audioOptions, videoOptions, it)
+                            }
+                        }
+                        else -> {
+                            callLocator?.let {
+                                joinCall(agent, audioOptions, videoOptions, callLocator)
+                                return@whenComplete
+                            }
+                        }
+                    }
                 }.exceptionally { error ->
                     onJoinCallFailed(startCallCompletableFuture, error)
                 }
             } else {
-                joinCall(agent, audioOptions, videoOptions, callLocator)
+                when (callConfig.callType) {
+                    CallType.ONE_TO_N_CALL_INCOMING -> {
+                        incomingCallWrapper?.incomingCall()?.let {
+                            val acceptCallOptions = AcceptCallOptions()
+                            acceptCallOptions.outgoingVideoOptions = null
+                            nullableCall = it.accept(context, acceptCallOptions)?.get()
+                            callingSDKEventHandler.onJoinCall(call)
+                            return@thenAccept
+                        }
+                    }
+                    CallType.ONE_TO_N_CALL_OUTGOING -> {
+                        callConfig.participants?.let {
+                            startCall(agent, audioOptions, null, it)
+                        }
+                    }
+                    else -> {
+                        callLocator?.let {
+                            joinCall(agent, audioOptions, null, callLocator)
+                            return@thenAccept
+                        }
+                    }
+                }
             }
 
             startCallCompletableFuture.complete(null)
@@ -339,11 +406,11 @@ internal class CallingSDKWrapper(
     }
 
     override fun turnOnMicAsync(): CompletableFuture<Void> {
-        return call.unmute(context)
+        return call.unmuteOutgoingAudio(context)
     }
 
     override fun turnOffMicAsync(): CompletableFuture<Void> {
-        return call.mute(context)
+        return call.muteOutgoingAudio(context)
     }
 
     override fun getLocalVideoStream(): CompletableFuture<LocalVideoStream> {
@@ -388,43 +455,65 @@ internal class CallingSDKWrapper(
         return result
     }
 
-    private fun createCallAgent(): CompletableFuture<CallAgent> {
+    override fun registerPushNotification(deviceRegistrationToken: String): CompletableFuture<Void> {
+        val result = CompletableFuture<Void>()
+        setupCall().whenComplete { _, setUpError ->
+            if (setUpError != null) {
+                result.completeExceptionally(setUpError)
+                return@whenComplete
+            }
 
-        if (callAgentCompletableFuture == null || callAgentCompletableFuture!!.isCompletedExceptionally) {
-            callAgentCompletableFuture = CompletableFuture<CallAgent>()
-            val options = CallAgentOptions().apply { displayName = callConfig.displayName }
-            try {
-                val createCallAgentFutureCompletableFuture = callClient!!.createCallAgent(
-                    context,
-                    callConfig.communicationTokenCredential,
-                    options
-                )
-                createCallAgentFutureCompletableFuture.whenComplete { callAgent: CallAgent, error: Throwable? ->
-                    if (error != null) {
-                        callAgentCompletableFuture!!.completeExceptionally(error)
-                    } else {
-                        callAgentCompletableFuture!!.complete(callAgent)
+            callingSDKCallAgentWrapper.createCallAgent(
+                context = context,
+                name = callConfig.displayName,
+                communicationTokenCredential = callConfig.communicationTokenCredential
+            ).thenAccept { agent: CallAgent ->
+                agent.registerPushNotification(deviceRegistrationToken)
+                    .whenComplete { _, error: Throwable? ->
+                        if (error != null) {
+                            result.completeExceptionally(error)
+                        } else {
+                            result.complete(null)
+                        }
                     }
-                }
-            } catch (error: Throwable) {
-                callAgentCompletableFuture!!.completeExceptionally(error)
+            }.exceptionally { error ->
+                result.completeExceptionally(error)
+                null
             }
         }
-
-        return callAgentCompletableFuture!!
+        return result
     }
 
     private fun joinCall(
         agent: CallAgent,
-        audioOptions: AudioOptions,
-        videoOptions: VideoOptions?,
+        audioOptions: OutgoingAudioOptions,
+        videoOptions: OutgoingVideoOptions?,
         joinMeetingLocator: JoinMeetingLocator,
     ) {
         val joinCallOptions = JoinCallOptions()
-        joinCallOptions.audioOptions = audioOptions
-        videoOptions?.let { joinCallOptions.videoOptions = videoOptions }
+        joinCallOptions.outgoingAudioOptions = audioOptions
+        videoOptions?.let { joinCallOptions.outgoingVideoOptions = videoOptions }
 
         nullableCall = agent.join(context, joinMeetingLocator, joinCallOptions)
+        callingSDKEventHandler.onJoinCall(call)
+    }
+
+    private fun startCall(
+        agent: CallAgent,
+        audioOptions: OutgoingAudioOptions,
+        videoOptions: OutgoingVideoOptions?,
+        participants: List<String>
+    ) {
+        val communicationIdentifiers = ArrayList<CommunicationIdentifier>()
+        for (participantId in participants) {
+            communicationIdentifiers.add(CommunicationIdentifier.fromRawId(participantId))
+        }
+
+        val startCallOptions = StartCallOptions()
+        startCallOptions.outgoingAudioOptions = audioOptions
+        videoOptions?.let { startCallOptions.outgoingVideoOptions = videoOptions }
+
+        nullableCall = agent.startCall(context, communicationIdentifiers, startCallOptions)
         callingSDKEventHandler.onJoinCall(call)
     }
 
@@ -442,7 +531,7 @@ internal class CallingSDKWrapper(
         if (deviceManagerCompletableFuture.isCompletedExceptionally ||
             !deviceManagerCompletableFuture.isDone
         ) {
-            callClient!!.getDeviceManager(context)
+            callClient.getDeviceManager(context)
                 .whenComplete { deviceManager: DeviceManager, getDeviceManagerError ->
                     if (getDeviceManagerError != null) {
                         deviceManagerCompletableFuture.completeExceptionally(
@@ -543,10 +632,8 @@ internal class CallingSDKWrapper(
         videoDevicesUpdatedListener?.let {
             deviceManagerCompletableFuture?.get()?.removeOnCamerasUpdatedListener(it)
         }
-        callAgentCompletableFuture?.get()?.dispose()
-        callClient = null
         nullableCall = null
-        callAgentCompletableFuture = null
+        callClientInternal = null
         localVideoStreamCompletableFuture = null
         camerasInitializedCompletableFuture = null
         deviceManagerCompletableFuture = null

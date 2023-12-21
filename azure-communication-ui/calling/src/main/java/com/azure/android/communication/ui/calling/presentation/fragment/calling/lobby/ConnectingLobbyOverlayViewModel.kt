@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby
 
+import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.FatalError
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
@@ -21,15 +22,23 @@ import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) -> Unit) {
+internal class ConnectingLobbyOverlayViewModel(
+    private val dispatch: (Action) -> Unit,
+    private val isTelecomManagerEnabled: Boolean = false
+) {
 
     private lateinit var displayLobbyOverlayFlow: MutableStateFlow<Boolean>
     private lateinit var networkManager: NetworkManager
-
+    private lateinit var callingStatusStateFlow: MutableStateFlow<CallingStatus>
     private lateinit var cameraStateFlow: MutableStateFlow<CameraOperationalStatus>
     private lateinit var audioOperationalStatusStateFlow: MutableStateFlow<AudioOperationalStatus>
+    private var callType: CallType? = null
 
     fun getDisplayLobbyOverlayFlow(): StateFlow<Boolean> = displayLobbyOverlayFlow
+
+    fun getCallType(): CallType? = callType
+
+    fun getCallingStatusStateFlow(): StateFlow<CallingStatus> = callingStatusStateFlow
 
     fun init(
         callingState: CallingState,
@@ -37,6 +46,7 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
         networkManager: NetworkManager,
         cameraState: CameraState,
         audioState: AudioState,
+        callType: CallType? = null,
     ) {
         this.networkManager = networkManager
         val displayLobbyOverlay = shouldDisplayLobbyOverlay(callingState, permissionState)
@@ -50,6 +60,8 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
         if (permissionState.audioPermissionState == PermissionStatus.NOT_ASKED) {
             requestAudioPermission()
         }
+        this.callType = callType
+        callingStatusStateFlow = MutableStateFlow(callingState.callingStatus)
     }
 
     fun update(
@@ -68,6 +80,7 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
         if (displayLobbyOverlay) {
             handleOffline(this.networkManager)
         }
+        callingStatusStateFlow.value = callingState.callingStatus
     }
 
     fun getCameraStateFlow(): StateFlow<CameraOperationalStatus> {
@@ -75,14 +88,16 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
     }
 
     fun handleMicrophoneAccessFailed() {
-        dispatchAction(
-            action = ErrorAction.FatalErrorOccurred(
-                FatalError(
-                    Throwable(),
-                    ErrorCode.MICROPHONE_NOT_AVAILABLE
+        if (!isTelecomManagerEnabled) {
+            dispatchAction(
+                action = ErrorAction.FatalErrorOccurred(
+                    FatalError(
+                        Throwable(),
+                        ErrorCode.MICROPHONE_NOT_AVAILABLE
+                    )
                 )
             )
-        )
+        }
     }
 
     private fun requestAudioPermission() {
@@ -94,7 +109,8 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
     }
 
     private fun shouldDisplayLobbyOverlay(callingState: CallingState, permissionState: PermissionState) =
-        ((callingState.callingStatus == CallingStatus.NONE) || (callingState.callingStatus == CallingStatus.CONNECTING)) &&
+        ((callingState.callingStatus == CallingStatus.NONE) || (callingState.callingStatus == CallingStatus.CONNECTING)) ||
+            (callingState.callingStatus == CallingStatus.RINGING) &&
             (permissionState.audioPermissionState != PermissionStatus.DENIED) &&
             (callingState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN)
 

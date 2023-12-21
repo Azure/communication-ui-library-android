@@ -78,7 +78,7 @@ internal fun com.azure.android.communication.calling.CallParticipantRole.into():
         com.azure.android.communication.calling.CallParticipantRole.CONSUMER -> CallCompositeInternalParticipantRole.CONSUMER
         com.azure.android.communication.calling.CallParticipantRole.PRESENTER -> CallCompositeInternalParticipantRole.PRESENTER
         com.azure.android.communication.calling.CallParticipantRole.ORGANIZER -> CallCompositeInternalParticipantRole.ORGANIZER
-        com.azure.android.communication.calling.CallParticipantRole.COORGANIZER -> CallCompositeInternalParticipantRole.COORGANIZER
+        com.azure.android.communication.calling.CallParticipantRole.CO_ORGANIZER -> CallCompositeInternalParticipantRole.COORGANIZER
         com.azure.android.communication.calling.CallParticipantRole.UNINITIALIZED -> CallCompositeInternalParticipantRole.UNINITIALIZED
         else -> { null }
     }

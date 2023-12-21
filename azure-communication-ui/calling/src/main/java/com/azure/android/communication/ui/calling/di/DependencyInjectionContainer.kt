@@ -27,6 +27,7 @@ import com.azure.android.communication.ui.calling.redux.middleware.handler.Calli
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.presentation.manager.MultitaskingManager
 import com.azure.android.communication.ui.calling.service.CallHistoryService
+import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.service.NotificationService
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 
@@ -70,4 +71,7 @@ internal interface DependencyInjectionContainer {
 
     // Data
     val callHistoryRepository: CallHistoryRepository
+
+    // Calling Service
+    val callingService: CallingService
 }

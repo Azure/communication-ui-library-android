@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.setup
 
+import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.SetupViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
@@ -18,6 +19,7 @@ internal class SetupViewModel(
     store: Store<ReduxState>,
     setupViewModelProvider: SetupViewModelFactory,
     private val networkManager: NetworkManager,
+    private val callType: CallType? = null,
 ) :
     BaseViewModel(store) {
 
@@ -80,7 +82,8 @@ internal class SetupViewModel(
             state.permissionState.cameraPermissionState,
             state.localParticipantState.cameraState.operation,
             state.localParticipantState.cameraState.camerasCount,
-            networkManager
+            networkManager,
+            callType
         )
 
         super.init(coroutineScope)

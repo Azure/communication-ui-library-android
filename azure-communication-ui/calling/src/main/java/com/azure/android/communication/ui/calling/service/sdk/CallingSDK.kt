@@ -45,6 +45,9 @@ internal interface CallingSDK {
     fun hold(): CompletableFuture<Void>
     fun resume(): CompletableFuture<Void>
 
+    fun startAudio()
+    fun stopAudio()
+
     // State.
     fun getLocalVideoStream(): CompletableFuture<LocalVideoStream>
     fun getRemoteParticipantsMap(): Map<String, RemoteParticipant>
@@ -56,6 +59,9 @@ internal interface CallingSDK {
     fun getCallIdStateFlow(): StateFlow<String?>
     fun getRemoteParticipantInfoModelSharedFlow(): Flow<Map<String, ParticipantInfoModel>>
     fun getCamerasCountStateFlow(): StateFlow<Int>
+
+    // Push Notifications.
+    fun registerPushNotification(deviceRegistrationToken: String): CompletableFuture<Void>
     fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?>
     fun admit(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?>
     fun decline(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?>

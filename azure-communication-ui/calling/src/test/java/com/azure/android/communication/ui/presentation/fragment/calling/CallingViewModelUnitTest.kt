@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.presentation.fragment.calling
 
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
@@ -135,6 +136,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockAppStore,
                 mockCallingViewModelProvider,
                 mockNetworkManager,
+                CallType.GROUP_CALL,
                 false,
             )
 
@@ -234,6 +236,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockAppStore,
                 mockCallingViewModelProvider,
                 mockNetworkManager,
+                CallType.GROUP_CALL,
                 false,
             )
 
@@ -332,6 +335,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockAppStore,
                 mockCallingViewModelProvider,
                 mockNetworkManager,
+                CallType.GROUP_CALL,
                 false,
             )
 
@@ -438,6 +442,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockAppStore,
                 mockCallingViewModelProvider,
                 mockNetworkManager,
+                CallType.GROUP_CALL,
                 false,
             )
 
@@ -669,6 +674,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockAppStore,
                 mockCallingViewModelProvider,
                 mockNetworkManager,
+                CallType.GROUP_CALL,
                 true
             )
 
@@ -876,6 +882,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             mockAppStore,
             mockCallingViewModelProvider,
             mockNetworkManager,
+            CallType.GROUP_CALL,
             true
         )
 
@@ -1027,6 +1034,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             mockAppStore,
             mockCallingViewModelProvider,
             mockNetworkManager,
+            CallType.GROUP_CALL,
             true
         )
 

@@ -10,6 +10,7 @@ import android.media.AudioManager
 import android.media.AudioManager.MODE_NORMAL
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
 import com.azure.android.communication.ui.calling.redux.state.AudioFocusStatus
@@ -71,6 +72,7 @@ internal class AudioFocusHandlerLegacy(val context: Context) : AudioFocusHandler
 internal class AudioFocusManager(
     private val store: Store<ReduxState>,
     applicationContext: Context,
+    private val configuration: CallCompositeConfiguration,
 ) {
     private var audioFocusHandler: AudioFocusHandler? = null
     private var isAudioFocused = false
@@ -86,6 +88,17 @@ internal class AudioFocusManager(
     }
 
     suspend fun start() {
+        if (configuration.telecomOptions != null) {
+            store.getStateFlow().collect {
+                // todo: GA: create new action resume and in middleware decide if telecom manager is on
+                // then call service layer directly
+                if (it.audioSessionState.audioFocusStatus == AudioFocusStatus.REQUESTING) {
+                    store.dispatch(AudioSessionAction.AudioFocusApproved())
+                }
+            }
+            return
+        }
+
         if (audioFocusHandler?.getAudioFocus() == false) {
             store.dispatch(AudioSessionAction.AudioFocusRejected())
         }

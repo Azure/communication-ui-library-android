@@ -44,6 +44,10 @@ class CallingCompositeLocalizationTest : BaseUiTest() {
     @Test
     fun testItalianLocalization() {
         testLocalization(Localize.Italian)
+    }
+
+    @Test
+    fun z_testEnglishLocalization() {
         // The last test in this class has completed.  Restore back to English locale because other
         // tests that run after this expect English Locale
         testLocalization(Localize.English)

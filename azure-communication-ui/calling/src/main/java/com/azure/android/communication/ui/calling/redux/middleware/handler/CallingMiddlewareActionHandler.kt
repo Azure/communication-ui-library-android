@@ -47,6 +47,10 @@ internal interface CallingMiddlewareActionHandler {
     fun startCall(store: Store<ReduxState>)
     fun turnMicOn(store: Store<ReduxState>)
     fun turnMicOff(store: Store<ReduxState>)
+
+    fun onAudioFocusApproved(store: Store<ReduxState>)
+    fun onAudioFocusInterrupted(store: Store<ReduxState>)
+
     fun onCameraPermissionIsSet(store: Store<ReduxState>)
     fun callSetupWithSkipSetupScreen(store: Store<ReduxState>)
     fun exit(store: Store<ReduxState>)
@@ -58,7 +62,7 @@ internal interface CallingMiddlewareActionHandler {
 
 internal class CallingMiddlewareActionHandlerImpl(
     private val callingService: CallingService,
-    coroutineContextProvider: CoroutineContextProvider
+    coroutineContextProvider: CoroutineContextProvider,
 ) :
     CallingMiddlewareActionHandler {
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
@@ -354,6 +358,14 @@ internal class CallingMiddlewareActionHandlerImpl(
         }
     }
 
+    override fun onAudioFocusApproved(store: Store<ReduxState>) {
+        store.dispatch(CallingAction.ResumeRequested())
+    }
+
+    override fun onAudioFocusInterrupted(store: Store<ReduxState>) {
+        store.dispatch(CallingAction.HoldRequested())
+    }
+
     private fun subscribeCamerasCountUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
             callingService.getCamerasCountStateFlow().collect {
@@ -455,7 +467,7 @@ internal class CallingMiddlewareActionHandlerImpl(
             callingService.getCallInfoModelEventSharedFlow().collect { callInfoModel ->
                 val previousCallState = store.getCurrentState().callState.callingStatus
 
-                store.dispatch(CallingAction.StateUpdated(callInfoModel.callingStatus))
+                store.dispatch(CallingAction.StateUpdated(callInfoModel.callingStatus, callInfoModel.callEndReasonCode, callInfoModel.callEndReasonSubCode))
 
                 if (previousCallState == CallingStatus.LOCAL_HOLD &&
                     callInfoModel.callingStatus == CallingStatus.CONNECTED
@@ -486,8 +498,8 @@ internal class CallingMiddlewareActionHandlerImpl(
                         store.dispatch(CallingAction.IsTranscribingUpdated(false))
                         store.dispatch(CallingAction.IsRecordingUpdated(false))
                         store.dispatch(ParticipantAction.ListUpdated(HashMap()))
-                        store.dispatch(CallingAction.StateUpdated(CallingStatus.NONE))
-                        if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
+                        if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN
+                        ) {
                             store.dispatch(NavigationAction.Exit())
                         } else {
                             store.dispatch(NavigationAction.SetupLaunched())

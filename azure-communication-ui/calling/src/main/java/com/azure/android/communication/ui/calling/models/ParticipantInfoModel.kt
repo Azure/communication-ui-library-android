@@ -15,7 +15,7 @@ internal enum class ParticipantStatus {
 }
 
 internal data class ParticipantInfoModel(
-    val displayName: String,
+    var displayName: String,
     val userIdentifier: String,
     var isMuted: Boolean,
     var isSpeaking: Boolean,

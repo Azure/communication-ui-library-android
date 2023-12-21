@@ -58,7 +58,8 @@ class ConnectingLobbyOverlayViewModelTest : ACSBaseTestCoroutine() {
                     operation = AudioOperationalStatus.ON,
                     device = AudioDeviceSelectionStatus.RECEIVER_SELECTED,
                     bluetoothState = BluetoothState(available = false, deviceName = "")
-                )
+                ),
+                null
             )
 
             val modelFlow = mutableListOf<Boolean>()

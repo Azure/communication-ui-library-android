@@ -11,7 +11,10 @@ internal sealed class CallingAction : Action {
     class CallEndRequested : CallingAction()
     class HoldRequested : CallingAction()
     class ResumeRequested : CallingAction()
-    class StateUpdated(val callingState: CallingStatus) : CallingAction()
+    class StateUpdated(
+        val callingState: CallingStatus, val callEndReasonCode: Int? = null,
+        val callEndReasonSubCode: Int? = null
+    ) : CallingAction()
     class IsRecordingUpdated(val isRecording: Boolean) : CallingAction()
     class IsTranscribingUpdated(val isTranscribing: Boolean) : CallingAction()
     class CallIdUpdated(val callId: String?) : CallingAction()

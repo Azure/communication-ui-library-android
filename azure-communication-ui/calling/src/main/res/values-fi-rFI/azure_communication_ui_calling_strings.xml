@@ -14,6 +14,9 @@
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">%1$s äänilaite, valittu</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Liitytään puheluun…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Aloitetaan puhelua…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_ringing_call">Soitetaan puhelua…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_start_call">Aloita puhelu</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Videokuva ei käytössä</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_on">Videokuva käytössä</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Mikrofoni ei käytössä</string>

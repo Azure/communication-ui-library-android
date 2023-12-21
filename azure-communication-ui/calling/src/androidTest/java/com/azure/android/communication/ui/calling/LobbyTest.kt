@@ -26,6 +26,8 @@ import org.junit.Test
 import java.util.UUID
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomIntegration
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomOptions
 import java9.util.concurrent.CompletableFuture
 
 internal class LobbyTest : BaseUiTest() {
@@ -397,7 +399,9 @@ internal class LobbyTest : BaseUiTest() {
 
     private fun joinTeamsCall(): Context? {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        val callComposite = CallCompositeBuilder().build()
+        val telecomOptions =
+            CallCompositeTelecomOptions(CallCompositeTelecomIntegration.APPLICATION_IMPLEMENTED_TELECOM_MANAGER)
+        val callComposite = CallCompositeBuilder().telecom(telecomOptions).build()
         val communicationTokenRefreshOptions =
             CommunicationTokenRefreshOptions({ "token" }, true)
         val communicationTokenCredential =

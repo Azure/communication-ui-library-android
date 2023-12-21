@@ -47,6 +47,10 @@ internal class CallingService(
     private var callIdStateFlow = MutableStateFlow<String?>(null)
     private var callingStatus: CallingStatus = CallingStatus.NONE
 
+    fun registerPushNotification(deviceRegistrationToken: String): CompletableFuture<Void> {
+        return callingSdk.registerPushNotification(deviceRegistrationToken)
+    }
+
     //region Call Diagnostics
     private val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
     private val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
@@ -85,6 +89,14 @@ internal class CallingService(
 
     fun turnMicOn(): CompletableFuture<Void> {
         return callingSdk.turnOnMicAsync()
+    }
+
+    fun startAudio() {
+        callingSdk.startAudio()
+    }
+
+    fun stopAudio() {
+        callingSdk.stopAudio()
     }
 
     fun turnLocalCameraOn(): CompletableFuture<String> {
@@ -169,7 +181,11 @@ internal class CallingService(
                 logger?.debug(it.toString())
                 val callStateError = it.asCallStateError(currentStatus = callingStatus)
                 callingStatus = it.toCallingStatus()
-                callInfoModelSharedFlow.emit(CallInfoModel(callingStatus, callStateError))
+                if (callingStatus == CallingStatus.DISCONNECTED) {
+                    callInfoModelSharedFlow.emit(CallInfoModel(callingStatus, callStateError, it.callEndReason, it.callEndReasonSubCode))
+                } else {
+                    callInfoModelSharedFlow.emit(CallInfoModel(callingStatus, callStateError))
+                }
             }
         }
 

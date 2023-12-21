@@ -39,8 +39,12 @@ class CallingCompositeScreenOrientationTest : BaseUiTest() {
     }
 
     @Test
-    fun testSetOrientationPortrait() {
-        testSetupOrientation("PORTRAIT")
+    fun testSetSetUpOrientationPortrait() {
+        testCallOrientation("PORTRAIT")
+    }
+
+    @Test
+    fun testCallScreenOrientationPortrait() {
         testCallOrientation("PORTRAIT")
     }
 

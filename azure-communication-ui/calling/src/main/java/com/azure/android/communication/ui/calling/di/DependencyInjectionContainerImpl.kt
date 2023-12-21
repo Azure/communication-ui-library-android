@@ -58,6 +58,7 @@ import com.azure.android.communication.ui.calling.service.CallHistoryServiceImpl
 import com.azure.android.communication.ui.calling.service.NotificationService
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKEventHandler
+import com.azure.android.communication.ui.calling.service.sdk.CallingSDKInstanceManager
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 
@@ -81,7 +82,7 @@ internal class DependencyInjectionContainerImpl(
     override val callingMiddlewareActionHandler by lazy {
         CallingMiddlewareActionHandlerImpl(
             callingService,
-            coroutineContextProvider
+            coroutineContextProvider,
         )
     }
 
@@ -113,6 +114,7 @@ internal class DependencyInjectionContainerImpl(
         AudioSessionManager(
             appStore,
             applicationContext,
+            configuration.callCompositeEventsHandler,
         )
     }
 
@@ -120,6 +122,7 @@ internal class DependencyInjectionContainerImpl(
         AudioFocusManager(
             appStore,
             applicationContext,
+            configuration,
         )
     }
 
@@ -262,7 +265,8 @@ internal class DependencyInjectionContainerImpl(
             ?: CallingSDKWrapper(
                 applicationContext,
                 callingSDKEventHandler,
-                configuration.callConfig
+                configuration.callConfig,
+                CallingSDKInstanceManager.callingSDKCallAgentWrapper!!,
             )
     }
 
@@ -272,7 +276,7 @@ internal class DependencyInjectionContainerImpl(
         )
     }
 
-    private val callingService by lazy {
+    override val callingService by lazy {
         CallingService(callingSDKWrapper, coroutineContextProvider)
     }
     //endregion

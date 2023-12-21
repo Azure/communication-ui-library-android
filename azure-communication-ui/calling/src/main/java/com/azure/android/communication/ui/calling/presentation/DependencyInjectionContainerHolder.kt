@@ -54,13 +54,20 @@ internal class DependencyInjectionContainerHolder(
     }
 
     val setupViewModel by lazy {
+        val callType = container.configuration.callConfig?.callType
         SetupViewModel(
             container.appStore,
-            SetupViewModelFactory(container.appStore, application),
-            container.networkManager
+            SetupViewModelFactory(
+                container.appStore,
+                application,
+                container.configuration.telecomOptions != null
+            ),
+            container.networkManager,
+            callType
         )
     }
     val callingViewModel by lazy {
+        val callType = container.configuration.callConfig?.callType
         CallingViewModel(
             container.appStore,
             CallingViewModelFactory(
@@ -68,9 +75,11 @@ internal class DependencyInjectionContainerHolder(
                 ParticipantGridCellViewModelFactory(),
                 application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants),
                 container.debugInfoManager,
-                container.configuration.enableMultitasking
+                container.configuration.enableMultitasking,
+                container.configuration.telecomOptions != null
             ),
             container.networkManager,
+            callType,
             container.configuration.enableMultitasking
         )
     }

@@ -14,6 +14,9 @@
     <string name="azure_communication_ui_calling_selected_audio_device_announcement">已选择 %1$s 音频设备</string>
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">正在加入通话…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">正在开始呼叫…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_ringing_call">正在进行响铃呼叫…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_start_call">开始呼叫</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">关闭视频</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_on">打开视频</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">关闭麦克风</string>
