@@ -26,7 +26,7 @@ steps:
     Service: 'e312ec77-9c77-48a7-9837-32fe6d08d460'
     BuildOutputUsage: 'test'
 
-- task: ms-devlabs.utilitytasks.task-Shellpp.Shell++@0
+- task: Shellpp@0
   displayName: 'Private aad feed settings'
   inputs:
     type: InlineScript
@@ -59,7 +59,7 @@ steps:
     Contents: '*.json'
     TargetFolder: '$(system.defaultWorkingDirectory)/azure-communication-ui/demo-app'
 
-- task: ms-devlabs.utilitytasks.task-Shellpp.Shell++@0
+- task: Shellpp@0
   displayName: 'Rename google service'
   inputs:
     type: InlineScript
