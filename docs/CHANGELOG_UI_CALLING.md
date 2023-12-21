@@ -1,11 +1,15 @@
 # Azure Communication UI Calling Release History
 
-## 1.6.0-beta.1 (**)
+## 1.6.0-beta.1 (2023-12-21)
 
 ### Features
-- TFL Lobby Admit
+- Teams meeting lobby admit
+- ACS 1 to 1 Calling Support with push notification support
+
+## 1.5.0 (2023-12-04)
+
+### Features
 - Display Call Diagnostics.
-- 1 to N ACS Calling support
 
 ### Bug Fixes
 - Hide lobby users in GridView and Participant List
