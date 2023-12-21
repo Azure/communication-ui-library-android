@@ -14,6 +14,9 @@ internal class SupportViewModel(private val dispatch: Dispatch, private val onSu
     private var _isVisibleStateFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
     private val _isSubmitEnabledStateFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
     private var _userMessageStateFlow = MutableStateFlow<String>("")
+    private val _clearEditTextStateFlow = MutableStateFlow<Long>(0);
+
+    val clearEditTextStateFlow get() = _clearEditTextStateFlow as StateFlow<Long>
 
     var userMessage : String get() = _userMessageStateFlow.value
         set(value) {
@@ -35,6 +38,11 @@ internal class SupportViewModel(private val dispatch: Dispatch, private val onSu
     }
 
     fun update(navigationState: NavigationState) {
+        if (navigationState.supportVisible && !_isVisibleStateFlow.value) {
+            // Made visible, lets trigger a clear of the EditText
+            _clearEditTextStateFlow.value = System.currentTimeMillis()
+            _userMessageStateFlow.value = ""
+        }
         _isVisibleStateFlow.value = navigationState.supportVisible
     }
 

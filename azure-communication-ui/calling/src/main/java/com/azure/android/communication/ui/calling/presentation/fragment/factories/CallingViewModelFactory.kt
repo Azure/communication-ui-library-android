@@ -83,12 +83,6 @@ internal class CallingViewModelFactory(
         BannerViewModel()
     }
 
-    val supportFormViewModel by lazy {
-        SupportViewModel(dispatch = store::dispatch) { userText, isVideoOn ->
-            forwardSupportEventToUser(userText, isVideoOn)
-        }
-    }
-
     val waitingLobbyOverlayViewModel by lazy {
         WaitingLobbyOverlayViewModel()
     }
@@ -100,17 +94,4 @@ internal class CallingViewModelFactory(
     val onHoldOverlayViewModel by lazy {
         OnHoldOverlayViewModel { store.dispatch(it) }
     }
-
-    private fun forwardSupportEventToUser(userText: String, screenshot: Boolean) {
-        val debugInfo = debugInfoManager.getDebugInfo()
-        val event = CallCompositeUserReportedIssueEvent(userText, debugInfo.logFiles, debugInfo.callHistoryRecords);
-
-        localConfiguration.callCompositeEventsHandler.getOnUserReportedHandlers().forEach {
-            it.handle(
-                event
-            )
-        }
-        // Pass through local config
-    }
-
 }

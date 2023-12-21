@@ -71,6 +71,12 @@ internal class SupportView : FrameLayout {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.clearEditTextStateFlow.collect {
+                editText.setText("")
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.isSubmitEnabledStateFlow.collect {
                 sendButton.isEnabled = it
             }
