@@ -5,8 +5,8 @@ buildscript {
     }
 
     ext {
-        call_library_version_name = '1.4.0'
-        chat_library_version_name = '1.0.0-beta.2'
+        call_library_version_name = '1.5.0'
+        chat_library_version_name = '1.0.0-beta.3'
 
         ui_library_version_code = getVersionCode()
 
@@ -65,7 +65,7 @@ buildscript {
 
 
         // while modifying this version, make sure to modify in ChatContainer
-        azure_chat_sdk_version = '2.0.0'
+        azure_chat_sdk_version = '2.0.1'
         azure_common_sdk_version = '1.0.2'
 
         jetbrains_kotlinx_coroutines_test_version = '1.6.0-native-mt'

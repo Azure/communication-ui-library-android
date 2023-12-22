@@ -69,7 +69,7 @@ internal class ChatContainer(
                     credential = remoteOptions.credential,
                     applicationID = DiagnosticConfig().tag,
                     sdkName = "com.azure.android:azure-communication-chat",
-                    sdkVersion = "2.0.0",
+                    sdkVersion = "2.0.1",
                     threadId = remoteOptions.threadId,
                     senderDisplayName = remoteOptions.displayName
                 )

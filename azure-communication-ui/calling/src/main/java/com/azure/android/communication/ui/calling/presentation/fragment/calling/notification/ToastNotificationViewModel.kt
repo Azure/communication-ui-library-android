@@ -145,8 +145,8 @@ internal class ToastNotificationViewModel(private val dispatch: (Action) -> Unit
 
     private fun displayToastNotification(toastNotificationModel: ToastNotificationModel, autoDismiss: Boolean = true) {
         if (!isPersistentNotificationDisplayed) {
-            displayToastNotificationFlow.value = true
             toastNotificationModelMessageFlow.value = toastNotificationModel
+            displayToastNotificationFlow.value = true
             if (autoDismiss) {
                 timer = Timer()
                 timer.schedule(
