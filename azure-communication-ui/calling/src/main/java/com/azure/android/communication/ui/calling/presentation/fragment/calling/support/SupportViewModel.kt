@@ -13,10 +13,13 @@ internal class SupportViewModel(private val dispatch: Dispatch, private val onSu
 
     private var _isVisibleStateFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
     private val _isSubmitEnabledStateFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
+
     private var _userMessageStateFlow = MutableStateFlow<String>("")
     private val _clearEditTextStateFlow = MutableStateFlow<Long>(0);
 
+    val shouldIncludeScreenshot: MutableStateFlow<Boolean> = MutableStateFlow(true)
     val clearEditTextStateFlow get() = _clearEditTextStateFlow as StateFlow<Long>
+
 
     var userMessage : String get() = _userMessageStateFlow.value
         set(value) {
@@ -52,6 +55,6 @@ internal class SupportViewModel(private val dispatch: Dispatch, private val onSu
     }
 
     fun forwardEventToUser() {
-        onSubmit(userMessage, false)
+        onSubmit(userMessage, shouldIncludeScreenshot.value)
     }
 }
