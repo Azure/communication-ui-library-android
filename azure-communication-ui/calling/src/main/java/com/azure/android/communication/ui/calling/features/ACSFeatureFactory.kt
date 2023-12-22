@@ -5,40 +5,32 @@ package com.azure.android.communication.ui.calling.features
 
 import com.azure.android.communication.ui.calling.features.interfaces.ISupportFilesFeature
 
-//import com.azure.android.communication.calling.testapp.features.AcceptCallOptionsFeatureImp
-//import com.azure.android.communication.calling.testapp.features.CallRecordingFeatureImpl
-//import com.azure.android.communication.calling.testapp.features.CaptionsFeatureImpl
-//import com.azure.android.communication.calling.testapp.features.DataChannelFeatureImpl
-//import com.azure.android.communication.calling.testapp.features.DiagnosticsCallFeatureImpl
-//import com.azure.android.communication.calling.testapp.features.IAcceptCallOptionsFeature
-//import com.azure.android.communication.calling.testapp.features.ICallRecordingFeature
-//import com.azure.android.communication.calling.testapp.features.ICaptionsFeature
-//import com.azure.android.communication.calling.testapp.features.IDataChannelFeature
-//import com.azure.android.communication.calling.testapp.features.IDiagnosticsCallFeature
-//import com.azure.android.communication.calling.testapp.features.IMediaStatsFeature
-//import com.azure.android.communication.calling.testapp.features.IMuteOthersFeature
-//import com.azure.android.communication.calling.testapp.features.IMuteSpeakerFeature
-//import com.azure.android.communication.calling.testapp.features.IRaiseHandFeature
-//import com.azure.android.communication.calling.testapp.features.IRecordingV2Feature
-//import com.azure.android.communication.calling.testapp.features.IReverseProxyFeature
-//import com.azure.android.communication.calling.testapp.features.IShareSupportFilesFeature
-//import com.azure.android.communication.calling.testapp.features.ISpotlightFeature
-//import com.azure.android.communication.calling.testapp.features.ISurveyFeature
-//import com.azure.android.communication.calling.testapp.features.IVideoConstraintsFeature
-//import com.azure.android.communication.calling.testapp.features.MediaStatsFeatureImpl
-//import com.azure.android.communication.calling.testapp.features.MuteOthersFeatureImpl
-//import com.azure.android.communication.calling.testapp.features.MuteSpeakerFeatureImp
-//import com.azure.android.communication.calling.testapp.features.RaiseHandFeatureImpl
-//import com.azure.android.communication.calling.testapp.features.RecordingV2FeatureImpl
-//import com.azure.android.communication.calling.testapp.features.ReverseProxyFeatureImpl
-//import com.azure.android.communication.calling.testapp.features.ShareSupportFilesFeatureImp
-//import com.azure.android.communication.calling.testapp.features.SpotlightFeatureImpl
-//import com.azure.android.communication.calling.testapp.features.SurveyFeatureImpl
-
-
-
 /**
  * Factory for getting the different UIFeatureType not available in all release channels.
+ *
+ * This is to allow Beta API be compiled and linked when
+ * `USE_CALLING_SDK_BETA=true` is set in local.properties
+ *
+ * I.e. if Beta Calling SDK has a new method, getWidgets(), compile time features can
+ * be used to scope as appropriately and provide fallback, stub or disabled implementations to our
+ * GA branch, until the time it can be appropriately promoted (dependencies GA'd)
+ *
+ * Usage Instructions:
+ * 1. Add a new feature interface in the features.interfaces package.
+ * 2. Update build.gradle and specify your feature name (folder)
+ * 3. Create a Stub Implementation
+ * 4. Create a Real Implementation
+ * 5. Update the ACSFeaturesFactory to register your feature
+ *
+ * At Compile time, gradle will choose the folder with the Stub or the Full version,
+ * and will link that against your code. It does this with the FeatureList
+ * for Beta and GA.
+ *
+ * In your code, you can use
+ * ACSFeaturesFactory.instance.getACSFeature(YourFeatureInterface.class)
+ * to get the feature instance.
+ *
+ * Features are initialized with the instance.
  */
 internal class ACSFeaturesFactory
 /**
@@ -64,20 +56,6 @@ private constructor() {
     private fun RegisterACSFeatures() {
         featureList = HashMap()
         RegisterACSFeature<ISupportFilesFeature>(SupportFilesFeature())
-//        RegisterACSFeature(IRaiseHandFeature::class.java, RaiseHandFeatureImpl())
-//        RegisterACSFeature(ICallRecordingFeature::class.java, CallRecordingFeatureImpl())
-//        RegisterACSFeature(IAcceptCallOptionsFeature::class.java, AcceptCallOptionsFeatureImp())
-//        RegisterACSFeature(IMuteSpeakerFeature::class.java, MuteSpeakerFeatureImp())
-//        RegisterACSFeature(IRecordingV2Feature::class.java, RecordingV2FeatureImpl())
-//        RegisterACSFeature(IDiagnosticsCallFeature::class.java, DiagnosticsCallFeatureImpl())
-//        RegisterACSFeature(IDataChannelFeature::class.java, DataChannelFeatureImpl())
-//        RegisterACSFeature(IMediaStatsFeature::class.java, MediaStatsFeatureImpl())
-//        RegisterACSFeature(IVideoConstraintsFeature::class.java, VideoConstraintsFeatureImpl())
-//        RegisterACSFeature(ISpotlightFeature::class.java, SpotlightFeatureImpl())
-//        RegisterACSFeature(IShareSupportFilesFeature::class.java, ShareSupportFilesFeatureImp())
-//        RegisterACSFeature(IReverseProxyFeature::class.java, ReverseProxyFeatureImpl())
-//        RegisterACSFeature(ISurveyFeature::class.java, SurveyFeatureImpl())
-//        RegisterACSFeature(IMuteOthersFeature::class.java, MuteOthersFeatureImpl())
     }
 
     /**
