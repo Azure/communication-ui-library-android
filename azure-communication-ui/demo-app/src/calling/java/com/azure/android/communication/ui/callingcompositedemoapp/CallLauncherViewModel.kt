@@ -37,6 +37,8 @@ class CallLauncherViewModel : ViewModel() {
     val callCompositeCallStateStateFlow = MutableStateFlow("")
     val callCompositeExitSuccessStateFlow = MutableStateFlow(false)
     var isExitRequested = false
+    val userReportedIssueEvent = MutableStateFlow<CallCompositeUserReportedIssueEvent?>(null)
+
     private val callStateEventHandler = CallStateEventHandler(callCompositeCallStateStateFlow)
     private var exitEventHandler: CallExitEventHandler? = null
 
@@ -94,7 +96,9 @@ class CallLauncherViewModel : ViewModel() {
         exitEventHandler = CallExitEventHandler(callCompositeExitSuccessStateFlow, callCompositeCallStateStateFlow, this)
         callComposite.addOnCallStateChangedEventHandler(callStateEventHandler)
         callComposite.addOnDismissedEventHandler(exitEventHandler)
-        callComposite.addOnUserReportedEventHandler(OnUserReportedEventErrorHandler(context))
+        callComposite.addOnUserReportedEventHandler {
+            userReportedIssueEvent.value = it
+        }
 
         isExitRequested = false
         callComposite.launch(context, remoteOptions, localOptions)

@@ -130,6 +130,15 @@ class CallLauncherActivity : AppCompatActivity() {
                 }
             }
 
+            lifecycleScope.launch {
+                callLauncherViewModel.userReportedIssueEvent.collect {
+                    binding.userReportedIssue.text = "User Message: ${it?.userMessage ?: "No user message"}"
+                    binding.userReportedIssue.setOnClickListener {
+
+                    }
+                }
+            }
+
             if (BuildConfig.DEBUG) {
                 versionText.text = "${BuildConfig.VERSION_NAME}"
             } else {
