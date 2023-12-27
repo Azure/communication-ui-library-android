@@ -6,7 +6,6 @@
     android:padding="16dp"
     android:background="@drawable/azure_communication_ui_calling_corner_radius_rectangle_4dp_drawer_background"
     >
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -14,7 +13,7 @@
 
         <com.microsoft.fluentui.widget.Button
             style="@style/Widget.FluentUI.Button.Borderless"
-            android:id="@+id/buttonSend"
+            android:id="@+id/azure_communication_ui_send_button"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:text="Send"/>
@@ -29,7 +28,7 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             style="@style/TextAppearance.FluentUI.Heading"
-            android:text="Report a problem"
+            android:text="@string/azure_communication_ui_calling_report_a_problem_label"
             />
         <View
             android:layout_width="0dp"
@@ -38,10 +37,10 @@
 
         <com.microsoft.fluentui.widget.Button
             style="@style/Widget.FluentUI.Button.Borderless"
-            android:id="@+id/buttonCancel"
+            android:id="@+id/azure_communication_ui_cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:text="Cancel"/>
+            android:text="@string/azure_communication_ui_calling_cancel_button_label"/>
 
     </LinearLayout>
     <ScrollView
@@ -58,13 +57,15 @@
 
                 <EditText
                     android:layout_weight="1"
-                    android:id="@+id/editTextMessage"
+                    android:id="@+id/azure_communication_ui_user_message_edit_text"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="Please describe your issue..."
+                    android:layout_height="0dp"
+                    android:hint="@string/azure_communication_ui_calling_describe_your_issue_hint_text"
                     android:inputType="textMultiLine"
                     android:minLines="5"
-                    android:gravity="top"/>
+                    android:gravity="top"
+                    android:importantForAutofill="no" />
+
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
@@ -74,7 +75,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/TextAppearance.FluentUI.Caption"
-                    android:text="We'll automatically attach logs.  "
+                    android:text="@string/azure_communication_ui_calling_logs_attach_notice"
                     />
 
                 <TextView
@@ -82,8 +83,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/TextAppearance.FluentUI.Caption"
-                    android:text="Privacy Policy"
+                    android:text="@string/azure_communication_ui_calling_privacy_policy_label"
                     />
+
             </LinearLayout>
 
             <LinearLayout
@@ -96,21 +98,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/TextAppearance.FluentUI.Heading"
-                    android:text="Attach screenshot"
-                    android:paddingStart="10dp"/>
+                    android:text="@string/azure_communication_ui_calling_attach_screenshot"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"/>
+
                 <View
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_weight="1"/>
 
-                <Switch
-                    android:id="@+id/switchIncludeScreenshot"
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/azure_communication_ui_include_screenshot_toggle"
                     android:checked="true"
                     android:layout_width="48dp"
                     android:layout_height="48dp" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
-
 </LinearLayout>

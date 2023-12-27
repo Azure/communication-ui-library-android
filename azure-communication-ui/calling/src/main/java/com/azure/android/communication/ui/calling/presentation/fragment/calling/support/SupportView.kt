@@ -6,11 +6,9 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
-import android.view.animation.Animation
-import android.view.animation.TranslateAnimation
 import android.widget.EditText
 import android.widget.FrameLayout
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -27,9 +25,11 @@ import kotlinx.coroutines.launch
  */
 internal class SupportView : FrameLayout {
 
-    private val sendButton : Button by lazy { findViewById(R.id.buttonSend) }
-    private val cancelButton : Button by lazy { findViewById(R.id.buttonCancel) }
-    private val editText : EditText by lazy { findViewById(R.id.editTextMessage) }
+    private val sendButton : Button by lazy { findViewById(R.id.azure_communication_ui_send_button) }
+    private val cancelButton : Button by lazy { findViewById(R.id.azure_communication_ui_cancel_button) }
+    private val editText : EditText by lazy { findViewById(R.id.azure_communication_ui_user_message_edit_text) }
+    private val screenshotCheckBox : SwitchCompat by lazy { findViewById(R.id.azure_communication_ui_include_screenshot_toggle) }
+
     private val menuDrawer by lazy { DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM).apply {
         setContentView(this@SupportView)
         setCanceledOnTouchOutside(true)
@@ -56,32 +56,6 @@ internal class SupportView : FrameLayout {
         bindViewOutputs(viewLifecycleOwner, viewModel)
     }
 
-    private fun bindViewOutputs(
-        viewLifecycleOwner: LifecycleOwner,
-        viewModel: SupportViewModel
-    ) {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.isVisibleStateFlow.collect {
-                if (it) {
-                    menuDrawer.show()
-                } else {
-                    menuDrawer.hide()
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.clearEditTextStateFlow.collect {
-                editText.setText("")
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.isSubmitEnabledStateFlow.collect {
-                sendButton.isEnabled = it
-            }
-        }
-    }
 
     private fun bindViewInputs(viewModel: SupportViewModel) {
         menuDrawer.setOnDismissListener {
@@ -99,6 +73,43 @@ internal class SupportView : FrameLayout {
 
         editText.addTextChangedListener { text ->
             viewModel.userMessage = text.toString()
+        }
+
+        screenshotCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.shouldIncludeScreenshot.value = isChecked
+        }
+    }
+
+    private fun bindViewOutputs(
+        viewLifecycleOwner: LifecycleOwner,
+        viewModel: SupportViewModel
+    ) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.isVisibleStateFlow.collect {
+                if (it) {
+                    menuDrawer.show()
+                } else {
+                    menuDrawer.hide()
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.shouldIncludeScreenshot.collect {
+                screenshotCheckBox.isChecked = it
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.clearEditTextStateFlow.collect {
+                editText.setText("")
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.isSubmitEnabledStateFlow.collect {
+                sendButton.isEnabled = it
+            }
         }
     }
 }
