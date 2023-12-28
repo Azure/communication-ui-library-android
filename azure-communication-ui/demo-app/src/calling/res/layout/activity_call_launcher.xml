@@ -188,6 +188,17 @@
             app:layout_constraintTop_toBottomOf="@+id/disposeCompositeButton"
             />
 
+        <TextView
+            android:id="@+id/userReportedIssue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/callStateText"
+            />
+
+
         <LinearLayout
             android:id="@+id/appVersionLayout"
             android:layout_width="wrap_content"
@@ -195,7 +206,7 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/callStateText"
+            app:layout_constraintTop_toBottomOf="@+id/userReportedIssue"
             >
 
             <TextView

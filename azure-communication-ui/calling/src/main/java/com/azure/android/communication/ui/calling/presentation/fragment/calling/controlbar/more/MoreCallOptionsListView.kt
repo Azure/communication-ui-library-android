@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
 import com.microsoft.fluentui.drawer.DrawerDialog
@@ -26,6 +27,7 @@ internal class MoreCallOptionsListView(
     private var recyclerView: RecyclerView
     private lateinit var menuDrawer: DrawerDialog
     private lateinit var bottomCellAdapter: BottomCellAdapter
+
 
     init {
         inflate(context, R.layout.azure_communication_ui_calling_listview, this)
@@ -65,39 +67,47 @@ internal class MoreCallOptionsListView(
         recyclerView.layoutManager = LinearLayoutManager(context)
     }
 
-    private val bottomCellItems: List<BottomCellItem>
-        get() {
-            val bottomCellItems = listOf(
-                BottomCellItem(
-                    icon = ContextCompat.getDrawable(
-                        context,
-                        R.drawable.azure_communication_ui_calling_ic_fluent_share_android_24_regular
-                    ),
-                    title = context.getString(R.string.azure_communication_ui_calling_view_share_diagnostics),
-                    contentDescription = null,
-                    accessoryImage = null,
-                    accessoryColor = null,
-                    accessoryImageDescription = context.getString(R.string.azure_communication_ui_calling_view_share_diagnostics),
-                    enabled = false,
-                    participantViewData = null,
-                    isOnHold = false,
-                    onClickAction = {
-                        menuDrawer.dismiss()
-                        shareDiagnostics()
-                    },
-                )
+    private val bottomCellItems
+        get() = viewModel.listEntries.map { entry ->
+            BottomCellItem(
+                icon = ContextCompat.getDrawable(
+                    context,
+                    entry.icon ?: android.R.drawable.ic_dialog_alert
+                ),
+                title = context.getString(entry.title),
+                contentDescription = null,
+                accessoryImage = null,
+                accessoryColor = null,
+                accessoryImageDescription = null,
+                enabled = true,
+                participantViewData = null,
+                isOnHold = false,
+                onClickAction = {
+                    menuDrawer.dismissDialog()
+                    when (entry) {
+                        MoreCallOptionsListViewModel.Companion.Entries.SHARE_DIAGNOSTICS -> shareDiagnostics(
+                            context
+                        )
+
+                        MoreCallOptionsListViewModel.Companion.Entries.REPORT_ISSUE -> viewModel.requestReportIssueScreen();
+                    }
+
+                },
             )
 
-            return bottomCellItems
         }
 
-    private fun shareDiagnostics() {
+
+    private fun shareDiagnostics(context: Context) {
         val share = Intent.createChooser(
             Intent().apply {
                 action = Intent.ACTION_SEND
                 putExtra(Intent.EXTRA_TEXT, viewModel.callId)
                 type = "text/plain"
-                putExtra(Intent.EXTRA_TITLE, context.getString(R.string.azure_communication_ui_calling_view_share_diagnostics_title))
+                putExtra(
+                    Intent.EXTRA_TITLE,
+                    context.getString(R.string.azure_communication_ui_calling_view_share_diagnostics_title)
+                )
             },
             null
         )

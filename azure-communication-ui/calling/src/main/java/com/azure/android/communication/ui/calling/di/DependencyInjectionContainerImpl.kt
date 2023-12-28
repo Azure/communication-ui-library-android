@@ -61,6 +61,8 @@ import com.azure.android.communication.ui.calling.service.sdk.CallingSDKEventHan
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKInstanceManager
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
+import java.io.File
+import java.util.Collections
 
 internal class DependencyInjectionContainerImpl(
     private val instanceId: Int,
@@ -142,6 +144,7 @@ internal class DependencyInjectionContainerImpl(
     override val debugInfoManager: DebugInfoManager by lazy {
         DebugInfoManagerImpl(
             callHistoryRepository,
+            getLogFiles = callingService::getLogFiles
         )
     }
 

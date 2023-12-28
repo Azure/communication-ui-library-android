@@ -48,6 +48,7 @@ internal class ToastNotificationView : ConstraintLayout {
             } else {
                 toastNotificationViewModel.getDisplayToastNotificationFlow().collect {
                     toastNotificationLayout.visibility = if (it) View.VISIBLE else View.GONE
+
                 }
             }
         }

@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation
 
+import ScreenshotHelper
 import android.annotation.SuppressLint
 import android.app.PictureInPictureParams
 import android.content.pm.ActivityInfo
@@ -29,8 +30,11 @@ import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
+import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.onExit
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.support.SupportView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.support.SupportViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.PipAction
@@ -38,9 +42,12 @@ import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 import com.azure.android.communication.ui.calling.redux.state.PictureInPictureStatus
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.microsoft.fluentui.util.activity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.io.File
 import java.util.Locale
 
 internal open class CallCompositeActivity : AppCompatActivity() {
@@ -51,6 +58,13 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     }
 
     private val container by lazy { diContainerHolder.container }
+
+    private val supportView by lazy { SupportView(this) }
+    private val supportViewModel by lazy {
+        SupportViewModel(store::dispatch, this::forwardSupportEventToUser).also {
+            it.init(store.getCurrentState().navigationState)
+        }
+    }
 
     private val navigationRouter get() = container.navigationRouter
     private val store get() = container.appStore
@@ -137,11 +151,15 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             audioModeManager.start()
         }
 
-        multitaskingManager.start(lifecycleScope)
+        lifecycleScope.launch {
+            supportView.start(supportViewModel, this@CallCompositeActivity)
+        }
 
-        notificationService.start(lifecycleScope, instanceId)
-
-        callHistoryService.start(lifecycleScope)
+        lifecycleScope.launch {
+            store.getStateFlow().collect {
+                supportViewModel.update(it.navigationState)
+            }
+        }
 
         lifecycleScope.launch {
             visibilityStatusFlow.collect {
@@ -157,7 +175,11 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 visibilityStatusFlow.value = it.pipState.status
             }
         }
+
         callStateHandler.start(lifecycleScope)
+        multitaskingManager.start(lifecycleScope)
+        notificationService.start(lifecycleScope, instanceId)
+        callHistoryService.start(lifecycleScope)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             onBackInvokedDispatcher.registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT) {
@@ -252,6 +274,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     ) {
         store.dispatch(if (isInPictureInPictureMode) PipAction.PipModeEntered() else PipAction.ShowNormalEntered())
     }
+
     private fun syncPipMode() {
         if (configuration.enableSystemPiPWhenMultitasking &&
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
@@ -305,12 +328,44 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_left_24_filled)
     }
 
+
+    private fun forwardSupportEventToUser(userText: String, screenshot: Boolean) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val debugInfo = container.debugInfoManager.getDebugInfo()
+
+            val event = CallCompositeUserReportedIssueEvent(
+                userText,
+                debugInfo.logFiles,
+                if (screenshot) getScreenshot() else null,
+                debugInfo.callHistoryRecords
+            )
+
+            supportView.visibility = View.GONE
+            supportView.visibility = View.VISIBLE
+
+            container.configuration.callCompositeEventsHandler.getOnUserReportedHandlers().forEach {
+                try {
+                    it.handle(
+                        event
+                    )
+                } catch (e: Exception) {
+                    // Ignore any exception from the user handler
+                }
+            }
+        }
+    }
+
+    private fun getScreenshot(): File? {
+        return ScreenshotHelper.captureActivity(this)
+    }
+
     private fun configureLocalization() {
         val config: Configuration = resources.configuration
         val locale = when (configuration.localizationConfig) {
             null -> {
                 supportedOSLocale()
             }
+
             else -> {
                 configuration.localizationConfig!!.layoutDirection?.let {
                     window?.decorView?.layoutDirection = it
@@ -356,6 +411,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                     store.dispatch(action = NavigationAction.SetupLaunched())
                 }
             }
+
             NavigationStatus.EXIT -> {
                 notificationService.removeNotification()
                 store.end()
@@ -366,10 +422,12 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 container.callComposite.onExit()
                 finish()
             }
+
             NavigationStatus.IN_CALL -> {
                 supportActionBar?.setShowHideAnimationEnabled(false)
                 supportActionBar?.hide()
-                val callScreenOrientation: Int? = getScreenOrientation(configuration.callScreenOrientation)
+                val callScreenOrientation: Int? =
+                    getScreenOrientation(configuration.callScreenOrientation)
                 requestedOrientation =
                     when {
                         (callScreenOrientation != null) -> callScreenOrientation
@@ -378,10 +436,12 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                     }
                 launchFragment(CallingFragment::class.java.name)
             }
+
             NavigationStatus.SETUP -> {
                 notificationService.removeNotification()
                 supportActionBar?.show()
-                val setupScreenOrientation: Int? = getScreenOrientation(configuration.setupScreenOrientation)
+                val setupScreenOrientation: Int? =
+                    getScreenOrientation(configuration.setupScreenOrientation)
                 requestedOrientation =
                     when {
                         (setupScreenOrientation != null) -> setupScreenOrientation
@@ -484,16 +544,22 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         return when (orientation) {
             CallCompositeSupportedScreenOrientation.PORTRAIT ->
                 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
             CallCompositeSupportedScreenOrientation.LANDSCAPE ->
                 ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+
             CallCompositeSupportedScreenOrientation.REVERSE_LANDSCAPE ->
                 ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+
             CallCompositeSupportedScreenOrientation.USER ->
                 ActivityInfo.SCREEN_ORIENTATION_USER
+
             CallCompositeSupportedScreenOrientation.FULL_SENSOR ->
                 ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+
             CallCompositeSupportedScreenOrientation.USER_LANDSCAPE ->
                 ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE
+
             null -> null
             else -> {
                 logger.warning("Not supported screen orientation")

@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.factories
 
+import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListViewModel
@@ -19,22 +20,25 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
-
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import java.io.File
+import java.util.Collections
 
 internal class CallingViewModelFactory(
     private val store: Store<ReduxState>,
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
     private val maxRemoteParticipants: Int,
     private val debugInfoManager: DebugInfoManager,
-    private val enableMultitasking: Boolean,
-    private val isTelecomManagerEnabled: Boolean = false
+    private val localConfiguration: CallCompositeConfiguration,
 ) : BaseViewModelFactory(store) {
 
     val moreCallOptionsListViewModel by lazy {
-        MoreCallOptionsListViewModel(debugInfoManager)
+        MoreCallOptionsListViewModel(debugInfoManager,
+            localConfiguration.callCompositeEventsHandler.getOnUserReportedHandlers().toList()
+                .isNotEmpty(),
+            dispatch = store::dispatch)
     }
 
     val participantGridViewModel by lazy {
@@ -46,7 +50,7 @@ internal class CallingViewModelFactory(
     }
 
     val floatingHeaderViewModel by lazy {
-        InfoHeaderViewModel(enableMultitasking)
+        InfoHeaderViewModel(localConfiguration.enableMultitasking)
     }
 
     val lobbyHeaderViewModel by lazy {
@@ -88,7 +92,7 @@ internal class CallingViewModelFactory(
     }
 
     val connectingLobbyOverlayViewModel by lazy {
-        ConnectingLobbyOverlayViewModel(store::dispatch, isTelecomManagerEnabled)
+        ConnectingLobbyOverlayViewModel(store::dispatch, localConfiguration.telecomOptions != null)
     }
 
     val onHoldOverlayViewModel by lazy {

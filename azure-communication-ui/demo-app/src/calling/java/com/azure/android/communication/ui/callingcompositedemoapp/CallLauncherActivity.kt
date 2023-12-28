@@ -247,6 +247,17 @@ class CallLauncherActivity : AppCompatActivity() {
                 }
             }
 
+            lifecycleScope.launch {
+                callLauncherViewModel.userReportedIssueEvent.collect {
+                    binding.userReportedIssue.text = "User Message: ${it?.userMessage ?: "No user message"}"
+                    binding.userReportedIssue.setOnClickListener { _ ->
+                        it?.let {
+                            OnUserReportedEventErrorHandler(this@CallLauncherActivity).handle(it)
+                        }
+                    }
+                }
+            }
+
             disposeCompositeButton.setOnClickListener {
                 callLauncherViewModel.destroy()
             }

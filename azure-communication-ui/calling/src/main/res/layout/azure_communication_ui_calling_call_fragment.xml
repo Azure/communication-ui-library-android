@@ -105,7 +105,6 @@
             android:accessibilityTraversalAfter="@id/azure_communication_ui_call_main_layout"
             />
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

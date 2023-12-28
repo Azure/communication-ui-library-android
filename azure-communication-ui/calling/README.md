@@ -46,7 +46,15 @@ repositories {
 ```
 Sync project with gradle files. (Android Studio -> File -> Sync Project With Gradle Files)
 
+### Beta Calling SDK and Features
 
+To utilize Beta Calling SDKs and enable features that are in preview, add the following lines to your project level `local.properties` file.
+```properties
+USE_BETA_CALLING_SDK=true
+```
+and run `./gradlew clean` to clean the project.
+
+```groovy
 ### Quick Sample 
 
 Create `CallComposite` and launch it. Replace `<GROUP_CALL_ID>` with your group ID for your call, `<DISPLAY_NAME>` with your name, and  `<USER_ACCESS_TOKEN>` with your token. For full instructions check out our [quickstart](https://docs.microsoft.com/azure/communication-services/quickstarts/ui-library/get-started-composites?tabs=kotlin&pivots=platform-android) or get the completed [sample](https://github.com/Azure-Samples/communication-services-android-quickstarts/tree/main/ui-calling).

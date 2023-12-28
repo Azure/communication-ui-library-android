@@ -35,6 +35,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeParticipan
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
+import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent;
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.PiPCallCompositeActivity;
@@ -52,6 +53,7 @@ import static com.azure.android.communication.ui.calling.service.sdk.TypeConvers
 import androidx.core.util.Consumer;
 
 import java.util.List;
+import java.util.Collections;
 import java.util.UUID;
 
 /**
@@ -168,12 +170,12 @@ public final class CallComposite {
      *
      * </pre>
      *
-     * @param context           The android context used to start the Composite.
-     * @param remoteOptions     The {@link CallCompositeRemoteOptions} has remote parameters to
-     *                              launch group call experience.
+     * @param context       The android context used to start the Composite.
+     * @param remoteOptions The {@link CallCompositeRemoteOptions} has remote parameters to
+     *                      launch group call experience.
      */
     public void handlePushNotification(final Context context,
-                       final CallCompositeRemoteOptions remoteOptions) {
+                                       final CallCompositeRemoteOptions remoteOptions) {
 
         handlePushNotification(context, remoteOptions, false);
     }
@@ -227,10 +229,35 @@ public final class CallComposite {
      *
      * @param eventHandler The {@link CallCompositeEventHandler}.
      */
+
     public void addOnAudioSelectionChangedEventHandler(
             final CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().addOnAudioSelectionChangedEventHandler(eventHandler);
     }
+
+
+    /**
+     * Add {@link CallCompositeEventHandler}.
+     *
+     * <p> Add a callback for Call Composite User Reported Issue Event.
+     * See {@link CallCompositeUserReportedIssueEvent} for values.</p>
+     * <pre>
+     *
+     * &#47;&#47; add on user reported event handler.
+     * callComposite.addOnUserReportedEventHandler&#40;event -> {
+     *     &#47;&#47; Process user reported event
+     *     System.out.println&#40;event.getUserMessage&#40;&#41;&#41;;
+     *     System.out.println&#40;event.getLogFiles&#40;&#41;&#41;;
+     *     System.out.println&#40;event.getCallIds&#40;&#41;&#41;;
+     * </pre>
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void addOnUserReportedEventHandler(
+            final CallCompositeEventHandler<CallCompositeUserReportedIssueEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().addOnUserReportedEventHandler(eventHandler);
+    }
+
 
     /**
      * Remove {@link CallCompositeEventHandler}.
@@ -247,8 +274,20 @@ public final class CallComposite {
     }
 
     /**
-     * Dismiss composite. If call is in progress, user will leave a call.
+     * Remove {@link CallCompositeEventHandler}.
      *
+     * <p> Remove a callback for Call Composite user reported Event.
+     * See {@link CallCompositeUserReportedIssueEvent} for values.</p>
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnUserReportedEventHandler(
+            final CallCompositeEventHandler<CallCompositeUserReportedIssueEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().removeOnUserReportedEventHandler(eventHandler);
+    }
+
+    /**
+     * Dismiss composite. If call is in progress, user will leave a call.
      */
     public void dismiss() {
         final DependencyInjectionContainer container = diContainer;
@@ -259,7 +298,6 @@ public final class CallComposite {
 
     /**
      * Dismiss composite. Cleanup memory hold by call agent.
-     *
      */
     public void dispose() {
         dismiss();
@@ -271,7 +309,6 @@ public final class CallComposite {
 
     /**
      * Accept incoming call.
-     *
      */
     public void acceptIncomingCall(final Context context,
                                    final CallCompositeLocalOptions localOptions) {
@@ -307,7 +344,6 @@ public final class CallComposite {
 
     /**
      * Decline incoming call.
-     *
      */
     public void declineIncomingCall() {
         if (incomingCallWrapper != null) {
@@ -409,6 +445,7 @@ public final class CallComposite {
 
     /**
      * Add on incoming call end event handler {@link CallCompositeIncomingCallEndEvent}.
+     *
      * @param handler The {@link CallCompositeIncomingCallEndEvent}.
      */
     public void addOnIncomingCallEndEventHandler(
@@ -418,7 +455,6 @@ public final class CallComposite {
 
     /**
      * Start audio session
-     *
      */
     public void startAudio() {
         if (diContainer != null) {
@@ -431,7 +467,6 @@ public final class CallComposite {
 
     /**
      * Stop audio session.
-     *
      */
     public void stopAudio() {
         if (diContainer != null) {
@@ -444,7 +479,6 @@ public final class CallComposite {
 
     /**
      * Turn on video.
-     *
      */
     public void turnMicOn() {
         if (diContainer != null) {
@@ -457,7 +491,6 @@ public final class CallComposite {
 
     /**
      * Turn off video.
-     *
      */
     public void turnMicOff() {
         if (diContainer != null) {
@@ -470,7 +503,6 @@ public final class CallComposite {
 
     /**
      * Turn on video.
-     *
      */
     public void hold() {
         if (diContainer != null) {
@@ -483,7 +515,6 @@ public final class CallComposite {
 
     /**
      * Turn off video.
-     *
      */
     public void resume() {
         if (diContainer != null) {
@@ -608,9 +639,9 @@ public final class CallComposite {
     /**
      * RegisterPushNotification to receive incoming call notification.
      *
-     * @param context The {@link Context}.
-     * @param options The {@link CallCompositePushNotificationOptions} if call is already in progress
-     *                existing display name and CommunicationTokenCredential is used.
+     * @param context            The {@link Context}.
+     * @param options            The {@link CallCompositePushNotificationOptions} if call is already in progress
+     *                           existing display name and CommunicationTokenCredential is used.
      * @param onCompleteCallback The {@link Consumer} to be called when registration is complete.
      */
     public void registerPushNotification(final Context context,
@@ -649,7 +680,7 @@ public final class CallComposite {
         if (container != null) {
             return container.getDebugInfoManager();
         }
-        return createDebugInfoManager(context.getApplicationContext());
+        return createDebugInfoManager(context.getApplicationContext(), () -> Collections.EMPTY_LIST);
     }
 
     private void launchComposite(final Context context,
@@ -698,7 +729,7 @@ public final class CallComposite {
                 callType,
                 participants,
                 null
-                ));
+        ));
 
 
         diContainer = new DependencyInjectionContainerImpl(
@@ -740,8 +771,8 @@ public final class CallComposite {
     }
 
     private void handlePushNotification(final Context context,
-                                 final CallCompositeRemoteOptions remoteOptions,
-                                 final boolean isTest) {
+                                        final CallCompositeRemoteOptions remoteOptions,
+                                        final boolean isTest) {
         AndroidThreeTen.init(context.getApplicationContext());
 
         final CallType callType = CallType.ONE_TO_N_CALL_INCOMING;
