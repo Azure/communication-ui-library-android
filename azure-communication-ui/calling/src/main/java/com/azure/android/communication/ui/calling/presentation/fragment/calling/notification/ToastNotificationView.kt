@@ -62,7 +62,8 @@ internal class ToastNotificationView : ConstraintLayout {
                             it.notificationIconId
                         )
                     )
-                    toastNotificationMessageTextView.text = context.getString(it.notificationMessageId)
+                    toastNotificationMessageTextView.text =
+                        context.getString(it.notificationMessageId)
                 }
             }
         }

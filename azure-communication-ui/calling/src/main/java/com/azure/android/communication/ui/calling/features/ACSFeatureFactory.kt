@@ -69,13 +69,14 @@ private constructor() {
     private inline fun <reified I : ACSFeature> RegisterACSFeature(_instance: I) {
         featureList!![I::class.java] = _instance
     }
+
     companion object {
         private var featureList: MutableMap<Class<*>, ACSFeature>? = null
         val instance: ACSFeaturesFactory by lazy {
-                val factory = ACSFeaturesFactory()
-                factory.RegisterACSFeatures()
-                factory
-            }
+            val factory = ACSFeaturesFactory()
+            factory.RegisterACSFeatures()
+            factory
+        }
 
     }
 }

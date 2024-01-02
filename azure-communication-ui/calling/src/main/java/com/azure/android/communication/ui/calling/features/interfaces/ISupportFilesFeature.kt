@@ -6,6 +6,5 @@ import com.azure.android.communication.ui.calling.features.ACSFeature
 import java.io.File
 
 abstract class ISupportFilesFeature : ACSFeature {
-
-    abstract fun getSupportFiles(client : CallClient, context: Context) : List<File>
+    abstract fun getSupportFiles(client: CallClient, context: Context): List<File>
 }

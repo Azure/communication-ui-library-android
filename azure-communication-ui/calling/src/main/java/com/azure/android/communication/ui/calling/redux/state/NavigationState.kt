@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.calling.redux.state
 
-import com.azure.android.communication.ui.calling.redux.action.NavigationAction
-
 internal enum class NavigationStatus {
     NONE,
     IN_CALL,
@@ -12,4 +10,7 @@ internal enum class NavigationStatus {
     EXIT,
 }
 
-internal data class NavigationState(val navigationState: NavigationStatus, val supportVisible: Boolean = false)
+internal data class NavigationState(
+    val navigationState: NavigationStatus,
+    val supportVisible: Boolean = false
+)

@@ -4,8 +4,8 @@
 package com.azure.android.communication.ui.calling.service
 
 import com.azure.android.communication.ui.calling.logger.Logger
-import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
+import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
@@ -27,7 +27,6 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.io.File
-import java.util.Collections
 
 internal class CallingService(
     private val callingSdk: CallingSDK,
@@ -54,7 +53,8 @@ internal class CallingService(
     }
 
     //region Call Diagnostics
-    private val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
+    private val networkQualityCallDiagnosticsSharedFlow =
+        MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
     private val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
     private val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
     //endregion
@@ -188,7 +188,14 @@ internal class CallingService(
                 val callStateError = it.asCallStateError(currentStatus = callingStatus)
                 callingStatus = it.toCallingStatus()
                 if (callingStatus == CallingStatus.DISCONNECTED) {
-                    callInfoModelSharedFlow.emit(CallInfoModel(callingStatus, callStateError, it.callEndReason, it.callEndReasonSubCode))
+                    callInfoModelSharedFlow.emit(
+                        CallInfoModel(
+                            callingStatus,
+                            callStateError,
+                            it.callEndReason,
+                            it.callEndReasonSubCode
+                        )
+                    )
                 } else {
                     callInfoModelSharedFlow.emit(CallInfoModel(callingStatus, callStateError))
                 }

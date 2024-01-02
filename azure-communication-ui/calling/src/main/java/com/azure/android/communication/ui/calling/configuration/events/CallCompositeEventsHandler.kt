@@ -26,10 +26,8 @@ internal class CallCompositeEventsHandler {
         mutableSetOf<CallCompositeEventHandler<CallCompositeIncomingCallEvent>>()
     private val incomingCallEndEventHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeIncomingCallEndEvent>>()
-
     private val multitaskingStateChangedEvent =
         mutableSetOf<CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent>>()
-
     private val audioSelectionChangedEvent =
         mutableSetOf<CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent>>()
     private val userReportHandlers  =
