@@ -16,6 +16,9 @@ internal fun CallComposite.getDiContainer() =
 internal fun CallComposite.onExit() {
     CallComposite.diContainer = null
 }
-internal fun createDebugInfoManager(context: Context,
-                                    getLogFiles : ()->List<File>): DebugInfoManager =
+
+internal fun createDebugInfoManager(
+    context: Context,
+    getLogFiles: () -> List<File>
+): DebugInfoManager =
     DebugInfoManagerImpl(CallHistoryRepositoryImpl(context, DefaultLogger()), getLogFiles)

@@ -6,8 +6,8 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.util.Log
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -291,7 +291,7 @@ class OnUserReportedEventErrorHandler(val context: Context) : CallCompositeEvent
         ${event.userMessage}
         ${event.logFiles.joinToString(", ") { it.name }}
         ${event.history.joinToString("\n") { it.toString() }}
-    """.trimIndent()
+        """.trimIndent()
 
         // Show Toast message
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
@@ -320,6 +320,5 @@ class OnUserReportedEventErrorHandler(val context: Context) : CallCompositeEvent
 
         val notificationManager = NotificationManagerCompat.from(context)
         notificationManager.notify(1, notification)
-
     }
 }
