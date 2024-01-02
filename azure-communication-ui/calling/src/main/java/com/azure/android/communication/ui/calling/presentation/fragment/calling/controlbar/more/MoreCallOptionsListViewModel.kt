@@ -3,10 +3,6 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
-import android.graphics.drawable.Drawable
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.redux.Dispatch

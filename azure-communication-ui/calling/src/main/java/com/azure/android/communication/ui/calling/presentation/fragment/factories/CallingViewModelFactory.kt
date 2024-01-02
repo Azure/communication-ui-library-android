@@ -23,8 +23,6 @@ import com.azure.android.communication.ui.calling.presentation.fragment.common.a
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
-import java.io.File
-import java.util.Collections
 
 internal class CallingViewModelFactory(
     private val store: Store<ReduxState>,
@@ -35,10 +33,12 @@ internal class CallingViewModelFactory(
 ) : BaseViewModelFactory(store) {
 
     val moreCallOptionsListViewModel by lazy {
-        MoreCallOptionsListViewModel(debugInfoManager,
+        MoreCallOptionsListViewModel(
+            debugInfoManager,
             localConfiguration.callCompositeEventsHandler.getOnUserReportedHandlers().toList()
                 .isNotEmpty(),
-            dispatch = store::dispatch)
+            dispatch = store::dispatch
+        )
     }
 
     val participantGridViewModel by lazy {

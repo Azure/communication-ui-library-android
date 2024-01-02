@@ -9,7 +9,10 @@ import com.azure.android.communication.ui.calling.redux.state.NavigationState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class SupportViewModel(private val dispatch: Dispatch, private val onSubmit:(String, Boolean)->Unit) {
+internal class SupportViewModel(
+    private val dispatch: Dispatch,
+    private val onSubmit: (String, Boolean) -> Unit
+) {
 
     private var _isVisibleStateFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
     private val _isSubmitEnabledStateFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -21,7 +24,8 @@ internal class SupportViewModel(private val dispatch: Dispatch, private val onSu
     val clearEditTextStateFlow get() = _clearEditTextStateFlow as StateFlow<Long>
 
 
-    var userMessage : String get() = _userMessageStateFlow.value
+    var userMessage: String
+        get() = _userMessageStateFlow.value
         set(value) {
             _userMessageStateFlow.value = value
             _isSubmitEnabledStateFlow.value = value.isNotEmpty()
@@ -31,7 +35,8 @@ internal class SupportViewModel(private val dispatch: Dispatch, private val onSu
 
     val isSubmitEnabledStateFlow get() = _isSubmitEnabledStateFlow as StateFlow<Boolean>
 
-    var isVisible get() = _isVisibleStateFlow.value
+    var isVisible
+        get() = _isVisibleStateFlow.value
         set(value) {
             _isVisibleStateFlow.value = value
         }
