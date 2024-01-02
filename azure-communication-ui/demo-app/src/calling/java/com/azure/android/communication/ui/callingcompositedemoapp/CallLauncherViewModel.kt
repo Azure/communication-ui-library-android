@@ -41,8 +41,12 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
     val callCompositeCallStateStateFlow = MutableStateFlow("")
     val callCompositeShowAlertStateStateFlow = MutableStateFlow("")
     val callCompositeExitSuccessStateFlow = MutableStateFlow(false)
-    var isExitRequested = false
     val userReportedIssueEvent = MutableStateFlow<CallCompositeUserReportedIssueEvent?>(null)
+    var isExitRequested = false
+
+    private val userReportedIssueHandler = OnUserReportedEventHandler {
+        userReportedIssueEvent.value = it
+    }
 
     private val callStateEventHandler = CallStateEventHandler(callCompositeCallStateStateFlow)
     private var exitEventHandler: CallExitEventHandler? = null
@@ -116,12 +120,14 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
         callCompositeExitSuccessStateFlow.value = false
-        exitEventHandler = CallExitEventHandler(callCompositeExitSuccessStateFlow, callCompositeCallStateStateFlow, this)
+        exitEventHandler = CallExitEventHandler(
+            callCompositeExitSuccessStateFlow,
+            callCompositeCallStateStateFlow,
+            this
+        )
         callComposite?.addOnCallStateChangedEventHandler(callStateEventHandler)
         callComposite?.addOnDismissedEventHandler(exitEventHandler)
-        callComposite?.addOnUserReportedEventHandler {
-            userReportedIssueEvent.value = it
-        }
+        callComposite?.addOnUserReportedEventHandler(userReportedIssueHandler)
 
         isExitRequested = false
 
@@ -130,7 +136,9 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
 
     private fun subscribeToEvents(context: Context) {
         callCompositePictureInPictureChangedEvent = PiPListener()
-        callComposite?.addOnPictureInPictureChangedEventHandler(callCompositePictureInPictureChangedEvent!!)
+        callComposite?.addOnPictureInPictureChangedEventHandler(
+            callCompositePictureInPictureChangedEvent!!
+        )
 
         errorHandler = CallLauncherActivityErrorHandler(
             this
@@ -169,7 +177,8 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
     }
 
     fun getCallHistory(context: Context): List<CallCompositeCallHistoryRecord> {
-        return (callComposite ?: createCallComposite(context)).getDebugInfo(context).callHistoryRecords
+        return (callComposite
+            ?: createCallComposite(context)).getDebugInfo(context).callHistoryRecords
     }
 
     fun createCallComposite(context: Context): CallComposite {
@@ -222,12 +231,16 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
 
     private fun unsubscribe() {
         callComposite?.let { composite ->
-            composite.removeOnPictureInPictureChangedEventHandler(callCompositePictureInPictureChangedEvent)
+            composite.removeOnPictureInPictureChangedEventHandler(
+                callCompositePictureInPictureChangedEvent
+            )
             composite.removeOnCallStateChangedEventHandler(callStateEventHandler)
             composite.removeOnErrorEventHandler(errorHandler)
             composite.removeOnRemoteParticipantJoinedEventHandler(remoteParticipantJoinedEvent)
             composite.removeOnDismissedEventHandler(exitEventHandler)
             composite.removeOnAudioSelectionChangedEventHandler(audioSelectionChangedEvent)
+            composite.removeOnUserReportedEventHandler(userReportedIssueHandler)
+
         }
     }
 
@@ -237,7 +250,8 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
     }
 
     fun getLastCallId(context: Context): String {
-        return callComposite?.getDebugInfo(context)?.callHistoryRecords?.lastOrNull()?.callIds?.lastOrNull()?.toString() ?: ""
+        return callComposite?.getDebugInfo(context)?.callHistoryRecords?.lastOrNull()?.callIds?.lastOrNull()
+            ?.toString() ?: ""
     }
 
     override fun showError(message: String) {
@@ -249,10 +263,14 @@ interface OnErrorEventHandler {
     fun showError(message: String)
 }
 
-class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>) : CallCompositeEventHandler<CallCompositeCallStateChangedEvent> {
+class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>) :
+    CallCompositeEventHandler<CallCompositeCallStateChangedEvent> {
     override fun handle(callStateEvent: CallCompositeCallStateChangedEvent) {
         callCompositeCallStateStateFlow.value = callStateEvent.code.toString()
-        Log.d(CallLauncherActivity.TAG, "CallStateEventHandler handle demo app: ${callStateEvent.code} ${callStateEvent.callEndReasonCode} ${callStateEvent.callEndReasonSubCode}")
+        Log.d(
+            CallLauncherActivity.TAG,
+            "CallStateEventHandler handle demo app: ${callStateEvent.code} ${callStateEvent.callEndReasonCode} ${callStateEvent.callEndReasonSubCode}"
+        )
     }
 }
 
@@ -284,7 +302,16 @@ class AudioSelectionSelection : CallCompositeEventHandler<CallCompositeAudioSele
     }
 }
 
-class OnUserReportedEventErrorHandler(val context: Context) : CallCompositeEventHandler<CallCompositeUserReportedIssueEvent> {
+class OnUserReportedEventHandler(private val callback: (CallCompositeUserReportedIssueEvent) -> Unit) :
+    CallCompositeEventHandler<CallCompositeUserReportedIssueEvent> {
+    override fun handle(event: CallCompositeUserReportedIssueEvent) {
+        println("OnUserReportedEventHandler it: " + event.userMessage)
+        callback(event)
+    }
+}
+
+class OnUserReportedEventErrorHandler(val context: Context) :
+    CallCompositeEventHandler<CallCompositeUserReportedIssueEvent> {
     override fun handle(event: CallCompositeUserReportedIssueEvent) {
         val message = """
         User reported issue:

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 package com.azure.android.communication.ui.calling.features
 
 import android.content.Context
@@ -6,7 +9,7 @@ import com.azure.android.communication.ui.calling.features.interfaces.ISupportFi
 import java.io.File
 
 // Stub version of SupportFilesFeature.kt
-class SupportFilesFeature : ISupportFilesFeature() {
+internal class SupportFilesFeature : ISupportFilesFeature() {
     override fun IsAvailable() = true
 
     override fun getSupportFiles(client: CallClient, context: Context): List<File> {

@@ -52,7 +52,6 @@ To utilize Beta Calling SDKs and enable features that are in preview, add the fo
 ```properties
 USE_BETA_CALLING_SDK=true
 ```
-and run `./gradlew clean` to clean the project.
 
 ```groovy
 ### Quick Sample 
