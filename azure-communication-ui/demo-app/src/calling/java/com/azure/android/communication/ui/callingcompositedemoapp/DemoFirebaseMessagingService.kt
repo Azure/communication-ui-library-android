@@ -4,10 +4,14 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.content.Context
+import android.content.Intent
 import android.os.PowerManager
 import android.util.Log
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationEventType
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationInfo
+import com.fasterxml.jackson.core.JsonProcessingException
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -25,8 +29,6 @@ class DemoFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
-        CallCompositeManager.initialize(applicationContext)
-
         Log.d(CallLauncherActivity.TAG, "onMessageReceived firebase push notification " + remoteMessage.data.toString())
         if (remoteMessage.data.isNotEmpty()) {
             val pushNotificationInfo = CallCompositePushNotificationInfo(remoteMessage.data)
@@ -38,23 +40,46 @@ class DemoFirebaseMessagingService : FirebaseMessagingService() {
                     CallLauncherActivity.TAG,
                     pushNotificationInfo.eventType.toString() + " handleIncomingCall"
                 )
-
                 wakeAppIfScreenOff()
-
-                // We need to make a service call to get token for user in case application is not running
-                // Storing token in shared preferences for demo purpose as this app is not public and internal
-                // In production, token should be fetched from server (storing token in pref can be a security issue)
-                val acsIdentityToken = sharedPreference.getString(CACHED_TOKEN, "")
-                val displayName = sharedPreference.getString(CACHED_USER_NAME, "")
-                CallCompositeManager.getInstance().handleIncomingCall(
-                    remoteMessage.data,
-                    acsIdentityToken!!,
-                    displayName!!
-                )
+                sendIntent("handle_incoming_call_push", remoteMessage)
             } else {
-                CallCompositeManager.getInstance().hideIncomingCallUI()
+                sendIntent("clear_push_notification", remoteMessage)
                 Log.d(CallLauncherActivity.TAG, "onMessageReceived - ${pushNotificationInfo.eventType}")
             }
+        }
+    }
+
+    private fun sendIntent(tag: String, remoteMessage: RemoteMessage?) {
+        if (CallLauncherActivity.isActivityRunning) {
+            val intent = Intent(CallLauncherActivity.CALL_LAUNCHER_BROADCAST_ACTION)
+            intent.putExtra("tag", tag)
+            remoteMessage?.let {
+                intent.putExtra("data", mapToString(it.data))
+            }
+            sendBroadcast(intent)
+        } else {
+            remoteMessage?.let {
+                val acsIdentityToken = sharedPreference.getString(CACHED_TOKEN, "")
+                val displayName = sharedPreference.getString(CACHED_USER_NAME, "")
+                val application = application as CallLauncherApplication
+                application.callCompositeManager = CallCompositeManager(applicationContext)
+                application.callCompositeManager?.handleIncomingCall(
+                    it.data,
+                    acsIdentityToken!!,
+                    displayName!!,
+                    applicationContext
+                )
+            }
+        }
+    }
+
+    private fun mapToString(map: Map<String, String>): String {
+        return try {
+            val objectMapper: ObjectMapper = jacksonObjectMapper()
+            objectMapper.writeValueAsString(map)
+        } catch (e: JsonProcessingException) {
+            e.printStackTrace()
+            ""
         }
     }
 

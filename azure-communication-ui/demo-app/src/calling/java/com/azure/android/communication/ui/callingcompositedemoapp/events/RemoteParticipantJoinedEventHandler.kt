@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.callingcompositedemoapp
+package com.azure.android.communication.ui.callingcompositedemoapp.events
 
 import android.content.Context
 import android.graphics.BitmapFactory
@@ -15,10 +15,12 @@ import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult
+import com.azure.android.communication.ui.callingcompositedemoapp.BuildConfig
+import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import java.net.URL
 
-class RemoteParticipantJoinedHandler(
+class RemoteParticipantJoinedEventHandler(
     private val callComposite: CallComposite,
     private val context: Context,
 ) :
@@ -26,7 +28,6 @@ class RemoteParticipantJoinedHandler(
 
     override fun handle(event: CallCompositeRemoteParticipantJoinedEvent) {
         event.identifiers.forEach { communicationIdentifier ->
-            CallCompositeManager.getInstance().onRemoteParticipantJoined(communicationIdentifier.rawId)
             if (SettingsFeatures.getRemoteParticipantPersonaInjectionSelection()) {
                 if (context.resources.getBoolean(R.bool.remote_url_persona_injection)) {
                     getImageFromServer(communicationIdentifier)
@@ -116,7 +117,7 @@ class RemoteParticipantJoinedHandler(
                         }
                     }
                 }
-            } catch (e: Exception) {
+            } catch (_: Exception) {
             }
         }.start()
     }

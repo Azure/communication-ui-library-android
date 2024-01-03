@@ -17,7 +17,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
-import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherViewModel
+import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherApplication
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 
 internal class EndCompositeButtonView private constructor(
@@ -43,7 +43,7 @@ internal class EndCompositeButtonView private constructor(
     private val windowManager: WindowManager =
         endCallButton.context.getSystemService(Service.WINDOW_SERVICE) as WindowManager
 
-    fun show(callLauncherViewModel: CallLauncherViewModel) {
+    fun show() {
         if (drawOverlaysPermission(context) && endCallButton.visibility != View.VISIBLE) {
             if (!isInitialized) {
                 isInitialized = true
@@ -51,7 +51,7 @@ internal class EndCompositeButtonView private constructor(
             }
             endCallButton.visibility = View.VISIBLE
             endCallButton.setOnClickListener {
-                callLauncherViewModel.callHangup()
+                (context.applicationContext as CallLauncherApplication).callCompositeManager?.callHangup()
             }
         }
     }

@@ -177,6 +177,7 @@ dependencies {
     implementation "com.microsoft.appcenter:appcenter-crashes:$app_center_sdk_version"
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation "com.microsoft.appcenter:appcenter-distribute:$app_center_sdk_version"
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")
     implementation files('lib/magnifier-0.0.17.aar')
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
     testImplementation "junit:junit:$junit_version"

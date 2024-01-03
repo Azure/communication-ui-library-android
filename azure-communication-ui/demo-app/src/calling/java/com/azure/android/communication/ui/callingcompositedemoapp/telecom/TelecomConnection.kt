@@ -3,6 +3,9 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp.telecom
 
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.telecom.CallAudioState
@@ -10,22 +13,17 @@ import android.telecom.Connection
 import android.telecom.DisconnectCause
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
-import com.azure.android.communication.ui.callingcompositedemoapp.CallCompositeManager
+import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity
 
 @RequiresApi(Build.VERSION_CODES.M)
 class TelecomConnection(
-    private val callComposite: CallComposite,
-    private var pushNotificationInfo: CallCompositeIncomingCallInfo? = null
+    private var pushNotificationInfo: CallCompositeIncomingCallInfo? = null,
+    private val context: Context
 ) : Connection() {
-    companion object {
-        private const val TAG = "communication.ui.demo"
-    }
 
     override fun onStateChanged(state: Int) {
         super.onStateChanged(state)
-
         val stateName = when (state) {
             STATE_ACTIVE -> "ACTIVE"
             STATE_DIALING -> "DIALING"
@@ -37,65 +35,87 @@ class TelecomConnection(
             STATE_RINGING -> "RINGING"
             else -> "UNKNOWN"
         }
-
-        Log.d(TAG, "onStateChanged: $stateName")
+        Log.d(CallLauncherActivity.TAG, "onStateChanged: $stateName")
     }
 
     override fun onCallAudioStateChanged(state: CallAudioState?) {
         super.onCallAudioStateChanged(state)
-        Log.d(TAG, "onCallAudioStateChange:" + state.toString())
+        Log.d(CallLauncherActivity.TAG, "onCallAudioStateChange:" + state.toString())
     }
 
     override fun onDisconnect() {
         super.onDisconnect()
-        Log.d(TAG, "onDisconnect")
+        Log.d(CallLauncherActivity.TAG, "onDisconnect")
         setDisconnected(DisconnectCause(DisconnectCause.LOCAL, "Missed"))
         destroy()
     }
 
     override fun onAnswer(videoState: Int) {
         super.onAnswer(videoState)
-        Log.d(TAG, "onAnswer videoState: $videoState")
+        Log.d(CallLauncherActivity.TAG, "onAnswer videoState: $videoState")
         setActive()
-        CallCompositeManager.getInstance().acceptIncomingCall()
+        launchIntent("answer")
     }
 
     override fun onAnswer() {
         super.onAnswer()
-        Log.d(TAG, "onAnswer")
+        Log.d(CallLauncherActivity.TAG, "onAnswer")
         setActive()
-        CallCompositeManager.getInstance().acceptIncomingCall()
+        launchIntent("answer")
     }
 
     override fun onHold() {
         super.onHold()
-        callComposite.hold()
+        launchIntent("hold")
         setOnHold()
-        Log.d(TAG, "onHold")
+        Log.d(CallLauncherActivity.TAG, "hold")
     }
 
     override fun onUnhold() {
         super.onUnhold()
-        callComposite.resume()
+        launchIntent("resume")
         setActive()
-        Log.d(TAG, "onUnhold")
+        Log.d(CallLauncherActivity.TAG, "resume")
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onShowIncomingCallUi() {
         super.onShowIncomingCallUi()
-        Log.d(TAG, "onShowIncomingCallUi")
-        pushNotificationInfo?.let { CallCompositeManager.getInstance().showIncomingCallUI(it) }
+        Log.d(CallLauncherActivity.TAG, "onShowIncomingCallUi")
+        pushNotificationInfo?.let {
+            launchIntent("incoming_call")
+        }
     }
 
     override fun onCallEvent(event: String?, extras: Bundle?) {
         super.onCallEvent(event, extras)
-        Log.d(TAG, "onCallEvent: $event $extras")
+        Log.d(CallLauncherActivity.TAG, "onCallEvent: $event $extras")
     }
 
     override fun onReject() {
         super.onReject()
         setDisconnected(DisconnectCause(DisconnectCause.REMOTE, "Rejected"))
         destroy()
+    }
+
+    private fun launchIntent(action: String) {
+        if (CallLauncherActivity.isActivityRunning) {
+            val intent = Intent(CallLauncherActivity.CALL_LAUNCHER_BROADCAST_ACTION)
+            intent.putExtra("tag", action)
+            context.sendBroadcast(intent)
+        } else {
+            val intent =
+                Intent(context, CallLauncherActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                }
+            intent.action = action
+            intent.putExtra("action", action)
+            PendingIntent.getActivity(
+                context,
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            ).send()
+        }
     }
 }

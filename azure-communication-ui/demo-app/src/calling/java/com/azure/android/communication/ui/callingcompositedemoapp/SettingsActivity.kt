@@ -74,7 +74,7 @@ class SettingsActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         // recreate the call composite manager to apply the new settings
-        CallCompositeManager.getInstance().destroy()
+        (application as CallLauncherApplication).callCompositeManager?.destroy()
     }
 
     override fun onResume() {

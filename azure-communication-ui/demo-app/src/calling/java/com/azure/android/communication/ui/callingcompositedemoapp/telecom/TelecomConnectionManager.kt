@@ -12,8 +12,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.telecom.CallAudioState
-import android.telecom.DisconnectCause
 import android.telecom.PhoneAccount
 import android.telecom.PhoneAccountHandle
 import android.telecom.TelecomManager
@@ -23,30 +21,17 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
+import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity
+import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherApplication
 
-@RequiresApi(Build.VERSION_CODES.O)
 /***
  * phoneAccountId - an unique per application string to register phone account.
  */
 class TelecomConnectionManager(
-    context: Context,
+    private val context: Context,
     private val phoneAccountId: String
 ) {
-
-    private var phoneAccountHandle: PhoneAccountHandle?
-
-    companion object {
-        var instance: TelecomConnectionManager? = null
-        private const val TAG = "communication.ui.demo"
-        const val PHONE_ACCOUNT_ID = ""
-
-        fun getInstance(context: Context, phoneAccountId: String): TelecomConnectionManager {
-            if (instance == null) {
-                instance = TelecomConnectionManager(context.applicationContext, phoneAccountId)
-            }
-            return instance!!
-        }
-    }
+    private var phoneAccountHandle: PhoneAccountHandle? = null
 
     init {
         if (isConnectionServiceSupported()) {
@@ -54,21 +39,19 @@ class TelecomConnectionManager(
             val componentName = ComponentName(context, TelecomConnectionService::class.java.name)
             val phoneAccountHandle = PhoneAccountHandle(componentName, phoneAccountId)
             registerPhoneAccount(telecomManager, phoneAccountHandle)
-
             this.phoneAccountHandle = phoneAccountHandle
-
-            instance = this
         } else {
             this.phoneAccountHandle = null
         }
     }
 
-    fun startIncomingConnection(context: Context, callInfo: CallCompositeIncomingCallInfo, isVideoCall: Boolean) {
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun startIncomingConnection(callInfo: CallCompositeIncomingCallInfo, isVideoCall: Boolean) {
         if (context.checkSelfPermission(Manifest.permission.MANAGE_OWN_CALLS) ==
             PackageManager.PERMISSION_GRANTED
         ) {
             try {
-                Log.e(TAG, "startIncomingConnection")
+                Log.e(CallLauncherActivity.TAG, "startIncomingConnection")
                 val telecomManager = context.getSystemService(TELECOM_SERVICE) as TelecomManager
                 telecomManager.addNewIncomingCall(phoneAccountHandle, callExtras(callInfo, isVideoCall))
             } catch (e: SecurityException) {
@@ -78,21 +61,23 @@ class TelecomConnectionManager(
                     "com.android.server.telecom.settings.EnableAccountPreferenceActivity"
                 )
                 context.startActivity(intent)
-                Log.e(TAG, "startIncomingConnection failed: ${e.message}", e)
+                Log.e(CallLauncherActivity.TAG, "startIncomingConnection failed: ${e.message}", e)
             } catch (e: Exception) {
-                Log.e(TAG, "startIncomingConnection failed: ${e.message}", e)
+                Log.e(CallLauncherActivity.TAG, "startIncomingConnection failed: ${e.message}", e)
                 Toast.makeText(context, "Error occurred: ${e.message}", Toast.LENGTH_LONG).show()
             }
         } else {
-            Log.e(TAG, "startIncomingCall: Permission not granted")
+            Log.e(CallLauncherActivity.TAG, "startIncomingCall: Permission not granted")
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun setConnectionActive() {
-        TelecomConnectionService.connection?.setActive()
+        (context.applicationContext as CallLauncherApplication).telecomConnectionServiceListener?.setActive()
     }
 
-    fun startOutgoingConnection(context: Context, callerDisplayName: String, isVideoCall: Boolean) {
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun startOutgoingConnection(callerDisplayName: String) {
         if (context.checkSelfPermission(Manifest.permission.MANAGE_OWN_CALLS) ==
             PackageManager.PERMISSION_GRANTED
         ) {
@@ -118,37 +103,36 @@ class TelecomConnectionManager(
                     "com.android.server.telecom.settings.EnableAccountPreferenceActivity"
                 )
                 context.startActivity(intent)
-                Log.e(TAG, "startOutgoingConnection: ${e.message}", e)
+                Log.e(CallLauncherActivity.TAG, "startOutgoingConnection: ${e.message}", e)
             } catch (e: Exception) {
-                Log.e(TAG, "startOutgoingConnection: ${e.message}", e)
+                Log.e(CallLauncherActivity.TAG, "startOutgoingConnection: ${e.message}", e)
             }
         } else {
-            Log.e(TAG, "startOutgoingConnection: Permission not granted")
+            Log.e(CallLauncherActivity.TAG, "startOutgoingConnection: Permission not granted")
         }
     }
 
-    fun declineCall(context: Context) {
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun declineCall() {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.MANAGE_OWN_CALLS)
             == PackageManager.PERMISSION_GRANTED
         ) {
-            val connection = TelecomConnectionService.connection
-            connection?.onReject()
-            TelecomConnectionService.connection = null
+            (context.applicationContext as CallLauncherApplication).telecomConnectionServiceListener?.onReject()
         }
     }
 
-    fun endConnection(context: Context) {
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun endConnection() {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.MANAGE_OWN_CALLS)
             == PackageManager.PERMISSION_GRANTED
         ) {
-            val connection = TelecomConnectionService.connection
-
-            connection?.apply {
-                setDisconnected(DisconnectCause(DisconnectCause.LOCAL))
-                destroy()
-            }
-            TelecomConnectionService.connection = null
+            (context.applicationContext as CallLauncherApplication).telecomConnectionServiceListener?.endConnection()
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun setAudioSelection(selectionType: String) {
+        (context.applicationContext as CallLauncherApplication).telecomConnectionServiceListener?.setAudioSelection(selectionType)
     }
 
     private fun isConnectionServiceSupported(): Boolean {
@@ -167,7 +151,7 @@ class TelecomConnectionManager(
             try {
                 telecomManager.registerPhoneAccount(account)
             } catch (ex: java.lang.Exception) {
-                Log.e(TAG, "registerPhoneAccount failed: ${ex.message}", ex)
+                Log.e(CallLauncherActivity.TAG, "registerPhoneAccount failed: ${ex.message}", ex)
             }
         }
     }
@@ -180,12 +164,13 @@ class TelecomConnectionManager(
             val clearMethod = TelecomManager::class.java.getMethod("clearPhoneAccounts", null)
             clearMethod.invoke(telecomManager)
         } catch (ex: Exception) {
-            Log.e(TAG, "clearExistingAccounts failed: ${ex.message}", ex)
+            Log.e(CallLauncherActivity.TAG, "clearExistingAccounts failed: ${ex.message}", ex)
         } catch (ex: NoSuchMethodException) {
-            Log.e(TAG, "clearExistingAccounts failed: ${ex.message}", ex)
+            Log.e(CallLauncherActivity.TAG, "clearExistingAccounts failed: ${ex.message}", ex)
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun callExtras(callInfo: CallCompositeIncomingCallInfo, isVideoCall: Boolean): Bundle {
         val extras = Bundle()
         extras.putString("DISPLAY_NAME", callInfo.callerDisplayName)
@@ -211,19 +196,5 @@ class TelecomConnectionManager(
         extras.putBoolean(TelecomManager.EXTRA_START_CALL_WITH_SPEAKERPHONE, true)
 
         return extras
-    }
-
-    fun setAudioSelection(selectionType: String) {
-        when (selectionType) {
-            "SPEAKER_SELECTED" -> {
-                TelecomConnectionService.connection?.setAudioRoute(CallAudioState.ROUTE_SPEAKER)
-            }
-            "RECEIVER_SELECTED" -> {
-                TelecomConnectionService.connection?.setAudioRoute(CallAudioState.ROUTE_EARPIECE)
-            }
-            "BLUETOOTH_SCO_SELECTED" -> {
-                TelecomConnectionService.connection?.setAudioRoute(CallAudioState.ROUTE_BLUETOOTH)
-            }
-        }
     }
 }

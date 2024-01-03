@@ -5,23 +5,27 @@ package com.azure.android.communication.ui.callingcompositedemoapp.telecom
 
 import android.os.Build
 import android.os.Bundle
+import android.telecom.CallAudioState
 import android.telecom.Connection
 import android.telecom.ConnectionRequest
 import android.telecom.ConnectionService
+import android.telecom.DisconnectCause
 import android.telecom.PhoneAccountHandle
 import android.telecom.TelecomManager
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
-import com.azure.android.communication.ui.callingcompositedemoapp.CallCompositeManager
+import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity.Companion.TAG
+import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherApplication
 
 @RequiresApi(Build.VERSION_CODES.O)
-class TelecomConnectionService : ConnectionService() {
+class TelecomConnectionService : ConnectionService(), TelecomConnectionServiceListener {
+    private var connection: TelecomConnection? = null
 
-    companion object {
-        var connection: TelecomConnection? = null
-        private const val TAG = "communication.ui.demo"
+    override fun onCreate() {
+        super.onCreate()
+        val application = application as CallLauncherApplication
+        application.telecomConnectionServiceListener = this
     }
 
     override fun onCreateIncomingConnection(
@@ -36,7 +40,7 @@ class TelecomConnectionService : ConnectionService() {
 
             connection.setCallerDisplayName(name, TelecomManager.PRESENTATION_ALLOWED)
             connection.setAddress(request.address, TelecomManager.PRESENTATION_ALLOWED)
-            TelecomConnectionService.connection = connection
+            this.connection = connection
             connection
         } else {
             null
@@ -69,10 +73,9 @@ class TelecomConnectionService : ConnectionService() {
             try {
                 val connection = createTelecomConnection(bundle)
                 connection.setDialing()
-
-                TelecomConnectionService.connection = connection
+                this.connection = connection
                 return connection
-            } catch (e: Exception) {
+            } catch (_: Exception) {
             }
         }
 
@@ -88,11 +91,7 @@ class TelecomConnectionService : ConnectionService() {
             originalBundle.getString("RAW_ID")
         )
 
-        var callComposite: CallComposite? = CallCompositeManager.getInstance().getCallComposite()
-        if (callComposite == null) {
-            callComposite = CallCompositeManager.getInstance().createCallComposite()
-        }
-        val connection = TelecomConnection(callComposite, callInfo)
+        val connection = TelecomConnection(callInfo, context = this)
         connection.extras = originalBundle
         connection.connectionProperties = Connection.PROPERTY_SELF_MANAGED
         connection.connectionCapabilities = Connection.CAPABILITY_SUPPORT_HOLD or Connection.CAPABILITY_HOLD
@@ -103,4 +102,42 @@ class TelecomConnectionService : ConnectionService() {
 
         return connection
     }
+
+    override fun setActive() {
+        connection?.setActive()
+    }
+
+    override fun onReject() {
+        connection?.onReject()
+        connection = null
+    }
+
+    override fun endConnection() {
+        connection?.apply {
+            setDisconnected(DisconnectCause(DisconnectCause.LOCAL))
+            destroy()
+        }
+        connection = null
+    }
+
+    override fun setAudioSelection(selectionType: String) {
+        when (selectionType) {
+            "SPEAKER_SELECTED" -> {
+                connection?.setAudioRoute(CallAudioState.ROUTE_SPEAKER)
+            }
+            "RECEIVER_SELECTED" -> {
+                connection?.setAudioRoute(CallAudioState.ROUTE_EARPIECE)
+            }
+            "BLUETOOTH_SCO_SELECTED" -> {
+                connection?.setAudioRoute(CallAudioState.ROUTE_BLUETOOTH)
+            }
+        }
+    }
+}
+
+interface TelecomConnectionServiceListener {
+    fun setActive()
+    fun onReject()
+    fun endConnection()
+    fun setAudioSelection(selectionType: String)
 }
