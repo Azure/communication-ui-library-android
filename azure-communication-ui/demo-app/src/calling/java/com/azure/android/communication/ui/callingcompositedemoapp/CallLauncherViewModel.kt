@@ -87,8 +87,7 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
             EndCompositeButtonView.get(context).show(this)
         }
 
-        val communicationTokenRefreshOptions =
-            CommunicationTokenRefreshOptions({ acsToken }, true)
+        val communicationTokenRefreshOptions = CommunicationTokenRefreshOptions({ acsToken }, true)
         val communicationTokenCredential =
             CommunicationTokenCredential(communicationTokenRefreshOptions)
 
@@ -107,23 +106,18 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
             CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
         }
 
-        val localOptions = CallCompositeLocalOptions()
-            .setParticipantViewData(SettingsFeatures.getParticipantViewData(context.applicationContext))
-            .setSetupScreenViewData(
-                CallCompositeSetupScreenViewData()
-                    .setTitle(SettingsFeatures.getTitle())
+        val localOptions = CallCompositeLocalOptions().setParticipantViewData(
+                SettingsFeatures.getParticipantViewData(context.applicationContext)
+            ).setSetupScreenViewData(
+                CallCompositeSetupScreenViewData().setTitle(SettingsFeatures.getTitle())
                     .setSubtitle(SettingsFeatures.getSubtitle())
-            )
-            .setSkipSetupScreen(skipSetup)
-            .setRoleHint(roomRoleHint)
+            ).setSkipSetupScreen(skipSetup).setRoleHint(roomRoleHint)
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
         callCompositeExitSuccessStateFlow.value = false
         exitEventHandler = CallExitEventHandler(
-            callCompositeExitSuccessStateFlow,
-            callCompositeCallStateStateFlow,
-            this
+            callCompositeExitSuccessStateFlow, callCompositeCallStateStateFlow, this
         )
         callComposite?.addOnCallStateChangedEventHandler(callStateEventHandler)
         callComposite?.addOnDismissedEventHandler(exitEventHandler)
@@ -149,9 +143,7 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
         callComposite?.addOnRemoteParticipantJoinedEventHandler(remoteParticipantJoinedEvent)
 
         exitEventHandler = CallExitEventHandler(
-            callCompositeExitSuccessStateFlow,
-            callCompositeCallStateStateFlow,
-            this
+            callCompositeExitSuccessStateFlow, callCompositeCallStateStateFlow, this
         )
         callComposite?.addOnCallStateChangedEventHandler(callStateEventHandler)
         callComposite?.addOnDismissedEventHandler(exitEventHandler)
@@ -215,14 +207,12 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
 
         exitedCompositeToAcceptCall = false
         val skipSetup = SettingsFeatures.getSkipSetupScreenFeatureValue()
-        val localOptions = CallCompositeLocalOptions()
-            .setParticipantViewData(SettingsFeatures.getParticipantViewData(applicationContext))
-            .setSetupScreenViewData(
-                CallCompositeSetupScreenViewData()
-                    .setTitle(SettingsFeatures.getTitle())
+        val localOptions = CallCompositeLocalOptions().setParticipantViewData(
+                SettingsFeatures.getParticipantViewData(applicationContext)
+            ).setSetupScreenViewData(
+                CallCompositeSetupScreenViewData().setTitle(SettingsFeatures.getTitle())
                     .setSubtitle(SettingsFeatures.getSubtitle())
-            )
-            .setSkipSetupScreen(skipSetup) // Always skip setup screen for incoming call
+            ).setSkipSetupScreen(skipSetup) // Always skip setup screen for incoming call
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
@@ -338,12 +328,9 @@ class OnUserReportedEventErrorHandler(val context: Context) :
 
         // Create and show the notification
         val notification = NotificationCompat.Builder(context, "CallLauncherActivity")
-            .setContentTitle("User reported issue")
-            .setSmallIcon(android.R.drawable.ic_dialog_alert)
-            .setContentText(message)
-            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .build()
+            .setContentTitle("User reported issue").setSmallIcon(android.R.drawable.ic_dialog_alert)
+            .setContentText(message).setStyle(NotificationCompat.BigTextStyle().bigText(message))
+            .setPriority(NotificationCompat.PRIORITY_HIGH).build()
 
         val notificationManager = NotificationManagerCompat.from(context)
         notificationManager.notify(1, notification)
