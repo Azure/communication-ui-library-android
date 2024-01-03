@@ -18,11 +18,10 @@ internal class SupportViewModel(
     private val _isSubmitEnabledStateFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     private var _userMessageStateFlow = MutableStateFlow<String>("")
-    private val _clearEditTextStateFlow = MutableStateFlow<Long>(0);
+    private val _clearEditTextStateFlow = MutableStateFlow<Long>(0)
 
     val shouldIncludeScreenshot: MutableStateFlow<Boolean> = MutableStateFlow(true)
     val clearEditTextStateFlow get() = _clearEditTextStateFlow as StateFlow<Long>
-
 
     var userMessage: String
         get() = _userMessageStateFlow.value

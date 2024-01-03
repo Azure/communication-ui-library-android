@@ -59,7 +59,6 @@ internal class SupportView : FrameLayout {
         bindViewOutputs(viewLifecycleOwner, viewModel)
     }
 
-
     private fun bindViewInputs(viewModel: SupportViewModel) {
         menuDrawer.setOnDismissListener {
             viewModel.dismissForm()

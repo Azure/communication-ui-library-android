@@ -173,7 +173,7 @@ internal class CallingService(
     }
 
     fun getLogFiles(): List<File> {
-        return callingSdk.getLogFiles();
+        return callingSdk.getLogFiles()
     }
 
     fun dispose() {

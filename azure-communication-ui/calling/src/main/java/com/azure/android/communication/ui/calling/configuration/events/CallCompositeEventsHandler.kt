@@ -30,7 +30,7 @@ internal class CallCompositeEventsHandler {
         mutableSetOf<CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent>>()
     private val audioSelectionChangedEvent =
         mutableSetOf<CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent>>()
-    private val userReportHandlers  =
+    private val userReportHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeUserReportedIssueEvent>>()
 
     fun getOnErrorHandlers() = errorHandlers.asIterable()

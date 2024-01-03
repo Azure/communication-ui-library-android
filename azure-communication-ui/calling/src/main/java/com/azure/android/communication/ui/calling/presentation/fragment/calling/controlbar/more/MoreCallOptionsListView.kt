@@ -27,7 +27,6 @@ internal class MoreCallOptionsListView(
     private lateinit var menuDrawer: DrawerDialog
     private lateinit var bottomCellAdapter: BottomCellAdapter
 
-
     init {
         inflate(context, R.layout.azure_communication_ui_calling_listview, this)
         recyclerView = findViewById(R.id.bottom_drawer_table)
@@ -88,14 +87,11 @@ internal class MoreCallOptionsListView(
                             context
                         )
 
-                        MoreCallOptionsListViewModel.Companion.Entries.REPORT_ISSUE -> viewModel.requestReportIssueScreen();
+                        MoreCallOptionsListViewModel.Companion.Entries.REPORT_ISSUE -> viewModel.requestReportIssueScreen()
                     }
-
                 },
             )
-
         }
-
 
     private fun shareDiagnostics(context: Context) {
         val share = Intent.createChooser(

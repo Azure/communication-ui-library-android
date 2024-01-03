@@ -107,11 +107,11 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
         }
 
         val localOptions = CallCompositeLocalOptions().setParticipantViewData(
-                SettingsFeatures.getParticipantViewData(context.applicationContext)
-            ).setSetupScreenViewData(
-                CallCompositeSetupScreenViewData().setTitle(SettingsFeatures.getTitle())
-                    .setSubtitle(SettingsFeatures.getSubtitle())
-            ).setSkipSetupScreen(skipSetup).setRoleHint(roomRoleHint)
+            SettingsFeatures.getParticipantViewData(context.applicationContext)
+        ).setSetupScreenViewData(
+            CallCompositeSetupScreenViewData().setTitle(SettingsFeatures.getTitle())
+                .setSubtitle(SettingsFeatures.getSubtitle())
+        ).setSkipSetupScreen(skipSetup).setRoleHint(roomRoleHint)
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
@@ -169,8 +169,10 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
     }
 
     fun getCallHistory(context: Context): List<CallCompositeCallHistoryRecord> {
-        return (callComposite
-            ?: createCallComposite(context)).getDebugInfo(context).callHistoryRecords
+        return (
+            callComposite
+                ?: createCallComposite(context)
+            ).getDebugInfo(context).callHistoryRecords
     }
 
     fun createCallComposite(context: Context): CallComposite {
@@ -208,11 +210,11 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
         exitedCompositeToAcceptCall = false
         val skipSetup = SettingsFeatures.getSkipSetupScreenFeatureValue()
         val localOptions = CallCompositeLocalOptions().setParticipantViewData(
-                SettingsFeatures.getParticipantViewData(applicationContext)
-            ).setSetupScreenViewData(
-                CallCompositeSetupScreenViewData().setTitle(SettingsFeatures.getTitle())
-                    .setSubtitle(SettingsFeatures.getSubtitle())
-            ).setSkipSetupScreen(skipSetup) // Always skip setup screen for incoming call
+            SettingsFeatures.getParticipantViewData(applicationContext)
+        ).setSetupScreenViewData(
+            CallCompositeSetupScreenViewData().setTitle(SettingsFeatures.getTitle())
+                .setSubtitle(SettingsFeatures.getSubtitle())
+        ).setSkipSetupScreen(skipSetup) // Always skip setup screen for incoming call
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
@@ -230,7 +232,6 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
             composite.removeOnDismissedEventHandler(exitEventHandler)
             composite.removeOnAudioSelectionChangedEventHandler(audioSelectionChangedEvent)
             composite.removeOnUserReportedEventHandler(userReportedIssueHandler)
-
         }
     }
 

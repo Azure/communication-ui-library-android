@@ -32,7 +32,7 @@ import com.azure.android.communication.ui.calling.features.interfaces.ISupportFi
  *
  * Features are initialized with the instance.
  */
-internal class ACSFeaturesFactory
+internal class ACSFeatureFactory
 /**
  * Constructor used by the factory
  */
@@ -43,7 +43,7 @@ private constructor() {
      * @param feature interface of the required feature
      * @param <F> type of the feature interface
      * @return requested interface feature
-    </F> */
+     </F> */
     fun <F : ACSFeature?> getACSFeature(feature: Class<F>): F? {
         return if (featureList!!.containsKey(feature)) {
             featureList!![feature] as F?
@@ -65,18 +65,17 @@ private constructor() {
      * @param _instance feature instance
      * @param <I> type of the feature interface
      * @param <O> type of the feature instance
-    </O></I> */
+     </O></I> */
     private inline fun <reified I : ACSFeature> RegisterACSFeature(_instance: I) {
         featureList!![I::class.java] = _instance
     }
 
     companion object {
         private var featureList: MutableMap<Class<*>, ACSFeature>? = null
-        val instance: ACSFeaturesFactory by lazy {
-            val factory = ACSFeaturesFactory()
+        val instance: ACSFeatureFactory by lazy {
+            val factory = ACSFeatureFactory()
             factory.RegisterACSFeatures()
             factory
         }
-
     }
 }
