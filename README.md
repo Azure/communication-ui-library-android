@@ -1,4 +1,4 @@
-![Hero Image](docs/media/mobile-ui-library-hero-image.png)
+!aaaa[Hero Image](docs/media/mobile-ui-library-hero-image.png)
 
 # Azure Communication UI Mobile Library for Android
 
