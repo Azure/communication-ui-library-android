@@ -21,11 +21,12 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 
-
 @RequiresApi(Build.VERSION_CODES.M)
-internal class TelecomConnectionManager(context: Context,
-                                        val phoneAccountId: String,
-                                        private val instanceId: Int) {
+internal class TelecomConnectionManager(
+    context: Context,
+    val phoneAccountId: String,
+    private val instanceId: Int
+) {
 
     private val TAG = "TelecomIntegration"
     private var phoneAccountHandle: PhoneAccountHandle?
@@ -56,18 +57,21 @@ internal class TelecomConnectionManager(context: Context,
     @RequiresApi(api = Build.VERSION_CODES.M)
     fun startIncomingConnection(context: Context, fromDisplayName: String, isVideoCall: Boolean) {
         if (context.checkSelfPermission(Manifest.permission.MANAGE_OWN_CALLS) ==
-            PackageManager.PERMISSION_GRANTED) {
+            PackageManager.PERMISSION_GRANTED
+        ) {
             try {
                 val telecomManager = context.getSystemService(TELECOM_SERVICE) as TelecomManager
                 telecomManager.addNewIncomingCall(phoneAccountHandle, callExtras(fromDisplayName, isVideoCall))
             } catch (e: SecurityException) {
                 val intent = Intent()
-                intent.setClassName("com.android.server.telecom",
-                        "com.android.server.telecom.settings.EnableAccountPreferenceActivity")
+                intent.setClassName(
+                    "com.android.server.telecom",
+                    "com.android.server.telecom.settings.EnableAccountPreferenceActivity"
+                )
                 context.startActivity(intent)
                 Log.e(TAG, "startIncomingCall: ${e.message}", e)
             } catch (e: Exception) {
-                Toast.makeText(context,"Error occurred:"+e.message,Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Error occurred:" + e.message, Toast.LENGTH_LONG).show()
             }
         } else {
             Log.e(TAG, "startIncomingCall: Permission not granted")
@@ -78,10 +82,12 @@ internal class TelecomConnectionManager(context: Context,
     fun startOutgoingConnection(context: Context, callerDisplayName: String, isVideoCall: Boolean) {
 
         if (context.checkSelfPermission(Manifest.permission.MANAGE_OWN_CALLS) ==
-                PackageManager.PERMISSION_GRANTED) {
+            PackageManager.PERMISSION_GRANTED
+        ) {
 
             if (context.checkSelfPermission(Manifest.permission.READ_CALL_LOG) ==
-                    PackageManager.PERMISSION_GRANTED) {
+                PackageManager.PERMISSION_GRANTED
+            ) {
                 var columns = arrayOf<String>(CallLog.Calls._ID, CallLog.Calls.NUMBER, CallLog.Calls.TYPE)
 
                 val cursor = context.contentResolver.query(CallLog.Calls.CONTENT_URI, columns, null, null, "${CallLog.Calls.LAST_MODIFIED} DESC")
@@ -92,7 +98,6 @@ internal class TelecomConnectionManager(context: Context,
                         Log.d(TAG, "startOutgoingConnection $number")
                     }
                 }
-
             }
 
             try {
@@ -111,10 +116,12 @@ internal class TelecomConnectionManager(context: Context,
                 telecomManager.placeCall(uri, extras)
             } catch (e: SecurityException) {
                 val intent = Intent()
-                intent.setClassName("com.android.server.telecom",
-                        "com.android.server.telecom.settings.EnableAccountPreferenceActivity")
+                intent.setClassName(
+                    "com.android.server.telecom",
+                    "com.android.server.telecom.settings.EnableAccountPreferenceActivity"
+                )
                 context.startActivity(intent)
-               Log.e(TAG, "startIncomingCall: ${e.message}", e)
+                Log.e(TAG, "startIncomingCall: ${e.message}", e)
             } catch (e: Exception) {
                 Log.e(TAG, "startOutgoingCall: ${e.message}", e)
             }
@@ -126,7 +133,8 @@ internal class TelecomConnectionManager(context: Context,
     fun endConnection(context: Context, callerDisplayName: String) {
         Log.d(TAG, "endConnection")
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.MANAGE_OWN_CALLS)
-                == PackageManager.PERMISSION_GRANTED) {
+            == PackageManager.PERMISSION_GRANTED
+        ) {
             val connection = TelecomConnectionService.connection
 
             connection?.apply {
@@ -135,7 +143,6 @@ internal class TelecomConnectionManager(context: Context,
             }
             TelecomConnectionService.connection = null
         }
-
 
         val values = ContentValues()
         values.put(CallLog.Calls.NUMBER, callerDisplayName)
@@ -148,7 +155,6 @@ internal class TelecomConnectionManager(context: Context,
         values.put(CallLog.Calls.CACHED_NUMBER_LABEL, "CACHED_NUMBER_LABEL")
 
 //        context.contentResolver.insert(CallLog.Calls.CONTENT_URI, values)
-
     }
 
     private fun isConnectionServiceSupported(): Boolean {
@@ -156,11 +162,12 @@ internal class TelecomConnectionManager(context: Context,
     }
 
     private fun registerPhoneAccount(
-            telecomManager: TelecomManager, phoneAccountHandle: PhoneAccountHandle) {
+        telecomManager: TelecomManager, phoneAccountHandle: PhoneAccountHandle
+    ) {
         if (isConnectionServiceSupported()) {
             clearExistingAccounts(telecomManager)
             val account = PhoneAccount.builder(phoneAccountHandle, phoneAccountId)
-                .setCapabilities(PhoneAccount.CAPABILITY_SELF_MANAGED) //custom UI
+                .setCapabilities(PhoneAccount.CAPABILITY_SELF_MANAGED) // custom UI
                 .build()
             try {
                 telecomManager.registerPhoneAccount(account)

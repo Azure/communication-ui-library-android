@@ -22,23 +22,31 @@ import kotlinx.coroutines.flow.collect
 import android.media.AudioDeviceInfo
 import android.os.Build
 import android.os.Bundle
+import android.telecom.CallAudioState
 import androidx.annotation.RequiresApi
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
 import com.azure.android.communication.ui.calling.CallCompositeException
+import com.azure.android.communication.ui.calling.configuration.events.CallCompositeEventsHandler
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioChangedEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioDevice
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
+import com.azure.android.communication.ui.calling.telecom.TelecomConnectionService
 
 internal class AudioSessionManager(
     private val store: Store<ReduxState>,
     private val context: Context,
+    private val eventsHandler: CallCompositeEventsHandler,
 ) : BluetoothProfile.ServiceListener, BroadcastReceiver() {
 
     private val audioManager by lazy { context.getSystemService(Context.AUDIO_SERVICE) as AudioManager }
     private var bluetoothAudioProxy: BluetoothHeadset? = null
     private var initialized = false
+
+    private var audioDeviceSelectionStatus: AudioDeviceSelectionStatus? = null
 
     private val isBluetoothScoAvailable
         get() = try {
@@ -97,6 +105,18 @@ internal class AudioSessionManager(
                     previousPermissionState != PermissionStatus.GRANTED
                 ) {
                     updateBluetoothStatus()
+                }
+
+                if (it.localParticipantState.audioState.device == AudioDeviceSelectionStatus.RECEIVER_SELECTED) {
+                    eventsHandler.getOnAudioChangeEventHandlers().forEach { it.handle(CallCompositeAudioChangedEvent(CallCompositeAudioDevice.EARPEACE)) }
+                }
+
+                if (it.localParticipantState.audioState.device == AudioDeviceSelectionStatus.SPEAKER_SELECTED) {
+                    eventsHandler.getOnAudioChangeEventHandlers().forEach { it.handle(CallCompositeAudioChangedEvent(CallCompositeAudioDevice.SPEAKER)) }
+                }
+
+                if (it.localParticipantState.audioState.device == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED) {
+                    eventsHandler.getOnAudioChangeEventHandlers().forEach { it.handle(CallCompositeAudioChangedEvent(CallCompositeAudioDevice.BLUETOOTH)) }
                 }
 
                 previousAudioDeviceSelectionStatus = it.localParticipantState.audioState.device
@@ -242,6 +262,9 @@ internal class AudioSessionManager(
     private fun switchAudioDevice(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
         when (audioDeviceSelectionStatus) {
             AudioDeviceSelectionStatus.SPEAKER_REQUESTED -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    TelecomConnectionService.connection?.setAudioRoute(CallAudioState.ROUTE_SPEAKER)
+                }
                 enableSpeakerPhone()
                 store.dispatch(
                     LocalParticipantAction.AudioDeviceChangeSucceeded(
@@ -251,6 +274,9 @@ internal class AudioSessionManager(
             }
             AudioDeviceSelectionStatus.RECEIVER_REQUESTED -> {
                 enableEarpiece()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    TelecomConnectionService.connection?.setAudioRoute(CallAudioState.ROUTE_EARPIECE)
+                }
                 store.dispatch(
                     LocalParticipantAction.AudioDeviceChangeSucceeded(
                         AudioDeviceSelectionStatus.RECEIVER_SELECTED
@@ -259,6 +285,10 @@ internal class AudioSessionManager(
             }
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED -> {
                 enableBluetooth()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    TelecomConnectionService.connection?.setAudioRoute(CallAudioState.ROUTE_BLUETOOTH)
+                }
+
                 store.dispatch(
                     LocalParticipantAction.AudioDeviceChangeSucceeded(
                         AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED

@@ -43,35 +43,35 @@ class TelecomConnection(private val callComposite: CallComposite) : Connection()
 
     override fun onDisconnect() {
         super.onDisconnect()
-        Log.d(TAG,"onDisconnect")
+        Log.d(TAG, "onDisconnect")
         setDisconnected(DisconnectCause(DisconnectCause.LOCAL, "Missed"))
         destroy()
     }
 
     override fun onAnswer(videoState: Int) {
         super.onAnswer(videoState)
-        Log.d(TAG, "onAnswer videoState: $videoState" )
+        Log.d(TAG, "onAnswer videoState: $videoState")
         setActive()
     }
 
     override fun onAnswer() {
         super.onAnswer()
-        Log.d(TAG, "onAnswer" )
+        Log.d(TAG, "onAnswer")
         setActive()
     }
 
     override fun onHold() {
         super.onHold()
-        callComposite.getDependencyInjectionContainer().
-            appStore.dispatch(CallingAction.HoldRequested())
+        callComposite.getDependencyInjectionContainer()
+            .appStore.dispatch(CallingAction.HoldRequested())
         setOnHold()
         Log.d(TAG, "onHold")
     }
 
     override fun onUnhold() {
         super.onUnhold()
-        callComposite.getDependencyInjectionContainer().
-            appStore.dispatch(CallingAction.ResumeRequested())
+        callComposite.getDependencyInjectionContainer()
+            .appStore.dispatch(CallingAction.ResumeRequested())
         setActive()
         Log.d(TAG, "onUnhold")
     }
@@ -101,7 +101,5 @@ class TelecomConnection(private val callComposite: CallComposite) : Connection()
         super.onReject()
         Log.d(TAG, "onReject")
         setDisconnected(DisconnectCause(DisconnectCause.REJECTED, "Rejected"))
-
     }
-
 }

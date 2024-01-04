@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.configuration.events
 
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
@@ -17,6 +18,9 @@ internal class CallCompositeEventsHandler {
         mutableSetOf<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
     private val exitEventHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeDismissedEvent>>()
+
+    private val audioChangeHandlers =
+        mutableSetOf<CallCompositeEventHandler<CallCompositeAudioChangedEvent>>()
 
     fun getOnErrorHandlers() = errorHandlers.asIterable()
 
@@ -50,5 +54,15 @@ internal class CallCompositeEventsHandler {
 
     fun removeOnExitEventHandler(handler: CallCompositeEventHandler<CallCompositeDismissedEvent>) {
         exitEventHandlers.remove(handler)
+    }
+
+    fun getOnAudioChangeEventHandlers() = audioChangeHandlers.asIterable()
+
+    fun addOnAudioEventHandler(handler: CallCompositeEventHandler<CallCompositeAudioChangedEvent>) {
+        audioChangeHandlers.add(handler)
+    }
+
+    fun removeOnAudioEventHandler(handler: CallCompositeEventHandler<CallCompositeAudioChangedEvent>) {
+        audioChangeHandlers.remove(handler)
     }
 }

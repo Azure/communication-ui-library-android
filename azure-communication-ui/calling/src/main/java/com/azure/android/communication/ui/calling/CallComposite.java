@@ -11,6 +11,7 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallType;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer;
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
@@ -156,6 +157,14 @@ public final class CallComposite {
      */
     public void removeOnDismissedEventHandler(final CallCompositeEventHandler<CallCompositeDismissedEvent> handler) {
         configuration.getCallCompositeEventsHandler().removeOnExitEventHandler(handler);
+    }
+
+    public void addOnAudioEventHandler(final CallCompositeEventHandler<CallCompositeAudioChangedEvent> handler) {
+        configuration.getCallCompositeEventsHandler().addOnAudioEventHandler(handler);
+    }
+
+    public void removeOnAudioEventHandler(final CallCompositeEventHandler<CallCompositeAudioChangedEvent> handler) {
+        configuration.getCallCompositeEventsHandler().removeOnAudioEventHandler(handler);
     }
 
     /**

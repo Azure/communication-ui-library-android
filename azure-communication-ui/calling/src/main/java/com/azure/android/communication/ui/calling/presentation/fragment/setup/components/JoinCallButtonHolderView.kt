@@ -16,7 +16,6 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import com.azure.android.communication.ui.R
-import kotlinx.coroutines.coroutineScope
 
 internal class JoinCallButtonHolderView : ConstraintLayout {
     constructor(context: Context) : super(context)

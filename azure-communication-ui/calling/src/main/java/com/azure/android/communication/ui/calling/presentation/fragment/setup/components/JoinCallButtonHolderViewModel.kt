@@ -20,7 +20,6 @@ import com.azure.android.communication.ui.calling.redux.state.isDisconnected
 import com.azure.android.communication.ui.calling.telecom.TelecomConnectionManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import java.util.PrimitiveIterator
 
 internal class JoinCallButtonHolderViewModel(
     private val dispatch: (Action) -> Unit,
@@ -46,17 +45,18 @@ internal class JoinCallButtonHolderViewModel(
 //        } else if (!normalAudioMode) {
 //            handleMicrophoneUnavailability()
 //        } else {
-            dispatch(CallingAction.CallStartRequested())
-            disableJoinCallButtonFlow.value = true
+        dispatch(CallingAction.CallStartRequested())
+        disableJoinCallButtonFlow.value = true
 //        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // phoneAccountId will be received via public API
             val telecomConnectionManager = TelecomConnectionManager(
-                            context,
-                            "9a9a0260-1c18-11ec-ba20-e761da70b03f",
-            instanceId = instanceId)
-            telecomConnectionManager.startIncomingConnection(context,"fromDisplayName", true)
+                context,
+                "9a9a0260-1c18-11ec-ba20-e761da70b03f",
+                instanceId = instanceId
+            )
+            telecomConnectionManager.startIncomingConnection(context, "fromDisplayName", true)
 //            telecomConnectionManager.startOutgoingConnection(context,"toDisplayName", true)
         }
     }
