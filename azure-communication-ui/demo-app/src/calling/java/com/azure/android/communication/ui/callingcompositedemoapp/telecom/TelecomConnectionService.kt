@@ -9,7 +9,6 @@ import android.telecom.CallAudioState
 import android.telecom.Connection
 import android.telecom.ConnectionRequest
 import android.telecom.ConnectionService
-import android.telecom.DisconnectCause
 import android.telecom.PhoneAccountHandle
 import android.telecom.TelecomManager
 import android.util.Log
@@ -113,10 +112,7 @@ class TelecomConnectionService : ConnectionService(), TelecomConnectionServiceLi
     }
 
     override fun endConnection() {
-        connection?.apply {
-            setDisconnected(DisconnectCause(DisconnectCause.LOCAL))
-            destroy()
-        }
+        connection?.destroy()
         connection = null
     }
 
@@ -133,6 +129,13 @@ class TelecomConnectionService : ConnectionService(), TelecomConnectionServiceLi
             }
         }
     }
+
+    override fun cleanup() {
+        endConnection()
+        connection = null
+        val application = application as CallLauncherApplication
+        application.telecomConnectionServiceListener = null
+    }
 }
 
 interface TelecomConnectionServiceListener {
@@ -140,4 +143,5 @@ interface TelecomConnectionServiceListener {
     fun onReject()
     fun endConnection()
     fun setAudioSelection(selectionType: String)
+    fun cleanup()
 }

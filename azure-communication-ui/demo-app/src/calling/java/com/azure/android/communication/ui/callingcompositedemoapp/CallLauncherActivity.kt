@@ -284,6 +284,12 @@ class CallLauncherActivity : AppCompatActivity() {
         EndCompositeButtonView.get(this).hide()
         EndCompositeButtonView.buttonView = null
         unregisterReceiver(callLauncherBroadCastReceiver)
+        callCompositeManager?.destroy()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            (application as CallLauncherApplication).telecomConnectionServiceListener?.cleanup()
+            (application as CallLauncherApplication).telecomConnectionServiceListener = null
+        }
+        (application as CallLauncherApplication).callCompositeManager = null
     }
 
     override fun onNewIntent(intent: Intent?) {
