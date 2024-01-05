@@ -25,6 +25,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_PERSON
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_RTL_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SETUP_SCREEN_ORIENTATION_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SKIP_SETUP_SCREEN_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_TELECOM_MANAGER_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.END_CALL_ON_BY_DEFAULT_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY
@@ -35,6 +36,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.RENDERED_DISPL
 import com.azure.android.communication.ui.callingcompositedemoapp.SETTINGS_SHARED_PREFS
 import com.azure.android.communication.ui.callingcompositedemoapp.SETUP_SCREEN_ORIENTATION_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.SKIP_SETUP_SCREEN_VALUE_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.TELECOM_MANAGER_VALUE_KEY
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import java.util.Locale
@@ -109,6 +111,11 @@ class SettingsFeatures {
         @JvmStatic
         fun getSkipSetupScreenFeatureValue(): Boolean {
             return sharedPrefs.getBoolean(SKIP_SETUP_SCREEN_VALUE_KEY, DEFAULT_SKIP_SETUP_SCREEN_VALUE)
+        }
+
+        @JvmStatic
+        fun getTelecomManagerFeatureValue(): Boolean {
+            return sharedPrefs.getBoolean(TELECOM_MANAGER_VALUE_KEY, DEFAULT_TELECOM_MANAGER_VALUE)
         }
 
         @JvmStatic

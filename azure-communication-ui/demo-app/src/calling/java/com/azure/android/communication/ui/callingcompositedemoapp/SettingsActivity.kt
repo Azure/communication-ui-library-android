@@ -107,6 +107,8 @@ class SettingsActivity : AppCompatActivity() {
 
         updateSkipSetupScreenCheckbox()
 
+        updateTelecomManagerCheckbox()
+
         updateMicOnByDefaultCheckbox()
 
         updateCameraOnByDefaultCheckbox()
@@ -156,6 +158,12 @@ class SettingsActivity : AppCompatActivity() {
                 R.id.skip_setup_screen_check_box -> {
                     sharedPreference.edit().putBoolean(
                         SKIP_SETUP_SCREEN_VALUE_KEY,
+                        view.isChecked
+                    ).apply()
+                }
+                R.id.telecom_manager_check_box -> {
+                    sharedPreference.edit().putBoolean(
+                        TELECOM_MANAGER_VALUE_KEY,
                         view.isChecked
                     ).apply()
                 }
@@ -354,6 +362,14 @@ class SettingsActivity : AppCompatActivity() {
         skipSetupScreenCheckBox.isChecked = isChecked
     }
 
+    private fun updateTelecomManagerCheckbox() {
+        var isChecked = sharedPreference.getBoolean(
+            TELECOM_MANAGER_VALUE_KEY,
+            DEFAULT_TELECOM_MANAGER_VALUE
+        )
+        skipSetupScreenCheckBox.isChecked = isChecked
+    }
+
     private fun updateMicOnByDefaultCheckbox() {
         micOnByDefaultCheckBox.isChecked = sharedPreference.getBoolean(
             MIC_ON_BY_DEFAULT_KEY,
@@ -415,6 +431,8 @@ const val END_CALL_ON_BY_DEFAULT_KEY = "END_CALL_ON_BY_DEFAULT_KEY"
 const val DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE = false
 const val LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY = "LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY"
 const val LAUNCH_ON_EXIT_ON_BY_DEFAULT_VALUE = false
+const val TELECOM_MANAGER_VALUE_KEY = "TELECOM_MANAGER_VALUE_KEY"
+const val DEFAULT_TELECOM_MANAGER_VALUE = false
 
 const val CACHED_TOKEN = "CACHED_TOKEN"
 const val CACHED_USER_NAME = "CACHED_USER_NAME"

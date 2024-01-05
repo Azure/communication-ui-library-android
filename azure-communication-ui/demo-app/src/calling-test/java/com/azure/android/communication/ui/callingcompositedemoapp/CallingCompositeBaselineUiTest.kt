@@ -3,8 +3,10 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
+import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import androidx.test.platform.app.InstrumentationRegistry
 import com.azure.android.communication.ui.callingcompositedemoapp.robots.HomeScreenRobot
 import com.azure.android.communication.ui.callingcompositedemoapp.util.CallIdentifiersHelper
 import com.azure.android.communication.ui.callingcompositedemoapp.util.RunWhenScreenOffOrLockedRule
@@ -19,6 +21,14 @@ class CallingCompositeBaselineUiTest : BaseUiTest() {
 
     @get:Rule
     val screenLockRule = RunWhenScreenOffOrLockedRule()
+
+    private fun setTelecomManagerFalse() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
+            .edit()
+            .putBoolean(TELECOM_MANAGER_VALUE_KEY, false)
+            .apply()
+    }
 
     @Test
     fun testJoinTeamsCallWithVideoDisabled() {
@@ -42,6 +52,7 @@ class CallingCompositeBaselineUiTest : BaseUiTest() {
 
     @Test
     fun testTeamsLobbyOverlay() {
+        setTelecomManagerFalse()
         val setupScreen = HomeScreenRobot()
             .clickTeamsMeetingRadioButton()
             .setGroupIdOrTeamsMeetingUrl(TestFixture.teamsUrl)
@@ -54,6 +65,7 @@ class CallingCompositeBaselineUiTest : BaseUiTest() {
     }
 
     private fun joinTeamsCall(videoEnabled: Boolean = true) {
+        setTelecomManagerFalse()
         val setupScreen = HomeScreenRobot()
             .clickTeamsMeetingRadioButton()
             .setGroupIdOrTeamsMeetingUrl(TestFixture.teamsUrl)
@@ -71,6 +83,7 @@ class CallingCompositeBaselineUiTest : BaseUiTest() {
     }
 
     private fun joinGroupCall(videoEnabled: Boolean = true) {
+        setTelecomManagerFalse()
         val setupScreen = HomeScreenRobot()
             .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getGroupId())
             .setAcsToken(CallIdentifiersHelper.getACSToken())
@@ -89,6 +102,7 @@ class CallingCompositeBaselineUiTest : BaseUiTest() {
 
     @Test
     fun testJoinAndLeaveMultipleTimes() {
+        setTelecomManagerFalse()
         for (i in 0..5) {
             joinGroupCall()
             Thread.sleep(1000)

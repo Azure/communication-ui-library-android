@@ -64,4 +64,6 @@
     <string name="incoming_call">Incoming call</string>
     <string name="accept">Accept</string>
     <string name="decline">Decline</string>
+    <string name="telecom_manager_option">Telecom Manager</string>
+    <string name="telecom_manager">Enable Telecom Manager</string>
 </resources>

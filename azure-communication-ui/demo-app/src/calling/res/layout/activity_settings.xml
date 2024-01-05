@@ -360,5 +360,32 @@
             tools:ignore="UsingOnClickInXml"
             />
 
+        <TextView
+            android:id="@+id/telecomManagerFeature"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/azure_communication_ui_calling_fab_margin"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:text="@string/telecom_manager_option"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/azure_communication_ui_calling_color_on_surface"
+            android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding"
+            />
+
+        <CheckBox
+            android:id="@+id/telecom_manager_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onCheckBoxTap"
+            android:checked="true"
+            android:text="@string/telecom_manager"
+            tools:ignore="UsingOnClickInXml"
+            />
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 </ScrollView>

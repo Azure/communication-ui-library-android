@@ -268,9 +268,11 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         if (AdditionalFeatures.secondaryThemeFeature.active)
             callCompositeBuilder.theme(R.style.MyCompany_Theme_Calling)
 
-        val telecomOptions =
-            CallCompositeTelecomOptions(CallCompositeTelecomIntegration.APPLICATION_IMPLEMENTED_TELECOM_MANAGER)
-        callCompositeBuilder.telecom(telecomOptions)
+        if (SettingsFeatures.getTelecomManagerFeatureValue()) {
+            val telecomOptions =
+                CallCompositeTelecomOptions(CallCompositeTelecomIntegration.APPLICATION_IMPLEMENTED_TELECOM_MANAGER)
+            callCompositeBuilder.telecom(telecomOptions)
+        }
 
         callComposite = callCompositeBuilder.build()
         subscribeToEvents(applicationContext!!)
@@ -332,7 +334,9 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
 
     override fun onCallStateChanged(callStateEvent: CallCompositeCallStateChangedEvent) {
         callCompositeCallStateStateFlow.value = callStateEvent.code.toString()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+            SettingsFeatures.getTelecomManagerFeatureValue()
+        ) {
             if (callStateEvent.code == CallCompositeCallStateCode.CONNECTING) {
                 telecomConnectionManager?.startOutgoingConnection(
                     "Outgoing call"
