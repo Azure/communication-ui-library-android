@@ -122,7 +122,7 @@ class TelecomConnectionService : ConnectionService(), TelecomConnectionServiceLi
                 connection?.setAudioRoute(CallAudioState.ROUTE_SPEAKER)
             }
             "RECEIVER_SELECTED" -> {
-                connection?.setAudioRoute(CallAudioState.ROUTE_EARPIECE)
+                connection?.setAudioRoute(CallAudioState.ROUTE_WIRED_OR_EARPIECE)
             }
             "BLUETOOTH_SCO_SELECTED" -> {
                 connection?.setAudioRoute(CallAudioState.ROUTE_BLUETOOTH)

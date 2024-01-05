@@ -306,6 +306,9 @@ class CallLauncherActivity : AppCompatActivity() {
 
         if (application.callCompositeManager != null) {
             callCompositeManager = application.callCompositeManager
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                callCompositeManager?.telecomConnectionManager(TelecomConnectionManager(this@CallLauncherActivity, PHONE_ACCOUNT_ID))
+            }
             return
         }
 
