@@ -79,6 +79,10 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         this.telecomConnectionManager = telecomConnectionManager
     }
 
+    fun isTelecomConnectionManagerInitialized(): Boolean {
+        return telecomConnectionManager != null
+    }
+
     fun launch(
         context: Context,
         acsToken: String,
