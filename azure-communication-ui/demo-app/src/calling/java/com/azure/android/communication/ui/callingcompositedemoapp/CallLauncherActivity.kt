@@ -44,7 +44,7 @@ import java.util.UUID
 
 class CallLauncherActivity : AppCompatActivity() {
     companion object {
-        const val TAG = "InderTest"
+        const val TAG = "calling.demo.app"
         const val PHONE_ACCOUNT_ID = ""
         const val CALL_LAUNCHER_BROADCAST_ACTION = "CALL_LAUNCHER_BROADCAST_ACTION"
         var isActivityRunning = false

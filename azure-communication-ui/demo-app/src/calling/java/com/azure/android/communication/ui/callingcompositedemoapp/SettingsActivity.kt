@@ -36,6 +36,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var subtitleTextView: TextView
     private lateinit var remoteAvatarInjectionCheckBox: CheckBox
     private lateinit var skipSetupScreenCheckBox: CheckBox
+    private lateinit var telecomManagerCheckBox: CheckBox
     private lateinit var micOnByDefaultCheckBox: CheckBox
     private lateinit var cameraOnByDefaultCheckBox: CheckBox
     private lateinit var endCallOnDefaultCheckBox: CheckBox
@@ -207,6 +208,7 @@ class SettingsActivity : AppCompatActivity() {
         titleTextView = findViewById(R.id.call_title)
         subtitleTextView = findViewById(R.id.call_subtitle)
         skipSetupScreenCheckBox = findViewById(R.id.skip_setup_screen_check_box)
+        telecomManagerCheckBox = findViewById(R.id.telecom_manager_check_box)
         micOnByDefaultCheckBox = findViewById(R.id.mic_control_check_box)
         cameraOnByDefaultCheckBox = findViewById(R.id.camera_control_check_box)
         callScreenOrientationAdapterLayout = findViewById(R.id.call_screen_orientation_adapter_layout)
@@ -367,7 +369,7 @@ class SettingsActivity : AppCompatActivity() {
             TELECOM_MANAGER_VALUE_KEY,
             DEFAULT_TELECOM_MANAGER_VALUE
         )
-        skipSetupScreenCheckBox.isChecked = isChecked
+        telecomManagerCheckBox.isChecked = isChecked
     }
 
     private fun updateMicOnByDefaultCheckbox() {
@@ -432,7 +434,7 @@ const val DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE = false
 const val LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY = "LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY"
 const val LAUNCH_ON_EXIT_ON_BY_DEFAULT_VALUE = false
 const val TELECOM_MANAGER_VALUE_KEY = "TELECOM_MANAGER_VALUE_KEY"
-const val DEFAULT_TELECOM_MANAGER_VALUE = false
+const val DEFAULT_TELECOM_MANAGER_VALUE = true
 
 const val CACHED_TOKEN = "CACHED_TOKEN"
 const val CACHED_USER_NAME = "CACHED_USER_NAME"
