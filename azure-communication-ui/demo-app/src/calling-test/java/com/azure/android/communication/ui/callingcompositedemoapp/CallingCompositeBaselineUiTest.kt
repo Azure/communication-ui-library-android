@@ -24,7 +24,7 @@ class CallingCompositeBaselineUiTest : BaseUiTest() {
 
     private fun setTelecomManagerFalse() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        context.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
             .edit()
             .putBoolean(TELECOM_MANAGER_VALUE_KEY, false)
             .apply()

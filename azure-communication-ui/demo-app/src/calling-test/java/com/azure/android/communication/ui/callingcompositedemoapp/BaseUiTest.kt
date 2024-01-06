@@ -3,7 +3,9 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
+import android.content.Context
 import android.os.Build
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import androidx.test.rule.GrantPermissionRule
 import com.microsoft.appcenter.espresso.Factory
@@ -49,11 +51,29 @@ open class BaseUiTest {
     open fun setup() {
         reportHelper.label("Starting test")
         Thread.sleep(5000)
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        context.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
+            .edit()
+            .putBoolean(TELECOM_MANAGER_VALUE_KEY, false)
+            .apply()
+        context.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
+            .edit()
+            .putBoolean(REGISTER_PUSH_ON_EXIT_KEY, false)
+            .apply()
     }
 
     @After
     fun tearDown() {
         reportHelper.label("Stopping test")
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        context.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
+            .edit()
+            .putBoolean(TELECOM_MANAGER_VALUE_KEY, true)
+            .apply()
+        context.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
+            .edit()
+            .putBoolean(REGISTER_PUSH_ON_EXIT_KEY, true)
+            .apply()
     }
 }
 

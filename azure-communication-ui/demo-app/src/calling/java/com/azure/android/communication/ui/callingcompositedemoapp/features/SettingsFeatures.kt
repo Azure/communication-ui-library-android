@@ -32,6 +32,8 @@ import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ISRTL
 import com.azure.android.communication.ui.callingcompositedemoapp.LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.LAUNCH_ON_EXIT_ON_BY_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.MIC_ON_BY_DEFAULT_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.REGISTER_PUSH_ON_EXIT_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.REGISTER_PUSH_ON_EXIT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.RENDERED_DISPLAY_NAME
 import com.azure.android.communication.ui.callingcompositedemoapp.SETTINGS_SHARED_PREFS
 import com.azure.android.communication.ui.callingcompositedemoapp.SETUP_SCREEN_ORIENTATION_SHARED_PREF_KEY
@@ -116,6 +118,11 @@ class SettingsFeatures {
         @JvmStatic
         fun getTelecomManagerFeatureValue(): Boolean {
             return sharedPrefs.getBoolean(TELECOM_MANAGER_VALUE_KEY, DEFAULT_TELECOM_MANAGER_VALUE)
+        }
+
+        @JvmStatic
+        fun getRegisterPushOnExitFeatureValue(): Boolean {
+            return sharedPrefs.getBoolean(REGISTER_PUSH_ON_EXIT_KEY, REGISTER_PUSH_ON_EXIT_VALUE)
         }
 
         @JvmStatic

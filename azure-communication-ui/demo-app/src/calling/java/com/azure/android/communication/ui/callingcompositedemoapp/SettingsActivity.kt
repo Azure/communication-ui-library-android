@@ -19,7 +19,7 @@ import com.google.android.material.textfield.TextInputLayout
 import java.util.Locale
 
 // Key for the SharedPrefs store that will be used for FeatureFlags
-const val SETTINGS_SHARED_PREFS = "Settings"
+const val SETTINGS_SHARED_PREFS = "CALLING_COMPOSITE_DEMO_APP_SETTINGS_SHARED_PREFS"
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -36,6 +36,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var subtitleTextView: TextView
     private lateinit var remoteAvatarInjectionCheckBox: CheckBox
     private lateinit var skipSetupScreenCheckBox: CheckBox
+    private lateinit var registerPushOnExitCheckBox: CheckBox
     private lateinit var telecomManagerCheckBox: CheckBox
     private lateinit var micOnByDefaultCheckBox: CheckBox
     private lateinit var cameraOnByDefaultCheckBox: CheckBox
@@ -110,6 +111,8 @@ class SettingsActivity : AppCompatActivity() {
 
         updateTelecomManagerCheckbox()
 
+        updateRegisterPushOnExitCheckbox()
+
         updateMicOnByDefaultCheckbox()
 
         updateCameraOnByDefaultCheckbox()
@@ -168,6 +171,12 @@ class SettingsActivity : AppCompatActivity() {
                         view.isChecked
                     ).apply()
                 }
+                R.id.register_for_push_on_exit_check_box -> {
+                    sharedPreference.edit().putBoolean(
+                        REGISTER_PUSH_ON_EXIT_KEY,
+                        view.isChecked
+                    ).apply()
+                }
                 R.id.mic_control_check_box -> {
                     sharedPreference.edit().putBoolean(
                         MIC_ON_BY_DEFAULT_KEY,
@@ -209,6 +218,7 @@ class SettingsActivity : AppCompatActivity() {
         subtitleTextView = findViewById(R.id.call_subtitle)
         skipSetupScreenCheckBox = findViewById(R.id.skip_setup_screen_check_box)
         telecomManagerCheckBox = findViewById(R.id.telecom_manager_check_box)
+        registerPushOnExitCheckBox = findViewById(R.id.register_for_push_on_exit_check_box)
         micOnByDefaultCheckBox = findViewById(R.id.mic_control_check_box)
         cameraOnByDefaultCheckBox = findViewById(R.id.camera_control_check_box)
         callScreenOrientationAdapterLayout = findViewById(R.id.call_screen_orientation_adapter_layout)
@@ -357,7 +367,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun updateSkipSetupScreenCheckbox() {
-        var isChecked = sharedPreference.getBoolean(
+        val isChecked = sharedPreference.getBoolean(
             SKIP_SETUP_SCREEN_VALUE_KEY,
             DEFAULT_SKIP_SETUP_SCREEN_VALUE
         )
@@ -365,11 +375,19 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun updateTelecomManagerCheckbox() {
-        var isChecked = sharedPreference.getBoolean(
+        val isChecked = sharedPreference.getBoolean(
             TELECOM_MANAGER_VALUE_KEY,
             DEFAULT_TELECOM_MANAGER_VALUE
         )
         telecomManagerCheckBox.isChecked = isChecked
+    }
+
+    private fun updateRegisterPushOnExitCheckbox() {
+        val isChecked = sharedPreference.getBoolean(
+            REGISTER_PUSH_ON_EXIT_KEY,
+            REGISTER_PUSH_ON_EXIT_VALUE
+        )
+        registerPushOnExitCheckBox.isChecked = isChecked
     }
 
     private fun updateMicOnByDefaultCheckbox() {
@@ -435,6 +453,8 @@ const val LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY = "LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY"
 const val LAUNCH_ON_EXIT_ON_BY_DEFAULT_VALUE = false
 const val TELECOM_MANAGER_VALUE_KEY = "TELECOM_MANAGER_VALUE_KEY"
 const val DEFAULT_TELECOM_MANAGER_VALUE = true
+const val REGISTER_PUSH_ON_EXIT_KEY = "REGISTER_PUSH_ON_EXIT_KEY"
+const val REGISTER_PUSH_ON_EXIT_VALUE = true
 
 const val CACHED_TOKEN = "CACHED_TOKEN"
 const val CACHED_USER_NAME = "CACHED_USER_NAME"

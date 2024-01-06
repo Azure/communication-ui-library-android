@@ -413,7 +413,20 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             telecomConnectionManager?.endConnection()
         }
+        registerIncomingCallAndDispose()
         unsubscribe()
+    }
+
+    private fun registerIncomingCallAndDispose() {
+        if (SettingsFeatures.getRegisterPushOnExitFeatureValue()) {
+            val acsToken =
+                applicationContext!!.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
+                    .getString(CACHED_TOKEN, "")
+            val userName =
+                applicationContext!!.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
+                    .getString(CACHED_USER_NAME, "")
+            registerFirebaseToken(acsToken!!, userName!!, true)
+        }
     }
 
     private fun showNotificationForIncomingCall(notification: CallCompositeIncomingCallInfo) {

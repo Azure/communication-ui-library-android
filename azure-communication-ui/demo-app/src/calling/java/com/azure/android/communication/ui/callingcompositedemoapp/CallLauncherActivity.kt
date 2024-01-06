@@ -304,9 +304,13 @@ class CallLauncherActivity : AppCompatActivity() {
 
         val application = application as CallLauncherApplication
 
+        SettingsFeatures.initialize(application)
         if (application.callCompositeManager != null) {
             callCompositeManager = application.callCompositeManager
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && callCompositeManager?.isTelecomConnectionManagerInitialized() == false) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+                SettingsFeatures.getTelecomManagerFeatureValue() &&
+                callCompositeManager?.isTelecomConnectionManagerInitialized() == false
+            ) {
                 callCompositeManager?.telecomConnectionManager(TelecomConnectionManager(this@CallLauncherActivity, PHONE_ACCOUNT_ID))
             }
             return
@@ -315,7 +319,9 @@ class CallLauncherActivity : AppCompatActivity() {
         callCompositeManager = CallCompositeManager(this@CallLauncherActivity)
         application.callCompositeManager = callCompositeManager
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+            SettingsFeatures.getTelecomManagerFeatureValue()
+        ) {
             callCompositeManager?.telecomConnectionManager(TelecomConnectionManager(this@CallLauncherActivity, PHONE_ACCOUNT_ID))
         }
     }

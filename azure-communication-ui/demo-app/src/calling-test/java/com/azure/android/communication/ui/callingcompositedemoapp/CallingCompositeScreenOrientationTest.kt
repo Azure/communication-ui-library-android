@@ -24,7 +24,7 @@ class CallingCompositeScreenOrientationTest : BaseUiTest() {
 
     private fun setSetupScreenOrientation(orientation: String) {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        context.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
             .edit()
             .putString(SETUP_SCREEN_ORIENTATION_SHARED_PREF_KEY, orientation)
             .apply()
@@ -32,7 +32,7 @@ class CallingCompositeScreenOrientationTest : BaseUiTest() {
 
     private fun setCallScreenOrientation(orientation: String) {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        context.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
             .edit()
             .putString(CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY, orientation)
             .apply()

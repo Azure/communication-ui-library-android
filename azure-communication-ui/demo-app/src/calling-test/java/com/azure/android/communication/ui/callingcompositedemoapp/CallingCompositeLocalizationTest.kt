@@ -25,7 +25,7 @@ class CallingCompositeLocalizationTest : BaseUiTest() {
 
     private fun setLanguage(language: String) {
         val context = getInstrumentation().targetContext
-        context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        context.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
             .edit()
             .putString("LANGUAGE_ADAPTER_VALUE", language)
             .commit()
