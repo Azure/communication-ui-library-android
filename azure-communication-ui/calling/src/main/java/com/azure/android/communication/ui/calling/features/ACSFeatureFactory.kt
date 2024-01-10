@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.calling.features
 
-import com.azure.android.communication.ui.calling.features.interfaces.ISupportFilesFeature
+import com.azure.android.communication.ui.calling.features.interfaces.SupportFilesFeature
 
 /**
  * Factory for getting the different UIFeatureType not available in all release channels.
@@ -44,37 +44,36 @@ private constructor() {
      * @param <F> type of the feature interface
      * @return requested interface feature
      </F> */
-    fun <F : ACSFeature?> getACSFeature(feature: Class<F>): F? {
-        return if (featureList!!.containsKey(feature)) {
-            featureList!![feature] as F?
+    fun <F : ACSFeature?> getAcsFeature(feature: Class<F>): F? {
+        return if (featureList.containsKey(feature)) {
+            featureList[feature] as F
         } else null
     }
 
     /**
      * Add all available feature within the ACS SDK
      */
-    private fun RegisterACSFeatures() {
-        featureList = HashMap()
-        RegisterACSFeature<ISupportFilesFeature>(SupportFilesFeature())
+    private fun registerAcsFeatures() {
+        featureList.clear()
+        registerACSFeature<SupportFilesFeature>(SupportFilesFeatureImpl())
     }
 
     /**
      * Add a feature to the factory map
      *
-     * @param _interface key of the feature instance
-     * @param _instance feature instance
+     * @param instance feature instance
      * @param <I> type of the feature interface
      * @param <O> type of the feature instance
      </O></I> */
-    private inline fun <reified I : ACSFeature> RegisterACSFeature(_instance: I) {
-        featureList!![I::class.java] = _instance
+    private inline fun <reified I : ACSFeature> registerACSFeature(instance: I) {
+        featureList[I::class.java] = instance
     }
 
     companion object {
-        private var featureList: MutableMap<Class<*>, ACSFeature>? = null
+        private val featureList: MutableMap<Class<*>, ACSFeature> = HashMap()
         val instance: ACSFeatureFactory by lazy {
             val factory = ACSFeatureFactory()
-            factory.RegisterACSFeatures()
+            factory.registerAcsFeatures()
             factory
         }
     }
