@@ -46,12 +46,6 @@ repositories {
 ```
 Sync project with gradle files. (Android Studio -> File -> Sync Project With Gradle Files)
 
-### Beta Calling SDK and Features
-
-To utilize Beta Calling SDKs and enable features that are in preview, add the following lines to your project level `local.properties` file.
-```properties
-USE_BETA_CALLING_SDK=true
-```
 
 ```groovy
 ### Quick Sample 
