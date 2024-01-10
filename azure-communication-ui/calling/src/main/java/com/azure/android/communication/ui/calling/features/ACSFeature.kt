@@ -14,5 +14,5 @@ internal interface ACSFeature {
      *
      * @return true if available on the current release otherwise false
      */
-    val isAvailable : Boolean
+    val isAvailable: Boolean
 }

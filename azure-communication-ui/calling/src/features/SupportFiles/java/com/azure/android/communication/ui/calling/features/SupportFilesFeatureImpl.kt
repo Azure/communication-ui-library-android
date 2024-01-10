@@ -11,7 +11,7 @@ import java.util.Collections
 
 // Implementation version of SupportFilesFeature
 internal class SupportFilesFeatureImpl : SupportFilesFeature() {
-    override val isAvailable  = true
+    override val isAvailable = true
     override fun getSupportFiles(client: CallClient, context: Context): List<File> {
         return client.debugInfo.supportFiles ?: Collections.emptyList()
     }
