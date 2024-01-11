@@ -32,11 +32,39 @@ buildscript {
         if (project.rootProject.file('private_drop.properties').canRead()) {
             Properties privateDropProps = new Properties()
             privateDropProps.load(project.rootProject.file('private_drop.properties').newDataInputStream())
-            azure_calling_sdk_version = privateDropProps.getProperty('PRIVATE_DROP_VERSION', '""')
+            azure_calling_sdk_version_ga = privateDropProps.getProperty('PRIVATE_DROP_VERSION', '""')
+            azure_calling_sdk_version_beta = azure_calling_sdk_version_ga
         }
         else {
-            azure_calling_sdk_version = '2.5.0'
+            // To use Beta Calling SDK and Features, set the following in local.properties:
+            //
+            // USE_CALLING_SDK_BETA=true
+            //
+            // and then run ./gradlew clean
+            // This will use the beta version of the SDK
+            // and enable the beta features
+
+            // In this branch, it was already Beta version, so it'll be in the GA field here
+            // This should be set to a GA release before merge back
+            azure_calling_sdk_version_ga = '2.5.0'
+            azure_calling_sdk_version_beta = '2.6.0-beta.6'
         }
+
+        // Initialize the SDK Version based on the calling SDK Beta flag
+        Properties localProps = new Properties()
+        if (project.rootProject.file('local.properties').canRead()) {
+            localProps.load(project.rootProject.file('local.properties').newDataInputStream())
+        }
+
+        // Select GA first, but if that isn't right then BETA
+        ext.azure_calling_sdk_version = ext.azure_calling_sdk_version_ga
+        isUsingBetaSdk=false
+        if (localProps.getProperty('USE_CALLING_SDK_BETA', 'false').toBoolean()) {
+            ext.azure_calling_sdk_version = ext.azure_calling_sdk_version_beta
+            isUsingBetaSdk=true
+        }
+
+
 
         // while modifying this version, make sure to modify in ChatContainer
         azure_chat_sdk_version = '2.0.1'

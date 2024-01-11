@@ -7,19 +7,34 @@ plugins {
 apply from: file('publish.gradle')
 apply from: file('jacoco.gradle')
 apply from: file('../java_compile_flags.gradle')
+
+// Compile time features
+def FEATURE_SUPPORT_FILES = "SupportFiles"
+def AVAILABLE_FEATURES = [FEATURE_SUPPORT_FILES]
+def BETA_FEATURES = [FEATURE_SUPPORT_FILES]
+def GA_FEATURES = []
+def ENABLED_FEATURES = []
+if (isUsingBetaSdk) {
+    ENABLED_FEATURES = BETA_FEATURES
+} else {
+    ENABLED_FEATURES = GA_FEATURES
+}
+
 android {
-    compileSdkVersion 33
     resourcePrefix 'azure_communication_ui_calling_'
+    compileSdkVersion 33
 
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 33
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+        buildConfigField "String", "UI_SDK_VERSION", "\"" + call_library_version_name + "\""
+        buildConfigField "String", "CALL_SDK_VERSION", "\"" + azure_calling_sdk_version + "\""
     }
 
     buildFeatures {
-        buildConfig = false
+        buildConfig = true
         resValues = false
     }
 
@@ -29,6 +44,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    for (String featureName : AVAILABLE_FEATURES) {
+        // By default, use dummy implementations for the feature.
+        def implFolder = "stubs"
+        if (ENABLED_FEATURES.contains(featureName)) {
+            // If the feature is in the FEATURES list, use the full implementation
+            implFolder = "features"
+        }
+
+        // Add the SourceSets for the feature to the android project.
+        android.sourceSets.main.java.srcDirs "src/${implFolder}/${featureName}/java"
+        android.sourceSets.main.res.srcDirs "src/${implFolder}/${featureName}/res"
+        android.sourceSets.main.assets.srcDirs "src/${implFolder}/${featureName}/assets"
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -73,6 +103,7 @@ android {
             exclude({ it.file.absolutePath.contains("/generated/") })
         }
     }
+
     if (!shouldByPassMavenPublish()) {
         publishing {
             multipleVariants('release') {
