@@ -87,19 +87,19 @@ class CallLauncherActivity : AppCompatActivity() {
             } else {
                 groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
             }
-    
+
             acsTokenText.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 }
-        
+
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     launchButton.isEnabled = !s.isNullOrEmpty()
                 }
-        
+
                 override fun afterTextChanged(s: Editable?) {
                 }
             })
-            
+
             launchButton.setOnClickListener {
                 launch()
             }
@@ -205,14 +205,14 @@ class CallLauncherActivity : AppCompatActivity() {
                 return
             }
         }
-        
+
         try {
             CommunicationTokenCredential(acsToken)
         } catch (e: Exception) {
             showAlert("Invalid token")
             return
         }
-    
+
         callLauncherViewModel.launch(
             this@CallLauncherActivity,
             acsToken,
