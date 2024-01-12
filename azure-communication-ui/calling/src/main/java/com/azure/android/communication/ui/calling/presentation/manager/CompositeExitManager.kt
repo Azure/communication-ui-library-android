@@ -10,6 +10,10 @@ import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 internal class CompositeExitManager(
     private val store: Store<ReduxState>,
@@ -34,14 +38,17 @@ internal class CompositeExitManager(
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun notifyCompositeExit() {
-        configuration.callCompositeEventsHandler.getOnExitEventHandlers().forEach {
-            val eventArgs =
-                CallCompositeDismissedEvent(
-                    store.getCurrentState().errorState.fatalError?.errorCode?.toCallCompositeErrorCode(),
-                    store.getCurrentState().errorState.fatalError?.fatalError
-                )
-            it.handle(eventArgs)
+        GlobalScope.launch(Dispatchers.Main) {
+            configuration.callCompositeEventsHandler.getOnExitEventHandlers().forEach {
+                val eventArgs =
+                    CallCompositeDismissedEvent(
+                        store.getCurrentState().errorState.fatalError?.errorCode?.toCallCompositeErrorCode(),
+                        store.getCurrentState().errorState.fatalError?.fatalError
+                    )
+                it.handle(eventArgs)
+            }
         }
     }
 }

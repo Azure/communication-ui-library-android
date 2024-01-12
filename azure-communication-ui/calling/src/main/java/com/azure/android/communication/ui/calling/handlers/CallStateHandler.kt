@@ -10,6 +10,9 @@ import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -40,20 +43,23 @@ internal class CallStateHandler(
         return store.getStateFlow().value.callState.callingStatus.callCompositeCallState()
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun sendCallStateChangedEvent(
         status: CallingStatus,
         callEndReasonCode: Int?,
         callEndReasonSubCode: Int?
     ) {
         try {
-            configuration.callCompositeEventsHandler.getCallStateHandler().forEach {
-                it.handle(
-                    CallCompositeCallStateChangedEvent(
-                        status.callCompositeCallState(),
-                        callEndReasonCode,
-                        callEndReasonSubCode
+            GlobalScope.launch(Dispatchers.Main) {
+                configuration.callCompositeEventsHandler.getCallStateHandler().forEach {
+                    it.handle(
+                        CallCompositeCallStateChangedEvent(
+                            status.callCompositeCallState(),
+                            callEndReasonCode,
+                            callEndReasonSubCode
+                        )
                     )
-                )
+                }
             }
         } catch (error: Throwable) {
             // suppress any possible application errors
