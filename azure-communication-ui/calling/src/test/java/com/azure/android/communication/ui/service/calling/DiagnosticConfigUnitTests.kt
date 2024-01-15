@@ -15,7 +15,7 @@ internal class DiagnosticConfigUnitTests {
         val diagnosticConfig = DiagnosticConfig()
         val tags = diagnosticConfig.tags
 
-        Assert.assertArrayEquals(arrayOf(expectedVersion), tags)
+        Assert.assertArrayEquals(arrayOf(expectedPrefix + expectedVersion), tags)
     }
 
     @Test

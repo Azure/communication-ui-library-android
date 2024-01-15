@@ -10,7 +10,7 @@ internal class DiagnosticConfig {
 
     private fun getApplicationId(): String {
         val callingCompositeVersionName = BuildConfig.CALL_SDK_VERSION
-        val baseTag = "ac"
+        val baseTag = "aca"
         // Tag template is: acXYYY/<version>
         // Where:
         // - X describes a platform, [r: web, i: iOS, a: Android]
@@ -21,6 +21,6 @@ internal class DiagnosticConfig {
         //          [0: undefined, 1: Call Composite, 2: Chat Composite, 3: CallWithChatComposite, 4: UI Components]
         //      Y[2] is reserved for implementation details,
         //          [0: undefined]
-        return "${baseTag}a110/$callingCompositeVersionName"
+        return "${baseTag}110/$callingCompositeVersionName"
     }
 }
