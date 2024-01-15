@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
+
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -24,20 +25,21 @@ import com.azure.android.communication.ui.calling.presentation.DependencyInjecti
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarView
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.OnHoldOverlayView
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.ConnectingLobbyOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyErrorHeaderView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyHeaderView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.WaitingLobbyOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser.LocalParticipantView
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationView
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListView
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.ConnectingLobbyOverlayView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutView
+
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
 
 internal class CallingFragment :

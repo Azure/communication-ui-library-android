@@ -8,10 +8,8 @@ import com.azure.android.communication.ui.calling.data.CallHistoryRepositoryImpl
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManagerImpl
+import java.io.File
 
-internal fun createDebugInfoManager(context: Context): DebugInfoManager {
-    return DebugInfoManagerImpl(CallHistoryRepositoryImpl(context, DefaultLogger()))
-}
 
 internal fun CallComposite.getDiContainer() =
     CallComposite.diContainer
@@ -19,3 +17,6 @@ internal fun CallComposite.getDiContainer() =
 internal fun CallComposite.onExit() {
     CallComposite.diContainer = null
 }
+internal fun createDebugInfoManager(context: Context,
+                                    getLogFiles : ()->List<File>): DebugInfoManager =
+    DebugInfoManagerImpl(CallHistoryRepositoryImpl(context, DefaultLogger()), getLogFiles)

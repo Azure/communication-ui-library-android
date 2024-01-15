@@ -1,5 +1,8 @@
 # Azure Communication UI Calling Release History
 
+## 1.6.0-beta.2 
+- Support form functionality
+
 ## 1.6.0-beta.1 (2023-12-21)
 
 ### Features

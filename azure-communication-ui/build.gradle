@@ -44,8 +44,6 @@ buildscript {
             // This will use the beta version of the SDK
             // and enable the beta features
 
-            // In this branch, it was already Beta version, so it'll be in the GA field here
-            // This should be set to a GA release before merge back
             azure_calling_sdk_version_ga = '2.6.0-beta.6'
             azure_calling_sdk_version_beta = '2.6.0-beta.6'
         }
@@ -67,7 +65,7 @@ buildscript {
 
 
         // while modifying this version, make sure to modify in ChatContainer
-        azure_chat_sdk_version = '2.0.0'
+        azure_chat_sdk_version = '2.0.1'
         azure_common_sdk_version = '1.0.2'
 
         jetbrains_kotlinx_coroutines_test_version = '1.6.0-native-mt'

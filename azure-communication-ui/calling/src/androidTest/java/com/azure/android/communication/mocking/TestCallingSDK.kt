@@ -44,6 +44,8 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.io.File
+import java.util.Collections
 
 internal interface LocalStreamEventObserver {
     fun onSwitchSource(deviceInfo: VideoDeviceInfo)
@@ -407,6 +409,10 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
 
     override fun getMediaCallDiagnosticSharedFlow(): SharedFlow<MediaCallDiagnosticModel> {
         return mediaCallDiagnosticSharedFlow
+    }
+
+    override fun getLogFiles(): List<File> {
+        return Collections.emptyList()
     }
 
     private fun RemoteVideoStream.asVideoStreamModel(): VideoStreamModel {

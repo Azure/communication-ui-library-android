@@ -3,8 +3,14 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.util.Log
+import android.os.Build
+import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.ViewModel
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
@@ -25,6 +31,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocato
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeStartCallOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
+import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.views.EndCompositeButtonView
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,8 +42,11 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
     val callCompositeShowAlertStateStateFlow = MutableStateFlow("")
     val callCompositeExitSuccessStateFlow = MutableStateFlow(false)
     var isExitRequested = false
+    val userReportedIssueEvent = MutableStateFlow<CallCompositeUserReportedIssueEvent?>(null)
+
     private val callStateEventHandler = CallStateEventHandler(callCompositeCallStateStateFlow)
     private var exitEventHandler: CallExitEventHandler? = null
+    private var userReportedIssueEventHandler: OnUserReportedEventErrorHandler? = null
     private var errorHandler: CallLauncherActivityErrorHandler? = null
     private var remoteParticipantJoinedEvent: RemoteParticipantJoinedHandler? = null
     private var exitedCompositeToAcceptCall: Boolean = false
@@ -129,6 +139,11 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
             callCompositeCallStateStateFlow,
             this
         )
+
+        callComposite?.addOnUserReportedEventHandler {
+            userReportedIssueEvent.value = it
+        }
+
         callComposite?.addOnCallStateChangedEventHandler(callStateEventHandler)
         callComposite?.addOnDismissedEventHandler(exitEventHandler)
 
@@ -207,6 +222,7 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
     private fun unsubscribe() {
         callComposite?.let { composite ->
             composite.removeOnPictureInPictureChangedEventHandler(callCompositePictureInPictureChangedEvent)
+            composite.removeOnUserReportedEventHandler(userReportedIssueEventHandler)
             composite.removeOnCallStateChangedEventHandler(callStateEventHandler)
             composite.removeOnErrorEventHandler(errorHandler)
             composite.removeOnRemoteParticipantJoinedEventHandler(remoteParticipantJoinedEvent)
@@ -240,6 +256,13 @@ class CallStateEventHandler(private val callCompositeCallStateStateFlow: Mutable
     }
 }
 
+class UserReportedIssueHandler : CallCompositeEventHandler<CallCompositeUserReportedIssueEvent> {
+    var lastEvent = MutableStateFlow<CallCompositeUserReportedIssueEvent?>(null)
+    override fun handle(eventArgs: CallCompositeUserReportedIssueEvent?) {
+        lastEvent.value = eventArgs
+    }
+
+}
 class CallExitEventHandler(
     private val exitStateFlow: MutableStateFlow<Boolean>,
     private val callCompositeCallStateStateFlow: MutableStateFlow<String>,
@@ -265,5 +288,45 @@ class AudioSelectionSelection : CallCompositeEventHandler<CallCompositeAudioSele
     override fun handle(event: CallCompositeAudioSelectionChangedEvent) {
         println("addOnAudioSelectionChangedEventHandler it: " + event.selectionType)
         CallCompositeManager.getInstance().onAudioSelectionChanged(event.selectionType)
+    }
+}
+
+class OnUserReportedEventErrorHandler(val context: Context) : CallCompositeEventHandler<CallCompositeUserReportedIssueEvent> {
+    override fun handle(event: CallCompositeUserReportedIssueEvent) {
+        val message = """
+        User reported issue:
+        ${event.userMessage}
+        ${event.logFiles.joinToString(", ") { it.name }}
+        ${event.history.joinToString("\n") { it.toString() }}
+    """.trimIndent()
+
+        // Show Toast message
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+
+        // Create a notification channel (required for Android 8.0 and above)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channelName = "User Issue Channel"
+            val channelDescription = "Notifications for user reported issues"
+            val channelId = "CallLauncherActivity"
+            val channelImportance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(channelId, channelName, channelImportance).apply {
+                description = channelDescription
+            }
+            val notificationManager = context.getSystemService(NotificationManager::class.java)
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        // Create and show the notification
+        val notification = NotificationCompat.Builder(context, "CallLauncherActivity")
+            .setContentTitle("User reported issue")
+            .setSmallIcon(android.R.drawable.ic_dialog_alert)
+            .setContentText(message)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .build()
+
+        val notificationManager = NotificationManagerCompat.from(context)
+        notificationManager.notify(1, notification)
+
     }
 }

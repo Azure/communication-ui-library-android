@@ -42,6 +42,7 @@ class CallLauncherActivity : AppCompatActivity() {
     companion object {
         const val TAG = "communication.ui.demo"
     }
+
     private val ringToneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
     private lateinit var binding: ActivityCallLauncherBinding
     private val callLauncherViewModel: CallLauncherViewModel by viewModels()
@@ -80,7 +81,8 @@ class CallLauncherActivity : AppCompatActivity() {
         val deeplinkName = data?.getQueryParameter("name")
         var deeplinkGroupId = data?.getQueryParameter("groupid")
         val deeplinkTeamsUrl = data?.getQueryParameter("teamsurl")
-        val participantMRI = data?.getQueryParameter("participanturis") ?: BuildConfig.PARTICIPANT_MRIS
+        val participantMRI =
+            data?.getQueryParameter("participanturis") ?: BuildConfig.PARTICIPANT_MRIS
         var deepLinkRoomsId = data?.getQueryParameter("roomsid")
 
         binding.run {
@@ -196,7 +198,8 @@ class CallLauncherActivity : AppCompatActivity() {
 
             declineCallButton.setOnClickListener {
                 incomingCallLayout.visibility = LinearLayout.GONE
-                callLauncherViewModel.createCallComposite(this@CallLauncherActivity).declineIncomingCall()
+                callLauncherViewModel.createCallComposite(this@CallLauncherActivity)
+                    .declineIncomingCall()
             }
 
             showCallHistoryButton.setOnClickListener {
@@ -209,8 +212,10 @@ class CallLauncherActivity : AppCompatActivity() {
                     showAlert("ACS token is empty.")
                     return@setOnClickListener
                 }
-                sharedPreference.edit().putString(CACHED_TOKEN, acsTokenText.text.toString()).apply()
-                sharedPreference.edit().putString(CACHED_USER_NAME, userNameText.text.toString()).apply()
+                sharedPreference.edit().putString(CACHED_TOKEN, acsTokenText.text.toString())
+                    .apply()
+                sharedPreference.edit().putString(CACHED_USER_NAME, userNameText.text.toString())
+                    .apply()
                 registerPuhNotification()
             }
 
@@ -238,14 +243,29 @@ class CallLauncherActivity : AppCompatActivity() {
             }
 
             lifecycleScope.launch {
+
                 callLauncherViewModel.callCompositeShowAlertStateStateFlow.collect {
                     runOnUiThread {
                         if (it.isNotEmpty()) {
-                            showAlert(it + "Call ID: " + callLauncherViewModel.getLastCallId(applicationContext))
+                            showAlert(
+                                it + "Call ID: " + callLauncherViewModel.getLastCallId(
+                                    applicationContext
+                                )
+                            )
                         }
                     }
                 }
             }
+
+            lifecycleScope.launch {
+                callLauncherViewModel.userReportedIssueEvent.collect {
+                    binding.userReportedIssue.text =
+                        "User Message: ${it?.userMessage ?: "No user message"}"
+                    binding.userReportedIssue.setOnClickListener {
+                    }
+                }
+            }
+
 
             disposeCompositeButton.setOnClickListener {
                 callLauncherViewModel.destroy()
@@ -273,10 +293,12 @@ class CallLauncherActivity : AppCompatActivity() {
                 "incoming_call" -> {
                     binding.incomingCallLayout.visibility = View.VISIBLE
                 }
+
                 "answer" -> {
                     binding.incomingCallLayout.visibility = View.GONE
                     callLauncherViewModel.acceptIncomingCall(this@CallLauncherActivity)
                 }
+
                 "decline" -> {
                     binding.incomingCallLayout.visibility = View.GONE
                     CallCompositeManager.getInstance().declineIncomingCall()
@@ -327,9 +349,10 @@ class CallLauncherActivity : AppCompatActivity() {
         sharedPreference.edit().putString(CACHED_TOKEN, acsToken).apply()
         sharedPreference.edit().putString(CACHED_USER_NAME, userName).apply()
         val roomId = binding.groupIdOrTeamsMeetingLinkText.text.toString()
-        val roomRole = if (binding.attendeeRoleRadioButton.isChecked) CallCompositeParticipantRole.ATTENDEE
-        else if (binding.presenterRoleRadioButton.isChecked) CallCompositeParticipantRole.PRESENTER
-        else null
+        val roomRole =
+            if (binding.attendeeRoleRadioButton.isChecked) CallCompositeParticipantRole.ATTENDEE
+            else if (binding.presenterRoleRadioButton.isChecked) CallCompositeParticipantRole.PRESENTER
+            else null
 
         var groupId: UUID? = null
         if (binding.groupCallRadioButton.isChecked) {
@@ -386,7 +409,8 @@ class CallLauncherActivity : AppCompatActivity() {
         val title = "Total calls: ${history.count()}"
         var message = "Last Call: none"
         history.lastOrNull()?.let {
-            message = "Last Call: ${it.callStartedOn.format(DateTimeFormatter.ofPattern("MMM dd 'at' hh:mm"))}"
+            message =
+                "Last Call: ${it.callStartedOn.format(DateTimeFormatter.ofPattern("MMM dd 'at' hh:mm"))}"
             it.callIds.forEach { callId ->
                 message += "\nCallId: $callId"
             }
@@ -407,6 +431,7 @@ class CallLauncherActivity : AppCompatActivity() {
             startActivity(settingIntent)
             true
         }
+
         else -> super.onOptionsItemSelected(item)
     }
 

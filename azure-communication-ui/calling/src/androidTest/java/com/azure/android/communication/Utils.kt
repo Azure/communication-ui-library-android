@@ -46,6 +46,14 @@ internal fun assertNotExist(id: Int): ViewInteraction? {
     ).check(doesNotExist())
 }
 
+internal fun assertViewGone(id: Int): ViewInteraction? {
+    return Espresso.onView(
+        Matchers.allOf(
+            ViewMatchers.withId(id)
+        )
+    ).check(ViewAssertions.matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
+}
+
 internal fun assertViewText(id: Int, text: String) {
     Espresso.onView(
         Matchers.allOf(

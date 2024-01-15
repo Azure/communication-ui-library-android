@@ -25,6 +25,8 @@ import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration
 import com.azure.android.communication.ui.calling.configuration.CallType
+import com.azure.android.communication.ui.calling.features.ACSFeatureFactory
+import com.azure.android.communication.ui.calling.features.interfaces.SupportFilesFeature
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
@@ -38,6 +40,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVideoStream
+import java.io.File
+import java.util.Collections
 
 internal class CallingSDKWrapper(
     private val context: Context,
@@ -118,6 +122,18 @@ internal class CallingSDKWrapper(
 
     override fun getMediaCallDiagnosticSharedFlow() =
         callingSDKEventHandler.getMediaCallDiagnosticsSharedFlow()
+
+    override fun getLogFiles(): List<File> {
+        val feature = ACSFeatureFactory.instance.getAcsFeature(SupportFilesFeature::class.java)
+            ?: return Collections.emptyList()
+
+        callClient?.apply {
+            return feature.getSupportFiles(this, context);
+        }
+
+        return Collections.emptyList()
+    }
+
     //endregion
     override fun getDominantSpeakersSharedFlow() =
         callingSDKEventHandler.getDominantSpeakersSharedFlow()

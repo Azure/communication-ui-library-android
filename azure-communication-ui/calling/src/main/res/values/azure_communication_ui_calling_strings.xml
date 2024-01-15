@@ -2,7 +2,7 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--    Device-->
     <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Speaker</string>
@@ -155,4 +155,15 @@
 
     <!--    Upper Message Bar Notification -->
     <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Dismiss</string>
+
+    <!--     Support Form -->
+    <string name="azure_communication_ui_calling_report_issue" tools:ignore="MissingTranslation">Report Issue</string>
+    <string name="azure_communication_ui_calling_report_issue_title" tools:ignore="MissingTranslation">Report Issue</string>
+    <string name="azure_communication_ui_calling_logs_attach_notice" tools:ignore="MissingTranslation">We\'ll automatically attach logs.</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label" tools:ignore="MissingTranslation">Privacy Policy</string>
+    <string name="azure_communication_ui_calling_describe_your_issue_hint_text" tools:ignore="MissingTranslation">Please describe your issue...</string>
+    <string name="azure_communication_ui_calling_cancel_button_label" tools:ignore="MissingTranslation">Cancel</string>
+    <string name="azure_communication_ui_calling_attach_screenshot" tools:ignore="MissingTranslation">Attach screenshot</string>
+    <string name="azure_communication_ui_calling_report_a_problem_label" tools:ignore="MissingTranslation">Report a problem</string>
+
 </resources>
