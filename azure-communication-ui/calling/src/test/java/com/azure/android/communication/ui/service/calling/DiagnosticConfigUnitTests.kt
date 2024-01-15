@@ -1,12 +1,13 @@
 package com.azure.android.communication.ui.service.calling
 
+import com.azure.android.communication.ui.BuildConfig
 import com.azure.android.communication.ui.calling.DiagnosticConfig
 import org.junit.Assert
 import org.junit.Test
 
 internal class DiagnosticConfigUnitTests {
     private val expectedPrefix = "aca110/"
-    private val expectedVersion = "${expectedPrefix}1.6.0-beta.1"
+    private val expectedVersion = "${expectedPrefix}${BuildConfig.CALL_SDK_VERSION}"
 
     @Test
     fun test_Expected_Tag() {
