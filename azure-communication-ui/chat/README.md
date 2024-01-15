@@ -4,7 +4,7 @@
 
 ## Latest Release
 
-- Public Preview: [1.0.0-beta.3](https://github.com/Azure/communication-ui-library-android/releases/tag/chat-1.0.0-beta.3)
+- Public Preview: [1.0.0-beta.2](https://github.com/Azure/communication-ui-library-android/releases/tag/chat-1.0.0-beta.2)
 
 ## Getting Started
 
@@ -27,7 +27,7 @@ android {
 ```groovy
 dependencies {
     ...
-    implementation 'com.azure.android:azure-communication-ui-chat:1.0.0-beta.3'
+    implementation 'com.azure.android:azure-communication-ui-chat:1.0.0-beta.2'
     ...
 }
 ```

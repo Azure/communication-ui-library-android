@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.calling
 
 import com.azure.android.communication.BaseUiTest
 import com.azure.android.communication.assertDisplayed
-import com.azure.android.communication.assertViewGone
 import com.azure.android.communication.assertViewText
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.tapWhenDisplayed
@@ -36,8 +35,9 @@ internal class ToastNotificationTest : BaseUiTest() {
         callingSDK.setLowNetworkRecieveQuality(false)
 
         // Assert toast notification is still shown even after UFD is set to false
-        assertViewGone(toastNotificationId)
-        assertViewGone(toastNotificationIconId)
+        assertDisplayed(toastNotificationId)
+        assertDisplayed(toastNotificationIconId)
+        assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_network_quality_low)
     }
 
     @Test
@@ -62,8 +62,9 @@ internal class ToastNotificationTest : BaseUiTest() {
         callingSDK.setLowNetworkSendQuality(false)
 
         // Assert toast notification is still shown even after UFD is set to false
-        assertViewGone(toastNotificationId)
-        assertViewGone(toastNotificationIconId)
+        assertDisplayed(toastNotificationId)
+        assertDisplayed(toastNotificationIconId)
+        assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_network_quality_low)
     }
 
     @Test
@@ -89,8 +90,9 @@ internal class ToastNotificationTest : BaseUiTest() {
         callingSDK.setLowNetworkReconnectionQuality(false)
 
         // Assert toast notification is still shown even after UFD is set to false
-        assertViewGone(toastNotificationId)
-        assertViewGone(toastNotificationIconId)
+        assertDisplayed(toastNotificationId)
+        assertDisplayed(toastNotificationIconId)
+        assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_network_reconnecting)
     }
 
     @Test
@@ -172,8 +174,9 @@ internal class ToastNotificationTest : BaseUiTest() {
         callingSDK.setSpeakingWhileMuted(false)
 
         // Assert toast notification is still shown even after UFD is set to false
-        assertViewGone(toastNotificationId)
-        assertViewGone(toastNotificationIconId)
+        assertDisplayed(toastNotificationId)
+        assertDisplayed(toastNotificationIconId)
+        assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_you_are_muted)
     }
 
     @Test

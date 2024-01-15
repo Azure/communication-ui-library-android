@@ -1,11 +1,5 @@
 # Release History
 
-## 1.0.0-beta.3 (2023-12-21)
-
-### Other Changes
-- Update the dependency `azure-communication-chat` to `2.0.1` for the EUDB compliance. 
-
-
 ## 1.0.0-beta.2 (2023-03-01)
 
 ### Bugs Fixed

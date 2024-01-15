@@ -6,8 +6,6 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import android.view.accessibility.AccessibilityEvent
-import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -45,12 +43,11 @@ internal class ToastNotificationView : ConstraintLayout {
     ) {
         this.toastNotificationViewModel = toastNotificationViewModel
         viewLifecycleOwner.lifecycleScope.launch {
-            toastNotificationViewModel.getDisplayToastNotificationFlow().collect {
-                toastNotificationLayout.visibility = if (it) View.VISIBLE else View.GONE
-
-                if (accessibilityEnabled && it) {
-                    toastNotificationLayout.performAccessibilityAction(AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS, null)
-                    toastNotificationLayout.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED)
+            if (accessibilityEnabled) {
+                toastNotificationLayout.visibility = View.VISIBLE
+            } else {
+                toastNotificationViewModel.getDisplayToastNotificationFlow().collect {
+                    toastNotificationLayout.visibility = if (it) View.VISIBLE else View.GONE
                 }
             }
         }
