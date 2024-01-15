@@ -303,6 +303,7 @@ internal class CallingSDKWrapper(
                             incomingCallWrapper?.incomingCall()?.let {
                                 val acceptCallOptions = AcceptCallOptions()
                                 videoOptions.let { acceptCallOptions.outgoingVideoOptions = videoOptions }
+                                acceptCallOptions.outgoingAudioOptions = audioOptions
                                 nullableCall = it.accept(context, acceptCallOptions)?.get()
                                 callingSDKEventHandler.onJoinCall(call)
                                 return@whenComplete
@@ -329,6 +330,7 @@ internal class CallingSDKWrapper(
                         incomingCallWrapper?.incomingCall()?.let {
                             val acceptCallOptions = AcceptCallOptions()
                             acceptCallOptions.outgoingVideoOptions = null
+                            acceptCallOptions.outgoingAudioOptions = audioOptions
                             nullableCall = it.accept(context, acceptCallOptions)?.get()
                             callingSDKEventHandler.onJoinCall(call)
                             return@thenAccept
