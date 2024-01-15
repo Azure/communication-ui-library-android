@@ -128,7 +128,7 @@ internal class CallingSDKWrapper(
             ?: return Collections.emptyList()
 
         callClient?.apply {
-            return feature.getSupportFiles(this, context);
+            return feature.getSupportFiles(this, context)
         }
 
         return Collections.emptyList()

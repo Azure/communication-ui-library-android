@@ -147,7 +147,6 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             audioModeManager.start()
         }
 
-
         multitaskingManager.start(lifecycleScope)
 
         notificationService.start(lifecycleScope, instanceId)
@@ -326,7 +325,6 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_left_24_filled)
     }
 
-
     private fun forwardSupportEventToUser(userText: String, screenshot: Boolean) {
         val debugInfo = container.debugInfoManager.getDebugInfo()
         val event = CallCompositeUserReportedIssueEvent(
@@ -336,20 +334,18 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         )
         supportView.visibility = View.GONE
 
-
         supportView.visibility = View.VISIBLE
         container.configuration.callCompositeEventsHandler.getOnUserReportedHandlers().forEach {
             try {
                 it.handle(
                     event
                 )
-            } catch (e : Exception) {
+            } catch (e: Exception) {
                 // Ignore any exception from the user handler
             }
         }
         // Pass through local config
     }
-
 
     private fun configureLocalization() {
         val config: Configuration = resources.configuration

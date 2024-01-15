@@ -46,10 +46,12 @@ internal class MoreCallOptionsListViewModel(
         enum class Entries(val title: Int, val icon: Int?,) {
             SHARE_DIAGNOSTICS(
                 R.string.azure_communication_ui_calling_view_share_diagnostics,
-                R.drawable.azure_communication_ui_calling_ic_fluent_share_android_24_regular),
+                R.drawable.azure_communication_ui_calling_ic_fluent_share_android_24_regular
+            ),
             REPORT_ISSUE(
                 R.string.azure_communication_ui_calling_report_issue_title,
-                R.drawable.azure_communication_ui_calling_ic_fluent_person_feedback_24_regular),
+                R.drawable.azure_communication_ui_calling_ic_fluent_person_feedback_24_regular
+            ),
         }
     }
 }

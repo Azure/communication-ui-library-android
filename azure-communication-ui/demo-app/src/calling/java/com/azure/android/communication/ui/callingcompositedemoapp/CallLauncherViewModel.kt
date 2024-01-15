@@ -6,8 +6,8 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.util.Log
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -124,7 +124,9 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
 
     private fun subscribeToEvents(context: Context) {
         callCompositePictureInPictureChangedEvent = PiPListener()
-        callComposite?.addOnPictureInPictureChangedEventHandler(callCompositePictureInPictureChangedEvent!!)
+        callComposite?.addOnPictureInPictureChangedEventHandler(
+            callCompositePictureInPictureChangedEvent!!
+        )
 
         errorHandler = CallLauncherActivityErrorHandler(
             this
@@ -168,7 +170,10 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
     }
 
     fun getCallHistory(context: Context): List<CallCompositeCallHistoryRecord> {
-        return (callComposite ?: createCallComposite(context)).getDebugInfo(context).callHistoryRecords
+        return (
+            callComposite
+                ?: createCallComposite(context)
+            ).getDebugInfo(context).callHistoryRecords
     }
 
     fun createCallComposite(context: Context): CallComposite {
@@ -221,7 +226,9 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
 
     private fun unsubscribe() {
         callComposite?.let { composite ->
-            composite.removeOnPictureInPictureChangedEventHandler(callCompositePictureInPictureChangedEvent)
+            composite.removeOnPictureInPictureChangedEventHandler(
+                callCompositePictureInPictureChangedEvent
+            )
             composite.removeOnUserReportedEventHandler(userReportedIssueEventHandler)
             composite.removeOnCallStateChangedEventHandler(callStateEventHandler)
             composite.removeOnErrorEventHandler(errorHandler)
@@ -237,7 +244,8 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
     }
 
     fun getLastCallId(context: Context): String {
-        return callComposite?.getDebugInfo(context)?.callHistoryRecords?.lastOrNull()?.callIds?.lastOrNull()?.toString() ?: ""
+        return callComposite?.getDebugInfo(context)?.callHistoryRecords?.lastOrNull()?.callIds?.lastOrNull()
+            ?.toString() ?: ""
     }
 
     override fun showError(message: String) {
@@ -249,10 +257,14 @@ interface OnErrorEventHandler {
     fun showError(message: String)
 }
 
-class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>) : CallCompositeEventHandler<CallCompositeCallStateChangedEvent> {
+class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>) :
+    CallCompositeEventHandler<CallCompositeCallStateChangedEvent> {
     override fun handle(callStateEvent: CallCompositeCallStateChangedEvent) {
         callCompositeCallStateStateFlow.value = callStateEvent.code.toString()
-        Log.d(CallLauncherActivity.TAG, "CallStateEventHandler handle demo app: ${callStateEvent.code} ${callStateEvent.callEndReasonCode} ${callStateEvent.callEndReasonSubCode}")
+        Log.d(
+            CallLauncherActivity.TAG,
+            "CallStateEventHandler handle demo app: ${callStateEvent.code} ${callStateEvent.callEndReasonCode} ${callStateEvent.callEndReasonSubCode}"
+        )
     }
 }
 
@@ -261,8 +273,8 @@ class UserReportedIssueHandler : CallCompositeEventHandler<CallCompositeUserRepo
     override fun handle(eventArgs: CallCompositeUserReportedIssueEvent?) {
         lastEvent.value = eventArgs
     }
-
 }
+
 class CallExitEventHandler(
     private val exitStateFlow: MutableStateFlow<Boolean>,
     private val callCompositeCallStateStateFlow: MutableStateFlow<String>,
@@ -291,14 +303,15 @@ class AudioSelectionSelection : CallCompositeEventHandler<CallCompositeAudioSele
     }
 }
 
-class OnUserReportedEventErrorHandler(val context: Context) : CallCompositeEventHandler<CallCompositeUserReportedIssueEvent> {
+class OnUserReportedEventErrorHandler(val context: Context) :
+    CallCompositeEventHandler<CallCompositeUserReportedIssueEvent> {
     override fun handle(event: CallCompositeUserReportedIssueEvent) {
         val message = """
         User reported issue:
         ${event.userMessage}
         ${event.logFiles.joinToString(", ") { it.name }}
         ${event.history.joinToString("\n") { it.toString() }}
-    """.trimIndent()
+        """.trimIndent()
 
         // Show Toast message
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
@@ -327,6 +340,5 @@ class OnUserReportedEventErrorHandler(val context: Context) : CallCompositeEvent
 
         val notificationManager = NotificationManagerCompat.from(context)
         notificationManager.notify(1, notification)
-
     }
 }

@@ -19,7 +19,7 @@ internal interface DebugInfoManager {
 
 internal class DebugInfoManagerImpl(
     private val callHistoryRepository: CallHistoryRepository,
-    private val getLogFiles: ()->List<File>
+    private val getLogFiles: () -> List<File>
 ) : DebugInfoManager {
 
     override fun getDebugInfo(): CallCompositeDebugInfo {

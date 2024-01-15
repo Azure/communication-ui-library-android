@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.calling.redux.state
 
-import com.azure.android.communication.ui.calling.redux.action.NavigationAction
-
 internal enum class NavigationStatus {
     NONE,
     IN_CALL,

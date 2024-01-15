@@ -27,7 +27,6 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.io.File
-import java.util.Collections
 
 internal class CallingService(
     private val callingSdk: CallingSDK,
@@ -173,7 +172,7 @@ internal class CallingService(
     }
 
     fun getLogFiles(): List<File> {
-        return callingSdk.getLogFiles();
+        return callingSdk.getLogFiles()
     }
 
     fun dispose() {
