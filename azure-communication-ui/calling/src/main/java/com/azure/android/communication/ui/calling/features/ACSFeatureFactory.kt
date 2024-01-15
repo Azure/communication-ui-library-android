@@ -32,7 +32,6 @@ import com.azure.android.communication.ui.calling.features.interfaces.SupportFil
  *
  * Features are initialized with the instance.
  */
-
 internal class ACSFeatureFactory
 /**
  * Constructor used by the factory
