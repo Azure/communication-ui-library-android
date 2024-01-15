@@ -4,7 +4,7 @@
 
 ## Latest Release
 
-- [1.5.0 release](https://github.com/Azure/communication-ui-library-android/releases/tag/calling-v1.5.0)
+- [1.4.0 release](https://github.com/Azure/communication-ui-library-android/releases/tag/calling-v1.4.0)
 
 ## Getting Started
 
@@ -27,7 +27,7 @@ android {
 ```groovy
 dependencies {
     ...
-    implementation 'com.azure.android:azure-communication-ui-calling:1.5.0'
+    implementation 'com.azure.android:azure-communication-ui-calling:1.4.0'
     ...
 }
 ```
@@ -45,6 +45,7 @@ repositories {
 }
 ```
 Sync project with gradle files. (Android Studio -> File -> Sync Project With Gradle Files)
+
 
 ### Quick Sample 
 
