@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
-
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
