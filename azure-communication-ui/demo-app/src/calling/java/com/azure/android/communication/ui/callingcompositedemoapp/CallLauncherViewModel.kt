@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
@@ -27,7 +28,11 @@ import com.azure.android.communication.ui.calling.models.CallCompositeStartCallO
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.views.EndCompositeButtonView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import java.util.UUID
 
 class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
@@ -112,6 +117,21 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
         isExitRequested = false
 
         callComposite?.launch(context, remoteOptions, localOptions)
+
+        // In 20 Seconds, we'll toast the DebugInfo to the screen
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(20000)
+
+            callComposite?.getDebugInfo(context)?.let {
+                val result = """Call History Records: ${it.callHistoryRecords.size}
+                    Calling SDK Version: ${it.callingSDKVersion}
+                    Calling UI Version: ${it.callingUIVersion}
+                    Screenshot: ${it.takeScreenshot()?.name ?: "N/A"}"""
+                result.split("\n").map { line -> line.trim() }.forEach {
+                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     private fun subscribeToEvents(context: Context) {

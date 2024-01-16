@@ -55,7 +55,11 @@ public final class CallCompositeDebugInfo {
      * @return screenshot file
      */
     public File takeScreenshot() {
-        return this.takeScreenshot();
+        try {
+            return takeScreenshot.call();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public String getCallingUIVersion() {
