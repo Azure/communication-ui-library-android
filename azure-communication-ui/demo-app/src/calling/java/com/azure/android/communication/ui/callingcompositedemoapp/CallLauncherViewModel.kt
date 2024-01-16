@@ -123,9 +123,10 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
             delay(20000)
 
             callComposite?.getDebugInfo(context)?.let {
-                val result = """Call History Records: ${it.callHistoryRecords.size}
-                    Calling SDK Version: ${it.callingSDKVersion}
-                    Calling UI Version: ${it.callingUIVersion}
+                val result = """Calling UI Version: ${it.callingUIVersion}
+                    Calling SDK Version: ${it.callingSDKVersion}                    
+                    Call History (${it.callHistoryRecords.size}) 
+                    Log Files (${it.logFiles.size})
                     Screenshot: ${it.takeScreenshot()?.name ?: "N/A"}"""
                 result.split("\n").map { line -> line.trim() }.forEach {
                     Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
