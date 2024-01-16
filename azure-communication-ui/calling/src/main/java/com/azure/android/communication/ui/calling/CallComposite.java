@@ -3,53 +3,54 @@
 
 package com.azure.android.communication.ui.calling;
 
+import static com.azure.android.communication.ui.calling.CallCompositeExtentionsKt.createDebugInfoManager;
+import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
+
 import android.content.Context;
 import android.content.Intent;
+
+import androidx.core.util.Consumer;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallType;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer;
+import com.azure.android.communication.ui.calling.di.DependencyInjectionContainerImpl;
 import com.azure.android.communication.ui.calling.logger.DefaultLogger;
 import com.azure.android.communication.ui.calling.logger.Logger;
-import com.azure.android.communication.ui.calling.di.DependencyInjectionContainerImpl;
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent;
-import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent;
+import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode;
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent;
+import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEndEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
-import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent;
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole;
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
+import com.azure.android.communication.ui.calling.models.CallCompositePictureInPictureChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationInfo;
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationOptions;
-import com.azure.android.communication.ui.calling.models.CallCompositePictureInPictureChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator;
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole;
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
+import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent;
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.PiPCallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
+import com.azure.android.communication.ui.calling.redux.action.PipAction;
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKCallAgentWrapper;
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKInstanceManager;
 import com.azure.android.communication.ui.calling.service.sdk.IncomingCallWrapper;
-import com.azure.android.communication.ui.calling.redux.action.PipAction;
 import com.azure.android.communication.ui.calling.utilities.TestHelper;
 import com.jakewharton.threetenabp.AndroidThreeTen;
-
-import static com.azure.android.communication.ui.calling.CallCompositeExtentionsKt.createDebugInfoManager;
-import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
-
-import androidx.core.util.Consumer;
 
 import java.util.List;
 import java.util.UUID;
@@ -245,6 +246,43 @@ public final class CallComposite {
             final CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().removeOnAudioSelectionChangedEventHandler(eventHandler);
     }
+
+    /**
+     * Add {@link CallCompositeEventHandler}.
+     *
+     * <p> Add a callback for Call Composite User Reported Issue Event.
+     * See {@link CallCompositeUserReportedIssueEvent} for values.</p>
+     * <pre>
+     *
+     * &#47;&#47; add on user reported event handler.
+     * callComposite.addOnUserReportedEventHandler&#40;event -> {
+     *     &#47;&#47; Process user reported event
+     *     System.out.println&#40;event.getUserMessage&#40;&#41;&#41;;
+     *     System.out.println&#40;event.getLogFiles&#40;&#41;&#41;;
+     *     System.out.println&#40;event.getCallIds&#40;&#41;&#41;;
+     * }&#41;;
+     *
+     * </pre>
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void addOnUserReportedEventHandler(
+            final CallCompositeEventHandler<CallCompositeUserReportedIssueEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().addOnUserReportedEventHandler(eventHandler);
+    }
+
+    /**
+     * Remove {@link CallCompositeEventHandler}.
+     * <p> Remove a callback for Call Composite user reported Event.
+     * See {@link CallCompositeUserReportedIssueEvent} for values.</p>
+     *
+     * @param handler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnUserReportedEventHandler(
+            final CallCompositeEventHandler<CallCompositeUserReportedIssueEvent> handler) {
+        configuration.getCallCompositeEventsHandler().removeOnUserReportedEventHandler(handler);
+    }
+
 
     /**
      * Dismiss composite. If call is in progress, user will leave a call.
