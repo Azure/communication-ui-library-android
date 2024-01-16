@@ -177,7 +177,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        diContainerHolder.container.activityWeakReference = WeakReference(this)
+        diContainerHolder.container.callCompositeActivityWeakReference = WeakReference(this)
         // when PiP is closed, Activity is not re-created, so onCreate is not called,
         // need to call initPipMode from onResume as well
         initPipMode()

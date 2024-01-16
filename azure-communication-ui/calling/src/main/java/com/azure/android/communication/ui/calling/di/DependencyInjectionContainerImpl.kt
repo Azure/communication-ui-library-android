@@ -74,7 +74,7 @@ internal class DependencyInjectionContainerImpl(
     private val customCoroutineContextProvider: CoroutineContextProvider?,
 ) : DependencyInjectionContainer {
 
-    override var activityWeakReference: WeakReference<CallCompositeActivity> = WeakReference(null)
+    override var callCompositeActivityWeakReference: WeakReference<CallCompositeActivity> = WeakReference(null)
 
     override val configuration by lazy {
         callComposite.getConfig()
@@ -149,7 +149,7 @@ internal class DependencyInjectionContainerImpl(
             callHistoryRepository,
             getLogFiles = callingService::getLogFiles,
             takeScreenshot = {
-                activityWeakReference.get()
+                callCompositeActivityWeakReference.get()
                     ?.let { ScreenshotHelper.captureActivity(it) }
             },
         )

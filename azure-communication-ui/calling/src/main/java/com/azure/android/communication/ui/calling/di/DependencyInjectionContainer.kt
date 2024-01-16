@@ -39,9 +39,6 @@ import java.lang.ref.WeakReference
 internal interface DependencyInjectionContainer {
     val logger: Logger
 
-    // Call Composite Activity, if it's within lifecycle and not disposed.
-    var activityWeakReference: WeakReference<CallCompositeActivity>
-
     // Redux Store
     val appStore: Store<ReduxState>
     val callingMiddlewareActionHandler: CallingMiddlewareActionHandler
@@ -79,4 +76,10 @@ internal interface DependencyInjectionContainer {
 
     // Calling Service
     val callingService: CallingService
+
+    // Added for Screenshot ability.
+    //
+    // To poke across contexts to do. (CallComposite Contoso Host -> CallCompositeActivity)
+    // This isn't generally encouraged, but CallCompositeActivity context is needed for screenshot.
+    var callCompositeActivityWeakReference: WeakReference<CallCompositeActivity>
 }
