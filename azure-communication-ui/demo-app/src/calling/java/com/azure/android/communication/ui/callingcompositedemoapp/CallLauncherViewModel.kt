@@ -101,6 +101,7 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
                     .setTitle(SettingsFeatures.getTitle())
                     .setSubtitle(SettingsFeatures.getSubtitle())
             )
+            .setAudioOnly(false)
             .setSkipSetupScreen(skipSetup)
             .setRoleHint(roomRoleHint)
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())

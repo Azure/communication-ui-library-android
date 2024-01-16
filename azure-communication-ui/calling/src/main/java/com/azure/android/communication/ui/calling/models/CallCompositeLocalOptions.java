@@ -5,6 +5,8 @@ package com.azure.android.communication.ui.calling.models;
 
 import com.azure.android.communication.ui.calling.CallComposite;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * {@link CallCompositeLocalOptions} for {@link CallComposite#launch}.
  *
@@ -37,6 +39,7 @@ public final class CallCompositeLocalOptions {
     private boolean cameraOn = false;
     private boolean microphoneOn = false;
     private boolean skipSetupScreen = false;
+    private boolean audioOnly = false;
 
     /**
      * Create LocalSettings.
@@ -169,5 +172,28 @@ public final class CallCompositeLocalOptions {
     ) {
         this.microphoneOn = microphoneOn;
         return this;
+    }
+
+
+    /**
+     * Indicates this Client will be in Audio-Only mode.
+     * This will disable the camera and incoming video feeds.
+     *
+     * @param audioOnly The boolean value to be used for audio only mode.
+     * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
+     */
+    public CallCompositeLocalOptions setAudioOnly(boolean audioOnly) {
+        this.audioOnly = audioOnly;
+        return this;
+    }
+
+    /**
+     * Indicates this Client will be in Audio-Only mode.
+     * This will disable the camera and incoming video feeds.
+     *
+     * @return The boolean value to be used for audio only mode.
+     */
+    public boolean isAudioOnly() {
+        return audioOnly;
     }
 }
