@@ -37,7 +37,7 @@ public final class CallCompositeLocalOptions {
     private boolean cameraOn = false;
     private boolean microphoneOn = false;
     private boolean skipSetupScreen = false;
-    private CallCompositeAVMode avMode = CallCompositeAVMode.NORMAL;
+    private CallCompositeAvMode avMode = CallCompositeAvMode.NORMAL;
 
     /**
      * Create LocalSettings.
@@ -178,11 +178,11 @@ public final class CallCompositeLocalOptions {
      * Currently supported (Audio Only, Normal)
      * Audio Only: This will disable the camera and incoming video feeds.
      * Normal: This will enable the camera and incoming video feeds.
-     * See {@link com.azure.android.communication.ui.calling.models.CallCompositeAVMode}
-     * @param avMode The {@link CallCompositeAVMode} to be used.
+     * See {@link CallCompositeAvMode}
+     * @param avMode The {@link CallCompositeAvMode} to be used.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
-    public CallCompositeLocalOptions setAvMode(CallCompositeAVMode avMode) {
+    public CallCompositeLocalOptions setAvMode(CallCompositeAvMode avMode) {
         this.avMode = avMode;
         return this;
     }
@@ -193,7 +193,7 @@ public final class CallCompositeLocalOptions {
      *
      * @return The boolean value to be used for audio only mode.
      */
-    public CallCompositeAVMode isAudioOnly() {
+    public CallCompositeAvMode isAudioOnly() {
         return avMode;
     }
 }
