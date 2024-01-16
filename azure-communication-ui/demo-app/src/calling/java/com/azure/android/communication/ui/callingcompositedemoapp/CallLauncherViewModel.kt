@@ -4,13 +4,14 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
-import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeAvMode
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
@@ -25,15 +26,35 @@ import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeeti
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.views.EndCompositeButtonView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import java.util.UUID
 
 class CallLauncherViewModel : ViewModel() {
     val callCompositeCallStateStateFlow = MutableStateFlow("")
     val callCompositeExitSuccessStateFlow = MutableStateFlow(false)
+    val userReportedIssueEventHandler: UserReportedIssueHandler = UserReportedIssueHandler()
+
     var isExitRequested = false
     private val callStateEventHandler = CallStateEventHandler(callCompositeCallStateStateFlow)
     private var exitEventHandler: CallExitEventHandler? = null
+    private var errorHandler: CallLauncherActivityErrorHandler? = null
+    private var remoteParticipantJoinedEvent: RemoteParticipantJoinedHandler? = null
+    private var exitedCompositeToAcceptCall: Boolean = false
+    private var callComposite: CallComposite? = null
+
+    fun destroy() {
+        unsubscribeFromEvents()
+        callComposite = null
+    }
+
+    fun onCompositeDismiss() {
+        unsubscribeFromEvents()
+        callComposite = null
+    }
 
     fun launch(
         context: Context,
@@ -87,11 +108,65 @@ class CallLauncherViewModel : ViewModel() {
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
         callCompositeExitSuccessStateFlow.value = false
-        exitEventHandler = CallExitEventHandler(callCompositeExitSuccessStateFlow, callCompositeCallStateStateFlow, this)
+        exitEventHandler = CallExitEventHandler(
+            callCompositeExitSuccessStateFlow,
+            callCompositeCallStateStateFlow,
+            this
+        )
         callComposite.addOnCallStateChangedEventHandler(callStateEventHandler)
         callComposite.addOnDismissedEventHandler(exitEventHandler)
         isExitRequested = false
+
         callComposite.launch(context, remoteOptions, localOptions)
+    }
+
+    private fun displayDebugInfoIn20Seconds(context: Context) {
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(20000)
+
+            callComposite?.getDebugInfo(context)?.let {
+                val result = """Calling UI Version: ${it.callingUIVersion}
+                        Calling SDK Version: ${it.callingSDKVersion}                    
+                        Call History (${it.callHistoryRecords.size}) 
+                        Log Files (${it.logFiles.size})
+                        ${it.takeScreenshot()?.name ?: "N/A"}"""
+                result.split("\n").map { line -> line.trim() }.forEach {
+                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                    Log.i("ACSCallingUI", it)
+                }
+            }
+        }
+    }
+
+    private fun subscribeToEvents(context: Context) {
+        callComposite?.apply {
+            errorHandler = CallLauncherActivityErrorHandler(
+                context, this
+            )
+            addOnErrorEventHandler(errorHandler)
+
+            remoteParticipantJoinedEvent = RemoteParticipantJoinedHandler(callComposite!!, context)
+            callComposite?.addOnRemoteParticipantJoinedEventHandler(remoteParticipantJoinedEvent)
+
+            exitEventHandler = CallExitEventHandler(
+                callCompositeExitSuccessStateFlow,
+                callCompositeCallStateStateFlow,
+                this@CallLauncherViewModel
+            )
+            addOnCallStateChangedEventHandler(callStateEventHandler)
+            addOnDismissedEventHandler(exitEventHandler)
+            addOnUserReportedEventHandler(userReportedIssueEventHandler)
+        }
+    }
+
+    private fun unsubscribeFromEvents() {
+        callComposite?.apply {
+            removeOnCallStateChangedEventHandler(callStateEventHandler)
+            removeOnErrorEventHandler(errorHandler)
+            removeOnRemoteParticipantJoinedEventHandler(remoteParticipantJoinedEvent)
+            removeOnDismissedEventHandler(exitEventHandler)
+            removeOnUserReportedEventHandler(userReportedIssueEventHandler)
+        }
     }
 
     fun close() {
@@ -143,11 +218,6 @@ class CallLauncherViewModel : ViewModel() {
                 composite.removeOnDismissedEventHandler(exitEventHandler)
             }
         }
-    }
-
-    fun callHangup() {
-        isExitRequested = true
-        callComposite?.dismiss()
     }
 
     companion object {

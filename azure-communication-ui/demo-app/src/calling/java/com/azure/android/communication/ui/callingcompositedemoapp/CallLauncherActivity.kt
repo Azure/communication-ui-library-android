@@ -146,6 +146,17 @@ class CallLauncherActivity : AppCompatActivity() {
                 }
             }
 
+
+            lifecycleScope.launch {
+                callLauncherViewModel.userReportedIssueEventHandler.userIssuesFlow.collect {
+                    runOnUiThread {
+                        it?.apply {
+                            showAlert(this.userMessage)
+                        }
+                    }
+                }
+            }
+
             if (BuildConfig.DEBUG) {
                 versionText.text = "${BuildConfig.VERSION_NAME}"
             } else {

@@ -3,6 +3,9 @@
 
 package com.azure.android.communication.ui.calling;
 
+import static com.azure.android.communication.ui.calling.CallCompositeExtentionsKt.createDebugInfoManager;
+import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
+
 import android.content.Context;
 import android.content.Intent;
 
@@ -15,23 +18,22 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallStateC
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent;
+import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
-import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
+import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent;
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
-import static com.azure.android.communication.ui.calling.CallCompositeExtentionsKt.createDebugInfoManager;
-import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
-
 import java.lang.ref.WeakReference;
+import java.util.Collections;
 import java.util.UUID;
 
 /**
@@ -157,6 +159,41 @@ public final class CallComposite {
     public void removeOnDismissedEventHandler(final CallCompositeEventHandler<CallCompositeDismissedEvent> handler) {
         configuration.getCallCompositeEventsHandler().removeOnExitEventHandler(handler);
     }
+
+    /**
+     * Add {@link CallCompositeEventHandler}.
+     *
+     * <p> Add a callback for Call Composite User Reported Issue Event.
+     * See {@link CallCompositeUserReportedIssueEvent} for values.</p>
+     * <pre>
+     * &#47;&#47; add on user reported event handler.
+     * callComposite.addOnUserReportedEventHandler&#40;event -> {
+     *     &#47;&#47; Process user reported event
+     *     System.out.println&#40;event.getUserMessage()&#40;&#41;&#41;;
+     *     System.out.println&#40;event.getScreenshot()&#40;&#41;&#41;;
+     *     DebugInfo info = event.getDebugInfo();
+     * }&#41;;
+     * </pre>
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void addOnUserReportedEventHandler(
+            final CallCompositeEventHandler<CallCompositeUserReportedIssueEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().addOnUserReportedEventHandler(eventHandler);
+    }
+
+    /**
+     * Remove {@link CallCompositeEventHandler}.
+     * <p> Remove a callback for Call Composite user reported Event.
+     * See {@link CallCompositeUserReportedIssueEvent} for values.</p>
+     *
+     * @param handler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnUserReportedEventHandler(
+            final CallCompositeEventHandler<CallCompositeUserReportedIssueEvent> handler) {
+        configuration.getCallCompositeEventsHandler().removeOnUserReportedEventHandler(handler);
+    }
+
 
     /**
      * Dismiss composite. If call is in progress, user will leave a call.
@@ -322,8 +359,7 @@ public final class CallComposite {
                 return container.getDebugInfoManager();
             }
         }
-
-        return createDebugInfoManager(context.getApplicationContext());
+        return createDebugInfoManager(context.getApplicationContext(), Collections::emptyList, () -> null);
     }
 
     /* <TEST_FEATURE>

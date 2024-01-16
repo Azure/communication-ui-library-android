@@ -16,6 +16,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.doAnswer
 import org.mockito.kotlin.mock
 import org.threeten.bp.OffsetDateTime
+import java.util.Collections
 
 @RunWith(MockitoJUnitRunner::class)
 internal class DebugInfoManagerTest : ACSBaseTestCoroutine() {
@@ -38,7 +39,7 @@ internal class DebugInfoManagerTest : ACSBaseTestCoroutine() {
                 onBlocking { getAll() } doAnswer { historyList }
             }
 
-            val debugInfoManager: DebugInfoManager = DebugInfoManagerImpl(callHistoryRepository)
+            val debugInfoManager: DebugInfoManager = DebugInfoManagerImpl(callHistoryRepository, { Collections.emptyList() }, { null })
 
             val debugIndo = debugInfoManager.getDebugInfo()
             Assert.assertNotNull(debugIndo)

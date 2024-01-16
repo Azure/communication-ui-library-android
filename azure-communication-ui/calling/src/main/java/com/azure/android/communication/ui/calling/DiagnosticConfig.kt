@@ -3,11 +3,13 @@
 
 package com.azure.android.communication.ui.calling
 
+import com.azure.android.communication.ui.BuildConfig
+
 internal class DiagnosticConfig {
     val tags: Array<String> by lazy { arrayOf(getApplicationId()) }
 
     private fun getApplicationId(): String {
-        val callingCompositeVersionName = "1.5.0"
+        val callingCompositeVersionName = BuildConfig.CALL_SDK_VERSION
         val baseTag = "ac"
         // Tag template is: acXYYY/<version>
         // Where:

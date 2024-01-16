@@ -8,7 +8,8 @@ import com.azure.android.communication.ui.calling.data.CallHistoryRepositoryImpl
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManagerImpl
+import java.io.File
 
-internal fun createDebugInfoManager(context: Context): DebugInfoManager {
-    return DebugInfoManagerImpl(CallHistoryRepositoryImpl(context, DefaultLogger()))
+internal fun createDebugInfoManager(context: Context, getLogFiles: () -> List<File>, takeScreenshot: () -> File): DebugInfoManager {
+    return DebugInfoManagerImpl(CallHistoryRepositoryImpl(context, DefaultLogger()), getLogFiles, takeScreenshot)
 }
