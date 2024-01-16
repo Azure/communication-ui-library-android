@@ -10,6 +10,8 @@ import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeAvMode
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
@@ -80,6 +82,7 @@ class CallLauncherViewModel : ViewModel() {
                     .setSubtitle(SettingsFeatures.getSubtitle())
             )
             .setSkipSetupScreen(SettingsFeatures.getSkipSetupScreenFeatureOption())
+            .setAvMode(CallCompositeAvMode.NORMAL)
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
