@@ -1,12 +1,15 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id("com.google.gms.google-services")
 }
 
 Properties properties = new Properties()
 if (project.rootProject.file('local.properties').canRead()) {
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
+}
+
+if (properties.containsKey("ENABLE_GOOGLE_SERVICES") && properties.getProperty("ENABLE_GOOGLE_SERVICES").toBoolean()) {
+    apply plugin: 'com.google.gms.google-services'
 }
 
 android {
