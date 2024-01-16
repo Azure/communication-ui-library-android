@@ -10,6 +10,7 @@ import com.azure.android.communication.ui.calling.error.ErrorHandler
 import com.azure.android.communication.ui.calling.handlers.CallStateHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.logger.Logger
+import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
@@ -30,12 +31,16 @@ import com.azure.android.communication.ui.calling.service.CallHistoryService
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.service.NotificationService
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
+import java.lang.ref.WeakReference
 
 // Dependency Container for the Call Composite Activity
 // For implementation
 // @see: {@link DependencyInjectionContainerImpl}
 internal interface DependencyInjectionContainer {
     val logger: Logger
+
+    // Call Composite Activity, if it's within lifecycle and not disposed.
+    var activityWeakReference: WeakReference<CallCompositeActivity>
 
     // Redux Store
     val appStore: Store<ReduxState>

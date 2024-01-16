@@ -34,6 +34,8 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
     val callCompositeCallStateStateFlow = MutableStateFlow("")
     val callCompositeShowAlertStateStateFlow = MutableStateFlow("")
     val callCompositeExitSuccessStateFlow = MutableStateFlow(false)
+    val userReportedIssueEventHandler: UserReportedIssueHandler = UserReportedIssueHandler()
+
     var isExitRequested = false
     private val callStateEventHandler = CallStateEventHandler(callCompositeCallStateStateFlow)
     private var exitEventHandler: CallExitEventHandler? = null
@@ -46,13 +48,13 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
     private var audioSelectionChangedEvent: AudioSelectionSelection? = null
 
     fun destroy() {
-        unsubscribe()
+        unsubscribeFromEvents()
         callCompositeManager.destroy()
         callComposite = null
     }
 
     fun onCompositeDismiss() {
-        unsubscribe()
+        unsubscribeFromEvents()
         callComposite = null
     }
 
@@ -134,6 +136,19 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
 
         audioSelectionChangedEvent = AudioSelectionSelection()
         callComposite?.addOnAudioSelectionChangedEventHandler(audioSelectionChangedEvent!!)
+        callComposite?.addOnUserReportedEventHandler(userReportedIssueEventHandler)
+    }
+
+    private fun unsubscribeFromEvents() {
+        callComposite?.let { composite ->
+            composite.removeOnPictureInPictureChangedEventHandler(callCompositePictureInPictureChangedEvent)
+            composite.removeOnCallStateChangedEventHandler(callStateEventHandler)
+            composite.removeOnErrorEventHandler(errorHandler)
+            composite.removeOnRemoteParticipantJoinedEventHandler(remoteParticipantJoinedEvent)
+            composite.removeOnDismissedEventHandler(exitEventHandler)
+            composite.removeOnAudioSelectionChangedEventHandler(audioSelectionChangedEvent)
+            composite.removeOnUserReportedEventHandler(userReportedIssueEventHandler)
+        }
     }
 
     fun handleIncomingCall(
@@ -202,17 +217,6 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
         callComposite?.acceptIncomingCall(applicationContext, localOptions)
-    }
-
-    private fun unsubscribe() {
-        callComposite?.let { composite ->
-            composite.removeOnPictureInPictureChangedEventHandler(callCompositePictureInPictureChangedEvent)
-            composite.removeOnCallStateChangedEventHandler(callStateEventHandler)
-            composite.removeOnErrorEventHandler(errorHandler)
-            composite.removeOnRemoteParticipantJoinedEventHandler(remoteParticipantJoinedEvent)
-            composite.removeOnDismissedEventHandler(exitEventHandler)
-            composite.removeOnAudioSelectionChangedEventHandler(audioSelectionChangedEvent)
-        }
     }
 
     fun callHangup() {

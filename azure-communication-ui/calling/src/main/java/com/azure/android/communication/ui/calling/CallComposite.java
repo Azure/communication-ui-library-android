@@ -52,6 +52,7 @@ import com.azure.android.communication.ui.calling.service.sdk.IncomingCallWrappe
 import com.azure.android.communication.ui.calling.utilities.TestHelper;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -687,7 +688,7 @@ public final class CallComposite {
         if (container != null) {
             return container.getDebugInfoManager();
         }
-        return createDebugInfoManager(context.getApplicationContext());
+        return createDebugInfoManager(context.getApplicationContext(), () -> Collections.EMPTY_LIST, () -> null);
     }
 
     private void launchComposite(final Context context,

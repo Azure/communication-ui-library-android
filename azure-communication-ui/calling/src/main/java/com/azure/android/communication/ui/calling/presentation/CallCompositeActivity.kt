@@ -41,6 +41,7 @@ import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.lang.ref.WeakReference
 import java.util.Locale
 
 internal open class CallCompositeActivity : AppCompatActivity() {
@@ -176,7 +177,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
+        diContainerHolder.container.activityWeakReference = WeakReference(this)
         // when PiP is closed, Activity is not re-created, so onCreate is not called,
         // need to call initPipMode from onResume as well
         initPipMode()
