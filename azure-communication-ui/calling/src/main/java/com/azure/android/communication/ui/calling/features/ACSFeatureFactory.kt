@@ -49,27 +49,9 @@ private constructor() {
             return featureList[F::class.java]!! as F
         }
 
-        private val featureList: MutableMap<Class<*>, ACSFeature> by lazy {
-            HashMap<Class<*>, ACSFeature>().apply { registerAcsFeatures() }
-        }
-
-        /**
-         * Add all available feature within the ACS SDK
-         */
-        private fun registerAcsFeatures() {
-            featureList.clear()
-            registerACSFeature<SupportFilesFeature>(SupportFilesFeatureImpl())
-        }
-
-        /**
-         * Add a feature to the factory map
-         *
-         * @param instance feature instance
-         * @param <I> type of the feature interface
-         * @param <O> type of the feature instance
-         </O></I> */
-        private inline fun <reified I : ACSFeature> registerACSFeature(instance: I) {
-            featureList[I::class.java] = instance
-        }
+        private val featureList: Map<Class<*>, ACSFeature> =
+            mapOf(
+                SupportFilesFeature::class.java to SupportFilesFeatureImpl()
+            )
     }
 }

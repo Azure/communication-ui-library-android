@@ -119,17 +119,22 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
         callComposite?.launch(context, remoteOptions, localOptions)
 
         // In 20 Seconds, we'll toast the DebugInfo to the screen
+        displayDebugInfoIn20Seconds(context)
+    }
+
+    private fun displayDebugInfoIn20Seconds(context: Context) {
         CoroutineScope(Dispatchers.Main).launch {
             delay(20000)
 
             callComposite?.getDebugInfo(context)?.let {
                 val result = """Calling UI Version: ${it.callingUIVersion}
-                    Calling SDK Version: ${it.callingSDKVersion}                    
-                    Call History (${it.callHistoryRecords.size}) 
-                    Log Files (${it.logFiles.size})
-                    Screenshot: ${it.takeScreenshot()?.name ?: "N/A"}"""
+                        Calling SDK Version: ${it.callingSDKVersion}                    
+                        Call History (${it.callHistoryRecords.size}) 
+                        Log Files (${it.logFiles.size})
+                        ${it.takeScreenshot()?.name ?: "N/A"}"""
                 result.split("\n").map { line -> line.trim() }.forEach {
                     Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                    Log.i("ACSCallingUI", it)
                 }
             }
         }
