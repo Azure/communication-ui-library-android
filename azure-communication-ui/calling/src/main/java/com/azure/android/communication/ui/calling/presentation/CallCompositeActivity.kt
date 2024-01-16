@@ -81,6 +81,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         // Before super, we'll set up the DI injector and check the PiP state
         try {
             diContainerHolder.instanceId = instanceId
+            diContainerHolder.container.callCompositeActivityWeakReference = WeakReference(this)
         } catch (invalidIDException: IllegalArgumentException) {
             finish() // Container has vanished (probably due to process death); we cannot continue
             return
@@ -177,7 +178,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        diContainerHolder.container.callCompositeActivityWeakReference = WeakReference(this)
+
         // when PiP is closed, Activity is not re-created, so onCreate is not called,
         // need to call initPipMode from onResume as well
         initPipMode()
@@ -213,6 +214,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             audioSessionManager.onDestroy(this)
             audioModeManager.onDestroy()
         }
+        diContainerHolder.container.callCompositeActivityWeakReference = WeakReference(null)
 
         super.onDestroy()
     }
