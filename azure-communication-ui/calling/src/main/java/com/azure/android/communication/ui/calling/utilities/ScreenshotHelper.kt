@@ -31,7 +31,7 @@ object ScreenshotHelper {
 
         // Define the file where the screenshot will be saved
         val screenshotFile = File(
-            activity.getExternalFilesDir(null),
+            activity.cacheDir,
             "screenshot_$timestamp.png"
         )
         var fileOutputStream: FileOutputStream? = null
