@@ -7,7 +7,7 @@ import org.junit.Test
 
 internal class DiagnosticConfigUnitTests {
     private val expectedPrefix = "aca110/"
-    private val expectedVersion = "${expectedPrefix}${BuildConfig.CALL_SDK_VERSION}"
+    private val expectedVersion = BuildConfig.CALL_SDK_VERSION
 
     @Test
     fun test_Expected_Tag() {
@@ -15,7 +15,7 @@ internal class DiagnosticConfigUnitTests {
         val diagnosticConfig = DiagnosticConfig()
         val tags = diagnosticConfig.tags
 
-        Assert.assertArrayEquals(arrayOf(expectedVersion), tags)
+        Assert.assertArrayEquals(arrayOf(expectedPrefix + expectedVersion), tags)
     }
 
     @Test
