@@ -254,15 +254,13 @@ public final class CallComposite {
      * <p> Add a callback for Call Composite User Reported Issue Event.
      * See {@link CallCompositeUserReportedIssueEvent} for values.</p>
      * <pre>
-     *
      * &#47;&#47; add on user reported event handler.
      * callComposite.addOnUserReportedEventHandler&#40;event -> {
      *     &#47;&#47; Process user reported event
-     *     System.out.println&#40;event.getUserMessage&#40;&#41;&#41;;
-     *     System.out.println&#40;event.getLogFiles&#40;&#41;&#41;;
-     *     System.out.println&#40;event.getCallIds&#40;&#41;&#41;;
+     *     System.out.println&#40;event.getUserMessage()&#40;&#41;&#41;;
+     *     System.out.println&#40;event.getScreenshot()&#40;&#41;&#41;;
+     *     DebugInfo info = event.getDebugInfo();
      * }&#41;;
-     *
      * </pre>
      *
      * @param eventHandler The {@link CallCompositeEventHandler}.
