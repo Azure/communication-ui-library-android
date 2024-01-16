@@ -3,10 +3,7 @@
 
 package com.azure.android.communication.ui.calling.models;
 
-import com.azure.android.communication.ui.BuildConfig;
-
 import java.io.File;
-import java.util.List;
 
 /**
  * Represents an event where a user reports an issue within the call composite experience.
@@ -17,29 +14,26 @@ public class CallCompositeUserReportedIssueEvent {
     // The message provided by the user describing the issue they have encountered.
     private final String userMessage;
     // A list of files containing logs that may help diagnose the reported issue.
-    private final List<File> logFiles;
 
     // A screenshot of the current call composite view
     private final File screenshot;
 
     // A list of call identifiers that the user was a part of, to provide context for the reported issue.
-    private final List<CallCompositeCallHistoryRecord> history;
+    private final CallCompositeDebugInfo debugInfo;
 
     /**
      * Constructs a new {@link CallCompositeUserReportedIssueEvent}.
      *
      * @param userMessage A message provided by the user describing the issue.
-     * @param logFiles    A list of files containing diagnostic logs related to the user's experience.
-     * @param history     A list of identifiers for the calls that the user was involved in.
+     * @param screenshot    A list of files containing diagnostic logs related to the user's experience.
      */
     public CallCompositeUserReportedIssueEvent(final String userMessage,
-                                               final List<File> logFiles,
                                                final File screenshot,
-                                               final List<CallCompositeCallHistoryRecord> history) {
+                                               final CallCompositeDebugInfo debugInfo
+                                               ) {
         this.userMessage = userMessage;
-        this.logFiles = logFiles;
         this.screenshot = screenshot;
-        this.history = history;
+        this.debugInfo = debugInfo;
     }
 
     /**
@@ -52,37 +46,20 @@ public class CallCompositeUserReportedIssueEvent {
     }
 
     /**
-     * Retrieves the list of log files that may contain information useful for diagnosing the issue.
+     * Retrieves a current screenshot of the current call composite view.
      *
-     * @return The list of log files.
+     * @return The screenshot file.
      */
-    public List<File> getLogFiles() {
-        return logFiles;
+    public File getScreenshot() {
+        return screenshot;
     }
 
     /**
-     * Retrieves the version of the UI SDK that the user is using.
+     * Gets the DebugInfo for this call composite
      *
-     * @return The UI SDK version.
+     * See {@link CallCompositeDebugInfo}
      */
-    public String getUIVersion() {
-        return BuildConfig.UI_SDK_VERSION;
-    }
-
-    /**
-     * Retrieves the version of the calling SDK that the user is using.
-     *
-     * @return The calling SDK version.
-     */
-    public String getCallingSdkVersion() {
-        return BuildConfig.CALL_SDK_VERSION;
-    }
-
-    /**
-     * Retrieves Call-ID's that may be relevant to the support request
-     * @return The list of the CallCompositeHistoryRecords
-     */
-    public List<CallCompositeCallHistoryRecord> getHistory() {
-        return history;
+    public CallCompositeDebugInfo getDebugInfo() {
+        return debugInfo;
     }
 }
