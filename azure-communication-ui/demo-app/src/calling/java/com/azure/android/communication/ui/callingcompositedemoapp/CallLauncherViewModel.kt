@@ -12,6 +12,7 @@ import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeAvMode
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
@@ -108,6 +109,7 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
                     .setTitle(SettingsFeatures.getTitle())
                     .setSubtitle(SettingsFeatures.getSubtitle())
             )
+            .setAvMode(CallCompositeAvMode.NORMAL)
             .setSkipSetupScreen(skipSetup)
             .setRoleHint(roomRoleHint)
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
