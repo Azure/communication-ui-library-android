@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.io.File
 
 internal class CallingService(
     private val callingSdk: CallingSDK,
@@ -247,4 +248,6 @@ internal class CallingService(
 
         return callingSdk.startCall(cameraState, audioState)
     }
+
+    fun getLogFiles(): List<File> = callingSdk.getLogFiles()
 }

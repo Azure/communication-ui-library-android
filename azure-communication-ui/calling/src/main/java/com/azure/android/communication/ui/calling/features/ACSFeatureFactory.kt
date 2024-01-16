@@ -37,44 +37,21 @@ internal class ACSFeatureFactory
  * Constructor used by the factory
  */
 private constructor() {
-    /**
-     * Return and instance of the required feature
-     *
-     * @param feature interface of the required feature
-     * @param <F> type of the feature interface
-     * @return requested interface feature
-     </F> */
-    fun <F : ACSFeature?> getAcsFeature(feature: Class<F>): F? {
-        return if (featureList.containsKey(feature)) {
-            featureList[feature] as F
-        } else null
-    }
-
-    /**
-     * Add all available feature within the ACS SDK
-     */
-    private fun registerAcsFeatures() {
-        featureList.clear()
-        registerACSFeature<SupportFilesFeature>(SupportFilesFeatureImpl())
-    }
-
-    /**
-     * Add a feature to the factory map
-     *
-     * @param instance feature instance
-     * @param <I> type of the feature interface
-     * @param <O> type of the feature instance
-     </O></I> */
-    private inline fun <reified I : ACSFeature> registerACSFeature(instance: I) {
-        featureList[I::class.java] = instance
-    }
-
     companion object {
-        private val featureList: MutableMap<Class<*>, ACSFeature> = HashMap()
-        val instance: ACSFeatureFactory by lazy {
-            val factory = ACSFeatureFactory()
-            factory.registerAcsFeatures()
-            factory
+        /**
+         * Return and instance of the required feature
+         *
+         * @param feature interface of the required feature
+         * @param <F> type of the feature interface
+         * @return requested interface feature
+         </F> */
+        inline fun <reified F : ACSFeature> getFeature(): F {
+            return featureList[F::class.java]!! as F
         }
+
+        private val featureList: Map<Class<*>, ACSFeature> =
+            mapOf(
+                SupportFilesFeature::class.java to SupportFilesFeatureImpl()
+            )
     }
 }

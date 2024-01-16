@@ -247,6 +247,16 @@ class CallLauncherActivity : AppCompatActivity() {
                 }
             }
 
+            lifecycleScope.launch {
+                callLauncherViewModel.userReportedIssueEventHandler.userIssuesFlow.collect {
+                    runOnUiThread {
+                        it?.apply {
+                            showAlert(this.userMessage)
+                        }
+                    }
+                }
+            }
+
             disposeCompositeButton.setOnClickListener {
                 callLauncherViewModel.destroy()
             }

@@ -41,6 +41,7 @@ import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.lang.ref.WeakReference
 import java.util.Locale
 
 internal open class CallCompositeActivity : AppCompatActivity() {
@@ -80,6 +81,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         // Before super, we'll set up the DI injector and check the PiP state
         try {
             diContainerHolder.instanceId = instanceId
+            diContainerHolder.container.callCompositeActivityWeakReference = WeakReference(this)
         } catch (invalidIDException: IllegalArgumentException) {
             finish() // Container has vanished (probably due to process death); we cannot continue
             return
@@ -212,6 +214,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             audioSessionManager.onDestroy(this)
             audioModeManager.onDestroy()
         }
+        diContainerHolder.container.callCompositeActivityWeakReference = WeakReference(null)
 
         super.onDestroy()
     }

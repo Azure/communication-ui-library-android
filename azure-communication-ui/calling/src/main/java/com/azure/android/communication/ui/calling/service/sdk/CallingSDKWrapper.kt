@@ -25,6 +25,8 @@ import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration
 import com.azure.android.communication.ui.calling.configuration.CallType
+import com.azure.android.communication.ui.calling.features.ACSFeatureFactory
+import com.azure.android.communication.ui.calling.features.interfaces.SupportFilesFeature
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
@@ -37,6 +39,7 @@ import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.io.File
 import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVideoStream
 
 internal class CallingSDKWrapper(
@@ -118,6 +121,11 @@ internal class CallingSDKWrapper(
 
     override fun getMediaCallDiagnosticSharedFlow() =
         callingSDKEventHandler.getMediaCallDiagnosticsSharedFlow()
+
+    override fun getLogFiles(): List<File> {
+        return ACSFeatureFactory.getFeature<SupportFilesFeature>().getSupportFiles(callClient, context)
+    }
+
     //endregion
     override fun getDominantSpeakersSharedFlow() =
         callingSDKEventHandler.getDominantSpeakersSharedFlow()
