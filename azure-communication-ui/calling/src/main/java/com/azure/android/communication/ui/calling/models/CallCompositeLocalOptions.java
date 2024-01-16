@@ -5,8 +5,6 @@ package com.azure.android.communication.ui.calling.models;
 
 import com.azure.android.communication.ui.calling.CallComposite;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * {@link CallCompositeLocalOptions} for {@link CallComposite#launch}.
  *
