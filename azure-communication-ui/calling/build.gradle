@@ -9,7 +9,7 @@ apply from: file('jacoco.gradle')
 
 // Compile time features
 def FEATURE_SUPPORT_FILES = "SupportFiles"
-def AVAILABLE_FEATURES = [FEATURE_SUPPORT_FILES]
+def AVAILABLE_FEATURES = [FEATURE_SUPPORT_FILES, "NOTHING"]
 def BETA_FEATURES = [FEATURE_SUPPORT_FILES]
 def GA_FEATURES = []
 def ENABLED_FEATURES = []
