@@ -262,7 +262,7 @@ internal class AudioSessionManager(
     private fun switchAudioDevice(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
         when (audioDeviceSelectionStatus) {
             AudioDeviceSelectionStatus.SPEAKER_REQUESTED -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     TelecomConnectionService.connection?.setAudioRoute(CallAudioState.ROUTE_SPEAKER)
                 }
                 enableSpeakerPhone()
@@ -274,7 +274,7 @@ internal class AudioSessionManager(
             }
             AudioDeviceSelectionStatus.RECEIVER_REQUESTED -> {
                 enableEarpiece()
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     TelecomConnectionService.connection?.setAudioRoute(CallAudioState.ROUTE_EARPIECE)
                 }
                 store.dispatch(
@@ -285,7 +285,7 @@ internal class AudioSessionManager(
             }
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED -> {
                 enableBluetooth()
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     TelecomConnectionService.connection?.setAudioRoute(CallAudioState.ROUTE_BLUETOOTH)
                 }
 

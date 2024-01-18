@@ -49,16 +49,6 @@ internal class JoinCallButtonHolderViewModel(
         disableJoinCallButtonFlow.value = true
 //        }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // phoneAccountId will be received via public API
-            val telecomConnectionManager = TelecomConnectionManager(
-                context,
-                "9a9a0260-1c18-11ec-ba20-e761da70b03f",
-                instanceId = instanceId
-            )
-            telecomConnectionManager.startIncomingConnection(context, "fromDisplayName", true)
-//            telecomConnectionManager.startOutgoingConnection(context,"toDisplayName", true)
-        }
     }
 
     fun init(

@@ -73,6 +73,7 @@ android {
             exclude({ it.file.absolutePath.contains("/generated/") })
         }
     }
+    namespace 'com.azure.android.communication.ui'
     if (!shouldByPassMavenPublish()) {
         publishing {
             multipleVariants('release') {

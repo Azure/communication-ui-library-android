@@ -103,10 +103,6 @@ internal class CallingViewModel(
 
         participantGridViewModel.init(state.callState.callingStatus)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            TelecomConnectionManager.instance?.TEST_setActive()
-        }
-
         super.init(coroutineScope)
     }
 

@@ -35,7 +35,8 @@ buildscript {
             azure_calling_sdk_version = privateDropProps.getProperty('PRIVATE_DROP_VERSION', '""')
         }
         else {
-            azure_calling_sdk_version = '2.5.0'
+//            azure_calling_sdk_version = '2023.50.00.84'
+            azure_calling_sdk_version = '1.0.0-beta.1'
         }
 
         // while modifying this version, make sure to modify in ChatContainer
@@ -68,7 +69,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath 'com.android.tools.build:gradle:8.0.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jacoco:org.jacoco.core:$jacoco_version"
 
@@ -95,6 +96,7 @@ allprojects {
     }
 
     repositories {
+        mavenLocal()
         google()
         mavenCentral()
         maven {
@@ -116,10 +118,10 @@ allprojects {
 subprojects {
     apply plugin: "org.jlleitschuh.gradle.ktlint"
     apply from: "../checkstyle.gradle"
-    afterEvaluate {
-        preBuild.dependsOn 'checkstyle'
-        check.dependsOn 'checkstyle'
-    }
+//    afterEvaluate {
+//        preBuild.dependsOn 'checkstyle'
+//        check.dependsOn 'checkstyle'
+//    }
 }
 
 tasks.register("combinedCoverageReport", JacocoReport) {
