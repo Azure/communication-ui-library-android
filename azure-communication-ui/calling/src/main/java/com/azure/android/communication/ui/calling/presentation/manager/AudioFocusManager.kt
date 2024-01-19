@@ -88,6 +88,7 @@ internal class AudioFocusManager(
     }
 
     suspend fun start() {
+        /*
         if (configuration.telecomOptions != null) {
             store.getStateFlow().collect {
                 // todo: GA: create new action resume and in middleware decide if telecom manager is on
@@ -98,6 +99,7 @@ internal class AudioFocusManager(
             }
             return
         }
+         */
 
         if (audioFocusHandler?.getAudioFocus() == false) {
             store.dispatch(AudioSessionAction.AudioFocusRejected())

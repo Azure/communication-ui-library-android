@@ -9,8 +9,6 @@ import static com.azure.android.communication.ui.calling.service.sdk.TypeConvers
 import android.content.Context;
 import android.content.Intent;
 
-import androidx.core.util.Consumer;
-
 import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
@@ -26,15 +24,11 @@ import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
-import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEndEvent;
-import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole;
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
 import com.azure.android.communication.ui.calling.models.CallCompositePictureInPictureChangedEvent;
-import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationInfo;
-import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
@@ -172,12 +166,13 @@ public final class CallComposite {
      * @param context           The android context used to start the Composite.
      * @param remoteOptions     The {@link CallCompositeRemoteOptions} has remote parameters to
      *                              launch group call experience.
-     */
+
     public void handlePushNotification(final Context context,
                        final CallCompositeRemoteOptions remoteOptions) {
 
         handlePushNotification(context, remoteOptions, false);
     }
+     */
 
     /**
      * Add {@link CallCompositeEventHandler}.
@@ -308,7 +303,7 @@ public final class CallComposite {
     /**
      * Accept incoming call.
      *
-     */
+
     private void acceptIncomingCall(final Context context,
                                    final CallCompositeLocalOptions localOptions) {
         logger.info("Call Composite acceptIncomingCall");
@@ -340,17 +335,17 @@ public final class CallComposite {
 
         showUI(context, false, true);
     }
-
+     */
     /**
      * Decline incoming call.
      *
-     */
+
     private void declineIncomingCall() {
         if (incomingCallWrapper != null) {
             incomingCallWrapper.declineCall();
         }
     }
-
+     */
     /**
      * Add {@link CallCompositeEventHandler}.
      *
@@ -427,40 +422,44 @@ public final class CallComposite {
      * </pre>
      *
      * @param handler The {@link CallCompositeEventHandler}.
-     */
+
     private void addOnIncomingCallEventHandler(
             final CallCompositeEventHandler<CallCompositeIncomingCallEvent> handler) {
         configuration.getCallCompositeEventsHandler().addOnIncomingCallEventHandler(handler);
     }
+     */
 
     /**
      * Remove on incoming call event handler {@link CallCompositeEventHandler}.
      *
      * @param handler The {@link CallCompositeEventHandler}.
-     */
+
     private void removeOnIncomingCallEventHandler(
             final CallCompositeEventHandler<CallCompositeIncomingCallEvent> handler) {
         configuration.getCallCompositeEventsHandler().removeOnIncomingCallEventHandler(handler);
     }
+     */
 
     /**
      * Add on incoming call end event handler {@link CallCompositeIncomingCallEndEvent}.
      * @param handler The {@link CallCompositeIncomingCallEndEvent}.
-     */
+
     private void addOnIncomingCallEndEventHandler(
             final CallCompositeEventHandler<CallCompositeIncomingCallEndEvent> handler) {
         configuration.getCallCompositeEventsHandler().addOnIncomingCallEndEventHandler(handler);
     }
+     */
 
     /**
      * Remove on incoming call event handler {@link CallCompositeIncomingCallEvent}.
      *
      * @param handler The {@link CallCompositeIncomingCallEndEvent}.
-     */
+
     private void removeOnIncomingCallEndEventHandler(
             final CallCompositeEventHandler<CallCompositeIncomingCallEndEvent> handler) {
         configuration.getCallCompositeEventsHandler().removeOnIncomingCallEndEventHandler(handler);
     }
+     */
 
     /**
      * Start audio session
@@ -649,7 +648,7 @@ public final class CallComposite {
      * @param options The {@link CallCompositePushNotificationOptions} if call is already in progress
      *                existing display name and CommunicationTokenCredential is used.
      * @param onCompleteCallback The {@link Consumer} to be called when registration is complete.
-     */
+
     public void registerPushNotification(final Context context,
                                          final CallCompositePushNotificationOptions options,
                                          final Consumer<Boolean> onCompleteCallback) {
@@ -671,6 +670,7 @@ public final class CallComposite {
                 options.getDeviceRegistrationToken(),
                 onCompleteCallback);
     }
+     */
 
     /**
      * Hide call composite.
@@ -733,8 +733,7 @@ public final class CallComposite {
                 roomId,
                 roomRole,
                 callType,
-                participants,
-                null
+                participants
                 ));
 
 
@@ -776,6 +775,8 @@ public final class CallComposite {
         context.startActivity(intent);
     }
 
+
+    /*
     private void handlePushNotification(final Context context,
                                  final CallCompositeRemoteOptions remoteOptions,
                                  final boolean isTest) {
@@ -812,6 +813,8 @@ public final class CallComposite {
                 pushNotificationInfo.getNotificationInfo());
     }
 
+     */
+
     private void initializeCallAgent() {
         callAgentWrapper = CallingSDKInstanceManager.INSTANCE.getCallingSDKCallAgentWrapper();
         if (callAgentWrapper == null) {
@@ -820,13 +823,16 @@ public final class CallComposite {
                     setCallingSDKCallAgentWrapper(callAgentWrapper);
         }
         // as for every new composite handlers are different, we need to set them again.
+        /*
         if (incomingCallWrapper == null) {
             incomingCallWrapper = new IncomingCallWrapper(logger,
                     CallingSDKInstanceManager.INSTANCE.getCallingSDKCallAgentWrapper(),
-                    configuration.getCallCompositeEventsHandler().getOnIncomingCallEventHandlers(),
-                    configuration.getCallCompositeEventsHandler().getOnIncomingCallEndEventHandlers());
-            callAgentWrapper.setIncomingCallWrapper(incomingCallWrapper);
+                     configuration.getCallCompositeEventsHandler().getOnIncomingCallEventHandlers(),
+                     configuration.getCallCompositeEventsHandler().getOnIncomingCallEndEventHandlers());
+             callAgentWrapper.setIncomingCallWrapper(incomingCallWrapper);
         }
+
+         */
     }
 
     CallCompositeConfiguration getConfiguration() {

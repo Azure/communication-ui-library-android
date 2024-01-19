@@ -315,10 +315,10 @@ class CallLauncherActivity : AppCompatActivity() {
         try {
             val acsToken = sharedPreference.getString(CACHED_TOKEN, "")
             val userName = sharedPreference.getString(CACHED_USER_NAME, "")
-            CallCompositeManager.getInstance().registerFirebaseToken(
-                acsToken!!,
-                userName!!
-            )
+//            CallCompositeManager.getInstance().registerFirebaseToken(
+//                acsToken!!,
+//                userName!!
+//            )
             showAlert("Register for push notification successfully.")
         } catch (e: Exception) {
             showAlert("Failed to register push notification token. " + e.message)

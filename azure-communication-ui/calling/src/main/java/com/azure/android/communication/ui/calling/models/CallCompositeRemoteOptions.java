@@ -74,7 +74,7 @@ public final class CallCompositeRemoteOptions {
      * @param credential {@link CommunicationTokenCredential}.
      * @param displayName User display name other call participants will see.
      */
-    public CallCompositeRemoteOptions(
+    private CallCompositeRemoteOptions(
             final CallCompositePushNotificationInfo pushNotificationInfo,
             final CommunicationTokenCredential credential,
             final String displayName) {

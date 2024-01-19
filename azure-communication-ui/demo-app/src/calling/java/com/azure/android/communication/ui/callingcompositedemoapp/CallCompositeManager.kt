@@ -19,18 +19,11 @@ import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
-import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEndEvent
-import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent
-import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions
-import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationInfo
-import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
-import com.azure.android.communication.ui.calling.models.CallCompositeTelecomIntegration
-import com.azure.android.communication.ui.calling.models.CallCompositeTelecomOptions
 import com.azure.android.communication.ui.callingcompositedemoapp.IncomingCallActivity.Companion.DISPLAY_NAME
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
@@ -50,8 +43,8 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         } else {
             null
         }
-    private var incomingCallEvent: IncomingCallEvent? = null
-    private var incomingCallEndEvent: IncomingCallEndEvent? = null
+    // private var incomingCallEvent: IncomingCallEvent? = null
+    // private var incomingCallEndEvent: IncomingCallEndEvent? = null
     private var callStateEventHandler: CallStateEventHandler? = null
     private var callComposite: CallComposite? = null
 
@@ -86,10 +79,13 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         return callComposite
     }
 
-    override fun showIncomingCallUI(incomingCallInfo: CallCompositeIncomingCallInfo) {
+
+    override fun showIncomingCallUI(/* incomingCallInfo: CallCompositeIncomingCallInfo */) {
+        /* 1:1 call
         runOnUiThread {
             showNotificationForIncomingCall(incomingCallInfo)
         }
+        */
     }
 
     override fun hideIncomingCallUI() {
@@ -104,6 +100,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         acsToken: String,
         displayName: String,
     ) {
+        /*
 
         val communicationTokenRefreshOptions =
             CommunicationTokenRefreshOptions({ acsToken }, true)
@@ -125,6 +122,8 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
             applicationContext!!,
             remoteOptions
         )
+
+         */
     }
 
     override fun onCompositeDismiss() {
@@ -211,9 +210,9 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         if (AdditionalFeatures.secondaryThemeFeature.active)
             callCompositeBuilder.theme(R.style.MyCompany_Theme_Calling)
 
-        val telecomOptions =
-            CallCompositeTelecomOptions(CallCompositeTelecomIntegration.APPLICATION_IMPLEMENTED_TELECOM_MANAGER)
-        //callCompositeBuilder.telecom(telecomOptions)
+        // val telecomOptions =
+        //    CallCompositeTelecomOptions(CallCompositeTelecomIntegration.APPLICATION_IMPLEMENTED_TELECOM_MANAGER)
+        // callCompositeBuilder.telecom(telecomOptions)
 
         callComposite = callCompositeBuilder.build()
         subscribeToEvents()
@@ -227,9 +226,10 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         val userName =
             applicationContext!!.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
                 .getString(CACHED_USER_NAME, "")
-        registerFirebaseToken(acsToken!!, userName!!, true)
+        // registerFirebaseToken(acsToken!!, userName!!, true)
     }
 
+    /*
     private fun showNotificationForIncomingCall(notification: CallCompositeIncomingCallInfo) {
         applicationContext?.let { applicationContext ->
             Log.i(CallLauncherActivity.TAG, "Showing notification for incoming call")
@@ -345,6 +345,8 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         )
     }
 
+     */
+
     private fun subscribeToEvents() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             callStateEventHandler = CallStateEventHandler(
@@ -354,10 +356,11 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
             callComposite?.addOnCallStateChangedEventHandler(callStateEventHandler)
         }
 
-        incomingCallEvent = IncomingCallEvent()
+
+        // incomingCallEvent = IncomingCallEvent()
         //callComposite?.addOnIncomingCallEventHandler(incomingCallEvent)
 
-        incomingCallEndEvent = IncomingCallEndEvent()
+        // incomingCallEndEvent = IncomingCallEndEvent()
         //callComposite?.addOnIncomingCallEndEventHandler(incomingCallEndEvent)
     }
 
@@ -366,15 +369,19 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
             callStateEventHandler?.let {
                 composite.removeOnCallStateChangedEventHandler(it)
             }
+            /*
             incomingCallEvent?.let {
                 //composite.removeOnIncomingCallEventHandler(incomingCallEvent)
             }
             incomingCallEndEvent?.let {
                 //composite.removeOnIncomingCallEndEventHandler(incomingCallEndEvent)
             }
+
+             */
         }
     }
 
+    /*
     class IncomingCallEvent : CallCompositeEventHandler<CallCompositeIncomingCallEvent> {
         override fun handle(eventArgs: CallCompositeIncomingCallEvent) {
             Log.i(CallLauncherActivity.TAG, "Showing IncomingCallEvent")
@@ -396,6 +403,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
             getInstance().onCompositeDismiss()
         }
     }
+*/
 
     class CallStateEventHandler(
         private val telecomConnectionManager: TelecomConnectionManager?,

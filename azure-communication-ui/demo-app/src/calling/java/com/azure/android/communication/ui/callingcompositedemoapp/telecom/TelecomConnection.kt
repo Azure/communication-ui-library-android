@@ -11,13 +11,13 @@ import android.telecom.DisconnectCause
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.azure.android.communication.ui.calling.CallComposite
-import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
+// import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
 import com.azure.android.communication.ui.callingcompositedemoapp.CallCompositeManager
 
 @RequiresApi(Build.VERSION_CODES.M)
 class TelecomConnection(
     private val callComposite: CallComposite,
-    private var pushNotificationInfo: CallCompositeIncomingCallInfo? = null
+//    private var pushNotificationInfo: CallCompositeIncomingCallInfo? = null
 ) : Connection() {
     companion object {
         private const val TAG = "communication.ui.demo"
@@ -85,7 +85,7 @@ class TelecomConnection(
     override fun onShowIncomingCallUi() {
         super.onShowIncomingCallUi()
         Log.d(TAG, "onShowIncomingCallUi")
-        pushNotificationInfo?.let { CallCompositeManager.getInstance().showIncomingCallUI(it) }
+        // pushNotificationInfo?.let { CallCompositeManager.getInstance().showIncomingCallUI(it) }
     }
 
     override fun onCallEvent(event: String?, extras: Bundle?) {

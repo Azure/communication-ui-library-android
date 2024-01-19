@@ -17,12 +17,9 @@ import android.telecom.DisconnectCause
 import android.telecom.PhoneAccount
 import android.telecom.PhoneAccountHandle
 import android.telecom.TelecomManager
-import android.telecom.VideoProfile
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
-import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
 
 @RequiresApi(Build.VERSION_CODES.O)
 /***
@@ -63,6 +60,7 @@ class TelecomConnectionManager(
         }
     }
 
+    /*
     fun startIncomingConnection(context: Context, callInfo: CallCompositeIncomingCallInfo, isVideoCall: Boolean) {
         if (context.checkSelfPermission(Manifest.permission.MANAGE_OWN_CALLS) ==
             PackageManager.PERMISSION_GRANTED
@@ -87,6 +85,8 @@ class TelecomConnectionManager(
             Log.e(TAG, "startIncomingCall: Permission not granted")
         }
     }
+
+     */
 
     fun setConnectionActive() {
         TelecomConnectionService.connection?.setActive()
@@ -186,6 +186,7 @@ class TelecomConnectionManager(
         }
     }
 
+    /*
     private fun callExtras(callInfo: CallCompositeIncomingCallInfo, isVideoCall: Boolean): Bundle {
         val extras = Bundle()
         extras.putString("DISPLAY_NAME", callInfo.callerDisplayName)
@@ -212,6 +213,7 @@ class TelecomConnectionManager(
 
         return extras
     }
+     */
 
     fun setAudioSelection(selectionType: String) {
         when (selectionType) {
