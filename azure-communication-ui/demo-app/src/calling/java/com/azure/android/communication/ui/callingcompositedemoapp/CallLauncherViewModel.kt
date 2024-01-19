@@ -108,7 +108,7 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
             )
             .setAvMode(CallCompositeAvMode.NORMAL)
             .setSkipSetupScreen(skipSetup)
-            //.setRoleHint(roomRoleHint)
+            // .setRoleHint(roomRoleHint)
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
@@ -290,9 +290,9 @@ class PiPListener : CallCompositeEventHandler<CallCompositePictureInPictureChang
     }
 }
 //
-//class AudioSelectionSelection : CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent> {
+// class AudioSelectionSelection : CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent> {
 //    override fun handle(event: CallCompositeAudioSelectionChangedEvent) {
 //        println("addOnAudioSelectionChangedEventHandler it: " + event.selectionType)
 //        CallCompositeManager.getInstance().onAudioSelectionChanged(event.selectionType)
 //    }
-//}
+// }
