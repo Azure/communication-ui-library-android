@@ -581,6 +581,11 @@ public final class CallComposite {
     }
 
 
+    /**
+     * Add {@link CallCompositeEventHandler}.
+     *
+     * @param eventHandler
+     */
     public void addOnPictureInPictureChangedEventHandler(
             final CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().addOnMultitaskingStateChangedEventHandler(eventHandler);
