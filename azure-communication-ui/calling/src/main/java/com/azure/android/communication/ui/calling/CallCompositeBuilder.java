@@ -77,7 +77,7 @@ public final class CallCompositeBuilder {
      * @param telecomOptions {@link CallCompositeTelecomOptions}
      * @return {@link CallCompositeBuilder} for chaining options.
      */
-    public CallCompositeBuilder telecom(
+    private CallCompositeBuilder telecom(
             final CallCompositeTelecomOptions telecomOptions) {
         this.telecomOptions = telecomOptions;
         return this;

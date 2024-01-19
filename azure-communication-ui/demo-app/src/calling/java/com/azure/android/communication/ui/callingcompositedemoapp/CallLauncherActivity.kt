@@ -156,6 +156,18 @@ class CallLauncherActivity : AppCompatActivity() {
                     presenterRoleRadioButton.visibility = View.GONE
                 }
             }
+
+            listOf(
+                roomsMeetingRadioButton,
+                declineCallButton,
+                presenterRoleRadioButton,
+                attendeeRoleRadioButton,
+                oneToOneRadioButton,
+                acceptCallButton).forEach {
+                it.visibility = View.GONE
+            }
+
+            /*
             roomsMeetingRadioButton.setOnClickListener {
                 if (roomsMeetingRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.ROOMS_ID)
@@ -181,6 +193,7 @@ class CallLauncherActivity : AppCompatActivity() {
                     presenterRoleRadioButton.isChecked = false
                 }
             }
+
             oneToOneRadioButton.setOnClickListener {
                 if (oneToOneRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.PARTICIPANT_MRIS)
@@ -198,6 +211,9 @@ class CallLauncherActivity : AppCompatActivity() {
                 incomingCallLayout.visibility = LinearLayout.GONE
                 callLauncherViewModel.createCallComposite(this@CallLauncherActivity).declineIncomingCall()
             }
+             */
+
+
 
             showCallHistoryButton.setOnClickListener {
                 showCallHistory()

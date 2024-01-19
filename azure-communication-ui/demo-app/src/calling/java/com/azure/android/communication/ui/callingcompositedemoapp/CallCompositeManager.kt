@@ -161,7 +161,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
-        callComposite?.acceptIncomingCall(applicationContext, localOptions)
+        //callComposite?.acceptIncomingCall(applicationContext, localOptions)
     }
 
     fun declineIncomingCall() {
@@ -169,7 +169,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             telecomConnectionManager?.declineCall(applicationContext!!)
         }
-        callComposite?.declineIncomingCall()
+        //callComposite?.declineIncomingCall()
     }
 
     fun destroy() {
@@ -213,7 +213,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
 
         val telecomOptions =
             CallCompositeTelecomOptions(CallCompositeTelecomIntegration.APPLICATION_IMPLEMENTED_TELECOM_MANAGER)
-        callCompositeBuilder.telecom(telecomOptions)
+        //callCompositeBuilder.telecom(telecomOptions)
 
         callComposite = callCompositeBuilder.build()
         subscribeToEvents()
@@ -355,10 +355,10 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         }
 
         incomingCallEvent = IncomingCallEvent()
-        callComposite?.addOnIncomingCallEventHandler(incomingCallEvent)
+        //callComposite?.addOnIncomingCallEventHandler(incomingCallEvent)
 
         incomingCallEndEvent = IncomingCallEndEvent()
-        callComposite?.addOnIncomingCallEndEventHandler(incomingCallEndEvent)
+        //callComposite?.addOnIncomingCallEndEventHandler(incomingCallEndEvent)
     }
 
     private fun unsubscribe() {
@@ -367,10 +367,10 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
                 composite.removeOnCallStateChangedEventHandler(it)
             }
             incomingCallEvent?.let {
-                composite.removeOnIncomingCallEventHandler(incomingCallEvent)
+                //composite.removeOnIncomingCallEventHandler(incomingCallEvent)
             }
             incomingCallEndEvent?.let {
-                composite.removeOnIncomingCallEndEventHandler(incomingCallEndEvent)
+                //composite.removeOnIncomingCallEndEventHandler(incomingCallEndEvent)
             }
         }
     }

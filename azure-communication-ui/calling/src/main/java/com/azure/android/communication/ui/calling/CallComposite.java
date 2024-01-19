@@ -37,7 +37,6 @@ import com.azure.android.communication.ui.calling.models.CallCompositePushNotifi
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
-import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent;
@@ -310,7 +309,7 @@ public final class CallComposite {
      * Accept incoming call.
      *
      */
-    public void acceptIncomingCall(final Context context,
+    private void acceptIncomingCall(final Context context,
                                    final CallCompositeLocalOptions localOptions) {
         logger.info("Call Composite acceptIncomingCall");
         AndroidThreeTen.init(context.getApplicationContext());
@@ -346,7 +345,7 @@ public final class CallComposite {
      * Decline incoming call.
      *
      */
-    public void declineIncomingCall() {
+    private void declineIncomingCall() {
         if (incomingCallWrapper != null) {
             incomingCallWrapper.declineCall();
         }
@@ -429,7 +428,7 @@ public final class CallComposite {
      *
      * @param handler The {@link CallCompositeEventHandler}.
      */
-    public void addOnIncomingCallEventHandler(
+    private void addOnIncomingCallEventHandler(
             final CallCompositeEventHandler<CallCompositeIncomingCallEvent> handler) {
         configuration.getCallCompositeEventsHandler().addOnIncomingCallEventHandler(handler);
     }
@@ -439,7 +438,7 @@ public final class CallComposite {
      *
      * @param handler The {@link CallCompositeEventHandler}.
      */
-    public void removeOnIncomingCallEventHandler(
+    private void removeOnIncomingCallEventHandler(
             final CallCompositeEventHandler<CallCompositeIncomingCallEvent> handler) {
         configuration.getCallCompositeEventsHandler().removeOnIncomingCallEventHandler(handler);
     }
@@ -448,9 +447,19 @@ public final class CallComposite {
      * Add on incoming call end event handler {@link CallCompositeIncomingCallEndEvent}.
      * @param handler The {@link CallCompositeIncomingCallEndEvent}.
      */
-    public void addOnIncomingCallEndEventHandler(
+    private void addOnIncomingCallEndEventHandler(
             final CallCompositeEventHandler<CallCompositeIncomingCallEndEvent> handler) {
         configuration.getCallCompositeEventsHandler().addOnIncomingCallEndEventHandler(handler);
+    }
+
+    /**
+     * Remove on incoming call event handler {@link CallCompositeIncomingCallEvent}.
+     *
+     * @param handler The {@link CallCompositeIncomingCallEndEvent}.
+     */
+    private void removeOnIncomingCallEndEventHandler(
+            final CallCompositeEventHandler<CallCompositeIncomingCallEndEvent> handler) {
+        configuration.getCallCompositeEventsHandler().removeOnIncomingCallEndEventHandler(handler);
     }
 
     /**
@@ -531,15 +540,6 @@ public final class CallComposite {
         }
     }
 
-    /**
-     * Remove on incoming call event handler {@link CallCompositeIncomingCallEvent}.
-     *
-     * @param handler The {@link CallCompositeIncomingCallEndEvent}.
-     */
-    public void removeOnIncomingCallEndEventHandler(
-            final CallCompositeEventHandler<CallCompositeIncomingCallEndEvent> handler) {
-        configuration.getCallCompositeEventsHandler().removeOnIncomingCallEndEventHandler(handler);
-    }
 
     /**
      * Get Call State.
@@ -697,7 +697,7 @@ public final class CallComposite {
 
         UUID groupId = null;
         String meetingLink = null;
-        String roomId = null;
+        final String roomId = null;
         CallCompositeParticipantRole roomRole = null;
         final CallType callType;
         List<String> participants = null;
@@ -707,14 +707,14 @@ public final class CallComposite {
             if (locator instanceof CallCompositeGroupCallLocator) {
                 callType = CallType.GROUP_CALL;
                 groupId = ((CallCompositeGroupCallLocator) locator).getGroupId();
-            } else if (locator instanceof CallCompositeRoomLocator) {
+            }  else {
+                callType = CallType.TEAMS_MEETING;
+                meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
+            } /* else if (locator instanceof CallCompositeRoomLocator) {
                 callType = CallType.ROOMS_CALL;
                 final CallCompositeRoomLocator roomLocator = (CallCompositeRoomLocator) locator;
                 roomId = roomLocator.getRoomId();
-            } else {
-                callType = CallType.TEAMS_MEETING;
-                meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
-            }
+            } */
         } else {
             callType = CallType.ONE_TO_N_CALL_OUTGOING;
             participants = remoteOptions.getStartCallOptions().getParticipants();
