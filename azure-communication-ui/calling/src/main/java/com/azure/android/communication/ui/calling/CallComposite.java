@@ -68,14 +68,14 @@ import java.util.UUID;
  */
 public final class CallComposite {
     static DependencyInjectionContainer diContainer;
-
     // on each launch, an InstanceID will be assigned and incremented.
     private static int instanceIdCounter = 0;
-    private final int instanceId = instanceIdCounter++;
     final CallCompositeConfiguration configuration;
+    private final int instanceId = instanceIdCounter++;
     private CallingSDKCallAgentWrapper callAgentWrapper;
     private IncomingCallWrapper incomingCallWrapper;
     private Logger logger = new DefaultLogger();
+
 
     CallComposite(final CallCompositeConfiguration configuration) {
         this.configuration = configuration;
@@ -697,7 +697,7 @@ public final class CallComposite {
         final String roomId = null;
         // CallCompositeParticipantRole roomRole = null;
         final CallType callType;
-        List<String> participants = null;
+        final List<String> participants = null;
 
         final CallCompositeJoinLocator locator = remoteOptions.getLocator();
         if (locator != null) {
