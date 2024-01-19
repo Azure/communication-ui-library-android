@@ -17,7 +17,6 @@ import com.azure.android.communication.ui.calling.di.DependencyInjectionContaine
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainerImpl;
 import com.azure.android.communication.ui.calling.logger.DefaultLogger;
 import com.azure.android.communication.ui.calling.logger.Logger;
-import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode;
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
@@ -26,7 +25,6 @@ import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole;
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
 import com.azure.android.communication.ui.calling.models.CallCompositePictureInPictureChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
@@ -74,7 +72,7 @@ public final class CallComposite {
     // on each launch, an InstanceID will be assigned and incremented.
     private static int instanceIdCounter = 0;
     private final int instanceId = instanceIdCounter++;
-    private final CallCompositeConfiguration configuration;
+    final CallCompositeConfiguration configuration;
     private CallingSDKCallAgentWrapper callAgentWrapper;
     private IncomingCallWrapper incomingCallWrapper;
     private Logger logger = new DefaultLogger();
@@ -697,7 +695,7 @@ public final class CallComposite {
         UUID groupId = null;
         String meetingLink = null;
         final String roomId = null;
-        CallCompositeParticipantRole roomRole = null;
+        // CallCompositeParticipantRole roomRole = null;
         final CallType callType;
         List<String> participants = null;
 
@@ -706,22 +704,17 @@ public final class CallComposite {
             if (locator instanceof CallCompositeGroupCallLocator) {
                 callType = CallType.GROUP_CALL;
                 groupId = ((CallCompositeGroupCallLocator) locator).getGroupId();
-            }  else {
+            } else {
                 callType = CallType.TEAMS_MEETING;
                 meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
-            } /* else if (locator instanceof CallCompositeRoomLocator) {
-                callType = CallType.ROOMS_CALL;
-                final CallCompositeRoomLocator roomLocator = (CallCompositeRoomLocator) locator;
-                roomId = roomLocator.getRoomId();
-            } */
+            }
         } else {
-            callType = CallType.ONE_TO_N_CALL_OUTGOING;
-            participants = remoteOptions.getStartCallOptions().getParticipants();
+            throw new IllegalArgumentException("CallCompositeRemoteOptions must have a locator");
         }
 
         if (localOptions != null) {
             configuration.setCallCompositeLocalOptions(localOptions);
-            roomRole = localOptions.getRoleHint();
+            // roomRole = localOptions.getRoleHint();
         }
 
         configuration.setCallConfig(new CallConfiguration(
@@ -730,7 +723,7 @@ public final class CallComposite {
                 groupId,
                 meetingLink,
                 roomId,
-                roomRole,
+                // roomRole,
                 callType,
                 participants
                 ));

@@ -11,7 +11,6 @@ import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
-import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeAvMode
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
@@ -20,11 +19,9 @@ import com.azure.android.communication.ui.calling.models.CallCompositeDismissedE
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
 import com.azure.android.communication.ui.calling.models.CallCompositePictureInPictureChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
-import com.azure.android.communication.ui.calling.models.CallCompositeStartCallOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.views.EndCompositeButtonView
@@ -50,7 +47,7 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
     private var callCompositeManager = CallCompositeManager.getInstance()
     private var callComposite: CallComposite? = null
     private var callCompositePictureInPictureChangedEvent: PiPListener? = null
-    private var audioSelectionChangedEvent: AudioSelectionSelection? = null
+//    private var audioSelectionChangedEvent: AudioSelectionSelection? = null
 
     fun destroy() {
         unsubscribeFromEvents()
@@ -69,7 +66,7 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
         displayName: String,
         groupId: UUID?,
         roomId: String?,
-        roomRoleHint: CallCompositeParticipantRole?,
+        // roomRoleHint: CallCompositeParticipantRole?,
         meetingLink: String?,
         participantMri: String?
     ) {
@@ -93,13 +90,14 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
             else null
 
         var skipSetup = SettingsFeatures.getSkipSetupScreenFeatureValue()
-        val remoteOptions = if (locator == null && !participantMri.isNullOrEmpty()) {
+
+        val remoteOptions = /* if (locator == null && !participantMri.isNullOrEmpty()) {
             val participantMris = participantMri.split(",")
             val startCallOption = CallCompositeStartCallOptions(participantMris)
             CallCompositeRemoteOptions(startCallOption, communicationTokenCredential, displayName)
-        } else {
+        } else { */
             CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
-        }
+        // }
 
         val localOptions = CallCompositeLocalOptions()
             .setParticipantViewData(SettingsFeatures.getParticipantViewData(context.applicationContext))
@@ -110,7 +108,7 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
             )
             .setAvMode(CallCompositeAvMode.NORMAL)
             .setSkipSetupScreen(skipSetup)
-            .setRoleHint(roomRoleHint)
+            //.setRoleHint(roomRoleHint)
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
@@ -161,8 +159,8 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
         callComposite?.addOnCallStateChangedEventHandler(callStateEventHandler)
         callComposite?.addOnDismissedEventHandler(exitEventHandler)
 
-        audioSelectionChangedEvent = AudioSelectionSelection()
-        callComposite?.addOnAudioSelectionChangedEventHandler(audioSelectionChangedEvent!!)
+//        audioSelectionChangedEvent = AudioSelectionSelection()
+        // callComposite?.addOnAudioSelectionChangedEventHandler(audioSelectionChangedEvent!!)
         callComposite?.addOnUserReportedEventHandler(userReportedIssueEventHandler)
     }
 
@@ -173,7 +171,7 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
             composite.removeOnErrorEventHandler(errorHandler)
             composite.removeOnRemoteParticipantJoinedEventHandler(remoteParticipantJoinedEvent)
             composite.removeOnDismissedEventHandler(exitEventHandler)
-            composite.removeOnAudioSelectionChangedEventHandler(audioSelectionChangedEvent)
+            // composite.removeOnAudioSelectionChangedEventHandler(audioSelectionChangedEvent)
             composite.removeOnUserReportedEventHandler(userReportedIssueEventHandler)
         }
     }
@@ -291,10 +289,10 @@ class PiPListener : CallCompositeEventHandler<CallCompositePictureInPictureChang
         println("addOnMultitaskingStateChangedEventHandler it.isInPictureInPicture: ")
     }
 }
-
-class AudioSelectionSelection : CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent> {
-    override fun handle(event: CallCompositeAudioSelectionChangedEvent) {
-        println("addOnAudioSelectionChangedEventHandler it: " + event.selectionType)
-        CallCompositeManager.getInstance().onAudioSelectionChanged(event.selectionType)
-    }
-}
+//
+//class AudioSelectionSelection : CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent> {
+//    override fun handle(event: CallCompositeAudioSelectionChangedEvent) {
+//        println("addOnAudioSelectionChangedEventHandler it: " + event.selectionType)
+//        CallCompositeManager.getInstance().onAudioSelectionChanged(event.selectionType)
+//    }
+//}

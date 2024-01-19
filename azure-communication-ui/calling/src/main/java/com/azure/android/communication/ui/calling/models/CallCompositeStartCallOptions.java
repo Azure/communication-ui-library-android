@@ -17,7 +17,7 @@ final class CallCompositeStartCallOptions {
      * Creates {@link CallCompositeStartCallOptions} using participants list.
      * @param participants List of participants.
      */
-    public CallCompositeStartCallOptions(final List<String> participants) {
+    CallCompositeStartCallOptions(final List<String> participants) {
         this.participants = participants;
     }
 
@@ -25,7 +25,7 @@ final class CallCompositeStartCallOptions {
      * Get participants list.
      * @return List of participants.
      */
-    public List<String> getParticipants() {
+    List<String> getParticipants() {
         return participants;
     }
 }

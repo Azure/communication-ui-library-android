@@ -159,7 +159,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
 
     fun destroy() {
         unsubscribe()
-        callComposite?.dispose()
+        // callComposite?.dispose()
         callComposite = null
     }
 

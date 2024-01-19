@@ -69,14 +69,14 @@ class TelecomConnection(
 
     override fun onHold() {
         super.onHold()
-        callComposite.hold()
+//        callComposite.hold()
         setOnHold()
         Log.d(TAG, "onHold")
     }
 
     override fun onUnhold() {
         super.onUnhold()
-        callComposite.resume()
+//        callComposite.resume()
         setActive()
         Log.d(TAG, "onUnhold")
     }

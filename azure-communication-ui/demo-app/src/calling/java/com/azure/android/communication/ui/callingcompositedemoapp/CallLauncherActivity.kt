@@ -21,7 +21,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.FeatureFlags
@@ -351,9 +350,10 @@ class CallLauncherActivity : AppCompatActivity() {
         sharedPreference.edit().putString(CACHED_TOKEN, acsToken).apply()
         sharedPreference.edit().putString(CACHED_USER_NAME, userName).apply()
         val roomId = binding.groupIdOrTeamsMeetingLinkText.text.toString()
-        val roomRole = if (binding.attendeeRoleRadioButton.isChecked) CallCompositeParticipantRole.ATTENDEE
-        else if (binding.presenterRoleRadioButton.isChecked) CallCompositeParticipantRole.PRESENTER
-        else null
+//        val roomRole = if (binding.attendeeRoleRadioButton.isChecked) CallCompositeParticipantRole.ATTENDEE
+//        else if (binding.presenterRoleRadioButton.isChecked) CallCompositeParticipantRole.PRESENTER
+//        else null
+        val roomRole = null
 
         var groupId: UUID? = null
         if (binding.groupCallRadioButton.isChecked) {
@@ -392,7 +392,7 @@ class CallLauncherActivity : AppCompatActivity() {
             userName,
             groupId,
             roomId,
-            roomRole,
+            // roomRole,
             meetingLink,
             participantMri
         )

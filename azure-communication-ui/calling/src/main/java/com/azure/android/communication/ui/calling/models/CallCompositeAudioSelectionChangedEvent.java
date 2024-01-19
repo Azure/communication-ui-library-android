@@ -13,7 +13,7 @@ final class CallCompositeAudioSelectionChangedEvent {
      *
      * @param selectionType selection type.
      */
-    public CallCompositeAudioSelectionChangedEvent(final String selectionType) {
+    CallCompositeAudioSelectionChangedEvent(final String selectionType) {
         this.selectionType = selectionType;
     }
 
@@ -22,7 +22,7 @@ final class CallCompositeAudioSelectionChangedEvent {
      *
      * @return the selection type.
      */
-    public String getSelectionType() {
+    String getSelectionType() {
         return selectionType;
     }
 }
