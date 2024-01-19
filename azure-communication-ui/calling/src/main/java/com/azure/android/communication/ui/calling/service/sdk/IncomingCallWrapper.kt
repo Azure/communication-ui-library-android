@@ -8,7 +8,6 @@ import com.azure.android.communication.calling.IncomingCall
 import com.azure.android.communication.calling.PropertyChangedListener
 import com.azure.android.communication.calling.PushNotificationInfo
 import com.azure.android.communication.common.CommunicationTokenCredential
-import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.logger.Logger
 
 internal interface IncomingCallEvent {

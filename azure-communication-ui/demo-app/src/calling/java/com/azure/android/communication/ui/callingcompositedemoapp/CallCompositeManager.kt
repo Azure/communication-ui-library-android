@@ -3,17 +3,9 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
-import android.app.PendingIntent
-import android.app.TaskStackBuilder
 import android.content.Context
-import android.content.Intent
-import android.media.RingtoneManager
 import android.os.Build
-import android.util.Log
-import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.azure.android.communication.common.CommunicationTokenCredential
-import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
@@ -22,15 +14,10 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallStateC
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
-import com.azure.android.communication.ui.callingcompositedemoapp.IncomingCallActivity.Companion.DISPLAY_NAME
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.telecom.TelecomConnectionManager
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.messaging.FirebaseMessaging
-import com.microsoft.appcenter.utils.HandlerUtils.runOnUiThread
 
 class CallCompositeManager(private var applicationContext: Context?) : CallCompositeEvents {
 
@@ -78,7 +65,6 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
     override fun getCallComposite(): CallComposite? {
         return callComposite
     }
-
 
     override fun showIncomingCallUI(/* incomingCallInfo: CallCompositeIncomingCallInfo */) {
         /* 1:1 call
@@ -160,7 +146,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
-        //callComposite?.acceptIncomingCall(applicationContext, localOptions)
+        // callComposite?.acceptIncomingCall(applicationContext, localOptions)
     }
 
     fun declineIncomingCall() {
@@ -168,7 +154,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             telecomConnectionManager?.declineCall(applicationContext!!)
         }
-        //callComposite?.declineIncomingCall()
+        // callComposite?.declineIncomingCall()
     }
 
     fun destroy() {
@@ -356,12 +342,11 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
             callComposite?.addOnCallStateChangedEventHandler(callStateEventHandler)
         }
 
-
         // incomingCallEvent = IncomingCallEvent()
-        //callComposite?.addOnIncomingCallEventHandler(incomingCallEvent)
+        // callComposite?.addOnIncomingCallEventHandler(incomingCallEvent)
 
         // incomingCallEndEvent = IncomingCallEndEvent()
-        //callComposite?.addOnIncomingCallEndEventHandler(incomingCallEndEvent)
+        // callComposite?.addOnIncomingCallEndEventHandler(incomingCallEndEvent)
     }
 
     private fun unsubscribe() {

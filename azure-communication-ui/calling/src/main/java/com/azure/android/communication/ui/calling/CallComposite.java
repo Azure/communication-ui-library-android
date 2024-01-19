@@ -223,10 +223,10 @@ public final class CallComposite {
      *
      * @param eventHandler The {@link CallCompositeEventHandler}.
      */
-    public void addOnAudioSelectionChangedEventHandler(
-            final CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent> eventHandler) {
-        configuration.getCallCompositeEventsHandler().addOnAudioSelectionChangedEventHandler(eventHandler);
-    }
+//    public void addOnAudioSelectionChangedEventHandler(
+//            final CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent> eventHandler) {
+//        configuration.getCallCompositeEventsHandler().addOnAudioSelectionChangedEventHandler(eventHandler);
+//    }
 
     /**
      * Remove {@link CallCompositeEventHandler}.
@@ -237,10 +237,10 @@ public final class CallComposite {
      *
      * @param eventHandler The {@link CallCompositeEventHandler}.
      */
-    public void removeOnAudioSelectionChangedEventHandler(
-            final CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent> eventHandler) {
-        configuration.getCallCompositeEventsHandler().removeOnAudioSelectionChangedEventHandler(eventHandler);
-    }
+//    public void removeOnAudioSelectionChangedEventHandler(
+//            final CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent> eventHandler) {
+//        configuration.getCallCompositeEventsHandler().removeOnAudioSelectionChangedEventHandler(eventHandler);
+//    }
 
     /**
      * Add {@link CallCompositeEventHandler}.
@@ -292,13 +292,13 @@ public final class CallComposite {
      * Dismiss composite. Cleanup memory hold by call agent.
      *
      */
-    public void dispose() {
-        dismiss();
-        if (callAgentWrapper != null) {
-            callAgentWrapper.dispose();
-        }
-        CallingSDKInstanceManager.INSTANCE.setCallingSDKCallAgentWrapper(null);
-    }
+//    public void dispose() {
+//        dismiss();
+//        if (callAgentWrapper != null) {
+//            callAgentWrapper.dispose();
+//        }
+//        CallingSDKInstanceManager.INSTANCE.setCallingSDKCallAgentWrapper(null);
+//    }
 
     /**
      * Accept incoming call.
@@ -465,80 +465,79 @@ public final class CallComposite {
      * Start audio session
      *
      */
-    public void startAudio() {
-        if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer;
-            if (container != null) {
-                container.getCallingService().startAudio();
-            }
-        }
-    }
+//    public void startAudio() {
+//        if (diContainer != null) {
+//            final DependencyInjectionContainer container = diContainer;
+//            if (container != null) {
+//                container.getCallingService().startAudio();
+//            }
+//        }
+//    }
 
     /**
      * Stop audio session.
      *
      */
-    public void stopAudio() {
-        if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer;
-            if (container != null) {
-                container.getCallingService().stopAudio();
-            }
-        }
-    }
+//    public void stopAudio() {
+//        if (diContainer != null) {
+//            final DependencyInjectionContainer container = diContainer;
+//            if (container != null) {
+//                container.getCallingService().stopAudio();
+//            }
+//        }
+//    }
 
     /**
      * Turn on video.
      *
      */
-    public void turnMicOn() {
-        if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer;
-            if (container != null) {
-                container.getCallingService().turnMicOn();
-            }
-        }
-    }
+//    public void turnMicOn() {
+//        if (diContainer != null) {
+//            final DependencyInjectionContainer container = diContainer;
+//            if (container != null) {
+//                container.getCallingService().turnMicOn();
+//            }
+//        }
+//    }
 
     /**
      * Turn off video.
      *
      */
-    public void turnMicOff() {
-        if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer;
-            if (container != null) {
-                container.getCallingService().turnMicOff();
-            }
-        }
-    }
+//    public void turnMicOff() {
+//        if (diContainer != null) {
+//            final DependencyInjectionContainer container = diContainer;
+//            if (container != null) {
+//                container.getCallingService().turnMicOff();
+//            }
+//        }
+//    }
 
     /**
      * Turn on video.
      *
      */
-    public void hold() {
-        if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer;
-            if (container != null) {
-                container.getCallingService().hold();
-            }
-        }
-    }
+//    public void hold() {
+//        if (diContainer != null) {
+//            final DependencyInjectionContainer container = diContainer;
+//            if (container != null) {
+//                container.getCallingService().hold();
+//            }
+//        }
+//    }
 
     /**
      * Turn off video.
      *
      */
-    public void resume() {
-        if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer;
-            if (container != null) {
-                container.getCallingService().resume();
-            }
-        }
-    }
-
+//    public void resume() {
+//        if (diContainer != null) {
+//            final DependencyInjectionContainer container = diContainer;
+//            if (container != null) {
+//                container.getCallingService().resume();
+//            }
+//        }
+//    }
 
     /**
      * Get Call State.

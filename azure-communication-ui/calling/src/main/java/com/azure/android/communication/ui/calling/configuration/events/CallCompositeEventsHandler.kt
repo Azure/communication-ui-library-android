@@ -39,7 +39,6 @@ internal class CallCompositeEventsHandler {
     fun removeOnErrorEventHandler(errorHandler: CallCompositeEventHandler<CallCompositeErrorEvent>) =
         errorHandlers.remove(errorHandler)
 
-
     fun getOnRemoteParticipantJoinedHandlers() = remoteParticipantJoinedHandlers.asIterable()
 
     fun addOnRemoteParticipantJoinedEventHandler(handler: CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>) =

@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.models;
 /**
  * Event with audio selection changed.
  */
-public final class CallCompositeAudioSelectionChangedEvent {
+final class CallCompositeAudioSelectionChangedEvent {
     private final String selectionType;
     /**
      * Create {@link CallCompositeAudioSelectionChangedEvent} with selection.

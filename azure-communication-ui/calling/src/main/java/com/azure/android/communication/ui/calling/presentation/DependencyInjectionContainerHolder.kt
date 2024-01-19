@@ -60,7 +60,7 @@ internal class DependencyInjectionContainerHolder(
             SetupViewModelFactory(
                 container.appStore,
                 application,
-                //container.configuration.telecomOptions != null
+                // container.configuration.telecomOptions != null
             ),
             container.networkManager,
             callType

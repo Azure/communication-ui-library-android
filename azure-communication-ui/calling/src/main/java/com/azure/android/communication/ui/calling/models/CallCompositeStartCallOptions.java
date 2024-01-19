@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Start Call options to start 1 to N call experience using {@link CallComposite}.
  */
-public class CallCompositeStartCallOptions {
+final class CallCompositeStartCallOptions {
     private final List<String> participants;
 
     /**

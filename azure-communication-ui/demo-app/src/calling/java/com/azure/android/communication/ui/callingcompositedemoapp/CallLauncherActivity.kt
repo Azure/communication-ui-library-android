@@ -17,7 +17,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -163,7 +162,8 @@ class CallLauncherActivity : AppCompatActivity() {
                 presenterRoleRadioButton,
                 attendeeRoleRadioButton,
                 oneToOneRadioButton,
-                acceptCallButton).forEach {
+                acceptCallButton
+            ).forEach {
                 it.visibility = View.GONE
             }
 
@@ -212,8 +212,6 @@ class CallLauncherActivity : AppCompatActivity() {
                 callLauncherViewModel.createCallComposite(this@CallLauncherActivity).declineIncomingCall()
             }
              */
-
-
 
             showCallHistoryButton.setOnClickListener {
                 showCallHistory()

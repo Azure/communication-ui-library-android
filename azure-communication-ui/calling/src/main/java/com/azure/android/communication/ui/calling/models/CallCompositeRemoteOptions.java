@@ -44,11 +44,11 @@ public final class CallCompositeRemoteOptions {
      * @param locator {@link CallCompositeJoinLocator}.
      * @param credential {@link CommunicationTokenCredential}.
      */
-    public CallCompositeRemoteOptions(
-            final CallCompositeJoinLocator locator,
-            final CommunicationTokenCredential credential) {
-        this(locator, credential, "");
-    }
+//    public CallCompositeRemoteOptions(
+//            final CallCompositeJoinLocator locator,
+//            final CommunicationTokenCredential credential) {
+//        this(locator, credential, "");
+//    }
 
     /**
      * Create {@link CallCompositeRemoteOptions}.
@@ -90,14 +90,14 @@ public final class CallCompositeRemoteOptions {
      * @param credential {@link CommunicationTokenCredential}.
      * @param displayName User display name other call participants will see.
      */
-    public CallCompositeRemoteOptions(
-            final CallCompositeStartCallOptions startCallOptions,
-            final CommunicationTokenCredential credential,
-            final String displayName) {
-        this.credential = credential;
-        this.displayName = displayName;
-        this.startCallOptions = startCallOptions;
-    }
+//    public CallCompositeRemoteOptions(
+//            final CallCompositeStartCallOptions startCallOptions,
+//            final CommunicationTokenCredential credential,
+//            final String displayName) {
+//        this.credential = credential;
+//        this.displayName = displayName;
+//        this.startCallOptions = startCallOptions;
+//    }
 
     /**
      * Get {@link CommunicationTokenCredential}.
@@ -131,16 +131,16 @@ public final class CallCompositeRemoteOptions {
      *
      * @return  {@link CallCompositeStartCallOptions}.
      */
-    public CallCompositeStartCallOptions getStartCallOptions() {
-        return startCallOptions;
-    }
+//    public CallCompositeStartCallOptions getStartCallOptions() {
+//        return startCallOptions;
+//    }
 
     /**
      * Get push notification info.
      *
      * @return  {@link CallCompositePushNotificationInfo}.
      */
-    public CallCompositePushNotificationInfo getPushNotificationInfo() {
-        return pushNotificationInfo;
-    }
+//    public CallCompositePushNotificationInfo getPushNotificationInfo() {
+//        return pushNotificationInfo;
+//    }
 }
