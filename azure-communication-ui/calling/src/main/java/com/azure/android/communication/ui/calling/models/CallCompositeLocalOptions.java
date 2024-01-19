@@ -195,7 +195,7 @@ public final class CallCompositeLocalOptions {
      *
      * @return The boolean value to be used for audio only mode.
      */
-    public CallCompositeAvMode isAudioOnly() {
+    public CallCompositeAvMode getAvMode() {
         return avMode;
     }
 }
