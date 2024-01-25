@@ -123,8 +123,6 @@ class SettingsFeatures {
             return sharedPrefs.getBoolean(CAMERA_ON_BY_DEFAULT_KEY, DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE)
         }
 
-
-
         @JvmStatic
         fun getAudioOnlyByDefaultOption(): Boolean {
             return sharedPrefs.getBoolean(AUDIO_ONLY_MODE_ON_BY_DEFAULT_KEY, AUDIO_ONLY_MODE_ON_BY_DEFAULT_VALUE)

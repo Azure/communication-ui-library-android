@@ -21,7 +21,6 @@ import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.TranscriptionCallFeature
 import com.azure.android.communication.ui.calling.models.CallCompositeAvMode
 import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
-import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
