@@ -23,9 +23,6 @@ internal class AppStateReducer(
     override fun reduce(state: AppReduxState, action: Action): AppReduxState {
 
         val appState = AppReduxState(
-            // Passing these initializers in via the reducer we might want to stop
-            // I.e. using a Blank AppReduxState instead of an "initialized one"
-            // or using a copyOf constructor and Data classes.
             state.localParticipantState.displayName,
             cameraOnByDefault = state.localParticipantState.initialCallJoinState.startWithCameraOn,
             microphoneOnByDefault = state.localParticipantState.initialCallJoinState.startWithMicrophoneOn,

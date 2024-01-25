@@ -164,8 +164,10 @@ internal class ControlBarView : ConstraintLayout {
     }
 
     private fun updateCamera(cameraState: ControlBarViewModel.CameraModel) {
+        val shouldHide = (cameraState.cameraState.operation == CameraOperationalStatus.DISABLED)
         val cameraPermissionIsNotDenied = (cameraState.cameraPermissionState != PermissionStatus.DENIED)
         val shouldBeEnabled = (cameraPermissionIsNotDenied && callStatePassedConnecting)
+        cameraToggle.visibility = if (shouldHide) View.GONE else View.VISIBLE
         cameraToggle.isEnabled = shouldBeEnabled
 
         when (cameraState.cameraState.operation) {

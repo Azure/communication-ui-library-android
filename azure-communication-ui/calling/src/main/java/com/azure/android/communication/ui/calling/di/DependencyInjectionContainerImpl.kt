@@ -284,7 +284,8 @@ internal class DependencyInjectionContainerImpl(
 
     private val callingSDKEventHandler by lazy {
         CallingSDKEventHandler(
-            coroutineContextProvider
+            coroutineContextProvider,
+            localOptions?.avMode ?: CallCompositeAvMode.NORMAL,
         )
     }
 

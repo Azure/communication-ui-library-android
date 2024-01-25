@@ -19,7 +19,9 @@ import com.azure.android.communication.calling.RecordingCallFeature
 import com.azure.android.communication.calling.RemoteParticipant
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.TranscriptionCallFeature
+import com.azure.android.communication.ui.calling.models.CallCompositeAvMode
 import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
@@ -42,6 +44,7 @@ import kotlinx.coroutines.launch
 
 internal class CallingSDKEventHandler(
     coroutineContextProvider: CoroutineContextProvider,
+    private val avMode: CallCompositeAvMode,
 ) {
     companion object {
         private const val SAMPLING_PERIOD_MILLIS: Long = 1000
@@ -438,7 +441,7 @@ internal class CallingSDKEventHandler(
                 participant,
                 MediaStreamType.SCREEN_SHARING
             ),
-            cameraVideoStreamModel = createVideoStreamModel(participant, MediaStreamType.VIDEO),
+            cameraVideoStreamModel = if (avMode == CallCompositeAvMode.AUDIO_ONLY) null else createVideoStreamModel(participant, MediaStreamType.VIDEO),
             modifiedTimestamp = currentTimestamp,
             participantStatus = participant.state.into()
         )
