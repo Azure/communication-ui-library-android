@@ -10,6 +10,8 @@ import android.graphics.BitmapFactory
 import android.util.LayoutDirection
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
+import com.azure.android.communication.ui.callingcompositedemoapp.AUDIO_ONLY_MODE_ON_BY_DEFAULT_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.AUDIO_ONLY_MODE_ON_BY_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.AVATAR_IMAGE
 import com.azure.android.communication.ui.callingcompositedemoapp.CACHED_TOKEN
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY
@@ -119,6 +121,13 @@ class SettingsFeatures {
         @JvmStatic
         fun getCameraOnByDefaultOption(): Boolean {
             return sharedPrefs.getBoolean(CAMERA_ON_BY_DEFAULT_KEY, DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE)
+        }
+
+
+
+        @JvmStatic
+        fun getAudioOnlyByDefaultOption(): Boolean {
+            return sharedPrefs.getBoolean(AUDIO_ONLY_MODE_ON_BY_DEFAULT_KEY, AUDIO_ONLY_MODE_ON_BY_DEFAULT_VALUE)
         }
 
         @JvmStatic

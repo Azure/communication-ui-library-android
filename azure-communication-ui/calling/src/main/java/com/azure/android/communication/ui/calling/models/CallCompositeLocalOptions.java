@@ -136,9 +136,13 @@ public final class CallCompositeLocalOptions {
 
     /**
      * Get the initial camera configuration boolean value.
+     * Note: If AUDIO_ONLY mode is set, this will always return false.
      * @return The boolean that is currently set.
      */
     public boolean isCameraOn() {
+        if (avMode == CallCompositeAvMode.AUDIO_ONLY) {
+            return false;
+        }
         return this.cameraOn;
     }
 
