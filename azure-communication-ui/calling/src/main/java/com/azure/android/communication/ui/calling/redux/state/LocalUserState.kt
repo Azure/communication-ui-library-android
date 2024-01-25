@@ -10,6 +10,7 @@ internal enum class CameraOperationalStatus {
     ON,
     OFF,
     PAUSED,
+    DISABLED,
 }
 
 internal enum class CameraDeviceSelectionStatus {

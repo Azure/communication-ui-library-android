@@ -3,10 +3,13 @@
 
 package com.azure.android.communication.ui.calling.redux.state
 
+import com.azure.android.communication.ui.calling.models.CallCompositeAvMode
+
 internal class AppReduxState(
     displayName: String?,
     cameraOnByDefault: Boolean,
-    microphoneOnByDefault: Boolean
+    microphoneOnByDefault: Boolean,
+    avMode: CallCompositeAvMode,
 ) : ReduxState {
 
     override var callState: CallingState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
@@ -21,7 +24,8 @@ internal class AppReduxState(
     override var localParticipantState: LocalUserState =
         LocalUserState(
             CameraState(
-                operation = CameraOperationalStatus.OFF,
+                operation = if (avMode == CallCompositeAvMode.AUDIO_ONLY)
+                    CameraOperationalStatus.DISABLED else CameraOperationalStatus.OFF,
                 device = CameraDeviceSelectionStatus.FRONT,
                 transmission = CameraTransmissionStatus.LOCAL
             ),

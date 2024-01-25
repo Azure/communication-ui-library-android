@@ -390,6 +390,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
             }?.asVideoStreamModel(),
 
             modifiedTimestamp = System.currentTimeMillis(),
+            isCameraDisabled = false
         )
     }
 }

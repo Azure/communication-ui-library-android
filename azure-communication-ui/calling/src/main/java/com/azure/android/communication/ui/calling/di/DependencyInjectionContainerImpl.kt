@@ -12,6 +12,7 @@ import com.azure.android.communication.ui.calling.handlers.CallStateHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.logger.Logger
+import com.azure.android.communication.ui.calling.models.CallCompositeAvMode
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactory
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactoryImpl
@@ -213,7 +214,8 @@ internal class DependencyInjectionContainerImpl(
         AppReduxState(
             configuration.callConfig?.displayName,
             localOptions?.isCameraOn == true,
-            localOptions?.isMicrophoneOn == true
+            localOptions?.isMicrophoneOn == true,
+            localOptions?.avMode ?: CallCompositeAvMode.NORMAL
         )
     }
 
@@ -269,7 +271,8 @@ internal class DependencyInjectionContainerImpl(
 
     private val callingSDKEventHandler by lazy {
         CallingSDKEventHandler(
-            coroutineContextProvider
+            coroutineContextProvider,
+            localOptions?.avMode ?: CallCompositeAvMode.NORMAL,
         )
     }
 
