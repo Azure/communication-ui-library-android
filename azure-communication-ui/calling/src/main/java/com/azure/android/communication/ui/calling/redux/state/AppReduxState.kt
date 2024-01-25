@@ -9,7 +9,7 @@ internal class AppReduxState(
     displayName: String?,
     cameraOnByDefault: Boolean,
     microphoneOnByDefault: Boolean,
-    avMode: CallCompositeAvMode,
+    avMode: CallCompositeAvMode = CallCompositeAvMode.NORMAL,
 ) : ReduxState {
 
     override var callState: CallingState = CallingState(CallingStatus.NONE, OperationStatus.NONE)

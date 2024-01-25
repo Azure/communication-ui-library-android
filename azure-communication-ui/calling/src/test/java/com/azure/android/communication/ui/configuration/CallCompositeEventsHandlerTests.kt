@@ -8,6 +8,7 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ErrorState
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.models.CallCompositeAvMode
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import org.junit.Assert
 import org.junit.Test
@@ -22,7 +23,11 @@ internal class CallCompositeEventsHandlerTests : ACSBaseTestCoroutine() {
     fun errorHandler_onStateChange_andAdnRemoveErrorHandler_callsNothing() = runScopedTest {
 
         // arrange
-        val appState = AppReduxState("", false, false)
+        val appState = AppReduxState(
+            "", false,
+            microphoneOnByDefault = false,
+            avMode = CallCompositeAvMode.NORMAL
+        )
         appState.errorState = ErrorState(null, null)
 
         val handler1 = mock<CallCompositeEventHandler<CallCompositeErrorEvent>> { }
