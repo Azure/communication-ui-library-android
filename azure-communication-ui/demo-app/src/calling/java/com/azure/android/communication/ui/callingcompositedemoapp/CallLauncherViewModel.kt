@@ -104,6 +104,9 @@ class CallLauncherViewModel : ViewModel() {
         val remoteOptions =
             CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
 
+        val avMode = if (SettingsFeatures.getAudioOnlyByDefaultOption())
+            CallCompositeAvMode.AUDIO_ONLY else CallCompositeAvMode.NORMAL
+
         val localOptions = CallCompositeLocalOptions()
             .setParticipantViewData(SettingsFeatures.getParticipantViewData(context.applicationContext))
             .setSetupScreenViewData(
@@ -112,7 +115,7 @@ class CallLauncherViewModel : ViewModel() {
                     .setSubtitle(SettingsFeatures.getSubtitle())
             )
             .setSkipSetupScreen(SettingsFeatures.getSkipSetupScreenFeatureOption())
-            .setAvMode(CallCompositeAvMode.AUDIO_ONLY)
+            .setAvMode(avMode)
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
@@ -195,9 +198,11 @@ class CallLauncherViewModel : ViewModel() {
         val selectedLanguage = SettingsFeatures.language()
         val locale = selectedLanguage?.let { SettingsFeatures.locale(it) }
         val selectedCallScreenOrientation = SettingsFeatures.callScreenOrientation()
-        val callScreenOrientation = selectedCallScreenOrientation?.let { SettingsFeatures.orientation(it) }
+        val callScreenOrientation =
+            selectedCallScreenOrientation?.let { SettingsFeatures.orientation(it) }
         val selectedSetupScreenOrientation = SettingsFeatures.setupScreenOrientation()
-        val setupScreenOrientation = selectedSetupScreenOrientation?.let { SettingsFeatures.orientation(it) }
+        val setupScreenOrientation =
+            selectedSetupScreenOrientation?.let { SettingsFeatures.orientation(it) }
 
         val callCompositeBuilder = CallCompositeBuilder()
             .localization(
@@ -206,7 +211,12 @@ class CallLauncherViewModel : ViewModel() {
                     SettingsFeatures.getLayoutDirection()
                 )
             )
-            .localization(CallCompositeLocalizationOptions(locale, SettingsFeatures.getLayoutDirection()))
+            .localization(
+                CallCompositeLocalizationOptions(
+                    locale,
+                    SettingsFeatures.getLayoutDirection()
+                )
+            )
             .setupScreenOrientation(setupScreenOrientation)
             .callScreenOrientation(callScreenOrientation)
 
@@ -246,7 +256,8 @@ class CallLauncherViewModel : ViewModel() {
     }
 }
 
-class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>) : CallCompositeEventHandler<CallCompositeCallStateChangedEvent> {
+class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>) :
+    CallCompositeEventHandler<CallCompositeCallStateChangedEvent> {
     override fun handle(callStateEvent: CallCompositeCallStateChangedEvent) {
         callCompositeCallStateStateFlow.value = callStateEvent.code.toString()
     }
