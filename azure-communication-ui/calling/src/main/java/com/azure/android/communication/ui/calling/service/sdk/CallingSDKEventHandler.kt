@@ -436,12 +436,13 @@ internal class CallingSDKEventHandler(
             displayName = participant.displayName,
             userIdentifier = participant.identifier.rawId,
             isMuted = participant.isMuted,
+            isCameraDisabled = avMode == CallCompositeAvMode.AUDIO_ONLY,
             isSpeaking = participant.isSpeaking && !participant.isMuted,
             screenShareVideoStreamModel = createVideoStreamModel(
                 participant,
                 MediaStreamType.SCREEN_SHARING
             ),
-            cameraVideoStreamModel = if (avMode == CallCompositeAvMode.AUDIO_ONLY) null else createVideoStreamModel(participant, MediaStreamType.VIDEO),
+            cameraVideoStreamModel = createVideoStreamModel(participant, MediaStreamType.VIDEO),
             modifiedTimestamp = currentTimestamp,
             participantStatus = participant.state.into()
         )
