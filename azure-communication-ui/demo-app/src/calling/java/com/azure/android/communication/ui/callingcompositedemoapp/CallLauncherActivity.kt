@@ -17,12 +17,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.FeatureFlags
@@ -156,6 +154,19 @@ class CallLauncherActivity : AppCompatActivity() {
                     presenterRoleRadioButton.visibility = View.GONE
                 }
             }
+
+            listOf(
+                roomsMeetingRadioButton,
+                declineCallButton,
+                presenterRoleRadioButton,
+                attendeeRoleRadioButton,
+                oneToOneRadioButton,
+                acceptCallButton
+            ).forEach {
+                it.visibility = View.GONE
+            }
+
+            /*
             roomsMeetingRadioButton.setOnClickListener {
                 if (roomsMeetingRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.ROOMS_ID)
@@ -181,6 +192,7 @@ class CallLauncherActivity : AppCompatActivity() {
                     presenterRoleRadioButton.isChecked = false
                 }
             }
+
             oneToOneRadioButton.setOnClickListener {
                 if (oneToOneRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.PARTICIPANT_MRIS)
@@ -198,6 +210,7 @@ class CallLauncherActivity : AppCompatActivity() {
                 incomingCallLayout.visibility = LinearLayout.GONE
                 callLauncherViewModel.createCallComposite(this@CallLauncherActivity).declineIncomingCall()
             }
+             */
 
             showCallHistoryButton.setOnClickListener {
                 showCallHistory()
@@ -299,10 +312,10 @@ class CallLauncherActivity : AppCompatActivity() {
         try {
             val acsToken = sharedPreference.getString(CACHED_TOKEN, "")
             val userName = sharedPreference.getString(CACHED_USER_NAME, "")
-            CallCompositeManager.getInstance().registerFirebaseToken(
-                acsToken!!,
-                userName!!
-            )
+//            CallCompositeManager.getInstance().registerFirebaseToken(
+//                acsToken!!,
+//                userName!!
+//            )
             showAlert("Register for push notification successfully.")
         } catch (e: Exception) {
             showAlert("Failed to register push notification token. " + e.message)
@@ -337,9 +350,10 @@ class CallLauncherActivity : AppCompatActivity() {
         sharedPreference.edit().putString(CACHED_TOKEN, acsToken).apply()
         sharedPreference.edit().putString(CACHED_USER_NAME, userName).apply()
         val roomId = binding.groupIdOrTeamsMeetingLinkText.text.toString()
-        val roomRole = if (binding.attendeeRoleRadioButton.isChecked) CallCompositeParticipantRole.ATTENDEE
-        else if (binding.presenterRoleRadioButton.isChecked) CallCompositeParticipantRole.PRESENTER
-        else null
+//        val roomRole = if (binding.attendeeRoleRadioButton.isChecked) CallCompositeParticipantRole.ATTENDEE
+//        else if (binding.presenterRoleRadioButton.isChecked) CallCompositeParticipantRole.PRESENTER
+//        else null
+        val roomRole = null
 
         var groupId: UUID? = null
         if (binding.groupCallRadioButton.isChecked) {
@@ -378,7 +392,7 @@ class CallLauncherActivity : AppCompatActivity() {
             userName,
             groupId,
             roomId,
-            roomRole,
+            // roomRole,
             meetingLink,
             participantMri
         )

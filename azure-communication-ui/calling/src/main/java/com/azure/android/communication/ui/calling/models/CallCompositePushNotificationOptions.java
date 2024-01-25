@@ -8,7 +8,7 @@ import com.azure.android.communication.common.CommunicationTokenCredential;
 /**
  * CallCompositePushNotificationOptions for registering device token to receive incoming call.
  */
-public final class CallCompositePushNotificationOptions {
+final class CallCompositePushNotificationOptions {
 
     private final CommunicationTokenCredential tokenCredential;
     private final String deviceRegistrationToken;
@@ -21,7 +21,7 @@ public final class CallCompositePushNotificationOptions {
      * @param deviceRegistrationToken  Device registration token.
      * @param displayName              Display name.
      */
-    public CallCompositePushNotificationOptions(final CommunicationTokenCredential tokenCredential,
+    CallCompositePushNotificationOptions(final CommunicationTokenCredential tokenCredential,
                                                 final String deviceRegistrationToken,
                                                 final String displayName) {
         this.tokenCredential = tokenCredential;
@@ -33,7 +33,7 @@ public final class CallCompositePushNotificationOptions {
      * Get device registration token.
      * @return device registration token.
      */
-    public String getDeviceRegistrationToken() {
+    String getDeviceRegistrationToken() {
         return deviceRegistrationToken;
     }
 
@@ -41,7 +41,7 @@ public final class CallCompositePushNotificationOptions {
      * Get display name.
      * @return display name.
      */
-    public String getDisplayName() {
+    String getDisplayName() {
         return displayName;
     }
 
@@ -49,7 +49,7 @@ public final class CallCompositePushNotificationOptions {
      * Get token credential.
      * @return token credential.
      */
-    public CommunicationTokenCredential getTokenCredential() {
+    CommunicationTokenCredential getTokenCredential() {
         return tokenCredential;
     }
 }

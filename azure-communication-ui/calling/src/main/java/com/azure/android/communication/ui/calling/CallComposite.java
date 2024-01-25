@@ -9,8 +9,6 @@ import static com.azure.android.communication.ui.calling.service.sdk.TypeConvers
 import android.content.Context;
 import android.content.Intent;
 
-import androidx.core.util.Consumer;
-
 import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
@@ -19,25 +17,18 @@ import com.azure.android.communication.ui.calling.di.DependencyInjectionContaine
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainerImpl;
 import com.azure.android.communication.ui.calling.logger.DefaultLogger;
 import com.azure.android.communication.ui.calling.logger.Logger;
-import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode;
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
-import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEndEvent;
-import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole;
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
 import com.azure.android.communication.ui.calling.models.CallCompositePictureInPictureChangedEvent;
-import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationInfo;
-import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
-import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent;
@@ -77,14 +68,14 @@ import java.util.UUID;
  */
 public final class CallComposite {
     static DependencyInjectionContainer diContainer;
-
     // on each launch, an InstanceID will be assigned and incremented.
     private static int instanceIdCounter = 0;
+    final CallCompositeConfiguration configuration;
     private final int instanceId = instanceIdCounter++;
-    private final CallCompositeConfiguration configuration;
     private CallingSDKCallAgentWrapper callAgentWrapper;
     private IncomingCallWrapper incomingCallWrapper;
     private Logger logger = new DefaultLogger();
+
 
     CallComposite(final CallCompositeConfiguration configuration) {
         this.configuration = configuration;
@@ -173,12 +164,13 @@ public final class CallComposite {
      * @param context           The android context used to start the Composite.
      * @param remoteOptions     The {@link CallCompositeRemoteOptions} has remote parameters to
      *                              launch group call experience.
-     */
+
     public void handlePushNotification(final Context context,
                        final CallCompositeRemoteOptions remoteOptions) {
 
         handlePushNotification(context, remoteOptions, false);
     }
+     */
 
     /**
      * Add {@link CallCompositeEventHandler}.
@@ -229,10 +221,10 @@ public final class CallComposite {
      *
      * @param eventHandler The {@link CallCompositeEventHandler}.
      */
-    public void addOnAudioSelectionChangedEventHandler(
-            final CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent> eventHandler) {
-        configuration.getCallCompositeEventsHandler().addOnAudioSelectionChangedEventHandler(eventHandler);
-    }
+//    public void addOnAudioSelectionChangedEventHandler(
+//            final CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent> eventHandler) {
+//        configuration.getCallCompositeEventsHandler().addOnAudioSelectionChangedEventHandler(eventHandler);
+//    }
 
     /**
      * Remove {@link CallCompositeEventHandler}.
@@ -243,10 +235,10 @@ public final class CallComposite {
      *
      * @param eventHandler The {@link CallCompositeEventHandler}.
      */
-    public void removeOnAudioSelectionChangedEventHandler(
-            final CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent> eventHandler) {
-        configuration.getCallCompositeEventsHandler().removeOnAudioSelectionChangedEventHandler(eventHandler);
-    }
+//    public void removeOnAudioSelectionChangedEventHandler(
+//            final CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent> eventHandler) {
+//        configuration.getCallCompositeEventsHandler().removeOnAudioSelectionChangedEventHandler(eventHandler);
+//    }
 
     /**
      * Add {@link CallCompositeEventHandler}.
@@ -298,19 +290,19 @@ public final class CallComposite {
      * Dismiss composite. Cleanup memory hold by call agent.
      *
      */
-    public void dispose() {
-        dismiss();
-        if (callAgentWrapper != null) {
-            callAgentWrapper.dispose();
-        }
-        CallingSDKInstanceManager.INSTANCE.setCallingSDKCallAgentWrapper(null);
-    }
+//    public void dispose() {
+//        dismiss();
+//        if (callAgentWrapper != null) {
+//            callAgentWrapper.dispose();
+//        }
+//        CallingSDKInstanceManager.INSTANCE.setCallingSDKCallAgentWrapper(null);
+//    }
 
     /**
      * Accept incoming call.
      *
-     */
-    public void acceptIncomingCall(final Context context,
+
+    private void acceptIncomingCall(final Context context,
                                    final CallCompositeLocalOptions localOptions) {
         logger.info("Call Composite acceptIncomingCall");
         AndroidThreeTen.init(context.getApplicationContext());
@@ -341,17 +333,17 @@ public final class CallComposite {
 
         showUI(context, false, true);
     }
-
+     */
     /**
      * Decline incoming call.
      *
-     */
-    public void declineIncomingCall() {
+
+    private void declineIncomingCall() {
         if (incomingCallWrapper != null) {
             incomingCallWrapper.declineCall();
         }
     }
-
+     */
     /**
      * Add {@link CallCompositeEventHandler}.
      *
@@ -428,118 +420,122 @@ public final class CallComposite {
      * </pre>
      *
      * @param handler The {@link CallCompositeEventHandler}.
-     */
-    public void addOnIncomingCallEventHandler(
+
+    private void addOnIncomingCallEventHandler(
             final CallCompositeEventHandler<CallCompositeIncomingCallEvent> handler) {
         configuration.getCallCompositeEventsHandler().addOnIncomingCallEventHandler(handler);
     }
+     */
 
     /**
      * Remove on incoming call event handler {@link CallCompositeEventHandler}.
      *
      * @param handler The {@link CallCompositeEventHandler}.
-     */
-    public void removeOnIncomingCallEventHandler(
+
+    private void removeOnIncomingCallEventHandler(
             final CallCompositeEventHandler<CallCompositeIncomingCallEvent> handler) {
         configuration.getCallCompositeEventsHandler().removeOnIncomingCallEventHandler(handler);
     }
+     */
 
     /**
      * Add on incoming call end event handler {@link CallCompositeIncomingCallEndEvent}.
      * @param handler The {@link CallCompositeIncomingCallEndEvent}.
-     */
-    public void addOnIncomingCallEndEventHandler(
+
+    private void addOnIncomingCallEndEventHandler(
             final CallCompositeEventHandler<CallCompositeIncomingCallEndEvent> handler) {
         configuration.getCallCompositeEventsHandler().addOnIncomingCallEndEventHandler(handler);
     }
-
-    /**
-     * Start audio session
-     *
      */
-    public void startAudio() {
-        if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer;
-            if (container != null) {
-                container.getCallingService().startAudio();
-            }
-        }
-    }
-
-    /**
-     * Stop audio session.
-     *
-     */
-    public void stopAudio() {
-        if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer;
-            if (container != null) {
-                container.getCallingService().stopAudio();
-            }
-        }
-    }
-
-    /**
-     * Turn on video.
-     *
-     */
-    public void turnMicOn() {
-        if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer;
-            if (container != null) {
-                container.getCallingService().turnMicOn();
-            }
-        }
-    }
-
-    /**
-     * Turn off video.
-     *
-     */
-    public void turnMicOff() {
-        if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer;
-            if (container != null) {
-                container.getCallingService().turnMicOff();
-            }
-        }
-    }
-
-    /**
-     * Turn on video.
-     *
-     */
-    public void hold() {
-        if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer;
-            if (container != null) {
-                container.getCallingService().hold();
-            }
-        }
-    }
-
-    /**
-     * Turn off video.
-     *
-     */
-    public void resume() {
-        if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer;
-            if (container != null) {
-                container.getCallingService().resume();
-            }
-        }
-    }
 
     /**
      * Remove on incoming call event handler {@link CallCompositeIncomingCallEvent}.
      *
      * @param handler The {@link CallCompositeIncomingCallEndEvent}.
-     */
-    public void removeOnIncomingCallEndEventHandler(
+
+    private void removeOnIncomingCallEndEventHandler(
             final CallCompositeEventHandler<CallCompositeIncomingCallEndEvent> handler) {
         configuration.getCallCompositeEventsHandler().removeOnIncomingCallEndEventHandler(handler);
     }
+     */
+
+    /**
+     * Start audio session
+     *
+     */
+//    public void startAudio() {
+//        if (diContainer != null) {
+//            final DependencyInjectionContainer container = diContainer;
+//            if (container != null) {
+//                container.getCallingService().startAudio();
+//            }
+//        }
+//    }
+
+    /**
+     * Stop audio session.
+     *
+     */
+//    public void stopAudio() {
+//        if (diContainer != null) {
+//            final DependencyInjectionContainer container = diContainer;
+//            if (container != null) {
+//                container.getCallingService().stopAudio();
+//            }
+//        }
+//    }
+
+    /**
+     * Turn on video.
+     *
+     */
+//    public void turnMicOn() {
+//        if (diContainer != null) {
+//            final DependencyInjectionContainer container = diContainer;
+//            if (container != null) {
+//                container.getCallingService().turnMicOn();
+//            }
+//        }
+//    }
+
+    /**
+     * Turn off video.
+     *
+     */
+//    public void turnMicOff() {
+//        if (diContainer != null) {
+//            final DependencyInjectionContainer container = diContainer;
+//            if (container != null) {
+//                container.getCallingService().turnMicOff();
+//            }
+//        }
+//    }
+
+    /**
+     * Turn on video.
+     *
+     */
+//    public void hold() {
+//        if (diContainer != null) {
+//            final DependencyInjectionContainer container = diContainer;
+//            if (container != null) {
+//                container.getCallingService().hold();
+//            }
+//        }
+//    }
+
+    /**
+     * Turn off video.
+     *
+     */
+//    public void resume() {
+//        if (diContainer != null) {
+//            final DependencyInjectionContainer container = diContainer;
+//            if (container != null) {
+//                container.getCallingService().resume();
+//            }
+//        }
+//    }
 
     /**
      * Get Call State.
@@ -585,6 +581,11 @@ public final class CallComposite {
     }
 
 
+    /**
+     * Add {@link CallCompositeEventHandler}.
+     *
+     * @param eventHandler
+     */
     public void addOnPictureInPictureChangedEventHandler(
             final CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().addOnMultitaskingStateChangedEventHandler(eventHandler);
@@ -649,7 +650,7 @@ public final class CallComposite {
      * @param options The {@link CallCompositePushNotificationOptions} if call is already in progress
      *                existing display name and CommunicationTokenCredential is used.
      * @param onCompleteCallback The {@link Consumer} to be called when registration is complete.
-     */
+
     public void registerPushNotification(final Context context,
                                          final CallCompositePushNotificationOptions options,
                                          final Consumer<Boolean> onCompleteCallback) {
@@ -671,6 +672,7 @@ public final class CallComposite {
                 options.getDeviceRegistrationToken(),
                 onCompleteCallback);
     }
+     */
 
     /**
      * Hide call composite.
@@ -697,32 +699,27 @@ public final class CallComposite {
 
         UUID groupId = null;
         String meetingLink = null;
-        String roomId = null;
-        CallCompositeParticipantRole roomRole = null;
+        final String roomId = null;
+        // CallCompositeParticipantRole roomRole = null;
         final CallType callType;
-        List<String> participants = null;
+        final List<String> participants = null;
 
         final CallCompositeJoinLocator locator = remoteOptions.getLocator();
         if (locator != null) {
             if (locator instanceof CallCompositeGroupCallLocator) {
                 callType = CallType.GROUP_CALL;
                 groupId = ((CallCompositeGroupCallLocator) locator).getGroupId();
-            } else if (locator instanceof CallCompositeRoomLocator) {
-                callType = CallType.ROOMS_CALL;
-                final CallCompositeRoomLocator roomLocator = (CallCompositeRoomLocator) locator;
-                roomId = roomLocator.getRoomId();
             } else {
                 callType = CallType.TEAMS_MEETING;
                 meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
             }
         } else {
-            callType = CallType.ONE_TO_N_CALL_OUTGOING;
-            participants = remoteOptions.getStartCallOptions().getParticipants();
+            throw new IllegalArgumentException("CallCompositeRemoteOptions must have a locator");
         }
 
         if (localOptions != null) {
             configuration.setCallCompositeLocalOptions(localOptions);
-            roomRole = localOptions.getRoleHint();
+            // roomRole = localOptions.getRoleHint();
         }
 
         configuration.setCallConfig(new CallConfiguration(
@@ -731,10 +728,9 @@ public final class CallComposite {
                 groupId,
                 meetingLink,
                 roomId,
-                roomRole,
+                // roomRole,
                 callType,
-                participants,
-                null
+                participants
                 ));
 
 
@@ -776,6 +772,8 @@ public final class CallComposite {
         context.startActivity(intent);
     }
 
+
+    /*
     private void handlePushNotification(final Context context,
                                  final CallCompositeRemoteOptions remoteOptions,
                                  final boolean isTest) {
@@ -812,6 +810,8 @@ public final class CallComposite {
                 pushNotificationInfo.getNotificationInfo());
     }
 
+     */
+
     private void initializeCallAgent() {
         callAgentWrapper = CallingSDKInstanceManager.INSTANCE.getCallingSDKCallAgentWrapper();
         if (callAgentWrapper == null) {
@@ -820,13 +820,16 @@ public final class CallComposite {
                     setCallingSDKCallAgentWrapper(callAgentWrapper);
         }
         // as for every new composite handlers are different, we need to set them again.
+        /*
         if (incomingCallWrapper == null) {
             incomingCallWrapper = new IncomingCallWrapper(logger,
                     CallingSDKInstanceManager.INSTANCE.getCallingSDKCallAgentWrapper(),
-                    configuration.getCallCompositeEventsHandler().getOnIncomingCallEventHandlers(),
-                    configuration.getCallCompositeEventsHandler().getOnIncomingCallEndEventHandlers());
-            callAgentWrapper.setIncomingCallWrapper(incomingCallWrapper);
+                     configuration.getCallCompositeEventsHandler().getOnIncomingCallEventHandlers(),
+                     configuration.getCallCompositeEventsHandler().getOnIncomingCallEndEventHandlers());
+             callAgentWrapper.setIncomingCallWrapper(incomingCallWrapper);
         }
+
+         */
     }
 
     CallCompositeConfiguration getConfiguration() {

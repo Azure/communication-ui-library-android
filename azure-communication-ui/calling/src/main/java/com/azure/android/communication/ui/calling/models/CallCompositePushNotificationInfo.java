@@ -12,7 +12,7 @@ import java.util.UUID;
 /**
  * CallCompositePushNotificationInfo for forwarding calling push notifications to UI Library.
  */
-public class CallCompositePushNotificationInfo {
+class CallCompositePushNotificationInfo {
     private final Map<String, String> notificationInfoMap;
     private final String fromDisplayName;
     private final String from;
@@ -25,7 +25,7 @@ public class CallCompositePushNotificationInfo {
      * Create {@link CallCompositePushNotificationInfo}.
      * @param notificationInfoMap Notification info map.
      */
-    public CallCompositePushNotificationInfo(final Map<String, String> notificationInfoMap)
+    CallCompositePushNotificationInfo(final Map<String, String> notificationInfoMap)
             throws ClassNotFoundException, NoSuchMethodException,
             InvocationTargetException, IllegalAccessException, InstantiationException {
 
@@ -67,7 +67,7 @@ public class CallCompositePushNotificationInfo {
      * Get from.
      * @return caller token.
      */
-    public String getFrom() {
+    String getFrom() {
         return from;
     }
 
@@ -75,7 +75,7 @@ public class CallCompositePushNotificationInfo {
      * Get to.
      * @return return Callee raw identifier.
      */
-    public String getTo() {
+    String getTo() {
         return to;
     }
 
@@ -83,7 +83,7 @@ public class CallCompositePushNotificationInfo {
      * Get from display name.
      * @return from display name.
      */
-    public String getFromDisplayName() {
+    String getFromDisplayName() {
         return fromDisplayName;
     }
 
@@ -91,7 +91,7 @@ public class CallCompositePushNotificationInfo {
      * Is Incoming with Video.
      * @return is incoming with video.
      */
-    public boolean isIncomingWithVideo() {
+    boolean isIncomingWithVideo() {
         return isIncomingWithVideo;
     }
 
@@ -100,7 +100,7 @@ public class CallCompositePushNotificationInfo {
      * Get call id.
      * @return call id.
      */
-    public String getCallId() {
+    String getCallId() {
         return callId;
     }
 
@@ -108,7 +108,7 @@ public class CallCompositePushNotificationInfo {
      * Get push notification event type.
      * @return {@link CallCompositePushNotificationEventType}.
      */
-    public CallCompositePushNotificationEventType getEventType() {
+    CallCompositePushNotificationEventType getEventType() {
         return CallCompositePushNotificationEventType.fromString(eventTypeResult);
     }
 
@@ -116,7 +116,7 @@ public class CallCompositePushNotificationInfo {
      * Get PushNotificationInfo.
      * @return PushNotificationInfo.
      */
-    public Map<String, String> getNotificationInfo() {
+    Map<String, String> getNotificationInfo() {
         return notificationInfoMap;
     }
 }

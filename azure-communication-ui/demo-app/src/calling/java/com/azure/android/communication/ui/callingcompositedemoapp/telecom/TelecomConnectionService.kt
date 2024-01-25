@@ -4,17 +4,12 @@
 package com.azure.android.communication.ui.callingcompositedemoapp.telecom
 
 import android.os.Build
-import android.os.Bundle
 import android.telecom.Connection
 import android.telecom.ConnectionRequest
 import android.telecom.ConnectionService
 import android.telecom.PhoneAccountHandle
-import android.telecom.TelecomManager
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.azure.android.communication.ui.calling.CallComposite
-import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
-import com.azure.android.communication.ui.callingcompositedemoapp.CallCompositeManager
 
 @RequiresApi(Build.VERSION_CODES.O)
 class TelecomConnectionService : ConnectionService() {
@@ -32,10 +27,10 @@ class TelecomConnectionService : ConnectionService() {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             val bundle = request.extras
             val name = bundle.getString("DISPLAY_NAME")
-            val connection = createTelecomConnection(bundle)
+            val connection = null; // createTelecomConnection(bundle)
 
-            connection.setCallerDisplayName(name, TelecomManager.PRESENTATION_ALLOWED)
-            connection.setAddress(request.address, TelecomManager.PRESENTATION_ALLOWED)
+            // connection.setCallerDisplayName(name, TelecomManager.PRESENTATION_ALLOWED)
+            // connection.setAddress(request.address, TelecomManager.PRESENTATION_ALLOWED)
             TelecomConnectionService.connection = connection
             connection
         } else {
@@ -63,6 +58,7 @@ class TelecomConnectionService : ConnectionService() {
         connectionManagerPhoneAccount: PhoneAccountHandle,
         request: ConnectionRequest,
     ): Connection? {
+        /*
         val bundle = request.extras
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
@@ -75,13 +71,15 @@ class TelecomConnectionService : ConnectionService() {
             } catch (e: Exception) {
             }
         }
-
+        */
         return null
     }
 
+/*
     private fun createTelecomConnection(
         originalBundle: Bundle
     ): TelecomConnection {
+
         val callInfo = CallCompositeIncomingCallInfo(
             originalBundle.getString("CALL_ID"),
             originalBundle.getString("DISPLAY_NAME"),
@@ -103,4 +101,5 @@ class TelecomConnectionService : ConnectionService() {
 
         return connection
     }
+ */
 }

@@ -10,7 +10,7 @@ import com.azure.android.communication.ui.calling.CallComposite;
  *  You need to use LocalOptions parameter for
  *  CallComposite.launch() method with roleHint provided.
  */
-public final class CallCompositeRoomLocator extends CallCompositeJoinLocator {
+final class CallCompositeRoomLocator extends CallCompositeJoinLocator {
 
     private final String roomId;
 
@@ -18,7 +18,7 @@ public final class CallCompositeRoomLocator extends CallCompositeJoinLocator {
      * Creates {@link CallCompositeRoomLocator}.
      * @param roomId   Room identifier.
      */
-    public CallCompositeRoomLocator(final String roomId) {
+    private CallCompositeRoomLocator(final String roomId) {
         this.roomId = roomId;
     }
 
@@ -27,7 +27,7 @@ public final class CallCompositeRoomLocator extends CallCompositeJoinLocator {
      *
      * @return {@link String}
      */
-    public String getRoomId() {
+    private String getRoomId() {
         return roomId;
     }
 }

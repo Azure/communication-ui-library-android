@@ -96,10 +96,11 @@ public final class CallCompositeLocalOptions {
     /**
      * Get role hint.
      * @return {@link CallCompositeParticipantRole}
-     */
+
     public CallCompositeParticipantRole getRoleHint() {
         return roleHint;
     }
+     */
 
     /**
      * Get role hint. Use this to hint the role of the user when the role is not available before a Rooms
@@ -108,11 +109,12 @@ public final class CallCompositeLocalOptions {
      * Setup screen of the {@link CallComposite}.
      * The true role of the user will be synced with ACS services when a Rooms call starts.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
-     */
+
     public CallCompositeLocalOptions setRoleHint(final CallCompositeParticipantRole roleHint) {
         this.roleHint = roleHint;
         return this;
     }
+     */
 
     /**
      * Get the boolean value for skip setup screen.
@@ -193,7 +195,7 @@ public final class CallCompositeLocalOptions {
      *
      * @return The boolean value to be used for audio only mode.
      */
-    public CallCompositeAvMode isAudioOnly() {
+    public CallCompositeAvMode getAvMode() {
         return avMode;
     }
 }
