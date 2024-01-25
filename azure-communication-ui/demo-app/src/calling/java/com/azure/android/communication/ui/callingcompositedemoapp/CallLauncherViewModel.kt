@@ -106,7 +106,7 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
                     .setTitle(SettingsFeatures.getTitle())
                     .setSubtitle(SettingsFeatures.getSubtitle())
             )
-            .setAvMode(CallCompositeAvMode.NORMAL)
+            .setAvMode(CallCompositeAvMode.AUDIO_ONLY)
             .setSkipSetupScreen(skipSetup)
             // .setRoleHint(roomRoleHint)
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
