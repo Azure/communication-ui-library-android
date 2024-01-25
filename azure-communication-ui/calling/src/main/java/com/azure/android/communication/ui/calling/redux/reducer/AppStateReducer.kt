@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.redux.reducer
 
+import com.azure.android.communication.ui.calling.models.CallCompositeAvMode
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 
@@ -22,9 +23,13 @@ internal class AppStateReducer(
     override fun reduce(state: AppReduxState, action: Action): AppReduxState {
 
         val appState = AppReduxState(
+            // Passing these initializers in via the reducer we might want to stop
+            // I.e. using a Blank AppReduxState instead of an "initialized one"
+            // or using a copyOf constructor and Data classes.
             state.localParticipantState.displayName,
             cameraOnByDefault = state.localParticipantState.initialCallJoinState.startWithCameraOn,
             microphoneOnByDefault = state.localParticipantState.initialCallJoinState.startWithMicrophoneOn,
+            avMode = CallCompositeAvMode.NORMAL
         )
 
         appState.callState = callStateReducer.reduce(

@@ -8,6 +8,7 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Build
 import android.util.AttributeSet
+import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
@@ -120,6 +121,11 @@ internal class SetupControlBarView : LinearLayout {
     }
 
     private fun setCameraButtonState(operation: CameraOperationalStatus) {
+        if (operation == CameraOperationalStatus.DISABLED) {
+            cameraButton.visibility = View.GONE
+            return
+        }
+
         when (operation) {
             CameraOperationalStatus.ON -> {
                 cameraButton.isON = true
