@@ -208,13 +208,13 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
             val participantViewModel = ParticipantGridCellViewModel(
                 "user one",
                 "user1",
-                isMuted = true,
-                isCameraDisabled = false,
-                isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video", StreamType.VIDEO),
                 screenShareVideoStreamModel = null,
+                isMuted = true,
+                isSpeaking = true,
                 modifiedTimestamp = 456,
                 participantStatus = null,
+                isCameraDisabled = false
             )
 
             val flowJobDisplayName = launch {
@@ -263,13 +263,13 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
             val participantViewModel = ParticipantGridCellViewModel(
                 "user one",
                 "user1",
-                isMuted = true,
-                isCameraDisabled = false,
-                isSpeaking = true,
                 cameraVideoStreamModel = null,
                 screenShareVideoStreamModel = null,
+                isMuted = true,
+                isSpeaking = true,
                 modifiedTimestamp = 456,
                 participantStatus = null,
+                isCameraDisabled = false
             )
 
             val flowJobDisplayName = launch {
@@ -312,13 +312,13 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
             val participantViewModel = ParticipantGridCellViewModel(
                 "user one",
                 "user1",
-                isMuted = true,
-                isCameraDisabled = false,
-                isSpeaking = true,
                 cameraVideoStreamModel = null,
                 screenShareVideoStreamModel = null,
+                isMuted = true,
+                isSpeaking = true,
                 modifiedTimestamp = 456,
                 participantStatus = null,
+                isCameraDisabled = false
             )
 
             val emitResultDisplayName = mutableListOf<String>()
@@ -389,13 +389,13 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
             val participantViewModel = ParticipantGridCellViewModel(
                 "user one",
                 "user1",
-                isMuted = true,
-                isCameraDisabled = false,
-                isSpeaking = true,
-                screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
+                screenShareVideoStreamModel = null,
+                isMuted = true,
+                isSpeaking = true,
                 modifiedTimestamp = 456,
                 participantStatus = null,
+                isCameraDisabled = false
             )
 
             val emitResultDisplayName = mutableListOf<String>()
@@ -474,13 +474,13 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
             val participantViewModel = ParticipantGridCellViewModel(
                 "user one",
                 "",
-                isMuted = true,
-                isSpeaking = true,
-                isCameraDisabled = false,
                 cameraVideoStreamModel = VideoStreamModel("video", StreamType.VIDEO),
                 screenShareVideoStreamModel = null,
+                isMuted = true,
+                isSpeaking = true,
                 modifiedTimestamp = 456,
                 participantStatus = null,
+                isCameraDisabled = false
             )
 
             val flowJobDisplayName = launch {
