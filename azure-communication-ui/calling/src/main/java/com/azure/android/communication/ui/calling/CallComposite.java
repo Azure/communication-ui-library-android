@@ -326,11 +326,11 @@ public final class CallComposite {
         return createDebugInfoManager(context.getApplicationContext());
     }
 
-    /* <TEST_FEATURE> */
+    /* <TEST_FEATURE>
     public String testString() {
         return "testString";
     }
-    /* </TEST_FEATURE> */
+    </TEST_FEATURE> */
 
     private void launchComposite(final Context context,
                             final CallCompositeRemoteOptions remoteOptions,

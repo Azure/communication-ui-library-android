@@ -57,6 +57,7 @@ task listFlags {
             println "$key: $value"
         }
     }
+    println "To Update:   gradlew toggleFlag -PflagName=YOUR_FLAG_NAME"
 }
 
 task toggleFlag() {
