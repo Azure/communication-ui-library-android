@@ -30,13 +30,14 @@ internal class CallingViewModelFactory(
     private val maxRemoteParticipants: Int,
     private val debugInfoManager: DebugInfoManager,
     private val enableMultitasking: Boolean,
-    private val isTelecomManagerEnabled: Boolean = false
+    private val isTelecomManagerEnabled: Boolean = false,
+    private val showSupportFormOption: Boolean = false,
 ) : BaseViewModelFactory(store) {
 
     val moreCallOptionsListViewModel by lazy {
         MoreCallOptionsListViewModel(
             debugInfoManager,
-            showSupportFormOption = true,
+            showSupportFormOption = showSupportFormOption,
             store::dispatch
         )
     }
