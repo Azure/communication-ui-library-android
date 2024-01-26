@@ -34,7 +34,11 @@ internal class CallingViewModelFactory(
 ) : BaseViewModelFactory(store) {
 
     val moreCallOptionsListViewModel by lazy {
-        MoreCallOptionsListViewModel(debugInfoManager)
+        MoreCallOptionsListViewModel(
+            debugInfoManager,
+            showSupportFormOption = true,
+            store::dispatch
+        )
     }
 
     val participantGridViewModel by lazy {
