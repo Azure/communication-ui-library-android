@@ -25,16 +25,18 @@ import kotlinx.coroutines.launch
  */
 internal class SupportView : FrameLayout {
 
-    private val sendButton : Button by lazy { findViewById(R.id.azure_communication_ui_send_button) }
-    private val cancelButton : Button by lazy { findViewById(R.id.azure_communication_ui_cancel_button) }
-    private val editText : EditText by lazy { findViewById(R.id.azure_communication_ui_user_message_edit_text) }
-    private val screenshotCheckBox : SwitchCompat by lazy { findViewById(R.id.azure_communication_ui_include_screenshot_toggle) }
+    private val sendButton: Button by lazy { findViewById(R.id.azure_communication_ui_send_button) }
+    private val cancelButton: Button by lazy { findViewById(R.id.azure_communication_ui_cancel_button) }
+    private val editText: EditText by lazy { findViewById(R.id.azure_communication_ui_user_message_edit_text) }
+    private val screenshotCheckBox: SwitchCompat by lazy { findViewById(R.id.azure_communication_ui_include_screenshot_toggle) }
 
-    private val menuDrawer by lazy { DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM).apply {
-        setContentView(this@SupportView)
-        setCanceledOnTouchOutside(true)
-        setFade(0.5f)
-    }}
+    private val menuDrawer by lazy {
+        DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM).apply {
+            setContentView(this@SupportView)
+            setCanceledOnTouchOutside(true)
+            setFade(0.5f)
+        }
+    }
 
     constructor(context: Context) : super(context) {
         init()
@@ -55,7 +57,6 @@ internal class SupportView : FrameLayout {
         // Send Button stat
         bindViewOutputs(viewLifecycleOwner, viewModel)
     }
-
 
     private fun bindViewInputs(viewModel: SupportViewModel) {
         menuDrawer.setOnDismissListener {

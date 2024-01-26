@@ -111,5 +111,4 @@ internal class CallCompositeEventsHandler {
         userReportHandlers.remove(errorHandler)
 
     fun getOnUserReportedHandlers() = userReportHandlers.asIterable()
-
 }

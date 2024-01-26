@@ -328,7 +328,6 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_left_24_filled)
     }
 
-
     private fun forwardSupportEventToUser(userText: String, screenshot: Boolean) {
         val debugInfo = container.debugInfoManager.getDebugInfo()
         val event = CallCompositeUserReportedIssueEvent(
