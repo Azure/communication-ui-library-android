@@ -50,8 +50,8 @@ internal class CallStateHandler(
                 it.handle(
                     CallCompositeCallStateChangedEvent(
                         status.callCompositeCallState(),
-                        callEndReasonCode,
-                        callEndReasonSubCode
+                        callEndReasonCode ?: 0,
+                        callEndReasonSubCode ?: 0
                     )
                 )
             }

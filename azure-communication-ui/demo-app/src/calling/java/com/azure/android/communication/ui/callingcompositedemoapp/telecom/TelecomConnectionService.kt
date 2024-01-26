@@ -14,6 +14,8 @@ import android.telecom.PhoneAccountHandle
 import android.telecom.TelecomManager
 import android.util.Log
 import androidx.annotation.RequiresApi
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionType
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity.Companion.TAG
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherApplication
@@ -118,15 +120,15 @@ class TelecomConnectionService : ConnectionService(), TelecomConnectionServiceLi
         connection = null
     }
 
-    override fun setAudioSelection(selectionType: String) {
-        when (selectionType) {
-            "SPEAKER_SELECTED" -> {
+    override fun setAudioSelection(audioSelection: CallCompositeAudioSelectionChangedEvent) {
+        when (audioSelection.selectionType) {
+            CallCompositeAudioSelectionType.SPEAKER -> {
                 connection?.setAudioRoute(CallAudioState.ROUTE_SPEAKER)
             }
-            "RECEIVER_SELECTED" -> {
+            CallCompositeAudioSelectionType.RECEIVER -> {
                 connection?.setAudioRoute(CallAudioState.ROUTE_WIRED_OR_EARPIECE)
             }
-            "BLUETOOTH_SCO_SELECTED" -> {
+            CallCompositeAudioSelectionType.BLUETOOTH -> {
                 connection?.setAudioRoute(CallAudioState.ROUTE_BLUETOOTH)
             }
         }
@@ -144,6 +146,6 @@ interface TelecomConnectionServiceListener {
     fun setActive()
     fun onReject()
     fun endConnection()
-    fun setAudioSelection(selectionType: String)
+    fun setAudioSelection(audioSelection: CallCompositeAudioSelectionChangedEvent)
     fun cleanup()
 }

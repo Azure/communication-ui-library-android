@@ -4,18 +4,18 @@
 package com.azure.android.communication.ui.calling.models;
 
 /**
- * Incoming call end event.
+ * Incoming call ended event.
  */
-public class CallCompositeIncomingCallEndEvent {
+public class CallCompositeIncomingCallEndedEvent {
     private final int code;
     private final int subCode;
 
     /**
-     * Creates {@link CallCompositeIncomingCallEndEvent}.
+     * Creates {@link CallCompositeIncomingCallEndedEvent}.
      * @param code call end code.
      * @param subCode call end sub code.
      */
-    public CallCompositeIncomingCallEndEvent(final int code, final int subCode) {
+    public CallCompositeIncomingCallEndedEvent(final int code, final int subCode) {
         this.code = code;
         this.subCode = subCode;
     }

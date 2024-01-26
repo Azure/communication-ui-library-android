@@ -20,6 +20,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherApplication
@@ -131,8 +132,8 @@ class TelecomConnectionManager(
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun setAudioSelection(selectionType: String) {
-        (context.applicationContext as CallLauncherApplication).telecomConnectionServiceListener?.setAudioSelection(selectionType)
+    fun setAudioSelection(audioSelection: CallCompositeAudioSelectionChangedEvent) {
+        (context.applicationContext as CallLauncherApplication).telecomConnectionServiceListener?.setAudioSelection(audioSelection)
     }
 
     private fun isConnectionServiceSupported(): Boolean {

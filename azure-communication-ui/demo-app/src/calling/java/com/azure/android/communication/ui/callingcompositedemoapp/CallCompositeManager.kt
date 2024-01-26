@@ -15,12 +15,13 @@ import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
-import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEndEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEndedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
@@ -33,7 +34,6 @@ import com.azure.android.communication.ui.calling.models.CallCompositePushNotifi
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
-import com.azure.android.communication.ui.calling.models.CallCompositeStartCallOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomIntegration
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomOptions
@@ -114,8 +114,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         val skipSetup = SettingsFeatures.getSkipSetupScreenFeatureValue()
         val remoteOptions = if (locator == null && !participantMri.isNullOrEmpty()) {
             val participantMris = participantMri.split(",")
-            val startCallOption = CallCompositeStartCallOptions(participantMris)
-            CallCompositeRemoteOptions(startCallOption, communicationTokenCredential, displayName)
+            CallCompositeRemoteOptions(participantMris, communicationTokenCredential, displayName)
         } else {
             CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
         }
@@ -308,8 +307,8 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
                         deviceRegistrationToken,
                         displayName
                     )
-                ) {
-                    if (dispose) {
+                ).whenComplete { _, throwable ->
+                    if (dispose && throwable == null) {
                         destroy()
                     }
                 }
@@ -317,11 +316,11 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         )
     }
 
-    override fun onAudioSelectionChanged(selectionType: String) {
+    override fun onAudioSelectionChanged(audioSelection: CallCompositeAudioSelectionChangedEvent) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             return
         }
-        telecomConnectionManager?.setAudioSelection(selectionType)
+        telecomConnectionManager?.setAudioSelection(audioSelection)
     }
 
     override fun showError(message: String) {
@@ -371,7 +370,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         }
     }
 
-    override fun onIncomingCallEnd(incomingCallEnd: CallCompositeIncomingCallEndEvent) {
+    override fun onIncomingCallEnd(incomingCallEnd: CallCompositeIncomingCallEndedEvent) {
         Log.i(CallLauncherActivity.TAG, "Dismissing IncomingCallEvent " + incomingCallEnd.code)
         hideIncomingCallUI()
         onCompositeDismiss()

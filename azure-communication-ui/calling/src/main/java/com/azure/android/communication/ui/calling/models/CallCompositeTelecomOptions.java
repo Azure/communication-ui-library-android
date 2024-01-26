@@ -7,7 +7,7 @@ package com.azure.android.communication.ui.calling.models;
  * CallCompositeTelecomOptions {@link CallCompositeTelecomOptions}.
  */
 public class CallCompositeTelecomOptions {
-    private CallCompositeTelecomIntegration telecomIntegration;
+    private final CallCompositeTelecomIntegration telecomIntegration;
 
     /**
      * Create {@link CallCompositeTelecomOptions}.

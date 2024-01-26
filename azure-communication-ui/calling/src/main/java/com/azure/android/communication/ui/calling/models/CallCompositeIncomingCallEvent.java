@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling.models;
 
 /**
- * CallCompositeIncomingCallEvent.
+ * Incoming call event.
  */
 public final class CallCompositeIncomingCallEvent {
     private final CallCompositeIncomingCallInfo incomingCallInfo;

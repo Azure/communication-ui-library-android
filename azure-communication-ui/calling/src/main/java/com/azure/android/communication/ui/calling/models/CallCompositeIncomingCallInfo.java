@@ -12,11 +12,11 @@ public class CallCompositeIncomingCallInfo {
     private final String callerIdentifierRawId;
 
     /**
-     * Create {@link CallCompositeIncomingCallInfo}.
+     * Create {@link CallCompositeIncomingCallInfo} with incoming call info.
      *
-     * @param callId
-     * @param callerDisplayName
-     * @param callerIdentifierRawId
+     * @param callId call id.
+     * @param callerDisplayName caller display name.
+     * @param callerIdentifierRawId caller raw id.
      */
     public CallCompositeIncomingCallInfo(final String callId,
                                          final String callerDisplayName,

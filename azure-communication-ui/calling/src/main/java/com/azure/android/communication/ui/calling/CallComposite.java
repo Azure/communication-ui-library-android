@@ -20,7 +20,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallStateC
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
-import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEndEvent;
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEndedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
@@ -49,10 +49,10 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 import static com.azure.android.communication.ui.calling.CallCompositeExtentionsKt.createDebugInfoManager;
 import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
 
-import androidx.core.util.Consumer;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * Azure android communication calling composite component.
@@ -82,7 +82,7 @@ public final class CallComposite {
     private final CallCompositeConfiguration configuration;
     private CallingSDKCallAgentWrapper callAgentWrapper;
     private IncomingCallWrapper incomingCallWrapper;
-    private Logger logger = new DefaultLogger();
+    private final Logger logger = new DefaultLogger();
 
     CallComposite(final CallCompositeConfiguration configuration) {
         this.configuration = configuration;
@@ -171,11 +171,12 @@ public final class CallComposite {
      * @param context           The android context used to start the Composite.
      * @param remoteOptions     The {@link CallCompositeRemoteOptions} has remote parameters to
      *                              launch group call experience.
+     * @return {@link CompletableFuture} of {@link Void}.
      */
-    public void handlePushNotification(final Context context,
+    public CompletableFuture<Void> handlePushNotification(final Context context,
                        final CallCompositeRemoteOptions remoteOptions) {
 
-        handlePushNotification(context, remoteOptions, false);
+        return handlePushNotification(context, remoteOptions, false);
     }
 
     /**
@@ -408,11 +409,11 @@ public final class CallComposite {
     }
 
     /**
-     * Add on incoming call end event handler {@link CallCompositeIncomingCallEndEvent}.
-     * @param handler The {@link CallCompositeIncomingCallEndEvent}.
+     * Add on incoming call end event handler {@link CallCompositeIncomingCallEndedEvent}.
+     * @param handler The {@link CallCompositeIncomingCallEndedEvent}.
      */
     public void addOnIncomingCallEndEventHandler(
-            final CallCompositeEventHandler<CallCompositeIncomingCallEndEvent> handler) {
+            final CallCompositeEventHandler<CallCompositeIncomingCallEndedEvent> handler) {
         configuration.getCallCompositeEventsHandler().addOnIncomingCallEndEventHandler(handler);
     }
 
@@ -497,10 +498,10 @@ public final class CallComposite {
     /**
      * Remove on incoming call event handler {@link CallCompositeIncomingCallEvent}.
      *
-     * @param handler The {@link CallCompositeIncomingCallEndEvent}.
+     * @param handler The {@link CallCompositeIncomingCallEndedEvent}.
      */
     public void removeOnIncomingCallEndEventHandler(
-            final CallCompositeEventHandler<CallCompositeIncomingCallEndEvent> handler) {
+            final CallCompositeEventHandler<CallCompositeIncomingCallEndedEvent> handler) {
         configuration.getCallCompositeEventsHandler().removeOnIncomingCallEndEventHandler(handler);
     }
 
@@ -611,11 +612,10 @@ public final class CallComposite {
      * @param context The {@link Context}.
      * @param options The {@link CallCompositePushNotificationOptions} if call is already in progress
      *                existing display name and CommunicationTokenCredential is used.
-     * @param onCompleteCallback The {@link Consumer} to be called when registration is complete.
+     * @return {@link CompletableFuture} of {@link Void}.
      */
-    public void registerPushNotification(final Context context,
-                                         final CallCompositePushNotificationOptions options,
-                                         final Consumer<Boolean> onCompleteCallback) {
+    public CompletableFuture<Void> registerPushNotification(final Context context,
+                                                            final CallCompositePushNotificationOptions options) {
         initializeCallAgent();
         // for device token, we need to set the call config. with ONE_TO_N_CALL_INCOMING
         configuration.setCallConfig(new CallConfiguration(
@@ -628,11 +628,10 @@ public final class CallComposite {
                 CallType.ONE_TO_N_CALL_INCOMING,
                 null,
                 null));
-        callAgentWrapper.registerPushNotification(context,
+        return callAgentWrapper.registerPushNotification(context,
                 options.getDisplayName(),
                 options.getTokenCredential(),
-                options.getDeviceRegistrationToken(),
-                onCompleteCallback);
+                options.getDeviceRegistrationToken());
     }
 
     /**
@@ -680,7 +679,10 @@ public final class CallComposite {
             }
         } else {
             callType = CallType.ONE_TO_N_CALL_OUTGOING;
-            participants = remoteOptions.getStartCallOptions().getParticipants();
+            final Iterable<String> source = remoteOptions.getParticipants();
+            final List<String> target = new ArrayList<>();
+            source.forEach(target::add);
+            participants = target;
         }
 
         if (localOptions != null) {
@@ -739,9 +741,9 @@ public final class CallComposite {
         context.startActivity(intent);
     }
 
-    private void handlePushNotification(final Context context,
-                                 final CallCompositeRemoteOptions remoteOptions,
-                                 final boolean isTest) {
+    private CompletableFuture<Void> handlePushNotification(final Context context,
+                                                           final CallCompositeRemoteOptions remoteOptions,
+                                                           final boolean isTest) {
         AndroidThreeTen.init(context.getApplicationContext());
 
         final CallType callType = CallType.ONE_TO_N_CALL_INCOMING;
@@ -763,13 +765,11 @@ public final class CallComposite {
                 null,
                 pushNotificationInfo));
 
-        if (configuration.getCallCompositeEventsHandler().getOnIncomingCallEventHandlers() == null) {
-            throw new IllegalArgumentException("IncomingCallEventHandler cannot be null");
-        }
+        configuration.getCallCompositeEventsHandler().getOnIncomingCallEventHandlers();
 
         initializeCallAgent();
 
-        incomingCallWrapper.handlePushNotification(context.getApplicationContext(),
+        return incomingCallWrapper.handlePushNotification(context.getApplicationContext(),
                 remoteOptions.getDisplayName(),
                 remoteOptions.getCredential(),
                 pushNotificationInfo.getNotificationInfo());

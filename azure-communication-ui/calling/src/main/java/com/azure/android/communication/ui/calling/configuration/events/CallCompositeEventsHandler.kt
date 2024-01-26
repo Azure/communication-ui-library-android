@@ -9,7 +9,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallStateC
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.models.CallCompositePictureInPictureChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
-import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEndEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEndedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent
 
@@ -24,7 +24,7 @@ internal class CallCompositeEventsHandler {
     private val incomingCallEventHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeIncomingCallEvent>>()
     private val incomingCallEndEventHandlers =
-        mutableSetOf<CallCompositeEventHandler<CallCompositeIncomingCallEndEvent>>()
+        mutableSetOf<CallCompositeEventHandler<CallCompositeIncomingCallEndedEvent>>()
 
     private val multitaskingStateChangedEvent =
         mutableSetOf<CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent>>()
@@ -86,11 +86,11 @@ internal class CallCompositeEventsHandler {
 
     fun getOnIncomingCallEndEventHandlers() = incomingCallEndEventHandlers.asIterable()
 
-    fun addOnIncomingCallEndEventHandler(handler: CallCompositeEventHandler<CallCompositeIncomingCallEndEvent>) {
+    fun addOnIncomingCallEndEventHandler(handler: CallCompositeEventHandler<CallCompositeIncomingCallEndedEvent>) {
         incomingCallEndEventHandlers.add(handler)
     }
 
-    fun removeOnIncomingCallEndEventHandler(handler: CallCompositeEventHandler<CallCompositeIncomingCallEndEvent>) {
+    fun removeOnIncomingCallEndEventHandler(handler: CallCompositeEventHandler<CallCompositeIncomingCallEndedEvent>) {
         incomingCallEndEventHandlers.remove(handler)
     }
 

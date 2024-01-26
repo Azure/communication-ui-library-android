@@ -32,7 +32,7 @@ public final class CallCompositeRemoteOptions {
     // Mandatory
     private final CommunicationTokenCredential credential;
     private CallCompositeJoinLocator locator;
-    private CallCompositeStartCallOptions startCallOptions;
+    private Iterable<String> participants;
     private CallCompositePushNotificationInfo pushNotificationInfo;
 
     // Optional
@@ -86,17 +86,17 @@ public final class CallCompositeRemoteOptions {
     /**
      * Create {@link CallCompositeRemoteOptions}.
      *
-     * @param startCallOptions {@link CallCompositeStartCallOptions}.
+     * @param participants raw ids {@link Iterable}.
      * @param credential {@link CommunicationTokenCredential}.
      * @param displayName User display name other call participants will see.
      */
     public CallCompositeRemoteOptions(
-            final CallCompositeStartCallOptions startCallOptions,
+            final Iterable<String> participants,
             final CommunicationTokenCredential credential,
             final String displayName) {
         this.credential = credential;
         this.displayName = displayName;
-        this.startCallOptions = startCallOptions;
+        this.participants = participants;
     }
 
     /**
@@ -127,12 +127,12 @@ public final class CallCompositeRemoteOptions {
     }
 
     /**
-     * Get call start options.
+     * Get participants raw ids.
      *
-     * @return  {@link CallCompositeStartCallOptions}.
+     * @return {@link Iterable} of {@link String}.
      */
-    public CallCompositeStartCallOptions getStartCallOptions() {
-        return startCallOptions;
+    public Iterable<String> getParticipants() {
+        return participants;
     }
 
     /**

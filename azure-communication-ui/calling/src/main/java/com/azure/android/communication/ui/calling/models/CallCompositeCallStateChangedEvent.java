@@ -8,19 +8,19 @@ package com.azure.android.communication.ui.calling.models;
  */
 public final class CallCompositeCallStateChangedEvent {
     private final CallCompositeCallStateCode code;
-    private final Integer callEndReasonCode;
-    private final Integer callEndReasonSubCode;
+    private final int callEndReasonCode;
+    private final int callEndReasonSubCode;
 
     /**
      * Create {@link CallCompositeCallStateChangedEvent} with call state.
      *
      * @param code call state {@link CallCompositeCallStateCode}.
-     * @param callEndReasonCode call end reason code on DISCONNECTED.
-     * @param callEndReasonSubCode call end reason sub code on DISCONNECTED.
+     * @param callEndReasonCode call end reason code.
+     * @param callEndReasonSubCode call end reason sub code.
      */
     public CallCompositeCallStateChangedEvent(final CallCompositeCallStateCode code,
-                                              final Integer callEndReasonCode,
-                                              final Integer callEndReasonSubCode) {
+                                              final int callEndReasonCode,
+                                              final int callEndReasonSubCode) {
         this.code = code;
         this.callEndReasonCode = callEndReasonCode;
         this.callEndReasonSubCode = callEndReasonSubCode;

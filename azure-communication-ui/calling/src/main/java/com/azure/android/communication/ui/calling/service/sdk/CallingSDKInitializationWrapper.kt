@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.calling.service.sdk
 
 import android.content.Context
-import androidx.core.util.Consumer
 import com.azure.android.communication.calling.CallAgent
 import com.azure.android.communication.calling.CallAgentOptions
 import com.azure.android.communication.calling.CallClient
@@ -37,19 +36,22 @@ internal class CallingSDKCallAgentWrapper(private val logger: Logger) {
         context: Context,
         name: String,
         communicationTokenCredential: CommunicationTokenCredential,
-        deviceRegistrationToken: String,
-        onCompleteCallback: Consumer<Boolean>,
-    ) {
-        createCallAgent(context, name, communicationTokenCredential).get()
-            ?.registerPushNotification(deviceRegistrationToken)?.whenComplete { _, exception ->
-                if (exception != null) {
-                    logger.error("registerPushNotification error " + exception.message)
-                    onCompleteCallback.accept(false)
-                    throw exception
-                }
-                logger.debug("registerPushNotification success")
-                onCompleteCallback.accept(true)
+        deviceRegistrationToken: String
+    ): java.util.concurrent.CompletableFuture<Void> {
+        val completableFuture: java.util.concurrent.CompletableFuture<Void> =
+            java.util.concurrent.CompletableFuture<Void>()
+        createCallAgent(context, name, communicationTokenCredential).whenComplete { callAgent, callAgentError ->
+            if (callAgentError != null) {
+                completableFuture.completeExceptionally(callAgentError)
             }
+            callAgent?.registerPushNotification(deviceRegistrationToken)?.whenComplete { result, exception ->
+                if (exception != null) {
+                    completableFuture.completeExceptionally(exception)
+                }
+                completableFuture.complete(result)
+            }
+        }
+        return completableFuture
     }
 
     fun setupCall(): CompletableFuture<CallClient>? {

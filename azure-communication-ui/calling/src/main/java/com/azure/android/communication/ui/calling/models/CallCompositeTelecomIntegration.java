@@ -27,8 +27,6 @@ public final class CallCompositeTelecomIntegration extends ExpandableStringEnum<
 
     /**
      * Creates or finds a {@link CallCompositeTelecomIntegration} from its string representation.
-     * @param name
-     * @return
      */
     public static CallCompositeTelecomIntegration fromString(final String name) {
         return fromString(name, CallCompositeTelecomIntegration.class);

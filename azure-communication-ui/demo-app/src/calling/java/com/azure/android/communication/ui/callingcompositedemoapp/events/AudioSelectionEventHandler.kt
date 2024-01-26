@@ -9,6 +9,6 @@ import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelec
 class AudioSelectionEventHandler(private val handler: CallCompositeEventsHandler) :
     CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent> {
     override fun handle(event: CallCompositeAudioSelectionChangedEvent) {
-        handler.onAudioSelectionChanged(event.selectionType)
+        handler.onAudioSelectionChanged(event)
     }
 }
