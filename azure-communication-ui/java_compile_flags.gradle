@@ -1,3 +1,25 @@
+/**
+ * Gradle Script for Managing Feature Flags in Java/Kotlin Projects
+ *
+ * This script provides tasks to list and toggle feature flags in Java and Kotlin source files.
+ * Feature flags are identified by markers in the source code.
+ *
+ * Usage:
+ * 1. Include this script in your project's build.gradle file.
+ * 2. Use the provided Gradle tasks to manage your feature flags:
+ *    - `listFlags`: Lists all the feature flags and their current status (Enabled/Disabled).
+ *    - `toggleFlag`: Toggles a specified feature flag between enabled and disabled states.
+ *
+ * Command Line Usage:
+ * - To list all feature flags:
+ *   ./gradlew listFlags
+ *
+ * - To toggle a specific feature flag (replace 'YOUR_FLAG_NAME' with the actual flag name):
+ *   ./gradlew toggleFlag -PflagName=YOUR_FLAG_NAME
+ */
+
+
+// Task to list all feature flags and their status
 task listFlags {
     doLast {
         def projectDir = project.projectDir
@@ -19,6 +41,46 @@ task listFlags {
         println "Feature Flags:"
         flags.each { key, value ->
             println "$key: $value"
+        }
+    }
+}
+
+// Task to toggle a specific feature flag
+task toggleFlag() {
+    doFirst {
+        // Validation: Ensure flagName is provided
+        if (!project.hasProperty('flagName')) {
+            throw new GradleException("Flag name must be provided using the -PflagName=YOUR_FLAG_NAME argument.")
+        }
+    }
+
+    doLast {
+        String flagName = project.property('flagName')
+        String startMarker = "/* <${flagName}> */"
+        String endMarker = "/* </${flagName}> */"
+        FileTree files = fileTree(dir: 'src', includes: ['**/*.java', '**/*.kt'])
+
+        files.each { File file ->
+            String content = file.text
+            int startIndex = content.indexOf(startMarker)
+            int endIndex = content.lastIndexOf(endMarker)
+
+            if (startIndex != -1 && endIndex != -1) {
+                String flagContent = content.substring(startIndex, endIndex + endMarker.length())
+                String toggledContent
+
+                if (flagContent.contains("/*") && flagContent.contains("*/")) {
+                    // Flag is disabled, enable it by removing comment markers around the content
+                    toggledContent = flagContent.replaceFirst(/\/\*\*/, "").replaceFirst(/\*\*\//, "")
+                    println "Enabling flag: ${flagName} in ${file}"
+                } else {
+                    // Flag is enabled, disable it by adding comment markers around the content
+                    toggledContent = flagContent.replaceFirst(startMarker, startMarker + "\n/**").replaceFirst(endMarker, "**/\n" + endMarker)
+                    println "Disabling flag: ${flagName} in ${file}"
+                }
+
+                file.text = content.substring(0, startIndex) + toggledContent + content.substring(endIndex + endMarker.length())
+            }
         }
     }
 }
