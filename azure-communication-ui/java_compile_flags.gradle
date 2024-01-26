@@ -1,4 +1,6 @@
 import java.util.regex.Pattern
+import java.util.regex.Matcher
+
 
 /**
  * Gradle Script for Managing Feature Flags in Java/Kotlin Projects
@@ -56,6 +58,7 @@ task listFlags {
         }
     }
 }
+
 task toggleFlag() {
     doFirst {
         if (!project.hasProperty('flagName')) {
@@ -76,15 +79,31 @@ task toggleFlag() {
 
         files.each { File file ->
             String content = file.text
+            boolean madeReplacement = false
 
             if (isEnabled) {
-                content = content.replaceAll(startMarkerEnabled, startMarkerDisabled)
-                content = content.replaceAll(endMarkerEnabled, endMarkerDisabled)
+                if (content.contains(startMarkerEnabled) || content.contains(endMarkerEnabled)) {
+                    println "Found enabled flag '${flagName}' in file: ${file}"
+                    content = content.replaceAll(Pattern.quote(startMarkerEnabled), Matcher.quoteReplacement(startMarkerDisabled))
+                    content = content.replaceAll(Pattern.quote(endMarkerEnabled), Matcher.quoteReplacement(endMarkerDisabled))
+                    madeReplacement = true
+                }
             } else {
-                content = content.replaceAll(startMarkerDisabled, startMarkerEnabled)
-                content = content.replaceAll(endMarkerDisabled, endMarkerEnabled)
+                if (content.contains(startMarkerDisabled) || content.contains(endMarkerDisabled)) {
+                    println "Found disabled flag '${flagName}' in file: ${file}"
+                    content = content.replaceAll(Pattern.quote(startMarkerDisabled), Matcher.quoteReplacement(startMarkerEnabled))
+                    content = content.replaceAll(Pattern.quote(endMarkerDisabled), Matcher.quoteReplacement(endMarkerEnabled))
+                    madeReplacement = true
+                }
             }
-            file.write(content)
+
+            if (madeReplacement) {
+                file.text = content
+                println "File updated: ${file}"
+            } else {
+                println "No changes made to file: ${file}"
+            }
         }
     }
 }
+
