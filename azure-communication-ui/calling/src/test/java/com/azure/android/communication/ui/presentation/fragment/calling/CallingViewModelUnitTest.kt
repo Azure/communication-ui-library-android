@@ -1114,6 +1114,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         displayName,
         userIdentifier,
         isMuted,
+        false,
         isSpeaking,
         participantStatus,
         screenShareVideoStreamModel,

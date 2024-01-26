@@ -44,6 +44,8 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
                 ParticipantInfoModel(
                     "user",
                     "id",
+
+                    false,
                     false,
                     false,
                     ParticipantStatus.HOLD,

@@ -877,6 +877,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
         displayName,
         id,
         isMuted = isMuted,
+        isCameraDisabled = false,
         isSpeaking = isSpeaking,
         ParticipantStatus.CONNECTED,
         screenShareVideoStreamModel,

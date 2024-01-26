@@ -716,6 +716,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
     ) = ParticipantInfoModel(
         displayName,
         userIdentifier,
+        false,
         isMuted,
         isSpeaking,
         status,

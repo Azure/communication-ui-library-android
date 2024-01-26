@@ -29,6 +29,7 @@ internal class ParticipantInfoModelStateReducerUnitTest {
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 0,
                 participantStatus = ParticipantStatus.HOLD,
+                isCameraDisabled = false
             )
         val reducer = ParticipantStateReducerImpl()
         val oldState = RemoteParticipantsState(HashMap(), 0, listOf(), 0, null)
@@ -55,6 +56,7 @@ internal class ParticipantInfoModelStateReducerUnitTest {
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 0,
                 participantStatus = ParticipantStatus.HOLD,
+                isCameraDisabled = false
             )
         val reducer = ParticipantStateReducerImpl()
         val oldState = RemoteParticipantsState(HashMap(), 0, listOf(), 0, null)
@@ -80,6 +82,7 @@ internal class ParticipantInfoModelStateReducerUnitTest {
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 0,
                 participantStatus = ParticipantStatus.HOLD,
+                isCameraDisabled = false
             )
         val dominantSpeakers = listOf<String>()
         val reducer = ParticipantStateReducerImpl()
