@@ -56,7 +56,6 @@ task listFlags {
         }
     }
 }
-
 task toggleFlag() {
     doFirst {
         if (!project.hasProperty('flagName')) {
@@ -68,22 +67,24 @@ task toggleFlag() {
         String flagName = project.property('flagName')
         def flags = getFlagsStatus()
         boolean isEnabled = flags[flagName] == "Enabled"
-        String startMarker = "/* <${flagName}> */"
-        String endMarker = "/* </${flagName}> */"
+        String startMarkerEnabled = "/* <${flagName}> */"
+        String endMarkerEnabled = "/* </${flagName}> */"
+        String startMarkerDisabled = "/* <${flagName}>"
+        String endMarkerDisabled = "</${flagName}> */"
+
         FileTree files = fileTree(dir: 'src', includes: ['**/*.java', '**/*.kt'])
 
         files.each { File file ->
             String content = file.text
 
             if (isEnabled) {
-                content.replaceAll(Pattern.quote("/* <${flagName}> */"),Pattern.quote("/* <${flagName}>"))
-                content.replaceAll(Pattern.quote("/* </${flagName}> */"),Pattern.quote("</${flagName}> */"))
+                content = content.replaceAll(startMarkerEnabled, startMarkerDisabled)
+                content = content.replaceAll(endMarkerEnabled, endMarkerDisabled)
             } else {
-                content.replaceAll(Pattern.quote("/* <${flagName}>"), "/* <${flagName}> */")
-                content.replaceAll(Pattern.quote("</${flagName}> */"), "/* </${flagName}> */")
+                content = content.replaceAll(startMarkerDisabled, startMarkerEnabled)
+                content = content.replaceAll(endMarkerDisabled, endMarkerEnabled)
             }
             file.write(content)
         }
     }
 }
-
