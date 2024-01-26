@@ -1,0 +1,24 @@
+task listFlags {
+    doLast {
+        def projectDir = project.projectDir
+        def flagPattern = ~/\/\* <(.+?)> \*\/[\s\S]*?\/\* <\/\1> \*\//
+
+        def flags = [:]
+
+        projectDir.traverse(type: groovy.io.FileType.FILES, nameFilter: ~/.*\.(java|kt)/) { file ->
+            def content = file.text
+            def matcher = content =~ flagPattern
+
+            while (matcher.find()) {
+                String flagName = matcher.group(1)
+                boolean isEnabled = !content.contains("/* <${flagName}>") || content.contains("/* </${flagName}> */")
+                flags[flagName] = isEnabled ? "Enabled" : "Disabled"
+            }
+        }
+
+        println "Feature Flags:"
+        flags.each { key, value ->
+            println "$key: $value"
+        }
+    }
+}
