@@ -3,8 +3,11 @@
 
 package com.azure.android.communication.ui.calling.models;
 
+import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.calling.CallComposite;
+
+import java.util.Collection;
 
 /**
  * CallCompositeRemoteOptions for CallComposite.launch.
@@ -32,7 +35,7 @@ public final class CallCompositeRemoteOptions {
     // Mandatory
     private final CommunicationTokenCredential credential;
     private CallCompositeJoinLocator locator;
-    private Iterable<String> participants;
+    private Collection<CommunicationIdentifier> participants;
     private CallCompositePushNotificationInfo pushNotificationInfo;
 
     // Optional
@@ -91,11 +94,25 @@ public final class CallCompositeRemoteOptions {
      * @param displayName User display name other call participants will see.
      */
     public CallCompositeRemoteOptions(
-            final Iterable<String> participants,
+            final Collection<CommunicationIdentifier> participants,
             final CommunicationTokenCredential credential,
             final String displayName) {
         this.credential = credential;
         this.displayName = displayName;
+        this.participants = participants;
+    }
+
+    /**
+     * Create {@link CallCompositeRemoteOptions}.
+     *
+     * @param participants raw ids {@link Iterable}.
+     * @param credential {@link CommunicationTokenCredential}.
+     */
+    public CallCompositeRemoteOptions(
+            final Collection<CommunicationIdentifier> participants,
+            final CommunicationTokenCredential credential) {
+        this.credential = credential;
+        this.displayName = "";
         this.participants = participants;
     }
 
@@ -129,9 +146,9 @@ public final class CallCompositeRemoteOptions {
     /**
      * Get participants raw ids.
      *
-     * @return {@link Iterable} of {@link String}.
+     * @return {@link Collection} of {@link CommunicationIdentifier}.
      */
-    public Iterable<String> getParticipants() {
+    public Collection<CommunicationIdentifier> getParticipants() {
         return participants;
     }
 

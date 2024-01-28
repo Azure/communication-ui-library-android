@@ -504,18 +504,13 @@ internal class CallingSDKWrapper(
         agent: CallAgent,
         audioOptions: OutgoingAudioOptions,
         videoOptions: OutgoingVideoOptions?,
-        participants: List<String>
+        participants: Collection<CommunicationIdentifier>
     ) {
-        val communicationIdentifiers = ArrayList<CommunicationIdentifier>()
-        for (participantId in participants) {
-            communicationIdentifiers.add(CommunicationIdentifier.fromRawId(participantId))
-        }
-
         val startCallOptions = StartCallOptions()
         startCallOptions.outgoingAudioOptions = audioOptions
         videoOptions?.let { startCallOptions.outgoingVideoOptions = videoOptions }
 
-        nullableCall = agent.startCall(context, communicationIdentifiers, startCallOptions)
+        nullableCall = agent.startCall(context, participants, startCallOptions)
         callingSDKEventHandler.onJoinCall(call)
     }
 

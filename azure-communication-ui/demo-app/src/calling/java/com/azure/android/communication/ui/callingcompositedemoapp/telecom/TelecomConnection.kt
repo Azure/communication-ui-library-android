@@ -13,12 +13,12 @@ import android.telecom.Connection
 import android.telecom.DisconnectCause
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity
 
 @RequiresApi(Build.VERSION_CODES.M)
 class TelecomConnection(
-    private var pushNotificationInfo: CallCompositeIncomingCallInfo? = null,
+    private var pushNotificationInfo: CallCompositeIncomingCallEvent? = null,
     private val context: Context
 ) : Connection() {
 

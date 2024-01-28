@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.configuration
 
+import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.calling.DiagnosticConfig
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationInfo
@@ -25,7 +26,7 @@ internal data class CallConfiguration(
     val roomId: String?,
     val roomRoleHint: CallCompositeParticipantRole?,
     val callType: CallType,
-    val participants: List<String>? = null,
+    val participants: Collection<CommunicationIdentifier>? = null,
     val pushNotificationInfo: CallCompositePushNotificationInfo? = null
 ) {
     val diagnosticConfig = DiagnosticConfig()

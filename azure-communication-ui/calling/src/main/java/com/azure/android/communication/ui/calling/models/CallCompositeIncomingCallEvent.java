@@ -7,21 +7,46 @@ package com.azure.android.communication.ui.calling.models;
  * Incoming call event.
  */
 public final class CallCompositeIncomingCallEvent {
-    private final CallCompositeIncomingCallInfo incomingCallInfo;
+    private final String callId;
+    private final String callerDisplayName;
+    private final String callerIdentifierRawId;
 
     /**
-     * Create {@link CallCompositeIncomingCallEvent} with incoming call event.
+     * Create {@link CallCompositeIncomingCallEvent}.
      *
-     * @param incomingCallInfo incoming call info.
+     * @param callId call id.
+     * @param callerDisplayName caller display name.
+     * @param callerIdentifierRawId caller raw id.
      */
-    public CallCompositeIncomingCallEvent(final CallCompositeIncomingCallInfo incomingCallInfo) {
-        this.incomingCallInfo = incomingCallInfo;
+    public CallCompositeIncomingCallEvent(final String callId,
+                                          final String callerDisplayName,
+                                          final String callerIdentifierRawId) {
+        this.callId = callId;
+        this.callerDisplayName = callerDisplayName;
+        this.callerIdentifierRawId = callerIdentifierRawId;
     }
 
     /**
-     * @return {@link CallCompositeIncomingCallInfo}
+     * Get call id.
+     * @return call id.
      */
-    public CallCompositeIncomingCallInfo getIncomingCallInfo() {
-        return incomingCallInfo;
+    public String getCallId() {
+        return callId;
+    }
+
+    /**
+     * Get caller display name.
+     * @return caller display name.
+     */
+    public String getCallerDisplayName() {
+        return callerDisplayName;
+    }
+
+    /**
+     * Get caller raw id.
+     * @return caller raw id.
+     */
+    public String getCallerIdentifierRawId() {
+        return callerIdentifierRawId;
     }
 }

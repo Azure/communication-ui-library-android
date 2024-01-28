@@ -16,7 +16,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionType
-import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity.Companion.TAG
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherApplication
 
@@ -87,7 +87,7 @@ class TelecomConnectionService : ConnectionService(), TelecomConnectionServiceLi
     private fun createTelecomConnection(
         originalBundle: Bundle
     ): TelecomConnection {
-        val callInfo = CallCompositeIncomingCallInfo(
+        val callInfo = CallCompositeIncomingCallEvent(
             originalBundle.getString("CALL_ID"),
             originalBundle.getString("DISPLAY_NAME"),
             originalBundle.getString("RAW_ID")

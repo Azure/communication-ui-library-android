@@ -11,6 +11,7 @@ import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
@@ -23,7 +24,6 @@ import com.azure.android.communication.ui.calling.models.CallCompositeDismissedE
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEndedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent
-import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
@@ -114,7 +114,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         val skipSetup = SettingsFeatures.getSkipSetupScreenFeatureValue()
         val remoteOptions = if (locator == null && !participantMri.isNullOrEmpty()) {
             val participantMris = participantMri.split(",")
-            CallCompositeRemoteOptions(participantMris, communicationTokenCredential, displayName)
+            CallCompositeRemoteOptions(participantMris.map { CommunicationIdentifier.fromRawId(it) }, communicationTokenCredential, displayName)
         } else {
             CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
         }
@@ -362,11 +362,11 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         Log.i(CallLauncherActivity.TAG, "Showing IncomingCallEvent")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             telecomConnectionManager?.startIncomingConnection(
-                incomingCall.incomingCallInfo, false
+                incomingCall, false
             )
-            showNotificationForIncomingCall(incomingCall.incomingCallInfo)
+            showNotificationForIncomingCall(incomingCall)
         } else {
-            showNotificationForIncomingCall(incomingCall.incomingCallInfo)
+            showNotificationForIncomingCall(incomingCall)
         }
     }
 
@@ -428,7 +428,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         }
     }
 
-    private fun showNotificationForIncomingCall(notification: CallCompositeIncomingCallInfo) {
+    private fun showNotificationForIncomingCall(notification: CallCompositeIncomingCallEvent) {
         applicationContext?.let { applicationContext ->
             Log.i(CallLauncherActivity.TAG, "Showing notification for incoming call")
 

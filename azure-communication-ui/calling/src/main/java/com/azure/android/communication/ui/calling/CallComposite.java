@@ -49,8 +49,7 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 import static com.azure.android.communication.ui.calling.CallCompositeExtentionsKt.createDebugInfoManager;
 import static com.azure.android.communication.ui.calling.service.sdk.TypeConversionsKt.into;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -386,7 +385,7 @@ public final class CallComposite {
      *
      * &#47;&#47; add on incoming call handler
      * callComposite.addOnIncomingCallEventHandler&#40;event -> {
-     *     &#47;&#47; Use call composite incoming call to accept and dcline
+     *     &#47;&#47; Use call composite incoming call to accept and decline
      * }&#41;;
      *
      * </pre>
@@ -424,9 +423,7 @@ public final class CallComposite {
     public void startAudio() {
         if (diContainer != null) {
             final DependencyInjectionContainer container = diContainer;
-            if (container != null) {
-                container.getCallingService().startAudio();
-            }
+            container.getCallingService().startAudio();
         }
     }
 
@@ -437,9 +434,7 @@ public final class CallComposite {
     public void stopAudio() {
         if (diContainer != null) {
             final DependencyInjectionContainer container = diContainer;
-            if (container != null) {
-                container.getCallingService().stopAudio();
-            }
+            container.getCallingService().stopAudio();
         }
     }
 
@@ -450,9 +445,7 @@ public final class CallComposite {
     public void turnMicOn() {
         if (diContainer != null) {
             final DependencyInjectionContainer container = diContainer;
-            if (container != null) {
-                container.getCallingService().turnMicOn();
-            }
+            container.getCallingService().turnMicOn();
         }
     }
 
@@ -463,9 +456,7 @@ public final class CallComposite {
     public void turnMicOff() {
         if (diContainer != null) {
             final DependencyInjectionContainer container = diContainer;
-            if (container != null) {
-                container.getCallingService().turnMicOff();
-            }
+            container.getCallingService().turnMicOff();
         }
     }
 
@@ -476,9 +467,7 @@ public final class CallComposite {
     public void hold() {
         if (diContainer != null) {
             final DependencyInjectionContainer container = diContainer;
-            if (container != null) {
-                container.getCallingService().hold();
-            }
+            container.getCallingService().hold();
         }
     }
 
@@ -489,9 +478,7 @@ public final class CallComposite {
     public void resume() {
         if (diContainer != null) {
             final DependencyInjectionContainer container = diContainer;
-            if (container != null) {
-                container.getCallingService().resume();
-            }
+            container.getCallingService().resume();
         }
     }
 
@@ -600,7 +587,7 @@ public final class CallComposite {
     /**
      * Display Call Composite if it was hidden by user going Back in navigation while on the call.
      *
-     * @param context
+     * @param context The {@link Context}.
      */
     public void displayCallCompositeIfWasHidden(final Context context) {
         showUI(context, false, false);
@@ -610,8 +597,7 @@ public final class CallComposite {
      * RegisterPushNotification to receive incoming call notification.
      *
      * @param context The {@link Context}.
-     * @param options The {@link CallCompositePushNotificationOptions} if call is already in progress
-     *                existing display name and CommunicationTokenCredential is used.
+     * @param options The {@link CallCompositePushNotificationOptions}.
      * @return {@link CompletableFuture} of {@link Void}.
      */
     public CompletableFuture<Void> registerPushNotification(final Context context,
@@ -619,7 +605,7 @@ public final class CallComposite {
         initializeCallAgent();
         // for device token, we need to set the call config. with ONE_TO_N_CALL_INCOMING
         configuration.setCallConfig(new CallConfiguration(
-                options.getTokenCredential(),
+                options.getCredential(),
                 options.getDisplayName(),
                 null,
                 null,
@@ -630,7 +616,7 @@ public final class CallComposite {
                 null));
         return callAgentWrapper.registerPushNotification(context,
                 options.getDisplayName(),
-                options.getTokenCredential(),
+                options.getCredential(),
                 options.getDeviceRegistrationToken());
     }
 
@@ -662,7 +648,7 @@ public final class CallComposite {
         String roomId = null;
         CallCompositeParticipantRole roomRole = null;
         final CallType callType;
-        List<String> participants = null;
+        Collection<CommunicationIdentifier> participants = null;
 
         final CallCompositeJoinLocator locator = remoteOptions.getLocator();
         if (locator != null) {
@@ -679,10 +665,7 @@ public final class CallComposite {
             }
         } else {
             callType = CallType.ONE_TO_N_CALL_OUTGOING;
-            final Iterable<String> source = remoteOptions.getParticipants();
-            final List<String> target = new ArrayList<>();
-            source.forEach(target::add);
-            participants = target;
+            participants = remoteOptions.getParticipants();
         }
 
         if (localOptions != null) {

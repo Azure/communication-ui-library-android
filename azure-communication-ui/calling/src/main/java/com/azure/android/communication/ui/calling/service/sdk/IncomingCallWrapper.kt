@@ -12,7 +12,6 @@ import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEndedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent
-import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
 import java.util.concurrent.CompletableFuture
 
 internal interface IncomingCallEvent {
@@ -74,11 +73,9 @@ internal class IncomingCallWrapper(
             incomingCallEventHandlers?.forEach {
                 it.handle(
                     CallCompositeIncomingCallEvent(
-                        CallCompositeIncomingCallInfo(
-                            incomingCall.id,
-                            incomingCall.callerInfo.displayName,
-                            incomingCall.callerInfo.identifier.rawId
-                        )
+                        incomingCall.id,
+                        incomingCall.callerInfo.displayName,
+                        incomingCall.callerInfo.identifier.rawId
                     )
                 )
             }

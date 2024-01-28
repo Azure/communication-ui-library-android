@@ -21,7 +21,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent
-import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity
 import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherApplication
 
@@ -47,7 +47,7 @@ class TelecomConnectionManager(
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun startIncomingConnection(callInfo: CallCompositeIncomingCallInfo, isVideoCall: Boolean) {
+    fun startIncomingConnection(callInfo: CallCompositeIncomingCallEvent, isVideoCall: Boolean) {
         if (context.checkSelfPermission(Manifest.permission.MANAGE_OWN_CALLS) ==
             PackageManager.PERMISSION_GRANTED
         ) {
@@ -172,7 +172,7 @@ class TelecomConnectionManager(
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun callExtras(callInfo: CallCompositeIncomingCallInfo, isVideoCall: Boolean): Bundle {
+    private fun callExtras(callInfo: CallCompositeIncomingCallEvent, isVideoCall: Boolean): Bundle {
         val extras = Bundle()
         extras.putString("DISPLAY_NAME", callInfo.callerDisplayName)
         extras.putString("CALL_ID", callInfo.callId)

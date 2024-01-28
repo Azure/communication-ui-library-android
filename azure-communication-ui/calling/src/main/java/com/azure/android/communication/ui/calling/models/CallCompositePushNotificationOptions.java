@@ -9,24 +9,36 @@ import com.azure.android.communication.common.CommunicationTokenCredential;
  * CallCompositePushNotificationOptions for registering device token to receive incoming call.
  */
 public final class CallCompositePushNotificationOptions {
-
-    private final CommunicationTokenCredential tokenCredential;
+    private final CommunicationTokenCredential credential;
     private final String deviceRegistrationToken;
     private final String displayName;
 
     /**
      * Create {@link CallCompositePushNotificationOptions}.
      *
-     * @param tokenCredential          Token credential.
-     * @param deviceRegistrationToken  Device registration token.
-     * @param displayName              Display name.
+     * @param credential {@link CommunicationTokenCredential}.
+     * @param deviceRegistrationToken device registration token.
+     * @param displayName display name.
      */
-    public CallCompositePushNotificationOptions(final CommunicationTokenCredential tokenCredential,
+    public CallCompositePushNotificationOptions(final CommunicationTokenCredential credential,
                                                 final String deviceRegistrationToken,
                                                 final String displayName) {
-        this.tokenCredential = tokenCredential;
+        this.credential = credential;
         this.deviceRegistrationToken = deviceRegistrationToken;
         this.displayName = displayName;
+    }
+
+    /**
+     * Create {@link CallCompositePushNotificationOptions}.
+     *
+     * @param credential {@link CommunicationTokenCredential}.
+     * @param deviceRegistrationToken device registration token.
+     */
+    public CallCompositePushNotificationOptions(final CommunicationTokenCredential credential,
+                                                final String deviceRegistrationToken) {
+        this.credential = credential;
+        this.deviceRegistrationToken = deviceRegistrationToken;
+        this.displayName = "";
     }
 
     /**
@@ -49,7 +61,7 @@ public final class CallCompositePushNotificationOptions {
      * Get token credential.
      * @return token credential.
      */
-    public CommunicationTokenCredential getTokenCredential() {
-        return tokenCredential;
+    public CommunicationTokenCredential getCredential() {
+        return credential;
     }
 }
