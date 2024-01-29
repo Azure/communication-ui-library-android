@@ -28,6 +28,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
 import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.configuration.events.CallCompositeEventsHandler
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
@@ -276,7 +277,7 @@ internal class AudioSessionManager(
         audioManager.isBluetoothScoOn = false
         audioManager.isSpeakerphoneOn = true
         val selection = AudioDeviceSelectionStatus.SPEAKER_SELECTED.toString()
-        // notifyEventHandlerOnSelectionChange(selection)
+        notifyEventHandlerOnSelectionChange(selection)
     }
 
     private fun enableEarpiece() {
@@ -284,7 +285,7 @@ internal class AudioSessionManager(
         audioManager.isBluetoothScoOn = false
         audioManager.isSpeakerphoneOn = false
         val selection = AudioDeviceSelectionStatus.RECEIVER_SELECTED.toString()
-        // notifyEventHandlerOnSelectionChange(selection)
+        notifyEventHandlerOnSelectionChange(selection)
     }
 
     private fun enableBluetooth() {
@@ -294,20 +295,20 @@ internal class AudioSessionManager(
                 audioManager.isBluetoothScoOn = true
                 audioManager.isSpeakerphoneOn = false
                 val selection = AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED.toString()
-                // notifyEventHandlerOnSelectionChange(selection)
+                notifyEventHandlerOnSelectionChange(selection)
             }
         } catch (exception: Exception) {
             revertToPreviousAudioDevice()
         }
     }
 
-//    private fun notifyEventHandlerOnSelectionChange(selection: String) {
-//        val callCompositeAudioSelectionChangedEvent =
-//            CallCompositeAudioSelectionChangedEvent(selection)
-//        callCompositeEventsHandler?.getOnAudioSelectionChangedEventHandlers()?.forEach {
-//            it.handle(callCompositeAudioSelectionChangedEvent)
-//        }
-//    }
+    private fun notifyEventHandlerOnSelectionChange(selection: String) {
+        val callCompositeAudioSelectionChangedEvent =
+            CallCompositeAudioSelectionChangedEvent(selection)
+        callCompositeEventsHandler?.getOnAudioSelectionChangedEventHandlers()?.forEach {
+            it.handle(callCompositeAudioSelectionChangedEvent)
+        }
+    }
 
     private fun openProfileProxy() {
         if (btAdapter?.isEnabled == true && bluetoothAudioProxy == null) {

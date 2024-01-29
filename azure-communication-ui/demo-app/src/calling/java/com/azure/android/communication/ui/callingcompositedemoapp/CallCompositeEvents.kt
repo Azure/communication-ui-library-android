@@ -4,10 +4,11 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import com.azure.android.communication.ui.calling.CallComposite
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallInfo
 
 interface CallCompositeEvents {
     fun getCallComposite(): CallComposite?
-    fun showIncomingCallUI(/* incomingCallInfo: CallCompositeIncomingCallInfo */)
+    fun showIncomingCallUI(incomingCallInfo: CallCompositeIncomingCallInfo)
     fun hideIncomingCallUI()
     fun handleIncomingCall(
         data: Map<String, String>,

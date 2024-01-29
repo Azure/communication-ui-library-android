@@ -4,31 +4,34 @@
 package com.azure.android.communication.ui.calling.configuration.events
 
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.models.CallCompositePictureInPictureChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEndEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent
 
 internal class CallCompositeEventsHandler {
     private val errorHandlers = mutableSetOf<CallCompositeEventHandler<CallCompositeErrorEvent>>()
+    private val remoteParticipantJoinedHandlers =
+        mutableSetOf<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
     private val callStateHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
     private val exitEventHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeDismissedEvent>>()
+    private val incomingCallEventHandlers =
+        mutableSetOf<CallCompositeEventHandler<CallCompositeIncomingCallEvent>>()
+    private val incomingCallEndEventHandlers =
+        mutableSetOf<CallCompositeEventHandler<CallCompositeIncomingCallEndEvent>>()
     private val multitaskingStateChangedEvent =
         mutableSetOf<CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent>>()
+    private val audioSelectionChangedEvent =
+        mutableSetOf<CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent>>()
     private val userReportHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeUserReportedIssueEvent>>()
-    private val remoteParticipantJoinedHandlers =
-        mutableSetOf<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
-    //    private val audioSelectionChangedEvent =
-    //        mutableSetOf<CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent>>()
-    // private val incomingCallEventHandlers =
-    //    mutableSetOf<CallCompositeEventHandler<CallCompositeIncomingCallEvent>>()
-    // private val incomingCallEndEventHandlers =
-    //    mutableSetOf<CallCompositeEventHandler<CallCompositeIncomingCallEndEvent>>()
 
     fun getOnErrorHandlers() = errorHandlers.asIterable()
 
@@ -72,7 +75,6 @@ internal class CallCompositeEventsHandler {
         exitEventHandlers.remove(handler)
     }
 
-    /*
     fun getOnIncomingCallEventHandlers() = incomingCallEventHandlers.asIterable()
 
     fun addOnIncomingCallEventHandler(handler: CallCompositeEventHandler<CallCompositeIncomingCallEvent>) {
@@ -92,17 +94,16 @@ internal class CallCompositeEventsHandler {
     fun removeOnIncomingCallEndEventHandler(handler: CallCompositeEventHandler<CallCompositeIncomingCallEndEvent>) {
         incomingCallEndEventHandlers.remove(handler)
     }
-     */
 
-    // fun getOnAudioSelectionChangedEventHandlers() = audioSelectionChangedEvent.asIterable()
+    fun getOnAudioSelectionChangedEventHandlers() = audioSelectionChangedEvent.asIterable()
 
-//    fun addOnAudioSelectionChangedEventHandler(handler: CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent>) {
-//        audioSelectionChangedEvent.add(handler)
-//    }
+    fun addOnAudioSelectionChangedEventHandler(handler: CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent>) {
+        audioSelectionChangedEvent.add(handler)
+    }
 
-//    fun removeOnAudioSelectionChangedEventHandler(handler: CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent>) {
-//        audioSelectionChangedEvent.remove(handler)
-//    }
+    fun removeOnAudioSelectionChangedEventHandler(handler: CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent>) {
+        audioSelectionChangedEvent.remove(handler)
+    }
 
     fun addOnUserReportedEventHandler(errorHandler: CallCompositeEventHandler<CallCompositeUserReportedIssueEvent>) =
         userReportHandlers.add(errorHandler)

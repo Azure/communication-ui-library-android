@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.models;
 /**
  * CallCompositeTelecomOptions {@link CallCompositeTelecomOptions}.
  */
-class CallCompositeTelecomOptions {
+public class CallCompositeTelecomOptions {
     private CallCompositeTelecomIntegration telecomIntegration;
 
     /**
@@ -14,7 +14,7 @@ class CallCompositeTelecomOptions {
      *
      * @param telecomIntegration telecom integration.
      */
-    CallCompositeTelecomOptions(final CallCompositeTelecomIntegration telecomIntegration) {
+    public CallCompositeTelecomOptions(final CallCompositeTelecomIntegration telecomIntegration) {
         this.telecomIntegration = telecomIntegration;
     }
 
@@ -23,7 +23,7 @@ class CallCompositeTelecomOptions {
      *
      * @return {@link CallCompositeTelecomIntegration}
      */
-    CallCompositeTelecomIntegration getTelecomIntegration() {
+    public CallCompositeTelecomIntegration getTelecomIntegration() {
         return telecomIntegration;
     }
 }

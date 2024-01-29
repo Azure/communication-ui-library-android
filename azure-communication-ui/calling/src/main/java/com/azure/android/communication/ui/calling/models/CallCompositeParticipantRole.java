@@ -10,21 +10,21 @@ import java.util.Collection;
 /**
  * Defines values for {@linkCallCompositeParticipantRole}.
  */
-final class CallCompositeParticipantRole extends ExpandableStringEnum<CallCompositeParticipantRole> {
+public final class CallCompositeParticipantRole extends ExpandableStringEnum<CallCompositeParticipantRole> {
     /**
      * Presenter Role in the Room call.
      */
-    static final CallCompositeParticipantRole PRESENTER = fromString("Presenter");
+    public static final CallCompositeParticipantRole PRESENTER = fromString("Presenter");
 
     /**
      * Attendee Role in the Room call.
      */
-    static final CallCompositeParticipantRole ATTENDEE = fromString("Attendee");
+    public static final CallCompositeParticipantRole ATTENDEE = fromString("Attendee");
 
     /**
      * Creates instance of {@linkCallCompositeParticipantRole}.
      */
-    CallCompositeParticipantRole() { }
+    public CallCompositeParticipantRole() { }
 
     /**
      * Creates or finds a {@linkCallCompositeParticipantRole} from it's string representation.
@@ -32,14 +32,14 @@ final class CallCompositeParticipantRole extends ExpandableStringEnum<CallCompos
      * @param name a name to look for.
      * @return the corresponding {@linkCallCompositeParticipantRole}.
      */
-    static CallCompositeParticipantRole fromString(final String name) {
+    public static CallCompositeParticipantRole fromString(final String name) {
         return fromString(name, CallCompositeParticipantRole.class);
     }
 
     /**
      * @return known {@linkCallCompositeParticipantRole} values.
      */
-    static Collection<CallCompositeParticipantRole> values() {
+    public static Collection<CallCompositeParticipantRole> values() {
         return values(CallCompositeParticipantRole.class);
     }
 }

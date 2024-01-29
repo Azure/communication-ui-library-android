@@ -6,6 +6,8 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 import android.content.Context
 import android.os.PowerManager
 import android.util.Log
+import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationEventType
+import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationInfo
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -26,35 +28,34 @@ class DemoFirebaseMessagingService : FirebaseMessagingService() {
         CallCompositeManager.initialize(applicationContext)
 
         Log.d(CallLauncherActivity.TAG, "onMessageReceived firebase push notification " + remoteMessage.data.toString())
+        if (remoteMessage.data.isNotEmpty()) {
+            val pushNotificationInfo = CallCompositePushNotificationInfo(remoteMessage.data)
+            if (pushNotificationInfo.eventType == CallCompositePushNotificationEventType.INCOMING_CALL ||
+                pushNotificationInfo.eventType == CallCompositePushNotificationEventType.INCOMING_GROUP_CALL
+            ) {
+                Log.d(CallLauncherActivity.TAG, "onMessageReceived - ${pushNotificationInfo.eventType}")
+                Log.d(
+                    CallLauncherActivity.TAG,
+                    pushNotificationInfo.eventType.toString() + " handleIncomingCall"
+                )
 
-//        if (remoteMessage.data.isNotEmpty()) {
-//            val pushNotificationInfo = CallCompositePushNotificationInfo(remoteMessage.data)
-//            if (pushNotificationInfo.eventType == CallCompositePushNotificationEventType.INCOMING_CALL ||
-//                pushNotificationInfo.eventType == CallCompositePushNotificationEventType.INCOMING_GROUP_CALL
-//            ) {
-//                Log.d(CallLauncherActivity.TAG, "onMessageReceived - ${pushNotificationInfo.eventType}")
-//                Log.d(
-//                    CallLauncherActivity.TAG,
-//                    pushNotificationInfo.eventType.toString() + " handleIncomingCall"
-//                )
-//
-//                wakeAppIfScreenOff()
-//
-//                // We need to make a service call to get token for user in case application is not running
-//                // Storing token in shared preferences for demo purpose as this app is not public and internal
-//                // In production, token should be fetched from server (storing token in pref can be a security issue)
-//                val acsIdentityToken = sharedPreference.getString(CACHED_TOKEN, "")
-//                val displayName = sharedPreference.getString(CACHED_USER_NAME, "")
-//                CallCompositeManager.getInstance().handleIncomingCall(
-//                    remoteMessage.data,
-//                    acsIdentityToken!!,
-//                    displayName!!
-//                )
-//            } else {
-//                CallCompositeManager.getInstance().hideIncomingCallUI()
-//                Log.d(CallLauncherActivity.TAG, "onMessageReceived - ${pushNotificationInfo.eventType}")
-//            }
-//        }
+                wakeAppIfScreenOff()
+
+                // We need to make a service call to get token for user in case application is not running
+                // Storing token in shared preferences for demo purpose as this app is not public and internal
+                // In production, token should be fetched from server (storing token in pref can be a security issue)
+                val acsIdentityToken = sharedPreference.getString(CACHED_TOKEN, "")
+                val displayName = sharedPreference.getString(CACHED_USER_NAME, "")
+                CallCompositeManager.getInstance().handleIncomingCall(
+                    remoteMessage.data,
+                    acsIdentityToken!!,
+                    displayName!!
+                )
+            } else {
+                CallCompositeManager.getInstance().hideIncomingCallUI()
+                Log.d(CallLauncherActivity.TAG, "onMessageReceived - ${pushNotificationInfo.eventType}")
+            }
+        }
     }
 
     private fun wakeAppIfScreenOff() {

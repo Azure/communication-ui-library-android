@@ -6,14 +6,14 @@ package com.azure.android.communication.ui.calling.models;
 /**
  * Event with audio selection changed.
  */
-final class CallCompositeAudioSelectionChangedEvent {
+public final class CallCompositeAudioSelectionChangedEvent {
     private final String selectionType;
     /**
      * Create {@link CallCompositeAudioSelectionChangedEvent} with selection.
      *
      * @param selectionType selection type.
      */
-    CallCompositeAudioSelectionChangedEvent(final String selectionType) {
+    public CallCompositeAudioSelectionChangedEvent(final String selectionType) {
         this.selectionType = selectionType;
     }
 
@@ -22,7 +22,7 @@ final class CallCompositeAudioSelectionChangedEvent {
      *
      * @return the selection type.
      */
-    String getSelectionType() {
+    public String getSelectionType() {
         return selectionType;
     }
 }

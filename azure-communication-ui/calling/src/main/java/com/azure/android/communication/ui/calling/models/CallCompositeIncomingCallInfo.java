@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.models;
 /**
  * CallCompositeIncomingCallInfo
  */
-class CallCompositeIncomingCallInfo {
+public class CallCompositeIncomingCallInfo {
     private final String callId;
     private final String callerDisplayName;
     private final String callerIdentifierRawId;
@@ -18,7 +18,7 @@ class CallCompositeIncomingCallInfo {
      * @param callerDisplayName
      * @param callerIdentifierRawId
      */
-    CallCompositeIncomingCallInfo(final String callId,
+    public CallCompositeIncomingCallInfo(final String callId,
                                          final String callerDisplayName,
                                          final String callerIdentifierRawId) {
         this.callId = callId;
@@ -30,7 +30,7 @@ class CallCompositeIncomingCallInfo {
      * Get call id.
      * @return call id.
      */
-    String getCallId() {
+    public String getCallId() {
         return callId;
     }
 
@@ -38,7 +38,7 @@ class CallCompositeIncomingCallInfo {
      * Get caller display name.
      * @return caller display name.
      */
-    String getCallerDisplayName() {
+    public String getCallerDisplayName() {
         return callerDisplayName;
     }
 
@@ -46,7 +46,7 @@ class CallCompositeIncomingCallInfo {
      * Get caller raw id.
      * @return caller raw id.
      */
-    String getCallerIdentifierRawId() {
+    public String getCallerIdentifierRawId() {
         return callerIdentifierRawId;
     }
 }

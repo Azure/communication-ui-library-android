@@ -5,6 +5,8 @@ package com.azure.android.communication.ui.calling.configuration
 
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.calling.DiagnosticConfig
+import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationInfo
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
 import java.util.UUID
 
 internal enum class CallType {
@@ -21,9 +23,10 @@ internal data class CallConfiguration(
     val groupId: UUID?,
     val meetingLink: String?,
     val roomId: String?,
+    val roomRoleHint: CallCompositeParticipantRole?,
     val callType: CallType,
     val participants: List<String>? = null,
-    // val pushNotificationInfo: CallCompositePushNotificationInfo? = null
+    val pushNotificationInfo: CallCompositePushNotificationInfo? = null
 ) {
     val diagnosticConfig = DiagnosticConfig()
 }

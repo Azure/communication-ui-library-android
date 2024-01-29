@@ -10,14 +10,14 @@ import java.util.List;
 /**
  * Start Call options to start 1 to N call experience using {@link CallComposite}.
  */
-final class CallCompositeStartCallOptions {
+public class CallCompositeStartCallOptions {
     private final List<String> participants;
 
     /**
      * Creates {@link CallCompositeStartCallOptions} using participants list.
      * @param participants List of participants.
      */
-    CallCompositeStartCallOptions(final List<String> participants) {
+    public CallCompositeStartCallOptions(final List<String> participants) {
         this.participants = participants;
     }
 
@@ -25,7 +25,7 @@ final class CallCompositeStartCallOptions {
      * Get participants list.
      * @return List of participants.
      */
-    List<String> getParticipants() {
+    public List<String> getParticipants() {
         return participants;
     }
 }

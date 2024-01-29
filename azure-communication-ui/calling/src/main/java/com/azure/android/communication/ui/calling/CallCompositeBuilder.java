@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.calling;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation;
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions;
 
 /**
@@ -20,7 +21,7 @@ public final class CallCompositeBuilder {
     private CallCompositeLocalizationOptions localizationConfig = null;
     private CallCompositeSupportedScreenOrientation callScreenOrientation = null;
     private CallCompositeSupportedScreenOrientation setupScreenOrientation = null;
-    // private CallCompositeTelecomOptions telecomOptions = null;
+    private CallCompositeTelecomOptions telecomOptions = null;
     private Boolean enableMultitasking = false;
     private Boolean enableSystemPiPWhenMultitasking = false;
 
@@ -75,13 +76,12 @@ public final class CallCompositeBuilder {
      *
      * @param telecomOptions {@link CallCompositeTelecomOptions}
      * @return {@link CallCompositeBuilder} for chaining options.
-
+     */
     public CallCompositeBuilder telecom(
             final CallCompositeTelecomOptions telecomOptions) {
         this.telecomOptions = telecomOptions;
         return this;
     }
-     */
 
     /***
      * While on the call, user can go back to previous activity from the call composite.
@@ -107,7 +107,7 @@ public final class CallCompositeBuilder {
         config.setLocalizationConfig(localizationConfig);
         config.setCallScreenOrientation(this.callScreenOrientation);
         config.setSetupScreenOrientation(this.setupScreenOrientation);
-        // config.setTelecomOptions(this.telecomOptions);
+        config.setTelecomOptions(this.telecomOptions);
         config.setEnableMultitasking(enableMultitasking);
         config.setEnableSystemPiPWhenMultitasking(enableSystemPiPWhenMultitasking);
         return new CallComposite(config);

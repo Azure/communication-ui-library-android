@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.models;
 /**
  * CallCompositeIncomingCallEvent.
  */
-final class CallCompositeIncomingCallEvent {
+public final class CallCompositeIncomingCallEvent {
     private final CallCompositeIncomingCallInfo incomingCallInfo;
 
     /**
@@ -14,14 +14,14 @@ final class CallCompositeIncomingCallEvent {
      *
      * @param incomingCallInfo incoming call info.
      */
-    CallCompositeIncomingCallEvent(final CallCompositeIncomingCallInfo incomingCallInfo) {
+    public CallCompositeIncomingCallEvent(final CallCompositeIncomingCallInfo incomingCallInfo) {
         this.incomingCallInfo = incomingCallInfo;
     }
 
     /**
      * @return {@link CallCompositeIncomingCallInfo}
      */
-    CallCompositeIncomingCallInfo getIncomingCallInfo() {
+    public CallCompositeIncomingCallInfo getIncomingCallInfo() {
         return incomingCallInfo;
     }
 }

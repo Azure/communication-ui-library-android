@@ -54,5 +54,5 @@ internal class CallCompositeInstanceManager {
 }
 
 internal fun CallComposite.getConfig(): CallCompositeConfiguration {
-    return configuration
+    return this.configuration
 }
