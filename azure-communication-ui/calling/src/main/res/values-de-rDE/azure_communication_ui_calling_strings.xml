@@ -20,9 +20,9 @@
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">Mikrofon ein</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">An Anruf teilnehmen</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Ihr Audio ist deaktiviert. Um es zu aktivieren, wechseln Sie zu „Einstellungen“, um den Zugriff zuzulassen. Sie müssen
- Audio aktivieren, um diesen Anruf zu starten.</string>
+        Audio aktivieren, um diesen Anruf zu starten.</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Ihre Kamera ist deaktiviert. Wechseln Sie zum Aktivieren zu „Einstellungen“
-,         um den Zugriff zuzulassen.</string>
+        , um den Zugriff zuzulassen.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Berechtigungen erforderlich</string>
     <string name="azure_communication_ui_calling_setup_view_go_to_settings">Zu „Einstellungen“ wechseln</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Ausgewählt</string>
@@ -65,30 +65,30 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnoseinformationen</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Die Transkription hat begonnen.</b> Indem Sie sich anmelden, erklären Sie
- sich damit einverstanden, dass diese Besprechung transkribiert wird.
- <u>Datenschutzrichtlinie</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Die Aufnahme wird gespeichert.</b> Die Aufzeichnung wurde beendet.
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Die Aufzeichnung hat begonnen.</b> Mit Ihrer Teilnahme, erklären Sie
+        sich damit einverstanden, dass diese Besprechung transkribiert wird.
+         <u>Datenschutzrichtlinie</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Die Aufzeichnung wird gespeichert.</b> Die Aufzeichnung wurde beendet.
          <u>Weitere Informationen</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Die Transkription hat begonnen.</b> Indem Sie sich anmelden, erklären Sie
- sich damit einverstanden, dass dieses Treffen transkribiert wird. <u>Datenschutzrichtlinie</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Die Transkription hat begonnen.</b> Mit Ihrer Teilnahme, erklären Sie
+        sich damit einverstanden, dass diese Besprechung transkribiert wird. <u>Datenschutzrichtlinie</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Die Transkription wird gespeichert.</b> Die Transkription
         wurde beendet. <u>Weitere Informationen</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Aufzeichnung und Transkription haben
-      begonnen.</b> Mit Ihrer Teilnahme erklären Sie sich damit einverstanden, dass diese Besprechung transkribiert wird
-     . <u>Datenschutzbestimmungen</u></string>
+        begonnen.</b> Mit Ihrer Teilnahme erklären Sie sich damit einverstanden, dass diese Besprechung transkribiert wird
+        . <u>Datenschutzrichtlinie</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Aufnahme und Transkription werden
         gespeichert.</b> Aufzeichnung und Transkription wurden beendet. <u>Weitere Informationen</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Die Aufzeichnung wurde gestoppt.</b> Sie
- transkribieren jetzt nur diese Besprechung. <u>Datenschutzbestimmungen</u></string>
+        transkribieren diese Besprechung jetzt nur noch. <u>Datenschutzrichtlinie</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Die Transkription wurde beendet.
-    </b> Sie nehmen jetzt nur diese Besprechung auf. <u>Datenschutzrichtlinie</u></string>
+    </b> Sie zeichnen diese Besprechung jetzt nur auf. <u>Datenschutzrichtlinie</u></string>
     <string name="azure_communication_ui_calling_view_link">Link</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Schließen</string>
     <string name="azure_communication_ui_calling_alert_title">Warnung</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Sie wurden aufgrund eines Fehlers aus dem Anruf entfernt.</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">Möglicherweise wurden Sie aus der Besprechung entfernt oder Ihre Verbindung wurde unterbrochen. Versuchen Sie, erneut beizutreten.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Teilnahme am Anruf aufgrund eines Fehlers nicht möglich.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Sie wurden aus dem Anruf entfernt.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Teilnahme am Anruf nicht möglich. Überprüfen Sie Ihre Netzwerkverbindung.</string>
