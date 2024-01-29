@@ -8,22 +8,26 @@ package com.azure.android.communication.ui.calling.models;
  */
 public final class CallCompositeCallStateChangedEvent {
     private final CallCompositeCallStateCode code;
+    private final String callId;
     private final int callEndReasonCode;
     private final int callEndReasonSubCode;
 
     /**
-     * Create {@link CallCompositeCallStateChangedEvent} with call state.
+     * Creates a {@link CallCompositeCallStateChangedEvent} instance.
      *
-     * @param code call state {@link CallCompositeCallStateCode}.
-     * @param callEndReasonCode call end reason code.
-     * @param callEndReasonSubCode call end reason sub code.
+     * @param code the call state {@link CallCompositeCallStateCode} instance.
+     * @param callEndReasonCode the call end reason code.
+     * @param callEndReasonSubCode the call end reason sub code.
+     * @param callId the call id.
      */
     public CallCompositeCallStateChangedEvent(final CallCompositeCallStateCode code,
                                               final int callEndReasonCode,
-                                              final int callEndReasonSubCode) {
+                                              final int callEndReasonSubCode,
+                                              final String callId) {
         this.code = code;
         this.callEndReasonCode = callEndReasonCode;
         this.callEndReasonSubCode = callEndReasonSubCode;
+        this.callId = callId;
     }
 
     /**
@@ -51,5 +55,14 @@ public final class CallCompositeCallStateChangedEvent {
      */
     public Integer getCallEndReasonSubCode() {
         return callEndReasonSubCode;
+    }
+
+    /**
+     * Returns the call id.
+     *
+     * @return the call id.
+     */
+    public String getCallId() {
+        return callId;
     }
 }

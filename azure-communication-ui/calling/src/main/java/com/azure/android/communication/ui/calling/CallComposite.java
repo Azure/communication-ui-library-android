@@ -410,20 +410,20 @@ public final class CallComposite {
     }
 
     /**
-     * Add on incoming call end event handler {@link CallCompositeIncomingCallEndedEvent}.
+     * Add on incoming call ended event handler {@link CallCompositeIncomingCallEndedEvent}.
      * @param handler The {@link CallCompositeIncomingCallEndedEvent}.
      */
-    public void addOnIncomingCallEndEventHandler(
+    public void addOnIncomingCallEndedEventHandler(
             final CallCompositeEventHandler<CallCompositeIncomingCallEndedEvent> handler) {
         configuration.getCallCompositeEventsHandler().addOnIncomingCallEndEventHandler(handler);
     }
 
     /**
-     * Remove on incoming call event handler {@link CallCompositeIncomingCallEvent}.
+     * Remove on incoming call ended event handler {@link CallCompositeIncomingCallEndedEvent}.
      *
      * @param handler The {@link CallCompositeIncomingCallEndedEvent}.
      */
-    public void removeOnIncomingCallEndEventHandler(
+    public void removeOnIncomingCallEndedEventHandler(
             final CallCompositeEventHandler<CallCompositeIncomingCallEndedEvent> handler) {
         configuration.getCallCompositeEventsHandler().removeOnIncomingCallEndEventHandler(handler);
     }
@@ -556,28 +556,6 @@ public final class CallComposite {
             return container.getCallingService().resumeCall();
         }
         return null;
-    }
-
-    /**
-     * Turn on video.
-     *
-     */
-    public void turnMicOn() {
-        if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer;
-            container.getCallingService().turnMicOn();
-        }
-    }
-
-    /**
-     * Turn off video.
-     *
-     */
-    public void turnMicOff() {
-        if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer;
-            container.getCallingService().turnMicOff();
-        }
     }
 
     /**

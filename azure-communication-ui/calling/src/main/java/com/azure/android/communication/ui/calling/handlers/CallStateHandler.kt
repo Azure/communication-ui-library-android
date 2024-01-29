@@ -25,11 +25,14 @@ internal class CallStateHandler(
                 if (lastSentCallingStatus != state.callState.callingStatus) {
                     lastSentCallingStatus = state.callState.callingStatus
                     lastSentCallingStatus?.let {
-                        sendCallStateChangedEvent(
-                            it,
-                            state.callState.callEndReasonCode,
-                            state.callState.callEndReasonSubCode
-                        )
+                        state.callState.callId?.let { callID ->
+                            sendCallStateChangedEvent(
+                                it,
+                                callID,
+                                state.callState.callEndReasonCode,
+                                state.callState.callEndReasonSubCode,
+                            )
+                        }
                     }
                 }
             }
@@ -42,8 +45,9 @@ internal class CallStateHandler(
 
     private fun sendCallStateChangedEvent(
         status: CallingStatus,
+        callID: String,
         callEndReasonCode: Int?,
-        callEndReasonSubCode: Int?
+        callEndReasonSubCode: Int?,
     ) {
         try {
             configuration.callCompositeEventsHandler.getCallStateHandler().forEach {
@@ -51,7 +55,8 @@ internal class CallStateHandler(
                     CallCompositeCallStateChangedEvent(
                         status.callCompositeCallState(),
                         callEndReasonCode ?: 0,
-                        callEndReasonSubCode ?: 0
+                        callEndReasonSubCode ?: 0,
+                        callID
                     )
                 )
             }

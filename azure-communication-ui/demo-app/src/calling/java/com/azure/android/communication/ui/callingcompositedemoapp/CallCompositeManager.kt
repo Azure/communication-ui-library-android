@@ -386,7 +386,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         errorHandler = ErrorEventHandler(this)
 
         callComposite?.addOnIncomingCallEventHandler(incomingCallEventHandler)
-        callComposite?.addOnIncomingCallEndEventHandler(incomingCallEndEvent)
+        callComposite?.addOnIncomingCallEndedEventHandler(incomingCallEndEvent)
         callComposite?.addOnPictureInPictureChangedEventHandler(callCompositePictureInPictureChangedEvent!!)
         callComposite?.addOnErrorEventHandler(errorHandler)
         callComposite?.addOnRemoteParticipantJoinedEventHandler(remoteParticipantJoinedEvent)
@@ -404,7 +404,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
             composite.removeOnDismissedEventHandler(exitEventHandler)
             composite.removeOnAudioSelectionChangedEventHandler(audioSelectionChangedEvent)
             composite.removeOnIncomingCallEventHandler(incomingCallEventHandler)
-            composite.removeOnIncomingCallEndEventHandler(incomingCallEndEvent)
+            composite.removeOnIncomingCallEndedEventHandler(incomingCallEndEvent)
         }
     }
 
