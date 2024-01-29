@@ -417,25 +417,143 @@ public final class CallComposite {
     }
 
     /**
-     * Start audio session
+     * Remove on incoming call event handler {@link CallCompositeIncomingCallEvent}.
      *
+     * @param handler The {@link CallCompositeIncomingCallEndedEvent}.
      */
-    public void startAudio() {
-        if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer;
-            container.getCallingService().startAudio();
-        }
+    public void removeOnIncomingCallEndEventHandler(
+            final CallCompositeEventHandler<CallCompositeIncomingCallEndedEvent> handler) {
+        configuration.getCallCompositeEventsHandler().removeOnIncomingCallEndEventHandler(handler);
     }
 
     /**
-     * Stop audio session.
+     * Start incoming audio.
      *
+     * @return {@link CompletableFuture} of {@link Void}.
      */
-    public void stopAudio() {
+    public CompletableFuture<Void>  startIncomingAudio() {
         if (diContainer != null) {
             final DependencyInjectionContainer container = diContainer;
-            container.getCallingService().stopAudio();
+            return container.getCallingService().startIncomingAudio();
         }
+        return null;
+    }
+
+    /**
+     * Stop incoming audio.
+     *
+     * @return {@link CompletableFuture} of {@link Void}.
+     */
+    public CompletableFuture<Void>  stopIncomingAudio() {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer;
+            return container.getCallingService().stopIncomingAudio();
+        }
+        return null;
+    }
+
+    /**
+     * Start outgoing audio.
+     *
+     * @return {@link CompletableFuture} of {@link Void}.
+     */
+    public CompletableFuture<Void>  startOutgoingAudio() {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer;
+            return container.getCallingService().startOutgoingAudio();
+        }
+        return null;
+    }
+
+    /**
+     * Stop outgoing audio.
+     *
+     * @return {@link CompletableFuture} of {@link Void}.
+     */
+    public CompletableFuture<Void>  stopOutgoingAudio() {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer;
+            return container.getCallingService().stopOutgoingAudio();
+        }
+        return null;
+    }
+
+    /**
+     * Mute incoming audio.
+     *
+     * @return {@link CompletableFuture} of {@link Void}.
+     */
+    public CompletableFuture<Void>  muteIncomingAudio() {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer;
+            return container.getCallingService().muteIncomingAudio();
+        }
+        return null;
+    }
+
+    /**
+     * Un mute incoming audio.
+     *
+     * @return {@link CompletableFuture} of {@link Void}.
+     */
+    public CompletableFuture<Void>  unmuteIncomingAudio() {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer;
+            return container.getCallingService().unmuteIncomingAudio();
+        }
+        return null;
+    }
+
+    /**
+     * Mute outgoing audio.
+     *
+     * @return {@link CompletableFuture} of {@link Void}.
+     */
+    public CompletableFuture<Void>  muteOutgoingAudio() {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer;
+            return container.getCallingService().muteOutgoingAudio();
+        }
+        return null;
+    }
+
+    /**
+     * Un mute outgoing audio.
+     *
+     * @return {@link CompletableFuture} of {@link Void}.
+     */
+    public CompletableFuture<Void>  unmuteOutgoingAudio() {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer;
+            return container.getCallingService().unmuteOutgoingAudio();
+        }
+        return null;
+    }
+
+    /**
+     * Hold call.
+     *
+     * @return {@link CompletableFuture} of {@link Void}.
+     */
+    public CompletableFuture<Void>  holdCall() {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer;
+            return container.getCallingService().holdCall();
+        }
+        return null;
+    }
+
+    /**
+     * Resume call.
+     *
+     * @return {@link CompletableFuture} of {@link Void}.
+     */
+    public CompletableFuture<Void>  resumeCall() {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer;
+            return container.getCallingService().resumeCall();
+        }
+        return null;
     }
 
     /**
@@ -461,7 +579,7 @@ public final class CallComposite {
     }
 
     /**
-     * Turn on video.
+     * Hold active call.
      *
      */
     public void hold() {
@@ -472,7 +590,7 @@ public final class CallComposite {
     }
 
     /**
-     * Turn off video.
+     * Resume active call.
      *
      */
     public void resume() {
@@ -480,16 +598,6 @@ public final class CallComposite {
             final DependencyInjectionContainer container = diContainer;
             container.getCallingService().resume();
         }
-    }
-
-    /**
-     * Remove on incoming call event handler {@link CallCompositeIncomingCallEvent}.
-     *
-     * @param handler The {@link CallCompositeIncomingCallEndedEvent}.
-     */
-    public void removeOnIncomingCallEndEventHandler(
-            final CallCompositeEventHandler<CallCompositeIncomingCallEndedEvent> handler) {
-        configuration.getCallCompositeEventsHandler().removeOnIncomingCallEndEventHandler(handler);
     }
 
     /**

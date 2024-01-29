@@ -151,18 +151,124 @@ internal class CallingSDKWrapper(
         return call.resume()
     }
 
-    override fun startAudio() {
-        call.startAudio(context, call.activeIncomingAudioStream)
-        call.startAudio(context, call.activeOutgoingAudioStream)
-        call.unmuteIncomingAudio(context)
-        call.unmuteOutgoingAudio(context)
+    override fun startIncomingAudio(): java.util.concurrent.CompletableFuture<Void> {
+        val future = java.util.concurrent.CompletableFuture<Void>()
+        call.startAudio(context, call.activeIncomingAudioStream).whenComplete { result, error ->
+            if (error != null) {
+                future.completeExceptionally(error)
+            } else {
+                future.complete(result)
+            }
+        }
+        return future
     }
 
-    override fun stopAudio() {
-        call.stopAudio(context, call.activeIncomingAudioStream)
-        call.stopAudio(context, call.activeOutgoingAudioStream)
-        call.muteIncomingAudio(context)
-        call.muteOutgoingAudio(context)
+    override fun startOutgoingAudio(): java.util.concurrent.CompletableFuture<Void> {
+        val future = java.util.concurrent.CompletableFuture<Void>()
+        call.startAudio(context, call.activeOutgoingAudioStream).whenComplete { result, error ->
+            if (error != null) {
+                future.completeExceptionally(error)
+            } else {
+                future.complete(result)
+            }
+        }
+        return future
+    }
+
+    override fun unmuteIncomingAudio(): java.util.concurrent.CompletableFuture<Void> {
+        val future = java.util.concurrent.CompletableFuture<Void>()
+        call.unmuteIncomingAudio(context).whenComplete { result, error ->
+            if (error != null) {
+                future.completeExceptionally(error)
+            } else {
+                future.complete(result)
+            }
+        }
+        return future
+    }
+
+    override fun unmuteOutgoingAudio(): java.util.concurrent.CompletableFuture<Void> {
+        val future = java.util.concurrent.CompletableFuture<Void>()
+        call.unmuteOutgoingAudio(context).whenComplete { result, error ->
+            if (error != null) {
+                future.completeExceptionally(error)
+            } else {
+                future.complete(result)
+            }
+        }
+        return future
+    }
+
+    override fun stopIncomingAudio(): java.util.concurrent.CompletableFuture<Void> {
+        val future = java.util.concurrent.CompletableFuture<Void>()
+        call.stopAudio(context, call.activeIncomingAudioStream).whenComplete { result, error ->
+            if (error != null) {
+                future.completeExceptionally(error)
+            } else {
+                future.complete(result)
+            }
+        }
+        return future
+    }
+
+    override fun stopOutgoingAudio(): java.util.concurrent.CompletableFuture<Void> {
+        val future = java.util.concurrent.CompletableFuture<Void>()
+        call.stopAudio(context, call.activeOutgoingAudioStream).whenComplete { result, error ->
+            if (error != null) {
+                future.completeExceptionally(error)
+            } else {
+                future.complete(result)
+            }
+        }
+        return future
+    }
+
+    override fun muteIncomingAudio(): java.util.concurrent.CompletableFuture<Void> {
+        val future = java.util.concurrent.CompletableFuture<Void>()
+        call.muteIncomingAudio(context).whenComplete { result, error ->
+            if (error != null) {
+                future.completeExceptionally(error)
+            } else {
+                future.complete(result)
+            }
+        }
+        return future
+    }
+
+    override fun muteOutgoingAudio(): java.util.concurrent.CompletableFuture<Void> {
+        val future = java.util.concurrent.CompletableFuture<Void>()
+        call.muteOutgoingAudio(context).whenComplete { result, error ->
+            if (error != null) {
+                future.completeExceptionally(error)
+            } else {
+                future.complete(result)
+            }
+        }
+        return future
+    }
+
+    override fun holdCall(): java.util.concurrent.CompletableFuture<Void> {
+        val future = java.util.concurrent.CompletableFuture<Void>()
+        call.hold().whenComplete { result, error ->
+            if (error != null) {
+                future.completeExceptionally(error)
+            } else {
+                future.complete(result)
+            }
+        }
+        return future
+    }
+
+    override fun resumeCall(): java.util.concurrent.CompletableFuture<Void> {
+        val future = java.util.concurrent.CompletableFuture<Void>()
+        call.resume().whenComplete { result, error ->
+            if (error != null) {
+                future.completeExceptionally(error)
+            } else {
+                future.complete(result)
+            }
+        }
+        return future
     }
 
     override fun endCall(): CompletableFuture<Void> {

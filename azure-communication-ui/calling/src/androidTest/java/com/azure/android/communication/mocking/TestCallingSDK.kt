@@ -327,12 +327,6 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         return completedNullFuture()
     }
 
-    override fun startAudio() {
-    }
-
-    override fun stopAudio() {
-    }
-
     override fun getLocalVideoStream(): CompletableFuture<LocalVideoStream> {
         return completedFuture(LocalVideoStreamTest(callEvents, localCameraFacing, coroutineScope))
     }
@@ -407,6 +401,46 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
 
     override fun getMediaCallDiagnosticSharedFlow(): SharedFlow<MediaCallDiagnosticModel> {
         return mediaCallDiagnosticSharedFlow
+    }
+
+    override fun startIncomingAudio(): java.util.concurrent.CompletableFuture<Void> {
+        TODO("Not yet implemented")
+    }
+
+    override fun startOutgoingAudio(): java.util.concurrent.CompletableFuture<Void> {
+        TODO("Not yet implemented")
+    }
+
+    override fun muteIncomingAudio(): java.util.concurrent.CompletableFuture<Void> {
+        TODO("Not yet implemented")
+    }
+
+    override fun unmuteIncomingAudio(): java.util.concurrent.CompletableFuture<Void> {
+        TODO("Not yet implemented")
+    }
+
+    override fun unmuteOutgoingAudio(): java.util.concurrent.CompletableFuture<Void> {
+        TODO("Not yet implemented")
+    }
+
+    override fun stopIncomingAudio(): java.util.concurrent.CompletableFuture<Void> {
+        TODO("Not yet implemented")
+    }
+
+    override fun stopOutgoingAudio(): java.util.concurrent.CompletableFuture<Void> {
+        TODO("Not yet implemented")
+    }
+
+    override fun muteOutgoingAudio(): java.util.concurrent.CompletableFuture<Void> {
+        TODO("Not yet implemented")
+    }
+
+    override fun holdCall(): java.util.concurrent.CompletableFuture<Void> {
+        TODO("Not yet implemented")
+    }
+
+    override fun resumeCall(): java.util.concurrent.CompletableFuture<Void> {
+        TODO("Not yet implemented")
     }
 
     private fun RemoteVideoStream.asVideoStreamModel(): VideoStreamModel {

@@ -45,9 +45,6 @@ internal interface CallingSDK {
     fun hold(): CompletableFuture<Void>
     fun resume(): CompletableFuture<Void>
 
-    fun startAudio()
-    fun stopAudio()
-
     // State.
     fun getLocalVideoStream(): CompletableFuture<LocalVideoStream>
     fun getRemoteParticipantsMap(): Map<String, RemoteParticipant>
@@ -72,6 +69,16 @@ internal interface CallingSDK {
     fun getNetworkCallDiagnosticSharedFlow(): SharedFlow<NetworkCallDiagnosticModel>
     fun getMediaCallDiagnosticSharedFlow(): SharedFlow<MediaCallDiagnosticModel>
     //endregion
+    fun startIncomingAudio(): java.util.concurrent.CompletableFuture<Void>
+    fun startOutgoingAudio(): java.util.concurrent.CompletableFuture<Void>
+    fun muteIncomingAudio(): java.util.concurrent.CompletableFuture<Void>
+    fun unmuteIncomingAudio(): java.util.concurrent.CompletableFuture<Void>
+    fun unmuteOutgoingAudio(): java.util.concurrent.CompletableFuture<Void>
+    fun stopIncomingAudio(): java.util.concurrent.CompletableFuture<Void>
+    fun stopOutgoingAudio(): java.util.concurrent.CompletableFuture<Void>
+    fun muteOutgoingAudio(): java.util.concurrent.CompletableFuture<Void>
+    fun holdCall(): java.util.concurrent.CompletableFuture<Void>
+    fun resumeCall(): java.util.concurrent.CompletableFuture<Void>
 }
 
 internal interface RemoteParticipant {

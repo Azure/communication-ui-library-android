@@ -91,12 +91,44 @@ internal class CallingService(
         return callingSdk.turnOnMicAsync()
     }
 
-    fun startAudio() {
-        callingSdk.startAudio()
+    fun startIncomingAudio(): java.util.concurrent.CompletableFuture<Void> {
+        return callingSdk.startIncomingAudio()
     }
 
-    fun stopAudio() {
-        callingSdk.stopAudio()
+    fun startOutgoingAudio(): java.util.concurrent.CompletableFuture<Void> {
+        return callingSdk.startOutgoingAudio()
+    }
+
+    fun muteIncomingAudio(): java.util.concurrent.CompletableFuture<Void> {
+        return callingSdk.muteIncomingAudio()
+    }
+
+    fun unmuteIncomingAudio(): java.util.concurrent.CompletableFuture<Void> {
+        return callingSdk.unmuteIncomingAudio()
+    }
+
+    fun unmuteOutgoingAudio(): java.util.concurrent.CompletableFuture<Void> {
+        return callingSdk.unmuteOutgoingAudio()
+    }
+
+    fun stopIncomingAudio(): java.util.concurrent.CompletableFuture<Void> {
+        return callingSdk.stopIncomingAudio()
+    }
+
+    fun stopOutgoingAudio(): java.util.concurrent.CompletableFuture<Void> {
+        return callingSdk.stopOutgoingAudio()
+    }
+
+    fun muteOutgoingAudio(): java.util.concurrent.CompletableFuture<Void> {
+        return callingSdk.muteOutgoingAudio()
+    }
+
+    fun holdCall(): java.util.concurrent.CompletableFuture<Void> {
+        return callingSdk.holdCall()
+    }
+
+    fun resumeCall(): java.util.concurrent.CompletableFuture<Void> {
+        return callingSdk.resumeCall()
     }
 
     fun turnLocalCameraOn(): CompletableFuture<String> {
