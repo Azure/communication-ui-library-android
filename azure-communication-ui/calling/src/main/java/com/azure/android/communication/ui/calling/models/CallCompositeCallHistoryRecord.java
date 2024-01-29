@@ -33,4 +33,13 @@ public class CallCompositeCallHistoryRecord {
     public List<String> getCallIds() {
         return callIds;
     }
+
+    @Override
+    public String toString() {
+        return "CallCompositeCallHistoryRecord{" +
+                "callStartedOn=" + callStartedOn +
+                ", callIds=" + callIds +
+                '}';
+    }
+
 }

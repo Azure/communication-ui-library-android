@@ -184,7 +184,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation 'com.google.firebase:firebase-messaging'
-
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
     androidTestImplementation('com.microsoft.appcenter:espresso-test-extension:1.4')
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     androidTestImplementation 'net.java.dev.jna:jna:5.10.0'

@@ -159,7 +159,7 @@ class CallLauncherViewModel : ViewModel(), OnErrorEventHandler {
         callComposite?.addOnCallStateChangedEventHandler(callStateEventHandler)
         callComposite?.addOnDismissedEventHandler(exitEventHandler)
 
-//        audioSelectionChangedEvent = AudioSelectionSelection()
+        // audioSelectionChangedEvent = AudioSelectionSelection()
         // callComposite?.addOnAudioSelectionChangedEventHandler(audioSelectionChangedEvent!!)
         callComposite?.addOnUserReportedEventHandler(userReportedIssueEventHandler)
     }
