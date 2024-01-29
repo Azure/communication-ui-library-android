@@ -35,7 +35,7 @@ internal class SupportView : FrameLayout {
             setContentView(this@SupportView)
             setCanceledOnTouchOutside(true)
             setFade(0.5f)
-        } 
+        }
     }
 
     constructor(context: Context) : super(context) {

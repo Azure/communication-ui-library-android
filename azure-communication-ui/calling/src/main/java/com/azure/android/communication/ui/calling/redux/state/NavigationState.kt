@@ -10,4 +10,4 @@ internal enum class NavigationStatus {
     EXIT,
 }
 
-internal data class NavigationState(val navigationState: NavigationStatus)
+internal data class NavigationState(val navigationState: NavigationStatus, val supportVisible: Boolean = false)

@@ -76,7 +76,7 @@ internal class DependencyInjectionContainerHolder(
                 application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants),
                 container.debugInfoManager,
                 container.configuration.enableMultitasking,
-                // container.configuration.telecomOptions != null
+                showSupportFormOption = container.configuration.callCompositeEventsHandler.getOnUserReportedHandlers().toList().isNotEmpty(),
             ),
             container.networkManager,
             callType,
