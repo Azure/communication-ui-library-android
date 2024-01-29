@@ -272,6 +272,8 @@ public final class CallComposite {
     /**
      * Accept incoming call.
      *
+     * @param context The {@link Context}.
+     * @param localOptions The {@link CallCompositeLocalOptions}.
      */
     public void acceptIncomingCall(final Context context,
                                    final CallCompositeLocalOptions localOptions) {
@@ -535,7 +537,7 @@ public final class CallComposite {
      *
      * @return {@link CompletableFuture} of {@link Void}.
      */
-    public CompletableFuture<Void>  holdCall() {
+    public CompletableFuture<Void>  hold() {
         if (diContainer != null) {
             final DependencyInjectionContainer container = diContainer;
             return container.getCallingService().holdCall();
@@ -548,7 +550,7 @@ public final class CallComposite {
      *
      * @return {@link CompletableFuture} of {@link Void}.
      */
-    public CompletableFuture<Void>  resumeCall() {
+    public CompletableFuture<Void>  resume() {
         if (diContainer != null) {
             final DependencyInjectionContainer container = diContainer;
             return container.getCallingService().resumeCall();
@@ -575,28 +577,6 @@ public final class CallComposite {
         if (diContainer != null) {
             final DependencyInjectionContainer container = diContainer;
             container.getCallingService().turnMicOff();
-        }
-    }
-
-    /**
-     * Hold active call.
-     *
-     */
-    public void hold() {
-        if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer;
-            container.getCallingService().hold();
-        }
-    }
-
-    /**
-     * Resume active call.
-     *
-     */
-    public void resume() {
-        if (diContainer != null) {
-            final DependencyInjectionContainer container = diContainer;
-            container.getCallingService().resume();
         }
     }
 

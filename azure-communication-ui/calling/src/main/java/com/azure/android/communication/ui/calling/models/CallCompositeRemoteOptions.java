@@ -73,17 +73,31 @@ public final class CallCompositeRemoteOptions {
     /**
      * Create {@link CallCompositeRemoteOptions}.
      *
-     * @param pushNotificationInfo {@link CallCompositePushNotificationInfo}.
+     * @param info {@link CallCompositePushNotificationInfo}.
      * @param credential {@link CommunicationTokenCredential}.
      * @param displayName User display name other call participants will see.
      */
     public CallCompositeRemoteOptions(
-            final CallCompositePushNotificationInfo pushNotificationInfo,
+            final CallCompositePushNotificationInfo info,
             final CommunicationTokenCredential credential,
             final String displayName) {
         this.credential = credential;
-        this.pushNotificationInfo = pushNotificationInfo;
+        this.pushNotificationInfo = info;
         this.displayName = displayName;
+    }
+
+    /**
+     * Create {@link CallCompositeRemoteOptions}.
+     *
+     * @param info {@link CallCompositePushNotificationInfo}.
+     * @param credential {@link CommunicationTokenCredential}.
+     */
+    public CallCompositeRemoteOptions(
+            final CallCompositePushNotificationInfo info,
+            final CommunicationTokenCredential credential) {
+        this.credential = credential;
+        this.pushNotificationInfo = info;
+        this.displayName = "";
     }
 
     /**
