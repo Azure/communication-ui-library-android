@@ -53,4 +53,6 @@ internal class AppReduxState(
     override var navigationState: NavigationState = NavigationState(NavigationStatus.NONE)
 
     override var audioSessionState: AudioSessionState = AudioSessionState(audioFocusStatus = null)
+
+    override var callDiagnosticsState: CallDiagnosticsState = CallDiagnosticsState(networkQualityCallDiagnostic = null, networkCallDiagnostic = null, mediaCallDiagnostic = null)
 }

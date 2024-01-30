@@ -5,8 +5,13 @@ package com.azure.android.communication.ui.calling.service.sdk
 
 import com.azure.android.communication.calling.Call
 import com.azure.android.communication.calling.CallState
+import com.azure.android.communication.calling.DiagnosticFlagChangedListener
+import com.azure.android.communication.calling.DiagnosticQualityChangedListener
 import com.azure.android.communication.calling.DominantSpeakersCallFeature
+import com.azure.android.communication.calling.LocalUserDiagnosticsCallFeature
+import com.azure.android.communication.calling.MediaDiagnostics
 import com.azure.android.communication.calling.MediaStreamType
+import com.azure.android.communication.calling.NetworkDiagnostics
 import com.azure.android.communication.calling.ParticipantsUpdatedEvent
 import com.azure.android.communication.calling.ParticipantsUpdatedListener
 import com.azure.android.communication.calling.PropertyChangedListener
@@ -15,6 +20,13 @@ import com.azure.android.communication.calling.RemoteParticipant
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.TranscriptionCallFeature
 import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
+import com.azure.android.communication.ui.calling.models.CallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
+import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
+import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.NetworkCallDiagnostic
+import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import kotlinx.coroutines.CoroutineScope
@@ -47,6 +59,12 @@ internal class CallingSDKEventHandler(
     private var remoteParticipantsInfoModelSharedFlow =
         MutableSharedFlow<Map<String, ParticipantInfoModel>>()
 
+    //region Call Diagnostics
+    private var networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
+    private var networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
+    private var mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+    //endregion
+
     private val remoteParticipantsInfoModelMap = mutableMapOf<String, ParticipantInfoModel>()
     private val videoStreamsUpdatedListenersMap =
         mutableMapOf<String, RemoteVideoStreamsUpdatedListener>()
@@ -60,6 +78,9 @@ internal class CallingSDKEventHandler(
     private lateinit var recordingFeature: RecordingCallFeature
     private lateinit var transcriptionFeature: TranscriptionCallFeature
     private lateinit var dominantSpeakersCallFeature: DominantSpeakersCallFeature
+
+    private var networkDiagnostics: NetworkDiagnostics? = null
+    private var mediaDiagnostics: MediaDiagnostics? = null
 
     fun getRemoteParticipantsMap(): Map<String, RemoteParticipant> = remoteParticipantsCacheMap
 
@@ -77,6 +98,11 @@ internal class CallingSDKEventHandler(
     fun getCallParticipantRoleSharedFlow(): SharedFlow<CallCompositeInternalParticipantRole?> =
         callParticipantRoleSharedFlow
 
+    // region Call Diagnostics
+    fun getNetworkQualityCallDiagnosticsSharedFlow(): SharedFlow<NetworkQualityCallDiagnosticModel> = networkQualityCallDiagnosticsSharedFlow
+    fun getNetworkCallDiagnosticsSharedFlow(): SharedFlow<NetworkCallDiagnosticModel> = networkCallDiagnosticsSharedFlow
+    fun getMediaCallDiagnosticsSharedFlow(): SharedFlow<MediaCallDiagnosticModel> = mediaCallDiagnosticsSharedFlow
+    //endregion
     fun getDominantSpeakersSharedFlow(): SharedFlow<DominantSpeakersInfo> = dominantSpeakersSharedFlow
 
     @OptIn(FlowPreview::class)
@@ -100,6 +126,7 @@ internal class CallingSDKEventHandler(
         transcriptionFeature.addOnIsTranscriptionActiveChangedListener(onTranscriptionChanged)
         dominantSpeakersCallFeature = call.feature { DominantSpeakersCallFeature::class.java }
         dominantSpeakersCallFeature.addOnDominantSpeakersChangedListener(onDominantSpeakersChanged)
+        subscribeToUserFacingDiagnosticsEvents()
     }
 
     fun onEndCall() {
@@ -123,6 +150,7 @@ internal class CallingSDKEventHandler(
         dominantSpeakersCallFeature.removeOnDominantSpeakersChangedListener(onDominantSpeakersChanged)
         call?.removeOnRoleChangedListener(onRoleChanged)
         call?.removeOnIsMutedChangedListener(onIsMutedChanged)
+        unsubscribeFromUserFacingDiagnosticsEvents()
     }
 
     private val onCallStateChanged =
@@ -150,6 +178,143 @@ internal class CallingSDKEventHandler(
             onTranscriptionChanged()
         }
 
+    //region Call Diagnostics
+    private val onNetworkReconnectionQualityChanged = DiagnosticQualityChangedListener {
+        coroutineScope.launch {
+            val model =
+                CallDiagnosticModel(NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY, CallDiagnosticQuality.valueOf(it.value.toString()))
+            networkQualityCallDiagnosticsSharedFlow.emit(model)
+        }
+    }
+
+    private val onNetworkReceiveQualityChanged = DiagnosticQualityChangedListener {
+        coroutineScope.launch {
+            val model =
+                CallDiagnosticModel(NetworkCallDiagnostic.NETWORK_RECEIVE_QUALITY, CallDiagnosticQuality.valueOf(it.value.toString()))
+            networkQualityCallDiagnosticsSharedFlow.emit(model)
+        }
+    }
+
+    private val onNetworkSendQualityChanged = DiagnosticQualityChangedListener {
+        coroutineScope.launch {
+            val model =
+                CallDiagnosticModel(NetworkCallDiagnostic.NETWORK_SEND_QUALITY, CallDiagnosticQuality.valueOf(it.value.toString()))
+            networkQualityCallDiagnosticsSharedFlow.emit(model)
+        }
+    }
+
+    private val onIsNetworkUnavailableChanged = DiagnosticFlagChangedListener {
+        coroutineScope.launch {
+            val model = CallDiagnosticModel(NetworkCallDiagnostic.NETWORK_UNAVAILABLE, it.value)
+            networkCallDiagnosticsSharedFlow.emit(model)
+        }
+    }
+
+    private val onIsNetworkRelaysUnreachableChanged = DiagnosticFlagChangedListener {
+        coroutineScope.launch {
+            val model = CallDiagnosticModel(NetworkCallDiagnostic.NETWORK_RELAYS_UNREACHABLE, it.value)
+            networkCallDiagnosticsSharedFlow.emit(model)
+        }
+    }
+
+    private val onIsSpeakerNotFunctioningChanged = DiagnosticFlagChangedListener {
+        coroutineScope.launch {
+            val model = CallDiagnosticModel(MediaCallDiagnostic.SPEAKER_NOT_FUNCTIONING, it.value)
+            mediaCallDiagnosticsSharedFlow.emit(model)
+        }
+    }
+
+    private val onIsSpeakerBusyChanged = DiagnosticFlagChangedListener {
+        coroutineScope.launch {
+            val model = CallDiagnosticModel(MediaCallDiagnostic.SPEAKER_BUSY, it.value)
+            mediaCallDiagnosticsSharedFlow.emit(model)
+        }
+    }
+
+    private val onIsSpeakerMutedChanged = DiagnosticFlagChangedListener {
+        coroutineScope.launch {
+            val model = CallDiagnosticModel(MediaCallDiagnostic.SPEAKER_MUTED, it.value)
+            mediaCallDiagnosticsSharedFlow.emit(model)
+        }
+    }
+
+    private val onIsSpeakerVolumeZeroChanged = DiagnosticFlagChangedListener {
+        coroutineScope.launch {
+            val model = CallDiagnosticModel(MediaCallDiagnostic.SPEAKER_VOLUME_ZERO, it.value)
+            mediaCallDiagnosticsSharedFlow.emit(model)
+        }
+    }
+
+    private val onIsNoSpeakerDevicesAvailableChanged = DiagnosticFlagChangedListener {
+        coroutineScope.launch {
+            val model = CallDiagnosticModel(MediaCallDiagnostic.NO_SPEAKER_DEVICES_AVAILABLE, it.value)
+            mediaCallDiagnosticsSharedFlow.emit(model)
+        }
+    }
+
+    private val onIsSpeakingWhileMicrophoneIsMutedChanged = DiagnosticFlagChangedListener {
+        coroutineScope.launch {
+            val model = CallDiagnosticModel(MediaCallDiagnostic.SPEAKING_WHILE_MICROPHONE_IS_MUTED, it.value)
+            mediaCallDiagnosticsSharedFlow.emit(model)
+        }
+    }
+
+    private val onIsMicrophoneNotFunctioningChanged = DiagnosticFlagChangedListener {
+        coroutineScope.launch {
+            val model = CallDiagnosticModel(MediaCallDiagnostic.MICROPHONE_NOT_FUNCTIONING, it.value)
+            mediaCallDiagnosticsSharedFlow.emit(model)
+        }
+    }
+
+    private val onIsMicrophoneBusyChanged = DiagnosticFlagChangedListener {
+        coroutineScope.launch {
+            val model = CallDiagnosticModel(MediaCallDiagnostic.MICROPHONE_BUSY, it.value)
+            mediaCallDiagnosticsSharedFlow.emit(model)
+        }
+    }
+
+    private val onIsMicrophoneMutedUnexpectedlyChanged = DiagnosticFlagChangedListener {
+        coroutineScope.launch {
+            val model = CallDiagnosticModel(MediaCallDiagnostic.MICROPHONE_MUTED_UNEXPECTEDLY, it.value)
+            mediaCallDiagnosticsSharedFlow.emit(model)
+        }
+    }
+
+    private val onIsNoMicrophoneDevicesAvailableChanged = DiagnosticFlagChangedListener {
+        coroutineScope.launch {
+            val model = CallDiagnosticModel(MediaCallDiagnostic.NO_MICROPHONE_DEVICES_AVAILABLE, it.value)
+            mediaCallDiagnosticsSharedFlow.emit(model)
+        }
+    }
+
+    private val onIsCameraFrozenChanged = DiagnosticFlagChangedListener {
+        coroutineScope.launch {
+            val model = CallDiagnosticModel(MediaCallDiagnostic.CAMERA_FROZEN, it.value)
+            mediaCallDiagnosticsSharedFlow.emit(model)
+        }
+    }
+
+    private val onIsCameraStartFailedChanged = DiagnosticFlagChangedListener {
+        coroutineScope.launch {
+            val model = CallDiagnosticModel(MediaCallDiagnostic.CAMERA_START_FAILED, it.value)
+            mediaCallDiagnosticsSharedFlow.emit(model)
+        }
+    }
+
+    private val onIsCameraStartTimedOutChanged = DiagnosticFlagChangedListener {
+        coroutineScope.launch {
+            val model = CallDiagnosticModel(MediaCallDiagnostic.CAMERA_START_TIMED_OUT, it.value)
+            mediaCallDiagnosticsSharedFlow.emit(model)
+        }
+    }
+
+    private val onIsCameraPermissionDeniedChanged = DiagnosticFlagChangedListener {
+        coroutineScope.launch {
+            val model = CallDiagnosticModel(MediaCallDiagnostic.CAMERA_PERMISSION_DENIED, it.value)
+            mediaCallDiagnosticsSharedFlow.emit(model)
+        }
+    }
+    //endregion
     private val onDominantSpeakersChanged =
         PropertyChangedListener {
             onDominantSpeakersChanged()
@@ -379,5 +544,59 @@ internal class CallingSDKEventHandler(
         callingStateWrapperSharedFlow = MutableSharedFlow()
         callIdSharedFlow = MutableStateFlow(null)
         remoteParticipantsInfoModelSharedFlow = MutableSharedFlow()
+
+        //region Call Diagnostics
+        networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow()
+        networkCallDiagnosticsSharedFlow = MutableSharedFlow()
+        mediaCallDiagnosticsSharedFlow = MutableSharedFlow()
+        //endregion
+    }
+
+    private fun subscribeToUserFacingDiagnosticsEvents() {
+        networkDiagnostics = this.call?.feature { LocalUserDiagnosticsCallFeature::class.java }?.networkDiagnostics
+        networkDiagnostics?.addOnNetworkReconnectionQualityChangedListener(onNetworkReconnectionQualityChanged)
+        networkDiagnostics?.addOnNetworkReceiveQualityChangedListener(onNetworkReceiveQualityChanged)
+        networkDiagnostics?.addOnNetworkSendQualityChangedListener(onNetworkSendQualityChanged)
+        networkDiagnostics?.addOnIsNetworkUnavailableChangedListener(onIsNetworkUnavailableChanged)
+        networkDiagnostics?.addOnIsNetworkRelaysUnreachableChangedListener(onIsNetworkRelaysUnreachableChanged)
+
+        mediaDiagnostics = call?.feature { LocalUserDiagnosticsCallFeature::class.java }?.mediaDiagnostics
+        mediaDiagnostics?.addOnIsSpeakerNotFunctioningChangedListener(onIsSpeakerNotFunctioningChanged)
+        mediaDiagnostics?.addOnIsSpeakerBusyChangedListener(onIsSpeakerBusyChanged)
+        mediaDiagnostics?.addOnIsSpeakerMutedChangedListener(onIsSpeakerMutedChanged)
+        mediaDiagnostics?.addOnIsSpeakerVolumeZeroChangedListener(onIsSpeakerVolumeZeroChanged)
+        mediaDiagnostics?.addOnIsNoSpeakerDevicesAvailableChangedListener(onIsNoSpeakerDevicesAvailableChanged)
+        mediaDiagnostics?.addOnIsSpeakingWhileMicrophoneIsMutedChangedListener(onIsSpeakingWhileMicrophoneIsMutedChanged)
+        mediaDiagnostics?.addOnIsMicrophoneNotFunctioningChangedListener(onIsMicrophoneNotFunctioningChanged)
+        mediaDiagnostics?.addOnIsMicrophoneBusyChangedListener(onIsMicrophoneBusyChanged)
+        mediaDiagnostics?.addOnIsMicrophoneMutedUnexpectedlyChangedListener(onIsMicrophoneMutedUnexpectedlyChanged)
+        mediaDiagnostics?.addOnIsNoMicrophoneDevicesAvailableChangedListener(onIsNoMicrophoneDevicesAvailableChanged)
+        mediaDiagnostics?.addOnIsCameraFrozenChangedListener(onIsCameraFrozenChanged)
+        mediaDiagnostics?.addOnIsCameraStartFailedChangedListener(onIsCameraStartFailedChanged)
+        mediaDiagnostics?.addOnIsCameraStartTimedOutChangedListener(onIsCameraStartTimedOutChanged)
+        mediaDiagnostics?.addOnIsCameraPermissionDeniedChangedListener(onIsCameraPermissionDeniedChanged)
+    }
+
+    private fun unsubscribeFromUserFacingDiagnosticsEvents() {
+        networkDiagnostics?.removeOnNetworkReconnectionQualityChangedListener(onNetworkReconnectionQualityChanged)
+        networkDiagnostics?.removeOnNetworkReceiveQualityChangedListener(onNetworkReceiveQualityChanged)
+        networkDiagnostics?.removeOnNetworkSendQualityChangedListener(onNetworkSendQualityChanged)
+        networkDiagnostics?.removeOnIsNetworkUnavailableChangedListener(onIsNetworkUnavailableChanged)
+        networkDiagnostics?.removeOnIsNetworkRelaysUnreachableChangedListener(onIsNetworkRelaysUnreachableChanged)
+
+        mediaDiagnostics?.removeOnIsSpeakerNotFunctioningChangedListener(onIsSpeakerNotFunctioningChanged)
+        mediaDiagnostics?.removeOnIsSpeakerBusyChangedListener(onIsSpeakerBusyChanged)
+        mediaDiagnostics?.removeOnIsSpeakerMutedChangedListener(onIsSpeakerMutedChanged)
+        mediaDiagnostics?.removeOnIsSpeakerVolumeZeroChangedListener(onIsSpeakerVolumeZeroChanged)
+        mediaDiagnostics?.removeOnIsNoSpeakerDevicesAvailableChangedListener(onIsNoSpeakerDevicesAvailableChanged)
+        mediaDiagnostics?.removeOnIsSpeakingWhileMicrophoneIsMutedChangedListener(onIsSpeakingWhileMicrophoneIsMutedChanged)
+        mediaDiagnostics?.removeOnIsMicrophoneNotFunctioningChangedListener(onIsMicrophoneNotFunctioningChanged)
+        mediaDiagnostics?.removeOnIsMicrophoneBusyChangedListener(onIsMicrophoneBusyChanged)
+        mediaDiagnostics?.removeOnIsMicrophoneMutedUnexpectedlyChangedListener(onIsMicrophoneMutedUnexpectedlyChanged)
+        mediaDiagnostics?.removeOnIsNoMicrophoneDevicesAvailableChangedListener(onIsNoMicrophoneDevicesAvailableChanged)
+        mediaDiagnostics?.removeOnIsCameraFrozenChangedListener(onIsCameraFrozenChanged)
+        mediaDiagnostics?.removeOnIsCameraStartFailedChangedListener(onIsCameraStartFailedChanged)
+        mediaDiagnostics?.removeOnIsCameraStartTimedOutChangedListener(onIsCameraStartTimedOutChanged)
+        mediaDiagnostics?.removeOnIsCameraPermissionDeniedChangedListener(onIsCameraPermissionDeniedChanged)
     }
 }

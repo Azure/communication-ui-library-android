@@ -10,6 +10,7 @@ import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import junit.framework.AssertionFailedError
@@ -29,12 +30,20 @@ internal fun assertDisplayed(id: Int): ViewInteraction {
     ).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 }
 
-internal fun assertNotDisplayed(id: Int) {
-    Espresso.onView(
+internal fun assertNotDisplayed(id: Int): ViewInteraction? {
+    return Espresso.onView(
         Matchers.allOf(
             ViewMatchers.withId(id)
         )
-    ).check(ViewAssertions.matches(Matchers.not(ViewMatchers.isDisplayed())))
+    ).check(doesNotExist())
+}
+
+internal fun assertViewGone(id: Int): ViewInteraction? {
+    return Espresso.onView(
+        Matchers.allOf(
+            ViewMatchers.withId(id)
+        )
+    ).check(ViewAssertions.matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
 }
 
 internal fun assertViewText(id: Int, text: String) {
@@ -45,21 +54,12 @@ internal fun assertViewText(id: Int, text: String) {
     ).check(ViewAssertions.matches(ViewMatchers.withText(text)))
 }
 
-internal fun tapOnScreen() {
-    Espresso.onView(ViewMatchers.isRoot())
-        .perform(ViewActions.click())
-}
-internal fun tapWithTextWhenDisplayed(text: String) {
-    // wait until text is displayed
-    waitUntilViewIsDisplayed {
-        Espresso.onView(
-            Matchers.allOf(ViewMatchers.withText(text), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
-        ).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-    }
-    tapDelay()
+internal fun assertViewText(id: Int, textId: Int) {
     Espresso.onView(
-        Matchers.allOf(ViewMatchers.withText(text), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
-    ).perform(ViewActions.click())
+        Matchers.allOf(
+            ViewMatchers.withId(id)
+        )
+    ).check(ViewAssertions.matches(ViewMatchers.withText(textId)))
 }
 
 internal fun tap(id: Int) {

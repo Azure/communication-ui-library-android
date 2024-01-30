@@ -26,6 +26,9 @@ import com.azure.android.communication.ui.calling.models.CallCompositeLobbyError
 import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.helper.UnconfinedTestContextProvider
 import com.azure.android.communication.ui.calling.models.CallInfoModel
+import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
@@ -74,6 +77,10 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
         val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
         val dominantSpeakersSharedFlow = MutableSharedFlow<DominantSpeakersInfo>()
 
+        val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
+        val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
+        val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+
         Mockito.`when`(mockCallingGateway.getRemoteParticipantInfoModelSharedFlow())
             .thenReturn(remoteParticipantsInfoModelSharedFlow)
         Mockito.`when`(mockCallingGateway.getCallingStateWrapperSharedFlow())
@@ -86,6 +93,12 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             .thenReturn(isRecordingSharedFlow)
         Mockito.`when`(mockCallingGateway.getIsTranscribingSharedFlow())
             .thenReturn(isTranscribingSharedFlow)
+        Mockito.`when`(mockCallingGateway.getNetworkQualityCallDiagnosticSharedFlow())
+            .thenReturn(networkQualityCallDiagnosticsSharedFlow)
+        Mockito.`when`(mockCallingGateway.getNetworkCallDiagnosticSharedFlow())
+            .thenReturn(networkCallDiagnosticsSharedFlow)
+        Mockito.`when`(mockCallingGateway.getMediaCallDiagnosticSharedFlow())
+            .thenReturn(mediaCallDiagnosticsSharedFlow)
         Mockito.doReturn(CompletableFuture<Void>()).`when`(mockCallingGateway).startCall(
             any(), any()
         )
@@ -293,6 +306,10 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
             val dominantSpeakersSharedFlow = MutableSharedFlow<DominantSpeakersInfo>()
 
+            val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
+            val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
+            val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+
             Mockito.`when`(mockCallingGateway.getRemoteParticipantInfoModelSharedFlow())
                 .thenReturn(remoteParticipantsInfoModelSharedFlow)
             Mockito.`when`(mockCallingGateway.getRemoteParticipantInfoModelSharedFlow())
@@ -307,6 +324,12 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 .thenReturn(isRecordingSharedFlow)
             Mockito.`when`(mockCallingGateway.getIsTranscribingSharedFlow())
                 .thenReturn(isTranscribingSharedFlow)
+            Mockito.`when`(mockCallingGateway.getNetworkQualityCallDiagnosticSharedFlow())
+                .thenReturn(networkQualityCallDiagnosticsSharedFlow)
+            Mockito.`when`(mockCallingGateway.getNetworkCallDiagnosticSharedFlow())
+                .thenReturn(networkCallDiagnosticsSharedFlow)
+            Mockito.`when`(mockCallingGateway.getMediaCallDiagnosticSharedFlow())
+                .thenReturn(mediaCallDiagnosticsSharedFlow)
 
             Mockito.doReturn(CompletableFuture<Void>()).`when`(mockCallingGateway).startCall(
                 any(), any()

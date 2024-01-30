@@ -31,6 +31,8 @@ internal class CallingViewModel(
     val confirmLeaveOverlayViewModel = callingViewModelProvider.confirmLeaveOverlayViewModel
     val localParticipantViewModel = callingViewModelProvider.localParticipantViewModel
     val floatingHeaderViewModel = callingViewModelProvider.floatingHeaderViewModel
+    val upperMessageBarNotificationLayoutViewModel = callingViewModelProvider.upperMessageBarNotificationLayoutViewModel
+    val toastNotificationViewModel = callingViewModelProvider.toastNotificationViewModel
     val audioDeviceListViewModel = callingViewModelProvider.audioDeviceListViewModel
     val participantListViewModel = callingViewModelProvider.participantListViewModel
     val bannerViewModel = callingViewModelProvider.bannerViewModel
@@ -79,6 +81,7 @@ internal class CallingViewModel(
             state.callState.callingStatus,
             remoteParticipantsForGridView.count()
         )
+
         audioDeviceListViewModel.init(
             state.localParticipantState.audioState
         )
@@ -214,6 +217,14 @@ internal class CallingViewModel(
                 state.callState.callingStatus,
                 state.remoteParticipantState.lobbyErrorCode,
                 canShowLobby(state.localParticipantState.localParticipantRole)
+            )
+
+            upperMessageBarNotificationLayoutViewModel.update(
+                state.callDiagnosticsState
+            )
+
+            toastNotificationViewModel.update(
+                state.callDiagnosticsState
             )
 
             participantListViewModel.update(

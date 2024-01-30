@@ -6,7 +6,7 @@ plugins {
 
 apply from: file('publish.gradle')
 apply from: file('jacoco.gradle')
-
+apply from: file('../java_compile_flags.gradle')
 android {
     compileSdkVersion 33
     resourcePrefix 'azure_communication_ui_calling_'

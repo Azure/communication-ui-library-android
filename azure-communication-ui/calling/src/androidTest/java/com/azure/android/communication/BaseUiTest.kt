@@ -33,6 +33,13 @@ internal open class BaseUiTest {
     internal val lobbyErrorHeaderId = R.id.azure_communication_ui_calling_lobby_error_header
     internal val lobbyErrorHeaderText = R.id.azure_communication_ui_lobby_header_error_text
     internal val lobbyErrorHeaderCloseButton = R.id.azure_communication_ui_calling_lobby_error_close_button
+    internal val toastNotificationId = R.id.azure_communication_ui_calling_toast_notification
+    internal val toastNotificationIconId = R.id.azure_communication_ui_calling_toast_notification_icon
+    internal val toastNotificationMessageId = R.id.azure_communication_ui_calling_toast_notification_message
+    internal val upperMessageBarNotificationId = R.id.azure_communication_ui_calling_upper_message_bar_notification
+    internal val upperMessageBarNotificationIconId = R.id.azure_communication_ui_calling_upper_message_bar_notification_icon
+    internal val upperMessageBarNotificationMessageId = R.id.azure_communication_ui_calling_upper_message_bar_notification_message
+    internal val upperMessageBarNotificationDismissButtonId = R.id.azure_communication_ui_calling_upper_message_bar_notification_dismiss_button
 
     @Rule
     @JvmField
