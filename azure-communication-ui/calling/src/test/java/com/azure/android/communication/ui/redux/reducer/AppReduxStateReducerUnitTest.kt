@@ -13,8 +13,6 @@ import com.azure.android.communication.ui.calling.redux.reducer.LocalParticipant
 import com.azure.android.communication.ui.calling.redux.reducer.NavigationReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.ParticipantStateReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.PermissionStateReducerImpl
-import com.azure.android.communication.ui.calling.redux.reducer.NavigationReducerImpl
-import com.azure.android.communication.ui.calling.redux.reducer.AppStateReducer
 import com.azure.android.communication.ui.calling.redux.reducer.CallDiagnosticsReducerImpl
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
@@ -36,8 +34,6 @@ import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
-import com.azure.android.communication.ui.calling.redux.state.AudioSessionState
-import com.azure.android.communication.ui.calling.redux.state.AudioFocusStatus
 import com.azure.android.communication.ui.calling.redux.state.CallDiagnosticsState
 
 import org.junit.Test

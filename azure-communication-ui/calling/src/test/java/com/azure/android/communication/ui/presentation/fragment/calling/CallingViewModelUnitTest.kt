@@ -25,17 +25,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
-import com.azure.android.communication.ui.calling.redux.AppStore
 
-import com.azure.android.communication.ui.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
-import com.azure.android.communication.ui.calling.models.ParticipantStatus
-import com.azure.android.communication.ui.calling.models.StreamType
-import com.azure.android.communication.ui.calling.models.VideoStreamModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.OnHoldOverlayViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.ConnectingLobbyOverlayViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.WaitingLobbyOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutViewModel
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
@@ -191,7 +181,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(),) } doAnswer { }
+                on { update(any(), any(), any(), any()) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -242,10 +232,10 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val callingViewModel = CallingViewModel(
                 mockAppStore,
                 mockCallingViewModelProvider,
-                mockNetworkManager
+                mockNetworkManager,
             )
 
-            val newForegroundState = AppReduxState("", false, false)
+            val newForegroundState = AppReduxState("", false, false,)
             newForegroundState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
             newForegroundState.localParticipantState = getLocalUserState()
 
@@ -261,7 +251,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 any(),
                 any(),
                 any(),
-                any(),
+                any()
             )
             verify(mockLocalParticipantViewModel, times(2)).update(
                 any(), any(), any(), any(), any(), any(), any()
@@ -852,6 +842,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         val mockMoreCallOptionsListViewModel = mock<MoreCallOptionsListViewModel>()
         val mockNetworkManager = mock<NetworkManager>()
         val mockLocalParticipantViewModel = mock<LocalParticipantViewModel> { }
+        val mockToastNotificationViewModel = mock<ToastNotificationViewModel>()
+        val mockUpperMessageBarNotificationLayoutViewModel = mock<UpperMessageBarNotificationLayoutViewModel>()
 
         val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
             on { participantGridViewModel } doAnswer { mockParticipantGridViewModel }
@@ -868,6 +860,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             on { moreCallOptionsListViewModel } doAnswer { mockMoreCallOptionsListViewModel }
             on { lobbyHeaderViewModel } doAnswer { mockLobbyHeaderViewModel }
             on { lobbyErrorHeaderViewModel } doAnswer { mockLobbyErrorHeaderViewModel }
+            on { toastNotificationViewModel } doAnswer { mockToastNotificationViewModel }
+            on { upperMessageBarNotificationLayoutViewModel } doAnswer { mockUpperMessageBarNotificationLayoutViewModel }
         }
 
         val callingViewModel = CallingViewModel(

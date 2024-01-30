@@ -703,7 +703,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
     fun typeConversion_testRoleConversion() {
         // assert
         Assert.assertEquals(CallCompositeInternalParticipantRole.UNINITIALIZED, CallParticipantRole.UNINITIALIZED.into())
-        Assert.assertEquals(CallCompositeInternalParticipantRole.COORGANIZER, CallParticipantRole.COORGANIZER.into())
+        Assert.assertEquals(CallCompositeInternalParticipantRole.COORGANIZER, CallParticipantRole.CO_ORGANIZER.into())
         Assert.assertEquals(CallCompositeInternalParticipantRole.ORGANIZER, CallParticipantRole.ORGANIZER.into())
         Assert.assertEquals(CallCompositeInternalParticipantRole.PRESENTER, CallParticipantRole.PRESENTER.into())
         Assert.assertEquals(CallCompositeInternalParticipantRole.CONSUMER, CallParticipantRole.CONSUMER.into())
