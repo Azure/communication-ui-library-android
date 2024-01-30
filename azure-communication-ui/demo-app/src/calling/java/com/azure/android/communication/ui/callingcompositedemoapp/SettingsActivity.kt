@@ -184,14 +184,14 @@ class SettingsActivity : AppCompatActivity() {
                 }
                 R.id.multitasking_check_box -> {
                     sharedPreference.edit().putBoolean(
-                            ENABLE_MULTITASKING,
-                            view.isChecked
+                        ENABLE_MULTITASKING,
+                        view.isChecked
                     ).apply()
                 }
                 R.id.multitasking_pip_check_box -> {
                     sharedPreference.edit().putBoolean(
-                            ENABLE_PIP_WHEN_MULTITASKING,
-                            view.isChecked
+                        ENABLE_PIP_WHEN_MULTITASKING,
+                        view.isChecked
                     ).apply()
                 }
             }
@@ -396,15 +396,15 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun updateEnableMultitaskingCheckbox() {
         enableMultitaskingCheckbox.isChecked = sharedPreference.getBoolean(
-                ENABLE_MULTITASKING,
-                ENABLE_MULTITASKING_DEFAULT_VALUE
+            ENABLE_MULTITASKING,
+            ENABLE_MULTITASKING_DEFAULT_VALUE
         )
     }
 
     private fun updateEnablePipMultitaskingCheckbox() {
         enablePipWhenMultitaskingCheckbox.isChecked = sharedPreference.getBoolean(
-                ENABLE_PIP_WHEN_MULTITASKING,
-                ENABLE_PIP_WHEN_MULTITASKING_DEFAULT_VALUE
+            ENABLE_PIP_WHEN_MULTITASKING,
+            ENABLE_PIP_WHEN_MULTITASKING_DEFAULT_VALUE
         )
     }
 }

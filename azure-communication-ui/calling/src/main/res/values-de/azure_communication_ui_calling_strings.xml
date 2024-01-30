@@ -103,4 +103,20 @@
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s ist der Besprechung beigetreten</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s hat die Besprechung verlassen</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">Sie sind dem Anruf beigetreten.</string>
+
+    <!-- Call Diagnostics -->
+    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Die Netzwerkverbindung wurde unterbrochen</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">Verbindung wird wiederhergestellt...</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">Die Netzwerkqualität ist niedrig</string>
+    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">Sie sind stummgeschaltet</string>
+    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">Mikrofon funktioniert nicht wie erwartet</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">Kamera kann nicht gestartet werden</string>
+    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">Kamera funktioniert nicht mehr</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">Lautsprecher funktioniert nicht wie erwartet</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">Lautsprecher kann nicht gefunden werden</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">Das Mikrofon wurde nicht gefunden</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">Lautsprecher ist stummgeschaltet</string>
+
+    <!--    Upper Message Bar Notification -->
+    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Verwerfen</string>
 </resources>

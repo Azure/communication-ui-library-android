@@ -103,4 +103,20 @@
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s が会議に参加しました</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s が会議から退出しました</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">通話に参加しました</string>
+
+    <!-- Call Diagnostics -->
+    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">ネットワークが失われました</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">再接続中...</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">ネットワークの品質が低くなっています</string>
+    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">ミュートになっています</string>
+    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">マイクが期待どおりに動作していません</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">カメラを起動できません</string>
+    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">カメラが動作を停止しました</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">スピーカーが期待どおりに動作していません</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">スピーカーが見つかりません</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">マイクが見つかりません</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">スピーカーがミュートになっています</string>
+
+    <!--    Upper Message Bar Notification -->
+    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">閉じる</string>
 </resources>

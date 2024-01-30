@@ -103,4 +103,20 @@
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s har anslutit till mötet</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s har lämnat mötet</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">Du har anslutit till mötet</string>
+
+    <!-- Call Diagnostics -->
+    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Nätverket bröts</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">Ansluter igen...</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">Nätverkskvaliteten är låg</string>
+    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">Ditt ljud är avstängt</string>
+    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">Mikrofonen fungerar inte som förväntat</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">Det går inte att starta kameran</string>
+    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">Kameran slutade fungera</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">Högtalaren fungerar inte som förväntat</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">Det gick inte att hitta högtalaren</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">Det gick inte att hitta mikrofonen</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">Högtalaren är avstängd</string>
+
+    <!--    Upper Message Bar Notification -->
+    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Stäng</string>
 </resources>

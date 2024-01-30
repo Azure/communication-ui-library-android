@@ -135,10 +135,12 @@ class CallLauncherViewModel : ViewModel() {
         if (AdditionalFeatures.secondaryThemeFeature.active)
             callCompositeBuilder.theme(R.style.MyCompany_Theme_Calling)
 
-
-        callCompositeBuilder.multitasking(CallCompositeMultitaskingOptions(
+        callCompositeBuilder.multitasking(
+            CallCompositeMultitaskingOptions(
                 SettingsFeatures.enableMultitasking(),
-                SettingsFeatures.enablePipWhenMultitasking()))
+                SettingsFeatures.enablePipWhenMultitasking()
+            )
+        )
 
         val newCallComposite = callCompositeBuilder.build()
 
