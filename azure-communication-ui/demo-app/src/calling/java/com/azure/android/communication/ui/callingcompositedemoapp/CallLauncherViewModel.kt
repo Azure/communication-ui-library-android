@@ -220,6 +220,12 @@ class CallLauncherViewModel : ViewModel() {
         }
     }
 
+    fun callHangup() {
+        callComposite?.apply {
+            callHangup()
+        }
+    }
+
     companion object {
         var callComposite: CallComposite? = null
     }

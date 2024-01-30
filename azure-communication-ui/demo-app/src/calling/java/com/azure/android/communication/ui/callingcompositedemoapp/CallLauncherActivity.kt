@@ -146,7 +146,6 @@ class CallLauncherActivity : AppCompatActivity() {
                 }
             }
 
-
             lifecycleScope.launch {
                 callLauncherViewModel.userReportedIssueEventHandler.userIssuesFlow.collect {
                     runOnUiThread {

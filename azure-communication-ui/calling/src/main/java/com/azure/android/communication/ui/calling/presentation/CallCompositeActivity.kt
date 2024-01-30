@@ -142,7 +142,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
         notificationService.start(lifecycleScope)
         callHistoryService.start(lifecycleScope)
 
-
         lifecycleScope.launch {
             supportView.start(supportViewModel, this@CallCompositeActivity)
         }
