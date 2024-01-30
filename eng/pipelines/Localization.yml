@@ -1,0 +1,131 @@
+name: $(Date:yyyyMMdd).$(Rev:r)
+variables:
+  - name: Ic3PipelineUsage
+    value: production
+  - name: sendToLocalization
+    value: true
+  - name: system.debug
+    value: false
+  - name: tdbSecret
+    value: null
+  - group: ServiceTreeLinkGroup
+  - group: InfoSec-SecurityResults
+schedules:
+  - cron: 0 7 * * 1,2,3,4,5
+    branches:
+      include:
+        - refs/heads/feature/localization-example
+  - cron: 0 17 * * 1,2,3,4,5
+    branches:
+      include:
+        - refs/heads/feature/localization-example
+resources:
+  repositories:
+    - repository: self
+      type: git
+      ref: refs/heads/develop
+    - repository: 1esPipelines
+      type: git
+      name: 1ESPipelineTemplates/1ESPipelineTemplates
+      ref: refs/tags/release
+trigger: none
+extends:
+  template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
+  parameters:
+    pool:
+      os: windows
+      image: windows-2022
+      name: Azure-Pipelines-1ESPT-ExDShared
+    sdl:
+      suppression:
+        suppressionFile: $(Build.SourcesDirectory)\guardian\SDL\.gdnsuppress
+    customBuildTags:
+      - MigrationTooling-skype-SCC-12525-Tool
+    stages:
+      - stage: Stage
+        jobs:
+          - job: Job_1
+            displayName: Agent job 1
+            steps:
+              - checkout: self
+                clean: true
+                fetchTags: false
+                persistCredentials: true
+              - task: skvso.servicetree-build-tasks.servicetree-link-build-task.servicetree-link-build-task@1
+                displayName: "ServiceTree: [$(BuildOutputUsage)] "
+                condition: always()
+                inputs:
+                  ServiceTreeGateway: ServiceTree Gateway
+                  Service: 5b23174b-8c6d-467d-862d-a3f24958fb74
+              - task: Bash@3
+                displayName: Set Git Configuration
+                condition: ""
+                inputs:
+                  targetType: inline
+                  script: |-
+                    git config user.email "tdbuild@microsoft.com"
+                    git config user.name "TDBuild Bot"
+              - task: MicrosoftTDBuild.tdbuild-task.tdbuild-task.TouchdownBuildTask@1
+                displayName: Touchdown Build build - No Commits
+                condition: ne(variables['commit'], 'true')
+                inputs:
+                  teamId: "44987"
+                  authId: $(authId)
+                  authKey: $(AUTH_KEY)
+                  relativePathRoot: azure-communication-ui/azure-communication-ui/src/main/res/values
+                  resourceFilePath: azure_communication_ui_strings.xml;P:246
+                  outputDirectoryRoot: azure-communication-ui/azure-communication-ui/src/main
+                  cultureMappingType: Android
+              - task: MicrosoftTDBuild.tdbuild-task.tdbuild-task.TouchdownBuildTask@1
+                displayName: Touchdown Build Calling - Commit Changes
+                condition: eq(variables['commit'], 'true')
+                inputs:
+                  teamId: "44987"
+                  authId: $(authId)
+                  authKey: $(AUTH_KEY)
+                  relativePathRoot: azure-communication-ui/calling/src/main/res/values
+                  resourceFilePath: azure_communication_ui_calling_strings.xml;P:246
+                  outputDirectoryRoot: azure-communication-ui/calling/src/main/res
+                  appendRelativeDir: false
+                  cultureMappingType: Android
+                  gitAction: COMMIT
+              - task: Bash@3
+                displayName: Copy Additional Calling String Files
+                inputs:
+                  targetType: inline
+                  script: |
+                    git config user.email "tdbuild@microsoft.com"
+                    git config user.name "TDBuild Bot"
+
+                    echo "git status"
+                    git status
+
+                    echo "git pull"
+                    git pull
+
+                    echo "target:source"
+                    ARRAY=("de:de-rDE" "en-rUS:en" "es:es-rES" "fr:fr-rFR" "it:it-rIT" "ja:ja-rJP" "ko:ko-rKR" "nl:nl-rNL" "pt:pt-rBR" "ru:ru-rRU" "tr:tr-rTR" "zh:zh-rCN")
+                    LOCALIZATION_PATH="azure-communication-ui/calling/src/main/res"
+                    for mapping in "${ARRAY[@]}" ; do
+                        KEY=${mapping%%:*}
+                        VALUE=${mapping#*:}
+                        cp -R -T $LOCALIZATION_PATH/values-$VALUE/ $LOCALIZATION_PATH/values-$KEY/
+                        rm -rf $LOCALIZATION_PATH/values-en-rUS
+                        mkdir $LOCALIZATION_PATH/values-en-rUS
+                        cp $LOCALIZATION_PATH/values/azure_communication_ui_calling_strings.xml $LOCALIZATION_PATH/values-en-rUS/azure_communication_ui_calling_strings.xml
+                    done
+
+                    echo "git status"
+                    git status
+
+                    echo "git add"
+                    git add $(System.DefaultWorkingDirectory)/$LOCALIZATION_PATH/*
+
+                    echo "git status"
+                    git status
+
+                    echo "git commit -m 'add language mapping $(Build.BuildNumber)'"
+                    git commit -m "add language mapping $(Build.BuildNumber)"
+
+                    echo "git push -u origin HEAD:$(Build.SourceBranch)"
+                    git push -u origin HEAD:$(Build.SourceBranch)
