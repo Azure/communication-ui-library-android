@@ -89,7 +89,8 @@ internal class DependencyInjectionContainerHolder(
                 container.appStore,
                 ParticipantGridCellViewModelFactory(),
                 application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants),
-                container.debugInfoManager
+                container.debugInfoManager,
+                container.configuration.callCompositeEventsHandler.getOnUserReportedHandlers().toList().isNotEmpty()
             ),
             container.networkManager
         )

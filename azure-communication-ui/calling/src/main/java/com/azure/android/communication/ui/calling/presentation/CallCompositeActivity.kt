@@ -25,13 +25,17 @@ import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
+import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.support.SupportView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.support.SupportViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
 import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 import com.azure.android.communication.ui.calling.utilities.TestHelper
+import com.azure.android.communication.ui.calling.utilities.ScreenshotHelper
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
@@ -54,6 +58,12 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val navigationRouter get() = container.navigationRouter
     private val store get() = container.appStore
     private val configuration get() = container.configuration
+    private val supportView by lazy { SupportView(this) }
+    private val supportViewModel by lazy {
+        SupportViewModel(store::dispatch, this::forwardSupportEventToUser).also {
+            it.init(store.getCurrentState().navigationState)
+        }
+    }
     private val localOptions get() = configuration.callCompositeLocalOptions
     private val permissionManager get() = container.permissionManager
     private val audioSessionManager get() = container.audioSessionManager
@@ -131,6 +141,17 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         notificationService.start(lifecycleScope)
         callHistoryService.start(lifecycleScope)
+
+
+        lifecycleScope.launch {
+            supportView.start(supportViewModel, this@CallCompositeActivity)
+        }
+
+        lifecycleScope.launch {
+            store.getStateFlow().collect {
+                supportViewModel.update(it.navigationState)
+            }
+        }
         callStateHandler.start(lifecycleScope)
     }
 
@@ -190,6 +211,28 @@ internal class CallCompositeActivity : AppCompatActivity() {
             )
         )
         supportActionBar?.setHomeAsUpIndicator(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_left_24_filled)
+    }
+
+    private fun forwardSupportEventToUser(userText: String, screenshot: Boolean) {
+        val debugInfo = container.debugInfoManager.getDebugInfo()
+        val event = CallCompositeUserReportedIssueEvent(
+            userText,
+            if (screenshot) (container.callCompositeActivityWeakReference.get()?.let { ScreenshotHelper.captureActivity(this) }) else null,
+            debugInfo
+        )
+        supportView.visibility = View.GONE
+
+        supportView.visibility = View.VISIBLE
+        container.configuration.callCompositeEventsHandler.getOnUserReportedHandlers().forEach {
+            try {
+                it.handle(
+                    event
+                )
+            } catch (e: Exception) {
+                // Ignore any exception from the user handler
+            }
+        }
+        // Pass through local config
     }
 
     private fun configureLocalization() {

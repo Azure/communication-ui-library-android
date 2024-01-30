@@ -9,4 +9,6 @@ internal sealed class NavigationAction :
     class CallLaunched : NavigationAction()
     class Exit : NavigationAction()
     class CallLaunchWithoutSetup : NavigationAction()
+    class HideSupportForm : NavigationAction()
+    class ShowSupportForm : NavigationAction()
 }

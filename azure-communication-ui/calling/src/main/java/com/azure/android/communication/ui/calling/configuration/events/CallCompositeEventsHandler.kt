@@ -61,4 +61,5 @@ internal class CallCompositeEventsHandler {
     fun removeOnUserReportedEventHandler(errorHandler: CallCompositeEventHandler<CallCompositeUserReportedIssueEvent>) =
         userReportHandlers.remove(errorHandler)
 
+    fun getOnUserReportedHandlers() = userReportHandlers.asIterable()
 }

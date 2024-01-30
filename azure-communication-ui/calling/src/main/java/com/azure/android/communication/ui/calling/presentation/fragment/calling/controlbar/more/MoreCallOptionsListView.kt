@@ -65,32 +65,32 @@ internal class MoreCallOptionsListView(
         recyclerView.layoutManager = LinearLayoutManager(context)
     }
 
-    private val bottomCellItems: List<BottomCellItem>
-        get() {
-            val bottomCellItems = listOf(
-                BottomCellItem(
-                    icon = ContextCompat.getDrawable(
-                        context,
-                        R.drawable.azure_communication_ui_calling_ic_fluent_share_android_24_regular
-                    ),
-                    title = context.getString(R.string.azure_communication_ui_calling_view_share_diagnostics),
-                    contentDescription = null,
-                    accessoryImage = null,
-                    accessoryColor = null,
-                    accessoryImageDescription = context.getString(R.string.azure_communication_ui_calling_view_share_diagnostics),
-                    enabled = false,
-                    participantViewData = null,
-                    isOnHold = false,
-                ) {
-                    menuDrawer.dismiss()
-                    shareDiagnostics()
-                },
-            )
+    private val bottomCellItems get() = viewModel.listEntries.map { entry ->
+        BottomCellItem(
+            icon = ContextCompat.getDrawable(
+                context,
+                entry.icon ?: android.R.drawable.ic_dialog_alert
+            ),
+            title = context.getString(entry.title),
+            contentDescription = null,
+            accessoryImage = null,
+            accessoryColor = null,
+            accessoryImageDescription = null,
+            enabled = true,
+            participantViewData = null,
+            isOnHold = false,
+            onClickAction =
+            {
+                when (entry) {
+                    MoreCallOptionsListViewModel.Companion.Entries.SHARE_DIAGNOSTICS -> shareDiagnostics(context)
+                    MoreCallOptionsListViewModel.Companion.Entries.REPORT_ISSUE -> viewModel.requestReportIssueScreen()
+                }
+                menuDrawer.dismissDialog()
+            }
+        )
+    }
 
-            return bottomCellItems
-        }
-
-    private fun shareDiagnostics() {
+    private fun shareDiagnostics(context: Context) {
         val share = Intent.createChooser(
             Intent().apply {
                 action = Intent.ACTION_SEND
