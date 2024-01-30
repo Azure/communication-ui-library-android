@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.calling.service.sdk
 
 import android.content.Context
-import com.azure.android.communication.calling.AdmitLobbyParticipantOptions
 import com.azure.android.communication.calling.AudioOptions
 import com.azure.android.communication.calling.Call
 import com.azure.android.communication.calling.CallAgent
@@ -18,8 +17,6 @@ import com.azure.android.communication.calling.GroupCallLocator
 import com.azure.android.communication.calling.HangUpOptions
 import com.azure.android.communication.calling.JoinCallOptions
 import com.azure.android.communication.calling.JoinMeetingLocator
-import com.azure.android.communication.calling.Lobby
-import com.azure.android.communication.calling.RejectLobbyParticipantOptions
 import com.azure.android.communication.calling.TeamsMeetingLinkLocator
 import com.azure.android.communication.calling.VideoDevicesUpdatedListener
 import com.azure.android.communication.calling.VideoOptions
@@ -162,8 +159,7 @@ internal class CallingSDKWrapper(
     override fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?> {
         val future = CompletableFuture<CallCompositeLobbyErrorCode?>()
         if (lobbyNullCheck(future)) return future
-        val options = AdmitLobbyParticipantOptions()
-        nullableCall?.lobby?.admitAll(options)?.whenComplete { _, error ->
+        nullableCall?.callLobby?.admitAll()?.whenComplete { _, error ->
             if (error != null) {
                 var errorCode = CallCompositeLobbyErrorCode.UNKNOWN_ERROR
                 if (error.cause is CallingCommunicationException) {
@@ -180,10 +176,9 @@ internal class CallingSDKWrapper(
     override fun admit(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
         val future = CompletableFuture<CallCompositeLobbyErrorCode?>()
         if (lobbyNullCheck(future)) return future
-        val options = AdmitLobbyParticipantOptions()
-        var participant = nullableCall?.remoteParticipants?.find { it.identifier.rawId.equals(userIdentifier) }
+        val participant = nullableCall?.remoteParticipants?.find { it.identifier.rawId.equals(userIdentifier) }
         participant?.let {
-            nullableCall?.lobby?.admit(listOf(it.identifier), options)?.whenComplete { _, error ->
+            nullableCall?.callLobby?.admit(listOf(it.identifier))?.whenComplete { _, error ->
                 if (error != null) {
                     var errorCode = CallCompositeLobbyErrorCode.UNKNOWN_ERROR
                     if (error.cause is CallingCommunicationException) {
@@ -199,7 +194,7 @@ internal class CallingSDKWrapper(
     }
 
     private fun lobbyNullCheck(future: CompletableFuture<CallCompositeLobbyErrorCode?>): Boolean {
-        if (nullableCall == null || nullableCall?.lobby == null) {
+        if (nullableCall == null || nullableCall?.callLobby == null) {
             future.complete(CallCompositeLobbyErrorCode.UNKNOWN_ERROR)
             return true
         }
@@ -209,9 +204,9 @@ internal class CallingSDKWrapper(
     override fun decline(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
         val future = CompletableFuture<CallCompositeLobbyErrorCode?>()
         if (lobbyNullCheck(future)) return future
-        var participant = nullableCall?.remoteParticipants?.find { it.identifier.rawId.equals(userIdentifier) }
+        val participant = nullableCall?.remoteParticipants?.find { it.identifier.rawId.equals(userIdentifier) }
         participant?.let {
-            nullableCall?.lobby?.reject(it.identifier, RejectLobbyParticipantOptions())
+            nullableCall?.callLobby?.reject(it.identifier)
                 ?.whenComplete { _, error ->
                     if (error != null) {
                         var errorCode = CallCompositeLobbyErrorCode.UNKNOWN_ERROR

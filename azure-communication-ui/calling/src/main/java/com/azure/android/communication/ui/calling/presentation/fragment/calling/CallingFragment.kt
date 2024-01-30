@@ -21,11 +21,9 @@ import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.presentation.DependencyInjectionContainerHolder
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarView
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.OnHoldOverlayView
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.ConnectingLobbyOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyErrorHeaderView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyHeaderView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.WaitingLobbyOverlayView
