@@ -5,8 +5,8 @@ package com.azure.android.communication.ui.calling
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import com.azure.android.communication.BaseUiTest
-import com.azure.android.communication.assertNotDisplayed
 import com.azure.android.communication.assertViewHasChild
+import com.azure.android.communication.assertViewNotDisplayed
 import com.azure.android.communication.assertViewText
 import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.ParticipantState
@@ -79,7 +79,7 @@ internal class LobbyTest : BaseUiTest() {
         )
 
         // assert lobby header is not displayed
-        assertNotDisplayed(lobbyHeaderId)
+        assertViewNotDisplayed(lobbyHeaderId)
     }
 
     @Test
@@ -107,7 +107,7 @@ internal class LobbyTest : BaseUiTest() {
         callingSDK.removeParticipant("ACS User 2")
 
         // assert lobby header is not displayed
-        assertNotDisplayed(lobbyHeaderId)
+        assertViewNotDisplayed(lobbyHeaderId)
 
         callingSDK.addRemoteParticipant(
             CommunicationIdentifier.CommunicationUserIdentifier("ACS User 3"),
@@ -144,7 +144,7 @@ internal class LobbyTest : BaseUiTest() {
 
         waitUntilDisplayed(lobbyHeaderId)
         tapWhenDisplayed(lobbyHeaderCloseButton)
-        assertNotDisplayed(lobbyHeaderId)
+        assertViewNotDisplayed(lobbyHeaderId)
     }
 
     @Test
@@ -216,7 +216,7 @@ internal class LobbyTest : BaseUiTest() {
         tapWhenDisplayed(lobbyErrorHeaderCloseButton)
 
         // assert lobby error header is not displayed
-        assertNotDisplayed(lobbyErrorHeaderId)
+        assertViewNotDisplayed(lobbyErrorHeaderId)
     }
 
     @Test
@@ -255,7 +255,7 @@ internal class LobbyTest : BaseUiTest() {
         lobbyActionResult.complete(null)
 
         // assert lobby error header is not displayed
-        assertNotDisplayed(lobbyErrorHeaderId)
+        assertViewNotDisplayed(lobbyErrorHeaderId)
 
         // tap on screen
         tapOnScreen()
@@ -392,7 +392,7 @@ internal class LobbyTest : BaseUiTest() {
         tapWhenDisplayed(lobbyErrorHeaderCloseButton)
 
         // assert lobby error header is not displayed
-        assertNotDisplayed(lobbyErrorHeaderId)
+        assertViewNotDisplayed(lobbyErrorHeaderId)
     }
 
     private fun joinTeamsCall(): Context? {
