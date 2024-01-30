@@ -233,7 +233,11 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         callComposite?.handlePushNotification(
             applicationContext,
             remoteOptions
-        )
+        )?.whenComplete { void, throwable ->
+            if (throwable != null) {
+                showError(throwable.message ?: "")
+            }
+        }
     }
 
     fun createCallComposite(): CallComposite {
@@ -424,8 +428,9 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
             val userName =
                 applicationContext!!.getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
                     .getString(CACHED_USER_NAME, "")
-            registerFirebaseToken(acsToken!!, userName!!, true)
+            //registerFirebaseToken(acsToken!!, userName!!, true)
         }
+        destroy()
     }
 
     private fun showNotificationForIncomingCall(notification: CallCompositeIncomingCallEvent) {
