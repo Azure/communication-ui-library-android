@@ -62,11 +62,11 @@ public final class CallCompositeDebugInfo {
         }
     }
 
-    public String getCallingUIVersion() {
+    public String getCallingUiVersion() {
         return BuildConfig.UI_SDK_VERSION;
     }
 
-    public String getCallingSDKVersion() {
+    public String getCallingSdkVersion() {
         return BuildConfig.CALL_SDK_VERSION;
     }
 }

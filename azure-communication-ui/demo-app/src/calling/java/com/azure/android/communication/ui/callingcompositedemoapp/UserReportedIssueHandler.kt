@@ -32,8 +32,8 @@ class UserReportedIssueHandler : CallCompositeEventHandler<CallCompositeUserRepo
             sendToServer(
                 userMessage,
                 screenshot,
-                debugInfo.callingUIVersion,
-                debugInfo.callingSDKVersion,
+                debugInfo.callingUiVersion,
+                debugInfo.callingSdkVersion,
                 debugInfo.callHistoryRecords,
                 debugInfo.logFiles
             )

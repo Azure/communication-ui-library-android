@@ -125,8 +125,8 @@ class CallLauncherViewModel : ViewModel() {
             delay(20000)
 
             callComposite?.getDebugInfo(context)?.let {
-                val result = """Calling UI Version: ${it.callingUIVersion}
-                        Calling SDK Version: ${it.callingSDKVersion}                    
+                val result = """Calling UI Version: ${it.callingUiVersion}
+                        Calling SDK Version: ${it.callingSdkVersion}                    
                         Call History (${it.callHistoryRecords.size}) 
                         Log Files (${it.logFiles.size})
                         ${it.takeScreenshot()?.name ?: "N/A"}"""
