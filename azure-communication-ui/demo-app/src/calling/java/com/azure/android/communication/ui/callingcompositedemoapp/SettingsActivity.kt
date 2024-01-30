@@ -47,6 +47,8 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var setupScreenOrientationAutoCompleteTextView: AutoCompleteTextView
     private lateinit var callScreenOrientationArrayAdapter: ArrayAdapter<String>
     private lateinit var setupScreenOrientationArrayAdapter: ArrayAdapter<String>
+    private lateinit var enableMultitaskingCheckbox: CheckBox
+    private lateinit var enablePipWhenMultitaskingCheckbox: CheckBox
 
     private val sharedPreference by lazy {
         getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
@@ -108,6 +110,9 @@ class SettingsActivity : AppCompatActivity() {
         updateEndCallOnDefaultCheckBox()
 
         relaunchCompositeOnExitCheckbox()
+
+        updateEnableMultitaskingCheckbox()
+        updateEnablePipMultitaskingCheckbox()
 
         saveRenderedDisplayName()
 
@@ -177,6 +182,18 @@ class SettingsActivity : AppCompatActivity() {
                         view.isChecked
                     ).apply()
                 }
+                R.id.multitasking_check_box -> {
+                    sharedPreference.edit().putBoolean(
+                            ENABLE_MULTITASKING,
+                            view.isChecked
+                    ).apply()
+                }
+                R.id.multitasking_pip_check_box -> {
+                    sharedPreference.edit().putBoolean(
+                            ENABLE_PIP_WHEN_MULTITASKING,
+                            view.isChecked
+                    ).apply()
+                }
             }
         }
     }
@@ -205,6 +222,8 @@ class SettingsActivity : AppCompatActivity() {
         setupScreenOrientationAdapterLayout = findViewById(R.id.setup_screen_orientation_adapter_layout)
         callScreenOrientationAutoCompleteTextView = findViewById(R.id.call_screen_orientation_auto_complete_text_view)
         setupScreenOrientationAutoCompleteTextView = findViewById(R.id.setup_screen_orientation_auto_complete_text_view)
+        enableMultitaskingCheckbox = findViewById(R.id.multitasking_check_box)
+        enablePipWhenMultitaskingCheckbox = findViewById(R.id.multitasking_pip_check_box)
 
         renderDisplayNameTextView.addTextChangedListener {
             saveRenderedDisplayName()
@@ -374,6 +393,20 @@ class SettingsActivity : AppCompatActivity() {
             LAUNCH_ON_EXIT_ON_BY_DEFAULT_VALUE
         )
     }
+
+    private fun updateEnableMultitaskingCheckbox() {
+        enableMultitaskingCheckbox.isChecked = sharedPreference.getBoolean(
+                ENABLE_MULTITASKING,
+                ENABLE_MULTITASKING_DEFAULT_VALUE
+        )
+    }
+
+    private fun updateEnablePipMultitaskingCheckbox() {
+        enablePipWhenMultitaskingCheckbox.isChecked = sharedPreference.getBoolean(
+                ENABLE_PIP_WHEN_MULTITASKING,
+                ENABLE_PIP_WHEN_MULTITASKING_DEFAULT_VALUE
+        )
+    }
 }
 
 // Shared pref Keys for language & rtl settings
@@ -408,3 +441,9 @@ const val END_CALL_ON_BY_DEFAULT_KEY = "END_CALL_ON_BY_DEFAULT_KEY"
 const val DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE = false
 const val LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY = "LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY"
 const val LAUNCH_ON_EXIT_ON_BY_DEFAULT_VALUE = false
+
+// Multitasking
+const val ENABLE_MULTITASKING = "ENABLE_MULTITASKING"
+const val ENABLE_MULTITASKING_DEFAULT_VALUE = false
+const val ENABLE_PIP_WHEN_MULTITASKING = "ENABLE_PIP_WHEN_MULTITASKING"
+const val ENABLE_PIP_WHEN_MULTITASKING_DEFAULT_VALUE = false

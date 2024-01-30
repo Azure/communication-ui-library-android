@@ -24,6 +24,10 @@ import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_PERSON
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_RTL_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SETUP_SCREEN_ORIENTATION_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SKIP_SETUP_SCREEN_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.ENABLE_MULTITASKING
+import com.azure.android.communication.ui.callingcompositedemoapp.ENABLE_MULTITASKING_DEFAULT_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.ENABLE_PIP_WHEN_MULTITASKING
+import com.azure.android.communication.ui.callingcompositedemoapp.ENABLE_PIP_WHEN_MULTITASKING_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.END_CALL_ON_BY_DEFAULT_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY
@@ -162,6 +166,16 @@ class SettingsFeatures {
                 SETUP_SCREEN_ORIENTATION_SHARED_PREF_KEY,
                 DEFAULT_SETUP_SCREEN_ORIENTATION_VALUE
             )
+        }
+
+        @JvmStatic
+        fun enableMultitasking(): Boolean {
+            return sharedPrefs.getBoolean(ENABLE_MULTITASKING, ENABLE_MULTITASKING_DEFAULT_VALUE)
+        }
+
+        @JvmStatic
+        fun enablePipWhenMultitasking(): Boolean {
+            return sharedPrefs.getBoolean(ENABLE_PIP_WHEN_MULTITASKING, ENABLE_PIP_WHEN_MULTITASKING_DEFAULT_VALUE)
         }
     }
 }

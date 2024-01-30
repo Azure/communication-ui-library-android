@@ -53,4 +53,7 @@
     <string name="camera_control">Camera On By Default</string>
     <string name="call_screen_orientation_dropdown_hint">Call Screen Orientation</string>
     <string name="setup_screen_orientation_dropdown_hint">Setup Screen Orientation</string>
+    <string name="multitasking_option">Multitasking</string>
+    <string name="enable_multitasking_option">Enable Multitasking</string>
+    <string name="enable_pip_when_multitasking_option">Enable Pip when multitasking</string>
 </resources>
