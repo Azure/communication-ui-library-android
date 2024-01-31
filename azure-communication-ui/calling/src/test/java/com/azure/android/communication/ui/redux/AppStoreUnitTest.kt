@@ -3,19 +3,19 @@
 
 package com.azure.android.communication.ui.redux
 
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantStatus
+import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.Dispatch
 import com.azure.android.communication.ui.calling.redux.Middleware
 import com.azure.android.communication.ui.calling.redux.Store
-import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
-import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.reducer.AppStateReducer
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
-import com.azure.android.communication.ui.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import kotlinx.coroutines.flow.first
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -51,7 +51,7 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
                     null,
                     0,
                 )
-            stateTest.remoteParticipantState = RemoteParticipantsState(participantMap, 0, listOf(), 0)
+            stateTest.remoteParticipantState = RemoteParticipantsState(participantMap, 0, listOf(), 0, null)
 
             val store = AppStore(
                 mockAppState,

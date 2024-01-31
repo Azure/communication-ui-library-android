@@ -81,10 +81,11 @@ internal class MoreCallOptionsListView(
                     enabled = false,
                     participantViewData = null,
                     isOnHold = false,
-                ) {
-                    menuDrawer.dismiss()
-                    shareDiagnostics()
-                },
+                    onClickAction = {
+                        menuDrawer.dismiss()
+                        shareDiagnostics()
+                    },
+                )
             )
 
             return bottomCellItems

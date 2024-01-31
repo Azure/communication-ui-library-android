@@ -20,11 +20,28 @@
     app:layout_constraintTop_toBottomOf="@+id/azure_communication_ui_call_banner"
     >
 
+    <ImageButton
+        android:id="@+id/azure_communication_ui_call_header_back_button"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="@color/azure_communication_ui_calling_color_button_background_transparent"
+        android:contentDescription="@string/azure_communication_ui_calling_view_go_back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/azure_communication_ui_calling_ic_fluent_arrow_left_24_filled"
+        app:tint="@color/azure_communication_ui_calling_color_white"
+        />
+
     <TextView
         android:id="@+id/azure_communication_ui_call_participant_number_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
         android:fontFamily="sans-serif-medium"
         android:textColor="@color/azure_communication_ui_calling_color_white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -36,8 +53,9 @@
 
     <ImageButton
         android:id="@+id/azure_communication_ui_call_bottom_drawer_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
         android:backgroundTint="@color/azure_communication_ui_calling_color_button_background_transparent"
         android:contentDescription="@string/azure_communication_ui_calling_view_participant_list_open_accessibility_label"

@@ -113,10 +113,11 @@ internal class AudioDeviceListView(
                         enabled = initialDevice == AudioDeviceSelectionStatus.RECEIVER_SELECTED,
                         null,
                         false,
-                    ) {
-                        viewModel.switchAudioDevice(AudioDeviceSelectionStatus.RECEIVER_REQUESTED)
-                        audioDeviceDrawer.dismiss()
-                    }
+                        onClickAction = {
+                            viewModel.switchAudioDevice(AudioDeviceSelectionStatus.RECEIVER_REQUESTED)
+                            audioDeviceDrawer.dismiss()
+                        }
+                    )
                 )
             }
 
@@ -137,10 +138,11 @@ internal class AudioDeviceListView(
                     enabled = initialDevice == AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                     null,
                     false,
-                ) {
-                    viewModel.switchAudioDevice(AudioDeviceSelectionStatus.SPEAKER_REQUESTED)
-                    audioDeviceDrawer.dismiss()
-                }
+                    onClickAction = {
+                        viewModel.switchAudioDevice(AudioDeviceSelectionStatus.SPEAKER_REQUESTED)
+                        audioDeviceDrawer.dismiss()
+                    }
+                )
             )
 
             if (viewModel.audioStateFlow.value.bluetoothState.available) {
@@ -164,10 +166,11 @@ internal class AudioDeviceListView(
                         enabled = initialDevice == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED,
                         null,
                         false,
-                    ) {
-                        viewModel.switchAudioDevice(AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED)
-                        audioDeviceDrawer.dismiss()
-                    }
+                        onClickAction = {
+                            viewModel.switchAudioDevice(AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED)
+                            audioDeviceDrawer.dismiss()
+                        }
+                    )
                 )
             }
             return bottomCellItems
