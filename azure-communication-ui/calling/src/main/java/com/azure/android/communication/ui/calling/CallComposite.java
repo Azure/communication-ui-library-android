@@ -343,7 +343,8 @@ public final class CallComposite {
     }
 
     /**
-     * Hide call composite.
+     * Hide call composite. If {@link com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions} is constructed with
+     * enableSystemPictureInPictureWhenMultitasking set to true, then Pip will be displayed.
      */
     public void sendToBackground() {
         if (diContainer != null) {

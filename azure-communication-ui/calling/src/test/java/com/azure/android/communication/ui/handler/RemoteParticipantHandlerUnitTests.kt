@@ -7,8 +7,8 @@ import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantsConfigurationHandler
-import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
+import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.models.VideoStreamModel
@@ -101,7 +101,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                     ),
                     123,
                     listOf(),
-                    0
+                    0,
+                    lobbyErrorCode = null
                 )
             val storeStateFlow = MutableStateFlow<ReduxState>(reduxState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -181,7 +182,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                     ),
                     123,
                     listOf(),
-                    0
+                    0,
+                    lobbyErrorCode = null
                 )
             val storeStateFlow = MutableStateFlow<ReduxState>(reduxState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -273,7 +275,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                     ),
                     123,
                     listOf(),
-                    0
+                    0,
+                    lobbyErrorCode = null
                 )
             val storeStateFlow = MutableStateFlow<ReduxState>(reduxState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -382,7 +385,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                     ),
                     123,
                     listOf(),
-                    0
+                    0,
+                    lobbyErrorCode = null
                 )
             val storeStateFlow = MutableStateFlow<ReduxState>(reduxState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -514,7 +518,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                     ),
                     123456,
                     listOf(),
-                    0
+                    0,
+                    lobbyErrorCode = null
                 )
 
             // act
@@ -586,7 +591,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                     ),
                     123,
                     listOf(),
-                    0
+                    0,
+                    lobbyErrorCode = null
                 )
             val storeStateFlow = MutableStateFlow<ReduxState>(reduxState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -678,7 +684,8 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                     ),
                     123456,
                     listOf(),
-                    0
+                    0,
+                    lobbyErrorCode = null
                 )
 
             // act

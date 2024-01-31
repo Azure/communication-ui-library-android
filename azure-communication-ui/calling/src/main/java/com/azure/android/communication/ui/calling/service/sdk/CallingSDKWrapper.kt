@@ -10,10 +10,10 @@ import com.azure.android.communication.calling.CallAgent
 import com.azure.android.communication.calling.CallAgentOptions
 import com.azure.android.communication.calling.CallClient
 import com.azure.android.communication.calling.CallClientOptions
+import com.azure.android.communication.calling.CallingCommunicationException
 import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.DeviceManager
 import com.azure.android.communication.calling.GroupCallLocator
-import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVideoStream
 import com.azure.android.communication.calling.HangUpOptions
 import com.azure.android.communication.calling.JoinCallOptions
 import com.azure.android.communication.calling.JoinMeetingLocator
@@ -24,6 +24,7 @@ import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.logger.Logger
+import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
@@ -36,6 +37,7 @@ import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVideoStream
 
 internal class CallingSDKWrapper(
     private val context: Context,
@@ -86,6 +88,9 @@ internal class CallingSDKWrapper(
         callingSDKEventHandler.getCallingStateWrapperSharedFlow()
 
     override fun getCallIdStateFlow(): StateFlow<String?> = callingSDKEventHandler.getCallIdStateFlow()
+
+    override fun getLocalParticipantRoleSharedFlow() =
+        callingSDKEventHandler.getCallParticipantRoleSharedFlow()
 
     override fun getIsMutedSharedFlow() = callingSDKEventHandler.getIsMutedSharedFlow()
 
@@ -151,6 +156,72 @@ internal class CallingSDKWrapper(
         return endCallCompletableFuture!!
     }
 
+    override fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?> {
+        val future = CompletableFuture<CallCompositeLobbyErrorCode?>()
+        if (lobbyNullCheck(future)) return future
+        nullableCall?.callLobby?.admitAll()?.whenComplete { _, error ->
+            if (error != null) {
+                var errorCode = CallCompositeLobbyErrorCode.UNKNOWN_ERROR
+                if (error.cause is CallingCommunicationException) {
+                    errorCode = getLobbyErrorCode(error.cause as CallingCommunicationException)
+                }
+                future.complete(errorCode)
+            } else {
+                future.complete(null)
+            }
+        }
+        return future
+    }
+
+    override fun admit(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
+        val future = CompletableFuture<CallCompositeLobbyErrorCode?>()
+        if (lobbyNullCheck(future)) return future
+        val participant = nullableCall?.remoteParticipants?.find { it.identifier.rawId.equals(userIdentifier) }
+        participant?.let {
+            nullableCall?.callLobby?.admit(listOf(it.identifier))?.whenComplete { _, error ->
+                if (error != null) {
+                    var errorCode = CallCompositeLobbyErrorCode.UNKNOWN_ERROR
+                    if (error.cause is CallingCommunicationException) {
+                        errorCode = getLobbyErrorCode(error.cause as CallingCommunicationException)
+                    }
+                    future.complete(errorCode)
+                } else {
+                    future.complete(null)
+                }
+            }
+        }
+        return future
+    }
+
+    private fun lobbyNullCheck(future: CompletableFuture<CallCompositeLobbyErrorCode?>): Boolean {
+        if (nullableCall == null || nullableCall?.callLobby == null) {
+            future.complete(CallCompositeLobbyErrorCode.UNKNOWN_ERROR)
+            return true
+        }
+        return false
+    }
+
+    override fun decline(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
+        val future = CompletableFuture<CallCompositeLobbyErrorCode?>()
+        if (lobbyNullCheck(future)) return future
+        val participant = nullableCall?.remoteParticipants?.find { it.identifier.rawId.equals(userIdentifier) }
+        participant?.let {
+            nullableCall?.callLobby?.reject(it.identifier)
+                ?.whenComplete { _, error ->
+                    if (error != null) {
+                        var errorCode = CallCompositeLobbyErrorCode.UNKNOWN_ERROR
+                        if (error.cause is CallingCommunicationException) {
+                            errorCode = getLobbyErrorCode(error.cause as CallingCommunicationException)
+                        }
+                        future.complete(errorCode)
+                    } else {
+                        future.complete(null)
+                    }
+                }
+        }
+        return future
+    }
+
     override fun dispose() {
         callingSDKEventHandler.dispose()
         cleanupResources()
@@ -170,6 +241,7 @@ internal class CallingSDKWrapper(
                 setupCallCompletableFuture.complete(null)
             }
         }
+        createCallAgent()
         return setupCallCompletableFuture
     }
 

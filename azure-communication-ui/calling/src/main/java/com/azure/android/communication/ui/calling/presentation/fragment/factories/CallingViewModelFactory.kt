@@ -8,6 +8,8 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.OnHoldOverlayViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyErrorHeaderViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyHeaderViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.WaitingLobbyOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser.LocalParticipantViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
@@ -45,6 +47,10 @@ internal class CallingViewModelFactory(
         InfoHeaderViewModel(enableMultitasking)
     }
 
+    val lobbyHeaderViewModel by lazy {
+        LobbyHeaderViewModel()
+    }
+
     val upperMessageBarNotificationLayoutViewModel by lazy {
         UpperMessageBarNotificationLayoutViewModel(store::dispatch)
     }
@@ -68,7 +74,7 @@ internal class CallingViewModelFactory(
     }
 
     val participantListViewModel by lazy {
-        ParticipantListViewModel()
+        ParticipantListViewModel(store::dispatch)
     }
 
     val bannerViewModel by lazy {
@@ -86,4 +92,6 @@ internal class CallingViewModelFactory(
     val onHoldOverlayViewModel by lazy {
         OnHoldOverlayViewModel { store.dispatch(it) }
     }
+
+    val lobbyErrorHeaderViewModel by lazy { LobbyErrorHeaderViewModel(store::dispatch) }
 }

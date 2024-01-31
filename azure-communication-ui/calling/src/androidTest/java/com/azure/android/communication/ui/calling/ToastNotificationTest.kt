@@ -35,7 +35,6 @@ internal class ToastNotificationTest : BaseUiTest() {
 
         callingSDK.setLowNetworkRecieveQuality(false)
 
-        // Assert toast notification is still shown even after UFD is set to false
         assertViewGone(toastNotificationId)
         assertViewGone(toastNotificationIconId)
     }
@@ -61,7 +60,6 @@ internal class ToastNotificationTest : BaseUiTest() {
 
         callingSDK.setLowNetworkSendQuality(false)
 
-        // Assert toast notification is still shown even after UFD is set to false
         assertViewGone(toastNotificationId)
         assertViewGone(toastNotificationIconId)
     }
@@ -88,7 +86,6 @@ internal class ToastNotificationTest : BaseUiTest() {
         // Stop speaking while muted
         callingSDK.setLowNetworkReconnectionQuality(false)
 
-        // Assert toast notification is still shown even after UFD is set to false
         assertViewGone(toastNotificationId)
         assertViewGone(toastNotificationIconId)
     }
@@ -171,7 +168,6 @@ internal class ToastNotificationTest : BaseUiTest() {
         // Stop speaking while muted
         callingSDK.setSpeakingWhileMuted(false)
 
-        // Assert toast notification is still shown even after UFD is set to false
         assertViewGone(toastNotificationId)
         assertViewGone(toastNotificationIconId)
     }

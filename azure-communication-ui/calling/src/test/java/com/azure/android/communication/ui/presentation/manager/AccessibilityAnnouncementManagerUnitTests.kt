@@ -12,20 +12,19 @@ import com.azure.android.communication.ui.calling.presentation.manager.MicStatus
 import com.azure.android.communication.ui.calling.presentation.manager.ParticipantAddedOrRemovedHook
 import com.azure.android.communication.ui.calling.presentation.manager.SwitchCameraStatusHook
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
+import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
+import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
+import com.azure.android.communication.ui.calling.redux.state.AudioState
+import com.azure.android.communication.ui.calling.redux.state.BluetoothState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
-import com.azure.android.communication.ui.calling.redux.state.OperationStatus
-import com.azure.android.communication.ui.calling.redux.state.AudioState
-import com.azure.android.communication.ui.calling.redux.state.LocalUserState
-import com.azure.android.communication.ui.calling.redux.state.CameraState
-import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
-import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
-import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
-import com.azure.android.communication.ui.calling.redux.state.BluetoothState
+import com.azure.android.communication.ui.calling.redux.state.LocalUserState
+import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
-
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -50,7 +49,8 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 CameraDeviceSelectionStatus.BACK,
                 CameraTransmissionStatus.LOCAL
             ),
-            mockAudioState, "", ""
+            mockAudioState, "", "",
+            localParticipantRole = null
         )
 
         // Act
@@ -75,7 +75,8 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 CameraDeviceSelectionStatus.BACK,
                 CameraTransmissionStatus.LOCAL
             ),
-            mockAudioState, "", ""
+            mockAudioState, "", "",
+            localParticipantRole = null
         )
 
         // Act
@@ -99,7 +100,8 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                     CameraDeviceSelectionStatus.BACK,
                     CameraTransmissionStatus.LOCAL
                 ),
-                mockAudioState, "", ""
+                mockAudioState, "", "",
+                localParticipantRole = null
             )
 
         // Act
@@ -121,7 +123,8 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                     CameraDeviceSelectionStatus.BACK,
                     CameraTransmissionStatus.LOCAL
                 ),
-                mockAudioState, "", ""
+                mockAudioState, "", "",
+                localParticipantRole = null
             )
         val cameraStatusHook = CameraStatusHook()
 
@@ -144,7 +147,8 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                     CameraDeviceSelectionStatus.BACK,
                     CameraTransmissionStatus.LOCAL
                 ),
-                mockAudioState, "", ""
+                mockAudioState, "", "",
+                localParticipantRole = null
             )
         val cameraStatusHook = CameraStatusHook()
 
@@ -171,7 +175,8 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 BluetoothState(true, "")
             ),
             "",
-            ""
+            "",
+            localParticipantRole = null
         )
 
         // Act
@@ -200,7 +205,8 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 BluetoothState(true, "")
             ),
             "",
-            ""
+            "",
+            localParticipantRole = null
         )
 
         // Act
@@ -228,7 +234,8 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 BluetoothState(true, "")
             ),
             "",
-            ""
+            "",
+            localParticipantRole = null
         )
 
         // Act
@@ -254,7 +261,8 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 BluetoothState(true, "")
             ),
             "",
-            ""
+            "",
+            localParticipantRole = null
         )
 
         // Act
@@ -277,7 +285,8 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 BluetoothState(true, "")
             ),
             "",
-            ""
+            "",
+            localParticipantRole = null
         )
 
         // Act
@@ -302,7 +311,8 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            mockAudioState, "", ""
+            mockAudioState, "", "",
+            localParticipantRole = null
         )
 
         // Act
@@ -330,7 +340,8 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 CameraDeviceSelectionStatus.BACK,
                 CameraTransmissionStatus.LOCAL
             ),
-            mockAudioState, "", ""
+            mockAudioState, "", "",
+            localParticipantRole = null
         )
 
         // Act
@@ -356,7 +367,8 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 CameraDeviceSelectionStatus.SWITCHING,
                 CameraTransmissionStatus.LOCAL
             ),
-            mockAudioState, "", ""
+            mockAudioState, "", "",
+            localParticipantRole = null
         )
 
         // Act
@@ -378,7 +390,8 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 CameraDeviceSelectionStatus.SWITCHING,
                 CameraTransmissionStatus.LOCAL
             ),
-            mockAudioState, "", ""
+            mockAudioState, "", "",
+            localParticipantRole = null
         )
 
         // Act
@@ -400,7 +413,8 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 CameraDeviceSelectionStatus.SWITCHING,
                 CameraTransmissionStatus.LOCAL
             ),
-            mockAudioState, "", ""
+            mockAudioState, "", "",
+            localParticipantRole = null
         )
 
         // Act
@@ -462,7 +476,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         val meetingJoinedHook = MeetingJoinedHook()
         reduxState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
         reduxState.remoteParticipantState =
-            RemoteParticipantsState(mapOf(Pair("a", mock { })), 5000, listOf(), 0)
+            RemoteParticipantsState(mapOf(Pair("a", mock { })), 5000, listOf(), 0, lobbyErrorCode = null)
         // Act
         val result = meetingJoinedHook.shouldTrigger(AppReduxState("", false, false), reduxState)
 
@@ -477,7 +491,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         val meetingJoinedHook = MeetingJoinedHook()
         reduxState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
         reduxState.remoteParticipantState =
-            RemoteParticipantsState(mapOf(Pair("a", mock { })), 5000, listOf(), 0)
+            RemoteParticipantsState(mapOf(Pair("a", mock { })), 5000, listOf(), 0, lobbyErrorCode = null)
         // Act
         val result = meetingJoinedHook.shouldTrigger(reduxState, reduxState)
 
@@ -510,7 +524,8 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
             ),
             5000,
             listOf(),
-            0
+            0,
+            lobbyErrorCode = null
         )
 
         // Act
@@ -546,7 +561,8 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
             ),
             5000,
             listOf(),
-            0
+            0,
+            lobbyErrorCode = null
         )
 
         // Act

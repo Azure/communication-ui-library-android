@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.calling.service.sdk
 
-import com.azure.android.communication.ui.calling.service.ParticipantIdentifierHelper
-
 internal class DominantSpeakersInfoWrapper(
     private val dominantSpeakersInfo: com.azure.android.communication.calling.DominantSpeakersInfo
 ) : DominantSpeakersInfo {
@@ -16,7 +14,7 @@ internal class DominantSpeakersInfoWrapper(
             identifiers?.let { return it }
 
             val newIdentifiers = dominantSpeakersInfo.speakers.map {
-                ParticipantIdentifierHelper.getRemoteParticipantId(it)
+                it.rawId
             }
             identifiers = newIdentifiers
             return newIdentifiers
