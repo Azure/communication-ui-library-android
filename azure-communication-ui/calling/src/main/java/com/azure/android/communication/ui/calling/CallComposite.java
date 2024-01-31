@@ -333,18 +333,19 @@ public final class CallComposite {
     }
 
     /**
-     * Display Call Composite if it was hidden by user going Back in navigation while on the call.
+     * Brings Call Composite to foreground if it was send to background by {@link #sendToBackground()}
+     * ot by user going back in navigation while on the call.
      *
      * @param context
      */
-    public void displayCallCompositeIfWasHidden(final Context context) {
+    public void bringToForeground(final Context context) {
         showUI(context, false);
     }
 
     /**
      * Hide call composite.
      */
-    public void hide() {
+    public void sendToBackground() {
         if (diContainer != null) {
             diContainer.getAppStore().dispatch(new PipAction.HideRequested());
         }

@@ -149,7 +149,7 @@ class CallLauncherViewModel : ViewModel() {
     }
 
     fun displayCallCompositeIfWasHidden(context: Context) {
-        callComposite?.displayCallCompositeIfWasHidden(context)
+        callComposite?.bringToForeground(context)
     }
 
     fun unsubscribe() {
