@@ -115,11 +115,16 @@ public final class CallCompositeLocalOptions {
      * @return The boolean that is currently set.
      */
     public boolean isCameraOn() {
+        //Override if the AV Mode is audio only
+        if (getAvMode() == CallCompositeAvMode.AUDIO_ONLY) {
+            return false;
+        }
         return this.cameraOn;
     }
 
     /**
-     * Set a boolean to be used.
+     * Enables the Local Camera by default.
+     * Note: If AvMode is set to Audio Only, this will have no effect
      * @param cameraOn The boolean value to be used for initial camera configuration.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
@@ -166,12 +171,11 @@ public final class CallCompositeLocalOptions {
     }
 
     /**
-     * Indicates this Client will be in Audio-Only mode.
-     * This will disable the camera and incoming video feeds.
+     * Returns the Audio/Video mode of the local call
      *
      * @return The boolean value to be used for audio only mode.
      */
-    public CallCompositeAvMode isAudioOnly() {
+    public CallCompositeAvMode getAvMode() {
         return avMode;
     }
 }
