@@ -27,7 +27,7 @@ public final class CallCompositeDebugInfo {
      * Constructs a new CallCompositeDebugInfo instance.
      *
      * @param callHistoryRecord    The history of calls up to 30 days, ordered in ascending order by call start date.
-     * @param getLogFiles          A Callable function to retrieve log files associated with the communication call composite.
+     * @param getLogFiles          A Callable function to retrieve log files
      * @param takeScreenshot       A Callable function to take a screenshot of the current communication call composite.
      */
     CallCompositeDebugInfo(final List<CallCompositeCallHistoryRecord> callHistoryRecord,
@@ -64,9 +64,7 @@ public final class CallCompositeDebugInfo {
 
     /**
      * Takes a screenshot of the current communication call composite, if possible.
-     *
-     * The generated screenshot file will be automatically named and timestamped and will be saved in the app's cache directory.
-     *
+     * The generated screenshot file will be saved in the app's cache directory.
      * @return a screenshot file, or null if taking a screenshot fails.
      */
     public File takeScreenshot() {
