@@ -103,7 +103,7 @@ class CallScreenRobot : ScreenRobot<CallScreenRobot>() {
 
         UiTestUtils.checkRecyclerViewViewHolderText(
             R.id.bottom_drawer_table,
-            0,
+            1,
             R.id.azure_communication_ui_cell_text,
             userName
         )
