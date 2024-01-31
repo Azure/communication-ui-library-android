@@ -56,7 +56,7 @@ class CallScreenRobot : ScreenRobot<CallScreenRobot>() {
             R.id.azure_communication_ui_participant_list_avatar,
             R.id.azure_communication_ui_cell_text
         )
-        UiTestUtils.check3IemRecyclerViewHolderAtPosition(R.id.bottom_drawer_table, 0, viewIds)
+        UiTestUtils.check3IemRecyclerViewHolderAtPosition(R.id.bottom_drawer_table, 1, viewIds)
         return this
     }
 
