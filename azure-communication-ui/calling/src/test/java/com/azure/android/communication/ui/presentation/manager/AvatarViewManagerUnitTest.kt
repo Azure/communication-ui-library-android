@@ -5,23 +5,23 @@ package com.azure.android.communication.ui.presentation.manager
 
 import android.graphics.Bitmap
 import android.widget.ImageView
-import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantViewData
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantsConfiguration
-import com.azure.android.communication.ui.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.helper.StandardTestContextProvider
-import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
-import com.azure.android.communication.ui.calling.models.StreamType
-import com.azure.android.communication.ui.calling.models.VideoStreamModel
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult
+import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
+import com.azure.android.communication.ui.calling.models.StreamType
+import com.azure.android.communication.ui.calling.models.VideoStreamModel
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
 import com.azure.android.communication.ui.calling.service.sdk.CommunicationIdentifier
+import com.azure.android.communication.ui.helper.StandardTestContextProvider
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import org.junit.Assert
@@ -190,7 +190,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                     ),
                     123,
                     listOf(),
-                    0
+                    0,
+                    lobbyErrorCode = null
                 )
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn reduxState
@@ -252,7 +253,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                     ),
                     123,
                     listOf(),
-                    0
+                    0,
+                    lobbyErrorCode = null
                 )
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn reduxState
@@ -314,7 +316,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                     ),
                     123,
                     listOf(),
-                    0
+                    0,
+                    lobbyErrorCode = null
                 )
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn reduxState
@@ -385,7 +388,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                     ),
                     123,
                     listOf(),
-                    0
+                    0,
+                    lobbyErrorCode = null
                 )
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn reduxState
@@ -471,7 +475,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                     ),
                     123,
                     listOf(),
-                    0
+                    0,
+                    lobbyErrorCode = null
                 )
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn reduxState
@@ -548,7 +553,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                     ),
                     123,
                     listOf(),
-                    0
+                    0,
+                    lobbyErrorCode = null
                 )
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn reduxState
@@ -645,7 +651,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                     ),
                     123,
                     listOf(),
-                    0
+                    0,
+                    lobbyErrorCode = null
                 )
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn reduxState

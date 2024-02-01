@@ -9,12 +9,13 @@ import kotlinx.coroutines.flow.StateFlow
 import java.util.Timer
 import java.util.TimerTask
 
-internal class InfoHeaderViewModel {
+internal class InfoHeaderViewModel(val multitaskingEnabled: Boolean) {
     private lateinit var displayFloatingHeaderFlow: MutableStateFlow<Boolean>
     private lateinit var isOverlayDisplayedFlow: MutableStateFlow<Boolean>
     private lateinit var numberOfParticipantsFlow: MutableStateFlow<Int>
 
     private lateinit var timer: Timer
+    private lateinit var requestCallEndCallback: () -> Unit
 
     private var displayedOnLaunch = false
 
@@ -42,12 +43,14 @@ internal class InfoHeaderViewModel {
 
     fun init(
         callingStatus: CallingStatus,
-        numberOfRemoteParticipants: Int
+        numberOfRemoteParticipants: Int,
+        requestCallEndCallback: () -> Unit,
     ) {
         timer = Timer()
         displayFloatingHeaderFlow = MutableStateFlow(false)
         numberOfParticipantsFlow = MutableStateFlow(numberOfRemoteParticipants)
         isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayed(callingStatus))
+        this.requestCallEndCallback = requestCallEndCallback
     }
 
     fun switchFloatingHeader() {
@@ -79,4 +82,8 @@ internal class InfoHeaderViewModel {
 
     private fun isOverlayDisplayed(callingStatus: CallingStatus) =
         callingStatus == CallingStatus.IN_LOBBY || callingStatus == CallingStatus.LOCAL_HOLD
+
+    fun requestCallEnd() {
+        requestCallEndCallback()
+    }
 }

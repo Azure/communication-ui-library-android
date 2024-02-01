@@ -47,12 +47,45 @@ internal fun assertViewGone(id: Int): ViewInteraction? {
     ).check(ViewAssertions.matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
 }
 
+internal fun assertViewNotDisplayed(id: Int) {
+    Espresso.onView(
+        Matchers.allOf(
+            ViewMatchers.withId(id)
+        )
+    ).check(ViewAssertions.matches(Matchers.not(ViewMatchers.isDisplayed())))
+}
+
+internal fun assertNotExist(id: Int): ViewInteraction? {
+    return Espresso.onView(
+        Matchers.allOf(
+            ViewMatchers.withId(id)
+        )
+    ).check(doesNotExist())
+}
+
 internal fun assertViewText(id: Int, text: String) {
     Espresso.onView(
         Matchers.allOf(
             ViewMatchers.withId(id)
         )
     ).check(ViewAssertions.matches(ViewMatchers.withText(text)))
+}
+
+internal fun tapOnScreen() {
+    Espresso.onView(ViewMatchers.isRoot())
+        .perform(ViewActions.click())
+}
+internal fun tapWithTextWhenDisplayed(text: String) {
+    // wait until text is displayed
+    waitUntilViewIsDisplayed {
+        Espresso.onView(
+            Matchers.allOf(ViewMatchers.withText(text), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
+        ).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
+    tapDelay()
+    Espresso.onView(
+        Matchers.allOf(ViewMatchers.withText(text), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
+    ).perform(ViewActions.click())
 }
 
 internal fun assertViewText(id: Int, textId: Int) {
@@ -75,9 +108,15 @@ internal fun tapWhenDisplayed(id: Int) {
 
     // XXX intermittently, this function seems return without a tap actually taking place.
     // This delay appears to help ¯\_(ツ)_/¯
-    SystemClock.sleep(50L)
+    SystemClock.sleep(200L)
 
     tap(id)
+}
+
+private fun tapDelay() {
+    // XXX intermittently, this function seems return without a tap actually taking place.
+    // This delay appears to help ¯\_(ツ)_/¯
+    SystemClock.sleep(200L)
 }
 
 internal fun waitUntilViewIsDisplayed(idlingCheck: () -> ViewInteraction): ViewInteraction {

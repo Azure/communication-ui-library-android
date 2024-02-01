@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.redux.state
 
 import com.azure.android.communication.ui.calling.error.CallCompositeError
+import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 
 internal enum class CameraOperationalStatus {
     PENDING,
@@ -79,4 +80,5 @@ internal data class LocalUserState(
         false,
         false
     ),
+    val localParticipantRole: CallCompositeInternalParticipantRole?
 )

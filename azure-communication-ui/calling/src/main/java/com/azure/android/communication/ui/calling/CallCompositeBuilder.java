@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling;
 
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
+import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation;
 
 /**
@@ -17,6 +18,8 @@ public final class CallCompositeBuilder {
 
     private Integer themeConfig = null;
     private CallCompositeLocalizationOptions localizationConfig = null;
+    private Boolean enableMultitasking = false;
+    private Boolean enableSystemPiPWhenMultitasking = false;
     private CallCompositeSupportedScreenOrientation callScreenOrientation = null;
     private CallCompositeSupportedScreenOrientation setupScreenOrientation = null;
 
@@ -39,6 +42,19 @@ public final class CallCompositeBuilder {
      */
     public CallCompositeBuilder localization(final CallCompositeLocalizationOptions localization) {
         this.localizationConfig = localization;
+        return this;
+    }
+
+    /***
+     * While on the call, user can go back to previous activity from the call composite.
+     *
+     * @param options Multitasking options.
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    public CallCompositeBuilder multitasking(
+            final CallCompositeMultitaskingOptions options) {
+        this.enableMultitasking = options.isEnableMultitasking();
+        this.enableSystemPiPWhenMultitasking = options.isEnableSystemPictureInPictureWhenMultitasking();
         return this;
     }
 
@@ -75,6 +91,8 @@ public final class CallCompositeBuilder {
         final CallCompositeConfiguration config = new CallCompositeConfiguration();
         config.setThemeConfig(themeConfig);
         config.setLocalizationConfig(localizationConfig);
+        config.setEnableMultitasking(enableMultitasking);
+        config.setEnableSystemPiPWhenMultitasking(enableSystemPiPWhenMultitasking);
         config.setCallScreenOrientation(this.callScreenOrientation);
         config.setSetupScreenOrientation(this.setupScreenOrientation);
         return new CallComposite(config);

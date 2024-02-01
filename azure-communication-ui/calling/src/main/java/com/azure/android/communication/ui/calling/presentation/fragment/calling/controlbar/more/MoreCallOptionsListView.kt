@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.widget.RelativeLayout
@@ -18,6 +19,7 @@ import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+@SuppressLint("ViewConstructor")
 internal class MoreCallOptionsListView(
     context: Context,
     private val viewModel: MoreCallOptionsListViewModel

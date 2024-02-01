@@ -20,6 +20,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallL
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
@@ -56,6 +57,10 @@ class CallLauncherViewModel : ViewModel() {
         callComposite = null
     }
 
+    companion object {
+        var callComposite: CallComposite? = null
+    }
+
     fun launch(
         context: Context,
         acsToken: String,
@@ -75,6 +80,10 @@ class CallLauncherViewModel : ViewModel() {
             callComposite.addOnRemoteParticipantJoinedEventHandler(
                 RemoteParticipantJoinedHandler(callComposite, context)
             )
+        }
+
+        callComposite.addOnPictureInPictureChangedEventHandler {
+            println("addOnMultitaskingStateChangedEventHandler it.isInPictureInPicture: " + it.isInPictureInPicture)
         }
 
         if (!SettingsFeatures.getEndCallOnByDefaultOption()) {
@@ -204,11 +213,21 @@ class CallLauncherViewModel : ViewModel() {
         if (AdditionalFeatures.secondaryThemeFeature.active)
             callCompositeBuilder.theme(R.style.MyCompany_Theme_Calling)
 
-        val callComposite = callCompositeBuilder.build()
+        callCompositeBuilder.multitasking(
+            CallCompositeMultitaskingOptions(
+                SettingsFeatures.enableMultitasking(),
+                SettingsFeatures.enablePipWhenMultitasking()
+            )
+        )
 
-        // For test purposes we will keep a static ref to CallComposite
-        CallLauncherViewModel.callComposite = callComposite
-        return callComposite
+        val newCallComposite = callCompositeBuilder.build()
+
+        callComposite = newCallComposite
+        return newCallComposite
+    }
+
+    fun displayCallCompositeIfWasHidden(context: Context) {
+        callComposite?.bringToForeground(context)
     }
 
     fun unsubscribe() {
@@ -224,10 +243,6 @@ class CallLauncherViewModel : ViewModel() {
         callComposite?.apply {
             callHangup()
         }
-    }
-
-    companion object {
-        var callComposite: CallComposite? = null
     }
 }
 

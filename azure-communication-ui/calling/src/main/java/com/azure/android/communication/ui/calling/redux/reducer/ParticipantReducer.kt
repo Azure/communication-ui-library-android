@@ -22,6 +22,12 @@ internal class ParticipantStateReducerImpl :
                     dominantSpeakersModifiedTimestamp = System.currentTimeMillis()
                 )
             }
+            is ParticipantAction.LobbyError -> {
+                state.copy(lobbyErrorCode = action.code)
+            }
+            is ParticipantAction.ClearLobbyError -> {
+                state.copy(lobbyErrorCode = null)
+            }
             else -> state
         }
     }

@@ -4,12 +4,15 @@
 package com.azure.android.communication.ui.calling.presentation
 
 import android.annotation.SuppressLint
+import android.app.PictureInPictureParams
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Rational
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
@@ -26,33 +29,35 @@ import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
 import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent
+import com.azure.android.communication.ui.calling.onExit
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.support.SupportView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.support.SupportViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
-import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
+import com.azure.android.communication.ui.calling.redux.action.PipAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
-import com.azure.android.communication.ui.calling.utilities.TestHelper
 import com.azure.android.communication.ui.calling.utilities.ScreenshotHelper
+import com.azure.android.communication.ui.calling.redux.state.PictureInPictureStatus
+import com.azure.android.communication.ui.calling.utilities.collect
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
+import com.azure.android.communication.ui.calling.utilities.launchAll
 import com.microsoft.fluentui.util.activity
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 import java.lang.ref.WeakReference
 import java.util.Locale
 
-internal class CallCompositeActivity : AppCompatActivity() {
+internal open class CallCompositeActivity : AppCompatActivity() {
     private val diContainerHolder: DependencyInjectionContainerHolder by viewModels {
         DependencyInjectionContainerHolderFactory(
             this@CallCompositeActivity.application,
-            TestHelper.callingSDK,
-            TestHelper.videoStreamRendererFactory,
-            TestHelper.coroutineContextProvider
         )
     }
+
     private val container by lazy { diContainerHolder.container }
 
     private val navigationRouter get() = container.navigationRouter
@@ -70,6 +75,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val audioFocusManager get() = container.audioFocusManager
     private val audioModeManager get() = container.audioModeManager
     private val lifecycleManager get() = container.lifecycleManager
+    private val multitaskingManager get() = container.multitaskingManager
     private val errorHandler get() = container.errorHandler
     private val callStateHandler get() = container.callStateHandler
     private val remoteParticipantJoinedHandler get() = container.remoteParticipantHandler
@@ -81,12 +87,10 @@ internal class CallCompositeActivity : AppCompatActivity() {
     private val logger get() = container.logger
     private val compositeManager get() = container.compositeExitManager
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        volumeControlStream = AudioManager.STREAM_VOICE_CALL
+    private lateinit var visibilityStatusFlow: MutableStateFlow<PictureInPictureStatus>
 
-        // Assign the Dependency Injection Container the appropriate instanceId,
-        // so it can initialize it's container holding the dependencies
+    override fun onCreate(savedInstanceState: Bundle?) {
+        // Before super, we'll set up the DI injector and check the PiP state
         try {
             diContainerHolder.instanceId = instanceId
             diContainerHolder.container.callCompositeActivityWeakReference = WeakReference(this)
@@ -95,8 +99,14 @@ internal class CallCompositeActivity : AppCompatActivity() {
             return
         }
 
-        lifecycleScope.launch { errorHandler.start() }
-        lifecycleScope.launch { remoteParticipantJoinedHandler.start() }
+        val listeningPair = Pair(lifecycleScope, store)
+        visibilityStatusFlow = MutableStateFlow(store.getCurrentState().pipState.status)
+
+        // Call super
+        super.onCreate(savedInstanceState)
+        syncPipMode()
+        // Inflate everything else
+        volumeControlStream = AudioManager.STREAM_VOICE_CALL
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         configureLocalization()
@@ -111,9 +121,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         setContentView(R.layout.azure_communication_ui_calling_activity_call_composite)
 
-        val activity = this
         permissionManager.start(
-            activity,
+            this,
             getAudioPermissionLauncher(),
             getCameraPermissionLauncher(),
             lifecycleScope
@@ -121,37 +130,40 @@ internal class CallCompositeActivity : AppCompatActivity() {
 
         audioSessionManager.onCreate(savedInstanceState)
 
-        lifecycleScope.launch { container.accessibilityManager.start(activity) }
-
         lifecycleScope.launchWhenStarted {
             navigationRouter.getNavigationStateFlow().collect { onNavigationStateChange(it) }
         }
 
-        lifecycleScope.launch {
-            navigationRouter.start()
-        }
-
-        lifecycleScope.launch {
-            audioFocusManager.start()
-        }
-
-        lifecycleScope.launch {
-            audioModeManager.start()
-        }
-
-        notificationService.start(lifecycleScope)
-        callHistoryService.start(lifecycleScope)
-
-        lifecycleScope.launch {
-            supportView.start(supportViewModel, this@CallCompositeActivity)
-        }
-
-        lifecycleScope.launch {
-            store.getStateFlow().collect {
-                supportViewModel.update(it.navigationState)
+        lifecycleScope.launchAll(
+            navigationRouter::start,
+            audioFocusManager::start,
+            audioModeManager::start,
+            errorHandler::start,
+            remoteParticipantJoinedHandler::start,
+            { container.accessibilityManager.start(this) },
+            {
+                supportView.start(supportViewModel, this@CallCompositeActivity)
+            },
+            {
+                visibilityStatusFlow.collect {
+                    if (it == PictureInPictureStatus.HIDE_REQUESTED) {
+                        hide()
+                        store.dispatch(PipAction.HideEntered())
+                    }
+                }
             }
-        }
+        )
+
+        // Probably can follow the above pattern now with function declarations
+        multitaskingManager.start(lifecycleScope)
+        notificationService.start(lifecycleScope, instanceId)
+        callHistoryService.start(lifecycleScope)
         callStateHandler.start(lifecycleScope)
+
+        listeningPair.collect {
+            supportViewModel.update(it.navigationState)
+            visibilityStatusFlow.value = it.pipState.status
+        }
     }
 
     override fun onStart() {
@@ -160,6 +172,26 @@ internal class CallCompositeActivity : AppCompatActivity() {
         lifecycleScope.launch { lifecycleManager.resume() }
         permissionManager.setCameraPermissionsState()
         permissionManager.setAudioPermissionsState()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // when PiP is closed, Activity is not re-created, so onCreate is not called,
+        // need to call initPipMode from onResume as well
+        initPipMode()
+    }
+
+    private fun initPipMode() {
+        if (configuration.enableSystemPiPWhenMultitasking &&
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
+        ) {
+            store.dispatch(
+                if (isInPictureInPictureMode) PipAction.PipModeEntered()
+                else PipAction.ShowNormalEntered()
+            )
+        }
     }
 
     override fun onStop() {
@@ -179,12 +211,14 @@ internal class CallCompositeActivity : AppCompatActivity() {
             audioFocusManager.stop()
             audioSessionManager.onDestroy(this)
             audioModeManager.onDestroy()
-            if (isFinishing) {
+
+            if (isFinishing && store.getCurrentState().navigationState.navigationState == NavigationStatus.EXIT) {
                 store.dispatch(CallingAction.CallEndRequested())
                 compositeManager.onCompositeDestroy()
                 CallCompositeInstanceManager.removeCallComposite(instanceId)
             }
         }
+
         diContainerHolder.container.callCompositeActivityWeakReference = WeakReference(null)
         super.onDestroy()
     }
@@ -197,6 +231,81 @@ internal class CallCompositeActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onUserLeaveHint() {
+        try {
+            if (configuration.enableSystemPiPWhenMultitasking &&
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+                activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true &&
+                store.getCurrentState().navigationState.navigationState == NavigationStatus.IN_CALL
+            ) {
+                val params = PictureInPictureParams
+                    .Builder()
+                    .setAspectRatio(Rational(1, 1))
+                    .build()
+
+                if (enterPictureInPictureMode(params))
+                    reduxStartPipMode()
+            }
+        } catch (_: Exception) {
+            // on some samsung devices(API 26) enterPictureInPictureMode crashes even FEATURE_PICTURE_IN_PICTURE is true
+        }
+    }
+
+    override fun onPictureInPictureModeChanged(
+        isInPictureInPictureMode: Boolean,
+        newConfig: Configuration?
+    ) {
+        store.dispatch(if (isInPictureInPictureMode) PipAction.PipModeEntered() else PipAction.ShowNormalEntered())
+    }
+
+    private fun syncPipMode() {
+        if (configuration.enableSystemPiPWhenMultitasking &&
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true &&
+            store.getCurrentState().navigationState.navigationState == NavigationStatus.IN_CALL
+        ) {
+            store.dispatch(if (isInPictureInPictureMode) PipAction.PipModeEntered() else PipAction.ShowNormalEntered())
+        }
+    }
+
+    private fun reduxStartPipMode() {
+        if (configuration.enableSystemPiPWhenMultitasking &&
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true &&
+            store.getCurrentState().navigationState.navigationState == NavigationStatus.IN_CALL
+        ) {
+            store.dispatch(if (isInPictureInPictureMode) PipAction.PipModeEntered() else PipAction.ShowNormalEntered())
+        }
+    }
+
+    fun hide() {
+        if (!configuration.enableMultitasking)
+            return
+
+        // TODO: should we enter PiP if we are on the setup screen?
+        if (configuration.enableSystemPiPWhenMultitasking &&
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+            activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
+        ) {
+            val params = PictureInPictureParams
+                .Builder()
+                .setAspectRatio(Rational(1, 1))
+                .build()
+            var enteredPiPSucceeded = false
+            try {
+                enteredPiPSucceeded = enterPictureInPictureMode(params)
+            } catch (_: Exception) {
+                // on some samsung devices(API 26) enterPictureInPictureMode crashes even FEATURE_PICTURE_IN_PICTURE is true
+            }
+            if (enteredPiPSucceeded)
+                reduxStartPipMode()
+            else
+                activity?.moveTaskToBack(true)
+        } else {
+            activity?.moveTaskToBack(true)
+        }
     }
 
     private fun configureActionBar() {
@@ -216,7 +325,10 @@ internal class CallCompositeActivity : AppCompatActivity() {
         val debugInfo = container.debugInfoManager.getDebugInfo()
         val event = CallCompositeUserReportedIssueEvent(
             userText,
-            if (screenshot) (container.callCompositeActivityWeakReference.get()?.let { ScreenshotHelper.captureActivity(this) }) else null,
+            if (screenshot) (
+                container.callCompositeActivityWeakReference.get()
+                    ?.let { ScreenshotHelper.captureActivity(this) }
+                ) else null,
             debugInfo
         )
         supportView.visibility = View.GONE
@@ -240,6 +352,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
             null -> {
                 supportedOSLocale()
             }
+
             else -> {
                 configuration.localizationConfig!!.layoutDirection?.let {
                     window?.decorView?.layoutDirection = it
@@ -275,15 +388,6 @@ internal class CallCompositeActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        val fragment = supportFragmentManager.fragments.firstOrNull()
-        if (fragment !== null) {
-            (fragment as BackNavigation).onBackPressed()
-        } else {
-            super.onBackPressed()
-        }
-    }
-
     @SuppressLint("SourceLockedOrientationActivity", "RestrictedApi")
     private fun onNavigationStateChange(navigationState: NavigationStatus) {
         when (navigationState) {
@@ -294,17 +398,21 @@ internal class CallCompositeActivity : AppCompatActivity() {
                     store.dispatch(action = NavigationAction.SetupLaunched())
                 }
             }
+
             NavigationStatus.EXIT -> {
                 notificationService.removeNotification()
                 store.end()
                 callingMiddlewareActionHandler.dispose()
                 videoViewManager.destroy()
+                container.callComposite.onExit()
                 finish()
             }
+
             NavigationStatus.IN_CALL -> {
                 supportActionBar?.setShowHideAnimationEnabled(false)
                 supportActionBar?.hide()
-                val callScreenOrientation: Int? = getScreenOrientation(configuration.callScreenOrientation)
+                val callScreenOrientation: Int? =
+                    getScreenOrientation(configuration.callScreenOrientation)
                 requestedOrientation =
                     when {
                         (callScreenOrientation != null) -> callScreenOrientation
@@ -313,10 +421,12 @@ internal class CallCompositeActivity : AppCompatActivity() {
                     }
                 launchFragment(CallingFragment::class.java.name)
             }
+
             NavigationStatus.SETUP -> {
                 notificationService.removeNotification()
                 supportActionBar?.show()
-                val setupScreenOrientation: Int? = getScreenOrientation(configuration.setupScreenOrientation)
+                val setupScreenOrientation: Int? =
+                    getScreenOrientation(configuration.setupScreenOrientation)
                 requestedOrientation =
                     when {
                         (setupScreenOrientation != null) -> setupScreenOrientation
@@ -419,16 +529,22 @@ internal class CallCompositeActivity : AppCompatActivity() {
         return when (orientation) {
             CallCompositeSupportedScreenOrientation.PORTRAIT ->
                 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
             CallCompositeSupportedScreenOrientation.LANDSCAPE ->
                 ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+
             CallCompositeSupportedScreenOrientation.REVERSE_LANDSCAPE ->
                 ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+
             CallCompositeSupportedScreenOrientation.USER ->
                 ActivityInfo.SCREEN_ORIENTATION_USER
+
             CallCompositeSupportedScreenOrientation.FULL_SENSOR ->
                 ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+
             CallCompositeSupportedScreenOrientation.USER_LANDSCAPE ->
                 ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE
+
             null -> null
             else -> {
                 logger.warning("Not supported screen orientation")
@@ -437,7 +553,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
         }
     }
 
-    companion object {
+    internal companion object {
         const val KEY_INSTANCE_ID = "InstanceID"
     }
 }

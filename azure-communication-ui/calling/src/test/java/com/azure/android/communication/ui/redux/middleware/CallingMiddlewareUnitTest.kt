@@ -10,6 +10,7 @@ import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.action.LifecycleAction
 import com.azure.android.communication.ui.calling.redux.middleware.CallingMiddlewareImpl
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
+import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandler
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import org.junit.Assert
@@ -246,5 +247,86 @@ internal class CallingMiddlewareUnitTest {
 
         // assert
         verify(mockCallingMiddlewareActionHandler, times(1)).exit(mockAppStore)
+    }
+
+    @Test
+    fun callingMiddleware_invoke_when_invokedWithAdmitAll_then_invokeAdmitAll() {
+        // arrange
+        val actionToDispatch = ParticipantAction.AdmitAll()
+
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+
+        val mockCallingMiddlewareActionHandler = mock<CallingMiddlewareActionHandler> {
+            on { admitAll(mockAppStore) } doAnswer {}
+        }
+
+        val callingMiddlewareImplementation =
+            CallingMiddlewareImpl(
+                mockCallingMiddlewareActionHandler,
+                mockLogger
+            )
+
+        // act
+        callingMiddlewareImplementation.invoke(mockAppStore)(
+            fun(_) {
+            }
+        )(actionToDispatch)
+
+        // assert
+        verify(mockCallingMiddlewareActionHandler, times(1)).admitAll(mockAppStore)
+    }
+
+    @Test
+    fun callingMiddleware_invoke_when_invokedWithAdmit_then_invokeAdmit() {
+        // arrange
+        val actionToDispatch = ParticipantAction.Admit("id")
+
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+
+        val mockCallingMiddlewareActionHandler = mock<CallingMiddlewareActionHandler> {
+            on { admit(actionToDispatch.userIdentifier, mockAppStore) } doAnswer {}
+        }
+
+        val callingMiddlewareImplementation =
+            CallingMiddlewareImpl(
+                mockCallingMiddlewareActionHandler,
+                mockLogger
+            )
+
+        // act
+        callingMiddlewareImplementation.invoke(mockAppStore)(
+            fun(_) {
+            }
+        )(actionToDispatch)
+
+        // assert
+        verify(mockCallingMiddlewareActionHandler, times(1)).admit(actionToDispatch.userIdentifier, mockAppStore)
+    }
+
+    @Test
+    fun callingMiddleware_invoke_when_invokedWithDecline_then_invokeDecline() {
+        // arrange
+        val actionToDispatch = ParticipantAction.Decline("id")
+
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+
+        val mockCallingMiddlewareActionHandler = mock<CallingMiddlewareActionHandler> {
+            on { decline(actionToDispatch.userIdentifier, mockAppStore) } doAnswer {}
+        }
+
+        val callingMiddlewareImplementation =
+            CallingMiddlewareImpl(
+                mockCallingMiddlewareActionHandler,
+                mockLogger
+            )
+
+        // act
+        callingMiddlewareImplementation.invoke(mockAppStore)(
+            fun(_) {
+            }
+        )(actionToDispatch)
+
+        // assert
+        verify(mockCallingMiddlewareActionHandler, times(1)).decline(actionToDispatch.userIdentifier, mockAppStore)
     }
 }

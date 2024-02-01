@@ -13,3 +13,10 @@ import java.io.File
 internal fun createDebugInfoManager(context: Context, getLogFiles: () -> List<File>, takeScreenshot: () -> File): DebugInfoManager {
     return DebugInfoManagerImpl(CallHistoryRepositoryImpl(context, DefaultLogger()), getLogFiles, takeScreenshot)
 }
+
+internal fun CallComposite.getDiContainer() =
+    CallComposite.diContainer
+
+internal fun CallComposite.onExit() {
+    CallComposite.diContainer = null
+}

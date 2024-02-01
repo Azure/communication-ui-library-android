@@ -36,6 +36,7 @@ buildscript {
             azure_calling_sdk_version_beta = azure_calling_sdk_version_ga
         }
         else {
+
             // To use Beta Calling SDK and Features, set the following in local.properties:
             //
             // USE_CALLING_SDK_BETA=true
@@ -46,8 +47,8 @@ buildscript {
 
             // In this branch, it was already Beta version, so it'll be in the GA field here
             // This should be set to a GA release before merge back
-            azure_calling_sdk_version_ga = '2.5.0'
-            azure_calling_sdk_version_beta = '2.6.0-beta.6'
+            azure_calling_sdk_version_ga = '2.6.0-beta.7'
+            azure_calling_sdk_version_beta = '2.6.0-beta.7'
         }
 
         // Initialize the SDK Version based on the calling SDK Beta flag
@@ -96,7 +97,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.2'
+        classpath 'com.android.tools.build:gradle:7.4.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jacoco:org.jacoco.core:$jacoco_version"
 

@@ -3,11 +3,16 @@
 
 package com.azure.android.communication.ui.service
 
+import com.azure.android.communication.ui.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
-import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.CallCompositeError
 import com.azure.android.communication.ui.calling.error.CallStateError
+import com.azure.android.communication.ui.calling.error.ErrorCode
+import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_END_FAILED
 import com.azure.android.communication.ui.calling.error.ErrorHandler
+import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode
+import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_DECLINED
+import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_EVICTED
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
@@ -22,13 +27,7 @@ import com.azure.android.communication.ui.calling.redux.state.CameraTransmission
 import com.azure.android.communication.ui.calling.redux.state.ErrorState
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
-import com.azure.android.communication.ui.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_END_FAILED
-import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode
-import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_DECLINED
-import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_EVICTED
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.junit.Test
@@ -112,7 +111,8 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 videoStreamID = null,
-                displayName = "name"
+                displayName = "name",
+                localParticipantRole = null
             )
 
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(
@@ -171,7 +171,8 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
                     CallCompositeError(ErrorCode.TURN_MIC_OFF_FAILED, error),
                 ),
                 videoStreamID = null,
-                displayName = "name"
+                displayName = "name",
+                localParticipantRole = null
             )
 
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(
