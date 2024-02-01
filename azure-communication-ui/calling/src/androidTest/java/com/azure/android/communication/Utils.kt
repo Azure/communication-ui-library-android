@@ -13,6 +13,7 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
+import androidx.test.platform.app.InstrumentationRegistry
 import junit.framework.AssertionFailedError
 import org.hamcrest.Matchers
 
@@ -102,4 +103,34 @@ internal fun waitUntilViewIsDisplayed(idlingCheck: () -> ViewInteraction): ViewI
 internal fun assertViewHasChild(@IdRes id: Int, n: Int) {
     Espresso.onView(ViewMatchers.withId(id))
         .check(ViewAssertions.matches(ViewMatchers.hasChildCount(n)))
+}
+
+internal fun assertTextDisplayed(stringId: Int) {
+    val context = InstrumentationRegistry.getInstrumentation().targetContext
+    val expectedText = context.getString(stringId)
+    Espresso.onView(ViewMatchers.withText(expectedText))
+        .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+}
+
+internal fun assertTextNotDisplayed(stringId: Int) {
+    val context = InstrumentationRegistry.getInstrumentation().targetContext
+    val expectedText = context.getString(stringId)
+    Espresso.onView(ViewMatchers.withText(expectedText))
+        .check(ViewAssertions.doesNotExist())
+}
+
+internal fun tapOnText(stringId: Int) {
+    val context = InstrumentationRegistry.getInstrumentation().targetContext
+    val textToTap = context.getString(stringId)
+    Espresso.onView(ViewMatchers.withText(textToTap))
+        .perform(ViewActions.click())
+}
+
+internal fun waitUntilTextDisplayed(stringId: Int) {
+    val context = InstrumentationRegistry.getInstrumentation().targetContext
+    val textToWaitFor = context.getString(stringId)
+    waitUntilViewIsDisplayed {
+        Espresso.onView(ViewMatchers.withText(textToWaitFor))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
 }

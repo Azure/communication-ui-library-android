@@ -4,34 +4,79 @@ package com.azure.android.communication.ui.calling
 
 import androidx.test.platform.app.InstrumentationRegistry
 import com.azure.android.communication.BaseUiTest
-import com.azure.android.communication.assertViewHasChild
-import com.azure.android.communication.assertViewText
-import com.azure.android.communication.calling.MediaStreamType
-import com.azure.android.communication.calling.ParticipantState
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
+import com.azure.android.communication.tapOnText
 import com.azure.android.communication.tapWhenDisplayed
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
-import com.azure.android.communication.ui.calling.service.sdk.CommunicationIdentifier
+import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent
 import com.azure.android.communication.waitUntilDisplayed
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import java.util.UUID
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import com.azure.android.communication.assertNotDisplayed
+import com.azure.android.communication.assertTextNotDisplayed
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 
+@OptIn(ExperimentalCoroutinesApi::class)
 internal class SupportFormTest : BaseUiTest() {
+
+    @Test
+    fun testSupportFormIsDisplayedAndSendsEvent(
+
+    ) = runTest {
+        injectDependencies(testScheduler)
+        // Launch the UI.
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        val callComposite = CallCompositeBuilder().build()
+        val communicationTokenRefreshOptions =
+            CommunicationTokenRefreshOptions({ "token" }, true)
+        val communicationTokenCredential =
+            CommunicationTokenCredential(communicationTokenRefreshOptions)
+        val remoteOptions =
+            CallCompositeRemoteOptions(
+                CallCompositeGroupCallLocator(UUID.fromString("74fce2c1-520f-11ec-97de-71411a9a8e14")),
+                communicationTokenCredential,
+                "test"
+            )
+
+        var event: CallCompositeUserReportedIssueEvent? = null
+
+        callComposite.addOnUserReportedEventHandler {
+            event = it
+        }
+
+        callComposite.launchTest(appContext, remoteOptions, null)
+
+        tapWhenDisplayed(joinCallId)
+        waitUntilDisplayed(endCallId)
+        tapWhenDisplayed(moreOptionsId)
+        tapOnText(showSupportFormTextId)
+        waitUntilDisplayed(userMessageEditTextId)
+
+
+        val testMessage = "Test support message"
+        onView(withId(userMessageEditTextId))
+            .perform(ViewActions.typeText(testMessage))
+
+        tapWhenDisplayed(sendButtonId)
+
+        assertNotNull(event)
+        assertEquals(testMessage, event?.userMessage)
+    }
 
 
     @Test
-    fun testSupportFormIsVisibleWhenEventRegistered() = runTest {
+    fun testSupportFormIsNotDisplayedWhenNoHandler(
+
+    ) = runTest {
         injectDependencies(testScheduler)
-
-        supportFormVisibilityTests(true)
-    }
-
-    private suspend fun supportFormVisibilityTests(
-        registerEvent:Boolean
-    ) {
         // Launch the UI.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val callComposite = CallCompositeBuilder().build()
@@ -50,46 +95,8 @@ internal class SupportFormTest : BaseUiTest() {
 
         tapWhenDisplayed(joinCallId)
         waitUntilDisplayed(endCallId)
-//
-//        callingSDK.addRemoteParticipant(
-//            CommunicationIdentifier.CommunicationUserIdentifier("ACS User 1"),
-//            displayName = "ACS User 1",
-//            isMuted = false,
-//            isSpeaking = true,
-//            videoStreams = listOf(MediaStreamType.VIDEO)
-//        )
-//
-//        callingSDK.addRemoteParticipant(
-//            CommunicationIdentifier.CommunicationUserIdentifier("ACS User 2"),
-//            displayName = "ACS User 2",
-//            isMuted = false,
-//            isSpeaking = true,
-//            videoStreams = listOf(MediaStreamType.VIDEO)
-//        )
-//
-//        if (addLobbyUser) {
-//            callingSDK.addRemoteParticipant(
-//                CommunicationIdentifier.CommunicationUserIdentifier("Lobby State"),
-//                displayName = "Lobby State",
-//                state = ParticipantState.IN_LOBBY,
-//                isMuted = false,
-//                isSpeaking = true,
-//                videoStreams = listOf(MediaStreamType.VIDEO)
-//            )
-//        }
-//
-//        waitUntilDisplayed(participantContainerId)
-//
-//        assertViewText(
-//            participantCountId,
-//            "Call with $expectedParticipantCountOnFloatingHeader people"
-//        )
-//
-//        assertViewHasChild(participantContainerId, expectedParticipantCountOnGridView)
-//
-//        tapWhenDisplayed(participantListOpenButton)
-//
-//        // 1 local
-//        assertViewHasChild(bottomDrawer, expectedParticipantCountOnParticipantList + 1)
+        tapWhenDisplayed(moreOptionsId)
+        assertTextNotDisplayed(showSupportFormTextId)
     }
 }
+
