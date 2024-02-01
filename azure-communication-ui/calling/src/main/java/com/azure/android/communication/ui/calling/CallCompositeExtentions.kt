@@ -12,3 +12,10 @@ import com.azure.android.communication.ui.calling.presentation.manager.DebugInfo
 internal fun createDebugInfoManager(context: Context): DebugInfoManager {
     return DebugInfoManagerImpl(CallHistoryRepositoryImpl(context, DefaultLogger()))
 }
+
+internal fun CallComposite.getDiContainer() =
+    CallComposite.diContainer
+
+internal fun CallComposite.onExit() {
+    CallComposite.diContainer = null
+}

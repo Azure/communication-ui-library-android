@@ -51,6 +51,8 @@ import com.azure.android.communication.ui.calling.redux.reducer.Reducer
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
+import com.azure.android.communication.ui.calling.presentation.manager.MultitaskingManager
+import com.azure.android.communication.ui.calling.redux.reducer.PipReducerImpl
 import com.azure.android.communication.ui.calling.service.CallHistoryService
 import com.azure.android.communication.ui.calling.service.CallHistoryServiceImpl
 import com.azure.android.communication.ui.calling.service.NotificationService
@@ -60,6 +62,7 @@ import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 
 internal class DependencyInjectionContainerImpl(
+    private val instanceId: Int,
     private val parentContext: Context,
     override val callComposite: CallComposite,
     private val customCallingSDK: CallingSDK?,
@@ -172,6 +175,10 @@ internal class DependencyInjectionContainerImpl(
         LifecycleManagerImpl(appStore)
     }
 
+    override val multitaskingManager by lazy {
+        MultitaskingManager(appStore, configuration)
+    }
+
     override val appStore by lazy {
         AppStore(
             initialState,
@@ -182,7 +189,7 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val notificationService by lazy {
-        NotificationService(parentContext, appStore)
+        NotificationService(parentContext, appStore, configuration, instanceId)
     }
 
     override val remoteParticipantHandler by lazy {
@@ -216,6 +223,7 @@ internal class DependencyInjectionContainerImpl(
     private val errorReducer get() = ErrorReducerImpl()
     private val navigationReducer get() = NavigationReducerImpl()
     private val audioSessionReducer get() = AudioSessionStateReducerImpl()
+    private val pipReducer get() = PipReducerImpl()
     private val callDiagnosticsReducer get() = CallDiagnosticsReducerImpl()
 
     // Middleware
@@ -238,6 +246,7 @@ internal class DependencyInjectionContainerImpl(
             errorReducer,
             navigationReducer,
             audioSessionReducer,
+            pipReducer,
             callDiagnosticsReducer
         ) as Reducer<ReduxState>
     }

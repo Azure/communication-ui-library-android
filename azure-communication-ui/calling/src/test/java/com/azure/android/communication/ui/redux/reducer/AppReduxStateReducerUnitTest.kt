@@ -13,6 +13,7 @@ import com.azure.android.communication.ui.calling.redux.reducer.LocalParticipant
 import com.azure.android.communication.ui.calling.redux.reducer.NavigationReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.ParticipantStateReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.PermissionStateReducerImpl
+import com.azure.android.communication.ui.calling.redux.reducer.PipReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.CallDiagnosticsReducerImpl
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
@@ -71,6 +72,9 @@ internal class AppReduxStateReducerUnitTest {
     private lateinit var mockAudioSessionReducerImpl: AudioSessionStateReducerImpl
 
     @Mock
+    private lateinit var pipReducer: PipReducerImpl
+
+    @Mock
     private lateinit var mockCallDiagnosticsReducerImpl: CallDiagnosticsReducerImpl
 
     @Test
@@ -87,6 +91,7 @@ internal class AppReduxStateReducerUnitTest {
                 mockErrorReducer,
                 mockNavigationReducerImpl,
                 mockAudioSessionReducerImpl,
+                pipReducer,
                 mockCallDiagnosticsReducerImpl
             )
         val action = NavigationAction.CallLaunched()
@@ -165,6 +170,13 @@ internal class AppReduxStateReducerUnitTest {
                 action
             )
         ).thenReturn(state.audioSessionState)
+
+        Mockito.`when`(
+            pipReducer.reduce(
+                state.pipState,
+                action
+            )
+        ).thenReturn(state.pipState)
 
         Mockito.`when`(
             mockCallDiagnosticsReducerImpl.reduce(

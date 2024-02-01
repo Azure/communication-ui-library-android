@@ -104,6 +104,9 @@ class CallLauncherActivity : AppCompatActivity() {
                 launch()
             }
 
+            showUIButton.setOnClickListener {
+                showUI()
+            }
             closeCompositeButton.setOnClickListener { callLauncherViewModel.close() }
 
             groupCallRadioButton.setOnClickListener {
@@ -159,10 +162,6 @@ class CallLauncherActivity : AppCompatActivity() {
         EndCompositeButtonView.get(this).hide()
         EndCompositeButtonView.buttonView = null
         callLauncherViewModel.unsubscribe()
-
-        if (isFinishing) {
-            callLauncherViewModel.close()
-        }
     }
 
     // check whether new Activity instance was brought to top of stack,
@@ -220,6 +219,10 @@ class CallLauncherActivity : AppCompatActivity() {
             groupId,
             meetingLink,
         )
+    }
+
+    private fun showUI() {
+        callLauncherViewModel.displayCallCompositeIfWasHidden(this)
     }
 
     private fun showCallHistory() {

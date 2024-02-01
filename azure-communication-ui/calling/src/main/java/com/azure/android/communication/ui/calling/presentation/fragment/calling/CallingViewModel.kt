@@ -21,7 +21,8 @@ import kotlinx.coroutines.CoroutineScope
 internal class CallingViewModel(
     store: Store<ReduxState>,
     callingViewModelProvider: CallingViewModelFactory,
-    private val networkManager: NetworkManager
+    private val networkManager: NetworkManager,
+    val multitaskingEnabled: Boolean
 ) :
     BaseViewModel(store) {
 
@@ -65,6 +66,7 @@ internal class CallingViewModel(
             this::requestCallEnd,
             audioDeviceListViewModel::displayAudioDeviceSelectionMenu,
             moreCallOptionsListViewModel::display,
+            state.pipState,
         )
 
         localParticipantViewModel.init(
@@ -75,11 +77,13 @@ internal class CallingViewModel(
             state.callState.callingStatus,
             state.localParticipantState.cameraState.device,
             state.localParticipantState.cameraState.camerasCount,
+            state.pipState.status,
         )
 
         floatingHeaderViewModel.init(
             state.callState.callingStatus,
-            remoteParticipantsForGridView.count()
+            remoteParticipantsForGridView.count(),
+            this::requestCallEnd,
         )
 
         audioDeviceListViewModel.init(
@@ -145,7 +149,8 @@ internal class CallingViewModel(
             state.permissionState,
             state.localParticipantState.cameraState,
             state.localParticipantState.audioState,
-            state.callState.callingStatus
+            state.callState.callingStatus,
+            state.pipState,
         )
 
         localParticipantViewModel.update(
@@ -156,6 +161,7 @@ internal class CallingViewModel(
             state.callState.callingStatus,
             state.localParticipantState.cameraState.device,
             state.localParticipantState.cameraState.camerasCount,
+            state.pipState.status,
         )
 
         audioDeviceListViewModel.update(
@@ -179,6 +185,7 @@ internal class CallingViewModel(
                 remoteParticipantsMap = mapOf(),
                 dominantSpeakersInfo = listOf(),
                 dominantSpeakersModifiedTimestamp = System.currentTimeMillis(),
+                state.pipState.status,
             )
             floatingHeaderViewModel.dismiss()
             lobbyHeaderViewModel.dismiss()
@@ -192,6 +199,7 @@ internal class CallingViewModel(
                 state.callState.callingStatus,
                 state.localParticipantState.cameraState.device,
                 state.localParticipantState.cameraState.camerasCount,
+                state.pipState.status,
             )
         }
 
@@ -201,6 +209,7 @@ internal class CallingViewModel(
                 remoteParticipantsForGridView,
                 state.remoteParticipantState.dominantSpeakersInfo,
                 state.remoteParticipantState.dominantSpeakersModifiedTimestamp,
+                state.pipState.status,
             )
 
             floatingHeaderViewModel.update(
