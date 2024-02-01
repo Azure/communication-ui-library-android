@@ -34,6 +34,8 @@ internal open class BaseUiTest {
     internal val upperMessageBarNotificationIconId = R.id.azure_communication_ui_calling_upper_message_bar_notification_icon
     internal val upperMessageBarNotificationMessageId = R.id.azure_communication_ui_calling_upper_message_bar_notification_message
     internal val upperMessageBarNotificationDismissButtonId = R.id.azure_communication_ui_calling_upper_message_bar_notification_dismiss_button
+    internal val setupCameraButtonId = R.id.azure_communication_ui_setup_camera_button
+    internal val callCameraButtonId = R.id.azure_communication_ui_call_switch_camera_button
 
     // Support Form
     internal val sendButtonId = R.id.azure_communication_ui_send_button
