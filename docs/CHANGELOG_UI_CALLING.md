@@ -1,5 +1,11 @@
 # Azure Communication UI Calling Release History
 
+## 1.6.0 (2023-02-05)
+- Audio Only Mode
+- Enhanced Supportability
+- Teams Lobby Admit
+- PiP
+
 ## 1.5.0 (2023-12-04)
 
 ### Features

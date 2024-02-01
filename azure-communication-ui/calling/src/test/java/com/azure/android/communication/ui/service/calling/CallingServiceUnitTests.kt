@@ -340,6 +340,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             remoteParticipantsInfoModelMap["id1"] = ParticipantInfoModel(
                 "user1", "id1",
                 isMuted = false,
+                isCameraDisabled = false,
                 isSpeaking = false,
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
@@ -350,6 +351,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             remoteParticipantsInfoModelMap["id3"] = ParticipantInfoModel(
                 "abc", "id3",
                 isMuted = false,
+                isCameraDisabled = false,
                 isSpeaking = false,
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
@@ -360,6 +362,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             remoteParticipantsInfoModelMap["0"] = ParticipantInfoModel(
                 "xyz", "0",
                 isMuted = false,
+                isCameraDisabled = false,
                 isSpeaking = false,
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
@@ -370,6 +373,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             remoteParticipantsInfoModelMap["id2"] = ParticipantInfoModel(
                 "user2", "id2",
                 isMuted = false,
+                isCameraDisabled = false,
                 isSpeaking = false,
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
@@ -380,6 +384,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             remoteParticipantsInfoModelMap["id9"] = ParticipantInfoModel(
                 "user9", "id9",
                 isMuted = false,
+                isCameraDisabled = false,
                 isSpeaking = false,
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
@@ -390,6 +395,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             remoteParticipantsInfoModelMap["10"] = ParticipantInfoModel(
                 "100", "10",
                 isMuted = false,
+                isCameraDisabled = false,
                 isSpeaking = false,
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,

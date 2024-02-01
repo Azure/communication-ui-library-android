@@ -28,11 +28,16 @@ internal class CallingViewModelFactory(
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
     private val maxRemoteParticipants: Int,
     private val debugInfoManager: DebugInfoManager,
+    private val showSupportFormOption: Boolean = false,
     private val enableMultitasking: Boolean,
 ) : BaseViewModelFactory(store) {
 
     val moreCallOptionsListViewModel by lazy {
-        MoreCallOptionsListViewModel(debugInfoManager)
+        MoreCallOptionsListViewModel(
+            debugInfoManager,
+            showSupportFormOption = showSupportFormOption,
+            store::dispatch
+        )
     }
 
     val participantGridViewModel by lazy {

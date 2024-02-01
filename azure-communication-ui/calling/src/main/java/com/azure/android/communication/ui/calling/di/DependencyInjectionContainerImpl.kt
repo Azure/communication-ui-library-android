@@ -12,6 +12,8 @@ import com.azure.android.communication.ui.calling.handlers.CallStateHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.logger.Logger
+import com.azure.android.communication.ui.calling.models.CallCompositeAvMode
+import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactory
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactoryImpl
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
@@ -60,6 +62,8 @@ import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKEventHandler
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
+import com.azure.android.communication.ui.calling.utilities.ScreenshotHelper
+import java.lang.ref.WeakReference
 
 internal class DependencyInjectionContainerImpl(
     private val instanceId: Int,
@@ -69,6 +73,8 @@ internal class DependencyInjectionContainerImpl(
     private val customVideoStreamRendererFactory: VideoStreamRendererFactory?,
     private val customCoroutineContextProvider: CoroutineContextProvider?,
 ) : DependencyInjectionContainer {
+
+    override var callCompositeActivityWeakReference: WeakReference<CallCompositeActivity> = WeakReference(null)
 
     override val configuration by lazy {
         callComposite.getConfig()
@@ -139,6 +145,11 @@ internal class DependencyInjectionContainerImpl(
     override val debugInfoManager: DebugInfoManager by lazy {
         DebugInfoManagerImpl(
             callHistoryRepository,
+            getLogFiles = callingService::getLogFiles,
+            takeScreenshot = {
+                callCompositeActivityWeakReference.get()
+                    ?.let { ScreenshotHelper.captureActivity(it) }
+            },
         )
     }
 
@@ -210,7 +221,8 @@ internal class DependencyInjectionContainerImpl(
         AppReduxState(
             configuration.callConfig?.displayName,
             localOptions?.isCameraOn == true,
-            localOptions?.isMicrophoneOn == true
+            localOptions?.isMicrophoneOn == true,
+            localOptions?.avMode ?: CallCompositeAvMode.NORMAL
         )
     }
 
@@ -268,11 +280,12 @@ internal class DependencyInjectionContainerImpl(
 
     private val callingSDKEventHandler by lazy {
         CallingSDKEventHandler(
-            coroutineContextProvider
+            coroutineContextProvider,
+            localOptions?.avMode ?: CallCompositeAvMode.NORMAL,
         )
     }
 
-    private val callingService by lazy {
+    override val callingService by lazy {
         CallingService(callingSDKWrapper, coroutineContextProvider)
     }
     //endregion

@@ -11,6 +11,7 @@ import com.azure.android.communication.ui.calling.models.buildCallHistoryRecord
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import java.io.File
 
 internal interface DebugInfoManager {
     fun getDebugInfo(): CallCompositeDebugInfo
@@ -18,13 +19,15 @@ internal interface DebugInfoManager {
 
 internal class DebugInfoManagerImpl(
     private val callHistoryRepository: CallHistoryRepository,
+    private val getLogFiles: () -> List<File>,
+    private val takeScreenshot: () -> File?
 ) : DebugInfoManager {
 
     override fun getDebugInfo(): CallCompositeDebugInfo {
         val callHistory = runBlocking {
             withContext(Dispatchers.IO) { getCallHistory() }
         }
-        return buildCallCompositeDebugInfo(callHistory)
+        return buildCallCompositeDebugInfo(callHistory, getLogFiles, takeScreenshot)
     }
 
     private suspend fun getCallHistory(): List<CallCompositeCallHistoryRecord> {

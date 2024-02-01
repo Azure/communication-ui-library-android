@@ -86,4 +86,32 @@ internal class NavigationReducerUnitTest {
         // assert
         Assert.assertEquals(NavigationStatus.SETUP, newState.navigationState)
     }
+
+    @Test
+    fun navigationReducer_reduce_when_actionShowSupportForm_state_updated() {
+        // arrange
+        val reducer = NavigationReducerImpl()
+        val previousState = NavigationState(NavigationStatus.IN_CALL, false)
+        val action = NavigationAction.ShowSupportForm()
+
+        // act
+        val newState = reducer.reduce(previousState, action)
+
+        // assert
+        Assert.assertTrue(newState.supportVisible)
+    }
+
+    @Test
+    fun navigationReducer_reduce_when_actionHideSupportForm_state_updated() {
+        // arrange
+        val reducer = NavigationReducerImpl()
+        val previousState = NavigationState(NavigationStatus.IN_CALL, true)
+        val action = NavigationAction.HideSupportForm()
+
+        // act
+        val newState = reducer.reduce(previousState, action)
+
+        // assert
+        Assert.assertFalse(newState.supportVisible)
+    }
 }

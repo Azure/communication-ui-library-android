@@ -717,6 +717,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
         displayName,
         userIdentifier,
         isMuted,
+        false,
         isSpeaking,
         status,
         screenShareVideoStreamModel,

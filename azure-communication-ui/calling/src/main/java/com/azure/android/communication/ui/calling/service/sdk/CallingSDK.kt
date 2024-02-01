@@ -25,6 +25,7 @@ import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.io.File
 
 /**
  * An interface that describes our interactions with the underlying calling SDK.
@@ -65,6 +66,7 @@ internal interface CallingSDK {
     fun getNetworkQualityCallDiagnosticSharedFlow(): SharedFlow<NetworkQualityCallDiagnosticModel>
     fun getNetworkCallDiagnosticSharedFlow(): SharedFlow<NetworkCallDiagnosticModel>
     fun getMediaCallDiagnosticSharedFlow(): SharedFlow<MediaCallDiagnosticModel>
+    fun getLogFiles(): List<File>
     //endregion
 }
 

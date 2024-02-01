@@ -27,6 +27,7 @@ import com.azure.android.communication.ui.calling.redux.state.CameraTransmission
 import com.azure.android.communication.ui.calling.redux.state.ErrorState
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.junit.Test
@@ -40,6 +41,7 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
+@ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
 internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
 
@@ -177,7 +179,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
                 AppReduxState(
                     "",
                     false,
-                    false
+                    false,
                 )
             )
             val mockAppStore = mock<AppStore<ReduxState>> {

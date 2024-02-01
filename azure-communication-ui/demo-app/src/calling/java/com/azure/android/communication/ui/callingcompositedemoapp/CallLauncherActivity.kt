@@ -3,8 +3,13 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,8 +18,10 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.common.CommunicationTokenCredential
+import com.azure.android.communication.ui.calling.utilities.launchAll
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.FeatureFlags
@@ -89,7 +96,12 @@ class CallLauncherActivity : AppCompatActivity() {
             }
 
             acsTokenText.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
                 }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -126,28 +138,74 @@ class CallLauncherActivity : AppCompatActivity() {
                 showCallHistory()
             }
 
-            lifecycleScope.launch {
-                callLauncherViewModel.callCompositeCallStateStateFlow.collect {
-                    runOnUiThread {
-                        if (it.isNotEmpty()) {
-                            callStateText.text = it
-                            EndCompositeButtonView.get(application).updateText(it)
+            lifecycleScope.launchAll(
+                {
+                    callLauncherViewModel.callCompositeCallStateStateFlow.collect {
+                        runOnUiThread {
+                            if (it.isNotEmpty()) {
+                                callStateText.text = it
+                                EndCompositeButtonView.get(application).updateText(it)
+                            }
                         }
                     }
-                }
-            }
+                },
+                {
+                    callLauncherViewModel.callCompositeExitSuccessStateFlow.collect {
+                        runOnUiThread {
+                            if (it &&
+                                SettingsFeatures.getReLaunchOnExitByDefaultOption()
+                            ) {
+                                launch()
+                            }
+                        }
+                    }
+                },
+                {
+                    callLauncherViewModel.userReportedIssueEventHandler.userIssuesFlow.collect {
+                        runOnUiThread {
+                            it?.apply {
+                                showAlert(this.userMessage)
+                            }
+                        }
+                    }
+                },
+                {
+                    callLauncherViewModel.userReportedIssueEventHandler.userIssuesFlow.collect {
+                        it?.apply {
+                            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-            lifecycleScope.launch {
-                callLauncherViewModel.callCompositeExitSuccessStateFlow.collect {
-                    runOnUiThread {
-                        if (it &&
-                            SettingsFeatures.getReLaunchOnExitByDefaultOption()
-                        ) {
-                            launch()
+                            val channelId = "user_reported_issue_channel"
+                            val channelName = "User Reported Issue Notifications"
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
+                                notificationManager.createNotificationChannel(channel)
+                            }
+
+                            // Create a summary of the report
+                            val reportSummary = StringBuilder(userMessage)
+                            reportSummary.append("\nCall ID: ${debugInfo.callHistoryRecords}}")
+                            // Add more information from the event as needed
+                            // Prepare the large icon (screenshot) for the notification
+                            val largeIcon = if (screenshot.exists()) {
+                                BitmapFactory.decodeFile(screenshot.absolutePath)
+                            } else {
+                                null // or a default image
+                            }
+
+                            val notificationBuilder = NotificationCompat.Builder(this@CallLauncherActivity, channelId)
+                                .setContentTitle("User Reported Issue")
+                                .setSmallIcon(R.drawable.azure_communication_ui_calling_ic_fluent_person_feedback_24_regular) // Replace with your notification icon
+                                .setStyle(NotificationCompat.BigTextStyle().bigText(reportSummary.toString()))
+                                .setLargeIcon(largeIcon)
+
+                            val notification = notificationBuilder.build()
+
+                            notificationManager.notify(System.currentTimeMillis().toInt(), notification)
                         }
                     }
                 }
-            }
+
+            )
 
             if (BuildConfig.DEBUG) {
                 versionText.text = "${BuildConfig.VERSION_NAME}"
@@ -233,7 +291,8 @@ class CallLauncherActivity : AppCompatActivity() {
         val title = "Total calls: ${history.count()}"
         var message = "Last Call: none"
         history.lastOrNull()?.let {
-            message = "Last Call: ${it.callStartedOn.format(DateTimeFormatter.ofPattern("MMM dd 'at' hh:mm"))}"
+            message =
+                "Last Call: ${it.callStartedOn.format(DateTimeFormatter.ofPattern("MMM dd 'at' hh:mm"))}"
             it.callIds.forEach { callId ->
                 message += "\nCallId: $callId"
             }
@@ -254,6 +313,7 @@ class CallLauncherActivity : AppCompatActivity() {
             startActivity(settingIntent)
             true
         }
+
         else -> super.onOptionsItemSelected(item)
     }
 

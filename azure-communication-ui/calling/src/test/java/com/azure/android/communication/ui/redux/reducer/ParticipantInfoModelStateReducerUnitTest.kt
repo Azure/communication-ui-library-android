@@ -24,6 +24,7 @@ internal class ParticipantInfoModelStateReducerUnitTest {
             ParticipantInfoModel(
                 "user", "id",
                 isMuted = false,
+                isCameraDisabled = false,
                 isSpeaking = false,
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
@@ -50,6 +51,7 @@ internal class ParticipantInfoModelStateReducerUnitTest {
             ParticipantInfoModel(
                 "user", "id",
                 isMuted = false,
+                isCameraDisabled = false,
                 isSpeaking = false,
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
@@ -75,6 +77,7 @@ internal class ParticipantInfoModelStateReducerUnitTest {
             ParticipantInfoModel(
                 "user", "id",
                 isMuted = false,
+                isCameraDisabled = false,
                 isSpeaking = false,
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,

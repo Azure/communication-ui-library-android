@@ -36,6 +36,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var subtitleTextView: TextView
     private lateinit var remoteAvatarInjectionCheckBox: CheckBox
     private lateinit var skipSetupScreenCheckBox: CheckBox
+    private lateinit var audioOnlyModeCheckBox: CheckBox
     private lateinit var micOnByDefaultCheckBox: CheckBox
     private lateinit var cameraOnByDefaultCheckBox: CheckBox
     private lateinit var endCallOnDefaultCheckBox: CheckBox
@@ -182,6 +183,7 @@ class SettingsActivity : AppCompatActivity() {
                         view.isChecked
                     ).apply()
                 }
+
                 R.id.multitasking_check_box -> {
                     sharedPreference.edit().putBoolean(
                         ENABLE_MULTITASKING,
@@ -191,6 +193,12 @@ class SettingsActivity : AppCompatActivity() {
                 R.id.multitasking_pip_check_box -> {
                     sharedPreference.edit().putBoolean(
                         ENABLE_PIP_WHEN_MULTITASKING,
+                        view.isChecked
+                    ).apply()
+                }
+                R.id.audio_only_check_box -> {
+                    sharedPreference.edit().putBoolean(
+                        AUDIO_ONLY_MODE_ON_BY_DEFAULT_KEY,
                         view.isChecked
                     ).apply()
                 }
@@ -224,6 +232,7 @@ class SettingsActivity : AppCompatActivity() {
         setupScreenOrientationAutoCompleteTextView = findViewById(R.id.setup_screen_orientation_auto_complete_text_view)
         enableMultitaskingCheckbox = findViewById(R.id.multitasking_check_box)
         enablePipWhenMultitaskingCheckbox = findViewById(R.id.multitasking_pip_check_box)
+        audioOnlyModeCheckBox = findViewById(R.id.audio_only_check_box)
 
         renderDisplayNameTextView.addTextChangedListener {
             saveRenderedDisplayName()
@@ -441,6 +450,8 @@ const val END_CALL_ON_BY_DEFAULT_KEY = "END_CALL_ON_BY_DEFAULT_KEY"
 const val DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE = false
 const val LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY = "LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY"
 const val LAUNCH_ON_EXIT_ON_BY_DEFAULT_VALUE = false
+const val AUDIO_ONLY_MODE_ON_BY_DEFAULT_KEY = "LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY"
+const val AUDIO_ONLY_MODE_ON_BY_DEFAULT_VALUE = false
 
 // Multitasking
 const val ENABLE_MULTITASKING = "ENABLE_MULTITASKING"

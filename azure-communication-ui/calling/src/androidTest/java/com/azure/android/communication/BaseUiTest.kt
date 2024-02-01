@@ -23,6 +23,7 @@ internal open class BaseUiTest {
     internal val participantCountId = R.id.azure_communication_ui_call_participant_number_text
     internal val joinCallId = R.id.azure_communication_ui_setup_join_call_button
     internal val endCallId = R.id.azure_communication_ui_call_end_call_button
+    internal val moreOptionsId = R.id.azure_communication_ui_call_control_bar_more
     internal val participantContainerId = R.id.azure_communication_ui_call_participant_container
     internal val participantListOpenButton = R.id.azure_communication_ui_call_bottom_drawer_button
     internal val bottomDrawer = R.id.bottom_drawer_table
@@ -40,7 +41,16 @@ internal open class BaseUiTest {
     internal val upperMessageBarNotificationIconId = R.id.azure_communication_ui_calling_upper_message_bar_notification_icon
     internal val upperMessageBarNotificationMessageId = R.id.azure_communication_ui_calling_upper_message_bar_notification_message
     internal val upperMessageBarNotificationDismissButtonId = R.id.azure_communication_ui_calling_upper_message_bar_notification_dismiss_button
+    internal val setupCameraButtonId = R.id.azure_communication_ui_setup_camera_button
+    internal val callCameraButtonId = R.id.azure_communication_ui_call_switch_camera_button
 
+    // Support Form
+    internal val sendButtonId = R.id.azure_communication_ui_send_button
+    internal val cancelButtonId = R.id.azure_communication_ui_cancel_button
+    internal val userMessageEditTextId = R.id.azure_communication_ui_user_message_edit_text
+    internal val includeScreenshotToggleId = R.id.azure_communication_ui_include_screenshot_toggle
+
+    internal val showSupportFormTextId = R.string.azure_communication_ui_calling_report_issue_title
     @Rule
     @JvmField
     var grantPermissionRule: GrantPermissionRule

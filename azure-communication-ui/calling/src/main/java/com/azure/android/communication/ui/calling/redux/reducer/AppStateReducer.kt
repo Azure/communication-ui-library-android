@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.redux.reducer
 
+import com.azure.android.communication.ui.calling.models.CallCompositeAvMode
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 
@@ -25,6 +26,7 @@ internal class AppStateReducer(
             state.localParticipantState.displayName,
             cameraOnByDefault = state.localParticipantState.initialCallJoinState.startWithCameraOn,
             microphoneOnByDefault = state.localParticipantState.initialCallJoinState.startWithMicrophoneOn,
+            avMode = CallCompositeAvMode.NORMAL
         )
 
         appState.callState = callStateReducer.reduce(

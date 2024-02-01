@@ -351,6 +351,7 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
         displayName,
         userIdentifier,
         isMuted,
+        false,
         isSpeaking,
         status,
         screenShareVideoStreamModel,
