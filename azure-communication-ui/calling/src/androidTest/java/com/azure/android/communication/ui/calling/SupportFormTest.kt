@@ -19,7 +19,6 @@ import java.util.UUID
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import com.azure.android.communication.assertNotDisplayed
 import com.azure.android.communication.assertTextNotDisplayed
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -28,9 +27,7 @@ import org.junit.Assert.assertNotNull
 internal class SupportFormTest : BaseUiTest() {
 
     @Test
-    fun testSupportFormIsDisplayedAndSendsEvent(
-
-    ) = runTest {
+    fun testSupportFormIsDisplayedAndSendsEvent() = runTest {
         injectDependencies(testScheduler)
         // Launch the UI.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
@@ -60,7 +57,6 @@ internal class SupportFormTest : BaseUiTest() {
         tapOnText(showSupportFormTextId)
         waitUntilDisplayed(userMessageEditTextId)
 
-
         val testMessage = "Test support message"
         onView(withId(userMessageEditTextId))
             .perform(ViewActions.typeText(testMessage))
@@ -71,11 +67,8 @@ internal class SupportFormTest : BaseUiTest() {
         assertEquals(testMessage, event?.userMessage)
     }
 
-
     @Test
-    fun testSupportFormIsNotDisplayedWhenNoHandler(
-
-    ) = runTest {
+    fun testSupportFormIsNotDisplayedWhenNoHandler() = runTest {
         injectDependencies(testScheduler)
         // Launch the UI.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
@@ -99,4 +92,3 @@ internal class SupportFormTest : BaseUiTest() {
         assertTextNotDisplayed(showSupportFormTextId)
     }
 }
-
