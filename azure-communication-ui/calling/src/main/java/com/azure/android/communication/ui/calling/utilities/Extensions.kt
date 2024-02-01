@@ -8,6 +8,9 @@ import com.azure.android.communication.ui.calling.redux.Store
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+/**
+ * This class is for generic but useful extensions to make our code more succinct
+ */
 // Boilerplate that is repeated a lot
 internal fun <T> Store<T>.collect(
     scope: LifecycleCoroutineScope,
