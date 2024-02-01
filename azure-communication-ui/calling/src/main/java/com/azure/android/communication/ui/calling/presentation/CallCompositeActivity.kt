@@ -34,7 +34,6 @@ import com.azure.android.communication.ui.calling.presentation.fragment.setup.Se
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.PipAction
-import com.azure.android.communication.ui.calling.redux.state.NavigationState
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 import com.azure.android.communication.ui.calling.redux.state.PictureInPictureStatus
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
