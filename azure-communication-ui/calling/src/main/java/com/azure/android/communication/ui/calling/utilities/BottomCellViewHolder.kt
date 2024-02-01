@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.utilities
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.impl.R
 import com.microsoft.fluentui.widget.Button
 
 internal open class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

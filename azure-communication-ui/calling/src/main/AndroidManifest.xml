@@ -3,7 +3,7 @@
    Licensed under the MIT License.
   -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.azure.android.communication.ui"
+    package="com.azure.android.communication.ui.calling.impl"
     >
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -23,7 +23,7 @@
     <application android:hardwareAccelerated="true">
 
         <activity
-            android:name=".calling.presentation.MultitaskingCallCompositeActivity"
+            android:name="com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:excludeFromRecents="true"
@@ -32,7 +32,7 @@
             />
 
         <activity
-            android:name=".calling.presentation.PiPCallCompositeActivity"
+            android:name="com.azure.android.communication.ui.calling.presentation.PiPCallCompositeActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:supportsPictureInPicture="true"
