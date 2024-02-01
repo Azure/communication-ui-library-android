@@ -31,8 +31,10 @@ import com.azure.android.communication.ui.calling.models.CallCompositeSupportedS
 import com.azure.android.communication.ui.calling.onExit
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment
+import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.PipAction
+import com.azure.android.communication.ui.calling.redux.state.NavigationState
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 import com.azure.android.communication.ui.calling.redux.state.PictureInPictureStatus
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
@@ -201,6 +203,12 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             audioFocusManager.stop()
             audioSessionManager.onDestroy(this)
             audioModeManager.onDestroy()
+
+            if (isFinishing && store.getCurrentState().navigationState.navigationState == NavigationStatus.EXIT) {
+                store.dispatch(CallingAction.CallEndRequested())
+                compositeManager.onCompositeDestroy()
+                CallCompositeInstanceManager.removeCallComposite(instanceId)
+            }
         }
 
         super.onDestroy()
@@ -359,8 +367,6 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 store.end()
                 callingMiddlewareActionHandler.dispose()
                 videoViewManager.destroy()
-                compositeManager.onCompositeDestroy()
-                CallCompositeInstanceManager.removeCallComposite(instanceId)
                 container.callComposite.onExit()
                 finish()
             }
