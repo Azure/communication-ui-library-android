@@ -201,9 +201,7 @@ class CallLauncherActivity : AppCompatActivity() {
                             val notification = notificationBuilder.build()
 
                             notificationManager.notify(System.currentTimeMillis().toInt(), notification)
-
                         }
-
                     }
                 }
 
