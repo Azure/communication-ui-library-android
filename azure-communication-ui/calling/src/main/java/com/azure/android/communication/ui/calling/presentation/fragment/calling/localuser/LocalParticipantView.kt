@@ -16,7 +16,7 @@ import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.calling.ScalingMode
-import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.impl.R
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus

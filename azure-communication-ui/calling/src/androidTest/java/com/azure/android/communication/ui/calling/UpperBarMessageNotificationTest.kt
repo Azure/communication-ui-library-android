@@ -8,7 +8,7 @@ import com.azure.android.communication.assertDisplayed
 import com.azure.android.communication.assertNotDisplayed
 import com.azure.android.communication.assertViewText
 import com.azure.android.communication.tap
-import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.impl.R
 import com.azure.android.communication.tapWhenDisplayed
 import com.azure.android.communication.waitUntilDisplayed
 import kotlinx.coroutines.test.runTest

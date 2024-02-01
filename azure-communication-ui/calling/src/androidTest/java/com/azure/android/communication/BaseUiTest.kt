@@ -8,7 +8,7 @@ import com.azure.android.communication.mocking.CallEvents
 import com.azure.android.communication.mocking.TestCallingSDK
 import com.azure.android.communication.mocking.TestContextProvider
 import com.azure.android.communication.mocking.TestVideoStreamRendererFactory
-import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.impl.R
 import com.azure.android.communication.ui.calling.utilities.TestHelper
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.UnconfinedTestDispatcher

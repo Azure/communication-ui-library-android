@@ -12,7 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.impl.R
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import kotlinx.coroutines.flow.collect

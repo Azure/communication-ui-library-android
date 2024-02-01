@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.redux.middleware
+package com.azure.android.communication.ui.calling.impl.Redux.middleware
 
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.redux.AppStore

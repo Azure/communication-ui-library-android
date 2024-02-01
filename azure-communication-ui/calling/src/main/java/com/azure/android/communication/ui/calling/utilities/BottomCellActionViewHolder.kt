@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
-import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.impl.R
 import com.microsoft.fluentui.persona.AvatarView
 
 internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder(itemView) {
