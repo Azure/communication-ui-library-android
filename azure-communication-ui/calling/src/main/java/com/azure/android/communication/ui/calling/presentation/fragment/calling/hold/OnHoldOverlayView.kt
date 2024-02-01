@@ -22,7 +22,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.impl.R
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.microsoft.fluentui.snackbar.Snackbar

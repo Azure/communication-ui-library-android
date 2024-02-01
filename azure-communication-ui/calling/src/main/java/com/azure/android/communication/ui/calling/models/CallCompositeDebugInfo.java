@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.calling.models;
 
 import android.util.Log;
 
-import com.azure.android.communication.ui.BuildConfig;
+import com.azure.android.communication.ui.calling.impl.BuildConfig;
 
 import java.io.File;
 import java.util.Collections;

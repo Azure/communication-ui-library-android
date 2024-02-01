@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.presentation.manager
 
 import android.content.Context
 import com.azure.android.communication.ui.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.impl.R
 import com.azure.android.communication.ui.calling.presentation.manager.CameraStatusHook
 import com.azure.android.communication.ui.calling.presentation.manager.MeetingJoinedHook
 import com.azure.android.communication.ui.calling.presentation.manager.MicStatusHook

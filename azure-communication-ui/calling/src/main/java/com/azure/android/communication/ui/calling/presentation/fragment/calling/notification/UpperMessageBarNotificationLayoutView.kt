@@ -9,7 +9,7 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.impl.R
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
