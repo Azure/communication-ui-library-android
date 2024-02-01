@@ -125,8 +125,7 @@ class CallLauncherViewModel : ViewModel() {
             callCompositeCallStateStateFlow,
             this
         )
-        callComposite.addOnCallStateChangedEventHandler(callStateEventHandler)
-        callComposite.addOnDismissedEventHandler(exitEventHandler)
+        subscribeToEvents(context)
         isExitRequested = false
 
         callComposite.launch(context, remoteOptions, localOptions)
