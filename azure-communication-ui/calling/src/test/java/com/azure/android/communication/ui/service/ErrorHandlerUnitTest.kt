@@ -27,6 +27,7 @@ import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_DECLINED
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_EVICTED
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -41,6 +42,7 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
+@ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
 internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
 
@@ -176,7 +178,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
                 AppReduxState(
                     "",
                     false,
-                    false
+                    false,
                 )
             )
             val mockAppStore = mock<AppStore<ReduxState>> {

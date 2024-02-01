@@ -172,6 +172,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                 displayName = "user one",
                                 userIdentifier = "test",
                                 isMuted = true,
+                                isCameraDisabled = false,
+
                                 isSpeaking = true,
                                 cameraVideoStreamModel = VideoStreamModel(
                                     videoStreamID = "video",
@@ -233,6 +235,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                 displayName = "user one",
                                 userIdentifier = "test",
                                 isMuted = true,
+                                isCameraDisabled = false,
                                 isSpeaking = true,
                                 cameraVideoStreamModel = VideoStreamModel(
                                     videoStreamID = "video",
@@ -294,6 +297,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                 displayName = "user one",
                                 userIdentifier = "test",
                                 isMuted = true,
+                                isCameraDisabled = false,
                                 isSpeaking = true,
                                 cameraVideoStreamModel = VideoStreamModel(
                                     videoStreamID = "video",
@@ -364,6 +368,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                 displayName = "user one",
                                 userIdentifier = "test",
                                 isMuted = true,
+                                isCameraDisabled = false,
                                 isSpeaking = true,
                                 cameraVideoStreamModel = VideoStreamModel(
                                     videoStreamID = "video",
@@ -449,6 +454,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                 displayName = "user one",
                                 userIdentifier = "test",
                                 isMuted = true,
+                                isCameraDisabled = false,
                                 isSpeaking = true,
                                 cameraVideoStreamModel = VideoStreamModel(
                                     videoStreamID = "video",
@@ -525,6 +531,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                 displayName = "user one",
                                 userIdentifier = "test",
                                 isMuted = true,
+                                isCameraDisabled = false,
                                 isSpeaking = true,
                                 cameraVideoStreamModel = VideoStreamModel(
                                     videoStreamID = "video",
@@ -621,6 +628,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                 displayName = "user one",
                                 userIdentifier = "test",
                                 isMuted = true,
+                                isCameraDisabled = false,
                                 isSpeaking = true,
                                 cameraVideoStreamModel = VideoStreamModel(
                                     videoStreamID = "video",

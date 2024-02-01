@@ -384,6 +384,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 ParticipantInfoModel(
                     "user", "id",
                     isMuted = false,
+                    isCameraDisabled = false,
                     isSpeaking = false,
                     screenShareVideoStreamModel = null,
                     cameraVideoStreamModel = null,

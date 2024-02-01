@@ -862,8 +862,9 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
     ) = ParticipantInfoModel(
         displayName,
         id,
-        isMuted = isMuted,
-        isSpeaking = isSpeaking,
+        isMuted,
+        false,
+        isSpeaking,
         ParticipantStatus.CONNECTED,
         screenShareVideoStreamModel,
         cameraVideoStreamModel,

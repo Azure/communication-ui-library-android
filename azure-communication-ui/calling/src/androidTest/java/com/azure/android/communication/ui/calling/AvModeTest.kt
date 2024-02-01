@@ -47,5 +47,4 @@ internal class AvModeTest : BaseUiTest() {
         waitUntilDisplayed(endCallId)
         assertViewGone(callCameraButtonId)
     }
-
 }

@@ -99,7 +99,7 @@ internal class LobbyParticipantsVisibilityTest : BaseUiTest() {
                 displayName = "Lobby State",
                 state = ParticipantState.IN_LOBBY,
                 isMuted = false,
-                isSpeaking = true,
+                isCameraDisabled = false, isSpeaking = true,
                 videoStreams = listOf(MediaStreamType.VIDEO)
             )
         }

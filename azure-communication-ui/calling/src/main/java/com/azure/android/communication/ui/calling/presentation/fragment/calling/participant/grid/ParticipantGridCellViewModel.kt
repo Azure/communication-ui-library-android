@@ -30,7 +30,7 @@ internal class ParticipantGridCellViewModel(
             createVideoViewModel(cameraVideoStreamModel),
             createVideoViewModel(screenShareVideoStreamModel),
             isOnHoldStateFlow.value,
-            true,
+            isCameraDisabled,
         )
     )
 
