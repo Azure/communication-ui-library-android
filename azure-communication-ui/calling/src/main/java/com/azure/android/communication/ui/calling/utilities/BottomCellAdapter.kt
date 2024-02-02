@@ -46,7 +46,7 @@ internal class BottomCellAdapter : RecyclerView.Adapter<BottomCellViewHolder>() 
 
     fun enableBottomCellItem(bottomCellItemName: String) {
         for (bottomCellItem in bottomCellItems) {
-            bottomCellItem.enabled = bottomCellItem.title == bottomCellItemName
+            bottomCellItem.isChecked = bottomCellItem.title == bottomCellItemName
         }
         super.notifyDataSetChanged()
     }
