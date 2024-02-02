@@ -110,7 +110,7 @@ internal class AudioDeviceListView(
                         ),
                         null,
                         context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
-                        enabled = initialDevice == AudioDeviceSelectionStatus.RECEIVER_SELECTED,
+                        isChecked = initialDevice == AudioDeviceSelectionStatus.RECEIVER_SELECTED,
                         null,
                         false,
                         onClickAction = {
@@ -135,7 +135,7 @@ internal class AudioDeviceListView(
                     ),
                     null,
                     context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
-                    enabled = initialDevice == AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    isChecked = initialDevice == AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                     null,
                     false,
                     onClickAction = {
@@ -163,7 +163,7 @@ internal class AudioDeviceListView(
 
                         null,
                         context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
-                        enabled = initialDevice == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED,
+                        isChecked = initialDevice == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED,
                         null,
                         false,
                         onClickAction = {

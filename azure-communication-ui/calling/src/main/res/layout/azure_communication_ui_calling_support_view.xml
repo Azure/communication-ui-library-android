@@ -55,16 +55,16 @@
             android:orientation="vertical">
 
 
-                <EditText
-                    android:layout_weight="1"
-                    android:id="@+id/azure_communication_ui_user_message_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:hint="@string/azure_communication_ui_calling_describe_your_issue_hint_text"
-                    android:inputType="textMultiLine"
-                    android:minLines="5"
-                    android:gravity="top"
-                    android:importantForAutofill="no" />
+            <EditText
+                android:id="@+id/azure_communication_ui_user_message_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="top"
+                android:hint="@string/azure_communication_ui_calling_describe_your_issue_hint_text"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+                android:minLines="5" />
 
             <LinearLayout
                 android:orientation="horizontal"
