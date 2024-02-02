@@ -110,6 +110,8 @@ class SettingsActivity : AppCompatActivity() {
 
         updateEndCallOnDefaultCheckBox()
 
+        updateAudioOnlyModeCheckbox()
+
         relaunchCompositeOnExitCheckbox()
 
         updateEnableMultitaskingCheckbox()
@@ -368,6 +370,12 @@ class SettingsActivity : AppCompatActivity() {
             )
     }
 
+    private fun updateAudioOnlyModeCheckbox() {
+        audioOnlyModeCheckBox.isChecked = sharedPreference.getBoolean(
+            AUDIO_ONLY_MODE_ON_BY_DEFAULT_KEY,
+            AUDIO_ONLY_MODE_ON_BY_DEFAULT_VALUE
+        )
+    }
     private fun updateSkipSetupScreenCheckbox() {
         skipSetupScreenCheckBox.isChecked = sharedPreference.getBoolean(
             SKIP_SETUP_SCREEN_VALUE_KEY,

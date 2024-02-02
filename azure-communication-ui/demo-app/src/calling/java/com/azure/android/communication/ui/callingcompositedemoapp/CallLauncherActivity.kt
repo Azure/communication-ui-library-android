@@ -162,15 +162,6 @@ class CallLauncherActivity : AppCompatActivity() {
                 },
                 {
                     callLauncherViewModel.userReportedIssueEventHandler.userIssuesFlow.collect {
-                        runOnUiThread {
-                            it?.apply {
-                                showAlert(this.userMessage)
-                            }
-                        }
-                    }
-                },
-                {
-                    callLauncherViewModel.userReportedIssueEventHandler.userIssuesFlow.collect {
                         it?.apply {
                             val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 

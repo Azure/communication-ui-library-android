@@ -39,6 +39,7 @@ internal class AudioSessionManager(
     private val audioManager by lazy { context.getSystemService(Context.AUDIO_SERVICE) as AudioManager }
     private var bluetoothAudioProxy: BluetoothHeadset? = null
     private var initialized = false
+    private var isClosingProxy = false
 
     private val isBluetoothScoAvailable
         get() = try {
@@ -108,8 +109,10 @@ internal class AudioSessionManager(
     // Call when the Activity is finishing (i.e. call is done)
     fun onDestroy(activity: Activity) {
         if (activity.isFinishing) {
-            btAdapter?.run {
-                closeProfileProxy(BluetoothProfile.HEADSET, bluetoothAudioProxy)
+            bluetoothAudioProxy?.run {
+                btAdapter?.run {
+                    closeProfileProxy(BluetoothProfile.HEADSET, bluetoothAudioProxy)
+                }
             }
 
             if (audioManager.isBluetoothScoOn) {
@@ -302,10 +305,15 @@ internal class AudioSessionManager(
     }
 
     private fun closeProfileProxy() {
-        btAdapter?.run {
-            closeProfileProxy(BluetoothProfile.HEADSET, bluetoothAudioProxy)
+        if (isClosingProxy) return // Prevent re-entry into this method
+        isClosingProxy = true
+
+        bluetoothAudioProxy?.let { proxy ->
+            btAdapter?.closeProfileProxy(BluetoothProfile.HEADSET, proxy)
             bluetoothAudioProxy = null
         }
+
+        isClosingProxy = false
     }
 
     override fun onServiceConnected(profile: Int, proxy: BluetoothProfile?) {
@@ -314,6 +322,8 @@ internal class AudioSessionManager(
     }
 
     override fun onServiceDisconnected(profile: Int) {
-        closeProfileProxy()
+        bluetoothAudioProxy?.run {
+            closeProfileProxy()
+        }
     }
 }
