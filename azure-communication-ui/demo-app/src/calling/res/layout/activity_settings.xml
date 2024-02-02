@@ -360,6 +360,16 @@
             tools:ignore="UsingOnClickInXml"
             />
 
+        <CheckBox
+            android:id="@+id/audio_only_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onCheckBoxTap"
+            android:text="@string/audio_only"
+            tools:ignore="UsingOnClickInXml"
+            />
+
+
         <TextView
             android:id="@+id/multitaskingOptions"
             android:layout_width="match_parent"
@@ -394,15 +404,5 @@
             android:text="@string/enable_pip_when_multitasking_option"
             tools:ignore="UsingOnClickInXml"
             />
-
-        <CheckBox
-            android:id="@+id/audio_only_check_box"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onCheckBoxTap"
-            android:text="@string/audio_only"
-            tools:ignore="UsingOnClickInXml"
-            />
-
     </androidx.appcompat.widget.LinearLayoutCompat>
 </ScrollView>

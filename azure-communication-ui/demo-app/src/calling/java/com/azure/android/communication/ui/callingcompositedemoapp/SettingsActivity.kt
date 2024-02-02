@@ -101,6 +101,7 @@ class SettingsActivity : AppCompatActivity() {
         updateRTLCheckbox()
 
         updateAvatarInjectionCheckbox()
+        updateAudioOnlyCheckbox()
 
         updateSkipSetupScreenCheckbox()
 
@@ -365,6 +366,14 @@ class SettingsActivity : AppCompatActivity() {
             sharedPreference.getBoolean(
                 DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY,
                 REMOTE_PARTICIPANT_PERSONA_INJECTION_VALUE
+            )
+    }
+
+    private fun updateAudioOnlyCheckbox() {
+        audioOnlyModeCheckBox.isChecked =
+            sharedPreference.getBoolean(
+                AUDIO_ONLY_MODE_ON_BY_DEFAULT_KEY,
+                AUDIO_ONLY_MODE_ON_BY_DEFAULT_VALUE
             )
     }
 
