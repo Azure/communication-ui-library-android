@@ -47,7 +47,7 @@
 -dontwarn com.microsoft.device.display.DisplayMask
 -dontwarn java.beans.ConstructorProperties
 -dontwarn java.beans.Transient
--dontwarn org.slf4j.implementation.StaticLoggerBinder
+-dontwarn org.slf4j.impl.StaticLoggerBinder
 -dontwarn org.slf4j.impl.StaticMDCBinder
 -dontwarn org.slf4j.impl.StaticMarkerBinder
 -dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
