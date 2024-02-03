@@ -8,6 +8,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -15,6 +16,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -33,7 +35,6 @@ import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.UUID
 
@@ -119,6 +120,7 @@ class CallLauncherActivity : AppCompatActivity() {
             showUIButton.setOnClickListener {
                 showUI()
             }
+
             closeCompositeButton.setOnClickListener { callLauncherViewModel.close() }
 
             groupCallRadioButton.setOnClickListener {
@@ -207,6 +209,11 @@ class CallLauncherActivity : AppCompatActivity() {
 
             )
 
+            /* <SETUPLOGO> */
+            setupLogo()
+            /* </SETUPLOGO> */
+
+
             if (BuildConfig.DEBUG) {
                 versionText.text = "${BuildConfig.VERSION_NAME}"
             } else {
@@ -214,6 +221,25 @@ class CallLauncherActivity : AppCompatActivity() {
             }
         }
     }
+
+    /* <SETUPLOGO> */
+    private fun ActivityCallLauncherBinding.setupLogo() {
+        val getContent =
+            registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+                // Handle the returned Uri
+                uri?.let {
+                    // Convert Uri to Drawable
+                    val inputStream = contentResolver.openInputStream(it)
+                    val drawable = Drawable.createFromStream(inputStream, uri.toString())
+                    callLauncherViewModel.setLogo(drawable);
+                }
+            }
+
+        selectLogo.setOnClickListener {
+            getContent.launch("image/*")
+        }
+    }
+    /* </SETUPLOGO> */
 
     override fun onDestroy() {
         super.onDestroy()

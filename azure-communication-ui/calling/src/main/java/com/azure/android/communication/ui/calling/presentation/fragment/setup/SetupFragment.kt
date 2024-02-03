@@ -11,6 +11,7 @@ import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.util.LayoutDirection
 import android.view.View
+import android.widget.ImageView
 import androidx.activity.addCallback
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
@@ -43,6 +44,7 @@ internal class SetupFragment :
     private lateinit var setupGradientView: SetupGradientView
     private lateinit var errorInfoView: ErrorInfoView
     private lateinit var setupJoinCallButtonHolderView: JoinCallButtonHolderView
+    private lateinit var logoImageView: ImageView
 
     private val videoViewManager get() = holder.container.videoViewManager
     private val avatarViewManager get() = holder.container.avatarViewManager
@@ -101,6 +103,11 @@ internal class SetupFragment :
         errorInfoView = ErrorInfoView(view)
         errorInfoView.start(viewLifecycleOwner, viewModel.errorInfoViewModel)
 
+        logoImageView = view.findViewById(R.id.azure_communication_ui_setup_logo_image)
+        if (viewModel.logoDrawable != null) {
+            logoImageView.visibility = View.VISIBLE
+            logoImageView.setImageDrawable(viewModel.logoDrawable)
+        }
         viewModel.setupCall()
     }
 
