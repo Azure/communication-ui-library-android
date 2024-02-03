@@ -3,7 +3,7 @@
    Licensed under the MIT License.
   -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.azure.android.communication.ui.calling.impl"
+    package="com.azure.android.communication.ui.calling.implementation"
     >
 
     <uses-permission android:name="android.permission.INTERNET" />
