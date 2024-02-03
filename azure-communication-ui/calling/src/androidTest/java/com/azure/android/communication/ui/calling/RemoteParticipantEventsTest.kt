@@ -29,8 +29,6 @@ internal class RemoteParticipantEventsTest : BaseUiTest() {
                 CommunicationIdentifier.CommunicationUserIdentifier(userId),
                 displayName = userId,
                 isMuted = true,
-                isCameraDisabled = false,
-
                 isSpeaking = false,
                 videoStreams = listOf(MediaStreamType.VIDEO)
             )
@@ -41,7 +39,7 @@ internal class RemoteParticipantEventsTest : BaseUiTest() {
             callingSDK.changeParticipant(
                 userId,
                 isMuted = false,
-                isCameraDisabled = false, isSpeaking = true,
+                isSpeaking = true,
             )
 
             // verify muted icon is absent
