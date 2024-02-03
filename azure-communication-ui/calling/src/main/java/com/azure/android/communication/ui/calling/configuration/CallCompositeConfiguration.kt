@@ -21,8 +21,8 @@ internal class CallCompositeConfiguration {
     var callScreenOrientation: CallCompositeSupportedScreenOrientation? = null
     var setupScreenOrientation: CallCompositeSupportedScreenOrientation? = null
 
-    /* <SETUPLOGO> */
+    /* <SETUPLOGO>
     var setupLogo: Drawable? = null
-    /* </SETUPLOGO> */
+    </SETUPLOGO> */
 
 }

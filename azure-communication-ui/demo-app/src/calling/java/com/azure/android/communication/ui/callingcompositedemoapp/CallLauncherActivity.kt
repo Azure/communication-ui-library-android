@@ -209,9 +209,9 @@ class CallLauncherActivity : AppCompatActivity() {
 
             )
 
-            /* <SETUPLOGO> */
+            /* <SETUPLOGO>
             setupLogo()
-            /* </SETUPLOGO> */
+            </SETUPLOGO> */
 
 
             if (BuildConfig.DEBUG) {
@@ -222,7 +222,7 @@ class CallLauncherActivity : AppCompatActivity() {
         }
     }
 
-    /* <SETUPLOGO> */
+    /* <SETUPLOGO>
     private fun ActivityCallLauncherBinding.setupLogo() {
         val getContent =
             registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -239,7 +239,7 @@ class CallLauncherActivity : AppCompatActivity() {
             getContent.launch("image/*")
         }
     }
-    /* </SETUPLOGO> */
+    </SETUPLOGO> */
 
     override fun onDestroy() {
         super.onDestroy()

@@ -19,9 +19,9 @@ internal class SetupViewModel(
     store: Store<ReduxState>,
     setupViewModelProvider: SetupViewModelFactory,
     private val networkManager: NetworkManager,
-    /* <SETUPLOGO> */
+    /* <SETUPLOGO>
     val logoDrawable: Drawable?
-    /* </SETUPLOGO> */
+    </SETUPLOGO> */
 ) :
     BaseViewModel(store) {
 

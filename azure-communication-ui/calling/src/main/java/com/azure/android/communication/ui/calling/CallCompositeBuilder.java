@@ -90,12 +90,12 @@ public final class CallCompositeBuilder {
      * @param logo
      * @return
      */
-    /* <SETUPLOGO> */
+    /* <SETUPLOGO>
     public CallCompositeBuilder logo(final Drawable logo) {
         this.logo = logo;
         return this;
     }
-    /* </SETUPLOGO> */
+    </SETUPLOGO> */
     
     /**
      * Builds the CallCompositeClass {@link CallComposite}.
