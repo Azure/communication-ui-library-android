@@ -4,17 +4,6 @@
 package com.azure.android.communication.ui.calling.redux.reducer
 
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
-import com.azure.android.communication.ui.calling.redux.reducer.AppStateReducer
-import com.azure.android.communication.ui.calling.redux.reducer.AudioSessionStateReducerImpl
-import com.azure.android.communication.ui.calling.redux.reducer.CallStateReducerImpl
-import com.azure.android.communication.ui.calling.redux.reducer.ErrorReducer
-import com.azure.android.communication.ui.calling.redux.reducer.LifecycleReducerImpl
-import com.azure.android.communication.ui.calling.redux.reducer.LocalParticipantStateReducer
-import com.azure.android.communication.ui.calling.redux.reducer.NavigationReducerImpl
-import com.azure.android.communication.ui.calling.redux.reducer.ParticipantStateReducerImpl
-import com.azure.android.communication.ui.calling.redux.reducer.PermissionStateReducerImpl
-import com.azure.android.communication.ui.calling.redux.reducer.PipReducerImpl
-import com.azure.android.communication.ui.calling.redux.reducer.CallDiagnosticsReducerImpl
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioFocusStatus

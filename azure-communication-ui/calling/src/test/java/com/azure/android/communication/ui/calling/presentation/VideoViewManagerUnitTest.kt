@@ -7,8 +7,6 @@ import android.content.Context
 import android.widget.FrameLayout
 import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.ScalingMode
-import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactory
-import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
 import com.azure.android.communication.ui.calling.service.sdk.LocalVideoStream
 import com.azure.android.communication.ui.calling.service.sdk.RemoteParticipant
