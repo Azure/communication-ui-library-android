@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.calling
 
-import com.azure.android.communication.ui.calling.impl.BuildConfig
+import com.azure.android.communication.ui.calling.implementation.BuildConfig
 
 internal class DiagnosticConfig {
     val tags: Array<String> by lazy { arrayOf(getApplicationId()) }
