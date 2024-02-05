@@ -12,7 +12,7 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.azure.android.communication.ui.calling.impl.R
+import com.azure.android.communication.ui.calling.implementation.R
 import com.microsoft.fluentui.drawer.DrawerDialog
 import com.microsoft.fluentui.widget.Button
 import kotlinx.coroutines.InternalCoroutinesApi
