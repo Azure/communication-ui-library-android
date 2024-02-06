@@ -21,7 +21,7 @@ import com.azure.android.communication.ui.calling.CallComposite;
  *
  * @see CallComposite
  */
-public class CallCompositeMultitaskingOptions {
+public final class CallCompositeMultitaskingOptions {
     private final Boolean enableMultitasking;
     private final Boolean enableSystemPictureInPictureWhenMultitasking;
 
