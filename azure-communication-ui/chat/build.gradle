@@ -6,12 +6,12 @@ plugins {
 apply from: file('publish.gradle')
 
 android {
-    compileSdkVersion 33
+    compileSdk 34
     resourcePrefix 'azure_communication_ui_chat_'
 
     defaultConfig {
         minSdk 23
-        targetSdkVersion 33
+        targetSdkVersion 34
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
