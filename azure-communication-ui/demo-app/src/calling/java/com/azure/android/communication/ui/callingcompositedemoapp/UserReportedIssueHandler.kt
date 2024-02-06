@@ -115,10 +115,12 @@ class UserReportedIssueHandler : CallCompositeEventHandler<CallCompositeUserRepo
     }
 
     private fun onTicketCreated(url: String) {
+        print(url)
         // Handle successful ticket creation
     }
 
     private fun onTicketFailed(error: String) {
+        print(error)
         // Handle failed ticket creation
     }
 

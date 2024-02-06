@@ -111,8 +111,12 @@ plugins {
     id "org.jlleitschuh.gradle.ktlint" version "10.2.1" apply(true)
 }
 
+apply from: file('./auto_token.gradle')
+
 allprojects {
     apply plugin: 'jacoco'
+
+
 
     jacoco {
         toolVersion = "$jacoco_version"
