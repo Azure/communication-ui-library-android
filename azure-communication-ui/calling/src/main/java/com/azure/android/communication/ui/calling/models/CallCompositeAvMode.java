@@ -20,6 +20,7 @@ public final class CallCompositeAvMode extends ExpandableStringEnum<CallComposit
 
     /**
      * The AUDIO_ONLY mode where only audio is enabled, and video is disabled for the call.
+     * Note: Content Sharing/Screen Share will continue to work.
      */
     public static final CallCompositeAvMode AUDIO_ONLY = fromString("audio_only");
 
