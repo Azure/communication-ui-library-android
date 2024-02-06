@@ -322,7 +322,10 @@ public final class CallComposite {
         configuration.getCallCompositeEventsHandler().removeOnRemoteParticipantJoinedEventHandler(eventHandler);
     }
 
-
+    /**
+     * Add {@link CallCompositeEventHandler}
+     * @param eventHandler
+     */
     public void addOnPictureInPictureChangedEventHandler(
             final CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().addOnMultitaskingStateChangedEventHandler(eventHandler);
