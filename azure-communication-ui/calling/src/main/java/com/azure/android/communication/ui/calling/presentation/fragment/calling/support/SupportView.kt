@@ -6,9 +6,10 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.EditText
-import android.widget.FrameLayout
 import androidx.appcompat.widget.SwitchCompat
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -23,14 +24,14 @@ import kotlinx.coroutines.launch
  * SupportView is a custom view that is used to display the support form.
  * It is displayed when the user clicks on the support button.
  */
-internal class SupportView : FrameLayout {
+internal class SupportView : ConstraintLayout {
 
     private val sendButton: Button by lazy { findViewById(R.id.azure_communication_ui_send_button) }
     private val cancelButton: Button by lazy { findViewById(R.id.azure_communication_ui_cancel_button) }
     private val editText: EditText by lazy { findViewById(R.id.azure_communication_ui_user_message_edit_text) }
     private val screenshotCheckBox: SwitchCompat by lazy { findViewById(R.id.azure_communication_ui_include_screenshot_toggle) }
 
-    private val menuDrawer by lazy {
+    private val menuDrawer : DrawerDialog by lazy {
         DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM).apply {
             setContentView(this@SupportView)
             setCanceledOnTouchOutside(true)
