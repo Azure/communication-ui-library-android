@@ -2,7 +2,7 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--    Device-->
     <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Luidspreker</string>
@@ -20,9 +20,9 @@
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">Microfoon aan</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">Deelnemen aan gesprek</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Uw audio is uitgeschakeld. Als u deze wilt inschakelen, gaat u naar Instellingen om toegang toe te staan. U moet
-         audio inschakelen om dit gesprek te starten.</string>
+        audio inschakelen om dit gesprek te starten.</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Uw camera is uitgeschakeld. Als u deze wilt inschakelen, gaat u naar Instellingen
-        om toegang toe te staan.</string>
+        om toegang te verlenen.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Machtigingen vereist</string>
     <string name="azure_communication_ui_calling_setup_view_go_to_settings">Ga naar Instellingen</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Geselecteerd</string>
@@ -66,24 +66,24 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnostische gegevens</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Opname is gestart.</b> Door deel te nemen geeft
-        u toestemming om een transcriptie te maken van deze vergadering.
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Opname is gestart.</b> Door deel te nemen geeft u
+        toestemming voor het transcriberen van deze vergadering.
          <u>Privacybeleid</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Opname wordt opgeslagen.</b> Opname is gestopt.
          <u>Meer informatie</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Transcriptie is gestart.</b> Door deel te nemen geeft
-        u toestemming om een transcriptie te maken van deze vergadering. <u>Privacybeleid</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Transcriptie is gestart.</b> Door deel te nemen geeft u
+        toestemming voor het transcriberen van deze vergadering. <u>Privacybeleid</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Transcriptie wordt opgeslagen.</b> Transcriptie
         is gestopt. <u>Meer informatie</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Opname en transcriptie zijn
-        gestart.</b> Door deel te nemen geeft u toestemming om een transcriptie te maken van deze vergadering
+        gestart.</b> Door deel te nemen geeft u toestemming voor het transcriberen van deze vergadering
         . <u>Privacybeleid</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Opname en transcriptie
-        worden opgeslagen.</b> Opname en transcriptie zijn gestopt. <u>Meer informatie</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Opname en transcriptie worden
+        opgeslagen.</b> Opname en transcriptie zijn gestopt. <u>Meer informatie</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Opname is gestopt.</b> U
-        maakt nu alleen een transcriptie van deze vergadering. <u>Privacybeleid</u></string>
+        bent nu alleen deze vergadering aan het transcriberen. <u>Privacybeleid</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Transcriptie is gestopt.
-        </b>U maakt nu alleen een opname van deze vergadering. <u>Privacybeleid</u></string>
+    </b> U bent nu alleen deze vergadering aan het opnemen. <u>Privacybeleid</u></string>
     <string name="azure_communication_ui_calling_view_link">Koppeling</string>
 
     <!--    PopUp warning-->
@@ -146,4 +146,15 @@
 
     <!--    Upper Message Bar Notification -->
     <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Sluiten</string>
+
+    <!--     Support Form -->
+    <string name="azure_communication_ui_calling_report_issue">Probleem melden</string>
+    <string name="azure_communication_ui_calling_report_issue_title">Probleem melden</string>
+    <string name="azure_communication_ui_calling_logs_attach_notice">Logboeken worden automatisch bijgevoegd.</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label">Privacybeleid</string>
+    <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Beschrijf uw probleem...</string>
+    <string name="azure_communication_ui_calling_cancel_button_label">Annuleren</string>
+    <string name="azure_communication_ui_calling_attach_screenshot">Schermopname bijvoegen</string>
+    <string name="azure_communication_ui_calling_report_a_problem_label">Een probleem melden</string>
+    <string name="azure_communication_ui_calling_send_feedback_label">Verzenden</string>
 </resources>
