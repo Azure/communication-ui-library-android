@@ -1,10 +1,10 @@
+// Install AZ CLI and ensure the command below can run.(Setup the Environment)
 import groovy.json.JsonSlurper
 
 ext {
     // Define the function as a closure
     fetchTokenWithAzureCli = { ->
         try {
-            print("ENTERING\n")
             // Command to issue an ACS token
             String azCommand = "az communication user-identity token issue --scope voip --output json"
             // Determine the appropriate command line based on the OS
@@ -31,7 +31,7 @@ ext {
                 return token
             } else {
                 println "Failed to extract token from JSON response."
-                return null
+                return ""
             }
         } catch (Exception e) {
             println "Error fetching ACS token: ${e.message}"
