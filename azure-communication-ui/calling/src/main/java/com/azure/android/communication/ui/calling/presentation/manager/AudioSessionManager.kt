@@ -13,7 +13,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.media.AudioManager
-import com.azure.android.communication.ui.calling.impl.R
+import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus

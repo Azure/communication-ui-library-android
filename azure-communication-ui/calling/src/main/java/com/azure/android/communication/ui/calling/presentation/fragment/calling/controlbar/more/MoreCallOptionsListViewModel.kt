@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more
 
-import com.azure.android.communication.ui.calling.impl.R
+import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.redux.Dispatch
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
