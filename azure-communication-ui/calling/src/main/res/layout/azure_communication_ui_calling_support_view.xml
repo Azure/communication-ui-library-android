@@ -1,118 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp"
     android:background="@drawable/azure_communication_ui_calling_corner_radius_rectangle_4dp_drawer_background"
     >
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="48dp">
-
         <com.microsoft.fluentui.widget.Button
             style="@style/Widget.FluentUI.Button.Borderless"
             android:id="@+id/azure_communication_ui_send_button"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:text="@string/azure_communication_ui_calling_send_feedback_label"/>
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
         <TextView
+            android:id="@+id/azure_communication_ui_calling_send_feedback_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@id/azure_communication_ui_send_button"
             style="@style/TextAppearance.FluentUI.Heading"
             android:text="@string/azure_communication_ui_calling_report_a_problem_label"
             />
-        <View
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
 
         <com.microsoft.fluentui.widget.Button
-            style="@style/Widget.FluentUI.Button.Borderless"
             android:id="@+id/azure_communication_ui_cancel_button"
+            style="@style/Widget.FluentUI.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:text="@string/azure_communication_ui_calling_cancel_button_label"/>
-
-    </LinearLayout>
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:fillViewport="true">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/azure_communication_ui_calling_cancel_button_label" />
 
                 <EditText
                     android:layout_weight="1"
                     android:id="@+id/azure_communication_ui_user_message_edit_text"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:hint="@string/azure_communication_ui_calling_describe_your_issue_hint_text"
                     android:inputType="textMultiLine"
                     android:minLines="5"
                     android:gravity="top"
+                    android:layout_marginTop="32dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/azure_communication_ui_calling_send_feedback_title"
+                    app:layout_constraintBottom_toTopOf="@id/azure_communication_ui_support_form_logs_notice"
+
+
                     android:importantForAutofill="no" />
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/azure_communication_ui_support_form_logs_notice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/TextAppearance.FluentUI.Caption"
+                    app:layout_constraintTop_toBottomOf="@id/azure_communication_ui_user_message_edit_text"
+                    app:layout_constraintStart_toStartOf="@id/azure_communication_ui_user_message_edit_text"
+                    app:layout_constraintBottom_toTopOf="@id/azure_communication_ui_support_form_screenshot_label"
+                    android:layout_marginBottom="24dp"
                     android:text="@string/azure_communication_ui_calling_logs_attach_notice"
                     />
 
                 <TextView
+                    android:id="@+id/azure_communication_ui_support_form_privacy_link"
                     android:textColor="@color/fluentui_communication_blue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/azure_communication_ui_user_message_edit_text"
+                    app:layout_constraintStart_toEndOf="@id/azure_communication_ui_support_form_logs_notice"
+                    android:layout_marginStart="8dp"
                     style="@style/TextAppearance.FluentUI.Caption"
                     android:text="@string/azure_communication_ui_calling_privacy_policy_label"
                     />
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingTop="16dp">
                 <TextView
+                    android:id="@+id/azure_communication_ui_support_form_screenshot_label"
+                    style="@style/TextAppearance.FluentUI.Heading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/TextAppearance.FluentUI.Heading"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+
                     android:text="@string/azure_communication_ui_calling_attach_screenshot"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"/>
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"/>
-
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/azure_communication_ui_include_screenshot_toggle"
                     android:checked="true"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp" />
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBaseline_toBaselineOf="@id/azure_communication_ui_support_form_screenshot_label"
+
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    />
+</androidx.constraintlayout.widget.ConstraintLayout>
