@@ -9,10 +9,12 @@ import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.models.CallCompositeAvMode
 import com.azure.android.communication.ui.calling.redux.state.PictureInPictureStatus
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import org.junit.Assert
+import org.junit.Assert.assertFalse
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
@@ -41,6 +43,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
 
             val isMutedFlow = mutableListOf<Boolean>()
@@ -58,6 +61,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
 
             viewModel.update(
@@ -69,6 +73,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
 
             viewModel.update(
@@ -80,6 +85,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
 
             viewModel.update(
@@ -91,6 +97,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
 
             // assert
@@ -122,6 +129,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
 
             val displayNameFlow = mutableListOf<String?>()
@@ -139,6 +147,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
 
             // assert
@@ -168,6 +177,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
 
             val modelFlow = mutableListOf<LocalParticipantViewModel.VideoModel>()
@@ -185,6 +195,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
 
             viewModel.update(
@@ -196,6 +207,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
 
             viewModel.update(
@@ -207,6 +219,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
 
             // assert
@@ -251,6 +264,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
 
             val modelFlow = mutableListOf<Boolean>()
@@ -268,6 +282,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
             viewModel.update(
                 displayName,
@@ -278,6 +293,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
             viewModel.update(
                 displayName,
@@ -288,6 +304,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
             viewModel.update(
                 displayName,
@@ -298,6 +315,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
 
             // assert
@@ -334,6 +352,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
 
             val modelFlow = mutableListOf<Boolean>()
@@ -351,6 +370,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
             viewModel.update(
                 displayName,
@@ -361,6 +381,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.SWITCHING,
                 2,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
             viewModel.update(
                 displayName,
@@ -371,6 +392,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
             viewModel.update(
                 displayName,
@@ -381,6 +403,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.SWITCHING,
                 2,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
             viewModel.update(
                 displayName,
@@ -391,6 +414,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
             viewModel.update(
                 displayName,
@@ -401,6 +425,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
 
             // assert
@@ -412,6 +437,37 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
             Assert.assertEquals(true, modelFlow[4])
 
             displayLobbyJob.cancel()
+        }
+
+    @Test
+    fun `visibility of LocalParticipant View Model is hidden when in Audio Only Mode`() =
+        runScopedTest {
+
+            // arrange
+            val displayName = "username"
+            val audioState = AudioOperationalStatus.ON
+            val videoStreamID = null
+
+            // arrange
+            val mockAppStore = mock<AppStore<ReduxState>> {}
+            val viewModel =
+                LocalParticipantViewModel(
+                    mockAppStore::dispatch,
+                )
+
+            viewModel.init(
+                displayName = displayName,
+                audioState,
+                videoStreamID = videoStreamID,
+                numberOfRemoteParticipants = 0,
+                CallingStatus.CONNECTED,
+                CameraDeviceSelectionStatus.FRONT,
+                2,
+                PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.AUDIO_ONLY
+            )
+
+            assertFalse(viewModel.getIsVisibleFlow().value)
         }
 
     @Test
@@ -439,17 +495,20 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 0,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
 
             val getDisplayPipSwitchCameraButtonFlow = mutableListOf<Boolean>()
             val getDisplaySwitchCameraButtonFlow = mutableListOf<Boolean>()
 
             val displayPipSwitchCameraButtonFlow = launch {
-                viewModel.getDisplayPipSwitchCameraButtonFlow().toList(getDisplayPipSwitchCameraButtonFlow)
+                viewModel.getDisplayPipSwitchCameraButtonFlow()
+                    .toList(getDisplayPipSwitchCameraButtonFlow)
             }
 
             val displaySwitchCameraButtonFlow = launch {
-                viewModel.getDisplaySwitchCameraButtonFlow().toList(getDisplaySwitchCameraButtonFlow)
+                viewModel.getDisplaySwitchCameraButtonFlow()
+                    .toList(getDisplaySwitchCameraButtonFlow)
             }
 
             // act
@@ -462,6 +521,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
             viewModel.update(
                 displayName,
@@ -472,6 +532,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 0,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
             viewModel.update(
                 displayName,
@@ -482,6 +543,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
             viewModel.update(
                 displayName,
@@ -492,6 +554,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 0,
                 PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.NORMAL
             )
 
             // assert
