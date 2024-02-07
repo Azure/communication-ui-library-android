@@ -347,7 +347,6 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 // Ignore any exception from the user handler
             }
         }
-
     }
 
     private fun configureLocalization() {
