@@ -368,7 +368,6 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
         supportView.layoutDirection =
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
-
     }
 
     private fun setActionBarVisibility() {

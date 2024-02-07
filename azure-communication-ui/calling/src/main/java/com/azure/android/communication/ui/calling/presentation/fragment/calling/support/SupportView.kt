@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import android.widget.EditText
 import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -31,7 +30,7 @@ internal class SupportView : ConstraintLayout {
     private val editText: EditText by lazy { findViewById(R.id.azure_communication_ui_user_message_edit_text) }
     private val screenshotCheckBox: SwitchCompat by lazy { findViewById(R.id.azure_communication_ui_include_screenshot_toggle) }
 
-    private val menuDrawer : DrawerDialog by lazy {
+    private val menuDrawer: DrawerDialog by lazy {
         DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM).apply {
             setContentView(this@SupportView)
             setCanceledOnTouchOutside(true)
