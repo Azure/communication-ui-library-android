@@ -2,7 +2,7 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--    Device-->
     <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">مكبر الصوت</string>
@@ -67,21 +67,21 @@
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>لقد بدأ التسجيل.</b> من خلال الانضمام، فأنت
-        توافق على كتابة الحديث لهذا الاجتماع.
+        توافق على كتابة هذا الاجتماع.
          <u>نهج الخصوصية</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>يتم حفظ التسجيل.</b> تم إيقاف التسجيل.
-        <u>تعرَّف على المزيد</u></string>
+         <u>التعرّف على المزيد</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>لقد بدأ كتابة الحديث.</b> بالانضمام، أنت
-        توافق على النسخ النص لهذا الاجتماع. <u>نهج الخصوصية</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>يتم حفظ كتابة الحديث.</b> تم إيقاف
-        النسخ. <u>تعرَّف على المزيد</u></string>
+        توافق على كتابة هذا الاجتماع. <u>نهج الخصوصية</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>يتم حفظ كتابة الحديث.</b> الكتابة
+        قيد الإيقاف. <u>التعرّف على المزيد</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>لقد بدء التسجيل والنسخ
-       النصي.</b> بالانضمام، فأنت توافق على كتابة الحديث لهذا الاجتماع
+        النصي.</b> بالانضمام، فأنت توافق على كتابة الحديث لهذا الاجتماع
         . <u>نهج الخصوصية</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>يتم حفظ التسجيل والنسخ
-        النصي.</b> تم إيقاف التسجيل وكتابة الحديث. <u>تعرَّف على المزيد</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>تم إيقاف التسجيل.</b> تقوم الآن
-        بكتابة الحديث لهذا الاجتماع. <u>نهج الخصوصية</u></string>
+        النصي.</b> تم إيقاف التسجيل وكتابة الحديث. <u>التعرّف على المزيد</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>تم إيقاف التسجيل.</b> أنت
+        تكتب حديث هذا الاجتماع الآن فقط. <u>نهج الخصوصية</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>تم إيقاف كتابة الحديث.
     </b> أنت الآن تسجل هذا الاجتماع فقط. <u>نهج الخصوصية</u></string>
     <string name="azure_communication_ui_calling_view_link">رابط</string>
@@ -146,4 +146,15 @@
 
     <!--    Upper Message Bar Notification -->
     <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">تجاهل</string>
+
+    <!--     Support Form -->
+    <string name="azure_communication_ui_calling_report_issue">الإبلاغ عن مشكلة</string>
+    <string name="azure_communication_ui_calling_report_issue_title">الإبلاغ عن مشكلة</string>
+    <string name="azure_communication_ui_calling_logs_attach_notice">سنقوم بإرفاق السجلات تلقائيًا.</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label">نهج الخصوصية</string>
+    <string name="azure_communication_ui_calling_describe_your_issue_hint_text">يُرجى وصف مشكلتك...</string>
+    <string name="azure_communication_ui_calling_cancel_button_label">إلغاء</string>
+    <string name="azure_communication_ui_calling_attach_screenshot">إرفاق لقطة الشاشة</string>
+    <string name="azure_communication_ui_calling_report_a_problem_label">الإبلاغ عن مشكلة</string>
+    <string name="azure_communication_ui_calling_send_feedback_label">إرسال</string>
 </resources>

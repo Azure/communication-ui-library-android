@@ -7,7 +7,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.azure.android.communication.ui.calling.impl.R
+import com.azure.android.communication.ui.calling.implementation.R
 
 internal class BottomCellAdapter : RecyclerView.Adapter<BottomCellViewHolder>() {
     private var bottomCellItems: List<BottomCellItem> = mutableListOf()

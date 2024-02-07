@@ -70,7 +70,7 @@ extends:
                 condition: ne(variables['commit'], 'true')
                 inputs:
                   teamId: "44987"
-                  authId: $(AUTHID_)
+                  authId: $(authId)
                   authKey: $(AUTH_KEY)
                   relativePathRoot: azure-communication-ui/azure-communication-ui/src/main/res/values
                   resourceFilePath: azure_communication_ui_strings.xml;P:246
@@ -81,7 +81,7 @@ extends:
                 condition: eq(variables['commit'], 'true')
                 inputs:
                   teamId: "44987"
-                  authId: $(AUTHID_)
+                  authId: $(authId)
                   authKey: $(AUTH_KEY)
                   relativePathRoot: azure-communication-ui/calling/src/main/res/values
                   resourceFilePath: azure_communication_ui_calling_strings.xml;P:246

@@ -24,7 +24,7 @@ import com.azure.android.communication.waitUntilDisplayed
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import java.util.UUID
-import com.azure.android.communication.ui.calling.impl.R
+import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import java9.util.concurrent.CompletableFuture
 

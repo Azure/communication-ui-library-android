@@ -10,7 +10,7 @@ import java.io.File;
  * This event captures the user message describing the problem, a list of log files
  * containing diagnostic information, and the call identifiers associated with the user's session.
  */
-public class CallCompositeUserReportedIssueEvent {
+public final class CallCompositeUserReportedIssueEvent {
     // The message provided by the user describing the issue they have encountered.
     private final String userMessage;
     // A list of files containing logs that may help diagnose the reported issue.
