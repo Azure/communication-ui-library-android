@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
+import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
@@ -47,7 +48,6 @@ import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.lang.IllegalArgumentException
 import java.lang.ref.WeakReference
 import java.util.Locale
 
@@ -94,7 +94,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         try {
             diContainerHolder.instanceId = instanceId
             diContainerHolder.container.callCompositeActivityWeakReference = WeakReference(this)
-        } catch (invalidIDException: IllegalArgumentException) {
+        } catch (invalidIDException: CallCompositeException) {
             finish() // Container has vanished (probably due to process death); we cannot continue
             return
         }
