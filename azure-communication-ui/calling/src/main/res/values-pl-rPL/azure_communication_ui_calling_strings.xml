@@ -2,7 +2,7 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--    Device-->
     <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Głośnik</string>
@@ -19,10 +19,10 @@
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Mikrofon wyłączony</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">Mikrofon włączony</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">Dołącz do rozmowy</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Dźwięk jest wyłączony. Aby włączyć, przejdź do ustawień, aby zezwolić na dostęp. Aby rozpocząć to połączenie, musisz
- włączyć dźwięk.</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Kamera jest wyłączona. Aby włączyć, przejdź do obszaru Ustawienia
-,        aby zezwolić na dostęp.</string>
+    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Dźwięk jest wyłączony. Aby go włączyć, przejdź do obszaru Ustawienia, aby zezwolić na dostęp. Musisz
+        włączyć dźwięk, aby rozpocząć to połączenie.</string>
+    <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Kamera jest wyłączona. Aby ją włączyć, przejdź do obszaru Ustawienia,
+        aby zezwolić na dostęp.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Wymagane są uprawnienia</string>
     <string name="azure_communication_ui_calling_setup_view_go_to_settings">Przejdź do ustawień</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Wybrano</string>
@@ -66,24 +66,24 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Informacje diagnostyczne</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Rozpoczęto nagrywanie.</b> Dołączając, 
- wyrażasz zgodę na transkrybowanie tego spotkania.
- <u> Zasady ochrony prywatności</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Trwa zapisywanie nagrywania.</b> Nagrywanie zostało zatrzymane.
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Rozpoczęto nagrywanie.</b> Dołączając,
+        wyrażasz zgodę na transkrypcję tego spotkania.
+         <u>Zasady ochrony prywatności</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Trwa zapisywanie nagrania.</b> Nagrywanie zostało zatrzymane.
          <u>Dowiedz się więcej</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Transkrypcja została uruchomiona.</b>Dołączając,
-        wyrażasz zgodę na transkrypcję tego spotkania. <u> Zasady prywatności</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Trwa zapisywanie transkrypcji.</b> Zatrzymano
-        transkrypcję. <u>Dowiedz się więcej</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Rozpoczęto nagrywanie i transkrypcję
-.</b> Dołączając, wyrażasz zgodę na transkrypcję tego spotkania
-        . <u> Zasady ochrony prywatności</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Rejestrowanie i transkrypcja są
- zapisywane.</b> Nagrywanie i transkrypcja zostały zatrzymane. <u>Dowiedz się więcej</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Rozpoczęto transkrypcję.</b>Dołączając,
+        wyrażasz zgodę na transkrypcję tego spotkania. <u>Zasady ochrony prywatności</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Trwa zapisywanie transkrypcji.</b> Transkrypcja
+        została zatrzymana. <u>Dowiedz się więcej</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Rozpoczęto nagrywanie i transkrypcję.
+        </b> Dołączając, wyrażasz zgodę na transkrypcję tego spotkania.
+          <u>Zasady ochrony prywatności</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Nagranie i transkrypcja są
+        zapisywane.</b> Nagrywanie i transkrypcja zostały zatrzymane. <u>Dowiedz się więcej</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Nagrywanie zostało zatrzymane.</b>
-        Teraz tylko transkrybują to spotkanie. <u>Zasad ochrony prywatności</u></string>
+        Teraz tylko transkrybujesz to spotkanie. <u>Zasady ochrony prywatności</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Transkrypcja została zatrzymana.
-    </b> Nagrywasz teraz tylko to spotkanie. <u>Zasady ochrony prywatności</u></string>
+    </b> Teraz tylko nagrywasz to spotkanie. <u>Zasady ochrony prywatności</u></string>
     <string name="azure_communication_ui_calling_view_link">Link</string>
 
     <!--    PopUp warning-->
@@ -146,4 +146,15 @@
 
     <!--    Upper Message Bar Notification -->
     <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Odrzuć</string>
+
+    <!--     Support Form -->
+    <string name="azure_communication_ui_calling_report_issue">Zgłoś problem</string>
+    <string name="azure_communication_ui_calling_report_issue_title">Zgłoś problem</string>
+    <string name="azure_communication_ui_calling_logs_attach_notice">Automatycznie dołączymy dzienniki.</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label">Zasady ochrony prywatności</string>
+    <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Opisz swój problem...</string>
+    <string name="azure_communication_ui_calling_cancel_button_label">Anuluj</string>
+    <string name="azure_communication_ui_calling_attach_screenshot">Załącz wycinek ekranu</string>
+    <string name="azure_communication_ui_calling_report_a_problem_label">Zgłoś problem</string>
+    <string name="azure_communication_ui_calling_send_feedback_label">Wyślij</string>
 </resources>

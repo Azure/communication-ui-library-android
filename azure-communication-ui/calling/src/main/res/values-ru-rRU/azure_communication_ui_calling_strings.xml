@@ -2,7 +2,7 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--    Device-->
     <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Динамик</string>
@@ -19,8 +19,8 @@
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Микрофон выключен</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">Микрофон включен</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">Присоединиться к звонку</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Звук отключен. Для включения перейдите в раздел "Параметры", чтобы разрешить доступ. Чтобы начать
-        этот звонок, включите звук.</string>
+    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Звук отключен. Для включения перейдите в раздел "Параметры", чтобы разрешить доступ. Необходимо
+        включить звук, чтобы начать этот звонок.</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Камера отключена. Для включения перейдите в раздел "Параметры",
         чтобы разрешить доступ.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Требуются разрешения</string>
@@ -83,7 +83,7 @@
     <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Запись остановлена.</b> Теперь вы
         только транскрибируете это собрание. <u>Политика конфиденциальности</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Транскрибирование остановлено.
-    </b> Теперь вы только записываете это собрание. <u>Политика конфиденциальности</u></string>
+    </b> Сейчас вы только записываете это собрание. <u>Политика конфиденциальности</u></string>
     <string name="azure_communication_ui_calling_view_link">Ссылка</string>
 
     <!--    PopUp warning-->
@@ -146,4 +146,15 @@
 
     <!--    Upper Message Bar Notification -->
     <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Закрыть</string>
+
+    <!--     Support Form -->
+    <string name="azure_communication_ui_calling_report_issue">Сообщить о проблеме</string>
+    <string name="azure_communication_ui_calling_report_issue_title">Сообщить о проблеме</string>
+    <string name="azure_communication_ui_calling_logs_attach_notice">Журналы будут вложены автоматически.</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label">Политика конфиденциальности</string>
+    <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Опишите свою проблему...</string>
+    <string name="azure_communication_ui_calling_cancel_button_label">Отмена</string>
+    <string name="azure_communication_ui_calling_attach_screenshot">Вложить снимок экрана</string>
+    <string name="azure_communication_ui_calling_report_a_problem_label">Сообщить о проблеме</string>
+    <string name="azure_communication_ui_calling_send_feedback_label">Отправить</string>
 </resources>
