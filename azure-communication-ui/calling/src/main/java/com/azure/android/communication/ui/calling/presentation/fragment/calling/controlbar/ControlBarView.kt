@@ -41,7 +41,7 @@ internal class ControlBarView : ConstraintLayout {
     override fun onFinishInflate() {
         super.onFinishInflate()
         endCallButton = findViewById(R.id.azure_communication_ui_call_end_call_button)
-        cameraToggle = findViewById(R.id.azure_communication_ui_call_cameraToggle)
+        //cameraToggle = findViewById(R.id.azure_communication_ui_call_cameraToggle)
         micToggle = findViewById(R.id.azure_communication_ui_call_call_audio)
         callAudioDeviceButton = findViewById(R.id.azure_communication_ui_call_audio_device_button)
         moreButton = findViewById(R.id.azure_communication_ui_call_control_bar_more)
@@ -64,7 +64,7 @@ internal class ControlBarView : ConstraintLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCameraStateFlow().collect {
-                updateCamera(it)
+                //updateCamera(it)
             }
         }
 
@@ -83,11 +83,11 @@ internal class ControlBarView : ConstraintLayout {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getOnHoldCallStatusStateFlowStateFlow().collect {
                 if (it) {
-                    cameraToggle.isEnabled = false
+                    //cameraToggle.isEnabled = false
                     micToggle.isEnabled = false
                     callAudioDeviceButton.isEnabled = false
                 } else {
-                    updateCamera(viewModel.getCameraStateFlow().value)
+                    //updateCamera(viewModel.getCameraStateFlow().value)
                     micToggle.isEnabled = viewModel.getShouldEnableMicButtonStateFlow().value
                     callAudioDeviceButton.isEnabled = true
                 }
@@ -97,14 +97,14 @@ internal class ControlBarView : ConstraintLayout {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCallStateFlow().collect() {
                 if (it == CallingStatus.NONE || it == CallingStatus.CONNECTING) {
-                    cameraToggle.isEnabled = false
+                    //cameraToggle.isEnabled = false
                     micToggle.isEnabled = false
                     callAudioDeviceButton.isEnabled = false
                     moreButton.isEnabled = false
                     callStatePassedConnecting = false
                 } else {
                     callStatePassedConnecting = true
-                    updateCamera(viewModel.getCameraStateFlow().value)
+                    //updateCamera(viewModel.getCameraStateFlow().value)
                     micToggle.isEnabled = viewModel.getShouldEnableMicButtonStateFlow().value
                     callAudioDeviceButton.isEnabled = true
                     moreButton.isEnabled = true
@@ -113,7 +113,7 @@ internal class ControlBarView : ConstraintLayout {
         }
     }
 
-    private fun accessibilityNonSelectableViews() = setOf(micToggle, cameraToggle)
+    private fun accessibilityNonSelectableViews() = setOf(micToggle)
 
     private val alwaysOffSelectedAccessibilityDelegate = object : AccessibilityDelegateCompat() {
         override fun onInitializeAccessibilityNodeInfo(
@@ -148,14 +148,14 @@ internal class ControlBarView : ConstraintLayout {
             }
         )
         ViewCompat.setAccessibilityDelegate(micToggle, alwaysOffSelectedAccessibilityDelegate)
-        ViewCompat.setAccessibilityDelegate(cameraToggle, alwaysOffSelectedAccessibilityDelegate)
+        //ViewCompat.setAccessibilityDelegate(cameraToggle, alwaysOffSelectedAccessibilityDelegate)
 
         endCallButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_button_hang_up_accessibility_label)
 
         callAudioDeviceButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_button_device_options_accessibility_label)
     }
 
-    private fun updateCamera(cameraState: ControlBarViewModel.CameraModel) {
+    /*private fun updateCamera(cameraState: ControlBarViewModel.CameraModel) {
         val cameraPermissionIsNotDenied = (cameraState.cameraPermissionState != PermissionStatus.DENIED)
         val shouldBeEnabled = (cameraPermissionIsNotDenied && callStatePassedConnecting)
         cameraToggle.isEnabled = shouldBeEnabled
@@ -176,7 +176,7 @@ internal class ControlBarView : ConstraintLayout {
                 cameraToggle.isEnabled = false
             }
         }
-    }
+    }*/
 
     private fun updateMic(audioOperationalStatus: AudioOperationalStatus) {
         when (audioOperationalStatus) {
@@ -234,7 +234,7 @@ internal class ControlBarView : ConstraintLayout {
                 postDelayed({ micToggle.requestFocus() }, 33)
             }
         }
-        cameraToggle.setOnClickListener {
+        /*cameraToggle.setOnClickListener {
             if (cameraToggle.isSelected) {
                 viewModel.turnCameraOff()
             } else {
@@ -245,7 +245,7 @@ internal class ControlBarView : ConstraintLayout {
                 // Same as above (Steal back focus)
                 postDelayed({ cameraToggle.requestFocus() }, 33)
             }
-        }
+        }*/
         callAudioDeviceButton.setOnClickListener {
             viewModel.openAudioDeviceSelectionMenu()
         }

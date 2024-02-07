@@ -69,7 +69,7 @@ internal class ParticipantGridCellVideoView(
                 setSpeakingIndicator(it)
             }
         }
-        lifecycleScope.launch {
+        /*lifecycleScope.launch {
             participantViewModel.getVideoViewModelStateFlow().collect {
                 updateVideoStream(it)
                 if (it != null) {
@@ -78,7 +78,7 @@ internal class ParticipantGridCellVideoView(
                     videoContainer.visibility = INVISIBLE
                 }
             }
-        }
+        }*/
     }
 
     fun updateParticipantViewData() {
