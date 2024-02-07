@@ -186,7 +186,7 @@ class CallLauncherActivity : AppCompatActivity() {
                             reportSummary.append("\nCall ID: ${debugInfo.callHistoryRecords}}")
                             // Add more information from the event as needed
                             // Prepare the large icon (screenshot) for the notification
-                            val largeIcon = if (screenshot.exists()) {
+                            val largeIcon = if (screenshot?.exists() == true) {
                                 BitmapFactory.decodeFile(screenshot.absolutePath)
                             } else {
                                 null // or a default image
