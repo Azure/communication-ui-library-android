@@ -1,3 +1,5 @@
+import groovy.json.JsonSlurper
+
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
@@ -16,11 +18,9 @@ android {
         targetSdkVersion 34
         versionCode ui_library_version_code
 
-//        // A flag to indicate if the retrieveToken task needs to be executed
 //        boolean needToRetrieveToken = !properties.containsKey('ACS_TOKEN')
-//
 //        if (needToRetrieveToken) {
-//            properties.setProperty('ACS_TOKEN', '"'+rootProject.ext.fetchTokenWithAzureCli()+'"')
+//            properties.setProperty('ACS_TOKEN', '"'+fetchTokenWithAzureCli()+'"')
 //        }
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -195,4 +195,40 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_core_version"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$androidx_espresso_contrib_version"
     androidTestImplementation "com.squareup.leakcanary:leakcanary-android-instrumentation:2.9.1"
+}
+
+String fetchTokenWithAzureCli()  {
+    try {
+        // Command to issue an ACS token
+        String azCommand = "az communication user-identity token issue --scope voip --output json"
+        // Determine the appropriate command line based on the OS
+        String[] commandLine
+        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+            commandLine = ["cmd", "/c", azCommand]
+        } else {
+            commandLine = ["sh", "-c", azCommand]
+        }
+
+        // Execute the command
+        Process process = new ProcessBuilder(commandLine).start()
+        process.waitFor() // Wait for the command to complete
+
+        // Read the output of the command
+        String output = process.getInputStream().text
+
+        // Parse the JSON output to extract the token
+        JsonSlurper jsonSlurper = new JsonSlurper()
+        Map jsonResponse = jsonSlurper.parseText(output)
+        String token = jsonResponse.token
+
+        if (token) {
+            return token
+        } else {
+            println "Failed to extract token from JSON response."
+            return ""
+        }
+    } catch (Exception e) {
+        println "Error fetching ACS token: ${e.message}"
+        return null
+    }
 }
