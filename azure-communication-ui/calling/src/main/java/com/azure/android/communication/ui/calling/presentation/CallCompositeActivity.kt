@@ -323,6 +323,10 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
     private fun forwardSupportEventToUser(userText: String, screenshot: Boolean) {
         val debugInfo = container.debugInfoManager.getDebugInfo()
+
+        // Hide it before the event, to ensure screenshot is sclean
+        if (screenshot) supportView.visibility = View.GONE
+
         val event = CallCompositeUserReportedIssueEvent(
             userText,
             if (screenshot) (
@@ -331,8 +335,8 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 ) else null,
             debugInfo
         )
-        supportView.visibility = View.GONE
 
+        // Show it again, as we dismiss via the BottomDialog for true visibility
         supportView.visibility = View.VISIBLE
         container.configuration.callCompositeEventsHandler.getOnUserReportedHandlers().forEach {
             try {
@@ -343,7 +347,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 // Ignore any exception from the user handler
             }
         }
-        // Pass through local config
+
     }
 
     private fun configureLocalization() {
