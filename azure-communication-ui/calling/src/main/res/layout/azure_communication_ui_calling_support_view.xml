@@ -46,6 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/azure_communication_ui_calling_describe_your_issue_hint_text"
+                    android:textColorHint="@color/azure_communication_ui_calling_color_on_surface"
                     android:inputType="textMultiLine"
                     android:minLines="5"
                     android:gravity="top"
