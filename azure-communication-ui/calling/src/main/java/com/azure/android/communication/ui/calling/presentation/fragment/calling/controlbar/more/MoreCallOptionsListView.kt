@@ -78,7 +78,7 @@ internal class MoreCallOptionsListView(
             accessoryImage = null,
             accessoryColor = null,
             accessoryImageDescription = null,
-            enabled = true,
+            isChecked = false,
             participantViewData = null,
             isOnHold = false,
             onClickAction =

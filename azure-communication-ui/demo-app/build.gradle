@@ -17,7 +17,7 @@ android {
         versionCode ui_library_version_code
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
+        
         buildConfigField 'String', 'TOKEN_FUNCTION_URL', properties.getProperty('TOKEN_FUNCTION_URL', '""')
         buildConfigField 'String', 'USER_NAME', properties.getProperty('USER_NAME', '""')
         buildConfigField 'String', 'GROUP_CALL_ID', properties.getProperty('GROUP_CALL_ID', '""')
