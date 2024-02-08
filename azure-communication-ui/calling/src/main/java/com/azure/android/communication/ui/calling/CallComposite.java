@@ -207,7 +207,6 @@ public final class CallComposite {
 
     /**
      * Dismiss composite. If call is in progress, user will leave a call.
-     *
      */
     public void dismiss() {
         final DependencyInjectionContainer container = diContainer;
@@ -324,6 +323,7 @@ public final class CallComposite {
 
     /**
      * Add {@link CallCompositeEventHandler}
+     *
      * @param eventHandler
      */
     public void addOnPictureInPictureChangedEventHandler(

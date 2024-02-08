@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
+import com.azure.android.communication.ui.calling.models.CallCompositeAvMode
 import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
@@ -22,7 +23,8 @@ internal class CallingViewModel(
     store: Store<ReduxState>,
     callingViewModelProvider: CallingViewModelFactory,
     private val networkManager: NetworkManager,
-    val multitaskingEnabled: Boolean
+    val multitaskingEnabled: Boolean,
+    val avMode: CallCompositeAvMode,
 ) :
     BaseViewModel(store) {
 
@@ -78,6 +80,7 @@ internal class CallingViewModel(
             state.localParticipantState.cameraState.device,
             state.localParticipantState.cameraState.camerasCount,
             state.pipState.status,
+            avMode
         )
 
         floatingHeaderViewModel.init(
@@ -162,6 +165,7 @@ internal class CallingViewModel(
             state.localParticipantState.cameraState.device,
             state.localParticipantState.cameraState.camerasCount,
             state.pipState.status,
+            avMode
         )
 
         audioDeviceListViewModel.update(
@@ -200,6 +204,7 @@ internal class CallingViewModel(
                 state.localParticipantState.cameraState.device,
                 state.localParticipantState.cameraState.camerasCount,
                 state.pipState.status,
+                avMode
             )
         }
 
