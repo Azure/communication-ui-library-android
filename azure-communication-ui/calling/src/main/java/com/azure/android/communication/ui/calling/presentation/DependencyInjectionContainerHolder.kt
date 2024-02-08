@@ -10,6 +10,7 @@ import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer
 import com.azure.android.communication.ui.calling.getDiContainer
+import com.azure.android.communication.ui.calling.models.CallCompositeAvMode
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.ParticipantGridCellViewModelFactory
@@ -72,7 +73,8 @@ internal class DependencyInjectionContainerHolder(
                 container.configuration.enableMultitasking
             ),
             container.networkManager,
-            container.configuration.enableMultitasking
+            container.configuration.enableMultitasking,
+            container.configuration.callCompositeLocalOptions?.avMode ?: CallCompositeAvMode.NORMAL
         )
     }
 }

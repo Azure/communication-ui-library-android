@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser
 
+import com.azure.android.communication.ui.calling.models.CallCompositeAvMode
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
@@ -52,7 +53,8 @@ internal class LocalParticipantViewModel(
         callingState: CallingStatus,
         cameraDeviceSelectionStatus: CameraDeviceSelectionStatus,
         camerasCount: Int,
-        pipStatus: PictureInPictureStatus
+        pipStatus: PictureInPictureStatus,
+        avMode: CallCompositeAvMode,
     ) {
         val viewMode = getLocalParticipantViewMode(numberOfRemoteParticipants)
         val displayVideo = shouldDisplayVideo(videoStreamID)
@@ -80,10 +82,14 @@ internal class LocalParticipantViewModel(
         cameraDeviceSelectionFlow.value = cameraDeviceSelectionStatus
         numberOfRemoteParticipantsFlow.value = numberOfRemoteParticipants
 
-        isVisibleFlow.value = isVisible(displayVideo, pipStatus, displayFullScreenAvatar)
+        isVisibleFlow.value = isVisible(displayVideo, pipStatus, displayFullScreenAvatar, avMode)
     }
 
-    private fun isVisible(displayVideo: Boolean, pipStatus: PictureInPictureStatus, displayFullScreenAvatar: Boolean): Boolean {
+    private fun isVisible(displayVideo: Boolean, pipStatus: PictureInPictureStatus, displayFullScreenAvatar: Boolean, avMode: CallCompositeAvMode): Boolean {
+        if (avMode == CallCompositeAvMode.AUDIO_ONLY && !displayFullScreenAvatar) {
+            return false
+        }
+
         return if (pipStatus == PictureInPictureStatus.PIP_MODE_ENTERED) {
             displayVideo || displayFullScreenAvatar
         } else {
@@ -103,7 +109,8 @@ internal class LocalParticipantViewModel(
         callingState: CallingStatus,
         cameraDeviceSelectionStatus: CameraDeviceSelectionStatus,
         camerasCount: Int,
-        pipStatus: PictureInPictureStatus
+        pipStatus: PictureInPictureStatus,
+        avMode: CallCompositeAvMode,
     ) {
 
         val viewMode = getLocalParticipantViewMode(numberOfRemoteParticipants)
@@ -131,7 +138,7 @@ internal class LocalParticipantViewModel(
         cameraDeviceSelectionFlow = MutableStateFlow(cameraDeviceSelectionStatus)
         isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayed(callingState))
         numberOfRemoteParticipantsFlow = MutableStateFlow(numberOfRemoteParticipants)
-        isVisibleFlow = MutableStateFlow(isVisible(displayVideo, pipStatus, displayFullScreenAvatar))
+        isVisibleFlow = MutableStateFlow(isVisible(displayVideo, pipStatus, displayFullScreenAvatar, avMode))
     }
 
     fun switchCamera() = dispatch(LocalParticipantAction.CameraSwitchTriggered())

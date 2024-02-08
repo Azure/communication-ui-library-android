@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.models.CallCompositeAvMode
 import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
@@ -86,7 +87,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
 
             val mockLocalParticipantViewModel = mock<LocalParticipantViewModel> {
-                on { update(any(), any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
             }
 
             val mockFloatingHeaderViewModel = mock<InfoHeaderViewModel> {}
@@ -136,6 +137,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockCallingViewModelProvider,
                 mockNetworkManager,
                 false,
+                CallCompositeAvMode.NORMAL
             )
 
             val newBackgroundState = AppReduxState("", false, false)
@@ -158,7 +160,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 any(),
             )
             verify(mockLocalParticipantViewModel, times(1)).update(
-                any(), any(), any(), any(), any(), any(), any(), any()
+                any(), any(), any(), any(), any(), any(), any(), any(), any()
             )
 
             flowJob.cancel()
@@ -188,7 +190,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
 
             val mockLocalParticipantViewModel = mock<LocalParticipantViewModel> {
-                on { update(any(), any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
             }
 
             val mockFloatingHeaderViewModel = mock<InfoHeaderViewModel> {}
@@ -235,6 +237,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockCallingViewModelProvider,
                 mockNetworkManager,
                 false,
+                CallCompositeAvMode.NORMAL
             )
 
             val newForegroundState = AppReduxState("", false, false,)
@@ -257,7 +260,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 any(),
             )
             verify(mockLocalParticipantViewModel, times(2)).update(
-                any(), any(), any(), any(), any(), any(), any(), any()
+                any(), any(), any(), any(), any(), any(), any(), any(), any()
             )
 
             flowJob.cancel()
@@ -288,7 +291,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
 
             val mockLocalParticipantViewModel = mock<LocalParticipantViewModel> {
-                on { update(any(), any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
             }
 
             val mockFloatingHeaderViewModel = mock<InfoHeaderViewModel> {}
@@ -333,6 +336,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockCallingViewModelProvider,
                 mockNetworkManager,
                 false,
+                CallCompositeAvMode.NORMAL
             )
 
             val storeState = AppReduxState("", false, false)
@@ -364,7 +368,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 any(),
             )
             verify(mockLocalParticipantViewModel, times(2)).update(
-                any(), any(), any(), any(), any(), any(), any(), any()
+                any(), any(), any(), any(), any(), any(), any(), any(), any()
             )
 
             flowJob.cancel()
@@ -394,7 +398,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
 
             val mockLocalParticipantViewModel = mock<LocalParticipantViewModel> {
-                on { update(any(), any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
             }
 
             val mockFloatingHeaderViewModel = mock<InfoHeaderViewModel> {}
@@ -439,6 +443,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockCallingViewModelProvider,
                 mockNetworkManager,
                 false,
+                CallCompositeAvMode.NORMAL
             )
 
             val newForegroundState = AppReduxState("", false, false)
@@ -464,7 +469,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 any(),
             )
             verify(mockLocalParticipantViewModel, times(2)).update(
-                any(), any(), any(), any(), any(), any(), any(), any()
+                any(), any(), any(), any(), any(), any(), any(), any(), any()
             )
 
             flowJob.cancel()
@@ -670,6 +675,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockCallingViewModelProvider,
                 mockNetworkManager,
                 false,
+                CallCompositeAvMode.NORMAL
             )
 
             val newState = AppReduxState("", false, false)
@@ -877,6 +883,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             mockCallingViewModelProvider,
             mockNetworkManager,
             false,
+            CallCompositeAvMode.NORMAL
         )
 
         val newState = AppReduxState("", false, false)
@@ -986,7 +993,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         }
         val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
         val mockLocalParticipantViewModel = mock<LocalParticipantViewModel> {
-            on { update(any(), any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
+            on { update(any(), any(), any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
         }
         val mockLobbyHeaderViewModel = mock<LobbyHeaderViewModel> {
             on { update(any(), any(), any()) } doAnswer { }
@@ -1027,7 +1034,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             mockAppStore,
             mockCallingViewModelProvider,
             mockNetworkManager,
-            false
+            false,
+            CallCompositeAvMode.NORMAL
         )
 
         val newState = AppReduxState("", false, false)
@@ -1082,7 +1090,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             any(),
         )
         verify(mockLocalParticipantViewModel, times(2)).update(
-            any(), any(), any(), any(), any(), any(), any(), any(),
+            any(), any(), any(), any(), any(), any(), any(), any(), any()
         )
         verify(
             mockLobbyErrorHeaderViewModel,
