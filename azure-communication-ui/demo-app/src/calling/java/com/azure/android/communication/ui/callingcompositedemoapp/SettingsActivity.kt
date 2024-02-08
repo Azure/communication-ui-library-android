@@ -110,6 +110,8 @@ class SettingsActivity : AppCompatActivity() {
 
         updateEndCallOnDefaultCheckBox()
 
+        updateAudioOnlyDefaultCheckbox()
+
         relaunchCompositeOnExitCheckbox()
 
         updateEnableMultitaskingCheckbox()
@@ -414,6 +416,13 @@ class SettingsActivity : AppCompatActivity() {
         enablePipWhenMultitaskingCheckbox.isChecked = sharedPreference.getBoolean(
             ENABLE_PIP_WHEN_MULTITASKING,
             ENABLE_PIP_WHEN_MULTITASKING_DEFAULT_VALUE
+        )
+    }
+
+    private fun updateAudioOnlyDefaultCheckbox() {
+        audioOnlyModeCheckBox.isChecked = sharedPreference.getBoolean(
+            AUDIO_ONLY_MODE_ON_BY_DEFAULT_KEY,
+            AUDIO_ONLY_MODE_ON_BY_DEFAULT_VALUE
         )
     }
 }
