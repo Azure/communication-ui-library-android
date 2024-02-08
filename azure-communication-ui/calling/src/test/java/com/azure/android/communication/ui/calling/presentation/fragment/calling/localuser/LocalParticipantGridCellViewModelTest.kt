@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import org.junit.Assert
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
@@ -440,7 +441,38 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
         }
 
     @Test
-    fun `visibility of LocalParticipant View Model is hidden when in Audio Only Mode`() =
+    fun `Ensure the Local Participant View is not displayed when in Audio Only mode and multiple participants are displayed`() =
+        runScopedTest {
+
+            // arrange
+            val displayName = "username"
+            val audioState = AudioOperationalStatus.ON
+            val videoStreamID = null
+
+            // arrange
+            val mockAppStore = mock<AppStore<ReduxState>> {}
+            val viewModel =
+                LocalParticipantViewModel(
+                    mockAppStore::dispatch,
+                )
+
+            viewModel.init(
+                displayName = displayName,
+                audioState,
+                videoStreamID = videoStreamID,
+                numberOfRemoteParticipants = 3,
+                CallingStatus.CONNECTED,
+                CameraDeviceSelectionStatus.FRONT,
+                2,
+                PictureInPictureStatus.VISIBLE,
+                CallCompositeAvMode.AUDIO_ONLY
+            )
+
+            assertFalse(viewModel.getIsVisibleFlow().value)
+        }
+
+    @Test
+    fun `Ensure the Local Participant View IS displayed when in Audio Only mode and they are alone`() =
         runScopedTest {
 
             // arrange
@@ -467,7 +499,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallCompositeAvMode.AUDIO_ONLY
             )
 
-            assertFalse(viewModel.getIsVisibleFlow().value)
+            assertTrue(viewModel.getIsVisibleFlow().value)
         }
 
     @Test
