@@ -43,19 +43,21 @@
                 <EditText
                     android:layout_weight="1"
                     android:id="@+id/azure_communication_ui_user_message_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:hint="@string/azure_communication_ui_calling_describe_your_issue_hint_text"
                     android:textColorHint="@color/azure_communication_ui_calling_color_on_surface"
                     android:inputType="textMultiLine"
                     android:minLines="5"
                     android:gravity="top"
                     android:layout_marginTop="32dp"
+                    app:layout_constraintHeight_min="200dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/azure_communication_ui_calling_send_feedback_title"
                     app:layout_constraintBottom_toTopOf="@id/azure_communication_ui_support_form_logs_notice"
-
+                    app:layout_constraintWidth_default="spread"
+                    app:layout_constraintHeight_default="spread"
 
                     android:importantForAutofill="no" />
 
@@ -65,7 +67,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/TextAppearance.FluentUI.Caption"
-                    app:layout_constraintTop_toBottomOf="@id/azure_communication_ui_user_message_edit_text"
                     app:layout_constraintStart_toStartOf="@id/azure_communication_ui_user_message_edit_text"
                     app:layout_constraintBottom_toTopOf="@id/azure_communication_ui_support_form_screenshot_label"
                     android:layout_marginBottom="24dp"
@@ -77,8 +78,8 @@
                     android:textColor="@color/fluentui_communication_blue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/azure_communication_ui_user_message_edit_text"
                     app:layout_constraintStart_toEndOf="@id/azure_communication_ui_support_form_logs_notice"
+                    app:layout_constraintBaseline_toBaselineOf="@id/azure_communication_ui_support_form_logs_notice"
                     android:layout_marginStart="8dp"
                     style="@style/TextAppearance.FluentUI.Caption"
                     android:text="@string/azure_communication_ui_calling_privacy_policy_label"
@@ -91,7 +92,6 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-
                     android:text="@string/azure_communication_ui_calling_attach_screenshot"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"/>
