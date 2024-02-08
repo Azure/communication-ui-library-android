@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.calling.configuration.CallConfiguratio
 import com.azure.android.communication.ui.calling.configuration.CallType;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainerImpl;
+import com.azure.android.communication.ui.calling.models.CallCompositeAvMode;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
@@ -207,7 +208,6 @@ public final class CallComposite {
 
     /**
      * Dismiss composite. If call is in progress, user will leave a call.
-     *
      */
     public void dismiss() {
         final DependencyInjectionContainer container = diContainer;
@@ -324,6 +324,7 @@ public final class CallComposite {
 
     /**
      * Add {@link CallCompositeEventHandler}
+     *
      * @param eventHandler
      */
     public void addOnPictureInPictureChangedEventHandler(
@@ -455,10 +456,16 @@ public final class CallComposite {
 
         Class activityClass = CallCompositeActivity.class;
 
+        final CallCompositeLocalOptions localOptions = configuration.getCallCompositeLocalOptions();
+
+        final CallCompositeAvMode avMode = (localOptions != null)
+                ? localOptions.getAvMode()
+                : CallCompositeAvMode.NORMAL;
+
         if (configuration.getEnableMultitasking()) {
             activityClass = MultitaskingCallCompositeActivity.class;
         }
-        if (configuration.getEnableSystemPiPWhenMultitasking()) {
+        if (configuration.getEnableSystemPiPWhenMultitasking() && avMode != CallCompositeAvMode.AUDIO_ONLY) {
             activityClass = PiPCallCompositeActivity.class;
         }
 

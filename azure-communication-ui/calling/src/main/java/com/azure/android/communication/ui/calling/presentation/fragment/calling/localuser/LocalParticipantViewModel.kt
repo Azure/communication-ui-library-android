@@ -86,7 +86,7 @@ internal class LocalParticipantViewModel(
     }
 
     private fun isVisible(displayVideo: Boolean, pipStatus: PictureInPictureStatus, displayFullScreenAvatar: Boolean, avMode: CallCompositeAvMode): Boolean {
-        if (avMode == CallCompositeAvMode.AUDIO_ONLY) {
+        if (avMode == CallCompositeAvMode.AUDIO_ONLY && !displayFullScreenAvatar) {
             return false
         }
 
