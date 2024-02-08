@@ -19,7 +19,7 @@ internal data class BottomCellItem(
     var accessoryImage: Drawable?,
     var accessoryColor: Int?,
     var accessoryImageDescription: String?,
-    var enabled: Boolean?,
+    var isChecked: Boolean?,
     var participantViewData: CallCompositeParticipantViewData?,
     var isOnHold: Boolean?,
     val itemType: BottomCellItemType = BottomCellItemType.BottomMenuAction,
