@@ -456,16 +456,10 @@ public final class CallComposite {
 
         Class activityClass = CallCompositeActivity.class;
 
-        final CallCompositeLocalOptions localOptions = configuration.getCallCompositeLocalOptions();
-
-        final CallCompositeAvMode avMode = (localOptions != null)
-                ? localOptions.getAvMode()
-                : CallCompositeAvMode.NORMAL;
-
         if (configuration.getEnableMultitasking()) {
             activityClass = MultitaskingCallCompositeActivity.class;
         }
-        if (configuration.getEnableSystemPiPWhenMultitasking() && avMode != CallCompositeAvMode.AUDIO_ONLY) {
+        if (configuration.getEnableSystemPiPWhenMultitasking()) {
             activityClass = PiPCallCompositeActivity.class;
         }
 
