@@ -15,7 +15,6 @@ import com.azure.android.communication.ui.calling.configuration.CallConfiguratio
 import com.azure.android.communication.ui.calling.configuration.CallType;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainerImpl;
-import com.azure.android.communication.ui.calling.models.CallCompositeAvMode;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
