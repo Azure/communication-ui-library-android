@@ -19,7 +19,6 @@ import com.azure.android.communication.calling.HangUpOptions
 import com.azure.android.communication.calling.JoinCallOptions
 import com.azure.android.communication.calling.JoinMeetingLocator
 import com.azure.android.communication.calling.TeamsMeetingLinkLocator
-import com.azure.android.communication.calling.TelecomManagerCallFeature
 import com.azure.android.communication.calling.TelecomManagerOptions
 import com.azure.android.communication.calling.VideoDevicesUpdatedListener
 import com.azure.android.communication.calling.VideoOptions
@@ -207,11 +206,7 @@ internal class CallingSDKWrapper(
     }
 
     override fun turnOnVideoAsync(): CompletableFuture<LocalVideoStream> {
-        val feature = call.feature { TelecomManagerCallFeature::class.java }
-        feature.setAudioRoute(CallAudioState.ROUTE_SPEAKER)
-        feature.addOnShowIncomingCallUiListener {
-            logger?.debug("addOnShowIncomingCallUiListener")
-        }
+        call.setAudioRoute(CallAudioState.ROUTE_SPEAKER)
 
         val result = CompletableFuture<LocalVideoStream>()
         this.getLocalVideoStream()
@@ -234,7 +229,7 @@ internal class CallingSDKWrapper(
     }
 
     override fun turnOffVideoAsync(): CompletableFuture<Void> {
-        call.feature { TelecomManagerCallFeature::class.java }.setAudioRoute(CallAudioState.ROUTE_EARPIECE)
+        call.setAudioRoute(CallAudioState.ROUTE_EARPIECE)
 
         val result = CompletableFuture<Void>()
         this.getLocalVideoStream()
@@ -316,7 +311,13 @@ internal class CallingSDKWrapper(
 
         if (callAgentCompletableFuture == null || callAgentCompletableFuture!!.isCompletedExceptionally) {
             callAgentCompletableFuture = CompletableFuture<CallAgent>()
+            val telecomManagerOptions = TelecomManagerOptions().also {
+//                it.isResumeCallAutomatically = false
+                it.phoneAccountId = "48a00980-964d-11ee-9708-1d255bf21164"
+            }
+
             val options = CallAgentOptions().apply { displayName = callConfig.displayName }
+            options.telecomManagerOptions = telecomManagerOptions
             try {
                 val createCallAgentFutureCompletableFuture = callClient!!.createCallAgent(
                     context,
@@ -345,12 +346,7 @@ internal class CallingSDKWrapper(
         joinMeetingLocator: JoinMeetingLocator,
     ) {
         val joinCallOptions = JoinCallOptions()
-        val telecomManagerOptions = TelecomManagerOptions().also {
-            it.isEnabled = true
-            it.phoneAccountId = "48a00980-964d-11ee-9708-1d255bf21164"
-        };
 
-        joinCallOptions.setTelecomManagerOptions(telecomManagerOptions)
         joinCallOptions.audioOptions = audioOptions
         videoOptions?.let { joinCallOptions.videoOptions = videoOptions }
 
