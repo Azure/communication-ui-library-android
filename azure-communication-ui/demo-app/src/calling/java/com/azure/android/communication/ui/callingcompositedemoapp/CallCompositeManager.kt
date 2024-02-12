@@ -114,9 +114,12 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         val skipSetup = SettingsFeatures.getSkipSetupScreenFeatureValue()
         val remoteOptions = if (locator == null && !participantMri.isNullOrEmpty()) {
             val participantMris = participantMri.split(",")
-            CallCompositeRemoteOptions(participantMris.map { CommunicationIdentifier.fromRawId(it) }, communicationTokenCredential, displayName)
+            CallCompositeRemoteOptions(
+                participantMris.map { CommunicationIdentifier.fromRawId(it) },
+                communicationTokenCredential, displayName, true
+            )
         } else {
-            CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
+            CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName, true)
         }
 
         val localOptions = CallCompositeLocalOptions()
@@ -223,7 +226,8 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         val remoteOptions = CallCompositeRemoteOptions(
             CallCompositePushNotificationInfo(data),
             communicationTokenCredential,
-            displayName
+            displayName,
+            true
         )
 
         if (callComposite == null) {
@@ -309,7 +313,8 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
                     CallCompositePushNotificationOptions(
                         CommunicationTokenCredential(token),
                         deviceRegistrationToken,
-                        displayName
+                        displayName,
+                        true
                     )
                 ).whenComplete { _, throwable ->
                     if (dispose && throwable == null) {
@@ -416,7 +421,7 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             telecomConnectionManager?.endConnection()
         }
-        registerIncomingCallAndDispose()
+        destroy()
         unsubscribe()
     }
 

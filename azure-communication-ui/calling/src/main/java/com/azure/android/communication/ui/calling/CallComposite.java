@@ -289,7 +289,8 @@ public final class CallComposite {
                 null,
                 CallType.ONE_TO_N_CALL_INCOMING,
                 null,
-                null));
+                null,
+                configuration.getCallConfig().getDisableInternalPushForIncomingCall()));
 
         if (localOptions != null) {
             configuration.setCallCompositeLocalOptions(localOptions);
@@ -679,11 +680,13 @@ public final class CallComposite {
                 null,
                 CallType.ONE_TO_N_CALL_INCOMING,
                 null,
-                null));
+                null,
+                options.getDisableInternalPushForIncomingCall()));
         return callAgentWrapper.registerPushNotification(context,
                 options.getDisplayName(),
                 options.getCredential(),
-                options.getDeviceRegistrationToken());
+                options.getDeviceRegistrationToken(),
+                options.getDisableInternalPushForIncomingCall());
     }
 
     /**
@@ -748,7 +751,8 @@ public final class CallComposite {
                 roomRole,
                 callType,
                 participants,
-                null
+                null,
+                remoteOptions.getDisableInternalPushForIncomingCall()
                 ));
 
 
@@ -812,7 +816,8 @@ public final class CallComposite {
                 null,
                 callType,
                 null,
-                pushNotificationInfo));
+                pushNotificationInfo,
+                remoteOptions.getDisableInternalPushForIncomingCall()));
 
         configuration.getCallCompositeEventsHandler().getOnIncomingCallEventHandlers();
 
@@ -821,7 +826,8 @@ public final class CallComposite {
         return incomingCallWrapper.handlePushNotification(context.getApplicationContext(),
                 remoteOptions.getDisplayName(),
                 remoteOptions.getCredential(),
-                pushNotificationInfo.getNotificationInfo());
+                pushNotificationInfo.getNotificationInfo(),
+                remoteOptions.getDisableInternalPushForIncomingCall());
     }
 
     private void initializeCallAgent() {

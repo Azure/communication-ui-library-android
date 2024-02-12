@@ -37,6 +37,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val storeStateFlow = MutableStateFlow<ReduxState>(AppReduxState("", false, false))
+            storeStateFlow.value.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE, callId = "callId")
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getStateFlow() } doReturn storeStateFlow
             }
@@ -73,7 +74,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val appState = AppReduxState("", false, false)
-            appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE, callId = "callId")
 
             val storeStateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -157,7 +158,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val appState = AppReduxState("", false, false)
-            appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE, callId = "callId")
 
             val storeStateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -277,7 +278,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
         )
 
         // act
-        appState.callState = CallingState(callingStatus, OperationStatus.NONE)
+        appState.callState = CallingState(callingStatus, OperationStatus.NONE, callId = "callId")
         var job = launch {
             handler.start(this)
         }
@@ -318,7 +319,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
         )
 
         // act
-        appState.callState = CallingState(callingStatus, OperationStatus.NONE)
+        appState.callState = CallingState(callingStatus, OperationStatus.NONE, callId = "callId")
         var job = launch {
             handler.start(this)
         }

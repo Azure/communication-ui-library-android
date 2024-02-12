@@ -27,7 +27,8 @@ internal data class CallConfiguration(
     val roomRoleHint: CallCompositeParticipantRole?,
     val callType: CallType,
     val participants: Collection<CommunicationIdentifier>? = null,
-    val pushNotificationInfo: CallCompositePushNotificationInfo? = null
+    val pushNotificationInfo: CallCompositePushNotificationInfo? = null,
+    val disableInternalPushForIncomingCall: Boolean,
 ) {
     val diagnosticConfig = DiagnosticConfig()
 }

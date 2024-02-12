@@ -381,7 +381,8 @@ internal class CallingSDKWrapper(
         callingSDKCallAgentWrapper.createCallAgent(
             context = context,
             name = callConfig.displayName,
-            communicationTokenCredential = callConfig.communicationTokenCredential
+            communicationTokenCredential = callConfig.communicationTokenCredential,
+            callConfig.disableInternalPushForIncomingCall
         ).thenAccept { agent: CallAgent ->
             val audioOptions = OutgoingAudioOptions()
             audioOptions.isMuted = (audioState.operation != AudioOperationalStatus.ON)
@@ -574,7 +575,8 @@ internal class CallingSDKWrapper(
             callingSDKCallAgentWrapper.createCallAgent(
                 context = context,
                 name = callConfig.displayName,
-                communicationTokenCredential = callConfig.communicationTokenCredential
+                communicationTokenCredential = callConfig.communicationTokenCredential,
+                callConfig.disableInternalPushForIncomingCall
             ).thenAccept { agent: CallAgent ->
                 agent.registerPushNotification(deviceRegistrationToken)
                     .whenComplete { _, error: Throwable? ->

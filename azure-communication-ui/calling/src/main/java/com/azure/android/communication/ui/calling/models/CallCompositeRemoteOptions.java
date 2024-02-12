@@ -37,6 +37,7 @@ public final class CallCompositeRemoteOptions {
     private CallCompositeJoinLocator locator;
     private Collection<CommunicationIdentifier> participants;
     private CallCompositePushNotificationInfo pushNotificationInfo;
+    private final Boolean disableInternalPushForIncomingCall;
 
     // Optional
     private final String displayName;
@@ -50,7 +51,7 @@ public final class CallCompositeRemoteOptions {
     public CallCompositeRemoteOptions(
             final CallCompositeJoinLocator locator,
             final CommunicationTokenCredential credential) {
-        this(locator, credential, "");
+        this(locator, credential, "", false);
     }
 
     /**
@@ -59,15 +60,17 @@ public final class CallCompositeRemoteOptions {
      * @param locator {@link CallCompositeJoinLocator}.
      * @param credential {@link CommunicationTokenCredential}.
      * @param displayName User display name other call participants will see.
+     * @param disableInternalPushForIncomingCall Disable internal push for incoming call.
      */
     public CallCompositeRemoteOptions(
             final CallCompositeJoinLocator locator,
             final CommunicationTokenCredential credential,
-            final String displayName) {
-
+            final String displayName,
+            final Boolean disableInternalPushForIncomingCall) {
         this.credential = credential;
         this.displayName = displayName;
         this.locator = locator;
+        this.disableInternalPushForIncomingCall = disableInternalPushForIncomingCall;
     }
 
     /**
@@ -76,14 +79,17 @@ public final class CallCompositeRemoteOptions {
      * @param info {@link CallCompositePushNotificationInfo}.
      * @param credential {@link CommunicationTokenCredential}.
      * @param displayName User display name other call participants will see.
+     * @param disableInternalPushForIncomingCall Disable internal push for incoming call.
      */
     public CallCompositeRemoteOptions(
             final CallCompositePushNotificationInfo info,
             final CommunicationTokenCredential credential,
-            final String displayName) {
+            final String displayName,
+            final Boolean disableInternalPushForIncomingCall) {
         this.credential = credential;
         this.pushNotificationInfo = info;
         this.displayName = displayName;
+        this.disableInternalPushForIncomingCall = disableInternalPushForIncomingCall;
     }
 
     /**
@@ -91,13 +97,16 @@ public final class CallCompositeRemoteOptions {
      *
      * @param info {@link CallCompositePushNotificationInfo}.
      * @param credential {@link CommunicationTokenCredential}.
+     * @param disableInternalPushForIncomingCall Disable internal push for incoming call.
      */
     public CallCompositeRemoteOptions(
             final CallCompositePushNotificationInfo info,
-            final CommunicationTokenCredential credential) {
+            final CommunicationTokenCredential credential,
+            final Boolean disableInternalPushForIncomingCall) {
         this.credential = credential;
         this.pushNotificationInfo = info;
         this.displayName = "";
+        this.disableInternalPushForIncomingCall = disableInternalPushForIncomingCall;
     }
 
     /**
@@ -106,14 +115,17 @@ public final class CallCompositeRemoteOptions {
      * @param participants raw ids {@link Iterable}.
      * @param credential {@link CommunicationTokenCredential}.
      * @param displayName User display name other call participants will see.
+     * @param disableInternalPushForIncomingCall Disable internal push for incoming call.
      */
     public CallCompositeRemoteOptions(
             final Collection<CommunicationIdentifier> participants,
             final CommunicationTokenCredential credential,
-            final String displayName) {
+            final String displayName,
+            final Boolean disableInternalPushForIncomingCall) {
         this.credential = credential;
         this.displayName = displayName;
         this.participants = participants;
+        this.disableInternalPushForIncomingCall = disableInternalPushForIncomingCall;
     }
 
     /**
@@ -121,13 +133,16 @@ public final class CallCompositeRemoteOptions {
      *
      * @param participants raw ids {@link Iterable}.
      * @param credential {@link CommunicationTokenCredential}.
+     * @param disableInternalPushForIncomingCall Disable internal push for incoming call.
      */
     public CallCompositeRemoteOptions(
             final Collection<CommunicationIdentifier> participants,
-            final CommunicationTokenCredential credential) {
+            final CommunicationTokenCredential credential,
+            final Boolean disableInternalPushForIncomingCall) {
         this.credential = credential;
         this.displayName = "";
         this.participants = participants;
+        this.disableInternalPushForIncomingCall = disableInternalPushForIncomingCall;
     }
 
     /**
@@ -173,5 +188,14 @@ public final class CallCompositeRemoteOptions {
      */
     public CallCompositePushNotificationInfo getPushNotificationInfo() {
         return pushNotificationInfo;
+    }
+
+    /**
+     * Get disable internal push for incoming call.
+     *
+     * @return  {@link Boolean}.
+     */
+    public Boolean getDisableInternalPushForIncomingCall() {
+        return disableInternalPushForIncomingCall;
     }
 }

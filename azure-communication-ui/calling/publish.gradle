@@ -91,7 +91,7 @@ publishing {
             version "$azure_calling_sdk_version"
 
             // Add the aar file as an artifact
-            artifact("/Users/inderpalsinghaulakh/Downloads/azure-communication-calling-2.7.0-beta.1.1.2.aar")
+            artifact("/Users/inderpalsinghaulakh/Downloads/azure-communication-calling-2.7.0-beta.1.021224.aar")
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')

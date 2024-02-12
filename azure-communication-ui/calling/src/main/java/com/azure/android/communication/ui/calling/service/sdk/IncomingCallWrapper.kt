@@ -90,13 +90,15 @@ internal class IncomingCallWrapper(
         context: Context,
         displayName: String,
         communicationTokenCredential: CommunicationTokenCredential,
-        pushNotificationInfo: Map<String, String>
+        pushNotificationInfo: Map<String, String>,
+        disableInternalPushForIncomingCall: Boolean
     ): CompletableFuture<Void> {
         val completableFuture: CompletableFuture<Void> = CompletableFuture<Void>()
         callingSDKCallAgentWrapper.createCallAgent(
             context,
             displayName,
-            communicationTokenCredential
+            communicationTokenCredential,
+            disableInternalPushForIncomingCall
         ).whenComplete { callAgent, callAgentError ->
             if (callAgentError != null) {
                 completableFuture.completeExceptionally(callAgentError)

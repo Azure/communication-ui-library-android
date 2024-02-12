@@ -36,11 +36,15 @@ internal class CallingSDKCallAgentWrapper(private val logger: Logger) {
         context: Context,
         name: String,
         communicationTokenCredential: CommunicationTokenCredential,
-        deviceRegistrationToken: String
+        deviceRegistrationToken: String,
+        disableInternalPushForIncomingCall: Boolean
     ): java.util.concurrent.CompletableFuture<Void> {
         val completableFuture: java.util.concurrent.CompletableFuture<Void> =
             java.util.concurrent.CompletableFuture<Void>()
-        createCallAgent(context, name, communicationTokenCredential).whenComplete { callAgent, callAgentError ->
+        createCallAgent(
+            context, name, communicationTokenCredential,
+            disableInternalPushForIncomingCall
+        ).whenComplete { callAgent, callAgentError ->
             if (callAgentError != null) {
                 completableFuture.completeExceptionally(callAgentError)
             }
@@ -75,10 +79,12 @@ internal class CallingSDKCallAgentWrapper(private val logger: Logger) {
         context: Context,
         name: String,
         communicationTokenCredential: CommunicationTokenCredential,
+        disableInternalPushForIncomingCall: Boolean
     ): CompletableFuture<CallAgent> {
         if (callAgentCompletableFuture == null || callAgentCompletableFuture!!.isCompletedExceptionally) {
             callAgentCompletableFuture = CompletableFuture<CallAgent>()
             val options = CallAgentOptions().apply { displayName = name }
+            options.setdisableInternalPushForIncomingCall(disableInternalPushForIncomingCall)
             try {
                 setupCall()?.whenComplete { callClient, callAgentError ->
                     if (callAgentError != null) {
