@@ -6,12 +6,6 @@ package com.azure.android.communication.ui.calling.utilities
 import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 object ScreenshotHelper {
     fun captureActivity(activity: Activity): Bitmap {

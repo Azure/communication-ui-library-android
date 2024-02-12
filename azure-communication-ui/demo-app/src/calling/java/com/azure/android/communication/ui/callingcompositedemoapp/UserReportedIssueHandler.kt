@@ -5,7 +5,6 @@ import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent
 import kotlinx.coroutines.flow.MutableStateFlow
-
 import java.io.File
 
 /**
