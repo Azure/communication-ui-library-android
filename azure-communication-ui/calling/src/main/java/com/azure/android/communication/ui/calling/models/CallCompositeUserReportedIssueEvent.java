@@ -3,61 +3,62 @@
 
 package com.azure.android.communication.ui.calling.models;
 
-import java.io.File;
+import android.graphics.Bitmap;
 
 /**
  * Represents an event where a user reports an issue within the call composite experience.
- * This event captures the user message describing the problem, a list of log files
- * containing diagnostic information, and the call identifiers associated with the user's session.
+ * This event captures the user's description of the problem, a screenshot for visual context,
+ * and diagnostic information through call identifiers to assist in troubleshooting the reported issue.
  */
 public final class CallCompositeUserReportedIssueEvent {
-    // The message provided by the user describing the issue they have encountered.
+    // The message provided by the user describing the specific issue they encountered.
     private final String userMessage;
-    // A list of files containing logs that may help diagnose the reported issue.
 
-    // A screenshot of the current call composite view
-    private final File screenshot;
+    // A screenshot of the current call composite view to visually depict the issue.
+    private final Bitmap screenshot;
 
-    // A list of call identifiers that the user was a part of, to provide context for the reported issue.
+    // Diagnostic information encapsulating call identifiers to contextualize the reported issue.
     private final CallCompositeDebugInfo debugInfo;
 
     /**
-     * Constructs a new {@link CallCompositeUserReportedIssueEvent}.
+     * Constructs a new instance of CallCompositeUserReportedIssueEvent.
      *
-     * @param userMessage A message provided by the user describing the issue.
-     * @param screenshot    A list of files containing diagnostic logs related to the user's experience.
+     * @param userMessage A descriptive message provided by the user about the issue.
+     * @param screenshot  A screenshot of the call composite view at the time of the issue, providing a visual context.
+     * @param debugInfo   Diagnostic information including call identifiers, aiding in issue resolution.
      */
     public CallCompositeUserReportedIssueEvent(final String userMessage,
-                                               final File screenshot,
-                                               final CallCompositeDebugInfo debugInfo
-                                               ) {
+                                               final Bitmap screenshot,
+                                               final CallCompositeDebugInfo debugInfo) {
         this.userMessage = userMessage;
         this.screenshot = screenshot;
         this.debugInfo = debugInfo;
     }
 
     /**
-     * Retrieves the user's message describing the reported issue.
+     * Retrieves the message provided by the user describing the reported issue.
      *
-     * @return The user message.
+     * @return The descriptive user message.
      */
     public String getUserMessage() {
         return userMessage;
     }
 
     /**
-     * Retrieves a current screenshot of the current call composite view.
+     * Retrieves the screenshot of the current call composite view, offering a visual snapshot of the issue.
      *
-     * @return The screenshot file.
+     * @return The screenshot bitmap.
      */
-    public File getScreenshot() {
+    public Bitmap getScreenshot() {
         return screenshot;
     }
 
     /**
-     * Gets the DebugInfo for this call composite
+     * Retrieves the diagnostic information related to the call, aiding in the analysis of the reported issue.
      *
-     * See {@link CallCompositeDebugInfo}
+     * See {@link CallCompositeDebugInfo} for more details.
+     *
+     * @return The debug information object containing call identifiers and other relevant diagnostic data.
      */
     public CallCompositeDebugInfo getDebugInfo() {
         return debugInfo;

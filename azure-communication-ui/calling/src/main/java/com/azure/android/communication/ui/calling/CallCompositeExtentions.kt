@@ -4,13 +4,14 @@
 package com.azure.android.communication.ui.calling
 
 import android.content.Context
+import android.graphics.Bitmap
 import com.azure.android.communication.ui.calling.data.CallHistoryRepositoryImpl
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManagerImpl
 import java.io.File
 
-internal fun createDebugInfoManager(context: Context, getLogFiles: () -> List<File>, takeScreenshot: () -> File): DebugInfoManager {
+internal fun createDebugInfoManager(context: Context, getLogFiles: () -> List<File>, takeScreenshot: () -> Bitmap): DebugInfoManager {
     return DebugInfoManagerImpl(CallHistoryRepositoryImpl(context, DefaultLogger()), getLogFiles, takeScreenshot)
 }
 

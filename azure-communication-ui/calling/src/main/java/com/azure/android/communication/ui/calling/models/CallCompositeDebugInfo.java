@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.models;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.azure.android.communication.ui.calling.implementation.BuildConfig;
@@ -21,7 +22,7 @@ public final class CallCompositeDebugInfo {
 
     private final List<CallCompositeCallHistoryRecord> callHistoryRecord;
     private final Callable<List<File>> getLogFilesCallable;
-    private final Callable<File> takeScreenshot;
+    private final Callable<Bitmap> takeScreenshot;
 
     /**
      * Constructs a new CallCompositeDebugInfo instance.
@@ -32,7 +33,7 @@ public final class CallCompositeDebugInfo {
      */
     CallCompositeDebugInfo(final List<CallCompositeCallHistoryRecord> callHistoryRecord,
                            final Callable<List<File>> getLogFiles,
-                           final Callable<File> takeScreenshot) {
+                           final Callable<Bitmap> takeScreenshot) {
         this.callHistoryRecord = callHistoryRecord;
         this.getLogFilesCallable = getLogFiles;
         this.takeScreenshot = takeScreenshot;
@@ -67,7 +68,7 @@ public final class CallCompositeDebugInfo {
      * The generated screenshot file will be saved in the app's cache directory.
      * @return a screenshot file, or null if taking a screenshot fails.
      */
-    public File takeScreenshot() {
+    public Bitmap takeScreenshot() {
         try {
             return takeScreenshot.call();
         } catch (Exception e) {

@@ -1,22 +1,12 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
+import android.graphics.Bitmap
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.Response
+
 import java.io.File
-import java.io.IOException
 
 /**
  * This class is used to handle user reported issues.
@@ -42,12 +32,13 @@ class UserReportedIssueHandler : CallCompositeEventHandler<CallCompositeUserRepo
 
     private fun sendToServer(
         userMessage: String?,
-        screenshot: File?,
+        screenshot: Bitmap?,
         callingUIVersion: String?,
         callingSDKVersion: String?,
         callHistoryRecords: List<CallCompositeCallHistoryRecord>,
         logFiles: List<File>
     ) {
+        /*
         // If not configured, don't run
         if (SERVER_URL.isBlank()) {
             return
@@ -112,6 +103,8 @@ class UserReportedIssueHandler : CallCompositeEventHandler<CallCompositeUserRepo
                 }
             })
         }
+
+         */
     }
 
     private fun onTicketCreated(url: String) {
