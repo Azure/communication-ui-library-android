@@ -5,9 +5,11 @@ package com.azure.android.communication.ui.calling.presentation
 
 import android.annotation.SuppressLint
 import android.app.PictureInPictureParams
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.graphics.Bitmap
 import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import android.os.Build
@@ -23,7 +25,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.text.layoutDirection
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.calling.CallCompositeException
@@ -41,8 +42,8 @@ import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.PipAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
-import com.azure.android.communication.ui.calling.utilities.ScreenshotHelper
 import com.azure.android.communication.ui.calling.redux.state.PictureInPictureStatus
+import com.azure.android.communication.ui.calling.utilities.ScreenCaptureHelper
 import com.azure.android.communication.ui.calling.utilities.collect
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.azure.android.communication.ui.calling.utilities.launchAll
@@ -90,6 +91,12 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     private val compositeManager get() = container.compositeExitManager
 
     private lateinit var visibilityStatusFlow: MutableStateFlow<PictureInPictureStatus>
+
+    private val screenCaptureHelper by lazy { ScreenCaptureHelper(this) }
+
+    private fun startScreenCapture(resultCode: Int, data: Intent) {
+        TODO("Not yet implemented")
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Before super, we'll set up the DI injector and check the PiP state
@@ -170,6 +177,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        screenCaptureHelper.setupScreenCaptureLauncher()
         audioSessionManager.onStart(this)
         lifecycleScope.launch { lifecycleManager.resume() }
         permissionManager.setCameraPermissionsState()
@@ -329,17 +337,32 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         // Hide it before the event, to ensure screenshot is sclean
         if (screenshot) supportView.visibility = View.GONE
 
-        val event = CallCompositeUserReportedIssueEvent(
-            userText,
-            if (screenshot) (
-                container.callCompositeActivityWeakReference.get()
-                    ?.let { ScreenshotHelper.captureActivity(this) }
-                ) else null,
-            debugInfo
-        )
+        /*
+        )*/
+        if (screenshot) {
+            requestScreenshot {
+                val event = CallCompositeUserReportedIssueEvent(
+                    userText,
+                    it,
+                    debugInfo)
 
-        // Show it again, as we dismiss via the BottomDialog for true visibility
-        supportView.visibility = View.VISIBLE
+                // Show it again, as we dismiss via the BottomDialog for true visibility
+                supportView.visibility = View.VISIBLE
+                dispatchSupportEvent(event)
+            }
+        } else {
+            val event = CallCompositeUserReportedIssueEvent(
+                userText,
+                null,
+                debugInfo)
+
+            // Show it again, as we dismiss via the BottomDialog for true visibility
+            supportView.visibility = View.VISIBLE
+            dispatchSupportEvent(event)
+        }
+    }
+
+    private fun dispatchSupportEvent(event: CallCompositeUserReportedIssueEvent) {
         container.configuration.callCompositeEventsHandler.getOnUserReportedHandlers().forEach {
             try {
                 it.handle(
@@ -349,6 +372,10 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 // Ignore any exception from the user handler
             }
         }
+    }
+
+    fun requestScreenshot(callback: (Bitmap)->Unit) {
+        screenCaptureHelper.requestScreenshot(callback)
     }
 
     private fun configureLocalization() {
@@ -560,6 +587,10 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 null
             }
         }
+    }
+
+    fun takeScreenshot() : Bitmap {
+        TODO("Not yet implemented")
     }
 
     internal companion object {
