@@ -37,7 +37,7 @@ internal class DebugInfoManagerTest : ACSBaseTestCoroutine() {
                 onBlocking { getAll() } doAnswer { historyList }
             }
 
-            val debugInfoManager: DebugInfoManager = DebugInfoManagerImpl(callHistoryRepository, { Collections.emptyList() }, { null })
+            val debugInfoManager: DebugInfoManager = DebugInfoManagerImpl(callHistoryRepository, Collections::emptyList)
 
             val debugIndo = debugInfoManager.getDebugInfo()
             Assert.assertNotNull(debugIndo)

@@ -62,7 +62,6 @@ import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKEventHandler
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
-import com.azure.android.communication.ui.calling.utilities.ScreenshotHelper
 import java.lang.ref.WeakReference
 
 internal class DependencyInjectionContainerImpl(
@@ -146,10 +145,6 @@ internal class DependencyInjectionContainerImpl(
         DebugInfoManagerImpl(
             callHistoryRepository,
             getLogFiles = callingService::getLogFiles,
-            takeScreenshot = {
-                callCompositeActivityWeakReference.get()
-                    ?.let { ScreenshotHelper.captureActivity(it) }
-            },
         )
     }
 

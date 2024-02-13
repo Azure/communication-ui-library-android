@@ -139,8 +139,7 @@ class CallLauncherViewModel : ViewModel() {
                 val result = """Calling UI Version: ${it.callingUiVersion}
                         Calling SDK Version: ${it.callingSdkVersion}                    
                         Call History (${it.callHistoryRecords.size}) 
-                        Log Files (${it.logFiles.size})
-                        ${it.takeScreenshot()?.name ?: "N/A"}"""
+                        Log Files (${it.logFiles.size})"""
                 result.split("\n").map { line -> line.trim() }.forEach {
                     Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
                     Log.i("ACSCallingUI", it)

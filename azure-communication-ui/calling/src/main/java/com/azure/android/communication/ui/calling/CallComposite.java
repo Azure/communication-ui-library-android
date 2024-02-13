@@ -399,7 +399,7 @@ public final class CallComposite {
         if (container != null) {
             return container.getDebugInfoManager();
         }
-        return createDebugInfoManager(context.getApplicationContext(), Collections::emptyList, () -> null);
+        return createDebugInfoManager(context.getApplicationContext(), Collections::emptyList);
     }
 
     /* <TEST_FEATURE>
