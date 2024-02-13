@@ -23,7 +23,7 @@ internal class ScreenCaptureHelper(private val activity: CallCompositeActivity) 
     private var mediaProjection: MediaProjection? = null
     private var imageReader: ImageReader? = null
     private var screenCaptureLauncher: ActivityResultLauncher<Intent>? = null
-    private var callbackWr : WeakReference<(Bitmap)->Unit>? = null
+    private var callbackWr: WeakReference<(Bitmap)->Unit>? = null
 
     internal fun setupScreenCaptureLauncher() {
         screenCaptureLauncher?.let { it.unregister() }
@@ -39,7 +39,7 @@ internal class ScreenCaptureHelper(private val activity: CallCompositeActivity) 
     fun requestScreenshot(callback: (Bitmap) -> Unit) {
         val mediaProjectionManager = activity.getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
         val captureIntent = mediaProjectionManager.createScreenCaptureIntent()
-        callbackWr = WeakReference(callback);
+        callbackWr = WeakReference(callback)
         screenCaptureLauncher?.launch(captureIntent)
     }
 
@@ -75,17 +75,20 @@ internal class ScreenCaptureHelper(private val activity: CallCompositeActivity) 
                 image.close()
                 cleanup()
             }, Handler(Looper.getMainLooper()))
+            }
+
+            mediaProjection?.createVirtualDisplay(
+                "ScreenCapture",
+                width, height, density, 0,
+                imageReader!!.surface, null, null
+            )
         }
 
-        mediaProjection?.createVirtualDisplay("ScreenCapture",
-            width, height, density, 0,
-            imageReader!!.surface, null, null)
+        private fun cleanup() {
+            mediaProjection?.stop()
+            mediaProjection = null
+            imageReader?.close()
+            imageReader = null
+        }
     }
-
-    private fun cleanup() {
-        mediaProjection?.stop()
-        mediaProjection = null
-        imageReader?.close()
-        imageReader = null
-    }
-}
+    

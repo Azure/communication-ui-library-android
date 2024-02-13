@@ -344,7 +344,8 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 val event = CallCompositeUserReportedIssueEvent(
                     userText,
                     it,
-                    debugInfo)
+                    debugInfo
+                )
 
                 // Show it again, as we dismiss via the BottomDialog for true visibility
                 supportView.visibility = View.VISIBLE
@@ -354,7 +355,8 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             val event = CallCompositeUserReportedIssueEvent(
                 userText,
                 null,
-                debugInfo)
+                debugInfo
+            )
 
             // Show it again, as we dismiss via the BottomDialog for true visibility
             supportView.visibility = View.VISIBLE
@@ -374,7 +376,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         }
     }
 
-    fun requestScreenshot(callback: (Bitmap)->Unit) {
+    fun requestScreenshot(callback: (Bitmap) -> Unit) {
         screenCaptureHelper.requestScreenshot(callback)
     }
 
@@ -589,7 +591,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         }
     }
 
-    fun takeScreenshot() : Bitmap {
+    fun takeScreenshot(): Bitmap {
         TODO("Not yet implemented")
     }
 
