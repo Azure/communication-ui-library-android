@@ -1,6 +1,5 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
-import android.graphics.Bitmap
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent
@@ -20,7 +19,6 @@ class UserReportedIssueHandler : CallCompositeEventHandler<CallCompositeUserRepo
         eventData?.apply {
             sendToServer(
                 userMessage,
-                screenshot,
                 debugInfo.callingUiVersion,
                 debugInfo.callingSdkVersion,
                 debugInfo.callHistoryRecords,
@@ -31,7 +29,6 @@ class UserReportedIssueHandler : CallCompositeEventHandler<CallCompositeUserRepo
 
     private fun sendToServer(
         userMessage: String?,
-        screenshot: Bitmap?,
         callingUIVersion: String?,
         callingSDKVersion: String?,
         callHistoryRecords: List<CallCompositeCallHistoryRecord>,

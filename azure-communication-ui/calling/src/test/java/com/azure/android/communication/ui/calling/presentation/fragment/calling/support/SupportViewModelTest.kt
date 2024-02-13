@@ -17,7 +17,7 @@ class SupportViewModelTest {
 
     private lateinit var viewModel: SupportViewModel
     private lateinit var dispatch: Dispatch
-    private lateinit var onSubmit: (String, Boolean) -> Unit
+    private lateinit var onSubmit: (String) -> Unit
 
     @Before
     fun setUp() {
@@ -75,14 +75,6 @@ class SupportViewModelTest {
         viewModel.userMessage = ""
         assertEquals("", viewModel.userMessage)
         assert(!viewModel.isSubmitEnabledStateFlow.value)
-    }
-
-    @Test
-    fun `forwardEventToUser should call onSubmit with correct parameters`() {
-        val message = "test message"
-        viewModel.userMessage = message
-        viewModel.forwardEventToUser()
-        verify(onSubmit).invoke(message, viewModel.shouldIncludeScreenshot.value)
     }
 
     @Test

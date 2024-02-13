@@ -23,7 +23,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.text.layoutDirection
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.calling.CallCompositeException
@@ -41,7 +40,6 @@ import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.PipAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
-import com.azure.android.communication.ui.calling.utilities.ScreenshotHelper
 import com.azure.android.communication.ui.calling.redux.state.PictureInPictureStatus
 import com.azure.android.communication.ui.calling.utilities.collect
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
@@ -323,23 +321,11 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_left_24_filled)
     }
 
-    private fun forwardSupportEventToUser(userText: String, screenshot: Boolean) {
+    private fun forwardSupportEventToUser(userText: String) {
         val debugInfo = container.debugInfoManager.getDebugInfo()
 
-        // Hide it before the event, to ensure screenshot is sclean
-        if (screenshot) supportView.visibility = View.GONE
+        val event = CallCompositeUserReportedIssueEvent(userText, debugInfo)
 
-        val event = CallCompositeUserReportedIssueEvent(
-            userText,
-            if (screenshot) (
-                container.callCompositeActivityWeakReference.get()
-                    ?.let { ScreenshotHelper.captureActivity(this) }
-                ) else null,
-            debugInfo
-        )
-
-        // Show it again, as we dismiss via the BottomDialog for true visibility
-        supportView.visibility = View.VISIBLE
         container.configuration.callCompositeEventsHandler.getOnUserReportedHandlers().forEach {
             try {
                 it.handle(

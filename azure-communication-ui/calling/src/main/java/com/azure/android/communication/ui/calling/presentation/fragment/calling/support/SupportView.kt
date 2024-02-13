@@ -11,7 +11,6 @@ import android.net.Uri
 import android.util.AttributeSet
 import android.widget.EditText
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.LifecycleOwner
@@ -32,7 +31,6 @@ internal class SupportView : ConstraintLayout {
     private val sendButton: Button by lazy { findViewById(R.id.azure_communication_ui_send_button) }
     private val cancelButton: Button by lazy { findViewById(R.id.azure_communication_ui_cancel_button) }
     private val editText: EditText by lazy { findViewById(R.id.azure_communication_ui_user_message_edit_text) }
-    private val screenshotCheckBox: SwitchCompat by lazy { findViewById(R.id.azure_communication_ui_include_screenshot_toggle) }
     private val privacyPolicyButton: AppCompatTextView by lazy { findViewById(R.id.azure_communication_ui_support_form_privacy_link) }
 
     private val menuDrawer: DrawerDialog by lazy {
@@ -81,10 +79,6 @@ internal class SupportView : ConstraintLayout {
             viewModel.userMessage = text.toString()
         }
 
-        screenshotCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.shouldIncludeScreenshot.value = isChecked
-        }
-
         privacyPolicyButton.setOnClickListener {
             val intent = Intent(ACTION_VIEW)
             intent.setData(Uri.parse(context.getString(R.string.azure_communication_ui_calling_view_link_privacy_policy_url)))
@@ -103,12 +97,6 @@ internal class SupportView : ConstraintLayout {
                 } else {
                     menuDrawer.hide()
                 }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.shouldIncludeScreenshot.collect {
-                screenshotCheckBox.isChecked = it
             }
         }
 

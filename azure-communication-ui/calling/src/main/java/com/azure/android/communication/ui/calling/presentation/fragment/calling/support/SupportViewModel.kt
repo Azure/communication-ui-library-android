@@ -9,7 +9,7 @@ import com.azure.android.communication.ui.calling.redux.state.NavigationState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class SupportViewModel(private val dispatch: Dispatch, private val onSubmit: (String, Boolean) -> Unit) {
+internal class SupportViewModel(private val dispatch: Dispatch, private val onSubmit: (String) -> Unit) {
 
     private var _isVisibleStateFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
     private val _isSubmitEnabledStateFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -17,7 +17,6 @@ internal class SupportViewModel(private val dispatch: Dispatch, private val onSu
     private var _userMessageStateFlow = MutableStateFlow<String>("")
     private val _clearEditTextStateFlow = MutableStateFlow<Long>(0)
 
-    val shouldIncludeScreenshot: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val clearEditTextStateFlow get() = _clearEditTextStateFlow as StateFlow<Long>
 
     var userMessage: String get() = _userMessageStateFlow.value
@@ -54,6 +53,6 @@ internal class SupportViewModel(private val dispatch: Dispatch, private val onSu
     }
 
     fun forwardEventToUser() {
-        onSubmit(userMessage, shouldIncludeScreenshot.value)
+        onSubmit(userMessage)
     }
 }

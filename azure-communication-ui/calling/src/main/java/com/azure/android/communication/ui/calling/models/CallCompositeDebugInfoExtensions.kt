@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.models
 
-import android.graphics.Bitmap
 import org.threeten.bp.OffsetDateTime
 import java.io.File
 

@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.presentation.manager
 
-import android.graphics.Bitmap
 import com.azure.android.communication.ui.calling.data.CallHistoryRepository
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo

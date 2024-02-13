@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content"
                     style="@style/TextAppearance.FluentUI.Caption"
                     app:layout_constraintStart_toStartOf="@id/azure_communication_ui_user_message_edit_text"
-                    app:layout_constraintBottom_toTopOf="@id/azure_communication_ui_support_form_screenshot_label"
+                    app:layout_constraintTop_toBottomOf="@id/azure_communication_ui_user_message_edit_text"
                     android:layout_marginBottom="24dp"
                     android:text="@string/azure_communication_ui_calling_logs_attach_notice"
                     />
@@ -84,6 +84,9 @@
                     android:text="@string/azure_communication_ui_calling_privacy_policy_label"
                     />
 
+                <!-- Keeping this here to remind us to add Screen Shot back in with Screen Share -->
+                <!-- Layout will need tweaks after enabling -->
+                <!-- <FEEDBACK_SCREENSHOT>
                 <TextView
                     android:id="@+id/azure_communication_ui_support_form_screenshot_label"
                     style="@style/TextAppearance.FluentUI.Heading"
@@ -106,4 +109,6 @@
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
                     />
+                </FEEDBACK_SCREENSHOT> -->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.calling
 
 import android.content.Context
-import android.graphics.Bitmap
 import com.azure.android.communication.ui.calling.data.CallHistoryRepositoryImpl
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager

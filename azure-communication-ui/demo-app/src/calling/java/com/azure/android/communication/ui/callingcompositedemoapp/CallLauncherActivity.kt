@@ -184,18 +184,10 @@ class CallLauncherActivity : AppCompatActivity() {
                             val reportSummary = StringBuilder(userMessage)
                             reportSummary.append("\nCall ID: ${debugInfo.callHistoryRecords}}")
                             // Add more information from the event as needed
-                            // Prepare the large icon (screenshot) for the notification
-                            val largeIcon = if (screenshot != null) {
-                                screenshot
-                            } else {
-                                null // or a default image
-                            }
-
                             val notificationBuilder = NotificationCompat.Builder(this@CallLauncherActivity, channelId)
                                 .setContentTitle("User Reported Issue")
                                 .setSmallIcon(R.drawable.azure_communication_ui_calling_ic_fluent_person_feedback_24_regular) // Replace with your notification icon
                                 .setStyle(NotificationCompat.BigTextStyle().bigText(reportSummary.toString()))
-                                .setLargeIcon(largeIcon)
 
                             val notification = notificationBuilder.build()
 
