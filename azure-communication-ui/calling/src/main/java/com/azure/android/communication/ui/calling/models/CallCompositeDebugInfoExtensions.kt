@@ -7,8 +7,8 @@ import android.graphics.Bitmap
 import org.threeten.bp.OffsetDateTime
 import java.io.File
 
-internal fun buildCallCompositeDebugInfo(callHistoryRecordList: List<CallCompositeCallHistoryRecord>, getLogFiles: () -> List<File>, takeScreenshot: () -> Bitmap?) =
-    CallCompositeDebugInfo(callHistoryRecordList, getLogFiles, takeScreenshot)
+internal fun buildCallCompositeDebugInfo(callHistoryRecordList: List<CallCompositeCallHistoryRecord>, getLogFiles: () -> List<File>) =
+    CallCompositeDebugInfo(callHistoryRecordList, getLogFiles)
 
 internal fun buildCallHistoryRecord(callStartedOn: OffsetDateTime, callIds: List<String>): CallCompositeCallHistoryRecord {
     return CallCompositeCallHistoryRecord(callStartedOn, callIds)

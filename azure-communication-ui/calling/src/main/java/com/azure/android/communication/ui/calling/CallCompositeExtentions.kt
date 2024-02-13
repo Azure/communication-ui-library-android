@@ -11,8 +11,8 @@ import com.azure.android.communication.ui.calling.presentation.manager.DebugInfo
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManagerImpl
 import java.io.File
 
-internal fun createDebugInfoManager(context: Context, getLogFiles: () -> List<File>, takeScreenshot: () -> Bitmap): DebugInfoManager {
-    return DebugInfoManagerImpl(CallHistoryRepositoryImpl(context, DefaultLogger()), getLogFiles, takeScreenshot)
+internal fun createDebugInfoManager(context: Context, getLogFiles: () -> List<File>): DebugInfoManager {
+    return DebugInfoManagerImpl(CallHistoryRepositoryImpl(context, DefaultLogger()), getLogFiles)
 }
 
 internal fun CallComposite.getDiContainer() =

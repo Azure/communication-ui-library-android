@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.models;
 
-import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.azure.android.communication.ui.calling.implementation.BuildConfig;
@@ -22,21 +21,17 @@ public final class CallCompositeDebugInfo {
 
     private final List<CallCompositeCallHistoryRecord> callHistoryRecord;
     private final Callable<List<File>> getLogFilesCallable;
-    private final Callable<Bitmap> takeScreenshot;
 
     /**
      * Constructs a new CallCompositeDebugInfo instance.
      *
      * @param callHistoryRecord    The history of calls up to 30 days, ordered in ascending order by call start date.
      * @param getLogFiles          A Callable function to retrieve log files
-     * @param takeScreenshot       A Callable function to take a screenshot of the current communication call composite.
      */
     CallCompositeDebugInfo(final List<CallCompositeCallHistoryRecord> callHistoryRecord,
-                           final Callable<List<File>> getLogFiles,
-                           final Callable<Bitmap> takeScreenshot) {
+                           final Callable<List<File>> getLogFiles) {
         this.callHistoryRecord = callHistoryRecord;
         this.getLogFilesCallable = getLogFiles;
-        this.takeScreenshot = takeScreenshot;
     }
 
     /**
@@ -60,19 +55,6 @@ public final class CallCompositeDebugInfo {
             // Warn and return empty list
             Log.w("CallCompositeDebugInfo", "Failure to get log files: ", e);
             return Collections.emptyList();
-        }
-    }
-
-    /**
-     * Takes a screenshot of the current communication call composite, if possible.
-     * The generated screenshot file will be saved in the app's cache directory.
-     * @return a screenshot file, or null if taking a screenshot fails.
-     */
-    public Bitmap takeScreenshot() {
-        try {
-            return takeScreenshot.call();
-        } catch (Exception e) {
-            return null;
         }
     }
 

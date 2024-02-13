@@ -17,7 +17,7 @@ internal class SupportViewModel(private val dispatch: Dispatch, private val onSu
     private var _userMessageStateFlow = MutableStateFlow<String>("")
     private val _clearEditTextStateFlow = MutableStateFlow<Long>(0)
 
-    val shouldIncludeScreenshot: MutableStateFlow<Boolean> = MutableStateFlow(true)
+    val shouldIncludeScreenshot: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val clearEditTextStateFlow get() = _clearEditTextStateFlow as StateFlow<Long>
 
     var userMessage: String get() = _userMessageStateFlow.value

@@ -146,10 +146,6 @@ internal class DependencyInjectionContainerImpl(
         DebugInfoManagerImpl(
             callHistoryRepository,
             getLogFiles = callingService::getLogFiles,
-            takeScreenshot = {
-                callCompositeActivityWeakReference.get()
-                    ?.let { ScreenshotHelper.captureActivity(it) }
-            },
         )
     }
 
