@@ -112,7 +112,7 @@ public final class CallComposite {
 
     /**
      * Launch composite to join a call/meeting.
-     *
+     * Build composite using {@link CallCompositeBuilder#buildCallComposite()}.
      * @param locator The {@link CallCompositeJoinLocator}.
      */
     public void launch(final CallCompositeJoinLocator locator) {
@@ -120,7 +120,7 @@ public final class CallComposite {
 
     /**
      * Launch composite to join a call/meeting.
-     *
+     * Build composite using {@link CallCompositeBuilder#buildCallComposite()}.
      * @param locator The {@link CallCompositeJoinLocator}.
      * @param localOptions  The {@link CallCompositeLocalOptions} has local parameters to
      *                      launch call experience.
@@ -132,7 +132,7 @@ public final class CallComposite {
 
     /**
      * Launch composite to dial participants.
-     *
+     * Build composite using {@link CallCompositeBuilder#buildCallComposite()}.
      * @param participants  The collection of {@link CommunicationIdentifier} to start the call.
      * @param localOptions  The {@link CallCompositeLocalOptions} has local parameters to
      *                      launch call experience.
@@ -144,7 +144,7 @@ public final class CallComposite {
 
     /**
      * Launch composite to dial participants.
-     *
+     * Build composite using {@link CallCompositeBuilder#buildCallComposite()}.
      * @param participants  The collection of {@link CommunicationIdentifier} to start the call.
      */
     public void launch(final Collection<CommunicationIdentifier> participants) {
@@ -171,7 +171,7 @@ public final class CallComposite {
 
     /**
      * Handle incoming call push notification.
-     *
+     * Build composite using {@link CallCompositeBuilder#buildCallComposite()}.
      * @param info     The {@link CallCompositePushNotificationInfo}.
      * @return {@link CompletableFuture} of {@link Void}.
      */
@@ -200,7 +200,7 @@ public final class CallComposite {
 
     /**
      * Accept incoming call.
-     *
+     * Build composite using {@link CallCompositeBuilder#buildCallComposite()}.
      * @param callId The call id.
      * @param localOptions The {@link CallCompositeLocalOptions}.
      */
@@ -210,7 +210,7 @@ public final class CallComposite {
 
     /**
      * Accept incoming call.
-     *
+     * Build composite using {@link CallCompositeBuilder#buildCallComposite()}.
      * @param callId The call id.
      */
     public void acceptIncomingCall(final String callId) {
@@ -218,7 +218,7 @@ public final class CallComposite {
 
     /**
      * Reject incoming call.
-     *
+     * Build composite using {@link CallCompositeBuilder#buildCallComposite()}.
      * @param callId The call id.
      */
     public CompletableFuture<Void> rejectIncomingCall(final String callId)  {
@@ -335,7 +335,7 @@ public final class CallComposite {
 
     /**
      * RegisterPushNotification to receive incoming call notification.
-     *
+     * Build composite using {@link CallCompositeBuilder#buildCallComposite()}.
      * @param deviceRegistrationToken The device registration token.
      * @return {@link CompletableFuture} of {@link Void}.
      */
@@ -345,7 +345,7 @@ public final class CallComposite {
 
     /**
      * UnregisterPushNotification to stop receiving incoming call notification.
-     *
+     * Build composite using {@link CallCompositeBuilder#buildCallComposite()}.
      * @return {@link CompletableFuture} of {@link Void}.
      */
     public CompletableFuture<Void> unregisterPushNotification() {
