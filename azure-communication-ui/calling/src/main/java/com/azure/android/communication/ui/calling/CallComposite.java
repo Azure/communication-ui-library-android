@@ -15,16 +15,20 @@ import com.azure.android.communication.ui.calling.configuration.CallConfiguratio
 import com.azure.android.communication.ui.calling.configuration.CallType;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainerImpl;
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallCancelledEvent;
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositePictureInPictureChangedEvent;
+import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationInfo;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
@@ -39,9 +43,10 @@ import com.azure.android.communication.ui.calling.redux.action.PipAction;
 import com.azure.android.communication.ui.calling.utilities.TestHelper;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
+import java.util.Collection;
 import java.util.Collections;
-
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * Azure android communication calling composite component.
@@ -79,7 +84,7 @@ public final class CallComposite {
 
     /**
      * Launch group call composite.
-     *
+     * @deprecated Use {@link #launch(CallCompositeJoinLocator)} instead.
      * <pre>
      *
      * final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =
@@ -100,31 +105,55 @@ public final class CallComposite {
      * @param remoteOptions The {@link CallCompositeRemoteOptions} has remote parameters to
      *                      launch call experience.
      */
+    @Deprecated
     public void launch(final Context context, final CallCompositeRemoteOptions remoteOptions) {
         launch(context, remoteOptions, null);
     }
 
     /**
+     * Launch composite to join a call/meeting.
+     *
+     * @param locator The {@link CallCompositeJoinLocator}.
+     */
+    public void launch(final CallCompositeJoinLocator locator) {
+    }
+
+    /**
+     * Launch composite to join a call/meeting.
+     *
+     * @param locator The {@link CallCompositeJoinLocator}.
+     * @param localOptions  The {@link CallCompositeLocalOptions} has local parameters to
+     *                      launch call experience.
+     */
+    public void launch(final CallCompositeJoinLocator locator,
+                       final CallCompositeLocalOptions localOptions) {
+
+    }
+
+    /**
+     * Launch composite to dial participants.
+     *
+     * @param participants  The collection of {@link CommunicationIdentifier} to start the call.
+     * @param localOptions  The {@link CallCompositeLocalOptions} has local parameters to
+     *                      launch call experience.
+     */
+    public void launch(final Collection<CommunicationIdentifier> participants,
+                       final CallCompositeLocalOptions localOptions) {
+
+    }
+
+    /**
+     * Launch composite to dial participants.
+     *
+     * @param participants  The collection of {@link CommunicationIdentifier} to start the call.
+     */
+    public void launch(final Collection<CommunicationIdentifier> participants) {
+
+    }
+
+    /**
      * Launch group call composite.
-     *
-     * <pre>
-     *
-     * final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =
-     *                 new CommunicationTokenRefreshOptions&#40;tokenRefresher, true&#41;;
-     * final CommunicationTokenCredential credential =
-     *                 new CommunicationTokenCredential&#40;communicationTokenRefreshOptions&#41;;
-     * final CallCompositeJoinLocator locator =
-     *                 new CallCompositeGroupCallLocator&#40;UUID&#41;;
-     * final CallCompositeJoinLocator locator =
-     *                 new CallCompositeTeamsMeetingLinkLocator&#40;URL&#41;;
-     * final CallCompositeRemoteOptions remoteOptions =
-     *                 new CallCompositeRemoteOptions&#40;locator, credential, displayName&#41;;
-     * callComposite.launch&#40;context, groupCallOptions&#41;;
-     * final CallCompositeLocalOptions localOptions =
-     *                 new CallCompositeLocalOptions&#40;participantViewData&#41;;
-     * callComposite.launch&#40;context, groupCallOptions, localOptions&#41;;
-     *
-     * </pre>
+     * @deprecated Use {@link #launch(CallCompositeJoinLocator, CallCompositeLocalOptions)} instead.
      *
      * @param context       The android context used to start the Composite.
      * @param remoteOptions The {@link CallCompositeRemoteOptions} has remote parameters to
@@ -132,11 +161,195 @@ public final class CallComposite {
      * @param localOptions  The {@link CallCompositeLocalOptions} has local parameters to
      *                      launch group call experience.
      */
+    @Deprecated
     public void launch(final Context context,
                        final CallCompositeRemoteOptions remoteOptions,
                        final CallCompositeLocalOptions localOptions) {
 
         launchComposite(context, remoteOptions, localOptions, false);
+    }
+
+    /**
+     * Handle incoming call push notification.
+     *
+     * @param info     The {@link CallCompositePushNotificationInfo}.
+     * @return {@link CompletableFuture} of {@link Void}.
+     */
+    public CompletableFuture<Void> handlePushNotification(final CallCompositePushNotificationInfo info) {
+        return CompletableFuture.completedFuture(null);
+    }
+
+    /**
+     * Add {@link CallCompositeEventHandler}.
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void addOnAudioSelectionChangedEventHandler(
+            final CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent> eventHandler) {
+    }
+
+    /**
+     * Remove {@link CallCompositeEventHandler}.
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnAudioSelectionChangedEventHandler(
+            final CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent> eventHandler) {
+    }
+
+
+    /**
+     * Accept incoming call.
+     *
+     * @param callId The call id.
+     * @param localOptions The {@link CallCompositeLocalOptions}.
+     */
+    public void acceptIncomingCall(final String callId,
+                                   final CallCompositeLocalOptions localOptions) {
+    }
+
+    /**
+     * Accept incoming call.
+     *
+     * @param callId The call id.
+     */
+    public void acceptIncomingCall(final String callId) {
+    }
+
+    /**
+     * Reject incoming call.
+     *
+     * @param callId The call id.
+     */
+    public CompletableFuture<Void> rejectIncomingCall(final String callId)  {
+        return null;
+    }
+
+
+    /**
+     * Add on incoming call event handler {@link CallCompositeEventHandler}.
+     *
+     * @param handler The {@link CallCompositeEventHandler}.
+     */
+    public void addOnIncomingCallEventHandler(
+            final CallCompositeEventHandler<CallCompositeIncomingCallEvent> handler) {
+    }
+
+    /**
+     * Remove on incoming call event handler {@link CallCompositeEventHandler}.
+     *
+     * @param handler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnIncomingCallEventHandler(
+            final CallCompositeEventHandler<CallCompositeIncomingCallEvent> handler) {
+    }
+
+    /**
+     * Add on incoming call ended event handler {@link CallCompositeIncomingCallCancelledEvent}.
+     * @param handler The {@link CallCompositeIncomingCallCancelledEvent}.
+     */
+    public void addOnIncomingCallCancelledEventHandler(
+            final CallCompositeEventHandler<CallCompositeIncomingCallCancelledEvent> handler) {
+    }
+
+    /**
+     * Remove on incoming call ended event handler {@link CallCompositeIncomingCallCancelledEvent}.
+     *
+     * @param handler The {@link CallCompositeIncomingCallCancelledEvent}.
+     */
+    public void removeOnIncomingCallCancelledEventHandler(
+            final CallCompositeEventHandler<CallCompositeIncomingCallCancelledEvent> handler) {
+    }
+
+    /**
+     * Mute incoming audio.
+     *
+     * @return {@link CompletableFuture} of {@link Void}.
+     */
+    public CompletableFuture<Void>  muteIncomingAudio() {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer;
+        }
+        return null;
+    }
+
+    /**
+     * Un mute incoming audio.
+     *
+     * @return {@link CompletableFuture} of {@link Void}.
+     */
+    public CompletableFuture<Void>  unmuteIncomingAudio() {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer;
+        }
+        return null;
+    }
+
+    /**
+     * Mute outgoing audio.
+     *
+     * @return {@link CompletableFuture} of {@link Void}.
+     */
+    public CompletableFuture<Void>  muteOutgoingAudio() {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer;
+        }
+        return null;
+    }
+
+    /**
+     * Un mute outgoing audio.
+     *
+     * @return {@link CompletableFuture} of {@link Void}.
+     */
+    public CompletableFuture<Void>  unmuteOutgoingAudio() {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer;
+        }
+        return null;
+    }
+
+    /**
+     * Hold call.
+     *
+     * @return {@link CompletableFuture} of {@link Void}.
+     */
+    public CompletableFuture<Void>  hold() {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer;
+        }
+        return null;
+    }
+
+    /**
+     * Resume call.
+     *
+     * @return {@link CompletableFuture} of {@link Void}.
+     */
+    public CompletableFuture<Void>  resume() {
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer;
+        }
+        return null;
+    }
+
+    /**
+     * RegisterPushNotification to receive incoming call notification.
+     *
+     * @param deviceRegistrationToken The device registration token.
+     * @return {@link CompletableFuture} of {@link Void}.
+     */
+    public CompletableFuture<Void> registerPushNotification(final String deviceRegistrationToken) {
+        return CompletableFuture.completedFuture(null);
+    }
+
+    /**
+     * UnregisterPushNotification to stop receiving incoming call notification.
+     *
+     * @return {@link CompletableFuture} of {@link Void}.
+     */
+    public CompletableFuture<Void> unregisterPushNotification() {
+        return CompletableFuture.completedFuture(null);
     }
 
     /**

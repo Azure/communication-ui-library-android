@@ -37,7 +37,7 @@ internal class CallStateHandler(
     private fun sendCallStateChangedEvent(status: CallingStatus) {
         try {
             configuration.callCompositeEventsHandler.getCallStateHandler().forEach {
-                it.handle(CallCompositeCallStateChangedEvent(status.callCompositeCallState()))
+                // it.handle(CallCompositeCallStateChangedEvent(status.callCompositeCallState()))
             }
         } catch (error: Throwable) {
             // suppress any possible application errors

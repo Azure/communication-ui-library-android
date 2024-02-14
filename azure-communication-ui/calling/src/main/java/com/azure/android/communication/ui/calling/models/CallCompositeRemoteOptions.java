@@ -8,7 +8,7 @@ import com.azure.android.communication.ui.calling.CallComposite;
 
 /**
  * CallCompositeRemoteOptions for CallComposite.launch.
- *
+ * @deprecated This class is deprecated, use {@link CallComposite} {@link CallCompositeJoinLocator} instead.
  * <pre>
  *
  * &#47;&#47; Initialize the call composite builder
@@ -28,6 +28,7 @@ import com.azure.android.communication.ui.calling.CallComposite;
  *
  * @see CallComposite
  */
+@Deprecated
 public final class CallCompositeRemoteOptions {
     // Mandatory
     private final CommunicationTokenCredential credential;

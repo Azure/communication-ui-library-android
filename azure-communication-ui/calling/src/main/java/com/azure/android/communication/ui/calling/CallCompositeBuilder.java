@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling;
 
+import com.azure.android.communication.ui.calling.models.CallCompositeCallAgentOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions;
@@ -84,10 +85,28 @@ public final class CallCompositeBuilder {
 
     /**
      * Builds the CallCompositeClass {@link CallComposite}.
-     *
+     * @deprecated Use {@link #build(CallCompositeCallAgentOptions)} instead.
      * @return {@link CallComposite}
      */
+    @Deprecated
     public CallComposite build() {
+        final CallCompositeConfiguration config = new CallCompositeConfiguration();
+        config.setThemeConfig(themeConfig);
+        config.setLocalizationConfig(localizationConfig);
+        config.setEnableMultitasking(enableMultitasking);
+        config.setEnableSystemPiPWhenMultitasking(enableSystemPiPWhenMultitasking);
+        config.setCallScreenOrientation(this.callScreenOrientation);
+        config.setSetupScreenOrientation(this.setupScreenOrientation);
+        return new CallComposite(config);
+    }
+
+    /**
+     * Builds the CallCompositeClass {@link CallComposite}.
+     *
+     * @param options {@link CallCompositeCallAgentOptions}
+     * @return {@link CallComposite}
+     */
+    public CallComposite build(final CallCompositeCallAgentOptions options) {
         final CallCompositeConfiguration config = new CallCompositeConfiguration();
         config.setThemeConfig(themeConfig);
         config.setLocalizationConfig(localizationConfig);
