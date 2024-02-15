@@ -74,7 +74,8 @@ internal class DependencyInjectionContainerHolder(
             ),
             container.networkManager,
             container.configuration.enableMultitasking,
-            container.configuration.callCompositeLocalOptions?.avMode ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+            container.configuration.callCompositeLocalOptions?.audioVideoMode
+                ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
         )
     }
 }

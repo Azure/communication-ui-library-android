@@ -217,7 +217,7 @@ internal class DependencyInjectionContainerImpl(
             configuration.callConfig?.displayName,
             localOptions?.isCameraOn == true,
             localOptions?.isMicrophoneOn == true,
-            localOptions?.avMode ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+            localOptions?.audioVideoMode ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
         )
     }
 
@@ -276,7 +276,7 @@ internal class DependencyInjectionContainerImpl(
     private val callingSDKEventHandler by lazy {
         CallingSDKEventHandler(
             coroutineContextProvider,
-            localOptions?.avMode ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+            localOptions?.audioVideoMode ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
         )
     }
 
