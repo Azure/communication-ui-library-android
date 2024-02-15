@@ -53,7 +53,7 @@ public final class CallCompositeMultitaskingOptions {
      * Is multitasking enabled.
      * @return {@link Boolean}
      */
-    public Boolean isEnableMultitasking() {
+    public Boolean isMultitaskingEnabled() {
         return enableMultitasking;
     }
 
@@ -61,7 +61,7 @@ public final class CallCompositeMultitaskingOptions {
      * Is Picture-In-Picture enabled.
      * @return {@link Boolean}
      */
-    public Boolean isEnableSystemPictureInPictureWhenMultitasking() {
+    public Boolean isSystemPictureInPictureEnable() {
         return enableSystemPictureInPictureWhenMultitasking;
     }
 }
