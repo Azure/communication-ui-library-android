@@ -168,7 +168,7 @@ public final class CallCompositeLocalOptions {
      * @param avMode The {@link CallCompositeAudioVideoMode} to be used.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
-    public CallCompositeLocalOptions setAvMode(final CallCompositeAudioVideoMode avMode) {
+    public CallCompositeLocalOptions setAudioVideoMode(final CallCompositeAudioVideoMode avMode) {
         this.avMode = avMode;
         return this;
     }

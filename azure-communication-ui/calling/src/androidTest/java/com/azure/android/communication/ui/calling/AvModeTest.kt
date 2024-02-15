@@ -38,7 +38,7 @@ internal class AvModeTest : BaseUiTest() {
                 "test"
             )
 
-        val localOptions = CallCompositeLocalOptions().setAvMode(CallCompositeAudioVideoMode.AUDIO_ONLY)
+        val localOptions = CallCompositeLocalOptions().setAudioVideoMode(CallCompositeAudioVideoMode.AUDIO_ONLY)
 
         callComposite.launchTest(appContext, remoteOptions, localOptions)
         waitUntilDisplayed(joinCallId)
