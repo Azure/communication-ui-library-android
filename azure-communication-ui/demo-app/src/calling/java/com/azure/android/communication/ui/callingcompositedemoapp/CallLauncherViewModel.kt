@@ -12,7 +12,7 @@ import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
-import com.azure.android.communication.ui.calling.models.CallCompositeAvMode
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
@@ -105,7 +105,7 @@ class CallLauncherViewModel : ViewModel() {
             CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
 
         val avMode = if (SettingsFeatures.getAudioOnlyByDefaultOption())
-            CallCompositeAvMode.AUDIO_ONLY else CallCompositeAvMode.NORMAL
+            CallCompositeAudioVideoMode.AUDIO_ONLY else CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
 
         val localOptions = CallCompositeLocalOptions()
             .setParticipantViewData(SettingsFeatures.getParticipantViewData(context.applicationContext))

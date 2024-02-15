@@ -15,7 +15,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import java.util.UUID
 import com.azure.android.communication.assertViewGone
-import com.azure.android.communication.ui.calling.models.CallCompositeAvMode
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -38,7 +38,7 @@ internal class AvModeTest : BaseUiTest() {
                 "test"
             )
 
-        val localOptions = CallCompositeLocalOptions().setAvMode(CallCompositeAvMode.AUDIO_ONLY)
+        val localOptions = CallCompositeLocalOptions().setAvMode(CallCompositeAudioVideoMode.AUDIO_ONLY)
 
         callComposite.launchTest(appContext, remoteOptions, localOptions)
         waitUntilDisplayed(joinCallId)

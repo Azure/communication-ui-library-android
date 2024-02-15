@@ -38,7 +38,7 @@ public final class CallCompositeLocalOptions {
     private boolean cameraOn = false;
     private boolean microphoneOn = false;
     private boolean skipSetupScreen = false;
-    private CallCompositeAvMode avMode = CallCompositeAvMode.NORMAL;
+    private CallCompositeAudioVideoMode avMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO;
 
     /**
      * Create LocalSettings.
@@ -119,7 +119,7 @@ public final class CallCompositeLocalOptions {
      */
     public boolean isCameraOn() {
         //Override if the AV Mode is audio only
-        if (avMode == CallCompositeAvMode.AUDIO_ONLY) {
+        if (avMode == CallCompositeAudioVideoMode.AUDIO_ONLY) {
             return false;
         }
         return this.cameraOn;
@@ -164,11 +164,11 @@ public final class CallCompositeLocalOptions {
      * Currently supported (Audio Only, Normal)
      * Audio Only: This will disable the camera and incoming video feeds.
      * Normal: This will enable the camera and incoming video feeds.
-     * See {@link CallCompositeAvMode}
-     * @param avMode The {@link CallCompositeAvMode} to be used.
+     * See {@link CallCompositeAudioVideoMode}
+     * @param avMode The {@link CallCompositeAudioVideoMode} to be used.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
-    public CallCompositeLocalOptions setAvMode(final CallCompositeAvMode avMode) {
+    public CallCompositeLocalOptions setAvMode(final CallCompositeAudioVideoMode avMode) {
         this.avMode = avMode;
         return this;
     }
@@ -179,7 +179,7 @@ public final class CallCompositeLocalOptions {
      * @return The boolean value to be used for audio only mode.
      */
     @NonNull
-    public CallCompositeAvMode getAvMode() {
+    public CallCompositeAudioVideoMode getAvMode() {
         return avMode;
     }
 }
