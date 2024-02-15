@@ -53,8 +53,8 @@ public final class CallCompositeBuilder {
      */
     public CallCompositeBuilder multitasking(
             final CallCompositeMultitaskingOptions options) {
-        this.enableMultitasking = options.isEnableMultitasking();
-        this.enableSystemPiPWhenMultitasking = options.isEnableSystemPictureInPictureWhenMultitasking();
+        this.enableMultitasking = options.isMultitaskingEnabled();
+        this.enableSystemPiPWhenMultitasking = options.isSystemPictureInPictureEnable();
         return this;
     }
 
