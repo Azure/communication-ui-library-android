@@ -74,10 +74,10 @@ internal class MoreCallOptionsListView(
                         R.drawable.azure_communication_ui_calling_ic_fluent_share_android_24_regular
                     ),
                     title = context.getString(R.string.azure_communication_ui_calling_view_share_diagnostics),
-                    contentDescription = null,
+                    contentDescription = context.getString(R.string.azure_communication_ui_calling_view_share_diagnostics_description),
                     accessoryImage = null,
                     accessoryColor = null,
-                    accessoryImageDescription = context.getString(R.string.azure_communication_ui_calling_view_share_diagnostics),
+                    accessoryImageDescription =  context.getString(R.string.azure_communication_ui_calling_view_share_diagnostics),
                     enabled = false,
                     participantViewData = null,
                     isOnHold = false,
