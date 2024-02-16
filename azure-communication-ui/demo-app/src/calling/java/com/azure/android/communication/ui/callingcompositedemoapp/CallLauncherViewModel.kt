@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
+import android.app.Application
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
@@ -68,6 +69,9 @@ class CallLauncherViewModel : ViewModel() {
         groupId: UUID?,
         meetingLink: String?,
     ) {
+        // The handler needs the application context to manage notifications.
+        userReportedIssueEventHandler.context = context.applicationContext as Application
+
         val callComposite = createCallComposite(context)
         callComposite.addOnErrorEventHandler(
             CallLauncherActivityErrorHandler(
@@ -136,8 +140,8 @@ class CallLauncherViewModel : ViewModel() {
             delay(20000)
 
             callComposite?.getDebugInfo(context)?.let {
-                val result = """Calling UI Version: ${it.callingUiVersion}
-                        Calling SDK Version: ${it.callingSdkVersion}                    
+                val result = """Calling UI Version: ${it.versions.azureCallingUILibrary}
+                        Calling SDK Version: ${it.versions.azureCallingLibrary}                    
                         Call History (${it.callHistoryRecords.size}) 
                         Log Files (${it.logFiles.size})"""
                 result.split("\n").map { line -> line.trim() }.forEach {

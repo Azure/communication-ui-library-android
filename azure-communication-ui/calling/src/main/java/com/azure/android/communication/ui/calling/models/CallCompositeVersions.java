@@ -42,9 +42,9 @@ public class CallCompositeVersions {
     @NonNull
     @Override
     public String toString() {
-        return "CallCompositeVersions{" +
-                "AzureCallingUILibrary='" + getAzureCallingUILibrary() + '\'' +
-                ", AzureCallingLibrary='" + getAzureCallingLibrary() + '\'' +
-                '}';
+        return "CallCompositeVersions{"
+                + "AzureCallingUILibrary='" + getAzureCallingUILibrary() + '\''
+                + ", AzureCallingLibrary='" + getAzureCallingLibrary() + '\''
+                + '}';
     }
 }
