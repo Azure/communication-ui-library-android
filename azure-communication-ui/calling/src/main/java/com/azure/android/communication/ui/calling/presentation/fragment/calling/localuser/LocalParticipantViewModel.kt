@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser
 
-import com.azure.android.communication.ui.calling.models.CallCompositeAvMode
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
@@ -54,7 +54,7 @@ internal class LocalParticipantViewModel(
         cameraDeviceSelectionStatus: CameraDeviceSelectionStatus,
         camerasCount: Int,
         pipStatus: PictureInPictureStatus,
-        avMode: CallCompositeAvMode,
+        avMode: CallCompositeAudioVideoMode,
     ) {
         val viewMode = getLocalParticipantViewMode(numberOfRemoteParticipants)
         val displayVideo = shouldDisplayVideo(videoStreamID)
@@ -85,8 +85,8 @@ internal class LocalParticipantViewModel(
         isVisibleFlow.value = isVisible(displayVideo, pipStatus, displayFullScreenAvatar, avMode)
     }
 
-    private fun isVisible(displayVideo: Boolean, pipStatus: PictureInPictureStatus, displayFullScreenAvatar: Boolean, avMode: CallCompositeAvMode): Boolean {
-        if (avMode == CallCompositeAvMode.AUDIO_ONLY && !displayFullScreenAvatar) {
+    private fun isVisible(displayVideo: Boolean, pipStatus: PictureInPictureStatus, displayFullScreenAvatar: Boolean, avMode: CallCompositeAudioVideoMode): Boolean {
+        if (avMode == CallCompositeAudioVideoMode.AUDIO_ONLY && !displayFullScreenAvatar) {
             return false
         }
 
@@ -110,7 +110,7 @@ internal class LocalParticipantViewModel(
         cameraDeviceSelectionStatus: CameraDeviceSelectionStatus,
         camerasCount: Int,
         pipStatus: PictureInPictureStatus,
-        avMode: CallCompositeAvMode,
+        avMode: CallCompositeAudioVideoMode,
     ) {
 
         val viewMode = getLocalParticipantViewMode(numberOfRemoteParticipants)

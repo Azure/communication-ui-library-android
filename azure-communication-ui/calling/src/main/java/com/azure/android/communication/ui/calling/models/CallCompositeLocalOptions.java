@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.calling.models;
 
-import androidx.annotation.NonNull;
-
 import com.azure.android.communication.ui.calling.CallComposite;
 
 /**
@@ -38,7 +36,7 @@ public final class CallCompositeLocalOptions {
     private boolean cameraOn = false;
     private boolean microphoneOn = false;
     private boolean skipSetupScreen = false;
-    private CallCompositeAvMode avMode = CallCompositeAvMode.NORMAL;
+    private CallCompositeAudioVideoMode audioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO;
 
     /**
      * Create LocalSettings.
@@ -119,7 +117,7 @@ public final class CallCompositeLocalOptions {
      */
     public boolean isCameraOn() {
         //Override if the AV Mode is audio only
-        if (avMode == CallCompositeAvMode.AUDIO_ONLY) {
+        if (audioVideoMode == CallCompositeAudioVideoMode.AUDIO_ONLY) {
             return false;
         }
         return this.cameraOn;
@@ -161,15 +159,15 @@ public final class CallCompositeLocalOptions {
 
     /**
      * Sets the Audio/Video Mode of the local call.
-     * Currently supported (Audio Only, Normal)
+     * Currently supported (Audio Only, Audio and Video)
      * Audio Only: This will disable the camera and incoming video feeds.
-     * Normal: This will enable the camera and incoming video feeds.
-     * See {@link CallCompositeAvMode}
-     * @param avMode The {@link CallCompositeAvMode} to be used.
+     * Audio and Video: This will enable the camera and incoming video feeds.
+     * See {@link CallCompositeAudioVideoMode}
+     * @param audioVideoMode The {@link CallCompositeAudioVideoMode} to be used.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
-    public CallCompositeLocalOptions setAvMode(final CallCompositeAvMode avMode) {
-        this.avMode = avMode;
+    public CallCompositeLocalOptions setAudioVideoMode(final CallCompositeAudioVideoMode audioVideoMode) {
+        this.audioVideoMode = audioVideoMode;
         return this;
     }
 
@@ -178,8 +176,7 @@ public final class CallCompositeLocalOptions {
      *
      * @return The boolean value to be used for audio only mode.
      */
-    @NonNull
-    public CallCompositeAvMode getAvMode() {
-        return avMode;
+    public CallCompositeAudioVideoMode getAudioVideoMode() {
+        return audioVideoMode;
     }
 }

@@ -30,6 +30,7 @@ android {
         buildConfigField 'boolean', 'CHECK_TASK_ROOT', String.valueOf(!shouldNotCheckTaskRoot())
         buildConfigField 'String', 'THREAD_ID', properties.getProperty('THREAD_ID', '""')
         buildConfigField 'String', 'END_POINT_URL', properties.getProperty('END_POINT_URL', '""')
+        buildConfigField 'String', 'SUPPORT_END_POINT_URL', properties.getProperty('SUPPORT_END_POINT_URL', '""')
         buildConfigField "String", 'AAD_TOKEN', properties.getProperty('AAD_TOKEN', '""')
     }
 

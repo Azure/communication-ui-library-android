@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.models.CallCompositeAvMode
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
@@ -137,7 +137,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockCallingViewModelProvider,
                 mockNetworkManager,
                 false,
-                CallCompositeAvMode.NORMAL
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
 
             val newBackgroundState = AppReduxState("", false, false)
@@ -237,7 +237,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockCallingViewModelProvider,
                 mockNetworkManager,
                 false,
-                CallCompositeAvMode.NORMAL
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
 
             val newForegroundState = AppReduxState("", false, false,)
@@ -336,7 +336,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockCallingViewModelProvider,
                 mockNetworkManager,
                 false,
-                CallCompositeAvMode.NORMAL
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
 
             val storeState = AppReduxState("", false, false)
@@ -443,7 +443,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockCallingViewModelProvider,
                 mockNetworkManager,
                 false,
-                CallCompositeAvMode.NORMAL
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
 
             val newForegroundState = AppReduxState("", false, false)
@@ -675,7 +675,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockCallingViewModelProvider,
                 mockNetworkManager,
                 false,
-                CallCompositeAvMode.NORMAL
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
 
             val newState = AppReduxState("", false, false)
@@ -883,7 +883,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             mockCallingViewModelProvider,
             mockNetworkManager,
             false,
-            CallCompositeAvMode.NORMAL
+            CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
         )
 
         val newState = AppReduxState("", false, false)
@@ -1035,7 +1035,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             mockCallingViewModelProvider,
             mockNetworkManager,
             false,
-            CallCompositeAvMode.NORMAL
+            CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
         )
 
         val newState = AppReduxState("", false, false)

@@ -3,12 +3,8 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -17,7 +13,6 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.calling.utilities.launchAll
@@ -32,7 +27,6 @@ import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.UUID
 
@@ -168,34 +162,6 @@ class CallLauncherActivity : AppCompatActivity() {
                         }
                     }
                 },
-                {
-                    callLauncherViewModel.userReportedIssueEventHandler.userIssuesFlow.collect {
-                        it?.apply {
-                            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-                            val channelId = "user_reported_issue_channel"
-                            val channelName = "User Reported Issue Notifications"
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
-                                notificationManager.createNotificationChannel(channel)
-                            }
-
-                            // Create a summary of the report
-                            val reportSummary = StringBuilder(userMessage)
-                            reportSummary.append("\nCall ID: ${debugInfo.callHistoryRecords}}")
-                            // Add more information from the event as needed
-                            val notificationBuilder = NotificationCompat.Builder(this@CallLauncherActivity, channelId)
-                                .setContentTitle("User Reported Issue")
-                                .setSmallIcon(R.drawable.azure_communication_ui_calling_ic_fluent_person_feedback_24_regular) // Replace with your notification icon
-                                .setStyle(NotificationCompat.BigTextStyle().bigText(reportSummary.toString()))
-
-                            val notification = notificationBuilder.build()
-
-                            notificationManager.notify(System.currentTimeMillis().toInt(), notification)
-                        }
-                    }
-                }
-
             )
 
             if (BuildConfig.DEBUG) {

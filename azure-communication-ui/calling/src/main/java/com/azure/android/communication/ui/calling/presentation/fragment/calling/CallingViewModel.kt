@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
-import com.azure.android.communication.ui.calling.models.CallCompositeAvMode
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
@@ -24,7 +24,7 @@ internal class CallingViewModel(
     callingViewModelProvider: CallingViewModelFactory,
     private val networkManager: NetworkManager,
     val multitaskingEnabled: Boolean,
-    val avMode: CallCompositeAvMode,
+    val avMode: CallCompositeAudioVideoMode,
 ) :
     BaseViewModel(store) {
 

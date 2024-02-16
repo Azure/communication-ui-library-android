@@ -5,8 +5,6 @@ package com.azure.android.communication.ui.calling.models;
 
 import android.util.Log;
 
-import com.azure.android.communication.ui.calling.implementation.BuildConfig;
-
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
@@ -14,13 +12,14 @@ import java.util.concurrent.Callable;
 
 /**
  * A Call Composite Debug information.
- *
  * This class provides access to debugging and diagnostic information related to a communication call composite.
  */
 public final class CallCompositeDebugInfo {
 
     private final List<CallCompositeCallHistoryRecord> callHistoryRecord;
     private final Callable<List<File>> getLogFilesCallable;
+
+    private final CallCompositeVersions versionInternal = new CallCompositeVersions();
 
     /**
      * Constructs a new CallCompositeDebugInfo instance.
@@ -59,20 +58,12 @@ public final class CallCompositeDebugInfo {
     }
 
     /**
-     * Gets the version of the calling UI SDK.
+     * Retrieves an object that specifies versions of this library and relevant
+     * dependencies.
      *
-     * @return the version of the calling UI SDK.
+     * @return @CallCompositeVersions object including the versions.
      */
-    public String getCallingUiVersion() {
-        return BuildConfig.UI_SDK_VERSION;
-    }
-
-    /**
-     * Gets the version of the calling SDK.
-     *
-     * @return the version of the calling SDK.
-     */
-    public String getCallingSdkVersion() {
-        return BuildConfig.CALL_SDK_VERSION;
+    public CallCompositeVersions getVersions() {
+        return versionInternal;
     }
 }
