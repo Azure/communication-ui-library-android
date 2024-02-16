@@ -62,8 +62,8 @@
     <string name="azure_communication_ui_calling_view_button_device_options_accessibility_label">Device Options</string>
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">More</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">Share diagnostics info</string>
-    <string name="azure_communication_ui_calling_view_share_diagnostics_description" translatable="false">Share diagnostics info Button</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnostics info</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Recording has started.</b> By joining, you are
