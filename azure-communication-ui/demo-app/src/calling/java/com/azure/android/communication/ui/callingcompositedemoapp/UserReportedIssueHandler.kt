@@ -19,8 +19,8 @@ class UserReportedIssueHandler : CallCompositeEventHandler<CallCompositeUserRepo
         eventData?.apply {
             sendToServer(
                 userMessage,
-                debugInfo.callingUiVersion,
-                debugInfo.callingSdkVersion,
+                debugInfo.versions.azureCallingUILibrary,
+                debugInfo.versions.azureCallingLibrary,
                 debugInfo.callHistoryRecords,
                 debugInfo.logFiles
             )
