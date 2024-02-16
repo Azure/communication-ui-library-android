@@ -1,7 +1,8 @@
 plugins {
     id 'com.android.library'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
+    id 'org.jetbrains.kotlin.android'
+//    id 'kotlin-android'
+//    id 'kotlin-kapt'
 }
 
 apply from: file('publish.gradle')
@@ -66,11 +67,11 @@ android {
 
     kotlinOptions {
         jvmTarget = '1.8'
-        freeCompilerArgs += [
-                "-Xopt-in=kotlin.RequiresOptIn",
-                "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
-                "-Xuse-experimental=kotlinx.coroutines.ObsoleteCoroutinesApi"
-        ]
+//        freeCompilerArgs += [
+//                "-Xopt-in=kotlin.RequiresOptIn",
+//                "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
+//                "-Xuse-experimental=kotlinx.coroutines.ObsoleteCoroutinesApi"
+//        ]
     }
 
     testOptions {

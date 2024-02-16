@@ -87,7 +87,7 @@ buildscript {
 
         androidx_activity_compose_version = '1.5.1'
         compose_version = '1.2.1'
-        kotlin_compiler_extension_version = '1.3.2'
+        kotlin_compiler_extension_version = '1.5.1'
         shouldByPassMavenPublish = {
             return rootProject.hasProperty("bypassMavenPublish") && rootProject.getProperty("bypassMavenPublish")
         }
@@ -98,7 +98,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.2.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jacoco:org.jacoco.core:$jacoco_version"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -107,7 +107,7 @@ buildscript {
 }
 
 plugins {
-    id 'org.jetbrains.kotlin.android' version '1.7.10' apply false
+    id 'org.jetbrains.kotlin.android' version '1.9.0' apply false
     id "org.jlleitschuh.gradle.ktlint" version "10.2.1" apply(true)
 }
 
