@@ -16,9 +16,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import okhttp3.*
+import okhttp3.Call
+import okhttp3.Callback
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.Response
 import org.threeten.bp.format.DateTimeFormatter
 import java.io.File
 import java.io.IOException
@@ -83,7 +88,8 @@ class UserReportedIssueHandler : CallCompositeEventHandler<CallCompositeUserRepo
                 addFormDataPart(
                     "call_history",
                     callHistoryRecords.map { "\n\n${it.callStartedOn.format(DateTimeFormatter.BASIC_ISO_DATE)}\n${it.callIds.joinToString("\n")}" }
-                        .joinToString("\n"))
+                        .joinToString("\n")
+                )
                 logFiles.filter { it.length() > 0 }.forEach { file ->
                     val mediaType = "application/octet-stream".toMediaTypeOrNull()
                     addFormDataPart("log_files", file.name, file.asRequestBody(mediaType))

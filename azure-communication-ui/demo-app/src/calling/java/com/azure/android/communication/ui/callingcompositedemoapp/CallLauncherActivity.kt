@@ -3,12 +3,8 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -17,7 +13,6 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.calling.utilities.launchAll
@@ -32,7 +27,6 @@ import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.UUID
 
