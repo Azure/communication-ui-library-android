@@ -168,34 +168,6 @@ class CallLauncherActivity : AppCompatActivity() {
                         }
                     }
                 },
-                {
-                    callLauncherViewModel.userReportedIssueEventHandler.userIssuesFlow.collect {
-                        it?.apply {
-                            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-                            val channelId = "user_reported_issue_channel"
-                            val channelName = "User Reported Issue Notifications"
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
-                                notificationManager.createNotificationChannel(channel)
-                            }
-
-                            // Create a summary of the report
-                            val reportSummary = StringBuilder(userMessage)
-                            reportSummary.append("\nCall ID: ${debugInfo.callHistoryRecords}}")
-                            // Add more information from the event as needed
-                            val notificationBuilder = NotificationCompat.Builder(this@CallLauncherActivity, channelId)
-                                .setContentTitle("User Reported Issue")
-                                .setSmallIcon(R.drawable.azure_communication_ui_calling_ic_fluent_person_feedback_24_regular) // Replace with your notification icon
-                                .setStyle(NotificationCompat.BigTextStyle().bigText(reportSummary.toString()))
-
-                            val notification = notificationBuilder.build()
-
-                            notificationManager.notify(System.currentTimeMillis().toInt(), notification)
-                        }
-                    }
-                }
-
             )
 
             if (BuildConfig.DEBUG) {
