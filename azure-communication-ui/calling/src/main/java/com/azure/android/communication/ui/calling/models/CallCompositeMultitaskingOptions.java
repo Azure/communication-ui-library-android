@@ -61,7 +61,7 @@ public final class CallCompositeMultitaskingOptions {
      * Is Picture-In-Picture enabled.
      * @return {@link Boolean}
      */
-    public Boolean isSystemPictureInPictureEnable() {
+    public Boolean isSystemPictureInPictureEnabled() {
         return enableSystemPictureInPictureWhenMultitasking;
     }
 }

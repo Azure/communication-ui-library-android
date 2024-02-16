@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
+import android.app.Application
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
@@ -12,7 +13,7 @@ import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
-import com.azure.android.communication.ui.calling.models.CallCompositeAvMode
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
@@ -68,6 +69,9 @@ class CallLauncherViewModel : ViewModel() {
         groupId: UUID?,
         meetingLink: String?,
     ) {
+        // The handler needs the application context to manage notifications.
+        userReportedIssueEventHandler.context = context.applicationContext as Application
+
         val callComposite = createCallComposite(context)
         callComposite.addOnErrorEventHandler(
             CallLauncherActivityErrorHandler(
@@ -105,7 +109,7 @@ class CallLauncherViewModel : ViewModel() {
             CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
 
         val avMode = if (SettingsFeatures.getAudioOnlyByDefaultOption())
-            CallCompositeAvMode.AUDIO_ONLY else CallCompositeAvMode.NORMAL
+            CallCompositeAudioVideoMode.AUDIO_ONLY else CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
 
         val localOptions = CallCompositeLocalOptions()
             .setParticipantViewData(SettingsFeatures.getParticipantViewData(context.applicationContext))
@@ -115,7 +119,7 @@ class CallLauncherViewModel : ViewModel() {
                     .setSubtitle(SettingsFeatures.getSubtitle())
             )
             .setSkipSetupScreen(SettingsFeatures.getSkipSetupScreenFeatureOption())
-            .setAvMode(avMode)
+            .setAudioVideoMode(avMode)
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
             .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
 
@@ -136,8 +140,8 @@ class CallLauncherViewModel : ViewModel() {
             delay(20000)
 
             callComposite?.getDebugInfo(context)?.let {
-                val result = """Calling UI Version: ${it.callingUiVersion}
-                        Calling SDK Version: ${it.callingSdkVersion}                    
+                val result = """Calling UI Version: ${it.versions.azureCallingUILibrary}
+                        Calling SDK Version: ${it.versions.azureCallingLibrary}                    
                         Call History (${it.callHistoryRecords.size}) 
                         Log Files (${it.logFiles.size})"""
                 result.split("\n").map { line -> line.trim() }.forEach {
