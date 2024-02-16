@@ -84,10 +84,10 @@
         are now only transcribing this meeting. <u>Privacy policy</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Transcription has stopped.
     </b> You are now only recording this meeting. <u>Privacy policy</u></string>
-    <string name="azure_communication_ui_calling_view_link_learn_more_url">
+    <string name="azure_communication_ui_calling_view_link_learn_more_url" translatable="false">
         https://support.microsoft.com/office/record-a-meeting-in-teams-34dfbe7f-b07d-4a27-b4c6-de62f1348c24
     </string>
-    <string name="azure_communication_ui_calling_view_link_privacy_policy_url">
+    <string name="azure_communication_ui_calling_view_link_privacy_policy_url" translatable="false">
         https://privacy.microsoft.com/privacystatement#mainnoticetoendusersmodule
     </string>
     <string name="azure_communication_ui_calling_view_link">Link</string>
