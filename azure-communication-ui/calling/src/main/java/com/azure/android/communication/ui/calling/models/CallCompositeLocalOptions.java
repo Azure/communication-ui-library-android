@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.calling.models;
 
-import androidx.annotation.NonNull;
-
 import com.azure.android.communication.ui.calling.CallComposite;
 
 /**
@@ -178,7 +176,6 @@ public final class CallCompositeLocalOptions {
      *
      * @return The boolean value to be used for audio only mode.
      */
-    @NonNull
     public CallCompositeAudioVideoMode getAudioVideoMode() {
         return audioVideoMode;
     }
