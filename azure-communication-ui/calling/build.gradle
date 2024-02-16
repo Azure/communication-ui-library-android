@@ -103,6 +103,7 @@ android {
             exclude({ it.file.absolutePath.contains("/generated/") })
         }
     }
+    namespace 'com.azure.android.communication.ui.calling.implementation'
 
     if (!shouldByPassMavenPublish()) {
         publishing {
