@@ -9,11 +9,11 @@ if (project.rootProject.file('local.properties').canRead()) {
 }
 
 android {
-    compileSdk 34
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.azure.android.communication.ui.callingcompositedemoapp"
-        targetSdkVersion 34
+        targetSdkVersion 33
         versionCode ui_library_version_code
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

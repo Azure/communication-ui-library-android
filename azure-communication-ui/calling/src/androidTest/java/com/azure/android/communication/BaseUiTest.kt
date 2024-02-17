@@ -48,7 +48,6 @@ internal open class BaseUiTest {
     internal val sendButtonId = R.id.azure_communication_ui_send_button
     internal val cancelButtonId = R.id.azure_communication_ui_cancel_button
     internal val userMessageEditTextId = R.id.azure_communication_ui_user_message_edit_text
-    internal val includeScreenshotToggleId = R.id.azure_communication_ui_include_screenshot_toggle
 
     internal val showSupportFormTextId = R.string.azure_communication_ui_calling_report_issue_title
     @Rule

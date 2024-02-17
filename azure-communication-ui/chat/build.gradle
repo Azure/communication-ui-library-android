@@ -82,10 +82,10 @@ dependencies {
     api("com.azure.android:azure-communication-chat:$azure_chat_sdk_version")
     api("com.azure.android:azure-communication-common:$azure_common_sdk_version")
 
-    implementation "com.microsoft.fluentui:fluentui_others:$microsoft_fluent_ui_version_v2"
+    implementation "com.microsoft.fluentui:fluentui_others:$microsoft_fluent_ui_version"
     implementation "com.microsoft.fluentui:fluentui_persona:$microsoft_fluent_ui_version"
     implementation "com.microsoft.fluentui:fluentui_progress:$microsoft_fluent_ui_version"
-    implementation "com.microsoft.fluentui:fluentui_drawer:$microsoft_fluent_ui_drawer_version_v2"
+    implementation "com.microsoft.fluentui:fluentui_drawer:$microsoft_fluent_ui_drawer_version"
 
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
