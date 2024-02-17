@@ -63,6 +63,7 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">更多</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">共享诊断信息</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">诊断信息</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>录制已启动。</b>加入即表示

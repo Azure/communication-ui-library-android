@@ -63,6 +63,7 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">Mer</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">Del diagnoseinformasjon</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnoseinformasjon</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Opptak er startet.</b> Ved å bli med, gir du
