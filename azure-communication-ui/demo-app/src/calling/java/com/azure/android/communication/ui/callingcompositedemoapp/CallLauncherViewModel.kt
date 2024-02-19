@@ -12,7 +12,6 @@ import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
-import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
@@ -40,27 +39,11 @@ class CallLauncherViewModel : ViewModel() {
     val callCompositeExitSuccessStateFlow = MutableStateFlow(false)
     val userReportedIssueEventHandler: UserReportedIssueHandler = UserReportedIssueHandler()
 
-    var isExitRequested = false
-    private val callStateEventHandler = CallStateEventHandler(callCompositeCallStateStateFlow)
-    private var exitEventHandler: CallExitEventHandler? = null
+    private var callStateEventHandler: ((CallCompositeCallStateChangedEvent) -> Unit)? = null
+    private var onDismissed: ((CallCompositeDismissedEvent) -> Unit)? = null
     private var errorHandler: CallLauncherActivityErrorHandler? = null
     private var remoteParticipantJoinedEvent: RemoteParticipantJoinedHandler? = null
-    private var exitedCompositeToAcceptCall: Boolean = false
     private var callComposite: CallComposite? = null
-
-    fun destroy() {
-        unsubscribeFromEvents()
-        callComposite = null
-    }
-
-    fun onCompositeDismiss() {
-        unsubscribeFromEvents()
-        callComposite = null
-    }
-
-    companion object {
-        var callComposite: CallComposite? = null
-    }
 
     fun launch(
         context: Context,
@@ -71,31 +54,40 @@ class CallLauncherViewModel : ViewModel() {
     ) {
         // The handler needs the application context to manage notifications.
         userReportedIssueEventHandler.context = context.applicationContext as Application
-
-        val callComposite = createCallComposite(context)
-        callComposite.addOnErrorEventHandler(
-            CallLauncherActivityErrorHandler(
-                context,
-                callComposite
-            )
-        )
-
-        if (SettingsFeatures.getRemoteParticipantPersonaInjectionSelection()) {
-            callComposite.addOnRemoteParticipantJoinedEventHandler(
-                RemoteParticipantJoinedHandler(callComposite, context)
-            )
-        }
-
-        callComposite.addOnPictureInPictureChangedEventHandler {
-            println("addOnMultitaskingStateChangedEventHandler it.isInPictureInPicture: " + it.isInPictureInPicture)
-        }
-
-        if (!SettingsFeatures.getEndCallOnByDefaultOption()) {
-            EndCompositeButtonView.get(context).hide()
-        } else {
+        if (SettingsFeatures.getEndCallOnByDefaultOption()) {
             EndCompositeButtonView.get(context).show(this)
+        } else {
+            EndCompositeButtonView.get(context).hide()
         }
+        callCompositeExitSuccessStateFlow.value = false
 
+        val remoteOptions = getRemoteOptions(acsToken, groupId, meetingLink, displayName)
+        val localOptions = getLocalOptions(context)
+
+        val callComposite = createCallComposite()
+        subscribeToEvents(context, callComposite)
+
+        this.callComposite = callComposite
+        if (localOptions == null)
+            callComposite.launch(context, remoteOptions)
+        else
+            callComposite.launch(context, remoteOptions, localOptions)
+    }
+
+    fun dismissCallComposite() {
+        callComposite?.dismiss()
+    }
+
+    fun bringCallCompositeToForeground(context: Context) {
+        callComposite?.bringToForeground(context)
+    }
+
+    private fun getRemoteOptions(
+        acsToken: String,
+        groupId: UUID?,
+        meetingLink: String?,
+        displayName: String
+    ): CallCompositeRemoteOptions {
         val communicationTokenRefreshOptions =
             CommunicationTokenRefreshOptions({ acsToken }, true)
         val communicationTokenCredential =
@@ -105,34 +97,74 @@ class CallLauncherViewModel : ViewModel() {
             if (groupId != null) CallCompositeGroupCallLocator(groupId)
             else CallCompositeTeamsMeetingLinkLocator(meetingLink)
 
-        val remoteOptions =
-            CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
+        return CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
+    }
 
-        val avMode = if (SettingsFeatures.getAudioOnlyByDefaultOption())
-            CallCompositeAudioVideoMode.AUDIO_ONLY else CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
-
+    private fun getLocalOptions(context: Context): CallCompositeLocalOptions? {
         val localOptions = CallCompositeLocalOptions()
-            .setParticipantViewData(SettingsFeatures.getParticipantViewData(context.applicationContext))
-            .setSetupScreenViewData(
-                CallCompositeSetupScreenViewData()
-                    .setTitle(SettingsFeatures.getTitle())
-                    .setSubtitle(SettingsFeatures.getSubtitle())
+        var isAnythingChanged = false
+
+        if (SettingsFeatures.getParticipantViewData(context.applicationContext) != null){
+            localOptions.setParticipantViewData(SettingsFeatures.getParticipantViewData(context.applicationContext))
+            isAnythingChanged = true
+        }
+        SettingsFeatures.getTitle()?.let { title ->
+            val setupScreenViewData = CallCompositeSetupScreenViewData().setTitle(title)
+            SettingsFeatures.getSubtitle()?.let { subTitle ->
+                setupScreenViewData.setSubtitle(subTitle)
+            }
+
+            localOptions.setSetupScreenViewData(setupScreenViewData)
+            isAnythingChanged = true
+        }
+        SettingsFeatures.getSkipSetupScreenFeatureOption()?.let {
+            localOptions.setSkipSetupScreen(it)
+            isAnythingChanged = true
+        }
+        SettingsFeatures.getAudioOnlyByDefaultOption()?.let {
+            localOptions.setAudioVideoMode(
+                if (it) CallCompositeAudioVideoMode.AUDIO_ONLY
+                else CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
-            .setSkipSetupScreen(SettingsFeatures.getSkipSetupScreenFeatureOption())
-            .setAudioVideoMode(avMode)
-            .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
-            .setMicrophoneOn(SettingsFeatures.getMicOnByDefaultOption())
+            isAnythingChanged = true
+        }
+        SettingsFeatures.getCameraOnByDefaultOption()?.let {
+            localOptions.setCameraOn(it)
+            isAnythingChanged = true
+        }
+        SettingsFeatures.getMicOnByDefaultOption()?.let {
+            localOptions.setMicrophoneOn(it)
+            isAnythingChanged = true
+        }
 
-        callCompositeExitSuccessStateFlow.value = false
-        exitEventHandler = CallExitEventHandler(
-            callCompositeExitSuccessStateFlow,
-            callCompositeCallStateStateFlow,
-            this
-        )
-        subscribeToEvents(context)
-        isExitRequested = false
+        return if (isAnythingChanged) localOptions else null
+    }
 
-        callComposite.launch(context, remoteOptions, localOptions)
+    private fun subscribeToEvents(context: Context, callComposite: CallComposite) {
+
+        errorHandler = CallLauncherActivityErrorHandler(context, callComposite)
+        callComposite.addOnErrorEventHandler(errorHandler)
+
+        remoteParticipantJoinedEvent = RemoteParticipantJoinedHandler(callComposite, context)
+        callComposite.addOnRemoteParticipantJoinedEventHandler(remoteParticipantJoinedEvent)
+
+        callStateEventHandler = {
+            callCompositeCallStateStateFlow.value = it.code.toString()
+            toast(context, "Call State: ${it.code}.")
+        }
+
+        callComposite.addOnCallStateChangedEventHandler(callStateEventHandler)
+        callComposite.addOnUserReportedEventHandler(userReportedIssueEventHandler)
+
+        onDismissed = {
+            toast(context, "onDismissed: errorCode: ${it.errorCode}, cause: ${it.cause?.message}.")
+            this.callComposite = null
+        }
+        callComposite.addOnDismissedEventHandler(onDismissed)
+
+        callComposite.addOnPictureInPictureChangedEventHandler {
+            toast(context, "isInPictureInPicture: " + it.isInPictureInPicture)
+        }
     }
 
     private fun displayDebugInfoIn20Seconds(context: Context) {
@@ -145,135 +177,64 @@ class CallLauncherViewModel : ViewModel() {
                         Call History (${it.callHistoryRecords.size}) 
                         Log Files (${it.logFiles.size})"""
                 result.split("\n").map { line -> line.trim() }.forEach {
-                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-                    Log.i("ACSCallingUI", it)
+                    toast(context, it)
                 }
             }
         }
     }
 
-    private fun subscribeToEvents(context: Context) {
-        callComposite?.apply {
-            errorHandler = CallLauncherActivityErrorHandler(
-                context, this
-            )
-            addOnErrorEventHandler(errorHandler)
-
-            remoteParticipantJoinedEvent = RemoteParticipantJoinedHandler(callComposite!!, context)
-            callComposite?.addOnRemoteParticipantJoinedEventHandler(remoteParticipantJoinedEvent)
-
-            exitEventHandler = CallExitEventHandler(
-                callCompositeExitSuccessStateFlow,
-                callCompositeCallStateStateFlow,
-                this@CallLauncherViewModel
-            )
-            addOnCallStateChangedEventHandler(callStateEventHandler)
-            addOnDismissedEventHandler(exitEventHandler)
-            addOnUserReportedEventHandler(userReportedIssueEventHandler)
-        }
-    }
-
-    private fun unsubscribeFromEvents() {
-        callComposite?.apply {
-            removeOnCallStateChangedEventHandler(callStateEventHandler)
-            removeOnErrorEventHandler(errorHandler)
-            removeOnRemoteParticipantJoinedEventHandler(remoteParticipantJoinedEvent)
-            removeOnDismissedEventHandler(exitEventHandler)
-            removeOnUserReportedEventHandler(userReportedIssueEventHandler)
-        }
-    }
-
-    fun close() {
-        callComposite?.dismiss()
+    private fun toast(context:Context, message: String) {
+        Log.i("ACSCallingUI", message)
+        Toast.makeText(context.applicationContext, message, Toast.LENGTH_SHORT).show()
     }
 
     fun getCallHistory(context: Context): List<CallCompositeCallHistoryRecord> {
-        return (
-            callComposite
-                ?: createCallComposite(context)
-            ).getDebugInfo(context).callHistoryRecords
+        val callComposite = this.callComposite ?: createCallComposite()
+
+        return callComposite.getDebugInfo(context).callHistoryRecords
     }
 
-    private fun createCallComposite(context: Context): CallComposite {
-        SettingsFeatures.initialize(context.applicationContext)
-
-        val selectedLanguage = SettingsFeatures.language()
-        val locale = selectedLanguage?.let { SettingsFeatures.locale(it) }
-        val selectedCallScreenOrientation = SettingsFeatures.callScreenOrientation()
-        val callScreenOrientation =
-            selectedCallScreenOrientation?.let { SettingsFeatures.orientation(it) }
-        val selectedSetupScreenOrientation = SettingsFeatures.setupScreenOrientation()
-        val setupScreenOrientation =
-            selectedSetupScreenOrientation?.let { SettingsFeatures.orientation(it) }
+    private fun createCallComposite(): CallComposite {
+        val locale = SettingsFeatures.locale(SettingsFeatures.language())
+        val callScreenOrientation = SettingsFeatures.orientation(SettingsFeatures.callScreenOrientation())
+        val setupScreenOrientation = SettingsFeatures.orientation(SettingsFeatures.setupScreenOrientation())
 
         val callCompositeBuilder = CallCompositeBuilder()
-            .localization(
-                CallCompositeLocalizationOptions(
-                    locale!!,
-                    SettingsFeatures.getLayoutDirection()
+
+        if (setupScreenOrientation != null)
+            callCompositeBuilder.setupScreenOrientation(setupScreenOrientation)
+
+        if (callScreenOrientation != null)
+            callCompositeBuilder.callScreenOrientation(callScreenOrientation)
+
+        locale?.let {
+            val isRtl = SettingsFeatures.getLayoutDirection()
+            callCompositeBuilder
+                .localization(
+                    if (isRtl != null)
+                        CallCompositeLocalizationOptions(it, isRtl)
+                    else
+                        CallCompositeLocalizationOptions(it)
                 )
-            )
-            .localization(
-                CallCompositeLocalizationOptions(
-                    locale,
-                    SettingsFeatures.getLayoutDirection()
-                )
-            )
-            .setupScreenOrientation(setupScreenOrientation)
-            .callScreenOrientation(callScreenOrientation)
+        }
 
         if (AdditionalFeatures.secondaryThemeFeature.active)
             callCompositeBuilder.theme(R.style.MyCompany_Theme_Calling)
 
-        callCompositeBuilder.multitasking(
-            CallCompositeMultitaskingOptions(
-                SettingsFeatures.enableMultitasking(),
-                SettingsFeatures.enablePipWhenMultitasking()
-            )
-        )
+        if (SettingsFeatures.enableMultitasking() != null) {
+            val multitaskingOptions = if (SettingsFeatures.enablePipWhenMultitasking() != null)
+                CallCompositeMultitaskingOptions(
+                    SettingsFeatures.enableMultitasking(),
+                    SettingsFeatures.enablePipWhenMultitasking()
+                )
+            else
+                CallCompositeMultitaskingOptions(
+                    SettingsFeatures.enableMultitasking()
+                )
 
-        val newCallComposite = callCompositeBuilder.build()
-
-        callComposite = newCallComposite
-        return newCallComposite
-    }
-
-    fun displayCallCompositeIfWasHidden(context: Context) {
-        callComposite?.bringToForeground(context)
-    }
-
-    fun unsubscribe() {
-        callComposite?.let { composite ->
-            composite.removeOnCallStateChangedEventHandler(callStateEventHandler)
-            exitEventHandler?.let {
-                composite.removeOnDismissedEventHandler(exitEventHandler)
-            }
+            callCompositeBuilder.multitasking(multitaskingOptions)
         }
-    }
 
-    fun callHangup() {
-        callComposite?.apply {
-            callHangup()
-        }
-    }
-}
-
-class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>) :
-    CallCompositeEventHandler<CallCompositeCallStateChangedEvent> {
-    override fun handle(callStateEvent: CallCompositeCallStateChangedEvent) {
-        callCompositeCallStateStateFlow.value = callStateEvent.code.toString()
-    }
-}
-
-class CallExitEventHandler(
-    private val exitStateFlow: MutableStateFlow<Boolean>,
-    private val callCompositeCallStateStateFlow: MutableStateFlow<String>,
-    private val callLauncherViewModel: CallLauncherViewModel,
-) : CallCompositeEventHandler<CallCompositeDismissedEvent> {
-    override fun handle(event: CallCompositeDismissedEvent) {
-        exitStateFlow.value = true && callLauncherViewModel.isExitRequested
-        event.errorCode?.let {
-            callCompositeCallStateStateFlow.value = it.toString()
-        }
+        return callCompositeBuilder.build()
     }
 }

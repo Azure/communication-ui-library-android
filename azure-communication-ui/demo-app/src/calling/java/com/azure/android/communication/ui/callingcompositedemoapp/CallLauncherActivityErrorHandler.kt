@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.content.Context
 import androidx.appcompat.app.AlertDialog
+import android.widget.Toast
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
@@ -43,6 +44,8 @@ class CallLauncherActivityErrorHandler(
                 builder.show()
             }
             println("====================================================================")
+
+            Toast.makeText(context.applicationContext, "${it.errorCode} ${it.cause?.message}. Call id: $lastCallId", Toast.LENGTH_SHORT).show()
         }
     }
 }

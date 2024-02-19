@@ -51,7 +51,7 @@ internal class EndCompositeButtonView private constructor(
             }
             endCallButton.visibility = View.VISIBLE
             endCallButton.setOnClickListener {
-                callLauncherViewModel.callHangup()
+                callLauncherViewModel.dismissCallComposite()
             }
         }
     }

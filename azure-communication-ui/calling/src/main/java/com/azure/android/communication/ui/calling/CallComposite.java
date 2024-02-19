@@ -457,9 +457,9 @@ public final class CallComposite {
 
         if (configuration.getEnableMultitasking()) {
             activityClass = MultitaskingCallCompositeActivity.class;
-        }
-        if (configuration.getEnableSystemPiPWhenMultitasking()) {
-            activityClass = PiPCallCompositeActivity.class;
+            if (configuration.getEnableSystemPiPWhenMultitasking()) {
+                activityClass = PiPCallCompositeActivity.class;
+            }
         }
 
         CallCompositeInstanceManager.putCallComposite(instanceId, this);

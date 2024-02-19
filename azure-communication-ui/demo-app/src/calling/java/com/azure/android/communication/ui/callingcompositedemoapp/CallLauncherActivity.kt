@@ -36,10 +36,14 @@ class CallLauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         if (shouldFinish()) {
             finish()
             return
         }
+
+        SettingsFeatures.initialize(applicationContext)
+
         if (!AppCenter.isConfigured() && !BuildConfig.DEBUG) {
             AppCenter.start(
                 application,
@@ -112,7 +116,7 @@ class CallLauncherActivity : AppCompatActivity() {
             showUIButton.setOnClickListener {
                 showUI()
             }
-            closeCompositeButton.setOnClickListener { callLauncherViewModel.close() }
+            closeCompositeButton.setOnClickListener { callLauncherViewModel.dismissCallComposite() }
 
             groupCallRadioButton.setOnClickListener {
                 if (groupCallRadioButton.isChecked) {
@@ -143,17 +147,6 @@ class CallLauncherActivity : AppCompatActivity() {
                     }
                 },
                 {
-                    callLauncherViewModel.callCompositeExitSuccessStateFlow.collect {
-                        runOnUiThread {
-                            if (it &&
-                                SettingsFeatures.getReLaunchOnExitByDefaultOption()
-                            ) {
-                                launch()
-                            }
-                        }
-                    }
-                },
-                {
                     callLauncherViewModel.userReportedIssueEventHandler.userIssuesFlow.collect {
                         runOnUiThread {
                             it?.apply {
@@ -176,7 +169,6 @@ class CallLauncherActivity : AppCompatActivity() {
         super.onDestroy()
         EndCompositeButtonView.get(this).hide()
         EndCompositeButtonView.buttonView = null
-        callLauncherViewModel.unsubscribe()
     }
 
     // check whether new Activity instance was brought to top of stack,
@@ -237,7 +229,7 @@ class CallLauncherActivity : AppCompatActivity() {
     }
 
     private fun showUI() {
-        callLauncherViewModel.displayCallCompositeIfWasHidden(this)
+        callLauncherViewModel.bringCallCompositeToForeground(this)
     }
 
     private fun showCallHistory() {

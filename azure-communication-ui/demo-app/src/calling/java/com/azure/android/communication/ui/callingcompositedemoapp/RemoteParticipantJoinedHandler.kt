@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.content.Context
 import android.graphics.BitmapFactory
+import android.util.Log
 import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.common.CommunicationUserIdentifier
 import com.azure.android.communication.common.MicrosoftTeamsUserIdentifier
@@ -24,6 +25,8 @@ class RemoteParticipantJoinedHandler(
     CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent> {
 
     override fun handle(event: CallCompositeRemoteParticipantJoinedEvent) {
+        val message = "Remote participant joined"
+        Log.i("ACSCallingUI", message)
         event.identifiers.forEach { communicationIdentifier ->
             if (context.resources.getBoolean(R.bool.remote_url_persona_injection)) {
                 getImageFromServer(communicationIdentifier)
