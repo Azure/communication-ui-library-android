@@ -60,7 +60,7 @@ internal class ChatServiceListener(
                 handleInfoModel(
                     it,
                     dispatch,
-                    store.getCurrentState().participantState.localParticipantInfoModel
+                    store.getCurrentState().participantState.localParticipantInfoModel,
                 )
             }
         }
@@ -74,9 +74,8 @@ internal class ChatServiceListener(
     private fun onMessagesPageModelReceived(
         messagesPageModel: MessagesPageModel,
         dispatch: Dispatch,
-        threadId: String
+        threadId: String,
     ) {
-
         messagesPageModel.throwable?.let {
             val error = ChatCompositeErrorEvent(threadId, ChatCompositeErrorCode.FETCH_MESSAGES_FAILED, null)
             // TODO: lets use only one action and state to fire error for timing
@@ -123,7 +122,7 @@ internal class ChatServiceListener(
                         coroutineScope.launch {
                             delay(typingIndicatorDuration)
                             dispatch(
-                                ParticipantAction.RemoveParticipantTyping(infoModel = infoModel)
+                                ParticipantAction.RemoveParticipantTyping(infoModel = infoModel),
                             )
                         }
                     }
@@ -156,11 +155,10 @@ internal class ChatServiceListener(
                         dispatch(ParticipantAction.ParticipantsAdded(participants = joinedParticipants))
                     }
                     ChatEventType.PARTICIPANTS_REMOVED -> {
-
                         dispatch(
                             ParticipantAction.ParticipantsRemoved(
-                                participants = it.infoModel.participants
-                            )
+                                participants = it.infoModel.participants,
+                            ),
                         )
                     }
                     else -> {}

@@ -10,5 +10,6 @@ internal sealed class PipAction : Action {
     class HideEntered : PipAction()
 
     class PipModeEntered : PipAction()
+
     class ShowNormalEntered : PipAction()
 }

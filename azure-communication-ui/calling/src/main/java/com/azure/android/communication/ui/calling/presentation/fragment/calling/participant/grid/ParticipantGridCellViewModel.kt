@@ -25,14 +25,15 @@ internal class ParticipantGridCellViewModel(
     private var isMutedStateFlow = MutableStateFlow(isMuted)
     private var isSpeakingStateFlow = MutableStateFlow(isSpeaking && !isMuted)
     private var isNameIndicatorVisibleStateFlow = MutableStateFlow(true)
-    private var videoViewModelStateFlow = MutableStateFlow(
-        getVideoStreamModel(
-            createVideoViewModel(cameraVideoStreamModel),
-            createVideoViewModel(screenShareVideoStreamModel),
-            isOnHoldStateFlow.value,
-            isCameraDisabled,
+    private var videoViewModelStateFlow =
+        MutableStateFlow(
+            getVideoStreamModel(
+                createVideoViewModel(cameraVideoStreamModel),
+                createVideoViewModel(screenShareVideoStreamModel),
+                isOnHoldStateFlow.value,
+                isCameraDisabled,
+            ),
         )
-    )
 
     private var participantModifiedTimestamp = modifiedTimestamp
     private var participantUserIdentifier = userIdentifier
@@ -69,9 +70,7 @@ internal class ParticipantGridCellViewModel(
         return isOnHoldStateFlow
     }
 
-    fun update(
-        participant: ParticipantInfoModel,
-    ) {
+    fun update(participant: ParticipantInfoModel) {
         this.participantUserIdentifier = participant.userIdentifier
         this.displayNameStateFlow.value = participant.displayName
         this.isMutedStateFlow.value = participant.isMuted
@@ -80,12 +79,13 @@ internal class ParticipantGridCellViewModel(
         this.isNameIndicatorVisibleStateFlow.value =
             !(participant.displayName.isBlank() && !participant.isMuted)
 
-        this.videoViewModelStateFlow.value = getVideoStreamModel(
-            createVideoViewModel(participant.cameraVideoStreamModel),
-            createVideoViewModel(participant.screenShareVideoStreamModel),
-            this.isOnHoldStateFlow.value,
-            participant.isCameraDisabled
-        )
+        this.videoViewModelStateFlow.value =
+            getVideoStreamModel(
+                createVideoViewModel(participant.cameraVideoStreamModel),
+                createVideoViewModel(participant.screenShareVideoStreamModel),
+                this.isOnHoldStateFlow.value,
+                participant.isCameraDisabled,
+            )
 
         this.isSpeakingStateFlow.value = participant.isSpeaking && !participant.isMuted
         this.participantModifiedTimestamp = participant.modifiedTimestamp
@@ -102,7 +102,7 @@ internal class ParticipantGridCellViewModel(
         cameraVideoStreamModel: VideoViewModel?,
         screenShareVideoStreamModel: VideoViewModel?,
         isOnHold: Boolean,
-        isCameraDisabled: Boolean
+        isCameraDisabled: Boolean,
     ): VideoViewModel? {
         if (isOnHold) return null
         if (screenShareVideoStreamModel != null) return screenShareVideoStreamModel
@@ -111,6 +111,5 @@ internal class ParticipantGridCellViewModel(
         return null
     }
 
-    private fun isOnHold(participantStatus: ParticipantStatus?) =
-        participantStatus == ParticipantStatus.HOLD
+    private fun isOnHold(participantStatus: ParticipantStatus?) = participantStatus == ParticipantStatus.HOLD
 }

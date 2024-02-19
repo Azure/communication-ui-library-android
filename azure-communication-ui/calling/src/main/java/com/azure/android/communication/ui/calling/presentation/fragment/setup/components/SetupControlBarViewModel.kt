@@ -15,7 +15,6 @@ import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.isDisconnected
-
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -77,7 +76,9 @@ internal class SetupControlBarViewModel(private val dispatch: (Action) -> Unit) 
     }
 
     fun getCameraIsEnabled(): StateFlow<Boolean> = cameraIsEnabledStateFlow
+
     fun getMicIsEnabled(): StateFlow<Boolean> = micIsEnabledStateFlow
+
     fun getDeviceIsEnabled(): StateFlow<Boolean> = deviceIsEnabledStateFlow
 
     fun getIsVisibleState(): StateFlow<Boolean> {
@@ -98,25 +99,25 @@ internal class SetupControlBarViewModel(private val dispatch: (Action) -> Unit) 
 
     fun turnCameraOn() {
         dispatchAction(
-            action = LocalParticipantAction.CameraPreviewOnRequested()
+            action = LocalParticipantAction.CameraPreviewOnRequested(),
         )
     }
 
     fun turnCameraOff() {
         dispatchAction(
-            action = LocalParticipantAction.CameraPreviewOffTriggered()
+            action = LocalParticipantAction.CameraPreviewOffTriggered(),
         )
     }
 
     fun turnMicOn() {
         dispatchAction(
-            action = LocalParticipantAction.MicPreviewOnTriggered()
+            action = LocalParticipantAction.MicPreviewOnTriggered(),
         )
     }
 
     fun turnMicOff() {
         dispatchAction(
-            action = LocalParticipantAction.MicPreviewOffTriggered()
+            action = LocalParticipantAction.MicPreviewOffTriggered(),
         )
     }
 
@@ -128,17 +129,24 @@ internal class SetupControlBarViewModel(private val dispatch: (Action) -> Unit) 
         dispatch(action)
     }
 
-    private fun isCameraEnabled(callingState: CallingState, cameraPermissionState: PermissionStatus): Boolean {
+    private fun isCameraEnabled(
+        callingState: CallingState,
+        cameraPermissionState: PermissionStatus,
+    ): Boolean {
         return !(isControlsDisabled(callingState) || cameraPermissionState == PermissionStatus.DENIED)
     }
 
-    private fun isMicEnabled(callingState: CallingState, audioStateOperation: AudioOperationalStatus): Boolean {
+    private fun isMicEnabled(
+        callingState: CallingState,
+        audioStateOperation: AudioOperationalStatus,
+    ): Boolean {
         return !(isControlsDisabled(callingState) || audioStateOperation == AudioOperationalStatus.PENDING)
     }
 
     private fun isControlsDisabled(callingState: CallingState): Boolean {
-        if (callingState.isDisconnected())
+        if (callingState.isDisconnected()) {
             return false
+        }
         return callingState.joinCallIsRequested || callingState.callingStatus != CallingStatus.NONE
     }
 }

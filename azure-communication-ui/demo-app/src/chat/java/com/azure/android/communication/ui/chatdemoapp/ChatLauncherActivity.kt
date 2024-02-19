@@ -57,7 +57,7 @@ class ChatLauncherActivity : AppCompatActivity() {
                 BuildConfig.APP_SECRET,
                 Analytics::class.java,
                 Crashes::class.java,
-                Distribute::class.java
+                Distribute::class.java,
             )
         }
         // Register Memory Viewer with FeatureFlags
@@ -141,12 +141,13 @@ class ChatLauncherActivity : AppCompatActivity() {
 
     fun showAlert(message: String) {
         runOnUiThread {
-            val builder = AlertDialog.Builder(this).apply {
-                setMessage(message)
-                setTitle("Alert")
-                setPositiveButton("OK") { _, _ ->
+            val builder =
+                AlertDialog.Builder(this).apply {
+                    setMessage(message)
+                    setTitle("Alert")
+                    setPositiveButton("OK") { _, _ ->
+                    }
                 }
-            }
             builder.show()
         }
     }
@@ -162,8 +163,8 @@ class ChatLauncherActivity : AppCompatActivity() {
             chatView,
             ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
+                ViewGroup.LayoutParams.MATCH_PARENT,
+            ),
         )
     }
 
@@ -183,9 +184,12 @@ class ChatLauncherActivity : AppCompatActivity() {
 
     private fun launch() {
         val inputChatJoinId = binding.chatThreadID.text.toString()
-        val threadId = if (URLUtil.isValidUrl(inputChatJoinId))
-            TeamsUrlParser.getThreadId(inputChatJoinId)
-        else inputChatJoinId
+        val threadId =
+            if (URLUtil.isValidUrl(inputChatJoinId)) {
+                TeamsUrlParser.getThreadId(inputChatJoinId)
+            } else {
+                inputChatJoinId
+            }
 
         val endpoint = binding.endPointURL.text.toString()
         val acsIdentity = binding.identity.text.toString()
@@ -200,7 +204,7 @@ class ChatLauncherActivity : AppCompatActivity() {
                 acsIdentity,
                 threadId,
                 userName,
-                acsToken
+                acsToken,
             )
         } catch (ex: Exception) {
             if (ex.message != null) {
@@ -239,14 +243,15 @@ class ChatLauncherActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.azure_composite_show_settings -> {
-            val settingIntent = Intent(this, SettingsActivity::class.java)
-            startActivity(settingIntent)
-            true
+    override fun onOptionsItemSelected(item: MenuItem) =
+        when (item.itemId) {
+            R.id.azure_composite_show_settings -> {
+                val settingIntent = Intent(this, SettingsActivity::class.java)
+                startActivity(settingIntent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
-        else -> super.onOptionsItemSelected(item)
-    }
 
     override fun onResume() {
         super.onResume()
@@ -260,15 +265,16 @@ class ChatLauncherActivity : AppCompatActivity() {
 class ErrorHandler(chatLauncherActivity: ChatLauncherActivity) :
     ChatCompositeEventHandler<ChatCompositeErrorEvent> {
     private val wrActivity = WeakReference(chatLauncherActivity)
+
     override fun handle(eventArgs: ChatCompositeErrorEvent) {
         Log.e(
             "ChatCompositeDemoApp",
-            "================= application is logging error ====================="
+            "================= application is logging error =====================",
         )
         Log.e("ChatCompositeDemoApp", "${eventArgs.errorCode}", eventArgs.cause)
         Log.e(
             "ChatCompositeDemoApp",
-            "===================================================================="
+            "====================================================================",
         )
         wrActivity.get()?.apply {
             showAlert("${eventArgs.errorCode} : ${eventArgs.cause}")

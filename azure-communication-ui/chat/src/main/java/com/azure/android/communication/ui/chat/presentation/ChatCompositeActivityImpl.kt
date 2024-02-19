@@ -3,8 +3,8 @@
 
 package com.azure.android.communication.ui.chat.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.azure.android.communication.ui.chat.ChatAdapter
 import com.azure.android.communication.ui.chat.presentation.ui.container.ChatCompositeViewImpl
 

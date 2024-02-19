@@ -14,6 +14,7 @@ internal class ErrorInfoViewModel {
     private val _callCompositeErrorFlow: MutableStateFlow<CallCompositeError?> = MutableStateFlow(null)
     private val audioFocusRejectedFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
     var callCompositeErrorFlow = _callCompositeErrorFlow
+
     fun updateCallStateError(errorState: ErrorState) {
         callStateErrorFlow.value = errorState.callStateError
     }

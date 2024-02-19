@@ -17,15 +17,11 @@ internal class PreviewAreaViewModel(
         return videoStreamIDStateFlow
     }
 
-    fun update(
-        videoStreamID: String?,
-    ) {
+    fun update(videoStreamID: String?) {
         videoStreamIDStateFlow.value = videoStreamID
     }
 
-    fun init(
-        videoStreamID: String?,
-    ) {
+    fun init(videoStreamID: String?) {
         videoStreamIDStateFlow = MutableStateFlow(videoStreamID)
     }
 

@@ -20,7 +20,6 @@ import com.azure.android.communication.ui.calling.presentation.PiPCallCompositeA
 import java.lang.ref.WeakReference
 
 internal class InCallService : Service() {
-
     private val IN_CALL_CHANNEL_ID = "com.azure.android.communication.ui.service.calling.in_call"
     private val binder = WeakReference(InCallServiceBinder(WeakReference(this)))
 
@@ -34,7 +33,11 @@ internal class InCallService : Service() {
         return binder.get()
     }
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+    override fun onStartCommand(
+        intent: Intent,
+        flags: Int,
+        startId: Int,
+    ): Int {
         println("InCallService onStartCommand")
         return START_STICKY
     }
@@ -69,25 +72,29 @@ internal class InCallService : Service() {
             activityClass = PiPCallCompositeActivity::class.java
         }
 
-        val intent = Intent(this, activityClass)
-            .putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId)
+        val intent =
+            Intent(this, activityClass)
+                .putExtra(CallCompositeActivity.KEY_INSTANCE_ID, instanceId)
 
         val pendingIntent: PendingIntent =
             PendingIntent.getActivity(
-                this, 0, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                this,
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
             )
 
-        val notification: Notification = NotificationCompat.Builder(this, IN_CALL_CHANNEL_ID)
-            .setContentTitle(this.getText(R.string.azure_communication_ui_calling_service_notification_title))
-            .setContentText(this.getText(R.string.azure_communication_ui_calling_service_notification_message))
-            .setSmallIcon(R.drawable.azure_communication_ui_calling_ic_fluent_call_16_filled)
-            .setFullScreenIntent(pendingIntent, true)
-            .setPriority(NotificationCompat.PRIORITY_MAX)
-            .setCategory(NotificationCompat.CATEGORY_CALL)
-            .setOngoing(true)
-            .setSound(null)
-            .build()
+        val notification: Notification =
+            NotificationCompat.Builder(this, IN_CALL_CHANNEL_ID)
+                .setContentTitle(this.getText(R.string.azure_communication_ui_calling_service_notification_title))
+                .setContentText(this.getText(R.string.azure_communication_ui_calling_service_notification_message))
+                .setSmallIcon(R.drawable.azure_communication_ui_calling_ic_fluent_call_16_filled)
+                .setFullScreenIntent(pendingIntent, true)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setCategory(NotificationCompat.CATEGORY_CALL)
+                .setOngoing(true)
+                .setSound(null)
+                .build()
 
         val notificationId = 1
         startForeground(notificationId, notification)
@@ -118,7 +125,6 @@ internal class InCallService : Service() {
 }
 
 internal class InCallServiceBinder(val mInCallService: WeakReference<InCallService>) : Binder() {
-
     internal fun getService(): InCallService? {
         return mInCallService.get()
     }

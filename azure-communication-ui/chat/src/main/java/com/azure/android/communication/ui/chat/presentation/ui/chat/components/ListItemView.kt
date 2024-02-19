@@ -26,7 +26,7 @@ internal fun ListItemView(
                 this.title = title
                 this.customView = customView
             }
-        }
+        },
     )
 }
 

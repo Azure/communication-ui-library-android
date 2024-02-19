@@ -29,7 +29,6 @@ internal class ParticipantGridCellView(
     private val getScreenShareVideoStreamRendererCallback: () -> VideoStreamRenderer?,
     private val getParticipantViewDataCallback: (participantID: String) -> CallCompositeParticipantViewData?,
 ) : RelativeLayout(context) {
-
     private lateinit var avatarView: ParticipantGridCellAvatarView
     private lateinit var videoView: ParticipantGridCellVideoView
 
@@ -70,18 +69,19 @@ internal class ParticipantGridCellView(
         val onHoldTextView: TextView =
             findViewById(R.id.azure_communication_ui_calling_participant_audio_view_on_hold)
 
-        avatarView = ParticipantGridCellAvatarView(
-            avatarControl,
-            participantAvatarSpeakingIndicator,
-            participantAvatarContainer,
-            displayNameAudioTextView,
-            micIndicatorAudioImageView,
-            getParticipantViewDataCallback,
-            participantViewModel,
-            onHoldTextView,
-            context,
-            lifecycleScope,
-        )
+        avatarView =
+            ParticipantGridCellAvatarView(
+                avatarControl,
+                participantAvatarSpeakingIndicator,
+                participantAvatarContainer,
+                displayNameAudioTextView,
+                micIndicatorAudioImageView,
+                getParticipantViewDataCallback,
+                participantViewModel,
+                onHoldTextView,
+                context,
+                lifecycleScope,
+            )
     }
 
     private fun createVideoView() {
@@ -100,19 +100,20 @@ internal class ParticipantGridCellView(
         val micIndicatorOnVideoImageView: ImageView =
             findViewById(R.id.azure_communication_ui_participant_view_on_video_mic_indicator)
 
-        videoView = ParticipantGridCellVideoView(
-            context,
-            lifecycleScope,
-            participantVideoContainerFrameLayout,
-            videoContainer,
-            displayNameAndMicIndicatorViewContainer,
-            displayNameOnVideoTextView,
-            micIndicatorOnVideoImageView,
-            participantViewModel,
-            getVideoStreamCallback,
-            showFloatingHeaderCallBack,
-            getScreenShareVideoStreamRendererCallback,
-            getParticipantViewDataCallback,
-        )
+        videoView =
+            ParticipantGridCellVideoView(
+                context,
+                lifecycleScope,
+                participantVideoContainerFrameLayout,
+                videoContainer,
+                displayNameAndMicIndicatorViewContainer,
+                displayNameOnVideoTextView,
+                micIndicatorOnVideoImageView,
+                participantViewModel,
+                getVideoStreamCallback,
+                showFloatingHeaderCallBack,
+                getScreenShareVideoStreamRendererCallback,
+                getParticipantViewDataCallback,
+            )
     }
 }

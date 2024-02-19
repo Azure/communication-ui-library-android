@@ -27,7 +27,6 @@ internal class LeaveConfirmView(
     private val viewModel: LeaveConfirmViewModel,
     context: Context,
 ) : RelativeLayout(context) {
-
     private var leaveConfirmMenuTable: RecyclerView
     private lateinit var leaveConfirmMenuDrawer: DrawerDialog
     private lateinit var bottomCellAdapter: BottomCellAdapter
@@ -47,9 +46,7 @@ internal class LeaveConfirmView(
         removeAllViews()
     }
 
-    fun start(
-        viewLifecycleOwner: LifecycleOwner
-    ) {
+    fun start(viewLifecycleOwner: LifecycleOwner) {
         bottomCellAdapter = BottomCellAdapter()
         bottomCellAdapter.setBottomCellItems(bottomCellItems)
         leaveConfirmMenuTable.adapter = bottomCellAdapter
@@ -85,66 +82,66 @@ internal class LeaveConfirmView(
 
     private val bottomCellItems: List<BottomCellItem>
         get() {
-            val bottomCellItems = mutableListOf(
-                // Leave title
-                BottomCellItem(
-                    null,
-                    context.getString(R.string.azure_communication_ui_calling_view_leave_call),
-                    context.getString(R.string.azure_communication_ui_calling_view_leave_confirm_menu),
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    false,
-                    BottomCellItemType.BottomMenuTitle,
-                    null
-                ),
-
-                // Leave
-                BottomCellItem(
-                    ContextCompat.getDrawable(
-                        context,
-                        R.drawable.azure_communication_ui_calling_leave_confirm_telephone_24
+            val bottomCellItems =
+                mutableListOf(
+                    // Leave title
+                    BottomCellItem(
+                        null,
+                        context.getString(R.string.azure_communication_ui_calling_view_leave_call),
+                        context.getString(R.string.azure_communication_ui_calling_view_leave_confirm_menu),
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        false,
+                        BottomCellItemType.BottomMenuTitle,
+                        null,
                     ),
-                    context.getString(R.string.azure_communication_ui_calling_view_leave_call_button_text),
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    false,
-                    onClickAction = {
-                        viewModel.confirm()
-                    }
-                ),
-
-                // Cancel
-                BottomCellItem(
-                    ContextCompat.getDrawable(
-                        context,
-                        R.drawable.azure_communication_ui_calling_leave_confirm_dismiss_24
+                    // Leave
+                    BottomCellItem(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.azure_communication_ui_calling_leave_confirm_telephone_24,
+                        ),
+                        context.getString(R.string.azure_communication_ui_calling_view_leave_call_button_text),
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        false,
+                        onClickAction = {
+                            viewModel.confirm()
+                        },
                     ),
-                    context.getString(R.string.azure_communication_ui_calling_view_leave_call_cancel),
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    false,
-                    onClickAction = {
-                        cancelLeaveConfirm()
-                    },
+                    // Cancel
+                    BottomCellItem(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.azure_communication_ui_calling_leave_confirm_dismiss_24,
+                        ),
+                        context.getString(R.string.azure_communication_ui_calling_view_leave_call_cancel),
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        false,
+                        onClickAction = {
+                            cancelLeaveConfirm()
+                        },
+                    ),
                 )
-            )
             return bottomCellItems
         }
+
     class AccessibilityManipulatingLinearLayoutManager(context: Context) : LinearLayoutManager(context) {
         override fun getRowCountForAccessibility(
             recycler: RecyclerView.Recycler,
-            state: RecyclerView.State
+            state: RecyclerView.State,
         ): Int {
             return max(super.getRowCountForAccessibility(recycler, state) - 1, 0)
         }
@@ -153,12 +150,20 @@ internal class LeaveConfirmView(
             recycler: RecyclerView.Recycler,
             state: RecyclerView.State,
             host: View,
-            info: AccessibilityNodeInfoCompat
+            info: AccessibilityNodeInfoCompat,
         ) {
             super.onInitializeAccessibilityNodeInfoForItem(recycler, state, host, info)
             try {
                 info?.let {
-                    val itemInfo = AccessibilityNodeInfoCompat.CollectionItemInfoCompat.obtain(max(info.collectionItemInfo.rowIndex - 1, 0), info.collectionItemInfo.rowSpan, info.collectionItemInfo.columnIndex, info.collectionItemInfo.columnSpan, info.collectionItemInfo.isHeading, info.collectionItemInfo.isSelected)
+                    val itemInfo =
+                        AccessibilityNodeInfoCompat.CollectionItemInfoCompat.obtain(
+                            max(info.collectionItemInfo.rowIndex - 1, 0),
+                            info.collectionItemInfo.rowSpan,
+                            info.collectionItemInfo.columnIndex,
+                            info.collectionItemInfo.columnSpan,
+                            info.collectionItemInfo.isHeading,
+                            info.collectionItemInfo.isSelected,
+                        )
                     if (info.collectionItemInfo.rowIndex == 0) {
                         info.setCollectionItemInfo(null)
                     } else {

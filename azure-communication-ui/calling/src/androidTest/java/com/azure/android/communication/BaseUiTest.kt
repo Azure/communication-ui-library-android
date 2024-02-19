@@ -40,7 +40,8 @@ internal open class BaseUiTest {
     internal val upperMessageBarNotificationId = R.id.azure_communication_ui_calling_upper_message_bar_notification
     internal val upperMessageBarNotificationIconId = R.id.azure_communication_ui_calling_upper_message_bar_notification_icon
     internal val upperMessageBarNotificationMessageId = R.id.azure_communication_ui_calling_upper_message_bar_notification_message
-    internal val upperMessageBarNotificationDismissButtonId = R.id.azure_communication_ui_calling_upper_message_bar_notification_dismiss_button
+    internal val upperMessageBarNotificationDismissButtonId =
+        R.id.azure_communication_ui_calling_upper_message_bar_notification_dismiss_button
     internal val setupCameraButtonId = R.id.azure_communication_ui_setup_camera_button
     internal val callCameraButtonId = R.id.azure_communication_ui_call_switch_camera_button
 
@@ -50,17 +51,19 @@ internal open class BaseUiTest {
     internal val userMessageEditTextId = R.id.azure_communication_ui_user_message_edit_text
 
     internal val showSupportFormTextId = R.string.azure_communication_ui_calling_report_issue_title
+
     @Rule
     @JvmField
     var grantPermissionRule: GrantPermissionRule
 
-    private val basePermissionList = arrayOf(
-        "android.permission.ACCESS_NETWORK_STATE",
-        "android.permission.WAKE_LOCK",
-        "android.permission.MODIFY_AUDIO_SETTINGS",
-        "android.permission.CAMERA",
-        "android.permission.RECORD_AUDIO"
-    )
+    private val basePermissionList =
+        arrayOf(
+            "android.permission.ACCESS_NETWORK_STATE",
+            "android.permission.WAKE_LOCK",
+            "android.permission.MODIFY_AUDIO_SETTINGS",
+            "android.permission.CAMERA",
+            "android.permission.RECORD_AUDIO",
+        )
 
     init {
         grantPermissionRule = GrantPermissionRule.grant(*basePermissionList)

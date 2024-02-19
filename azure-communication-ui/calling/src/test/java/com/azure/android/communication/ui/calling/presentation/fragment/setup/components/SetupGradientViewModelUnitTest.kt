@@ -1,7 +1,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.setup.components
 
-import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -12,7 +12,6 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
 internal class SetupGradientViewModelUnitTest : ACSBaseTestCoroutine() {
-
     @ExperimentalCoroutinesApi
     @Test
     fun setupGradientViewModel_onUpdate_then_notifyGradientEnabled_when_videoStreamIDHasValue() =
@@ -23,10 +22,11 @@ internal class SetupGradientViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val emitResult = mutableListOf<Boolean>()
 
-            val resultFlow = launch {
-                viewModel.getDisplaySetupGradientFlow()
-                    .toList(emitResult)
-            }
+            val resultFlow =
+                launch {
+                    viewModel.getDisplaySetupGradientFlow()
+                        .toList(emitResult)
+                }
 
             // act
             viewModel.update("id1", CameraOperationalStatus.ON)
@@ -34,12 +34,12 @@ internal class SetupGradientViewModelUnitTest : ACSBaseTestCoroutine() {
             // assert
             Assert.assertEquals(
                 false,
-                emitResult[0]
+                emitResult[0],
             )
 
             Assert.assertEquals(
                 true,
-                emitResult[1]
+                emitResult[1],
             )
 
             resultFlow.cancel()
@@ -55,10 +55,11 @@ internal class SetupGradientViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val emitResult = mutableListOf<Boolean>()
 
-            val resultFlow = launch {
-                viewModel.getDisplaySetupGradientFlow()
-                    .toList(emitResult)
-            }
+            val resultFlow =
+                launch {
+                    viewModel.getDisplaySetupGradientFlow()
+                        .toList(emitResult)
+                }
 
             // act
             viewModel.update("", CameraOperationalStatus.ON)
@@ -66,12 +67,12 @@ internal class SetupGradientViewModelUnitTest : ACSBaseTestCoroutine() {
             // assert
             Assert.assertEquals(
                 true,
-                emitResult[0]
+                emitResult[0],
             )
 
             Assert.assertEquals(
                 false,
-                emitResult[1]
+                emitResult[1],
             )
 
             resultFlow.cancel()
@@ -87,10 +88,11 @@ internal class SetupGradientViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val emitResult = mutableListOf<Boolean>()
 
-            val resultFlow = launch {
-                viewModel.getDisplaySetupGradientFlow()
-                    .toList(emitResult)
-            }
+            val resultFlow =
+                launch {
+                    viewModel.getDisplaySetupGradientFlow()
+                        .toList(emitResult)
+                }
 
             // act
             viewModel.update("id3", CameraOperationalStatus.OFF)
@@ -98,12 +100,12 @@ internal class SetupGradientViewModelUnitTest : ACSBaseTestCoroutine() {
             // assert
             Assert.assertEquals(
                 true,
-                emitResult[0]
+                emitResult[0],
             )
 
             Assert.assertEquals(
                 false,
-                emitResult[1]
+                emitResult[1],
             )
 
             resultFlow.cancel()

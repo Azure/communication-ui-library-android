@@ -13,7 +13,6 @@ import com.azure.android.communication.ui.callingcompositedemoapp.SETTINGS_SHARE
 
 class AvatarImageSelectionLinearlayout(context: Context, attrs: AttributeSet?) :
     LinearLayout(context, attrs) {
-
     private lateinit var catImageButton: AppCompatImageButton
     private lateinit var foxImageButton: AppCompatImageButton
     private lateinit var koalaImageButton: AppCompatImageButton
@@ -67,7 +66,10 @@ class AvatarImageSelectionLinearlayout(context: Context, attrs: AttributeSet?) :
         }
     }
 
-    private fun setAvatarImagePreferences(button: AppCompatImageButton, imageId: String) {
+    private fun setAvatarImagePreferences(
+        button: AppCompatImageButton,
+        imageId: String,
+    ) {
         if (button.isSelected) {
             sharedPreference.edit()
                 .putString(AVATAR_IMAGE, imageId).apply()

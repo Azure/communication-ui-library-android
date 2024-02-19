@@ -11,40 +11,46 @@ internal class AppReduxState(
     microphoneOnByDefault: Boolean,
     avMode: CallCompositeAudioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
 ) : ReduxState {
-
     override var callState: CallingState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
 
-    override var remoteParticipantState: RemoteParticipantsState = RemoteParticipantsState(
-        participantMap = HashMap(),
-        participantMapModifiedTimestamp = 0,
-        dominantSpeakersInfo = emptyList(),
-        dominantSpeakersModifiedTimestamp = 0,
-        lobbyErrorCode = null
-    )
+    override var remoteParticipantState: RemoteParticipantsState =
+        RemoteParticipantsState(
+            participantMap = HashMap(),
+            participantMapModifiedTimestamp = 0,
+            dominantSpeakersInfo = emptyList(),
+            dominantSpeakersModifiedTimestamp = 0,
+            lobbyErrorCode = null,
+        )
 
     override var localParticipantState: LocalUserState =
         LocalUserState(
             CameraState(
-                operation = if (avMode == CallCompositeAudioVideoMode.AUDIO_ONLY)
-                    CameraOperationalStatus.DISABLED else CameraOperationalStatus.OFF,
+                operation =
+                    if (avMode == CallCompositeAudioVideoMode.AUDIO_ONLY) {
+                        CameraOperationalStatus.DISABLED
+                    } else {
+                        CameraOperationalStatus.OFF
+                    },
                 device = CameraDeviceSelectionStatus.FRONT,
-                transmission = CameraTransmissionStatus.LOCAL
+                transmission = CameraTransmissionStatus.LOCAL,
             ),
             AudioState(
                 operation = AudioOperationalStatus.OFF,
                 device = AudioDeviceSelectionStatus.SPEAKER_SELECTED,
-                bluetoothState = BluetoothState(
-                    available = false,
-                    deviceName = ""
-                )
+                bluetoothState =
+                    BluetoothState(
+                        available = false,
+                        deviceName = "",
+                    ),
             ),
             videoStreamID = null,
             displayName = displayName,
-            initialCallJoinState = InitialCallControllerState(
-                cameraOnByDefault,
-                microphoneOnByDefault
-            ),
-            localParticipantRole = null
+            initialCallJoinState =
+                InitialCallControllerState(
+                    cameraOnByDefault,
+                    microphoneOnByDefault,
+                ),
+            localParticipantRole = null,
         )
 
     override var permissionState: PermissionState =
@@ -60,5 +66,6 @@ internal class AppReduxState(
 
     override var pipState: PictureInPictureState = PictureInPictureState(status = PictureInPictureStatus.VISIBLE)
 
-    override var callDiagnosticsState: CallDiagnosticsState = CallDiagnosticsState(networkQualityCallDiagnostic = null, networkCallDiagnostic = null, mediaCallDiagnostic = null)
+    override var callDiagnosticsState: CallDiagnosticsState =
+        CallDiagnosticsState(networkQualityCallDiagnostic = null, networkCallDiagnostic = null, mediaCallDiagnostic = null)
 }

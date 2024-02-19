@@ -16,7 +16,6 @@ import org.mockito.junit.MockitoJUnitRunner
 internal class ErrorReducerUnitTest {
     @Test
     fun errorReducer_reduce_when_actionFatalError_then_changeStateToFatalError() {
-
         // arrange
         val reducer = ErrorReducerImpl()
         val oldState = ErrorState(null, null)

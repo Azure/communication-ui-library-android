@@ -18,12 +18,19 @@ internal class SetupParticipantAvatarViewModel {
         return shouldDisplayAvatarViewStateFlow
     }
 
-    fun update(videoStreamID: String?, permissionState: PermissionState) {
+    fun update(
+        videoStreamID: String?,
+        permissionState: PermissionState,
+    ) {
         shouldDisplayAvatarViewStateFlow.value =
             shouldDisplayAvatarView(videoStreamID, permissionState)
     }
 
-    fun init(displayName: String?, videoStreamID: String?, permissionState: PermissionState) {
+    fun init(
+        displayName: String?,
+        videoStreamID: String?,
+        permissionState: PermissionState,
+    ) {
         this.displayName = displayName ?: ""
         shouldDisplayAvatarViewStateFlow =
             MutableStateFlow(shouldDisplayAvatarView(videoStreamID, permissionState))

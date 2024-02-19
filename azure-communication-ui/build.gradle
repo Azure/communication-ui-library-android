@@ -95,10 +95,10 @@ buildscript {
 
     repositories {
         google()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.2.2'
-//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jacoco:org.jacoco.core:$jacoco_version"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -108,7 +108,7 @@ buildscript {
 
 plugins {
     id 'org.jetbrains.kotlin.android' version '1.9.0' apply false
-    id "org.jlleitschuh.gradle.ktlint" version "10.2.1" apply(true)
+    id "org.jlleitschuh.gradle.ktlint" version "12.1.0"
 }
 
 allprojects {
@@ -140,10 +140,10 @@ allprojects {
             }
         }
     }
+    apply plugin: "org.jlleitschuh.gradle.ktlint"
 }
 
 subprojects {
-    apply plugin: "org.jlleitschuh.gradle.ktlint"
     apply from: "../checkstyle.gradle"
     afterEvaluate {
         preBuild.dependsOn 'checkstyle'

@@ -41,7 +41,7 @@ internal class ToastNotificationView : ConstraintLayout {
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         toastNotificationViewModel: ToastNotificationViewModel,
-        accessibilityEnabled: Boolean
+        accessibilityEnabled: Boolean,
     ) {
         this.toastNotificationViewModel = toastNotificationViewModel
         viewLifecycleOwner.lifecycleScope.launch {
@@ -62,8 +62,8 @@ internal class ToastNotificationView : ConstraintLayout {
                     toastNotificationIconImageView.setImageDrawable(
                         ContextCompat.getDrawable(
                             context,
-                            it.notificationIconId
-                        )
+                            it.notificationIconId,
+                        ),
                     )
                     toastNotificationMessageTextView.text = context.getString(it.notificationMessageId)
                 }

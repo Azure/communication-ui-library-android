@@ -3,11 +3,11 @@
 
 package com.azure.android.communication.ui.calling.configuration
 
+import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
+import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ErrorState
-import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -16,35 +16,34 @@ import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
 internal class CallCompositeEventsHandlerTests : ACSBaseTestCoroutine() {
-
     @Test
-    fun errorHandler_onStateChange_andAdnRemoveErrorHandler_callsNothing() = runScopedTest {
+    fun errorHandler_onStateChange_andAdnRemoveErrorHandler_callsNothing() =
+        runScopedTest {
+            // arrange
+            val appState = AppReduxState("", false, false)
+            appState.errorState = ErrorState(null, null)
 
-        // arrange
-        val appState = AppReduxState("", false, false)
-        appState.errorState = ErrorState(null, null)
+            val handler1 = mock<CallCompositeEventHandler<CallCompositeErrorEvent>> { }
+            val handler2 = mock<CallCompositeEventHandler<CallCompositeErrorEvent>> { }
 
-        val handler1 = mock<CallCompositeEventHandler<CallCompositeErrorEvent>> { }
-        val handler2 = mock<CallCompositeEventHandler<CallCompositeErrorEvent>> { }
+            val configuration = CallCompositeConfiguration()
+            configuration.callCompositeEventsHandler.addOnErrorEventHandler(handler1)
+            Assert.assertSame(
+                handler1,
+                configuration.callCompositeEventsHandler.getOnErrorHandlers().first(),
+            )
+            Assert.assertEquals(1, configuration.callCompositeEventsHandler.getOnErrorHandlers().count())
 
-        val configuration = CallCompositeConfiguration()
-        configuration.callCompositeEventsHandler.addOnErrorEventHandler(handler1)
-        Assert.assertSame(
-            handler1,
-            configuration.callCompositeEventsHandler.getOnErrorHandlers().first()
-        )
-        Assert.assertEquals(1, configuration.callCompositeEventsHandler.getOnErrorHandlers().count())
+            configuration.callCompositeEventsHandler.addOnErrorEventHandler(handler2)
+            Assert.assertTrue(
+                configuration.callCompositeEventsHandler.getOnErrorHandlers().contains(handler2),
+            )
 
-        configuration.callCompositeEventsHandler.addOnErrorEventHandler(handler2)
-        Assert.assertTrue(
-            configuration.callCompositeEventsHandler.getOnErrorHandlers().contains(handler2)
-        )
-
-        configuration.callCompositeEventsHandler.removeOnErrorEventHandler(handler1)
-        Assert.assertEquals(1, configuration.callCompositeEventsHandler.getOnErrorHandlers().count())
-        configuration.callCompositeEventsHandler.removeOnErrorEventHandler(handler1)
-        Assert.assertEquals(1, configuration.callCompositeEventsHandler.getOnErrorHandlers().count())
-        configuration.callCompositeEventsHandler.removeOnErrorEventHandler(handler2)
-        Assert.assertEquals(0, configuration.callCompositeEventsHandler.getOnErrorHandlers().count())
-    }
+            configuration.callCompositeEventsHandler.removeOnErrorEventHandler(handler1)
+            Assert.assertEquals(1, configuration.callCompositeEventsHandler.getOnErrorHandlers().count())
+            configuration.callCompositeEventsHandler.removeOnErrorEventHandler(handler1)
+            Assert.assertEquals(1, configuration.callCompositeEventsHandler.getOnErrorHandlers().count())
+            configuration.callCompositeEventsHandler.removeOnErrorEventHandler(handler2)
+            Assert.assertEquals(0, configuration.callCompositeEventsHandler.getOnErrorHandlers().count())
+        }
 }

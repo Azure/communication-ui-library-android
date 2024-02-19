@@ -30,7 +30,9 @@ class ViewIsDisplayedResource {
                 if (ex is AssertionFailedError || ex is NoMatchingViewException) {
                     SystemClock.sleep(DEFAULT_WAIT_TIME)
                     timeOut += DEFAULT_WAIT_TIME
-                } else throw ex
+                } else {
+                    throw ex
+                }
             }
         }
         if (isReady) return viewInteraction

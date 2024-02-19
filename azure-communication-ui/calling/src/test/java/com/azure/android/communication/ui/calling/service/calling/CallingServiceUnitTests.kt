@@ -7,38 +7,37 @@ import com.azure.android.communication.calling.CallParticipantRole
 import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.CallingCommunicationErrors
 import com.azure.android.communication.calling.CallingCommunicationException
-import com.azure.android.communication.ui.calling.service.CallingService
-import com.azure.android.communication.ui.calling.error.ErrorCode
-import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
-import com.azure.android.communication.ui.calling.helper.MockitoHelper.any
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
-import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
-import com.azure.android.communication.ui.calling.redux.state.CameraState
-import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
-import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
-import com.azure.android.communication.ui.calling.redux.state.AudioState
-import com.azure.android.communication.ui.calling.redux.state.BluetoothState
-import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
-import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
-import com.azure.android.communication.ui.calling.service.sdk.CallingStateWrapper
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
-import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
+import com.azure.android.communication.ui.calling.error.ErrorCode
+import com.azure.android.communication.ui.calling.helper.MockitoHelper.any
 import com.azure.android.communication.ui.calling.helper.UnconfinedTestContextProvider
+import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
+import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
+import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
+import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
+import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
+import com.azure.android.communication.ui.calling.redux.state.AudioState
+import com.azure.android.communication.ui.calling.redux.state.BluetoothState
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraState
+import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
+import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
+import com.azure.android.communication.ui.calling.service.sdk.CallingStateWrapper
 import com.azure.android.communication.ui.calling.service.sdk.CallingStateWrapper.Companion.CALL_END_REASON_EVICTED
 import com.azure.android.communication.ui.calling.service.sdk.CallingStateWrapper.Companion.CALL_END_REASON_SUB_CODE_DECLINED
 import com.azure.android.communication.ui.calling.service.sdk.DominantSpeakersInfo
 import com.azure.android.communication.ui.calling.service.sdk.LocalVideoStream
 import com.azure.android.communication.ui.calling.service.sdk.getLobbyErrorCode
 import com.azure.android.communication.ui.calling.service.sdk.into
-
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -55,7 +54,6 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
 internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
-
     @Mock
     private lateinit var mockCallingGateway: CallingSDK
 
@@ -63,9 +61,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
     private lateinit var mockLocalVideoStream: LocalVideoStream
     private val contextProvider = UnconfinedTestContextProvider()
 
-    private fun provideCallingService(
-        callState: CallState = CallState.NONE,
-    ): Pair<CallingService, MutableStateFlow<CallingStateWrapper>> {
+    private fun provideCallingService(callState: CallState = CallState.NONE): Pair<CallingService, MutableStateFlow<CallingStateWrapper>> {
         val remoteParticipantsInfoModelSharedFlow =
             MutableSharedFlow<Map<String, ParticipantInfoModel>>()
 
@@ -100,14 +96,15 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
         Mockito.`when`(mockCallingGateway.getMediaCallDiagnosticSharedFlow())
             .thenReturn(mediaCallDiagnosticsSharedFlow)
         Mockito.doReturn(CompletableFuture<Void>()).`when`(mockCallingGateway).startCall(
-            any(), any()
+            any(),
+            any(),
         )
         Mockito.`when`(mockCallingGateway.getDominantSpeakersSharedFlow())
             .thenReturn(dominantSpeakersSharedFlow)
 
         return Pair(
             CallingService(mockCallingGateway, contextProvider),
-            callingStateWrapperStateFlow
+            callingStateWrapperStateFlow,
         )
     }
 
@@ -115,13 +112,13 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
     @Test
     fun callingService_getCallInfoModelEventSharedFlow_when_disconnected_normally() =
         runScopedTest {
-
             // arrange
             val emitResultFromFlow = mutableListOf<CallInfoModel>()
             val (callingService, callingStateWrapperStateFlow) = provideCallingService()
-            val job = launch {
-                callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
-            }
+            val job =
+                launch {
+                    callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
+                }
 
             // act
             callingService.startCall(
@@ -133,15 +130,16 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 AudioState(
                     AudioOperationalStatus.OFF,
                     AudioDeviceSelectionStatus.RECEIVER_SELECTED,
-                    BluetoothState(available = false, deviceName = "bluetooth")
-                )
+                    BluetoothState(available = false, deviceName = "bluetooth"),
+                ),
             )
             callingStateWrapperStateFlow.value = CallingStateWrapper(CallState.CONNECTED, 0)
-            callingStateWrapperStateFlow.value = CallingStateWrapper(
-                CallState.DISCONNECTED,
-                0,
-                0
-            )
+            callingStateWrapperStateFlow.value =
+                CallingStateWrapper(
+                    CallState.DISCONNECTED,
+                    0,
+                    0,
+                )
 
             // assert
             Assert.assertEquals(CallingStatus.NONE, emitResultFromFlow[0].callingStatus)
@@ -156,13 +154,13 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
     @Test
     fun callingService_getCallInfoModelEventSharedFlow_when_evicted() =
         runScopedTest {
-
             // arrange
             val (callingService, callingStateWrapperStateFlow) = provideCallingService()
             val emitResultFromFlow = mutableListOf<CallInfoModel>()
-            val job = launch {
-                callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
-            }
+            val job =
+                launch {
+                    callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
+                }
 
             // act
             callingService.startCall(
@@ -174,15 +172,16 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 AudioState(
                     AudioOperationalStatus.OFF,
                     AudioDeviceSelectionStatus.RECEIVER_SELECTED,
-                    BluetoothState(available = false, deviceName = "bluetooth")
-                )
+                    BluetoothState(available = false, deviceName = "bluetooth"),
+                ),
             )
             callingStateWrapperStateFlow.value = CallingStateWrapper(CallState.CONNECTED, 0)
-            callingStateWrapperStateFlow.value = CallingStateWrapper(
-                CallState.DISCONNECTED,
-                0,
-                CALL_END_REASON_EVICTED
-            )
+            callingStateWrapperStateFlow.value =
+                CallingStateWrapper(
+                    CallState.DISCONNECTED,
+                    0,
+                    CALL_END_REASON_EVICTED,
+                )
 
             // assert
             Assert.assertEquals(CallingStatus.NONE, emitResultFromFlow[0].callingStatus)
@@ -190,7 +189,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             Assert.assertEquals(CallingStatus.DISCONNECTED, emitResultFromFlow[2].callingStatus)
             Assert.assertEquals(
                 CallCompositeEventCode.CALL_EVICTED,
-                emitResultFromFlow[2].callStateError!!.callCompositeEventCode
+                emitResultFromFlow[2].callStateError!!.callCompositeEventCode,
             )
 
             job.cancel()
@@ -200,13 +199,13 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
     @Test
     fun callingService_getCallInfoModelEventSharedFlow_when_declined() =
         runScopedTest {
-
             // arrange
             val (callingService, callingStateWrapperStateFlow) = provideCallingService()
             val emitResultFromFlow = mutableListOf<CallInfoModel>()
-            val job = launch {
-                callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
-            }
+            val job =
+                launch {
+                    callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
+                }
 
             // act
             callingService.startCall(
@@ -218,15 +217,16 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 AudioState(
                     AudioOperationalStatus.OFF,
                     AudioDeviceSelectionStatus.RECEIVER_SELECTED,
-                    BluetoothState(available = false, deviceName = "bluetooth")
-                )
+                    BluetoothState(available = false, deviceName = "bluetooth"),
+                ),
             )
             callingStateWrapperStateFlow.value = CallingStateWrapper(CallState.CONNECTED, 0)
-            callingStateWrapperStateFlow.value = CallingStateWrapper(
-                CallState.DISCONNECTED,
-                0,
-                CALL_END_REASON_SUB_CODE_DECLINED
-            )
+            callingStateWrapperStateFlow.value =
+                CallingStateWrapper(
+                    CallState.DISCONNECTED,
+                    0,
+                    CALL_END_REASON_SUB_CODE_DECLINED,
+                )
 
             // assert
             Assert.assertEquals(CallingStatus.NONE, emitResultFromFlow[0].callingStatus)
@@ -234,7 +234,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             Assert.assertEquals(CallingStatus.DISCONNECTED, emitResultFromFlow[2].callingStatus)
             Assert.assertEquals(
                 CallCompositeEventCode.CALL_DECLINED,
-                emitResultFromFlow[2].callStateError!!.callCompositeEventCode
+                emitResultFromFlow[2].callStateError!!.callCompositeEventCode,
             )
 
             job.cancel()
@@ -244,13 +244,13 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
     @Test
     fun callingService_getCallStateStateFlow_when_invokedByCallingGateway_returnCallingState() =
         runScopedTest {
-
             // arrange
             val (callingService, callingStateWrapperStateFlow) = provideCallingService()
             val emitResultFromFlow = mutableListOf<CallInfoModel>()
-            val job = launch {
-                callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
-            }
+            val job =
+                launch {
+                    callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
+                }
 
             // act
             callingService.startCall(
@@ -262,8 +262,8 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 AudioState(
                     AudioOperationalStatus.OFF,
                     AudioDeviceSelectionStatus.RECEIVER_SELECTED,
-                    BluetoothState(available = false, deviceName = "bluetooth")
-                )
+                    BluetoothState(available = false, deviceName = "bluetooth"),
+                ),
             )
             callingStateWrapperStateFlow.value = CallingStateWrapper(CallState.CONNECTED, 0)
             callingStateWrapperStateFlow.value = CallingStateWrapper(CallState.DISCONNECTED, 0)
@@ -271,17 +271,17 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             // assert
             Assert.assertEquals(
                 CallingStatus.NONE,
-                emitResultFromFlow[0].callingStatus
+                emitResultFromFlow[0].callingStatus,
             )
 
             Assert.assertEquals(
                 CallingStatus.CONNECTED,
-                emitResultFromFlow[1].callingStatus
+                emitResultFromFlow[1].callingStatus,
             )
 
             Assert.assertEquals(
                 CallingStatus.DISCONNECTED,
-                emitResultFromFlow[2].callingStatus
+                emitResultFromFlow[2].callingStatus,
             )
 
             job.cancel()
@@ -291,7 +291,6 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
     @Test
     fun callingService_getRemoteParticipantSharedFlow_when_invokedByCallingGateway_returnParticipantsInOrder() =
         runScopedTest {
-
             // arrange
             val remoteParticipantsInfoModelSharedFlow =
                 MutableSharedFlow<Map<String, ParticipantInfoModel>>()
@@ -332,84 +331,92 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 .thenReturn(mediaCallDiagnosticsSharedFlow)
 
             Mockito.doReturn(CompletableFuture<Void>()).`when`(mockCallingGateway).startCall(
-                any(), any()
+                any(),
+                any(),
             )
             Mockito.`when`(mockCallingGateway.getDominantSpeakersSharedFlow())
                 .thenReturn(dominantSpeakersSharedFlow)
 
-            remoteParticipantsInfoModelMap["id1"] = ParticipantInfoModel(
-                "user1", "id1",
-                isMuted = false,
-                isCameraDisabled = false,
-                isSpeaking = false,
-                screenShareVideoStreamModel = null,
-                cameraVideoStreamModel = null,
-                modifiedTimestamp = 0,
-                participantStatus = ParticipantStatus.HOLD,
-            )
+            remoteParticipantsInfoModelMap["id1"] =
+                ParticipantInfoModel(
+                    "user1", "id1",
+                    isMuted = false,
+                    isCameraDisabled = false,
+                    isSpeaking = false,
+                    screenShareVideoStreamModel = null,
+                    cameraVideoStreamModel = null,
+                    modifiedTimestamp = 0,
+                    participantStatus = ParticipantStatus.HOLD,
+                )
 
-            remoteParticipantsInfoModelMap["id3"] = ParticipantInfoModel(
-                "abc", "id3",
-                isMuted = false,
-                isCameraDisabled = false,
-                isSpeaking = false,
-                screenShareVideoStreamModel = null,
-                cameraVideoStreamModel = null,
-                modifiedTimestamp = 0,
-                participantStatus = ParticipantStatus.HOLD,
-            )
+            remoteParticipantsInfoModelMap["id3"] =
+                ParticipantInfoModel(
+                    "abc", "id3",
+                    isMuted = false,
+                    isCameraDisabled = false,
+                    isSpeaking = false,
+                    screenShareVideoStreamModel = null,
+                    cameraVideoStreamModel = null,
+                    modifiedTimestamp = 0,
+                    participantStatus = ParticipantStatus.HOLD,
+                )
 
-            remoteParticipantsInfoModelMap["0"] = ParticipantInfoModel(
-                "xyz", "0",
-                isMuted = false,
-                isCameraDisabled = false,
-                isSpeaking = false,
-                screenShareVideoStreamModel = null,
-                cameraVideoStreamModel = null,
-                modifiedTimestamp = 0,
-                participantStatus = ParticipantStatus.HOLD,
-            )
+            remoteParticipantsInfoModelMap["0"] =
+                ParticipantInfoModel(
+                    "xyz", "0",
+                    isMuted = false,
+                    isCameraDisabled = false,
+                    isSpeaking = false,
+                    screenShareVideoStreamModel = null,
+                    cameraVideoStreamModel = null,
+                    modifiedTimestamp = 0,
+                    participantStatus = ParticipantStatus.HOLD,
+                )
 
-            remoteParticipantsInfoModelMap["id2"] = ParticipantInfoModel(
-                "user2", "id2",
-                isMuted = false,
-                isCameraDisabled = false,
-                isSpeaking = false,
-                screenShareVideoStreamModel = null,
-                cameraVideoStreamModel = null,
-                modifiedTimestamp = 0,
-                participantStatus = ParticipantStatus.HOLD,
-            )
+            remoteParticipantsInfoModelMap["id2"] =
+                ParticipantInfoModel(
+                    "user2", "id2",
+                    isMuted = false,
+                    isCameraDisabled = false,
+                    isSpeaking = false,
+                    screenShareVideoStreamModel = null,
+                    cameraVideoStreamModel = null,
+                    modifiedTimestamp = 0,
+                    participantStatus = ParticipantStatus.HOLD,
+                )
 
-            remoteParticipantsInfoModelMap["id9"] = ParticipantInfoModel(
-                "user9", "id9",
-                isMuted = false,
-                isCameraDisabled = false,
-                isSpeaking = false,
-                screenShareVideoStreamModel = null,
-                cameraVideoStreamModel = null,
-                modifiedTimestamp = 0,
-                participantStatus = ParticipantStatus.HOLD,
-            )
+            remoteParticipantsInfoModelMap["id9"] =
+                ParticipantInfoModel(
+                    "user9", "id9",
+                    isMuted = false,
+                    isCameraDisabled = false,
+                    isSpeaking = false,
+                    screenShareVideoStreamModel = null,
+                    cameraVideoStreamModel = null,
+                    modifiedTimestamp = 0,
+                    participantStatus = ParticipantStatus.HOLD,
+                )
 
-            remoteParticipantsInfoModelMap["10"] = ParticipantInfoModel(
-                "100", "10",
-                isMuted = false,
-                isCameraDisabled = false,
-                isSpeaking = false,
-                screenShareVideoStreamModel = null,
-                cameraVideoStreamModel = null,
-                modifiedTimestamp = 0,
-                participantStatus = ParticipantStatus.HOLD,
-            )
+            remoteParticipantsInfoModelMap["10"] =
+                ParticipantInfoModel(
+                    "100", "10",
+                    isMuted = false,
+                    isCameraDisabled = false,
+                    isSpeaking = false,
+                    screenShareVideoStreamModel = null,
+                    cameraVideoStreamModel = null,
+                    modifiedTimestamp = 0,
+                    participantStatus = ParticipantStatus.HOLD,
+                )
 
             val emitResultFromFlow = mutableListOf<Map<String, ParticipantInfoModel>>()
 
             val callingService = CallingService(mockCallingGateway, UnconfinedTestContextProvider())
 
-            val job = launch {
-                callingService.getParticipantsInfoModelSharedFlow().toList(emitResultFromFlow)
-            }
+            val job =
+                launch {
+                    callingService.getParticipantsInfoModelSharedFlow().toList(emitResultFromFlow)
+                }
 
             // act
             callingService.startCall(
@@ -421,50 +428,50 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 AudioState(
                     AudioOperationalStatus.OFF,
                     AudioDeviceSelectionStatus.RECEIVER_SELECTED,
-                    BluetoothState(available = false, deviceName = "bluetooth")
-                )
+                    BluetoothState(available = false, deviceName = "bluetooth"),
+                ),
             )
             remoteParticipantsInfoModelSharedFlow.emit(remoteParticipantsInfoModelMap)
 
             // assert
             Assert.assertEquals(
                 remoteParticipantsInfoModelMap.size,
-                emitResultFromFlow[0].size
+                emitResultFromFlow[0].size,
             )
 
             Assert.assertEquals(
                 remoteParticipantsInfoModelMap.keys.toList()[0],
-                emitResultFromFlow[0].values.toList()[0].userIdentifier
+                emitResultFromFlow[0].values.toList()[0].userIdentifier,
             )
 
             Assert.assertEquals(
                 remoteParticipantsInfoModelMap.values.toList()[0].userIdentifier,
-                emitResultFromFlow[0].values.toList()[0].userIdentifier
+                emitResultFromFlow[0].values.toList()[0].userIdentifier,
             )
 
             Assert.assertEquals(
                 remoteParticipantsInfoModelMap.values.toList()[1].userIdentifier,
-                emitResultFromFlow[0].values.toList()[1].userIdentifier
+                emitResultFromFlow[0].values.toList()[1].userIdentifier,
             )
 
             Assert.assertEquals(
                 remoteParticipantsInfoModelMap.values.toList()[2].userIdentifier,
-                emitResultFromFlow[0].values.toList()[2].userIdentifier
+                emitResultFromFlow[0].values.toList()[2].userIdentifier,
             )
 
             Assert.assertEquals(
                 remoteParticipantsInfoModelMap.values.toList()[3].userIdentifier,
-                emitResultFromFlow[0].values.toList()[3].userIdentifier
+                emitResultFromFlow[0].values.toList()[3].userIdentifier,
             )
 
             Assert.assertEquals(
                 remoteParticipantsInfoModelMap.values.toList()[4].userIdentifier,
-                emitResultFromFlow[0].values.toList()[4].userIdentifier
+                emitResultFromFlow[0].values.toList()[4].userIdentifier,
             )
 
             Assert.assertEquals(
                 remoteParticipantsInfoModelMap.values.toList()[5].userIdentifier,
-                emitResultFromFlow[0].values.toList()[5].userIdentifier
+                emitResultFromFlow[0].values.toList()[5].userIdentifier,
             )
 
             job.cancel()
@@ -494,7 +501,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
         // assert
         Assert.assertEquals(
             "123",
-            videoStreamId
+            videoStreamId,
         )
     }
 
@@ -518,7 +525,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
         // assert
         Assert.assertEquals(
             null,
-            videoStreamId
+            videoStreamId,
         )
     }
 
@@ -526,14 +533,14 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
     @Test
     fun callingService_getCallStateErrorFlow_when_invokedByCallingGatewayWithAnyErrorCodeTokenExpired_returnErrorTypeTokenExpired() =
         runScopedTest {
-
             // arrange
             val emitResultFromFlow = mutableListOf<CallInfoModel>()
             val (callingService, callingStateWrapperStateFlow) = provideCallingService()
 
-            val job = launch {
-                callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
-            }
+            val job =
+                launch {
+                    callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
+                }
 
             // act
             callingService.startCall(
@@ -545,8 +552,8 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 AudioState(
                     AudioOperationalStatus.OFF,
                     AudioDeviceSelectionStatus.RECEIVER_SELECTED,
-                    BluetoothState(available = false, deviceName = "bluetooth")
-                )
+                    BluetoothState(available = false, deviceName = "bluetooth"),
+                ),
             )
 
             callingStateWrapperStateFlow.emit(CallingStateWrapper(CallState.NONE, 401))
@@ -554,7 +561,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             // assert
             Assert.assertEquals(
                 ErrorCode.TOKEN_EXPIRED,
-                emitResultFromFlow[1].callStateError!!.errorCode
+                emitResultFromFlow[1].callStateError!!.errorCode,
             )
 
             job.cancel()
@@ -564,14 +571,14 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
     @Test
     fun callingService_getCallStateErrorFlow_when_nonErrorErrorCode_doesNotRaiseError() =
         runScopedTest {
-
             // arrange
             val emitResultFromFlow = mutableListOf<CallInfoModel>()
             val (callingService, callingStateWrapperStateFlow) = provideCallingService()
 
-            val job = launch {
-                callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
-            }
+            val job =
+                launch {
+                    callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
+                }
 
             // act
             callingService.startCall(
@@ -583,8 +590,8 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 AudioState(
                     AudioOperationalStatus.OFF,
                     AudioDeviceSelectionStatus.RECEIVER_SELECTED,
-                    BluetoothState(available = false, deviceName = "bluetooth")
-                )
+                    BluetoothState(available = false, deviceName = "bluetooth"),
+                ),
             )
 
             callingStateWrapperStateFlow.emit(CallingStateWrapper(CallState.NONE, 487))
@@ -601,14 +608,14 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
     @Test
     fun callingService_getCallStateErrorFlow_when_stateConnectedAndInvokedByCallingGatewayWithAnyErrorCodeNonZero_returnErrorTypeCallEnd() =
         runScopedTest {
-
             // arrange
             val emitResultFromFlow = mutableListOf<CallInfoModel>()
             val (callingService, callingStateWrapperStateFlow) = provideCallingService(CallState.CONNECTED)
 
-            val job = launch {
-                callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
-            }
+            val job =
+                launch {
+                    callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
+                }
 
             // act
             callingService.startCall(
@@ -620,15 +627,15 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 AudioState(
                     AudioOperationalStatus.OFF,
                     AudioDeviceSelectionStatus.RECEIVER_SELECTED,
-                    BluetoothState(available = false, deviceName = "bluetooth")
-                )
+                    BluetoothState(available = false, deviceName = "bluetooth"),
+                ),
             )
             callingStateWrapperStateFlow.value = CallingStateWrapper(CallState.DISCONNECTED, 1)
 
             // assert
             Assert.assertEquals(
                 ErrorCode.CALL_END_FAILED,
-                emitResultFromFlow[1].callStateError!!.errorCode
+                emitResultFromFlow[1].callStateError!!.errorCode,
             )
 
             job.cancel()
@@ -638,14 +645,14 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
     @Test
     fun callingService_getCallStateErrorFlow_when_stateNotConnectedAndInvokedByCallingGatewayWithAnyErrorCodeNonZero_returnErrorTypeCallJoin() =
         runScopedTest {
-
             // arrange
             val emitResultFromFlow = mutableListOf<CallInfoModel>()
             val (callingService, callingStateWrapperStateFlow) = provideCallingService()
 
-            val job = launch {
-                callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
-            }
+            val job =
+                launch {
+                    callingService.getCallInfoModelEventSharedFlow().toList(emitResultFromFlow)
+                }
 
             // act
             callingService.startCall(
@@ -657,15 +664,15 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 AudioState(
                     AudioOperationalStatus.OFF,
                     AudioDeviceSelectionStatus.RECEIVER_SELECTED,
-                    BluetoothState(available = false, deviceName = "bluetooth")
-                )
+                    BluetoothState(available = false, deviceName = "bluetooth"),
+                ),
             )
             callingStateWrapperStateFlow.emit(CallingStateWrapper(CallState.NONE, 1))
 
             // assert
             Assert.assertEquals(
                 ErrorCode.CALL_JOIN_FAILED,
-                emitResultFromFlow[1].callStateError!!.errorCode
+                emitResultFromFlow[1].callStateError!!.errorCode,
             )
 
             job.cancel()
@@ -681,9 +688,10 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 .thenReturn(localParticipantRoleSharedFlow)
             val callingService = CallingService(mockCallingGateway, contextProvider)
             val emitResultFromFlow = mutableListOf<CallCompositeInternalParticipantRole?>()
-            val job = launch {
-                callingService.getLocalParticipantRoleSharedFlow().toList(emitResultFromFlow)
-            }
+            val job =
+                launch {
+                    callingService.getLocalParticipantRoleSharedFlow().toList(emitResultFromFlow)
+                }
 
             // act
             callingService.getLocalParticipantRoleSharedFlow()
@@ -722,32 +730,32 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
         Assert.assertEquals(
             CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS,
             getLobbyErrorCode(
-                CallingCommunicationException(CallingCommunicationErrors.LOBBY_DISABLED_BY_CONFIGURATIONS)
-            )
+                CallingCommunicationException(CallingCommunicationErrors.LOBBY_DISABLED_BY_CONFIGURATIONS),
+            ),
         )
         Assert.assertEquals(
             CallCompositeLobbyErrorCode.LOBBY_CONVERSATION_TYPE_NOT_SUPPORTED,
             getLobbyErrorCode(
-                CallingCommunicationException(CallingCommunicationErrors.LOBBY_CONVERSATION_TYPE_NOT_SUPPORTED)
-            )
+                CallingCommunicationException(CallingCommunicationErrors.LOBBY_CONVERSATION_TYPE_NOT_SUPPORTED),
+            ),
         )
         Assert.assertEquals(
             CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED,
             getLobbyErrorCode(
-                CallingCommunicationException(CallingCommunicationErrors.LOBBY_MEETING_ROLE_NOT_ALLOWED)
-            )
+                CallingCommunicationException(CallingCommunicationErrors.LOBBY_MEETING_ROLE_NOT_ALLOWED),
+            ),
         )
         Assert.assertEquals(
             CallCompositeLobbyErrorCode.REMOVE_PARTICIPANT_OPERATION_FAILURE,
             getLobbyErrorCode(
-                CallingCommunicationException(CallingCommunicationErrors.REMOVE_PARTICIPANT_OPERATION_FAILURE)
-            )
+                CallingCommunicationException(CallingCommunicationErrors.REMOVE_PARTICIPANT_OPERATION_FAILURE),
+            ),
         )
         Assert.assertEquals(
             CallCompositeLobbyErrorCode.UNKNOWN_ERROR,
             getLobbyErrorCode(
-                CallingCommunicationException(CallingCommunicationErrors.CAPTIONS_FAILED_TO_START)
-            )
+                CallingCommunicationException(CallingCommunicationErrors.CAPTIONS_FAILED_TO_START),
+            ),
         )
     }
 
@@ -772,7 +780,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
         // assert
         Assert.assertEquals(
             result,
-            null
+            null,
         )
     }
 
@@ -796,7 +804,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
         // assert
         Assert.assertEquals(
             result,
-            CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS
+            CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS,
         )
     }
 
@@ -821,7 +829,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
         // assert
         Assert.assertEquals(
             result,
-            null
+            null,
         )
     }
 
@@ -845,7 +853,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
         // assert
         Assert.assertEquals(
             result,
-            CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS
+            CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS,
         )
     }
 
@@ -870,7 +878,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
         // assert
         Assert.assertEquals(
             result,
-            null
+            null,
         )
     }
 
@@ -894,7 +902,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
         // assert
         Assert.assertEquals(
             result,
-            CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS
+            CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS,
         )
     }
 }

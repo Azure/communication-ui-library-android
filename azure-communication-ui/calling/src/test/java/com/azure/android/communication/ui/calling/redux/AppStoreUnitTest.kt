@@ -22,7 +22,6 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
 internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
-
     @Mock
     private lateinit var mockAppStateReducer: AppStateReducer
 
@@ -50,12 +49,13 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
                 )
             stateTest.remoteParticipantState = RemoteParticipantsState(participantMap, 0, listOf(), 0, null)
 
-            val store = AppStore(
-                mockAppState,
-                mockAppStateReducer,
-                mutableListOf(TestMiddlewareImplementation() as Middleware<AppReduxState>),
-                this.coroutineContext
-            )
+            val store =
+                AppStore(
+                    mockAppState,
+                    mockAppStateReducer,
+                    mutableListOf(TestMiddlewareImplementation() as Middleware<AppReduxState>),
+                    this.coroutineContext,
+                )
 
             Mockito.`when`(mockAppStateReducer.reduce(mockAppState, action)).thenReturn(stateTest)
 
@@ -76,12 +76,13 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
             val middleware1Spy = Mockito.spy(middleware1)
             val middleware2Spy = Mockito.spy(middleware2)
 
-            val store = AppStore(
-                mockAppState,
-                mockAppStateReducer,
-                mutableListOf(middleware1Spy, middleware2Spy),
-                this.coroutineContext
-            )
+            val store =
+                AppStore(
+                    mockAppState,
+                    mockAppStateReducer,
+                    mutableListOf(middleware1Spy, middleware2Spy),
+                    this.coroutineContext,
+                )
 
             // act
             store.dispatch(action)
@@ -97,12 +98,13 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
             // arrange
             val action = CallingAction.CallStartRequested()
 
-            val store = AppStore(
-                mockAppState,
-                mockAppStateReducer,
-                mutableListOf(TestMiddlewareImplementation() as Middleware<AppReduxState>),
-                this.coroutineContext
-            )
+            val store =
+                AppStore(
+                    mockAppState,
+                    mockAppStateReducer,
+                    mutableListOf(TestMiddlewareImplementation() as Middleware<AppReduxState>),
+                    this.coroutineContext,
+                )
 
             Mockito.`when`(mockAppStateReducer.reduce(mockAppState, action))
                 .thenReturn(AppReduxState("", false, false))
@@ -121,12 +123,13 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
             val action = CallingAction.CallStartRequested()
             val testState = AppReduxState("", false, false)
 
-            val store = AppStore(
-                mockAppState,
-                mockAppStateReducer,
-                mutableListOf(TestMiddlewareImplementation() as Middleware<AppReduxState>),
-                this.coroutineContext
-            )
+            val store =
+                AppStore(
+                    mockAppState,
+                    mockAppStateReducer,
+                    mutableListOf(TestMiddlewareImplementation() as Middleware<AppReduxState>),
+                    this.coroutineContext,
+                )
             Mockito.`when`(mockAppStateReducer.reduce(mockAppState, action)).thenReturn(testState)
             Mockito.`when`(mockAppStateReducer.reduce(testState, action)).thenReturn(mockAppState)
 
@@ -143,10 +146,11 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
         }
 
     internal class TestMiddlewareImplementation : Middleware<ReduxState> {
-        override fun invoke(store: Store<ReduxState>) = { next: Dispatch ->
-            { action: Action ->
-                next(action)
+        override fun invoke(store: Store<ReduxState>) =
+            { next: Dispatch ->
+                { action: Action ->
+                    next(action)
+                }
             }
-        }
     }
 }

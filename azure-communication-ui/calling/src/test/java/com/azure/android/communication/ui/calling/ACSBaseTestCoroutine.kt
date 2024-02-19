@@ -12,6 +12,5 @@ open class ACSBaseTestCoroutine {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
-    fun runScopedTest(body: suspend TestScope.() -> Unit) =
-        mainCoroutineRule.scope.runTest { body() }
+    fun runScopedTest(body: suspend TestScope.() -> Unit) = mainCoroutineRule.scope.runTest { body() }
 }

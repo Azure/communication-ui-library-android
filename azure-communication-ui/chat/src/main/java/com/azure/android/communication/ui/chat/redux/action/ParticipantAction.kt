@@ -12,10 +12,13 @@ internal sealed class ParticipantAction : Action {
 
     class ParticipantsRemoved(val participants: List<RemoteParticipantInfoModel>) :
         ParticipantAction()
+
     class AddParticipantTyping(val infoModel: ParticipantTimestampInfoModel) : ParticipantAction()
+
     class RemoveParticipantTyping(val infoModel: ParticipantTimestampInfoModel) :
         ParticipantAction()
 
     class ReadReceiptReceived(val infoModel: ParticipantTimestampInfoModel) : ParticipantAction()
+
     class ParticipantToHideReceived(val id: String) : ParticipantAction()
 }

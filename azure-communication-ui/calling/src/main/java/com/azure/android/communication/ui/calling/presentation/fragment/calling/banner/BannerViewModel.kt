@@ -8,7 +8,6 @@ import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 
 internal class BannerViewModel {
-
     private var _bannerInfoTypeStateFlow: MutableStateFlow<BannerInfoType> =
         MutableStateFlow(BannerInfoType.BLANK)
     var bannerInfoTypeStateFlow = _bannerInfoTypeStateFlow
@@ -28,12 +27,13 @@ internal class BannerViewModel {
         }
 
     fun init(callingState: CallingState) {
-        bannerInfoTypeStateFlow = MutableStateFlow(
-            createBannerInfoType(
-                callingState.isRecording,
-                callingState.isTranscribing
+        bannerInfoTypeStateFlow =
+            MutableStateFlow(
+                createBannerInfoType(
+                    callingState.isRecording,
+                    callingState.isTranscribing,
+                ),
             )
-        )
         _isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayed(callingState.callingStatus))
     }
 
@@ -66,27 +66,29 @@ internal class BannerViewModel {
         isRecording: Boolean,
         isTranscribing: Boolean,
     ): BannerInfoType {
-        recordingState = when (isRecording) {
-            true -> ComplianceState.ON
-            false -> {
-                if (recordingState == ComplianceState.ON) {
-                    ComplianceState.STOPPED
-                } else {
-                    recordingState
+        recordingState =
+            when (isRecording) {
+                true -> ComplianceState.ON
+                false -> {
+                    if (recordingState == ComplianceState.ON) {
+                        ComplianceState.STOPPED
+                    } else {
+                        recordingState
+                    }
                 }
             }
-        }
 
-        transcriptionState = when (isTranscribing) {
-            true -> ComplianceState.ON
-            false -> {
-                if (transcriptionState == ComplianceState.ON) {
-                    ComplianceState.STOPPED
-                } else {
-                    transcriptionState
+        transcriptionState =
+            when (isTranscribing) {
+                true -> ComplianceState.ON
+                false -> {
+                    if (transcriptionState == ComplianceState.ON) {
+                        ComplianceState.STOPPED
+                    } else {
+                        transcriptionState
+                    }
                 }
             }
-        }
 
         if ((recordingState == ComplianceState.ON) &&
             (transcriptionState == ComplianceState.ON)
@@ -146,7 +148,7 @@ internal class BannerViewModel {
 internal enum class ComplianceState {
     ON,
     STOPPED,
-    OFF
+    OFF,
 }
 
 internal enum class BannerInfoType {
@@ -158,5 +160,5 @@ internal enum class BannerInfoType {
     TRANSCRIPTION_STOPPED,
     RECORDING_STOPPED_STILL_TRANSCRIBING,
     RECORDING_STOPPED,
-    RECORDING_AND_TRANSCRIPTION_STOPPED
+    RECORDING_AND_TRANSCRIPTION_STOPPED,
 }

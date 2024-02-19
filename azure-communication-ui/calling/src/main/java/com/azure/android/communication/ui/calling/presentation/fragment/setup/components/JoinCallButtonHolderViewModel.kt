@@ -20,9 +20,8 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class JoinCallButtonHolderViewModel(
     private val dispatch: (Action) -> Unit,
-    private val audioManager: AudioManager
+    private val audioManager: AudioManager,
 ) {
-
     private lateinit var joinCallButtonEnabledFlow: MutableStateFlow<Boolean>
     private var disableJoinCallButtonFlow = MutableStateFlow(false)
     private lateinit var networkManager: NetworkManager
@@ -57,7 +56,7 @@ internal class JoinCallButtonHolderViewModel(
             MutableStateFlow(
                 audioPermissionState == PermissionStatus.GRANTED &&
                     cameraPermissionState != PermissionStatus.UNKNOWN &&
-                    (camerasCount == 0 || cameraOperationalStatus != CameraOperationalStatus.PENDING)
+                    (camerasCount == 0 || cameraOperationalStatus != CameraOperationalStatus.PENDING),
             )
         disableJoinCallButtonFlow.value = false
         this.networkManager = networkManager

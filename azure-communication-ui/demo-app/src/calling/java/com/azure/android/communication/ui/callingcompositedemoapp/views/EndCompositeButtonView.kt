@@ -67,13 +67,14 @@ internal class EndCompositeButtonView private constructor(
     }
 
     private fun init() {
-        val params = WindowManager.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY else WindowManager.LayoutParams.TYPE_PHONE,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-            PixelFormat.RGBA_8888
-        )
+        val params =
+            WindowManager.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY else WindowManager.LayoutParams.TYPE_PHONE,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                PixelFormat.RGBA_8888,
+            )
         params.gravity = DEFAULT_GRAVITY
         params.x = POSITION_X
         params.y = POSITION_L
@@ -84,17 +85,19 @@ internal class EndCompositeButtonView private constructor(
     }
 
     private fun drawOverlaysPermission(context: Context): Boolean {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Settings.canDrawOverlays(context)
-            .also {
-                if (!it) {
-                    val intent = Intent(
-                        Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                        Uri.parse("package:" + context.packageName)
-                    )
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    context.startActivity(intent)
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+            Settings.canDrawOverlays(context)
+                .also {
+                    if (!it) {
+                        val intent =
+                            Intent(
+                                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                                Uri.parse("package:" + context.packageName),
+                            )
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        context.startActivity(intent)
+                    }
                 }
-            }
     }
 
     private class MovingTouchListener(
@@ -105,6 +108,7 @@ internal class EndCompositeButtonView private constructor(
         private var initialY = 0
         private var initialTouchX = 0f
         private var initialTouchY = 0f
+
         override fun onTouch(
             v: View,
             event: MotionEvent,

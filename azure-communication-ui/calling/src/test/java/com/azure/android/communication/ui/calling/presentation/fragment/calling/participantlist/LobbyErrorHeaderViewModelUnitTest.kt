@@ -23,11 +23,9 @@ import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
 internal class LobbyErrorHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
-
     @Test
     fun lobbyErrorHeaderViewModelUnitTest_update_then_showErrorIfStateIsConnected() {
         runScopedTest {
-
             // arrange
             val mockAppStore = mock<AppStore<ReduxState>> {}
             val lobbyErrorHeaderViewModel = LobbyErrorHeaderViewModel(mockAppStore::dispatch)
@@ -40,60 +38,62 @@ internal class LobbyErrorHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             lobbyErrorHeaderViewModel.init(
                 CallingStatus.DISCONNECTED,
                 CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED,
-                true
+                true,
             )
 
-            val errorJob = launch {
-                lobbyErrorHeaderViewModel.getLobbyErrorFlow()
-                    .toList(resultLobbyErrorListCellStateFlow)
-            }
+            val errorJob =
+                launch {
+                    lobbyErrorHeaderViewModel.getLobbyErrorFlow()
+                        .toList(resultLobbyErrorListCellStateFlow)
+                }
 
-            val displayErrorJob = launch {
-                lobbyErrorHeaderViewModel.getDisplayLobbyErrorHeaderFlow()
-                    .toList(resultDisplayErrorHeaderStateFlow)
-            }
+            val displayErrorJob =
+                launch {
+                    lobbyErrorHeaderViewModel.getDisplayLobbyErrorHeaderFlow()
+                        .toList(resultDisplayErrorHeaderStateFlow)
+                }
 
             // act
             lobbyErrorHeaderViewModel.update(
                 CallingStatus.CONNECTED,
                 CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS,
-                true
+                true,
             )
             lobbyErrorHeaderViewModel.update(
                 CallingStatus.CONNECTED,
                 null,
-                true
+                true,
             )
 
             // assert
             Assert.assertEquals(
                 CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED,
-                resultLobbyErrorListCellStateFlow[0]
+                resultLobbyErrorListCellStateFlow[0],
             )
 
             Assert.assertEquals(
                 CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS,
-                resultLobbyErrorListCellStateFlow[1]
+                resultLobbyErrorListCellStateFlow[1],
             )
 
             Assert.assertEquals(
                 null,
-                resultLobbyErrorListCellStateFlow[2]
+                resultLobbyErrorListCellStateFlow[2],
             )
 
             Assert.assertEquals(
                 false,
-                resultDisplayErrorHeaderStateFlow[0]
+                resultDisplayErrorHeaderStateFlow[0],
             )
 
             Assert.assertEquals(
                 true,
-                resultDisplayErrorHeaderStateFlow[1]
+                resultDisplayErrorHeaderStateFlow[1],
             )
 
             Assert.assertEquals(
                 false,
-                resultDisplayErrorHeaderStateFlow[2]
+                resultDisplayErrorHeaderStateFlow[2],
             )
 
             errorJob.cancel()
@@ -104,7 +104,6 @@ internal class LobbyErrorHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
     @Test
     fun lobbyErrorHeaderViewModelUnitTest_update_then_doNotShowErrorIfShowLobbyIsFalse() {
         runScopedTest {
-
             // arrange
             val mockAppStore = mock<AppStore<ReduxState>> {}
             val lobbyErrorHeaderViewModel = LobbyErrorHeaderViewModel(mockAppStore::dispatch)
@@ -117,55 +116,57 @@ internal class LobbyErrorHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             lobbyErrorHeaderViewModel.init(
                 CallingStatus.DISCONNECTED,
                 CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED,
-                false
+                false,
             )
 
-            val errorJob = launch {
-                lobbyErrorHeaderViewModel.getLobbyErrorFlow()
-                    .toList(resultLobbyErrorListCellStateFlow)
-            }
+            val errorJob =
+                launch {
+                    lobbyErrorHeaderViewModel.getLobbyErrorFlow()
+                        .toList(resultLobbyErrorListCellStateFlow)
+                }
 
-            val displayErrorJob = launch {
-                lobbyErrorHeaderViewModel.getDisplayLobbyErrorHeaderFlow()
-                    .toList(resultDisplayErrorHeaderStateFlow)
-            }
+            val displayErrorJob =
+                launch {
+                    lobbyErrorHeaderViewModel.getDisplayLobbyErrorHeaderFlow()
+                        .toList(resultDisplayErrorHeaderStateFlow)
+                }
 
             // act
             lobbyErrorHeaderViewModel.update(
                 CallingStatus.CONNECTED,
                 CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS,
-                false
+                false,
             )
             lobbyErrorHeaderViewModel.update(
                 CallingStatus.CONNECTED,
                 null,
-                true
+                true,
             )
 
             // assert
             Assert.assertEquals(
                 CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED,
-                resultLobbyErrorListCellStateFlow[0]
+                resultLobbyErrorListCellStateFlow[0],
             )
 
             Assert.assertEquals(
                 CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS,
-                resultLobbyErrorListCellStateFlow[1]
+                resultLobbyErrorListCellStateFlow[1],
             )
 
             Assert.assertEquals(
                 null,
-                resultLobbyErrorListCellStateFlow[2]
+                resultLobbyErrorListCellStateFlow[2],
             )
 
             Assert.assertEquals(
                 false,
-                resultDisplayErrorHeaderStateFlow[0]
+                resultDisplayErrorHeaderStateFlow[0],
             )
 
             Assert.assertEquals(
                 1,
-                resultDisplayErrorHeaderStateFlow.size
+                resultDisplayErrorHeaderStateFlow.size,
             )
 
             errorJob.cancel()
@@ -176,7 +177,6 @@ internal class LobbyErrorHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
     @Test
     fun lobbyErrorHeaderViewModelUnitTest_dismiss_then_hideError() {
         runScopedTest {
-
             // arrange
             val mockAppStore = mock<AppStore<ReduxState>> {}
             val lobbyErrorHeaderViewModel = LobbyErrorHeaderViewModel(mockAppStore::dispatch)
@@ -189,45 +189,47 @@ internal class LobbyErrorHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             lobbyErrorHeaderViewModel.init(
                 CallingStatus.CONNECTED,
                 CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED,
-                true
+                true,
             )
 
-            val errorJob = launch {
-                lobbyErrorHeaderViewModel.getLobbyErrorFlow()
-                    .toList(resultLobbyErrorListCellStateFlow)
-            }
+            val errorJob =
+                launch {
+                    lobbyErrorHeaderViewModel.getLobbyErrorFlow()
+                        .toList(resultLobbyErrorListCellStateFlow)
+                }
 
-            val displayErrorJob = launch {
-                lobbyErrorHeaderViewModel.getDisplayLobbyErrorHeaderFlow()
-                    .toList(resultDisplayErrorHeaderStateFlow)
-            }
+            val displayErrorJob =
+                launch {
+                    lobbyErrorHeaderViewModel.getDisplayLobbyErrorHeaderFlow()
+                        .toList(resultDisplayErrorHeaderStateFlow)
+                }
 
             // act
             lobbyErrorHeaderViewModel.dismiss()
             // assert
             Assert.assertEquals(
                 CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED,
-                resultLobbyErrorListCellStateFlow[0]
+                resultLobbyErrorListCellStateFlow[0],
             )
 
             Assert.assertEquals(
                 1,
-                resultLobbyErrorListCellStateFlow.size
+                resultLobbyErrorListCellStateFlow.size,
             )
 
             Assert.assertEquals(
                 true,
-                resultDisplayErrorHeaderStateFlow[0]
+                resultDisplayErrorHeaderStateFlow[0],
             )
 
             Assert.assertEquals(
                 false,
-                resultDisplayErrorHeaderStateFlow[1]
+                resultDisplayErrorHeaderStateFlow[1],
             )
 
             Assert.assertEquals(
                 2,
-                resultDisplayErrorHeaderStateFlow.size
+                resultDisplayErrorHeaderStateFlow.size,
             )
 
             errorJob.cancel()
@@ -238,7 +240,6 @@ internal class LobbyErrorHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
     @Test
     fun lobbyErrorHeaderViewModelUnitTest_close_then_fireClearLobby() {
         runScopedTest {
-
             // arrange
             val mockAppStore = mock<AppStore<ReduxState>> {}
             val lobbyErrorHeaderViewModel = LobbyErrorHeaderViewModel(mockAppStore::dispatch)

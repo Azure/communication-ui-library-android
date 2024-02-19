@@ -12,7 +12,10 @@ internal interface PermissionStateReducer : Reducer<PermissionState>
 
 internal class PermissionStateReducerImpl :
     PermissionStateReducer {
-    override fun reduce(state: PermissionState, action: Action): PermissionState {
+    override fun reduce(
+        state: PermissionState,
+        action: Action,
+    ): PermissionState {
         return when (action) {
             is PermissionAction.AudioPermissionIsSet -> {
                 state.copy(audioPermissionState = action.permissionState)

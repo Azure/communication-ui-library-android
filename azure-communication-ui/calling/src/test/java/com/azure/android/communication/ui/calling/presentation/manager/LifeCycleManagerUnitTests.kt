@@ -21,9 +21,10 @@ internal class LifeCycleManagerUnitTests {
     @Test
     fun lifecycleManager_pause_then_sendEnterBackgroundTriggered() {
         // Arrange
-        val mockAppStore = mock<AppStore<ReduxState>> {
-            on { dispatch(any()) } doAnswer { }
-        }
+        val mockAppStore =
+            mock<AppStore<ReduxState>> {
+                on { dispatch(any()) } doAnswer { }
+            }
         val lifecycleManagerImpl = LifecycleManagerImpl(mockAppStore)
 
         // Act
@@ -33,16 +34,17 @@ internal class LifeCycleManagerUnitTests {
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
                 action is LifecycleAction.EnterBackgroundTriggered
-            }
+            },
         )
     }
 
     @Test
     fun lifecycleManager_resume_then_sendEnterForegroundTriggered() {
         // Arrange
-        val mockAppStore = mock<AppStore<ReduxState>> {
-            on { dispatch(any()) } doAnswer { }
-        }
+        val mockAppStore =
+            mock<AppStore<ReduxState>> {
+                on { dispatch(any()) } doAnswer { }
+            }
         val lifecycleManagerImpl = LifecycleManagerImpl(mockAppStore)
 
         // Act
@@ -52,7 +54,7 @@ internal class LifeCycleManagerUnitTests {
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
                 action is LifecycleAction.EnterForegroundTriggered
-            }
+            },
         )
     }
 }

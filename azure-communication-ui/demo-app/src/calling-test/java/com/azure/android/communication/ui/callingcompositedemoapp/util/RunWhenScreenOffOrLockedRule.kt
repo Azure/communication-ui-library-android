@@ -15,9 +15,11 @@ import org.junit.runner.Description
 import org.junit.runners.model.Statement
 
 class RunWhenScreenOffOrLockedRule : TestRule {
-    override fun apply(base: Statement, description: Description): Statement {
+    override fun apply(
+        base: Statement,
+        description: Description,
+    ): Statement {
         return object : Statement() {
-
             override fun evaluate() {
                 // Turn screen on, press he "Got It" button if it exists
                 UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).run {
@@ -40,14 +42,14 @@ class RunWhenScreenOffOrLockedRule : TestRule {
                                     setTurnScreenOn(true)
                                     window.addFlags(
                                         WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
-                                            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                                            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                                     )
                                 } else {
                                     window.addFlags(
                                         WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
                                             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
                                             WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
-                                            WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+                                            WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
                                     )
                                 }
                             }

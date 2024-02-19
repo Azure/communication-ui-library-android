@@ -5,11 +5,11 @@ package com.azure.android.communication.ui.calling.presentation
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer
 import com.azure.android.communication.ui.calling.getDiContainer
+import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
@@ -33,6 +33,7 @@ internal class DependencyInjectionContainerHolder(
         private const val commonMessage =
             "Please ensure that you have set a valid instanceId before retrieving the container."
     }
+
     // Instance ID to locate Configuration. -1 is invalid.
     var instanceId: Int = -1
         set(value) {
@@ -58,7 +59,7 @@ internal class DependencyInjectionContainerHolder(
         SetupViewModel(
             container.appStore,
             SetupViewModelFactory(container.appStore, application),
-            container.networkManager
+            container.networkManager,
         )
     }
     val callingViewModel by lazy {
@@ -70,12 +71,12 @@ internal class DependencyInjectionContainerHolder(
                 application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants),
                 container.debugInfoManager,
                 container.configuration.callCompositeEventsHandler.getOnUserReportedHandlers().toList().isNotEmpty(),
-                container.configuration.enableMultitasking
+                container.configuration.enableMultitasking,
             ),
             container.networkManager,
             container.configuration.enableMultitasking,
             container.configuration.callCompositeLocalOptions?.audioVideoMode
-                ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
         )
     }
 }

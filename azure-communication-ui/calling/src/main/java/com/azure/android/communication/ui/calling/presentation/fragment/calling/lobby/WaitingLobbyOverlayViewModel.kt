@@ -12,20 +12,15 @@ internal class WaitingLobbyOverlayViewModel {
 
     fun getDisplayLobbyOverlayFlow(): StateFlow<Boolean> = displayLobbyOverlayFlow
 
-    fun init(
-        callingState: CallingStatus,
-    ) {
+    fun init(callingState: CallingStatus) {
         val displayLobbyOverlay = shouldDisplayLobbyOverlay(callingState)
         displayLobbyOverlayFlow = MutableStateFlow(displayLobbyOverlay)
     }
 
-    fun update(
-        callingState: CallingStatus,
-    ) {
+    fun update(callingState: CallingStatus) {
         val displayLobbyOverlay = shouldDisplayLobbyOverlay(callingState)
         displayLobbyOverlayFlow.value = displayLobbyOverlay
     }
 
-    private fun shouldDisplayLobbyOverlay(callingStatus: CallingStatus) =
-        callingStatus == CallingStatus.IN_LOBBY
+    private fun shouldDisplayLobbyOverlay(callingStatus: CallingStatus) = callingStatus == CallingStatus.IN_LOBBY
 }

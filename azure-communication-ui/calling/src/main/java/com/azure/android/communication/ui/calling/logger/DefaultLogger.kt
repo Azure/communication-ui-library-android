@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.calling.logger
 import android.util.Log
 
 internal class DefaultLogger : Logger {
-
     private val tag = "communication.ui"
 
     override fun info(message: String) {
@@ -21,7 +20,10 @@ internal class DefaultLogger : Logger {
         Log.w(tag, message)
     }
 
-    override fun error(message: String, error: Throwable?) {
+    override fun error(
+        message: String,
+        error: Throwable?,
+    ) {
         if (error != null) {
             Log.e(tag, message, error)
         } else {

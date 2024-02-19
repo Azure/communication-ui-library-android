@@ -27,8 +27,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.calling.CallCompositeException
-import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
+import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
 import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent
@@ -126,7 +126,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             this,
             getAudioPermissionLauncher(),
             getCameraPermissionLauncher(),
-            lifecycleScope
+            lifecycleScope,
         )
 
         audioSessionManager.onCreate(savedInstanceState)
@@ -152,7 +152,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                         store.dispatch(PipAction.HideEntered())
                     }
                 }
-            }
+            },
         )
 
         // Probably can follow the above pattern now with function declarations
@@ -189,8 +189,11 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
         ) {
             store.dispatch(
-                if (isInPictureInPictureMode) PipAction.PipModeEntered()
-                else PipAction.ShowNormalEntered()
+                if (isInPictureInPictureMode) {
+                    PipAction.PipModeEntered()
+                } else {
+                    PipAction.ShowNormalEntered()
+                },
             )
         }
     }
@@ -241,13 +244,15 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true &&
                 store.getCurrentState().navigationState.navigationState == NavigationStatus.IN_CALL
             ) {
-                val params = PictureInPictureParams
-                    .Builder()
-                    .setAspectRatio(Rational(1, 1))
-                    .build()
+                val params =
+                    PictureInPictureParams
+                        .Builder()
+                        .setAspectRatio(Rational(1, 1))
+                        .build()
 
-                if (enterPictureInPictureMode(params))
+                if (enterPictureInPictureMode(params)) {
                     reduxStartPipMode()
+                }
             }
         } catch (_: Exception) {
             // on some samsung devices(API 26) enterPictureInPictureMode crashes even FEATURE_PICTURE_IN_PICTURE is true
@@ -257,7 +262,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onPictureInPictureModeChanged(
         isInPictureInPictureMode: Boolean,
-        newConfig: Configuration
+        newConfig: Configuration,
     ) {
         super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
         store.dispatch(if (isInPictureInPictureMode) PipAction.PipModeEntered() else PipAction.ShowNormalEntered())
@@ -284,28 +289,31 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     }
 
     fun hide() {
-        if (!configuration.enableMultitasking)
+        if (!configuration.enableMultitasking) {
             return
+        }
 
         // TODO: should we enter PiP if we are on the setup screen?
         if (configuration.enableSystemPiPWhenMultitasking &&
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
             activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
         ) {
-            val params = PictureInPictureParams
-                .Builder()
-                .setAspectRatio(Rational(1, 1))
-                .build()
+            val params =
+                PictureInPictureParams
+                    .Builder()
+                    .setAspectRatio(Rational(1, 1))
+                    .build()
             var enteredPiPSucceeded = false
             try {
                 enteredPiPSucceeded = enterPictureInPictureMode(params)
             } catch (_: Exception) {
                 // on some samsung devices(API 26) enterPictureInPictureMode crashes even FEATURE_PICTURE_IN_PICTURE is true
             }
-            if (enteredPiPSucceeded)
+            if (enteredPiPSucceeded) {
                 reduxStartPipMode()
-            else
+            } else {
                 activity?.moveTaskToBack(true)
+            }
         } else {
             activity?.moveTaskToBack(true)
         }
@@ -317,9 +325,9 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             ColorDrawable(
                 ContextCompat.getColor(
                     this,
-                    R.color.azure_communication_ui_calling_color_background
-                )
-            )
+                    R.color.azure_communication_ui_calling_color_background,
+                ),
+            ),
         )
         supportActionBar?.setHomeAsUpIndicator(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_left_24_filled)
     }
@@ -332,7 +340,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         container.configuration.callCompositeEventsHandler.getOnUserReportedHandlers().forEach {
             try {
                 it.handle(
-                    event
+                    event,
                 )
             } catch (e: Exception) {
                 // Ignore any exception from the user handler
@@ -342,18 +350,19 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
     private fun configureLocalization() {
         val config: Configuration = resources.configuration
-        val locale = when (configuration.localizationConfig) {
-            null -> {
-                supportedOSLocale()
-            }
-
-            else -> {
-                configuration.localizationConfig!!.layoutDirection?.let {
-                    window?.decorView?.layoutDirection = it
+        val locale =
+            when (configuration.localizationConfig) {
+                null -> {
+                    supportedOSLocale()
                 }
-                configuration.localizationConfig!!.locale
+
+                else -> {
+                    configuration.localizationConfig!!.layoutDirection?.let {
+                        window?.decorView?.layoutDirection = it
+                    }
+                    configuration.localizationConfig!!.locale
+                }
             }
-        }
         config.setLocale(locale)
 
         resources.updateConfiguration(config, resources.displayMetrics)
@@ -372,7 +381,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
     private fun getCameraPermissionLauncher(): ActivityResultLauncher<String> {
         return registerForActivityResult(
-            ActivityResultContracts.RequestPermission()
+            ActivityResultContracts.RequestPermission(),
         ) {
             permissionManager.setCameraPermissionsState()
         }
@@ -380,7 +389,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
     private fun getAudioPermissionLauncher(): ActivityResultLauncher<Array<String>> {
         return registerForActivityResult(
-            ActivityResultContracts.RequestMultiplePermissions()
+            ActivityResultContracts.RequestMultiplePermissions(),
         ) {
             permissionManager.setAudioPermissionsState()
         }
@@ -446,10 +455,11 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             }
         }
 
-        val fragment = supportFragmentManager.fragmentFactory.instantiate(
-            classLoader,
-            fragmentClassName
-        )
+        val fragment =
+            supportFragmentManager.fragmentFactory.instantiate(
+                classLoader,
+                fragmentClassName,
+            )
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
 
         // For accessibility, we are going to turn it off during the transaction
@@ -469,18 +479,20 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
     private fun setStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.statusBarColor = ContextCompat.getColor(
-                this,
-                R.color.azure_communication_ui_calling_color_status_bar
-            )
-            val isNightMode = this.resources.configuration.uiMode
-                .and(Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+            window.statusBarColor =
+                ContextCompat.getColor(
+                    this,
+                    R.color.azure_communication_ui_calling_color_status_bar,
+                )
+            val isNightMode =
+                this.resources.configuration.uiMode
+                    .and(Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
 
             if (isNightMode) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     window.insetsController?.setSystemBarsAppearance(
                         0,
-                        APPEARANCE_LIGHT_STATUS_BARS
+                        APPEARANCE_LIGHT_STATUS_BARS,
                     )
                 } else {
                     window.clearFlags(0)
@@ -489,7 +501,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     window.insetsController?.setSystemBarsAppearance(
                         APPEARANCE_LIGHT_STATUS_BARS,
-                        APPEARANCE_LIGHT_STATUS_BARS
+                        APPEARANCE_LIGHT_STATUS_BARS,
                     )
                 } else {
                     @Suppress("DEPRECATION")

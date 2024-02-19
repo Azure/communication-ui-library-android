@@ -12,12 +12,12 @@ import com.azure.android.communication.calling.CreateViewOptions
 import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactory
-import com.azure.android.communication.ui.calling.service.sdk.RemoteVideoStream
-import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRenderer
 import com.azure.android.communication.ui.calling.service.sdk.LocalVideoStream
-import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRendererView
+import com.azure.android.communication.ui.calling.service.sdk.RemoteVideoStream
 import com.azure.android.communication.ui.calling.service.sdk.StreamSize
 import com.azure.android.communication.ui.calling.service.sdk.VideoDeviceInfo
+import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRenderer
+import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRendererView
 import com.google.android.apps.common.testing.accessibility.framework.replacements.LayoutParams
 
 internal class TestVideoStreamRendererFactory(private val callEvents: CallEvents) :
@@ -44,37 +44,40 @@ internal enum class VideoType {
     REMOTE_SCREEN,
     LOCAL_VIDEO_FRONT,
     LOCAL_VIDEO_BACK,
-    LOCAL_SCREEN_SHARE
+    LOCAL_SCREEN_SHARE,
 }
 
 internal sealed class Stream {
     data class Local(val stream: LocalVideoStream) : Stream()
+
     data class Remote(val stream: RemoteVideoStream) : Stream()
 }
 
 internal class TestVideoStreamRendererLocalWrapper(
     private val context: Context,
     callEvents: CallEvents,
-    stream: Stream
+    stream: Stream,
 ) : VideoStreamRenderer, LocalStreamEventObserver {
     private val videoType: VideoType
 
     init {
         when (stream) {
             is Stream.Local -> {
-                videoType = when (stream.stream.source.cameraFacing) {
-                    CameraFacing.FRONT -> VideoType.LOCAL_VIDEO_FRONT
-                    CameraFacing.BACK -> VideoType.LOCAL_VIDEO_BACK
-                    else -> TODO("Camera modes that aren't Front or Back not yet implemented")
-                }
+                videoType =
+                    when (stream.stream.source.cameraFacing) {
+                        CameraFacing.FRONT -> VideoType.LOCAL_VIDEO_FRONT
+                        CameraFacing.BACK -> VideoType.LOCAL_VIDEO_BACK
+                        else -> TODO("Camera modes that aren't Front or Back not yet implemented")
+                    }
                 callEvents.localStreamObservers[stream.stream] = this
             }
             is Stream.Remote -> {
-                videoType = if (stream.stream.mediaStreamType == MediaStreamType.SCREEN_SHARING) {
-                    VideoType.REMOTE_SCREEN
-                } else {
-                    VideoType.REMOTE_VIDEO
-                }
+                videoType =
+                    if (stream.stream.mediaStreamType == MediaStreamType.SCREEN_SHARING) {
+                        VideoType.REMOTE_SCREEN
+                    } else {
+                        VideoType.REMOTE_VIDEO
+                    }
             }
         }
     }
@@ -90,19 +93,21 @@ internal class TestVideoStreamRendererLocalWrapper(
     }
 
     private fun createViewInternal(options: CreateViewOptions? = null): VideoStreamRendererView {
-        val v = synchronized(this) {
-            if (view != null) {
-                view!!
-            } else {
-                TestVideoStreamRendererView(context, videoType).also { view = it }
+        val v =
+            synchronized(this) {
+                if (view != null) {
+                    view!!
+                } else {
+                    TestVideoStreamRendererView(context, videoType).also { view = it }
+                }
             }
-        }
         return v
     }
 
-    override fun dispose() = synchronized(this) {
-        view = null
-    }
+    override fun dispose() =
+        synchronized(this) {
+            view = null
+        }
 
     override fun getStreamSize(): StreamSize? {
         return view?.let {
@@ -122,11 +127,12 @@ internal class TestVideoStreamRendererLocalWrapper(
 }
 
 internal class TestVideoStreamRendererView(context: Context, videoType: VideoType) : VideoStreamRendererView {
-    private val v = WebView(context).also {
-        it.settings.allowFileAccess = true
-        it.layoutParams = FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
-        it.loadUrl(fileName(videoType))
-    }
+    private val v =
+        WebView(context).also {
+            it.settings.allowFileAccess = true
+            it.layoutParams = FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+            it.loadUrl(fileName(videoType))
+        }
 
     override fun dispose() {}
 
@@ -142,13 +148,14 @@ internal class TestVideoStreamRendererView(context: Context, videoType: VideoTyp
     }
 
     private fun fileName(videoType: VideoType): String {
-        val f = when (videoType) {
-            VideoType.REMOTE_VIDEO -> "remoteVideo.html"
-            VideoType.REMOTE_SCREEN -> "remoteScreenShare.html"
-            VideoType.LOCAL_VIDEO_BACK -> "localVideoBack.html"
-            VideoType.LOCAL_VIDEO_FRONT -> "localVideoFront.html"
-            VideoType.LOCAL_SCREEN_SHARE -> "localScreenShare.html"
-        }
+        val f =
+            when (videoType) {
+                VideoType.REMOTE_VIDEO -> "remoteVideo.html"
+                VideoType.REMOTE_SCREEN -> "remoteScreenShare.html"
+                VideoType.LOCAL_VIDEO_BACK -> "localVideoBack.html"
+                VideoType.LOCAL_VIDEO_FRONT -> "localVideoFront.html"
+                VideoType.LOCAL_SCREEN_SHARE -> "localScreenShare.html"
+            }
         return "file:///android_asset/videoStreams/$f"
     }
 }

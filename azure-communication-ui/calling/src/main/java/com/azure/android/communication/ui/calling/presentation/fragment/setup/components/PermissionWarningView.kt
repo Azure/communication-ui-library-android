@@ -93,8 +93,8 @@ internal class PermissionWarningView : LinearLayout {
             setupMissingImage.setImageDrawable(
                 ContextCompat.getDrawable(
                     context,
-                    R.drawable.azure_communication_ui_calling_ic_fluent_mic_off_24_filled_composite_button_enabled
-                )
+                    R.drawable.azure_communication_ui_calling_ic_fluent_mic_off_24_filled_composite_button_enabled,
+                ),
             )
             setupMissingText.setText(context.getString(R.string.azure_communication_ui_calling_setup_view_preview_area_audio_disabled))
         } else if (!cameraPermissionGranted) {
@@ -102,8 +102,8 @@ internal class PermissionWarningView : LinearLayout {
             setupMissingImage.setImageDrawable(
                 ContextCompat.getDrawable(
                     context,
-                    R.drawable.azure_communication_ui_calling_ic_fluent_video_off_24_filled_composite_button_enabled
-                )
+                    R.drawable.azure_communication_ui_calling_ic_fluent_video_off_24_filled_composite_button_enabled,
+                ),
             )
             setupMissingText.setText(context.getString(R.string.azure_communication_ui_calling_setup_view_preview_area_camera_disabled))
         }

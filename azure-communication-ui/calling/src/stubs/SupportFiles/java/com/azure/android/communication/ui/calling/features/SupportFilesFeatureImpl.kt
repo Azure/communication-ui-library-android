@@ -12,7 +12,10 @@ import java.io.File
 internal class SupportFilesFeatureImpl : SupportFilesFeature() {
     override val isAvailable = true
 
-    override fun getSupportFiles(client: CallClient, context: Context): List<File> {
+    override fun getSupportFiles(
+        client: CallClient,
+        context: Context,
+    ): List<File> {
         // We find with context instead of callClient here
         return context.filesDir.listFiles()?.filter { it.isFile && it.name.endsWith(".blog") }
             ?: emptyList()

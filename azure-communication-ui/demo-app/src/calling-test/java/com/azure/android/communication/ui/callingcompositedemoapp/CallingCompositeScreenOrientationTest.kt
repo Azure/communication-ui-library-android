@@ -18,7 +18,6 @@ import org.junit.runners.MethodSorters
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class CallingCompositeScreenOrientationTest : BaseUiTest() {
-
     @get:Rule
     val screenLockRule = RunWhenScreenOffOrLockedRule()
 
@@ -76,11 +75,12 @@ class CallingCompositeScreenOrientationTest : BaseUiTest() {
 
         settingsScreen.selectSetupScreenOrientationDropDown(orientation)
 
-        val setupScreen = homeScreen
-            .clickTeamsMeetingRadioButton()
-            .setGroupIdOrTeamsMeetingUrl(TestFixture.teamsUrl)
-            .setAcsToken(CallIdentifiersHelper.getACSToken())
-            .clickLaunchButton()
+        val setupScreen =
+            homeScreen
+                .clickTeamsMeetingRadioButton()
+                .setGroupIdOrTeamsMeetingUrl(TestFixture.teamsUrl)
+                .setAcsToken(CallIdentifiersHelper.getACSToken())
+                .clickLaunchButton()
 
         setupScreen.navigateUpFromSetupScreen()
     }
@@ -92,11 +92,12 @@ class CallingCompositeScreenOrientationTest : BaseUiTest() {
 
         settingsScreen.selectCallScreenOrientationDropDown(orientation)
 
-        val setupScreen = homeScreen
-            .clickGroupCallRadioButton()
-            .setGroupIdOrTeamsMeetingUrl(TestFixture.groupId)
-            .setAcsToken(CallIdentifiersHelper.getACSToken())
-            .clickLaunchButton()
+        val setupScreen =
+            homeScreen
+                .clickGroupCallRadioButton()
+                .setGroupIdOrTeamsMeetingUrl(TestFixture.groupId)
+                .setAcsToken(CallIdentifiersHelper.getACSToken())
+                .clickLaunchButton()
 
         val callScreen = setupScreen.clickJoinCallButton()
         callScreen

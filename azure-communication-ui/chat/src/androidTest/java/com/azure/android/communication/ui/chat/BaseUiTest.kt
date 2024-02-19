@@ -22,9 +22,10 @@ internal open class BaseUiTest {
     @JvmField
     var grantPermissionRule: GrantPermissionRule
 
-    private val basePermissionList = arrayOf(
-        "android.permission.ACCESS_NETWORK_STATE"
-    )
+    private val basePermissionList =
+        arrayOf(
+            "android.permission.ACCESS_NETWORK_STATE",
+        )
 
     init {
         grantPermissionRule = GrantPermissionRule.grant(*basePermissionList)

@@ -16,11 +16,11 @@ internal class VideoStreamRendererRemoteWrapper(
         null
 
     override fun createView(): VideoStreamRendererView? {
-
-        videoStreamRenderer = com.azure.android.communication.calling.VideoStreamRenderer(
-            remoteVideoStream,
-            context,
-        )
+        videoStreamRenderer =
+            com.azure.android.communication.calling.VideoStreamRenderer(
+                remoteVideoStream,
+                context,
+            )
 
         videoStreamRendererView = videoStreamRenderer?.createView()?.into()
 
@@ -28,10 +28,11 @@ internal class VideoStreamRendererRemoteWrapper(
     }
 
     override fun createView(options: CreateViewOptions): VideoStreamRendererView? {
-        videoStreamRenderer = com.azure.android.communication.calling.VideoStreamRenderer(
-            remoteVideoStream,
-            context,
-        )
+        videoStreamRenderer =
+            com.azure.android.communication.calling.VideoStreamRenderer(
+                remoteVideoStream,
+                context,
+            )
 
         videoStreamRendererView = videoStreamRenderer?.createView(options)?.into()
 

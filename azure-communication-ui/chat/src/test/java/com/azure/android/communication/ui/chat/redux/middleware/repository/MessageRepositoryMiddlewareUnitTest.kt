@@ -14,15 +14,14 @@ import org.junit.Test
 import org.mockito.kotlin.mock
 
 internal class MessageRepositoryMiddlewareUnitTest {
-
     @Test
     fun messageRepositoryMiddleware_invoke_when_invokedWithAnyAction_then_invokeNext() {
-
-        val message = MessageInfoModel(
-            id = "1",
-            content = "Message 1",
-            messageType = ChatMessageType.TEXT
-        )
+        val message =
+            MessageInfoModel(
+                id = "1",
+                content = "Message 1",
+                messageType = ChatMessageType.TEXT,
+            )
 
         // arrange
         val actionToDispatch = ChatAction.SendMessage(message)
@@ -32,7 +31,7 @@ internal class MessageRepositoryMiddlewareUnitTest {
 
         val messageRepositoryMiddlewareImplementation =
             MessageRepositoryMiddlewareImpl(
-                mockMessageRepository
+                mockMessageRepository,
             )
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
@@ -41,13 +40,13 @@ internal class MessageRepositoryMiddlewareUnitTest {
         messageRepositoryMiddlewareImplementation.invoke(mockAppStore)(
             fun(action) {
                 nextReceivedAction = action as ChatAction
-            }
+            },
         )(actionToDispatch)
 
         // assert
         Assert.assertEquals(
             actionToDispatch,
-            nextReceivedAction
+            nextReceivedAction,
         )
     }
 }

@@ -14,7 +14,6 @@ import java.util.Collections
 
 // Helper to share tests across implementations
 internal class MessageRepositoryUnitTest {
-
     companion object {
         fun addPageTest(messageRepository: MessageRepository) {
             val messages = Collections.synchronizedList(mutableListOf<MessageInfoModel>())
@@ -24,8 +23,8 @@ internal class MessageRepositoryUnitTest {
                     MessageInfoModel(
                         id = i.toString(),
                         content = "Message $i",
-                        messageType = ChatMessageType.TEXT
-                    )
+                        messageType = ChatMessageType.TEXT,
+                    ),
                 )
             }
 
@@ -46,8 +45,8 @@ internal class MessageRepositoryUnitTest {
                     MessageInfoModel(
                         id = i.toString(),
                         content = "Message $i",
-                        messageType = ChatMessageType.TEXT
-                    )
+                        messageType = ChatMessageType.TEXT,
+                    ),
                 )
             }
             messageRepository.refreshSnapshot()
@@ -66,19 +65,20 @@ internal class MessageRepositoryUnitTest {
                     MessageInfoModel(
                         id = i.toString(),
                         content = "Message $i",
-                        messageType = ChatMessageType.TEXT
-                    )
+                        messageType = ChatMessageType.TEXT,
+                    ),
                 )
             }
 
             messageRepository.refreshSnapshot()
             val resultList = messageRepository.snapshotList
 
-            val newMessage = MessageInfoModel(
-                id = resultList[0].normalizedID.toString(),
-                content = "Edited Message 0",
-                messageType = resultList[0].messageType
-            )
+            val newMessage =
+                MessageInfoModel(
+                    id = resultList[0].normalizedID.toString(),
+                    content = "Edited Message 0",
+                    messageType = resultList[0].messageType,
+                )
 
             messageRepository.replaceMessage(messageRepository.get(0), newMessage)
             messageRepository.refreshSnapshot()
@@ -93,8 +93,8 @@ internal class MessageRepositoryUnitTest {
                     MessageInfoModel(
                         id = i.toString(),
                         content = "Message $i",
-                        messageType = ChatMessageType.TEXT
-                    )
+                        messageType = ChatMessageType.TEXT,
+                    ),
                 )
             }
 
@@ -102,8 +102,8 @@ internal class MessageRepositoryUnitTest {
                 MessageInfoModel(
                     id = "5",
                     content = "Message $5",
-                    messageType = ChatMessageType.TEXT
-                )
+                    messageType = ChatMessageType.TEXT,
+                ),
             )
             storage.refreshSnapshot()
             val resultList = storage.snapshotList
@@ -111,7 +111,6 @@ internal class MessageRepositoryUnitTest {
         }
 
         fun outOfOrderTest(repository: MessageRepository) {
-
             // Add ID 4..7
             for (i in 4..7) {
                 repository.addMessage(
@@ -119,8 +118,8 @@ internal class MessageRepositoryUnitTest {
                         id = "$i",
                         content = "Message $i",
                         messageType = ChatMessageType.TEXT,
-                        createdOn = OffsetDateTime.of(2001, 3, 26, i, 0, i, 0, ZoneOffset.ofHours(2))
-                    )
+                        createdOn = OffsetDateTime.of(2001, 3, 26, i, 0, i, 0, ZoneOffset.ofHours(2)),
+                    ),
                 )
             }
 
@@ -130,8 +129,8 @@ internal class MessageRepositoryUnitTest {
                     id = "0",
                     content = "Message 0",
                     messageType = ChatMessageType.TEXT,
-                    createdOn = OffsetDateTime.of(1980, 3, 26, 0, 0, 0, 0, ZoneOffset.ofHours(2))
-                )
+                    createdOn = OffsetDateTime.of(1980, 3, 26, 0, 0, 0, 0, ZoneOffset.ofHours(2)),
+                ),
             )
 
             // Add IDs [1-3]
@@ -141,8 +140,8 @@ internal class MessageRepositoryUnitTest {
                         id = "$i",
                         content = "Message $i",
                         messageType = ChatMessageType.TEXT,
-                        createdOn = OffsetDateTime.of(2000, 3, 26, i, 0, 0, 0, ZoneOffset.ofHours(2))
-                    )
+                        createdOn = OffsetDateTime.of(2000, 3, 26, i, 0, 0, 0, ZoneOffset.ofHours(2)),
+                    ),
                 )
             }
             repository.refreshSnapshot()
@@ -165,15 +164,15 @@ internal class MessageRepositoryUnitTest {
                     MessageInfoModel(
                         id = i.toString(),
                         content = "Message $i",
-                        messageType = ChatMessageType.TEXT
-                    )
+                        messageType = ChatMessageType.TEXT,
+                    ),
                 )
             }
             storage.refreshSnapshot()
             val resultList = storage.snapshotList
             Assert.assertEquals(
                 1,
-                resultList.findMessageIdxById(2)
+                resultList.findMessageIdxById(2),
             )
         }
     }

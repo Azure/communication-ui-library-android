@@ -95,7 +95,7 @@ internal class ControlBarView : ConstraintLayout {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getCallStateFlow().collect() {
+            viewModel.getCallStateFlow().collect {
                 if (it == CallingStatus.NONE || it == CallingStatus.CONNECTING) {
                     cameraToggle.isEnabled = false
                     micToggle.isEnabled = false
@@ -121,18 +121,19 @@ internal class ControlBarView : ConstraintLayout {
 
     private fun accessibilityNonSelectableViews() = setOf(micToggle, cameraToggle)
 
-    private val alwaysOffSelectedAccessibilityDelegate = object : AccessibilityDelegateCompat() {
-        override fun onInitializeAccessibilityNodeInfo(
-            host: View,
-            info: AccessibilityNodeInfoCompat
-        ) {
-            super.onInitializeAccessibilityNodeInfo(host, info)
-            if (host in accessibilityNonSelectableViews()) {
-                // From an accessibility standpoint these views are never "selected"
-                info.isSelected = false
+    private val alwaysOffSelectedAccessibilityDelegate =
+        object : AccessibilityDelegateCompat() {
+            override fun onInitializeAccessibilityNodeInfo(
+                host: View,
+                info: AccessibilityNodeInfoCompat,
+            ) {
+                super.onInitializeAccessibilityNodeInfo(host, info)
+                if (host in accessibilityNonSelectableViews()) {
+                    // From an accessibility standpoint these views are never "selected"
+                    info.isSelected = false
+                }
             }
         }
-    }
 
     private fun setupAccessibility() {
         ViewCompat.setAccessibilityDelegate(
@@ -141,7 +142,7 @@ internal class ControlBarView : ConstraintLayout {
                 override fun onRequestSendAccessibilityEvent(
                     host: ViewGroup,
                     child: View,
-                    event: AccessibilityEvent
+                    event: AccessibilityEvent,
                 ): Boolean {
                     if (child in accessibilityNonSelectableViews() && event.eventType == AccessibilityEvent.TYPE_VIEW_SELECTED) {
                         // We don't want Accessibility TalkBock to read out the "Selected" status of
@@ -151,7 +152,7 @@ internal class ControlBarView : ConstraintLayout {
                     }
                     return super.onRequestSendAccessibilityEvent(host, child, event)
                 }
-            }
+            },
         )
         ViewCompat.setAccessibilityDelegate(micToggle, alwaysOffSelectedAccessibilityDelegate)
         ViewCompat.setAccessibilityDelegate(cameraToggle, alwaysOffSelectedAccessibilityDelegate)
@@ -206,18 +207,18 @@ internal class ControlBarView : ConstraintLayout {
         when (audioDeviceSelectionStatus) {
             AudioDeviceSelectionStatus.SPEAKER_SELECTED -> {
                 callAudioDeviceButton.setImageResource(
-                    R.drawable.azure_communication_ui_calling_speaker_speakerphone_selector
+                    R.drawable.azure_communication_ui_calling_speaker_speakerphone_selector,
                 )
             }
             AudioDeviceSelectionStatus.RECEIVER_SELECTED -> {
                 callAudioDeviceButton.setImageResource(
-                    R.drawable.azure_communication_ui_calling_speaker_receiver_selector
+                    R.drawable.azure_communication_ui_calling_speaker_receiver_selector,
                 )
             }
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> {
                 callAudioDeviceButton.setImageResource(
                     // Needs an icon
-                    R.drawable.azure_communication_ui_calling_speaker_bluetooth_selector
+                    R.drawable.azure_communication_ui_calling_speaker_bluetooth_selector,
                 )
             }
             else -> {}

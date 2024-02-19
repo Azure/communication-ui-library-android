@@ -41,7 +41,6 @@ import com.google.gson.GsonBuilder
 import java.util.Locale
 
 class SettingsFeatures {
-
     companion object {
         private lateinit var sharedPrefs: SharedPreferences
         private val defaultLocaleString = Gson().toJson(Locale.US)
@@ -52,32 +51,40 @@ class SettingsFeatures {
 
         fun language(): String? {
             return sharedPrefs.getString(
-                LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY, null
+                LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
+                null,
             )
         }
 
         fun getLayoutDirection(): Int? {
             val isRTLKey =
-                LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY + sharedPrefs.getString(
-                    LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
-                    DEFAULT_LANGUAGE_VALUE
-                )
+                LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY +
+                    sharedPrefs.getString(
+                        LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
+                        DEFAULT_LANGUAGE_VALUE,
+                    )
             return if (sharedPrefs.contains(isRTLKey)) {
-                if (sharedPrefs.getBoolean(isRTLKey, DEFAULT_RTL_VALUE))
-                    LayoutDirection.RTL else LayoutDirection.LTR
-            } else
+                if (sharedPrefs.getBoolean(isRTLKey, DEFAULT_RTL_VALUE)) {
+                    LayoutDirection.RTL
+                } else {
+                    LayoutDirection.LTR
+                }
+            } else {
                 null
+            }
         }
 
         fun locale(languageDisplayName: String?): Locale? {
-            if (languageDisplayName == null)
+            if (languageDisplayName == null) {
                 return null
+            }
 
             val localeString = sharedPrefs.getString(languageDisplayName, null)
-            return if (localeString != null)
+            return if (localeString != null) {
                 GsonBuilder().create().fromJson(localeString, Locale::class.java)
-            else
+            } else {
                 null
+            }
         }
 
         fun orientation(orientationDisplayName: String?): CallCompositeSupportedScreenOrientation? {
@@ -102,27 +109,35 @@ class SettingsFeatures {
         }
 
         fun getSkipSetupScreenFeatureOption(): Boolean? {
-            return if (sharedPrefs.contains(SKIP_SETUP_SCREEN_VALUE_KEY))
+            return if (sharedPrefs.contains(SKIP_SETUP_SCREEN_VALUE_KEY)) {
                 sharedPrefs.getBoolean(SKIP_SETUP_SCREEN_VALUE_KEY, DEFAULT_SKIP_SETUP_SCREEN_VALUE)
-            else null
+            } else {
+                null
+            }
         }
 
         fun getMicOnByDefaultOption(): Boolean? {
-            return if (sharedPrefs.contains(MIC_ON_BY_DEFAULT_KEY))
+            return if (sharedPrefs.contains(MIC_ON_BY_DEFAULT_KEY)) {
                 sharedPrefs.getBoolean(MIC_ON_BY_DEFAULT_KEY, DEFAULT_MIC_ON_BY_DEFAULT_VALUE)
-            else null
+            } else {
+                null
+            }
         }
 
         fun getCameraOnByDefaultOption(): Boolean? {
-            return if (sharedPrefs.contains(CAMERA_ON_BY_DEFAULT_KEY))
+            return if (sharedPrefs.contains(CAMERA_ON_BY_DEFAULT_KEY)) {
                 sharedPrefs.getBoolean(CAMERA_ON_BY_DEFAULT_KEY, DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE)
-            else null
+            } else {
+                null
+            }
         }
 
         fun getAudioOnlyByDefaultOption(): Boolean? {
-            return if (sharedPrefs.contains(AUDIO_ONLY_MODE_ON_BY_DEFAULT_KEY))
+            return if (sharedPrefs.contains(AUDIO_ONLY_MODE_ON_BY_DEFAULT_KEY)) {
                 sharedPrefs.getBoolean(AUDIO_ONLY_MODE_ON_BY_DEFAULT_KEY, AUDIO_ONLY_MODE_ON_BY_DEFAULT_VALUE)
-            else null
+            } else {
+                null
+            }
         }
 
         fun getEndCallOnByDefaultOption(): Boolean {
@@ -139,10 +154,11 @@ class SettingsFeatures {
                 }
             }
 
-            if (!displayName.isNullOrEmpty() || avatarImageBitmap != null)
+            if (!displayName.isNullOrEmpty() || avatarImageBitmap != null) {
                 return CallCompositeParticipantViewData()
                     .setDisplayName(displayName)
                     .setAvatarBitmap(avatarImageBitmap)
+            }
 
             return null
         }
@@ -151,27 +167,32 @@ class SettingsFeatures {
 
         fun getSubtitle(): String? = sharedPrefs.getString(CALL_SUBTITLE, null)
 
-        fun callScreenOrientation(): String? = sharedPrefs.getString(
+        fun callScreenOrientation(): String? =
+            sharedPrefs.getString(
                 CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY,
-                null
+                null,
             )
 
-        fun setupScreenOrientation(): String? = sharedPrefs.getString(
+        fun setupScreenOrientation(): String? =
+            sharedPrefs.getString(
                 SETUP_SCREEN_ORIENTATION_SHARED_PREF_KEY,
-                null
+                null,
             )
 
         fun enableMultitasking(): Boolean? {
-            return if (sharedPrefs.contains(ENABLE_MULTITASKING))
+            return if (sharedPrefs.contains(ENABLE_MULTITASKING)) {
                 sharedPrefs.getBoolean(ENABLE_MULTITASKING, ENABLE_MULTITASKING_DEFAULT_VALUE)
-            else null
+            } else {
+                null
+            }
         }
 
         fun enablePipWhenMultitasking(): Boolean? {
-            return if (sharedPrefs.contains(ENABLE_PIP_WHEN_MULTITASKING))
+            return if (sharedPrefs.contains(ENABLE_PIP_WHEN_MULTITASKING)) {
                 sharedPrefs.getBoolean(ENABLE_PIP_WHEN_MULTITASKING, ENABLE_PIP_WHEN_MULTITASKING_DEFAULT_VALUE)
-            else
+            } else {
                 null
+            }
         }
     }
 }

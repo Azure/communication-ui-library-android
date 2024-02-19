@@ -12,48 +12,48 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.media.AudioDeviceInfo
 import android.media.AudioManager
+import android.os.Build
+import android.os.Bundle
+import androidx.annotation.RequiresApi
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.coroutineScope
+import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
+import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.flow.collect
-import android.media.AudioDeviceInfo
-import android.os.Build
-import android.os.Bundle
-import androidx.annotation.RequiresApi
-
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.coroutineScope
-import com.azure.android.communication.ui.calling.CallCompositeException
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
-import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 
 internal class AudioSessionManager(
     private val store: Store<ReduxState>,
     private val context: Context,
 ) : BluetoothProfile.ServiceListener, BroadcastReceiver() {
-
     private val audioManager by lazy { context.getSystemService(Context.AUDIO_SERVICE) as AudioManager }
     private var bluetoothAudioProxy: BluetoothHeadset? = null
     private var initialized = false
 
     private val isBluetoothScoAvailable
-        get() = try {
-            (bluetoothAudioProxy?.connectedDevices?.size ?: 0) > 0
-        } catch (exception: SecurityException) {
-            false
-        }
+        get() =
+            try {
+                (bluetoothAudioProxy?.connectedDevices?.size ?: 0) > 0
+            } catch (exception: SecurityException) {
+                false
+            }
 
     private val bluetoothDeviceName: String
-        get() = try {
-            bluetoothAudioProxy?.connectedDevices?.firstOrNull()?.name
-                ?: context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_bluetooth)
-        } catch (exception: SecurityException) {
-            context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_bluetooth)
-        }
+        get() =
+            try {
+                bluetoothAudioProxy?.connectedDevices?.firstOrNull()?.name
+                    ?: context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_bluetooth)
+            } catch (exception: SecurityException) {
+                context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_bluetooth)
+            }
 
     private var previousPermissionState: PermissionStatus = PermissionStatus.UNKNOWN
 
@@ -122,7 +122,10 @@ internal class AudioSessionManager(
         }
     }
 
-    override fun onReceive(context: Context?, intent: Intent?) {
+    override fun onReceive(
+        context: Context?,
+        intent: Intent?,
+    ) {
         intent?.apply {
             when (action) {
                 BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED -> openProfileProxy()
@@ -155,19 +158,18 @@ internal class AudioSessionManager(
 
         // Auto-Connect to Bluetooth if it wasn't available but now is
         if (isBluetoothScoAvailable && !audioState.bluetoothState.available) {
-
             store.dispatch(
                 LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(
                     isBluetoothScoAvailable,
-                    bluetoothDeviceName
-                )
+                    bluetoothDeviceName,
+                ),
             )
 
             priorToBluetoothAudioSelectionStatus = store.getCurrentState().localParticipantState.audioState.device
             store.dispatch(
                 LocalParticipantAction.AudioDeviceChangeRequested(
-                    AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED
-                )
+                    AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
+                ),
             )
         }
 
@@ -175,8 +177,8 @@ internal class AudioSessionManager(
         store.dispatch(
             LocalParticipantAction.AudioDeviceBluetoothSCOAvailable(
                 isBluetoothScoAvailable,
-                bluetoothDeviceName
-            )
+                bluetoothDeviceName,
+            ),
         )
     }
 
@@ -186,8 +188,8 @@ internal class AudioSessionManager(
                 when (priorToBluetoothAudioSelectionStatus) {
                     AudioDeviceSelectionStatus.RECEIVER_SELECTED -> AudioDeviceSelectionStatus.RECEIVER_REQUESTED
                     else -> AudioDeviceSelectionStatus.SPEAKER_REQUESTED
-                }
-            )
+                },
+            ),
         )
     }
 
@@ -198,11 +200,12 @@ internal class AudioSessionManager(
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return audioManager.isWiredHeadsetOn
         }
-        val headsetTypes = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            headsetTypesPost25()
-        } else {
-            headsetTypesPost22()
-        }
+        val headsetTypes =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                headsetTypesPost25()
+            } else {
+                headsetTypesPost22()
+            }
         return audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS).find {
             it.type in headsetTypes
         } != null
@@ -227,7 +230,7 @@ internal class AudioSessionManager(
         updateHeadphoneStatus()
 
         store.dispatch(
-            LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.SPEAKER_SELECTED)
+            LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.SPEAKER_SELECTED),
         )
     }
 
@@ -245,24 +248,24 @@ internal class AudioSessionManager(
                 enableSpeakerPhone()
                 store.dispatch(
                     LocalParticipantAction.AudioDeviceChangeSucceeded(
-                        AudioDeviceSelectionStatus.SPEAKER_SELECTED
-                    )
+                        AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    ),
                 )
             }
             AudioDeviceSelectionStatus.RECEIVER_REQUESTED -> {
                 enableEarpiece()
                 store.dispatch(
                     LocalParticipantAction.AudioDeviceChangeSucceeded(
-                        AudioDeviceSelectionStatus.RECEIVER_SELECTED
-                    )
+                        AudioDeviceSelectionStatus.RECEIVER_SELECTED,
+                    ),
                 )
             }
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED -> {
                 enableBluetooth()
                 store.dispatch(
                     LocalParticipantAction.AudioDeviceChangeSucceeded(
-                        AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED
-                    )
+                        AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED,
+                    ),
                 )
             }
             else -> {}
@@ -308,7 +311,10 @@ internal class AudioSessionManager(
         }
     }
 
-    override fun onServiceConnected(profile: Int, proxy: BluetoothProfile?) {
+    override fun onServiceConnected(
+        profile: Int,
+        proxy: BluetoothProfile?,
+    ) {
         bluetoothAudioProxy = proxy as BluetoothHeadset
         updateBluetoothStatus()
     }

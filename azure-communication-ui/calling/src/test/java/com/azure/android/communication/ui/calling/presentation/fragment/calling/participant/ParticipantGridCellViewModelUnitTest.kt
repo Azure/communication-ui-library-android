@@ -3,15 +3,15 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.participant
 
+import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.models.VideoStreamModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.VideoViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.ParticipantGridCellViewModelFactory
-import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.redux.state.PictureInPictureStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
@@ -23,32 +23,32 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
 internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
-
     @ExperimentalCoroutinesApi
     @Test
     fun participantViewModel_update_when_isCalledWithParticipantInfoModel_then_participantGridViewModelReceiveStateChange() =
         runScopedTest {
-
             // arrange
             val participantGridViewModel = getParticipantGridViewModel()
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
-            remoteParticipantsMap["user1"] = getParticipantInfoModel(
-                "user one",
-                "user1",
-                isMuted = true,
-                isSpeaking = true,
-                cameraVideoStreamModel = VideoStreamModel("video", StreamType.VIDEO),
-                modifiedTimestamp = 456,
-                speakingTimestamp = 567
-            )
+            remoteParticipantsMap["user1"] =
+                getParticipantInfoModel(
+                    "user one",
+                    "user1",
+                    isMuted = true,
+                    isSpeaking = true,
+                    cameraVideoStreamModel = VideoStreamModel("video", StreamType.VIDEO),
+                    modifiedTimestamp = 456,
+                    speakingTimestamp = 567,
+                )
 
             val emitResultFromRemoteParticipantsSharedFlow =
                 mutableListOf<List<ParticipantGridCellViewModel>>()
 
-            val flowJob = launch {
-                participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
-                    .toList(emitResultFromRemoteParticipantsSharedFlow)
-            }
+            val flowJob =
+                launch {
+                    participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
+                        .toList(emitResultFromRemoteParticipantsSharedFlow)
+                }
 
             val pipStatus = PictureInPictureStatus.VISIBLE
 
@@ -62,7 +62,7 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
             Assert.assertEquals("user1", participantViewModel.getParticipantUserIdentifier())
             Assert.assertEquals(
                 "video",
-                participantViewModel.getVideoViewModelStateFlow().value!!.videoStreamID
+                participantViewModel.getVideoViewModelStateFlow().value!!.videoStreamID,
             )
             Assert.assertEquals(true, participantViewModel.getIsMutedStateFlow().value)
             Assert.assertEquals(false, participantViewModel.getIsSpeakingStateFlow().value)
@@ -75,28 +75,29 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
     @Test
     fun participantViewModel_update_when_isCalledWithParticipantInfoModel_then_participantGridViewModelReceiveStateChangeForSameParticipantWithNewModifiedTimestamp() =
         runScopedTest {
-
             // arrange
             val participantGridViewModel =
                 getParticipantGridViewModel()
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
-            remoteParticipantsMap["user1"] = getParticipantInfoModel(
-                "user one",
-                "user1",
-                isMuted = true,
-                isSpeaking = true,
-                cameraVideoStreamModel = VideoStreamModel("video", StreamType.VIDEO),
-                modifiedTimestamp = 456,
-                speakingTimestamp = 567
-            )
+            remoteParticipantsMap["user1"] =
+                getParticipantInfoModel(
+                    "user one",
+                    "user1",
+                    isMuted = true,
+                    isSpeaking = true,
+                    cameraVideoStreamModel = VideoStreamModel("video", StreamType.VIDEO),
+                    modifiedTimestamp = 456,
+                    speakingTimestamp = 567,
+                )
 
             val emitResultFromRemoteParticipantsSharedFlow =
                 mutableListOf<List<ParticipantGridCellViewModel>>()
 
-            val flowJob = launch {
-                participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
-                    .toList(emitResultFromRemoteParticipantsSharedFlow)
-            }
+            val flowJob =
+                launch {
+                    participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
+                        .toList(emitResultFromRemoteParticipantsSharedFlow)
+                }
             val pipStatus = PictureInPictureStatus.VISIBLE
 
             // act
@@ -111,7 +112,7 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
             Assert.assertEquals("user1", participantViewModel.getParticipantUserIdentifier())
             Assert.assertEquals(
                 "video",
-                participantViewModel.getVideoViewModelStateFlow().value!!.videoStreamID
+                participantViewModel.getVideoViewModelStateFlow().value!!.videoStreamID,
             )
             Assert.assertEquals(true, participantViewModel.getIsMutedStateFlow().value)
             Assert.assertEquals(false, participantViewModel.getIsSpeakingStateFlow().value)
@@ -123,7 +124,7 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
             Assert.assertEquals("user one", participantViewModel.getDisplayNameStateFlow().value)
             Assert.assertEquals(
                 "video",
-                participantViewModel.getVideoViewModelStateFlow().value?.videoStreamID
+                participantViewModel.getVideoViewModelStateFlow().value?.videoStreamID,
             )
             Assert.assertEquals(false, participantViewModel.getIsMutedStateFlow().value)
             Assert.assertEquals(true, participantViewModel.getIsSpeakingStateFlow().value)
@@ -138,23 +139,25 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
             // arrange
             val participantGridViewModel = getParticipantGridViewModel()
             val remoteParticipantsMap: MutableMap<String, ParticipantInfoModel> = mutableMapOf()
-            remoteParticipantsMap["user1"] = getParticipantInfoModel(
-                "user one",
-                "user1",
-                isMuted = true,
-                isSpeaking = true,
-                cameraVideoStreamModel = VideoStreamModel("video", StreamType.VIDEO),
-                modifiedTimestamp = 456,
-                speakingTimestamp = 567
-            )
+            remoteParticipantsMap["user1"] =
+                getParticipantInfoModel(
+                    "user one",
+                    "user1",
+                    isMuted = true,
+                    isSpeaking = true,
+                    cameraVideoStreamModel = VideoStreamModel("video", StreamType.VIDEO),
+                    modifiedTimestamp = 456,
+                    speakingTimestamp = 567,
+                )
 
             val emitResultFromRemoteParticipantsSharedFlow =
                 mutableListOf<List<ParticipantGridCellViewModel>>()
 
-            val flowJob = launch {
-                participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
-                    .toList(emitResultFromRemoteParticipantsSharedFlow)
-            }
+            val flowJob =
+                launch {
+                    participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
+                        .toList(emitResultFromRemoteParticipantsSharedFlow)
+                }
             val pipStatus = PictureInPictureStatus.VISIBLE
 
             // act
@@ -170,7 +173,7 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
             Assert.assertEquals("user1", participantViewModel.getParticipantUserIdentifier())
             Assert.assertEquals(
                 "video",
-                participantViewModel.getVideoViewModelStateFlow().value!!.videoStreamID
+                participantViewModel.getVideoViewModelStateFlow().value!!.videoStreamID,
             )
             Assert.assertEquals(true, participantViewModel.getIsMutedStateFlow().value)
             Assert.assertEquals(false, participantViewModel.getIsSpeakingStateFlow().value)
@@ -180,7 +183,7 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
             Assert.assertEquals("user one", participantViewModel.getDisplayNameStateFlow().value)
             Assert.assertEquals(
                 "video",
-                participantViewModel.getVideoViewModelStateFlow().value?.videoStreamID
+                participantViewModel.getVideoViewModelStateFlow().value?.videoStreamID,
             )
             Assert.assertEquals(true, participantViewModel.getIsMutedStateFlow().value)
             Assert.assertEquals(false, participantViewModel.getIsSpeakingStateFlow().value)
@@ -188,10 +191,11 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
             flowJob.cancel()
         }
 
-    private fun getParticipantGridViewModel() = ParticipantGridViewModel(
-        ParticipantGridCellViewModelFactory(),
-        6
-    )
+    private fun getParticipantGridViewModel() =
+        ParticipantGridViewModel(
+            ParticipantGridCellViewModelFactory(),
+            6,
+        )
 
     @ExperimentalCoroutinesApi
     @Test
@@ -204,37 +208,42 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
             val emitResultVideoStreamModel = mutableListOf<VideoViewModel?>()
 
             // act
-            val participantViewModel = ParticipantGridCellViewModel(
-                "user one",
-                "user1",
-                isMuted = true,
-                isCameraDisabled = false,
-                isSpeaking = true,
-                cameraVideoStreamModel = VideoStreamModel("video", StreamType.VIDEO),
-                screenShareVideoStreamModel = null,
-                modifiedTimestamp = 456,
-                participantStatus = null,
-            )
+            val participantViewModel =
+                ParticipantGridCellViewModel(
+                    "user one",
+                    "user1",
+                    isMuted = true,
+                    isCameraDisabled = false,
+                    isSpeaking = true,
+                    cameraVideoStreamModel = VideoStreamModel("video", StreamType.VIDEO),
+                    screenShareVideoStreamModel = null,
+                    modifiedTimestamp = 456,
+                    participantStatus = null,
+                )
 
-            val flowJobDisplayName = launch {
-                participantViewModel.getDisplayNameStateFlow()
-                    .toList(emitResultDisplayName)
-            }
+            val flowJobDisplayName =
+                launch {
+                    participantViewModel.getDisplayNameStateFlow()
+                        .toList(emitResultDisplayName)
+                }
 
-            val flowJobMuted = launch {
-                participantViewModel.getIsMutedStateFlow()
-                    .toList(emitResultIsMuted)
-            }
+            val flowJobMuted =
+                launch {
+                    participantViewModel.getIsMutedStateFlow()
+                        .toList(emitResultIsMuted)
+                }
 
-            val flowJobSpeaking = launch {
-                participantViewModel.getIsSpeakingStateFlow()
-                    .toList(emitResultIsSpeaking)
-            }
+            val flowJobSpeaking =
+                launch {
+                    participantViewModel.getIsSpeakingStateFlow()
+                        .toList(emitResultIsSpeaking)
+                }
 
-            val flowJobVideoStream = launch {
-                participantViewModel.getVideoViewModelStateFlow()
-                    .toList(emitResultVideoStreamModel)
-            }
+            val flowJobVideoStream =
+                launch {
+                    participantViewModel.getVideoViewModelStateFlow()
+                        .toList(emitResultVideoStreamModel)
+                }
 
             // assert
             Assert.assertEquals("user1", emitResultDisplayName[0])
@@ -259,38 +268,42 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
             val emitResultVideoStreamModel = mutableListOf<VideoViewModel?>()
 
             // act
-            val participantViewModel = ParticipantGridCellViewModel(
-                "user one",
-                "user1",
-                isMuted = true,
-                isCameraDisabled = false,
+            val participantViewModel =
+                ParticipantGridCellViewModel(
+                    "user one",
+                    "user1",
+                    isMuted = true,
+                    isCameraDisabled = false,
+                    isSpeaking = true,
+                    cameraVideoStreamModel = null,
+                    screenShareVideoStreamModel = null,
+                    modifiedTimestamp = 456,
+                    participantStatus = null,
+                )
 
-                isSpeaking = true,
-                cameraVideoStreamModel = null,
-                screenShareVideoStreamModel = null,
-                modifiedTimestamp = 456,
-                participantStatus = null,
-            )
+            val flowJobDisplayName =
+                launch {
+                    participantViewModel.getDisplayNameStateFlow()
+                        .toList(emitResultDisplayName)
+                }
 
-            val flowJobDisplayName = launch {
-                participantViewModel.getDisplayNameStateFlow()
-                    .toList(emitResultDisplayName)
-            }
+            val flowJobMuted =
+                launch {
+                    participantViewModel.getIsMutedStateFlow()
+                        .toList(emitResultIsMuted)
+                }
 
-            val flowJobMuted = launch {
-                participantViewModel.getIsMutedStateFlow()
-                    .toList(emitResultIsMuted)
-            }
+            val flowJobSpeaking =
+                launch {
+                    participantViewModel.getIsSpeakingStateFlow()
+                        .toList(emitResultIsSpeaking)
+                }
 
-            val flowJobSpeaking = launch {
-                participantViewModel.getIsSpeakingStateFlow()
-                    .toList(emitResultIsSpeaking)
-            }
-
-            val flowJobVideoStream = launch {
-                participantViewModel.getVideoViewModelStateFlow()
-                    .toList(emitResultVideoStreamModel)
-            }
+            val flowJobVideoStream =
+                launch {
+                    participantViewModel.getVideoViewModelStateFlow()
+                        .toList(emitResultVideoStreamModel)
+                }
 
             // assert
             Assert.assertEquals("user1", emitResultDisplayName[0])
@@ -309,43 +322,47 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
     fun participantViewModel_when_created_then_notifyStateChangeWithVideoViewIfParticipantHasVideo() =
         runScopedTest {
             // arrange
-            val participantViewModel = ParticipantGridCellViewModel(
-                "user one",
-                "user1",
-                isMuted = true,
-                isCameraDisabled = false,
-
-                isSpeaking = true,
-                cameraVideoStreamModel = null,
-                screenShareVideoStreamModel = null,
-                modifiedTimestamp = 456,
-                participantStatus = null,
-            )
+            val participantViewModel =
+                ParticipantGridCellViewModel(
+                    "user one",
+                    "user1",
+                    isMuted = true,
+                    isCameraDisabled = false,
+                    isSpeaking = true,
+                    cameraVideoStreamModel = null,
+                    screenShareVideoStreamModel = null,
+                    modifiedTimestamp = 456,
+                    participantStatus = null,
+                )
 
             val emitResultDisplayName = mutableListOf<String>()
             val emitResultIsMuted = mutableListOf<Boolean>()
             val emitResultIsSpeaking = mutableListOf<Boolean>()
             val emitResultVideoStreamModel = mutableListOf<VideoViewModel?>()
 
-            val flowJobDisplayName = launch {
-                participantViewModel.getDisplayNameStateFlow()
-                    .toList(emitResultDisplayName)
-            }
+            val flowJobDisplayName =
+                launch {
+                    participantViewModel.getDisplayNameStateFlow()
+                        .toList(emitResultDisplayName)
+                }
 
-            val flowJobMuted = launch {
-                participantViewModel.getIsMutedStateFlow()
-                    .toList(emitResultIsMuted)
-            }
+            val flowJobMuted =
+                launch {
+                    participantViewModel.getIsMutedStateFlow()
+                        .toList(emitResultIsMuted)
+                }
 
-            val flowJobSpeaking = launch {
-                participantViewModel.getIsSpeakingStateFlow()
-                    .toList(emitResultIsSpeaking)
-            }
+            val flowJobSpeaking =
+                launch {
+                    participantViewModel.getIsSpeakingStateFlow()
+                        .toList(emitResultIsSpeaking)
+                }
 
-            val flowJobVideoStream = launch {
-                participantViewModel.getVideoViewModelStateFlow()
-                    .toList(emitResultVideoStreamModel)
-            }
+            val flowJobVideoStream =
+                launch {
+                    participantViewModel.getVideoViewModelStateFlow()
+                        .toList(emitResultVideoStreamModel)
+                }
 
             // act
             participantViewModel.update(
@@ -355,12 +372,13 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
                     isMuted = false,
                     isSpeaking = false,
                     screenShareVideoStreamModel = null,
-                    cameraVideoStreamModel = VideoStreamModel(
-                        "video",
-                        StreamType.VIDEO
-                    ),
+                    cameraVideoStreamModel =
+                        VideoStreamModel(
+                            "video",
+                            StreamType.VIDEO,
+                        ),
                     modifiedTimestamp = 456,
-                    speakingTimestamp = 567
+                    speakingTimestamp = 567,
                 ),
             )
 
@@ -387,42 +405,47 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
     fun participantViewModel_when_created_then_notifyStateChangeWithVideoViewIfParticipantHasScreenShare() =
         runScopedTest {
             // arrange
-            val participantViewModel = ParticipantGridCellViewModel(
-                "user one",
-                "user1",
-                isMuted = true,
-                isCameraDisabled = false,
-                isSpeaking = true,
-                screenShareVideoStreamModel = null,
-                cameraVideoStreamModel = null,
-                modifiedTimestamp = 456,
-                participantStatus = null,
-            )
+            val participantViewModel =
+                ParticipantGridCellViewModel(
+                    "user one",
+                    "user1",
+                    isMuted = true,
+                    isCameraDisabled = false,
+                    isSpeaking = true,
+                    screenShareVideoStreamModel = null,
+                    cameraVideoStreamModel = null,
+                    modifiedTimestamp = 456,
+                    participantStatus = null,
+                )
 
             val emitResultDisplayName = mutableListOf<String>()
             val emitResultIsMuted = mutableListOf<Boolean>()
             val emitResultIsSpeaking = mutableListOf<Boolean>()
             val emitResultVideoStreamModel = mutableListOf<VideoViewModel?>()
 
-            val flowJobDisplayName = launch {
-                participantViewModel.getDisplayNameStateFlow()
-                    .toList(emitResultDisplayName)
-            }
+            val flowJobDisplayName =
+                launch {
+                    participantViewModel.getDisplayNameStateFlow()
+                        .toList(emitResultDisplayName)
+                }
 
-            val flowJobMuted = launch {
-                participantViewModel.getIsMutedStateFlow()
-                    .toList(emitResultIsMuted)
-            }
+            val flowJobMuted =
+                launch {
+                    participantViewModel.getIsMutedStateFlow()
+                        .toList(emitResultIsMuted)
+                }
 
-            val flowJobSpeaking = launch {
-                participantViewModel.getIsSpeakingStateFlow()
-                    .toList(emitResultIsSpeaking)
-            }
+            val flowJobSpeaking =
+                launch {
+                    participantViewModel.getIsSpeakingStateFlow()
+                        .toList(emitResultIsSpeaking)
+                }
 
-            val flowJobVideoStream = launch {
-                participantViewModel.getVideoViewModelStateFlow()
-                    .toList(emitResultVideoStreamModel)
-            }
+            val flowJobVideoStream =
+                launch {
+                    participantViewModel.getVideoViewModelStateFlow()
+                        .toList(emitResultVideoStreamModel)
+                }
 
             // act
             participantViewModel.update(
@@ -433,14 +456,14 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
                     isSpeaking = false,
                     VideoStreamModel(
                         "screen",
-                        StreamType.SCREEN_SHARING
+                        StreamType.SCREEN_SHARING,
                     ),
                     VideoStreamModel(
                         "video",
-                        StreamType.VIDEO
+                        StreamType.VIDEO,
                     ),
                     modifiedTimestamp = 456,
-                    speakingTimestamp = 567
+                    speakingTimestamp = 567,
                 ),
             )
 
@@ -472,33 +495,36 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
             val emitResultIsNameIndicatorVisibleStateFlow = mutableListOf<Boolean>()
 
             // act
-            val participantViewModel = ParticipantGridCellViewModel(
-                "user one",
-                "",
-                isMuted = true,
-                isCameraDisabled = false,
+            val participantViewModel =
+                ParticipantGridCellViewModel(
+                    "user one",
+                    "",
+                    isMuted = true,
+                    isCameraDisabled = false,
+                    isSpeaking = true,
+                    cameraVideoStreamModel = VideoStreamModel("video", StreamType.VIDEO),
+                    screenShareVideoStreamModel = null,
+                    modifiedTimestamp = 456,
+                    participantStatus = null,
+                )
 
-                isSpeaking = true,
-                cameraVideoStreamModel = VideoStreamModel("video", StreamType.VIDEO),
-                screenShareVideoStreamModel = null,
-                modifiedTimestamp = 456,
-                participantStatus = null,
-            )
+            val flowJobDisplayName =
+                launch {
+                    participantViewModel.getDisplayNameStateFlow()
+                        .toList(emitResultDisplayName)
+                }
 
-            val flowJobDisplayName = launch {
-                participantViewModel.getDisplayNameStateFlow()
-                    .toList(emitResultDisplayName)
-            }
+            val flowJobMuted =
+                launch {
+                    participantViewModel.getIsMutedStateFlow()
+                        .toList(emitResultIsMuted)
+                }
 
-            val flowJobMuted = launch {
-                participantViewModel.getIsMutedStateFlow()
-                    .toList(emitResultIsMuted)
-            }
-
-            val flowJobNameIndicator = launch {
-                participantViewModel.getIsNameIndicatorVisibleStateFlow()
-                    .toList(emitResultIsNameIndicatorVisibleStateFlow)
-            }
+            val flowJobNameIndicator =
+                launch {
+                    participantViewModel.getIsNameIndicatorVisibleStateFlow()
+                        .toList(emitResultIsNameIndicatorVisibleStateFlow)
+                }
 
             // act
             participantViewModel.update(
@@ -510,10 +536,10 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
                     null,
                     VideoStreamModel(
                         "video",
-                        StreamType.VIDEO
+                        StreamType.VIDEO,
                     ),
                     modifiedTimestamp = 456,
-                    speakingTimestamp = 567
+                    speakingTimestamp = 567,
                 ),
             )
 
@@ -551,6 +577,5 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
         screenShareVideoStreamModel,
         cameraVideoStreamModel,
         modifiedTimestamp,
-
     )
 }

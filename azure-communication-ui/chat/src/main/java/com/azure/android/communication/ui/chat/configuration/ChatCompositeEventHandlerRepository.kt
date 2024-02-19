@@ -12,11 +12,9 @@ internal class ChatCompositeEventHandlerRepository {
 
     fun getOnErrorHandlers(): List<ChatCompositeEventHandler<ChatCompositeErrorEvent>> = errorHandlers
 
-    fun addOnErrorEventHandler(errorHandler: ChatCompositeEventHandler<ChatCompositeErrorEvent>) =
-        errorHandlers.add(errorHandler)
+    fun addOnErrorEventHandler(errorHandler: ChatCompositeEventHandler<ChatCompositeErrorEvent>) = errorHandlers.add(errorHandler)
 
-    fun removeOnErrorEventHandler(errorHandler: ChatCompositeEventHandler<ChatCompositeErrorEvent>) =
-        errorHandlers.remove(errorHandler)
+    fun removeOnErrorEventHandler(errorHandler: ChatCompositeEventHandler<ChatCompositeErrorEvent>) = errorHandlers.remove(errorHandler)
 
     fun getLocalParticipantRemovedHandlers(): List<ChatCompositeEventHandler<String>> {
         return eventHandlers

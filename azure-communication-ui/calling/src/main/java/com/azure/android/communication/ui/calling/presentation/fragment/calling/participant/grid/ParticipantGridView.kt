@@ -51,7 +51,12 @@ internal class ParticipantGridView : GridLayout {
     private lateinit var displayedRemoteParticipantsView: MutableList<ParticipantGridCellView>
     private lateinit var getParticipantViewDataCallback: (participantID: String) -> CallCompositeParticipantViewData?
 
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+    override fun onSizeChanged(
+        w: Int,
+        h: Int,
+        oldw: Int,
+        oldh: Int,
+    ) {
         super.onSizeChanged(w, h, oldw, oldh)
         post {
             updateGrid(participantGridViewModel.getRemoteParticipantsUpdateStateFlow().value)
@@ -85,7 +90,7 @@ internal class ParticipantGridView : GridLayout {
                         info.removeAction(AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK)
                         info.isClickable = false
                     }
-                }
+                },
             )
         }
 
@@ -96,7 +101,7 @@ internal class ParticipantGridView : GridLayout {
         this.getVideoStreamCallback = { participantID: String, videoStreamID: String ->
             this.videoViewManager.getRemoteVideoStreamRenderer(
                 participantID,
-                videoStreamID
+                videoStreamID,
             )
         }
 
@@ -139,40 +144,51 @@ internal class ParticipantGridView : GridLayout {
                 if (it) {
                     ViewCompat.setImportantForAccessibility(
                         gridView,
-                        ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
+                        ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS,
                     )
                 } else {
                     ViewCompat.setImportantForAccessibility(
                         gridView,
-                        ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES
+                        ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES,
                     )
                 }
             }
         }
 
-        addOnLayoutChangeListener(object : OnLayoutChangeListener {
-            override fun onLayoutChange(
-                v: View,
-                left: Int,
-                top: Int,
-                right: Int,
-                bottom: Int,
-                oldLeft: Int,
-                oldTop: Int,
-                oldRight: Int,
-                oldBottom: Int,
-            ) {
-                if (isLaidOut) {
-                    removeOnLayoutChangeListener(this)
-                    post {
-                        updateGrid(participantGridViewModel.getRemoteParticipantsUpdateStateFlow().value)
+        addOnLayoutChangeListener(
+            object : OnLayoutChangeListener {
+                override fun onLayoutChange(
+                    v: View,
+                    left: Int,
+                    top: Int,
+                    right: Int,
+                    bottom: Int,
+                    oldLeft: Int,
+                    oldTop: Int,
+                    oldRight: Int,
+                    oldBottom: Int,
+                ) {
+                    if (isLaidOut) {
+                        removeOnLayoutChangeListener(this)
+                        post {
+                            updateGrid(participantGridViewModel.getRemoteParticipantsUpdateStateFlow().value)
+                        }
                     }
                 }
-            }
-        })
+            },
+        )
 
-        addOnLayoutChangeListener { _, left, top, right, bottom,
-            oldLeft, oldTop, oldRight, oldBottom ->
+        addOnLayoutChangeListener {
+                _,
+                left,
+                top,
+                right,
+                bottom,
+                oldLeft,
+                oldTop,
+                oldRight,
+                oldBottom,
+            ->
             if (left != oldLeft ||
                 right != oldRight ||
                 top != oldTop ||
@@ -190,9 +206,7 @@ internal class ParticipantGridView : GridLayout {
         removeAllViews()
     }
 
-    private fun updateGrid(
-        displayedRemoteParticipantsViewModel: List<ParticipantGridCellViewModel>,
-    ) {
+    private fun updateGrid(displayedRemoteParticipantsViewModel: List<ParticipantGridCellViewModel>) {
         videoViewManager.updateScalingForRemoteStream()
         removeAllViews()
         displayedRemoteParticipantsView = mutableListOf()
@@ -206,14 +220,12 @@ internal class ParticipantGridView : GridLayout {
         displayParticipants(displayedRemoteParticipantsView)
     }
 
-    private fun displayParticipants(
-        displayedRemoteParticipantsView: List<ParticipantGridCellView>,
-    ) {
+    private fun displayParticipants(displayedRemoteParticipantsView: List<ParticipantGridCellView>) {
         when (displayedRemoteParticipantsView.size) {
-            SINGLE_PARTICIPANT, TWO_PARTICIPANTS, FOUR_PARTICIPANTS, SIX_PARTICIPANTS, NINE_PARTICIPANTS, -> {
+            SINGLE_PARTICIPANT, TWO_PARTICIPANTS, FOUR_PARTICIPANTS, SIX_PARTICIPANTS, NINE_PARTICIPANTS -> {
                 displayedRemoteParticipantsView.forEach {
                     addParticipantToGrid(
-                        participantGridCellView = it
+                        participantGridCellView = it,
                     )
                 }
             }
@@ -222,19 +234,19 @@ internal class ParticipantGridView : GridLayout {
                 if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                     addParticipantToGrid(
                         columnSpan = 2,
-                        participantGridCellView = displayedRemoteParticipantsView[0]
+                        participantGridCellView = displayedRemoteParticipantsView[0],
                     )
                 } else {
                     addParticipantToGrid(
                         rowSpan = 2,
-                        participantGridCellView = displayedRemoteParticipantsView[0]
+                        participantGridCellView = displayedRemoteParticipantsView[0],
                     )
                 }
 
                 displayedRemoteParticipantsView.forEachIndexed { index, participantGridCellView ->
                     if (index > 0) {
                         addParticipantToGrid(
-                            participantGridCellView = participantGridCellView
+                            participantGridCellView = participantGridCellView,
                         )
                     }
                 }
@@ -246,7 +258,7 @@ internal class ParticipantGridView : GridLayout {
                         addParticipantToGrid(
                             columnSpan = 2,
                             rowSpan = 3,
-                            participantGridCellView = displayedRemoteParticipantsView[0]
+                            participantGridCellView = displayedRemoteParticipantsView[0],
                         )
 
                         displayedRemoteParticipantsView.forEachIndexed { index, participantGridCellView ->
@@ -255,13 +267,13 @@ internal class ParticipantGridView : GridLayout {
                                     addParticipantToGrid(
                                         columnSpan = 2,
                                         rowSpan = 3,
-                                        participantGridCellView = participantGridCellView
+                                        participantGridCellView = participantGridCellView,
                                     )
                                 } else {
                                     addParticipantToGrid(
                                         columnSpan = 2,
                                         rowSpan = 2,
-                                        participantGridCellView = participantGridCellView
+                                        participantGridCellView = participantGridCellView,
                                     )
                                 }
                             }
@@ -272,13 +284,13 @@ internal class ParticipantGridView : GridLayout {
                                 addParticipantToGrid(
                                     rowSpan = 2,
                                     columnSpan = 2,
-                                    participantGridCellView = participantGridCellView
+                                    participantGridCellView = participantGridCellView,
                                 )
                             } else {
                                 addParticipantToGrid(
                                     columnSpan = 3,
                                     rowSpan = 2,
-                                    participantGridCellView = participantGridCellView
+                                    participantGridCellView = participantGridCellView,
                                 )
                             }
                         }
@@ -287,19 +299,19 @@ internal class ParticipantGridView : GridLayout {
                     if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                         addParticipantToGrid(
                             columnSpan = 2,
-                            participantGridCellView = displayedRemoteParticipantsView[0]
+                            participantGridCellView = displayedRemoteParticipantsView[0],
                         )
                     } else {
                         addParticipantToGrid(
                             rowSpan = 2,
-                            participantGridCellView = displayedRemoteParticipantsView[0]
+                            participantGridCellView = displayedRemoteParticipantsView[0],
                         )
                     }
 
                     displayedRemoteParticipantsView.forEachIndexed { index, participantGridCellView ->
                         if (index > 0) {
                             addParticipantToGrid(
-                                participantGridCellView = participantGridCellView
+                                participantGridCellView = participantGridCellView,
                             )
                         }
                     }
@@ -309,23 +321,23 @@ internal class ParticipantGridView : GridLayout {
                 if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                     addParticipantToGrid(
                         rowSpan = 4,
-                        participantGridCellView = displayedRemoteParticipantsView[0]
+                        participantGridCellView = displayedRemoteParticipantsView[0],
                     )
                     addParticipantToGrid(
                         rowSpan = 3,
-                        participantGridCellView = displayedRemoteParticipantsView[1]
+                        participantGridCellView = displayedRemoteParticipantsView[1],
                     )
                     displayedRemoteParticipantsView.forEachIndexed { index, participantGridCellView ->
                         if (index > 1) {
                             if (index % 2 == 0) {
                                 addParticipantToGrid(
                                     rowSpan = 3,
-                                    participantGridCellView = participantGridCellView
+                                    participantGridCellView = participantGridCellView,
                                 )
                             } else {
                                 addParticipantToGrid(
                                     rowSpan = 4,
-                                    participantGridCellView = participantGridCellView
+                                    participantGridCellView = participantGridCellView,
                                 )
                             }
                         }
@@ -335,12 +347,12 @@ internal class ParticipantGridView : GridLayout {
                         if (index < 4) {
                             addParticipantToGrid(
                                 columnSpan = 3,
-                                participantGridCellView = participantGridCellView
+                                participantGridCellView = participantGridCellView,
                             )
                         } else {
                             addParticipantToGrid(
                                 columnSpan = 4,
-                                participantGridCellView = participantGridCellView
+                                participantGridCellView = participantGridCellView,
                             )
                         }
                     }
@@ -353,13 +365,13 @@ internal class ParticipantGridView : GridLayout {
                             addParticipantToGrid(
                                 rowSpan = 2,
                                 columnSpan = 3,
-                                participantGridCellView = participantGridCellView
+                                participantGridCellView = participantGridCellView,
                             )
                         } else {
                             addParticipantToGrid(
                                 rowSpan = 2,
                                 columnSpan = 2,
-                                participantGridCellView = participantGridCellView
+                                participantGridCellView = participantGridCellView,
                             )
                         }
                     }
@@ -367,7 +379,7 @@ internal class ParticipantGridView : GridLayout {
                     addParticipantToGrid(
                         rowSpan = 3,
                         columnSpan = 2,
-                        participantGridCellView = displayedRemoteParticipantsView[0]
+                        participantGridCellView = displayedRemoteParticipantsView[0],
                     )
 
                     displayedRemoteParticipantsView.forEachIndexed { index, participantGridCellView ->
@@ -376,13 +388,13 @@ internal class ParticipantGridView : GridLayout {
                                 addParticipantToGrid(
                                     rowSpan = 3,
                                     columnSpan = 2,
-                                    participantGridCellView = participantGridCellView
+                                    participantGridCellView = participantGridCellView,
                                 )
                             } else {
                                 addParticipantToGrid(
                                     rowSpan = 2,
                                     columnSpan = 2,
-                                    participantGridCellView = participantGridCellView
+                                    participantGridCellView = participantGridCellView,
                                 )
                             }
                         }
@@ -461,7 +473,10 @@ internal class ParticipantGridView : GridLayout {
         this.addView(participantGridCellView)
     }
 
-    private fun setGridRowsColumn(rows: Int, columns: Int) {
+    private fun setGridRowsColumn(
+        rows: Int,
+        columns: Int,
+    ) {
         this.rowCount = rows
         this.columnCount = columns
     }
@@ -487,6 +502,6 @@ internal class ParticipantGridView : GridLayout {
             showFloatingHeaderCallBack,
             getVideoStreamCallback,
             getScreenShareVideoStreamRendererCallback,
-            getParticipantViewDataCallback
+            getParticipantViewDataCallback,
         )
 }

@@ -29,13 +29,13 @@ internal class AuthServiceRemote(private val authUrl: String) : AuthService {
         }
 
     override fun tokenRefresher(): String {
-
         val result = authUrl.httpPost(listOf(Pair("token", token))).responseString()
         val response = result.component3().get()
         val cause = result.component3().component2()
 
-        if (cause != null)
+        if (cause != null) {
             throw IOException("Unable to fetch token: ", cause)
+        }
 
         token = JSONObject(response).getString("token")
         val acsId = JSONObject(response).getString("token")
@@ -46,15 +46,15 @@ internal class AuthServiceRemote(private val authUrl: String) : AuthService {
     }
 
     override suspend fun ensureAuthInfo() {
-
         withContext(Dispatchers.IO) {
             if (token == null || communicationIdentifier == null) {
                 val result = authUrl.httpGet().responseString()
                 val response = result.component3().get()
                 val cause = result.component3().component2()
 
-                if (cause != null)
+                if (cause != null) {
                     throw IOException("Unable to fetch token: ", cause)
+                }
 
                 token = JSONObject(response).getString("token")
                 val acsId =

@@ -3,9 +3,9 @@
 
 package com.azure.android.communication.ui.chat.utilities
 
-import java.util.concurrent.Executors
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asCoroutineDispatcher
+import java.util.concurrent.Executors
 import kotlin.coroutines.CoroutineContext
 
 internal open class CoroutineContextProvider {

@@ -6,5 +6,8 @@ package com.azure.android.communication.ui.chat.redux.reducer
 import com.azure.android.communication.ui.chat.redux.action.Action
 
 internal interface Reducer<S> {
-    fun reduce(state: S, action: Action): S
+    fun reduce(
+        state: S,
+        action: Action,
+    ): S
 }

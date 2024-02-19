@@ -28,10 +28,11 @@ internal fun BackButtonView(
     contentDescription: String,
     onBackButtonPressed: () -> Unit = { },
 ) {
-    val semantics = Modifier.semantics {
-        this.contentDescription = contentDescription
-        this.role = Role.Image
-    }
+    val semantics =
+        Modifier.semantics {
+            this.contentDescription = contentDescription
+            this.role = Role.Image
+        }
     val painter =
         painterResource(id = R.drawable.azure_communication_ui_chat_ic_fluent_arrow_left_20_filled)
 
@@ -40,12 +41,13 @@ internal fun BackButtonView(
         contentDescription = contentDescription,
         contentScale = ContentScale.Crop,
         colorFilter = ColorFilter.tint(ChatCompositeTheme.colors.content),
-        modifier = Modifier
-            .padding(19.dp)
-            .size(24.dp, 24.dp)
-            .clip(CircleShape)
-            .clickable { onBackButtonPressed() }
-            .then(semantics)
+        modifier =
+            Modifier
+                .padding(19.dp)
+                .size(24.dp, 24.dp)
+                .clip(CircleShape)
+                .clickable { onBackButtonPressed() }
+                .then(semantics),
     )
 }
 

@@ -16,7 +16,6 @@ import org.junit.runner.RunWith
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class CallingCompositeBaselineUiTest : BaseUiTest() {
-
     @get:Rule
     val screenLockRule = RunWhenScreenOffOrLockedRule()
 
@@ -42,11 +41,12 @@ class CallingCompositeBaselineUiTest : BaseUiTest() {
 
     @Test
     fun testTeamsLobbyOverlay() {
-        val setupScreen = HomeScreenRobot()
-            .clickTeamsMeetingRadioButton()
-            .setGroupIdOrTeamsMeetingUrl(TestFixture.teamsUrl)
-            .setAcsToken(CallIdentifiersHelper.getACSToken())
-            .clickLaunchButton()
+        val setupScreen =
+            HomeScreenRobot()
+                .clickTeamsMeetingRadioButton()
+                .setGroupIdOrTeamsMeetingUrl(TestFixture.teamsUrl)
+                .setAcsToken(CallIdentifiersHelper.getACSToken())
+                .clickLaunchButton()
         setupScreen.clickJoinCallButton()
             .checkTeamsLobbyOverlay()
             .clickEndCall()
@@ -54,11 +54,12 @@ class CallingCompositeBaselineUiTest : BaseUiTest() {
     }
 
     private fun joinTeamsCall(videoEnabled: Boolean = true) {
-        val setupScreen = HomeScreenRobot()
-            .clickTeamsMeetingRadioButton()
-            .setGroupIdOrTeamsMeetingUrl(TestFixture.teamsUrl)
-            .setAcsToken(CallIdentifiersHelper.getACSToken())
-            .clickLaunchButton()
+        val setupScreen =
+            HomeScreenRobot()
+                .clickTeamsMeetingRadioButton()
+                .setGroupIdOrTeamsMeetingUrl(TestFixture.teamsUrl)
+                .setAcsToken(CallIdentifiersHelper.getACSToken())
+                .clickLaunchButton()
 
         if (videoEnabled) {
             setupScreen.turnCameraOn()
@@ -71,10 +72,11 @@ class CallingCompositeBaselineUiTest : BaseUiTest() {
     }
 
     private fun joinGroupCall(videoEnabled: Boolean = true) {
-        val setupScreen = HomeScreenRobot()
-            .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getGroupId())
-            .setAcsToken(CallIdentifiersHelper.getACSToken())
-            .clickLaunchButton()
+        val setupScreen =
+            HomeScreenRobot()
+                .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getGroupId())
+                .setAcsToken(CallIdentifiersHelper.getACSToken())
+                .clickLaunchButton()
 
         if (videoEnabled) {
             setupScreen.turnCameraOn()

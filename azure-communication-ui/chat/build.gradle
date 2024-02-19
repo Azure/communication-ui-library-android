@@ -51,7 +51,6 @@ android {
         outputToConsole.set(true)
         outputColorName.set("RED")
         enableExperimentalRules.set(false)
-        disabledRules = ["import-ordering", "max-line-length", "parameter-list-wrapping"]
         reporters {
             reporter "checkstyle"
             reporter "plain"

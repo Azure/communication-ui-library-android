@@ -47,7 +47,7 @@ internal class UpperMessageBarNotificationView : ConstraintLayout {
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         upperMessageBarNotificationViewModel: UpperMessageBarNotificationViewModel,
-        accessibilityEnabled: Boolean
+        accessibilityEnabled: Boolean,
     ) {
         this.upperMessageBarNotificationViewModel = upperMessageBarNotificationViewModel
         setupAccessibility()
@@ -59,8 +59,8 @@ internal class UpperMessageBarNotificationView : ConstraintLayout {
                     upperMessageBarNotificationIconImageView.setImageDrawable(
                         ContextCompat.getDrawable(
                             context,
-                            it.notificationIconId
-                        )
+                            it.notificationIconId,
+                        ),
                     )
                     upperMessageBarNotificationMessage.text = context.getString(it.notificationMessageId)
                 }
@@ -68,7 +68,7 @@ internal class UpperMessageBarNotificationView : ConstraintLayout {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            upperMessageBarNotificationViewModel.getDismissUpperMessageBarNotificationFlow()?.collect() {
+            upperMessageBarNotificationViewModel.getDismissUpperMessageBarNotificationFlow()?.collect {
                 if (it) {
                     val viewGroup = upperMessageBarNotificationLayout.parent as ViewGroup
                     viewGroup.removeView(upperMessageBarNotificationLayout)

@@ -71,12 +71,13 @@ internal fun messageContextMenu(
                     val context = LocalContext.current
                     ListItem.Item(
                         text = stringResource(id = item.title),
-                        primaryTextLeadingIcons = TextIcons({
-                            Icon(
-                                painter = painterResource(id = item.icon),
-                                contentDescription = null
-                            )
-                        }),
+                        primaryTextLeadingIcons =
+                            TextIcons({
+                                Icon(
+                                    painter = painterResource(id = item.icon),
+                                    contentDescription = null,
+                                )
+                            }),
                         onClick = {
                             dispatch(ChatAction.HideMessageContextMenu())
                             if (item.onClickAction != null) {
@@ -84,11 +85,11 @@ internal fun messageContextMenu(
                             } else if (item.action != null) {
                                 dispatch(item.action)
                             }
-                        }
+                        },
                     )
                 }
             }
-        }
+        },
     )
 }
 
@@ -103,20 +104,22 @@ internal fun MessageContextMenuPreview() {
         Modifier
             .width(300.dp)
             .height(300.dp)
-            .background(color = androidx.compose.ui.graphics.Color.Blue)
+            .background(color = androidx.compose.ui.graphics.Color.Blue),
     ) {
         messageContextMenu(
-            menu = MessageContextMenuModel(
-                messageInfoModel = MOCK_MESSAGES[0],
-                menuItems = listOf(
-                    MenuItemModel(
-                        title = R.string.azure_communication_ui_chat_copy,
-                        icon = R.drawable.azure_communication_ui_chat_ic_fluent_copy_20_regular,
-                        onClickAction = { }
-                    ),
-                )
-            ),
-            dispatch = {}
+            menu =
+                MessageContextMenuModel(
+                    messageInfoModel = MOCK_MESSAGES[0],
+                    menuItems =
+                        listOf(
+                            MenuItemModel(
+                                title = R.string.azure_communication_ui_chat_copy,
+                                icon = R.drawable.azure_communication_ui_chat_ic_fluent_copy_20_regular,
+                                onClickAction = { },
+                            ),
+                        ),
+                ),
+            dispatch = {},
         )
     }
 }

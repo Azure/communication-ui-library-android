@@ -13,9 +13,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import com.azure.android.communication.ui.calling.implementation.R
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import com.azure.android.communication.ui.calling.implementation.R
 
 internal class JoinCallButtonHolderView : ConstraintLayout {
     constructor(context: Context) : super(context)
@@ -36,15 +36,16 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
             findViewById(R.id.azure_communication_ui_setup_start_call_button_text)
         progressBar = findViewById(R.id.azure_communication_ui_setup_start_call_progress_bar)
         joiningCallText = findViewById(R.id.azure_communication_ui_setup_start_call_joining_text)
-        setupJoinCallButton.background = ContextCompat.getDrawable(
-            context,
-            R.drawable.azure_communication_ui_calling_corner_radius_rectangle_4dp_primary_background
-        )
+        setupJoinCallButton.background =
+            ContextCompat.getDrawable(
+                context,
+                R.drawable.azure_communication_ui_calling_corner_radius_rectangle_4dp_primary_background,
+            )
     }
 
     fun start(
         viewLifecycleOwner: LifecycleOwner,
-        viewModel: JoinCallButtonHolderViewModel
+        viewModel: JoinCallButtonHolderViewModel,
     ) {
         this.viewModel = viewModel
         setupJoinCallButtonText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_join_call)

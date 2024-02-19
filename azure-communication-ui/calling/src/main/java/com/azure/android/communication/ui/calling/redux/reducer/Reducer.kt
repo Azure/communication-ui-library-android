@@ -6,5 +6,8 @@ package com.azure.android.communication.ui.calling.redux.reducer
 import com.azure.android.communication.ui.calling.redux.action.Action
 
 internal interface Reducer<S> {
-    fun reduce(state: S, action: Action): S
+    fun reduce(
+        state: S,
+        action: Action,
+    ): S
 }

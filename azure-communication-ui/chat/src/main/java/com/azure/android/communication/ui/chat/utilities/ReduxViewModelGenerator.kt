@@ -33,11 +33,12 @@ internal class ReduxViewModelGenerator<T, M : Any>(
     lateinit var viewModel: M
 
     init {
-        storeListeningJob = coroutineScope.launch(Dispatchers.Default) {
-            store.getStateFlow().collect {
-                rebuild(store)
+        storeListeningJob =
+            coroutineScope.launch(Dispatchers.Default) {
+                store.getStateFlow().collect {
+                    rebuild(store)
+                }
             }
-        }
     }
 
     fun stop() {

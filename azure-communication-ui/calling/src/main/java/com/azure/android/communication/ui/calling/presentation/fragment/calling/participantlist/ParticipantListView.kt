@@ -113,9 +113,7 @@ internal class ParticipantListView(
         participantTable.layoutManager = LinearLayoutManager(context)
     }
 
-    private fun updateRemoteParticipantListContent(
-        participantListCellModelList: List<ParticipantListCellModel>,
-    ) {
+    private fun updateRemoteParticipantListContent(participantListCellModelList: List<ParticipantListCellModel>) {
         if (this::bottomCellAdapter.isInitialized) {
             val bottomCellItems = generateBottomCellItems(participantListCellModelList)
             updateRemoteParticipantListContent(bottomCellItems.size)
@@ -128,10 +126,10 @@ internal class ParticipantListView(
 
     private fun updateLocalParticipantCellContent() {
         if (this::bottomCellAdapter.isInitialized) {
-
-            val bottomCellItems = generateBottomCellItems(
-                viewModel.getRemoteParticipantListCellStateFlow().value
-            )
+            val bottomCellItems =
+                generateBottomCellItems(
+                    viewModel.getRemoteParticipantListCellStateFlow().value,
+                )
 
             with(bottomCellAdapter) {
                 setBottomCellItems(bottomCellItems)
@@ -141,7 +139,6 @@ internal class ParticipantListView(
     }
 
     private fun updateRemoteParticipantListContent(listSize: Int) {
-
         // title for in call participants
         var titles = 1
 
@@ -153,20 +150,19 @@ internal class ParticipantListView(
         // set the height of the list to be half of the screen height or 50dp per item, whichever is smaller
         participantTable.layoutParams.height =
             (((listSize - titles) * 50 * context.resources.displayMetrics.density + titles * 30 * context.resources.displayMetrics.density).toInt()).coerceAtMost(
-                context.resources.displayMetrics.heightPixels / 2
+                context.resources.displayMetrics.heightPixels / 2,
             )
     }
 
-    private fun generateBottomCellItems(
-        remoteParticipantCellModels: List<ParticipantListCellModel>,
-    ): MutableList<BottomCellItem> {
+    private fun generateBottomCellItems(remoteParticipantCellModels: List<ParticipantListCellModel>): MutableList<BottomCellItem> {
         val bottomCellItemsInCallParticipants = mutableListOf<BottomCellItem>()
         val bottomCellItemsInLobbyParticipants = mutableListOf<BottomCellItem>()
         // since we can not get resources from model class, we create the local participant list cell
         // with suffix in this way
-        val localParticipant = viewModel.createLocalParticipantListCell(
-            resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant)
-        )
+        val localParticipant =
+            viewModel.createLocalParticipantListCell(
+                resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant),
+            )
         val localParticipantViewData =
             avatarViewManager.callCompositeLocalOptions?.participantViewData
         bottomCellItemsInCallParticipants
@@ -174,14 +170,14 @@ internal class ParticipantListView(
                 generateBottomCellItem(
                     getLocalParticipantNameToDisplay(
                         localParticipantViewData,
-                        localParticipant.displayName
+                        localParticipant.displayName,
                     ),
                     localParticipant.isMuted,
                     localParticipantViewData,
                     localParticipant.isOnHold,
                     localParticipant.userIdentifier,
-                    localParticipant.status
-                )
+                    localParticipant.status,
+                ),
             )
 
         for (remoteParticipant in remoteParticipantCellModels) {
@@ -198,8 +194,8 @@ internal class ParticipantListView(
                         remoteParticipantViewData,
                         null,
                         remoteParticipant.userIdentifier,
-                        remoteParticipant.status
-                    )
+                        remoteParticipant.status,
+                    ),
                 )
             } else if (remoteParticipant.status != ParticipantStatus.DISCONNECTED) {
                 bottomCellItemsInCallParticipants.add(
@@ -209,8 +205,8 @@ internal class ParticipantListView(
                         remoteParticipantViewData,
                         remoteParticipant.isOnHold,
                         remoteParticipant.userIdentifier,
-                        remoteParticipant.status
-                    )
+                        remoteParticipant.status,
+                    ),
                 )
             }
         }
@@ -221,7 +217,7 @@ internal class ParticipantListView(
                 null,
                 context.getString(
                     R.string.azure_communication_ui_calling_participant_list_in_call_n_people,
-                    bottomCellItemsInCallParticipants.size
+                    bottomCellItemsInCallParticipants.size,
                 ),
                 "",
                 null,
@@ -231,8 +227,8 @@ internal class ParticipantListView(
                 null,
                 false,
                 BottomCellItemType.BottomMenuTitle,
-                null
-            )
+                null,
+            ),
         )
 
         bottomCellItemsInLobbyParticipants.sortWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.title!! })
@@ -243,7 +239,7 @@ internal class ParticipantListView(
                     null,
                     context.getString(
                         R.string.azure_communication_ui_calling_participant_list_in_lobby_n_people,
-                        bottomCellItemsInLobbyParticipants.size
+                        bottomCellItemsInLobbyParticipants.size,
                     ),
                     "",
                     null,
@@ -257,8 +253,8 @@ internal class ParticipantListView(
                     true,
                     admitAllButtonAction = {
                         admitAllLobbyParticipants()
-                    }
-                )
+                    },
+                ),
             )
         }
         return (bottomCellItemsInLobbyParticipants + bottomCellItemsInCallParticipants).toMutableList()
@@ -288,27 +284,44 @@ internal class ParticipantListView(
         userIdentifier: String,
         status: ParticipantStatus?,
     ): BottomCellItem {
-        val micIcon = ContextCompat.getDrawable(
-            context,
-            if (isMuted == true) R.drawable.azure_communication_ui_calling_ic_fluent_mic_off_24_filled_composite_button_filled_grey
-            else R.drawable.azure_communication_ui_calling_ic_fluent_mic_on_24_filled_composite_button_filled_grey
-        )
+        val micIcon =
+            ContextCompat.getDrawable(
+                context,
+                if (isMuted == true) {
+                    R.drawable.azure_communication_ui_calling_ic_fluent_mic_off_24_filled_composite_button_filled_grey
+                } else {
+                    R.drawable.azure_communication_ui_calling_ic_fluent_mic_on_24_filled_composite_button_filled_grey
+                },
+            )
 
-        val micAccessibilityAnnouncement = context.getString(
-            if (isMuted == true) R.string.azure_communication_ui_calling_view_participant_list_muted_accessibility_label
-            else R.string.azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label
-        )
+        val micAccessibilityAnnouncement =
+            context.getString(
+                if (isMuted == true) {
+                    R.string.azure_communication_ui_calling_view_participant_list_muted_accessibility_label
+                } else {
+                    R.string.azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label
+                },
+            )
 
-        val onHoldAnnouncement: String = if (isOnHold == true) context.getString(R.string.azure_communication_ui_calling_remote_participant_on_hold) else ""
+        val onHoldAnnouncement: String =
+            if (isOnHold == true) {
+                context.getString(
+                    R.string.azure_communication_ui_calling_remote_participant_on_hold,
+                )
+            } else {
+                ""
+            }
 
         return BottomCellItem(
             null,
             displayName,
             displayName +
-                if (status == ParticipantStatus.IN_LOBBY)
+                if (status == ParticipantStatus.IN_LOBBY) {
                     context.getString(R.string.azure_communication_ui_calling_view_participant_list_dismiss_lobby_list)
-                else context.getString(R.string.azure_communication_ui_calling_view_participant_list_dismiss_list) +
-                    onHoldAnnouncement,
+                } else {
+                    context.getString(R.string.azure_communication_ui_calling_view_participant_list_dismiss_list) +
+                        onHoldAnnouncement
+                },
             if (status != ParticipantStatus.IN_LOBBY) micIcon else null,
             if (status != ParticipantStatus.IN_LOBBY) R.color.azure_communication_ui_calling_color_participant_list_mute_mic else null,
             micAccessibilityAnnouncement,
@@ -321,30 +334,33 @@ internal class ParticipantListView(
                 } else if (accessibilityManager.isEnabled) {
                     participantListDrawer.dismiss()
                 }
-            }
+            },
         )
     }
 
-    private fun showAdmitDialog(displayName: String?, userIdentifier: String) {
+    private fun showAdmitDialog(
+        displayName: String?,
+        userIdentifier: String,
+    ) {
         val builder =
             AlertDialog.Builder(context, R.style.AzureCommunicationUICalling_AlertDialog_Theme)
         builder.setMessage(
             context.getString(
                 R.string.azure_communication_ui_calling_admit_name,
-                displayName
-            )
+                displayName,
+            ),
         )
             .setPositiveButton(
                 context.getString(
-                    R.string.azure_communication_ui_calling_admit
-                )
+                    R.string.azure_communication_ui_calling_admit,
+                ),
             ) { _, _ ->
                 viewModel.admitParticipant(userIdentifier)
             }
             .setNegativeButton(
                 context.getString(
-                    R.string.azure_communication_ui_calling_decline
-                )
+                    R.string.azure_communication_ui_calling_decline,
+                ),
             ) { _, _ ->
                 viewModel.declineParticipant(userIdentifier)
             }

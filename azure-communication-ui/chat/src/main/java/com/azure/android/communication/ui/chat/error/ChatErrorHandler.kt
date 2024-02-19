@@ -13,6 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+
 internal class ChatErrorHandler(
     coroutineContextProvider: CoroutineContextProvider,
     private val store: AppStore<ReduxState>,
@@ -28,6 +29,7 @@ internal class ChatErrorHandler(
             }
         }
     }
+
     private fun onStateChanged(state: ReduxState) {
         checkIfCallStateErrorIsNewAndNotify(
             state.errorState.chatCompositeErrorEvent,

@@ -11,6 +11,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioOperationalSt
 import com.azure.android.communication.ui.calling.redux.state.AudioSessionState
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.BluetoothState
+import com.azure.android.communication.ui.calling.redux.state.CallDiagnosticsState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
@@ -24,8 +25,6 @@ import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
-import com.azure.android.communication.ui.calling.redux.state.CallDiagnosticsState
-
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -35,7 +34,6 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
 internal class AppReduxStateReducerUnitTest {
-
     @Mock
     private lateinit var mockCallStateReducerImplementation: CallStateReducerImpl
 
@@ -68,7 +66,6 @@ internal class AppReduxStateReducerUnitTest {
 
     @Test
     fun appStateReducer_reduce_when_invoked_then_callAllReducers() {
-
         // arrange
         val reducer =
             AppStateReducer(
@@ -81,27 +78,28 @@ internal class AppReduxStateReducerUnitTest {
                 mockNavigationReducerImpl,
                 mockAudioSessionReducerImpl,
                 pipReducer,
-                mockCallDiagnosticsReducerImpl
+                mockCallDiagnosticsReducerImpl,
             )
         val action = NavigationAction.CallLaunched()
         val state = AppReduxState("", false, false)
         state.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
         state.remoteParticipantState = RemoteParticipantsState(HashMap(), 0, listOf(), 0, null)
-        state.localParticipantState = LocalUserState(
-            CameraState(
-                CameraOperationalStatus.OFF,
-                CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.LOCAL
-            ),
-            AudioState(
-                AudioOperationalStatus.OFF,
-                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
-                BluetoothState(available = false, deviceName = "bluetooth")
-            ),
-            "",
-            "",
-            localParticipantRole = null
-        )
+        state.localParticipantState =
+            LocalUserState(
+                CameraState(
+                    CameraOperationalStatus.OFF,
+                    CameraDeviceSelectionStatus.FRONT,
+                    CameraTransmissionStatus.LOCAL,
+                ),
+                AudioState(
+                    AudioOperationalStatus.OFF,
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    BluetoothState(available = false, deviceName = "bluetooth"),
+                ),
+                "",
+                "",
+                localParticipantRole = null,
+            )
         state.permissionState =
             PermissionState(PermissionStatus.NOT_ASKED, PermissionStatus.NOT_ASKED)
         state.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
@@ -114,64 +112,64 @@ internal class AppReduxStateReducerUnitTest {
         Mockito.`when`(
             mockParticipantStateReducerImplementation.reduce(
                 state.remoteParticipantState,
-                action
-            )
+                action,
+            ),
         )
             .thenReturn(state.remoteParticipantState)
         Mockito.`when`(
             mockDeviceStateReducer.reduce(
                 state.localParticipantState,
-                action
-            )
+                action,
+            ),
         )
             .thenReturn(state.localParticipantState)
         Mockito.`when`(
             mockPermissionStateReducerImplementation.reduce(
                 state.permissionState,
-                action
-            )
+                action,
+            ),
         ).thenReturn(state.permissionState)
 
         Mockito.`when`(
             mockLifecycleReducer.reduce(
                 state.lifecycleState,
-                action
-            )
+                action,
+            ),
         ).thenReturn(state.lifecycleState)
 
         Mockito.`when`(
             mockErrorReducer.reduce(
                 state.errorState,
-                action
-            )
+                action,
+            ),
         ).thenReturn(state.errorState)
 
         Mockito.`when`(
             mockNavigationReducerImpl.reduce(
                 state.navigationState,
-                action
-            )
+                action,
+            ),
         ).thenReturn(state.navigationState)
 
         Mockito.`when`(
             mockAudioSessionReducerImpl.reduce(
                 state.audioSessionState,
-                action
-            )
+                action,
+            ),
         ).thenReturn(state.audioSessionState)
 
         Mockito.`when`(
             pipReducer.reduce(
                 state.pipState,
-                action
-            )
+                action,
+            ),
         ).thenReturn(state.pipState)
 
         Mockito.`when`(
             mockCallDiagnosticsReducerImpl.reduce(
                 state.callDiagnosticsState,
-                action
-            )
+                action,
+            ),
         ).thenReturn(state.callDiagnosticsState)
 
         // act

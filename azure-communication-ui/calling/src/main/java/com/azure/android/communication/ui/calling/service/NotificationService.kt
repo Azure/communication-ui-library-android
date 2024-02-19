@@ -24,12 +24,14 @@ internal class NotificationService(
     private val configuration: CallCompositeConfiguration,
     private val instanceId: Int,
 ) {
-
     private var inCallServiceConnection: InCallServiceConnection? = null
 
     private val callingStatus = MutableStateFlow(CallingStatus.NONE)
 
-    fun start(lifecycleScope: LifecycleCoroutineScope, instanceId: Int) {
+    fun start(
+        lifecycleScope: LifecycleCoroutineScope,
+        instanceId: Int,
+    ) {
         lifecycleScope.launch {
             store.getStateFlow().collect {
                 callingStatus.value = it.callState.callingStatus
@@ -37,17 +39,19 @@ internal class NotificationService(
         }
         lifecycleScope.launch {
             callingStatus.collect {
-                if (it == CallingStatus.NONE || it == CallingStatus.DISCONNECTED)
+                if (it == CallingStatus.NONE || it == CallingStatus.DISCONNECTED) {
                     removeNotification()
-                else
+                } else {
                     displayNotification()
+                }
             }
         }
     }
 
     private fun displayNotification() {
-        if (inCallServiceConnection != null)
+        if (inCallServiceConnection != null) {
             return
+        }
 
         val inCallServiceIntent = Intent(context.applicationContext, InCallService::class.java)
         inCallServiceIntent.putExtra("enableMultitasking", configuration.enableMultitasking)
@@ -72,7 +76,11 @@ internal class NotificationService(
 
 internal class InCallServiceConnection : ServiceConnection {
     internal var inCallServiceBinding: InCallServiceBinder? = null
-    override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+
+    override fun onServiceConnected(
+        name: ComponentName?,
+        service: IBinder?,
+    ) {
         inCallServiceBinding = service as InCallServiceBinder
         println("InCallService InCallServiceConnection.onServiceConnected")
     }

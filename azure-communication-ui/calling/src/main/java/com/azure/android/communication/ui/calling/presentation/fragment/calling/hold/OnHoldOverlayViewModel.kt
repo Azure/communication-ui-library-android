@@ -15,6 +15,7 @@ internal class OnHoldOverlayViewModel(private val dispatch: (Action) -> Unit) {
     private lateinit var displayMicUsedToast: MutableStateFlow<Boolean>
 
     fun getDisplayHoldOverlayFlow(): StateFlow<Boolean> = displayHoldOverlayFlow
+
     fun getDisplayMicUsedToastStateFlow(): StateFlow<Boolean> = displayMicUsedToast
 
     fun init(
@@ -39,6 +40,5 @@ internal class OnHoldOverlayViewModel(private val dispatch: (Action) -> Unit) {
         dispatch(AudioSessionAction.AudioFocusRequesting())
     }
 
-    private fun shouldDisplayHoldOverlay(callingStatus: CallingStatus) =
-        callingStatus == CallingStatus.LOCAL_HOLD
+    private fun shouldDisplayHoldOverlay(callingStatus: CallingStatus) = callingStatus == CallingStatus.LOCAL_HOLD
 }

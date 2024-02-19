@@ -6,11 +6,15 @@ package com.azure.android.communication.ui.calling.service.sdk
 import com.azure.android.communication.calling.MediaStreamType
 
 internal class RemoteVideoStreamWrapper(
-    override val native: com.azure.android.communication.calling.RemoteVideoStream
+    override val native: com.azure.android.communication.calling.RemoteVideoStream,
 ) : RemoteVideoStream {
     override val id: Int
-        get() { return native.id }
+        get() {
+            return native.id
+        }
 
     override val mediaStreamType: MediaStreamType
-        get() { return native.mediaStreamType }
+        get() {
+            return native.mediaStreamType
+        }
 }

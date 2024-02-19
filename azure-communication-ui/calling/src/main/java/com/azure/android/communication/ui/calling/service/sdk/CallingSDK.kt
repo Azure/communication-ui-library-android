@@ -12,8 +12,8 @@ import com.azure.android.communication.calling.PropertyChangedListener
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.calling.VideoDeviceType
-import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
+import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
@@ -33,39 +33,67 @@ import java.io.File
 internal interface CallingSDK {
     // Internal helpers. Refactor these out further.
     fun setupCall(): CompletableFuture<Void>
+
     fun dispose()
 
     // Interactions.
     fun turnOnVideoAsync(): CompletableFuture<LocalVideoStream>
+
     fun turnOffVideoAsync(): CompletableFuture<Void>
+
     fun turnOnMicAsync(): CompletableFuture<Void>
+
     fun turnOffMicAsync(): CompletableFuture<Void>
+
     fun switchCameraAsync(): CompletableFuture<CameraDeviceSelectionStatus>
-    fun startCall(cameraState: CameraState, audioState: AudioState): CompletableFuture<Void>
+
+    fun startCall(
+        cameraState: CameraState,
+        audioState: AudioState,
+    ): CompletableFuture<Void>
+
     fun endCall(): CompletableFuture<Void>
+
     fun hold(): CompletableFuture<Void>
+
     fun resume(): CompletableFuture<Void>
 
     // State.
     fun getLocalVideoStream(): CompletableFuture<LocalVideoStream>
+
     fun getRemoteParticipantsMap(): Map<String, RemoteParticipant>
+
     fun getIsTranscribingSharedFlow(): SharedFlow<Boolean>
+
     fun getDominantSpeakersSharedFlow(): SharedFlow<DominantSpeakersInfo>
+
     fun getIsRecordingSharedFlow(): SharedFlow<Boolean>
+
     fun getIsMutedSharedFlow(): SharedFlow<Boolean>
+
     fun getCallingStateWrapperSharedFlow(): SharedFlow<CallingStateWrapper>
+
     fun getCallIdStateFlow(): StateFlow<String?>
+
     fun getRemoteParticipantInfoModelSharedFlow(): Flow<Map<String, ParticipantInfoModel>>
+
     fun getCamerasCountStateFlow(): StateFlow<Int>
+
     fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?>
+
     fun admit(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?>
+
     fun decline(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?>
+
     fun getLocalParticipantRoleSharedFlow(): SharedFlow<CallCompositeInternalParticipantRole?>
 
     //region Call Diagnostics
     fun getNetworkQualityCallDiagnosticSharedFlow(): SharedFlow<NetworkQualityCallDiagnosticModel>
+
     fun getNetworkCallDiagnosticSharedFlow(): SharedFlow<NetworkCallDiagnosticModel>
+
     fun getMediaCallDiagnosticSharedFlow(): SharedFlow<MediaCallDiagnosticModel>
+
     fun getLogFiles(): List<File>
     //endregion
 }
@@ -77,13 +105,21 @@ internal interface RemoteParticipant {
     val isMuted: Boolean
     val state: ParticipantState
     val videoStreams: List<RemoteVideoStream>
+
     fun addOnVideoStreamsUpdatedListener(listener: RemoteVideoStreamsUpdatedListener?)
+
     fun removeOnVideoStreamsUpdatedListener(listener: RemoteVideoStreamsUpdatedListener?)
+
     fun addOnIsMutedChangedListener(listener: PropertyChangedListener?)
+
     fun removeOnIsMutedChangedListener(listener: PropertyChangedListener?)
+
     fun addOnIsSpeakingChangedListener(listener: PropertyChangedListener?)
+
     fun removeOnIsSpeakingChangedListener(listener: PropertyChangedListener?)
+
     fun addOnStateChangedListener(listener: PropertyChangedListener?)
+
     fun removeOnStateChangedListener(listener: PropertyChangedListener?)
 }
 
@@ -93,10 +129,12 @@ internal interface DominantSpeakersInfo {
 
 internal sealed class CommunicationIdentifier(val id: String) {
     data class CommunicationUserIdentifier(val userId: String) : CommunicationIdentifier(userId)
+
     data class MicrosoftTeamsUserIdentifier(val userId: String, val isAnonymous: Boolean) :
         CommunicationIdentifier(userId)
 
     data class PhoneNumberIdentifier(val phoneNumber: String) : CommunicationIdentifier(phoneNumber)
+
     data class UnknownIdentifier(val genericId: String) : CommunicationIdentifier(genericId)
 }
 
@@ -109,6 +147,7 @@ internal interface RemoteVideoStream {
 internal interface LocalVideoStream {
     val native: Any
     val source: VideoDeviceInfo
+
     fun switchSource(deviceInfo: VideoDeviceInfo): CompletableFuture<Void>
 }
 
@@ -122,14 +161,19 @@ internal data class VideoDeviceInfo(
 
 internal interface VideoStreamRenderer {
     fun createView(): VideoStreamRendererView?
+
     fun createView(options: CreateViewOptions): VideoStreamRendererView?
+
     fun dispose()
+
     fun getStreamSize(): StreamSize?
 }
 
 internal interface VideoStreamRendererView {
     fun dispose()
+
     fun getView(): View?
+
     fun updateScalingMode(scalingMode: ScalingMode)
 }
 

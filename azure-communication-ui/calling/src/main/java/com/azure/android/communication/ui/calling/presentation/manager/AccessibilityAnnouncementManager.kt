@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.collect
 // These hooks make announcements based on Redux State changes
 internal class AccessibilityAnnouncementManager(
     private val store: Store<ReduxState>,
-    private val accessibilityHooks: List<AccessibilityHook>
+    private val accessibilityHooks: List<AccessibilityHook>,
 ) {
     private lateinit var lastState: ReduxState
 
@@ -40,7 +40,10 @@ internal class AccessibilityAnnouncementManager(
         }
     }
 
-    private fun announce(activity: Activity, message: String) {
+    private fun announce(
+        activity: Activity,
+        message: String,
+    ) {
         val manager = activity.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
         if (manager.isEnabled) {
             val event = AccessibilityEvent.obtain()
@@ -55,13 +58,25 @@ internal class AccessibilityAnnouncementManager(
 // shouldTrigger -> detect if we should announce something
 // message -> get the text tp read
 internal abstract class AccessibilityHook {
-    abstract fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean
-    abstract fun message(lastState: ReduxState, newState: ReduxState, context: Context): String
+    abstract fun shouldTrigger(
+        lastState: ReduxState,
+        newState: ReduxState,
+    ): Boolean
+
+    abstract fun message(
+        lastState: ReduxState,
+        newState: ReduxState,
+        context: Context,
+    ): String
 }
 
 internal class ParticipantAddedOrRemovedHook : AccessibilityHook() {
     private var callJoinTime = System.currentTimeMillis()
-    override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean {
+
+    override fun shouldTrigger(
+        lastState: ReduxState,
+        newState: ReduxState,
+    ): Boolean {
         if (lastState.callState.callingStatus != CallingStatus.CONNECTED && newState.callState.callingStatus == CallingStatus.CONNECTED) {
             callJoinTime = System.currentTimeMillis()
             return false
@@ -75,7 +90,11 @@ internal class ParticipantAddedOrRemovedHook : AccessibilityHook() {
         return false
     }
 
-    override fun message(lastState: ReduxState, newState: ReduxState, context: Context): String {
+    override fun message(
+        lastState: ReduxState,
+        newState: ReduxState,
+        context: Context,
+    ): String {
         val oldList = lastState.remoteParticipantState.participantMap.values
         val newList = newState.remoteParticipantState.participantMap.values
 
@@ -97,18 +116,29 @@ internal class ParticipantAddedOrRemovedHook : AccessibilityHook() {
 }
 
 internal class MeetingJoinedHook : AccessibilityHook() {
-    override fun shouldTrigger(lastState: ReduxState, newState: ReduxState) =
-        (lastState.callState.callingStatus != CallingStatus.CONNECTED && newState.callState.callingStatus == CallingStatus.CONNECTED)
+    override fun shouldTrigger(
+        lastState: ReduxState,
+        newState: ReduxState,
+    ) = (lastState.callState.callingStatus != CallingStatus.CONNECTED && newState.callState.callingStatus == CallingStatus.CONNECTED)
 
-    override fun message(lastState: ReduxState, newState: ReduxState, context: Context) =
-        context.getString(R.string.azure_communication_ui_calling_accessibility_meeting_connected)
+    override fun message(
+        lastState: ReduxState,
+        newState: ReduxState,
+        context: Context,
+    ) = context.getString(R.string.azure_communication_ui_calling_accessibility_meeting_connected)
 }
 
 internal class SwitchCameraStatusHook : AccessibilityHook() {
-    override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean =
-        (lastState.localParticipantState.cameraState.device != newState.localParticipantState.cameraState.device)
+    override fun shouldTrigger(
+        lastState: ReduxState,
+        newState: ReduxState,
+    ): Boolean = (lastState.localParticipantState.cameraState.device != newState.localParticipantState.cameraState.device)
 
-    override fun message(lastState: ReduxState, newState: ReduxState, context: Context): String {
+    override fun message(
+        lastState: ReduxState,
+        newState: ReduxState,
+        context: Context,
+    ): String {
         return when (newState.localParticipantState.cameraState.device) {
             CameraDeviceSelectionStatus.FRONT -> context.getString(R.string.azure_communication_ui_calling_switch_camera_button_front)
             CameraDeviceSelectionStatus.BACK -> context.getString(R.string.azure_communication_ui_calling_switch_camera_button_back)
@@ -118,10 +148,16 @@ internal class SwitchCameraStatusHook : AccessibilityHook() {
 }
 
 internal class MicStatusHook : AccessibilityHook() {
-    override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean =
-        (lastState.localParticipantState.audioState.operation != newState.localParticipantState.audioState.operation)
+    override fun shouldTrigger(
+        lastState: ReduxState,
+        newState: ReduxState,
+    ): Boolean = (lastState.localParticipantState.audioState.operation != newState.localParticipantState.audioState.operation)
 
-    override fun message(lastState: ReduxState, newState: ReduxState, context: Context): String {
+    override fun message(
+        lastState: ReduxState,
+        newState: ReduxState,
+        context: Context,
+    ): String {
         return when (newState.localParticipantState.audioState.operation) {
             AudioOperationalStatus.ON -> context.getString(R.string.azure_communication_ui_calling_setup_view_button_mic_on)
             AudioOperationalStatus.OFF -> context.getString(R.string.azure_communication_ui_calling_setup_view_button_mic_off)
@@ -131,10 +167,16 @@ internal class MicStatusHook : AccessibilityHook() {
 }
 
 internal class CameraStatusHook : AccessibilityHook() {
-    override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean =
-        (lastState.localParticipantState.cameraState.operation != newState.localParticipantState.cameraState.operation)
+    override fun shouldTrigger(
+        lastState: ReduxState,
+        newState: ReduxState,
+    ): Boolean = (lastState.localParticipantState.cameraState.operation != newState.localParticipantState.cameraState.operation)
 
-    override fun message(lastState: ReduxState, newState: ReduxState, context: Context): String {
+    override fun message(
+        lastState: ReduxState,
+        newState: ReduxState,
+        context: Context,
+    ): String {
         return when (newState.localParticipantState.cameraState.operation) {
             CameraOperationalStatus.ON -> context.getString(R.string.azure_communication_ui_calling_setup_view_button_video_on)
             CameraOperationalStatus.OFF -> context.getString(R.string.azure_communication_ui_calling_setup_view_button_video_off)

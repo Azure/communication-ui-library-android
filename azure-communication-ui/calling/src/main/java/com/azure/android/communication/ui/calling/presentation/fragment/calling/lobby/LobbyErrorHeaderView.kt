@@ -41,7 +41,7 @@ internal class LobbyErrorHeaderView : ConstraintLayout {
 
     fun start(
         viewLifecycleOwner: LifecycleOwner,
-        lobbyErrorHeaderViewModel: LobbyErrorHeaderViewModel
+        lobbyErrorHeaderViewModel: LobbyErrorHeaderViewModel,
     ) {
         this.lobbyErrorHeaderViewModel = lobbyErrorHeaderViewModel
 
@@ -69,10 +69,22 @@ internal class LobbyErrorHeaderView : ConstraintLayout {
 
     private fun getLobbyErrorMessage(it: CallCompositeLobbyErrorCode?): String {
         return when (it) {
-            CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS -> context.getString(R.string.azure_communication_ui_calling_error_lobby_disabled_by_configuration)
-            CallCompositeLobbyErrorCode.LOBBY_CONVERSATION_TYPE_NOT_SUPPORTED -> context.getString(R.string.azure_communication_ui_calling_error_lobby_conversation_type_not_supported)
-            CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED -> context.getString(R.string.azure_communication_ui_calling_error_lobby_meeting_role_not_allowded)
-            CallCompositeLobbyErrorCode.REMOVE_PARTICIPANT_OPERATION_FAILURE -> context.getString(R.string.azure_communication_ui_calling_error_lobby_failed_to_remove_participant)
+            CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS ->
+                context.getString(
+                    R.string.azure_communication_ui_calling_error_lobby_disabled_by_configuration,
+                )
+            CallCompositeLobbyErrorCode.LOBBY_CONVERSATION_TYPE_NOT_SUPPORTED ->
+                context.getString(
+                    R.string.azure_communication_ui_calling_error_lobby_conversation_type_not_supported,
+                )
+            CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED ->
+                context.getString(
+                    R.string.azure_communication_ui_calling_error_lobby_meeting_role_not_allowded,
+                )
+            CallCompositeLobbyErrorCode.REMOVE_PARTICIPANT_OPERATION_FAILURE ->
+                context.getString(
+                    R.string.azure_communication_ui_calling_error_lobby_failed_to_remove_participant,
+                )
             else -> context.getString(R.string.azure_communication_ui_calling_error_lobby_unknown)
         }
     }

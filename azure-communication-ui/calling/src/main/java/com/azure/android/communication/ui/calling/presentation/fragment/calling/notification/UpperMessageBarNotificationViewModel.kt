@@ -12,9 +12,10 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class UpperMessageBarNotificationViewModel(
     private val dispatch: (Action) -> Unit,
-    val upperMessageBarNotificationModel: UpperMessageBarNotificationModel
+    val upperMessageBarNotificationModel: UpperMessageBarNotificationModel,
 ) {
-    private var upperMessageBarNotificationModelFlow: MutableStateFlow<UpperMessageBarNotificationModel> = MutableStateFlow(upperMessageBarNotificationModel)
+    private var upperMessageBarNotificationModelFlow: MutableStateFlow<UpperMessageBarNotificationModel> =
+        MutableStateFlow(upperMessageBarNotificationModel)
     private var dismissUpperMessageBarNotificationFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     fun getDismissUpperMessageBarNotificationFlow(): StateFlow<Boolean> = dismissUpperMessageBarNotificationFlow

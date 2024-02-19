@@ -25,13 +25,14 @@ import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
 internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
-
     @ExperimentalCoroutinesApi
     @Test
     fun toastNotificationViewModel_update_when_NetworkReceiveQualityBAD_then_emitToast() {
-        val networkQualityCallDiagnosticModel = NetworkQualityCallDiagnosticModel(
-            NetworkCallDiagnostic.NETWORK_RECEIVE_QUALITY, CallDiagnosticQuality.BAD
-        )
+        val networkQualityCallDiagnosticModel =
+            NetworkQualityCallDiagnosticModel(
+                NetworkCallDiagnostic.NETWORK_RECEIVE_QUALITY,
+                CallDiagnosticQuality.BAD,
+            )
         val testCallDiagnosticsState = CallDiagnosticsState(networkQualityCallDiagnosticModel, null, null)
 
         runScopedTest {
@@ -40,9 +41,10 @@ internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
             val toastNotificationViewModel = ToastNotificationViewModel(mockAppStore::dispatch)
 
             val resultToastNotificationModelMessageFlow = mutableListOf<ToastNotificationModel>()
-            val flowJob = launch {
-                toastNotificationViewModel.getToastNotificationModelFlow().toList(resultToastNotificationModelMessageFlow)
-            }
+            val flowJob =
+                launch {
+                    toastNotificationViewModel.getToastNotificationModelFlow().toList(resultToastNotificationModelMessageFlow)
+                }
 
             // act
             toastNotificationViewModel.update(testCallDiagnosticsState)
@@ -57,9 +59,11 @@ internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
     @ExperimentalCoroutinesApi
     @Test
     fun toastNotificationViewModel_update_when_NetworkReceiveQualityPOOR_then_emitToast() {
-        val networkQualityCallDiagnosticModel = NetworkQualityCallDiagnosticModel(
-            NetworkCallDiagnostic.NETWORK_RECEIVE_QUALITY, CallDiagnosticQuality.POOR
-        )
+        val networkQualityCallDiagnosticModel =
+            NetworkQualityCallDiagnosticModel(
+                NetworkCallDiagnostic.NETWORK_RECEIVE_QUALITY,
+                CallDiagnosticQuality.POOR,
+            )
         val testCallDiagnosticsState = CallDiagnosticsState(networkQualityCallDiagnosticModel, null, null)
 
         runScopedTest {
@@ -68,9 +72,10 @@ internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
             val toastNotificationViewModel = ToastNotificationViewModel(mockAppStore::dispatch)
 
             val resultToastNotificationModelMessageFlow = mutableListOf<ToastNotificationModel>()
-            val flowJob = launch {
-                toastNotificationViewModel.getToastNotificationModelFlow().toList(resultToastNotificationModelMessageFlow)
-            }
+            val flowJob =
+                launch {
+                    toastNotificationViewModel.getToastNotificationModelFlow().toList(resultToastNotificationModelMessageFlow)
+                }
 
             // act
             toastNotificationViewModel.update(testCallDiagnosticsState)
@@ -85,9 +90,11 @@ internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
     @ExperimentalCoroutinesApi
     @Test
     fun toastNotificationViewModel_update_when_NetworkReconnectionQualityBAD_then_emitToast() {
-        val networkQualityCallDiagnosticModel = NetworkQualityCallDiagnosticModel(
-            NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY, CallDiagnosticQuality.BAD
-        )
+        val networkQualityCallDiagnosticModel =
+            NetworkQualityCallDiagnosticModel(
+                NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY,
+                CallDiagnosticQuality.BAD,
+            )
         val testCallDiagnosticsState = CallDiagnosticsState(networkQualityCallDiagnosticModel, null, null)
 
         runScopedTest {
@@ -96,9 +103,10 @@ internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
             val toastNotificationViewModel = ToastNotificationViewModel(mockAppStore::dispatch)
 
             val resultToastNotificationModelMessageFlow = mutableListOf<ToastNotificationModel>()
-            val flowJob = launch {
-                toastNotificationViewModel.getToastNotificationModelFlow().toList(resultToastNotificationModelMessageFlow)
-            }
+            val flowJob =
+                launch {
+                    toastNotificationViewModel.getToastNotificationModelFlow().toList(resultToastNotificationModelMessageFlow)
+                }
 
             // act
             toastNotificationViewModel.update(testCallDiagnosticsState)
@@ -113,9 +121,11 @@ internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
     @ExperimentalCoroutinesApi
     @Test
     fun toastNotificationViewModel_update_when_NetworkReconnectionQualityPOOR_then_emitToast() {
-        val networkQualityCallDiagnosticModel = NetworkQualityCallDiagnosticModel(
-            NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY, CallDiagnosticQuality.POOR
-        )
+        val networkQualityCallDiagnosticModel =
+            NetworkQualityCallDiagnosticModel(
+                NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY,
+                CallDiagnosticQuality.POOR,
+            )
         val testCallDiagnosticsState = CallDiagnosticsState(networkQualityCallDiagnosticModel, null, null)
 
         runScopedTest {
@@ -124,9 +134,10 @@ internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
             val toastNotificationViewModel = ToastNotificationViewModel(mockAppStore::dispatch)
 
             val resultToastNotificationModelMessageFlow = mutableListOf<ToastNotificationModel>()
-            val flowJob = launch {
-                toastNotificationViewModel.getToastNotificationModelFlow().toList(resultToastNotificationModelMessageFlow)
-            }
+            val flowJob =
+                launch {
+                    toastNotificationViewModel.getToastNotificationModelFlow().toList(resultToastNotificationModelMessageFlow)
+                }
 
             // act
             toastNotificationViewModel.update(testCallDiagnosticsState)
@@ -141,9 +152,11 @@ internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
     @ExperimentalCoroutinesApi
     @Test
     fun toastNotificationViewModel_update_when_NetworkRelaysUnreachableTrue_then_emitToast() {
-        val networkCallDiagnosticModel = NetworkCallDiagnosticModel(
-            NetworkCallDiagnostic.NETWORK_RELAYS_UNREACHABLE, true
-        )
+        val networkCallDiagnosticModel =
+            NetworkCallDiagnosticModel(
+                NetworkCallDiagnostic.NETWORK_RELAYS_UNREACHABLE,
+                true,
+            )
         val testCallDiagnosticsState = CallDiagnosticsState(null, networkCallDiagnosticModel, null)
 
         runScopedTest {
@@ -152,9 +165,10 @@ internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
             val toastNotificationViewModel = ToastNotificationViewModel(mockAppStore::dispatch)
 
             val resultToastNotificationModelMessageFlow = mutableListOf<ToastNotificationModel>()
-            val flowJob = launch {
-                toastNotificationViewModel.getToastNotificationModelFlow().toList(resultToastNotificationModelMessageFlow)
-            }
+            val flowJob =
+                launch {
+                    toastNotificationViewModel.getToastNotificationModelFlow().toList(resultToastNotificationModelMessageFlow)
+                }
 
             // act
             toastNotificationViewModel.update(testCallDiagnosticsState)
@@ -169,9 +183,11 @@ internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
     @ExperimentalCoroutinesApi
     @Test
     fun toastNotificationViewModel_update_when_MediaSpeakingWhileMicrophoneMutedTrue_then_emitToast() {
-        val mediaCallDiagnosticModel = MediaCallDiagnosticModel(
-            MediaCallDiagnostic.SPEAKING_WHILE_MICROPHONE_IS_MUTED, true
-        )
+        val mediaCallDiagnosticModel =
+            MediaCallDiagnosticModel(
+                MediaCallDiagnostic.SPEAKING_WHILE_MICROPHONE_IS_MUTED,
+                true,
+            )
         val testCallDiagnosticsState = CallDiagnosticsState(null, null, mediaCallDiagnosticModel)
 
         runScopedTest {
@@ -180,9 +196,10 @@ internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
             val toastNotificationViewModel = ToastNotificationViewModel(mockAppStore::dispatch)
 
             val resultToastNotificationModelMessageFlow = mutableListOf<ToastNotificationModel>()
-            val flowJob = launch {
-                toastNotificationViewModel.getToastNotificationModelFlow().toList(resultToastNotificationModelMessageFlow)
-            }
+            val flowJob =
+                launch {
+                    toastNotificationViewModel.getToastNotificationModelFlow().toList(resultToastNotificationModelMessageFlow)
+                }
 
             // act
             toastNotificationViewModel.update(testCallDiagnosticsState)
@@ -197,9 +214,11 @@ internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
     @ExperimentalCoroutinesApi
     @Test
     fun toastNotificationViewModel_update_when_MediaCameraStartTimedOutTrue_then_emitToast() {
-        val mediaCallDiagnosticModel = MediaCallDiagnosticModel(
-            MediaCallDiagnostic.CAMERA_START_TIMED_OUT, true
-        )
+        val mediaCallDiagnosticModel =
+            MediaCallDiagnosticModel(
+                MediaCallDiagnostic.CAMERA_START_TIMED_OUT,
+                true,
+            )
         val testCallDiagnosticsState = CallDiagnosticsState(null, null, mediaCallDiagnosticModel)
 
         runScopedTest {
@@ -208,9 +227,10 @@ internal class ToastNotificationViewModelUnitTest : ACSBaseTestCoroutine() {
             val toastNotificationViewModel = ToastNotificationViewModel(mockAppStore::dispatch)
 
             val resultToastNotificationModelMessageFlow = mutableListOf<ToastNotificationModel>()
-            val flowJob = launch {
-                toastNotificationViewModel.getToastNotificationModelFlow().toList(resultToastNotificationModelMessageFlow)
-            }
+            val flowJob =
+                launch {
+                    toastNotificationViewModel.getToastNotificationModelFlow().toList(resultToastNotificationModelMessageFlow)
+                }
 
             // act
             toastNotificationViewModel.update(testCallDiagnosticsState)

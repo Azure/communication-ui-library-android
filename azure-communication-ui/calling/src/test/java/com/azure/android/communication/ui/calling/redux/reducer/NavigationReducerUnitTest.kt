@@ -15,7 +15,6 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
 internal class NavigationReducerUnitTest {
-
     @Test
     fun navigationReducer_reduce_when_actionCallLaunched_then_changeNavigationState() {
         // arrange

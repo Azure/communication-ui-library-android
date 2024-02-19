@@ -15,22 +15,22 @@ import org.mockito.junit.MockitoJUnitRunner
 internal class ParticipantActionUnitTest {
     @Test
     fun participantReducer_reduce_when_lobbyError_then_changeStateToErrorCode() {
-
         // arrange
         val reducer = ParticipantStateReducerImpl()
-        val oldState = RemoteParticipantsState(
-            emptyMap(),
-            0,
-            emptyList(),
-            0,
-            null
-        )
+        val oldState =
+            RemoteParticipantsState(
+                emptyMap(),
+                0,
+                emptyList(),
+                0,
+                null,
+            )
         val action = ParticipantAction.LobbyError(CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS)
 
         // assert
         Assert.assertEquals(
             null,
-            oldState.lobbyErrorCode
+            oldState.lobbyErrorCode,
         )
 
         // act
@@ -39,28 +39,28 @@ internal class ParticipantActionUnitTest {
         // assert
         Assert.assertEquals(
             CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS,
-            newState.lobbyErrorCode
+            newState.lobbyErrorCode,
         )
     }
 
     @Test
     fun participantReducer_reduce_when_clearLobbyError_then_changeStateToNull() {
-
         // arrange
         val reducer = ParticipantStateReducerImpl()
-        val oldState = RemoteParticipantsState(
-            emptyMap(),
-            0,
-            emptyList(),
-            0,
-            CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS
-        )
+        val oldState =
+            RemoteParticipantsState(
+                emptyMap(),
+                0,
+                emptyList(),
+                0,
+                CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS,
+            )
         val action = ParticipantAction.ClearLobbyError()
 
         // assert
         Assert.assertEquals(
             CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS,
-            oldState.lobbyErrorCode
+            oldState.lobbyErrorCode,
         )
 
         // act
@@ -69,7 +69,7 @@ internal class ParticipantActionUnitTest {
         // assert
         Assert.assertEquals(
             null,
-            newState.lobbyErrorCode
+            newState.lobbyErrorCode,
         )
     }
 }

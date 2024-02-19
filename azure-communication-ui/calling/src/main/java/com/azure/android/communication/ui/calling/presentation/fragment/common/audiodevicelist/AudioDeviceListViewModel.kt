@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 internal class AudioDeviceListViewModel(private val dispatch: (Action) -> Unit) {
-
     private val displayAudioDeviceSelectionMenuMutableStateFlow = MutableStateFlow(false)
 
     private lateinit var audioStateMutableStateFlow: MutableStateFlow<AudioState>
@@ -29,8 +28,8 @@ internal class AudioDeviceListViewModel(private val dispatch: (Action) -> Unit) 
     fun switchAudioDevice(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
         dispatch(
             LocalParticipantAction.AudioDeviceChangeRequested(
-                audioDeviceSelectionStatus
-            )
+                audioDeviceSelectionStatus,
+            ),
         )
     }
 

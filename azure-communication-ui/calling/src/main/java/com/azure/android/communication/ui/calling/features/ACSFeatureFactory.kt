@@ -34,24 +34,24 @@ import com.azure.android.communication.ui.calling.features.interfaces.SupportFil
  */
 internal class ACSFeatureFactory
 /**
- * Constructor used by the factory
- */
-private constructor() {
-    companion object {
-        /**
-         * Return and instance of the required feature
-         *
-         * @param feature interface of the required feature
-         * @param <F> type of the feature interface
-         * @return requested interface feature
-         </F> */
-        inline fun <reified F : ACSFeature> getFeature(): F {
-            return featureList[F::class.java]!! as F
-        }
+     * Constructor used by the factory
+     */
+    private constructor() {
+        companion object {
+            /**
+             * Return and instance of the required feature
+             *
+             * @param feature interface of the required feature
+             * @param <F> type of the feature interface
+             * @return requested interface feature
+             </F> */
+            inline fun <reified F : ACSFeature> getFeature(): F {
+                return featureList[F::class.java]!! as F
+            }
 
-        private val featureList: Map<Class<*>, ACSFeature> =
-            mapOf(
-                SupportFilesFeature::class.java to SupportFilesFeatureImpl()
-            )
+            private val featureList: Map<Class<*>, ACSFeature> =
+                mapOf(
+                    SupportFilesFeature::class.java to SupportFilesFeatureImpl(),
+                )
+        }
     }
-}

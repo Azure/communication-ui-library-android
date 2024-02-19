@@ -24,8 +24,9 @@ object NetworkUtils {
                 executeShellCommand("svc wifi enable")
                 executeShellCommand("svc data enable")
             }
-            val cm = targetContext
-                .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val cm =
+                targetContext
+                    .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             var timeOut = 0L
 
             timeout@ while (timeOut < TIMED_OUT_VALUE) {

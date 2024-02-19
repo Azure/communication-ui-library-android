@@ -14,14 +14,11 @@ import kotlinx.coroutines.launch
 
 internal class MultitaskingManager(
     private val store: AppStore<ReduxState>,
-    private val configuration: CallCompositeConfiguration
+    private val configuration: CallCompositeConfiguration,
 ) {
-
     private var pipStatus = store.getCurrentState().pipState.status
 
-    fun start(
-        coroutineScope: CoroutineScope,
-    ) {
+    fun start(coroutineScope: CoroutineScope) {
         coroutineScope.launch {
             store.getStateFlow().collect {
                 if (pipStatus != it.pipState.status) {
@@ -37,8 +34,8 @@ internal class MultitaskingManager(
             configuration.callCompositeEventsHandler.getOnMultitaskingStateChangedEventHandlers().forEach { handler ->
                 handler.handle(
                     CallCompositePictureInPictureChangedEvent(
-                        status == PictureInPictureStatus.PIP_MODE_ENTERED
-                    )
+                        status == PictureInPictureStatus.PIP_MODE_ENTERED,
+                    ),
                 )
             }
         } catch (error: Throwable) {

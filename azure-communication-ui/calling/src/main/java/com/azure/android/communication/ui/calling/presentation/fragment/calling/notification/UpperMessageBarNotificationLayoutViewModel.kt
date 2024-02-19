@@ -12,33 +12,34 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 internal class UpperMessageBarNotificationLayoutViewModel(private val dispatch: (Action) -> Unit) {
-    private var newUpperMessageBarNotificationFlow: MutableStateFlow<UpperMessageBarNotificationViewModel> = MutableStateFlow(
-        UpperMessageBarNotificationViewModel(
-            dispatch,
-            UpperMessageBarNotificationModel(
-                0,
-                0,
-                null
-            )
+    private var newUpperMessageBarNotificationFlow: MutableStateFlow<UpperMessageBarNotificationViewModel> =
+        MutableStateFlow(
+            UpperMessageBarNotificationViewModel(
+                dispatch,
+                UpperMessageBarNotificationModel(
+                    0,
+                    0,
+                    null,
+                ),
+            ),
         )
-    )
 
     private var mediaDiagnosticNotificationViewModels = hashMapOf<MediaCallDiagnostic, UpperMessageBarNotificationViewModel>()
 
     fun getNewUpperMessageBarNotificationFlow(): StateFlow<UpperMessageBarNotificationViewModel> = newUpperMessageBarNotificationFlow
 
     fun update(callDiagnosticsState: CallDiagnosticsState) {
-
         when (callDiagnosticsState.mediaCallDiagnostic?.diagnosticKind) {
             MediaCallDiagnostic.NO_SPEAKER_DEVICES_AVAILABLE -> {
                 if (mediaDiagnosticNotificationViewModels[MediaCallDiagnostic.NO_SPEAKER_DEVICES_AVAILABLE] == null &&
                     callDiagnosticsState.mediaCallDiagnostic.diagnosticValue
                 ) {
-                    var upperMessageBarNotificationModel = UpperMessageBarNotificationModel(
-                        R.drawable.azure_communication_ui_calling_ic_fluent_speaker_mute_24_regular,
-                        R.string.azure_communication_ui_calling_diagnostics_unable_to_locate_speaker,
-                        MediaCallDiagnostic.NO_SPEAKER_DEVICES_AVAILABLE,
-                    )
+                    var upperMessageBarNotificationModel =
+                        UpperMessageBarNotificationModel(
+                            R.drawable.azure_communication_ui_calling_ic_fluent_speaker_mute_24_regular,
+                            R.string.azure_communication_ui_calling_diagnostics_unable_to_locate_speaker,
+                            MediaCallDiagnostic.NO_SPEAKER_DEVICES_AVAILABLE,
+                        )
                     addNewNotification(upperMessageBarNotificationModel)
                 } else if (mediaDiagnosticNotificationViewModels[MediaCallDiagnostic.NO_SPEAKER_DEVICES_AVAILABLE] != null &&
                     !callDiagnosticsState.mediaCallDiagnostic.diagnosticValue
@@ -50,11 +51,12 @@ internal class UpperMessageBarNotificationLayoutViewModel(private val dispatch: 
                 if (mediaDiagnosticNotificationViewModels[MediaCallDiagnostic.NO_MICROPHONE_DEVICES_AVAILABLE] == null &&
                     callDiagnosticsState.mediaCallDiagnostic.diagnosticValue
                 ) {
-                    var upperMessageBarNotificationModel = UpperMessageBarNotificationModel(
-                        R.drawable.azure_communication_ui_calling_ic_fluent_mic_prohibited_24_regular,
-                        R.string.azure_communication_ui_calling_diagnostics_unable_to_locate_microphone,
-                        MediaCallDiagnostic.NO_MICROPHONE_DEVICES_AVAILABLE
-                    )
+                    var upperMessageBarNotificationModel =
+                        UpperMessageBarNotificationModel(
+                            R.drawable.azure_communication_ui_calling_ic_fluent_mic_prohibited_24_regular,
+                            R.string.azure_communication_ui_calling_diagnostics_unable_to_locate_microphone,
+                            MediaCallDiagnostic.NO_MICROPHONE_DEVICES_AVAILABLE,
+                        )
                     addNewNotification(upperMessageBarNotificationModel)
                 } else if (mediaDiagnosticNotificationViewModels[MediaCallDiagnostic.NO_MICROPHONE_DEVICES_AVAILABLE] != null &&
                     !callDiagnosticsState.mediaCallDiagnostic.diagnosticValue
@@ -66,11 +68,12 @@ internal class UpperMessageBarNotificationLayoutViewModel(private val dispatch: 
                 if (mediaDiagnosticNotificationViewModels[MediaCallDiagnostic.MICROPHONE_NOT_FUNCTIONING] == null &&
                     callDiagnosticsState.mediaCallDiagnostic.diagnosticValue
                 ) {
-                    var upperMessageBarNotificationModel = UpperMessageBarNotificationModel(
-                        R.drawable.azure_communication_ui_calling_ic_fluent_mic_prohibited_24_regular,
-                        R.string.azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected,
-                        MediaCallDiagnostic.MICROPHONE_NOT_FUNCTIONING
-                    )
+                    var upperMessageBarNotificationModel =
+                        UpperMessageBarNotificationModel(
+                            R.drawable.azure_communication_ui_calling_ic_fluent_mic_prohibited_24_regular,
+                            R.string.azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected,
+                            MediaCallDiagnostic.MICROPHONE_NOT_FUNCTIONING,
+                        )
                     addNewNotification(upperMessageBarNotificationModel)
                 } else if (mediaDiagnosticNotificationViewModels[MediaCallDiagnostic.MICROPHONE_NOT_FUNCTIONING] != null &&
                     !callDiagnosticsState.mediaCallDiagnostic.diagnosticValue
@@ -82,11 +85,12 @@ internal class UpperMessageBarNotificationLayoutViewModel(private val dispatch: 
                 if (mediaDiagnosticNotificationViewModels[MediaCallDiagnostic.SPEAKER_NOT_FUNCTIONING] == null &&
                     callDiagnosticsState.mediaCallDiagnostic.diagnosticValue
                 ) {
-                    var upperMessageBarNotificationModel = UpperMessageBarNotificationModel(
-                        R.drawable.azure_communication_ui_calling_ic_fluent_speaker_mute_24_regular,
-                        R.string.azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected,
-                        MediaCallDiagnostic.SPEAKER_NOT_FUNCTIONING
-                    )
+                    var upperMessageBarNotificationModel =
+                        UpperMessageBarNotificationModel(
+                            R.drawable.azure_communication_ui_calling_ic_fluent_speaker_mute_24_regular,
+                            R.string.azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected,
+                            MediaCallDiagnostic.SPEAKER_NOT_FUNCTIONING,
+                        )
                     addNewNotification(upperMessageBarNotificationModel)
                 } else if (mediaDiagnosticNotificationViewModels[MediaCallDiagnostic.SPEAKER_NOT_FUNCTIONING] != null &&
                     !callDiagnosticsState.mediaCallDiagnostic.diagnosticValue
@@ -100,10 +104,11 @@ internal class UpperMessageBarNotificationLayoutViewModel(private val dispatch: 
 
     private fun addNewNotification(upperMessageBarNotificationModel: UpperMessageBarNotificationModel) {
         upperMessageBarNotificationModel.mediaCallDiagnostic?.let {
-            val upperMessageNotificationViewModel = UpperMessageBarNotificationViewModel(
-                dispatch,
-                upperMessageBarNotificationModel
-            )
+            val upperMessageNotificationViewModel =
+                UpperMessageBarNotificationViewModel(
+                    dispatch,
+                    upperMessageBarNotificationModel,
+                )
             mediaDiagnosticNotificationViewModels[upperMessageBarNotificationModel.mediaCallDiagnostic] =
                 upperMessageNotificationViewModel
             newUpperMessageBarNotificationFlow.value = upperMessageNotificationViewModel

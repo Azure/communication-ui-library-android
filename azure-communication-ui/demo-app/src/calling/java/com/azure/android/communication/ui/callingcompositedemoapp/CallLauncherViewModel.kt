@@ -68,10 +68,11 @@ class CallLauncherViewModel : ViewModel() {
         subscribeToEvents(context, callComposite)
 
         this.callComposite = callComposite
-        if (localOptions == null)
+        if (localOptions == null) {
             callComposite.launch(context, remoteOptions)
-        else
+        } else {
             callComposite.launch(context, remoteOptions, localOptions)
+        }
     }
 
     fun dismissCallComposite() {
@@ -86,7 +87,7 @@ class CallLauncherViewModel : ViewModel() {
         acsToken: String,
         groupId: UUID?,
         meetingLink: String?,
-        displayName: String
+        displayName: String,
     ): CallCompositeRemoteOptions {
         val communicationTokenRefreshOptions =
             CommunicationTokenRefreshOptions({ acsToken }, true)
@@ -94,8 +95,11 @@ class CallLauncherViewModel : ViewModel() {
             CommunicationTokenCredential(communicationTokenRefreshOptions)
 
         val locator: CallCompositeJoinLocator =
-            if (groupId != null) CallCompositeGroupCallLocator(groupId)
-            else CallCompositeTeamsMeetingLinkLocator(meetingLink)
+            if (groupId != null) {
+                CallCompositeGroupCallLocator(groupId)
+            } else {
+                CallCompositeTeamsMeetingLinkLocator(meetingLink)
+            }
 
         return CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
     }
@@ -104,7 +108,7 @@ class CallLauncherViewModel : ViewModel() {
         val localOptions = CallCompositeLocalOptions()
         var isAnythingChanged = false
 
-        if (SettingsFeatures.getParticipantViewData(context.applicationContext) != null){
+        if (SettingsFeatures.getParticipantViewData(context.applicationContext) != null) {
             localOptions.setParticipantViewData(SettingsFeatures.getParticipantViewData(context.applicationContext))
             isAnythingChanged = true
         }
@@ -123,8 +127,11 @@ class CallLauncherViewModel : ViewModel() {
         }
         SettingsFeatures.getAudioOnlyByDefaultOption()?.let {
             localOptions.setAudioVideoMode(
-                if (it) CallCompositeAudioVideoMode.AUDIO_ONLY
-                else CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                if (it) {
+                    CallCompositeAudioVideoMode.AUDIO_ONLY
+                } else {
+                    CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                },
             )
             isAnythingChanged = true
         }
@@ -140,8 +147,10 @@ class CallLauncherViewModel : ViewModel() {
         return if (isAnythingChanged) localOptions else null
     }
 
-    private fun subscribeToEvents(context: Context, callComposite: CallComposite) {
-
+    private fun subscribeToEvents(
+        context: Context,
+        callComposite: CallComposite,
+    ) {
         errorHandler = CallLauncherActivityErrorHandler(context, callComposite)
         callComposite.addOnErrorEventHandler(errorHandler)
 
@@ -183,7 +192,10 @@ class CallLauncherViewModel : ViewModel() {
         }
     }
 
-    private fun toast(context:Context, message: String) {
+    private fun toast(
+        context: Context,
+        message: String,
+    ) {
         Log.i("ACSCallingUI", message)
         Toast.makeText(context.applicationContext, message, Toast.LENGTH_SHORT).show()
     }
@@ -201,36 +213,42 @@ class CallLauncherViewModel : ViewModel() {
 
         val callCompositeBuilder = CallCompositeBuilder()
 
-        if (setupScreenOrientation != null)
+        if (setupScreenOrientation != null) {
             callCompositeBuilder.setupScreenOrientation(setupScreenOrientation)
+        }
 
-        if (callScreenOrientation != null)
+        if (callScreenOrientation != null) {
             callCompositeBuilder.callScreenOrientation(callScreenOrientation)
+        }
 
         locale?.let {
             val isRtl = SettingsFeatures.getLayoutDirection()
             callCompositeBuilder
                 .localization(
-                    if (isRtl != null)
+                    if (isRtl != null) {
                         CallCompositeLocalizationOptions(it, isRtl)
-                    else
+                    } else {
                         CallCompositeLocalizationOptions(it)
+                    },
                 )
         }
 
-        if (AdditionalFeatures.secondaryThemeFeature.active)
+        if (AdditionalFeatures.secondaryThemeFeature.active) {
             callCompositeBuilder.theme(R.style.MyCompany_Theme_Calling)
+        }
 
         if (SettingsFeatures.enableMultitasking() != null) {
-            val multitaskingOptions = if (SettingsFeatures.enablePipWhenMultitasking() != null)
-                CallCompositeMultitaskingOptions(
-                    SettingsFeatures.enableMultitasking(),
-                    SettingsFeatures.enablePipWhenMultitasking()
-                )
-            else
-                CallCompositeMultitaskingOptions(
-                    SettingsFeatures.enableMultitasking()
-                )
+            val multitaskingOptions =
+                if (SettingsFeatures.enablePipWhenMultitasking() != null) {
+                    CallCompositeMultitaskingOptions(
+                        SettingsFeatures.enableMultitasking(),
+                        SettingsFeatures.enablePipWhenMultitasking(),
+                    )
+                } else {
+                    CallCompositeMultitaskingOptions(
+                        SettingsFeatures.enableMultitasking(),
+                    )
+                }
 
             callCompositeBuilder.multitasking(multitaskingOptions)
         }

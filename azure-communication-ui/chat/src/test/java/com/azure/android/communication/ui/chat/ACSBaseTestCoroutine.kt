@@ -14,6 +14,5 @@ open class ACSBaseTestCoroutine {
     val mainCoroutineRule = MainCoroutineRule()
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    fun runScopedTest(body: suspend TestScope.() -> Unit) =
-        mainCoroutineRule.scope.runTest { body() }
+    fun runScopedTest(body: suspend TestScope.() -> Unit) = mainCoroutineRule.scope.runTest { body() }
 }

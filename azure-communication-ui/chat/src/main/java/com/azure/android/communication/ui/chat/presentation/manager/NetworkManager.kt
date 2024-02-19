@@ -15,11 +15,12 @@ internal class NetworkManager(dispatch: Dispatch) {
     private var connectivityManager: ConnectivityManager? = null
 
     fun start(context: Context) {
-        val networkRequest = NetworkRequest.Builder()
-            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-            .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
-            .build()
+        val networkRequest =
+            NetworkRequest.Builder()
+                .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+                .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+                .build()
         connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         connectivityManager?.requestNetwork(networkRequest, networkCallback)
@@ -29,17 +30,18 @@ internal class NetworkManager(dispatch: Dispatch) {
         connectivityManager?.unregisterNetworkCallback(networkCallback)
     }
 
-    private val networkCallback = object : ConnectivityManager.NetworkCallback() {
-        // network is available for use
-        override fun onAvailable(network: Network) {
-            super.onAvailable(network)
-            dispatch(NetworkAction.Connected())
-        }
+    private val networkCallback =
+        object : ConnectivityManager.NetworkCallback() {
+            // network is available for use
+            override fun onAvailable(network: Network) {
+                super.onAvailable(network)
+                dispatch(NetworkAction.Connected())
+            }
 
-        // lost network connection
-        override fun onLost(network: Network) {
-            super.onLost(network)
-            dispatch(NetworkAction.Disconnected())
+            // lost network connection
+            override fun onLost(network: Network) {
+                super.onLost(network)
+                dispatch(NetworkAction.Disconnected())
+            }
         }
-    }
 }

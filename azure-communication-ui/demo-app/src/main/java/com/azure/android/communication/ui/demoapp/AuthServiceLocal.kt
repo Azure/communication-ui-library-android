@@ -10,7 +10,6 @@ internal class AuthServiceLocal(
     override val currentUserToken: String,
     private val communicationUserId: String,
 ) : AuthService {
-
     override val currentUserCommunicationIdentifier: CommunicationIdentifier
         by lazy { CommunicationUserIdentifier(communicationUserId) }
 

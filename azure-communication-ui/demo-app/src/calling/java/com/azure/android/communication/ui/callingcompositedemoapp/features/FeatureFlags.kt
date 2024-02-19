@@ -33,17 +33,16 @@ enum class FeatureFlags(
     // Label to display on screen
     override val enabledByDefault: Boolean,
     override val label: String,
-
 ) : FeatureFlag {
     // ---------------------------- Global Features -------------------------------------------------
     // These features are global to the composite. They are available via the FeatureFlags enum.
-
     // Empty Entry, will be ignored from values()
     // Added since all other entries are removed at the moment.
     NOOP(
         false,
-        ""
-    );
+        "",
+    ),
+    ;
 
     // ---------------------------- End Global Features ---------------------------------------------
 
@@ -86,9 +85,7 @@ data class FeatureFlagEntry(
     override val label: String,
     private val start: () -> Unit,
     private val end: () -> Unit,
-
 ) : FeatureFlag {
-
     override val onStart: () -> Unit
         get() = {
             if (active) start()
@@ -130,12 +127,19 @@ abstract class FeatureFlagStore {
     private val listeners = ArrayList<Runnable>()
 
     // Implement these to save/retrieve from your data-store
-    abstract fun setInternal(flag: FeatureFlag, value: Boolean)
+    abstract fun setInternal(
+        flag: FeatureFlag,
+        value: Boolean,
+    )
+
     abstract fun getInternal(flag: FeatureFlag): Boolean
 
     fun get(flag: FeatureFlag) = getInternal(flag)
 
-    fun set(flag: FeatureFlag, enabled: Boolean) {
+    fun set(
+        flag: FeatureFlag,
+        enabled: Boolean,
+    ) {
         val wasEnabled = get(flag)
 
         setInternal(flag, enabled)
@@ -167,16 +171,21 @@ abstract class FeatureFlagStore {
 class DefaultFeatureFlagStore : FeatureFlagStore() {
     val values = HashMap<FeatureFlag, Boolean>()
 
-    override fun setInternal(flag: FeatureFlag, value: Boolean) {
-        if (FeatureFlags.features.none { it == flag })
+    override fun setInternal(
+        flag: FeatureFlag,
+        value: Boolean,
+    ) {
+        if (FeatureFlags.features.none { it == flag }) {
             return
+        }
 
         values[flag] = value
     }
 
     override fun getInternal(flag: FeatureFlag): Boolean {
-        if (FeatureFlags.features.none { it == flag })
+        if (FeatureFlags.features.none { it == flag }) {
             return false
+        }
 
         return values[flag] ?: FeatureFlags.features.first { it == flag }.enabledByDefault
     }

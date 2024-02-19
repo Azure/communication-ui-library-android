@@ -8,7 +8,6 @@ import java.util.concurrent.Callable
 
 class ChatCompositeKotlinLauncher(private val tokenRefresher: Callable<String>) :
     ChatCompositeLauncher {
-
     override fun launch(
         context: Context,
         threadID: String?,

@@ -11,23 +11,33 @@ import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelect
 
 internal sealed class LocalParticipantAction : Action {
     class DeviceManagerFetchFailed(val error: CallCompositeError) : LocalParticipantAction()
+
     class CameraPreviewOnRequested : LocalParticipantAction()
+
     class CameraPreviewOnTriggered : LocalParticipantAction()
+
     class CameraPreviewOnSucceeded(var videoStreamID: String) : LocalParticipantAction()
+
     class CameraPreviewOnFailed(val error: CallCompositeError) : LocalParticipantAction()
 
     class CameraPreviewOffTriggered : LocalParticipantAction()
 
     class CameraOnRequested : LocalParticipantAction()
+
     class CameraOnTriggered : LocalParticipantAction()
+
     class CameraOnSucceeded(var videoStreamID: String) : LocalParticipantAction()
+
     class CameraOnFailed(val error: CallCompositeError) : LocalParticipantAction()
 
     class CameraOffTriggered : LocalParticipantAction()
+
     class CameraOffSucceeded : LocalParticipantAction()
+
     class CameraOffFailed(val error: CallCompositeError) : LocalParticipantAction()
 
     class CameraSwitchTriggered : LocalParticipantAction()
+
     class CameraSwitchSucceeded(val cameraDeviceSelectionStatus: CameraDeviceSelectionStatus) :
         LocalParticipantAction()
 
@@ -38,17 +48,21 @@ internal sealed class LocalParticipantAction : Action {
         LocalParticipantAction()
 
     class CameraPauseSucceeded : LocalParticipantAction()
+
     class CameraPauseFailed(val error: CallCompositeError) : LocalParticipantAction()
 
     class CamerasCountUpdated(val count: Int) : LocalParticipantAction()
 
     class MicPreviewOnTriggered : LocalParticipantAction()
+
     class MicPreviewOffTriggered : LocalParticipantAction()
 
     class MicOnTriggered : LocalParticipantAction()
+
     class MicOnFailed(val error: CallCompositeError) : LocalParticipantAction()
 
     class MicOffTriggered : LocalParticipantAction()
+
     class MicOffFailed(val error: CallCompositeError) : LocalParticipantAction()
 
     class AudioStateOperationUpdated(val audioOperationalStatus: AudioOperationalStatus) :
@@ -61,6 +75,7 @@ internal sealed class LocalParticipantAction : Action {
         LocalParticipantAction()
 
     class AudioDeviceHeadsetAvailable(val available: Boolean) : LocalParticipantAction()
+
     class AudioDeviceBluetoothSCOAvailable(val available: Boolean, val deviceName: String) : LocalParticipantAction()
 
     class AudioDeviceChangeFailed(

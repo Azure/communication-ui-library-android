@@ -71,20 +71,21 @@ internal class ChatContainer(
                     sdkName = "com.azure.android:azure-communication-chat",
                     sdkVersion = "2.0.1",
                     threadId = remoteOptions.threadId,
-                    senderDisplayName = remoteOptions.displayName
+                    senderDisplayName = remoteOptions.displayName,
                 )
 
-            locator = initializeServiceLocator(
-                instanceId,
-                remoteOptions,
-                context
-            )
-                .apply {
-                    locate<Dispatch>()(ChatAction.StartChat())
-                    locate<NetworkManager>().start(context)
-                    locate<EventHandler>().start()
-                    locate<ChatErrorHandler>().start()
-                }
+            locator =
+                initializeServiceLocator(
+                    instanceId,
+                    remoteOptions,
+                    context,
+                )
+                    .apply {
+                        locate<Dispatch>()(ChatAction.StartChat())
+                        locate<NetworkManager>().start(context)
+                        locate<EventHandler>().start()
+                        locate<ChatErrorHandler>().start()
+                    }
         }
     }
 
@@ -92,59 +93,60 @@ internal class ChatContainer(
         instanceId: Int,
         remoteOptions: ChatCompositeRemoteOptions,
         context: Context,
-    ) =
-        ServiceLocator.getInstance(instanceId = instanceId).apply {
-            addTypedBuilder { TestHelper.coroutineContextProvider ?: CoroutineContextProvider() }
+    ) = ServiceLocator.getInstance(instanceId = instanceId).apply {
+        addTypedBuilder { TestHelper.coroutineContextProvider ?: CoroutineContextProvider() }
 
-            val messageRepository = MessageRepository.createSkipListBackedRepository()
+        val messageRepository = MessageRepository.createSkipListBackedRepository()
 
-            addTypedBuilder { chatAdapter }
+        addTypedBuilder { chatAdapter }
 
-            addTypedBuilder { messageRepository }
+        addTypedBuilder { messageRepository }
 
-            addTypedBuilder { remoteOptions }
+        addTypedBuilder { remoteOptions }
 
-            addTypedBuilder { ChatEventHandler() }
+        addTypedBuilder { ChatEventHandler() }
 
-            addTypedBuilder {
-                ChatFetchNotificationHandler(
-                    coroutineContextProvider = locate(),
-                    localParticipantIdentifier = configuration.chatConfig?.identity ?: ""
-                )
-            }
+        addTypedBuilder {
+            ChatFetchNotificationHandler(
+                coroutineContextProvider = locate(),
+                localParticipantIdentifier = configuration.chatConfig?.identity ?: "",
+            )
+        }
 
-            addTypedBuilder {
-                ChatSDKWrapper(
-                    context = context,
-                    chatConfig = configuration.chatConfig!!,
-                    coroutineContextProvider = locate(),
-                    chatEventHandler = locate(),
-                    chatFetchNotificationHandler = locate(),
-                    logger = locate()
-                )
-            }
+        addTypedBuilder {
+            ChatSDKWrapper(
+                context = context,
+                chatConfig = configuration.chatConfig!!,
+                coroutineContextProvider = locate(),
+                chatEventHandler = locate(),
+                chatFetchNotificationHandler = locate(),
+                logger = locate(),
+            )
+        }
 
-            addTypedBuilder {
-                ChatService(
-                    chatSDK = TestHelper.chatSDK ?: locate<ChatSDKWrapper>()
-                )
-            }
+        addTypedBuilder {
+            ChatService(
+                chatSDK = TestHelper.chatSDK ?: locate<ChatSDKWrapper>(),
+            )
+        }
 
-            addTypedBuilder {
-                ChatServiceListener(
-                    chatService = locate(),
-                    coroutineContextProvider = locate()
-                )
-            }
+        addTypedBuilder {
+            ChatServiceListener(
+                chatService = locate(),
+                coroutineContextProvider = locate(),
+            )
+        }
 
-            addTypedBuilder {
-                AppStore(
-                    initialState = AppReduxState(
+        addTypedBuilder {
+            AppStore(
+                initialState =
+                    AppReduxState(
                         configuration.chatConfig!!.threadId,
                         configuration.chatConfig!!.identity,
-                        configuration.chatConfig?.senderDisplayName
+                        configuration.chatConfig?.senderDisplayName,
                     ),
-                    reducer = AppStateReducer(
+                reducer =
+                    AppStateReducer(
                         chatReducer = ChatReducerImpl(),
                         participantReducer = ParticipantsReducerImpl(),
                         lifecycleReducer = LifecycleReducerImpl(),
@@ -152,44 +154,47 @@ internal class ChatContainer(
                         navigationReducer = NavigationReducerImpl(),
                         repositoryReducer = RepositoryReducerImpl(),
                         networkReducer = NetworkReducerImpl(),
-                        accessibilityReducer = AccessibilityReducerImpl(context) {
-                            announceForAccessibility(context, it)
-                        },
+                        accessibilityReducer =
+                            AccessibilityReducerImpl(context) {
+                                announceForAccessibility(context, it)
+                            },
                     ) as Reducer<ReduxState>,
-                    middlewares = mutableListOf(
+                middlewares =
+                    mutableListOf(
                         ChatMiddlewareImpl(
-                            chatActionHandler = ChatActionHandler(
-                                chatService = locate()
-                            ),
-                            chatServiceListener = locate()
+                            chatActionHandler =
+                                ChatActionHandler(
+                                    chatService = locate(),
+                                ),
+                            chatServiceListener = locate(),
                         ),
-                        MessageRepositoryMiddlewareImpl(messageRepository)
+                        MessageRepositoryMiddlewareImpl(messageRepository),
                     ),
-                    dispatcher = (locate() as CoroutineContextProvider).SingleThreaded
-                )
-            }
-
-            addTypedBuilder<Dispatch> { locate<AppStore<ReduxState>>()::dispatch }
-
-            addTypedBuilder { NetworkManager(dispatch = locate()) }
-
-            addTypedBuilder {
-                EventHandler(
-                    coroutineContextProvider = locate(),
-                    store = locate(),
-                    configuration = configuration,
-                )
-            }
-
-            addTypedBuilder {
-                ChatErrorHandler(
-                    coroutineContextProvider = locate(),
-                    store = locate(),
-                    configuration = configuration,
-                )
-            }
-            addTypedBuilder<Logger> { DefaultLogger() }
+                dispatcher = (locate() as CoroutineContextProvider).SingleThreaded,
+            )
         }
+
+        addTypedBuilder<Dispatch> { locate<AppStore<ReduxState>>()::dispatch }
+
+        addTypedBuilder { NetworkManager(dispatch = locate()) }
+
+        addTypedBuilder {
+            EventHandler(
+                coroutineContextProvider = locate(),
+                store = locate(),
+                configuration = configuration,
+            )
+        }
+
+        addTypedBuilder {
+            ChatErrorHandler(
+                coroutineContextProvider = locate(),
+                store = locate(),
+                configuration = configuration,
+            )
+        }
+        addTypedBuilder<Logger> { DefaultLogger() }
+    }
 
     fun stop() {
         locator?.locate<EventHandler>()?.stop()

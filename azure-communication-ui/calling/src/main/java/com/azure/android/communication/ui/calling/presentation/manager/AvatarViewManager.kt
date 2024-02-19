@@ -3,10 +3,10 @@
 
 package com.azure.android.communication.ui.calling.presentation.manager
 
-import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantViewData
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantsConfiguration
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantsConfigurationHandler
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult
 import com.azure.android.communication.ui.calling.redux.AppStore
@@ -24,7 +24,6 @@ internal class AvatarViewManager(
     configuration: RemoteParticipantsConfiguration,
 ) :
     RemoteParticipantsConfigurationHandler {
-
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
 
     init {

@@ -15,32 +15,32 @@ import org.junit.runner.RunWith
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class CallingCompositeNetworkTest : BaseUiTest() {
-
     private val acsToken: String = CallIdentifiersHelper.getACSToken()
 
     @Test
     fun testJoinTeamsCallAfterNetworkDisconnected() {
         NetworkUtils.disableNetwork()
 
-        val homeScreen = HomeScreenRobot()
-            .setAcsToken(acsToken)
-            .clickTeamsMeetingRadioButton()
-            .setGroupIdOrTeamsMeetingUrl(TestFixture.teamsUrl)
+        val homeScreen =
+            HomeScreenRobot()
+                .setAcsToken(acsToken)
+                .clickTeamsMeetingRadioButton()
+                .setGroupIdOrTeamsMeetingUrl(TestFixture.teamsUrl)
         joinAfterNetworkDisconnected(homeScreen)
     }
 
     @Test
     fun testJoinGroupCallAfterNetworkDisconnected() {
         NetworkUtils.disableNetwork()
-        val homeScreen = HomeScreenRobot()
-            .setAcsToken(acsToken)
-            .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getGroupId())
+        val homeScreen =
+            HomeScreenRobot()
+                .setAcsToken(acsToken)
+                .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getGroupId())
 
         joinAfterNetworkDisconnected(homeScreen)
     }
 
     private fun joinAfterNetworkDisconnected(homeScreen: HomeScreenRobot) {
-
         val setupScreen = homeScreen.clickLaunchButton()
         try {
             setupScreen

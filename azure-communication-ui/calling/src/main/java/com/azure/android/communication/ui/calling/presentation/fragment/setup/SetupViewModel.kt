@@ -20,7 +20,6 @@ internal class SetupViewModel(
     private val networkManager: NetworkManager,
 ) :
     BaseViewModel(store) {
-
     val warningsViewModel = setupViewModelProvider.warningsViewModel
     val setupControlBarViewModel = setupViewModelProvider.setupControlBarViewModel
     val localParticipantRendererViewModel = setupViewModelProvider.previewAreaViewModel
@@ -68,7 +67,7 @@ internal class SetupViewModel(
         )
         setupGradientViewModel.init(
             state.localParticipantState.videoStreamID,
-            state.localParticipantState.cameraState.operation
+            state.localParticipantState.cameraState.operation,
         )
         participantAvatarViewModel.init(
             state.localParticipantState.displayName,
@@ -80,14 +79,13 @@ internal class SetupViewModel(
             state.permissionState.cameraPermissionState,
             state.localParticipantState.cameraState.operation,
             state.localParticipantState.cameraState.camerasCount,
-            networkManager
+            networkManager,
         )
 
         super.init(coroutineScope)
     }
 
     override suspend fun onStateChange(state: ReduxState) {
-
         setupControlBarViewModel.update(
             state.permissionState,
             state.localParticipantState.cameraState,
@@ -99,29 +97,29 @@ internal class SetupViewModel(
             state.localParticipantState.videoStreamID,
         )
         audioDeviceListViewModel.update(
-            state.localParticipantState.audioState
+            state.localParticipantState.audioState,
         )
         errorInfoViewModel.updateCallStateError(state.errorState)
         errorInfoViewModel.updateAudioFocusRejectedState(
-            state.audioSessionState.audioFocusStatus == AudioFocusStatus.REJECTED
+            state.audioSessionState.audioFocusStatus == AudioFocusStatus.REJECTED,
         )
         state.localParticipantState.cameraState.error?.let {
             errorInfoViewModel.updateCallCompositeError(it)
         }
         setupGradientViewModel.update(
             state.localParticipantState.videoStreamID,
-            state.localParticipantState.cameraState.operation
+            state.localParticipantState.cameraState.operation,
         )
         participantAvatarViewModel.update(
             state.localParticipantState.videoStreamID,
-            state.permissionState
+            state.permissionState,
         )
         joinCallButtonHolderViewModel.update(
             state.permissionState.audioPermissionState,
             state.callState,
             state.permissionState.cameraPermissionState,
             state.localParticipantState.cameraState.operation,
-            state.localParticipantState.cameraState.camerasCount
+            state.localParticipantState.cameraState.camerasCount,
         )
     }
 }

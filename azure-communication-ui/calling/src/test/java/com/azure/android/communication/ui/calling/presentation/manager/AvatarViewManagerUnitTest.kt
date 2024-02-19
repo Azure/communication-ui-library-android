@@ -8,6 +8,7 @@ import android.widget.ImageView
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantViewData
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantsConfiguration
+import com.azure.android.communication.ui.calling.helper.StandardTestContextProvider
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult
@@ -20,7 +21,6 @@ import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
 import com.azure.android.communication.ui.calling.service.sdk.CommunicationIdentifier
-import com.azure.android.communication.ui.calling.helper.StandardTestContextProvider
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import org.junit.Assert
@@ -32,18 +32,18 @@ import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
 internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
-
     @Test
     fun avatarViewManager_call_localDataOption_then_returnNullIfLocalDataOptionNotSet() {
         // arrange
         val mockAppStore = mock<AppStore<ReduxState>>()
         val remoteParticipantsConfiguration = RemoteParticipantsConfiguration()
-        val avatarViewManager = AvatarViewManager(
-            StandardTestContextProvider(),
-            mockAppStore,
-            null,
-            remoteParticipantsConfiguration
-        )
+        val avatarViewManager =
+            AvatarViewManager(
+                StandardTestContextProvider(),
+                mockAppStore,
+                null,
+                remoteParticipantsConfiguration,
+            )
 
         // act
         val result = avatarViewManager.callCompositeLocalOptions
@@ -51,7 +51,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         // assert
         Assert.assertEquals(
             null,
-            result
+            result,
         )
     }
 
@@ -60,12 +60,13 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         // arrange
         val mockAppStore = mock<AppStore<ReduxState>>()
         val remoteParticipantsConfiguration = RemoteParticipantsConfiguration()
-        val avatarViewManager = AvatarViewManager(
-            StandardTestContextProvider(),
-            mockAppStore,
-            CallCompositeLocalOptions(CallCompositeParticipantViewData().setDisplayName("test")),
-            remoteParticipantsConfiguration
-        )
+        val avatarViewManager =
+            AvatarViewManager(
+                StandardTestContextProvider(),
+                mockAppStore,
+                CallCompositeLocalOptions(CallCompositeParticipantViewData().setDisplayName("test")),
+                remoteParticipantsConfiguration,
+            )
 
         // act
         val result = avatarViewManager.callCompositeLocalOptions
@@ -87,12 +88,13 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         val mockAppStore = mock<AppStore<ReduxState>>()
         val mockBitMap = mock<Bitmap>()
         val remoteParticipantsConfiguration = RemoteParticipantsConfiguration()
-        val avatarViewManager = AvatarViewManager(
-            StandardTestContextProvider(),
-            mockAppStore,
-            CallCompositeLocalOptions(CallCompositeParticipantViewData().setAvatarBitmap(mockBitMap)),
-            remoteParticipantsConfiguration
-        )
+        val avatarViewManager =
+            AvatarViewManager(
+                StandardTestContextProvider(),
+                mockAppStore,
+                CallCompositeLocalOptions(CallCompositeParticipantViewData().setAvatarBitmap(mockBitMap)),
+                remoteParticipantsConfiguration,
+            )
 
         // act
         val result = avatarViewManager.callCompositeLocalOptions
@@ -114,12 +116,13 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         val mockAppStore = mock<AppStore<ReduxState>>()
         val mockBitMap = mock<Bitmap>()
         val remoteParticipantsConfiguration = RemoteParticipantsConfiguration()
-        val avatarViewManager = AvatarViewManager(
-            StandardTestContextProvider(),
-            mockAppStore,
-            CallCompositeLocalOptions(CallCompositeParticipantViewData().setAvatarBitmap(mockBitMap)),
-            remoteParticipantsConfiguration
-        )
+        val avatarViewManager =
+            AvatarViewManager(
+                StandardTestContextProvider(),
+                mockAppStore,
+                CallCompositeLocalOptions(CallCompositeParticipantViewData().setAvatarBitmap(mockBitMap)),
+                remoteParticipantsConfiguration,
+            )
 
         // act
         val result = avatarViewManager.callCompositeLocalOptions
@@ -137,15 +140,16 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         val mockAppStore = mock<AppStore<ReduxState>>()
         val mockBitMap = mock<Bitmap>()
         val remoteParticipantsConfiguration = RemoteParticipantsConfiguration()
-        val avatarViewManager = AvatarViewManager(
-            StandardTestContextProvider(),
-            mockAppStore,
-            CallCompositeLocalOptions(
-                CallCompositeParticipantViewData()
-                    .setAvatarBitmap(mockBitMap).setScaleType(ImageView.ScaleType.FIT_CENTER)
-            ),
-            remoteParticipantsConfiguration
-        )
+        val avatarViewManager =
+            AvatarViewManager(
+                StandardTestContextProvider(),
+                mockAppStore,
+                CallCompositeLocalOptions(
+                    CallCompositeParticipantViewData()
+                        .setAvatarBitmap(mockBitMap).setScaleType(ImageView.ScaleType.FIT_CENTER),
+                ),
+                remoteParticipantsConfiguration,
+            )
 
         // act
         val result = avatarViewManager.callCompositeLocalOptions
@@ -172,41 +176,45 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                 userIdentifier = "test",
                                 isMuted = true,
                                 isCameraDisabled = false,
-
                                 isSpeaking = true,
-                                cameraVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.VIDEO
-                                ),
-                                screenShareVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.SCREEN_SHARING
-                                ),
+                                cameraVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.VIDEO,
+                                    ),
+                                screenShareVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.SCREEN_SHARING,
+                                    ),
                                 modifiedTimestamp = 456,
                                 participantStatus = ParticipantStatus.HOLD,
-                            )
-                        )
+                            ),
+                        ),
                     ),
                     123,
                     listOf(),
                     0,
-                    lobbyErrorCode = null
+                    lobbyErrorCode = null,
                 )
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getCurrentState() } doReturn reduxState
-            }
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getCurrentState() } doReturn reduxState
+                }
             val remoteParticipantsConfiguration = RemoteParticipantsConfiguration()
-            val avatarViewManager = AvatarViewManager(
-                StandardTestContextProvider(),
-                mockAppStore,
-                null,
-                remoteParticipantsConfiguration
-            )
+            val avatarViewManager =
+                AvatarViewManager(
+                    StandardTestContextProvider(),
+                    mockAppStore,
+                    null,
+                    remoteParticipantsConfiguration,
+                )
 
-            val remoteParticipantPersonaData = RemoteParticipantViewData(
-                CommunicationIdentifier.CommunicationUserIdentifier("test"),
-                CallCompositeParticipantViewData().setDisplayName("test")
-            )
+            val remoteParticipantPersonaData =
+                RemoteParticipantViewData(
+                    CommunicationIdentifier.CommunicationUserIdentifier("test"),
+                    CallCompositeParticipantViewData().setDisplayName("test"),
+                )
 
             // act
             val result =
@@ -216,7 +224,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             // assert
             Assert.assertEquals(
                 CallCompositeSetParticipantViewDataResult.SUCCESS,
-                result
+                result,
             )
         }
     }
@@ -237,39 +245,44 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                 isMuted = true,
                                 isCameraDisabled = false,
                                 isSpeaking = true,
-                                cameraVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.VIDEO
-                                ),
-                                screenShareVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.SCREEN_SHARING
-                                ),
+                                cameraVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.VIDEO,
+                                    ),
+                                screenShareVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.SCREEN_SHARING,
+                                    ),
                                 modifiedTimestamp = 456,
                                 participantStatus = ParticipantStatus.HOLD,
-                            )
-                        )
+                            ),
+                        ),
                     ),
                     123,
                     listOf(),
                     0,
-                    lobbyErrorCode = null
+                    lobbyErrorCode = null,
                 )
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getCurrentState() } doReturn reduxState
-            }
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getCurrentState() } doReturn reduxState
+                }
             val remoteParticipantsConfiguration = RemoteParticipantsConfiguration()
-            val avatarViewManager = AvatarViewManager(
-                StandardTestContextProvider(),
-                mockAppStore,
-                null,
-                remoteParticipantsConfiguration
-            )
+            val avatarViewManager =
+                AvatarViewManager(
+                    StandardTestContextProvider(),
+                    mockAppStore,
+                    null,
+                    remoteParticipantsConfiguration,
+                )
 
-            val remoteParticipantPersonaData = RemoteParticipantViewData(
-                CommunicationIdentifier.CommunicationUserIdentifier("test1"),
-                CallCompositeParticipantViewData().setDisplayName("test")
-            )
+            val remoteParticipantPersonaData =
+                RemoteParticipantViewData(
+                    CommunicationIdentifier.CommunicationUserIdentifier("test1"),
+                    CallCompositeParticipantViewData().setDisplayName("test"),
+                )
 
             // act
             val result =
@@ -279,7 +292,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             // assert
             Assert.assertEquals(
                 CallCompositeSetParticipantViewDataResult.PARTICIPANT_NOT_IN_CALL,
-                result
+                result,
             )
         }
     }
@@ -300,47 +313,53 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                 isMuted = true,
                                 isCameraDisabled = false,
                                 isSpeaking = true,
-                                cameraVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.VIDEO
-                                ),
-                                screenShareVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.SCREEN_SHARING
-                                ),
+                                cameraVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.VIDEO,
+                                    ),
+                                screenShareVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.SCREEN_SHARING,
+                                    ),
                                 modifiedTimestamp = 456,
                                 participantStatus = ParticipantStatus.HOLD,
-                            )
-                        )
+                            ),
+                        ),
                     ),
                     123,
                     listOf(),
                     0,
-                    lobbyErrorCode = null
+                    lobbyErrorCode = null,
                 )
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getCurrentState() } doReturn reduxState
-            }
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getCurrentState() } doReturn reduxState
+                }
             val remoteParticipantsConfiguration = RemoteParticipantsConfiguration()
-            val avatarViewManager = AvatarViewManager(
-                StandardTestContextProvider(),
-                mockAppStore,
-                null,
-                remoteParticipantsConfiguration
-            )
+            val avatarViewManager =
+                AvatarViewManager(
+                    StandardTestContextProvider(),
+                    mockAppStore,
+                    null,
+                    remoteParticipantsConfiguration,
+                )
 
             val resultList =
                 mutableListOf<Map<String, CallCompositeParticipantViewData>>()
 
-            val flowJob = launch {
-                avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
-                    .toList(resultList)
-            }
+            val flowJob =
+                launch {
+                    avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
+                        .toList(resultList)
+                }
 
-            val remoteParticipantPersonaData = RemoteParticipantViewData(
-                CommunicationIdentifier.CommunicationUserIdentifier("test"),
-                CallCompositeParticipantViewData().setDisplayName("test")
-            )
+            val remoteParticipantPersonaData =
+                RemoteParticipantViewData(
+                    CommunicationIdentifier.CommunicationUserIdentifier("test"),
+                    CallCompositeParticipantViewData().setDisplayName("test"),
+                )
 
             // act
             avatarViewManager.onSetParticipantViewData(remoteParticipantPersonaData)
@@ -349,7 +368,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             // assert
             Assert.assertEquals(
                 remoteParticipantPersonaData.participantViewData,
-                resultList[0]["test"]
+                resultList[0]["test"],
             )
 
             flowJob.cancel()
@@ -372,52 +391,59 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                 isMuted = true,
                                 isCameraDisabled = false,
                                 isSpeaking = true,
-                                cameraVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.VIDEO
-                                ),
-                                screenShareVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.SCREEN_SHARING
-                                ),
+                                cameraVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.VIDEO,
+                                    ),
+                                screenShareVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.SCREEN_SHARING,
+                                    ),
                                 modifiedTimestamp = 456,
                                 participantStatus = ParticipantStatus.HOLD,
-                            )
-                        )
+                            ),
+                        ),
                     ),
                     123,
                     listOf(),
                     0,
-                    lobbyErrorCode = null
+                    lobbyErrorCode = null,
                 )
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getCurrentState() } doReturn reduxState
-            }
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getCurrentState() } doReturn reduxState
+                }
             val remoteParticipantsConfiguration = RemoteParticipantsConfiguration()
-            val avatarViewManager = AvatarViewManager(
-                StandardTestContextProvider(),
-                mockAppStore,
-                null,
-                remoteParticipantsConfiguration
-            )
+            val avatarViewManager =
+                AvatarViewManager(
+                    StandardTestContextProvider(),
+                    mockAppStore,
+                    null,
+                    remoteParticipantsConfiguration,
+                )
 
             val resultList =
                 mutableListOf<Map<String, CallCompositeParticipantViewData>>()
 
-            val flowJob = launch {
-                avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
-                    .toList(resultList)
-            }
+            val flowJob =
+                launch {
+                    avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
+                        .toList(resultList)
+                }
 
-            val remoteParticipantPersonaData = RemoteParticipantViewData(
-                CommunicationIdentifier.CommunicationUserIdentifier("test"),
-                CallCompositeParticipantViewData().setDisplayName("test")
-            )
+            val remoteParticipantPersonaData =
+                RemoteParticipantViewData(
+                    CommunicationIdentifier.CommunicationUserIdentifier("test"),
+                    CallCompositeParticipantViewData().setDisplayName("test"),
+                )
 
-            val remoteParticipantPersonaDataUpdated = RemoteParticipantViewData(
-                CommunicationIdentifier.CommunicationUserIdentifier("test"),
-                CallCompositeParticipantViewData().setDisplayName("testUpdated")
-            )
+            val remoteParticipantPersonaDataUpdated =
+                RemoteParticipantViewData(
+                    CommunicationIdentifier.CommunicationUserIdentifier("test"),
+                    CallCompositeParticipantViewData().setDisplayName("testUpdated"),
+                )
 
             // act
             avatarViewManager.onSetParticipantViewData(remoteParticipantPersonaData)
@@ -426,7 +452,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             // assert
             Assert.assertEquals(
                 remoteParticipantPersonaData.participantViewData,
-                resultList[0]["test"]
+                resultList[0]["test"],
             )
 
             // act
@@ -436,7 +462,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             // assert
             Assert.assertEquals(
                 remoteParticipantPersonaDataUpdated.participantViewData,
-                resultList[1]["test"]
+                resultList[1]["test"],
             )
 
             flowJob.cancel()
@@ -459,48 +485,54 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                 isMuted = true,
                                 isCameraDisabled = false,
                                 isSpeaking = true,
-                                cameraVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.VIDEO
-                                ),
-                                screenShareVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.SCREEN_SHARING
-                                ),
+                                cameraVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.VIDEO,
+                                    ),
+                                screenShareVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.SCREEN_SHARING,
+                                    ),
                                 modifiedTimestamp = 456,
                                 participantStatus = ParticipantStatus.HOLD,
-                            )
-                        )
+                            ),
+                        ),
                     ),
                     123,
                     listOf(),
                     0,
-                    lobbyErrorCode = null
+                    lobbyErrorCode = null,
                 )
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getCurrentState() } doReturn reduxState
-            }
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getCurrentState() } doReturn reduxState
+                }
             val remoteParticipantsConfiguration = RemoteParticipantsConfiguration()
-            val avatarViewManager = AvatarViewManager(
-                StandardTestContextProvider(),
-                mockAppStore,
-                null,
-                remoteParticipantsConfiguration
-            )
+            val avatarViewManager =
+                AvatarViewManager(
+                    StandardTestContextProvider(),
+                    mockAppStore,
+                    null,
+                    remoteParticipantsConfiguration,
+                )
 
             val resultList =
                 mutableListOf<Map<String, CallCompositeParticipantViewData>>()
 
-            val flowJob = launch {
-                avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
-                    .toList(resultList)
-            }
+            val flowJob =
+                launch {
+                    avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
+                        .toList(resultList)
+                }
 
             val mockBitmap = mock<Bitmap>()
-            val remoteParticipantPersonaData = RemoteParticipantViewData(
-                CommunicationIdentifier.CommunicationUserIdentifier("test"),
-                CallCompositeParticipantViewData().setAvatarBitmap(mockBitmap)
-            )
+            val remoteParticipantPersonaData =
+                RemoteParticipantViewData(
+                    CommunicationIdentifier.CommunicationUserIdentifier("test"),
+                    CallCompositeParticipantViewData().setAvatarBitmap(mockBitmap),
+                )
 
             // act
             avatarViewManager.onSetParticipantViewData(remoteParticipantPersonaData)
@@ -509,12 +541,12 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             // assert
             Assert.assertEquals(
                 remoteParticipantPersonaData.participantViewData.avatarBitmap,
-                resultList[0]["test"]?.avatarBitmap
+                resultList[0]["test"]?.avatarBitmap,
             )
 
             Assert.assertEquals(
                 remoteParticipantPersonaData.participantViewData.scaleType,
-                resultList[0]["test"]?.scaleType
+                resultList[0]["test"]?.scaleType,
             )
 
             flowJob.cancel()
@@ -537,48 +569,54 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                 isMuted = true,
                                 isCameraDisabled = false,
                                 isSpeaking = true,
-                                cameraVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.VIDEO
-                                ),
-                                screenShareVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.SCREEN_SHARING
-                                ),
+                                cameraVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.VIDEO,
+                                    ),
+                                screenShareVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.SCREEN_SHARING,
+                                    ),
                                 modifiedTimestamp = 456,
                                 participantStatus = ParticipantStatus.HOLD,
-                            )
-                        )
+                            ),
+                        ),
                     ),
                     123,
                     listOf(),
                     0,
-                    lobbyErrorCode = null
+                    lobbyErrorCode = null,
                 )
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getCurrentState() } doReturn reduxState
-            }
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getCurrentState() } doReturn reduxState
+                }
             val remoteParticipantsConfiguration = RemoteParticipantsConfiguration()
-            val avatarViewManager = AvatarViewManager(
-                StandardTestContextProvider(),
-                mockAppStore,
-                null,
-                remoteParticipantsConfiguration
-            )
+            val avatarViewManager =
+                AvatarViewManager(
+                    StandardTestContextProvider(),
+                    mockAppStore,
+                    null,
+                    remoteParticipantsConfiguration,
+                )
 
             val resultList =
                 mutableListOf<Map<String, CallCompositeParticipantViewData>>()
 
-            val flowJob = launch {
-                avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
-                    .toList(resultList)
-            }
+            val flowJob =
+                launch {
+                    avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
+                        .toList(resultList)
+                }
 
             val mockBitmap = mock<Bitmap>()
-            val remoteParticipantPersonaData = RemoteParticipantViewData(
-                CommunicationIdentifier.CommunicationUserIdentifier("test"),
-                CallCompositeParticipantViewData().setAvatarBitmap(mockBitmap)
-            )
+            val remoteParticipantPersonaData =
+                RemoteParticipantViewData(
+                    CommunicationIdentifier.CommunicationUserIdentifier("test"),
+                    CallCompositeParticipantViewData().setAvatarBitmap(mockBitmap),
+                )
 
             // act
             avatarViewManager.onSetParticipantViewData(remoteParticipantPersonaData)
@@ -587,17 +625,17 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             // assert
             Assert.assertEquals(
                 remoteParticipantPersonaData.participantViewData.avatarBitmap,
-                resultList[0]["test"]?.avatarBitmap
+                resultList[0]["test"]?.avatarBitmap,
             )
 
             Assert.assertEquals(
                 remoteParticipantPersonaData.participantViewData.scaleType,
-                resultList[0]["test"]?.scaleType
+                resultList[0]["test"]?.scaleType,
             )
 
             Assert.assertEquals(
                 1,
-                resultList.size
+                resultList.size,
             )
 
             // act
@@ -607,12 +645,12 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             // assert
             Assert.assertEquals(
                 0,
-                resultList[1].size
+                resultList[1].size,
             )
 
             Assert.assertEquals(
                 2,
-                resultList.size
+                resultList.size,
             )
 
             flowJob.cancel()
@@ -635,48 +673,54 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                 isMuted = true,
                                 isCameraDisabled = false,
                                 isSpeaking = true,
-                                cameraVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.VIDEO
-                                ),
-                                screenShareVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.SCREEN_SHARING
-                                ),
+                                cameraVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.VIDEO,
+                                    ),
+                                screenShareVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.SCREEN_SHARING,
+                                    ),
                                 modifiedTimestamp = 456,
                                 participantStatus = ParticipantStatus.HOLD,
-                            )
-                        )
+                            ),
+                        ),
                     ),
                     123,
                     listOf(),
                     0,
-                    lobbyErrorCode = null
+                    lobbyErrorCode = null,
                 )
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getCurrentState() } doReturn reduxState
-            }
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getCurrentState() } doReturn reduxState
+                }
             val remoteParticipantsConfiguration = RemoteParticipantsConfiguration()
-            val avatarViewManager = AvatarViewManager(
-                StandardTestContextProvider(),
-                mockAppStore,
-                null,
-                remoteParticipantsConfiguration
-            )
+            val avatarViewManager =
+                AvatarViewManager(
+                    StandardTestContextProvider(),
+                    mockAppStore,
+                    null,
+                    remoteParticipantsConfiguration,
+                )
 
             val resultList =
                 mutableListOf<Map<String, CallCompositeParticipantViewData>>()
 
-            val flowJob = launch {
-                avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
-                    .toList(resultList)
-            }
+            val flowJob =
+                launch {
+                    avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
+                        .toList(resultList)
+                }
 
             val mockBitmap = mock<Bitmap>()
-            val remoteParticipantPersonaData = RemoteParticipantViewData(
-                CommunicationIdentifier.CommunicationUserIdentifier("test"),
-                CallCompositeParticipantViewData().setAvatarBitmap(mockBitmap)
-            )
+            val remoteParticipantPersonaData =
+                RemoteParticipantViewData(
+                    CommunicationIdentifier.CommunicationUserIdentifier("test"),
+                    CallCompositeParticipantViewData().setAvatarBitmap(mockBitmap),
+                )
 
             // act
             avatarViewManager.onSetParticipantViewData(remoteParticipantPersonaData)
@@ -685,17 +729,17 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             // assert
             Assert.assertEquals(
                 remoteParticipantPersonaData.participantViewData.avatarBitmap,
-                resultList[0]["test"]?.avatarBitmap
+                resultList[0]["test"]?.avatarBitmap,
             )
 
             Assert.assertEquals(
                 remoteParticipantPersonaData.participantViewData.scaleType,
-                resultList[0]["test"]?.scaleType
+                resultList[0]["test"]?.scaleType,
             )
 
             Assert.assertEquals(
                 1,
-                resultList.size
+                resultList.size,
             )
 
             // act
@@ -705,7 +749,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
             // assert
             Assert.assertEquals(
                 1,
-                resultList.size
+                resultList.size,
             )
 
             flowJob.cancel()

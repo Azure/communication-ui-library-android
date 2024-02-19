@@ -14,11 +14,9 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
 internal class WaitingLobbyOverlayViewModelTest : ACSBaseTestCoroutine() {
-
     @Test
     fun lobbyOverlayViewModel_when_callingStateChange_then_notifyLobbyState() =
         runScopedTest {
-
             // arrange
             val viewModel = WaitingLobbyOverlayViewModel()
             viewModel.init(
@@ -26,9 +24,10 @@ internal class WaitingLobbyOverlayViewModelTest : ACSBaseTestCoroutine() {
             )
 
             val modelFlow = mutableListOf<Boolean>()
-            val displayLobbyJob = launch {
-                viewModel.getDisplayLobbyOverlayFlow().toList(modelFlow)
-            }
+            val displayLobbyJob =
+                launch {
+                    viewModel.getDisplayLobbyOverlayFlow().toList(modelFlow)
+                }
 
             // act
             viewModel.update(

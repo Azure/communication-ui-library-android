@@ -34,15 +34,15 @@ import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
 internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
-
     @Test
     fun remoteParticipantHandler_start_onStateChangeWithNoRemoteParticipant_then_eventIsNotFiredToContoso() {
         runScopedTest {
             // arrange
             val storeStateFlow = MutableStateFlow<ReduxState>(AppReduxState("", false, false))
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getStateFlow() } doReturn storeStateFlow
-            }
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getStateFlow() } doReturn storeStateFlow
+                }
             val mockParticipantJoinedHandler =
                 mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
@@ -50,18 +50,20 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
 
             val configuration = CallCompositeConfiguration()
             configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedEventHandler(
-                mockParticipantJoinedHandler
+                mockParticipantJoinedHandler,
             )
-            val handler = RemoteParticipantHandler(
-                configuration,
-                mockAppStore,
-                mockRemoteParticipantsCollection
-            )
+            val handler =
+                RemoteParticipantHandler(
+                    configuration,
+                    mockAppStore,
+                    mockRemoteParticipantsCollection,
+                )
 
             // act
-            val job = launch {
-                handler.start()
-            }
+            val job =
+                launch {
+                    handler.start()
+                }
             testScheduler.runCurrent()
 
             // assert
@@ -87,66 +89,74 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 isMuted = true,
                                 isCameraDisabled = false,
                                 isSpeaking = true,
-                                cameraVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.VIDEO
-                                ),
-                                screenShareVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.SCREEN_SHARING
-                                ),
+                                cameraVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.VIDEO,
+                                    ),
+                                screenShareVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.SCREEN_SHARING,
+                                    ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
-                            )
-                        )
+                            ),
+                        ),
                     ),
                     123,
                     listOf(),
                     0,
-                    lobbyErrorCode = null
+                    lobbyErrorCode = null,
                 )
             val storeStateFlow = MutableStateFlow<ReduxState>(reduxState)
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getStateFlow() } doReturn storeStateFlow
-            }
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getStateFlow() } doReturn storeStateFlow
+                }
             val mockParticipantJoinedHandler =
                 mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
             val communicationIdentifier = CommunicationIdentifier.CommunicationUserIdentifier("test")
 
-            val mockRemoteParticipant = mock<RemoteParticipant> {
-                on { identifier } doReturn communicationIdentifier
-            }
-            val mockRemoteParticipantsCollection = mock<CallingSDK> {
-                on { getRemoteParticipantsMap() } doReturn mapOf(
-                    Pair(
-                        "test",
-                        mockRemoteParticipant
-                    )
-                )
-            }
+            val mockRemoteParticipant =
+                mock<RemoteParticipant> {
+                    on { identifier } doReturn communicationIdentifier
+                }
+            val mockRemoteParticipantsCollection =
+                mock<CallingSDK> {
+                    on { getRemoteParticipantsMap() } doReturn
+                        mapOf(
+                            Pair(
+                                "test",
+                                mockRemoteParticipant,
+                            ),
+                        )
+                }
 
             val configuration = CallCompositeConfiguration()
             configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedEventHandler(
-                mockParticipantJoinedHandler
+                mockParticipantJoinedHandler,
             )
-            val handler = RemoteParticipantHandler(
-                configuration,
-                mockAppStore,
-                mockRemoteParticipantsCollection
-            )
+            val handler =
+                RemoteParticipantHandler(
+                    configuration,
+                    mockAppStore,
+                    mockRemoteParticipantsCollection,
+                )
 
             // act
-            val job = launch {
-                handler.start()
-            }
+            val job =
+                launch {
+                    handler.start()
+                }
             testScheduler.runCurrent()
 
             // assert
             verify(mockParticipantJoinedHandler, times(1)).handle(
                 argThat { event ->
                     event.identifiers.size == 1 && event.identifiers.toList()[0] == communicationIdentifier.into()
-                }
+                },
             )
 
             job.cancel()
@@ -169,28 +179,31 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 isMuted = true,
                                 isCameraDisabled = false,
                                 isSpeaking = true,
-                                cameraVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.VIDEO
-                                ),
-                                screenShareVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.SCREEN_SHARING
-                                ),
+                                cameraVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.VIDEO,
+                                    ),
+                                screenShareVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.SCREEN_SHARING,
+                                    ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
-                            )
-                        )
+                            ),
+                        ),
                     ),
                     123,
                     listOf(),
                     0,
-                    lobbyErrorCode = null
+                    lobbyErrorCode = null,
                 )
             val storeStateFlow = MutableStateFlow<ReduxState>(reduxState)
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getStateFlow() } doReturn storeStateFlow
-            }
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getStateFlow() } doReturn storeStateFlow
+                }
             val mockParticipantJoinedHandler =
                 mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
@@ -198,30 +211,32 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
 
             val configuration = CallCompositeConfiguration()
             configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedEventHandler(
-                mockParticipantJoinedHandler
+                mockParticipantJoinedHandler,
             )
 
             configuration.callCompositeEventsHandler.removeOnRemoteParticipantJoinedEventHandler(
-                mockParticipantJoinedHandler
+                mockParticipantJoinedHandler,
             )
 
-            val handler = RemoteParticipantHandler(
-                configuration,
-                mockAppStore,
-                mockRemoteParticipantsCollection
-            )
+            val handler =
+                RemoteParticipantHandler(
+                    configuration,
+                    mockAppStore,
+                    mockRemoteParticipantsCollection,
+                )
 
             // act
-            val job = launch {
-                handler.start()
-            }
+            val job =
+                launch {
+                    handler.start()
+                }
             testScheduler.runCurrent()
 
             // assert
             verify(mockParticipantJoinedHandler, times(0)).handle(
                 argThat { event ->
                     event is Any
-                }
+                },
             )
 
             job.cancel()
@@ -244,17 +259,19 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 isMuted = true,
                                 isCameraDisabled = false,
                                 isSpeaking = true,
-                                cameraVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.VIDEO
-                                ),
-                                screenShareVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.SCREEN_SHARING
-                                ),
+                                cameraVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.VIDEO,
+                                    ),
+                                screenShareVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.SCREEN_SHARING,
+                                    ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
-                            )
+                            ),
                         ),
                         Pair(
                             "test2",
@@ -264,67 +281,76 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 isMuted = true,
                                 isCameraDisabled = false,
                                 isSpeaking = true,
-                                cameraVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.VIDEO
-                                ),
-                                screenShareVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.SCREEN_SHARING
-                                ),
+                                cameraVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.VIDEO,
+                                    ),
+                                screenShareVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.SCREEN_SHARING,
+                                    ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
-                            )
-                        )
+                            ),
+                        ),
                     ),
                     123,
                     listOf(),
                     0,
-                    lobbyErrorCode = null
+                    lobbyErrorCode = null,
                 )
             val storeStateFlow = MutableStateFlow<ReduxState>(reduxState)
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getStateFlow() } doReturn storeStateFlow
-            }
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getStateFlow() } doReturn storeStateFlow
+                }
             val mockParticipantJoinedHandler =
                 mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
             val communicationIdentifierFirst = CommunicationIdentifier.CommunicationUserIdentifier("test")
             val communicationIdentifierSecond = CommunicationIdentifier.CommunicationUserIdentifier("test2")
 
-            val mockRemoteParticipantFirst = mock<RemoteParticipant> {
-                on { identifier } doReturn communicationIdentifierFirst
-            }
-            val mockRemoteParticipantSecond = mock<RemoteParticipant> {
-                on { identifier } doReturn communicationIdentifierSecond
-            }
-            val mockRemoteParticipantsCollection = mock<CallingSDK> {
-                on { getRemoteParticipantsMap() } doReturn mapOf(
-                    Pair(
-                        "test",
-                        mockRemoteParticipantFirst
-                    ),
-                    Pair(
-                        "test2",
-                        mockRemoteParticipantSecond
-                    )
-                )
-            }
+            val mockRemoteParticipantFirst =
+                mock<RemoteParticipant> {
+                    on { identifier } doReturn communicationIdentifierFirst
+                }
+            val mockRemoteParticipantSecond =
+                mock<RemoteParticipant> {
+                    on { identifier } doReturn communicationIdentifierSecond
+                }
+            val mockRemoteParticipantsCollection =
+                mock<CallingSDK> {
+                    on { getRemoteParticipantsMap() } doReturn
+                        mapOf(
+                            Pair(
+                                "test",
+                                mockRemoteParticipantFirst,
+                            ),
+                            Pair(
+                                "test2",
+                                mockRemoteParticipantSecond,
+                            ),
+                        )
+                }
 
             val configuration = CallCompositeConfiguration()
             configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedEventHandler(
-                mockParticipantJoinedHandler
+                mockParticipantJoinedHandler,
             )
-            val handler = RemoteParticipantHandler(
-                configuration,
-                mockAppStore,
-                mockRemoteParticipantsCollection
-            )
+            val handler =
+                RemoteParticipantHandler(
+                    configuration,
+                    mockAppStore,
+                    mockRemoteParticipantsCollection,
+                )
 
             // act
-            val job = launch {
-                handler.start()
-            }
+            val job =
+                launch {
+                    handler.start()
+                }
             testScheduler.runCurrent()
 
             // assert
@@ -333,7 +359,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                     event.identifiers.size == 2 &&
                         event.identifiers.toList()[0] == communicationIdentifierFirst.into() &&
                         event.identifiers.toList()[1] == communicationIdentifierSecond.into()
-                }
+                },
             )
 
             job.cancel()
@@ -356,17 +382,19 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 isMuted = true,
                                 isCameraDisabled = false,
                                 isSpeaking = true,
-                                cameraVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.VIDEO
-                                ),
-                                screenShareVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.SCREEN_SHARING
-                                ),
+                                cameraVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.VIDEO,
+                                    ),
+                                screenShareVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.SCREEN_SHARING,
+                                    ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
-                            )
+                            ),
                         ),
                         Pair(
                             "test2",
@@ -376,28 +404,31 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 isMuted = true,
                                 isCameraDisabled = false,
                                 isSpeaking = true,
-                                cameraVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.VIDEO
-                                ),
-                                screenShareVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.SCREEN_SHARING
-                                ),
+                                cameraVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.VIDEO,
+                                    ),
+                                screenShareVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.SCREEN_SHARING,
+                                    ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
-                            )
-                        )
+                            ),
+                        ),
                     ),
                     123,
                     listOf(),
                     0,
-                    lobbyErrorCode = null
+                    lobbyErrorCode = null,
                 )
             val storeStateFlow = MutableStateFlow<ReduxState>(reduxState)
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getStateFlow() } doReturn storeStateFlow
-            }
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getStateFlow() } doReturn storeStateFlow
+                }
             val mockParticipantJoinedHandler =
                 mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
@@ -405,46 +436,53 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             val communicationIdentifierSecond = CommunicationIdentifier.CommunicationUserIdentifier("test2")
             val communicationIdentifierNew = CommunicationIdentifier.CommunicationUserIdentifier("testNew")
 
-            val mockRemoteParticipantFirst = mock<RemoteParticipant> {
-                on { identifier } doReturn communicationIdentifierFirst
-            }
-            val mockRemoteParticipantSecond = mock<RemoteParticipant> {
-                on { identifier } doReturn communicationIdentifierSecond
-            }
-            val mockRemoteParticipantNew = mock<RemoteParticipant> {
-                on { identifier } doReturn communicationIdentifierNew
-            }
-            val mockRemoteParticipantsCollection = mock<CallingSDK> {
-                on { getRemoteParticipantsMap() } doReturn mapOf(
-                    Pair(
-                        "test",
-                        mockRemoteParticipantFirst
-                    ),
-                    Pair(
-                        "test2",
-                        mockRemoteParticipantSecond
-                    ),
-                    Pair(
-                        "testNew",
-                        mockRemoteParticipantNew
-                    )
-                )
-            }
+            val mockRemoteParticipantFirst =
+                mock<RemoteParticipant> {
+                    on { identifier } doReturn communicationIdentifierFirst
+                }
+            val mockRemoteParticipantSecond =
+                mock<RemoteParticipant> {
+                    on { identifier } doReturn communicationIdentifierSecond
+                }
+            val mockRemoteParticipantNew =
+                mock<RemoteParticipant> {
+                    on { identifier } doReturn communicationIdentifierNew
+                }
+            val mockRemoteParticipantsCollection =
+                mock<CallingSDK> {
+                    on { getRemoteParticipantsMap() } doReturn
+                        mapOf(
+                            Pair(
+                                "test",
+                                mockRemoteParticipantFirst,
+                            ),
+                            Pair(
+                                "test2",
+                                mockRemoteParticipantSecond,
+                            ),
+                            Pair(
+                                "testNew",
+                                mockRemoteParticipantNew,
+                            ),
+                        )
+                }
 
             val configuration = CallCompositeConfiguration()
             configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedEventHandler(
-                mockParticipantJoinedHandler
+                mockParticipantJoinedHandler,
             )
-            val handler = RemoteParticipantHandler(
-                configuration,
-                mockAppStore,
-                mockRemoteParticipantsCollection
-            )
+            val handler =
+                RemoteParticipantHandler(
+                    configuration,
+                    mockAppStore,
+                    mockRemoteParticipantsCollection,
+                )
 
             // act
-            var job = launch {
-                handler.start()
-            }
+            var job =
+                launch {
+                    handler.start()
+                }
             testScheduler.runCurrent()
 
             // assert
@@ -454,7 +492,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                     event.identifiers.size == 2 &&
                         event.identifiers.toList()[0] == communicationIdentifierFirst.into() &&
                         event.identifiers.toList()[1] == communicationIdentifierSecond.into()
-                }
+                },
             )
 
             job.cancel()
@@ -472,17 +510,19 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 isMuted = true,
                                 isCameraDisabled = false,
                                 isSpeaking = true,
-                                cameraVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.VIDEO
-                                ),
-                                screenShareVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.SCREEN_SHARING
-                                ),
+                                cameraVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.VIDEO,
+                                    ),
+                                screenShareVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.SCREEN_SHARING,
+                                    ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
-                            )
+                            ),
                         ),
                         Pair(
                             "test2",
@@ -492,17 +532,19 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 isMuted = true,
                                 isCameraDisabled = false,
                                 isSpeaking = true,
-                                cameraVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.VIDEO
-                                ),
-                                screenShareVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.SCREEN_SHARING
-                                ),
+                                cameraVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.VIDEO,
+                                    ),
+                                screenShareVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.SCREEN_SHARING,
+                                    ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
-                            )
+                            ),
                         ),
                         Pair(
                             "testNew",
@@ -512,30 +554,33 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 isMuted = true,
                                 isCameraDisabled = false,
                                 isSpeaking = true,
-                                cameraVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.VIDEO
-                                ),
-                                screenShareVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.SCREEN_SHARING
-                                ),
+                                cameraVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.VIDEO,
+                                    ),
+                                screenShareVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.SCREEN_SHARING,
+                                    ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
-                            )
-                        )
+                            ),
+                        ),
                     ),
                     123456,
                     listOf(),
                     0,
-                    lobbyErrorCode = null
+                    lobbyErrorCode = null,
                 )
 
             // act
             storeStateFlow.value = newReduxState
-            job = launch {
-                handler.start()
-            }
+            job =
+                launch {
+                    handler.start()
+                }
             testScheduler.runCurrent()
 
             // assert
@@ -544,7 +589,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                 argThat { event ->
                     event.identifiers.size == 1 &&
                         event.identifiers.toList()[0] == communicationIdentifierNew.into()
-                }
+                },
             )
 
             job.cancel()
@@ -567,17 +612,19 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 isMuted = true,
                                 isCameraDisabled = false,
                                 isSpeaking = true,
-                                cameraVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.VIDEO
-                                ),
-                                screenShareVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.SCREEN_SHARING
-                                ),
+                                cameraVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.VIDEO,
+                                    ),
+                                screenShareVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.SCREEN_SHARING,
+                                    ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
-                            )
+                            ),
                         ),
                         Pair(
                             "test2",
@@ -587,73 +634,82 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 isMuted = true,
                                 isCameraDisabled = false,
                                 isSpeaking = true,
-                                cameraVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.VIDEO
-                                ),
-                                screenShareVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.SCREEN_SHARING
-                                ),
+                                cameraVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.VIDEO,
+                                    ),
+                                screenShareVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.SCREEN_SHARING,
+                                    ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
-                            )
-                        )
+                            ),
+                        ),
                     ),
                     123,
                     listOf(),
                     0,
-                    lobbyErrorCode = null
+                    lobbyErrorCode = null,
                 )
             val storeStateFlow = MutableStateFlow<ReduxState>(reduxState)
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getStateFlow() } doReturn storeStateFlow
-            }
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getStateFlow() } doReturn storeStateFlow
+                }
             val mockParticipantJoinedHandler =
                 mock<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
             val communicationIdentifierFirst = CommunicationIdentifier.CommunicationUserIdentifier("test")
             val communicationIdentifierSecond = CommunicationIdentifier.CommunicationUserIdentifier("test2")
 
-            val mockRemoteParticipantFirst = mock<RemoteParticipant> {
-                on { identifier } doReturn communicationIdentifierFirst
-            }
-            val mockRemoteParticipantSecond = mock<RemoteParticipant> {
-                on { identifier } doReturn communicationIdentifierSecond
-            }
+            val mockRemoteParticipantFirst =
+                mock<RemoteParticipant> {
+                    on { identifier } doReturn communicationIdentifierFirst
+                }
+            val mockRemoteParticipantSecond =
+                mock<RemoteParticipant> {
+                    on { identifier } doReturn communicationIdentifierSecond
+                }
 
-            val mockRemoteParticipantsCollection = mock<CallingSDK> {
-                on { getRemoteParticipantsMap() } doReturn mapOf(
-                    Pair(
-                        "test",
-                        mockRemoteParticipantFirst
-                    ),
-                    Pair(
-                        "test2",
-                        mockRemoteParticipantSecond
-                    )
-                )
-            }
+            val mockRemoteParticipantsCollection =
+                mock<CallingSDK> {
+                    on { getRemoteParticipantsMap() } doReturn
+                        mapOf(
+                            Pair(
+                                "test",
+                                mockRemoteParticipantFirst,
+                            ),
+                            Pair(
+                                "test2",
+                                mockRemoteParticipantSecond,
+                            ),
+                        )
+                }
 
             val mockRemoteParticipantsConfigurationHandler =
                 mock<RemoteParticipantsConfigurationHandler>()
             val configuration = CallCompositeConfiguration()
             configuration.remoteParticipantsConfiguration.setHandler(
-                mockRemoteParticipantsConfigurationHandler
+                mockRemoteParticipantsConfigurationHandler,
             )
             configuration.callCompositeEventsHandler.addOnRemoteParticipantJoinedEventHandler(
-                mockParticipantJoinedHandler
+                mockParticipantJoinedHandler,
             )
-            val handler = RemoteParticipantHandler(
-                configuration,
-                mockAppStore,
-                mockRemoteParticipantsCollection
-            )
+            val handler =
+                RemoteParticipantHandler(
+                    configuration,
+                    mockAppStore,
+                    mockRemoteParticipantsCollection,
+                )
 
             // act
-            var job = launch {
-                handler.start()
-            }
+            var job =
+                launch {
+                    handler.start()
+                }
             testScheduler.runCurrent()
 
             // assert
@@ -663,7 +719,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                     event.identifiers.size == 2 &&
                         event.identifiers.toList()[0] == communicationIdentifierFirst.into() &&
                         event.identifiers.toList()[1] == communicationIdentifierSecond.into()
-                }
+                },
             )
 
             job.cancel()
@@ -681,41 +737,44 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 isMuted = true,
                                 isCameraDisabled = false,
                                 isSpeaking = true,
-                                cameraVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.VIDEO
-                                ),
-                                screenShareVideoStreamModel = VideoStreamModel(
-                                    videoStreamID = "video",
-                                    StreamType.SCREEN_SHARING
-                                ),
+                                cameraVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.VIDEO,
+                                    ),
+                                screenShareVideoStreamModel =
+                                    VideoStreamModel(
+                                        videoStreamID = "video",
+                                        StreamType.SCREEN_SHARING,
+                                    ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
-                            )
+                            ),
                         ),
                     ),
                     123456,
                     listOf(),
                     0,
-                    lobbyErrorCode = null
+                    lobbyErrorCode = null,
                 )
 
             // act
             storeStateFlow.value = newReduxState
-            job = launch {
-                handler.start()
-            }
+            job =
+                launch {
+                    handler.start()
+                }
             testScheduler.runCurrent()
 
             // assert
             verify(mockParticipantJoinedHandler, times(1)).handle(any())
             verify(
                 mockRemoteParticipantsConfigurationHandler,
-                times(1)
+                times(1),
             ).onRemoveParticipantViewData(
                 argThat { identifier ->
                     identifier == "test"
-                }
+                },
             )
 
             job.cancel()

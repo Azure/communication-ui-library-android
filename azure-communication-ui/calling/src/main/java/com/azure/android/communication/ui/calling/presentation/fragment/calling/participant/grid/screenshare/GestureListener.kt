@@ -19,7 +19,6 @@ internal class GestureListener(
 ) : ScaleGestureDetector.OnScaleGestureListener,
     GestureDetector.OnGestureListener,
     GestureDetector.OnDoubleTapListener {
-
     companion object {
         private const val INVALID_POINTER = MotionEvent.INVALID_POINTER_ID
     }

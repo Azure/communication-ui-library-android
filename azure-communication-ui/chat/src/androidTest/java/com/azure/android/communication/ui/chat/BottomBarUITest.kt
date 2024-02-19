@@ -12,52 +12,52 @@ import androidx.compose.ui.test.performTextInput
 import com.azure.android.communication.ui.chat.presentation.ui.chat.UITestTags
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import kotlinx.coroutines.test.runTest
-
 import org.junit.Rule
 import org.junit.Test
 
 internal class BottomBarUITest : BaseUiTest() {
-
     @get:Rule
     val composeTestRule = createComposeRule()
 
     @Test
-    fun testOnMessageSentInputViewIsCleared() = runTest {
-        injectDependencies(testScheduler)
+    fun testOnMessageSentInputViewIsCleared() =
+        runTest {
+            injectDependencies(testScheduler)
 
-        // launch composite
-        chatSDK.setChatStatus(ChatStatus.INITIALIZED)
-        launchChatComposite()
+            // launch composite
+            chatSDK.setChatStatus(ChatStatus.INITIALIZED)
+            launchChatComposite()
 
-        // type message
-        val message = "hello"
-        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_INPUT_BOX).performTextInput(message)
-        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_INPUT_BOX).assert(hasText(message))
+            // type message
+            val message = "hello"
+            composeTestRule.onNodeWithTag(UITestTags.MESSAGE_INPUT_BOX).performTextInput(message)
+            composeTestRule.onNodeWithTag(UITestTags.MESSAGE_INPUT_BOX).assert(hasText(message))
 
-        // send message
-        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_SEND_BUTTON).performClick()
+            // send message
+            composeTestRule.onNodeWithTag(UITestTags.MESSAGE_SEND_BUTTON).performClick()
 
-        // assert message is cleared after send
-        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_INPUT_BOX).assert(hasText(""))
-    }
+            // assert message is cleared after send
+            composeTestRule.onNodeWithTag(UITestTags.MESSAGE_INPUT_BOX).assert(hasText(""))
+        }
 
     @Test
-    fun testOnMessageSentFailedInputViewIsNotCleared() = runTest {
-        injectDependencies(testScheduler)
+    fun testOnMessageSentFailedInputViewIsNotCleared() =
+        runTest {
+            injectDependencies(testScheduler)
 
-        // launch composite
-        chatSDK.setChatStatus(ChatStatus.INITIALIZATION)
-        launchChatComposite()
+            // launch composite
+            chatSDK.setChatStatus(ChatStatus.INITIALIZATION)
+            launchChatComposite()
 
-        // type message
-        val message = "hello"
-        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_INPUT_BOX).performTextInput(message)
-        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_INPUT_BOX).assert(hasText(message))
+            // type message
+            val message = "hello"
+            composeTestRule.onNodeWithTag(UITestTags.MESSAGE_INPUT_BOX).performTextInput(message)
+            composeTestRule.onNodeWithTag(UITestTags.MESSAGE_INPUT_BOX).assert(hasText(message))
 
-        // send message
-        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_SEND_BUTTON).performClick()
+            // send message
+            composeTestRule.onNodeWithTag(UITestTags.MESSAGE_SEND_BUTTON).performClick()
 
-        // assert message is cleared after send
-        composeTestRule.onNodeWithTag(UITestTags.MESSAGE_INPUT_BOX).assert(hasText(message))
-    }
+            // assert message is cleared after send
+            composeTestRule.onNodeWithTag(UITestTags.MESSAGE_INPUT_BOX).assert(hasText(message))
+        }
 }

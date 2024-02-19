@@ -7,13 +7,16 @@ import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.CallingState
-import org.threeten.bp.OffsetDateTime
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
+import org.threeten.bp.OffsetDateTime
 
 internal interface CallStateReducer : Reducer<CallingState>
 
 internal class CallStateReducerImpl : CallStateReducer {
-    override fun reduce(callingState: CallingState, action: Action): CallingState {
+    override fun reduce(
+        callingState: CallingState,
+        action: Action,
+    ): CallingState {
         return when (action) {
             is CallingAction.StateUpdated -> {
                 callingState.copy(callingStatus = action.callingState, joinCallIsRequested = false)

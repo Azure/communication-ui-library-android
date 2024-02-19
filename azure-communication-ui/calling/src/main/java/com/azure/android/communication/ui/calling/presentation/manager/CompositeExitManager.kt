@@ -13,9 +13,8 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 
 internal class CompositeExitManager(
     private val store: Store<ReduxState>,
-    private val configuration: CallCompositeConfiguration
+    private val configuration: CallCompositeConfiguration,
 ) {
-
     fun onCompositeDestroy() {
         try {
             notifyCompositeExit()
@@ -43,7 +42,7 @@ internal class CompositeExitManager(
             val eventArgs =
                 CallCompositeDismissedEvent(
                     store.getCurrentState().errorState.fatalError?.errorCode?.toCallCompositeErrorCode(),
-                    store.getCurrentState().errorState.fatalError?.fatalError
+                    store.getCurrentState().errorState.fatalError?.fatalError,
                 )
             it.handle(eventArgs)
         }

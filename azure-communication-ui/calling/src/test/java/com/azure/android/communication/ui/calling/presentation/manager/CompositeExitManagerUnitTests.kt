@@ -26,17 +26,17 @@ import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
 internal class CompositeExitManagerUnitTests : ACSBaseTestCoroutine() {
-
     @Test
     fun lifecycleManager_callStateConnected_then_callEndRequestedTriggered() {
         runScopedTest {
             // Arrange
             val state = AppReduxState(displayName = "", cameraOnByDefault = false, microphoneOnByDefault = false)
             state.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getCurrentState() } doReturn state
-                on { dispatch(any()) } doAnswer { }
-            }
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getCurrentState() } doReturn state
+                    on { dispatch(any()) } doAnswer { }
+                }
             val configuration = CallCompositeConfiguration()
 
             val compositeManager =
@@ -47,7 +47,7 @@ internal class CompositeExitManagerUnitTests : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is CallingAction.CallEndRequested
-                }
+                },
             )
         }
     }
@@ -58,10 +58,11 @@ internal class CompositeExitManagerUnitTests : ACSBaseTestCoroutine() {
             // Arrange
             val state = AppReduxState(displayName = "", cameraOnByDefault = false, microphoneOnByDefault = false)
             state.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getCurrentState() } doReturn state
-                on { dispatch(any()) } doAnswer { }
-            }
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getCurrentState() } doReturn state
+                    on { dispatch(any()) } doAnswer { }
+                }
 
             val configuration = CallCompositeConfiguration()
             val compositeManager =
@@ -74,7 +75,7 @@ internal class CompositeExitManagerUnitTests : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is NavigationAction.Exit
-                }
+                },
             )
         }
     }

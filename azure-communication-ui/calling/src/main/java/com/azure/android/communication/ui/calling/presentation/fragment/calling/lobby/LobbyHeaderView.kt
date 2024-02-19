@@ -45,7 +45,7 @@ internal class LobbyHeaderView : ConstraintLayout {
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         lobbyHeaderViewModel: LobbyHeaderViewModel,
-        displayParticipantList: () -> Unit
+        displayParticipantList: () -> Unit,
     ) {
         this.lobbyHeaderViewModel = lobbyHeaderViewModel
         this.displayParticipantListCallback = displayParticipantList

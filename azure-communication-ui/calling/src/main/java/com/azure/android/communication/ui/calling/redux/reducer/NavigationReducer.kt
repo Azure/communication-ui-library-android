@@ -11,7 +11,10 @@ import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 internal interface NavigationReducer : Reducer<NavigationState>
 
 internal class NavigationReducerImpl : NavigationReducer {
-    override fun reduce(state: NavigationState, action: Action): NavigationState {
+    override fun reduce(
+        state: NavigationState,
+        action: Action,
+    ): NavigationState {
         return when (action) {
             is NavigationAction.Exit -> {
                 state.copy(navigationState = NavigationStatus.EXIT)

@@ -6,8 +6,8 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.FatalError
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
-import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.action.Action
+import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
@@ -22,7 +22,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) -> Unit) {
-
     private lateinit var displayLobbyOverlayFlow: MutableStateFlow<Boolean>
     private lateinit var networkManager: NetworkManager
 
@@ -76,12 +75,13 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
 
     fun handleMicrophoneAccessFailed() {
         dispatchAction(
-            action = ErrorAction.FatalErrorOccurred(
-                FatalError(
-                    Throwable(),
-                    ErrorCode.MICROPHONE_NOT_AVAILABLE
-                )
-            )
+            action =
+                ErrorAction.FatalErrorOccurred(
+                    FatalError(
+                        Throwable(),
+                        ErrorCode.MICROPHONE_NOT_AVAILABLE,
+                    ),
+                ),
         )
     }
 
@@ -93,20 +93,23 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
         dispatch(action)
     }
 
-    private fun shouldDisplayLobbyOverlay(callingState: CallingState, permissionState: PermissionState) =
-        ((callingState.callingStatus == CallingStatus.NONE) || (callingState.callingStatus == CallingStatus.CONNECTING)) &&
-            (permissionState.audioPermissionState != PermissionStatus.DENIED) &&
-            (callingState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN)
+    private fun shouldDisplayLobbyOverlay(
+        callingState: CallingState,
+        permissionState: PermissionState,
+    ) = ((callingState.callingStatus == CallingStatus.NONE) || (callingState.callingStatus == CallingStatus.CONNECTING)) &&
+        (permissionState.audioPermissionState != PermissionStatus.DENIED) &&
+        (callingState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN)
 
     private fun handleOffline(networkManager: NetworkManager) {
         if (!networkManager.isNetworkConnectionAvailable()) {
             dispatchAction(
-                action = ErrorAction.FatalErrorOccurred(
-                    FatalError(
-                        Throwable(),
-                        ErrorCode.INTERNET_NOT_AVAILABLE
-                    )
-                )
+                action =
+                    ErrorAction.FatalErrorOccurred(
+                        FatalError(
+                            Throwable(),
+                            ErrorCode.INTERNET_NOT_AVAILABLE,
+                        ),
+                    ),
             )
         }
     }
@@ -114,12 +117,13 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
     private fun handlePermissionDeniedEvent(permissionState: PermissionState) {
         if (permissionState.audioPermissionState == PermissionStatus.DENIED) {
             dispatchAction(
-                action = ErrorAction.FatalErrorOccurred(
-                    FatalError(
-                        Throwable(),
-                        ErrorCode.MIC_PERMISSION_DENIED
-                    )
-                )
+                action =
+                    ErrorAction.FatalErrorOccurred(
+                        FatalError(
+                            Throwable(),
+                            ErrorCode.MIC_PERMISSION_DENIED,
+                        ),
+                    ),
             )
         }
     }

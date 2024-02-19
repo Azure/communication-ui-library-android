@@ -25,7 +25,9 @@ internal abstract class AudioFocusHandler : AudioManager.OnAudioFocusChangeListe
     }
 
     abstract fun getAudioFocus(): Boolean
+
     abstract fun releaseAudioFocus(): Boolean
+
     abstract fun getMode(): Int
 }
 
@@ -34,17 +36,17 @@ internal abstract class AudioFocusHandler : AudioManager.OnAudioFocusChangeListe
 internal class AudioFocusHandler26(val context: Context) : AudioFocusHandler() {
     private fun audioManager() = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
-    private val audioFocusRequest26 = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
-        .setOnAudioFocusChangeListener(this)
-        .setAudioAttributes(
-            AudioAttributes.Builder()
-                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
-                .build()
-        )
-        .build()
+    private val audioFocusRequest26 =
+        AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+            .setOnAudioFocusChangeListener(this)
+            .setAudioAttributes(
+                AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                    .build(),
+            )
+            .build()
 
-    override fun getAudioFocus() =
-        audioManager().requestAudioFocus(audioFocusRequest26) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
+    override fun getAudioFocus() = audioManager().requestAudioFocus(audioFocusRequest26) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
 
     override fun getMode() = audioManager().mode
 
@@ -57,15 +59,15 @@ internal class AudioFocusHandler26(val context: Context) : AudioFocusHandler() {
 internal class AudioFocusHandlerLegacy(val context: Context) : AudioFocusHandler() {
     private fun audioManager() = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
-    override fun getAudioFocus() = audioManager().requestAudioFocus(
-        this,
-        AudioManager.STREAM_VOICE_CALL, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
-    ) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
+    override fun getAudioFocus() =
+        audioManager().requestAudioFocus(
+            this,
+            AudioManager.STREAM_VOICE_CALL, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT,
+        ) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
 
     override fun getMode() = audioManager().mode
 
-    override fun releaseAudioFocus(): Boolean =
-        audioManager().abandonAudioFocus(this) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
+    override fun releaseAudioFocus(): Boolean = audioManager().abandonAudioFocus(this) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
 }
 
 internal class AudioFocusManager(
@@ -78,11 +80,12 @@ internal class AudioFocusManager(
     private var previousAudioFocusStatus: AudioFocusStatus? = null
 
     init {
-        audioFocusHandler = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            AudioFocusHandler26(applicationContext)
-        } else {
-            AudioFocusHandlerLegacy(applicationContext)
-        }
+        audioFocusHandler =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                AudioFocusHandler26(applicationContext)
+            } else {
+                AudioFocusHandlerLegacy(applicationContext)
+            }
     }
 
     suspend fun start() {

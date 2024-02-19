@@ -10,8 +10,8 @@ import com.azure.android.communication.common.CommunicationUserIdentifier
 import com.azure.android.communication.common.MicrosoftTeamsUserIdentifier
 import com.azure.android.communication.common.PhoneNumberIdentifier
 import com.azure.android.communication.common.UnknownIdentifier
-import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
+import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 
 internal fun com.azure.android.communication.calling.RemoteParticipant.into(): RemoteParticipant {
@@ -80,7 +80,9 @@ internal fun com.azure.android.communication.calling.CallParticipantRole.into():
         com.azure.android.communication.calling.CallParticipantRole.ORGANIZER -> CallCompositeInternalParticipantRole.ORGANIZER
         com.azure.android.communication.calling.CallParticipantRole.CO_ORGANIZER -> CallCompositeInternalParticipantRole.COORGANIZER
         com.azure.android.communication.calling.CallParticipantRole.UNINITIALIZED -> CallCompositeInternalParticipantRole.UNINITIALIZED
-        else -> { null }
+        else -> {
+            null
+        }
     }
 }
 

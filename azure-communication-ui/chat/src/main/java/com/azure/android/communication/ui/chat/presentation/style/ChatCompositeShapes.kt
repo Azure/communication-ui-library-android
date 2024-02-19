@@ -15,9 +15,10 @@ internal data class ChatCompositeShapes(
     val unreadMessagesIndicator: Shape,
 )
 
-internal val LocalChatCompositeShapes = staticCompositionLocalOf {
-    ChatCompositeShapes(
-        messageBubble = RoundedCornerShape(4.dp),
-        unreadMessagesIndicator = RoundedCornerShape(100.dp)
-    )
-}
+internal val LocalChatCompositeShapes =
+    staticCompositionLocalOf {
+        ChatCompositeShapes(
+            messageBubble = RoundedCornerShape(4.dp),
+            unreadMessagesIndicator = RoundedCornerShape(100.dp),
+        )
+    }

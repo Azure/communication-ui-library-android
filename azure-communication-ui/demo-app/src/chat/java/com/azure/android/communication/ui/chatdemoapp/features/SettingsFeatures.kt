@@ -16,7 +16,6 @@ import com.google.gson.GsonBuilder
 import java.util.Locale
 
 class SettingsFeatures {
-
     companion object {
         private lateinit var sharedPrefs: SharedPreferences
         private val defaultLocaleString = Gson().toJson(Locale.US)
@@ -30,21 +29,27 @@ class SettingsFeatures {
         fun language(): String? {
             return sharedPrefs.getString(
                 LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
-                DEFAULT_LANGUAGE_VALUE
+                DEFAULT_LANGUAGE_VALUE,
             )
         }
 
         @JvmStatic
         fun getLayoutDirection(): Int {
-            val isRTLKey = LANGUAGE_IS_RTL_VALUE_SHARED_PREF_KEY + sharedPrefs.getString(
-                LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
-                DEFAULT_LANGUAGE_VALUE
-            )
+            val isRTLKey =
+                LANGUAGE_IS_RTL_VALUE_SHARED_PREF_KEY +
+                    sharedPrefs.getString(
+                        LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
+                        DEFAULT_LANGUAGE_VALUE,
+                    )
             return if (sharedPrefs.getBoolean(
                     isRTLKey,
-                    DEFAULT_RTL_VALUE
+                    DEFAULT_RTL_VALUE,
                 )
-            ) LayoutDirection.RTL else LayoutDirection.LTR
+            ) {
+                LayoutDirection.RTL
+            } else {
+                LayoutDirection.LTR
+            }
         }
 
         @JvmStatic

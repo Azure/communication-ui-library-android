@@ -101,6 +101,7 @@ internal class ServiceLocator {
 
     companion object {
         private val locatorMap = HashMap<Int, ServiceLocator>()
+
         fun getInstance(instanceId: Int): ServiceLocator {
             if (locatorMap.containsKey(instanceId)) {
                 return locatorMap[instanceId]!!

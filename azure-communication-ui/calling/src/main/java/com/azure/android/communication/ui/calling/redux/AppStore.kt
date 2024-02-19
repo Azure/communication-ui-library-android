@@ -11,8 +11,8 @@ import com.azure.android.communication.ui.calling.redux.reducer.Reducer
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 internal class AppStore<S>(
@@ -22,13 +22,14 @@ internal class AppStore<S>(
     dispatcher: CoroutineContext,
 ) : Store<S> {
     // Any exceptions encountered in the reducer are rethrown to crash the app and not get silently ignored.
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        Handler(Looper.getMainLooper()).postAtFrontOfQueue {
-            throw CallCompositeException("App store exception while reducing state", throwable)
+    private val exceptionHandler =
+        CoroutineExceptionHandler { _, throwable ->
+            Handler(Looper.getMainLooper()).postAtFrontOfQueue {
+                throw CallCompositeException("App store exception while reducing state", throwable)
+            }
+            // At this point (after an exception) we don't want to accept any more work.
+            scope.cancel()
         }
-        // At this point (after an exception) we don't want to accept any more work.
-        scope.cancel()
-    }
     private val dispatcherWithExceptionHandler = dispatcher + exceptionHandler
     private val scope = CoroutineScope(dispatcher)
     private val stateFlow = MutableStateFlow(initialState)
@@ -64,7 +65,7 @@ internal class AppStore<S>(
     private fun compose(functions: List<(Dispatch) -> Dispatch>): (Dispatch) -> Dispatch =
         { dispatch ->
             functions.foldRight(
-                dispatch
+                dispatch,
             ) { nextDispatch, composed -> nextDispatch(composed) }
         }
 }

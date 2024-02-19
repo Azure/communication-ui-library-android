@@ -35,11 +35,12 @@ internal class MessageRepositoryListBackedImpl : MessageRepository() {
         }
     }
 
-    override fun get(index: Int): MessageInfoModel = try {
-        messages[index]
-    } catch (exception: Exception) {
-        EMPTY_MESSAGE_INFO_MODEL
-    }
+    override fun get(index: Int): MessageInfoModel =
+        try {
+            messages[index]
+        } catch (exception: Exception) {
+            EMPTY_MESSAGE_INFO_MODEL
+        }
 
     override val size: Int get() = messages.size
 }

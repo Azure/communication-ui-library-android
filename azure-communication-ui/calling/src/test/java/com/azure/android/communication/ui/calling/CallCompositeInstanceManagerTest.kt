@@ -19,17 +19,17 @@ internal class CallCompositeInstanceManagerTest {
         val ex = Assert.assertThrows(classObj, ::getCallCompositeConfig)
         MatcherAssert.assertThat(
             "invalid type: ${ex.javaClass.simpleName}",
-            ex.javaClass.simpleName == classObj.simpleName
+            ex.javaClass.simpleName == classObj.simpleName,
         )
         MatcherAssert.assertThat(
             "invalid message, expecting: ${ex.message}",
             ex.message?.startsWith("This ID is not valid, and no entry exists in the map")
-                ?: false
+                ?: false,
         )
 
         MatcherAssert.assertThat(
             "Invalid cause, expecting: ${ex.cause}",
-            ex.cause is IllegalStateException
+            ex.cause is IllegalStateException,
         )
     }
 

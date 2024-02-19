@@ -13,14 +13,14 @@ import com.azure.android.communication.ui.callingcompositedemoapp.util.ViewIsDis
 import java.lang.IllegalStateException
 
 abstract class ScreenRobot<T : ScreenRobot<T>> {
-
     fun waitUntilViewIdDoesNotExist(
         @IdRes viewId: Int,
         idlingResource: ViewIsDisplayedResource = ViewIsDisplayedResource(),
     ): ViewInteraction {
-        val viewInteraction = idlingResource.waitUntilViewIsDisplayed {
-            UiTestUtils.checkViewIdDoesNotExist(viewId)
-        }
+        val viewInteraction =
+            idlingResource.waitUntilViewIsDisplayed {
+                UiTestUtils.checkViewIdDoesNotExist(viewId)
+            }
         return viewInteraction
     }
 
@@ -28,9 +28,10 @@ abstract class ScreenRobot<T : ScreenRobot<T>> {
         @IdRes viewId: Int,
         idlingResource: ViewIsDisplayedResource = ViewIsDisplayedResource(),
     ): ViewInteraction {
-        val viewInteraction = idlingResource.waitUntilViewIsDisplayed {
-            UiTestUtils.checkViewIdIsNotDisplayed(viewId)
-        }
+        val viewInteraction =
+            idlingResource.waitUntilViewIsDisplayed {
+                UiTestUtils.checkViewIdIsNotDisplayed(viewId)
+            }
         return viewInteraction
     }
 
@@ -38,9 +39,10 @@ abstract class ScreenRobot<T : ScreenRobot<T>> {
         @IdRes viewId: Int,
         idlingResource: ViewIsDisplayedResource = ViewIsDisplayedResource(),
     ): ViewInteraction {
-        val viewInteraction = idlingResource.waitUntilViewIsDisplayed {
-            UiTestUtils.checkAllViewIdsAreDisplayed(viewId)
-        }
+        val viewInteraction =
+            idlingResource.waitUntilViewIsDisplayed {
+                UiTestUtils.checkAllViewIdsAreDisplayed(viewId)
+            }
         return viewInteraction
     }
 
@@ -48,15 +50,16 @@ abstract class ScreenRobot<T : ScreenRobot<T>> {
         @IdRes viewId: Int,
         idlingResource: ViewIsDisplayedResource = ViewIsDisplayedResource(),
     ): ViewInteraction {
-        val viewInteraction = idlingResource.waitUntilViewIsDisplayed {
-            try {
-                UiTestUtils.checkViewIdAndTextIsDisplayed(R.id.button1, "OK")
-                val message = UiTestUtils.getTextFromTextView(R.id.message)
-                throw IllegalStateException(message)
-            } catch (ex: NoMatchingViewException) {
-                UiTestUtils.checkViewIdIsDisplayed(viewId)
+        val viewInteraction =
+            idlingResource.waitUntilViewIsDisplayed {
+                try {
+                    UiTestUtils.checkViewIdAndTextIsDisplayed(R.id.button1, "OK")
+                    val message = UiTestUtils.getTextFromTextView(R.id.message)
+                    throw IllegalStateException(message)
+                } catch (ex: NoMatchingViewException) {
+                    UiTestUtils.checkViewIdIsDisplayed(viewId)
+                }
             }
-        }
         return viewInteraction
     }
 
@@ -64,17 +67,22 @@ abstract class ScreenRobot<T : ScreenRobot<T>> {
         @IdRes viewId: Int,
         idlingResource: ViewIsDisplayedResource = ViewIsDisplayedResource(),
     ): ViewInteraction {
-        val viewInteraction = idlingResource.waitUntilViewIsDisplayed {
-            UiTestUtils.checkViewIdIsDisplayed(viewId)
-        }
+        val viewInteraction =
+            idlingResource.waitUntilViewIsDisplayed {
+                UiTestUtils.checkViewIdIsDisplayed(viewId)
+            }
         return viewInteraction
     }
 
-    fun waitUntilTextOnViewIsDisplayed(@IdRes viewId: Int, text: String): ViewInteraction {
+    fun waitUntilTextOnViewIsDisplayed(
+        @IdRes viewId: Int,
+        text: String,
+    ): ViewInteraction {
         val idlingResource = ViewIsDisplayedResource()
-        val viewInteraction = idlingResource.waitUntilViewIsDisplayed {
-            UiTestUtils.checkViewIdAndTextIsDisplayed(viewId, text)
-        }
+        val viewInteraction =
+            idlingResource.waitUntilViewIsDisplayed {
+                UiTestUtils.checkViewIdAndTextIsDisplayed(viewId, text)
+            }
         return viewInteraction
     }
 
@@ -83,9 +91,10 @@ abstract class ScreenRobot<T : ScreenRobot<T>> {
         @StringRes stringId: Int,
     ): ViewInteraction {
         val idlingResource = ViewIsDisplayedResource()
-        val viewInteraction = idlingResource.waitUntilViewIsDisplayed {
-            UiTestUtils.checkViewIdAndTextIsDisplayed(viewId, stringId)
-        }
+        val viewInteraction =
+            idlingResource.waitUntilViewIsDisplayed {
+                UiTestUtils.checkViewIdAndTextIsDisplayed(viewId, stringId)
+            }
         return viewInteraction
     }
 
@@ -94,9 +103,10 @@ abstract class ScreenRobot<T : ScreenRobot<T>> {
         string: String,
     ): ViewInteraction {
         val idlingResource = ViewIsDisplayedResource()
-        val viewInteraction = idlingResource.waitUntilViewIsDisplayed {
-            UiTestUtils.checkViewIdWithContentDescriptionIsDisplayed(viewId, string)
-        }
+        val viewInteraction =
+            idlingResource.waitUntilViewIsDisplayed {
+                UiTestUtils.checkViewIdWithContentDescriptionIsDisplayed(viewId, string)
+            }
         return viewInteraction
     }
 }

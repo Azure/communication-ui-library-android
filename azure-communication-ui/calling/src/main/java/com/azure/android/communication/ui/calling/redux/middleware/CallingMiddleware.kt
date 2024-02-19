@@ -25,83 +25,83 @@ internal class CallingMiddlewareImpl(
     private val logger: Logger,
 ) :
     Middleware<ReduxState>,
-    CallingMiddleware {
-
-    override fun invoke(store: Store<ReduxState>) = { next: Dispatch ->
-        { action: Action ->
-            logger.info(action.toString())
-            when (action) {
-                is LifecycleAction.EnterBackgroundTriggered -> {
-                    callingMiddlewareActionHandler.enterBackground(store)
+        CallingMiddleware {
+    override fun invoke(store: Store<ReduxState>) =
+        { next: Dispatch ->
+            { action: Action ->
+                logger.info(action.toString())
+                when (action) {
+                    is LifecycleAction.EnterBackgroundTriggered -> {
+                        callingMiddlewareActionHandler.enterBackground(store)
+                    }
+                    is LifecycleAction.EnterForegroundTriggered -> {
+                        callingMiddlewareActionHandler.enterForeground(store)
+                    }
+                    is LocalParticipantAction.CameraPreviewOnRequested -> {
+                        callingMiddlewareActionHandler.requestCameraPreviewOn(store)
+                    }
+                    is LocalParticipantAction.CameraPreviewOnTriggered -> {
+                        callingMiddlewareActionHandler.turnCameraPreviewOn(store)
+                    }
+                    is LocalParticipantAction.CameraOffTriggered -> {
+                        callingMiddlewareActionHandler.turnCameraOff(store)
+                    }
+                    is LocalParticipantAction.CameraOnRequested -> {
+                        callingMiddlewareActionHandler.requestCameraOn(store)
+                    }
+                    is LocalParticipantAction.CameraOnTriggered -> {
+                        callingMiddlewareActionHandler.turnCameraOn(store)
+                    }
+                    is LocalParticipantAction.CameraSwitchTriggered -> {
+                        callingMiddlewareActionHandler.switchCamera(store)
+                    }
+                    is LocalParticipantAction.MicOffTriggered -> {
+                        callingMiddlewareActionHandler.turnMicOff(store)
+                    }
+                    is AudioSessionAction.AudioFocusApproved -> {
+                        store.dispatch(CallingAction.ResumeRequested())
+                    }
+                    is AudioSessionAction.AudioFocusInterrupted -> {
+                        store.dispatch(CallingAction.HoldRequested())
+                    }
+                    is LocalParticipantAction.MicOnTriggered -> {
+                        callingMiddlewareActionHandler.turnMicOn(store)
+                    }
+                    is CallingAction.HoldRequested -> {
+                        callingMiddlewareActionHandler.hold(store)
+                    }
+                    is CallingAction.ResumeRequested -> {
+                        callingMiddlewareActionHandler.resume(store)
+                    }
+                    is CallingAction.CallEndRequested -> {
+                        callingMiddlewareActionHandler.endCall(store)
+                    }
+                    is CallingAction.SetupCall -> {
+                        callingMiddlewareActionHandler.setupCall(store)
+                    }
+                    is CallingAction.CallStartRequested -> {
+                        callingMiddlewareActionHandler.startCall(store)
+                    }
+                    is CallingAction.CallRequestedWithoutSetup -> {
+                        callingMiddlewareActionHandler.callSetupWithSkipSetupScreen(store)
+                    }
+                    is PermissionAction.CameraPermissionIsSet -> {
+                        callingMiddlewareActionHandler.onCameraPermissionIsSet(store)
+                    }
+                    is ErrorAction.EmergencyExit -> {
+                        callingMiddlewareActionHandler.exit(store)
+                    }
+                    is ParticipantAction.AdmitAll -> {
+                        callingMiddlewareActionHandler.admitAll(store)
+                    }
+                    is ParticipantAction.Admit -> {
+                        callingMiddlewareActionHandler.admit(action.userIdentifier, store)
+                    }
+                    is ParticipantAction.Decline -> {
+                        callingMiddlewareActionHandler.decline(action.userIdentifier, store)
+                    }
                 }
-                is LifecycleAction.EnterForegroundTriggered -> {
-                    callingMiddlewareActionHandler.enterForeground(store)
-                }
-                is LocalParticipantAction.CameraPreviewOnRequested -> {
-                    callingMiddlewareActionHandler.requestCameraPreviewOn(store)
-                }
-                is LocalParticipantAction.CameraPreviewOnTriggered -> {
-                    callingMiddlewareActionHandler.turnCameraPreviewOn(store)
-                }
-                is LocalParticipantAction.CameraOffTriggered -> {
-                    callingMiddlewareActionHandler.turnCameraOff(store)
-                }
-                is LocalParticipantAction.CameraOnRequested -> {
-                    callingMiddlewareActionHandler.requestCameraOn(store)
-                }
-                is LocalParticipantAction.CameraOnTriggered -> {
-                    callingMiddlewareActionHandler.turnCameraOn(store)
-                }
-                is LocalParticipantAction.CameraSwitchTriggered -> {
-                    callingMiddlewareActionHandler.switchCamera(store)
-                }
-                is LocalParticipantAction.MicOffTriggered -> {
-                    callingMiddlewareActionHandler.turnMicOff(store)
-                }
-                is AudioSessionAction.AudioFocusApproved -> {
-                    store.dispatch(CallingAction.ResumeRequested())
-                }
-                is AudioSessionAction.AudioFocusInterrupted -> {
-                    store.dispatch(CallingAction.HoldRequested())
-                }
-                is LocalParticipantAction.MicOnTriggered -> {
-                    callingMiddlewareActionHandler.turnMicOn(store)
-                }
-                is CallingAction.HoldRequested -> {
-                    callingMiddlewareActionHandler.hold(store)
-                }
-                is CallingAction.ResumeRequested -> {
-                    callingMiddlewareActionHandler.resume(store)
-                }
-                is CallingAction.CallEndRequested -> {
-                    callingMiddlewareActionHandler.endCall(store)
-                }
-                is CallingAction.SetupCall -> {
-                    callingMiddlewareActionHandler.setupCall(store)
-                }
-                is CallingAction.CallStartRequested -> {
-                    callingMiddlewareActionHandler.startCall(store)
-                }
-                is CallingAction.CallRequestedWithoutSetup -> {
-                    callingMiddlewareActionHandler.callSetupWithSkipSetupScreen(store)
-                }
-                is PermissionAction.CameraPermissionIsSet -> {
-                    callingMiddlewareActionHandler.onCameraPermissionIsSet(store)
-                }
-                is ErrorAction.EmergencyExit -> {
-                    callingMiddlewareActionHandler.exit(store)
-                }
-                is ParticipantAction.AdmitAll -> {
-                    callingMiddlewareActionHandler.admitAll(store)
-                }
-                is ParticipantAction.Admit -> {
-                    callingMiddlewareActionHandler.admit(action.userIdentifier, store)
-                }
-                is ParticipantAction.Decline -> {
-                    callingMiddlewareActionHandler.decline(action.userIdentifier, store)
-                }
+                next(action)
             }
-            next(action)
         }
-    }
 }

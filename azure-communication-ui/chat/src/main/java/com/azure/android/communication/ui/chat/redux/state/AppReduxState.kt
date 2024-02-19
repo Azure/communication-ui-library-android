@@ -14,29 +14,33 @@ internal class AppReduxState(
     localParticipantIdentifier: String,
     localParticipantDisplayName: String?,
 ) : ReduxState {
-    override var chatState: ChatState = ChatState(
-        chatStatus = ChatStatus.NONE,
-        chatInfoModel = ChatInfoModel(
-            threadId = threadID,
-            topic = null,
-            allMessagesFetched = false,
-            isThreadDeleted = false
-        ),
-        lastReadMessageId = "",
-        messageContextMenu = MessageContextMenuModel(EMPTY_MESSAGE_INFO_MODEL, emptyList())
-    )
+    override var chatState: ChatState =
+        ChatState(
+            chatStatus = ChatStatus.NONE,
+            chatInfoModel =
+                ChatInfoModel(
+                    threadId = threadID,
+                    topic = null,
+                    allMessagesFetched = false,
+                    isThreadDeleted = false,
+                ),
+            lastReadMessageId = "",
+            messageContextMenu = MessageContextMenuModel(EMPTY_MESSAGE_INFO_MODEL, emptyList()),
+        )
 
-    override var participantState: ParticipantsState = ParticipantsState(
-        localParticipantInfoModel = LocalParticipantInfoModel(
-            userIdentifier = localParticipantIdentifier,
-            displayName = localParticipantDisplayName
-        ),
-        participants = mapOf(),
-        participantTyping = mapOf(),
-        participantsReadReceiptMap = mapOf(),
-        latestReadMessageTimestamp = OffsetDateTime.MIN,
-        hiddenParticipant = setOf()
-    )
+    override var participantState: ParticipantsState =
+        ParticipantsState(
+            localParticipantInfoModel =
+                LocalParticipantInfoModel(
+                    userIdentifier = localParticipantIdentifier,
+                    displayName = localParticipantDisplayName,
+                ),
+            participants = mapOf(),
+            participantTyping = mapOf(),
+            participantsReadReceiptMap = mapOf(),
+            latestReadMessageTimestamp = OffsetDateTime.MIN,
+            hiddenParticipant = setOf(),
+        )
 
     override var lifecycleState: LifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
 

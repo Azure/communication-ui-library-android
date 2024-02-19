@@ -36,5 +36,4 @@ internal data class CallingState(
     val callStartDateTime: OffsetDateTime? = null,
 )
 
-internal fun CallingState.isDisconnected() =
-    !joinCallIsRequested && CallingStatus.DISCONNECTED == callingStatus
+internal fun CallingState.isDisconnected() = !joinCallIsRequested && CallingStatus.DISCONNECTED == callingStatus

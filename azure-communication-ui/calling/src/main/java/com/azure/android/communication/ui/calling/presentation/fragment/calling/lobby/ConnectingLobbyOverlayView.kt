@@ -54,12 +54,15 @@ internal class ConnectingLobbyOverlayView : LinearLayout {
         ViewCompat.setAccessibilityDelegate(
             this,
             object : AccessibilityDelegateCompat() {
-                override fun onInitializeAccessibilityNodeInfo(host: View, info: AccessibilityNodeInfoCompat) {
+                override fun onInitializeAccessibilityNodeInfo(
+                    host: View,
+                    info: AccessibilityNodeInfoCompat,
+                ) {
                     super.onInitializeAccessibilityNodeInfo(host, info)
                     info.removeAction(AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK)
                     info.isClickable = false
                 }
-            }
+            },
         )
     }
 }

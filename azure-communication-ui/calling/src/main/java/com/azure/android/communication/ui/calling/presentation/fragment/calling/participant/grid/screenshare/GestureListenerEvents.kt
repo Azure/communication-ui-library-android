@@ -7,7 +7,10 @@ import android.view.MotionEvent
 
 internal interface GestureListenerEvents {
     fun onSingleClick()
+
     fun onDoubleClick(motionEvent: MotionEvent)
+
     fun initTransformation()
+
     fun updateTransformation()
 }

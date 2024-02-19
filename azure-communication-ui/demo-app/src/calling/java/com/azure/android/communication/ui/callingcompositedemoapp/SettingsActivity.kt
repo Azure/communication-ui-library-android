@@ -16,13 +16,11 @@ import com.azure.android.communication.ui.calling.models.CallCompositeSupportedL
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.google.android.material.textfield.TextInputLayout
-import java.util.Locale
 
 // Key for the SharedPrefs store that will be used for FeatureFlags
 const val SETTINGS_SHARED_PREFS = "Settings"
 
 class SettingsActivity : AppCompatActivity() {
-
     private lateinit var supportedLanguages: List<String>
     private lateinit var autoCompleteTextView: AutoCompleteTextView
     private lateinit var languageArrayAdapter: ArrayAdapter<String>
@@ -60,12 +58,14 @@ class SettingsActivity : AppCompatActivity() {
 
         this.initializeViews()
         SettingsFeatures.initialize(this)
-        supportedLanguages = CallCompositeSupportedLocale.getSupportedLocales().map {
-            SettingsFeatures.displayLanguageName(it)
-        }
-        supportedScreenOrientations = CallCompositeSupportedScreenOrientation.values().map {
-            SettingsFeatures.displayOrientationName(it)
-        }
+        supportedLanguages =
+            CallCompositeSupportedLocale.getSupportedLocales().map {
+                SettingsFeatures.displayLanguageName(it)
+            }
+        supportedScreenOrientations =
+            CallCompositeSupportedScreenOrientation.values().map {
+                SettingsFeatures.displayOrientationName(it)
+            }
     }
 
     override fun onResume() {
@@ -154,57 +154,57 @@ class SettingsActivity : AppCompatActivity() {
                         LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY +
                             sharedPreference.getString(
                                 LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
-                                DEFAULT_LANGUAGE_VALUE
+                                DEFAULT_LANGUAGE_VALUE,
                             ),
-                        view.isChecked
+                        view.isChecked,
                     ).apply()
                 }
                 R.id.remote_avatar_injection_check_box -> {
                     sharedPreference.edit().putBoolean(
                         DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY,
-                        view.isChecked
+                        view.isChecked,
                     ).apply()
                 }
                 R.id.skip_setup_screen_check_box -> {
                     sharedPreference.edit().putBoolean(
                         SKIP_SETUP_SCREEN_VALUE_KEY,
-                        view.isChecked
+                        view.isChecked,
                     ).apply()
                 }
                 R.id.mic_control_check_box -> {
                     sharedPreference.edit().putBoolean(
                         MIC_ON_BY_DEFAULT_KEY,
-                        view.isChecked
+                        view.isChecked,
                     ).apply()
                 }
                 R.id.camera_control_check_box -> {
                     sharedPreference.edit().putBoolean(
                         CAMERA_ON_BY_DEFAULT_KEY,
-                        view.isChecked
+                        view.isChecked,
                     ).apply()
                 }
                 R.id.composite_end_call_button_checkbox -> {
                     sharedPreference.edit().putBoolean(
                         END_CALL_ON_BY_DEFAULT_KEY,
-                        view.isChecked
+                        view.isChecked,
                     ).apply()
                 }
                 R.id.multitasking_check_box -> {
                     sharedPreference.edit().putBoolean(
                         ENABLE_MULTITASKING,
-                        view.isChecked
+                        view.isChecked,
                     ).apply()
                 }
                 R.id.multitasking_pip_check_box -> {
                     sharedPreference.edit().putBoolean(
                         ENABLE_PIP_WHEN_MULTITASKING,
-                        view.isChecked
+                        view.isChecked,
                     ).apply()
                 }
                 R.id.audio_only_check_box -> {
                     sharedPreference.edit().putBoolean(
                         AUDIO_ONLY_MODE_ON_BY_DEFAULT_KEY,
-                        view.isChecked
+                        view.isChecked,
                     ).apply()
                 }
             }
@@ -249,25 +249,23 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun setLanguageInAdapter() {
-
         autoCompleteTextView.setText(
             sharedPreference.getString(
                 LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
-                LANGUAGE_IS_YET_TOBE_SET
+                LANGUAGE_IS_YET_TOBE_SET,
             ),
-            true
+            true,
         )
         languageArrayAdapter.filter.filter(null)
     }
 
     private fun setOrientationInCallScreenOrientationAdapter() {
-
         callScreenOrientationAutoCompleteTextView.setText(
             sharedPreference.getString(
                 CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY,
-                DEFAULT_CALL_SCREEN_ORIENTATION_VALUE
+                DEFAULT_CALL_SCREEN_ORIENTATION_VALUE,
             ),
-            true
+            true,
         )
         callScreenOrientationArrayAdapter.filter.filter(null)
     }
@@ -276,9 +274,9 @@ class SettingsActivity : AppCompatActivity() {
         setupScreenOrientationAutoCompleteTextView.setText(
             sharedPreference.getString(
                 SETUP_SCREEN_ORIENTATION_SHARED_PREF_KEY,
-                DEFAULT_SETUP_SCREEN_ORIENTATION_VALUE
+                DEFAULT_SETUP_SCREEN_ORIENTATION_VALUE,
             ),
-            true
+            true,
         )
         setupScreenOrientationArrayAdapter.filter.filter(null)
     }
@@ -291,7 +289,7 @@ class SettingsActivity : AppCompatActivity() {
     private fun getSelectedLanguageValue(): String? {
         return sharedPreference.getString(
             LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
-            DEFAULT_LANGUAGE_VALUE
+            DEFAULT_LANGUAGE_VALUE,
         )
     }
 
@@ -336,57 +334,64 @@ class SettingsActivity : AppCompatActivity() {
         remoteAvatarInjectionCheckBox.isChecked =
             sharedPreference.getBoolean(
                 DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY,
-                REMOTE_PARTICIPANT_PERSONA_INJECTION_VALUE
+                REMOTE_PARTICIPANT_PERSONA_INJECTION_VALUE,
             )
     }
 
     private fun updateSkipSetupScreenCheckbox() {
-        skipSetupScreenCheckBox.isChecked = sharedPreference.getBoolean(
-            SKIP_SETUP_SCREEN_VALUE_KEY,
-            DEFAULT_SKIP_SETUP_SCREEN_VALUE
-        )
+        skipSetupScreenCheckBox.isChecked =
+            sharedPreference.getBoolean(
+                SKIP_SETUP_SCREEN_VALUE_KEY,
+                DEFAULT_SKIP_SETUP_SCREEN_VALUE,
+            )
     }
 
     private fun updateMicOnByDefaultCheckbox() {
-        micOnByDefaultCheckBox.isChecked = sharedPreference.getBoolean(
-            MIC_ON_BY_DEFAULT_KEY,
-            DEFAULT_MIC_ON_BY_DEFAULT_VALUE
-        )
+        micOnByDefaultCheckBox.isChecked =
+            sharedPreference.getBoolean(
+                MIC_ON_BY_DEFAULT_KEY,
+                DEFAULT_MIC_ON_BY_DEFAULT_VALUE,
+            )
     }
 
     private fun updateCameraOnByDefaultCheckbox() {
-        cameraOnByDefaultCheckBox.isChecked = sharedPreference.getBoolean(
-            CAMERA_ON_BY_DEFAULT_KEY,
-            DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE
-        )
+        cameraOnByDefaultCheckBox.isChecked =
+            sharedPreference.getBoolean(
+                CAMERA_ON_BY_DEFAULT_KEY,
+                DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE,
+            )
     }
 
     private fun updateEndCallOnDefaultCheckBox() {
-        endCallOnDefaultCheckBox.isChecked = sharedPreference.getBoolean(
-            END_CALL_ON_BY_DEFAULT_KEY,
-            DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE
-        )
+        endCallOnDefaultCheckBox.isChecked =
+            sharedPreference.getBoolean(
+                END_CALL_ON_BY_DEFAULT_KEY,
+                DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE,
+            )
     }
 
     private fun updateEnableMultitaskingCheckbox() {
-        enableMultitaskingCheckbox.isChecked = sharedPreference.getBoolean(
-            ENABLE_MULTITASKING,
-            ENABLE_MULTITASKING_DEFAULT_VALUE
-        )
+        enableMultitaskingCheckbox.isChecked =
+            sharedPreference.getBoolean(
+                ENABLE_MULTITASKING,
+                ENABLE_MULTITASKING_DEFAULT_VALUE,
+            )
     }
 
     private fun updateEnablePipMultitaskingCheckbox() {
-        enablePipWhenMultitaskingCheckbox.isChecked = sharedPreference.getBoolean(
-            ENABLE_PIP_WHEN_MULTITASKING,
-            ENABLE_PIP_WHEN_MULTITASKING_DEFAULT_VALUE
-        )
+        enablePipWhenMultitaskingCheckbox.isChecked =
+            sharedPreference.getBoolean(
+                ENABLE_PIP_WHEN_MULTITASKING,
+                ENABLE_PIP_WHEN_MULTITASKING_DEFAULT_VALUE,
+            )
     }
 
     private fun updateAudioOnlyDefaultCheckbox() {
-        audioOnlyModeCheckBox.isChecked = sharedPreference.getBoolean(
-            AUDIO_ONLY_MODE_ON_BY_DEFAULT_KEY,
-            AUDIO_ONLY_MODE_ON_BY_DEFAULT_VALUE
-        )
+        audioOnlyModeCheckBox.isChecked =
+            sharedPreference.getBoolean(
+                AUDIO_ONLY_MODE_ON_BY_DEFAULT_KEY,
+                AUDIO_ONLY_MODE_ON_BY_DEFAULT_VALUE,
+            )
     }
 }
 

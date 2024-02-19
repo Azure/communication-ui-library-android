@@ -26,48 +26,51 @@ internal fun waitUntilDisplayed(id: Int) {
 internal fun assertDisplayed(id: Int): ViewInteraction {
     return Espresso.onView(
         Matchers.allOf(
-            ViewMatchers.withId(id)
-        )
+            ViewMatchers.withId(id),
+        ),
     ).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 }
 
 internal fun assertNotDisplayed(id: Int): ViewInteraction? {
     return Espresso.onView(
         Matchers.allOf(
-            ViewMatchers.withId(id)
-        )
+            ViewMatchers.withId(id),
+        ),
     ).check(doesNotExist())
 }
 
 internal fun assertViewGone(id: Int): ViewInteraction? {
     return Espresso.onView(
         Matchers.allOf(
-            ViewMatchers.withId(id)
-        )
+            ViewMatchers.withId(id),
+        ),
     ).check(ViewAssertions.matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
 }
 
 internal fun assertViewNotDisplayed(id: Int) {
     Espresso.onView(
         Matchers.allOf(
-            ViewMatchers.withId(id)
-        )
+            ViewMatchers.withId(id),
+        ),
     ).check(ViewAssertions.matches(Matchers.not(ViewMatchers.isDisplayed())))
 }
 
 internal fun assertNotExist(id: Int): ViewInteraction? {
     return Espresso.onView(
         Matchers.allOf(
-            ViewMatchers.withId(id)
-        )
+            ViewMatchers.withId(id),
+        ),
     ).check(doesNotExist())
 }
 
-internal fun assertViewText(id: Int, text: String) {
+internal fun assertViewText(
+    id: Int,
+    text: String,
+) {
     Espresso.onView(
         Matchers.allOf(
-            ViewMatchers.withId(id)
-        )
+            ViewMatchers.withId(id),
+        ),
     ).check(ViewAssertions.matches(ViewMatchers.withText(text)))
 }
 
@@ -75,24 +78,28 @@ internal fun tapOnScreen() {
     Espresso.onView(ViewMatchers.isRoot())
         .perform(ViewActions.click())
 }
+
 internal fun tapWithTextWhenDisplayed(text: String) {
     // wait until text is displayed
     waitUntilViewIsDisplayed {
         Espresso.onView(
-            Matchers.allOf(ViewMatchers.withText(text), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
+            Matchers.allOf(ViewMatchers.withText(text), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)),
         ).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
     tapDelay()
     Espresso.onView(
-        Matchers.allOf(ViewMatchers.withText(text), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
+        Matchers.allOf(ViewMatchers.withText(text), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)),
     ).perform(ViewActions.click())
 }
 
-internal fun assertViewText(id: Int, textId: Int) {
+internal fun assertViewText(
+    id: Int,
+    textId: Int,
+) {
     Espresso.onView(
         Matchers.allOf(
-            ViewMatchers.withId(id)
-        )
+            ViewMatchers.withId(id),
+        ),
     ).check(ViewAssertions.matches(ViewMatchers.withText(textId)))
 }
 
@@ -132,14 +139,19 @@ internal fun waitUntilViewIsDisplayed(idlingCheck: () -> ViewInteraction): ViewI
             if (ex is AssertionFailedError || ex is NoMatchingViewException) {
                 SystemClock.sleep(2000L)
                 timeOut += 2000L
-            } else throw ex
+            } else {
+                throw ex
+            }
         }
     }
     if (isReady) return viewInteraction
     throw IllegalStateException("Timed out waiting for view")
 }
 
-internal fun assertViewHasChild(@IdRes id: Int, n: Int) {
+internal fun assertViewHasChild(
+    @IdRes id: Int,
+    n: Int,
+) {
     Espresso.onView(ViewMatchers.withId(id))
         .check(ViewAssertions.matches(ViewMatchers.hasChildCount(n)))
 }

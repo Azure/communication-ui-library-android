@@ -50,7 +50,7 @@ class CallLauncherActivity : AppCompatActivity() {
                 BuildConfig.APP_SECRET,
                 Analytics::class.java,
                 Crashes::class.java,
-                Distribute::class.java
+                Distribute::class.java,
             )
         }
         // Register Memory Viewer with FeatureFlags
@@ -92,22 +92,29 @@ class CallLauncherActivity : AppCompatActivity() {
                 groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
             }
 
-            acsTokenText.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                }
+            acsTokenText.addTextChangedListener(
+                object : TextWatcher {
+                    override fun beforeTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        count: Int,
+                        after: Int,
+                    ) {
+                    }
 
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    launchButton.isEnabled = !s.isNullOrEmpty()
-                }
+                    override fun onTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        before: Int,
+                        count: Int,
+                    ) {
+                        launchButton.isEnabled = !s.isNullOrEmpty()
+                    }
 
-                override fun afterTextChanged(s: Editable?) {
-                }
-            })
+                    override fun afterTextChanged(s: Editable?) {
+                    }
+                },
+            )
 
             launchButton.setOnClickListener {
                 launch()
@@ -175,14 +182,18 @@ class CallLauncherActivity : AppCompatActivity() {
     // so that finishing this will get us to the last viewed screen
     private fun shouldFinish() = BuildConfig.CHECK_TASK_ROOT && !isTaskRoot
 
-    private fun showAlert(message: String, title: String = "Alert") {
+    private fun showAlert(
+        message: String,
+        title: String = "Alert",
+    ) {
         runOnUiThread {
-            val builder = AlertDialog.Builder(this).apply {
-                setMessage(message)
-                setTitle(title)
-                setPositiveButton("OK") { _, _ ->
+            val builder =
+                AlertDialog.Builder(this).apply {
+                    setMessage(message)
+                    setTitle(title)
+                    setPositiveButton("OK") { _, _ ->
+                    }
                 }
-            }
             builder.show()
         }
     }
@@ -233,9 +244,10 @@ class CallLauncherActivity : AppCompatActivity() {
     }
 
     private fun showCallHistory() {
-        val history = callLauncherViewModel
-            .getCallHistory(this@CallLauncherActivity)
-            .sortedBy { it.callStartedOn }
+        val history =
+            callLauncherViewModel
+                .getCallHistory(this@CallLauncherActivity)
+                .sortedBy { it.callStartedOn }
 
         val title = "Total calls: ${history.count()}"
         var message = "Last Call: none"
@@ -255,16 +267,16 @@ class CallLauncherActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem) =
+        when (item.itemId) {
+            R.id.azure_composite_show_settings -> {
+                val settingIntent = Intent(this, SettingsActivity::class.java)
+                startActivity(settingIntent)
+                true
+            }
 
-        R.id.azure_composite_show_settings -> {
-            val settingIntent = Intent(this, SettingsActivity::class.java)
-            startActivity(settingIntent)
-            true
+            else -> super.onOptionsItemSelected(item)
         }
-
-        else -> super.onOptionsItemSelected(item)
-    }
 
     override fun onStart() {
         super.onStart()

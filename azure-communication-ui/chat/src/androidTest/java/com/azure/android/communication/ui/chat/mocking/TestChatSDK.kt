@@ -65,7 +65,9 @@ internal class TestChatSDK(
     override fun getChatStatusStateFlow(): StateFlow<ChatStatus> = chatStatusStateFlow
 
     override fun getMessagesPageSharedFlow(): SharedFlow<MessagesPageModel> = messagesSharedFlow
+
     override fun getChatEventSharedFlow(): SharedFlow<ChatEventModel> = chatEventSharedFlow
+
     override fun sendMessage(messageInfoModel: MessageInfoModel): CompletableFuture<SendChatMessageResult> {
         val future = CompletableFuture<SendChatMessageResult>()
         // coroutine to make sure requests are not blocking
@@ -84,7 +86,10 @@ internal class TestChatSDK(
         return future
     }
 
-    override fun editMessage(id: String, content: String): CompletableFuture<Void> {
+    override fun editMessage(
+        id: String,
+        content: String,
+    ): CompletableFuture<Void> {
         val future = CompletableFuture<Void>()
         // coroutine to make sure requests are not blocking
         coroutineScope.launch {

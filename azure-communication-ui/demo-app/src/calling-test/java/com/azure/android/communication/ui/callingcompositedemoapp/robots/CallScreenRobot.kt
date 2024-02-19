@@ -15,26 +15,25 @@ import com.azure.android.communication.ui.callingcompositedemoapp.util.ViewIsDis
 import org.hamcrest.Matchers
 
 class CallScreenRobot : ScreenRobot<CallScreenRobot>() {
-
     fun checkTeamsLobbyOverlay(): CallScreenRobot {
         waitUntilViewIdIsDisplayed(R.id.azure_communication_ui_call_lobby_overlay)
         UiTestUtils.run {
             checkViewIdIsDisplayed(
-                R.id.azure_communication_ui_call_call_lobby_overlay_wait_for_host_image
+                R.id.azure_communication_ui_call_call_lobby_overlay_wait_for_host_image,
             )
             checkViewIdAndTextIsDisplayed(
                 R.id.azure_communication_ui_call_lobby_overlay_info,
-                R.string.azure_communication_ui_calling_lobby_view_text_waiting_details
+                R.string.azure_communication_ui_calling_lobby_view_text_waiting_details,
             )
             checkViewIdAndTextIsDisplayed(
                 R.id.azure_communication_ui_call_lobby_overlay_title,
-                R.string.azure_communication_ui_calling_lobby_view_text_waiting_for_host
+                R.string.azure_communication_ui_calling_lobby_view_text_waiting_for_host,
             )
             checkViewIdIsNotDisplayed(
-                R.id.azure_communication_ui_call_local_avatarHolder
+                R.id.azure_communication_ui_call_local_avatarHolder,
             )
             checkViewIdIsNotDisplayed(
-                R.id.azure_communication_ui_call_local_pip_switch_camera_button
+                R.id.azure_communication_ui_call_local_pip_switch_camera_button,
             )
         }
         return this
@@ -45,17 +44,18 @@ class CallScreenRobot : ScreenRobot<CallScreenRobot>() {
 
         UiTestUtils.clickViewWithIdAndText(
             R.id.azure_communication_ui_call_lobby_overlay_title,
-            "Waiting for host"
+            "Waiting for host",
         )
         return this
     }
 
     fun checkFirstParticipantInList(): CallScreenRobot {
-        val viewIds = Triple(
-            R.id.azure_communication_ui_cell_icon,
-            R.id.azure_communication_ui_participant_list_avatar,
-            R.id.azure_communication_ui_cell_text
-        )
+        val viewIds =
+            Triple(
+                R.id.azure_communication_ui_cell_icon,
+                R.id.azure_communication_ui_participant_list_avatar,
+                R.id.azure_communication_ui_cell_text,
+            )
         UiTestUtils.check3IemRecyclerViewHolderAtPosition(R.id.bottom_drawer_table, 1, viewIds)
         return this
     }
@@ -68,12 +68,13 @@ class CallScreenRobot : ScreenRobot<CallScreenRobot>() {
     }
 
     fun dismissParticipantList(): CallScreenRobot {
-        val rootView = Espresso.onView(
-            Matchers.allOf(
-                ViewMatchers.withId(android.R.id.content),
-                ViewMatchers.isDisplayed()
+        val rootView =
+            Espresso.onView(
+                Matchers.allOf(
+                    ViewMatchers.withId(android.R.id.content),
+                    ViewMatchers.isDisplayed(),
+                ),
             )
-        )
         rootView.perform(ViewActions.click())
         return this
     }
@@ -81,10 +82,11 @@ class CallScreenRobot : ScreenRobot<CallScreenRobot>() {
     fun clickEndCall(): CallScreenRobot {
         val idlingResource = ViewIsDisplayedResource()
         waitUntilViewIdIsDisplayed(R.id.azure_communication_ui_call_call_buttons, idlingResource)
-        val endCallButton = waitUntilViewIdWithContentDescriptionIsDisplayed(
-            R.id.azure_communication_ui_call_end_call_button,
-            "Hang Up"
-        )
+        val endCallButton =
+            waitUntilViewIdWithContentDescriptionIsDisplayed(
+                R.id.azure_communication_ui_call_end_call_button,
+                "Hang Up",
+            )
 
         endCallButton.perform(ViewActions.click())
         return this
@@ -100,12 +102,11 @@ class CallScreenRobot : ScreenRobot<CallScreenRobot>() {
     }
 
     fun verifyFirstParticipantName(userName: String): CallScreenRobot {
-
         UiTestUtils.checkRecyclerViewViewHolderText(
             R.id.bottom_drawer_table,
             1,
             R.id.azure_communication_ui_cell_text,
-            userName
+            userName,
         )
         return this
     }

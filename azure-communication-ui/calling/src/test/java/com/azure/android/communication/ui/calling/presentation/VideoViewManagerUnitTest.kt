@@ -24,17 +24,18 @@ import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
 internal class VideoViewManagerUnitTest {
-
     @Test
     fun videoViewManager_destroy_then_clearLocalAndRemoteParticipantVideoRendererMap() {
         // arrange
-        val mockVideoStream = mock<RemoteVideoStream> {
-            on { id } doAnswer { 111 }
-            on { mediaStreamType } doAnswer { MediaStreamType.VIDEO }
-        }
-        val mockRemoteParticipant = mock<RemoteParticipant> {
-            on { videoStreams } doAnswer { listOf(mockVideoStream) }
-        }
+        val mockVideoStream =
+            mock<RemoteVideoStream> {
+                on { id } doAnswer { 111 }
+                on { mediaStreamType } doAnswer { MediaStreamType.VIDEO }
+            }
+        val mockRemoteParticipant =
+            mock<RemoteParticipant> {
+                on { videoStreams } doAnswer { listOf(mockVideoStream) }
+            }
 
         val remoteParticipantMap: MutableMap<String, RemoteParticipant> = mutableMapOf()
         remoteParticipantMap["user"] = mockRemoteParticipant
@@ -45,46 +46,57 @@ internal class VideoViewManagerUnitTest {
             CompletableFuture<LocalVideoStream>()
         localVideoStreamCompletableFuture.complete(mockLocalVideoStream)
 
-        val mockCallingSDKWrapper = mock<CallingSDKWrapper> {
-            on { getRemoteParticipantsMap() } doAnswer { remoteParticipantMap }
-            on { getLocalVideoStream() } doAnswer { localVideoStreamCompletableFuture }
-        }
+        val mockCallingSDKWrapper =
+            mock<CallingSDKWrapper> {
+                on { getRemoteParticipantsMap() } doAnswer { remoteParticipantMap }
+                on { getLocalVideoStream() } doAnswer { localVideoStreamCompletableFuture }
+            }
 
-        val mockUiModeManager = mock<android.app.UiModeManager> {
-            on { currentModeType } doAnswer { android.content.res.Configuration.UI_MODE_TYPE_WATCH }
-        }
+        val mockUiModeManager =
+            mock<android.app.UiModeManager> {
+                on { currentModeType } doAnswer { android.content.res.Configuration.UI_MODE_TYPE_WATCH }
+            }
 
-        val mockContext = mock<Context> {
-            on { getSystemService(Context.UI_MODE_SERVICE) } doAnswer { mockUiModeManager }
-        }
+        val mockContext =
+            mock<Context> {
+                on { getSystemService(Context.UI_MODE_SERVICE) } doAnswer { mockUiModeManager }
+            }
+
+        val mockAppContext =
+            mock<Context> {
+                on { applicationContext } doAnswer { mockContext }
+            }
 
         val mockLayout = mock<FrameLayout> {}
 
-        val mockVideoStreamRendererView = mock<VideoStreamRendererView> {
-            on { getView() } doAnswer { mockLayout }
-        }
+        val mockVideoStreamRendererView =
+            mock<VideoStreamRendererView> {
+                on { getView() } doAnswer { mockLayout }
+            }
 
-        val mockVideoStreamRenderer = mock<VideoStreamRenderer> {
-            on { createView() } doAnswer { mockVideoStreamRendererView }
-        }
+        val mockVideoStreamRenderer =
+            mock<VideoStreamRenderer> {
+                on { createView() } doAnswer { mockVideoStreamRendererView }
+            }
 
-        val mockVideoStreamRendererHelper = mock<VideoStreamRendererFactory> {
-            on {
-                getRemoteParticipantVideoStreamRenderer(
-                    any(),
-                    any()
-                )
-            } doAnswer { mockVideoStreamRenderer }
-            on {
-                getLocalParticipantVideoStreamRenderer(
-                    any(),
-                    any()
-                )
-            } doAnswer { mockVideoStreamRenderer }
-        }
+        val mockVideoStreamRendererHelper =
+            mock<VideoStreamRendererFactory> {
+                on {
+                    getRemoteParticipantVideoStreamRenderer(
+                        any(),
+                        any(),
+                    )
+                } doAnswer { mockVideoStreamRenderer }
+                on {
+                    getLocalParticipantVideoStreamRenderer(
+                        any(),
+                        any(),
+                    )
+                } doAnswer { mockVideoStreamRenderer }
+            }
 
         val videoViewManager =
-            VideoViewManager(mockCallingSDKWrapper, mockContext, mockVideoStreamRendererHelper)
+            VideoViewManager(mockCallingSDKWrapper, mockAppContext, mockVideoStreamRendererHelper)
 
         val remoteVideoView =
             videoViewManager.getRemoteVideoStreamRenderer("user", "111")
@@ -114,39 +126,50 @@ internal class VideoViewManagerUnitTest {
             CompletableFuture<LocalVideoStream>()
         localVideoStreamCompletableFuture.complete(mockLocalVideoStream)
 
-        val mockCallingSDKWrapper = mock<CallingSDKWrapper> {
-            on { getLocalVideoStream() } doAnswer { localVideoStreamCompletableFuture }
-        }
+        val mockCallingSDKWrapper =
+            mock<CallingSDKWrapper> {
+                on { getLocalVideoStream() } doAnswer { localVideoStreamCompletableFuture }
+            }
 
-        val mockUiModeManager = mock<android.app.UiModeManager> {
-            on { currentModeType } doAnswer { android.content.res.Configuration.UI_MODE_TYPE_WATCH }
-        }
+        val mockUiModeManager =
+            mock<android.app.UiModeManager> {
+                on { currentModeType } doAnswer { android.content.res.Configuration.UI_MODE_TYPE_WATCH }
+            }
 
-        val mockContext = mock<Context> {
-            on { getSystemService(Context.UI_MODE_SERVICE) } doAnswer { mockUiModeManager }
-        }
+        val mockContext =
+            mock<Context> {
+                on { getSystemService(Context.UI_MODE_SERVICE) } doAnswer { mockUiModeManager }
+            }
+
+        val mockAppContext =
+            mock<Context> {
+                on { applicationContext } doAnswer { mockContext }
+            }
 
         val mockLayout = mock<FrameLayout> {}
 
-        val mockVideoStreamRendererView = mock<VideoStreamRendererView> {
-            on { getView() } doAnswer { mockLayout }
-        }
+        val mockVideoStreamRendererView =
+            mock<VideoStreamRendererView> {
+                on { getView() } doAnswer { mockLayout }
+            }
 
-        val mockVideoStreamRenderer = mock<VideoStreamRenderer> {
-            on { createView() } doAnswer { mockVideoStreamRendererView }
-        }
+        val mockVideoStreamRenderer =
+            mock<VideoStreamRenderer> {
+                on { createView() } doAnswer { mockVideoStreamRendererView }
+            }
 
-        val mockVideoStreamRendererHelper = mock<VideoStreamRendererFactory> {
-            on {
-                getLocalParticipantVideoStreamRenderer(
-                    any(),
-                    any()
-                )
-            } doAnswer { mockVideoStreamRenderer }
-        }
+        val mockVideoStreamRendererHelper =
+            mock<VideoStreamRendererFactory> {
+                on {
+                    getLocalParticipantVideoStreamRenderer(
+                        any(),
+                        any(),
+                    )
+                } doAnswer { mockVideoStreamRenderer }
+            }
 
         val videoViewManager =
-            VideoViewManager(mockCallingSDKWrapper, mockContext, mockVideoStreamRendererHelper)
+            VideoViewManager(mockCallingSDKWrapper, mockAppContext, mockVideoStreamRendererHelper)
 
         // act
         videoViewManager.updateLocalVideoRenderer("345")
@@ -159,50 +182,63 @@ internal class VideoViewManagerUnitTest {
     @Test
     fun videoViewManager_getRemoteVideoStreamRenderer_when_calledWithValidIDs_then_returnView() {
         // arrange
-        val mockVideoStream = mock<RemoteVideoStream> {
-            on { id } doAnswer { 111 }
-            on { mediaStreamType } doAnswer { MediaStreamType.VIDEO }
-        }
-        val mockRemoteParticipant = mock<RemoteParticipant> {
-            on { videoStreams } doAnswer { listOf(mockVideoStream) }
-        }
+        val mockVideoStream =
+            mock<RemoteVideoStream> {
+                on { id } doAnswer { 111 }
+                on { mediaStreamType } doAnswer { MediaStreamType.VIDEO }
+            }
+        val mockRemoteParticipant =
+            mock<RemoteParticipant> {
+                on { videoStreams } doAnswer { listOf(mockVideoStream) }
+            }
 
         val remoteParticipantMap: MutableMap<String, RemoteParticipant> = mutableMapOf()
         remoteParticipantMap["user"] = mockRemoteParticipant
 
-        val mockCallingSDKWrapper = mock<CallingSDKWrapper> {
-            on { getRemoteParticipantsMap() } doAnswer { remoteParticipantMap }
-        }
+        val mockCallingSDKWrapper =
+            mock<CallingSDKWrapper> {
+                on { getRemoteParticipantsMap() } doAnswer { remoteParticipantMap }
+            }
 
-        val mockUiModeManager = mock<android.app.UiModeManager> {
-            on { currentModeType } doAnswer { android.content.res.Configuration.UI_MODE_TYPE_WATCH }
-        }
+        val mockUiModeManager =
+            mock<android.app.UiModeManager> {
+                on { currentModeType } doAnswer { android.content.res.Configuration.UI_MODE_TYPE_WATCH }
+            }
 
-        val mockContext = mock<Context> {
-            on { getSystemService(Context.UI_MODE_SERVICE) } doAnswer { mockUiModeManager }
-        }
+        val mockContext =
+            mock<Context> {
+                on { getSystemService(Context.UI_MODE_SERVICE) } doAnswer { mockUiModeManager }
+            }
+
+        val mockAppContext =
+            mock<Context> {
+                on { applicationContext } doAnswer { mockContext }
+            }
 
         val mockLayout = mock<FrameLayout> {}
 
-        val mockVideoStreamRendererView = mock<VideoStreamRendererView> {
-            on { getView() } doAnswer { mockLayout }
-        }
+        val mockVideoStreamRendererView =
+            mock<VideoStreamRendererView> {
+                on { getView() } doAnswer { mockLayout }
+            }
 
-        val mockVideoStreamRenderer = mock<VideoStreamRenderer> {
-            on { createView() } doAnswer { mockVideoStreamRendererView }
-        }
+        val mockVideoStreamRenderer =
+            mock<VideoStreamRenderer> {
+                on { createView() } doAnswer { mockVideoStreamRendererView }
+            }
 
-        val mockVideoStreamRendererHelper = mock<VideoStreamRendererFactory> {
-            on {
-                getRemoteParticipantVideoStreamRenderer(
-                    any(),
-                    any()
-                )
-            } doAnswer { mockVideoStreamRenderer }
-        }
+        val mockVideoStreamRendererHelper =
+            mock<VideoStreamRendererFactory> {
+                on {
+                    getRemoteParticipantVideoStreamRenderer(
+                        any(),
+                        any(),
+                    )
+                } doAnswer { mockVideoStreamRenderer }
+            }
 
         val videoViewManager =
-            VideoViewManager(mockCallingSDKWrapper, mockContext, mockVideoStreamRendererHelper)
+            VideoViewManager(mockCallingSDKWrapper, mockAppContext, mockVideoStreamRendererHelper)
 
         // act
         val remoteVideoView =
@@ -220,22 +256,30 @@ internal class VideoViewManagerUnitTest {
         val remoteParticipantMap: MutableMap<String, RemoteParticipant> = mutableMapOf()
         remoteParticipantMap["user"] = mockRemoteParticipant
 
-        val mockCallingSDKWrapper = mock<CallingSDKWrapper> {
-            on { getRemoteParticipantsMap() } doAnswer { remoteParticipantMap }
-        }
+        val mockCallingSDKWrapper =
+            mock<CallingSDKWrapper> {
+                on { getRemoteParticipantsMap() } doAnswer { remoteParticipantMap }
+            }
 
-        val mockUiModeManager = mock<android.app.UiModeManager> {
-            on { currentModeType } doAnswer { android.content.res.Configuration.UI_MODE_TYPE_WATCH }
-        }
+        val mockUiModeManager =
+            mock<android.app.UiModeManager> {
+                on { currentModeType } doAnswer { android.content.res.Configuration.UI_MODE_TYPE_WATCH }
+            }
 
-        val mockContext = mock<Context> {
-            on { getSystemService(Context.UI_MODE_SERVICE) } doAnswer { mockUiModeManager }
-        }
+        val mockContext =
+            mock<Context> {
+                on { getSystemService(Context.UI_MODE_SERVICE) } doAnswer { mockUiModeManager }
+            }
+
+        val mockAppContext =
+            mock<Context> {
+                on { applicationContext } doAnswer { mockContext }
+            }
 
         val mockVideoStreamRendererHelper = mock<VideoStreamRendererFactory> {}
 
         val videoViewManager =
-            VideoViewManager(mockCallingSDKWrapper, mockContext, mockVideoStreamRendererHelper)
+            VideoViewManager(mockCallingSDKWrapper, mockAppContext, mockVideoStreamRendererHelper)
 
         // act
         val remoteVideoView =

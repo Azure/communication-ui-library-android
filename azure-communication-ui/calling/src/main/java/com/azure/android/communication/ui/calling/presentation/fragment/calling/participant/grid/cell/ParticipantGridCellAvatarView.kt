@@ -5,8 +5,8 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.content.Context
 import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
@@ -53,11 +53,15 @@ internal class ParticipantGridCellAvatarView(
                 if (it) {
                     onHoldTextView.visibility = VISIBLE
                     micIndicatorAudioImageView.visibility = GONE
-                    displayNameAudioTextView.setTextColor(ContextCompat.getColor(context, R.color.azure_communication_ui_calling_color_participant_list_mute_mic))
+                    displayNameAudioTextView.setTextColor(
+                        ContextCompat.getColor(context, R.color.azure_communication_ui_calling_color_participant_list_mute_mic),
+                    )
                 } else {
                     onHoldTextView.visibility = INVISIBLE
                     setMicButtonVisibility(participantViewModel.getIsMutedStateFlow().value)
-                    displayNameAudioTextView.setTextColor(ContextCompat.getColor(context, R.color.azure_communication_ui_calling_color_on_background))
+                    displayNameAudioTextView.setTextColor(
+                        ContextCompat.getColor(context, R.color.azure_communication_ui_calling_color_on_background),
+                    )
                 }
             }
         }
@@ -100,14 +104,13 @@ internal class ParticipantGridCellAvatarView(
         }
     }
 
-    private fun setSpeakingIndicator(
-        isSpeaking: Boolean,
-    ) {
+    private fun setSpeakingIndicator(isSpeaking: Boolean) {
         if (isSpeaking) {
-            participantAvatarSpeakingFrameLayout.background = ContextCompat.getDrawable(
-                context,
-                R.drawable.azure_communication_ui_calling_speaking_round_indicator
-            )
+            participantAvatarSpeakingFrameLayout.background =
+                ContextCompat.getDrawable(
+                    context,
+                    R.drawable.azure_communication_ui_calling_speaking_round_indicator,
+                )
         } else {
             participantAvatarSpeakingFrameLayout.setBackgroundResource(0)
         }

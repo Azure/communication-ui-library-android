@@ -3,14 +3,14 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser
 
+import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
-import com.azure.android.communication.ui.calling.redux.state.ReduxState
-import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.redux.state.PictureInPictureStatus
+import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import org.junit.Assert
@@ -23,11 +23,9 @@ import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
 internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
-
     @Test
     fun localParticipantViewModel_update_when_turnMic_then_audioState_update() =
         runScopedTest {
-
             // arrange
             val mockAppStore = mock<AppStore<ReduxState>> {}
             val viewModel =
@@ -44,13 +42,14 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
 
             val isMutedFlow = mutableListOf<Boolean>()
-            val mutedJob = launch {
-                viewModel.getLocalUserMutedStateFlow().toList(isMutedFlow)
-            }
+            val mutedJob =
+                launch {
+                    viewModel.getLocalUserMutedStateFlow().toList(isMutedFlow)
+                }
 
             // act
             viewModel.update(
@@ -62,7 +61,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
 
             viewModel.update(
@@ -74,7 +73,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
 
             viewModel.update(
@@ -86,7 +85,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
 
             viewModel.update(
@@ -98,7 +97,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
 
             // assert
@@ -113,7 +112,6 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
     @Test
     fun localParticipantViewModel_update_when_displayNameChanged_then_displayNameFlowUpdated() =
         runScopedTest {
-
             // arrange
             val mockAppStore = mock<AppStore<ReduxState>> {}
             val viewModel =
@@ -130,13 +128,14 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
 
             val displayNameFlow = mutableListOf<String?>()
-            val displayNameJob = launch {
-                viewModel.getDisplayNameStateFlow().toList(displayNameFlow)
-            }
+            val displayNameJob =
+                launch {
+                    viewModel.getDisplayNameStateFlow().toList(displayNameFlow)
+                }
 
             // act
             viewModel.update(
@@ -148,7 +147,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
 
             // assert
@@ -161,7 +160,6 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
     @Test
     fun localParticipantViewModel_update_when_videoStreamIdOViewModeUpdated_Then_modelFlowUpdated() =
         runScopedTest {
-
             // arrange
             val mockAppStore = mock<AppStore<ReduxState>> {}
             val viewModel =
@@ -178,13 +176,14 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
 
             val modelFlow = mutableListOf<LocalParticipantViewModel.VideoModel>()
-            val displayNameJob = launch {
-                viewModel.getVideoStatusFlow().toList(modelFlow)
-            }
+            val displayNameJob =
+                launch {
+                    viewModel.getVideoStatusFlow().toList(modelFlow)
+                }
 
             // act
             viewModel.update(
@@ -196,7 +195,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
 
             viewModel.update(
@@ -208,7 +207,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
 
             viewModel.update(
@@ -220,7 +219,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
 
             // assert
@@ -243,7 +242,6 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
     @Test
     fun localParticipantViewModel_update_when_remoteParticipantNumber_Then_fullScreenAvatarUpdated() =
         runScopedTest {
-
             // arrange
             val displayName = "username"
             val audioState = AudioOperationalStatus.ON
@@ -265,13 +263,14 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
 
             val modelFlow = mutableListOf<Boolean>()
-            val displayLobbyJob = launch {
-                viewModel.getDisplayFullScreenAvatarFlow().toList(modelFlow)
-            }
+            val displayLobbyJob =
+                launch {
+                    viewModel.getDisplayFullScreenAvatarFlow().toList(modelFlow)
+                }
 
             // act
             viewModel.update(
@@ -283,7 +282,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
             viewModel.update(
                 displayName,
@@ -294,7 +293,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
             viewModel.update(
                 displayName,
@@ -305,7 +304,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
             viewModel.update(
                 displayName,
@@ -316,7 +315,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
 
             // assert
@@ -331,7 +330,6 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
     @Test
     fun localParticipantViewModel_update_when_cameraDeviceSelectionStatus_Then_enableCameraSwitchUpdated() =
         runScopedTest {
-
             // arrange
             val displayName = "username"
             val audioState = AudioOperationalStatus.ON
@@ -353,13 +351,14 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
 
             val modelFlow = mutableListOf<Boolean>()
-            val displayLobbyJob = launch {
-                viewModel.getEnableCameraSwitchFlow().toList(modelFlow)
-            }
+            val displayLobbyJob =
+                launch {
+                    viewModel.getEnableCameraSwitchFlow().toList(modelFlow)
+                }
 
             // act
             viewModel.update(
@@ -371,7 +370,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
             viewModel.update(
                 displayName,
@@ -382,7 +381,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.SWITCHING,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
             viewModel.update(
                 displayName,
@@ -393,7 +392,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
             viewModel.update(
                 displayName,
@@ -404,7 +403,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.SWITCHING,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
             viewModel.update(
                 displayName,
@@ -415,7 +414,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
             viewModel.update(
                 displayName,
@@ -426,7 +425,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
 
             // assert
@@ -443,7 +442,6 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
     @Test
     fun `Ensure the Local Participant View is not displayed when in Audio Only mode and multiple participants are displayed`() =
         runScopedTest {
-
             // arrange
             val displayName = "username"
             val audioState = AudioOperationalStatus.ON
@@ -465,7 +463,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_ONLY
+                CallCompositeAudioVideoMode.AUDIO_ONLY,
             )
 
             assertFalse(viewModel.getIsVisibleFlow().value)
@@ -474,7 +472,6 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
     @Test
     fun `Ensure the Local Participant View IS displayed when in Audio Only mode and they are alone`() =
         runScopedTest {
-
             // arrange
             val displayName = "username"
             val audioState = AudioOperationalStatus.ON
@@ -496,7 +493,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_ONLY
+                CallCompositeAudioVideoMode.AUDIO_ONLY,
             )
 
             assertTrue(viewModel.getIsVisibleFlow().value)
@@ -505,7 +502,6 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
     @Test
     fun localParticipantViewModel_update_when_cameraCountChange_Then_enableCameraSwitchUpdated() =
         runScopedTest {
-
             // arrange
             val displayName = "username"
             val audioState = AudioOperationalStatus.ON
@@ -527,21 +523,23 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 0,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
 
             val getDisplayPipSwitchCameraButtonFlow = mutableListOf<Boolean>()
             val getDisplaySwitchCameraButtonFlow = mutableListOf<Boolean>()
 
-            val displayPipSwitchCameraButtonFlow = launch {
-                viewModel.getDisplayPipSwitchCameraButtonFlow()
-                    .toList(getDisplayPipSwitchCameraButtonFlow)
-            }
+            val displayPipSwitchCameraButtonFlow =
+                launch {
+                    viewModel.getDisplayPipSwitchCameraButtonFlow()
+                        .toList(getDisplayPipSwitchCameraButtonFlow)
+                }
 
-            val displaySwitchCameraButtonFlow = launch {
-                viewModel.getDisplaySwitchCameraButtonFlow()
-                    .toList(getDisplaySwitchCameraButtonFlow)
-            }
+            val displaySwitchCameraButtonFlow =
+                launch {
+                    viewModel.getDisplaySwitchCameraButtonFlow()
+                        .toList(getDisplaySwitchCameraButtonFlow)
+                }
 
             // act
             viewModel.update(
@@ -553,7 +551,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
             viewModel.update(
                 displayName,
@@ -564,7 +562,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 0,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
             viewModel.update(
                 displayName,
@@ -575,7 +573,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
             viewModel.update(
                 displayName,
@@ -586,7 +584,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 0,
                 PictureInPictureStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             )
 
             // assert

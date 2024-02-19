@@ -12,22 +12,22 @@ import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 internal data class CallingStateWrapper(
     val callState: CallState,
     val callEndReason: Int,
-    val callEndReasonSubCode: Int = 0
+    val callEndReasonSubCode: Int = 0,
 ) {
     companion object {
         internal const val CALL_END_REASON_TOKEN_EXPIRED = 401
         internal const val CALL_END_REASON_SUCCESS = 0
 
         /*
-        * Call canceled, locally declined, ended due to an endpoint mismatch issue, or failed to generate media offer.
-        * Expected behavior.
-        * */
+         * Call canceled, locally declined, ended due to an endpoint mismatch issue, or failed to generate media offer.
+         * Expected behavior.
+         * */
         internal const val CALL_END_REASON_CANCELED = 487
 
         /*
-        * Call globally declined by remote Communication Services participant.
-        * Expected behavior.
-        * */
+         * Call globally declined by remote Communication Services participant.
+         * Expected behavior.
+         * */
         internal const val CALL_END_REASON_DECLINED = 603
         internal const val CALL_END_REASON_TEAMS_EVICTED = 5300
         internal const val CALL_END_REASON_EVICTED = 5000
@@ -53,14 +53,16 @@ internal data class CallingStateWrapper(
         // NB: order of these checks matter, which likely isn't ideal. Consider refactoring this a bit.
         // E.g. call is considered to end normally after an eviction.
         return when {
-            isEvicted() -> CallStateError(
-                ErrorCode.CALL_END_FAILED,
-                CallCompositeEventCode.CALL_EVICTED
-            )
-            isDeclined() -> CallStateError(
-                ErrorCode.CALL_END_FAILED,
-                CallCompositeEventCode.CALL_DECLINED
-            )
+            isEvicted() ->
+                CallStateError(
+                    ErrorCode.CALL_END_FAILED,
+                    CallCompositeEventCode.CALL_EVICTED,
+                )
+            isDeclined() ->
+                CallStateError(
+                    ErrorCode.CALL_END_FAILED,
+                    CallCompositeEventCode.CALL_DECLINED,
+                )
             callEndedNormally() -> null
             callEndReason == CALL_END_REASON_TOKEN_EXPIRED ->
                 CallStateError(ErrorCode.TOKEN_EXPIRED, null)
@@ -74,10 +76,11 @@ internal data class CallingStateWrapper(
         }
     }
 
-    private fun callEndedNormally() = when (callEndReason) {
-        CALL_END_REASON_SUCCESS, CALL_END_REASON_CANCELED, CALL_END_REASON_DECLINED -> true
-        else -> false
-    }
+    private fun callEndedNormally() =
+        when (callEndReason) {
+            CALL_END_REASON_SUCCESS, CALL_END_REASON_CANCELED, CALL_END_REASON_DECLINED -> true
+            else -> false
+        }
 
     private fun isDeclined() =
         callState == CallState.DISCONNECTED &&
@@ -87,7 +90,7 @@ internal data class CallingStateWrapper(
     private fun isEvicted() =
         callState == CallState.DISCONNECTED &&
             callEndReason == CALL_END_REASON_SUCCESS && (
-            callEndReasonSubCode == CALL_END_REASON_EVICTED ||
-                callEndReasonSubCode == CALL_END_REASON_TEAMS_EVICTED
+                callEndReasonSubCode == CALL_END_REASON_EVICTED ||
+                    callEndReasonSubCode == CALL_END_REASON_TEAMS_EVICTED
             )
 }

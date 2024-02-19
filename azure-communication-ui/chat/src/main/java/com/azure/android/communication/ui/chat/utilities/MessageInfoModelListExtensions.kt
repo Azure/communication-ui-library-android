@@ -33,7 +33,6 @@ internal fun List<MessageInfoModel>.findMessageIdxById(messageId: Long): Int {
 
 // Returns an index of -1 if item can't be found
 internal fun MessageRepository.findMessageById(normalizedId: Long): MessageInfoModel {
-
     var first = 0
     var last = size - 1
     while (first <= last) {

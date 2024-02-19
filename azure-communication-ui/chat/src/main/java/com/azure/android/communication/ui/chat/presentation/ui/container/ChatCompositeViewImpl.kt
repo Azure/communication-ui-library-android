@@ -14,7 +14,6 @@ import com.azure.android.communication.ui.chat.locator.ServiceLocator
 import com.azure.android.communication.ui.chat.models.ChatCompositeRemoteOptions
 import com.azure.android.communication.ui.chat.presentation.style.ChatCompositeTheme
 import com.azure.android.communication.ui.chat.presentation.ui.chat.screens.NavigatableBaseScreen
-import com.azure.android.communication.ui.chat.utilities.ReduxViewModelGenerator
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.ChatScreenViewModel
 import com.azure.android.communication.ui.chat.presentation.ui.viewmodel.buildChatScreenViewModel
 import com.azure.android.communication.ui.chat.redux.AppStore
@@ -25,6 +24,7 @@ import com.azure.android.communication.ui.chat.redux.state.AppReduxState
 import com.azure.android.communication.ui.chat.redux.state.NavigationStatus
 import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import com.azure.android.communication.ui.chat.repository.MessageRepository
+import com.azure.android.communication.ui.chat.utilities.ReduxViewModelGenerator
 
 internal class ChatCompositeViewImpl(
     context: Context,
@@ -47,26 +47,27 @@ internal class ChatCompositeViewImpl(
         if (count == 1) {
             dispatch(LifecycleAction.EnterForeground)
         }
-        reduxViewModelGenerator = ReduxViewModelGenerator(
-            builder = { store ->
-                buildChatScreenViewModel(
-                    context = context,
-                    store = store,
-                    messages = locator.locate<MessageRepository>().snapshotList,
-                    localUserIdentifier = locator.locate<ChatCompositeRemoteOptions>().identity,
-                    dispatch = locator.locate(),
-                )
-            },
-            onChanged = {
-                composeView.setContent {
-                    ChatCompositeTheme {
-                        NavigatableBaseScreen(viewModel = it, showActionBar = showActionBar)
+        reduxViewModelGenerator =
+            ReduxViewModelGenerator(
+                builder = { store ->
+                    buildChatScreenViewModel(
+                        context = context,
+                        store = store,
+                        messages = locator.locate<MessageRepository>().snapshotList,
+                        localUserIdentifier = locator.locate<ChatCompositeRemoteOptions>().identity,
+                        dispatch = locator.locate(),
+                    )
+                },
+                onChanged = {
+                    composeView.setContent {
+                        ChatCompositeTheme {
+                            NavigatableBaseScreen(viewModel = it, showActionBar = showActionBar)
+                        }
                     }
-                }
-            },
-            coroutineScope = findViewTreeLifecycleOwner()!!.lifecycleScope,
-            store = locator.locate()
-        )
+                },
+                coroutineScope = findViewTreeLifecycleOwner()!!.lifecycleScope,
+                store = locator.locate(),
+            )
     }
 
     override fun onDetachedFromWindow() {

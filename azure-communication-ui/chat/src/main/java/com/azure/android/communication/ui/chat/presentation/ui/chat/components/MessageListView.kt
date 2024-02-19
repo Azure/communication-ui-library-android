@@ -63,7 +63,7 @@ internal fun MessageListView(
     ) {
         itemsIndexed(
             messages.asReversed(),
-            key = { index, item -> item.message.normalizedID }
+            key = { index, item -> item.message.normalizedID },
         ) { _, message ->
             MessageView(message, dispatchers)
         }
@@ -71,7 +71,7 @@ internal fun MessageListView(
             item {
                 Box(
                     contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 ) {
                     FluentCircularIndicator()
                 }
@@ -145,13 +145,14 @@ private fun dismissKeyboardWhenScrollUp(scrollState: LazyListState) {
     atBottom.value = currentlyAtBottom
 
     DisposableEffect(view) {
-        val onGlobalListener = ViewTreeObserver.OnGlobalLayoutListener {
-            val rect = Rect()
-            view.getWindowVisibleDisplayFrame(rect)
-            val screenHeight = view.rootView.height
-            val keypadHeight = screenHeight - rect.bottom
-            opened.value = (keypadHeight > screenHeight * 0.15)
-        }
+        val onGlobalListener =
+            ViewTreeObserver.OnGlobalLayoutListener {
+                val rect = Rect()
+                view.getWindowVisibleDisplayFrame(rect)
+                val screenHeight = view.rootView.height
+                val keypadHeight = screenHeight - rect.bottom
+                opened.value = (keypadHeight > screenHeight * 0.15)
+            }
         view.viewTreeObserver.addOnGlobalLayoutListener(onGlobalListener)
 
         onDispose {
@@ -189,12 +190,13 @@ internal fun PreviewMessageListView() {
         MessageListView(
             showLoading = false,
             modifier = Modifier.padding(0.dp),
-            messages = MOCK_MESSAGES.toViewModelList(
-                context = LocalContext.current,
-                localUserIdentifier = MOCK_LOCAL_USER_ID,
-                hiddenParticipant = mutableSetOf()
-            ),
-            scrollState = LazyListState()
+            messages =
+                MOCK_MESSAGES.toViewModelList(
+                    context = LocalContext.current,
+                    localUserIdentifier = MOCK_LOCAL_USER_ID,
+                    hiddenParticipant = mutableSetOf(),
+                ),
+            scrollState = LazyListState(),
         ) {}
     }
 }

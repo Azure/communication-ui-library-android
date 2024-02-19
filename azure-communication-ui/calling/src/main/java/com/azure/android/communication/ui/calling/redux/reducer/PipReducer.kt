@@ -12,7 +12,10 @@ import com.azure.android.communication.ui.calling.redux.state.PictureInPictureSt
 internal interface PipReducer : Reducer<PictureInPictureState>
 
 internal class PipReducerImpl : PipReducer {
-    override fun reduce(state: PictureInPictureState, action: Action): PictureInPictureState {
+    override fun reduce(
+        state: PictureInPictureState,
+        action: Action,
+    ): PictureInPictureState {
         return when (action) {
             is PipAction.PipModeEntered -> {
                 state.copy(status = PictureInPictureStatus.PIP_MODE_ENTERED)

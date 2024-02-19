@@ -21,7 +21,7 @@ internal class LobbyErrorHeaderViewModel(private val dispatch: (Action) -> Unit)
     fun update(
         callingStatus: CallingStatus,
         error: CallCompositeLobbyErrorCode?,
-        canShowLobby: Boolean
+        canShowLobby: Boolean,
     ) {
         displayLobbyErrorHeaderFlow.value = error != null &&
             callingStatus == CallingStatus.CONNECTED &&
@@ -32,13 +32,14 @@ internal class LobbyErrorHeaderViewModel(private val dispatch: (Action) -> Unit)
     fun init(
         callingStatus: CallingStatus,
         error: CallCompositeLobbyErrorCode?,
-        canShowLobby: Boolean
+        canShowLobby: Boolean,
     ) {
-        displayLobbyErrorHeaderFlow = MutableStateFlow(
-            error != null &&
-                callingStatus == CallingStatus.CONNECTED &&
-                canShowLobby
-        )
+        displayLobbyErrorHeaderFlow =
+            MutableStateFlow(
+                error != null &&
+                    callingStatus == CallingStatus.CONNECTED &&
+                    canShowLobby,
+            )
         lobbyErrorFlow = MutableStateFlow(error)
     }
 

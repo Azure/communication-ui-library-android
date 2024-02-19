@@ -29,14 +29,19 @@ internal class ParticipantListViewModel(private val dispatch: (Action) -> Unit) 
         return displayParticipantListStateFlow
     }
 
-    fun createLocalParticipantListCell(suffix: String) = ParticipantListCellModel(
-        (localParticipantListCellStateFlow.value.displayName.trim() + " " + suffix).trim(),
-        localParticipantListCellStateFlow.value.isMuted,
-        "",
-        false
-    )
+    fun createLocalParticipantListCell(suffix: String) =
+        ParticipantListCellModel(
+            (localParticipantListCellStateFlow.value.displayName.trim() + " " + suffix).trim(),
+            localParticipantListCellStateFlow.value.isMuted,
+            "",
+            false,
+        )
 
-    fun init(participantMap: Map<String, ParticipantInfoModel>, localUserState: LocalUserState, canShowLobby: Boolean) {
+    fun init(
+        participantMap: Map<String, ParticipantInfoModel>,
+        localUserState: LocalUserState,
+        canShowLobby: Boolean,
+    ) {
         val remoteParticipantList: List<ParticipantListCellModel> =
             participantMap.values.map {
                 getRemoteParticipantListCellModel(it)
@@ -47,7 +52,11 @@ internal class ParticipantListViewModel(private val dispatch: (Action) -> Unit) 
             MutableStateFlow(getLocalParticipantListCellModel(localUserState))
     }
 
-    fun update(participantMap: Map<String, ParticipantInfoModel>, localUserState: LocalUserState, canShowLobby: Boolean) {
+    fun update(
+        participantMap: Map<String, ParticipantInfoModel>,
+        localUserState: LocalUserState,
+        canShowLobby: Boolean,
+    ) {
         val remoteParticipantList: MutableList<ParticipantListCellModel> =
             participantMap.values.map {
                 getRemoteParticipantListCellModel(it)
@@ -63,7 +72,7 @@ internal class ParticipantListViewModel(private val dispatch: (Action) -> Unit) 
     ) = (
         it.status != ParticipantStatus.DISCONNECTED &&
             if (it.status == ParticipantStatus.IN_LOBBY) canShowLobby else true
-        )
+    )
 
     fun displayParticipantList() {
         displayParticipantListStateFlow.value = true
@@ -91,13 +100,14 @@ internal class ParticipantListViewModel(private val dispatch: (Action) -> Unit) 
             localUserDisplayName ?: "",
             localUserState.audioState.operation == AudioOperationalStatus.OFF,
             "",
-            false
+            false,
         )
     }
 
     private fun getRemoteParticipantListCellModel(it: ParticipantInfoModel): ParticipantListCellModel {
         return ParticipantListCellModel(
-            it.displayName.trim(), it.isMuted,
+            it.displayName.trim(),
+            it.isMuted,
             it.userIdentifier,
             it.participantStatus == ParticipantStatus.HOLD,
             it.participantStatus,

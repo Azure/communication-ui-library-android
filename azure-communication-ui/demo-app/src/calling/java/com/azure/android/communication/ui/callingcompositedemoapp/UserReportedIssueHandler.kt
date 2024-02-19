@@ -59,7 +59,7 @@ class UserReportedIssueHandler : CallCompositeEventHandler<CallCompositeUserRepo
                 debugInfo.versions.azureCallingUILibrary,
                 debugInfo.versions.azureCallingLibrary,
                 debugInfo.callHistoryRecords,
-                debugInfo.logFiles
+                debugInfo.logFiles,
             )
         }
     }
@@ -73,7 +73,7 @@ class UserReportedIssueHandler : CallCompositeEventHandler<CallCompositeUserRepo
         callingUIVersion: String?,
         callingSDKVersion: String?,
         callHistoryRecords: List<CallCompositeCallHistoryRecord>,
-        logFiles: List<File>
+        logFiles: List<File>,
     ) {
         if (SERVER_URL.isBlank()) { // Check if the server URL is configured.
             return
@@ -81,43 +81,57 @@ class UserReportedIssueHandler : CallCompositeEventHandler<CallCompositeUserRepo
         showProgressNotification()
         CoroutineScope(Dispatchers.IO).launch {
             val client = OkHttpClient()
-            val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM).apply {
-                userMessage?.let { addFormDataPart("user_message", it) }
-                callingUIVersion?.let { addFormDataPart("ui_version", it) }
-                callingSDKVersion?.let { addFormDataPart("sdk_version", it) }
-                addFormDataPart(
-                    "call_history",
-                    callHistoryRecords.map { "\n\n${it.callStartedOn.format(DateTimeFormatter.BASIC_ISO_DATE)}\n${it.callIds.joinToString("\n")}" }
-                        .joinToString("\n")
-                )
-                logFiles.filter { it.length() > 0 }.forEach { file ->
-                    val mediaType = "application/octet-stream".toMediaTypeOrNull()
-                    addFormDataPart("log_files", file.name, file.asRequestBody(mediaType))
-                }
-            }.build()
-
-            val request = Request.Builder()
-                .url("$SERVER_URL/receiveEvent")
-                .post(requestBody)
-                .build()
-
-            client.newCall(request).enqueue(object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        onTicketFailed(e.message ?: "Unknown error")
+            val requestBody =
+                MultipartBody.Builder().setType(MultipartBody.FORM).apply {
+                    userMessage?.let { addFormDataPart("user_message", it) }
+                    callingUIVersion?.let { addFormDataPart("ui_version", it) }
+                    callingSDKVersion?.let { addFormDataPart("sdk_version", it) }
+                    addFormDataPart(
+                        "call_history",
+                        callHistoryRecords.map {
+                            "\n\n${it.callStartedOn.format(
+                                DateTimeFormatter.BASIC_ISO_DATE,
+                            )}\n${it.callIds.joinToString("\n")}"
+                        }
+                            .joinToString("\n"),
+                    )
+                    logFiles.filter { it.length() > 0 }.forEach { file ->
+                        val mediaType = "application/octet-stream".toMediaTypeOrNull()
+                        addFormDataPart("log_files", file.name, file.asRequestBody(mediaType))
                     }
-                }
+                }.build()
 
-                override fun onResponse(call: Call, response: Response) {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        if (response.isSuccessful) {
-                            onTicketCreated(response.body?.string() ?: "No URL provided")
-                        } else {
-                            onTicketFailed("Server error: ${response.message}")
+            val request =
+                Request.Builder()
+                    .url("$SERVER_URL/receiveEvent")
+                    .post(requestBody)
+                    .build()
+
+            client.newCall(request).enqueue(
+                object : Callback {
+                    override fun onFailure(
+                        call: Call,
+                        e: IOException,
+                    ) {
+                        CoroutineScope(Dispatchers.Main).launch {
+                            onTicketFailed(e.message ?: "Unknown error")
                         }
                     }
-                }
-            })
+
+                    override fun onResponse(
+                        call: Call,
+                        response: Response,
+                    ) {
+                        CoroutineScope(Dispatchers.Main).launch {
+                            if (response.isSuccessful) {
+                                onTicketCreated(response.body?.string() ?: "No URL provided")
+                            } else {
+                                onTicketFailed("Server error: ${response.message}")
+                            }
+                        }
+                    }
+                },
+            )
         }
     }
 
@@ -151,9 +165,10 @@ class UserReportedIssueHandler : CallCompositeEventHandler<CallCompositeUserRepo
             val name = "Report Submission"
             val descriptionText = "Notifications for report submission status"
             val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel("report_submission_channel", name, importance).apply {
-                description = descriptionText
-            }
+            val channel =
+                NotificationChannel("report_submission_channel", name, importance).apply {
+                    description = descriptionText
+                }
             notificationManager.createNotificationChannel(channel)
         }
     }
@@ -163,13 +178,14 @@ class UserReportedIssueHandler : CallCompositeEventHandler<CallCompositeUserRepo
      * This uses an indeterminate progress indicator to signify ongoing activity.
      */
     private fun showProgressNotification() {
-        val notification = NotificationCompat.Builder(context, "report_submission_channel")
-            .setContentTitle("Submitting Report")
-            .setContentText("Your report is being submitted...")
-            .setSmallIcon(R.drawable.image_monkey) // Replace with an appropriate icon for your app
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setProgress(0, 0, true) // Indeterminate progress
-            .build()
+        val notification =
+            NotificationCompat.Builder(context, "report_submission_channel")
+                .setContentTitle("Submitting Report")
+                .setContentText("Your report is being submitted...")
+                .setSmallIcon(R.drawable.image_monkey) // Replace with an appropriate icon for your app
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setProgress(0, 0, true) // Indeterminate progress
+                .build()
 
         notificationManager.notify(1, notification)
     }
@@ -180,20 +196,22 @@ class UserReportedIssueHandler : CallCompositeEventHandler<CallCompositeUserRepo
      */
     private fun showCompletionNotification(url: String) {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        val pendingIntent = PendingIntent.getActivity(
-            context,
-            0,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
+        val pendingIntent =
+            PendingIntent.getActivity(
+                context,
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+            )
 
-        val notification = NotificationCompat.Builder(context, "report_submission_channel")
-            .setContentTitle("Report Submitted")
-            .setContentText("Tap to view")
-            .setSmallIcon(R.drawable.image_monkey) // Replace with an appropriate icon for your app
-            .setContentIntent(pendingIntent)
-            .setAutoCancel(true) // Removes notification after tap
-            .build()
+        val notification =
+            NotificationCompat.Builder(context, "report_submission_channel")
+                .setContentTitle("Report Submitted")
+                .setContentText("Tap to view")
+                .setSmallIcon(R.drawable.image_monkey) // Replace with an appropriate icon for your app
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true) // Removes notification after tap
+                .build()
 
         notificationManager.notify(1, notification)
     }
@@ -203,12 +221,13 @@ class UserReportedIssueHandler : CallCompositeEventHandler<CallCompositeUserRepo
      * The notification includes the reason for the submission failure.
      */
     private fun showErrorNotification(error: String) {
-        val notification = NotificationCompat.Builder(context, "report_submission_channel")
-            .setContentTitle("Submission Error")
-            .setContentText("Error submitting report\nReason: $error")
-            .setSmallIcon(R.drawable.image_monkey) // Replace with an appropriate icon for your app
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .build()
+        val notification =
+            NotificationCompat.Builder(context, "report_submission_channel")
+                .setContentTitle("Submission Error")
+                .setContentText("Error submitting report\nReason: $error")
+                .setSmallIcon(R.drawable.image_monkey) // Replace with an appropriate icon for your app
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .build()
 
         notificationManager.notify(1, notification)
     }

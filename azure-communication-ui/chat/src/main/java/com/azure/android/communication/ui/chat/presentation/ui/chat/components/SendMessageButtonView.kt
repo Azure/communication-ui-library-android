@@ -28,28 +28,33 @@ internal fun SendMessageButtonView(
     enabled: Boolean = false,
     onClick: () -> Unit = {},
 ) {
-    val semantics = Modifier.semantics {
-        this.contentDescription = contentDescription
-        this.role = Role.Image
-    }
-    val painter = if (enabled)
-        painterResource(id = R.drawable.azure_communication_ui_chat_ic_fluent_send_message_button_20_filled_enabled)
-    else
-        painterResource(id = R.drawable.azure_communication_ui_chat_ic_fluent_send_message_button_20_filled_disabled)
-    Box(
-        modifier = Modifier.testTag(UITestTags.MESSAGE_SEND_BUTTON).clickable {
-            if (enabled) {
-                onClick()
-            }
+    val semantics =
+        Modifier.semantics {
+            this.contentDescription = contentDescription
+            this.role = Role.Image
         }
+    val painter =
+        if (enabled) {
+            painterResource(id = R.drawable.azure_communication_ui_chat_ic_fluent_send_message_button_20_filled_enabled)
+        } else {
+            painterResource(id = R.drawable.azure_communication_ui_chat_ic_fluent_send_message_button_20_filled_disabled)
+        }
+    Box(
+        modifier =
+            Modifier.testTag(UITestTags.MESSAGE_SEND_BUTTON).clickable {
+                if (enabled) {
+                    onClick()
+                }
+            },
     ) {
         Image(
             painter = painter,
             contentDescription = contentDescription,
             contentScale = ContentScale.Crop,
-            modifier = modifier
-                .size(19.5.dp, 19.5.dp)
-                .then(semantics)
+            modifier =
+                modifier
+                    .size(19.5.dp, 19.5.dp)
+                    .then(semantics),
         )
     }
 }

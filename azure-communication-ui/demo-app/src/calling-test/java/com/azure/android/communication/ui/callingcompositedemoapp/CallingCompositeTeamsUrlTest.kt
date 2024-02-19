@@ -25,10 +25,11 @@ class CallingCompositeTeamsUrlTest : BaseUiTest() {
     @Test
     fun testInvalidTeamsUrl() {
         val testString = getTeamsUrl().substringAfter("om")
-        val homeScreen = HomeScreenRobot()
-            .clickTeamsMeetingRadioButton()
-            .setGroupIdOrTeamsMeetingUrl(testString)
-            .setAcsToken(CallIdentifiersHelper.getACSToken())
+        val homeScreen =
+            HomeScreenRobot()
+                .clickTeamsMeetingRadioButton()
+                .setGroupIdOrTeamsMeetingUrl(testString)
+                .setAcsToken(CallIdentifiersHelper.getACSToken())
         val setupScreen = homeScreen.clickLaunchButton()
 
         setupScreen.clickJoinCallButton()
@@ -40,10 +41,11 @@ class CallingCompositeTeamsUrlTest : BaseUiTest() {
     fun testInvalidTeamsUrlTriggersAlert() {
         val teamsUrl = getTeamsUrl()
         val testString = teamsUrl.substring(0, teamsUrl.length - 6)
-        val homeScreen = HomeScreenRobot()
-            .clickTeamsMeetingRadioButton()
-            .setGroupIdOrTeamsMeetingUrl(testString)
-            .setAcsToken(CallIdentifiersHelper.getACSToken())
+        val homeScreen =
+            HomeScreenRobot()
+                .clickTeamsMeetingRadioButton()
+                .setGroupIdOrTeamsMeetingUrl(testString)
+                .setAcsToken(CallIdentifiersHelper.getACSToken())
         val setupScreen = homeScreen.clickLaunchButton()
 
         setupScreen.clickJoinCallButton()
@@ -53,10 +55,11 @@ class CallingCompositeTeamsUrlTest : BaseUiTest() {
 
     @Test
     fun testEmptyTeamsUrl() {
-        val homeScreen = HomeScreenRobot()
-            .clickTeamsMeetingRadioButton()
-            .setEmptyTeamsUrl()
-            .setAcsToken(CallIdentifiersHelper.getACSToken())
+        val homeScreen =
+            HomeScreenRobot()
+                .clickTeamsMeetingRadioButton()
+                .setEmptyTeamsUrl()
+                .setAcsToken(CallIdentifiersHelper.getACSToken())
         homeScreen.clickLaunchButton()
 
         homeScreen.clickAlertDialogOkButton()

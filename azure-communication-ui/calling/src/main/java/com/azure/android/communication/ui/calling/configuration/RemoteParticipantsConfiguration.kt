@@ -15,6 +15,7 @@ internal data class RemoteParticipantViewData(
 
 internal interface RemoteParticipantsConfigurationHandler {
     fun onSetParticipantViewData(data: RemoteParticipantViewData): CallCompositeSetParticipantViewDataResult
+
     fun onRemoveParticipantViewData(identifier: String)
 }
 
@@ -31,7 +32,7 @@ internal class RemoteParticipantsConfiguration {
     ): CallCompositeSetParticipantViewDataResult {
         handler?.get()?.let {
             return@setParticipantViewData it.onSetParticipantViewData(
-                RemoteParticipantViewData(identifier, participantViewData)
+                RemoteParticipantViewData(identifier, participantViewData),
             )
         }
         return CallCompositeSetParticipantViewDataResult.PARTICIPANT_NOT_IN_CALL

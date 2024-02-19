@@ -19,7 +19,6 @@ import java.util.Date
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class CallingCompositeACSTokenTest : BaseUiTest() {
-
     companion object {
         private const val ExpiryDate = "exp"
 
@@ -53,7 +52,7 @@ class CallingCompositeACSTokenTest : BaseUiTest() {
 
         Assert.assertTrue(
             "Acs token expired: currently $now, expire time: $expiryTime",
-            now < expiryTime
+            now < expiryTime,
         )
     }
 
