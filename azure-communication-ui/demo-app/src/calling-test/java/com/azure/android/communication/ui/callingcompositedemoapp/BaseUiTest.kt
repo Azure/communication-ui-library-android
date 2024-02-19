@@ -28,20 +28,22 @@ open class BaseUiTest {
     @get:Rule
     val rule = DetectLeaksAfterTestSuccess()
 
-    private val basePermissionList = arrayOf(
-        "android.permission.ACCESS_NETWORK_STATE",
-        "android.permission.WAKE_LOCK",
-        "android.permission.MODIFY_AUDIO_SETTINGS",
-        "android.permission.CAMERA",
-        "android.permission.RECORD_AUDIO"
-    )
+    private val basePermissionList =
+        arrayOf(
+            "android.permission.ACCESS_NETWORK_STATE",
+            "android.permission.WAKE_LOCK",
+            "android.permission.MODIFY_AUDIO_SETTINGS",
+            "android.permission.CAMERA",
+            "android.permission.RECORD_AUDIO",
+        )
 
     init {
-        val permissionList = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-            basePermissionList
-        } else {
-            basePermissionList.append("android.permission.FOREGROUND_SERVICE")
-        }
+        val permissionList =
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+                basePermissionList
+            } else {
+                basePermissionList.append("android.permission.FOREGROUND_SERVICE")
+            }
         grantPermissionRule = GrantPermissionRule.grant(*permissionList)
     }
 

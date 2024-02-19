@@ -26,12 +26,12 @@ steps:
     Service: 'e312ec77-9c77-48a7-9837-32fe6d08d460'
     BuildOutputUsage: 'test'
 
-# By default, JAVA_HOME points to java1.8, but we need java11 for the current Android Gradle plugin.
-# macos-12 image comes iwth java11 preinstalled, so use that instead.
+# By default, JAVA_HOME points to java1.8, but we need java17 for the current Android Gradle plugin.
+# macos-12 image comes iwth java17 preinstalled, so use that instead.
 - task: JavaToolInstaller@0
-  displayName: 'Configure Java 11'
+  displayName: 'Configure Java 17'
   inputs:
-    versionSpec: '11'
+    versionSpec: '17'
     jdkArchitectureOption: 'x64'
     jdkSourceOption: 'PreInstalled'
 

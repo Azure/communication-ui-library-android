@@ -25,7 +25,6 @@ import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
 internal class CallingMiddlewareUnitTest {
-
     @Mock
     private lateinit var mockLogger: DefaultLogger
 
@@ -40,7 +39,7 @@ internal class CallingMiddlewareUnitTest {
         val callingMiddlewareImplementation =
             CallingMiddlewareImpl(
                 mockCallingMiddlewareActionHandler,
-                mockLogger
+                mockLogger,
             )
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
@@ -49,13 +48,13 @@ internal class CallingMiddlewareUnitTest {
         callingMiddlewareImplementation.invoke(mockAppStore)(
             fun(action) {
                 nextReceivedAction = action as CallingAction
-            }
+            },
         )(actionToDispatch)
 
         // assert
         Assert.assertEquals(
             actionToDispatch,
-            nextReceivedAction
+            nextReceivedAction,
         )
     }
 
@@ -64,14 +63,15 @@ internal class CallingMiddlewareUnitTest {
         // arrange
         val actionToDispatch = LifecycleAction.EnterBackgroundTriggered()
 
-        val mockCallingMiddlewareActionHandler = mock<CallingMiddlewareActionHandler> {
-            on { enterBackground(any()) } doAnswer {}
-        }
+        val mockCallingMiddlewareActionHandler =
+            mock<CallingMiddlewareActionHandler> {
+                on { enterBackground(any()) } doAnswer {}
+            }
 
         val callingMiddlewareImplementation =
             CallingMiddlewareImpl(
                 mockCallingMiddlewareActionHandler,
-                mockLogger
+                mockLogger,
             )
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
@@ -79,7 +79,7 @@ internal class CallingMiddlewareUnitTest {
         // act
         callingMiddlewareImplementation.invoke(mockAppStore)(
             fun(_) {
-            }
+            },
         )(actionToDispatch)
 
         // assert
@@ -91,14 +91,15 @@ internal class CallingMiddlewareUnitTest {
         // arrange
         val actionToDispatch = LifecycleAction.EnterForegroundTriggered()
 
-        val mockCallingMiddlewareActionHandler = mock<CallingMiddlewareActionHandler> {
-            on { enterForeground(any()) } doAnswer {}
-        }
+        val mockCallingMiddlewareActionHandler =
+            mock<CallingMiddlewareActionHandler> {
+                on { enterForeground(any()) } doAnswer {}
+            }
 
         val callingMiddlewareImplementation =
             CallingMiddlewareImpl(
                 mockCallingMiddlewareActionHandler,
-                mockLogger
+                mockLogger,
             )
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
@@ -106,7 +107,7 @@ internal class CallingMiddlewareUnitTest {
         // act
         callingMiddlewareImplementation.invoke(mockAppStore)(
             fun(_) {
-            }
+            },
         )(actionToDispatch)
 
         // assert
@@ -118,14 +119,15 @@ internal class CallingMiddlewareUnitTest {
         // arrange
         val actionToDispatch = LocalParticipantAction.CameraOffTriggered()
 
-        val mockCallingMiddlewareActionHandler = mock<CallingMiddlewareActionHandler> {
-            on { turnCameraOff(any()) } doAnswer {}
-        }
+        val mockCallingMiddlewareActionHandler =
+            mock<CallingMiddlewareActionHandler> {
+                on { turnCameraOff(any()) } doAnswer {}
+            }
 
         val callingMiddlewareImplementation =
             CallingMiddlewareImpl(
                 mockCallingMiddlewareActionHandler,
-                mockLogger
+                mockLogger,
             )
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
@@ -133,7 +135,7 @@ internal class CallingMiddlewareUnitTest {
         // act
         callingMiddlewareImplementation.invoke(mockAppStore)(
             fun(_) {
-            }
+            },
         )(actionToDispatch)
 
         // assert
@@ -145,14 +147,15 @@ internal class CallingMiddlewareUnitTest {
         // arrange
         val actionToDispatch = LocalParticipantAction.CameraOnTriggered()
 
-        val mockCallingMiddlewareActionHandler = mock<CallingMiddlewareActionHandler> {
-            on { turnCameraOn(any()) } doAnswer {}
-        }
+        val mockCallingMiddlewareActionHandler =
+            mock<CallingMiddlewareActionHandler> {
+                on { turnCameraOn(any()) } doAnswer {}
+            }
 
         val callingMiddlewareImplementation =
             CallingMiddlewareImpl(
                 mockCallingMiddlewareActionHandler,
-                mockLogger
+                mockLogger,
             )
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
@@ -160,7 +163,7 @@ internal class CallingMiddlewareUnitTest {
         // act
         callingMiddlewareImplementation.invoke(mockAppStore)(
             fun(_) {
-            }
+            },
         )(actionToDispatch)
 
         // assert
@@ -174,20 +177,21 @@ internal class CallingMiddlewareUnitTest {
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
 
-        val mockCallingMiddlewareActionHandler = mock<CallingMiddlewareActionHandler> {
-            on { endCall(mockAppStore) } doAnswer {}
-        }
+        val mockCallingMiddlewareActionHandler =
+            mock<CallingMiddlewareActionHandler> {
+                on { endCall(mockAppStore) } doAnswer {}
+            }
 
         val callingMiddlewareImplementation =
             CallingMiddlewareImpl(
                 mockCallingMiddlewareActionHandler,
-                mockLogger
+                mockLogger,
             )
 
         // act
         callingMiddlewareImplementation.invoke(mockAppStore)(
             fun(_) {
-            }
+            },
         )(actionToDispatch)
 
         // assert
@@ -199,14 +203,15 @@ internal class CallingMiddlewareUnitTest {
         // arrange
         val actionToDispatch = CallingAction.CallStartRequested()
 
-        val mockCallingMiddlewareActionHandler = mock<CallingMiddlewareActionHandler> {
-            on { startCall(any()) } doAnswer {}
-        }
+        val mockCallingMiddlewareActionHandler =
+            mock<CallingMiddlewareActionHandler> {
+                on { startCall(any()) } doAnswer {}
+            }
 
         val callingMiddlewareImplementation =
             CallingMiddlewareImpl(
                 mockCallingMiddlewareActionHandler,
-                mockLogger
+                mockLogger,
             )
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
@@ -214,7 +219,7 @@ internal class CallingMiddlewareUnitTest {
         // act
         callingMiddlewareImplementation.invoke(mockAppStore)(
             fun(_) {
-            }
+            },
         )(actionToDispatch)
 
         // assert
@@ -228,20 +233,21 @@ internal class CallingMiddlewareUnitTest {
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
 
-        val mockCallingMiddlewareActionHandler = mock<CallingMiddlewareActionHandler> {
-            on { exit(mockAppStore) } doAnswer {}
-        }
+        val mockCallingMiddlewareActionHandler =
+            mock<CallingMiddlewareActionHandler> {
+                on { exit(mockAppStore) } doAnswer {}
+            }
 
         val callingMiddlewareImplementation =
             CallingMiddlewareImpl(
                 mockCallingMiddlewareActionHandler,
-                mockLogger
+                mockLogger,
             )
 
         // act
         callingMiddlewareImplementation.invoke(mockAppStore)(
             fun(_) {
-            }
+            },
         )(actionToDispatch)
 
         // assert
@@ -255,20 +261,21 @@ internal class CallingMiddlewareUnitTest {
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
 
-        val mockCallingMiddlewareActionHandler = mock<CallingMiddlewareActionHandler> {
-            on { admitAll(mockAppStore) } doAnswer {}
-        }
+        val mockCallingMiddlewareActionHandler =
+            mock<CallingMiddlewareActionHandler> {
+                on { admitAll(mockAppStore) } doAnswer {}
+            }
 
         val callingMiddlewareImplementation =
             CallingMiddlewareImpl(
                 mockCallingMiddlewareActionHandler,
-                mockLogger
+                mockLogger,
             )
 
         // act
         callingMiddlewareImplementation.invoke(mockAppStore)(
             fun(_) {
-            }
+            },
         )(actionToDispatch)
 
         // assert
@@ -282,20 +289,21 @@ internal class CallingMiddlewareUnitTest {
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
 
-        val mockCallingMiddlewareActionHandler = mock<CallingMiddlewareActionHandler> {
-            on { admit(actionToDispatch.userIdentifier, mockAppStore) } doAnswer {}
-        }
+        val mockCallingMiddlewareActionHandler =
+            mock<CallingMiddlewareActionHandler> {
+                on { admit(actionToDispatch.userIdentifier, mockAppStore) } doAnswer {}
+            }
 
         val callingMiddlewareImplementation =
             CallingMiddlewareImpl(
                 mockCallingMiddlewareActionHandler,
-                mockLogger
+                mockLogger,
             )
 
         // act
         callingMiddlewareImplementation.invoke(mockAppStore)(
             fun(_) {
-            }
+            },
         )(actionToDispatch)
 
         // assert
@@ -309,20 +317,21 @@ internal class CallingMiddlewareUnitTest {
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
 
-        val mockCallingMiddlewareActionHandler = mock<CallingMiddlewareActionHandler> {
-            on { decline(actionToDispatch.userIdentifier, mockAppStore) } doAnswer {}
-        }
+        val mockCallingMiddlewareActionHandler =
+            mock<CallingMiddlewareActionHandler> {
+                on { decline(actionToDispatch.userIdentifier, mockAppStore) } doAnswer {}
+            }
 
         val callingMiddlewareImplementation =
             CallingMiddlewareImpl(
                 mockCallingMiddlewareActionHandler,
-                mockLogger
+                mockLogger,
             )
 
         // act
         callingMiddlewareImplementation.invoke(mockAppStore)(
             fun(_) {
-            }
+            },
         )(actionToDispatch)
 
         // assert

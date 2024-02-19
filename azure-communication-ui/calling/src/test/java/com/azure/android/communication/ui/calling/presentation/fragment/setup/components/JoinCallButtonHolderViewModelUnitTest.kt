@@ -4,15 +4,15 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.setup.components
 
 import android.media.AudioManager
-import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
-import com.azure.android.communication.ui.calling.redux.state.ReduxState
-import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
-import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
+import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
+import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
+import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -24,7 +24,6 @@ import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
 internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
-
     @ExperimentalCoroutinesApi
     @Test
     fun joinCallButtonHolderViewModel_onUpdate_then_notifyButtonEnabled_when_audioPermissionStateIsGranted() =
@@ -40,15 +39,16 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
                 2,
-                mockNetworkManager
+                mockNetworkManager,
             )
 
             val emitResult = mutableListOf<Boolean>()
 
-            val resultFlow = launch {
-                viewModel.getJoinCallButtonEnabledFlow()
-                    .toList(emitResult)
-            }
+            val resultFlow =
+                launch {
+                    viewModel.getJoinCallButtonEnabledFlow()
+                        .toList(emitResult)
+                }
 
             // act
             viewModel.update(
@@ -56,18 +56,18 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallingState(CallingStatus.NONE, OperationStatus.NONE),
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
-                2
+                2,
             )
 
             // assert
             Assert.assertEquals(
                 false,
-                emitResult[0]
+                emitResult[0],
             )
 
             Assert.assertEquals(
                 true,
-                emitResult[1]
+                emitResult[1],
             )
 
             resultFlow.cancel()
@@ -88,15 +88,16 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
                 2,
-                networkManager = mockNetworkManager
+                networkManager = mockNetworkManager,
             )
 
             val emitResult = mutableListOf<Boolean>()
 
-            val resultFlow = launch {
-                viewModel.getJoinCallButtonEnabledFlow()
-                    .toList(emitResult)
-            }
+            val resultFlow =
+                launch {
+                    viewModel.getJoinCallButtonEnabledFlow()
+                        .toList(emitResult)
+                }
 
             // act
             viewModel.update(
@@ -104,18 +105,18 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallingState(CallingStatus.NONE, OperationStatus.NONE),
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
-                2
+                2,
             )
 
             // assert
             Assert.assertEquals(
                 true,
-                emitResult[0]
+                emitResult[0],
             )
 
             Assert.assertEquals(
                 false,
-                emitResult[1]
+                emitResult[1],
             )
 
             resultFlow.cancel()
@@ -136,14 +137,15 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
                 2,
-                mockNetworkManager
+                mockNetworkManager,
             )
 
             val emitResult = mutableListOf<Boolean>()
 
-            val resultFlow = launch {
-                viewModel.getDisableJoinCallButtonFlow().toList(emitResult)
-            }
+            val resultFlow =
+                launch {
+                    viewModel.getDisableJoinCallButtonFlow().toList(emitResult)
+                }
 
             // act
             viewModel.launchCallScreen()
@@ -157,7 +159,7 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallingState(CallingStatus.CONNECTING, OperationStatus.NONE),
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
-                2
+                2,
             )
 
             // assert
@@ -171,7 +173,7 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallingState(CallingStatus.NONE, OperationStatus.NONE),
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
-                2
+                2,
             )
 
             // assert
@@ -196,15 +198,16 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
                 2,
-                mockNetworkManager
+                mockNetworkManager,
             )
 
             val emitResult = mutableListOf<Boolean>()
 
-            val resultFlow = launch {
-                viewModel.getJoinCallButtonEnabledFlow()
-                    .toList(emitResult)
-            }
+            val resultFlow =
+                launch {
+                    viewModel.getJoinCallButtonEnabledFlow()
+                        .toList(emitResult)
+                }
 
             // act
             viewModel.update(
@@ -212,18 +215,18 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallingState(CallingStatus.NONE, OperationStatus.NONE),
                 PermissionStatus.UNKNOWN,
                 CameraOperationalStatus.ON,
-                2
+                2,
             )
 
             // assert
             Assert.assertEquals(
                 true,
-                emitResult[0]
+                emitResult[0],
             )
 
             Assert.assertEquals(
                 false,
-                emitResult[1]
+                emitResult[1],
             )
 
             resultFlow.cancel()
@@ -244,15 +247,16 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
                 2,
-                mockNetworkManager
+                mockNetworkManager,
             )
 
             val emitResult = mutableListOf<Boolean>()
 
-            val resultFlow = launch {
-                viewModel.getJoinCallButtonEnabledFlow()
-                    .toList(emitResult)
-            }
+            val resultFlow =
+                launch {
+                    viewModel.getJoinCallButtonEnabledFlow()
+                        .toList(emitResult)
+                }
 
             // act
             viewModel.update(
@@ -260,18 +264,18 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallingState(CallingStatus.NONE, OperationStatus.NONE),
                 PermissionStatus.UNKNOWN,
                 CameraOperationalStatus.PENDING,
-                2
+                2,
             )
 
             // assert
             Assert.assertEquals(
                 true,
-                emitResult[0]
+                emitResult[0],
             )
 
             Assert.assertEquals(
                 false,
-                emitResult[1]
+                emitResult[1],
             )
 
             resultFlow.cancel()

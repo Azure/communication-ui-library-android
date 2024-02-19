@@ -39,19 +39,20 @@ internal fun ActionBarView(
         val brushColor: Color = ChatCompositeTheme.colors.outlineColor
 
         TopAppBar(
-            modifier = Modifier.drawWithContent {
-                drawContent()
+            modifier =
+                Modifier.drawWithContent {
+                    drawContent()
 
-                clipRect {
-                    val y = size.height
-                    drawLine(
-                        brush = SolidColor(brushColor),
-                        cap = StrokeCap.Square,
-                        start = Offset.Zero.copy(y = y),
-                        end = Offset(x = size.width, y = y)
-                    )
-                }
-            },
+                    clipRect {
+                        val y = size.height
+                        drawLine(
+                            brush = SolidColor(brushColor),
+                            cap = StrokeCap.Square,
+                            start = Offset.Zero.copy(y = y),
+                            end = Offset(x = size.width, y = y),
+                        )
+                    }
+                },
             backgroundColor = ChatCompositeTheme.colors.background,
             title = {
                 var modifier = Modifier.padding(end = 65.dp)
@@ -60,20 +61,22 @@ internal fun ActionBarView(
                 }
                 Column(
                     modifier = modifier.then(Modifier.fillMaxWidth()),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
                         text = title,
                         textAlign = TextAlign.Center,
-                        style = ChatCompositeTheme.typography.title
-                            .copy(color = ChatCompositeTheme.colors.textColor)
+                        style =
+                            ChatCompositeTheme.typography.title
+                                .copy(color = ChatCompositeTheme.colors.textColor),
                     )
                     if (subTitle != null) {
                         Text(
                             text = subTitle,
                             textAlign = TextAlign.Center,
-                            style = ChatCompositeTheme.typography.body
-                                .copy(color = ChatCompositeTheme.colors.textColor)
+                            style =
+                                ChatCompositeTheme.typography.body
+                                    .copy(color = ChatCompositeTheme.colors.textColor),
                         )
                     }
                 }
@@ -81,9 +84,9 @@ internal fun ActionBarView(
             navigationIcon = {
                 BackButtonView(
                     contentDescription = "Back button",
-                    onBackButtonPressed = onBackButtonPressed
+                    onBackButtonPressed = onBackButtonPressed,
                 )
-            }
+            },
         )
     }
 }
@@ -94,6 +97,6 @@ internal fun PreviewActionBarView() {
     ActionBarView(
         subTitle = stringResource(id = R.string.azure_communication_ui_chat_count_people, 4),
         title = "Topic",
-        onTitleClicked = {}
+        onTitleClicked = {},
     ) {}
 }

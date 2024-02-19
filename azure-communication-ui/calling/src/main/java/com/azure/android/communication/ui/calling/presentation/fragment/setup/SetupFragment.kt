@@ -31,7 +31,6 @@ import com.azure.android.communication.ui.calling.presentation.fragment.setup.co
 
 internal class SetupFragment :
     Fragment(R.layout.azure_communication_ui_calling_fragment_setup) {
-
     // Get the DI Container, which gives us what we need for this fragment (dependencies)
     private val holder: DependencyInjectionContainerHolder by activityViewModels()
 
@@ -49,7 +48,10 @@ internal class SetupFragment :
     private val networkManager get() = holder.container.networkManager
     private val viewModel get() = holder.setupViewModel
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.init(viewLifecycleOwner.lifecycleScope)
 
@@ -62,7 +64,7 @@ internal class SetupFragment :
             view.findViewById(R.id.azure_communication_ui_setup_join_call_holder)
         setupJoinCallButtonHolderView.start(
             viewLifecycleOwner,
-            viewModel.joinCallButtonHolderViewModel
+            viewModel.joinCallButtonHolderViewModel,
         )
 
         participantAvatarView = view.findViewById(R.id.azure_communication_ui_setup_default_avatar)
@@ -130,26 +132,30 @@ internal class SetupFragment :
         get() = (activity as AppCompatActivity)
 
     private fun setActionBarTitle() {
-        fun setActionbarTextColor(text: SpannableString, @ColorInt color: Int) {
+        fun setActionbarTextColor(
+            text: SpannableString,
+            @ColorInt color: Int,
+        ) {
             text.setSpan(
                 ForegroundColorSpan(
                     ContextCompat.getColor(
                         requireContext(),
-                        color
-                    )
+                        color,
+                    ),
                 ),
                 0,
                 text.length,
-                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE,
             )
         }
 
         val localOptions = holder.container.configuration.callCompositeLocalOptions
-        val titleSpan = if (!TextUtils.isEmpty(localOptions?.setupScreenViewData?.title)) {
-            SpannableString(localOptions?.setupScreenViewData?.title)
-        } else {
-            SpannableString(getString(R.string.azure_communication_ui_calling_call_setup_action_bar_title))
-        }
+        val titleSpan =
+            if (!TextUtils.isEmpty(localOptions?.setupScreenViewData?.title)) {
+                SpannableString(localOptions?.setupScreenViewData?.title)
+            } else {
+                SpannableString(getString(R.string.azure_communication_ui_calling_call_setup_action_bar_title))
+            }
 
         setActionbarTextColor(titleSpan, R.color.azure_communication_ui_calling_color_action_bar_text)
 
@@ -163,7 +169,7 @@ internal class SetupFragment :
                 callCompositeActivity.supportActionBar?.subtitle = subtitleSpan
             } else {
                 holder.container.logger.error(
-                    "Provided setupScreenViewData has subtitle, but no title provided. In this case subtitle is not displayed."
+                    "Provided setupScreenViewData has subtitle, but no title provided. In this case subtitle is not displayed.",
                 )
             }
         }

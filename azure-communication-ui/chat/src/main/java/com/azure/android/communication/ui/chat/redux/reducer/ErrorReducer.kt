@@ -10,11 +10,14 @@ import com.azure.android.communication.ui.chat.redux.state.ErrorState
 internal interface ErrorReducer : Reducer<ErrorState>
 
 internal class ErrorReducerImpl : ErrorReducer {
-    override fun reduce(state: ErrorState, action: Action): ErrorState {
+    override fun reduce(
+        state: ErrorState,
+        action: Action,
+    ): ErrorState {
         when (action) {
             is ErrorAction.ChatStateErrorOccurred -> {
                 return state.copy(
-                    chatCompositeErrorEvent = action.chatCompositeErrorEvent
+                    chatCompositeErrorEvent = action.chatCompositeErrorEvent,
                 )
             }
         }

@@ -30,9 +30,7 @@ import com.azure.android.communication.ui.chat.service.sdk.wrapper.Communication
 import com.jakewharton.threetenabp.AndroidThreeTen
 
 @Composable
-internal fun ParticipantScreen(
-    viewModel: ChatScreenViewModel,
-) {
+internal fun ParticipantScreen(viewModel: ChatScreenViewModel) {
     val scaffoldState = rememberScaffoldState()
     val listState = rememberLazyListState()
 
@@ -41,8 +39,9 @@ internal fun ParticipantScreen(
         topBar = {
             val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
             val topic = stringResource(id = R.string.azure_communication_ui_chat_people)
-            val subTitle = viewModel.chatTopic
-                ?: stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
+            val subTitle =
+                viewModel.chatTopic
+                    ?: stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
 
             ActionBarView(
                 title = topic,
@@ -51,16 +50,15 @@ internal fun ParticipantScreen(
                     viewModel.postAction(NavigationAction.Pop())
                 },
                 postAction = viewModel.postAction,
-                onTitleClicked = null
+                onTitleClicked = null,
             )
         },
         content = { paddingValues ->
             ParticipantsListView(
                 participants = viewModel.participants.values.toList(),
-                modifier = Modifier.padding(paddingValues)
+                modifier = Modifier.padding(paddingValues),
             )
         },
-
     )
 }
 
@@ -70,45 +68,48 @@ internal fun ParticipantScreenPreview() {
     AndroidThreeTen.init(LocalContext.current)
     ChatCompositeTheme {
         ParticipantScreen(
-            viewModel = ChatScreenViewModel(
-                messages = MOCK_MESSAGES.toViewModelList(
-                    context = LocalContext.current,
-                    localUserIdentifier = MOCK_LOCAL_USER_ID,
-                    hiddenParticipant = mutableSetOf()
+            viewModel =
+                ChatScreenViewModel(
+                    messages =
+                        MOCK_MESSAGES.toViewModelList(
+                            context = LocalContext.current,
+                            localUserIdentifier = MOCK_LOCAL_USER_ID,
+                            hiddenParticipant = mutableSetOf(),
+                        ),
+                    areMessagesLoading = false,
+                    chatStatus = ChatStatus.INITIALIZED,
+                    buildCount = 2,
+                    typingParticipants = listOf("John Doe", "Mary Sue"),
+                    postAction = {},
+                    participants =
+                        listOf(
+                            RemoteParticipantInfoModel(
+                                CommunicationIdentifier.UnknownIdentifier("7A13DD2C-B49F-4521-9364-975F12F6E333"),
+                                "John Smith",
+                            ),
+                            RemoteParticipantInfoModel(
+                                CommunicationIdentifier.UnknownIdentifier("931804B1-D72E-4E70-BFEA-7813C7761BD2"),
+                                "William Brown",
+                            ),
+                            RemoteParticipantInfoModel(
+                                CommunicationIdentifier.UnknownIdentifier("152D5D76-3DDC-44BE-873F-A4575F8C91DF"),
+                                "James Miller",
+                            ),
+                            RemoteParticipantInfoModel(
+                                CommunicationIdentifier.UnknownIdentifier("85FF2697-2ABB-480E-ACCA-09EBE3D6F5EC"),
+                                "George Johnson",
+                            ),
+                            RemoteParticipantInfoModel(
+                                CommunicationIdentifier.UnknownIdentifier("DB75F1F0-65E4-46B0-A213-DA4F574659A5"),
+                                "Henry Jones",
+                            ),
+                        ).associateBy { it.userIdentifier.id },
+                    messageContextMenu =
+                        MessageContextMenuModel(
+                            messageInfoModel = EMPTY_MESSAGE_INFO_MODEL,
+                            menuItems = emptyList(),
+                        ),
                 ),
-                areMessagesLoading = false,
-                chatStatus = ChatStatus.INITIALIZED,
-                buildCount = 2,
-                typingParticipants = listOf("John Doe", "Mary Sue"),
-                postAction = {},
-                participants = listOf(
-                    RemoteParticipantInfoModel(
-                        CommunicationIdentifier.UnknownIdentifier("7A13DD2C-B49F-4521-9364-975F12F6E333"),
-                        "John Smith"
-                    ),
-                    RemoteParticipantInfoModel(
-                        CommunicationIdentifier.UnknownIdentifier("931804B1-D72E-4E70-BFEA-7813C7761BD2"),
-                        "William Brown"
-                    ),
-                    RemoteParticipantInfoModel(
-                        CommunicationIdentifier.UnknownIdentifier("152D5D76-3DDC-44BE-873F-A4575F8C91DF"),
-                        "James Miller"
-                    ),
-                    RemoteParticipantInfoModel(
-                        CommunicationIdentifier.UnknownIdentifier("85FF2697-2ABB-480E-ACCA-09EBE3D6F5EC"),
-                        "George Johnson"
-                    ),
-                    RemoteParticipantInfoModel(
-                        CommunicationIdentifier.UnknownIdentifier("DB75F1F0-65E4-46B0-A213-DA4F574659A5"),
-                        "Henry Jones"
-                    ),
-                ).associateBy { it.userIdentifier.id },
-                messageContextMenu = MessageContextMenuModel(
-                    messageInfoModel = EMPTY_MESSAGE_INFO_MODEL,
-                    menuItems = emptyList()
-                ),
-            ),
-
         )
     }
 }

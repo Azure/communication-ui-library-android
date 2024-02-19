@@ -15,104 +15,113 @@ import com.azure.android.communication.ui.calling.redux.state.LocalUserState
 internal interface LocalParticipantStateReducer : Reducer<LocalUserState>
 
 internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
-
-    override fun reduce(localUserState: LocalUserState, action: Action): LocalUserState {
+    override fun reduce(
+        localUserState: LocalUserState,
+        action: Action,
+    ): LocalUserState {
         return when (action) {
             is LocalParticipantAction.CameraOnRequested -> {
                 localUserState.copy(
-                    cameraState = localUserState.cameraState.copy(operation = CameraOperationalStatus.PENDING)
+                    cameraState = localUserState.cameraState.copy(operation = CameraOperationalStatus.PENDING),
                 )
             }
             is LocalParticipantAction.CameraOnTriggered -> {
                 localUserState.copy(
-                    cameraState = localUserState.cameraState.copy(operation = CameraOperationalStatus.PENDING)
+                    cameraState = localUserState.cameraState.copy(operation = CameraOperationalStatus.PENDING),
                 )
             }
             is LocalParticipantAction.CameraOnSucceeded -> {
                 localUserState.copy(
-                    cameraState = localUserState.cameraState.copy(
-                        operation = CameraOperationalStatus.ON,
-                        error = null
-                    ),
-                    videoStreamID = action.videoStreamID
+                    cameraState =
+                        localUserState.cameraState.copy(
+                            operation = CameraOperationalStatus.ON,
+                            error = null,
+                        ),
+                    videoStreamID = action.videoStreamID,
                 )
             }
             is LocalParticipantAction.CameraOnFailed -> {
                 localUserState.copy(
-                    cameraState = localUserState.cameraState.copy(
-                        operation = CameraOperationalStatus.OFF,
-                        error = action.error
-                    )
+                    cameraState =
+                        localUserState.cameraState.copy(
+                            operation = CameraOperationalStatus.OFF,
+                            error = action.error,
+                        ),
                 )
             }
 
             is LocalParticipantAction.CameraOffTriggered -> {
                 localUserState.copy(
-                    cameraState = localUserState.cameraState.copy(operation = CameraOperationalStatus.PENDING)
+                    cameraState = localUserState.cameraState.copy(operation = CameraOperationalStatus.PENDING),
                 )
             }
             is LocalParticipantAction.CameraOffSucceeded -> {
                 localUserState.copy(
                     cameraState = localUserState.cameraState.copy(operation = CameraOperationalStatus.OFF),
-                    videoStreamID = null
+                    videoStreamID = null,
                 )
             }
             is LocalParticipantAction.CameraOffFailed -> {
                 localUserState.copy(
-                    cameraState = localUserState.cameraState.copy(
-                        operation = CameraOperationalStatus.ON,
-                        error = action.error
-                    )
+                    cameraState =
+                        localUserState.cameraState.copy(
+                            operation = CameraOperationalStatus.ON,
+                            error = action.error,
+                        ),
                 )
             }
 
             is LocalParticipantAction.CameraSwitchTriggered -> {
                 localUserState.copy(
-                    cameraState = localUserState.cameraState.copy(device = CameraDeviceSelectionStatus.SWITCHING)
+                    cameraState = localUserState.cameraState.copy(device = CameraDeviceSelectionStatus.SWITCHING),
                 )
             }
             is LocalParticipantAction.CameraSwitchSucceeded -> {
                 localUserState.copy(
-                    cameraState = localUserState.cameraState.copy(
-                        device = action.cameraDeviceSelectionStatus,
-                    )
+                    cameraState =
+                        localUserState.cameraState.copy(
+                            device = action.cameraDeviceSelectionStatus,
+                        ),
                 )
             }
             is LocalParticipantAction.CameraSwitchFailed -> {
                 localUserState.copy(
-                    cameraState = localUserState.cameraState.copy(
-                        device = action.previousDevice,
-                        error = action.error,
-                    )
+                    cameraState =
+                        localUserState.cameraState.copy(
+                            device = action.previousDevice,
+                            error = action.error,
+                        ),
                 )
             }
 
             is LocalParticipantAction.CameraPreviewOnRequested -> {
                 localUserState.copy(
-                    cameraState = localUserState.cameraState.copy(operation = CameraOperationalStatus.PENDING)
+                    cameraState = localUserState.cameraState.copy(operation = CameraOperationalStatus.PENDING),
                 )
             }
 
             is LocalParticipantAction.CameraPreviewOnTriggered -> {
                 localUserState.copy(
-                    cameraState = localUserState.cameraState.copy(operation = CameraOperationalStatus.PENDING)
+                    cameraState = localUserState.cameraState.copy(operation = CameraOperationalStatus.PENDING),
                 )
             }
             is LocalParticipantAction.CameraPreviewOnSucceeded -> {
                 localUserState.copy(
-                    cameraState = localUserState.cameraState.copy(
-                        operation = CameraOperationalStatus.ON,
-                        error = null
-                    ),
-                    videoStreamID = action.videoStreamID
+                    cameraState =
+                        localUserState.cameraState.copy(
+                            operation = CameraOperationalStatus.ON,
+                            error = null,
+                        ),
+                    videoStreamID = action.videoStreamID,
                 )
             }
             is LocalParticipantAction.CameraPreviewOnFailed -> {
                 localUserState.copy(
-                    cameraState = localUserState.cameraState.copy(
-                        operation = CameraOperationalStatus.OFF,
-                        error = action.error
-                    )
+                    cameraState =
+                        localUserState.cameraState.copy(
+                            operation = CameraOperationalStatus.OFF,
+                            error = action.error,
+                        ),
                 )
             }
 
@@ -120,23 +129,23 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
                 localUserState.copy(
                     // in this case we go straight OFF
                     cameraState = localUserState.cameraState.copy(operation = CameraOperationalStatus.OFF),
-                    videoStreamID = null
+                    videoStreamID = null,
                 )
             }
             is LocalParticipantAction.CameraPauseFailed -> {
                 localUserState.copy(
-                    cameraState = localUserState.cameraState.copy(error = action.error)
+                    cameraState = localUserState.cameraState.copy(error = action.error),
                 )
             }
             is LocalParticipantAction.CameraPauseSucceeded -> {
                 localUserState.copy(
                     cameraState = localUserState.cameraState.copy(operation = CameraOperationalStatus.PAUSED),
-                    videoStreamID = null
+                    videoStreamID = null,
                 )
             }
             is LocalParticipantAction.CamerasCountUpdated -> {
                 localUserState.copy(
-                    cameraState = localUserState.cameraState.copy(camerasCount = action.count)
+                    cameraState = localUserState.cameraState.copy(camerasCount = action.count),
                 )
             }
 
@@ -151,18 +160,20 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
             }
             is LocalParticipantAction.AudioStateOperationUpdated -> {
                 localUserState.copy(
-                    audioState = localUserState.audioState.copy(
-                        operation = action.audioOperationalStatus,
-                        error = null
-                    )
+                    audioState =
+                        localUserState.audioState.copy(
+                            operation = action.audioOperationalStatus,
+                            error = null,
+                        ),
                 )
             }
             is LocalParticipantAction.MicOffFailed -> {
                 localUserState.copy(
-                    audioState = localUserState.audioState.copy(
-                        operation = AudioOperationalStatus.ON,
-                        error = action.error
-                    )
+                    audioState =
+                        localUserState.audioState.copy(
+                            operation = AudioOperationalStatus.ON,
+                            error = action.error,
+                        ),
                 )
             }
             is LocalParticipantAction.MicOnTriggered -> {
@@ -170,78 +181,85 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
             }
             is LocalParticipantAction.MicOnFailed -> {
                 localUserState.copy(
-                    audioState = localUserState.audioState.copy(
-                        operation = AudioOperationalStatus.OFF,
-                        error = action.error
-                    )
+                    audioState =
+                        localUserState.audioState.copy(
+                            operation = AudioOperationalStatus.OFF,
+                            error = action.error,
+                        ),
                 )
             }
             is LocalParticipantAction.AudioDeviceBluetoothSCOAvailable -> {
                 localUserState.copy(
-                    audioState = localUserState.audioState.copy(
-                        bluetoothState = localUserState.audioState.bluetoothState.copy(
-                            available = action.available,
-                            deviceName = action.deviceName
-                        )
-
-                    )
+                    audioState =
+                        localUserState.audioState.copy(
+                            bluetoothState =
+                                localUserState.audioState.bluetoothState.copy(
+                                    available = action.available,
+                                    deviceName = action.deviceName,
+                                ),
+                        ),
                 )
             }
             is LocalParticipantAction.AudioDeviceHeadsetAvailable -> {
                 localUserState.copy(
-                    audioState = localUserState.audioState.copy(
-                        isHeadphonePlugged = action.available
-                    )
+                    audioState =
+                        localUserState.audioState.copy(
+                            isHeadphonePlugged = action.available,
+                        ),
                 )
             }
             is LocalParticipantAction.AudioDeviceChangeRequested -> {
-
                 localUserState.copy(
-                    audioState = localUserState.audioState.copy(
-                        device = action.requestedAudioDevice,
-                        error = null
-                    )
+                    audioState =
+                        localUserState.audioState.copy(
+                            device = action.requestedAudioDevice,
+                            error = null,
+                        ),
                 )
             }
 
             is LocalParticipantAction.AudioDeviceChangeSucceeded -> {
                 localUserState.copy(
-                    audioState = localUserState.audioState.copy(
-                        device = action.selectedAudioDevice,
-                        error = null
-                    )
+                    audioState =
+                        localUserState.audioState.copy(
+                            device = action.selectedAudioDevice,
+                            error = null,
+                        ),
                 )
             }
             is LocalParticipantAction.AudioDeviceChangeFailed -> {
                 localUserState.copy(
-                    audioState = localUserState.audioState.copy(
-                        device = action.previousDevice,
-                        error = action.error
-                    )
+                    audioState =
+                        localUserState.audioState.copy(
+                            device = action.previousDevice,
+                            error = action.error,
+                        ),
                 )
             }
             is LocalParticipantAction.DisplayNameIsSet -> {
                 localUserState.copy(
-                    displayName = action.displayName
+                    displayName = action.displayName,
                 )
             }
             is NavigationAction.CallLaunched, is NavigationAction.CallLaunchWithoutSetup -> {
                 localUserState.copy(
-                    cameraState = localUserState.cameraState.copy(
-                        transmission = CameraTransmissionStatus.REMOTE
-                    )
+                    cameraState =
+                        localUserState.cameraState.copy(
+                            transmission = CameraTransmissionStatus.REMOTE,
+                        ),
                 )
             }
             is NavigationAction.SetupLaunched -> {
                 localUserState.copy(
-                    cameraState = localUserState.cameraState.copy(
-                        transmission = CameraTransmissionStatus.LOCAL
-                    )
+                    cameraState =
+                        localUserState.cameraState.copy(
+                            transmission = CameraTransmissionStatus.LOCAL,
+                        ),
                 )
             }
             is LocalParticipantAction.RoleChanged -> {
                 localUserState.copy(
-                    localParticipantRole = action.callCompositeInternalParticipantRole
+                    localParticipantRole = action.callCompositeInternalParticipantRole,
                 )
             }
             else -> localUserState

@@ -11,16 +11,16 @@ internal class VideoStreamRendererLocalWrapper(
     private val localVideoStream: LocalVideoStream,
     private val context: Context,
 ) : VideoStreamRenderer {
-
     private var videoStreamRendererView: VideoStreamRendererView? = null
     private var videoStreamRenderer: com.azure.android.communication.calling.VideoStreamRenderer? =
         null
 
     override fun createView(): VideoStreamRendererView? {
-        videoStreamRenderer = com.azure.android.communication.calling.VideoStreamRenderer(
-            localVideoStream,
-            context,
-        )
+        videoStreamRenderer =
+            com.azure.android.communication.calling.VideoStreamRenderer(
+                localVideoStream,
+                context,
+            )
 
         videoStreamRendererView = videoStreamRenderer?.createView()?.into()
 
@@ -28,10 +28,11 @@ internal class VideoStreamRendererLocalWrapper(
     }
 
     override fun createView(options: CreateViewOptions): VideoStreamRendererView? {
-        videoStreamRenderer = com.azure.android.communication.calling.VideoStreamRenderer(
-            localVideoStream,
-            context,
-        )
+        videoStreamRenderer =
+            com.azure.android.communication.calling.VideoStreamRenderer(
+                localVideoStream,
+                context,
+            )
 
         videoStreamRendererView = videoStreamRenderer?.createView(options)?.into()
 

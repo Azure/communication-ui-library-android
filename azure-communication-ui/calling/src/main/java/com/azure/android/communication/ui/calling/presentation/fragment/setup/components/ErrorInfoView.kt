@@ -15,9 +15,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.error.ErrorCode
+import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.google.android.material.snackbar.BaseTransientBottomBar.ANIMATION_MODE_FADE
 import com.microsoft.fluentui.snackbar.Snackbar
@@ -28,7 +28,10 @@ internal class ErrorInfoView(private val rootView: View) {
     private lateinit var snackBar: Snackbar
     private lateinit var snackBarTextView: TextView
 
-    fun start(viewLifecycleOwner: LifecycleOwner, snackBarViewModel: ErrorInfoViewModel) {
+    fun start(
+        viewLifecycleOwner: LifecycleOwner,
+        snackBarViewModel: ErrorInfoViewModel,
+    ) {
         initSnackBar()
         viewLifecycleOwner.lifecycleScope.launch {
             snackBarViewModel.getCallStateErrorStateFlow().collect {
@@ -49,7 +52,7 @@ internal class ErrorInfoView(private val rootView: View) {
                         displaySnackBar(
                             null,
                             rootView.context.getText(R.string.azure_communication_ui_calling_call_video_fails_error)
-                                .toString()
+                                .toString(),
                         )
                     }
                 }
@@ -66,12 +69,16 @@ internal class ErrorInfoView(private val rootView: View) {
         snackBar.anchorView = null
     }
 
-    private fun displaySnackBar(it: CallStateError?, message: String) {
-        val errorMessage = if (it != null) {
-            getErrorMessage(it)
-        } else {
-            message
-        }
+    private fun displaySnackBar(
+        it: CallStateError?,
+        message: String,
+    ) {
+        val errorMessage =
+            if (it != null) {
+                getErrorMessage(it)
+            } else {
+                message
+            }
 
         if (errorMessage.isBlank()) return
         snackBarTextView.text = errorMessage
@@ -101,46 +108,48 @@ internal class ErrorInfoView(private val rootView: View) {
     }
 
     private fun initSnackBar() {
-        snackBar = Snackbar.make(
-            rootView,
-            "",
-            Snackbar.LENGTH_INDEFINITE,
-            Snackbar.Style.REGULAR
-        ).apply {
-            animationMode = ANIMATION_MODE_FADE
-            setAction(rootView.context!!.getText(R.string.azure_communication_ui_calling_snack_bar_button_dismiss)) {}
-            anchorView =
-                rootView.findViewById(R.id.azure_communication_ui_setup_join_call_button)
-            view.background.colorFilter = PorterDuffColorFilter(
-                ContextCompat.getColor(
-                    rootView.context,
-                    R.color.azure_communication_ui_calling_color_snack_bar_background
-                ),
-                PorterDuff.Mode.SRC_IN
-            )
-            snackBarTextView = view.findViewById(R.id.snackbar_text)
-            snackBarTextView.setTextColor(
-                ContextCompat.getColor(
-                    rootView.context,
-                    R.color.azure_communication_ui_calling_color_snack_bar_text_color
-                )
-            )
-            view.findViewById<AppCompatButton>(R.id.snackbar_action).apply {
-                setTextColor(
+        snackBar =
+            Snackbar.make(
+                rootView,
+                "",
+                Snackbar.LENGTH_INDEFINITE,
+                Snackbar.Style.REGULAR,
+            ).apply {
+                animationMode = ANIMATION_MODE_FADE
+                setAction(rootView.context!!.getText(R.string.azure_communication_ui_calling_snack_bar_button_dismiss)) {}
+                anchorView =
+                    rootView.findViewById(R.id.azure_communication_ui_setup_join_call_button)
+                view.background.colorFilter =
+                    PorterDuffColorFilter(
+                        ContextCompat.getColor(
+                            rootView.context,
+                            R.color.azure_communication_ui_calling_color_snack_bar_background,
+                        ),
+                        PorterDuff.Mode.SRC_IN,
+                    )
+                snackBarTextView = view.findViewById(R.id.snackbar_text)
+                snackBarTextView.setTextColor(
                     ContextCompat.getColor(
                         rootView.context,
-                        R.color.azure_communication_ui_calling_color_snack_bar_text_color
-                    )
+                        R.color.azure_communication_ui_calling_color_snack_bar_text_color,
+                    ),
                 )
-                isAllCaps = false
-                contentDescription =
-                    rootView.context.getText(R.string.azure_communication_ui_calling_snack_bar_button_dismiss)
+                view.findViewById<AppCompatButton>(R.id.snackbar_action).apply {
+                    setTextColor(
+                        ContextCompat.getColor(
+                            rootView.context,
+                            R.color.azure_communication_ui_calling_color_snack_bar_text_color,
+                        ),
+                    )
+                    isAllCaps = false
+                    contentDescription =
+                        rootView.context.getText(R.string.azure_communication_ui_calling_snack_bar_button_dismiss)
+                }
+                ViewCompat.setImportantForAccessibility(
+                    view,
+                    ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES,
+                )
             }
-            ViewCompat.setImportantForAccessibility(
-                view,
-                ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES
-            )
-        }
     }
 
     private fun View.accessibilityFocus(): View {

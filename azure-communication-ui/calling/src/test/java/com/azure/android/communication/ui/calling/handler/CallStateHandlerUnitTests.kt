@@ -7,8 +7,8 @@ import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.handlers.CallStateHandler
-import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
@@ -31,30 +31,32 @@ import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
 internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
-
     @Test
     fun callStateEventHandler_start_onCallStateChange_then_eventIsFiredToContoso() {
         runScopedTest {
             // arrange
             val storeStateFlow = MutableStateFlow<ReduxState>(AppReduxState("", false, false))
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getStateFlow() } doReturn storeStateFlow
-            }
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getStateFlow() } doReturn storeStateFlow
+                }
             val mockHandler =
                 mock<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
             val configuration = CallCompositeConfiguration()
             configuration.callCompositeEventsHandler.addOnCallStateChangedEventHandler(
-                mockHandler
+                mockHandler,
             )
-            val handler = CallStateHandler(
-                configuration,
-                mockAppStore
-            )
+            val handler =
+                CallStateHandler(
+                    configuration,
+                    mockAppStore,
+                )
 
             // act
-            val job = launch {
-                handler.start(this)
-            }
+            val job =
+                launch {
+                    handler.start(this)
+                }
 
             testScheduler.runCurrent()
 
@@ -62,7 +64,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             verify(mockHandler, times(1)).handle(
                 argThat { event ->
                     event is CallCompositeCallStateChangedEvent && event.code == CallCompositeCallStateCode.NONE
-                }
+                },
             )
             job.cancel()
         }
@@ -76,24 +78,27 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
 
             val storeStateFlow = MutableStateFlow<ReduxState>(appState)
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getStateFlow() } doReturn storeStateFlow
-            }
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getStateFlow() } doReturn storeStateFlow
+                }
             val mockHandler =
                 mock<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
             val configuration = CallCompositeConfiguration()
             configuration.callCompositeEventsHandler.addOnCallStateChangedEventHandler(
-                mockHandler
+                mockHandler,
             )
-            val handler = CallStateHandler(
-                configuration,
-                mockAppStore
-            )
+            val handler =
+                CallStateHandler(
+                    configuration,
+                    mockAppStore,
+                )
 
             // act
-            val job = launch {
-                handler.start(this)
-            }
+            val job =
+                launch {
+                    handler.start(this)
+                }
             testScheduler.runCurrent()
             val appStateNew = AppReduxState("", false, false)
             appStateNew.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
@@ -102,12 +107,12 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             // assert
             TestCase.assertEquals(
                 CallCompositeCallStateCode.CONNECTED,
-                handler.getCallCompositeCallState()
+                handler.getCallCompositeCallState(),
             )
             verify(mockHandler, times(1)).handle(
                 argThat { event ->
                     event is CallCompositeCallStateChangedEvent && event.code == CallCompositeCallStateCode.CONNECTED
-                }
+                },
             )
             job.cancel()
         }
@@ -121,31 +126,34 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
 
             val storeStateFlow = MutableStateFlow<ReduxState>(appState)
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getStateFlow() } doReturn storeStateFlow
-            }
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getStateFlow() } doReturn storeStateFlow
+                }
             val mockHandler =
                 mock<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
             val configuration = CallCompositeConfiguration()
             configuration.callCompositeEventsHandler.addOnCallStateChangedEventHandler(
-                mockHandler
+                mockHandler,
             )
-            val handler = CallStateHandler(
-                configuration,
-                mockAppStore
-            )
+            val handler =
+                CallStateHandler(
+                    configuration,
+                    mockAppStore,
+                )
 
             // act
             configuration.callCompositeEventsHandler.removeOnCallStateEventHandler(mockHandler)
-            val job = launch {
-                handler.start(this)
-            }
+            val job =
+                launch {
+                    handler.start(this)
+                }
             testScheduler.runCurrent()
 
             // assert
             TestCase.assertEquals(
                 CallCompositeCallStateCode.CONNECTED,
-                handler.getCallCompositeCallState()
+                handler.getCallCompositeCallState(),
             )
             verify(mockHandler, times(0)).handle(any())
             job.cancel()
@@ -160,45 +168,48 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
 
             val storeStateFlow = MutableStateFlow<ReduxState>(appState)
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getStateFlow() } doReturn storeStateFlow
-            }
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getStateFlow() } doReturn storeStateFlow
+                }
             val mockHandler =
                 mock<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
             val mockHandler2 =
                 mock<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
             val configuration = CallCompositeConfiguration()
             configuration.callCompositeEventsHandler.addOnCallStateChangedEventHandler(
-                mockHandler
+                mockHandler,
             )
             configuration.callCompositeEventsHandler.addOnCallStateChangedEventHandler(
-                mockHandler2
+                mockHandler2,
             )
-            val handler = CallStateHandler(
-                configuration,
-                mockAppStore
-            )
+            val handler =
+                CallStateHandler(
+                    configuration,
+                    mockAppStore,
+                )
 
             // act
-            val job = launch {
-                handler.start(this)
-            }
+            val job =
+                launch {
+                    handler.start(this)
+                }
             testScheduler.runCurrent()
 
             // assert
             TestCase.assertEquals(
                 CallCompositeCallStateCode.CONNECTED,
-                handler.getCallCompositeCallState()
+                handler.getCallCompositeCallState(),
             )
             verify(mockHandler, times(1)).handle(
                 argThat { event ->
                     event is CallCompositeCallStateChangedEvent && event.code == CallCompositeCallStateCode.CONNECTED
-                }
+                },
             )
             verify(mockHandler2, times(1)).handle(
                 argThat { event ->
                     event is CallCompositeCallStateChangedEvent && event.code == CallCompositeCallStateCode.CONNECTED
-                }
+                },
             )
             job.cancel()
         }
@@ -210,47 +221,47 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             // test all
             testCallState(
                 CallingStatus.CONNECTING,
-                CallCompositeCallStateCode.CONNECTING
+                CallCompositeCallStateCode.CONNECTING,
             )
             testCallState(
                 CallingStatus.DISCONNECTED,
-                CallCompositeCallStateCode.DISCONNECTED
+                CallCompositeCallStateCode.DISCONNECTED,
             )
             testCallState(
                 CallingStatus.CONNECTED,
-                CallCompositeCallStateCode.CONNECTED
+                CallCompositeCallStateCode.CONNECTED,
             )
             testCallState(
                 CallingStatus.DISCONNECTING,
-                CallCompositeCallStateCode.DISCONNECTING
+                CallCompositeCallStateCode.DISCONNECTING,
             )
             testCallState(
                 CallingStatus.EARLY_MEDIA,
-                CallCompositeCallStateCode.EARLY_MEDIA
+                CallCompositeCallStateCode.EARLY_MEDIA,
             )
             testCallState(
                 CallingStatus.IN_LOBBY,
-                CallCompositeCallStateCode.IN_LOBBY
+                CallCompositeCallStateCode.IN_LOBBY,
             )
             testCallState(
                 CallingStatus.LOCAL_HOLD,
-                CallCompositeCallStateCode.LOCAL_HOLD
+                CallCompositeCallStateCode.LOCAL_HOLD,
             )
             testCallState(
                 CallingStatus.NONE,
-                CallCompositeCallStateCode.NONE
+                CallCompositeCallStateCode.NONE,
             )
             testCallState(
                 CallingStatus.REMOTE_HOLD,
-                CallCompositeCallStateCode.REMOTE_HOLD
+                CallCompositeCallStateCode.REMOTE_HOLD,
             )
             testCallState(
                 CallingStatus.RINGING,
-                CallCompositeCallStateCode.RINGING
+                CallCompositeCallStateCode.RINGING,
             )
             testNotCallState(
                 CallingStatus.RINGING,
-                CallCompositeCallStateCode.CONNECTING
+                CallCompositeCallStateCode.CONNECTING,
             )
         }
     }
@@ -262,36 +273,39 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
         // arrange
         val appState = AppReduxState("", false, false)
         val storeStateFlow = MutableStateFlow<ReduxState>(appState)
-        val mockAppStore = mock<AppStore<ReduxState>> {
-            on { getStateFlow() } doReturn storeStateFlow
-        }
+        val mockAppStore =
+            mock<AppStore<ReduxState>> {
+                on { getStateFlow() } doReturn storeStateFlow
+            }
         var mockHandler =
             mock<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
         var configuration = CallCompositeConfiguration()
         configuration.callCompositeEventsHandler.addOnCallStateChangedEventHandler(
-            mockHandler
+            mockHandler,
         )
-        var handler = CallStateHandler(
-            configuration,
-            mockAppStore
-        )
+        var handler =
+            CallStateHandler(
+                configuration,
+                mockAppStore,
+            )
 
         // act
         appState.callState = CallingState(callingStatus, OperationStatus.NONE)
-        var job = launch {
-            handler.start(this)
-        }
+        var job =
+            launch {
+                handler.start(this)
+            }
         testScheduler.runCurrent()
 
         // assert
         TestCase.assertEquals(
             callCompositeCallStateCode,
-            handler.getCallCompositeCallState()
+            handler.getCallCompositeCallState(),
         )
         verify(mockHandler, times(1)).handle(
             argThat { event ->
                 event is CallCompositeCallStateChangedEvent && event.code == callCompositeCallStateCode
-            }
+            },
         )
         job.cancel()
     }
@@ -303,36 +317,39 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
         // arrange
         val appState = AppReduxState("", false, false)
         val storeStateFlow = MutableStateFlow<ReduxState>(appState)
-        val mockAppStore = mock<AppStore<ReduxState>> {
-            on { getStateFlow() } doReturn storeStateFlow
-        }
+        val mockAppStore =
+            mock<AppStore<ReduxState>> {
+                on { getStateFlow() } doReturn storeStateFlow
+            }
         var mockHandler =
             mock<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
         var configuration = CallCompositeConfiguration()
         configuration.callCompositeEventsHandler.addOnCallStateChangedEventHandler(
-            mockHandler
+            mockHandler,
         )
-        var handler = CallStateHandler(
-            configuration,
-            mockAppStore
-        )
+        var handler =
+            CallStateHandler(
+                configuration,
+                mockAppStore,
+            )
 
         // act
         appState.callState = CallingState(callingStatus, OperationStatus.NONE)
-        var job = launch {
-            handler.start(this)
-        }
+        var job =
+            launch {
+                handler.start(this)
+            }
         testScheduler.runCurrent()
 
         // assert
         TestCase.assertNotSame(
             callCompositeCallStateCode,
-            handler.getCallCompositeCallState()
+            handler.getCallCompositeCallState(),
         )
         verify(mockHandler, times(1)).handle(
             argThat { event ->
                 event is CallCompositeCallStateChangedEvent && event.code != callCompositeCallStateCode
-            }
+            },
         )
         job.cancel()
     }

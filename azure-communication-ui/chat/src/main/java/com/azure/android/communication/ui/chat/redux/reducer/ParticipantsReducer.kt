@@ -12,20 +12,24 @@ import org.threeten.bp.OffsetDateTime
 internal interface ParticipantsReducer : Reducer<ParticipantsState>
 
 internal class ParticipantsReducerImpl : ParticipantsReducer {
-    override fun reduce(state: ParticipantsState, action: Action): ParticipantsState =
+    override fun reduce(
+        state: ParticipantsState,
+        action: Action,
+    ): ParticipantsState =
         when (action) {
             is ParticipantAction.ParticipantsAdded -> {
                 // TODO: sync logic with web and iOS to verify read receipt logic
                 state.copy(
                     participants = state.participants + action.participants.associateBy { it.userIdentifier.id },
-                    participantsReadReceiptMap = state.participantsReadReceiptMap +
-                        action.participants.filter { it.userIdentifier.id != state.localParticipantInfoModel.userIdentifier }
-                            .map {
-                                Pair(
-                                    it.userIdentifier.id,
-                                    state.latestReadMessageTimestamp
-                                )
-                            }
+                    participantsReadReceiptMap =
+                        state.participantsReadReceiptMap +
+                            action.participants.filter { it.userIdentifier.id != state.localParticipantInfoModel.userIdentifier }
+                                .map {
+                                    Pair(
+                                        it.userIdentifier.id,
+                                        state.latestReadMessageTimestamp,
+                                    )
+                                },
                 )
             }
             is ParticipantAction.ParticipantsRemoved -> {
@@ -42,17 +46,18 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
                 var updatedState = state
 
                 if (hasLocalParticipant) {
-                    updatedState = updatedState.copy(
-                        localParticipantInfoModel =
-                        state.localParticipantInfoModel.copy(isActiveChatThreadParticipant = false)
-                    )
+                    updatedState =
+                        updatedState.copy(
+                            localParticipantInfoModel =
+                                state.localParticipantInfoModel.copy(isActiveChatThreadParticipant = false),
+                        )
                 }
 
                 updatedState.copy(
                     participants = state.participants - removedParticipants,
                     participantTyping = participantTyping,
                     participantsReadReceiptMap =
-                    state.participantsReadReceiptMap - action.participants.map { it.userIdentifier.id }
+                        state.participantsReadReceiptMap - action.participants.map { it.userIdentifier.id },
                 )
             }
             is ParticipantAction.AddParticipantTyping -> {
@@ -64,12 +69,13 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
                     val displayName = typingParticipant.displayName
                     // if participant is already typing, remove and add with new timestamp
                     state.copy(
-                        participantTyping = state.participantTyping -
-                            state.participantTyping.keys.filter { it.contains(id) } +
-                            Pair(
-                                id + action.infoModel.receivedOn,
-                                if (displayName.isNullOrEmpty()) "Unknown participant" else displayName
-                            )
+                        participantTyping =
+                            state.participantTyping -
+                                state.participantTyping.keys.filter { it.contains(id) } +
+                                Pair(
+                                    id + action.infoModel.receivedOn,
+                                    if (displayName.isNullOrEmpty()) "Unknown participant" else displayName,
+                                ),
                     )
                 }
             }
@@ -83,9 +89,10 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
                 // no need to worry about timestamp
                 if (id != null) {
                     val participantsTyping =
-                        state.participantTyping - state.participantTyping.keys.filter {
-                            it.contains(id)
-                        }
+                        state.participantTyping -
+                            state.participantTyping.keys.filter {
+                                it.contains(id)
+                            }
                     state.copy(participantTyping = participantsTyping)
                 } else {
                     state
@@ -104,14 +111,14 @@ internal class ParticipantsReducerImpl : ParticipantsReducer {
                 val latestReadMessageTimestamp = participantsReadReceiptMap.values.min()
                 state.copy(
                     participantsReadReceiptMap = participantsReadReceiptMap,
-                    latestReadMessageTimestamp = latestReadMessageTimestamp
+                    latestReadMessageTimestamp = latestReadMessageTimestamp,
                 )
             }
             is ParticipantAction.ParticipantToHideReceived -> {
                 val maskedParticipantSet = state.hiddenParticipant.toMutableSet()
                 maskedParticipantSet.add(action.id)
                 state.copy(
-                    hiddenParticipant = maskedParticipantSet
+                    hiddenParticipant = maskedParticipantSet,
                 )
             }
             else -> state

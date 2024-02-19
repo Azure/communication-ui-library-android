@@ -57,7 +57,7 @@ internal class InfoHeaderView : ConstraintLayout {
         viewLifecycleOwner: LifecycleOwner,
         infoHeaderViewModel: InfoHeaderViewModel,
         displayParticipantList: () -> Unit,
-        accessibilityEnabled: Boolean
+        accessibilityEnabled: Boolean,
     ) {
         this.infoHeaderViewModel = infoHeaderViewModel
         this.displayParticipantListCallback = displayParticipantList
@@ -78,16 +78,18 @@ internal class InfoHeaderView : ConstraintLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             infoHeaderViewModel.getNumberOfParticipantsFlow().collect {
-                participantNumberText.text = when (it) {
-                    0 -> context.getString(R.string.azure_communication_ui_calling_view_info_header_waiting_for_others_to_join)
+                participantNumberText.text =
+                    when (it) {
+                        0 -> context.getString(R.string.azure_communication_ui_calling_view_info_header_waiting_for_others_to_join)
 
-                    1 -> context.getString(R.string.azure_communication_ui_calling_view_info_header_call_with_1_person)
+                        1 -> context.getString(R.string.azure_communication_ui_calling_view_info_header_call_with_1_person)
 
-                    else -> resources.getString(
-                        R.string.azure_communication_ui_calling_view_info_header_call_with_n_people,
-                        it
-                    )
-                }
+                        else ->
+                            resources.getString(
+                                R.string.azure_communication_ui_calling_view_info_header_call_with_n_people,
+                                it,
+                            )
+                    }
             }
         }
 

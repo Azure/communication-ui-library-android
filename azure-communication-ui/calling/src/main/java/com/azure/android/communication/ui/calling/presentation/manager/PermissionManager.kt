@@ -63,24 +63,27 @@ internal class PermissionManager(
         when (permissionState.audioPermissionState) {
             PermissionStatus.REQUESTING -> createAudioPermissionRequest()
             PermissionStatus.UNKNOWN -> setAudioPermissionsState()
-            else -> when (permissionState.cameraPermissionState) {
-                PermissionStatus.REQUESTING -> createCameraPermissionRequest()
-                PermissionStatus.UNKNOWN, PermissionStatus.GRANTED, PermissionStatus.DENIED -> {
-                    setCameraPermissionsState()
+            else ->
+                when (permissionState.cameraPermissionState) {
+                    PermissionStatus.REQUESTING -> createCameraPermissionRequest()
+                    PermissionStatus.UNKNOWN, PermissionStatus.GRANTED, PermissionStatus.DENIED -> {
+                        setCameraPermissionsState()
+                    }
+                    else -> {}
                 }
-                else -> {}
-            }
         }
     }
 
     private fun getAudioPermissionState(activity: Activity): PermissionStatus {
         val audioAccess = isPermissionGranted(Manifest.permission.RECORD_AUDIO)
-        var isAudioPermissionPreviouslyDenied = previousPermissionState?.audioPermissionState == PermissionStatus.REQUESTING ||
-            previousPermissionState?.audioPermissionState == PermissionStatus.DENIED
+        var isAudioPermissionPreviouslyDenied =
+            previousPermissionState?.audioPermissionState == PermissionStatus.REQUESTING ||
+                previousPermissionState?.audioPermissionState == PermissionStatus.DENIED
         if (!audioAccess && !isAudioPermissionPreviouslyDenied && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            isAudioPermissionPreviouslyDenied = activity.shouldShowRequestPermissionRationale(
-                Manifest.permission.RECORD_AUDIO
-            )
+            isAudioPermissionPreviouslyDenied =
+                activity.shouldShowRequestPermissionRationale(
+                    Manifest.permission.RECORD_AUDIO,
+                )
         }
 
         return when {
@@ -94,9 +97,10 @@ internal class PermissionManager(
         val cameraAccess = isPermissionGranted(Manifest.permission.CAMERA)
         var isCameraPermissionPreviouslyDenied = false
         if (!cameraAccess && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            isCameraPermissionPreviouslyDenied = activity.shouldShowRequestPermissionRationale(
-                Manifest.permission.CAMERA
-            )
+            isCameraPermissionPreviouslyDenied =
+                activity.shouldShowRequestPermissionRationale(
+                    Manifest.permission.CAMERA,
+                )
         }
         return when {
             cameraAccess -> PermissionStatus.GRANTED
@@ -117,21 +121,25 @@ internal class PermissionManager(
         ActivityCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED
 
     private fun getPermissionsList(): Array<String> {
-        val permissions = mutableListOf(
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.ACCESS_NETWORK_STATE,
-            Manifest.permission.WAKE_LOCK,
-            Manifest.permission.MODIFY_AUDIO_SETTINGS,
-        )
+        val permissions =
+            mutableListOf(
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.WAKE_LOCK,
+                Manifest.permission.MODIFY_AUDIO_SETTINGS,
+            )
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             permissions.add(Manifest.permission.FOREGROUND_SERVICE)
+        }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             permissions.add(Manifest.permission.BLUETOOTH_CONNECT)
+        }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             permissions.add(Manifest.permission.POST_NOTIFICATIONS)
+        }
 
         return permissions.toTypedArray()
     }

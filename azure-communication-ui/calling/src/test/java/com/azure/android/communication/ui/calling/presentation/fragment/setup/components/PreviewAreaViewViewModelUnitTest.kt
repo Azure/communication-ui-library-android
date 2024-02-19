@@ -18,13 +18,13 @@ import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
 internal class PreviewAreaViewViewModelUnitTest {
-
     @Test
     fun rendererForegroundViewViewModel_switchCamera_then_dispatchCameraSwitchTriggered() {
         // Arrange
-        val mockAppStore = mock<AppStore<ReduxState>> {
-            on { dispatch(any()) } doAnswer { }
-        }
+        val mockAppStore =
+            mock<AppStore<ReduxState>> {
+                on { dispatch(any()) } doAnswer { }
+            }
         val rendererForegroundViewViewModel =
             PreviewAreaViewModel(mockAppStore::dispatch)
 
@@ -35,7 +35,7 @@ internal class PreviewAreaViewViewModelUnitTest {
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
                 action is LocalParticipantAction.CameraSwitchTriggered
-            }
+            },
         )
     }
 }

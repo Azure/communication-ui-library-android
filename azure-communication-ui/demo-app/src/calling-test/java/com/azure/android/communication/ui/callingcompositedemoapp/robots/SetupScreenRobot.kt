@@ -12,22 +12,23 @@ import com.azure.android.communication.ui.callingcompositedemoapp.util.ViewIsDis
 import junit.framework.Assert.assertTrue
 
 class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
-
     fun tapMicButton(micText: String = Localize.English.micText): SetupScreenRobot {
-        val micButton = waitUntilTextOnViewIsDisplayed(
-            R.id.azure_communication_ui_setup_audio_button,
-            micText
-        )
+        val micButton =
+            waitUntilTextOnViewIsDisplayed(
+                R.id.azure_communication_ui_setup_audio_button,
+                micText,
+            )
 
         micButton.perform(click())
         return this
     }
 
     fun tapSpeakerIcon(): SetupScreenRobot {
-        val speakerButton = waitUntilTextOnViewIsDisplayed(
-            R.id.azure_communication_ui_setup_audio_device_button,
-            "Speaker"
-        )
+        val speakerButton =
+            waitUntilTextOnViewIsDisplayed(
+                R.id.azure_communication_ui_setup_audio_device_button,
+                "Speaker",
+            )
 
         speakerButton.perform(click())
         return this
@@ -55,7 +56,7 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
         selectAudioDevice(
             R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_regular_composite_button_filled,
             "Android",
-            isSelected
+            isSelected,
         )
         return this
     }
@@ -64,12 +65,16 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
         selectAudioDevice(
             R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_filled_composite_button_enabled,
             "Speaker",
-            isSelected
+            isSelected,
         )
         return this
     }
 
-    private fun selectAudioDevice(@DrawableRes iconId: Int, text: String, isSelected: Boolean) {
+    private fun selectAudioDevice(
+        @DrawableRes iconId: Int,
+        text: String,
+        isSelected: Boolean,
+    ) {
         val audioDeviceList =
             waitUntilAllViewIdIsAreDisplayed(R.id.azure_communication_ui_cell_text)
         UiTestUtils.clickBottomCellViewHolder(R.id.bottom_drawer_table, iconId, text, isSelected)
@@ -80,15 +85,15 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
             val viewDisplayResource = ViewIsDisplayedResource()
             waitUntilViewIdIsDisplayed(
                 R.id.azure_communication_ui_setup_camera_button,
-                viewDisplayResource
+                viewDisplayResource,
             )
             waitUntilViewIdIsDisplayed(
                 R.id.azure_communication_ui_setup_audio_button,
-                viewDisplayResource
+                viewDisplayResource,
             )
             waitUntilViewIdIsDisplayed(
                 R.id.azure_communication_ui_setup_audio_device_button,
-                viewDisplayResource
+                viewDisplayResource,
             )
 
             val cameraButtonText =
@@ -96,13 +101,13 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
             if (cameraButtonText == videoOffText) {
                 clickViewWithIdAndText(
                     R.id.azure_communication_ui_setup_camera_button,
-                    videoOffText
+                    videoOffText,
                 )
             }
 
             waitUntilViewIdIsDisplayed(
                 R.id.azure_communication_ui_setup_local_video_holder,
-                viewDisplayResource
+                viewDisplayResource,
             )
         }
         return this
@@ -124,7 +129,7 @@ class SetupScreenRobot : ScreenRobot<SetupScreenRobot>() {
         if (waitForProgress) {
             waitUntilViewIdDoesNotExist(
                 R.id.azure_communication_ui_setup_start_call_progress_bar,
-                idlingResource
+                idlingResource,
             )
         }
         return CallScreenRobot()

@@ -18,24 +18,24 @@ import java.util.Collections
 
 @RunWith(MockitoJUnitRunner::class)
 internal class DebugInfoManagerTest : ACSBaseTestCoroutine() {
-
     @Test
     @ExperimentalCoroutinesApi
     fun diagnosticsManager_getCallId_returns_callId() {
-
         runScopedTest {
             // arrange
 
-            val historyList = mutableListOf(
-                CallHistoryRecordData(1, "callId1", OffsetDateTime.now().minusDays(6)),
-                CallHistoryRecordData(2, "callId2", OffsetDateTime.now().minusDays(4)),
-                CallHistoryRecordData(3, "callId3", OffsetDateTime.now().minusDays(3)),
-                CallHistoryRecordData(4, "callId4", OffsetDateTime.now().minusDays(1)),
-            )
+            val historyList =
+                mutableListOf(
+                    CallHistoryRecordData(1, "callId1", OffsetDateTime.now().minusDays(6)),
+                    CallHistoryRecordData(2, "callId2", OffsetDateTime.now().minusDays(4)),
+                    CallHistoryRecordData(3, "callId3", OffsetDateTime.now().minusDays(3)),
+                    CallHistoryRecordData(4, "callId4", OffsetDateTime.now().minusDays(1)),
+                )
 
-            val callHistoryRepository = mock<CallHistoryRepository> {
-                onBlocking { getAll() } doAnswer { historyList }
-            }
+            val callHistoryRepository =
+                mock<CallHistoryRepository> {
+                    onBlocking { getAll() } doAnswer { historyList }
+                }
 
             val debugInfoManager: DebugInfoManager = DebugInfoManagerImpl(callHistoryRepository, Collections::emptyList)
 

@@ -7,7 +7,6 @@ import android.view.MotionEvent
 import android.view.View
 
 internal class DragTouchListener internal constructor() : View.OnTouchListener {
-
     private var curX = 0f
     private var curY = 0f
     private var startX = 0f
@@ -25,7 +24,10 @@ internal class DragTouchListener internal constructor() : View.OnTouchListener {
         view.translationY = 0F
     }
 
-    override fun onTouch(view: View, event: MotionEvent): Boolean {
+    override fun onTouch(
+        view: View,
+        event: MotionEvent,
+    ): Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 startX = event.rawX

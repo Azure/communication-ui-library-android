@@ -7,9 +7,7 @@ import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel
 
 internal class ParticipantGridCellViewModelFactory {
-    fun ParticipantGridCellViewModel(
-        participantInfoModel: ParticipantInfoModel,
-    ): ParticipantGridCellViewModel =
+    fun ParticipantGridCellViewModel(participantInfoModel: ParticipantInfoModel): ParticipantGridCellViewModel =
         ParticipantGridCellViewModel(
             participantInfoModel.userIdentifier,
             participantInfoModel.displayName,

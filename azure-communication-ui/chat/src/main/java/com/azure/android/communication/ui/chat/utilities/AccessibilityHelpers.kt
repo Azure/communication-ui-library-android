@@ -4,7 +4,10 @@ import android.content.Context
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityManager
 
-internal fun announceForAccessibility(activity: Context, message: String) {
+internal fun announceForAccessibility(
+    activity: Context,
+    message: String,
+) {
     val manager = activity.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
     if (manager.isEnabled) {
         val event = AccessibilityEvent.obtain()

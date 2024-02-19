@@ -22,13 +22,14 @@ internal class AppStore<S>(
     dispatcher: CoroutineContext,
 ) : Store<S> {
     // Any exceptions encountered in the reducer are rethrown to crash the app and not get silently ignored.
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        Handler(Looper.getMainLooper()).postAtFrontOfQueue {
-            throw ChatCompositeException("App store exception while reducing state", throwable)
+    private val exceptionHandler =
+        CoroutineExceptionHandler { _, throwable ->
+            Handler(Looper.getMainLooper()).postAtFrontOfQueue {
+                throw ChatCompositeException("App store exception while reducing state", throwable)
+            }
+            // At this point (after an exception) we don't want to accept any more work.
+            scope.cancel()
         }
-        // At this point (after an exception) we don't want to accept any more work.
-        scope.cancel()
-    }
     private val dispatcherWithExceptionHandler = dispatcher + exceptionHandler
     private val scope = CoroutineScope(dispatcher)
     private val stateFlow = MutableStateFlow(initialState)
@@ -65,7 +66,7 @@ internal class AppStore<S>(
     private fun compose(functions: List<(Dispatch) -> Dispatch>): (Dispatch) -> Dispatch =
         { dispatch ->
             functions.foldRight(
-                dispatch
+                dispatch,
             ) { nextDispatch, composed -> nextDispatch(composed) }
         }
 }

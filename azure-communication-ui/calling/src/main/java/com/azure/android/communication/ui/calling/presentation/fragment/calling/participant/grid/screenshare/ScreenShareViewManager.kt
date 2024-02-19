@@ -37,13 +37,14 @@ internal class ScreenShareViewManager(
         screenShareZoomFrameLayout.layoutParams =
             FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT
+                FrameLayout.LayoutParams.MATCH_PARENT,
             )
 
         screenShareZoomFrameLayout.addView(rendererViewTransformationWrapper)
         screenShareZoomFrameLayout.setFloatingHeaderCallback(showFloatingHeaderCallBack)
 
-        screenShareZoomFrameLayout.viewTreeObserver.addOnGlobalLayoutListener(object :
+        screenShareZoomFrameLayout.viewTreeObserver.addOnGlobalLayoutListener(
+            object :
                 ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
                     screenShareZoomFrameLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
@@ -53,7 +54,8 @@ internal class ScreenShareViewManager(
                         setScreenShareLayoutSize()
                     }, STREAM_SIZE_RETRY_DURATION)
                 }
-            })
+            },
+        )
 
         return screenShareZoomFrameLayout
     }

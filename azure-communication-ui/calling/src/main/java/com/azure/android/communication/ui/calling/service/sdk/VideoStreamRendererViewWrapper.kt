@@ -13,5 +13,6 @@ internal class VideoStreamRendererViewWrapper(private val view: com.azure.androi
     }
 
     override fun getView(): View? = view
+
     override fun updateScalingMode(scalingMode: ScalingMode) = view.updateScalingMode(scalingMode)
 }

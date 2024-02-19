@@ -16,7 +16,6 @@ import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.calling.implementation.R
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal class BannerView : ConstraintLayout {
@@ -69,19 +68,26 @@ internal class BannerView : ConstraintLayout {
             bannerText.text = getBannerInfo(bannerInfoType)
             bannerText.setOnClickListener(getBannerClickDestination(bannerInfoType))
 
-            val textToAnnounce = "${context.getString(R.string.azure_communication_ui_calling_alert_title)}: ${context.getString(R.string.azure_communication_ui_calling_view_button_close_button_full_accessibility_label)}, ${bannerText.text} ${context.getString(R.string.azure_communication_ui_calling_view_link)}"
+            val textToAnnounce = "${context.getString(
+                R.string.azure_communication_ui_calling_alert_title,
+            )}: ${context.getString(
+                R.string.azure_communication_ui_calling_view_button_close_button_full_accessibility_label,
+            )}, ${bannerText.text} ${context.getString(R.string.azure_communication_ui_calling_view_link)}"
             announceForAccessibility(textToAnnounce)
 
             bannerCloseButton.contentDescription = "${getBannerTitle(bannerText.text)}: ${context.getString(R.string.azure_communication_ui_calling_view_button_close_button_accessibility_label)}"
-        }
-        // Below code helps to display banner message on screen rotate. When recording and transcription being saved is displayed
-        // and screen is rotated, blank banner is displayed.
-        // We can not remove reset state in view model on stop as that cause incorrect message order
-        else if (bannerText.text.isNullOrBlank() && viewModel.displayedBannerType != BannerInfoType.BLANK) {
+        } else if (bannerText.text.isNullOrBlank() && viewModel.displayedBannerType != BannerInfoType.BLANK) {
+            // Below code helps to display banner message on screen rotate. When recording and transcription being saved is displayed
+            // and screen is rotated, blank banner is displayed.
+            // We can not remove reset state in view model on stop as that cause incorrect message order
             bannerText.text = getBannerInfo(viewModel.displayedBannerType)
             bannerText.setOnClickListener(getBannerClickDestination(bannerInfoType))
 
-            val textToAnnounce = "${context.getString(R.string.azure_communication_ui_calling_alert_title)}: ${context.getString(R.string.azure_communication_ui_calling_view_button_close_button_full_accessibility_label)}, ${bannerText.text} ${context.getString(R.string.azure_communication_ui_calling_view_link)}"
+            val textToAnnounce = "${context.getString(
+                R.string.azure_communication_ui_calling_alert_title,
+            )}: ${context.getString(
+                R.string.azure_communication_ui_calling_view_button_close_button_full_accessibility_label,
+            )}, ${bannerText.text} ${context.getString(R.string.azure_communication_ui_calling_view_link)}"
             announceForAccessibility(textToAnnounce)
 
             bannerCloseButton.contentDescription = "${getBannerTitle(bannerText.text)}: ${context.getString(R.string.azure_communication_ui_calling_view_button_close_button_accessibility_label)}"
@@ -91,25 +97,26 @@ internal class BannerView : ConstraintLayout {
     private fun getBannerClickDestination(bannerInfoType: BannerInfoType): OnClickListener {
         return OnClickListener {
             bannerText.isEnabled = false
-            val url = when (bannerInfoType) {
-                BannerInfoType.RECORDING_AND_TRANSCRIPTION_STARTED,
-                BannerInfoType.RECORDING_STARTED,
-                BannerInfoType.TRANSCRIPTION_STARTED,
-                BannerInfoType.RECORDING_STOPPED_STILL_TRANSCRIBING,
-                BannerInfoType.TRANSCRIPTION_STOPPED_STILL_RECORDING,
-                -> {
-                    context.getString(R.string.azure_communication_ui_calling_view_link_privacy_policy_url)
+            val url =
+                when (bannerInfoType) {
+                    BannerInfoType.RECORDING_AND_TRANSCRIPTION_STARTED,
+                    BannerInfoType.RECORDING_STARTED,
+                    BannerInfoType.TRANSCRIPTION_STARTED,
+                    BannerInfoType.RECORDING_STOPPED_STILL_TRANSCRIBING,
+                    BannerInfoType.TRANSCRIPTION_STOPPED_STILL_RECORDING,
+                    -> {
+                        context.getString(R.string.azure_communication_ui_calling_view_link_privacy_policy_url)
+                    }
+                    BannerInfoType.TRANSCRIPTION_STOPPED,
+                    BannerInfoType.RECORDING_STOPPED,
+                    BannerInfoType.RECORDING_AND_TRANSCRIPTION_STOPPED,
+                    -> {
+                        context.getString(R.string.azure_communication_ui_calling_view_link_learn_more_url)
+                    }
+                    else -> {
+                        ""
+                    }
                 }
-                BannerInfoType.TRANSCRIPTION_STOPPED,
-                BannerInfoType.RECORDING_STOPPED,
-                BannerInfoType.RECORDING_AND_TRANSCRIPTION_STOPPED,
-                -> {
-                    context.getString(R.string.azure_communication_ui_calling_view_link_learn_more_url)
-                }
-                else -> {
-                    ""
-                }
-            }
 
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(url)
@@ -118,7 +125,7 @@ internal class BannerView : ConstraintLayout {
                 {
                     bannerText.isEnabled = true
                 },
-                400
+                400,
             )
         }
     }

@@ -31,22 +31,22 @@ internal fun BottomBarView(
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
     ) {
-
         MessageInputView(
             contentDescription = stringResource(R.string.azure_communication_ui_chat_message_input_view_content_description),
             messageInputTextState = messageInputTextState,
             postAction = postAction,
-            sendMessageEnabled = sendMessageEnabled
+            sendMessageEnabled = sendMessageEnabled,
         )
 
         SendMessageButtonView(
-            contentDescription = stringResource(
-                R.string.azure_communication_ui_chat_message_send_button_content_description,
-                messageInputTextState.value
-            ),
-            enabled = sendMessageEnabled && messageInputTextState.value.isNotBlank()
+            contentDescription =
+                stringResource(
+                    R.string.azure_communication_ui_chat_message_send_button_content_description,
+                    messageInputTextState.value,
+                ),
+            enabled = sendMessageEnabled && messageInputTextState.value.isNotBlank(),
         ) {
             sendButtonOnclick(postAction, messageInputTextState)
         }
@@ -67,8 +67,8 @@ private fun sendButtonOnclick(
                 sendStatus = MessageSendStatus.SENDING,
                 content = messageInputTextState.value.trim(),
                 isCurrentUser = true,
-            )
-        )
+            ),
+        ),
     )
     messageInputTextState.value = ""
 }
@@ -76,5 +76,5 @@ private fun sendButtonOnclick(
 @Preview
 @Composable
 internal fun PreviewBottomBarView() {
-    BottomBarView(remember { mutableStateOf("") },) {}
+    BottomBarView(remember { mutableStateOf("") }) {}
 }

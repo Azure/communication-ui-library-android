@@ -5,9 +5,9 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.content.Context
 import android.view.View
+import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
-import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -16,8 +16,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.azure.android.communication.ui.calling.implementation.R
-import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
+import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.VideoViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.screenshare.ScreenShareViewManager
@@ -94,9 +94,7 @@ internal class ParticipantGridCellVideoView(
         }
     }
 
-    private fun updateVideoStream(
-        videoViewModel: VideoViewModel?,
-    ) {
+    private fun updateVideoStream(videoViewModel: VideoViewModel?) {
         if (videoStream != null) {
             detachFromParentView(videoStream)
             videoStream = null
@@ -105,7 +103,7 @@ internal class ParticipantGridCellVideoView(
         if (videoViewModel != null) {
             getVideoStreamCallback(
                 participantViewModel.getParticipantUserIdentifier(),
-                videoViewModel.videoStreamID
+                videoViewModel.videoStreamID,
             )?.let { view ->
                 videoStream = view
                 setRendererView(view, videoViewModel.streamType)
@@ -125,9 +123,7 @@ internal class ParticipantGridCellVideoView(
         }
     }
 
-    private fun setSpeakingIndicator(
-        isSpeaking: Boolean,
-    ) {
+    private fun setSpeakingIndicator(isSpeaking: Boolean) {
         if (isSpeaking) {
             participantVideoContainerSpeakingFrameLayout.visibility = VISIBLE
         } else {
@@ -135,44 +131,53 @@ internal class ParticipantGridCellVideoView(
         }
     }
 
-    private fun setRendererView(rendererView: View, streamType: StreamType) {
+    private fun setRendererView(
+        rendererView: View,
+        streamType: StreamType,
+    ) {
         detachFromParentView(rendererView)
 
         if (streamType == StreamType.SCREEN_SHARING) {
             removeScreenShareZoomView()
-            val screenShareFactory = ScreenShareViewManager(
-                context,
-                videoContainer,
-                getScreenShareVideoStreamRendererCallback,
-                showFloatingHeaderCallBack
-            )
+            val screenShareFactory =
+                ScreenShareViewManager(
+                    context,
+                    videoContainer,
+                    getScreenShareVideoStreamRendererCallback,
+                    showFloatingHeaderCallBack,
+                )
             screenShareZoomFrameLayout = screenShareFactory.getScreenShareView(rendererView)
             videoContainer.addView(screenShareZoomFrameLayout, 0)
             // scaled transformed view round corners are not visible when scroll is not at end
             // to avoid content outside speaking rectangle removing round corners
-            videoContainer.background = ContextCompat.getDrawable(
-                context,
-                R.color.azure_communication_ui_calling_color_surface
-            )
-            participantVideoContainerSpeakingFrameLayout.background = ContextCompat.getDrawable(
-                context,
-                R.drawable.azure_communication_ui_calling_speaking_rectangle_indicator_no_corner
-            )
+            videoContainer.background =
+                ContextCompat.getDrawable(
+                    context,
+                    R.color.azure_communication_ui_calling_color_surface,
+                )
+            participantVideoContainerSpeakingFrameLayout.background =
+                ContextCompat.getDrawable(
+                    context,
+                    R.drawable.azure_communication_ui_calling_speaking_rectangle_indicator_no_corner,
+                )
             return
         }
 
-        rendererView.background = ContextCompat.getDrawable(
-            context,
-            R.drawable.azure_communication_ui_calling_corner_radius_rectangle_4dp
-        )
-        videoContainer.background = ContextCompat.getDrawable(
-            context,
-            R.drawable.azure_communication_ui_calling_corner_radius_rectangle_4dp_surface
-        )
-        participantVideoContainerSpeakingFrameLayout.background = ContextCompat.getDrawable(
-            context,
-            R.drawable.azure_communication_ui_calling_speaking_rectangle_indicator
-        )
+        rendererView.background =
+            ContextCompat.getDrawable(
+                context,
+                R.drawable.azure_communication_ui_calling_corner_radius_rectangle_4dp,
+            )
+        videoContainer.background =
+            ContextCompat.getDrawable(
+                context,
+                R.drawable.azure_communication_ui_calling_corner_radius_rectangle_4dp_surface,
+            )
+        participantVideoContainerSpeakingFrameLayout.background =
+            ContextCompat.getDrawable(
+                context,
+                R.drawable.azure_communication_ui_calling_speaking_rectangle_indicator,
+            )
         videoContainer.addView(rendererView, 0)
     }
 

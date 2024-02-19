@@ -11,7 +11,10 @@ import com.azure.android.communication.ui.chat.redux.state.NetworkStatus
 internal interface NetworkReducer : Reducer<NetworkState>
 
 internal class NetworkReducerImpl : NetworkReducer {
-    override fun reduce(state: NetworkState, action: Action): NetworkState {
+    override fun reduce(
+        state: NetworkState,
+        action: Action,
+    ): NetworkState {
         return when (action) {
             is NetworkAction.Connected -> {
                 state.copy(networkStatus = NetworkStatus.CONNECTED)

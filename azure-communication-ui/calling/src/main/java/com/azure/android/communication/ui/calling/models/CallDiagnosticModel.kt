@@ -8,7 +8,7 @@ internal enum class NetworkCallDiagnostic {
     NETWORK_RECEIVE_QUALITY,
     NETWORK_SEND_QUALITY,
     NETWORK_UNAVAILABLE,
-    NETWORK_RELAYS_UNREACHABLE
+    NETWORK_RELAYS_UNREACHABLE,
 }
 
 internal enum class MediaCallDiagnostic {
@@ -25,19 +25,19 @@ internal enum class MediaCallDiagnostic {
     CAMERA_FROZEN,
     CAMERA_START_FAILED,
     CAMERA_START_TIMED_OUT,
-    CAMERA_PERMISSION_DENIED
+    CAMERA_PERMISSION_DENIED,
 }
 
 internal enum class CallDiagnosticQuality {
     UNKNOWN,
     GOOD,
     POOR,
-    BAD;
+    BAD,
 }
 
 internal data class CallDiagnosticModel<DiagnosticKind, DiagnosticValue>(
     val diagnosticKind: DiagnosticKind,
-    val diagnosticValue: DiagnosticValue
+    val diagnosticValue: DiagnosticValue,
 )
 
 // Alias types representing different types of Call Diagnostics

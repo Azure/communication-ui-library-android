@@ -11,7 +11,10 @@ import com.azure.android.communication.ui.chat.redux.state.NavigationStatus
 internal interface NavigationReducer : Reducer<NavigationState>
 
 internal class NavigationReducerImpl : NavigationReducer {
-    override fun reduce(state: NavigationState, action: Action): NavigationState {
+    override fun reduce(
+        state: NavigationState,
+        action: Action,
+    ): NavigationState {
         return when (action) {
             is NavigationAction.GotoParticipants -> {
                 state.copy(navigationStatus = NavigationStatus.PARTICIPANTS)

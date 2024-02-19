@@ -19,7 +19,6 @@ import java.util.Locale
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class CallingCompositeLocalizationTest : BaseUiTest() {
-
     @get:Rule
     val screenLockRule = RunWhenScreenOffOrLockedRule()
 
@@ -55,11 +54,12 @@ class CallingCompositeLocalizationTest : BaseUiTest() {
         val settingsScreen = homeScreen.clickSettings()
 
         settingsScreen.selectLanguageDropDown(localized.language)
-        val setupScreen = homeScreen
-            .clickTeamsMeetingRadioButton()
-            .setGroupIdOrTeamsMeetingUrl(TestFixture.teamsUrl)
-            .setAcsToken(CallIdentifiersHelper.getACSToken())
-            .clickLaunchButton()
+        val setupScreen =
+            homeScreen
+                .clickTeamsMeetingRadioButton()
+                .setGroupIdOrTeamsMeetingUrl(TestFixture.teamsUrl)
+                .setAcsToken(CallIdentifiersHelper.getACSToken())
+                .clickLaunchButton()
 
         setupScreen
             .turnCameraOn(localized.videoOffText)
@@ -73,9 +73,8 @@ enum class Localize(
     val videoOffText: String,
     val micText: String,
 ) {
-
     French(Locale.FRENCH.displayName, "Video désactivé", "Microphone désactivé"),
     German(Locale.GERMAN.displayName, "Video aus", "Mikrofon aus"),
     Italian(Locale.ITALIAN.displayName, "Video disattivato", "Microfono disattivato"),
-    English(Locale.ENGLISH.displayName, "Video off", "Mic off")
+    English(Locale.ENGLISH.displayName, "Video off", "Mic off"),
 }

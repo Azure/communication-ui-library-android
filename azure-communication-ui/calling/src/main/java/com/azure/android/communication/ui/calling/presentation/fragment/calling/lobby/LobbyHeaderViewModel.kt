@@ -31,16 +31,15 @@ internal class LobbyHeaderViewModel {
         canShowLobby: Boolean,
     ) {
         var isNewLobbyParticipantAdded = isNewParticipantAdded(lobbyParticipants)
-        displayLobbyHeaderFlow = MutableStateFlow(
-            lobbyParticipants.isNotEmpty() &&
-                (isNewLobbyParticipantAdded || displayLobbyHeaderFlow.value) &&
-                callingStatus == CallingStatus.CONNECTED && canShowLobby
-        )
+        displayLobbyHeaderFlow =
+            MutableStateFlow(
+                lobbyParticipants.isNotEmpty() &&
+                    (isNewLobbyParticipantAdded || displayLobbyHeaderFlow.value) &&
+                    callingStatus == CallingStatus.CONNECTED && canShowLobby,
+            )
     }
 
-    private fun isNewParticipantAdded(
-        lobbyParticipants: Map<String, ParticipantInfoModel>
-    ): Boolean {
+    private fun isNewParticipantAdded(lobbyParticipants: Map<String, ParticipantInfoModel>): Boolean {
         var isNewLobbyParticipantAdded = false
         if (lobbyParticipantsCache.size < lobbyParticipants.size) {
             isNewLobbyParticipantAdded = true

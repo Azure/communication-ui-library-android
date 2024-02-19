@@ -9,7 +9,6 @@ import com.azure.android.communication.ui.chat.repository.MessageRepository
 import java.util.TreeMap
 
 internal class MessageRepositoryTreeBackedImpl : MessageRepository() {
-
     private val treeMapStorage: TreeMap<Long, MessageInfoModel> = TreeMap()
 
     override val size: Int
@@ -33,7 +32,6 @@ internal class MessageRepositoryTreeBackedImpl : MessageRepository() {
     }
 
     private fun searchItem(kth: Int): MessageInfoModel {
-
         var highestKey = treeMapStorage.lastKey()
         var lowestKey = treeMapStorage.firstKey()
         var elements = 0
@@ -76,9 +74,10 @@ internal class MessageRepositoryTreeBackedImpl : MessageRepository() {
         return treeMapStorage.headMap(midKey).size
     }
 
-    override fun get(index: Int): MessageInfoModel = try {
-        searchItem(index + 1)
-    } catch (exception: Exception) {
-        EMPTY_MESSAGE_INFO_MODEL
-    }
+    override fun get(index: Int): MessageInfoModel =
+        try {
+            searchItem(index + 1)
+        } catch (exception: Exception) {
+            EMPTY_MESSAGE_INFO_MODEL
+        }
 }

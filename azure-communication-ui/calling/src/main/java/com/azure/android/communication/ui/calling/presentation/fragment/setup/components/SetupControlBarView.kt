@@ -157,43 +157,50 @@ internal class SetupControlBarView : LinearLayout {
     }
 
     private fun setOldAPIButtonColor(button: SetupButton) {
-        val color = if (!button.isEnabled) R.color.azure_communication_ui_calling_color_on_surface_disabled
-        else if (button.isCameraON) R.color.azure_communication_ui_calling_color_on_surface_camera_active
-        else R.color.azure_communication_ui_calling_color_on_surface
+        val color =
+            if (!button.isEnabled) {
+                R.color.azure_communication_ui_calling_color_on_surface_disabled
+            } else if (button.isCameraON) {
+                R.color.azure_communication_ui_calling_color_on_surface_camera_active
+            } else {
+                R.color.azure_communication_ui_calling_color_on_surface
+            }
 
-        button.compoundDrawables[1].colorFilter = PorterDuffColorFilter(
-            ContextCompat.getColor(context, color),
-            PorterDuff.Mode.SRC_IN
-        )
+        button.compoundDrawables[1].colorFilter =
+            PorterDuffColorFilter(
+                ContextCompat.getColor(context, color),
+                PorterDuff.Mode.SRC_IN,
+            )
     }
 
     private fun setAudioDeviceButtonState(audioState: AudioState) {
-        audioDeviceButton.text = when (audioState.device) {
-            AudioDeviceSelectionStatus.SPEAKER_SELECTED -> {
-                context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_speaker)
-            }
-            AudioDeviceSelectionStatus.RECEIVER_SELECTED -> {
-                when (audioState.isHeadphonePlugged) {
-                    true -> context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_headphone)
-                    false -> context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_android)
+        audioDeviceButton.text =
+            when (audioState.device) {
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED -> {
+                    context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_speaker)
+                }
+                AudioDeviceSelectionStatus.RECEIVER_SELECTED -> {
+                    when (audioState.isHeadphonePlugged) {
+                        true -> context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_headphone)
+                        false -> context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_android)
+                    }
+                }
+                AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> {
+                    if (audioState.bluetoothState.deviceName.isNotBlank()) {
+                        audioState.bluetoothState.deviceName
+                    } else {
+                        context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_bluetooth)
+                    }
+                }
+                else -> {
+                    ""
                 }
             }
-            AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> {
-                if (audioState.bluetoothState.deviceName.isNotBlank()) {
-                    audioState.bluetoothState.deviceName
-                } else {
-                    context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_bluetooth)
-                }
-            }
-            else -> {
-                ""
-            }
-        }
 
         audioDeviceButton.contentDescription =
             context.getString(
                 R.string.azure_communication_ui_calling_setup_audio_device_select_content_description,
-                audioDeviceButton.text
+                audioDeviceButton.text,
             )
 
         audioDeviceButton.isSpeakerON =
@@ -225,7 +232,6 @@ internal class SetupControlBarView : LinearLayout {
 
 internal open class SetupButton(context: Context, attrs: AttributeSet?) :
     AppCompatButton(context, attrs) {
-
     var isCameraON = false
     var isON = false
 
@@ -234,13 +240,13 @@ internal open class SetupButton(context: Context, attrs: AttributeSet?) :
         if (isCameraON) {
             mergeDrawableStates(
                 drawableState,
-                intArrayOf(R.attr.azure_communication_ui_calling_state_setup_camera_on)
+                intArrayOf(R.attr.azure_communication_ui_calling_state_setup_camera_on),
             )
         }
         if (isON) {
             mergeDrawableStates(
                 drawableState,
-                intArrayOf(R.attr.azure_communication_ui_calling_state_on)
+                intArrayOf(R.attr.azure_communication_ui_calling_state_on),
             )
         }
         return drawableState
@@ -249,7 +255,6 @@ internal open class SetupButton(context: Context, attrs: AttributeSet?) :
 
 internal class AudioDeviceSetupButton(context: Context, attrs: AttributeSet?) :
     SetupButton(context, attrs) {
-
     var isSpeakerON = false
     var isReceiverON = false
     var isBluetoothON = false
@@ -259,19 +264,19 @@ internal class AudioDeviceSetupButton(context: Context, attrs: AttributeSet?) :
         if (isSpeakerON) {
             mergeDrawableStates(
                 drawableState,
-                intArrayOf(R.attr.azure_communication_ui_calling_state_setup_audio_device_speaker)
+                intArrayOf(R.attr.azure_communication_ui_calling_state_setup_audio_device_speaker),
             )
         }
         if (isReceiverON) {
             mergeDrawableStates(
                 drawableState,
-                intArrayOf(R.attr.azure_communication_ui_calling_state_setup_audio_device_receiver)
+                intArrayOf(R.attr.azure_communication_ui_calling_state_setup_audio_device_receiver),
             )
         }
         if (isBluetoothON) {
             mergeDrawableStates(
                 drawableState,
-                intArrayOf(R.attr.azure_communication_ui_calling_state_setup_audio_device_bluetooth)
+                intArrayOf(R.attr.azure_communication_ui_calling_state_setup_audio_device_bluetooth),
             )
         }
         return drawableState

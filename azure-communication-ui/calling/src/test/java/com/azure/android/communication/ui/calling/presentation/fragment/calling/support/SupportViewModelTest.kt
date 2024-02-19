@@ -14,7 +14,6 @@ import org.mockito.kotlin.verify
 
 @ExperimentalCoroutinesApi
 class SupportViewModelTest {
-
     private lateinit var viewModel: SupportViewModel
     private lateinit var dispatch: Dispatch
     private lateinit var onSubmit: (String) -> Unit
@@ -57,11 +56,12 @@ class SupportViewModelTest {
     }
 
     @Test
-    fun `dismissForm should dispatch HideSupportForm action and clear user message`() = runTest {
-        viewModel.dismissForm()
-        verify(dispatch).invoke(NavigationAction.HideSupportForm())
-        assertEquals("", viewModel.userMessage)
-    }
+    fun `dismissForm should dispatch HideSupportForm action and clear user message`() =
+        runTest {
+            viewModel.dismissForm()
+            verify(dispatch).invoke(NavigationAction.HideSupportForm())
+            assertEquals("", viewModel.userMessage)
+        }
 
     @Test
     fun `userMessage should enable submit when not empty`() {

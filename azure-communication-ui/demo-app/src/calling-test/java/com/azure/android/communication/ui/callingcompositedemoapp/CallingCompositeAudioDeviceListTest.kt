@@ -14,7 +14,6 @@ import org.junit.runner.RunWith
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class CallingCompositeAudioDeviceListTest : BaseUiTest() {
-
     @Test
     fun selectDefaultAudioDevice() {
         joinGroupSetupScreen()
@@ -34,10 +33,11 @@ class CallingCompositeAudioDeviceListTest : BaseUiTest() {
     }
 
     private fun joinGroupSetupScreen(): SetupScreenRobot {
-        val setupScreen = HomeScreenRobot()
-            .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getGroupId())
-            .setAcsToken(CallIdentifiersHelper.getACSToken())
-            .clickLaunchButton()
+        val setupScreen =
+            HomeScreenRobot()
+                .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getGroupId())
+                .setAcsToken(CallIdentifiersHelper.getACSToken())
+                .clickLaunchButton()
 
         return setupScreen
     }

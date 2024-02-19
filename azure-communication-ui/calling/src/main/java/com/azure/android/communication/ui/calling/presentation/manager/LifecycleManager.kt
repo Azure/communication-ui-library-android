@@ -9,6 +9,7 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 
 internal interface LifecycleManager {
     fun pause()
+
     fun resume()
 }
 
@@ -16,7 +17,6 @@ internal class LifecycleManagerImpl(
     private val store: Store<ReduxState>,
 ) :
     LifecycleManager {
-
     override fun pause() {
         store.dispatch(action = LifecycleAction.EnterBackgroundTriggered())
     }

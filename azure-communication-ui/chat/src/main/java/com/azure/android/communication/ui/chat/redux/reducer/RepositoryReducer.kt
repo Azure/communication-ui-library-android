@@ -10,7 +10,10 @@ import com.azure.android.communication.ui.chat.redux.state.RepositoryState
 internal interface RepositoryReducer : Reducer<RepositoryState>
 
 internal class RepositoryReducerImpl : RepositoryReducer {
-    override fun reduce(state: RepositoryState, action: Action): RepositoryState {
+    override fun reduce(
+        state: RepositoryState,
+        action: Action,
+    ): RepositoryState {
         return when (action) {
             is RepositoryAction.RepositoryUpdated -> state.copy(lastUpdatedTimestamp = System.currentTimeMillis())
             else -> state

@@ -12,7 +12,10 @@ import com.azure.android.communication.ui.calling.implementation.R
 internal class BottomCellAdapter : RecyclerView.Adapter<BottomCellViewHolder>() {
     private var bottomCellItems: List<BottomCellItem> = mutableListOf()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BottomCellViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): BottomCellViewHolder {
         val bottomCellType = BottomCellItemType.values()[viewType]
         val inflater = LayoutInflater.from(parent.context)
         return when (bottomCellType) {
@@ -20,8 +23,11 @@ internal class BottomCellAdapter : RecyclerView.Adapter<BottomCellViewHolder>() 
                 val view = inflater.inflate(R.layout.azure_communication_ui_calling_bottom_drawer_cell, parent, false)
                 if (isAndroidTV(parent.context)) {
                     view.setOnFocusChangeListener { v, hasFocus ->
-                        if (hasFocus) v.setBackgroundColor(v.context.resources.getColor(R.color.azure_communication_ui_calling_color_focus_tint))
-                        else v.setBackgroundColor(Color.TRANSPARENT)
+                        if (hasFocus) {
+                            v.setBackgroundColor(v.context.resources.getColor(R.color.azure_communication_ui_calling_color_focus_tint))
+                        } else {
+                            v.setBackgroundColor(Color.TRANSPARENT)
+                        }
                     }
                 }
                 BottomCellActionViewHolder(view)
@@ -33,7 +39,10 @@ internal class BottomCellAdapter : RecyclerView.Adapter<BottomCellViewHolder>() 
         }
     }
 
-    override fun onBindViewHolder(holder: BottomCellViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: BottomCellViewHolder,
+        position: Int,
+    ) {
         val item: BottomCellItem = bottomCellItems[position]
         holder.setCellData(item)
     }

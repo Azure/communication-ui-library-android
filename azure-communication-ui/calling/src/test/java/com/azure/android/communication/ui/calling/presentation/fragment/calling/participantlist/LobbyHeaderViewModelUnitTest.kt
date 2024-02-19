@@ -19,7 +19,6 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
 internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
-
     @Test
     fun lobbyHeaderViewModelUnitTest_update_then_showHeaderIfStateIsConnectedAndParticipantExists() {
         runScopedTest {
@@ -27,50 +26,52 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             val lobbyHeaderViewModel = LobbyHeaderViewModel()
             val initialRemoteParticipantsMap: MutableMap<String, ParticipantInfoModel> =
                 mutableMapOf()
-            initialRemoteParticipantsMap["user1"] = getParticipantInfoModel(
-                "user one",
-                "user1",
-                isMuted = true,
-                isSpeaking = true,
-                cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
-                modifiedTimestamp = 456,
-                speakingTimestamp = 567,
-            )
+            initialRemoteParticipantsMap["user1"] =
+                getParticipantInfoModel(
+                    "user one",
+                    "user1",
+                    isMuted = true,
+                    isSpeaking = true,
+                    cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
+                    modifiedTimestamp = 456,
+                    speakingTimestamp = 567,
+                )
             val resultHeaderStateFlow =
                 mutableListOf<Boolean?>()
 
             lobbyHeaderViewModel.init(
                 CallingStatus.CONNECTED,
                 initialRemoteParticipantsMap,
-                true
+                true,
             )
 
-            val displayJob = launch {
-                lobbyHeaderViewModel.getDisplayLobbyHeaderFlow()
-                    .toList(resultHeaderStateFlow)
-            }
+            val displayJob =
+                launch {
+                    lobbyHeaderViewModel.getDisplayLobbyHeaderFlow()
+                        .toList(resultHeaderStateFlow)
+                }
 
             // act
             lobbyHeaderViewModel.update(
                 CallingStatus.CONNECTED,
                 initialRemoteParticipantsMap,
-                true
+                true,
             )
             lobbyHeaderViewModel.update(
                 CallingStatus.CONNECTED,
                 initialRemoteParticipantsMap,
-                true
+                true,
             )
 
             // assert
             Assert.assertEquals(
                 true,
-                resultHeaderStateFlow[0]
+                resultHeaderStateFlow[0],
             )
 
             Assert.assertEquals(
                 1,
-                resultHeaderStateFlow.size
+                resultHeaderStateFlow.size,
             )
 
             displayJob.cancel()
@@ -80,75 +81,77 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
     @Test
     fun lobbyHeaderViewModelUnitTest_update_then_showHeaderIfStateIsConnected_andNewParticipantIsAdded() {
         runScopedTest {
-
             // arrange
             val lobbyHeaderViewModel = LobbyHeaderViewModel()
             val initialRemoteParticipantsMap: MutableMap<String, ParticipantInfoModel> =
                 mutableMapOf()
-            initialRemoteParticipantsMap["user1"] = getParticipantInfoModel(
-                "user one",
-                "user1",
-                isMuted = true,
-                isSpeaking = true,
-                cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
-                modifiedTimestamp = 456,
-                speakingTimestamp = 567,
-            )
+            initialRemoteParticipantsMap["user1"] =
+                getParticipantInfoModel(
+                    "user one",
+                    "user1",
+                    isMuted = true,
+                    isSpeaking = true,
+                    cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
+                    modifiedTimestamp = 456,
+                    speakingTimestamp = 567,
+                )
             val resultHeaderStateFlow =
                 mutableListOf<Boolean?>()
 
             lobbyHeaderViewModel.init(
                 CallingStatus.CONNECTED,
                 initialRemoteParticipantsMap,
-                true
+                true,
             )
 
-            val displayJob = launch {
-                lobbyHeaderViewModel.getDisplayLobbyHeaderFlow()
-                    .toList(resultHeaderStateFlow)
-            }
+            val displayJob =
+                launch {
+                    lobbyHeaderViewModel.getDisplayLobbyHeaderFlow()
+                        .toList(resultHeaderStateFlow)
+                }
 
             // act
             lobbyHeaderViewModel.close()
             lobbyHeaderViewModel.update(
                 CallingStatus.CONNECTED,
                 initialRemoteParticipantsMap.toMutableMap(),
-                true
+                true,
             )
-            initialRemoteParticipantsMap["user2"] = getParticipantInfoModel(
-                "user 2",
-                "user2",
-                isMuted = true,
-                isSpeaking = true,
-                cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
-                modifiedTimestamp = 456,
-                speakingTimestamp = 567,
-            )
+            initialRemoteParticipantsMap["user2"] =
+                getParticipantInfoModel(
+                    "user 2",
+                    "user2",
+                    isMuted = true,
+                    isSpeaking = true,
+                    cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
+                    modifiedTimestamp = 456,
+                    speakingTimestamp = 567,
+                )
             lobbyHeaderViewModel.update(
                 CallingStatus.CONNECTED,
                 initialRemoteParticipantsMap.toMutableMap(),
-                true
+                true,
             )
 
             // assert
             Assert.assertEquals(
                 true,
-                resultHeaderStateFlow[0]
+                resultHeaderStateFlow[0],
             )
 
             Assert.assertEquals(
                 false,
-                resultHeaderStateFlow[1]
+                resultHeaderStateFlow[1],
             )
 
             Assert.assertEquals(
                 true,
-                resultHeaderStateFlow[2]
+                resultHeaderStateFlow[2],
             )
 
             Assert.assertEquals(
                 3,
-                resultHeaderStateFlow.size
+                resultHeaderStateFlow.size,
             )
 
             displayJob.cancel()
@@ -158,64 +161,66 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
     @Test
     fun lobbyHeaderViewModelUnitTest_update_then_ifStateIsConnected_showLobbyIsFalse_lobbyHeaderNotDisplayed() {
         runScopedTest {
-
             // arrange
             val lobbyHeaderViewModel = LobbyHeaderViewModel()
             val initialRemoteParticipantsMap: MutableMap<String, ParticipantInfoModel> =
                 mutableMapOf()
-            initialRemoteParticipantsMap["user1"] = getParticipantInfoModel(
-                "user one",
-                "user1",
-                isMuted = true,
-                isSpeaking = true,
-                cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
-                modifiedTimestamp = 456,
-                speakingTimestamp = 567,
-            )
+            initialRemoteParticipantsMap["user1"] =
+                getParticipantInfoModel(
+                    "user one",
+                    "user1",
+                    isMuted = true,
+                    isSpeaking = true,
+                    cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
+                    modifiedTimestamp = 456,
+                    speakingTimestamp = 567,
+                )
             val resultHeaderStateFlow =
                 mutableListOf<Boolean?>()
 
             lobbyHeaderViewModel.init(
                 CallingStatus.CONNECTED,
                 initialRemoteParticipantsMap,
-                false
+                false,
             )
 
-            val displayJob = launch {
-                lobbyHeaderViewModel.getDisplayLobbyHeaderFlow()
-                    .toList(resultHeaderStateFlow)
-            }
+            val displayJob =
+                launch {
+                    lobbyHeaderViewModel.getDisplayLobbyHeaderFlow()
+                        .toList(resultHeaderStateFlow)
+                }
 
             // act
             lobbyHeaderViewModel.update(
                 CallingStatus.CONNECTED,
                 initialRemoteParticipantsMap.toMutableMap(),
-                false
+                false,
             )
-            initialRemoteParticipantsMap["user2"] = getParticipantInfoModel(
-                "user one",
-                "user1",
-                isMuted = true,
-                isSpeaking = true,
-                cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
-                modifiedTimestamp = 456,
-                speakingTimestamp = 567,
-            )
+            initialRemoteParticipantsMap["user2"] =
+                getParticipantInfoModel(
+                    "user one",
+                    "user1",
+                    isMuted = true,
+                    isSpeaking = true,
+                    cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
+                    modifiedTimestamp = 456,
+                    speakingTimestamp = 567,
+                )
             lobbyHeaderViewModel.update(
                 CallingStatus.CONNECTED,
                 initialRemoteParticipantsMap,
-                false
+                false,
             )
 
             // assert
             Assert.assertEquals(
                 false,
-                resultHeaderStateFlow[0]
+                resultHeaderStateFlow[0],
             )
 
             Assert.assertEquals(
                 1,
-                resultHeaderStateFlow.size
+                resultHeaderStateFlow.size,
             )
 
             displayJob.cancel()
@@ -225,64 +230,66 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
     @Test
     fun lobbyHeaderViewModelUnitTest_update_then_ifStateIsNotConnected_showLobbyIsTrue_lobbyHeaderNotDisplayed() {
         runScopedTest {
-
             // arrange
             val lobbyHeaderViewModel = LobbyHeaderViewModel()
             val initialRemoteParticipantsMap: MutableMap<String, ParticipantInfoModel> =
                 mutableMapOf()
-            initialRemoteParticipantsMap["user1"] = getParticipantInfoModel(
-                "user one",
-                "user1",
-                isMuted = true,
-                isSpeaking = true,
-                cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
-                modifiedTimestamp = 456,
-                speakingTimestamp = 567,
-            )
+            initialRemoteParticipantsMap["user1"] =
+                getParticipantInfoModel(
+                    "user one",
+                    "user1",
+                    isMuted = true,
+                    isSpeaking = true,
+                    cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
+                    modifiedTimestamp = 456,
+                    speakingTimestamp = 567,
+                )
             val resultHeaderStateFlow =
                 mutableListOf<Boolean?>()
 
             lobbyHeaderViewModel.init(
                 CallingStatus.DISCONNECTED,
                 initialRemoteParticipantsMap,
-                true
+                true,
             )
 
-            val displayJob = launch {
-                lobbyHeaderViewModel.getDisplayLobbyHeaderFlow()
-                    .toList(resultHeaderStateFlow)
-            }
+            val displayJob =
+                launch {
+                    lobbyHeaderViewModel.getDisplayLobbyHeaderFlow()
+                        .toList(resultHeaderStateFlow)
+                }
 
             // act
             lobbyHeaderViewModel.update(
                 CallingStatus.CONNECTING,
                 initialRemoteParticipantsMap.toMutableMap(),
-                true
+                true,
             )
-            initialRemoteParticipantsMap["user2"] = getParticipantInfoModel(
-                "user one",
-                "user1",
-                isMuted = true,
-                isSpeaking = true,
-                cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
-                modifiedTimestamp = 456,
-                speakingTimestamp = 567,
-            )
+            initialRemoteParticipantsMap["user2"] =
+                getParticipantInfoModel(
+                    "user one",
+                    "user1",
+                    isMuted = true,
+                    isSpeaking = true,
+                    cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
+                    modifiedTimestamp = 456,
+                    speakingTimestamp = 567,
+                )
             lobbyHeaderViewModel.update(
                 CallingStatus.EARLY_MEDIA,
                 initialRemoteParticipantsMap,
-                true
+                true,
             )
 
             // assert
             Assert.assertEquals(
                 false,
-                resultHeaderStateFlow[0]
+                resultHeaderStateFlow[0],
             )
 
             Assert.assertEquals(
                 1,
-                resultHeaderStateFlow.size
+                resultHeaderStateFlow.size,
             )
 
             displayJob.cancel()
@@ -302,35 +309,36 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             lobbyHeaderViewModel.init(
                 CallingStatus.CONNECTED,
                 initialRemoteParticipantsMap,
-                true
+                true,
             )
 
-            val displayJob = launch {
-                lobbyHeaderViewModel.getDisplayLobbyHeaderFlow()
-                    .toList(resultHeaderStateFlow)
-            }
+            val displayJob =
+                launch {
+                    lobbyHeaderViewModel.getDisplayLobbyHeaderFlow()
+                        .toList(resultHeaderStateFlow)
+                }
 
             // act
             lobbyHeaderViewModel.update(
                 CallingStatus.CONNECTED,
                 initialRemoteParticipantsMap,
-                true
+                true,
             )
             lobbyHeaderViewModel.update(
                 CallingStatus.CONNECTED,
                 initialRemoteParticipantsMap,
-                true
+                true,
             )
 
             // assert
             Assert.assertEquals(
                 false,
-                resultHeaderStateFlow[0]
+                resultHeaderStateFlow[0],
             )
 
             Assert.assertEquals(
                 1,
-                resultHeaderStateFlow.size
+                resultHeaderStateFlow.size,
             )
 
             displayJob.cancel()

@@ -16,13 +16,12 @@ import org.junit.runner.RunWith
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class CallingCompositeParticipantListTest : BaseUiTest() {
-
     @Test
     fun testLocalUserName() {
         val userName = UiTestUtils.getTextFromEdittextView(R.id.userNameText)
         Assert.assertTrue(
             "Invalid user: ${BuildConfig.USER_NAME}",
-            BuildConfig.USER_NAME == "Test User"
+            BuildConfig.USER_NAME == "Test User",
         )
         Assert.assertTrue("Invalid user: $userName", BuildConfig.USER_NAME == userName)
     }
@@ -49,10 +48,11 @@ class CallingCompositeParticipantListTest : BaseUiTest() {
     }
 
     private fun joinGroupCall(videoEnabled: Boolean = true): CallScreenRobot {
-        val setupScreen = HomeScreenRobot()
-            .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getGroupId())
-            .setAcsToken(CallIdentifiersHelper.getACSToken())
-            .clickLaunchButton()
+        val setupScreen =
+            HomeScreenRobot()
+                .setGroupIdOrTeamsMeetingUrl(CallIdentifiersHelper.getGroupId())
+                .setAcsToken(CallIdentifiersHelper.getACSToken())
+                .clickLaunchButton()
 
         if (videoEnabled) {
             setupScreen.turnCameraOn()

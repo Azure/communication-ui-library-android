@@ -7,224 +7,232 @@ import com.azure.android.communication.BaseUiTest
 import com.azure.android.communication.assertDisplayed
 import com.azure.android.communication.assertViewGone
 import com.azure.android.communication.assertViewText
-import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.tapWhenDisplayed
+import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.waitUntilDisplayed
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 internal class ToastNotificationTest : BaseUiTest() {
     @Test
-    fun testShowLowNetworkReceiveQualityToastNotification() = runTest {
-        injectDependencies(testScheduler)
+    fun testShowLowNetworkReceiveQualityToastNotification() =
+        runTest {
+            injectDependencies(testScheduler)
 
-        // Launch the UI.
-        launchComposite()
-        tapWhenDisplayed(joinCallId)
-        waitUntilDisplayed(endCallId)
+            // Launch the UI.
+            launchComposite()
+            tapWhenDisplayed(joinCallId)
+            waitUntilDisplayed(endCallId)
 
-        callingSDK.setLowNetworkRecieveQuality(true)
+            callingSDK.setLowNetworkRecieveQuality(true)
 
-        // Check that the toast notification appeared
-        waitUntilDisplayed(toastNotificationId)
+            // Check that the toast notification appeared
+            waitUntilDisplayed(toastNotificationId)
 
-        // Assert toast notification appears with correct text
-        assertDisplayed(toastNotificationId)
-        assertDisplayed(toastNotificationIconId)
-        assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_network_quality_low)
+            // Assert toast notification appears with correct text
+            assertDisplayed(toastNotificationId)
+            assertDisplayed(toastNotificationIconId)
+            assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_network_quality_low)
 
-        callingSDK.setLowNetworkRecieveQuality(false)
+            callingSDK.setLowNetworkRecieveQuality(false)
 
-        assertViewGone(toastNotificationId)
-        assertViewGone(toastNotificationIconId)
-    }
-
-    @Test
-    fun testShowLowNetworkSendQualityToastNotification() = runTest {
-        injectDependencies(testScheduler)
-
-        // Launch the UI.
-        launchComposite()
-        tapWhenDisplayed(joinCallId)
-        waitUntilDisplayed(endCallId)
-
-        callingSDK.setLowNetworkSendQuality(true)
-
-        // Check that the toast notification appeared
-        waitUntilDisplayed(toastNotificationId)
-
-        // Assert toast notification appears with correct text
-        assertDisplayed(toastNotificationId)
-        assertDisplayed(toastNotificationIconId)
-        assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_network_quality_low)
-
-        callingSDK.setLowNetworkSendQuality(false)
-
-        assertViewGone(toastNotificationId)
-        assertViewGone(toastNotificationIconId)
-    }
+            assertViewGone(toastNotificationId)
+            assertViewGone(toastNotificationIconId)
+        }
 
     @Test
-    fun testShowLowNetworkReconnectionQualityToastNotification() = runTest {
-        injectDependencies(testScheduler)
+    fun testShowLowNetworkSendQualityToastNotification() =
+        runTest {
+            injectDependencies(testScheduler)
 
-        // Launch the UI.
-        launchComposite()
-        tapWhenDisplayed(joinCallId)
-        waitUntilDisplayed(endCallId)
+            // Launch the UI.
+            launchComposite()
+            tapWhenDisplayed(joinCallId)
+            waitUntilDisplayed(endCallId)
 
-        callingSDK.setLowNetworkReconnectionQuality(true)
+            callingSDK.setLowNetworkSendQuality(true)
 
-        // Check that the toast notification appeared
-        waitUntilDisplayed(toastNotificationId)
+            // Check that the toast notification appeared
+            waitUntilDisplayed(toastNotificationId)
 
-        // Assert toast notification appears with correct text
-        assertDisplayed(toastNotificationId)
-        assertDisplayed(toastNotificationIconId)
-        assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_network_reconnecting)
+            // Assert toast notification appears with correct text
+            assertDisplayed(toastNotificationId)
+            assertDisplayed(toastNotificationIconId)
+            assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_network_quality_low)
 
-        // Stop speaking while muted
-        callingSDK.setLowNetworkReconnectionQuality(false)
+            callingSDK.setLowNetworkSendQuality(false)
 
-        assertViewGone(toastNotificationId)
-        assertViewGone(toastNotificationIconId)
-    }
-
-    @Test
-    fun testShowNetworkUnavailableToastNotification() = runTest {
-        injectDependencies(testScheduler)
-
-        // Launch the UI.
-        launchComposite()
-        tapWhenDisplayed(joinCallId)
-        waitUntilDisplayed(endCallId)
-
-        callingSDK.setNetworkUnavailable(true)
-
-        // Check that the toast notification appeared
-        waitUntilDisplayed(toastNotificationId)
-
-        // Assert toast notification appears with correct text
-        assertDisplayed(toastNotificationId)
-        assertDisplayed(toastNotificationIconId)
-        assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_network_was_lost)
-
-        // Stop speaking while muted
-        callingSDK.setNetworkUnavailable(false)
-
-        // Assert toast notification is still shown even after UFD is set to false
-        assertDisplayed(toastNotificationId)
-        assertDisplayed(toastNotificationIconId)
-        assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_network_was_lost)
-    }
+            assertViewGone(toastNotificationId)
+            assertViewGone(toastNotificationIconId)
+        }
 
     @Test
-    fun testShowNetworkRelaysUnreachableToastNotification() = runTest {
-        injectDependencies(testScheduler)
+    fun testShowLowNetworkReconnectionQualityToastNotification() =
+        runTest {
+            injectDependencies(testScheduler)
 
-        // Launch the UI.
-        launchComposite()
-        tapWhenDisplayed(joinCallId)
-        waitUntilDisplayed(endCallId)
+            // Launch the UI.
+            launchComposite()
+            tapWhenDisplayed(joinCallId)
+            waitUntilDisplayed(endCallId)
 
-        callingSDK.setNetworkRelaysUnreachable(true)
+            callingSDK.setLowNetworkReconnectionQuality(true)
 
-        // Check that the toast notification appeared
-        waitUntilDisplayed(toastNotificationId)
+            // Check that the toast notification appeared
+            waitUntilDisplayed(toastNotificationId)
 
-        // Assert toast notification appears with correct text
-        assertDisplayed(toastNotificationId)
-        assertDisplayed(toastNotificationIconId)
-        assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_network_was_lost)
+            // Assert toast notification appears with correct text
+            assertDisplayed(toastNotificationId)
+            assertDisplayed(toastNotificationIconId)
+            assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_network_reconnecting)
 
-        // Stop speaking while muted
-        callingSDK.setNetworkRelaysUnreachable(false)
+            // Stop speaking while muted
+            callingSDK.setLowNetworkReconnectionQuality(false)
 
-        // Assert toast notification is still shown even after UFD is set to false
-        assertDisplayed(toastNotificationId)
-        assertDisplayed(toastNotificationIconId)
-        assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_network_was_lost)
-    }
-
-    @Test
-    fun testShowSpeakingWhileMutedToastNotification() = runTest {
-        injectDependencies(testScheduler)
-
-        // Launch the UI.
-        launchComposite()
-        tapWhenDisplayed(joinCallId)
-        waitUntilDisplayed(endCallId)
-
-        callingSDK.setSpeakingWhileMuted(true)
-
-        // Check that the toast notification appeared
-        waitUntilDisplayed(toastNotificationId)
-
-        // Assert toast notification appears with correct text
-        assertDisplayed(toastNotificationId)
-        assertDisplayed(toastNotificationIconId)
-        assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_you_are_muted)
-
-        // Stop speaking while muted
-        callingSDK.setSpeakingWhileMuted(false)
-
-        assertViewGone(toastNotificationId)
-        assertViewGone(toastNotificationIconId)
-    }
+            assertViewGone(toastNotificationId)
+            assertViewGone(toastNotificationIconId)
+        }
 
     @Test
-    fun testShowCameraStartFailedToastNotification() = runTest {
-        injectDependencies(testScheduler)
+    fun testShowNetworkUnavailableToastNotification() =
+        runTest {
+            injectDependencies(testScheduler)
 
-        // Launch the UI.
-        launchComposite()
-        tapWhenDisplayed(joinCallId)
-        waitUntilDisplayed(endCallId)
+            // Launch the UI.
+            launchComposite()
+            tapWhenDisplayed(joinCallId)
+            waitUntilDisplayed(endCallId)
 
-        callingSDK.setCameraStartFailed(true)
+            callingSDK.setNetworkUnavailable(true)
 
-        // Check that the toast notification appeared
-        waitUntilDisplayed(toastNotificationId)
+            // Check that the toast notification appeared
+            waitUntilDisplayed(toastNotificationId)
 
-        // Assert toast notification appears with correct text
-        assertDisplayed(toastNotificationId)
-        assertDisplayed(toastNotificationIconId)
-        assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_unable_to_start_camera)
+            // Assert toast notification appears with correct text
+            assertDisplayed(toastNotificationId)
+            assertDisplayed(toastNotificationIconId)
+            assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_network_was_lost)
 
-        // Stop speaking while muted
-        callingSDK.setCameraStartFailed(false)
+            // Stop speaking while muted
+            callingSDK.setNetworkUnavailable(false)
 
-        // Assert toast notification is still shown even after UFD is set to false
-        assertDisplayed(toastNotificationId)
-        assertDisplayed(toastNotificationIconId)
-        assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_unable_to_start_camera)
-    }
+            // Assert toast notification is still shown even after UFD is set to false
+            assertDisplayed(toastNotificationId)
+            assertDisplayed(toastNotificationIconId)
+            assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_network_was_lost)
+        }
 
     @Test
-    fun testShowCameraStartTimedOutToastNotification() = runTest {
-        injectDependencies(testScheduler)
+    fun testShowNetworkRelaysUnreachableToastNotification() =
+        runTest {
+            injectDependencies(testScheduler)
 
-        // Launch the UI.
-        launchComposite()
-        tapWhenDisplayed(joinCallId)
-        waitUntilDisplayed(endCallId)
+            // Launch the UI.
+            launchComposite()
+            tapWhenDisplayed(joinCallId)
+            waitUntilDisplayed(endCallId)
 
-        callingSDK.setCameraStartTimedOut(true)
+            callingSDK.setNetworkRelaysUnreachable(true)
 
-        // Check that the toast notification appeared
-        waitUntilDisplayed(toastNotificationId)
+            // Check that the toast notification appeared
+            waitUntilDisplayed(toastNotificationId)
 
-        // Assert toast notification appears with correct text
-        assertDisplayed(toastNotificationId)
-        assertDisplayed(toastNotificationIconId)
-        assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_unable_to_start_camera)
+            // Assert toast notification appears with correct text
+            assertDisplayed(toastNotificationId)
+            assertDisplayed(toastNotificationIconId)
+            assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_network_was_lost)
 
-        // Stop speaking while muted
-        callingSDK.setCameraStartTimedOut(false)
+            // Stop speaking while muted
+            callingSDK.setNetworkRelaysUnreachable(false)
 
-        // Assert toast notification is still shown even after UFD is set to false
-        assertDisplayed(toastNotificationId)
-        assertDisplayed(toastNotificationIconId)
-        assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_unable_to_start_camera)
-    }
+            // Assert toast notification is still shown even after UFD is set to false
+            assertDisplayed(toastNotificationId)
+            assertDisplayed(toastNotificationIconId)
+            assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_network_was_lost)
+        }
+
+    @Test
+    fun testShowSpeakingWhileMutedToastNotification() =
+        runTest {
+            injectDependencies(testScheduler)
+
+            // Launch the UI.
+            launchComposite()
+            tapWhenDisplayed(joinCallId)
+            waitUntilDisplayed(endCallId)
+
+            callingSDK.setSpeakingWhileMuted(true)
+
+            // Check that the toast notification appeared
+            waitUntilDisplayed(toastNotificationId)
+
+            // Assert toast notification appears with correct text
+            assertDisplayed(toastNotificationId)
+            assertDisplayed(toastNotificationIconId)
+            assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_you_are_muted)
+
+            // Stop speaking while muted
+            callingSDK.setSpeakingWhileMuted(false)
+
+            assertViewGone(toastNotificationId)
+            assertViewGone(toastNotificationIconId)
+        }
+
+    @Test
+    fun testShowCameraStartFailedToastNotification() =
+        runTest {
+            injectDependencies(testScheduler)
+
+            // Launch the UI.
+            launchComposite()
+            tapWhenDisplayed(joinCallId)
+            waitUntilDisplayed(endCallId)
+
+            callingSDK.setCameraStartFailed(true)
+
+            // Check that the toast notification appeared
+            waitUntilDisplayed(toastNotificationId)
+
+            // Assert toast notification appears with correct text
+            assertDisplayed(toastNotificationId)
+            assertDisplayed(toastNotificationIconId)
+            assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_unable_to_start_camera)
+
+            // Stop speaking while muted
+            callingSDK.setCameraStartFailed(false)
+
+            // Assert toast notification is still shown even after UFD is set to false
+            assertDisplayed(toastNotificationId)
+            assertDisplayed(toastNotificationIconId)
+            assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_unable_to_start_camera)
+        }
+
+    @Test
+    fun testShowCameraStartTimedOutToastNotification() =
+        runTest {
+            injectDependencies(testScheduler)
+
+            // Launch the UI.
+            launchComposite()
+            tapWhenDisplayed(joinCallId)
+            waitUntilDisplayed(endCallId)
+
+            callingSDK.setCameraStartTimedOut(true)
+
+            // Check that the toast notification appeared
+            waitUntilDisplayed(toastNotificationId)
+
+            // Assert toast notification appears with correct text
+            assertDisplayed(toastNotificationId)
+            assertDisplayed(toastNotificationIconId)
+            assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_unable_to_start_camera)
+
+            // Stop speaking while muted
+            callingSDK.setCameraStartTimedOut(false)
+
+            // Assert toast notification is still shown even after UFD is set to false
+            assertDisplayed(toastNotificationId)
+            assertDisplayed(toastNotificationIconId)
+            assertViewText(toastNotificationMessageId, R.string.azure_communication_ui_calling_diagnostics_unable_to_start_camera)
+        }
 }

@@ -16,26 +16,39 @@ import org.threeten.bp.OffsetDateTime
 
 internal interface ChatSDK {
     fun initialization(): CompletableFuture<Void>
+
     fun destroy()
+
     fun getAdminUserId(): String
+
     fun requestPreviousPage()
+
     fun requestChatParticipants()
 
     fun startEventNotifications()
+
     fun stopEventNotifications()
 
     fun getChatStatusStateFlow(): StateFlow<ChatStatus>
+
     fun getMessagesPageSharedFlow(): SharedFlow<MessagesPageModel>
+
     fun getChatEventSharedFlow(): SharedFlow<ChatEventModel>
 
-    fun sendMessage(
-        messageInfoModel: MessageInfoModel,
-    ): CompletableFuture<SendChatMessageResult>
+    fun sendMessage(messageInfoModel: MessageInfoModel): CompletableFuture<SendChatMessageResult>
 
     fun deleteMessage(id: String): CompletableFuture<Void>
-    fun editMessage(id: String, content: String): CompletableFuture<Void>
+
+    fun editMessage(
+        id: String,
+        content: String,
+    ): CompletableFuture<Void>
+
     fun sendTypingIndicator(): CompletableFuture<Void>
+
     fun sendReadReceipt(id: String): CompletableFuture<Void>
+
     fun removeParticipant(communicationIdentifier: CommunicationIdentifier): CompletableFuture<Void>
+
     fun fetchMessages(from: OffsetDateTime?)
 }

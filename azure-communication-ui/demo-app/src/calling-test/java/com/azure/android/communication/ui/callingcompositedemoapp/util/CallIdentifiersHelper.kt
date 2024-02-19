@@ -11,12 +11,13 @@ import java.util.UUID
 class CallIdentifiersHelper {
     companion object {
         fun getGroupId() = UUID.randomUUID().toString()
+
         fun getACSToken(): String {
             val aadToken = TestFixture.aadToken
 
             return JSONObject(
                 Fuel.get(TestFixture.tokenFunctionUrl).authentication().bearer(aadToken)
-                    .responseString().component3().get()
+                    .responseString().component3().get(),
             ).getString("token")
         }
     }

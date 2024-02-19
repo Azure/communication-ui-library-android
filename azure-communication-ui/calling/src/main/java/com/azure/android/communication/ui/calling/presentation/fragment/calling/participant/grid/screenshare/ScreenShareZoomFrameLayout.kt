@@ -102,8 +102,11 @@ internal class ScreenShareZoomFrameLayout :
     }
 
     override fun onLayout(
-        changed: Boolean, left: Int,
-        top: Int, right: Int, bottom: Int,
+        changed: Boolean,
+        left: Int,
+        top: Int,
+        right: Int,
+        bottom: Int,
     ) {
         super.onLayout(changed, left, top, right, bottom)
         getScreenShareViewBounds(screenShareViewBounds)
@@ -182,20 +185,22 @@ internal class ScreenShareZoomFrameLayout :
         val rect = RectF()
         rect.set(screenShareViewBounds)
         transform.mapRect(rect)
-        val offsetLeft = getOffset(
-            rect.left,
-            rect.right,
-            zoomFrameViewBounds.left,
-            zoomFrameViewBounds.right,
-            screenShareViewBounds.centerX()
-        )
-        val offsetTop = getOffset(
-            rect.top,
-            rect.bottom,
-            zoomFrameViewBounds.top,
-            zoomFrameViewBounds.bottom,
-            screenShareViewBounds.centerY()
-        )
+        val offsetLeft =
+            getOffset(
+                rect.left,
+                rect.right,
+                zoomFrameViewBounds.left,
+                zoomFrameViewBounds.right,
+                screenShareViewBounds.centerX(),
+            )
+        val offsetTop =
+            getOffset(
+                rect.top,
+                rect.bottom,
+                zoomFrameViewBounds.top,
+                zoomFrameViewBounds.bottom,
+                screenShareViewBounds.centerY(),
+            )
 
         if (offsetLeft != 0f || offsetTop != 0f) {
             transform.postTranslate(offsetLeft, offsetTop)
@@ -232,7 +237,9 @@ internal class ScreenShareZoomFrameLayout :
         }
         return if (viewEnd < limitEnd) {
             limitEnd - viewEnd
-        } else 0f
+        } else {
+            0f
+        }
     }
 
     private fun onDoubleTapDisplay(motionEvent: MotionEvent): Boolean {
@@ -257,11 +264,15 @@ internal class ScreenShareZoomFrameLayout :
                 } else {
                     if (shouldZoomToMax()) {
                         zoomToPoint(
-                            MAX_SCALE, screenSharePoint, zoomLayoutPoint
+                            MAX_SCALE,
+                            screenSharePoint,
+                            zoomLayoutPoint,
                         )
                     } else {
                         zoomToPoint(
-                            MIN_SCALE, screenSharePoint, zoomLayoutPoint
+                            MIN_SCALE,
+                            screenSharePoint,
+                            zoomLayoutPoint,
                         )
                     }
                 }
@@ -284,10 +295,11 @@ internal class ScreenShareZoomFrameLayout :
     }
 
     private fun shouldStartDoubleTapScroll(viewPoint: PointF): Boolean {
-        val dist = hypot(
-            (viewPoint.x - doubleTapZoomLayoutPoint.x).toDouble(),
-            (viewPoint.y - doubleTapZoomLayoutPoint.y).toDouble()
-        )
+        val dist =
+            hypot(
+                (viewPoint.x - doubleTapZoomLayoutPoint.x).toDouble(),
+                (viewPoint.y - doubleTapZoomLayoutPoint.y).toDouble(),
+            )
         return dist > 20
     }
 
@@ -332,7 +344,11 @@ internal class ScreenShareZoomFrameLayout :
         }
     }
 
-    private fun zoomToPoint(scale: Float, imagePoint: PointF, viewPoint: PointF) {
+    private fun zoomToPoint(
+        scale: Float,
+        imagePoint: PointF,
+        viewPoint: PointF,
+    ) {
         val matrix = Matrix()
         applyZoomToPointTransform(matrix, scale, imagePoint, viewPoint)
         setTransformAnimated(matrix)
@@ -380,20 +396,22 @@ internal class ScreenShareZoomFrameLayout :
             activeTransform.set(animatedMatrix)
             onTransformChanged()
         }
-        doubleTapZoomAnimator.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationCancel(animation: Animator) {
-                onAnimationStopped()
-            }
+        doubleTapZoomAnimator.addListener(
+            object : AnimatorListenerAdapter() {
+                override fun onAnimationCancel(animation: Animator) {
+                    onAnimationStopped()
+                }
 
-            override fun onAnimationEnd(animation: Animator) {
-                onAnimationStopped()
-            }
+                override fun onAnimationEnd(animation: Animator) {
+                    onAnimationStopped()
+                }
 
-            private fun onAnimationStopped() {
-                gestureListener.resetPointers()
-                gestureListener.doubleTapZoomAnimationEnded()
-            }
-        })
+                private fun onAnimationStopped() {
+                    gestureListener.resetPointers()
+                    gestureListener.doubleTapZoomAnimationEnded()
+                }
+            },
+        )
         gestureListener.doubleTapZoomAnimationStarted()
         doubleTapZoomAnimator.start()
     }

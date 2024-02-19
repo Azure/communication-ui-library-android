@@ -29,19 +29,21 @@ class AdditionalFeatures private constructor() {
             if (!this::diagnosticsFeature.isInitialized) {
                 val magnifierViewer = MagnifierViewer.getMagnifierViewer(application)
 
-                diagnosticsFeature = FeatureFlagEntry(
-                    start = {
-                        magnifierViewer.show()
-                    },
-                    end = {
-                        magnifierViewer.hide()
-                    },
-                    enabledByDefault = false,
-                    label = "FPS, Memory Diagnostics"
-                )
+                diagnosticsFeature =
+                    FeatureFlagEntry(
+                        start = {
+                            magnifierViewer.show()
+                        },
+                        end = {
+                            magnifierViewer.hide()
+                        },
+                        enabledByDefault = false,
+                        label = "FPS, Memory Diagnostics",
+                    )
 
                 // Hooks for Activities for this feature
-                application.registerActivityLifecycleCallbacks(object :
+                application.registerActivityLifecycleCallbacks(
+                    object :
                         Application.ActivityLifecycleCallbacks {
                         // On Resume/Pause we should show/hide the Overlay
                         // Because after initial enable it goes to accessibility and "resumes"
@@ -76,18 +78,20 @@ class AdditionalFeatures private constructor() {
                         }
 
                         override fun onActivityDestroyed(activity: Activity) {}
-                    })
+                    },
+                )
             }
 
             return diagnosticsFeature
         }
 
-        val secondaryThemeFeature = FeatureFlagEntry(
-            // Will use default false here
-            start = {},
-            end = {},
-            enabledByDefault = false,
-            label = "Secondary theme"
-        )
+        val secondaryThemeFeature =
+            FeatureFlagEntry(
+                // Will use default false here
+                start = {},
+                end = {},
+                enabledByDefault = false,
+                label = "Secondary theme",
+            )
     }
 }

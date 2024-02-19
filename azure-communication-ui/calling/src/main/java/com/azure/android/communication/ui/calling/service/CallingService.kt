@@ -4,8 +4,8 @@
 package com.azure.android.communication.ui.calling.service
 
 import com.azure.android.communication.ui.calling.logger.Logger
-import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
+import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
@@ -164,7 +164,10 @@ internal class CallingService(
         callingSdk.dispose()
     }
 
-    fun startCall(cameraState: CameraState, audioState: AudioState): CompletableFuture<Void> {
+    fun startCall(
+        cameraState: CameraState,
+        audioState: AudioState,
+    ): CompletableFuture<Void> {
         coroutineScope.launch {
             callingSdk.getCallingStateWrapperSharedFlow().collect {
                 logger?.debug(it.toString())

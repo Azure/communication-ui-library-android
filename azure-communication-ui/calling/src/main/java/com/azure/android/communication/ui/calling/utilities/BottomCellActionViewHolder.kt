@@ -40,7 +40,7 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
                         info.removeAction(AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK)
                         info.isClickable = false
                     }
-                }
+                },
             )
             imageView.visibility = View.GONE
             avatarView.visibility = View.VISIBLE
@@ -69,8 +69,8 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
             accessoryImageView.setColorFilter(
                 ContextCompat.getColor(
                     itemView.context,
-                    bottomCellItem.accessoryColor!!
-                )
+                    bottomCellItem.accessoryColor!!,
+                ),
             )
         }
         accessoryImageView.contentDescription = bottomCellItem.accessoryImageDescription
@@ -80,16 +80,18 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
     }
 
     private fun isAccessoryImageViewable(bottomCellItem: BottomCellItem): Boolean {
-        val muteDescription = itemView.rootView.context
-            .getString(R.string.azure_communication_ui_calling_view_participant_list_muted_accessibility_label)
-        val unMutedDescription = itemView.rootView.context
-            .getString(R.string.azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label)
+        val muteDescription =
+            itemView.rootView.context
+                .getString(R.string.azure_communication_ui_calling_view_participant_list_muted_accessibility_label)
+        val unMutedDescription =
+            itemView.rootView.context
+                .getString(R.string.azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label)
 
         return (
             bottomCellItem.isOnHold == false && (
                 bottomCellItem.isChecked == true || bottomCellItem.accessoryImageDescription == muteDescription ||
                     bottomCellItem.accessoryImageDescription == unMutedDescription
-                )
             )
+        )
     }
 }

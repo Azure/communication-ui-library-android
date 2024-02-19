@@ -18,7 +18,6 @@ import com.azure.android.communication.ui.chat.service.ChatService
 // Converts Redux Actions into SDK Calls
 // Redux -> Service
 internal class ChatActionHandler(private val chatService: ChatService) {
-
     companion object {
         const val SEND_TYPING_INDICATOR_INTERVAL_MILLIS = 8000
     }
@@ -26,15 +25,20 @@ internal class ChatActionHandler(private val chatService: ChatService) {
     private var lastTypingIndicatorNotificationSent =
         System.currentTimeMillis() - SEND_TYPING_INDICATOR_INTERVAL_MILLIS
 
-    fun onAction(action: Action, dispatch: Dispatch, state: ReduxState?) {
+    fun onAction(
+        action: Action,
+        dispatch: Dispatch,
+        state: ReduxState?,
+    ) {
         val threadId = state?.chatState?.chatInfoModel?.threadId ?: ""
         when (action) {
             is ChatAction.StartChat -> initialization(dispatch = dispatch, threadId)
-            is ChatAction.Initialized -> onChatInitialized(
-                threadId = threadId,
-                action = action,
-                dispatch = dispatch
-            )
+            is ChatAction.Initialized ->
+                onChatInitialized(
+                    threadId = threadId,
+                    action = action,
+                    dispatch = dispatch,
+                )
             is ChatAction.SendMessage -> sendMessage(action = action, dispatch = dispatch, threadId = threadId)
             is ChatAction.FetchMessages -> fetchMessages()
             is ChatAction.EditMessage -> editMessage(action = action, dispatch = dispatch, threadId = threadId)
@@ -60,31 +64,40 @@ internal class ChatActionHandler(private val chatService: ChatService) {
         chatService.requestPreviousPage()
     }
 
-    private fun deleteMessage(action: ChatAction.DeleteMessage, dispatch: Dispatch, threadId: String) {
+    private fun deleteMessage(
+        action: ChatAction.DeleteMessage,
+        dispatch: Dispatch,
+        threadId: String,
+    ) {
         chatService.deleteMessage(action.message.normalizedID.toString()).whenComplete { _, error ->
             if (error != null) {
                 // TODO: lets use only one action and state to fire error for timing
                 // TODO: while working on error stories, we can create separate states for every error
                 dispatch(
                     ErrorAction.ChatStateErrorOccurred(
-                        chatCompositeErrorEvent = ChatCompositeErrorEvent(
-                            threadId,
-                            ChatCompositeErrorCode.SEND_MESSAGE_FAILED,
-                            error
-                        )
-                    )
+                        chatCompositeErrorEvent =
+                            ChatCompositeErrorEvent(
+                                threadId,
+                                ChatCompositeErrorCode.SEND_MESSAGE_FAILED,
+                                error,
+                            ),
+                    ),
                 )
             } else {
                 dispatch(
                     ChatAction.MessageDeleted(
-                        message = action.message
-                    )
+                        message = action.message,
+                    ),
                 )
             }
         }
     }
 
-    private fun sendMessage(action: ChatAction.SendMessage, dispatch: Dispatch, threadId: String) {
+    private fun sendMessage(
+        action: ChatAction.SendMessage,
+        dispatch: Dispatch,
+        threadId: String,
+    ) {
         chatService.sendMessage(action.messageInfoModel).whenComplete { result, error ->
             if (error != null) {
                 // TODO: lets use only one action and state to fire error for timing
@@ -92,31 +105,36 @@ internal class ChatActionHandler(private val chatService: ChatService) {
 
                 dispatch(
                     ChatAction.MessageSentFailed(
-                        messageInfoModel = action.messageInfoModel
-                    )
+                        messageInfoModel = action.messageInfoModel,
+                    ),
                 )
 
                 dispatch(
                     ErrorAction.ChatStateErrorOccurred(
-                        chatCompositeErrorEvent = ChatCompositeErrorEvent(
-                            threadId,
-                            ChatCompositeErrorCode.SEND_MESSAGE_FAILED,
-                            error
-                        )
-                    )
+                        chatCompositeErrorEvent =
+                            ChatCompositeErrorEvent(
+                                threadId,
+                                ChatCompositeErrorCode.SEND_MESSAGE_FAILED,
+                                error,
+                            ),
+                    ),
                 )
             } else {
                 dispatch(
                     ChatAction.MessageSent(
                         messageInfoModel = action.messageInfoModel,
                         id = result.id,
-                    )
+                    ),
                 )
             }
         }
     }
 
-    private fun editMessage(action: ChatAction.EditMessage, dispatch: Dispatch, threadId: String) {
+    private fun editMessage(
+        action: ChatAction.EditMessage,
+        dispatch: Dispatch,
+        threadId: String,
+    ) {
         chatService.editMessage(action.message.normalizedID.toString(), action.message.content ?: "")
             .whenComplete { _, error ->
                 if (error != null) {
@@ -135,25 +153,33 @@ internal class ChatActionHandler(private val chatService: ChatService) {
             }
     }
 
-    private fun sendReadReceipt(action: ChatAction.MessageRead, dispatch: Dispatch, threadId: String) {
+    private fun sendReadReceipt(
+        action: ChatAction.MessageRead,
+        dispatch: Dispatch,
+        threadId: String,
+    ) {
         chatService.sendReadReceipt(action.messageId).whenComplete { _, error ->
             if (error != null) {
                 // TODO: lets use only one action and state to fire error for timing
                 // TODO: while working on error stories, we can create separate states for every error
                 dispatch(
                     ErrorAction.ChatStateErrorOccurred(
-                        chatCompositeErrorEvent = ChatCompositeErrorEvent(
-                            threadId,
-                            ChatCompositeErrorCode.SEND_READ_RECEIPT_FAILED,
-                            error
-                        )
-                    )
+                        chatCompositeErrorEvent =
+                            ChatCompositeErrorEvent(
+                                threadId,
+                                ChatCompositeErrorCode.SEND_READ_RECEIPT_FAILED,
+                                error,
+                            ),
+                    ),
                 )
             }
         }
     }
 
-    private fun sendTypingIndicator(dispatch: Dispatch, threadId: String) {
+    private fun sendTypingIndicator(
+        dispatch: Dispatch,
+        threadId: String,
+    ) {
         if (System.currentTimeMillis() - lastTypingIndicatorNotificationSent
             < SEND_TYPING_INDICATOR_INTERVAL_MILLIS
         ) {
@@ -166,30 +192,35 @@ internal class ChatActionHandler(private val chatService: ChatService) {
                 // TODO: while working on error stories, we can create separate states for every error
                 dispatch(
                     ErrorAction.ChatStateErrorOccurred(
-                        chatCompositeErrorEvent = ChatCompositeErrorEvent(
-                            threadId,
-                            ChatCompositeErrorCode.SEND_TYPING_INDICATOR_FAILED,
-                            error,
-                        )
-                    )
+                        chatCompositeErrorEvent =
+                            ChatCompositeErrorEvent(
+                                threadId,
+                                ChatCompositeErrorCode.SEND_TYPING_INDICATOR_FAILED,
+                                error,
+                            ),
+                    ),
                 )
             }
         }
     }
 
-    private fun initialization(dispatch: Dispatch, threadId: String) {
+    private fun initialization(
+        dispatch: Dispatch,
+        threadId: String,
+    ) {
         chatService.initialize().whenComplete { _, error ->
             if (error != null) {
                 // TODO: lets use only one action and state to fire error for timing
                 // TODO: while working on error stories, we can create separate states for every error
                 dispatch(
                     ErrorAction.ChatStateErrorOccurred(
-                        chatCompositeErrorEvent = ChatCompositeErrorEvent(
-                            threadId,
-                            ChatCompositeErrorCode.JOIN_FAILED,
-                            error,
-                        )
-                    )
+                        chatCompositeErrorEvent =
+                            ChatCompositeErrorEvent(
+                                threadId,
+                                ChatCompositeErrorCode.JOIN_FAILED,
+                                error,
+                            ),
+                    ),
                 )
             } else {
                 dispatch.invoke(ParticipantAction.ParticipantToHideReceived(chatService.getAdminUserId()))
@@ -197,7 +228,11 @@ internal class ChatActionHandler(private val chatService: ChatService) {
         }
     }
 
-    private fun onChatInitialized(action: ChatAction, dispatch: Dispatch, threadId: String) {
+    private fun onChatInitialized(
+        action: ChatAction,
+        dispatch: Dispatch,
+        threadId: String,
+    ) {
         try {
             chatService.startEventNotifications()
             dispatch.invoke(ChatAction.FetchMessages())

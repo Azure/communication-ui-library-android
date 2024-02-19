@@ -9,7 +9,6 @@ import com.azure.android.communication.ui.chat.repository.MessageRepository
 import java.util.concurrent.ConcurrentSkipListMap
 
 internal class MessageRepositorySkipListBackedImpl : MessageRepository() {
-
     private val skipListStorage: ConcurrentSkipListMap<Long, MessageInfoModel> =
         ConcurrentSkipListMap()
 
@@ -34,7 +33,6 @@ internal class MessageRepositorySkipListBackedImpl : MessageRepository() {
     }
 
     private fun searchItem(kth: Int): MessageInfoModel {
-
         var highestKey = skipListStorage.lastKey()
         var lowestKey = skipListStorage.firstKey()
         var elements = 0
@@ -77,9 +75,10 @@ internal class MessageRepositorySkipListBackedImpl : MessageRepository() {
         return skipListStorage.headMap(midKey).size
     }
 
-    override fun get(index: Int): MessageInfoModel = try {
-        searchItem(index + 1)
-    } catch (exception: Exception) {
-        EMPTY_MESSAGE_INFO_MODEL
-    }
+    override fun get(index: Int): MessageInfoModel =
+        try {
+            searchItem(index + 1)
+        } catch (exception: Exception) {
+            EMPTY_MESSAGE_INFO_MODEL
+        }
 }

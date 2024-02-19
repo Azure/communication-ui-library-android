@@ -14,10 +14,18 @@ internal class DbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_N
         db.execSQL(CallHistoryContract.SQL_CREATE_CALL_HISTORY_INDEX)
     }
 
-    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+    override fun onUpgrade(
+        db: SQLiteDatabase,
+        oldVersion: Int,
+        newVersion: Int,
+    ) {
     }
 
-    override fun onDowngrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+    override fun onDowngrade(
+        db: SQLiteDatabase,
+        oldVersion: Int,
+        newVersion: Int,
+    ) {
     }
 
     companion object {
@@ -28,7 +36,6 @@ internal class DbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_N
 }
 
 internal object CallHistoryContract {
-
     const val COLUMN_NAME_ID = BaseColumns._ID
     const val TABLE_NAME = "call_history"
 

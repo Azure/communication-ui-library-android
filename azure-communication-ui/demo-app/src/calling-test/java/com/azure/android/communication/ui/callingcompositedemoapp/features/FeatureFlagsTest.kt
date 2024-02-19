@@ -23,22 +23,23 @@ class FeatureFlagsTest {
         //  Fake an entry
         var started = false
         val oldLength = FeatureFlags.features.size
-        val entry = FeatureFlagEntry(
-            start = {
-                started = true
-            },
-            end = {
-                started = false
-            },
-            label = "test",
-            enabledByDefault = false
-        )
+        val entry =
+            FeatureFlagEntry(
+                start = {
+                    started = true
+                },
+                end = {
+                    started = false
+                },
+                label = "test",
+                enabledByDefault = false,
+            )
 
         FeatureFlags.registerAdditionalFeature(entry)
 
         assert(
             !entry.active,
-            { "Should be disabled" }
+            { "Should be disabled" },
         )
         entry.toggle()
         assert(entry.active) { "Should be enabled (active)" }
@@ -54,16 +55,17 @@ class FeatureFlagsTest {
     fun testAutoStartFeature() {
         // / Fake an entry (this one will be default on)
         var started = false
-        val entry = FeatureFlagEntry(
-            start = {
-                started = true
-            },
-            end = {
-                started = false
-            },
-            label = "test",
-            enabledByDefault = true
-        )
+        val entry =
+            FeatureFlagEntry(
+                start = {
+                    started = true
+                },
+                end = {
+                    started = false
+                },
+                label = "test",
+                enabledByDefault = true,
+            )
 
         FeatureFlags.registerAdditionalFeature(entry)
         assert(started) { "Should have been started" }

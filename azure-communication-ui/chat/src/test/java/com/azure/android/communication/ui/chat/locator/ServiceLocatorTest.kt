@@ -7,7 +7,6 @@ import org.junit.Test
 
 // / Tests for the Service Locator Pattern
 class ServiceLocatorTest {
-
     /*
         ScaffoldingObjects
         BasicObjectHello = stores: "hello"
@@ -21,6 +20,7 @@ class ServiceLocatorTest {
     internal inner class BasicObjectWorld : ServiceLocator.Disposable {
         val data = "world"
         var disposed = false
+
         override fun dispose() {
             disposed = true
         }
@@ -84,7 +84,7 @@ class ServiceLocatorTest {
         locator.addTypedBuilder {
             BasicObjectHelloWorld(
                 locator.locate(),
-                locator.locate()
+                locator.locate(),
             )
         }
 
@@ -104,7 +104,7 @@ class ServiceLocatorTest {
         locator.addTypedBuilder {
             BasicObjectHelloWorld(
                 locator.locate(),
-                locator.locate()
+                locator.locate(),
             )
         }
 

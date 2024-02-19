@@ -14,12 +14,12 @@ import com.azure.android.communication.chat.models.UpdateChatMessageOptions
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.chat.configuration.ChatConfiguration
 import com.azure.android.communication.ui.chat.logger.Logger
-import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
-import com.azure.android.communication.ui.chat.models.RemoteParticipantsInfoModel
 import com.azure.android.communication.ui.chat.models.ChatEventModel
 import com.azure.android.communication.ui.chat.models.ChatThreadInfoModel
 import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.MessagesPageModel
+import com.azure.android.communication.ui.chat.models.RemoteParticipantInfoModel
+import com.azure.android.communication.ui.chat.models.RemoteParticipantsInfoModel
 import com.azure.android.communication.ui.chat.models.into
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatEventType
@@ -31,14 +31,14 @@ import com.azure.android.core.http.policy.UserAgentPolicy
 import com.azure.android.core.util.RequestContext
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.withContext
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.withContext
 import org.threeten.bp.OffsetDateTime
 import java.util.concurrent.Executors
 
@@ -50,7 +50,6 @@ internal class ChatSDKWrapper(
     private val chatFetchNotificationHandler: ChatFetchNotificationHandler,
     private val logger: Logger,
 ) : ChatSDK {
-
     companion object {
         const val PAGE_MESSAGES_SIZE = 50
         private const val RESPONSE_SUCCESS_CODE = 200
@@ -87,9 +86,10 @@ internal class ChatSDKWrapper(
         MutableSharedFlow()
 
     override fun getChatStatusStateFlow(): StateFlow<ChatStatus> = chatStatusStateFlow
+
     override fun getMessagesPageSharedFlow(): SharedFlow<MessagesPageModel> = messagesSharedFlow
-    override fun getChatEventSharedFlow(): SharedFlow<ChatEventModel> =
-        chatEventModelSharedFlow
+
+    override fun getChatEventSharedFlow(): SharedFlow<ChatEventModel> = chatEventModelSharedFlow
 
     override fun initialization(): CompletableFuture<Void> {
         val future = CompletableFuture<Void>()
@@ -100,14 +100,15 @@ internal class ChatSDKWrapper(
             // TODO: initialize polling or try to get first message here to make sure SDK can establish connection with thread
             // TODO: above will make sure, network is connected as well
             onChatEventReceived(
-                infoModel = ChatEventModel(
-                    eventType = ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED,
-                    ChatThreadInfoModel(
-                        topic = threadClient.properties.topic,
-                        receivedOn = threadClient.properties.createdOn
+                infoModel =
+                    ChatEventModel(
+                        eventType = ChatEventType.CHAT_THREAD_PROPERTIES_UPDATED,
+                        ChatThreadInfoModel(
+                            topic = threadClient.properties.topic,
+                            receivedOn = threadClient.properties.createdOn,
+                        ),
+                        eventReceivedOffsetDateTime = null,
                     ),
-                    eventReceivedOffsetDateTime = null
-                )
             )
 
             adminUserId = threadClient.properties.createdByCommunicationIdentifier.into().id
@@ -160,30 +161,30 @@ internal class ChatSDKWrapper(
                         MessagesPageModel(
                             messages = messages,
                             throwable = throwable,
-                            allPagesFetched = allPagesFetched
-                        )
+                            allPagesFetched = allPagesFetched,
+                        ),
                     )
                 }
             }
         }
     }
 
-    override fun sendMessage(
-        messageInfoModel: MessageInfoModel,
-    ): CompletableFuture<SendChatMessageResult> {
+    override fun sendMessage(messageInfoModel: MessageInfoModel): CompletableFuture<SendChatMessageResult> {
         val future = CompletableFuture<SendChatMessageResult>()
         // coroutine to make sure requests are not blocking
         coroutineScope.launch {
-            val chatMessageOptions = SendChatMessageOptions()
-                .setType(messageInfoModel.messageType!!.into())
-                .setContent(messageInfoModel.content)
-                .setSenderDisplayName(senderDisplayName)
+            val chatMessageOptions =
+                SendChatMessageOptions()
+                    .setType(messageInfoModel.messageType!!.into())
+                    .setContent(messageInfoModel.content)
+                    .setSenderDisplayName(senderDisplayName)
 
             try {
-                val response = threadClient.sendMessageWithResponse(
-                    chatMessageOptions,
-                    RequestContext.NONE
-                )
+                val response =
+                    threadClient.sendMessageWithResponse(
+                        chatMessageOptions,
+                        RequestContext.NONE,
+                    )
                 future.complete(response.value.into())
             } catch (ex: Exception) {
                 future.completeExceptionally(ex)
@@ -203,19 +204,21 @@ internal class ChatSDKWrapper(
                             RemoteParticipantInfoModel(
                                 userIdentifier = it.communicationIdentifier.into(),
                                 displayName = it.displayName,
-                                isLocalUser = it.communicationIdentifier.into().id == localParticipantIdentifier
-                            )
+                                isLocalUser = it.communicationIdentifier.into().id == localParticipantIdentifier,
+                            ),
                         )
                     }
                 }
                 onChatEventReceived(
-                    infoModel = ChatEventModel(
-                        eventType = ChatEventType.PARTICIPANTS_ADDED,
-                        infoModel = RemoteParticipantsInfoModel(
-                            participants = participants
+                    infoModel =
+                        ChatEventModel(
+                            eventType = ChatEventType.PARTICIPANTS_ADDED,
+                            infoModel =
+                                RemoteParticipantsInfoModel(
+                                    participants = participants,
+                                ),
+                            eventReceivedOffsetDateTime = null,
                         ),
-                        eventReceivedOffsetDateTime = null
-                    )
                 )
             } catch (ex: Exception) {
                 throw ex
@@ -261,7 +264,10 @@ internal class ChatSDKWrapper(
         return future
     }
 
-    override fun editMessage(id: String, content: String): CompletableFuture<Void> {
+    override fun editMessage(
+        id: String,
+        content: String,
+    ): CompletableFuture<Void> {
         val future = CompletableFuture<Void>()
         coroutineScope.launch {
             try {
@@ -300,10 +306,11 @@ internal class ChatSDKWrapper(
         val future = CompletableFuture<Void>()
         // coroutine to make sure requests are not blocking
         coroutineScope.launch {
-            val response = threadClient.removeParticipantWithResponse(
-                communicationIdentifier.into(),
-                RequestContext.NONE
-            )
+            val response =
+                threadClient.removeParticipantWithResponse(
+                    communicationIdentifier.into(),
+                    RequestContext.NONE,
+                )
             if (response.statusCode == RESPONSE_SUCCESS_CODE) {
                 future.complete(null)
             } else {
@@ -328,11 +335,11 @@ internal class ChatSDKWrapper(
             chatClient = chatClient,
             threadID = threadId,
             localParticipantIdentifier = localParticipantIdentifier,
-            eventSubscriber = this::onChatEventReceived
+            eventSubscriber = this::onChatEventReceived,
         )
         chatFetchNotificationHandler.start(
             chatThreadClient = threadClient,
-            eventSubscriber = this::onChatEventReceived
+            eventSubscriber = this::onChatEventReceived,
         )
     }
 
@@ -345,32 +352,34 @@ internal class ChatSDKWrapper(
     }
 
     private fun createChatClient() {
-        chatClient = ChatClientBuilder()
-            .endpoint(endPointURL)
-            .credential(credential)
-            .addPolicy(
-                UserAgentPolicy(
-                    applicationID,
-                    sdkName,
-                    sdkVersion
+        chatClient =
+            ChatClientBuilder()
+                .endpoint(endPointURL)
+                .credential(credential)
+                .addPolicy(
+                    UserAgentPolicy(
+                        applicationID,
+                        sdkName,
+                        sdkVersion,
+                    ),
                 )
-            )
-            .buildClient()
+                .buildClient()
     }
 
     private fun createChatThreadClient() {
-        threadClient = ChatThreadClientBuilder()
-            .endpoint(endPointURL)
-            .credential(credential)
-            .addPolicy(
-                UserAgentPolicy(
-                    applicationID,
-                    sdkName,
-                    sdkVersion
+        threadClient =
+            ChatThreadClientBuilder()
+                .endpoint(endPointURL)
+                .credential(credential)
+                .addPolicy(
+                    UserAgentPolicy(
+                        applicationID,
+                        sdkName,
+                        sdkVersion,
+                    ),
                 )
-            )
-            .chatThreadId(threadId)
-            .buildClient()
+                .chatThreadId(threadId)
+                .buildClient()
     }
 
     private fun onChatEventReceived(infoModel: ChatEventModel) {

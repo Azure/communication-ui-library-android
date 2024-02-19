@@ -9,7 +9,6 @@ import android.net.NetworkCapabilities
 import android.os.Build
 
 internal class NetworkManager(private val context: Context) {
-
     fun isNetworkConnectionAvailable(): Boolean {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -28,7 +27,7 @@ internal class NetworkManager(private val context: Context) {
             return networkInfo.isConnected && (
                 networkInfo.type == ConnectivityManager.TYPE_WIFI ||
                     networkInfo.type == ConnectivityManager.TYPE_MOBILE
-                ) ||
+            ) ||
                 networkInfo.type == ConnectivityManager.TYPE_ETHERNET
         }
 

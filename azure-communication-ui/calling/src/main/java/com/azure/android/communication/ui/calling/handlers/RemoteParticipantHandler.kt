@@ -51,9 +51,10 @@ internal class RemoteParticipantHandler(
         try {
             if (joinedParticipant.isNotEmpty()) {
                 val participantIdMap = remoteParticipantsCollection.getRemoteParticipantsMap()
-                val identifiers = joinedParticipant.map {
-                    participantIdMap.getValue(it).identifier.into()
-                }
+                val identifiers =
+                    joinedParticipant.map {
+                        participantIdMap.getValue(it).identifier.into()
+                    }
                 val eventArgs = CallCompositeRemoteParticipantJoinedEvent(identifiers)
                 configuration.callCompositeEventsHandler.getOnRemoteParticipantJoinedHandlers()
                     .forEach { it.handle(eventArgs) }

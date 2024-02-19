@@ -22,18 +22,18 @@ import com.azure.android.communication.ui.calling.presentation.manager.AudioFocu
 import com.azure.android.communication.ui.calling.presentation.manager.AudioModeManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
-import com.azure.android.communication.ui.calling.presentation.manager.CompositeExitManager
 import com.azure.android.communication.ui.calling.presentation.manager.CameraStatusHook
+import com.azure.android.communication.ui.calling.presentation.manager.CompositeExitManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManagerImpl
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManagerImpl
 import com.azure.android.communication.ui.calling.presentation.manager.MeetingJoinedHook
 import com.azure.android.communication.ui.calling.presentation.manager.MicStatusHook
+import com.azure.android.communication.ui.calling.presentation.manager.MultitaskingManager
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.presentation.manager.ParticipantAddedOrRemovedHook
 import com.azure.android.communication.ui.calling.presentation.manager.PermissionManager
 import com.azure.android.communication.ui.calling.presentation.manager.SwitchCameraStatusHook
-
 import com.azure.android.communication.ui.calling.presentation.navigation.NavigationRouterImpl
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.Middleware
@@ -49,14 +49,13 @@ import com.azure.android.communication.ui.calling.redux.reducer.LocalParticipant
 import com.azure.android.communication.ui.calling.redux.reducer.NavigationReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.ParticipantStateReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.PermissionStateReducerImpl
+import com.azure.android.communication.ui.calling.redux.reducer.PipReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.Reducer
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
-import com.azure.android.communication.ui.calling.service.CallingService
-import com.azure.android.communication.ui.calling.presentation.manager.MultitaskingManager
-import com.azure.android.communication.ui.calling.redux.reducer.PipReducerImpl
 import com.azure.android.communication.ui.calling.service.CallHistoryService
 import com.azure.android.communication.ui.calling.service.CallHistoryServiceImpl
+import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.service.NotificationService
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKEventHandler
@@ -72,7 +71,6 @@ internal class DependencyInjectionContainerImpl(
     private val customVideoStreamRendererFactory: VideoStreamRendererFactory?,
     private val customCoroutineContextProvider: CoroutineContextProvider?,
 ) : DependencyInjectionContainer {
-
     override var callCompositeActivityWeakReference: WeakReference<CallCompositeActivity> = WeakReference(null)
 
     override val configuration by lazy {
@@ -86,7 +84,7 @@ internal class DependencyInjectionContainerImpl(
     override val callingMiddlewareActionHandler by lazy {
         CallingMiddlewareActionHandlerImpl(
             callingService,
-            coroutineContextProvider
+            coroutineContextProvider,
         )
     }
 
@@ -102,7 +100,7 @@ internal class DependencyInjectionContainerImpl(
         VideoViewManager(
             callingSDKWrapper,
             applicationContext,
-            customVideoStreamRendererFactory ?: VideoStreamRendererFactoryImpl()
+            customVideoStreamRendererFactory ?: VideoStreamRendererFactoryImpl(),
         )
     }
 
@@ -151,7 +149,7 @@ internal class DependencyInjectionContainerImpl(
     override val callHistoryService: CallHistoryService by lazy {
         CallHistoryServiceImpl(
             appStore,
-            callHistoryRepository
+            callHistoryRepository,
         )
     }
 
@@ -160,7 +158,7 @@ internal class DependencyInjectionContainerImpl(
             coroutineContextProvider,
             appStore,
             configuration.callCompositeLocalOptions,
-            configuration.remoteParticipantsConfiguration
+            configuration.remoteParticipantsConfiguration,
         )
     }
 
@@ -173,7 +171,7 @@ internal class DependencyInjectionContainerImpl(
                 ParticipantAddedOrRemovedHook(),
                 MicStatusHook(),
                 SwitchCameraStatusHook(),
-            )
+            ),
         )
     }
 
@@ -190,7 +188,7 @@ internal class DependencyInjectionContainerImpl(
             initialState,
             appReduxStateReducer,
             appMiddleware,
-            storeDispatcher
+            storeDispatcher,
         )
     }
 
@@ -217,7 +215,7 @@ internal class DependencyInjectionContainerImpl(
             configuration.callConfig?.displayName,
             localOptions?.isCameraOn == true,
             localOptions?.isMicrophoneOn == true,
-            localOptions?.audioVideoMode ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+            localOptions?.audioVideoMode ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
         )
     }
 
@@ -239,7 +237,7 @@ internal class DependencyInjectionContainerImpl(
     private val callingMiddleware: Middleware<ReduxState> by lazy {
         CallingMiddlewareImpl(
             callingMiddlewareActionHandler,
-            logger
+            logger,
         )
     }
 
@@ -254,7 +252,7 @@ internal class DependencyInjectionContainerImpl(
             navigationReducer,
             audioSessionReducer,
             pipReducer,
-            callDiagnosticsReducer
+            callDiagnosticsReducer,
         ) as Reducer<ReduxState>
     }
     //endregion
@@ -269,7 +267,7 @@ internal class DependencyInjectionContainerImpl(
             ?: CallingSDKWrapper(
                 applicationContext,
                 callingSDKEventHandler,
-                configuration.callConfig
+                configuration.callConfig,
             )
     }
 

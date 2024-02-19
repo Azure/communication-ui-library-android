@@ -5,10 +5,10 @@ package com.azure.android.communication.ui.chat.presentation.ui.chat.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -24,7 +24,10 @@ import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
 
 @Composable
-internal fun TextMessageView(message: MessageInfoModel, isGrouped: Boolean) {
+internal fun TextMessageView(
+    message: MessageInfoModel,
+    isGrouped: Boolean,
+) {
     Column {
         Row {
             Column {
@@ -38,7 +41,7 @@ internal fun TextMessageView(message: MessageInfoModel, isGrouped: Boolean) {
                         if (!message.isCurrentUser) {
                             Text(
                                 text = message.senderDisplayName ?: "Unnamed participant",
-                                style = MaterialTheme.typography.subtitle2
+                                style = MaterialTheme.typography.subtitle2,
                             )
                             Spacer(modifier = Modifier.padding(4.dp))
                         }
@@ -54,12 +57,12 @@ internal fun TextMessageView(message: MessageInfoModel, isGrouped: Boolean) {
                 Surface(
                     shape = MaterialTheme.shapes.medium,
                     elevation = 1.dp,
-                    color = if (message.isCurrentUser) ChatCompositeTheme.colors.messageBackgroundSelf else ChatCompositeTheme.colors.messageBackground
+                    color = if (message.isCurrentUser) ChatCompositeTheme.colors.messageBackgroundSelf else ChatCompositeTheme.colors.messageBackground,
                 ) {
                     Text(
                         text = message.content ?: "",
                         style = MaterialTheme.typography.body1,
-                        modifier = Modifier.padding(4.dp)
+                        modifier = Modifier.padding(4.dp),
                     )
                 }
             }
@@ -74,8 +77,8 @@ internal fun PreviewTextMessageView() {
         MessageInfoModel(
             id = "1",
             content = "Test Message",
-            messageType = ChatMessageType.TEXT
+            messageType = ChatMessageType.TEXT,
         ),
-        isGrouped = false
+        isGrouped = false,
     )
 }

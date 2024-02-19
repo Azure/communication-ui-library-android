@@ -8,7 +8,9 @@ import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVi
 
 internal class LocalVideoStreamWrapper(override val native: NativeLocalVideoStream) : LocalVideoStream {
     override val source: VideoDeviceInfo
-        get() { return native.source.into() }
+        get() {
+            return native.source.into()
+        }
 
     override fun switchSource(deviceInfo: VideoDeviceInfo): CompletableFuture<Void> {
         return native.switchSource(deviceInfo.native as com.azure.android.communication.calling.VideoDeviceInfo)

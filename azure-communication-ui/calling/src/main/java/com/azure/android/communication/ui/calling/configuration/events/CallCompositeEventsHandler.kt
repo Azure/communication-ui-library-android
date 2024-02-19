@@ -5,9 +5,9 @@ package com.azure.android.communication.ui.calling.configuration.events
 
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.models.CallCompositePictureInPictureChangedEvent
-import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent
 
@@ -27,11 +27,9 @@ internal class CallCompositeEventsHandler {
 
     fun getOnErrorHandlers() = errorHandlers.asIterable()
 
-    fun addOnErrorEventHandler(errorHandler: CallCompositeEventHandler<CallCompositeErrorEvent>) =
-        errorHandlers.add(errorHandler)
+    fun addOnErrorEventHandler(errorHandler: CallCompositeEventHandler<CallCompositeErrorEvent>) = errorHandlers.add(errorHandler)
 
-    fun removeOnErrorEventHandler(errorHandler: CallCompositeEventHandler<CallCompositeErrorEvent>) =
-        errorHandlers.remove(errorHandler)
+    fun removeOnErrorEventHandler(errorHandler: CallCompositeEventHandler<CallCompositeErrorEvent>) = errorHandlers.remove(errorHandler)
 
     fun getOnRemoteParticipantJoinedHandlers() = remoteParticipantJoinedHandlers.asIterable()
 
@@ -42,6 +40,7 @@ internal class CallCompositeEventsHandler {
         remoteParticipantJoinedHandlers.remove(handler)
 
     fun getOnMultitaskingStateChangedEventHandlers() = multitaskingStateChangedEvent.asIterable()
+
     fun addOnMultitaskingStateChangedEventHandler(handler: CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent>) =
         multitaskingStateChangedEvent.add(handler)
 

@@ -29,23 +29,24 @@ internal class UpperMessageBarNotificationLayoutView : LinearLayout {
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         upperMessageBarNotificationLayoutViewModel: UpperMessageBarNotificationLayoutViewModel,
-        accessibilityEnabled: Boolean
+        accessibilityEnabled: Boolean,
     ) {
         this.upperMessageBarNotificationLayoutViewModel = upperMessageBarNotificationLayoutViewModel
         upperMessageBarNotificationLayout.visibility = View.VISIBLE
 
         viewLifecycleOwner.lifecycleScope.launch {
-            upperMessageBarNotificationLayoutViewModel.getNewUpperMessageBarNotificationFlow()?.collect() {
+            upperMessageBarNotificationLayoutViewModel.getNewUpperMessageBarNotificationFlow()?.collect {
                 if (!it.upperMessageBarNotificationModel.isEmpty()) {
-                    val upperMessageBarNotificationView: UpperMessageBarNotificationView = inflate(
-                        context,
-                        R.layout.azure_communication_ui_calling_upper_message_bar_notification,
-                        null
-                    ) as UpperMessageBarNotificationView
+                    val upperMessageBarNotificationView: UpperMessageBarNotificationView =
+                        inflate(
+                            context,
+                            R.layout.azure_communication_ui_calling_upper_message_bar_notification,
+                            null,
+                        ) as UpperMessageBarNotificationView
                     upperMessageBarNotificationView.start(
                         viewLifecycleOwner,
                         it,
-                        accessibilityEnabled
+                        accessibilityEnabled,
                     )
 
                     val layoutParams = LinearLayout.LayoutParams(upperMessageBarNotificationLayout.layoutParams)

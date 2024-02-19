@@ -4,15 +4,15 @@
 package com.azure.android.communication.mocking
 
 import androidx.annotation.GuardedBy
-import com.azure.android.communication.calling.CameraFacing
-import com.azure.android.communication.calling.VideoDeviceType
-import com.azure.android.communication.calling.ParticipantState
-import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.CallState
-import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
+import com.azure.android.communication.calling.CameraFacing
+import com.azure.android.communication.calling.MediaStreamType
+import com.azure.android.communication.calling.ParticipantState
 import com.azure.android.communication.calling.PropertyChangedListener
-import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
+import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
+import com.azure.android.communication.calling.VideoDeviceType
 import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
+import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
@@ -29,22 +29,22 @@ import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.CallingStateWrapper
 import com.azure.android.communication.ui.calling.service.sdk.CommunicationIdentifier
 import com.azure.android.communication.ui.calling.service.sdk.DominantSpeakersInfo
-import com.azure.android.communication.ui.calling.service.sdk.into
 import com.azure.android.communication.ui.calling.service.sdk.LocalVideoStream
-import com.azure.android.communication.ui.calling.service.sdk.VideoDeviceInfo
-import com.azure.android.communication.ui.calling.service.sdk.RemoteVideoStream
 import com.azure.android.communication.ui.calling.service.sdk.RemoteParticipant
+import com.azure.android.communication.ui.calling.service.sdk.RemoteVideoStream
+import com.azure.android.communication.ui.calling.service.sdk.VideoDeviceInfo
+import com.azure.android.communication.ui.calling.service.sdk.into
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.launch
-import java.util.concurrent.atomic.AtomicBoolean
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import java.io.File
+import java.util.concurrent.atomic.AtomicBoolean
 
 internal interface LocalStreamEventObserver {
     fun onSwitchSource(deviceInfo: VideoDeviceInfo)
@@ -61,7 +61,7 @@ internal class CallEvents {
 internal class LocalVideoStreamTest(
     private val callEvents: CallEvents,
     private val cameraFacing: CameraFacing,
-    private val coroutineScope: CoroutineScope
+    private val coroutineScope: CoroutineScope,
 ) : LocalVideoStream {
     override val native: Any = 1
     override val source: VideoDeviceInfo
@@ -104,22 +104,24 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         state: ParticipantState = ParticipantState.CONNECTED,
         isMuted: Boolean = true,
         isSpeaking: Boolean = false,
-        videoStreams: List<MediaStreamType>? = listOf()
+        videoStreams: List<MediaStreamType>? = listOf(),
     ) {
-        val rpi = RemoteParticipantImpl(
-            identifier = id,
-            displayName = displayName,
-            isMuted = isMuted,
-            isSpeaking = isSpeaking,
-            videoStreams = videoStreams?.mapIndexed { index, type ->
-                RemoteVideoStreamImpl(
-                    native = 1,
-                    id = index,
-                    mediaStreamType = type
-                )
-            } ?: listOf(),
-            state = state
-        )
+        val rpi =
+            RemoteParticipantImpl(
+                identifier = id,
+                displayName = displayName,
+                isMuted = isMuted,
+                isSpeaking = isSpeaking,
+                videoStreams =
+                    videoStreams?.mapIndexed { index, type ->
+                        RemoteVideoStreamImpl(
+                            native = 1,
+                            id = index,
+                            mediaStreamType = type,
+                        )
+                    } ?: listOf(),
+                state = state,
+            )
         synchronized(this) {
             remoteParticipantsMap[id.id] = rpi
         }
@@ -127,20 +129,24 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         emitRemoteParticipantFlow()
     }
 
-    suspend fun changeParticipantState(id: String, state: ParticipantState) {
+    suspend fun changeParticipantState(
+        id: String,
+        state: ParticipantState,
+    ) {
         synchronized(this) {
             if (!remoteParticipantsMap.containsKey(id)) {
                 return
             }
             val rpi = remoteParticipantsMap[id]!!
-            remoteParticipantsMap[id] = RemoteParticipantImpl(
-                identifier = rpi.identifier,
-                displayName = rpi.displayName,
-                isMuted = rpi.isMuted,
-                isSpeaking = rpi.isSpeaking,
-                videoStreams = rpi.videoStreams,
-                state = state
-            )
+            remoteParticipantsMap[id] =
+                RemoteParticipantImpl(
+                    identifier = rpi.identifier,
+                    displayName = rpi.displayName,
+                    isMuted = rpi.isMuted,
+                    isSpeaking = rpi.isSpeaking,
+                    videoStreams = rpi.videoStreams,
+                    state = state,
+                )
         }
         emitRemoteParticipantFlow()
     }
@@ -166,37 +172,50 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         id: String,
         isMuted: Boolean? = null,
         isSpeaking: Boolean? = null,
-        state: ParticipantState? = null
+        state: ParticipantState? = null,
     ) {
         synchronized(this) {
             if (!remoteParticipantsMap.containsKey(id)) {
                 return
             }
             val rpi = remoteParticipantsMap[id]!!
-            remoteParticipantsMap[id] = RemoteParticipantImpl(
-                identifier = rpi.identifier,
-                displayName = rpi.displayName,
-                isMuted = isMuted ?: rpi.isMuted,
-                isSpeaking = isSpeaking ?: rpi.isSpeaking,
-                videoStreams = rpi.videoStreams,
-                state = state ?: rpi.state
-            )
+            remoteParticipantsMap[id] =
+                RemoteParticipantImpl(
+                    identifier = rpi.identifier,
+                    displayName = rpi.displayName,
+                    isMuted = isMuted ?: rpi.isMuted,
+                    isSpeaking = isSpeaking ?: rpi.isSpeaking,
+                    videoStreams = rpi.videoStreams,
+                    state = state ?: rpi.state,
+                )
         }
         emitRemoteParticipantFlow()
     }
 
     suspend fun setLowNetworkRecieveQuality(lowNetworkReceiveQuality: Boolean) {
-        val model = NetworkQualityCallDiagnosticModel(NetworkCallDiagnostic.NETWORK_RECEIVE_QUALITY, if (lowNetworkReceiveQuality) CallDiagnosticQuality.BAD else CallDiagnosticQuality.GOOD)
+        val model =
+            NetworkQualityCallDiagnosticModel(
+                NetworkCallDiagnostic.NETWORK_RECEIVE_QUALITY,
+                if (lowNetworkReceiveQuality) CallDiagnosticQuality.BAD else CallDiagnosticQuality.GOOD,
+            )
         networkQualityCallDiagnosticSharedFlow.emit(model)
     }
 
     suspend fun setLowNetworkSendQuality(lowNetworkSendQuality: Boolean) {
-        val model = NetworkQualityCallDiagnosticModel(NetworkCallDiagnostic.NETWORK_SEND_QUALITY, if (lowNetworkSendQuality) CallDiagnosticQuality.BAD else CallDiagnosticQuality.GOOD)
+        val model =
+            NetworkQualityCallDiagnosticModel(
+                NetworkCallDiagnostic.NETWORK_SEND_QUALITY,
+                if (lowNetworkSendQuality) CallDiagnosticQuality.BAD else CallDiagnosticQuality.GOOD,
+            )
         networkQualityCallDiagnosticSharedFlow.emit(model)
     }
 
     suspend fun setLowNetworkReconnectionQuality(lowNetworkReconnectionQuality: Boolean) {
-        val model = NetworkQualityCallDiagnosticModel(NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY, if (lowNetworkReconnectionQuality) CallDiagnosticQuality.BAD else CallDiagnosticQuality.GOOD)
+        val model =
+            NetworkQualityCallDiagnosticModel(
+                NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY,
+                if (lowNetworkReconnectionQuality) CallDiagnosticQuality.BAD else CallDiagnosticQuality.GOOD,
+            )
         networkQualityCallDiagnosticSharedFlow.emit(model)
     }
 
@@ -253,6 +272,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     override fun setupCall(): CompletableFuture<Void> {
         return completedNullFuture()
     }
+
     override fun dispose() {}
 
     override fun turnOnVideoAsync(): CompletableFuture<LocalVideoStream> {
@@ -276,11 +296,12 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     }
 
     override fun switchCameraAsync(): CompletableFuture<CameraDeviceSelectionStatus> {
-        localCameraFacing = when (localCameraFacing) {
-            CameraFacing.FRONT -> CameraFacing.BACK
-            CameraFacing.BACK -> CameraFacing.FRONT
-            else -> TODO("Camera modes that aren't Front or Back not yet implemented")
-        }
+        localCameraFacing =
+            when (localCameraFacing) {
+                CameraFacing.FRONT -> CameraFacing.BACK
+                CameraFacing.BACK -> CameraFacing.FRONT
+                else -> TODO("Camera modes that aren't Front or Back not yet implemented")
+            }
 
         localVideoStream.switchSource(localVideoStream.source.copy(cameraFacing = localCameraFacing)).join()
 
@@ -371,6 +392,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     }
 
     override fun getCamerasCountStateFlow(): StateFlow<Int> = getCameraCountStateFlow
+
     override fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?> {
         return lobbyResultCompletableFuture
     }
@@ -409,7 +431,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
             when (this.mediaStreamType) {
                 MediaStreamType.VIDEO -> StreamType.VIDEO
                 MediaStreamType.SCREEN_SHARING -> StreamType.SCREEN_SHARING
-            }
+            },
         )
     }
 
@@ -417,7 +439,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         remoteParticipantsInfoModelSharedFlow.emit(
             synchronized(this) {
                 this.getRemoteParticipantsMap().mapValues { it.value.asParticipantInfoModel() }
-            }
+            },
         )
     }
 
@@ -428,16 +450,16 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
             isMuted = this.isMuted,
             isSpeaking = this.isSpeaking,
             participantStatus = this.state.into(),
-
-            screenShareVideoStreamModel = this.videoStreams.find {
-                it.mediaStreamType == MediaStreamType.SCREEN_SHARING
-            }?.asVideoStreamModel(),
-            cameraVideoStreamModel = this.videoStreams.find {
-                it.mediaStreamType == MediaStreamType.VIDEO
-            }?.asVideoStreamModel(),
-
+            screenShareVideoStreamModel =
+                this.videoStreams.find {
+                    it.mediaStreamType == MediaStreamType.SCREEN_SHARING
+                }?.asVideoStreamModel(),
+            cameraVideoStreamModel =
+                this.videoStreams.find {
+                    it.mediaStreamType == MediaStreamType.VIDEO
+                }?.asVideoStreamModel(),
             modifiedTimestamp = System.currentTimeMillis(),
-            isCameraDisabled = false
+            isCameraDisabled = false,
         )
     }
 }
@@ -454,7 +476,10 @@ internal fun completedNullFuture(): CompletableFuture<Void> {
     return CompletableFuture<Void>().also { it.complete(null) }
 }
 
-internal fun completedNullFuture(coroutineScope: CoroutineScope, f: suspend () -> Any): CompletableFuture<Void> {
+internal fun completedNullFuture(
+    coroutineScope: CoroutineScope,
+    f: suspend () -> Any,
+): CompletableFuture<Void> {
     val future = CompletableFuture<Void>()
     coroutineScope.launch {
         f.invoke()

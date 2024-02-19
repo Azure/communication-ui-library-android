@@ -19,15 +19,22 @@ import kotlin.collections.ArrayList
 // - messageDeleted
 internal abstract class MessageRepository {
     abstract fun addPage(page: List<MessageInfoModel>)
+
     abstract fun addMessage(message: MessageInfoModel)
+
     abstract fun removeMessage(message: MessageInfoModel)
+
     abstract fun get(i: Int): MessageInfoModel
+
     abstract val size: Int
 
     private var currentSnapshot: List<MessageInfoModel> = listOf()
     val snapshotList get() = currentSnapshot
 
-    fun replaceMessage(oldMessage: MessageInfoModel, newMessage: MessageInfoModel) {
+    fun replaceMessage(
+        oldMessage: MessageInfoModel,
+        newMessage: MessageInfoModel,
+    ) {
         removeMessage(oldMessage)
         addMessage(newMessage)
     }

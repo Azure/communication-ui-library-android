@@ -20,15 +20,16 @@ class ChatLauncherViewModel : ViewModel() {
     var chatAdapter: ChatAdapter? = null
 
     private fun getTokenFetcher(acsToken: String?): Callable<String> {
-        val tokenRefresher = when {
-            acsToken != null && acsToken.isNotBlank() -> {
-                token = acsToken
-                CachedTokenFetcher(acsToken)
+        val tokenRefresher =
+            when {
+                acsToken != null && acsToken.isNotBlank() -> {
+                    token = acsToken
+                    CachedTokenFetcher(acsToken)
+                }
+                else -> {
+                    throw IllegalStateException("Invalid Token function URL or acs Token")
+                }
             }
-            else -> {
-                throw IllegalStateException("Invalid Token function URL or acs Token")
-            }
-        }
         return tokenRefresher
     }
 
@@ -48,13 +49,14 @@ class ChatLauncherViewModel : ViewModel() {
         val communicationTokenCredential =
             CommunicationTokenCredential(communicationTokenRefreshOptions)
 
-        val chatAdapter = ChatAdapterBuilder()
-            .endpoint(endpoint)
-            .credential(communicationTokenCredential)
-            .identity(CommunicationUserIdentifier(acsIdentity))
-            .displayName(userName)
-            .threadId(threadId)
-            .build()
+        val chatAdapter =
+            ChatAdapterBuilder()
+                .endpoint(endpoint)
+                .credential(communicationTokenCredential)
+                .identity(CommunicationUserIdentifier(acsIdentity))
+                .displayName(userName)
+                .threadId(threadId)
+                .build()
 
         chatAdapter.addOnErrorEventHandler(errorHandler)
 

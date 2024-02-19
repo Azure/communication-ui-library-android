@@ -10,7 +10,10 @@ import com.azure.android.communication.ui.calling.redux.state.ErrorState
 internal interface ErrorReducer : Reducer<ErrorState>
 
 internal class ErrorReducerImpl : ErrorReducer {
-    override fun reduce(state: ErrorState, action: Action): ErrorState {
+    override fun reduce(
+        state: ErrorState,
+        action: Action,
+    ): ErrorState {
         return when (action) {
             is ErrorAction.FatalErrorOccurred -> {
                 state.copy(fatalError = action.error, callStateError = state.callStateError)

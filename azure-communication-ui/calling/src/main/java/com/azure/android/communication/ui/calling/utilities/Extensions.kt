@@ -11,10 +11,9 @@ import kotlinx.coroutines.launch
 /**
  * This class is for generic but useful extensions to make our code more succinct
  */
-// Boilerplate that is repeated a lot
 internal fun <T> Store<T>.collect(
     scope: LifecycleCoroutineScope,
-    function: (T) -> Unit
+    function: (T) -> Unit,
 ) {
     scope.launch {
         this@collect.getStateFlow().collect {
@@ -24,10 +23,7 @@ internal fun <T> Store<T>.collect(
 }
 
 // These come together quite often, lets work on them as a pair.
-internal fun <T> Pair<LifecycleCoroutineScope, Store<T>>.collect(
-    function: (T) -> Unit
-) =
-    second.collect(first, function)
+internal fun <T> Pair<LifecycleCoroutineScope, Store<T>>.collect(function: (T) -> Unit) = second.collect(first, function)
 
 // We also type launch way to much, this will let it be clean.
 fun LifecycleCoroutineScope.launchAll(vararg blocks: suspend () -> Unit) {

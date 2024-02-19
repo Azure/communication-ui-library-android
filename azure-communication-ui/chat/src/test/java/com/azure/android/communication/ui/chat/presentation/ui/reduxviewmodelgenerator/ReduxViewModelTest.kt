@@ -9,30 +9,33 @@ import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 
 internal class ReduxViewModelTest : Reducer<BasicState> {
-
     // @Test not ready yet
     fun testUpdate() {
-
         var outputModel: BasicViewModel? = null
-        val store = AppStore<BasicState>(
-            initialState = BasicState(0),
-            reducer = this@ReduxViewModelTest,
-            middlewares = mutableListOf(),
-            dispatcher = UnconfinedTestDispatcher()
-        )
+        val store =
+            AppStore<BasicState>(
+                initialState = BasicState(0),
+                reducer = this@ReduxViewModelTest,
+                middlewares = mutableListOf(),
+                dispatcher = UnconfinedTestDispatcher(),
+            )
 
-        val rvm = ReduxViewModelGenerator(
-            builder = { store -> BasicViewModel(countAsString = "${store.getCurrentState().count}") },
-            store = store,
-            onChanged = { viewModel -> outputModel = viewModel },
-            coroutineScope = TestScope(UnconfinedTestDispatcher())
-        )
+        val rvm =
+            ReduxViewModelGenerator(
+                builder = { store -> BasicViewModel(countAsString = "${store.getCurrentState().count}") },
+                store = store,
+                onChanged = { viewModel -> outputModel = viewModel },
+                coroutineScope = TestScope(UnconfinedTestDispatcher()),
+            )
         store.dispatch(Increment())
 
         assertNotNull(outputModel)
     }
 
-    override fun reduce(state: BasicState, action: Action): BasicState {
+    override fun reduce(
+        state: BasicState,
+        action: Action,
+    ): BasicState {
         when (action) {
             is Increment -> return BasicState(state.count + 1)
         }
@@ -41,5 +44,7 @@ internal class ReduxViewModelTest : Reducer<BasicState> {
 }
 
 data class BasicState(val count: Int)
+
 data class BasicViewModel(val countAsString: String)
+
 class Increment : Action

@@ -8,7 +8,7 @@ internal enum class ChatMessageType {
     HTML,
     TOPIC_UPDATED,
     PARTICIPANT_ADDED,
-    PARTICIPANT_REMOVED
+    PARTICIPANT_REMOVED,
 }
 
 internal fun ChatMessageType.into(): com.azure.android.communication.chat.models.ChatMessageType {

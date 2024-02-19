@@ -12,14 +12,13 @@ import com.azure.android.communication.ui.chat.redux.state.ReduxState
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.verify
 import org.mockito.Mockito.times
+import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
 internal class ChatMiddlewareUnitTest {
-
     @Test
     fun chatMiddleware_invoke_when_invokedWithAnyAction_then_invokeNext() {
         // arrange
@@ -32,7 +31,7 @@ internal class ChatMiddlewareUnitTest {
         val chatMiddlewareImplementation =
             ChatMiddlewareImpl(
                 mockChatServiceListener,
-                mockChatMiddlewareActionHandler
+                mockChatMiddlewareActionHandler,
             )
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
@@ -41,13 +40,13 @@ internal class ChatMiddlewareUnitTest {
         chatMiddlewareImplementation.invoke(mockAppStore)(
             fun(action) {
                 nextReceivedAction = action as ChatAction
-            }
+            },
         )(actionToDispatch)
 
         // assert
         Assert.assertEquals(
             actionToDispatch,
-            nextReceivedAction
+            nextReceivedAction,
         )
     }
 
@@ -63,7 +62,7 @@ internal class ChatMiddlewareUnitTest {
         val chatMiddlewareImplementation =
             ChatMiddlewareImpl(
                 mockChatServiceListener,
-                mockChatMiddlewareActionHandler
+                mockChatMiddlewareActionHandler,
             )
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
@@ -74,16 +73,16 @@ internal class ChatMiddlewareUnitTest {
                 mockChatMiddlewareActionHandler.onAction(
                     action,
                     mockAppStore::dispatch,
-                    mockAppState
+                    mockAppState,
                 )
-            }
+            },
         )(actionToDispatch)
 
         // assert
         verify(mockChatMiddlewareActionHandler, times(1)).onAction(
             actionToDispatch,
             mockAppStore::dispatch,
-            mockAppState
+            mockAppState,
         )
     }
 }

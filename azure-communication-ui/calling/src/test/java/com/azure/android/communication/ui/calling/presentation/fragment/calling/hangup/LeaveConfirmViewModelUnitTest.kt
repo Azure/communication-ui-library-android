@@ -25,17 +25,16 @@ import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
 internal class LeaveConfirmViewModelUnitTest {
-
     @Test
     fun leaveConfirmViewModel_confirm_then_dispatchEndCall() {
-
         val appState = AppReduxState("", false, false)
         appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
 
-        val mockAppStore = mock<AppStore<ReduxState>> {
-            on { getCurrentState() } doReturn appState
-            on { dispatch(any()) } doAnswer { }
-        }
+        val mockAppStore =
+            mock<AppStore<ReduxState>> {
+                on { getCurrentState() } doReturn appState
+                on { dispatch(any()) } doAnswer { }
+            }
 
         val leaveConfirmViewModel = LeaveConfirmViewModel(mockAppStore)
 
@@ -44,20 +43,20 @@ internal class LeaveConfirmViewModelUnitTest {
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
                 action is CallingAction.CallEndRequested
-            }
+            },
         )
     }
 
     @Test
     fun leaveConfirmViewModel_confirm_then_dispatchNavigationExit() {
-
         val appState = AppReduxState("", false, false)
         appState.callState = CallingState(CallingStatus.CONNECTING, OperationStatus.SKIP_SETUP_SCREEN)
 
-        val mockAppStore = mock<AppStore<ReduxState>> {
-            on { getCurrentState() } doReturn appState
-            on { dispatch(any()) } doAnswer { }
-        }
+        val mockAppStore =
+            mock<AppStore<ReduxState>> {
+                on { getCurrentState() } doReturn appState
+                on { dispatch(any()) } doAnswer { }
+            }
 
         val leaveConfirmViewModel = LeaveConfirmViewModel(mockAppStore)
 
@@ -66,7 +65,7 @@ internal class LeaveConfirmViewModelUnitTest {
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
                 action is NavigationAction.Exit
-            }
+            },
         )
     }
 
@@ -80,7 +79,7 @@ internal class LeaveConfirmViewModelUnitTest {
 
         Assert.assertEquals(
             false,
-            leaveConfirmViewModel.getShouldDisplayLeaveConfirmFlow().value
+            leaveConfirmViewModel.getShouldDisplayLeaveConfirmFlow().value,
         )
     }
 
@@ -94,7 +93,7 @@ internal class LeaveConfirmViewModelUnitTest {
 
         Assert.assertEquals(
             true,
-            leaveConfirmViewModel.getShouldDisplayLeaveConfirmFlow().value
+            leaveConfirmViewModel.getShouldDisplayLeaveConfirmFlow().value,
         )
     }
 }

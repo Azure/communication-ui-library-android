@@ -22,29 +22,29 @@ internal class ChatMiddlewareImpl(
     private val chatActionHandler: ChatActionHandler,
 ) :
     Middleware<ReduxState>,
-    ChatMiddleware {
+        ChatMiddleware {
+    override fun invoke(store: Store<ReduxState>) =
+        { next: Dispatch ->
+            { action: Action ->
+                // Handle Service Subscription/UnSubscription of service
+                when (action) {
+                    is ChatAction.StartChat -> {
+                        chatServiceListener.subscribe(store)
+                    }
+                    is ChatAction.EndChat -> {
+                        chatServiceListener.unsubscribe()
+                    }
+                }
 
-    override fun invoke(store: Store<ReduxState>) = { next: Dispatch ->
-        { action: Action ->
-            // Handle Service Subscription/UnSubscription of service
-            when (action) {
-                is ChatAction.StartChat -> {
-                    chatServiceListener.subscribe(store)
-                }
-                is ChatAction.EndChat -> {
-                    chatServiceListener.unsubscribe()
-                }
+                // Forward Actions to ChatActionHandler
+                chatActionHandler.onAction(
+                    action = action,
+                    dispatch = store::dispatch,
+                    state = store.getCurrentState(),
+                )
+
+                // Pass Action down the chain
+                next(action)
             }
-
-            // Forward Actions to ChatActionHandler
-            chatActionHandler.onAction(
-                action = action,
-                dispatch = store::dispatch,
-                state = store.getCurrentState()
-            )
-
-            // Pass Action down the chain
-            next(action)
         }
-    }
 }

@@ -11,7 +11,10 @@ import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 internal interface LifecycleReducer : Reducer<LifecycleState>
 
 internal class LifecycleReducerImpl : LifecycleReducer {
-    override fun reduce(state: LifecycleState, action: Action): LifecycleState {
+    override fun reduce(
+        state: LifecycleState,
+        action: Action,
+    ): LifecycleState {
         return when (action) {
             is LifecycleAction.EnterBackgroundSucceeded -> {
                 state.copy(state = LifecycleStatus.BACKGROUND)

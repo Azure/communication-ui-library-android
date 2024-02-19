@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 internal abstract class BaseViewModel constructor(
     protected val store: Store<ReduxState>,
 ) {
-
     open fun init(coroutineScope: CoroutineScope) {
         coroutineScope.launch {
             store.getStateFlow().collect {

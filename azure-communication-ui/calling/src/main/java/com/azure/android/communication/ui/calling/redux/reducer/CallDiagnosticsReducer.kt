@@ -10,10 +10,9 @@ import com.azure.android.communication.ui.calling.redux.state.CallDiagnosticsSta
 internal interface CallDiagnosticsReducer : Reducer<CallDiagnosticsState>
 
 internal class CallDiagnosticsReducerImpl : CallDiagnosticsReducer {
-
     override fun reduce(
         state: CallDiagnosticsState,
-        action: Action
+        action: Action,
     ): CallDiagnosticsState {
         return when (action) {
             is CallDiagnosticsAction.NetworkQualityCallDiagnosticsUpdated -> {

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 @file:OptIn(InternalCoroutinesApi::class)
+
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.support
 
 import android.content.Context
@@ -27,7 +28,6 @@ import kotlinx.coroutines.launch
  * It is displayed when the user clicks on the support button.
  */
 internal class SupportView : ConstraintLayout {
-
     private val sendButton: Button by lazy { findViewById(R.id.azure_communication_ui_send_button) }
     private val cancelButton: Button by lazy { findViewById(R.id.azure_communication_ui_cancel_button) }
     private val editText: EditText by lazy { findViewById(R.id.azure_communication_ui_user_message_edit_text) }
@@ -53,7 +53,10 @@ internal class SupportView : ConstraintLayout {
         inflate(context, R.layout.azure_communication_ui_calling_support_view, this)
     }
 
-    fun start(viewModel: SupportViewModel, viewLifecycleOwner: LifecycleOwner) {
+    fun start(
+        viewModel: SupportViewModel,
+        viewLifecycleOwner: LifecycleOwner,
+    ) {
         // Text Changed, Submit, Cancel Buttons
         bindViewInputs(viewModel)
 
@@ -88,7 +91,7 @@ internal class SupportView : ConstraintLayout {
 
     private fun bindViewOutputs(
         viewLifecycleOwner: LifecycleOwner,
-        viewModel: SupportViewModel
+        viewModel: SupportViewModel,
     ) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.isVisibleStateFlow.collect {

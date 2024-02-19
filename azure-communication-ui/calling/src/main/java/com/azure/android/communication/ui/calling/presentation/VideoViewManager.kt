@@ -6,16 +6,16 @@ package com.azure.android.communication.ui.calling.presentation
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import com.azure.android.communication.calling.CreateViewOptions
 import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.ScalingMode
-import com.azure.android.communication.calling.CreateViewOptions
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.LocalVideoStream
 import com.azure.android.communication.ui.calling.service.sdk.RemoteVideoStream
 import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRenderer
 import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRendererLocalWrapper
-import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRendererView
 import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRendererRemoteWrapper
+import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRendererView
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 
 internal class VideoViewManager(
@@ -65,9 +65,7 @@ internal class VideoViewManager(
         localParticipantVideoRendererMap.clear()
     }
 
-    fun removeRemoteParticipantVideoRenderer(
-        userVideoStreams: List<Pair<String, String>>,
-    ) {
+    fun removeRemoteParticipantVideoRenderer(userVideoStreams: List<Pair<String, String>>) {
         removeRemoteParticipantRenderer(userVideoStreams)
         val remoteParticipants = callingSDKWrapper.getRemoteParticipantsMap()
 
@@ -92,7 +90,7 @@ internal class VideoViewManager(
                     val videoStreamRenderer =
                         videoStreamRendererFactory.getLocalParticipantVideoStreamRenderer(
                             videoStream,
-                            context
+                            context,
                         )
                     val rendererView = videoStreamRenderer.createView()
                     localParticipantVideoRendererMap[videoStreamID] =
@@ -102,7 +100,10 @@ internal class VideoViewManager(
         }
     }
 
-    fun getLocalVideoRenderer(videoStreamID: String, scalingMode: ScalingMode): View? {
+    fun getLocalVideoRenderer(
+        videoStreamID: String,
+        scalingMode: ScalingMode,
+    ): View? {
         var rendererView: VideoStreamRendererView? = null
         if (localParticipantVideoRendererMap.containsKey(videoStreamID)) {
             rendererView = localParticipantVideoRendererMap[videoStreamID]?.rendererView
@@ -125,7 +126,7 @@ internal class VideoViewManager(
         } else if (updateRemoteParticipantVideoRenderer(
                 participantID,
                 videoStreamId,
-                context
+                context,
             )
         ) {
             rendererView = remoteParticipantVideoRendererMap[uniqueID]?.rendererView
@@ -146,37 +147,41 @@ internal class VideoViewManager(
         val uniqueID = generateUniqueKey(userID, videoStreamID)
 
         if (!remoteParticipantVideoRendererMap.containsKey(uniqueID)) {
-
             if (remoteParticipants.containsKey(userID) &&
                 remoteParticipants[userID]?.videoStreams != null &&
                 remoteParticipants[userID]?.videoStreams?.size!! > 0
             ) {
-                val stream = remoteParticipants[userID]?.videoStreams?.find { videoStream ->
-                    videoStream.id.toString() == videoStreamID
-                }
+                val stream =
+                    remoteParticipants[userID]?.videoStreams?.find { videoStream ->
+                        videoStream.id.toString() == videoStreamID
+                    }
 
                 if (stream != null) {
                     val isScreenShare = stream.mediaStreamType == MediaStreamType.SCREEN_SHARING
                     val videoStreamRenderer =
                         videoStreamRendererFactory.getRemoteParticipantVideoStreamRenderer(
                             stream,
-                            context
+                            context,
                         )
 
                     val forceFitMode = isAndroidTV && !isScreenShare && remoteParticipants.size <= 1
 
                     val rendererView =
-                        if (isScreenShare || forceFitMode) videoStreamRenderer.createView(
-                            CreateViewOptions(
-                                ScalingMode.FIT
+                        if (isScreenShare || forceFitMode) {
+                            videoStreamRenderer.createView(
+                                CreateViewOptions(
+                                    ScalingMode.FIT,
+                                ),
                             )
-                        ) else videoStreamRenderer.createView()
+                        } else {
+                            videoStreamRenderer.createView()
+                        }
 
                     remoteParticipantVideoRendererMap[uniqueID] =
                         VideoRenderer(
                             rendererView,
                             videoStreamRenderer,
-                            isScreenShare
+                            isScreenShare,
                         )
                     return true
                 }
@@ -187,9 +192,10 @@ internal class VideoViewManager(
     }
 
     private fun removeLocalParticipantRenderer(videoStreamID: String?) {
-        val removedLocalStreams = localParticipantVideoRendererMap.filter { (streamID, _) ->
-            streamID !== videoStreamID
-        }
+        val removedLocalStreams =
+            localParticipantVideoRendererMap.filter { (streamID, _) ->
+                streamID !== videoStreamID
+            }
 
         removedLocalStreams.values.forEach { videoStream ->
             destroyVideoRenderer(videoStream)
@@ -205,9 +211,10 @@ internal class VideoViewManager(
         userWithVideoStreamList.forEach { (userID, streamID) ->
             uniqueIDStreamList = uniqueIDStreamList.plus(generateUniqueKey(userID, streamID))
         }
-        val removedRemoteStreams = remoteParticipantVideoRendererMap.filter { (streamID, _) ->
-            streamID !in uniqueIDStreamList
-        }
+        val removedRemoteStreams =
+            remoteParticipantVideoRendererMap.filter { (streamID, _) ->
+                streamID !in uniqueIDStreamList
+            }
 
         removedRemoteStreams.values.forEach { videoStream ->
             destroyVideoRenderer(videoStream)
@@ -218,7 +225,10 @@ internal class VideoViewManager(
         }
     }
 
-    private fun generateUniqueKey(userIdentifier: String, videoStreamId: String): String {
+    private fun generateUniqueKey(
+        userIdentifier: String,
+        videoStreamId: String,
+    ): String {
         return "$userIdentifier:$videoStreamId"
     }
 
@@ -255,18 +265,16 @@ internal class VideoStreamRendererFactoryImpl : VideoStreamRendererFactory {
     override fun getRemoteParticipantVideoStreamRenderer(
         stream: RemoteVideoStream,
         context: Context,
-    ) =
-        VideoStreamRendererRemoteWrapper(
-            stream.native as com.azure.android.communication.calling.RemoteVideoStream,
-            context
-        )
+    ) = VideoStreamRendererRemoteWrapper(
+        stream.native as com.azure.android.communication.calling.RemoteVideoStream,
+        context,
+    )
 
     override fun getLocalParticipantVideoStreamRenderer(
         stream: LocalVideoStream,
         context: Context,
-    ) =
-        VideoStreamRendererLocalWrapper(
-            stream.native as com.azure.android.communication.calling.LocalVideoStream,
-            context
-        )
+    ) = VideoStreamRendererLocalWrapper(
+        stream.native as com.azure.android.communication.calling.LocalVideoStream,
+        context,
+    )
 }

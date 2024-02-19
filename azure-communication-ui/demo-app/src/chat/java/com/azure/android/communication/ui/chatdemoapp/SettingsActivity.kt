@@ -20,7 +20,6 @@ import java.util.Locale
 const val SETTINGS_SHARED_PREFS = "Settings"
 
 class SettingsActivity : AppCompatActivity() {
-
     private lateinit var supportedLanguages: List<String>
     private lateinit var autoCompleteTextView: AutoCompleteTextView
     private lateinit var languageArrayAdapter: ArrayAdapter<String>
@@ -68,9 +67,9 @@ class SettingsActivity : AppCompatActivity() {
                         LANGUAGE_IS_RTL_VALUE_SHARED_PREF_KEY +
                             sharedPreference.getString(
                                 LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
-                                DEFAULT_LANGUAGE_VALUE
+                                DEFAULT_LANGUAGE_VALUE,
                             ),
-                        view.isChecked
+                        view.isChecked,
                     ).apply()
                 }
             }
@@ -101,13 +100,12 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun setLanguageInAdapter() {
-
         autoCompleteTextView.setText(
             sharedPreference.getString(
                 LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
-                Locale.ENGLISH.displayName
+                Locale.ENGLISH.displayName,
             ),
-            true
+            true,
         )
         languageArrayAdapter.filter.filter(null)
     }
@@ -115,9 +113,9 @@ class SettingsActivity : AppCompatActivity() {
     private fun isFirstRun(): Boolean {
         return sharedPreference.getString(
             LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
-            LANGUAGE_IS_YET_TOBE_SET
+            LANGUAGE_IS_YET_TOBE_SET,
         ).equals(
-            LANGUAGE_IS_YET_TOBE_SET
+            LANGUAGE_IS_YET_TOBE_SET,
         )
     }
 
@@ -129,7 +127,7 @@ class SettingsActivity : AppCompatActivity() {
     private fun getSelectedLanguageValue(): String? {
         return sharedPreference.getString(
             LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
-            DEFAULT_LANGUAGE_VALUE
+            DEFAULT_LANGUAGE_VALUE,
         )
     }
 }

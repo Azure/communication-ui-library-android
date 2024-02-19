@@ -30,7 +30,7 @@ internal val MOCK_MESSAGES
                 messageType = ChatMessageType.TEXT,
                 id = "1",
                 internalId = null,
-                createdOn = OffsetDateTime.now().minusWeeks(2).minusMinutes(10)
+                createdOn = OffsetDateTime.now().minusWeeks(2).minusMinutes(10),
             ),
             MessageInfoModel(
                 senderCommunicationIdentifier = userA_ID,
@@ -39,9 +39,8 @@ internal val MOCK_MESSAGES
                 messageType = ChatMessageType.TEXT,
                 id = "2",
                 internalId = null,
-                createdOn = OffsetDateTime.now().minusDays(2).minusMinutes(10)
+                createdOn = OffsetDateTime.now().minusDays(2).minusMinutes(10),
             ),
-
             MessageInfoModel(
                 senderCommunicationIdentifier = userB_ID,
                 senderDisplayName = userB_Display,
@@ -49,9 +48,8 @@ internal val MOCK_MESSAGES
                 messageType = ChatMessageType.TEXT,
                 id = "3",
                 internalId = null,
-                createdOn = OffsetDateTime.now().minusDays(1).minusMinutes(12)
+                createdOn = OffsetDateTime.now().minusDays(1).minusMinutes(12),
             ),
-
             MessageInfoModel(
                 senderCommunicationIdentifier = userB_ID,
                 senderDisplayName = userB_Display,
@@ -59,9 +57,8 @@ internal val MOCK_MESSAGES
                 messageType = ChatMessageType.TEXT,
                 id = "4",
                 internalId = null,
-                createdOn = OffsetDateTime.now().minusDays(1).minusMinutes(11)
+                createdOn = OffsetDateTime.now().minusDays(1).minusMinutes(11),
             ),
-
             MessageInfoModel(
                 senderCommunicationIdentifier = userB_ID,
                 senderDisplayName = userB_Display,
@@ -69,21 +66,21 @@ internal val MOCK_MESSAGES
                 messageType = ChatMessageType.TEXT,
                 id = "5",
                 internalId = null,
-                createdOn = OffsetDateTime.now().minusDays(1).minusMinutes(10)
+                createdOn = OffsetDateTime.now().minusDays(1).minusMinutes(10),
             ),
-
             MessageInfoModel(
                 content = null,
                 messageType = ChatMessageType.PARTICIPANT_ADDED,
                 senderCommunicationIdentifier = userC_ID,
-                participants = listOf(
-                    RemoteParticipantInfoModel(CommunicationIdentifier.UnknownIdentifier(""), userC_Display),
-                    RemoteParticipantInfoModel(CommunicationIdentifier.UnknownIdentifier(""), userA_Display)
-                ),
+                participants =
+                    listOf(
+                        RemoteParticipantInfoModel(CommunicationIdentifier.UnknownIdentifier(""), userC_Display),
+                        RemoteParticipantInfoModel(CommunicationIdentifier.UnknownIdentifier(""), userA_Display),
+                    ),
                 senderDisplayName = null,
                 id = "6",
                 internalId = null,
-                createdOn = OffsetDateTime.now().minusDays(1).minusMinutes(10)
+                createdOn = OffsetDateTime.now().minusDays(1).minusMinutes(10),
             ),
             MessageInfoModel(
                 senderCommunicationIdentifier = userA_ID,
@@ -92,7 +89,7 @@ internal val MOCK_MESSAGES
                 messageType = ChatMessageType.TEXT,
                 id = "7",
                 internalId = null,
-                createdOn = OffsetDateTime.now().minusMinutes(20)
+                createdOn = OffsetDateTime.now().minusMinutes(20),
             ),
             MessageInfoModel(
                 content = null,
@@ -102,7 +99,7 @@ internal val MOCK_MESSAGES
                 participants = listOf(RemoteParticipantInfoModel(CommunicationIdentifier.UnknownIdentifier(""), userD_Display)),
                 id = "8",
                 internalId = null,
-                createdOn = OffsetDateTime.now().minusMinutes(10)
+                createdOn = OffsetDateTime.now().minusMinutes(10),
             ),
             MessageInfoModel(
                 senderCommunicationIdentifier = userA_ID,
@@ -111,9 +108,8 @@ internal val MOCK_MESSAGES
                 messageType = ChatMessageType.TEXT,
                 id = "9",
                 internalId = null,
-                createdOn = OffsetDateTime.now().minusMinutes(5)
+                createdOn = OffsetDateTime.now().minusMinutes(5),
             ),
-
             MessageInfoModel(
                 senderCommunicationIdentifier = userA_ID,
                 senderDisplayName = userA_Display,
@@ -121,16 +117,14 @@ internal val MOCK_MESSAGES
                 messageType = ChatMessageType.HTML,
                 id = "10",
                 internalId = null,
-                createdOn = OffsetDateTime.now()
+                createdOn = OffsetDateTime.now(),
             ),
             MessageInfoModel(
-
                 messageType = ChatMessageType.PARTICIPANT_REMOVED,
                 isCurrentUser = true,
                 id = "11",
                 internalId = null,
-                createdOn = OffsetDateTime.now()
+                createdOn = OffsetDateTime.now(),
             ),
-
         )
     }

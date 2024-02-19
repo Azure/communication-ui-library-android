@@ -42,13 +42,14 @@ internal fun com.azure.android.communication.chat.models.ChatMessage.into(localP
         messageType = this.type.into(),
         content = this.content.message,
         topic = this.content.topic,
-        participants = this.content.participants?.map {
-            RemoteParticipantInfoModel(
-                userIdentifier = it.communicationIdentifier.into(),
-                displayName = it.displayName,
-                isLocalUser = it.communicationIdentifier.into().id == localParticipantIdentifier
-            )
-        }?.toList() ?: emptyList(),
+        participants =
+            this.content.participants?.map {
+                RemoteParticipantInfoModel(
+                    userIdentifier = it.communicationIdentifier.into(),
+                    displayName = it.displayName,
+                    isLocalUser = it.communicationIdentifier.into().id == localParticipantIdentifier,
+                )
+            }?.toList() ?: emptyList(),
         internalId = null,
         version = this.version,
         senderDisplayName = this.senderDisplayName,
@@ -121,18 +122,19 @@ internal fun com.azure.android.communication.chat.models.ChatMessageDeletedEvent
     )
 }
 
-internal val EMPTY_MESSAGE_INFO_MODEL = MessageInfoModel(
-    id = "",
-    messageType = null,
-    content = "",
-    participants = emptyList(),
-    internalId = "",
-    version = "",
-    senderDisplayName = "",
-    createdOn = OffsetDateTime.MIN,
-    senderCommunicationIdentifier = null,
-    deletedOn = null,
-    editedOn = null,
-    sendStatus = MessageSendStatus.SENDING,
-    isCurrentUser = false
-)
+internal val EMPTY_MESSAGE_INFO_MODEL =
+    MessageInfoModel(
+        id = "",
+        messageType = null,
+        content = "",
+        participants = emptyList(),
+        internalId = "",
+        version = "",
+        senderDisplayName = "",
+        createdOn = OffsetDateTime.MIN,
+        senderCommunicationIdentifier = null,
+        deletedOn = null,
+        editedOn = null,
+        sendStatus = MessageSendStatus.SENDING,
+        isCurrentUser = false,
+    )

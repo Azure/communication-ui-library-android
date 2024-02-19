@@ -7,7 +7,6 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import java.lang.IllegalStateException
 
 internal class CallCompositeInstanceManager {
-
     /**
      * CallCompositeInstance Storage
      *
@@ -25,7 +24,10 @@ internal class CallCompositeInstanceManager {
          * Store a Config by Instance ID
          */
         @JvmStatic
-        fun putCallComposite(id: Int, callComposite: CallComposite) {
+        fun putCallComposite(
+            id: Int,
+            callComposite: CallComposite,
+        ) {
             instances[id] = callComposite
         }
 
@@ -39,11 +41,12 @@ internal class CallCompositeInstanceManager {
          * May return null if the Configuration becomes garbage collected
          */
         @JvmStatic
-        fun getCallComposite(id: Int): CallComposite = instances[id]
-            ?: throw CallCompositeException(
-                "This ID is not valid, and no entry exists in the map. Please file a bug, this is an error in the composite",
-                IllegalStateException()
-            )
+        fun getCallComposite(id: Int): CallComposite =
+            instances[id]
+                ?: throw CallCompositeException(
+                    "This ID is not valid, and no entry exists in the map. Please file a bug, this is an error in the composite",
+                    IllegalStateException(),
+                )
 
         /**
          *  Check if CallComposite exists

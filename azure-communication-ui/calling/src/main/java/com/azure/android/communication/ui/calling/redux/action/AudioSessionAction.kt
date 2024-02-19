@@ -5,7 +5,10 @@ package com.azure.android.communication.ui.calling.redux.action
 
 internal sealed class AudioSessionAction : Action {
     class AudioFocusRequesting : AudioSessionAction()
+
     class AudioFocusApproved : AudioSessionAction()
+
     class AudioFocusRejected : AudioSessionAction()
+
     class AudioFocusInterrupted : AudioSessionAction()
 }

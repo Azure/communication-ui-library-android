@@ -1,7 +1,7 @@
 package com.azure.android.communication.ui.calling.service.calling
 
-import com.azure.android.communication.ui.calling.implementation.BuildConfig
 import com.azure.android.communication.ui.calling.DiagnosticConfig
+import com.azure.android.communication.ui.calling.implementation.BuildConfig
 import org.junit.Assert
 import org.junit.Test
 
@@ -11,7 +11,6 @@ internal class DiagnosticConfigUnitTests {
 
     @Test
     fun test_Expected_Tag() {
-
         val diagnosticConfig = DiagnosticConfig()
         val tags = diagnosticConfig.tags
 

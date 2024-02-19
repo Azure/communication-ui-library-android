@@ -8,5 +8,6 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal interface NavigationRouter {
     suspend fun start()
+
     fun getNavigationStateFlow(): StateFlow<NavigationStatus>
 }

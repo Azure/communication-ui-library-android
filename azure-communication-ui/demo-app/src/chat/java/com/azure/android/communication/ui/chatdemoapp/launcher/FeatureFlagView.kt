@@ -13,7 +13,6 @@ import com.azure.android.communication.ui.chatdemoapp.features.FeatureFlags
 // and lets you enable/disable them.
 class FeatureFlagView(context: Context, attrs: AttributeSet?) :
     LinearLayout(context, attrs) {
-
     init {
         orientation = VERTICAL
     }

@@ -42,24 +42,27 @@ internal fun UnreadMessagesIndicatorView(
             icon = {
                 Icon(
                     painterResource(id = R.drawable.azure_communication_ui_chat_ic_fluent_arrow_down_16_filled),
-                    modifier = Modifier
-                        .height(ChatCompositeTheme.dimensions.unreadMessagesIndicatorIconHeight)
-                        .padding(ChatCompositeTheme.dimensions.unreadMessagesIndicatorIconPadding),
+                    modifier =
+                        Modifier
+                            .height(ChatCompositeTheme.dimensions.unreadMessagesIndicatorIconHeight)
+                            .padding(ChatCompositeTheme.dimensions.unreadMessagesIndicatorIconPadding),
                     contentDescription = null,
                     tint = ChatCompositeTheme.colors.inverseContent,
                 )
             },
             text = {
                 Text(
-                    text = when (unreadCount) {
-                        in Int.MIN_VALUE..0 -> return@ExtendedFloatingActionButton
-                        1 -> content.getString(R.string.azure_communication_ui_chat_unread_new_message)
-                        in 2..99 -> content.getString(
-                            R.string.azure_communication_ui_chat_unread_new_messages,
-                            unreadCount.toString()
-                        )
-                        else -> content.getString(R.string.azure_communication_ui_chat_many_unread_new_messages)
-                    },
+                    text =
+                        when (unreadCount) {
+                            in Int.MIN_VALUE..0 -> return@ExtendedFloatingActionButton
+                            1 -> content.getString(R.string.azure_communication_ui_chat_unread_new_message)
+                            in 2..99 ->
+                                content.getString(
+                                    R.string.azure_communication_ui_chat_unread_new_messages,
+                                    unreadCount.toString(),
+                                )
+                            else -> content.getString(R.string.azure_communication_ui_chat_many_unread_new_messages)
+                        },
                     fontSize = ChatCompositeTheme.dimensions.unreadMessagesIndicatorTextFontSize,
                     style = ChatCompositeTheme.typography.unreadMessageText,
                 )
@@ -71,11 +74,12 @@ internal fun UnreadMessagesIndicatorView(
             },
             backgroundColor = ChatCompositeTheme.colors.unreadMessageIndicatorBackground,
             contentColor = ChatCompositeTheme.colors.background,
-            modifier = Modifier
-                .height(ChatCompositeTheme.dimensions.unreadMessagesIndicatorHeight)
-                .clip(ChatCompositeTheme.shapes.unreadMessagesIndicator)
-                .focusable(true)
-                .focusTarget()
+            modifier =
+                Modifier
+                    .height(ChatCompositeTheme.dimensions.unreadMessagesIndicatorHeight)
+                    .clip(ChatCompositeTheme.shapes.unreadMessagesIndicator)
+                    .focusable(true)
+                    .focusTarget(),
         )
     }
 }
@@ -83,7 +87,7 @@ internal fun UnreadMessagesIndicatorView(
 @Preview
 @Composable
 internal fun PreviewUnreadMessagesIndicatorView() {
-    Column() {
+    Column {
         Text("Dark")
         ChatCompositeTheme(themeMode = ThemeMode.Dark) {
             UnreadMessagesIndicatorView(

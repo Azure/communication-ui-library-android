@@ -21,11 +21,11 @@ internal class DebugInfoManagerImpl(
     private val callHistoryRepository: CallHistoryRepository,
     private val getLogFiles: () -> List<File>,
 ) : DebugInfoManager {
-
     override fun getDebugInfo(): CallCompositeDebugInfo {
-        val callHistory = runBlocking {
-            withContext(Dispatchers.IO) { getCallHistory() }
-        }
+        val callHistory =
+            runBlocking {
+                withContext(Dispatchers.IO) { getCallHistory() }
+            }
         return buildCallCompositeDebugInfo(callHistory, getLogFiles)
     }
 

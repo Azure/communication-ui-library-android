@@ -27,7 +27,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal class LocalParticipantView : ConstraintLayout {
-
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
@@ -96,7 +95,6 @@ internal class LocalParticipantView : ConstraintLayout {
         videoViewManager: VideoViewManager,
         avatarViewManager: AvatarViewManager,
     ) {
-
         this.viewModel = viewModel
         this.videoViewManager = videoViewManager
 
@@ -166,12 +164,13 @@ internal class LocalParticipantView : ConstraintLayout {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCameraDeviceSelectionFlow().collect { cameraDeviceSelectionStatus ->
                 listOf(switchCameraButton, pipSwitchCameraButton).forEach {
-                    it.contentDescription = context.getString(
-                        when (cameraDeviceSelectionStatus) {
-                            CameraDeviceSelectionStatus.FRONT -> R.string.azure_communication_ui_calling_switch_camera_button_front
-                            else -> R.string.azure_communication_ui_calling_switch_camera_button_back
-                        }
-                    )
+                    it.contentDescription =
+                        context.getString(
+                            when (cameraDeviceSelectionStatus) {
+                                CameraDeviceSelectionStatus.FRONT -> R.string.azure_communication_ui_calling_switch_camera_button_front
+                                else -> R.string.azure_communication_ui_calling_switch_camera_button_back
+                            },
+                        )
                 }
             }
         }
@@ -181,12 +180,12 @@ internal class LocalParticipantView : ConstraintLayout {
                 if (it) {
                     ViewCompat.setImportantForAccessibility(
                         switchCameraButton,
-                        ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
+                        ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS,
                     )
                 } else {
                     ViewCompat.setImportantForAccessibility(
                         switchCameraButton,
-                        ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES
+                        ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES,
                     )
                 }
             }
@@ -225,10 +224,11 @@ internal class LocalParticipantView : ConstraintLayout {
         localParticipantPip.visibility =
             if (model.viewMode == LocalParticipantViewMode.SELFIE_PIP) View.VISIBLE else View.GONE
 
-        val videoHolder = when (model.viewMode) {
-            LocalParticipantViewMode.SELFIE_PIP -> localParticipantPipCameraHolder
-            LocalParticipantViewMode.FULL_SCREEN -> localParticipantFullCameraHolder
-        }
+        val videoHolder =
+            when (model.viewMode) {
+                LocalParticipantViewMode.SELFIE_PIP -> localParticipantPipCameraHolder
+                LocalParticipantViewMode.FULL_SCREEN -> localParticipantFullCameraHolder
+            }
 
         if (model.shouldDisplayVideo) {
             addVideoView(model.videoStreamID!!, videoHolder, model.viewMode)
@@ -238,20 +238,21 @@ internal class LocalParticipantView : ConstraintLayout {
     private fun addVideoView(
         videoStreamID: String,
         videoHolder: ConstraintLayout,
-        viewMode: LocalParticipantViewMode
+        viewMode: LocalParticipantViewMode,
     ) {
         val scalingMode = if (isAndroidTV(context)) ScalingMode.FIT else ScalingMode.CROP
 
         videoViewManager.getLocalVideoRenderer(
             videoStreamID,
-            scalingMode
+            scalingMode,
         )?.let { view ->
-            view.background = this.context.let {
-                ContextCompat.getDrawable(
-                    it,
-                    R.drawable.azure_communication_ui_calling_corner_radius_rectangle_4dp
-                )
-            }
+            view.background =
+                this.context.let {
+                    ContextCompat.getDrawable(
+                        it,
+                        R.drawable.azure_communication_ui_calling_corner_radius_rectangle_4dp,
+                    )
+                }
             videoHolder.addView(view, 0)
         }
     }

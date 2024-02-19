@@ -10,9 +10,10 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import com.microsoft.fluentui.theme.FluentTheme
 import com.microsoft.fluentui.theme.ThemeMode
 
-internal val LocalThemeMode = staticCompositionLocalOf {
-    ThemeMode.Auto
-}
+internal val LocalThemeMode =
+    staticCompositionLocalOf {
+        ThemeMode.Auto
+    }
 
 @Composable
 internal fun ChatCompositeTheme(
@@ -45,15 +46,17 @@ internal object ChatCompositeTheme {
         @Composable
         get() {
             return if (LocalThemeMode.current == ThemeMode.Auto) {
-                if (isSystemInDarkTheme())
+                if (isSystemInDarkTheme()) {
                     ChatCompositeColorPaletteDark.current
-                else
+                } else {
                     ChatCompositeColorPaletteLight.current
+                }
             } else {
-                if (LocalThemeMode.current == ThemeMode.Dark)
+                if (LocalThemeMode.current == ThemeMode.Dark) {
                     ChatCompositeColorPaletteDark.current
-                else
+                } else {
                     ChatCompositeColorPaletteLight.current
+                }
             }
         }
 

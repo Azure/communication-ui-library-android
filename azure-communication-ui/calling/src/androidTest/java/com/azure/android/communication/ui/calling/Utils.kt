@@ -24,7 +24,7 @@ internal fun launchComposite() {
         CallCompositeRemoteOptions(
             CallCompositeGroupCallLocator(UUID.fromString("74fce2c1-520f-11ec-97de-71411a9a8e14")),
             communicationTokenCredential,
-            "test"
+            "test",
         )
 
     callComposite.launchTest(appContext, remoteOptions, null)

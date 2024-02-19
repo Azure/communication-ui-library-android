@@ -14,7 +14,6 @@ import kotlinx.coroutines.launch
 
 internal class SetupParticipantAvatarView(context: Context, attrs: AttributeSet? = null) :
     AvatarView(context, attrs) {
-
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         viewModel: SetupParticipantAvatarViewModel,

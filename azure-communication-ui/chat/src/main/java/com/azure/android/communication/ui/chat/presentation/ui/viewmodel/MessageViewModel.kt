@@ -41,16 +41,15 @@ internal fun List<MessageInfoModel>.toViewModelList(
     lastMessageIdReadByRemoteParticipants: Long = 0L,
     hiddenParticipant: Set<String>,
     includeDebugInfo: Boolean = false,
-) =
-    InfoModelToViewModelAdapter(
-        context,
-        this,
-        localUserIdentifier,
-        latestLocalUserMessageId,
-        lastMessageIdReadByRemoteParticipants,
-        hiddenParticipant,
-        includeDebugInfo
-    ) as List<MessageViewModel>
+) = InfoModelToViewModelAdapter(
+    context,
+    this,
+    localUserIdentifier,
+    latestLocalUserMessageId,
+    lastMessageIdReadByRemoteParticipants,
+    hiddenParticipant,
+    includeDebugInfo,
+) as List<MessageViewModel>
 
 private class InfoModelToViewModelAdapter(
     private val context: Context,
@@ -62,14 +61,14 @@ private class InfoModelToViewModelAdapter(
     private val includeDebugInfo: Boolean = false,
 ) :
     List<MessageViewModel> {
-
     override fun get(index: Int): MessageViewModel {
         // Generate Message View Model here
-        val lastMessage = try {
-            messages[index - 1]
-        } catch (e: IndexOutOfBoundsException) {
-            EMPTY_MESSAGE_INFO_MODEL
-        }
+        val lastMessage =
+            try {
+                messages[index - 1]
+            } catch (e: IndexOutOfBoundsException) {
+                EMPTY_MESSAGE_INFO_MODEL
+            }
         val thisMessage = messages[index]
         val isLocalUser =
             thisMessage.senderCommunicationIdentifier?.id == localUserIdentifier || thisMessage.isCurrentUser
@@ -78,31 +77,32 @@ private class InfoModelToViewModelAdapter(
                 lastMessageIdReadByRemoteParticipants == thisMessage.normalizedID
 
         return MessageViewModel(
-
             thisMessage,
             includeDebugInfo = includeDebugInfo,
-            showUsername = !isLocalUser &&
-                (lastMessage.senderCommunicationIdentifier?.id ?: "")
-                != (thisMessage.senderCommunicationIdentifier?.id ?: ""),
+            showUsername =
+                !isLocalUser &&
+                    (lastMessage.senderCommunicationIdentifier?.id ?: "")
+                    != (thisMessage.senderCommunicationIdentifier?.id ?: ""),
             showTime =
-            (
-                (lastMessage.senderCommunicationIdentifier?.id ?: "")
-                    != (thisMessage.senderCommunicationIdentifier?.id ?: "") &&
-                    !thisMessage.isCurrentUser
+                (
+                    (lastMessage.senderCommunicationIdentifier?.id ?: "")
+                        != (thisMessage.senderCommunicationIdentifier?.id ?: "") &&
+                        !thisMessage.isCurrentUser
                 ) ||
-                (thisMessage.isCurrentUser && !lastMessage.isCurrentUser),
-            dateHeaderText = buildDateHeader(
-                lastMessage.createdOn!!,
-                thisMessage.createdOn ?: OffsetDateTime.now()
-            ),
+                    (thisMessage.isCurrentUser && !lastMessage.isCurrentUser),
+            dateHeaderText =
+                buildDateHeader(
+                    lastMessage.createdOn!!,
+                    thisMessage.createdOn ?: OffsetDateTime.now(),
+                ),
             isLocalUser = isLocalUser,
             messageStatus = thisMessage.sendStatus,
             showReadReceipt = showReadReceipt,
             showSentStatusIcon = shouldShowMessageStatusIcon(thisMessage, showReadReceipt),
-            isHiddenUser = messages[index].messageType == ChatMessageType.PARTICIPANT_ADDED &&
-                messages[index].participants.size == 1 &&
-                hiddenParticipant.contains(messages[index].participants.first().userIdentifier.id),
-
+            isHiddenUser =
+                messages[index].messageType == ChatMessageType.PARTICIPANT_ADDED &&
+                    messages[index].participants.size == 1 &&
+                    hiddenParticipant.contains(messages[index].participants.first().userIdentifier.id),
         )
     }
 
@@ -110,11 +110,11 @@ private class InfoModelToViewModelAdapter(
         lastMessageDate: OffsetDateTime,
         thisMessageDate: OffsetDateTime,
     ): String? {
-
         val thisMessageDateZoned = thisMessageDate.atZoneSameInstant(ZoneId.systemDefault())
-        val today = OffsetDateTime.now().withHour(0).withMinute(0)
-            .withSecond(0)
-            .withNano(0).atZoneSameInstant(ZoneId.systemDefault())
+        val today =
+            OffsetDateTime.now().withHour(0).withMinute(0)
+                .withSecond(0)
+                .withNano(0).atZoneSameInstant(ZoneId.systemDefault())
 
         val yesterday = today.minusDays(1)
         val weekAgo = today.minusWeeks(1)
@@ -135,13 +135,12 @@ private class InfoModelToViewModelAdapter(
 
     // Rest of List Implementation
     override val size = messages.size
+
     override fun contains(element: MessageViewModel) = messages.contains(element.message)
 
-    override fun containsAll(elements: Collection<MessageViewModel>) =
-        messages.containsAll(elements.map { it.message })
+    override fun containsAll(elements: Collection<MessageViewModel>) = messages.containsAll(elements.map { it.message })
 
-    override fun indexOf(element: MessageViewModel) =
-        messages.findMessageIdxById(element.message.normalizedID)
+    override fun indexOf(element: MessageViewModel) = messages.findMessageIdxById(element.message.normalizedID)
 
     override fun isEmpty() = messages.isEmpty()
 
@@ -162,7 +161,10 @@ private class InfoModelToViewModelAdapter(
         TODO("Not Implemented, probably not needed")
     }
 
-    override fun subList(fromIndex: Int, toIndex: Int): List<MessageViewModel> {
+    override fun subList(
+        fromIndex: Int,
+        toIndex: Int,
+    ): List<MessageViewModel> {
         // Not Implemented
         TODO("Not Implemented, probably not needed")
     }

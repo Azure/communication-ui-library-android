@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 internal class SupportViewModel(private val dispatch: Dispatch, private val onSubmit: (String) -> Unit) {
-
     private var _isVisibleStateFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
     private val _isSubmitEnabledStateFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
 

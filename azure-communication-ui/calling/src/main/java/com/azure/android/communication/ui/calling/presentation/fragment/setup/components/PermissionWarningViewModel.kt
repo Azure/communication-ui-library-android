@@ -13,16 +13,12 @@ internal class PermissionWarningViewModel(private val dispatch: (Action) -> Unit
     lateinit var cameraPermissionStateFlow: MutableStateFlow<PermissionStatus>
     lateinit var audioPermissionStateFlow: MutableStateFlow<PermissionStatus>
 
-    fun update(
-        permissionState: PermissionState,
-    ) {
+    fun update(permissionState: PermissionState) {
         cameraPermissionStateFlow.value = permissionState.cameraPermissionState
         audioPermissionStateFlow.value = permissionState.audioPermissionState
     }
 
-    fun init(
-        permissionState: PermissionState,
-    ) {
+    fun init(permissionState: PermissionState) {
         cameraPermissionStateFlow = MutableStateFlow(permissionState.cameraPermissionState)
         audioPermissionStateFlow = MutableStateFlow(permissionState.audioPermissionState)
     }

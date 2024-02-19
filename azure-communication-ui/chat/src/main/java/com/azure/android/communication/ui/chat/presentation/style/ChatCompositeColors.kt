@@ -20,7 +20,6 @@ internal open class ChatCompositeColors(
     val messageBackgroundSelfError: Color,
     val unreadMessageIndicatorBackground: Color,
 ) {
-
     object Dark : ChatCompositeColors(
         content = Color.White,
         inverseContent = Color.Black,
@@ -34,7 +33,6 @@ internal open class ChatCompositeColors(
         messageBackgroundSelf = Color(0xFF043862),
         messageBackgroundSelfError = Color(0xCAA80000),
         unreadMessageIndicatorBackground = Color(0xFF0086F0),
-
     )
 
     object Light : ChatCompositeColors(
@@ -49,14 +47,16 @@ internal open class ChatCompositeColors(
         messageBackground = Color(0xFFF1F1F1),
         messageBackgroundSelf = Color(0xFFDEECF9),
         messageBackgroundSelfError = Color(0xCAA80000),
-        unreadMessageIndicatorBackground = Color(0xFF0078D4)
+        unreadMessageIndicatorBackground = Color(0xFF0078D4),
     )
 }
 
-internal val ChatCompositeColorPaletteLight = staticCompositionLocalOf {
-    ChatCompositeColors.Light
-}
+internal val ChatCompositeColorPaletteLight =
+    staticCompositionLocalOf {
+        ChatCompositeColors.Light
+    }
 
-internal val ChatCompositeColorPaletteDark = staticCompositionLocalOf {
-    ChatCompositeColors.Dark
-}
+internal val ChatCompositeColorPaletteDark =
+    staticCompositionLocalOf {
+        ChatCompositeColors.Dark
+    }

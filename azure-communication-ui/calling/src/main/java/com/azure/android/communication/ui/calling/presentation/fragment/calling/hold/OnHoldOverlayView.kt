@@ -47,10 +47,11 @@ internal class OnHoldOverlayView : LinearLayout {
             findViewById(R.id.azure_communication_ui_call_hold_overlay_wait_for_host_image)
         overlayTitle = findViewById(R.id.azure_communication_ui_call_hold_overlay_title)
         resumeButton = findViewById(R.id.azure_communication_ui_call_hold_resume_button)
-        resumeButton.background = ContextCompat.getDrawable(
-            context,
-            R.drawable.azure_communication_ui_calling_corner_radius_rectangle_4dp_primary_background
-        )
+        resumeButton.background =
+            ContextCompat.getDrawable(
+                context,
+                R.drawable.azure_communication_ui_calling_corner_radius_rectangle_4dp_primary_background,
+            )
     }
 
     fun start(
@@ -83,7 +84,7 @@ internal class OnHoldOverlayView : LinearLayout {
                     info.removeAction(AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK)
                     info.isClickable = false
                 }
-            }
+            },
         )
 
         initSnackBar()
@@ -124,45 +125,47 @@ internal class OnHoldOverlayView : LinearLayout {
     }
 
     private fun initSnackBar() {
-        snackBar = Snackbar.make(
-            rootView,
-            "",
-            Snackbar.LENGTH_INDEFINITE,
-            Snackbar.Style.REGULAR
-        ).apply {
-            animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
-            setAction(rootView.context!!.getText(R.string.azure_communication_ui_calling_snack_bar_button_dismiss)) {
-            }
-            if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                anchorView =
-                    rootView.findViewById(R.id.azure_communication_ui_call_call_buttons)
-            }
-            view.background.colorFilter = PorterDuffColorFilter(
-                ContextCompat.getColor(
-                    rootView.context,
-                    R.color.azure_communication_ui_calling_color_snack_bar_background
-                ),
-                PorterDuff.Mode.SRC_IN
-            )
-            snackBarTextView = view.findViewById(R.id.snackbar_text)
-            snackBarTextView.setTextColor(
-                ContextCompat.getColor(
-                    rootView.context,
-                    R.color.azure_communication_ui_calling_color_snack_bar_text_color
-                )
-            )
-            view.findViewById<AppCompatButton>(R.id.snackbar_action).apply {
-                setTextColor(
+        snackBar =
+            Snackbar.make(
+                rootView,
+                "",
+                Snackbar.LENGTH_INDEFINITE,
+                Snackbar.Style.REGULAR,
+            ).apply {
+                animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
+                setAction(rootView.context!!.getText(R.string.azure_communication_ui_calling_snack_bar_button_dismiss)) {
+                }
+                if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    anchorView =
+                        rootView.findViewById(R.id.azure_communication_ui_call_call_buttons)
+                }
+                view.background.colorFilter =
+                    PorterDuffColorFilter(
+                        ContextCompat.getColor(
+                            rootView.context,
+                            R.color.azure_communication_ui_calling_color_snack_bar_background,
+                        ),
+                        PorterDuff.Mode.SRC_IN,
+                    )
+                snackBarTextView = view.findViewById(R.id.snackbar_text)
+                snackBarTextView.setTextColor(
                     ContextCompat.getColor(
                         rootView.context,
-                        R.color.azure_communication_ui_calling_color_snack_bar_text_color
-                    )
+                        R.color.azure_communication_ui_calling_color_snack_bar_text_color,
+                    ),
                 )
-                isAllCaps = false
-                contentDescription =
-                    rootView.context.getText(R.string.azure_communication_ui_calling_snack_bar_button_dismiss)
+                view.findViewById<AppCompatButton>(R.id.snackbar_action).apply {
+                    setTextColor(
+                        ContextCompat.getColor(
+                            rootView.context,
+                            R.color.azure_communication_ui_calling_color_snack_bar_text_color,
+                        ),
+                    )
+                    isAllCaps = false
+                    contentDescription =
+                        rootView.context.getText(R.string.azure_communication_ui_calling_snack_bar_button_dismiss)
+                }
             }
-        }
     }
 
     private fun setupUi() {

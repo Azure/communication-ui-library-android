@@ -17,7 +17,6 @@ class BottomCellViewHolderMatcher(
     @DrawableRes private val expectedId: Int,
     private val isSelected: Boolean,
 ) : BoundedMatcher<RecyclerView.ViewHolder, RecyclerView.ViewHolder>(RecyclerView.ViewHolder::class.java) {
-
     override fun describeTo(description: Description?) {
         description?.appendText("with $name and drawable from resource id: $expectedId")
     }

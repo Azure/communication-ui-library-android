@@ -44,7 +44,6 @@ import org.mockito.kotlin.verify
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
 internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
-
     @Test
     fun errorHandler_onStateChange_withNoError_callsNothing() =
         runScopedTest {
@@ -52,16 +51,18 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             val appState = AppReduxState("", false, false)
             appState.errorState = ErrorState(null, null)
 
-            val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(
-                AppReduxState(
-                    "",
-                    false,
-                    false
+            val stateFlow: MutableStateFlow<ReduxState> =
+                MutableStateFlow(
+                    AppReduxState(
+                        "",
+                        false,
+                        false,
+                    ),
                 )
-            )
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getStateFlow() } doReturn stateFlow
-            }
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getStateFlow() } doReturn stateFlow
+                }
 
             val configuration = CallCompositeConfiguration()
             configuration.callCompositeEventsHandler.addOnErrorEventHandler(mock { })
@@ -69,9 +70,10 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             val errorHandler = ErrorHandler(configuration, mockAppStore)
 
             // act
-            val job = launch {
-                errorHandler.start()
-            }
+            val job =
+                launch {
+                    errorHandler.start()
+                }
 
             stateFlow.value = appState
 
@@ -79,13 +81,13 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(0)).dispatch(
                 argThat { action ->
                     action is Any
-                }
+                },
             )
 
             verify(configuration.callCompositeEventsHandler.getOnErrorHandlers().single(), times(0)).handle(
                 argThat { action ->
                     action is Any
-                }
+                },
             )
 
             job.cancel()
@@ -98,55 +100,59 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             val appState = AppReduxState("", false, false)
             val error = Exception("Camera error")
             appState.errorState = ErrorState(null, null)
-            appState.localParticipantState = LocalUserState(
-                CameraState(
-                    CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT,
-                    CameraTransmissionStatus.REMOTE,
-                    2,
-                    CallCompositeError(ErrorCode.TURN_CAMERA_OFF_FAILED, error),
-                ),
-                AudioState(
-                    AudioOperationalStatus.OFF,
-                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
-                    BluetoothState(available = false, deviceName = "bluetooth")
-                ),
-                videoStreamID = null,
-                displayName = "name",
-                localParticipantRole = null
-            )
-
-            val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(
-                AppReduxState(
-                    "",
-                    false,
-                    false
+            appState.localParticipantState =
+                LocalUserState(
+                    CameraState(
+                        CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT,
+                        CameraTransmissionStatus.REMOTE,
+                        2,
+                        CallCompositeError(ErrorCode.TURN_CAMERA_OFF_FAILED, error),
+                    ),
+                    AudioState(
+                        AudioOperationalStatus.OFF,
+                        AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                        BluetoothState(available = false, deviceName = "bluetooth"),
+                    ),
+                    videoStreamID = null,
+                    displayName = "name",
+                    localParticipantRole = null,
                 )
-            )
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getStateFlow() } doReturn stateFlow
-            }
+
+            val stateFlow: MutableStateFlow<ReduxState> =
+                MutableStateFlow(
+                    AppReduxState(
+                        "",
+                        false,
+                        false,
+                    ),
+                )
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getStateFlow() } doReturn stateFlow
+                }
 
             val configuration = CallCompositeConfiguration()
             configuration.callCompositeEventsHandler.addOnErrorEventHandler(mock { })
             val errorHandler = ErrorHandler(configuration, mockAppStore)
 
             // act
-            val job = launch {
-                errorHandler.start()
-            }
+            val job =
+                launch {
+                    errorHandler.start()
+                }
             stateFlow.value = appState
 
             // assert
             verify(mockAppStore, times(0)).dispatch(
                 argThat { action ->
                     action is ErrorAction.EmergencyExit
-                }
+                },
             )
 
             verify(configuration.callCompositeEventsHandler.getOnErrorHandlers().single(), times(0)).handle(
                 argThat { exception ->
                     exception is Any
-                }
+                },
             )
 
             job.cancel()
@@ -159,32 +165,35 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             val appState = AppReduxState("", false, false)
             val error = Exception("Mic error")
             appState.errorState = ErrorState(null, null)
-            appState.localParticipantState = LocalUserState(
-                CameraState(
-                    CameraOperationalStatus.OFF,
-                    CameraDeviceSelectionStatus.FRONT,
-                    CameraTransmissionStatus.REMOTE
-                ),
-                AudioState(
-                    AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED,
-                    BluetoothState(available = false, deviceName = "bluetooth"),
-                    CallCompositeError(ErrorCode.TURN_MIC_OFF_FAILED, error),
-                ),
-                videoStreamID = null,
-                displayName = "name",
-                localParticipantRole = null
-            )
-
-            val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(
-                AppReduxState(
-                    "",
-                    false,
-                    false,
+            appState.localParticipantState =
+                LocalUserState(
+                    CameraState(
+                        CameraOperationalStatus.OFF,
+                        CameraDeviceSelectionStatus.FRONT,
+                        CameraTransmissionStatus.REMOTE,
+                    ),
+                    AudioState(
+                        AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                        BluetoothState(available = false, deviceName = "bluetooth"),
+                        CallCompositeError(ErrorCode.TURN_MIC_OFF_FAILED, error),
+                    ),
+                    videoStreamID = null,
+                    displayName = "name",
+                    localParticipantRole = null,
                 )
-            )
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getStateFlow() } doReturn stateFlow
-            }
+
+            val stateFlow: MutableStateFlow<ReduxState> =
+                MutableStateFlow(
+                    AppReduxState(
+                        "",
+                        false,
+                        false,
+                    ),
+                )
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getStateFlow() } doReturn stateFlow
+                }
 
             val configuration = CallCompositeConfiguration()
             configuration.callCompositeEventsHandler.addOnErrorEventHandler(mock {})
@@ -192,22 +201,23 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             val errorHandler = ErrorHandler(configuration, mockAppStore)
 
             // act
-            val job = launch {
-                errorHandler.start()
-            }
+            val job =
+                launch {
+                    errorHandler.start()
+                }
             stateFlow.value = appState
 
             // assert
             verify(mockAppStore, times(0)).dispatch(
                 argThat { action ->
                     action is ErrorAction.EmergencyExit
-                }
+                },
             )
 
             verify(configuration.callCompositeEventsHandler.getOnErrorHandlers().single(), times(0)).handle(
                 argThat { exception ->
                     exception is Any
-                }
+                },
             )
             job.cancel()
         }
@@ -220,17 +230,19 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             appState.errorState =
                 ErrorState(null, CallStateError(ErrorCode.TOKEN_EXPIRED, null))
 
-            val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(
-                AppReduxState(
-                    "",
-                    false,
-                    false
+            val stateFlow: MutableStateFlow<ReduxState> =
+                MutableStateFlow(
+                    AppReduxState(
+                        "",
+                        false,
+                        false,
+                    ),
                 )
-            )
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getStateFlow() } doReturn stateFlow
-                on { dispatch(any()) } doAnswer { }
-            }
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getStateFlow() } doReturn stateFlow
+                    on { dispatch(any()) } doAnswer { }
+                }
 
             val configuration = CallCompositeConfiguration()
             configuration.callCompositeEventsHandler.addOnErrorEventHandler(mock { on { handle(any()) } doAnswer { } })
@@ -239,28 +251,29 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             val errorHandler = ErrorHandler(configuration, mockAppStore)
 
             // act
-            val job = launch {
-                errorHandler.start()
-            }
+            val job =
+                launch {
+                    errorHandler.start()
+                }
             stateFlow.value = appState
 
             // assert
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is ErrorAction.EmergencyExit
-                }
+                },
             )
 
             verify(configuration.callCompositeEventsHandler.getOnErrorHandlers().elementAt(0), times(1)).handle(
                 argThat { exception ->
                     exception.errorCode == CallCompositeErrorCode.TOKEN_EXPIRED
-                }
+                },
             )
 
             verify(configuration.callCompositeEventsHandler.getOnErrorHandlers().elementAt(1), times(1)).handle(
                 argThat { exception ->
                     exception.errorCode == CallCompositeErrorCode.TOKEN_EXPIRED
-                }
+                },
             )
 
             job.cancel()
@@ -274,19 +287,21 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             appState.errorState =
                 ErrorState(
                     null,
-                    CallStateError(CALL_END_FAILED, CALL_EVICTED)
+                    CallStateError(CALL_END_FAILED, CALL_EVICTED),
                 )
 
-            val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(
-                AppReduxState(
-                    "",
-                    false,
-                    false
+            val stateFlow: MutableStateFlow<ReduxState> =
+                MutableStateFlow(
+                    AppReduxState(
+                        "",
+                        false,
+                        false,
+                    ),
                 )
-            )
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getStateFlow() } doReturn stateFlow
-            }
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getStateFlow() } doReturn stateFlow
+                }
 
             val configuration = CallCompositeConfiguration()
             configuration.callCompositeEventsHandler.addOnErrorEventHandler(mock())
@@ -294,22 +309,23 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             val errorHandler = ErrorHandler(configuration, mockAppStore)
 
             // act
-            val job = launch {
-                errorHandler.start()
-            }
+            val job =
+                launch {
+                    errorHandler.start()
+                }
             stateFlow.value = appState
 
             // assert
             verify(mockAppStore, times(0)).dispatch(
                 argThat { action ->
                     action is ErrorAction.EmergencyExit
-                }
+                },
             )
 
             verify(configuration.callCompositeEventsHandler.getOnErrorHandlers().single(), times(0)).handle(
                 argThat { exception ->
                     exception is Any
-                }
+                },
             )
 
             job.cancel()
@@ -323,19 +339,21 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             appState.errorState =
                 ErrorState(
                     null,
-                    CallStateError(CALL_END_FAILED, CALL_DECLINED)
+                    CallStateError(CALL_END_FAILED, CALL_DECLINED),
                 )
 
-            val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(
-                AppReduxState(
-                    "",
-                    false,
-                    false
+            val stateFlow: MutableStateFlow<ReduxState> =
+                MutableStateFlow(
+                    AppReduxState(
+                        "",
+                        false,
+                        false,
+                    ),
                 )
-            )
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getStateFlow() } doReturn stateFlow
-            }
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getStateFlow() } doReturn stateFlow
+                }
 
             val configuration = CallCompositeConfiguration()
             configuration.callCompositeEventsHandler.addOnErrorEventHandler(mock())
@@ -343,22 +361,23 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             val errorHandler = ErrorHandler(configuration, mockAppStore)
 
             // act
-            val job = launch {
-                errorHandler.start()
-            }
+            val job =
+                launch {
+                    errorHandler.start()
+                }
             stateFlow.value = appState
 
             // assert
             verify(mockAppStore, times(0)).dispatch(
                 argThat { action ->
                     action is ErrorAction.EmergencyExit
-                }
+                },
             )
 
             verify(configuration.callCompositeEventsHandler.getOnErrorHandlers().single(), times(0)).handle(
                 argThat { exception ->
                     exception is Any
-                }
+                },
             )
 
             job.cancel()
@@ -372,16 +391,18 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             appState.errorState =
                 ErrorState(null, CallStateError(ErrorCode.NETWORK_NOT_AVAILABLE, null))
 
-            val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(
-                AppReduxState(
-                    "",
-                    false,
-                    false
+            val stateFlow: MutableStateFlow<ReduxState> =
+                MutableStateFlow(
+                    AppReduxState(
+                        "",
+                        false,
+                        false,
+                    ),
                 )
-            )
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { getStateFlow() } doReturn stateFlow
-            }
+            val mockAppStore =
+                mock<AppStore<ReduxState>> {
+                    on { getStateFlow() } doReturn stateFlow
+                }
 
             val configuration = CallCompositeConfiguration()
             configuration.callCompositeEventsHandler.addOnErrorEventHandler(mock { on { handle(any()) } doAnswer { } })
@@ -389,16 +410,17 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             val errorHandler = ErrorHandler(configuration, mockAppStore)
 
             // act
-            val job = launch {
-                errorHandler.start()
-            }
+            val job =
+                launch {
+                    errorHandler.start()
+                }
             stateFlow.value = appState
 
             // assert
             verify(configuration.callCompositeEventsHandler.getOnErrorHandlers().elementAt(0), times(1)).handle(
                 argThat { exception ->
                     exception.errorCode == CallCompositeErrorCode.CALL_JOIN_FAILED
-                }
+                },
             )
 
             job.cancel()

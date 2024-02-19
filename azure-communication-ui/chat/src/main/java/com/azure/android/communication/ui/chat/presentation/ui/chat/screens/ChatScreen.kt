@@ -4,8 +4,8 @@
 package com.azure.android.communication.ui.chat.presentation.ui.chat.screens
 
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -62,18 +62,19 @@ internal fun ChatScreen(
     Scaffold(
         backgroundColor = ChatCompositeTheme.colors.background,
         scaffoldState = scaffoldState,
-
         topBar = {
             if (!showActionBar) return@Scaffold
             val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
-            val topic = when {
-                viewModel.chatTopic != null -> viewModel.chatTopic
-                else -> stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
-            }
-            val subTitle = stringResource(
-                id = R.string.azure_communication_ui_chat_count_people,
-                viewModel.participants.count()
-            )
+            val topic =
+                when {
+                    viewModel.chatTopic != null -> viewModel.chatTopic
+                    else -> stringResource(R.string.azure_communication_ui_chat_chat_action_bar_title)
+                }
+            val subTitle =
+                stringResource(
+                    id = R.string.azure_communication_ui_chat_count_people,
+                    viewModel.participants.count(),
+                )
 
             ActionBarView(
                 title = topic,
@@ -95,59 +96,64 @@ internal fun ChatScreen(
                 }
             } else if (viewModel.isLoading) {
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(),
-                    contentAlignment = Alignment.Center
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(),
+                    contentAlignment = Alignment.Center,
                 ) {
                     FluentCircularIndicator()
                 }
             } else {
                 Box(
                     modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.BottomCenter
+                    contentAlignment = Alignment.BottomCenter,
                 ) {
                     MessageListView(
-                        modifier = Modifier
-                            .padding(paddingValues)
-                            .width(ChatCompositeTheme.dimensions.messageListMaxWidth),
+                        modifier =
+                            Modifier
+                                .padding(paddingValues)
+                                .width(ChatCompositeTheme.dimensions.messageListMaxWidth),
                         messages = viewModel.messages,
                         scrollState = listState,
                         showLoading = viewModel.areMessagesLoading,
-                        dispatchers = viewModel.postAction
+                        dispatchers = viewModel.postAction,
                     )
 
                     Box(
-                        modifier = Modifier
-                            .width(ChatCompositeTheme.dimensions.messageListMaxWidth)
-                            .padding(paddingValues)
-                            .padding(ChatCompositeTheme.dimensions.unreadMessagesIndicatorPadding),
-                        contentAlignment = Alignment.BottomCenter
+                        modifier =
+                            Modifier
+                                .width(ChatCompositeTheme.dimensions.messageListMaxWidth)
+                                .padding(paddingValues)
+                                .padding(ChatCompositeTheme.dimensions.unreadMessagesIndicatorPadding),
+                        contentAlignment = Alignment.BottomCenter,
                     ) {
                         UnreadMessagesIndicatorView(
                             scrollState = listState,
-                            visible = viewModel.unreadMessagesIndicatorVisibility &&
-                                listState.firstVisibleItemIndex > 1 &&
-                                !(viewModel.messages.lastOrNull()?.isLocalUser ?: true),
+                            visible =
+                                viewModel.unreadMessagesIndicatorVisibility &&
+                                    listState.firstVisibleItemIndex > 1 &&
+                                    !(viewModel.messages.lastOrNull()?.isLocalUser ?: true),
                             unreadCount = viewModel.unreadMessagesCount,
                         )
                     }
                 }
             }
-            if (viewModel.debugOverlayText.isNotEmpty())
-                Card() {
+            if (viewModel.debugOverlayText.isNotEmpty()) {
+                Card {
                     BasicText(viewModel.debugOverlayText)
                 }
+            }
         },
         bottomBar = {
-
             Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                 Box(Modifier.width(ChatCompositeTheme.dimensions.messageListMaxWidth)) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Box(
-                            modifier = Modifier
-                                .align(alignment = Alignment.Start)
-                                .padding(horizontal = 5.dp)
+                            modifier =
+                                Modifier
+                                    .align(alignment = Alignment.Start)
+                                    .padding(horizontal = 5.dp),
                         ) {
                             TypingIndicatorView(viewModel.typingParticipants.toList())
                         }
@@ -161,12 +167,12 @@ internal fun ChatScreen(
                                 }
                                 viewModel.postAction(it)
                             },
-                            sendMessageEnabled = viewModel.sendMessageEnabled
+                            sendMessageEnabled = viewModel.sendMessageEnabled,
                         )
                     }
                 }
             }
-        }
+        },
     )
 
     /* TODO: Add this Composable back in to support Context Menu (Copy)
@@ -182,41 +188,48 @@ internal fun ChatScreenPreview() {
     AndroidThreeTen.init(LocalContext.current)
     ChatCompositeTheme(themeMode = ThemeMode.Dark) {
         ChatScreen(
-            viewModel = ChatScreenViewModel(
-                messages = MOCK_MESSAGES.toViewModelList(context = LocalContext.current, localUserIdentifier = MOCK_LOCAL_USER_ID, hiddenParticipant = mutableSetOf()),
-                chatStatus = ChatStatus.INITIALIZED,
-                buildCount = 2,
-                areMessagesLoading = true,
-                typingParticipants = listOf("John Doe", "Mary Sue"),
-                postAction = {},
-                participants = listOf(
-                    RemoteParticipantInfoModel(
-                        CommunicationIdentifier.UnknownIdentifier("7A13DD2C-B49F-4521-9364-975F12F6E333"),
-                        "John Smith"
-                    ),
-                    RemoteParticipantInfoModel(
-                        CommunicationIdentifier.UnknownIdentifier("931804B1-D72E-4E70-BFEA-7813C7761BD2"),
-                        "William Brown"
-                    ),
-                    RemoteParticipantInfoModel(
-                        CommunicationIdentifier.UnknownIdentifier("152D5D76-3DDC-44BE-873F-A4575F8C91DF"),
-                        "James Miller"
-                    ),
-                    RemoteParticipantInfoModel(
-                        CommunicationIdentifier.UnknownIdentifier("85FF2697-2ABB-480E-ACCA-09EBE3D6F5EC"),
-                        "George Johnson"
-                    ),
-                    RemoteParticipantInfoModel(
-                        CommunicationIdentifier.UnknownIdentifier("DB75F1F0-65E4-46B0-A213-DA4F574659A5"),
-                        "Henry Jones"
-                    ),
-                ).associateBy { it.userIdentifier.id },
-                messageContextMenu = MessageContextMenuModel(
-                    messageInfoModel = EMPTY_MESSAGE_INFO_MODEL,
-                    menuItems = emptyList()
-                )
-            ),
-
+            viewModel =
+                ChatScreenViewModel(
+                    messages =
+                        MOCK_MESSAGES.toViewModelList(
+                            context = LocalContext.current,
+                            localUserIdentifier = MOCK_LOCAL_USER_ID,
+                            hiddenParticipant = mutableSetOf(),
+                        ),
+                    chatStatus = ChatStatus.INITIALIZED,
+                    buildCount = 2,
+                    areMessagesLoading = true,
+                    typingParticipants = listOf("John Doe", "Mary Sue"),
+                    postAction = {},
+                    participants =
+                        listOf(
+                            RemoteParticipantInfoModel(
+                                CommunicationIdentifier.UnknownIdentifier("7A13DD2C-B49F-4521-9364-975F12F6E333"),
+                                "John Smith",
+                            ),
+                            RemoteParticipantInfoModel(
+                                CommunicationIdentifier.UnknownIdentifier("931804B1-D72E-4E70-BFEA-7813C7761BD2"),
+                                "William Brown",
+                            ),
+                            RemoteParticipantInfoModel(
+                                CommunicationIdentifier.UnknownIdentifier("152D5D76-3DDC-44BE-873F-A4575F8C91DF"),
+                                "James Miller",
+                            ),
+                            RemoteParticipantInfoModel(
+                                CommunicationIdentifier.UnknownIdentifier("85FF2697-2ABB-480E-ACCA-09EBE3D6F5EC"),
+                                "George Johnson",
+                            ),
+                            RemoteParticipantInfoModel(
+                                CommunicationIdentifier.UnknownIdentifier("DB75F1F0-65E4-46B0-A213-DA4F574659A5"),
+                                "Henry Jones",
+                            ),
+                        ).associateBy { it.userIdentifier.id },
+                    messageContextMenu =
+                        MessageContextMenuModel(
+                            messageInfoModel = EMPTY_MESSAGE_INFO_MODEL,
+                            menuItems = emptyList(),
+                        ),
+                ),
         )
     }
 }

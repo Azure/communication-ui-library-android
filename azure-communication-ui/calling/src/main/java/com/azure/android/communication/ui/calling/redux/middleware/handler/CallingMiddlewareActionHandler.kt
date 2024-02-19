@@ -8,6 +8,7 @@ import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.FatalError
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.calling.redux.Store
+import com.azure.android.communication.ui.calling.redux.action.CallDiagnosticsAction
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.action.LifecycleAction
@@ -15,7 +16,6 @@ import com.azure.android.communication.ui.calling.redux.action.LocalParticipantA
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
-import com.azure.android.communication.ui.calling.redux.action.CallDiagnosticsAction
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
@@ -33,32 +33,59 @@ import kotlinx.coroutines.launch
 
 internal interface CallingMiddlewareActionHandler {
     fun enterBackground(store: Store<ReduxState>)
+
     fun enterForeground(store: Store<ReduxState>)
+
     fun hold(store: Store<ReduxState>)
+
     fun resume(store: Store<ReduxState>)
+
     fun endCall(store: Store<ReduxState>)
+
     fun requestCameraPreviewOn(store: Store<ReduxState>)
+
     fun turnCameraPreviewOn(store: Store<ReduxState>)
+
     fun requestCameraOn(store: Store<ReduxState>)
+
     fun turnCameraOn(store: Store<ReduxState>)
+
     fun turnCameraOff(store: Store<ReduxState>)
+
     fun switchCamera(store: Store<ReduxState>)
+
     fun setupCall(store: Store<ReduxState>)
+
     fun startCall(store: Store<ReduxState>)
+
     fun turnMicOn(store: Store<ReduxState>)
+
     fun turnMicOff(store: Store<ReduxState>)
+
     fun onCameraPermissionIsSet(store: Store<ReduxState>)
+
     fun callSetupWithSkipSetupScreen(store: Store<ReduxState>)
+
     fun exit(store: Store<ReduxState>)
+
     fun dispose()
+
     fun admitAll(store: Store<ReduxState>)
-    fun admit(userIdentifier: String, store: Store<ReduxState>)
-    fun decline(userIdentifier: String, store: Store<ReduxState>)
+
+    fun admit(
+        userIdentifier: String,
+        store: Store<ReduxState>,
+    )
+
+    fun decline(
+        userIdentifier: String,
+        store: Store<ReduxState>,
+    )
 }
 
 internal class CallingMiddlewareActionHandlerImpl(
     private val callingService: CallingService,
-    coroutineContextProvider: CoroutineContextProvider
+    coroutineContextProvider: CoroutineContextProvider,
 ) :
     CallingMiddlewareActionHandler {
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
@@ -77,8 +104,8 @@ internal class CallingMiddlewareActionHandlerImpl(
                     if (error != null) {
                         store.dispatch(
                             LocalParticipantAction.CameraPauseFailed(
-                                CallCompositeError(ErrorCode.TURN_CAMERA_OFF_FAILED, error)
-                            )
+                                CallCompositeError(ErrorCode.TURN_CAMERA_OFF_FAILED, error),
+                            ),
                         )
                     } else {
                         store.dispatch(LocalParticipantAction.CameraPauseSucceeded())
@@ -119,7 +146,6 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun callSetupWithSkipSetupScreen(store: Store<ReduxState>) {
-
         if (store.getCurrentState().localParticipantState.initialCallJoinState.startWithMicrophoneOn) {
             store.dispatch(action = LocalParticipantAction.MicPreviewOnTriggered())
         }
@@ -140,27 +166,33 @@ internal class CallingMiddlewareActionHandlerImpl(
         callingService.admitAll().whenComplete { lobbyErrorCode, _ ->
             if (lobbyErrorCode != null) {
                 store.dispatch(
-                    ParticipantAction.LobbyError(lobbyErrorCode)
+                    ParticipantAction.LobbyError(lobbyErrorCode),
                 )
             }
         }
     }
 
-    override fun admit(userIdentifier: String, store: Store<ReduxState>) {
+    override fun admit(
+        userIdentifier: String,
+        store: Store<ReduxState>,
+    ) {
         callingService.admit(userIdentifier).whenComplete { lobbyErrorCode, _ ->
             if (lobbyErrorCode != null) {
                 store.dispatch(
-                    ParticipantAction.LobbyError(lobbyErrorCode)
+                    ParticipantAction.LobbyError(lobbyErrorCode),
                 )
             }
         }
     }
 
-    override fun decline(userIdentifier: String, store: Store<ReduxState>) {
+    override fun decline(
+        userIdentifier: String,
+        store: Store<ReduxState>,
+    ) {
         callingService.decline(userIdentifier).whenComplete { lobbyErrorCode, _ ->
             if (lobbyErrorCode != null) {
                 store.dispatch(
-                    ParticipantAction.LobbyError(lobbyErrorCode)
+                    ParticipantAction.LobbyError(lobbyErrorCode),
                 )
             }
         }
@@ -176,8 +208,8 @@ internal class CallingMiddlewareActionHandlerImpl(
                 if (error != null) {
                     store.dispatch(
                         ErrorAction.FatalErrorOccurred(
-                            FatalError(error, ErrorCode.CALL_END_FAILED)
-                        )
+                            FatalError(error, ErrorCode.CALL_END_FAILED),
+                        ),
                     )
                 }
             }
@@ -201,11 +233,13 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     override fun requestCameraPreviewOn(store: Store<ReduxState>) {
         val action =
-            if (store.getCurrentState().permissionState.cameraPermissionState == PermissionStatus.NOT_ASKED)
+            if (store.getCurrentState().permissionState.cameraPermissionState == PermissionStatus.NOT_ASKED) {
                 PermissionAction.CameraPermissionRequested()
-            else if (store.getCurrentState().permissionState.cameraPermissionState == PermissionStatus.DENIED)
+            } else if (store.getCurrentState().permissionState.cameraPermissionState == PermissionStatus.DENIED) {
                 LocalParticipantAction.CameraOffTriggered()
-            else LocalParticipantAction.CameraPreviewOnTriggered()
+            } else {
+                LocalParticipantAction.CameraPreviewOnTriggered()
+            }
 
         store.dispatch(action)
     }
@@ -215,8 +249,8 @@ internal class CallingMiddlewareActionHandlerImpl(
             if (error != null) {
                 store.dispatch(
                     LocalParticipantAction.CameraPreviewOnFailed(
-                        CallCompositeError(ErrorCode.TURN_CAMERA_ON_FAILED, error)
-                    )
+                        CallCompositeError(ErrorCode.TURN_CAMERA_ON_FAILED, error),
+                    ),
                 )
             } else {
                 store.dispatch(LocalParticipantAction.CameraPreviewOnSucceeded(newVideoStreamId))
@@ -232,8 +266,8 @@ internal class CallingMiddlewareActionHandlerImpl(
                 if (error != null) {
                     store.dispatch(
                         LocalParticipantAction.CameraOffFailed(
-                            CallCompositeError(ErrorCode.TURN_CAMERA_OFF_FAILED, error)
-                        )
+                            CallCompositeError(ErrorCode.TURN_CAMERA_OFF_FAILED, error),
+                        ),
                     )
                 } else {
                     store.dispatch(LocalParticipantAction.CameraOffSucceeded())
@@ -247,8 +281,8 @@ internal class CallingMiddlewareActionHandlerImpl(
             if (error != null) {
                 store.dispatch(
                     ErrorAction.FatalErrorOccurred(
-                        FatalError(error, ErrorCode.CAMERA_INIT_FAILED)
-                    )
+                        FatalError(error, ErrorCode.CAMERA_INIT_FAILED),
+                    ),
                 )
             } else {
                 if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
@@ -259,7 +293,6 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun startCall(store: Store<ReduxState>) {
-
         subscribeRemoteParticipantsUpdate(store)
         subscribeIsMutedUpdate(store)
         subscribeIsRecordingUpdate(store)
@@ -273,13 +306,13 @@ internal class CallingMiddlewareActionHandlerImpl(
 
         callingService.startCall(
             store.getCurrentState().localParticipantState.cameraState,
-            store.getCurrentState().localParticipantState.audioState
+            store.getCurrentState().localParticipantState.audioState,
         ).handle { _, error: Throwable? ->
             if (error != null) {
                 store.dispatch(
                     ErrorAction.FatalErrorOccurred(
-                        FatalError(error, ErrorCode.CALL_JOIN_FAILED)
-                    )
+                        FatalError(error, ErrorCode.CALL_JOIN_FAILED),
+                    ),
                 )
             }
         }
@@ -287,8 +320,11 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     override fun requestCameraOn(store: Store<ReduxState>) {
         val action =
-            if (store.getCurrentState().permissionState.cameraPermissionState == PermissionStatus.NOT_ASKED)
-                PermissionAction.CameraPermissionRequested() else LocalParticipantAction.CameraOnTriggered()
+            if (store.getCurrentState().permissionState.cameraPermissionState == PermissionStatus.NOT_ASKED) {
+                PermissionAction.CameraPermissionRequested()
+            } else {
+                LocalParticipantAction.CameraOnTriggered()
+            }
 
         store.dispatch(action)
     }
@@ -299,8 +335,8 @@ internal class CallingMiddlewareActionHandlerImpl(
                 if (error != null) {
                     store.dispatch(
                         LocalParticipantAction.CameraOnFailed(
-                            CallCompositeError(ErrorCode.TURN_CAMERA_ON_FAILED, error)
-                        )
+                            CallCompositeError(ErrorCode.TURN_CAMERA_ON_FAILED, error),
+                        ),
                     )
                 } else {
                     store.dispatch(LocalParticipantAction.CameraOnSucceeded(newVideoStreamId))
@@ -317,8 +353,8 @@ internal class CallingMiddlewareActionHandlerImpl(
                 store.dispatch(
                     LocalParticipantAction.CameraSwitchFailed(
                         currentCamera,
-                        CallCompositeError(ErrorCode.SWITCH_CAMERA_FAILED, error)
-                    )
+                        CallCompositeError(ErrorCode.SWITCH_CAMERA_FAILED, error),
+                    ),
                 )
             } else {
                 store.dispatch(LocalParticipantAction.CameraSwitchSucceeded(cameraDevice))
@@ -332,8 +368,8 @@ internal class CallingMiddlewareActionHandlerImpl(
                 if (error != null) {
                     store.dispatch(
                         LocalParticipantAction.MicOnFailed(
-                            CallCompositeError(ErrorCode.TURN_MIC_ON_FAILED, error)
-                        )
+                            CallCompositeError(ErrorCode.TURN_MIC_ON_FAILED, error),
+                        ),
                     )
                 }
             }
@@ -346,8 +382,8 @@ internal class CallingMiddlewareActionHandlerImpl(
                 if (error != null) {
                     store.dispatch(
                         LocalParticipantAction.MicOffFailed(
-                            CallCompositeError(ErrorCode.TURN_MIC_OFF_FAILED, error)
-                        )
+                            CallCompositeError(ErrorCode.TURN_MIC_OFF_FAILED, error),
+                        ),
                     )
                 }
             }
@@ -365,19 +401,18 @@ internal class CallingMiddlewareActionHandlerImpl(
     private fun subscribeIsMutedUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
             callingService.getIsMutedSharedFlow().collect {
-                val action = if (it) {
-                    LocalParticipantAction.AudioStateOperationUpdated(AudioOperationalStatus.OFF)
-                } else {
-                    LocalParticipantAction.AudioStateOperationUpdated(AudioOperationalStatus.ON)
-                }
+                val action =
+                    if (it) {
+                        LocalParticipantAction.AudioStateOperationUpdated(AudioOperationalStatus.OFF)
+                    } else {
+                        LocalParticipantAction.AudioStateOperationUpdated(AudioOperationalStatus.ON)
+                    }
                 store.dispatch(action)
             }
         }
     }
 
-    private fun subscribeRemoteParticipantsUpdate(
-        store: Store<ReduxState>,
-    ) {
+    private fun subscribeRemoteParticipantsUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
             callingService.getParticipantsInfoModelSharedFlow().collect {
                 if (isActive) {
@@ -388,9 +423,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         }
     }
 
-    private fun subscribeDominantSpeakersUpdate(
-        store: Store<ReduxState>,
-    ) {
+    private fun subscribeDominantSpeakersUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
             callingService.getDominantSpeakersSharedFlow()?.collect {
                 if (isActive) {
@@ -528,8 +561,8 @@ internal class CallingMiddlewareActionHandlerImpl(
                     if (error != null) {
                         store.dispatch(
                             LocalParticipantAction.CameraPauseFailed(
-                                CallCompositeError(ErrorCode.TURN_CAMERA_ON_FAILED, error)
-                            )
+                                CallCompositeError(ErrorCode.TURN_CAMERA_ON_FAILED, error),
+                            ),
                         )
                     } else {
                         store.dispatch(LocalParticipantAction.CameraOnSucceeded(newVideoStreamId))

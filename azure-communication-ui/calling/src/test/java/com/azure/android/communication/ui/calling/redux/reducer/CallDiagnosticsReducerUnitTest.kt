@@ -22,9 +22,11 @@ internal class CallDiagnosticsReducerUnitTest {
     fun callingReducer_reduce_when_actionUpdateNetworkQualityDiagnostics_then_changeDiagnosticValue() {
         // arrange
         val reducer = CallDiagnosticsReducerImpl()
-        val networkQualityCallDiagnosticModel = NetworkQualityCallDiagnosticModel(NetworkCallDiagnostic.NETWORK_SEND_QUALITY, CallDiagnosticQuality.GOOD)
+        val networkQualityCallDiagnosticModel =
+            NetworkQualityCallDiagnosticModel(NetworkCallDiagnostic.NETWORK_SEND_QUALITY, CallDiagnosticQuality.GOOD)
         val previousState = CallDiagnosticsState(networkQualityCallDiagnosticModel, null, null)
-        val newNetworkQualityCallDiagnosticModel = NetworkQualityCallDiagnosticModel(NetworkCallDiagnostic.NETWORK_SEND_QUALITY, CallDiagnosticQuality.BAD)
+        val newNetworkQualityCallDiagnosticModel =
+            NetworkQualityCallDiagnosticModel(NetworkCallDiagnostic.NETWORK_SEND_QUALITY, CallDiagnosticQuality.BAD)
         val action = CallDiagnosticsAction.NetworkQualityCallDiagnosticsUpdated(newNetworkQualityCallDiagnosticModel)
 
         // act

@@ -27,9 +27,7 @@ internal class InfoHeaderViewModel(val multitaskingEnabled: Boolean) {
         return numberOfParticipantsFlow
     }
 
-    fun update(
-        numberOfRemoteParticipants: Int,
-    ) {
+    fun update(numberOfRemoteParticipants: Int) {
         numberOfParticipantsFlow.value = numberOfRemoteParticipants
         if (!displayedOnLaunch) {
             displayedOnLaunch = true
@@ -68,7 +66,7 @@ internal class InfoHeaderViewModel(val multitaskingEnabled: Boolean) {
                     displayFloatingHeaderFlow.value = false
                 }
             },
-            3000
+            3000,
         )
     }
 

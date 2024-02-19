@@ -10,4 +10,4 @@ internal enum class AudioFocusStatus {
     INTERRUPTED,
 }
 
-internal data class AudioSessionState(val audioFocusStatus: AudioFocusStatus?,)
+internal data class AudioSessionState(val audioFocusStatus: AudioFocusStatus?)

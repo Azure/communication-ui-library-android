@@ -12,7 +12,10 @@ internal interface AudioSessionReducer : Reducer<AudioSessionState>
 
 internal class AudioSessionStateReducerImpl :
     AudioSessionReducer {
-    override fun reduce(state: AudioSessionState, action: Action): AudioSessionState {
+    override fun reduce(
+        state: AudioSessionState,
+        action: Action,
+    ): AudioSessionState {
         return when (action) {
             is AudioSessionAction.AudioFocusApproved -> {
                 state.copy(audioFocusStatus = AudioFocusStatus.APPROVED)

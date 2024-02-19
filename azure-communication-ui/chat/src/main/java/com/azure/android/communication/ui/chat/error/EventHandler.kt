@@ -18,9 +18,10 @@ internal class EventHandler(
     private val store: AppStore<ReduxState>,
     private val configuration: ChatCompositeConfiguration,
 ) {
-    private var isActiveChatThreadParticipantStateFlow = MutableStateFlow(
-        store.getCurrentState().participantState.localParticipantInfoModel.isActiveChatThreadParticipant
-    )
+    private var isActiveChatThreadParticipantStateFlow =
+        MutableStateFlow(
+            store.getCurrentState().participantState.localParticipantInfoModel.isActiveChatThreadParticipant,
+        )
 
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
 
@@ -43,9 +44,7 @@ internal class EventHandler(
         coroutineScope.cancel()
     }
 
-    private fun onIsActiveChanged(
-        isActiveChatThreadParticipant: Boolean
-    ) {
+    private fun onIsActiveChanged(isActiveChatThreadParticipant: Boolean) {
         if (!isActiveChatThreadParticipant) {
             configuration.eventHandlerRepository.getLocalParticipantRemovedHandlers().forEach {
                 it.handle(store.getCurrentState().participantState.localParticipantInfoModel.userIdentifier)

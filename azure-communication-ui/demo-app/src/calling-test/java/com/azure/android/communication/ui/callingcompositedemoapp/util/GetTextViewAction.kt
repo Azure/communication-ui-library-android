@@ -16,12 +16,15 @@ class GetTextViewAction : ACSViewAction {
     override fun getConstraints(): Matcher<View> =
         Matchers.allOf(
             ViewMatchers.isDisplayed(),
-            ViewMatchers.isAssignableFrom(TextView::class.java)
+            ViewMatchers.isAssignableFrom(TextView::class.java),
         )
 
     override fun getDescription() = "getting text from a Text View"
 
-    override fun perform(uiController: UiController?, view: View?) {
+    override fun perform(
+        uiController: UiController?,
+        view: View?,
+    ) {
         val textView = view as TextView
 
         stringHolder = textView.text.toString()

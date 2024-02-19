@@ -21,12 +21,15 @@ class GetEditTextAction : ACSViewAction {
     override fun getConstraints(): Matcher<View> =
         Matchers.allOf(
             ViewMatchers.isDisplayed(),
-            ViewMatchers.isAssignableFrom(EditText::class.java)
+            ViewMatchers.isAssignableFrom(EditText::class.java),
         )
 
     override fun getDescription() = "getting text from an EditText View"
 
-    override fun perform(uiController: UiController?, view: View?) {
+    override fun perform(
+        uiController: UiController?,
+        view: View?,
+    ) {
         val editText = view as EditText
 
         stringHolder = editText.text.toString()

@@ -31,7 +31,7 @@ internal fun AvatarView(
             color?.apply {
                 it.avatarBackgroundColor = toArgb()
             }
-        }
+        },
     )
 }
 

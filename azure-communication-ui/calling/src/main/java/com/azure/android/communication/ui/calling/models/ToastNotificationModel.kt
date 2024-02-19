@@ -9,7 +9,6 @@ internal data class ToastNotificationModel(
     val networkCallDiagnostic: NetworkCallDiagnostic?,
     val mediaCallDiagnostic: MediaCallDiagnostic?,
 ) {
-
     fun isEmpty(): Boolean {
         return notificationIconId == 0 && notificationMessageId == 0
     }

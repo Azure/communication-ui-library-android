@@ -14,7 +14,10 @@ internal fun CallClientOptions.getOrCreateDiagnostics(): CallDiagnosticsOptions 
     return this.diagnostics
 }
 
-internal fun CallClientOptions.setTags(tags: Array<String>?, logger: Logger?): CallClientOptions {
+internal fun CallClientOptions.setTags(
+    tags: Array<String>?,
+    logger: Logger?,
+): CallClientOptions {
     tags?.let { this.getOrCreateDiagnostics().also { it.tags = it.tags + tags } }
     logger?.let {
         this.diagnostics.tags.forEach {

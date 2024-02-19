@@ -35,7 +35,6 @@ internal class PreviewAreaView : ConstraintLayout {
         localParticipantRendererViewModel: PreviewAreaViewModel,
         videoViewManager: VideoViewManager,
     ) {
-
         this.viewModel = localParticipantRendererViewModel
         this.videoViewManager = videoViewManager
 
@@ -53,14 +52,15 @@ internal class PreviewAreaView : ConstraintLayout {
             localParticipantCameraHolder.removeAllViews()
             videoViewManager.getLocalVideoRenderer(
                 videoStreamID,
-                if (isAndroidTV(localParticipantCameraHolder.context)) ScalingMode.FIT else ScalingMode.CROP
+                if (isAndroidTV(localParticipantCameraHolder.context)) ScalingMode.FIT else ScalingMode.CROP,
             )?.let { view ->
-                view.background = this.context.let {
-                    ContextCompat.getDrawable(
-                        it,
-                        R.drawable.azure_communication_ui_calling_corner_radius_rectangle_4dp
-                    )
-                }
+                view.background =
+                    this.context.let {
+                        ContextCompat.getDrawable(
+                            it,
+                            R.drawable.azure_communication_ui_calling_corner_radius_rectangle_4dp,
+                        )
+                    }
                 localParticipantCameraHolder.addView(view, 0)
             }
         } else {

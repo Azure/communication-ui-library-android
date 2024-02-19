@@ -11,7 +11,10 @@ internal interface ParticipantStateReducer : Reducer<RemoteParticipantsState>
 
 internal class ParticipantStateReducerImpl :
     ParticipantStateReducer {
-    override fun reduce(state: RemoteParticipantsState, action: Action): RemoteParticipantsState {
+    override fun reduce(
+        state: RemoteParticipantsState,
+        action: Action,
+    ): RemoteParticipantsState {
         return when (action) {
             is ParticipantAction.ListUpdated -> {
                 state.copy(participantMap = action.participantMap, participantMapModifiedTimestamp = System.currentTimeMillis())
@@ -19,7 +22,7 @@ internal class ParticipantStateReducerImpl :
             is ParticipantAction.DominantSpeakersUpdated -> {
                 state.copy(
                     dominantSpeakersInfo = action.dominantSpeakersInfo,
-                    dominantSpeakersModifiedTimestamp = System.currentTimeMillis()
+                    dominantSpeakersModifiedTimestamp = System.currentTimeMillis(),
                 )
             }
             is ParticipantAction.LobbyError -> {

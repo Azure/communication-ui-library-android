@@ -3,12 +3,12 @@
 
 package com.azure.android.communication.ui.calling.presentation.navigation
 
+import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.NavigationState
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
-import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,13 +27,11 @@ import org.mockito.kotlin.mock
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
 internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
-
-    private fun createNavigationRouter(stateFlow: MutableStateFlow<ReduxState>):
-        Pair<NavigationRouter, List<NavigationStatus>> {
-
-        val mockAppStore = mock<AppStore<ReduxState>> {
-            on { getStateFlow() } doReturn stateFlow
-        }
+    private fun createNavigationRouter(stateFlow: MutableStateFlow<ReduxState>): Pair<NavigationRouter, List<NavigationStatus>> {
+        val mockAppStore =
+            mock<AppStore<ReduxState>> {
+                on { getStateFlow() } doReturn stateFlow
+            }
         val navigationRouter = NavigationRouterImpl(mockAppStore)
         val receivedUpdates = mutableListOf<NavigationStatus>()
 
@@ -49,23 +47,26 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
     fun store_onSubscribe_then_invoke_navigationRouterOnStateChange() =
         runScopedTest {
             // arrange
-            val appState = AppReduxState("", false, false).apply {
-                navigationState = NavigationState(NavigationStatus.IN_CALL)
-            }
+            val appState =
+                AppReduxState("", false, false).apply {
+                    navigationState = NavigationState(NavigationStatus.IN_CALL)
+                }
 
-            val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(
-                AppReduxState(
-                    "",
-                    false,
-                    false
+            val stateFlow: MutableStateFlow<ReduxState> =
+                MutableStateFlow(
+                    AppReduxState(
+                        "",
+                        false,
+                        false,
+                    ),
                 )
-            )
             val (navigationRouter, receivedUpdates) = createNavigationRouter(stateFlow)
 
             // act
-            val navigationRouterLaunchJob = launch {
-                navigationRouter.start()
-            }
+            val navigationRouterLaunchJob =
+                launch {
+                    navigationRouter.start()
+                }
 
             stateFlow.value = appState
             // a new state but with same navigation state
@@ -87,17 +88,19 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialState = AppReduxState("", false, false)
-            val appState = AppReduxState("", false, false).apply {
-                navigationState = NavigationState(NavigationStatus.EXIT)
-            }
+            val appState =
+                AppReduxState("", false, false).apply {
+                    navigationState = NavigationState(NavigationStatus.EXIT)
+                }
 
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(initialState)
             val (navigationRouter, receivedUpdates) = createNavigationRouter(stateFlow)
 
             // act
-            val navigationRouterLaunchJob = launch {
-                navigationRouter.start()
-            }
+            val navigationRouterLaunchJob =
+                launch {
+                    navigationRouter.start()
+                }
 
             stateFlow.value = appState
 
@@ -113,20 +116,23 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
     fun store_onSubscribe_then_test_navigationRouterNewButSameNavigationStateOnNavigationStateChange_called_1x() =
         runScopedTest {
             // arrange
-            val initialState = AppReduxState("", false, false).apply {
-                navigationState = NavigationState(NavigationStatus.IN_CALL)
-            }
-            val appState = AppReduxState("", false, false).apply {
-                navigationState = NavigationState(NavigationStatus.IN_CALL)
-            }
+            val initialState =
+                AppReduxState("", false, false).apply {
+                    navigationState = NavigationState(NavigationStatus.IN_CALL)
+                }
+            val appState =
+                AppReduxState("", false, false).apply {
+                    navigationState = NavigationState(NavigationStatus.IN_CALL)
+                }
 
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(initialState)
             val (navigationRouter, receivedUpdates) = createNavigationRouter(stateFlow)
 
             // act
-            val navigationRouterLaunchJob = launch {
-                navigationRouter.start()
-            }
+            val navigationRouterLaunchJob =
+                launch {
+                    navigationRouter.start()
+                }
 
             stateFlow.value = appState
             // a new state but with same navigation state
@@ -146,17 +152,19 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
     fun store_onSubscribe_then_test_navigationRouterWithSameStateOnNavigationStateChange_called_once() =
         runScopedTest {
             // arrange
-            val appState = AppReduxState("", false, false).apply {
-                navigationState = NavigationState(NavigationStatus.SETUP)
-            }
+            val appState =
+                AppReduxState("", false, false).apply {
+                    navigationState = NavigationState(NavigationStatus.SETUP)
+                }
 
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(appState)
             val (navigationRouter, receivedUpdates) = createNavigationRouter(stateFlow)
 
             // act
-            val navigationRouterLaunchJob = launch {
-                navigationRouter.start()
-            }
+            val navigationRouterLaunchJob =
+                launch {
+                    navigationRouter.start()
+                }
 
             stateFlow.value = appState
             // a new state but with same navigation state
@@ -177,17 +185,19 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialState = AppReduxState("", false, false)
-            val appState = AppReduxState("", false, false).apply {
-                navigationState = NavigationState(NavigationStatus.NONE)
-            }
+            val appState =
+                AppReduxState("", false, false).apply {
+                    navigationState = NavigationState(NavigationStatus.NONE)
+                }
 
             val stateFlow: MutableStateFlow<ReduxState> = MutableStateFlow(initialState)
             val (navigationRouter, receivedUpdates) = createNavigationRouter(stateFlow)
 
             // act
-            val navigationRouterLaunchJob = launch {
-                navigationRouter.start()
-            }
+            val navigationRouterLaunchJob =
+                launch {
+                    navigationRouter.start()
+                }
 
             stateFlow.value = appState
             // a new state but with different navigation state

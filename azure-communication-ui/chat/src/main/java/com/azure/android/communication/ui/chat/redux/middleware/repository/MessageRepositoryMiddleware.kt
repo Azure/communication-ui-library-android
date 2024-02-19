@@ -32,44 +32,44 @@ internal class MessageRepositoryMiddlewareImpl(
     private val messageRepository: MessageRepository,
 ) :
     Middleware<ReduxState>,
-    ChatMiddleware,
-    MessageRepositoryMiddleware {
-
-    override fun invoke(store: Store<ReduxState>) = { next: Dispatch ->
-        { action: Action ->
-            when (action) {
-                is ChatAction.SendMessage -> processSendMessage(action, store::dispatch)
-                is ChatAction.MessageSent -> processMessageSent(action, store::dispatch)
-                is ChatAction.MessageSentFailed -> processMessageSentFailed(action, store::dispatch)
-                is ChatAction.MessagesPageReceived -> processPageReceived(action, store::dispatch)
-                is ChatAction.MessageReceived -> processMessageReceived(action, store::dispatch)
-                is ChatAction.MessageDeleted -> processDeletedMessage(action, store::dispatch)
-                is ChatAction.MessageEdited -> processEditMessage(action, store::dispatch)
-                is ParticipantAction.ParticipantsAdded -> processParticipantsAdded(
-                    action,
-                    store::dispatch
-                )
-                is ParticipantAction.ParticipantsRemoved -> {
-                    if (action.participants.any { it.isLocalUser }) {
-                        processLocalParticipantRemoved(store::dispatch)
-                    } else {
-                        processParticipantsRemoved(action, store::dispatch)
+        ChatMiddleware,
+        MessageRepositoryMiddleware {
+    override fun invoke(store: Store<ReduxState>) =
+        { next: Dispatch ->
+            { action: Action ->
+                when (action) {
+                    is ChatAction.SendMessage -> processSendMessage(action, store::dispatch)
+                    is ChatAction.MessageSent -> processMessageSent(action, store::dispatch)
+                    is ChatAction.MessageSentFailed -> processMessageSentFailed(action, store::dispatch)
+                    is ChatAction.MessagesPageReceived -> processPageReceived(action, store::dispatch)
+                    is ChatAction.MessageReceived -> processMessageReceived(action, store::dispatch)
+                    is ChatAction.MessageDeleted -> processDeletedMessage(action, store::dispatch)
+                    is ChatAction.MessageEdited -> processEditMessage(action, store::dispatch)
+                    is ParticipantAction.ParticipantsAdded ->
+                        processParticipantsAdded(
+                            action,
+                            store::dispatch,
+                        )
+                    is ParticipantAction.ParticipantsRemoved -> {
+                        if (action.participants.any { it.isLocalUser }) {
+                            processLocalParticipantRemoved(store::dispatch)
+                        } else {
+                            processParticipantsRemoved(action, store::dispatch)
+                        }
                     }
+                    is NetworkAction.Disconnected -> processNetworkDisconnected(store::dispatch)
                 }
-                is NetworkAction.Disconnected -> processNetworkDisconnected(store::dispatch)
+
+                // Pass Action down the chain
+                next(action)
             }
-
-            // Pass Action down the chain
-            next(action)
         }
-    }
 
-    private fun processNetworkDisconnected(
-        dispatch: Dispatch,
-    ) {
+    private fun processNetworkDisconnected(dispatch: Dispatch) {
         messageRepository.get(messageRepository.size - 1)?.let { messageInfoModel ->
-            val offsetDateTime = messageInfoModel.deletedOn ?: messageInfoModel.editedOn
-                ?: messageInfoModel.createdOn
+            val offsetDateTime =
+                messageInfoModel.deletedOn ?: messageInfoModel.editedOn
+                    ?: messageInfoModel.createdOn
             offsetDateTime?.let {
                 dispatch(NetworkAction.SetDisconnectedOffset(it))
             }
@@ -86,7 +86,7 @@ internal class MessageRepositoryMiddlewareImpl(
         } else {
             messageRepository.replaceMessage(
                 oldMessage,
-                action.message
+                action.message,
             )
         }
 
@@ -110,8 +110,8 @@ internal class MessageRepositoryMiddlewareImpl(
         messageRepository.addMessage(
             action.messageInfoModel.copy(
                 id = action.id,
-                sendStatus = MessageSendStatus.SENT
-            )
+                sendStatus = MessageSendStatus.SENT,
+            ),
         )
         notifyUpdate(dispatch)
     }
@@ -123,8 +123,8 @@ internal class MessageRepositoryMiddlewareImpl(
         messageRepository.replaceMessage(
             action.messageInfoModel,
             action.messageInfoModel.copy(
-                sendStatus = MessageSendStatus.FAILED
-            )
+                sendStatus = MessageSendStatus.FAILED,
+            ),
         )
         notifyUpdate(dispatch)
     }
@@ -138,6 +138,7 @@ internal class MessageRepositoryMiddlewareImpl(
     }
 
     private var skipFirstParticipantsAddedMessage = true
+
     // Fake a message for Participant Added
     private fun processParticipantsAdded(
         action: ParticipantAction.ParticipantsAdded,
@@ -157,7 +158,7 @@ internal class MessageRepositoryMiddlewareImpl(
                 createdOn = OffsetDateTime.now(),
                 senderDisplayName = null,
                 messageType = ChatMessageType.PARTICIPANT_ADDED,
-            )
+            ),
         )
         notifyUpdate(dispatch)
     }
@@ -174,14 +175,12 @@ internal class MessageRepositoryMiddlewareImpl(
                 createdOn = OffsetDateTime.now(),
                 senderDisplayName = null,
                 messageType = ChatMessageType.PARTICIPANT_REMOVED,
-            )
+            ),
         )
         notifyUpdate(dispatch)
     }
 
-    private fun processLocalParticipantRemoved(
-        dispatch: Dispatch,
-    ) {
+    private fun processLocalParticipantRemoved(dispatch: Dispatch) {
         messageRepository.addMessage(
             MessageInfoModel(
                 internalId = System.currentTimeMillis().toString(),
@@ -190,17 +189,23 @@ internal class MessageRepositoryMiddlewareImpl(
                 createdOn = OffsetDateTime.now(),
                 senderDisplayName = null,
                 messageType = ChatMessageType.PARTICIPANT_REMOVED,
-            )
+            ),
         )
         notifyUpdate(dispatch)
     }
 
-    private fun processDeletedMessage(action: ChatAction.MessageDeleted, dispatch: Dispatch) {
+    private fun processDeletedMessage(
+        action: ChatAction.MessageDeleted,
+        dispatch: Dispatch,
+    ) {
         messageRepository.removeMessage(action.message)
         notifyUpdate(dispatch)
     }
 
-    private fun processEditMessage(action: ChatAction.MessageEdited, dispatch: Dispatch) {
+    private fun processEditMessage(
+        action: ChatAction.MessageEdited,
+        dispatch: Dispatch,
+    ) {
         val oldMessage = messageRepository.findMessageById(action.message.normalizedID)
         if (oldMessage == EMPTY_MESSAGE_INFO_MODEL) {
             // Do nothing? add message? throw error?
@@ -213,12 +218,13 @@ internal class MessageRepositoryMiddlewareImpl(
                     version = oldMessage.version,
                     senderDisplayName = oldMessage.senderDisplayName,
                     createdOn = oldMessage.createdOn,
-                    editedOn = OffsetDateTime.now(), // Is it in edit object?
+                    // Is it in edit object?
+                    editedOn = OffsetDateTime.now(),
                     deletedOn = oldMessage.deletedOn,
                     sendStatus = oldMessage.sendStatus,
                     senderCommunicationIdentifier = oldMessage.senderCommunicationIdentifier,
-                    isCurrentUser = oldMessage.isCurrentUser
-                )
+                    isCurrentUser = oldMessage.isCurrentUser,
+                ),
             )
         }
         notifyUpdate(dispatch)

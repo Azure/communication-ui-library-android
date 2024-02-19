@@ -6,20 +6,20 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.redux.AppStore
+import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
+import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
+import com.azure.android.communication.ui.calling.redux.state.AudioState
+import com.azure.android.communication.ui.calling.redux.state.BluetoothState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
-import com.azure.android.communication.ui.calling.redux.state.OperationStatus
-import com.azure.android.communication.ui.calling.redux.state.ReduxState
-import com.azure.android.communication.ui.calling.redux.state.PermissionState
-import com.azure.android.communication.ui.calling.redux.state.AudioState
-import com.azure.android.communication.ui.calling.redux.state.CameraState
-import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
-import com.azure.android.communication.ui.calling.redux.state.BluetoothState
-import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
-import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
-import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
-import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraState
+import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
+import com.azure.android.communication.ui.calling.redux.state.OperationStatus
+import com.azure.android.communication.ui.calling.redux.state.PermissionState
+import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
+import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import org.junit.Assert
@@ -33,7 +33,6 @@ class ConnectingLobbyOverlayViewModelTest : ACSBaseTestCoroutine() {
     @Test
     fun connectingLobbyOverlayViewModel_when_callingStateChange_then_notifyLobbyState() =
         runScopedTest {
-
             // arrange
             val mockAppStore = mock<AppStore<ReduxState>> {}
             val mockNetworkManager = mock<NetworkManager>()
@@ -41,11 +40,11 @@ class ConnectingLobbyOverlayViewModelTest : ACSBaseTestCoroutine() {
             viewModel.init(
                 CallingState(
                     callingStatus = CallingStatus.NONE,
-                    operationStatus = OperationStatus.SKIP_SETUP_SCREEN
+                    operationStatus = OperationStatus.SKIP_SETUP_SCREEN,
                 ),
                 PermissionState(
                     audioPermissionState = PermissionStatus.GRANTED,
-                    cameraPermissionState = PermissionStatus.GRANTED
+                    cameraPermissionState = PermissionStatus.GRANTED,
                 ),
                 mockNetworkManager,
                 CameraState(
@@ -56,27 +55,28 @@ class ConnectingLobbyOverlayViewModelTest : ACSBaseTestCoroutine() {
                 AudioState(
                     operation = AudioOperationalStatus.ON,
                     device = AudioDeviceSelectionStatus.RECEIVER_SELECTED,
-                    bluetoothState = BluetoothState(available = false, deviceName = "")
-                )
+                    bluetoothState = BluetoothState(available = false, deviceName = ""),
+                ),
             )
 
             val modelFlow = mutableListOf<Boolean>()
-            val displayLobbyJob = launch {
-                viewModel.getDisplayLobbyOverlayFlow().toList(modelFlow)
-            }
+            val displayLobbyJob =
+                launch {
+                    viewModel.getDisplayLobbyOverlayFlow().toList(modelFlow)
+                }
 
             // act
             viewModel.update(
                 CallingState(
                     callingStatus = CallingStatus.CONNECTED,
-                    operationStatus = OperationStatus.SKIP_SETUP_SCREEN
+                    operationStatus = OperationStatus.SKIP_SETUP_SCREEN,
                 ),
                 CameraOperationalStatus.ON,
                 PermissionState(
                     audioPermissionState = PermissionStatus.GRANTED,
-                    cameraPermissionState = PermissionStatus.GRANTED
+                    cameraPermissionState = PermissionStatus.GRANTED,
                 ),
-                AudioOperationalStatus.ON
+                AudioOperationalStatus.ON,
             )
 
             // assert

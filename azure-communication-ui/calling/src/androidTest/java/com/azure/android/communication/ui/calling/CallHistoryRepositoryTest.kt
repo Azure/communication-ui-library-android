@@ -20,38 +20,40 @@ import java.util.UUID
 internal class CallHistoryRepositoryTest {
     @Test
     @ExperimentalCoroutinesApi
-    fun callHistoryService_onCallStateUpdate_callsRepositoryInsert() = runTest {
-        val context: Context = ApplicationProvider.getApplicationContext()
-        AndroidThreeTen.init(context.applicationContext)
+    fun callHistoryService_onCallStateUpdate_callsRepositoryInsert() =
+        runTest {
+            val context: Context = ApplicationProvider.getApplicationContext()
+            AndroidThreeTen.init(context.applicationContext)
 
-        val repository: CallHistoryRepository = CallHistoryRepositoryImpl(context, DefaultLogger())
+            val repository: CallHistoryRepository = CallHistoryRepositoryImpl(context, DefaultLogger())
 
-        val originalList = repository.getAll()
-        val olderThanMonth = originalList.firstOrNull {
-            // should not have records older then now() - 31 days.
-            // Subtract a min to account possible delay while executing.
-            it.callStartedOn.isBefore(OffsetDateTime.now().minusDays(31).minusMinutes(1))
+            val originalList = repository.getAll()
+            val olderThanMonth =
+                originalList.firstOrNull {
+                    // should not have records older then now() - 31 days.
+                    // Subtract a min to account possible delay while executing.
+                    it.callStartedOn.isBefore(OffsetDateTime.now().minusDays(31).minusMinutes(1))
+                }
+            Assert.assertNull(olderThanMonth)
+
+            var callId = UUID.randomUUID().toString()
+            var callStartDate = OffsetDateTime.now()
+            // inserting a record older then 31 days
+            repository.insert(callId, callStartDate.minusDays(32))
+            // should not return new record
+            var freshList = repository.getAll()
+            Assert.assertEquals(originalList.count(), freshList.count())
+            Assert.assertNull(freshList.find { it.callId == callId })
+
+            // inset new record
+            repository.insert(callId, callStartDate)
+
+            freshList = repository.getAll()
+
+            Assert.assertEquals(originalList.count() + 1, freshList.count())
+
+            val retrievedNewRecord = freshList.find { it.callId == callId }
+            Assert.assertNotNull(retrievedNewRecord)
+            Assert.assertEquals(callStartDate, retrievedNewRecord!!.callStartedOn)
         }
-        Assert.assertNull(olderThanMonth)
-
-        var callId = UUID.randomUUID().toString()
-        var callStartDate = OffsetDateTime.now()
-        // inserting a record older then 31 days
-        repository.insert(callId, callStartDate.minusDays(32))
-        // should not return new record
-        var freshList = repository.getAll()
-        Assert.assertEquals(originalList.count(), freshList.count())
-        Assert.assertNull(freshList.find { it.callId == callId })
-
-        // inset new record
-        repository.insert(callId, callStartDate)
-
-        freshList = repository.getAll()
-
-        Assert.assertEquals(originalList.count() + 1, freshList.count())
-
-        val retrievedNewRecord = freshList.find { it.callId == callId }
-        Assert.assertNotNull(retrievedNewRecord)
-        Assert.assertEquals(callStartDate, retrievedNewRecord!!.callStartedOn)
-    }
 }

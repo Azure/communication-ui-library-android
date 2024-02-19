@@ -28,7 +28,6 @@ import org.hamcrest.Matchers.instanceOf
 import org.hamcrest.Matchers.not
 
 object UiTestUtils {
-
     @Throws(NoMatchingViewException::class)
     fun clickBottomCellViewHolder(
         @IdRes recyclerViewId: Int,
@@ -41,28 +40,31 @@ object UiTestUtils {
             .perform(
                 RecyclerViewActions.actionOnHolderItem(
                     withBottomCellViewHolder(text, expectedItemDrawable, isSelected),
-                    click()
-                )
+                    click(),
+                ),
             )
 
     @Throws(NoMatchingViewException::class)
-    fun checkViewWithTextIsDisplayed(text: String): ViewInteraction =
-        onView(withText(text)).check(ViewAssertions.matches(isDisplayed()))
+    fun checkViewWithTextIsDisplayed(text: String): ViewInteraction = onView(withText(text)).check(ViewAssertions.matches(isDisplayed()))
 
     @Throws(NoMatchingViewException::class)
-    fun checkViewIdIsDisplayed(@IdRes viewId: Int): ViewInteraction =
-        onView(withId(viewId)).check(ViewAssertions.matches(isDisplayed()))
+    fun checkViewIdIsDisplayed(
+        @IdRes viewId: Int,
+    ): ViewInteraction = onView(withId(viewId)).check(ViewAssertions.matches(isDisplayed()))
 
     @Throws(NoMatchingViewException::class)
-    fun checkAllViewIdsAreDisplayed(@IdRes viewId: Int): ViewInteraction =
-        onView(allOf(withId(viewId), isDisplayed()))
+    fun checkAllViewIdsAreDisplayed(
+        @IdRes viewId: Int,
+    ): ViewInteraction = onView(allOf(withId(viewId), isDisplayed()))
 
     @Throws(NoMatchingViewException::class)
-    fun checkViewIdIsNotDisplayed(@IdRes viewId: Int): ViewInteraction =
-        onView(withId(viewId)).check(ViewAssertions.matches(not(isDisplayed())))
+    fun checkViewIdIsNotDisplayed(
+        @IdRes viewId: Int,
+    ): ViewInteraction = onView(withId(viewId)).check(ViewAssertions.matches(not(isDisplayed())))
 
-    fun checkViewIdDoesNotExist(@IdRes viewId: Int): ViewInteraction =
-        onView(withId(viewId)).check(doesNotExist())
+    fun checkViewIdDoesNotExist(
+        @IdRes viewId: Int,
+    ): ViewInteraction = onView(withId(viewId)).check(doesNotExist())
 
     @Throws(NoMatchingViewException::class)
     fun checkViewIdWithContentDescriptionIsDisplayed(
@@ -72,17 +74,20 @@ object UiTestUtils {
         onView(
             allOf(
                 withId(viewId),
-                withContentDescription(contentDescription)
-            )
+                withContentDescription(contentDescription),
+            ),
         ).check(ViewAssertions.matches(isDisplayed()))
 
     @Throws(NoMatchingViewException::class)
-    fun checkViewIdAndTextIsDisplayed(@IdRes viewId: Int, text: String): ViewInteraction =
+    fun checkViewIdAndTextIsDisplayed(
+        @IdRes viewId: Int,
+        text: String,
+    ): ViewInteraction =
         onView(
             allOf(
                 withId(viewId),
-                withText(text)
-            )
+                withText(text),
+            ),
         ).check(ViewAssertions.matches(isDisplayed()))
 
     @Throws(NoMatchingViewException::class)
@@ -93,34 +98,45 @@ object UiTestUtils {
         onView(
             allOf(
                 withId(viewId),
-                withText(stringId)
-            )
+                withText(stringId),
+            ),
         ).check(ViewAssertions.matches(isDisplayed()))
 
     @Throws(NoMatchingViewException::class)
-    fun clickViewWithId(@IdRes viewId: Int): ViewInteraction =
-        onView(allOf(withId(viewId), isDisplayed())).perform(click())
+    fun clickViewWithId(
+        @IdRes viewId: Int,
+    ): ViewInteraction = onView(allOf(withId(viewId), isDisplayed())).perform(click())
 
     @Throws(NoMatchingViewException::class)
-    fun clickViewWithIdAndText(@IdRes viewId: Int, @StringRes text: Int): ViewInteraction =
+    fun clickViewWithIdAndText(
+        @IdRes viewId: Int,
+        @StringRes text: Int,
+    ): ViewInteraction =
         onView(
-            allOf(withId(viewId), withText(text), isDisplayed())
+            allOf(withId(viewId), withText(text), isDisplayed()),
         ).perform(click())
 
     @Throws(NoMatchingViewException::class)
-    fun clickViewWithIdAndText(@IdRes viewId: Int, text: String): ViewInteraction =
+    fun clickViewWithIdAndText(
+        @IdRes viewId: Int,
+        text: String,
+    ): ViewInteraction =
         onView(
-            allOf(withId(viewId), withText(text), isDisplayed())
+            allOf(withId(viewId), withText(text), isDisplayed()),
         ).perform(click())
 
     @Throws(NoMatchingViewException::class)
-    fun clickViewWithIdAndContentDescription(@IdRes viewId: Int, text: String): ViewInteraction =
+    fun clickViewWithIdAndContentDescription(
+        @IdRes viewId: Int,
+        text: String,
+    ): ViewInteraction =
         onView(
-            allOf(withId(viewId), withContentDescription(text), isDisplayed())
+            allOf(withId(viewId), withContentDescription(text), isDisplayed()),
         ).perform(click())
 
-    private fun withRecyclerView(@IdRes recyclerViewId: Int): RecyclerViewMatcher =
-        RecyclerViewMatcher(recyclerViewId)
+    private fun withRecyclerView(
+        @IdRes recyclerViewId: Int,
+    ): RecyclerViewMatcher = RecyclerViewMatcher(recyclerViewId)
 
     @Throws(NoMatchingViewException::class)
     fun check3IemRecyclerViewHolderAtPosition(
@@ -135,9 +151,9 @@ object UiTestUtils {
                         hasDescendant(withId(recyclerViewHolderViewIds.first)),
                         hasDescendant(withId(recyclerViewHolderViewIds.second)),
                         hasDescendant(withId(recyclerViewHolderViewIds.third)),
-                        isDisplayed()
-                    )
-                )
+                        isDisplayed(),
+                    ),
+                ),
             )
     }
 
@@ -151,32 +167,39 @@ object UiTestUtils {
             .check(matches(withText(text)))
     }
 
-    private fun getTextFromViewAction(@IdRes viewId: Int, viewAction: ACSViewAction): String {
+    private fun getTextFromViewAction(
+        @IdRes viewId: Int,
+        viewAction: ACSViewAction,
+    ): String {
         val textViewMatcher = allOf(withId(viewId), isDisplayed())
 
         onView(textViewMatcher).perform(viewAction)
         return viewAction.getText()
     }
 
-    fun getTextFromTextView(@IdRes viewId: Int) =
-        getTextFromViewAction(viewId, GetTextViewAction())
+    fun getTextFromTextView(
+        @IdRes viewId: Int,
+    ) = getTextFromViewAction(viewId, GetTextViewAction())
 
-    fun getTextFromButtonView(@IdRes viewId: Int) =
-        getTextFromViewAction(viewId, GetButtonTextAction())
+    fun getTextFromButtonView(
+        @IdRes viewId: Int,
+    ) = getTextFromViewAction(viewId, GetButtonTextAction())
 
-    fun getTextFromEdittextView(@IdRes viewId: Int) =
-        getTextFromViewAction(viewId, GetEditTextAction())
+    fun getTextFromEdittextView(
+        @IdRes viewId: Int,
+    ) = getTextFromViewAction(viewId, GetEditTextAction())
 
     @Throws(NoMatchingViewException::class)
     fun navigateUp() {
-        val upButton = onView(
-            allOf(
-                instanceOf(AppCompatImageButton::class.java),
-                withContentDescription(androidx.appcompat.R.string.abc_action_bar_up_description),
-                withParent(withId(R.id.action_bar)),
-                isDisplayed()
+        val upButton =
+            onView(
+                allOf(
+                    instanceOf(AppCompatImageButton::class.java),
+                    withContentDescription(androidx.appcompat.R.string.abc_action_bar_up_description),
+                    withParent(withId(R.id.action_bar)),
+                    isDisplayed(),
+                ),
             )
-        )
         upButton.perform(click())
     }
 }

@@ -13,9 +13,8 @@ import java.lang.Integer.min
 
 internal class ParticipantGridViewModel(
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
-    private val maxRemoteParticipantSize: Int
+    private val maxRemoteParticipantSize: Int,
 ) {
-
     private var remoteParticipantsUpdatedStateFlow: MutableStateFlow<List<ParticipantGridCellViewModel>> =
         MutableStateFlow(mutableListOf())
 
@@ -28,9 +27,7 @@ internal class ParticipantGridViewModel(
     private var pipStatus: PictureInPictureStatus = PictureInPictureStatus.VISIBLE
     private lateinit var isLobbyOverlayDisplayedFlow: MutableStateFlow<Boolean>
 
-    fun init(
-        callingStatus: CallingStatus,
-    ) {
+    fun init(callingStatus: CallingStatus) {
         isLobbyOverlayDisplayedFlow = MutableStateFlow(isLobbyOverlayDisplayed(callingStatus))
     }
 
@@ -50,8 +47,11 @@ internal class ParticipantGridViewModel(
     }
 
     fun getMaxRemoteParticipantsSize(): Int {
-        return if (pipStatus == PictureInPictureStatus.VISIBLE)
-            maxRemoteParticipantSize else 1
+        return if (pipStatus == PictureInPictureStatus.VISIBLE) {
+            maxRemoteParticipantSize
+        } else {
+            1
+        }
     }
 
     fun getIsLobbyOverlayDisplayedFlow(): StateFlow<Boolean> = isLobbyOverlayDisplayedFlow
@@ -87,12 +87,13 @@ internal class ParticipantGridViewModel(
                     sortRemoteParticipants(remoteParticipantsMap, dominantSpeakersInfo)
             }
         } else {
-            remoteParticipantsMapSorted = mapOf(
-                Pair(
-                    participantSharingScreen,
-                    remoteParticipantsMap[participantSharingScreen]!!
+            remoteParticipantsMapSorted =
+                mapOf(
+                    Pair(
+                        participantSharingScreen,
+                        remoteParticipantsMap[participantSharingScreen]!!,
+                    ),
                 )
-            )
         }
 
         updateRemoteParticipantsVideoStreams(remoteParticipantsMapSorted)
@@ -100,9 +101,7 @@ internal class ParticipantGridViewModel(
         updateDisplayedParticipants(remoteParticipantsMapSorted.toMutableMap())
     }
 
-    private fun getParticipantSharingScreen(
-        remoteParticipantsMap: Map<String, ParticipantInfoModel>,
-    ): String? {
+    private fun getParticipantSharingScreen(remoteParticipantsMap: Map<String, ParticipantInfoModel>): String? {
         remoteParticipantsMap.forEach { (id, participantInfoModel) ->
             if (participantInfoModel.screenShareVideoStreamModel != null) {
                 return id
@@ -111,17 +110,16 @@ internal class ParticipantGridViewModel(
         return null
     }
 
-    private fun updateDisplayedParticipants(
-        remoteParticipantsMapSorted: MutableMap<String, ParticipantInfoModel>,
-    ) {
+    private fun updateDisplayedParticipants(remoteParticipantsMapSorted: MutableMap<String, ParticipantInfoModel>) {
         val alreadyDisplayedParticipants =
             displayedRemoteParticipantsViewModelMap.filter { (id, _) ->
                 remoteParticipantsMapSorted.containsKey(id)
             }
 
-        val viewModelsThatCanBeRemoved = displayedRemoteParticipantsViewModelMap.keys.filter {
-            !remoteParticipantsMapSorted.containsKey(it)
-        }.toMutableList()
+        val viewModelsThatCanBeRemoved =
+            displayedRemoteParticipantsViewModelMap.keys.filter {
+                !remoteParticipantsMapSorted.containsKey(it)
+            }.toMutableList()
 
         alreadyDisplayedParticipants.forEach { (id, participantViewModel) ->
             if (participantViewModel.getParticipantModifiedTimestamp()
@@ -179,75 +177,79 @@ internal class ParticipantGridViewModel(
         remoteParticipantsMap: Map<String, ParticipantInfoModel>,
         dominantSpeakersInfo: List<String>,
     ): Map<String, ParticipantInfoModel> {
-
         val dominantSpeakersOrder = mutableMapOf<String, Int>()
 
         for (i in 0 until min(maxRemoteParticipantSize, dominantSpeakersInfo.count())) {
             dominantSpeakersOrder[dominantSpeakersInfo[i]] = i
         }
 
-        val lengthComparator = Comparator<Pair<String, ParticipantInfoModel>> { keyValuePair1, keyValuePair2 ->
-            val participantId1 = keyValuePair1.first
-            val participantId2 = keyValuePair2.first
-            val participant1 = keyValuePair1.second
-            val participant2 = keyValuePair2.second
+        val lengthComparator =
+            Comparator<Pair<String, ParticipantInfoModel>> { keyValuePair1, keyValuePair2 ->
+                val participantId1 = keyValuePair1.first
+                val participantId2 = keyValuePair2.first
+                val participant1 = keyValuePair1.second
+                val participant2 = keyValuePair2.second
 
-            if (dominantSpeakersOrder.containsKey(participantId1) &&
-                dominantSpeakersOrder.containsKey(participantId2)
-            ) {
-                val order1 = dominantSpeakersOrder.getValue(participantId1)
-                val order2 = dominantSpeakersOrder.getValue(participantId2)
-                return@Comparator if (order1 > order2)
-                    1 else -1
+                if (dominantSpeakersOrder.containsKey(participantId1) &&
+                    dominantSpeakersOrder.containsKey(participantId2)
+                ) {
+                    val order1 = dominantSpeakersOrder.getValue(participantId1)
+                    val order2 = dominantSpeakersOrder.getValue(participantId2)
+                    return@Comparator if (order1 > order2) {
+                        1
+                    } else {
+                        -1
+                    }
+                }
+
+                if (dominantSpeakersOrder.containsKey(participantId1)) {
+                    return@Comparator -1
+                }
+
+                if (dominantSpeakersOrder.containsKey(participantId2)) {
+                    return@Comparator 1
+                }
+
+                if ((participant1.cameraVideoStreamModel != null && participant2.cameraVideoStreamModel != null) ||
+                    (participant1.cameraVideoStreamModel == null && participant2.cameraVideoStreamModel == null)
+                ) {
+                    return@Comparator 0
+                }
+
+                if (participant1.cameraVideoStreamModel != null) {
+                    return@Comparator -1
+                } else {
+                    return@Comparator 1
+                }
             }
-
-            if (dominantSpeakersOrder.containsKey(participantId1))
-                return@Comparator -1
-
-            if (dominantSpeakersOrder.containsKey(participantId2))
-                return@Comparator 1
-
-            if ((participant1.cameraVideoStreamModel != null && participant2.cameraVideoStreamModel != null) ||
-                (participant1.cameraVideoStreamModel == null && participant2.cameraVideoStreamModel == null)
-            )
-                return@Comparator 0
-
-            if (participant1.cameraVideoStreamModel != null)
-                return@Comparator -1
-            else
-                return@Comparator 1
-        }
 
         return remoteParticipantsMap.toList()
             .sortedWith(lengthComparator)
             .take(getMaxRemoteParticipantsSize()).toMap()
     }
 
-    private fun updateRemoteParticipantsVideoStreams(
-        participantViewModelMap: Map<String, ParticipantInfoModel>,
-    ) {
+    private fun updateRemoteParticipantsVideoStreams(participantViewModelMap: Map<String, ParticipantInfoModel>) {
         val usersVideoStream: MutableList<Pair<String, String>> = mutableListOf()
         participantViewModelMap.forEach { (participantId, participant) ->
             participant.cameraVideoStreamModel?.let {
                 usersVideoStream.add(
                     Pair(
                         participantId,
-                        participant.cameraVideoStreamModel!!.videoStreamID
-                    )
+                        participant.cameraVideoStreamModel!!.videoStreamID,
+                    ),
                 )
             }
             participant.screenShareVideoStreamModel?.let {
                 usersVideoStream.add(
                     Pair(
                         participantId,
-                        participant.screenShareVideoStreamModel!!.videoStreamID
-                    )
+                        participant.screenShareVideoStreamModel!!.videoStreamID,
+                    ),
                 )
             }
         }
         updateVideoStreamsCallback?.invoke(usersVideoStream)
     }
 
-    private fun isLobbyOverlayDisplayed(callingStatus: CallingStatus) =
-        callingStatus == CallingStatus.IN_LOBBY
+    private fun isLobbyOverlayDisplayed(callingStatus: CallingStatus) = callingStatus == CallingStatus.IN_LOBBY
 }

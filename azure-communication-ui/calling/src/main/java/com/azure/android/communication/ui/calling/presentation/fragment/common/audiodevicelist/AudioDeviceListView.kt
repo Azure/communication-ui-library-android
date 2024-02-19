@@ -24,7 +24,6 @@ internal class AudioDeviceListView(
     private val viewModel: AudioDeviceListViewModel,
     context: Context,
 ) : RelativeLayout(context) {
-
     private var deviceTable: RecyclerView
     private lateinit var audioDeviceDrawer: DrawerDialog
     private lateinit var bottomCellAdapter: BottomCellAdapter
@@ -97,7 +96,7 @@ internal class AudioDeviceListView(
                     BottomCellItem(
                         ContextCompat.getDrawable(
                             context,
-                            R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_regular_composite_button_filled
+                            R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_regular_composite_button_filled,
                         ),
                         when (viewModel.audioStateFlow.value.isHeadphonePlugged) {
                             true -> context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_headphone)
@@ -106,7 +105,7 @@ internal class AudioDeviceListView(
                         null,
                         ContextCompat.getDrawable(
                             context,
-                            R.drawable.ms_ic_checkmark_24_filled
+                            R.drawable.ms_ic_checkmark_24_filled,
                         ),
                         null,
                         context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
@@ -116,8 +115,8 @@ internal class AudioDeviceListView(
                         onClickAction = {
                             viewModel.switchAudioDevice(AudioDeviceSelectionStatus.RECEIVER_REQUESTED)
                             audioDeviceDrawer.dismiss()
-                        }
-                    )
+                        },
+                    ),
                 )
             }
 
@@ -125,13 +124,13 @@ internal class AudioDeviceListView(
                 BottomCellItem(
                     ContextCompat.getDrawable(
                         context,
-                        R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_filled_composite_button_enabled
+                        R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_filled_composite_button_enabled,
                     ),
                     context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_speaker),
                     null,
                     ContextCompat.getDrawable(
                         context,
-                        R.drawable.ms_ic_checkmark_24_filled
+                        R.drawable.ms_ic_checkmark_24_filled,
                     ),
                     null,
                     context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
@@ -141,8 +140,8 @@ internal class AudioDeviceListView(
                     onClickAction = {
                         viewModel.switchAudioDevice(AudioDeviceSelectionStatus.SPEAKER_REQUESTED)
                         audioDeviceDrawer.dismiss()
-                    }
-                )
+                    },
+                ),
             )
 
             if (viewModel.audioStateFlow.value.bluetoothState.available) {
@@ -152,15 +151,14 @@ internal class AudioDeviceListView(
                     BottomCellItem(
                         ContextCompat.getDrawable(
                             context,
-                            R.drawable.azure_communication_ui_calling_ic_fluent_speaker_bluetooth_24_regular
+                            R.drawable.azure_communication_ui_calling_ic_fluent_speaker_bluetooth_24_regular,
                         ),
                         viewModel.audioStateFlow.value.bluetoothState.deviceName,
                         null,
                         ContextCompat.getDrawable(
                             context,
-                            R.drawable.ms_ic_checkmark_24_filled
+                            R.drawable.ms_ic_checkmark_24_filled,
                         ),
-
                         null,
                         context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
                         isChecked = initialDevice == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED,
@@ -169,8 +167,8 @@ internal class AudioDeviceListView(
                         onClickAction = {
                             viewModel.switchAudioDevice(AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED)
                             audioDeviceDrawer.dismiss()
-                        }
-                    )
+                        },
+                    ),
                 )
             }
             return bottomCellItems
@@ -182,8 +180,8 @@ internal class AudioDeviceListView(
             announceForAccessibility(
                 context.getString(
                     R.string.azure_communication_ui_calling_selected_audio_device_announcement,
-                    getDeviceTypeName(audioState)
-                )
+                    getDeviceTypeName(audioState),
+                ),
             )
         }
     }

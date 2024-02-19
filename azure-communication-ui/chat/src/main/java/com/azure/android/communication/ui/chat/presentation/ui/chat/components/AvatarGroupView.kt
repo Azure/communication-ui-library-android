@@ -15,7 +15,6 @@ import com.microsoft.fluentui.persona.IAvatar
 
 @Composable
 internal fun AvatarGroup(typingParticipantsDisplayNames: List<String>) {
-
     val stateList = remember { mutableStateListOf<IAvatar>() }
     stateList.clear()
     typingParticipantsDisplayNames.forEach { displayName ->
@@ -32,7 +31,7 @@ internal fun AvatarGroup(typingParticipantsDisplayNames: List<String>) {
                 contentDescription =
                     "Typing participants: " + typingParticipantsDisplayNames.joinToString()
             }
-        }
+        },
     ) { groupView ->
         groupView.setAvatars(stateList)
     }

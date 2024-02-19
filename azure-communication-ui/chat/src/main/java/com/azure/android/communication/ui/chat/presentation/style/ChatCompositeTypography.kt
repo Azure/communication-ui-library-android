@@ -25,7 +25,6 @@ internal data class ChatCompositeTypography(
     val unreadMessageText: TextStyle,
     // Define additional custom typography styles as required by Figma
 ) {
-
     companion object {
         // Construct this in the current composition (using defaults from Fluent)
         @Composable
@@ -33,70 +32,70 @@ internal data class ChatCompositeTypography(
             val fluentTypography = FluentTheme.aliasTokens.typography
 
             return ChatCompositeTypography(
-                title = TextStyle(
-                    fontFamily = FontFamily.SansSerif,
-                    fontWeight = fluentTypography[AliasTokens.TypographyTokens.Title1].weight,
-                    fontSize = fluentTypography[AliasTokens.TypographyTokens.Title1].fontSize.size,
-                    color = ChatCompositeTheme.colors.textColor
-                ),
-
-                body = TextStyle(
-                    fontFamily = FontFamily.SansSerif,
-                    fontWeight = fluentTypography[AliasTokens.TypographyTokens.Body1].weight,
-                    fontSize = fluentTypography[AliasTokens.TypographyTokens.Body1].fontSize.size,
-                    color = ChatCompositeTheme.colors.textColor
-                ),
-
-                messageHeader = TextStyle.Default.copy(
-                    fontSize = 12.sp,
-                    color = ChatCompositeTheme.colors.textColor
-                ),
-
-                messageHeaderDate = TextStyle.Default.copy(
-                    fontSize = 12.sp,
-                    color = Color(0xFF6E6E6E)
-                ),
-
-                messageBody = TextStyle.Default.copy(
-                    fontSize = 17.sp
-                ),
-
-                systemMessage = TextStyle.Default.copy(
-                    fontSize = 11.sp,
-                    color = Color(0xFF6E6E6E)
-                ),
-
-                unreadMessageText = TextStyle.Default.copy(
-                    fontSize = 16.sp,
-                    color = ChatCompositeTheme.colors.inverseTextColor,
-                    fontWeight = FontWeight.W500,
-                ),
-
+                title =
+                    TextStyle(
+                        fontFamily = FontFamily.SansSerif,
+                        fontWeight = fluentTypography[AliasTokens.TypographyTokens.Title1].weight,
+                        fontSize = fluentTypography[AliasTokens.TypographyTokens.Title1].fontSize.size,
+                        color = ChatCompositeTheme.colors.textColor,
+                    ),
+                body =
+                    TextStyle(
+                        fontFamily = FontFamily.SansSerif,
+                        fontWeight = fluentTypography[AliasTokens.TypographyTokens.Body1].weight,
+                        fontSize = fluentTypography[AliasTokens.TypographyTokens.Body1].fontSize.size,
+                        color = ChatCompositeTheme.colors.textColor,
+                    ),
+                messageHeader =
+                    TextStyle.Default.copy(
+                        fontSize = 12.sp,
+                        color = ChatCompositeTheme.colors.textColor,
+                    ),
+                messageHeaderDate =
+                    TextStyle.Default.copy(
+                        fontSize = 12.sp,
+                        color = Color(0xFF6E6E6E),
+                    ),
+                messageBody =
+                    TextStyle.Default.copy(
+                        fontSize = 17.sp,
+                    ),
+                systemMessage =
+                    TextStyle.Default.copy(
+                        fontSize = 11.sp,
+                        color = Color(0xFF6E6E6E),
+                    ),
+                unreadMessageText =
+                    TextStyle.Default.copy(
+                        fontSize = 16.sp,
+                        color = ChatCompositeTheme.colors.inverseTextColor,
+                        fontWeight = FontWeight.W500,
+                    ),
             )
         }
     }
 }
 
-internal val LocalChatCompositeTypography = staticCompositionLocalOf {
-    ChatCompositeTypography(
-        title = TextStyle.Default,
-        body = TextStyle.Default,
-        messageHeader = TextStyle.Default.copy(fontSize = 12.sp),
-
-        messageHeaderDate = TextStyle.Default.copy(
-            fontSize = 12.sp,
-            color = Color(0xFF6E6E6E)
-        ),
-
-        messageBody = TextStyle.Default.copy(
-            fontSize = 17.sp
-        ),
-
-        systemMessage = TextStyle.Default.copy(
-            fontSize = 11.sp,
-            color = Color(0xFF6E6E6E)
-        ),
-
-        unreadMessageText = TextStyle.Default.copy(fontSize = 14.sp)
-    )
-}
+internal val LocalChatCompositeTypography =
+    staticCompositionLocalOf {
+        ChatCompositeTypography(
+            title = TextStyle.Default,
+            body = TextStyle.Default,
+            messageHeader = TextStyle.Default.copy(fontSize = 12.sp),
+            messageHeaderDate =
+                TextStyle.Default.copy(
+                    fontSize = 12.sp,
+                    color = Color(0xFF6E6E6E),
+                ),
+            messageBody =
+                TextStyle.Default.copy(
+                    fontSize = 17.sp,
+                ),
+            systemMessage =
+                TextStyle.Default.copy(
+                    fontSize = 11.sp,
+                    color = Color(0xFF6E6E6E),
+                ),
+            unreadMessageText = TextStyle.Default.copy(fontSize = 14.sp),
+        )
+    }
