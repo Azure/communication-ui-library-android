@@ -33,6 +33,8 @@ internal class ParticipantListView(
     private lateinit var participantListDrawer: DrawerDialog
     private lateinit var bottomCellAdapter: BottomCellAdapter
     private lateinit var accessibilityManager: AccessibilityManager
+    private var admitDeclinePopUpParticipantId = ""
+    private lateinit var admitDeclineAlertDialog: AlertDialog
 
     init {
         inflate(context, R.layout.azure_communication_ui_calling_listview, this)
@@ -52,10 +54,16 @@ internal class ParticipantListView(
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getRemoteParticipantListCellStateFlow().collect {
+            viewModel.getRemoteParticipantListCellStateFlow().collect { partiicpants ->
                 // To avoid, unnecessary updated to list, the state will update lists only when displayed
                 if (participantListDrawer.isShowing) {
-                    updateRemoteParticipantListContent(it)
+                    updateRemoteParticipantListContent(partiicpants)
+                }
+
+                if (::admitDeclineAlertDialog.isInitialized && admitDeclineAlertDialog.isShowing &&
+                    !partiicpants.any { it.userIdentifier == admitDeclinePopUpParticipantId }
+                ) {
+                    admitDeclineAlertDialog.dismiss()
                 }
             }
         }
@@ -326,9 +334,10 @@ internal class ParticipantListView(
     }
 
     private fun showAdmitDialog(displayName: String?, userIdentifier: String) {
-        val builder =
+        admitDeclinePopUpParticipantId = userIdentifier
+        val dialog =
             AlertDialog.Builder(context, R.style.AzureCommunicationUICalling_AlertDialog_Theme)
-        builder.setMessage(
+        dialog.setMessage(
             context.getString(
                 R.string.azure_communication_ui_calling_admit_name,
                 displayName
@@ -348,8 +357,8 @@ internal class ParticipantListView(
             ) { _, _ ->
                 viewModel.declineParticipant(userIdentifier)
             }
-        builder.create()
-        builder.show()
+        admitDeclineAlertDialog = dialog.create()
+        admitDeclineAlertDialog.show()
     }
 
     private fun getNameToDisplay(
