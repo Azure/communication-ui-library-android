@@ -54,14 +54,14 @@ internal class ParticipantListView(
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getRemoteParticipantListCellStateFlow().collect { partiicpants ->
+            viewModel.getRemoteParticipantListCellStateFlow().collect { participants ->
                 // To avoid, unnecessary updated to list, the state will update lists only when displayed
                 if (participantListDrawer.isShowing) {
-                    updateRemoteParticipantListContent(partiicpants)
+                    updateRemoteParticipantListContent(participants)
                 }
 
                 if (::admitDeclineAlertDialog.isInitialized && admitDeclineAlertDialog.isShowing &&
-                    !partiicpants.any { it.userIdentifier == admitDeclinePopUpParticipantId }
+                    !participants.any { it.userIdentifier == admitDeclinePopUpParticipantId }
                 ) {
                     admitDeclineAlertDialog.dismiss()
                 }
