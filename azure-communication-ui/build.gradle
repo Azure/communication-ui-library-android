@@ -47,8 +47,8 @@ buildscript {
 
             // In this branch, it was already Beta version, so it'll be in the GA field here
             // This should be set to a GA release before merge back
-            azure_calling_sdk_version_ga = '2.6.0'
-            azure_calling_sdk_version_beta = '2.6.0'
+            azure_calling_sdk_version_ga = '2.5.0'
+            azure_calling_sdk_version_beta = '2.5.0'
         }
 
         // Initialize the SDK Version based on the calling SDK Beta flag
