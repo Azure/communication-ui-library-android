@@ -324,7 +324,9 @@ internal class ParticipantListView(
             participantViewData,
             isOnHold,
             onClickAction = {
-                participantListDrawer.dismiss()
+                if (accessibilityManager.isEnabled) {
+                    participantListDrawer.dismiss()
+                }
                 // TODO: uncomment when admit all button is supported
 //                if (status == ParticipantStatus.IN_LOBBY) {
 //                    showAdmitDialog(displayName, userIdentifier)
