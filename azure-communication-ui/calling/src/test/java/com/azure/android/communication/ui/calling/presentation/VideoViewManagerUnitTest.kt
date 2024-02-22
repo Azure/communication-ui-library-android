@@ -54,8 +54,12 @@ internal class VideoViewManagerUnitTest {
             on { currentModeType } doAnswer { android.content.res.Configuration.UI_MODE_TYPE_WATCH }
         }
 
-        val mockContext = mock<Context> {
+        val appContext = mock<Context> {
             on { getSystemService(Context.UI_MODE_SERVICE) } doAnswer { mockUiModeManager }
+        }
+
+        val mockContext = mock<Context> {
+            on { applicationContext } doAnswer { appContext }
         }
 
         val mockLayout = mock<FrameLayout> {}
@@ -122,8 +126,12 @@ internal class VideoViewManagerUnitTest {
             on { currentModeType } doAnswer { android.content.res.Configuration.UI_MODE_TYPE_WATCH }
         }
 
-        val mockContext = mock<Context> {
+        val appContext = mock<Context> {
             on { getSystemService(Context.UI_MODE_SERVICE) } doAnswer { mockUiModeManager }
+        }
+
+        val mockContext = mock<Context> {
+            on { applicationContext } doAnswer { appContext }
         }
 
         val mockLayout = mock<FrameLayout> {}
@@ -178,8 +186,12 @@ internal class VideoViewManagerUnitTest {
             on { currentModeType } doAnswer { android.content.res.Configuration.UI_MODE_TYPE_WATCH }
         }
 
-        val mockContext = mock<Context> {
+        val appContext = mock<Context> {
             on { getSystemService(Context.UI_MODE_SERVICE) } doAnswer { mockUiModeManager }
+        }
+
+        val mockContext = mock<Context> {
+            on { applicationContext } doAnswer { appContext }
         }
 
         val mockLayout = mock<FrameLayout> {}
@@ -228,8 +240,12 @@ internal class VideoViewManagerUnitTest {
             on { currentModeType } doAnswer { android.content.res.Configuration.UI_MODE_TYPE_WATCH }
         }
 
-        val mockContext = mock<Context> {
+        val appContext = mock<Context> {
             on { getSystemService(Context.UI_MODE_SERVICE) } doAnswer { mockUiModeManager }
+        }
+
+        val mockContext = mock<Context> {
+            on { applicationContext } doAnswer { appContext }
         }
 
         val mockVideoStreamRendererHelper = mock<VideoStreamRendererFactory> {}

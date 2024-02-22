@@ -162,10 +162,10 @@ internal class AppReduxStateReducerUnitTest {
 
         Mockito.`when`(
             pipReducer.reduce(
-                state.pipState,
+                state.visibilityState,
                 action
             )
-        ).thenReturn(state.pipState)
+        ).thenReturn(state.visibilityState)
 
         Mockito.`when`(
             mockCallDiagnosticsReducerImpl.reduce(
