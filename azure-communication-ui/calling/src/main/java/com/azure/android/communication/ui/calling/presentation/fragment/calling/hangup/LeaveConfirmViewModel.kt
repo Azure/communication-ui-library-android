@@ -10,6 +10,8 @@ import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import com.azure.android.communication.ui.calling.redux.state.VisibilityState
+import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -19,6 +21,11 @@ internal class LeaveConfirmViewModel(private val store: Store<ReduxState>) {
 
     fun getShouldDisplayLeaveConfirmFlow(): StateFlow<Boolean> {
         return shouldDisplayLeaveConfirmStateFlow
+    }
+
+    fun update(visibilityState: VisibilityState) {
+        if (visibilityState.status != VisibilityStatus.VISIBLE)
+            cancel()
     }
 
     fun confirm() {

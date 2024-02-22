@@ -13,8 +13,8 @@ import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
-import com.azure.android.communication.ui.calling.redux.state.PictureInPictureState
-import com.azure.android.communication.ui.calling.redux.state.PictureInPictureStatus
+import com.azure.android.communication.ui.calling.redux.state.VisibilityState
+import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -39,7 +39,7 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
         requestCallEndCallback: () -> Unit,
         openAudioDeviceSelectionMenuCallback: () -> Unit,
         openMoreMenuCallback: () -> Unit,
-        pipState: PictureInPictureState,
+        pipState: VisibilityState,
     ) {
         callStateFlow = MutableStateFlow(callState.callingStatus)
         cameraStateFlow =
@@ -52,7 +52,7 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
         requestCallEnd = requestCallEndCallback
         openAudioDeviceSelectionMenu = openAudioDeviceSelectionMenuCallback
         openMoreMenu = openMoreMenuCallback
-        isVisibleStateFlow = MutableStateFlow(pipState.status == PictureInPictureStatus.PIP_MODE_ENTERED)
+        isVisibleStateFlow = MutableStateFlow(pipState.status == VisibilityStatus.PIP_MODE_ENTERED)
     }
 
     fun update(
@@ -60,7 +60,7 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
         cameraState: CameraState,
         audioState: AudioState,
         callingStatus: CallingStatus,
-        pipState: PictureInPictureState,
+        visibilityState: VisibilityState,
     ) {
         callStateFlow.value = callingStatus
         cameraStateFlow.value = CameraModel(permissionState.cameraPermissionState, cameraState)
@@ -68,7 +68,7 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
         audioDeviceSelectionStatusStateFlow.value = audioState.device
         shouldEnableMicButtonStateFlow.value = shouldEnableMicButton(audioState)
         onHoldCallStatusStateFlow.value = callingStatus == CallingStatus.LOCAL_HOLD
-        isVisibleStateFlow.value = pipState.status == PictureInPictureStatus.PIP_MODE_ENTERED
+        isVisibleStateFlow.value = visibilityState.status == VisibilityStatus.PIP_MODE_ENTERED
     }
 
     val isVisible: StateFlow<Boolean> get() = isVisibleStateFlow

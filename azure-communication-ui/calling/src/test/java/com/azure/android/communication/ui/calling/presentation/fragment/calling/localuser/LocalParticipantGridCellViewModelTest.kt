@@ -10,7 +10,7 @@ import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelect
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
-import com.azure.android.communication.ui.calling.redux.state.PictureInPictureStatus
+import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import org.junit.Assert
@@ -43,7 +43,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
 
@@ -61,7 +61,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
 
@@ -73,7 +73,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
 
@@ -85,7 +85,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
 
@@ -97,7 +97,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
 
@@ -129,7 +129,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
 
@@ -147,7 +147,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
 
@@ -177,7 +177,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
 
@@ -195,7 +195,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
 
@@ -207,7 +207,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
 
@@ -219,7 +219,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
 
@@ -264,7 +264,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
 
@@ -282,7 +282,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
             viewModel.update(
@@ -293,7 +293,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
             viewModel.update(
@@ -304,7 +304,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
             viewModel.update(
@@ -315,7 +315,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
 
@@ -352,7 +352,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
 
@@ -370,7 +370,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
             viewModel.update(
@@ -381,7 +381,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.SWITCHING,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
             viewModel.update(
@@ -392,7 +392,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
             viewModel.update(
@@ -403,7 +403,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.SWITCHING,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
             viewModel.update(
@@ -414,7 +414,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
             viewModel.update(
@@ -425,7 +425,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
 
@@ -464,7 +464,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_ONLY
             )
 
@@ -495,7 +495,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_ONLY
             )
 
@@ -526,7 +526,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 0,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
 
@@ -552,7 +552,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
             viewModel.update(
@@ -563,7 +563,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 0,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
             viewModel.update(
@@ -574,7 +574,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 2,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
             viewModel.update(
@@ -585,7 +585,7 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CallingStatus.CONNECTED,
                 CameraDeviceSelectionStatus.FRONT,
                 0,
-                PictureInPictureStatus.VISIBLE,
+                VisibilityStatus.VISIBLE,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             )
 
