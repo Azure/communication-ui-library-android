@@ -40,7 +40,7 @@ import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.PipAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
-import com.azure.android.communication.ui.calling.redux.state.PictureInPictureStatus
+import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import com.azure.android.communication.ui.calling.utilities.collect
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.azure.android.communication.ui.calling.utilities.launchAll
@@ -87,7 +87,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     private val logger get() = container.logger
     private val compositeManager get() = container.compositeExitManager
 
-    private lateinit var visibilityStatusFlow: MutableStateFlow<PictureInPictureStatus>
+    private lateinit var visibilityStatusFlow: MutableStateFlow<VisibilityStatus>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Before super, we'll set up the DI injector and check the PiP state
@@ -100,7 +100,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         }
 
         val listeningPair = Pair(lifecycleScope, store)
-        visibilityStatusFlow = MutableStateFlow(store.getCurrentState().pipState.status)
+        visibilityStatusFlow = MutableStateFlow(store.getCurrentState().visibilityState.status)
 
         // Call super
         super.onCreate(savedInstanceState)
@@ -146,7 +146,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             },
             {
                 visibilityStatusFlow.collect {
-                    if (it == PictureInPictureStatus.HIDE_REQUESTED) {
+                    if (it == VisibilityStatus.HIDE_REQUESTED) {
                         hide()
                         store.dispatch(PipAction.HideEntered())
                     }
@@ -162,7 +162,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
         listeningPair.collect {
             supportViewModel.update(it.navigationState)
-            visibilityStatusFlow.value = it.pipState.status
+            visibilityStatusFlow.value = it.visibilityState.status
         }
     }
 

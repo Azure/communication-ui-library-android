@@ -47,6 +47,7 @@ import com.azure.android.communication.ui.calling.redux.state.LocalUserState
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
+import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -358,7 +359,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             // assert
             verify(mockParticipantGridViewModel, times(1)).update(any(), any(), any(), any(), any())
             verify(mockFloatingHeaderViewModel, times(1)).update(any())
-            verify(mockParticipantListViewModel, times(1)).update(any(), any(), any())
+            verify(mockParticipantListViewModel, times(1)).update(any(), any(), any(), any())
             verify(mockBannerViewModel, times(1)).update(any())
             verify(mockControlBarViewModel, times(2)).update(
                 any(),
@@ -459,7 +460,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             // assert
             verify(mockParticipantGridViewModel, times(0)).update(any(), any(), any(), any(), any())
             verify(mockFloatingHeaderViewModel, times(0)).update(any())
-            verify(mockParticipantListViewModel, times(0)).update(any(), any(), any())
+            verify(mockParticipantListViewModel, times(0)).update(any(), any(), any(), any())
             verify(mockBannerViewModel, times(0)).update(any())
             verify(mockControlBarViewModel, times(2)).update(
                 any(),
@@ -705,7 +706,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             verify(
                 mockParticipantListViewModel,
                 times(0)
-            ).update(any(), any(), any())
+            ).update(any(), any(), any(), any())
             verify(
                 mockLobbyHeaderViewModel,
                 times(0)
@@ -916,6 +917,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         ).update(
             argThat { map -> map.size == 3 },
             argThat { status -> status == newState.localParticipantState },
+            argThat { value -> value.status == VisibilityStatus.VISIBLE },
             argThat { value -> value == showLobby }
         )
         verify(
@@ -1075,7 +1077,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         verify(
             mockParticipantListViewModel,
             times(1)
-        ).update(argThat { map -> map.size == expectedParticipantCountOnParticipantList }, any(), any())
+        ).update(argThat { map -> map.size == expectedParticipantCountOnParticipantList }, any(), any(), any())
         verify(
             mockLobbyHeaderViewModel,
             times(1)

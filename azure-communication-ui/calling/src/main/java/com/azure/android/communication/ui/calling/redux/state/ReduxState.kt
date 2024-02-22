@@ -12,6 +12,6 @@ internal interface ReduxState {
     var errorState: ErrorState
     var navigationState: NavigationState
     var audioSessionState: AudioSessionState
-    val pipState: PictureInPictureState
+    val visibilityState: VisibilityState
     var callDiagnosticsState: CallDiagnosticsState
 }

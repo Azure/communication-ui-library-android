@@ -5,26 +5,26 @@ package com.azure.android.communication.ui.calling.redux.reducer
 
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.PipAction
-import com.azure.android.communication.ui.calling.redux.state.PictureInPictureState
-import com.azure.android.communication.ui.calling.redux.state.PictureInPictureStatus
+import com.azure.android.communication.ui.calling.redux.state.VisibilityState
+import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 
 // TODO: VisibilityReducer
-internal interface PipReducer : Reducer<PictureInPictureState>
+internal interface PipReducer : Reducer<VisibilityState>
 
 internal class PipReducerImpl : PipReducer {
-    override fun reduce(state: PictureInPictureState, action: Action): PictureInPictureState {
+    override fun reduce(state: VisibilityState, action: Action): VisibilityState {
         return when (action) {
             is PipAction.PipModeEntered -> {
-                state.copy(status = PictureInPictureStatus.PIP_MODE_ENTERED)
+                state.copy(status = VisibilityStatus.PIP_MODE_ENTERED)
             }
             is PipAction.ShowNormalEntered -> {
-                state.copy(status = PictureInPictureStatus.VISIBLE)
+                state.copy(status = VisibilityStatus.VISIBLE)
             }
             is PipAction.HideRequested -> {
-                state.copy(status = PictureInPictureStatus.HIDE_REQUESTED)
+                state.copy(status = VisibilityStatus.HIDE_REQUESTED)
             }
             is PipAction.HideEntered -> {
-                state.copy(status = PictureInPictureStatus.HIDDEN)
+                state.copy(status = VisibilityStatus.HIDDEN)
             }
             else -> state
         }

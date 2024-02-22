@@ -7,6 +7,8 @@ import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.redux.Dispatch
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
+import com.azure.android.communication.ui.calling.redux.state.VisibilityState
+import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 
 internal class MoreCallOptionsListViewModel(
@@ -40,6 +42,11 @@ internal class MoreCallOptionsListViewModel(
 
     fun requestReportIssueScreen() {
         dispatch(NavigationAction.ShowSupportForm())
+    }
+
+    fun update(visibilityState: VisibilityState) {
+        if (visibilityState.status != VisibilityStatus.VISIBLE)
+            close()
     }
 
     companion object {

@@ -12,6 +12,8 @@ import com.azure.android.communication.ui.calling.redux.state.BluetoothState
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.redux.state.VisibilityState
+import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -62,7 +64,8 @@ internal class AudioDeviceListViewModelUnitTest : ACSBaseTestCoroutine() {
                     AudioOperationalStatus.ON,
                     AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                     BluetoothState(available = false, deviceName = "bluetooth")
-                )
+                ),
+                VisibilityState(status = VisibilityStatus.VISIBLE),
             )
 
             val emitResultFromDisplayAudioDeviceSelectionMenuStateFlow = mutableListOf<Boolean>()
