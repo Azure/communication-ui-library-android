@@ -12,7 +12,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.ParticipantGridCellViewModelFactory
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
-import com.azure.android.communication.ui.calling.redux.state.PictureInPictureStatus
+import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -50,7 +50,7 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
 
-            val pipStatus = PictureInPictureStatus.VISIBLE
+            val pipStatus = VisibilityStatus.VISIBLE
 
             // act
             participantGridViewModel.update(234, remoteParticipantsMap.toMutableMap(), listOf(), 0, pipStatus)
@@ -97,7 +97,7 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipStatus = PictureInPictureStatus.VISIBLE
+            val pipStatus = VisibilityStatus.VISIBLE
 
             // act
             participantGridViewModel.update(234, remoteParticipantsMap.toMutableMap(), listOf(), 0, pipStatus)
@@ -155,7 +155,7 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipStatus = PictureInPictureStatus.VISIBLE
+            val pipStatus = VisibilityStatus.VISIBLE
 
             // act
             participantGridViewModel.update(234, remoteParticipantsMap.toMutableMap(), listOf(), 0, pipStatus)

@@ -20,6 +20,8 @@ import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import com.azure.android.communication.ui.calling.redux.state.VisibilityState
+import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import org.junit.Assert
@@ -119,7 +121,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             // act
-            participantListViewModel.update(updatedRemoteParticipantsMap, localUserState, true)
+            participantListViewModel.update(updatedRemoteParticipantsMap, localUserState, VisibilityState(status = VisibilityStatus.VISIBLE), true)
 
             // assert
             Assert.assertEquals(
@@ -225,6 +227,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             participantListViewModel.update(
                 initialRemoteParticipantsMap,
                 updatedExpectedLocalUserState,
+                VisibilityState(status = VisibilityStatus.VISIBLE),
                 true
             )
 
@@ -460,7 +463,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             // act
-            participantListViewModel.update(updatedRemoteParticipantsMap, localUserState, true)
+            participantListViewModel.update(updatedRemoteParticipantsMap, localUserState, VisibilityState(status = VisibilityStatus.VISIBLE), true)
 
             // assert
             Assert.assertEquals(
@@ -567,7 +570,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             // act
-            participantListViewModel.update(updatedRemoteParticipantsMap, localUserState, false)
+            participantListViewModel.update(updatedRemoteParticipantsMap, localUserState, VisibilityState(status = VisibilityStatus.VISIBLE), false)
 
             // assert
             Assert.assertEquals(
@@ -684,7 +687,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             // act
-            participantListViewModel.update(updatedRemoteParticipantsMap, localUserState, true)
+            participantListViewModel.update(updatedRemoteParticipantsMap, localUserState, VisibilityState(status = VisibilityStatus.VISIBLE), true)
 
             // assert
             Assert.assertEquals(

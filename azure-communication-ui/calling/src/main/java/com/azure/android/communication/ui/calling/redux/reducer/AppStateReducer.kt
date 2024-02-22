@@ -49,7 +49,7 @@ internal class AppStateReducer(
         appState.errorState = errorReducer.reduce(state.errorState, action)
         appState.navigationState = navigationReducer.reduce(state.navigationState, action)
         appState.audioSessionState = audioSessionReducer.reduce(state.audioSessionState, action)
-        appState.pipState = pipReducer.reduce(state.pipState, action)
+        appState.visibilityState = pipReducer.reduce(state.visibilityState, action)
         appState.callDiagnosticsState = callDiagnosticsReducer.reduce(state.callDiagnosticsState, action)
         return appState
     }

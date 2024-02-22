@@ -9,7 +9,7 @@ import com.azure.android.communication.ui.calling.redux.action.LocalParticipantA
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
-import com.azure.android.communication.ui.calling.redux.state.PictureInPictureStatus
+import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -53,7 +53,7 @@ internal class LocalParticipantViewModel(
         callingState: CallingStatus,
         cameraDeviceSelectionStatus: CameraDeviceSelectionStatus,
         camerasCount: Int,
-        pipStatus: PictureInPictureStatus,
+        pipStatus: VisibilityStatus,
         avMode: CallCompositeAudioVideoMode,
     ) {
         val viewMode = getLocalParticipantViewMode(numberOfRemoteParticipants)
@@ -69,12 +69,12 @@ internal class LocalParticipantViewModel(
         displaySwitchCameraButtonFlow.value =
             displayVideo &&
             viewMode == LocalParticipantViewMode.FULL_SCREEN && camerasCount > 1 &&
-            pipStatus == PictureInPictureStatus.VISIBLE
+            pipStatus == VisibilityStatus.VISIBLE
         displayPipSwitchCameraButtonFlow.value =
             displayVideo &&
             viewMode == LocalParticipantViewMode.SELFIE_PIP &&
             camerasCount > 1 &&
-            pipStatus == PictureInPictureStatus.VISIBLE
+            pipStatus == VisibilityStatus.VISIBLE
 
         enableCameraSwitchFlow.value =
             cameraDeviceSelectionStatus != CameraDeviceSelectionStatus.SWITCHING &&
@@ -85,12 +85,12 @@ internal class LocalParticipantViewModel(
         isVisibleFlow.value = isVisible(displayVideo, pipStatus, displayFullScreenAvatar, avMode)
     }
 
-    private fun isVisible(displayVideo: Boolean, pipStatus: PictureInPictureStatus, displayFullScreenAvatar: Boolean, avMode: CallCompositeAudioVideoMode): Boolean {
+    private fun isVisible(displayVideo: Boolean, pipStatus: VisibilityStatus, displayFullScreenAvatar: Boolean, avMode: CallCompositeAudioVideoMode): Boolean {
         if (avMode == CallCompositeAudioVideoMode.AUDIO_ONLY && !displayFullScreenAvatar) {
             return false
         }
 
-        return if (pipStatus == PictureInPictureStatus.PIP_MODE_ENTERED) {
+        return if (pipStatus == VisibilityStatus.PIP_MODE_ENTERED) {
             displayVideo || displayFullScreenAvatar
         } else {
             true
@@ -109,7 +109,7 @@ internal class LocalParticipantViewModel(
         callingState: CallingStatus,
         cameraDeviceSelectionStatus: CameraDeviceSelectionStatus,
         camerasCount: Int,
-        pipStatus: PictureInPictureStatus,
+        pipStatus: VisibilityStatus,
         avMode: CallCompositeAudioVideoMode,
     ) {
 
@@ -128,7 +128,7 @@ internal class LocalParticipantViewModel(
             MutableStateFlow(
                 displayVideo &&
                     viewMode == LocalParticipantViewMode.FULL_SCREEN && camerasCount > 1 &&
-                    pipStatus == PictureInPictureStatus.VISIBLE
+                    pipStatus == VisibilityStatus.VISIBLE
             )
         displayPipSwitchCameraButtonFlow =
             MutableStateFlow(displayVideo && viewMode == LocalParticipantViewMode.SELFIE_PIP && camerasCount > 1)
