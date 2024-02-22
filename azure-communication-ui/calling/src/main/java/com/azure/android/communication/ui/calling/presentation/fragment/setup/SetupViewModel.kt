@@ -65,6 +65,7 @@ internal class SetupViewModel(
         )
         audioDeviceListViewModel.init(
             state.localParticipantState.audioState,
+            state.visibilityState
         )
         setupGradientViewModel.init(
             state.localParticipantState.videoStreamID,
@@ -99,7 +100,8 @@ internal class SetupViewModel(
             state.localParticipantState.videoStreamID,
         )
         audioDeviceListViewModel.update(
-            state.localParticipantState.audioState
+            state.localParticipantState.audioState,
+            state.visibilityState
         )
         errorInfoViewModel.updateCallStateError(state.errorState)
         errorInfoViewModel.updateAudioFocusRejectedState(
