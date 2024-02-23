@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
-import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -25,7 +24,6 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = emptyList()
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = false,
             isTranscribing = false,
         )
@@ -33,7 +31,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -63,7 +61,6 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = emptyList()
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = false,
             isTranscribing = true,
         )
@@ -71,7 +68,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -101,7 +98,6 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = emptyList()
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = true,
             isTranscribing = false,
         )
@@ -109,7 +105,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -139,7 +135,6 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = emptyList()
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = true,
             isTranscribing = true,
         )
@@ -148,7 +143,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -178,14 +173,12 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = false,
                 isTranscribing = true,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = false,
             isTranscribing = false,
         )
@@ -193,7 +186,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -223,14 +216,12 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = false,
                 isTranscribing = true,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = false,
             isTranscribing = true,
         )
@@ -238,7 +229,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -268,14 +259,12 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = false,
                 isTranscribing = true,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = true,
             isTranscribing = false,
         )
@@ -284,7 +273,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -314,14 +303,12 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = false,
                 isTranscribing = true,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = true,
             isTranscribing = true,
         )
@@ -330,7 +317,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -360,20 +347,17 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = false,
                 isTranscribing = true,
             ),
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = false,
                 isTranscribing = false,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = false,
             isTranscribing = false,
         )
@@ -381,7 +365,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -411,20 +395,17 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = false,
                 isTranscribing = true,
             ),
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = false,
                 isTranscribing = false,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = false,
             isTranscribing = true,
         )
@@ -432,7 +413,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -462,20 +443,17 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = false,
                 isTranscribing = true,
             ),
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = false,
                 isTranscribing = false,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = true,
             isTranscribing = false,
         )
@@ -484,7 +462,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -514,20 +492,17 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = false,
                 isTranscribing = true,
             ),
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = false,
                 isTranscribing = false,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = true,
             isTranscribing = true,
         )
@@ -536,7 +511,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -566,14 +541,12 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = false,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = false,
             isTranscribing = false,
         )
@@ -581,7 +554,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -611,14 +584,12 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = false,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = false,
             isTranscribing = true,
         )
@@ -627,7 +598,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -657,14 +628,12 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = false,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = true,
             isTranscribing = false,
         )
@@ -672,7 +641,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -702,14 +671,12 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = false,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = true,
             isTranscribing = true,
         )
@@ -718,7 +685,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -748,14 +715,12 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = true,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = false,
             isTranscribing = false,
         )
@@ -764,7 +729,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -794,14 +759,12 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = true,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = false,
             isTranscribing = true,
         )
@@ -810,7 +773,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -840,14 +803,12 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = true,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = true,
             isTranscribing = false,
         )
@@ -856,7 +817,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -886,14 +847,12 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = true,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = true,
             isTranscribing = true,
         )
@@ -902,7 +861,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -932,20 +891,17 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = true,
             ),
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = false,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = false,
             isTranscribing = false,
         )
@@ -954,7 +910,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -984,20 +940,17 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = true,
             ),
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = false,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = false,
             isTranscribing = true,
         )
@@ -1006,7 +959,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -1036,20 +989,17 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = true,
             ),
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = false,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = true,
             isTranscribing = false,
         )
@@ -1058,7 +1008,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -1088,20 +1038,17 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = true,
             ),
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = false,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = true,
             isTranscribing = true,
         )
@@ -1110,7 +1057,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -1140,20 +1087,17 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = false,
             ),
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = false,
                 isTranscribing = false,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = false,
             isTranscribing = false,
         )
@@ -1161,7 +1105,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -1191,20 +1135,17 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = false,
             ),
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = false,
                 isTranscribing = false,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = false,
             isTranscribing = true,
         )
@@ -1213,7 +1154,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -1243,20 +1184,17 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = false,
             ),
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = false,
                 isTranscribing = false,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = true,
             isTranscribing = false,
         )
@@ -1264,7 +1202,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -1294,20 +1232,17 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = false,
             ),
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = false,
                 isTranscribing = false,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = true,
             isTranscribing = true,
         )
@@ -1316,7 +1251,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -1346,20 +1281,17 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = false,
             ),
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = false,
                 isTranscribing = true,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = false,
             isTranscribing = false,
         )
@@ -1368,7 +1300,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -1398,20 +1330,17 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = false,
             ),
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = false,
                 isTranscribing = true,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = false,
             isTranscribing = true,
         )
@@ -1420,7 +1349,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -1450,20 +1379,17 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = false,
             ),
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = false,
                 isTranscribing = true,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = true,
             isTranscribing = false,
         )
@@ -1472,7 +1398,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -1502,20 +1428,17 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = false,
             ),
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = false,
                 isTranscribing = true,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = true,
             isTranscribing = true,
         )
@@ -1524,7 +1447,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -1554,20 +1477,17 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = true,
             ),
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = false,
                 isTranscribing = false,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = false,
             isTranscribing = false,
         )
@@ -1576,7 +1496,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -1606,20 +1526,17 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = true,
             ),
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = false,
                 isTranscribing = false,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = false,
             isTranscribing = true,
         )
@@ -1628,7 +1545,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -1658,20 +1575,17 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = true,
             ),
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = false,
                 isTranscribing = false,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = true,
             isTranscribing = false,
         )
@@ -1680,7 +1594,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 
@@ -1710,20 +1624,17 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         val setupCallingStatus: List<CallingState> = listOf(
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = true,
                 isTranscribing = true,
             ),
             CallingState(
                 CallingStatus.CONNECTED,
-                OperationStatus.NONE,
                 isRecording = false,
                 isTranscribing = false,
             )
         )
         val testCallingState = CallingState(
             CallingStatus.CONNECTED,
-            OperationStatus.NONE,
             isRecording = true,
             isTranscribing = true,
         )
@@ -1732,7 +1643,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val initialCallingState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
             bannerViewModel.init(initialCallingState)
 

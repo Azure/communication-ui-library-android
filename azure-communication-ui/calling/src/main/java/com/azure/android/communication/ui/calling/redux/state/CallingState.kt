@@ -18,22 +18,22 @@ internal enum class CallingStatus {
     REMOTE_HOLD,
 }
 
-internal enum class OperationStatus {
-    NONE,
-    SKIP_SETUP_SCREEN,
-}
-
 internal data class CallingState(
-    val callingStatus: CallingStatus,
-    val operationStatus: OperationStatus,
+    val callingStatus: CallingStatus = CallingStatus.NONE,
     var callId: String? = null,
-    // due to the async nature of the CallingStatus update we need to indicate joining call
-    // until we receive CallingStatus.CONNECTING from the SDK.
+    // due to the async nature of the CallStatus update we need to indicate joining call
+    // until we receive CallStatus.CONNECTING from the SDK.
     val joinCallIsRequested: Boolean = false,
     val isRecording: Boolean = false,
     val isTranscribing: Boolean = false,
     // set once for the duration of the call in the CallStateReducer when call start requested.
     val callStartDateTime: OffsetDateTime? = null,
+
+    /**
+     * Indicates if call has already been started with default camera and mic parameters once.
+     * We only need to do it once.
+     */
+    val isDefaultParametersCallStarted: Boolean = false,
 )
 
 internal fun CallingState.isDisconnected() =
