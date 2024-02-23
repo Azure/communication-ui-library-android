@@ -16,7 +16,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.OnHoldOverlayViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.ConnectingLobbyOverlayViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay.ConnectingOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyErrorHeaderViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyHeaderViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.WaitingLobbyOverlayViewModel
@@ -99,7 +99,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockBannerViewModel = mock<BannerViewModel>()
 
             val mockWaitingLobbyOverlayViewModel = mock<WaitingLobbyOverlayViewModel>()
-            val mockConnectingLobbyOverlayViewModel = mock<ConnectingLobbyOverlayViewModel>()
+            val mockConnectingOverlayViewModel = mock<ConnectingOverlayViewModel>()
 
             val mockOnHoldOverlayViewModel = mock<OnHoldOverlayViewModel>()
             val mockMoreCallOptionsListViewModel = mock<MoreCallOptionsListViewModel>()
@@ -123,7 +123,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 on { participantListViewModel } doAnswer { mockParticipantListViewModel }
                 on { bannerViewModel } doAnswer { mockBannerViewModel }
                 on { waitingLobbyOverlayViewModel } doAnswer { mockWaitingLobbyOverlayViewModel }
-                on { connectingLobbyOverlayViewModel } doAnswer { mockConnectingLobbyOverlayViewModel }
+                on { connectingOverlayViewModel } doAnswer { mockConnectingOverlayViewModel }
                 on { onHoldOverlayViewModel } doAnswer { mockOnHoldOverlayViewModel }
                 on { moreCallOptionsListViewModel } doAnswer { mockMoreCallOptionsListViewModel }
                 on { lobbyHeaderViewModel } doAnswer { mockLobbyHeaderViewModel }
@@ -202,7 +202,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockBannerViewModel = mock<BannerViewModel>()
 
             val mockWaitingLobbyOverlayViewModel = mock<WaitingLobbyOverlayViewModel>()
-            val mockConnectingLobbyOverlayViewModel = mock<ConnectingLobbyOverlayViewModel>()
+            val mockConnectingOverlayViewModel = mock<ConnectingOverlayViewModel>()
             val mockOnHoldOverlayViewModel = mock<OnHoldOverlayViewModel>()
             val mockMoreCallOptionsListViewModel = mock<MoreCallOptionsListViewModel>()
             val mockNetworkManager = mock<NetworkManager>()
@@ -223,7 +223,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 on { participantListViewModel } doAnswer { mockParticipantListViewModel }
                 on { bannerViewModel } doAnswer { mockBannerViewModel }
                 on { waitingLobbyOverlayViewModel } doAnswer { mockWaitingLobbyOverlayViewModel }
-                on { connectingLobbyOverlayViewModel } doAnswer { mockConnectingLobbyOverlayViewModel }
+                on { connectingOverlayViewModel } doAnswer { mockConnectingOverlayViewModel }
                 on { onHoldOverlayViewModel } doAnswer { mockOnHoldOverlayViewModel }
                 on { moreCallOptionsListViewModel } doAnswer { mockMoreCallOptionsListViewModel }
                 on { lobbyHeaderViewModel } doAnswer { mockLobbyHeaderViewModel }
@@ -302,7 +302,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val mockBannerViewModel = mock<BannerViewModel>()
             val mockWaitingLobbyOverlayViewModel = mock<WaitingLobbyOverlayViewModel>()
-            val mockConnectingLobbyOverlayViewModel = mock<ConnectingLobbyOverlayViewModel>()
+            val mockConnectingOverlayViewModel = mock<ConnectingOverlayViewModel>()
             val mockOnHoldOverlayViewModel = mock<OnHoldOverlayViewModel>()
             val mockMoreCallOptionsListViewModel = mock<MoreCallOptionsListViewModel>()
             val mockNetworkManager = mock<NetworkManager>()
@@ -322,7 +322,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 on { participantListViewModel } doAnswer { mockParticipantListViewModel }
                 on { bannerViewModel } doAnswer { mockBannerViewModel }
                 on { waitingLobbyOverlayViewModel } doAnswer { mockWaitingLobbyOverlayViewModel }
-                on { connectingLobbyOverlayViewModel } doAnswer { mockConnectingLobbyOverlayViewModel }
+                on { connectingOverlayViewModel } doAnswer { mockConnectingOverlayViewModel }
                 on { onHoldOverlayViewModel } doAnswer { mockOnHoldOverlayViewModel }
                 on { moreCallOptionsListViewModel } doAnswer { mockMoreCallOptionsListViewModel }
                 on { lobbyHeaderViewModel } doAnswer { mockLobbyHeaderViewModel }
@@ -408,7 +408,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val mockBannerViewModel = mock<BannerViewModel>()
             val mockWaitingLobbyOverlayViewModel = mock<WaitingLobbyOverlayViewModel>()
-            val mockConnectingLobbyOverlayViewModel = mock<ConnectingLobbyOverlayViewModel>()
+            val mockConnectingOverlayViewModel = mock<ConnectingOverlayViewModel>()
             val mockOnHoldOverlayViewModel = mock<OnHoldOverlayViewModel>()
             val mockMoreCallOptionsListViewModel = mock<MoreCallOptionsListViewModel>()
             val mockNetworkManager = mock<NetworkManager>()
@@ -428,7 +428,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 on { participantListViewModel } doAnswer { mockParticipantListViewModel }
                 on { bannerViewModel } doAnswer { mockBannerViewModel }
                 on { waitingLobbyOverlayViewModel } doAnswer { mockWaitingLobbyOverlayViewModel }
-                on { connectingLobbyOverlayViewModel } doAnswer { mockConnectingLobbyOverlayViewModel }
+                on { connectingOverlayViewModel } doAnswer { mockConnectingOverlayViewModel }
                 on { onHoldOverlayViewModel } doAnswer { mockOnHoldOverlayViewModel }
                 on { moreCallOptionsListViewModel } doAnswer { mockMoreCallOptionsListViewModel }
                 on { lobbyHeaderViewModel } doAnswer { mockLobbyHeaderViewModel }
@@ -646,7 +646,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockAudioDeviceListViewModel = mock<AudioDeviceListViewModel>()
             val mockBannerViewModel = mock<BannerViewModel>()
             val mockWaitingLobbyOverlayViewModel = mock<WaitingLobbyOverlayViewModel>()
-            val mockConnectingLobbyOverlayViewModel = mock<ConnectingLobbyOverlayViewModel>()
+            val mockConnectingOverlayViewModel = mock<ConnectingOverlayViewModel>()
             val mockOnHoldOverlayViewModel = mock<OnHoldOverlayViewModel>()
             val mockMoreCallOptionsListViewModel = mock<MoreCallOptionsListViewModel>()
             val mockNetworkManager = mock<NetworkManager>()
@@ -662,7 +662,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 on { participantListViewModel } doAnswer { mockParticipantListViewModel }
                 on { bannerViewModel } doAnswer { mockBannerViewModel }
                 on { waitingLobbyOverlayViewModel } doAnswer { mockWaitingLobbyOverlayViewModel }
-                on { connectingLobbyOverlayViewModel } doAnswer { mockConnectingLobbyOverlayViewModel }
+                on { connectingOverlayViewModel } doAnswer { mockConnectingOverlayViewModel }
                 on { onHoldOverlayViewModel } doAnswer { mockOnHoldOverlayViewModel }
                 on { moreCallOptionsListViewModel } doAnswer { mockMoreCallOptionsListViewModel }
                 on { lobbyHeaderViewModel } doAnswer { mockLobbyHeaderViewModel }
@@ -849,7 +849,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         val mockAudioDeviceListViewModel = mock<AudioDeviceListViewModel>()
         val mockBannerViewModel = mock<BannerViewModel>()
         val mockWaitingLobbyOverlayViewModel = mock<WaitingLobbyOverlayViewModel>()
-        val mockConnectingLobbyOverlayViewModel = mock<ConnectingLobbyOverlayViewModel>()
+        val mockConnectingOverlayViewModel = mock<ConnectingOverlayViewModel>()
         val mockOnHoldOverlayViewModel = mock<OnHoldOverlayViewModel>()
         val mockMoreCallOptionsListViewModel = mock<MoreCallOptionsListViewModel>()
         val mockNetworkManager = mock<NetworkManager>()
@@ -867,7 +867,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             on { participantListViewModel } doAnswer { mockParticipantListViewModel }
             on { bannerViewModel } doAnswer { mockBannerViewModel }
             on { waitingLobbyOverlayViewModel } doAnswer { mockWaitingLobbyOverlayViewModel }
-            on { connectingLobbyOverlayViewModel } doAnswer { mockConnectingLobbyOverlayViewModel }
+            on { connectingOverlayViewModel } doAnswer { mockConnectingOverlayViewModel }
             on { onHoldOverlayViewModel } doAnswer { mockOnHoldOverlayViewModel }
             on { moreCallOptionsListViewModel } doAnswer { mockMoreCallOptionsListViewModel }
             on { lobbyHeaderViewModel } doAnswer { mockLobbyHeaderViewModel }
@@ -1002,7 +1002,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         val mockAudioDeviceListViewModel = mock<AudioDeviceListViewModel>()
         val mockBannerViewModel = mock<BannerViewModel>()
         val mockWaitingLobbyOverlayViewModel = mock<WaitingLobbyOverlayViewModel>()
-        val mockConnectingLobbyOverlayViewModel = mock<ConnectingLobbyOverlayViewModel>()
+        val mockConnectingOverlayViewModel = mock<ConnectingOverlayViewModel>()
         val mockOnHoldOverlayViewModel = mock<OnHoldOverlayViewModel>()
         val mockMoreCallOptionsListViewModel = mock<MoreCallOptionsListViewModel>()
         val mockNetworkManager = mock<NetworkManager>()
@@ -1019,7 +1019,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             on { participantListViewModel } doAnswer { mockParticipantListViewModel }
             on { bannerViewModel } doAnswer { mockBannerViewModel }
             on { waitingLobbyOverlayViewModel } doAnswer { mockWaitingLobbyOverlayViewModel }
-            on { connectingLobbyOverlayViewModel } doAnswer { mockConnectingLobbyOverlayViewModel }
+            on { connectingOverlayViewModel } doAnswer { mockConnectingOverlayViewModel }
             on { onHoldOverlayViewModel } doAnswer { mockOnHoldOverlayViewModel }
             on { moreCallOptionsListViewModel } doAnswer { mockMoreCallOptionsListViewModel }
             on { lobbyHeaderViewModel } doAnswer { mockLobbyHeaderViewModel }

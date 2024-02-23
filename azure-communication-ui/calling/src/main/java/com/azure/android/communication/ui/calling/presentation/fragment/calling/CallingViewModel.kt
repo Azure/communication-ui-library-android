@@ -41,7 +41,7 @@ internal class CallingViewModel(
     val participantListViewModel = callingViewModelProvider.participantListViewModel
     val bannerViewModel = callingViewModelProvider.bannerViewModel
     val waitingLobbyOverlayViewModel = callingViewModelProvider.waitingLobbyOverlayViewModel
-    val connectingLobbyOverlayViewModel = callingViewModelProvider.connectingLobbyOverlayViewModel
+    val connectingLobbyOverlayViewModel = callingViewModelProvider.connectingOverlayViewModel
     val holdOverlayViewModel = callingViewModelProvider.onHoldOverlayViewModel
     val errorInfoViewModel = callingViewModelProvider.errorInfoViewModel
     val lobbyHeaderViewModel = callingViewModelProvider.lobbyHeaderViewModel
