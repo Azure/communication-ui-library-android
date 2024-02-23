@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby
 
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CallStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -15,18 +15,18 @@ internal class LobbyHeaderViewModel {
     fun getDisplayLobbyHeaderFlow(): StateFlow<Boolean> = displayLobbyHeaderFlow
 
     fun update(
-        callingStatus: CallingStatus,
+        callStatus: CallStatus,
         lobbyParticipants: Map<String, ParticipantInfoModel>,
         canShowLobby: Boolean,
     ) {
         var isNewLobbyParticipantAdded = isNewParticipantAdded(lobbyParticipants)
         displayLobbyHeaderFlow.value = lobbyParticipants.isNotEmpty() &&
             (isNewLobbyParticipantAdded || displayLobbyHeaderFlow.value) &&
-            callingStatus == CallingStatus.CONNECTED && canShowLobby
+            callStatus == CallStatus.CONNECTED && canShowLobby
     }
 
     fun init(
-        callingStatus: CallingStatus,
+        callStatus: CallStatus,
         lobbyParticipants: Map<String, ParticipantInfoModel>,
         canShowLobby: Boolean,
     ) {
@@ -34,7 +34,7 @@ internal class LobbyHeaderViewModel {
         displayLobbyHeaderFlow = MutableStateFlow(
             lobbyParticipants.isNotEmpty() &&
                 (isNewLobbyParticipantAdded || displayLobbyHeaderFlow.value) &&
-                callingStatus == CallingStatus.CONNECTED && canShowLobby
+                callStatus == CallStatus.CONNECTED && canShowLobby
         )
     }
 

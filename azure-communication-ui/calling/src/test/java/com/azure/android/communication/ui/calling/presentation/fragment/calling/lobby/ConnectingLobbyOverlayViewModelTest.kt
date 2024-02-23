@@ -7,7 +7,7 @@ import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.CallingState
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CallStatus
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
@@ -40,7 +40,7 @@ class ConnectingLobbyOverlayViewModelTest : ACSBaseTestCoroutine() {
             val viewModel = ConnectingLobbyOverlayViewModel(mockAppStore::dispatch)
             viewModel.init(
                 CallingState(
-                    callingStatus = CallingStatus.NONE,
+                    callStatus = CallStatus.NONE,
                     operationStatus = OperationStatus.SKIP_SETUP_SCREEN
                 ),
                 PermissionState(
@@ -68,7 +68,7 @@ class ConnectingLobbyOverlayViewModelTest : ACSBaseTestCoroutine() {
             // act
             viewModel.update(
                 CallingState(
-                    callingStatus = CallingStatus.CONNECTED,
+                    callStatus = CallStatus.CONNECTED,
                     operationStatus = OperationStatus.SKIP_SETUP_SCREEN
                 ),
                 CameraOperationalStatus.ON,

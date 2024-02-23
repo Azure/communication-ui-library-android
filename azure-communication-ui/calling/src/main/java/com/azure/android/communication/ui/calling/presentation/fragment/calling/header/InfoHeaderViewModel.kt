@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.header
 
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CallStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.util.Timer
@@ -37,19 +37,19 @@ internal class InfoHeaderViewModel(val multitaskingEnabled: Boolean) {
         }
     }
 
-    fun updateIsOverlayDisplayed(callingStatus: CallingStatus) {
-        isOverlayDisplayedFlow.value = isOverlayDisplayed(callingStatus)
+    fun updateIsOverlayDisplayed(callStatus: CallStatus) {
+        isOverlayDisplayedFlow.value = isOverlayDisplayed(callStatus)
     }
 
     fun init(
-        callingStatus: CallingStatus,
+        callStatus: CallStatus,
         numberOfRemoteParticipants: Int,
         requestCallEndCallback: () -> Unit,
     ) {
         timer = Timer()
         displayFloatingHeaderFlow = MutableStateFlow(false)
         numberOfParticipantsFlow = MutableStateFlow(numberOfRemoteParticipants)
-        isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayed(callingStatus))
+        isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayed(callStatus))
         this.requestCallEndCallback = requestCallEndCallback
     }
 
@@ -80,8 +80,8 @@ internal class InfoHeaderViewModel(val multitaskingEnabled: Boolean) {
         }
     }
 
-    private fun isOverlayDisplayed(callingStatus: CallingStatus) =
-        callingStatus == CallingStatus.IN_LOBBY || callingStatus == CallingStatus.LOCAL_HOLD
+    private fun isOverlayDisplayed(callStatus: CallStatus) =
+        callStatus == CallStatus.IN_LOBBY || callStatus == CallStatus.LOCAL_HOLD
 
     fun requestCallEnd() {
         requestCallEndCallback()

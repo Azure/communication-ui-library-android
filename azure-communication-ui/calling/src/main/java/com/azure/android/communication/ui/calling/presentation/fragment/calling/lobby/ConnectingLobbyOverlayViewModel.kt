@@ -12,7 +12,7 @@ import com.azure.android.communication.ui.calling.redux.action.PermissionAction
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CallStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
@@ -94,7 +94,7 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
     }
 
     private fun shouldDisplayLobbyOverlay(callingState: CallingState, permissionState: PermissionState) =
-        ((callingState.callingStatus == CallingStatus.NONE) || (callingState.callingStatus == CallingStatus.CONNECTING)) &&
+        ((callingState.callStatus == CallStatus.NONE) || (callingState.callStatus == CallStatus.CONNECTING)) &&
             (permissionState.audioPermissionState != PermissionStatus.DENIED) &&
             (callingState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN)
 

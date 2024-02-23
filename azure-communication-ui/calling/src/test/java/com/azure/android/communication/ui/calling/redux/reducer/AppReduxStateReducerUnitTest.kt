@@ -12,7 +12,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioSessionState
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.BluetoothState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CallStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
@@ -85,7 +85,7 @@ internal class AppReduxStateReducerUnitTest {
             )
         val action = NavigationAction.CallLaunched()
         val state = AppReduxState("", false, false)
-        state.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+        state.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
         state.remoteParticipantState = RemoteParticipantsState(HashMap(), 0, listOf(), 0, null)
         state.localParticipantState = LocalUserState(
             CameraState(

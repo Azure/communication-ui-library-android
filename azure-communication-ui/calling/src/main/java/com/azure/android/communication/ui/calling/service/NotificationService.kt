@@ -12,7 +12,7 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity
 import com.azure.android.communication.ui.calling.redux.Store
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CallStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
@@ -27,17 +27,17 @@ internal class NotificationService(
 
     private var inCallServiceConnection: InCallServiceConnection? = null
 
-    private val callingStatus = MutableStateFlow(CallingStatus.NONE)
+    private val callStatus = MutableStateFlow(CallStatus.NONE)
 
     fun start(lifecycleScope: LifecycleCoroutineScope, instanceId: Int) {
         lifecycleScope.launch {
             store.getStateFlow().collect {
-                callingStatus.value = it.callState.callingStatus
+                callStatus.value = it.callState.callStatus
             }
         }
         lifecycleScope.launch {
-            callingStatus.collect {
-                if (it == CallingStatus.NONE || it == CallingStatus.DISCONNECTED)
+            callStatus.collect {
+                if (it == CallStatus.NONE || it == CallStatus.DISCONNECTED)
                     removeNotification()
                 else
                     displayNotification()

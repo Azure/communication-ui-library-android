@@ -12,7 +12,7 @@ internal class AppReduxState(
     avMode: CallCompositeAudioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
 ) : ReduxState {
 
-    override var callState: CallingState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
+    override var callState: CallingState = CallingState(CallStatus.NONE, OperationStatus.NONE)
 
     override var remoteParticipantState: RemoteParticipantsState = RemoteParticipantsState(
         participantMap = HashMap(),

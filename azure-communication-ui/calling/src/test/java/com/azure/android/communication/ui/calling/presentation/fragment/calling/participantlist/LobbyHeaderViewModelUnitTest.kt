@@ -9,7 +9,7 @@ import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.models.VideoStreamModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyHeaderViewModel
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CallStatus
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import org.junit.Assert
@@ -40,7 +40,7 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 mutableListOf<Boolean?>()
 
             lobbyHeaderViewModel.init(
-                CallingStatus.CONNECTED,
+                CallStatus.CONNECTED,
                 initialRemoteParticipantsMap,
                 true
             )
@@ -52,12 +52,12 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
 
             // act
             lobbyHeaderViewModel.update(
-                CallingStatus.CONNECTED,
+                CallStatus.CONNECTED,
                 initialRemoteParticipantsMap,
                 true
             )
             lobbyHeaderViewModel.update(
-                CallingStatus.CONNECTED,
+                CallStatus.CONNECTED,
                 initialRemoteParticipantsMap,
                 true
             )
@@ -98,7 +98,7 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 mutableListOf<Boolean?>()
 
             lobbyHeaderViewModel.init(
-                CallingStatus.CONNECTED,
+                CallStatus.CONNECTED,
                 initialRemoteParticipantsMap,
                 true
             )
@@ -111,7 +111,7 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             // act
             lobbyHeaderViewModel.close()
             lobbyHeaderViewModel.update(
-                CallingStatus.CONNECTED,
+                CallStatus.CONNECTED,
                 initialRemoteParticipantsMap.toMutableMap(),
                 true
             )
@@ -125,7 +125,7 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 speakingTimestamp = 567,
             )
             lobbyHeaderViewModel.update(
-                CallingStatus.CONNECTED,
+                CallStatus.CONNECTED,
                 initialRemoteParticipantsMap.toMutableMap(),
                 true
             )
@@ -176,7 +176,7 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 mutableListOf<Boolean?>()
 
             lobbyHeaderViewModel.init(
-                CallingStatus.CONNECTED,
+                CallStatus.CONNECTED,
                 initialRemoteParticipantsMap,
                 false
             )
@@ -188,7 +188,7 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
 
             // act
             lobbyHeaderViewModel.update(
-                CallingStatus.CONNECTED,
+                CallStatus.CONNECTED,
                 initialRemoteParticipantsMap.toMutableMap(),
                 false
             )
@@ -202,7 +202,7 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 speakingTimestamp = 567,
             )
             lobbyHeaderViewModel.update(
-                CallingStatus.CONNECTED,
+                CallStatus.CONNECTED,
                 initialRemoteParticipantsMap,
                 false
             )
@@ -243,7 +243,7 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 mutableListOf<Boolean?>()
 
             lobbyHeaderViewModel.init(
-                CallingStatus.DISCONNECTED,
+                CallStatus.DISCONNECTED,
                 initialRemoteParticipantsMap,
                 true
             )
@@ -255,7 +255,7 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
 
             // act
             lobbyHeaderViewModel.update(
-                CallingStatus.CONNECTING,
+                CallStatus.CONNECTING,
                 initialRemoteParticipantsMap.toMutableMap(),
                 true
             )
@@ -269,7 +269,7 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 speakingTimestamp = 567,
             )
             lobbyHeaderViewModel.update(
-                CallingStatus.EARLY_MEDIA,
+                CallStatus.EARLY_MEDIA,
                 initialRemoteParticipantsMap,
                 true
             )
@@ -300,7 +300,7 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 mutableListOf<Boolean?>()
 
             lobbyHeaderViewModel.init(
-                CallingStatus.CONNECTED,
+                CallStatus.CONNECTED,
                 initialRemoteParticipantsMap,
                 true
             )
@@ -312,12 +312,12 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
 
             // act
             lobbyHeaderViewModel.update(
-                CallingStatus.CONNECTED,
+                CallStatus.CONNECTED,
                 initialRemoteParticipantsMap,
                 true
             )
             lobbyHeaderViewModel.update(
-                CallingStatus.CONNECTED,
+                CallStatus.CONNECTED,
                 initialRemoteParticipantsMap,
                 true
             )

@@ -12,7 +12,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioOperationalSt
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.BluetoothState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CallStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
@@ -130,7 +130,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 CallingState(
-                    CallingStatus.CONNECTED,
+                    CallStatus.CONNECTED,
                     OperationStatus.NONE
                 ),
                 {},
@@ -162,14 +162,14 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 permissionState,
                 cameraState,
                 audioState1,
-                CallingStatus.CONNECTED,
+                CallStatus.CONNECTED,
                 pipState,
             )
             callingViewModel.update(
                 permissionState,
                 cameraState,
                 audioState2,
-                CallingStatus.CONNECTED,
+                CallStatus.CONNECTED,
                 pipState,
             )
 
@@ -225,7 +225,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 CallingState(
-                    CallingStatus.CONNECTED,
+                    CallStatus.CONNECTED,
                     OperationStatus.NONE
                 ),
                 {},
@@ -248,7 +248,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     audioDeviceState,
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
-                CallingStatus.CONNECTED,
+                CallStatus.CONNECTED,
                 pipState,
             )
             callingViewModel.update(
@@ -259,7 +259,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     audioDeviceState,
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
-                CallingStatus.CONNECTED,
+                CallStatus.CONNECTED,
                 pipState,
             )
 
@@ -325,7 +325,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 CallingState(
-                    CallingStatus.CONNECTED,
+                    CallStatus.CONNECTED,
                     OperationStatus.NONE
                 ),
                 {},
@@ -348,7 +348,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     audioDeviceState,
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
-                CallingStatus.CONNECTED,
+                CallStatus.CONNECTED,
                 pipState,
             )
             callingViewModel.update(
@@ -359,7 +359,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     audioDeviceState,
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
-                CallingStatus.CONNECTED,
+                CallStatus.CONNECTED,
                 pipState,
             )
 
@@ -418,7 +418,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 CallingState(
-                    CallingStatus.CONNECTED,
+                    CallStatus.CONNECTED,
                     OperationStatus.NONE
                 ),
                 {},
@@ -441,7 +441,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     audioDeviceState,
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
-                CallingStatus.CONNECTED,
+                CallStatus.CONNECTED,
                 pipState,
             )
             callingViewModel.update(
@@ -452,7 +452,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     audioDeviceState,
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
-                CallingStatus.LOCAL_HOLD,
+                CallStatus.LOCAL_HOLD,
                 pipState,
             )
 

@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.calling.redux.state
 
 import org.threeten.bp.OffsetDateTime
 
-internal enum class CallingStatus {
+internal enum class CallStatus {
     NONE,
     EARLY_MEDIA,
     CONNECTING,
@@ -24,17 +24,23 @@ internal enum class OperationStatus {
 }
 
 internal data class CallingState(
-    val callingStatus: CallingStatus,
+    val callStatus: CallStatus,
     val operationStatus: OperationStatus,
     var callId: String? = null,
-    // due to the async nature of the CallingStatus update we need to indicate joining call
-    // until we receive CallingStatus.CONNECTING from the SDK.
+    // due to the async nature of the CallStatus update we need to indicate joining call
+    // until we receive CallStatus.CONNECTING from the SDK.
     val joinCallIsRequested: Boolean = false,
     val isRecording: Boolean = false,
     val isTranscribing: Boolean = false,
     // set once for the duration of the call in the CallStateReducer when call start requested.
     val callStartDateTime: OffsetDateTime? = null,
+
+    /**
+     * Indicates if call has already been started with default camera and mic parameters once.
+     * We only need to do it once.
+     */
+    val isDefaultParametersCallStarted: Boolean = false,
 )
 
 internal fun CallingState.isDisconnected() =
-    !joinCallIsRequested && CallingStatus.DISCONNECTED == callingStatus
+    !joinCallIsRequested && CallStatus.DISCONNECTED == callStatus

@@ -8,7 +8,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeLobbyError
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyErrorHeaderViewModel
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CallStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -38,7 +38,7 @@ internal class LobbyErrorHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 mutableListOf<Boolean?>()
 
             lobbyErrorHeaderViewModel.init(
-                CallingStatus.DISCONNECTED,
+                CallStatus.DISCONNECTED,
                 CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED,
                 true
             )
@@ -55,12 +55,12 @@ internal class LobbyErrorHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
 
             // act
             lobbyErrorHeaderViewModel.update(
-                CallingStatus.CONNECTED,
+                CallStatus.CONNECTED,
                 CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS,
                 true
             )
             lobbyErrorHeaderViewModel.update(
-                CallingStatus.CONNECTED,
+                CallStatus.CONNECTED,
                 null,
                 true
             )
@@ -115,7 +115,7 @@ internal class LobbyErrorHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 mutableListOf<Boolean?>()
 
             lobbyErrorHeaderViewModel.init(
-                CallingStatus.DISCONNECTED,
+                CallStatus.DISCONNECTED,
                 CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED,
                 false
             )
@@ -132,12 +132,12 @@ internal class LobbyErrorHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
 
             // act
             lobbyErrorHeaderViewModel.update(
-                CallingStatus.CONNECTED,
+                CallStatus.CONNECTED,
                 CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS,
                 false
             )
             lobbyErrorHeaderViewModel.update(
-                CallingStatus.CONNECTED,
+                CallStatus.CONNECTED,
                 null,
                 true
             )
@@ -187,7 +187,7 @@ internal class LobbyErrorHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 mutableListOf<Boolean?>()
 
             lobbyErrorHeaderViewModel.init(
-                CallingStatus.CONNECTED,
+                CallStatus.CONNECTED,
                 CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED,
                 true
             )

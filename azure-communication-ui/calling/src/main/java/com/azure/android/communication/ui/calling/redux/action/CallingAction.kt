@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.calling.redux.action
 
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CallStatus
 
 internal sealed class CallingAction : Action {
     class SetupCall : CallingAction()
@@ -11,7 +11,7 @@ internal sealed class CallingAction : Action {
     class CallEndRequested : CallingAction()
     class HoldRequested : CallingAction()
     class ResumeRequested : CallingAction()
-    class StateUpdated(val callingState: CallingStatus) : CallingAction()
+    class StateUpdated(val callingState: CallStatus) : CallingAction()
     class IsRecordingUpdated(val isRecording: Boolean) : CallingAction()
     class IsTranscribingUpdated(val isTranscribing: Boolean) : CallingAction()
     class CallIdUpdated(val callId: String?) : CallingAction()

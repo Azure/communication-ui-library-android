@@ -16,7 +16,7 @@ internal class CallStateReducerImpl : CallStateReducer {
     override fun reduce(callingState: CallingState, action: Action): CallingState {
         return when (action) {
             is CallingAction.StateUpdated -> {
-                callingState.copy(callingStatus = action.callingState, joinCallIsRequested = false)
+                callingState.copy(callStatus = action.callingState, joinCallIsRequested = false)
             }
             is CallingAction.IsRecordingUpdated -> {
                 callingState.copy(isRecording = action.isRecording)
@@ -32,6 +32,9 @@ internal class CallStateReducerImpl : CallStateReducer {
             }
             is NavigationAction.CallLaunchWithoutSetup -> {
                 callingState.copy(operationStatus = OperationStatus.SKIP_SETUP_SCREEN)
+            }
+            is  CallingAction.CallRequestedWithoutSetup -> {
+                callingState.copy(isDefaultParametersCallStarted = true)
             }
             else -> callingState
         }

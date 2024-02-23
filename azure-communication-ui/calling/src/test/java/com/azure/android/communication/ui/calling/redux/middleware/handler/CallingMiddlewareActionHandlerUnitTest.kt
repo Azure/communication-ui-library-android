@@ -34,7 +34,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioOperationalSt
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.BluetoothState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CallStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
@@ -73,7 +73,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         appState.navigationState = NavigationState(
             NavigationStatus.IN_CALL
         )
-        appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+        appState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
 
         val mockCallingService: CallingService = mock {
             on { turnCameraOff() } doReturn cameraStateCompletableFuture
@@ -120,7 +120,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             localParticipantRole = null
         )
         appState.navigationState = NavigationState(NavigationStatus.IN_CALL)
-        appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+        appState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
 
         val mockCallingService: CallingService = mock {
             on { turnCameraOff() } doReturn cameraStateCompletableFuture
@@ -155,7 +155,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         appState.navigationState = NavigationState(
             NavigationStatus.IN_CALL
         )
-        appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+        appState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
 
         val cameraStateCompletableFuture = CompletableFuture<String>()
 
@@ -287,7 +287,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         appState.navigationState = NavigationState(
             NavigationStatus.SETUP
         )
-        appState.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
+        appState.callState = CallingState(CallStatus.NONE, OperationStatus.NONE)
 
         val mockCallingService: CallingService = mock {}
 
@@ -320,7 +320,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         appState.navigationState = NavigationState(
             NavigationStatus.SETUP
         )
-        appState.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
+        appState.callState = CallingState(CallStatus.NONE, OperationStatus.NONE)
 
         val mockCallingService: CallingService = mock {}
 
@@ -350,7 +350,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val appState = AppReduxState("", false, false)
-            appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            appState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
             appState.localParticipantState =
                 LocalUserState(
                     CameraState(
@@ -370,7 +370,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 )
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
-            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallStatus.NONE, null))
             val callIdFlow = MutableStateFlow<String?>(null)
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
@@ -439,7 +439,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val appState = AppReduxState("", false, false)
-            appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            appState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
             appState.localParticipantState =
                 LocalUserState(
                     CameraState(
@@ -459,7 +459,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 )
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
-            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallStatus.NONE, null))
             val callIdFlow = MutableStateFlow<String?>(null)
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
@@ -517,7 +517,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val appState = AppReduxState("", false, false)
-            appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            appState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
             appState.localParticipantState =
                 LocalUserState(
                     CameraState(
@@ -537,7 +537,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val callingServiceParticipantsSharedFlow: MutableSharedFlow<MutableMap<String, ParticipantInfoModel>> =
                 MutableSharedFlow()
 
-            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallStatus.NONE, null))
             val callIdFlow = MutableStateFlow<String?>(null)
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
@@ -576,13 +576,13 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
             // act
             handler.startCall(mockAppStore)
-            callInfoModelStateFlow.emit(CallInfoModel(CallingStatus.CONNECTED, null))
+            callInfoModelStateFlow.emit(CallInfoModel(CallStatus.CONNECTED, null))
 
             // assert
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is CallingAction.StateUpdated &&
-                        action.callingState == CallingStatus.CONNECTED
+                        action.callingState == CallStatus.CONNECTED
                 }
             )
         }
@@ -592,7 +592,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
     fun callingMiddlewareActionHandler_setupCall_fails_then_dispatchFatalError() =
         runScopedTest {
             val appState = AppReduxState("", false, false)
-            appState.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
+            appState.callState = CallingState(CallStatus.NONE, OperationStatus.NONE)
 
             val setupCallCompletableFuture: CompletableFuture<Void> = CompletableFuture()
             val mockCallingService: CallingService = mock {
@@ -627,7 +627,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val appState = AppReduxState("", false, false)
-            appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            appState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
             appState.localParticipantState =
                 LocalUserState(
                     CameraState(
@@ -649,7 +649,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val startCallCompletableFuture = CompletableFuture<Void>()
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
-            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallStatus.NONE, null))
             val callIdFlow = MutableStateFlow<String?>(null)
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
@@ -718,7 +718,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 )
             val appState = AppReduxState("", false, false)
-            appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            appState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
             appState.localParticipantState =
                 LocalUserState(
                     expectedCameraState,
@@ -730,7 +730,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val startCallCompletableFuture = CompletableFuture<Void>()
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
-            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallStatus.NONE, null))
             val callIdFlow = MutableStateFlow<String?>(null)
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
@@ -789,7 +789,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 )
             val appState = AppReduxState("", false, false)
-            appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            appState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
             appState.localParticipantState =
                 LocalUserState(
                     expectedCameraState,
@@ -801,7 +801,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val startCallCompletableFuture = CompletableFuture<Void>()
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
-            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallStatus.NONE, null))
             val callIdFlow = MutableStateFlow<String?>(null)
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
@@ -860,7 +860,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 )
             val appState = AppReduxState("", false, false)
-            appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            appState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
             appState.localParticipantState =
                 LocalUserState(
                     expectedCameraState,
@@ -872,7 +872,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val startCallCompletableFuture = CompletableFuture<Void>()
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
-            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallStatus.NONE, null))
             val callIdFlow = MutableStateFlow<String?>(null)
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
@@ -931,7 +931,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 )
             val appState = AppReduxState("", false, false)
-            appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+            appState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
             appState.localParticipantState =
                 LocalUserState(
                     expectedCameraState,
@@ -943,7 +943,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val startCallCompletableFuture = CompletableFuture<Void>()
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
-            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallStatus.NONE, null))
             val callIdFlow = MutableStateFlow<String?>(null)
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
@@ -1006,7 +1006,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         appState.navigationState = NavigationState(
             NavigationStatus.IN_CALL
         )
-        appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+        appState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
 
         val cameraStateCompletableFuture = CompletableFuture<Void>()
 
@@ -1059,7 +1059,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             displayName = "username",
             localParticipantRole = null
         )
-        appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+        appState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
 
         val cameraStateCompletableFuture = CompletableFuture<String>()
 
@@ -1112,7 +1112,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             displayName = "username",
             localParticipantRole = null
         )
-        appState.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
+        appState.callState = CallingState(CallStatus.NONE, OperationStatus.NONE)
 
         val cameraStateCompletableFuture = CompletableFuture<String>()
 
@@ -1166,7 +1166,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             displayName = "username",
             localParticipantRole = null
         )
-        appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+        appState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
 
         val cameraStateCompletableFuture = CompletableFuture<String>()
 
@@ -1216,7 +1216,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             localParticipantRole = null
         )
         appState.navigationState = NavigationState(NavigationStatus.IN_CALL)
-        appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+        appState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
 
         val cameraStateCompletableFuture = CompletableFuture<String>()
 
@@ -1266,7 +1266,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             localParticipantRole = null
         )
         appState.navigationState = NavigationState(NavigationStatus.IN_CALL)
-        appState.callState = CallingState(CallingStatus.LOCAL_HOLD, OperationStatus.NONE)
+        appState.callState = CallingState(CallStatus.LOCAL_HOLD, OperationStatus.NONE)
 
         val cameraStateCompletableFuture = CompletableFuture<String>()
 
@@ -1313,7 +1313,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             displayName = "username",
             localParticipantRole = null
         )
-        appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+        appState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
 
         val cameraStateCompletableFuture = CompletableFuture<String>()
 
@@ -1362,7 +1362,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             displayName = "username",
             localParticipantRole = null
         )
-        appState.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
+        appState.callState = CallingState(CallStatus.NONE, OperationStatus.NONE)
 
         val cameraStateCompletableFuture = CompletableFuture<String>()
 
@@ -1404,7 +1404,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         appState.navigationState = NavigationState(
             NavigationStatus.IN_CALL
         )
-        appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+        appState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
 
         val mockCallingService: CallingService = mock {
             on { turnCameraOn() } doReturn cameraStateCompletableFuture
@@ -1593,7 +1593,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
-            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallStatus.NONE, null))
             val callIdFlow = MutableStateFlow<String?>(null)
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
@@ -1633,7 +1633,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             // act
             handler.startCall(mockAppStore)
             callInfoModelStateFlow.value = CallInfoModel(
-                CallingStatus.DISCONNECTED,
+                CallStatus.DISCONNECTED,
                 CallStateError(
                     ErrorCode.TOKEN_EXPIRED
                 )
@@ -1671,12 +1671,12 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 displayName = "username",
                 localParticipantRole = null
             )
-            appState.callState = CallingState(CallingStatus.LOCAL_HOLD, OperationStatus.NONE)
+            appState.callState = CallingState(CallStatus.LOCAL_HOLD, OperationStatus.NONE)
 
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
             val callInfoModelStateFlow =
-                MutableStateFlow(CallInfoModel(CallingStatus.LOCAL_HOLD, null))
+                MutableStateFlow(CallInfoModel(CallStatus.LOCAL_HOLD, null))
             val callIdFlow = MutableStateFlow<String?>(null)
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
@@ -1722,7 +1722,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             handler.startCall(mockAppStore)
             cameraStateCompletableFuture.complete("1345")
             callInfoModelStateFlow.value = CallInfoModel(
-                CallingStatus.CONNECTED,
+                CallStatus.CONNECTED,
                 null
             )
 
@@ -1742,7 +1742,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             // arrange
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
-            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallStatus.NONE, null))
             val callIdFlow = MutableStateFlow<String?>(null)
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
@@ -1779,20 +1779,20 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             // act
             handler.startCall(mockAppStore)
             callInfoModelStateFlow.value = CallInfoModel(
-                CallingStatus.DISCONNECTED,
+                CallStatus.DISCONNECTED,
                 CallStateError(CALL_END_FAILED, CALL_DECLINED)
             )
 
             // assert
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
-                    action is CallingAction.StateUpdated && action.callingState == CallingStatus.NONE
+                    action is CallingAction.StateUpdated && action.callingState == CallStatus.NONE
                 }
             )
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is CallingAction.StateUpdated &&
-                        action.callingState == CallingStatus.DISCONNECTED
+                        action.callingState == CallStatus.DISCONNECTED
                 }
             )
             verify(mockAppStore, times(1)).dispatch(
@@ -1819,7 +1819,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             // arrange
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
-            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallStatus.NONE, null))
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val callIdFlow = MutableStateFlow<String?>(null)
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
@@ -1857,20 +1857,20 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             // act
             handler.startCall(mockAppStore)
             callInfoModelStateFlow.value = CallInfoModel(
-                CallingStatus.DISCONNECTED,
+                CallStatus.DISCONNECTED,
                 CallStateError(CALL_END_FAILED, CALL_DECLINED)
             )
 
             // assert
             appStoreSequence.verify(mockAppStore).dispatch(
                 argThat { action ->
-                    action is CallingAction.StateUpdated && action.callingState == CallingStatus.NONE
+                    action is CallingAction.StateUpdated && action.callingState == CallStatus.NONE
                 }
             )
             appStoreSequence.verify(mockAppStore).dispatch(
                 argThat { action ->
                     action is CallingAction.StateUpdated &&
-                        action.callingState == CallingStatus.DISCONNECTED
+                        action.callingState == CallStatus.DISCONNECTED
                 }
             )
             appStoreSequence.verify(mockAppStore).dispatch(
@@ -1892,7 +1892,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             // arrange
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
-            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallStatus.NONE, null))
             val callIdFlow = MutableStateFlow<String?>(null)
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
@@ -1929,20 +1929,20 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             // act
             handler.startCall(mockAppStore)
             callInfoModelStateFlow.value = CallInfoModel(
-                CallingStatus.DISCONNECTED,
+                CallStatus.DISCONNECTED,
                 CallStateError(CALL_END_FAILED, CALL_EVICTED)
             )
 
             // assert
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
-                    action is CallingAction.StateUpdated && action.callingState == CallingStatus.NONE
+                    action is CallingAction.StateUpdated && action.callingState == CallStatus.NONE
                 }
             )
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is CallingAction.StateUpdated &&
-                        action.callingState == CallingStatus.DISCONNECTED
+                        action.callingState == CallStatus.DISCONNECTED
                 }
             )
             verify(mockAppStore, times(1)).dispatch(
@@ -1969,7 +1969,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             // arrange
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
-            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallStatus.NONE, null))
             val callIdFlow = MutableStateFlow<String?>(null)
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
@@ -2007,20 +2007,20 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             // act
             handler.startCall(mockAppStore)
             callInfoModelStateFlow.value = CallInfoModel(
-                CallingStatus.DISCONNECTED,
+                CallStatus.DISCONNECTED,
                 CallStateError(CALL_END_FAILED, CALL_EVICTED)
             )
 
             // assert
             appStoreSequence.verify(mockAppStore).dispatch(
                 argThat { action ->
-                    action is CallingAction.StateUpdated && action.callingState == CallingStatus.NONE
+                    action is CallingAction.StateUpdated && action.callingState == CallStatus.NONE
                 }
             )
             appStoreSequence.verify(mockAppStore).dispatch(
                 argThat { action ->
                     action is CallingAction.StateUpdated &&
-                        action.callingState == CallingStatus.DISCONNECTED
+                        action.callingState == CallStatus.DISCONNECTED
                 }
             )
             appStoreSequence.verify(mockAppStore).dispatch(
@@ -2044,7 +2044,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
-            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallStatus.NONE, null))
             val callIdFlow = MutableStateFlow<String?>(null)
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
@@ -2085,7 +2085,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             handler.startCall(mockAppStore)
             callInfoModelStateFlow.emit(
                 CallInfoModel(
-                    CallingStatus.NONE,
+                    CallStatus.NONE,
                     CallStateError(CALL_END_FAILED)
                 )
             )
@@ -2115,7 +2115,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(3)).dispatch(
                 argThat { action ->
                     action is CallingAction.StateUpdated &&
-                        action.callingState == CallingStatus.NONE
+                        action.callingState == CallStatus.NONE
                 }
             )
 
@@ -2135,7 +2135,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
-            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallStatus.NONE, null))
             val callIdFlow = MutableStateFlow<String?>(null)
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
@@ -2174,7 +2174,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
             // act
             handler.startCall(mockAppStore)
-            callInfoModelStateFlow.emit(CallInfoModel(CallingStatus.DISCONNECTED, null))
+            callInfoModelStateFlow.emit(CallInfoModel(CallStatus.DISCONNECTED, null))
 
             // assert
             verify(mockAppStore, times(0)).dispatch(
@@ -2187,14 +2187,14 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is CallingAction.StateUpdated &&
-                        action.callingState == CallingStatus.NONE
+                        action.callingState == CallStatus.NONE
                 }
             )
 
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is CallingAction.StateUpdated &&
-                        action.callingState == CallingStatus.DISCONNECTED
+                        action.callingState == CallStatus.DISCONNECTED
                 }
             )
 
@@ -2214,7 +2214,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
-            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallStatus.NONE, null))
             val callIdFlow = MutableStateFlow<String?>(null)
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
@@ -2255,7 +2255,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             handler.startCall(mockAppStore)
             callInfoModelStateFlow.emit(
                 CallInfoModel(
-                    CallingStatus.DISCONNECTED,
+                    CallStatus.DISCONNECTED,
                     CallStateError(
                         ErrorCode.TURN_CAMERA_OFF_FAILED
                     )
@@ -2273,14 +2273,14 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is CallingAction.StateUpdated &&
-                        action.callingState == CallingStatus.NONE
+                        action.callingState == CallStatus.NONE
                 }
             )
 
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is CallingAction.StateUpdated &&
-                        action.callingState == CallingStatus.DISCONNECTED
+                        action.callingState == CallStatus.DISCONNECTED
                 }
             )
 
@@ -2313,12 +2313,12 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 displayName = "username",
                 localParticipantRole = null
             )
-            appState.callState = CallingState(CallingStatus.LOCAL_HOLD, OperationStatus.NONE)
+            appState.callState = CallingState(CallStatus.LOCAL_HOLD, OperationStatus.NONE)
 
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
             val callInfoModelStateFlow =
-                MutableStateFlow(CallInfoModel(CallingStatus.LOCAL_HOLD, null))
+                MutableStateFlow(CallInfoModel(CallStatus.LOCAL_HOLD, null))
             val callIdFlow = MutableStateFlow<String?>(null)
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
@@ -2376,7 +2376,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
     fun callingMiddlewareActionHandler_admitAll_then_callServiceAdmitAll_testWithErrorCode() =
         runScopedTest {
             val appState = AppReduxState("", false, false)
-            appState.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
+            appState.callState = CallingState(CallStatus.NONE, OperationStatus.NONE)
 
             val resultCompletableFuture: CompletableFuture<CallCompositeLobbyErrorCode?> = CompletableFuture()
             val mockCallingService: CallingService = mock {
@@ -2410,7 +2410,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
     fun callingMiddlewareActionHandler_admitAll_then_callServiceAdmitAll_testWithNoErrorCode() =
         runScopedTest {
             val appState = AppReduxState("", false, false)
-            appState.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
+            appState.callState = CallingState(CallStatus.NONE, OperationStatus.NONE)
 
             val resultCompletableFuture: CompletableFuture<CallCompositeLobbyErrorCode?> = CompletableFuture()
             val mockCallingService: CallingService = mock {
@@ -2438,7 +2438,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
     fun callingMiddlewareActionHandler_admit_then_callServiceAdmit_testWithErrorCode() =
         runScopedTest {
             val appState = AppReduxState("", false, false)
-            appState.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
+            appState.callState = CallingState(CallStatus.NONE, OperationStatus.NONE)
 
             val resultCompletableFuture: CompletableFuture<CallCompositeLobbyErrorCode?> = CompletableFuture()
             val mockCallingService: CallingService = mock {
@@ -2476,7 +2476,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
     fun callingMiddlewareActionHandler_admit_then_callServiceAdmit_testWithNoErrorCode() =
         runScopedTest {
             val appState = AppReduxState("", false, false)
-            appState.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
+            appState.callState = CallingState(CallStatus.NONE, OperationStatus.NONE)
 
             val resultCompletableFuture: CompletableFuture<CallCompositeLobbyErrorCode?> = CompletableFuture()
             val mockCallingService: CallingService = mock {
@@ -2508,7 +2508,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
     fun callingMiddlewareActionHandler_decline_then_callServiceDecline_testWithErrorCode() =
         runScopedTest {
             val appState = AppReduxState("", false, false)
-            appState.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
+            appState.callState = CallingState(CallStatus.NONE, OperationStatus.NONE)
 
             val resultCompletableFuture: CompletableFuture<CallCompositeLobbyErrorCode?> = CompletableFuture()
             val mockCallingService: CallingService = mock {
@@ -2546,7 +2546,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
     fun callingMiddlewareActionHandler_decline_then_callServiceDecline_testWithNoErrorCode() =
         runScopedTest {
             val appState = AppReduxState("", false, false)
-            appState.callState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
+            appState.callState = CallingState(CallStatus.NONE, OperationStatus.NONE)
 
             val resultCompletableFuture: CompletableFuture<CallCompositeLobbyErrorCode?> = CompletableFuture()
             val mockCallingService: CallingService = mock {
@@ -2582,7 +2582,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
             val callingServiceParticipantsSharedFlow =
                 MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
-            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallStatus.NONE, null))
             val callIdFlow = MutableStateFlow<String?>(null)
             val isMutedSharedFlow = MutableSharedFlow<Boolean>()
             val isRecordingSharedFlow = MutableSharedFlow<Boolean>()

@@ -16,7 +16,7 @@ import com.azure.android.communication.ui.calling.redux.state.CameraTransmission
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.BluetoothState
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CallStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import org.junit.Assert
@@ -59,7 +59,7 @@ internal class SetupControlBarViewModelUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            CallingState(CallingStatus.NONE, OperationStatus.NONE),
+            CallingState(CallStatus.NONE, OperationStatus.NONE),
             openAudioDeviceSelectionMenuCallback = { }
         )
 
@@ -96,7 +96,7 @@ internal class SetupControlBarViewModelUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            CallingState(CallingStatus.NONE, OperationStatus.NONE),
+            CallingState(CallStatus.NONE, OperationStatus.NONE),
             openAudioDeviceSelectionMenuCallback = { }
         )
 
@@ -131,7 +131,7 @@ internal class SetupControlBarViewModelUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            CallingState(CallingStatus.NONE, OperationStatus.NONE),
+            CallingState(CallStatus.NONE, OperationStatus.NONE),
             openAudioDeviceSelectionMenuCallback = { }
         )
 
@@ -152,7 +152,7 @@ internal class SetupControlBarViewModelUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            CallingState(CallingStatus.NONE, OperationStatus.NONE)
+            CallingState(CallStatus.NONE, OperationStatus.NONE)
         )
 
         Assert.assertFalse(setupControlBarViewModel.getIsVisibleState().value)
@@ -181,7 +181,7 @@ internal class SetupControlBarViewModelUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            CallingState(CallingStatus.NONE, OperationStatus.NONE),
+            CallingState(CallStatus.NONE, OperationStatus.NONE),
             openAudioDeviceSelectionMenuCallback = { }
         )
 
@@ -202,7 +202,7 @@ internal class SetupControlBarViewModelUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            CallingState(CallingStatus.NONE, OperationStatus.NONE)
+            CallingState(CallStatus.NONE, OperationStatus.NONE)
         )
 
         Assert.assertTrue(setupControlBarViewModel.getCameraIsEnabled().value)
@@ -231,7 +231,7 @@ internal class SetupControlBarViewModelUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            CallingState(CallingStatus.NONE, OperationStatus.NONE),
+            CallingState(CallStatus.NONE, OperationStatus.NONE),
             openAudioDeviceSelectionMenuCallback = { }
         )
 
@@ -252,7 +252,7 @@ internal class SetupControlBarViewModelUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            CallingState(CallingStatus.NONE, OperationStatus.NONE)
+            CallingState(CallStatus.NONE, OperationStatus.NONE)
         )
 
         Assert.assertFalse(setupControlBarViewModel.getCameraIsEnabled().value)
@@ -281,7 +281,7 @@ internal class SetupControlBarViewModelUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            CallingState(CallingStatus.NONE, OperationStatus.NONE, joinCallIsRequested = false),
+            CallingState(CallStatus.NONE, OperationStatus.NONE, joinCallIsRequested = false),
             openAudioDeviceSelectionMenuCallback = { }
         )
 
@@ -304,7 +304,7 @@ internal class SetupControlBarViewModelUnitTest {
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            CallingState(CallingStatus.NONE, OperationStatus.NONE, joinCallIsRequested = true)
+            CallingState(CallStatus.NONE, OperationStatus.NONE, joinCallIsRequested = true)
         )
 
         Assert.assertFalse(setupControlBarViewModel.getCameraIsEnabled().value)
@@ -314,7 +314,7 @@ internal class SetupControlBarViewModelUnitTest {
 
     private fun initViewModel(
         setupControlBarViewModel: SetupControlBarViewModel,
-        callingStatus: CallingStatus = CallingStatus.NONE,
+        callStatus: CallStatus = CallStatus.NONE,
     ) {
         setupControlBarViewModel.init(
             PermissionState(PermissionStatus.GRANTED, PermissionStatus.GRANTED),
@@ -329,7 +329,7 @@ internal class SetupControlBarViewModelUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             CallingState(
-                CallingStatus.CONNECTING,
+                CallStatus.CONNECTING,
                 OperationStatus.NONE
             ),
         ) { }
@@ -337,7 +337,7 @@ internal class SetupControlBarViewModelUnitTest {
 
     private fun updateViewModel(
         setupControlBarViewModel: SetupControlBarViewModel,
-        callingStatus: CallingStatus = CallingStatus.NONE,
+        callStatus: CallStatus = CallStatus.NONE,
     ) {
         setupControlBarViewModel.update(
             PermissionState(PermissionStatus.GRANTED, PermissionStatus.GRANTED),
@@ -352,7 +352,7 @@ internal class SetupControlBarViewModelUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             CallingState(
-                CallingStatus.CONNECTING,
+                CallStatus.CONNECTING,
                 OperationStatus.NONE
             )
         )

@@ -4,6 +4,6 @@
 package com.azure.android.communication.ui.calling.models
 
 import com.azure.android.communication.ui.calling.error.CallStateError
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CallStatus
 
-internal class CallInfoModel(val callingStatus: CallingStatus, val callStateError: CallStateError?)
+internal class CallInfoModel(val callStatus: CallStatus, val callStateError: CallStateError?)

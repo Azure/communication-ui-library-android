@@ -8,7 +8,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeDismissedE
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CallStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 
 internal class CompositeExitManager(
@@ -26,8 +26,8 @@ internal class CompositeExitManager(
 
     fun exit() {
         val callIsNotInProgress =
-            store.getCurrentState().callState.callingStatus == CallingStatus.NONE ||
-                store.getCurrentState().callState.callingStatus == CallingStatus.DISCONNECTED
+            store.getCurrentState().callState.callStatus == CallStatus.NONE ||
+                store.getCurrentState().callState.callStatus == CallStatus.DISCONNECTED
 
         // if call state is none or Disconnected exit composite
         if (callIsNotInProgress) {

@@ -17,7 +17,7 @@ import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
 import com.azure.android.communication.ui.calling.redux.action.CallDiagnosticsAction
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CallStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
@@ -70,8 +70,8 @@ internal class CallingMiddlewareActionHandlerImpl(
         if (state.localParticipantState.cameraState.operation != CameraOperationalStatus.OFF &&
             state.localParticipantState.cameraState.operation != CameraOperationalStatus.PAUSED
         ) {
-            if (state.callState.callingStatus != CallingStatus.NONE &&
-                state.callState.callingStatus != CallingStatus.LOCAL_HOLD
+            if (state.callState.callStatus != CallStatus.NONE &&
+                state.callState.callStatus != CallStatus.LOCAL_HOLD
             ) {
                 callingService.turnCameraOff().whenComplete { _, error ->
                     if (error != null) {
@@ -97,7 +97,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         // this check will make sure that if call is on hold, camera state is still paused
         // on resume call this logic will be retried
         val state = store.getCurrentState()
-        if (state.callState.callingStatus != CallingStatus.LOCAL_HOLD) {
+        if (state.callState.callStatus != CallStatus.LOCAL_HOLD) {
             tryCameraOn(store)
         }
     }
@@ -227,7 +227,7 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun turnCameraOff(store: Store<ReduxState>) {
-        if (store.getCurrentState().callState.callingStatus != CallingStatus.NONE) {
+        if (store.getCurrentState().callState.callStatus != CallStatus.NONE) {
             callingService.turnCameraOff().whenComplete { _, error ->
                 if (error != null) {
                     store.dispatch(
@@ -294,7 +294,7 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun turnCameraOn(store: Store<ReduxState>) {
-        if (store.getCurrentState().callState.callingStatus != CallingStatus.NONE) {
+        if (store.getCurrentState().callState.callStatus != CallStatus.NONE) {
             callingService.turnCameraOn().handle { newVideoStreamId, error: Throwable? ->
                 if (error != null) {
                     store.dispatch(
@@ -453,18 +453,18 @@ internal class CallingMiddlewareActionHandlerImpl(
     private fun subscribeCallInfoModelEventUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
             callingService.getCallInfoModelEventSharedFlow().collect { callInfoModel ->
-                val previousCallState = store.getCurrentState().callState.callingStatus
+                val previousCallState = store.getCurrentState().callState.callStatus
 
-                store.dispatch(CallingAction.StateUpdated(callInfoModel.callingStatus))
+                store.dispatch(CallingAction.StateUpdated(callInfoModel.callStatus))
 
-                if (previousCallState == CallingStatus.LOCAL_HOLD &&
-                    callInfoModel.callingStatus == CallingStatus.CONNECTED
+                if (previousCallState == CallStatus.LOCAL_HOLD &&
+                    callInfoModel.callStatus == CallStatus.CONNECTED
                 ) {
                     tryCameraOn(store)
                 }
 
                 if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&
-                    callInfoModel.callingStatus == CallingStatus.CONNECTED
+                    callInfoModel.callStatus == CallStatus.CONNECTED
                 ) {
                     tryCameraOn(store)
                 }
@@ -486,7 +486,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                         store.dispatch(CallingAction.IsTranscribingUpdated(false))
                         store.dispatch(CallingAction.IsRecordingUpdated(false))
                         store.dispatch(ParticipantAction.ListUpdated(HashMap()))
-                        store.dispatch(CallingAction.StateUpdated(CallingStatus.NONE))
+                        store.dispatch(CallingAction.StateUpdated(CallStatus.NONE))
                         if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
                             store.dispatch(NavigationAction.Exit())
                         } else {
@@ -496,11 +496,11 @@ internal class CallingMiddlewareActionHandlerImpl(
                 }
 
                 if (callInfoModel.callStateError == null) {
-                    when (callInfoModel.callingStatus) {
-                        CallingStatus.CONNECTED, CallingStatus.IN_LOBBY -> {
+                    when (callInfoModel.callStatus) {
+                        CallStatus.CONNECTED, CallStatus.IN_LOBBY -> {
                             store.dispatch(NavigationAction.CallLaunched())
                         }
-                        CallingStatus.DISCONNECTED -> {
+                        CallStatus.DISCONNECTED -> {
                             store.dispatch(NavigationAction.Exit())
                         }
                         else -> {}
@@ -523,7 +523,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         if (state.localParticipantState.cameraState.operation == CameraOperationalStatus.PAUSED ||
             state.localParticipantState.cameraState.operation == CameraOperationalStatus.PENDING
         ) {
-            if (state.callState.callingStatus != CallingStatus.NONE) {
+            if (state.callState.callStatus != CallStatus.NONE) {
                 callingService.turnCameraOn().handle { newVideoStreamId, error: Throwable? ->
                     if (error != null) {
                         store.dispatch(

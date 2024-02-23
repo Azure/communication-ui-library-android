@@ -7,7 +7,7 @@ import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CallStatus
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
@@ -30,7 +30,7 @@ internal class LeaveConfirmViewModel(private val store: Store<ReduxState>) {
 
     fun confirm() {
         if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&
-            store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTED
+            store.getCurrentState().callState.callStatus != CallStatus.CONNECTED
         ) {
             dispatchAction(action = NavigationAction.Exit())
         } else {

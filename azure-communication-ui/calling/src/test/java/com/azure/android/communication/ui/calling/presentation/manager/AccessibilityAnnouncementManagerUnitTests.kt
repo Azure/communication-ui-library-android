@@ -12,7 +12,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioOperationalSt
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.BluetoothState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CallStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
@@ -424,7 +424,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         // Arrange
         val reduxState = AppReduxState("", false, false)
         val meetingJoinedHook = MeetingJoinedHook()
-        reduxState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+        reduxState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
 
         // Act
         val result = meetingJoinedHook.shouldTrigger(AppReduxState("", false, false), reduxState)
@@ -438,7 +438,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         // Arrange
         val reduxState = AppReduxState("", false, false)
         val meetingJoinedHook = MeetingJoinedHook()
-        reduxState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+        reduxState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
 
         // Act
         val result = meetingJoinedHook.shouldTrigger(reduxState, reduxState)
@@ -455,7 +455,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         val mockContext = mock<Context> {
             on { getString(R.string.azure_communication_ui_calling_accessibility_meeting_connected) } doAnswer { "You have joined the call" }
         }
-        reduxState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+        reduxState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
 
         // Act
         val message = meetingJoinedHook.message(reduxState, reduxState, mockContext)
@@ -469,7 +469,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         // Arrange
         val reduxState = AppReduxState("", false, false)
         val meetingJoinedHook = MeetingJoinedHook()
-        reduxState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+        reduxState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
         reduxState.remoteParticipantState =
             RemoteParticipantsState(mapOf(Pair("a", mock { })), 5000, listOf(), 0, lobbyErrorCode = null)
         // Act
@@ -484,7 +484,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         // Arrange
         val reduxState = AppReduxState("", false, false)
         val meetingJoinedHook = MeetingJoinedHook()
-        reduxState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+        reduxState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
         reduxState.remoteParticipantState =
             RemoteParticipantsState(mapOf(Pair("a", mock { })), 5000, listOf(), 0, lobbyErrorCode = null)
         // Act
@@ -507,7 +507,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 )
             } doAnswer { "user has joined the meeting" }
         }
-        reduxState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+        reduxState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
         reduxState.remoteParticipantState = RemoteParticipantsState(
             mapOf(
                 Pair(
@@ -544,7 +544,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 )
             } doAnswer { "user has left the meeting" }
         }
-        reduxState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.NONE)
+        reduxState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
         reduxState.remoteParticipantState = RemoteParticipantsState(
             mapOf(
                 Pair(
