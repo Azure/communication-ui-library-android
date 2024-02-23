@@ -169,7 +169,7 @@ internal class CallingService(
             callingSdk.getCallingStateWrapperSharedFlow().collect {
                 logger?.debug(it.toString())
                 val callStateError = it.asCallStateError(currentStatus = callingStatus)
-                callingStatus = it.toCallingStatus()
+                callingStatus = it.toCallStatus()
                 callInfoModelSharedFlow.emit(CallInfoModel(callingStatus, callStateError))
             }
         }

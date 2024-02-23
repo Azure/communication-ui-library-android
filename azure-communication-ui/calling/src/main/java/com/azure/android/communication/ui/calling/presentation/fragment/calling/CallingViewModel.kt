@@ -14,7 +14,6 @@ import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
-import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
@@ -42,13 +41,11 @@ internal class CallingViewModel(
     val participantListViewModel = callingViewModelProvider.participantListViewModel
     val bannerViewModel = callingViewModelProvider.bannerViewModel
     val waitingLobbyOverlayViewModel = callingViewModelProvider.waitingLobbyOverlayViewModel
-    val connectingLobbyOverlayViewModel = callingViewModelProvider.connectingLobbyOverlayViewModel
+    val connectingLobbyOverlayViewModel = callingViewModelProvider.connectingOverlayViewModel
     val holdOverlayViewModel = callingViewModelProvider.onHoldOverlayViewModel
     val errorInfoViewModel = callingViewModelProvider.errorInfoViewModel
     val lobbyHeaderViewModel = callingViewModelProvider.lobbyHeaderViewModel
     val lobbyErrorHeaderViewModel = callingViewModelProvider.lobbyErrorHeaderViewModel
-
-    private var hasSetupCalled = false
 
     fun switchFloatingHeader() {
         floatingHeaderViewModel.switchFloatingHeader()
@@ -113,6 +110,7 @@ internal class CallingViewModel(
             networkManager,
             state.localParticipantState.cameraState,
             state.localParticipantState.audioState,
+            state.localParticipantState.initialCallJoinState,
         )
         holdOverlayViewModel.init(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 
@@ -134,12 +132,10 @@ internal class CallingViewModel(
     }
 
     override suspend fun onStateChange(state: ReduxState) {
-
-        if (!hasSetupCalled &&
-            state.callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&
+        if (!state.callState.isDefaultParametersCallStarted &&
+            state.localParticipantState.initialCallJoinState.skipSetupScreen &&
             state.permissionState.audioPermissionState == PermissionStatus.GRANTED
         ) {
-            hasSetupCalled = true
             store.dispatch(action = CallingAction.CallRequestedWithoutSetup())
         }
 
@@ -182,6 +178,7 @@ internal class CallingViewModel(
             state.localParticipantState.cameraState.operation,
             state.permissionState,
             state.localParticipantState.audioState.operation,
+            state.localParticipantState.initialCallJoinState
         )
         holdOverlayViewModel.update(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 

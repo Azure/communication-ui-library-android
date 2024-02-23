@@ -7,12 +7,13 @@ import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideo
 
 internal class AppReduxState(
     displayName: String?,
-    cameraOnByDefault: Boolean,
-    microphoneOnByDefault: Boolean,
+    cameraOnByDefault: Boolean = false,
+    microphoneOnByDefault: Boolean = false,
+    skipSetupScreen: Boolean = false,
     avMode: CallCompositeAudioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
 ) : ReduxState {
 
-    override var callState: CallingState = CallingState(CallingStatus.NONE, OperationStatus.NONE)
+    override var callState: CallingState = CallingState()
 
     override var remoteParticipantState: RemoteParticipantsState = RemoteParticipantsState(
         participantMap = HashMap(),
@@ -40,9 +41,10 @@ internal class AppReduxState(
             ),
             videoStreamID = null,
             displayName = displayName,
-            initialCallJoinState = InitialCallControllerState(
-                cameraOnByDefault,
-                microphoneOnByDefault
+            initialCallJoinState = InitialCallJoinState(
+                startWithCameraOn = cameraOnByDefault,
+                startWithMicrophoneOn = microphoneOnByDefault,
+                skipSetupScreen = skipSetupScreen,
             ),
             localParticipantRole = null
         )

@@ -26,7 +26,8 @@ internal class AppStateReducer(
             state.localParticipantState.displayName,
             cameraOnByDefault = state.localParticipantState.initialCallJoinState.startWithCameraOn,
             microphoneOnByDefault = state.localParticipantState.initialCallJoinState.startWithMicrophoneOn,
-            avMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+            avMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+            skipSetupScreen = state.localParticipantState.initialCallJoinState.skipSetupScreen,
         )
 
         appState.callState = callStateReducer.reduce(

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby
+package com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay
 
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.FatalError
@@ -15,21 +15,21 @@ import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
-import com.azure.android.communication.ui.calling.redux.state.OperationStatus
+import com.azure.android.communication.ui.calling.redux.state.InitialCallJoinState
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) -> Unit) {
+internal class ConnectingOverlayViewModel(private val dispatch: (Action) -> Unit) {
 
-    private lateinit var displayLobbyOverlayFlow: MutableStateFlow<Boolean>
+    private lateinit var displayOverlayFlow: MutableStateFlow<Boolean>
     private lateinit var networkManager: NetworkManager
 
     private lateinit var cameraStateFlow: MutableStateFlow<CameraOperationalStatus>
     private lateinit var audioOperationalStatusStateFlow: MutableStateFlow<AudioOperationalStatus>
 
-    fun getDisplayLobbyOverlayFlow(): StateFlow<Boolean> = displayLobbyOverlayFlow
+    fun getDisplayOverlayFlow(): StateFlow<Boolean> = displayOverlayFlow
 
     fun init(
         callingState: CallingState,
@@ -37,14 +37,15 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
         networkManager: NetworkManager,
         cameraState: CameraState,
         audioState: AudioState,
+        initialCallJoinState: InitialCallJoinState,
     ) {
         this.networkManager = networkManager
-        val displayLobbyOverlay = shouldDisplayLobbyOverlay(callingState, permissionState)
-        displayLobbyOverlayFlow = MutableStateFlow(displayLobbyOverlay)
+        val displayOverlay = shouldDisplayOverlay(callingState, permissionState, initialCallJoinState)
+        displayOverlayFlow = MutableStateFlow(displayOverlay)
 
         cameraStateFlow = MutableStateFlow(cameraState.operation)
         audioOperationalStatusStateFlow = MutableStateFlow(audioState.operation)
-        if (displayLobbyOverlay) {
+        if (displayOverlay) {
             handleOffline(this.networkManager)
         }
         if (permissionState.audioPermissionState == PermissionStatus.NOT_ASKED) {
@@ -57,15 +58,16 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
         cameraOperationalStatus: CameraOperationalStatus,
         permissionState: PermissionState,
         audioOperationalStatus: AudioOperationalStatus,
+        initialCallJoinState: InitialCallJoinState,
     ) {
-        val displayLobbyOverlay = shouldDisplayLobbyOverlay(callingState, permissionState)
-        displayLobbyOverlayFlow.value = displayLobbyOverlay
+        val displayOverlay = shouldDisplayOverlay(callingState, permissionState, initialCallJoinState)
+        displayOverlayFlow.value = displayOverlay
 
         audioOperationalStatusStateFlow.value = audioOperationalStatus
         cameraStateFlow.value = cameraOperationalStatus
 
         handlePermissionDeniedEvent(permissionState)
-        if (displayLobbyOverlay) {
+        if (displayOverlay) {
             handleOffline(this.networkManager)
         }
     }
@@ -93,10 +95,14 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
         dispatch(action)
     }
 
-    private fun shouldDisplayLobbyOverlay(callingState: CallingState, permissionState: PermissionState) =
-        ((callingState.callingStatus == CallingStatus.NONE) || (callingState.callingStatus == CallingStatus.CONNECTING)) &&
-            (permissionState.audioPermissionState != PermissionStatus.DENIED) &&
-            (callingState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN)
+    private fun shouldDisplayOverlay(
+        callingState: CallingState,
+        permissionState: PermissionState,
+        initialCallJoinState: InitialCallJoinState,
+    ) =
+        (callingState.callingStatus == CallingStatus.NONE || callingState.callingStatus == CallingStatus.CONNECTING) &&
+            permissionState.audioPermissionState != PermissionStatus.DENIED &&
+            initialCallJoinState.skipSetupScreen
 
     private fun handleOffline(networkManager: NetworkManager) {
         if (!networkManager.isNetworkConnectionAvailable()) {

@@ -18,7 +18,6 @@ import com.azure.android.communication.ui.calling.redux.state.CameraOperationalS
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
-import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
@@ -42,7 +41,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @Test
     fun controlBarViewModel_turnMicOn_then_dispatchTurnMicOn() {
-        val appState = AppReduxState("", false, false)
+        val appState = AppReduxState("", false, false, false)
         appState.localParticipantState = LocalUserState(
             CameraState(
                 CameraOperationalStatus.PAUSED,
@@ -75,7 +74,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @Test
     fun controlBarViewModel_turnMicOn_then_dispatchTurnMicOff() {
-        val appState = AppReduxState("", false, false)
+        val appState = AppReduxState("", false, false, false)
         appState.localParticipantState = LocalUserState(
             CameraState(
                 CameraOperationalStatus.PAUSED,
@@ -131,7 +130,6 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 ),
                 CallingState(
                     CallingStatus.CONNECTED,
-                    OperationStatus.NONE
                 ),
                 {},
                 {},
@@ -226,7 +224,6 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 ),
                 CallingState(
                     CallingStatus.CONNECTED,
-                    OperationStatus.NONE
                 ),
                 {},
                 {},
@@ -326,7 +323,6 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 ),
                 CallingState(
                     CallingStatus.CONNECTED,
-                    OperationStatus.NONE
                 ),
                 {},
                 {},
@@ -419,7 +415,6 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 ),
                 CallingState(
                     CallingStatus.CONNECTED,
-                    OperationStatus.NONE
                 ),
                 {},
                 {},
