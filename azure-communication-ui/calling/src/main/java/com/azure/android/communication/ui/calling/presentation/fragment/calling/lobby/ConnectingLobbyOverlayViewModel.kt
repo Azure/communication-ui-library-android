@@ -16,7 +16,6 @@ import com.azure.android.communication.ui.calling.redux.state.CallStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.InitialCallJoinState
-import com.azure.android.communication.ui.calling.redux.state.LocalUserState
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -100,10 +99,10 @@ internal class ConnectingLobbyOverlayViewModel(private val dispatch: (Action) ->
         callingState: CallingState,
         permissionState: PermissionState,
         initialCallJoinState: InitialCallJoinState,
-        ) =
+    ) =
         (callingState.callStatus == CallStatus.NONE || callingState.callStatus == CallStatus.CONNECTING) &&
             permissionState.audioPermissionState != PermissionStatus.DENIED &&
-                initialCallJoinState.skipSetupScreen
+            initialCallJoinState.skipSetupScreen
 
     private fun handleOffline(networkManager: NetworkManager) {
         if (!networkManager.isNetworkConnectionAvailable()) {

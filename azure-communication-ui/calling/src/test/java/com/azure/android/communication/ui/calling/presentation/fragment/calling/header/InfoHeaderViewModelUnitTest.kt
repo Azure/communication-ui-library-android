@@ -8,7 +8,6 @@ import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallStatus
-import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
@@ -48,7 +47,6 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             )
             appState.callState = CallingState(
                 CallStatus.CONNECTED,
-                OperationStatus.NONE,
                 joinCallIsRequested = false,
                 isRecording = false,
                 isTranscribing = false
@@ -108,7 +106,6 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             )
             appState.callState = CallingState(
                 CallStatus.CONNECTED,
-                OperationStatus.NONE,
                 joinCallIsRequested = false,
                 isRecording = false,
                 isTranscribing = false

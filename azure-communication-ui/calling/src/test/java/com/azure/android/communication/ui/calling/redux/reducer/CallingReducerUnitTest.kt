@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.calling.redux.reducer
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallStatus
-import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -18,7 +17,7 @@ internal class CallingReducerUnitTest {
     fun callingReducer_reduce_when_actionUpdateCallState_then_changeCallingState() {
         // arrange
         val reducer = CallStateReducerImpl()
-        val previousState = CallingState(CallStatus.NONE, OperationStatus.NONE)
+        val previousState = CallingState(CallStatus.NONE)
         val action = CallingAction.StateUpdated(CallStatus.CONNECTED)
 
         // act
@@ -32,7 +31,7 @@ internal class CallingReducerUnitTest {
     fun callingReducer_reduce_when_actionStartCall_then_doNotChangeCallingState() {
         // arrange
         val reducer = CallStateReducerImpl()
-        val previousState = CallingState(CallStatus.NONE, OperationStatus.NONE)
+        val previousState = CallingState(CallStatus.NONE)
         val action = CallingAction.CallStartRequested()
 
         // act

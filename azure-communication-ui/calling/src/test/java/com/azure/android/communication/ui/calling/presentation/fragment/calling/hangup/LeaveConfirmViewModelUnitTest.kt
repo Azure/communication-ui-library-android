@@ -7,9 +7,18 @@ import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
+import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
+import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
+import com.azure.android.communication.ui.calling.redux.state.AudioState
+import com.azure.android.communication.ui.calling.redux.state.BluetoothState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallStatus
-import com.azure.android.communication.ui.calling.redux.state.OperationStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraState
+import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
+import com.azure.android.communication.ui.calling.redux.state.InitialCallJoinState
+import com.azure.android.communication.ui.calling.redux.state.LocalUserState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import org.junit.Assert
 import org.junit.Test
@@ -29,8 +38,8 @@ internal class LeaveConfirmViewModelUnitTest {
     @Test
     fun leaveConfirmViewModel_confirm_then_dispatchEndCall() {
 
-        val appState = AppReduxState("", false, false)
-        appState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
+        val appState = AppReduxState("", false, false, false)
+        appState.callState = CallingState(CallStatus.CONNECTED)
 
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState
@@ -52,7 +61,23 @@ internal class LeaveConfirmViewModelUnitTest {
     fun leaveConfirmViewModel_confirm_then_dispatchNavigationExit() {
 
         val appState = AppReduxState("", false, false)
-        appState.callState = CallingState(CallStatus.CONNECTING, OperationStatus.SKIP_SETUP_SCREEN)
+        appState.callState = CallingState(CallStatus.CONNECTING)
+        appState.localUserState = LocalUserState(
+            CameraState(
+                CameraOperationalStatus.OFF,
+                CameraDeviceSelectionStatus.FRONT,
+                CameraTransmissionStatus.REMOTE,
+            ),
+            AudioState(
+                AudioOperationalStatus.OFF,
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
+            videoStreamID = null,
+            displayName = "name",
+            localParticipantRole = null,
+            initialCallJoinState = InitialCallJoinState(skipSetupScreen = true)
+        )
 
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState

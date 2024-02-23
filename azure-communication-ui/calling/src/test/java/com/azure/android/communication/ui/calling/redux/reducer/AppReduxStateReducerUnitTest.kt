@@ -20,7 +20,6 @@ import com.azure.android.communication.ui.calling.redux.state.CameraTransmission
 import com.azure.android.communication.ui.calling.redux.state.LifecycleState
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
-import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
@@ -85,7 +84,7 @@ internal class AppReduxStateReducerUnitTest {
             )
         val action = NavigationAction.CallLaunched()
         val state = AppReduxState("", false, false)
-        state.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
+        state.callState = CallingState(CallStatus.CONNECTED)
         state.remoteParticipantState = RemoteParticipantsState(HashMap(), 0, listOf(), 0, null)
         state.localUserState = LocalUserState(
             CameraState(

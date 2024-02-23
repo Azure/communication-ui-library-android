@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.calling.redux.reducer
 
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
-import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import org.threeten.bp.OffsetDateTime
 
@@ -29,7 +28,7 @@ internal class CallStateReducerImpl : CallStateReducer {
             is CallingAction.CallIdUpdated -> {
                 callingState.copy(callId = action.callId)
             }
-            is  CallingAction.CallRequestedWithoutSetup -> {
+            is CallingAction.CallRequestedWithoutSetup -> {
                 callingState.copy(isDefaultParametersCallStarted = true)
             }
             else -> callingState

@@ -18,7 +18,6 @@ import com.azure.android.communication.ui.calling.redux.state.CameraOperationalS
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
-import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
 import org.junit.Assert
 import org.junit.Test
@@ -424,7 +423,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         // Arrange
         val reduxState = AppReduxState("", false, false)
         val meetingJoinedHook = MeetingJoinedHook()
-        reduxState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
+        reduxState.callState = CallingState(CallStatus.CONNECTED)
 
         // Act
         val result = meetingJoinedHook.shouldTrigger(AppReduxState("", false, false), reduxState)
@@ -438,7 +437,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         // Arrange
         val reduxState = AppReduxState("", false, false)
         val meetingJoinedHook = MeetingJoinedHook()
-        reduxState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
+        reduxState.callState = CallingState(CallStatus.CONNECTED)
 
         // Act
         val result = meetingJoinedHook.shouldTrigger(reduxState, reduxState)
@@ -455,7 +454,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         val mockContext = mock<Context> {
             on { getString(R.string.azure_communication_ui_calling_accessibility_meeting_connected) } doAnswer { "You have joined the call" }
         }
-        reduxState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
+        reduxState.callState = CallingState(CallStatus.CONNECTED)
 
         // Act
         val message = meetingJoinedHook.message(reduxState, reduxState, mockContext)
@@ -469,7 +468,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         // Arrange
         val reduxState = AppReduxState("", false, false)
         val meetingJoinedHook = MeetingJoinedHook()
-        reduxState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
+        reduxState.callState = CallingState(CallStatus.CONNECTED)
         reduxState.remoteParticipantState =
             RemoteParticipantsState(mapOf(Pair("a", mock { })), 5000, listOf(), 0, lobbyErrorCode = null)
         // Act
@@ -484,7 +483,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         // Arrange
         val reduxState = AppReduxState("", false, false)
         val meetingJoinedHook = MeetingJoinedHook()
-        reduxState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
+        reduxState.callState = CallingState(CallStatus.CONNECTED)
         reduxState.remoteParticipantState =
             RemoteParticipantsState(mapOf(Pair("a", mock { })), 5000, listOf(), 0, lobbyErrorCode = null)
         // Act
@@ -507,7 +506,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 )
             } doAnswer { "user has joined the meeting" }
         }
-        reduxState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
+        reduxState.callState = CallingState(CallStatus.CONNECTED)
         reduxState.remoteParticipantState = RemoteParticipantsState(
             mapOf(
                 Pair(
@@ -544,7 +543,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                 )
             } doAnswer { "user has left the meeting" }
         }
-        reduxState.callState = CallingState(CallStatus.CONNECTED, OperationStatus.NONE)
+        reduxState.callState = CallingState(CallStatus.CONNECTED)
         reduxState.remoteParticipantState = RemoteParticipantsState(
             mapOf(
                 Pair(
