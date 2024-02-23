@@ -71,7 +71,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val appState = AppReduxState("", false, false, false)
-            appState.localUserState = getLocalUserState()
+            appState.localParticipantState = getLocalUserState()
             val stateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getStateFlow() } doAnswer { stateFlow }
@@ -142,7 +142,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val newBackgroundState = AppReduxState("", false, false, false)
             newBackgroundState.lifecycleState = LifecycleState(LifecycleStatus.BACKGROUND)
-            newBackgroundState.localUserState = getLocalUserState()
+            newBackgroundState.localParticipantState = getLocalUserState()
 
             // act
             val flowJob = launch {
@@ -174,7 +174,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val appState = AppReduxState("", false, false, false)
-            appState.localUserState = getLocalUserState()
+            appState.localParticipantState = getLocalUserState()
             val stateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getStateFlow() } doAnswer { stateFlow }
@@ -242,7 +242,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val newForegroundState = AppReduxState("", false, false, false)
             newForegroundState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
-            newForegroundState.localUserState = getLocalUserState()
+            newForegroundState.localParticipantState = getLocalUserState()
 
             // act
             val flowJob = launch {
@@ -274,7 +274,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val appState = AppReduxState("", false, false, false)
-            appState.localUserState = getLocalUserState()
+            appState.localParticipantState = getLocalUserState()
             val stateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getStateFlow() } doAnswer { stateFlow }
@@ -341,7 +341,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val storeState = AppReduxState("", false, false, false)
             storeState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
-            storeState.localUserState = getLocalUserState()
+            storeState.localParticipantState = getLocalUserState()
             storeState.callState = CallingState(
                 CallingStatus.CONNECTED,
                 isRecording = false,
@@ -381,7 +381,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val appState = AppReduxState("", false, false, false)
-            appState.localUserState = getLocalUserState()
+            appState.localParticipantState = getLocalUserState()
             val stateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getStateFlow() } doAnswer { stateFlow }
@@ -447,7 +447,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val newForegroundState = AppReduxState("", false, false, false)
             newForegroundState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
-            newForegroundState.localUserState = getLocalUserState()
+            newForegroundState.localParticipantState = getLocalUserState()
 
             // act
             val flowJob = launch {
@@ -625,7 +625,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             )
 
             val appState = AppReduxState("", false, false, false)
-            appState.localUserState = getLocalUserState()
+            appState.localParticipantState = getLocalUserState()
 
             val timestamp: Number = System.currentTimeMillis()
 
@@ -679,7 +679,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val newState = AppReduxState("", false, false, false)
             newState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
-            newState.localUserState = getLocalUserState()
+            newState.localParticipantState = getLocalUserState()
             newState.callState = CallingState(
                 CallingStatus.IN_LOBBY,
                 isRecording = false,
@@ -717,7 +717,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             verify(
                 mockParticipantListViewModel,
                 times(1)
-            ).init(argThat { map -> map.isEmpty() }, argThat { status -> status == newState.localUserState }, argThat { value -> value == true })
+            ).init(argThat { map -> map.isEmpty() }, argThat { status -> status == newState.localParticipantState }, argThat { value -> value == true })
             verify(
                 mockLobbyHeaderViewModel,
                 times(1)
@@ -828,7 +828,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         )
 
         val appState = AppReduxState("", false, false, false)
-        appState.localUserState = getLocalUserState(localParticipantRole)
+        appState.localParticipantState = getLocalUserState(localParticipantRole)
 
         val timestamp: Number = System.currentTimeMillis()
 
@@ -886,7 +886,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
         val newState = AppReduxState("", false, false, false)
         newState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
-        newState.localUserState = getLocalUserState(localParticipantRole)
+        newState.localParticipantState = getLocalUserState(localParticipantRole)
         newState.callState = CallingState(
             CallingStatus.CONNECTED,
             isRecording = false,
@@ -912,7 +912,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             times(1)
         ).update(
             argThat { map -> map.size == 3 },
-            argThat { status -> status == newState.localUserState },
+            argThat { status -> status == newState.localParticipantState },
             argThat { value -> value.status == VisibilityStatus.VISIBLE },
             argThat { value -> value == showLobby }
         )
@@ -939,7 +939,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             times(1)
         ).init(
             argThat { map -> map.isEmpty() },
-            argThat { status -> status == newState.localUserState },
+            argThat { status -> status == newState.localParticipantState },
             argThat { value -> value == showLobby }
         )
         verify(
@@ -971,7 +971,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
     ) {
         // arrange
         val appState = AppReduxState("", false, false, false)
-        appState.localUserState = getLocalUserState()
+        appState.localParticipantState = getLocalUserState()
 
         val timestamp: Number = System.currentTimeMillis()
 
@@ -1038,7 +1038,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
         val newState = AppReduxState("", false, false, false)
         newState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
-        newState.localUserState = getLocalUserState()
+        newState.localParticipantState = getLocalUserState()
         newState.callState = CallingState(
             CallingStatus.CONNECTED,
             isRecording = false,

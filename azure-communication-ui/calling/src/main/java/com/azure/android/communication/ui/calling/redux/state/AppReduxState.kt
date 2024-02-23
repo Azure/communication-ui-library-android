@@ -23,7 +23,7 @@ internal class AppReduxState(
         lobbyErrorCode = null
     )
 
-    override var localUserState: LocalUserState =
+    override var localParticipantState: LocalUserState =
         LocalUserState(
             CameraState(
                 operation = if (avMode == CallCompositeAudioVideoMode.AUDIO_ONLY)

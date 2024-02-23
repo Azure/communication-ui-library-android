@@ -98,7 +98,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             val appState = AppReduxState("", false, false)
             val error = Exception("Camera error")
             appState.errorState = ErrorState(null, null)
-            appState.localUserState = LocalUserState(
+            appState.localParticipantState = LocalUserState(
                 CameraState(
                     CameraOperationalStatus.OFF, CameraDeviceSelectionStatus.FRONT,
                     CameraTransmissionStatus.REMOTE,
@@ -159,7 +159,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
             val appState = AppReduxState("", false, false)
             val error = Exception("Mic error")
             appState.errorState = ErrorState(null, null)
-            appState.localUserState = LocalUserState(
+            appState.localParticipantState = LocalUserState(
                 CameraState(
                     CameraOperationalStatus.OFF,
                     CameraDeviceSelectionStatus.FRONT,

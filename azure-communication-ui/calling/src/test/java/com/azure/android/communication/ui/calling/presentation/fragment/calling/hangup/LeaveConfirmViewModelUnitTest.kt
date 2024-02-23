@@ -62,7 +62,7 @@ internal class LeaveConfirmViewModelUnitTest {
 
         val appState = AppReduxState("", false, false)
         appState.callState = CallingState(CallingStatus.CONNECTING)
-        appState.localUserState = LocalUserState(
+        appState.localParticipantState = LocalUserState(
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,

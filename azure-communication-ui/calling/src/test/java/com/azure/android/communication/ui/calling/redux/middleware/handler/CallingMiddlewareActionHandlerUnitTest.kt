@@ -103,7 +103,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         // arrange
         val cameraStateCompletableFuture = CompletableFuture<Void>()
         val appState = AppReduxState("", false, false)
-        appState.localUserState = LocalUserState(
+        appState.localParticipantState = LocalUserState(
             CameraState(
                 CameraOperationalStatus.PAUSED,
                 CameraDeviceSelectionStatus.FRONT,
@@ -350,7 +350,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             // arrange
             val appState = AppReduxState("", false, false)
             appState.callState = CallingState(CallingStatus.CONNECTED,)
-            appState.localUserState =
+            appState.localParticipantState =
                 LocalUserState(
                     CameraState(
                         CameraOperationalStatus.OFF,
@@ -439,7 +439,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             // arrange
             val appState = AppReduxState("", false, false)
             appState.callState = CallingState(CallingStatus.CONNECTED,)
-            appState.localUserState =
+            appState.localParticipantState =
                 LocalUserState(
                     CameraState(
                         CameraOperationalStatus.OFF,
@@ -517,7 +517,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             // arrange
             val appState = AppReduxState("", false, false)
             appState.callState = CallingState(CallingStatus.CONNECTED,)
-            appState.localUserState =
+            appState.localParticipantState =
                 LocalUserState(
                     CameraState(
                         CameraOperationalStatus.OFF,
@@ -627,7 +627,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             // arrange
             val appState = AppReduxState("", false, false)
             appState.callState = CallingState(CallingStatus.CONNECTED,)
-            appState.localUserState =
+            appState.localParticipantState =
                 LocalUserState(
                     CameraState(
                         CameraOperationalStatus.OFF,
@@ -718,7 +718,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 )
             val appState = AppReduxState("", false, false)
             appState.callState = CallingState(CallingStatus.CONNECTED,)
-            appState.localUserState =
+            appState.localParticipantState =
                 LocalUserState(
                     expectedCameraState,
                     expectedAudioState,
@@ -789,7 +789,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 )
             val appState = AppReduxState("", false, false)
             appState.callState = CallingState(CallingStatus.CONNECTED,)
-            appState.localUserState =
+            appState.localParticipantState =
                 LocalUserState(
                     expectedCameraState,
                     expectedAudioState,
@@ -860,7 +860,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 )
             val appState = AppReduxState("", false, false)
             appState.callState = CallingState(CallingStatus.CONNECTED,)
-            appState.localUserState =
+            appState.localParticipantState =
                 LocalUserState(
                     expectedCameraState,
                     expectedAudioState,
@@ -931,7 +931,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 )
             val appState = AppReduxState("", false, false)
             appState.callState = CallingState(CallingStatus.CONNECTED,)
-            appState.localUserState =
+            appState.localParticipantState =
                 LocalUserState(
                     expectedCameraState,
                     expectedAudioState,
@@ -986,7 +986,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
     fun callingMiddlewareActionHandler_enterBackground_then_dispatch_OnCameraStateChange_and_OnEnteredBackground() {
         // arrange
         val appState = AppReduxState("", false, false)
-        appState.localUserState =
+        appState.localParticipantState =
             LocalUserState(
                 CameraState(
                     CameraOperationalStatus.ON,
@@ -1043,7 +1043,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
     fun callingMiddlewareActionHandler_enterBackground_then_doNothingIfCameraIsOff() {
         // arrange
         val appState = AppReduxState("", false, false)
-        appState.localUserState = LocalUserState(
+        appState.localParticipantState = LocalUserState(
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
@@ -1096,7 +1096,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
     fun callingMiddlewareActionHandler_enterBackground_then_doNothingNotInCall() {
         // arrange
         val appState = AppReduxState("", false, false)
-        appState.localUserState = LocalUserState(
+        appState.localParticipantState = LocalUserState(
             CameraState(
                 CameraOperationalStatus.ON,
                 CameraDeviceSelectionStatus.FRONT,
@@ -1150,7 +1150,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
     fun callingMiddlewareActionHandler_enterBackground_then_doNothingAlreadyInBackground() {
         // arrange
         val appState = AppReduxState("", false, false)
-        appState.localUserState = LocalUserState(
+        appState.localParticipantState = LocalUserState(
             CameraState(
                 CameraOperationalStatus.PAUSED,
                 CameraDeviceSelectionStatus.FRONT,
@@ -1199,7 +1199,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
     fun callingMiddlewareActionHandler_enterForeground_then_dispatch_OnCameraStateChange_and_OnEnteredForeground() {
         // arrange
         val appState = AppReduxState("", false, false)
-        appState.localUserState = LocalUserState(
+        appState.localParticipantState = LocalUserState(
             CameraState(
                 CameraOperationalStatus.PAUSED,
                 CameraDeviceSelectionStatus.FRONT,
@@ -1249,7 +1249,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
     fun callingMiddlewareActionHandler_enterForeground_then_not_dispatch_OnCameraStateChange_if_stateIsLocalHold() {
         // arrange
         val appState = AppReduxState("", false, false)
-        appState.localUserState = LocalUserState(
+        appState.localParticipantState = LocalUserState(
             CameraState(
                 CameraOperationalStatus.PAUSED,
                 CameraDeviceSelectionStatus.FRONT,
@@ -1297,7 +1297,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
     fun callingMiddlewareActionHandler_enterForeground_then_dispatch_DoNotTurnCameraOnIfWasNotPaused() {
         // arrange
         val appState = AppReduxState("", false, false)
-        appState.localUserState = LocalUserState(
+        appState.localParticipantState = LocalUserState(
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
@@ -1346,7 +1346,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
     fun callingMiddlewareActionHandler_enterForeground_then_dispatch_DoNotTurnCameraOnIfWasNotInCall() {
         // arrange
         val appState = AppReduxState("", false, false)
-        appState.localUserState = LocalUserState(
+        appState.localParticipantState = LocalUserState(
             CameraState(
                 CameraOperationalStatus.PAUSED,
                 CameraDeviceSelectionStatus.FRONT,
@@ -1440,7 +1440,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         val audioStateCompletableFuture: CompletableFuture<String> = CompletableFuture()
 
         val appState = AppReduxState("", false, false)
-        appState.localUserState =
+        appState.localParticipantState =
             LocalUserState(
                 CameraState(
                     CameraOperationalStatus.OFF,
@@ -1487,7 +1487,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         val audioStateCompletableFuture: CompletableFuture<Void> = CompletableFuture()
 
         val appState = AppReduxState("", false, false)
-        appState.localUserState = LocalUserState(
+        appState.localParticipantState = LocalUserState(
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
@@ -1538,7 +1538,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         val audioStateCompletableFuture: CompletableFuture<Void> = CompletableFuture()
 
         val appState = AppReduxState("", false, false)
-        appState.localUserState = LocalUserState(
+        appState.localParticipantState = LocalUserState(
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
@@ -1653,7 +1653,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val appState = AppReduxState("", false, false)
-            appState.localUserState = LocalUserState(
+            appState.localParticipantState = LocalUserState(
                 CameraState(
                     CameraOperationalStatus.PAUSED,
                     CameraDeviceSelectionStatus.FRONT,
@@ -2295,7 +2295,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val appState = AppReduxState("", false, false)
-            appState.localUserState = LocalUserState(
+            appState.localParticipantState = LocalUserState(
                 CameraState(
                     CameraOperationalStatus.PAUSED,
                     CameraDeviceSelectionStatus.FRONT,

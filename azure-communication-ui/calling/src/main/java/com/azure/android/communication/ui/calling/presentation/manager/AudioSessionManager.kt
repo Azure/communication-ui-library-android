@@ -87,9 +87,9 @@ internal class AudioSessionManager(
             // On first launch we need to init the redux-state, check Bluetooth and Headset status
             store.getStateFlow().collect {
                 if (previousAudioDeviceSelectionStatus == null ||
-                    previousAudioDeviceSelectionStatus != it.localUserState.audioState.device
+                    previousAudioDeviceSelectionStatus != it.localParticipantState.audioState.device
                 ) {
-                    onAudioDeviceStateChange(it.localUserState.audioState.device)
+                    onAudioDeviceStateChange(it.localParticipantState.audioState.device)
                 }
 
                 // After permission is granted, double check bluetooth status
@@ -99,7 +99,7 @@ internal class AudioSessionManager(
                     updateBluetoothStatus()
                 }
 
-                previousAudioDeviceSelectionStatus = it.localUserState.audioState.device
+                previousAudioDeviceSelectionStatus = it.localParticipantState.audioState.device
                 previousPermissionState = it.permissionState.audioPermissionState
             }
         }
@@ -141,7 +141,7 @@ internal class AudioSessionManager(
     // When disconnected revert to "Speaker"
     // When disconnected (and not selected), just update availability
     private fun updateBluetoothStatus() {
-        val audioState = store.getCurrentState().localUserState.audioState
+        val audioState = store.getCurrentState().localParticipantState.audioState
 
         // Bluetooth is no longer available
         // Fallback to previous device selection
@@ -163,7 +163,7 @@ internal class AudioSessionManager(
                 )
             )
 
-            priorToBluetoothAudioSelectionStatus = store.getCurrentState().localUserState.audioState.device
+            priorToBluetoothAudioSelectionStatus = store.getCurrentState().localParticipantState.audioState.device
             store.dispatch(
                 LocalParticipantAction.AudioDeviceChangeRequested(
                     AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED

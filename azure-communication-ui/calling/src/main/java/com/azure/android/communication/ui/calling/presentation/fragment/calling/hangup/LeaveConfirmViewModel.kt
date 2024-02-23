@@ -28,7 +28,7 @@ internal class LeaveConfirmViewModel(private val store: Store<ReduxState>) {
     }
 
     fun confirm() {
-        if (store.getCurrentState().localUserState.initialCallJoinState.skipSetupScreen &&
+        if (store.getCurrentState().localParticipantState.initialCallJoinState.skipSetupScreen &&
             store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTED
         ) {
             dispatchAction(action = NavigationAction.Exit())

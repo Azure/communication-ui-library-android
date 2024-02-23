@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.redux.state
 internal interface ReduxState {
     var callState: CallingState
     var remoteParticipantState: RemoteParticipantsState
-    var localUserState: LocalUserState
+    var localParticipantState: LocalUserState
     var permissionState: PermissionState
     var lifecycleState: LifecycleState
     var errorState: ErrorState

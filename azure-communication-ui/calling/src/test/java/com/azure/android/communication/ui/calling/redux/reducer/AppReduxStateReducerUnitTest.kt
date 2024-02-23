@@ -86,7 +86,7 @@ internal class AppReduxStateReducerUnitTest {
         val state = AppReduxState("", false, false)
         state.callState = CallingState(CallingStatus.CONNECTED)
         state.remoteParticipantState = RemoteParticipantsState(HashMap(), 0, listOf(), 0, null)
-        state.localUserState = LocalUserState(
+        state.localParticipantState = LocalUserState(
             CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
@@ -119,11 +119,11 @@ internal class AppReduxStateReducerUnitTest {
             .thenReturn(state.remoteParticipantState)
         Mockito.`when`(
             mockDeviceStateReducer.reduce(
-                state.localUserState,
+                state.localParticipantState,
                 action
             )
         )
-            .thenReturn(state.localUserState)
+            .thenReturn(state.localParticipantState)
         Mockito.`when`(
             mockPermissionStateReducerImplementation.reduce(
                 state.permissionState,
