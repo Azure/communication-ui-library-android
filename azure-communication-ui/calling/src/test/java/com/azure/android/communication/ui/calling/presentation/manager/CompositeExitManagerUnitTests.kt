@@ -10,7 +10,7 @@ import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
-import com.azure.android.communication.ui.calling.redux.state.CallStatus
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -31,7 +31,7 @@ internal class CompositeExitManagerUnitTests : ACSBaseTestCoroutine() {
         runScopedTest {
             // Arrange
             val state = AppReduxState(displayName = "", cameraOnByDefault = false, microphoneOnByDefault = false)
-            state.callState = CallingState(CallStatus.CONNECTED)
+            state.callState = CallingState(CallingStatus.CONNECTED)
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn state
                 on { dispatch(any()) } doAnswer { }
@@ -56,7 +56,7 @@ internal class CompositeExitManagerUnitTests : ACSBaseTestCoroutine() {
         runScopedTest {
             // Arrange
             val state = AppReduxState(displayName = "", cameraOnByDefault = false, microphoneOnByDefault = false)
-            state.callState = CallingState(CallStatus.NONE)
+            state.callState = CallingState(CallingStatus.NONE)
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn state
                 on { dispatch(any()) } doAnswer { }

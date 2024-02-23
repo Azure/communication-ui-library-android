@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.calling.redux.state
 
 import org.threeten.bp.OffsetDateTime
 
-internal enum class CallStatus {
+internal enum class CallingStatus {
     NONE,
     EARLY_MEDIA,
     CONNECTING,
@@ -19,7 +19,7 @@ internal enum class CallStatus {
 }
 
 internal data class CallingState(
-    val callStatus: CallStatus = CallStatus.NONE,
+    val callingStatus: CallingStatus = CallingStatus.NONE,
     var callId: String? = null,
     // due to the async nature of the CallStatus update we need to indicate joining call
     // until we receive CallStatus.CONNECTING from the SDK.
@@ -37,4 +37,4 @@ internal data class CallingState(
 )
 
 internal fun CallingState.isDisconnected() =
-    !joinCallIsRequested && CallStatus.DISCONNECTED == callStatus
+    !joinCallIsRequested && CallingStatus.DISCONNECTED == callingStatus

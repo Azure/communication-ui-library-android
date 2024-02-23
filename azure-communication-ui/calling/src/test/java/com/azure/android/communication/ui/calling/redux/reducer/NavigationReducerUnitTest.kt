@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.calling.redux.reducer
 
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
-import com.azure.android.communication.ui.calling.redux.state.CallStatus
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.NavigationState
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 import org.junit.Assert
@@ -63,7 +63,7 @@ internal class NavigationReducerUnitTest {
         // arrange
         val reducer = NavigationReducerImpl()
         val previousState = NavigationState(NavigationStatus.IN_CALL)
-        val action = CallingAction.StateUpdated(CallStatus.CONNECTED)
+        val action = CallingAction.StateUpdated(CallingStatus.CONNECTED)
 
         // act
         val newState = reducer.reduce(previousState, action)

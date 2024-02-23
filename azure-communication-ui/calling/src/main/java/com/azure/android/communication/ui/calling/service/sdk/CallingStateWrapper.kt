@@ -7,7 +7,7 @@ import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
-import com.azure.android.communication.ui.calling.redux.state.CallStatus
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 
 internal data class CallingStateWrapper(
     val callState: CallState,
@@ -34,22 +34,22 @@ internal data class CallingStateWrapper(
         internal const val CALL_END_REASON_SUB_CODE_DECLINED = 5854
     }
 
-    internal fun toCallStatus(): CallStatus {
+    internal fun toCallStatus(): CallingStatus {
         return when (callState) {
-            CallState.CONNECTED -> CallStatus.CONNECTED
-            CallState.CONNECTING -> CallStatus.CONNECTING
-            CallState.DISCONNECTED -> CallStatus.DISCONNECTED
-            CallState.DISCONNECTING -> CallStatus.DISCONNECTING
-            CallState.EARLY_MEDIA -> CallStatus.EARLY_MEDIA
-            CallState.RINGING -> CallStatus.RINGING
-            CallState.LOCAL_HOLD -> CallStatus.LOCAL_HOLD
-            CallState.IN_LOBBY -> CallStatus.IN_LOBBY
-            CallState.REMOTE_HOLD -> CallStatus.REMOTE_HOLD
-            else -> CallStatus.NONE
+            CallState.CONNECTED -> CallingStatus.CONNECTED
+            CallState.CONNECTING -> CallingStatus.CONNECTING
+            CallState.DISCONNECTED -> CallingStatus.DISCONNECTED
+            CallState.DISCONNECTING -> CallingStatus.DISCONNECTING
+            CallState.EARLY_MEDIA -> CallingStatus.EARLY_MEDIA
+            CallState.RINGING -> CallingStatus.RINGING
+            CallState.LOCAL_HOLD -> CallingStatus.LOCAL_HOLD
+            CallState.IN_LOBBY -> CallingStatus.IN_LOBBY
+            CallState.REMOTE_HOLD -> CallingStatus.REMOTE_HOLD
+            else -> CallingStatus.NONE
         }
     }
 
-    internal fun asCallStateError(currentStatus: CallStatus): CallStateError? {
+    internal fun asCallStateError(currentStatus: CallingStatus): CallStateError? {
         // NB: order of these checks matter, which likely isn't ideal. Consider refactoring this a bit.
         // E.g. call is considered to end normally after an eviction.
         return when {
@@ -65,7 +65,7 @@ internal data class CallingStateWrapper(
             callEndReason == CALL_END_REASON_TOKEN_EXPIRED ->
                 CallStateError(ErrorCode.TOKEN_EXPIRED, null)
             else -> {
-                if (currentStatus == CallStatus.CONNECTED) {
+                if (currentStatus == CallingStatus.CONNECTED) {
                     CallStateError(ErrorCode.CALL_END_FAILED, null)
                 } else {
                     CallStateError(ErrorCode.CALL_JOIN_FAILED, null)

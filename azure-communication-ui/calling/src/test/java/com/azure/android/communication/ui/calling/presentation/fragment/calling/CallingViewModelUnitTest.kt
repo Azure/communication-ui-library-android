@@ -36,7 +36,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioOperationalSt
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.BluetoothState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
-import com.azure.android.communication.ui.calling.redux.state.CallStatus
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
@@ -343,7 +343,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             storeState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
             storeState.localUserState = getLocalUserState()
             storeState.callState = CallingState(
-                CallStatus.CONNECTED,
+                CallingStatus.CONNECTED,
                 isRecording = false,
                 isTranscribing = false
             )
@@ -681,7 +681,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             newState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
             newState.localUserState = getLocalUserState()
             newState.callState = CallingState(
-                CallStatus.IN_LOBBY,
+                CallingStatus.IN_LOBBY,
                 isRecording = false,
                 isTranscribing = false
             )
@@ -721,12 +721,12 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             verify(
                 mockLobbyHeaderViewModel,
                 times(1)
-            ).init(argThat { status -> status == CallStatus.NONE }, argThat { map -> map.isEmpty() }, argThat { value -> value == true })
+            ).init(argThat { status -> status == CallingStatus.NONE }, argThat { map -> map.isEmpty() }, argThat { value -> value == true })
 
             verify(
                 mockLobbyErrorHeaderViewModel,
                 times(1)
-            ).init(argThat { status -> status == CallStatus.NONE }, argThat { value -> value == null }, argThat { value -> value == true })
+            ).init(argThat { status -> status == CallingStatus.NONE }, argThat { value -> value == null }, argThat { value -> value == true })
 
             flowJob.cancel()
         }
@@ -888,7 +888,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         newState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
         newState.localUserState = getLocalUserState(localParticipantRole)
         newState.callState = CallingState(
-            CallStatus.CONNECTED,
+            CallingStatus.CONNECTED,
             isRecording = false,
             isTranscribing = false
         )
@@ -920,7 +920,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             mockLobbyHeaderViewModel,
             times(1)
         ).update(
-            argThat { status -> status == CallStatus.CONNECTED },
+            argThat { status -> status == CallingStatus.CONNECTED },
             argThat { map -> if (!showLobby) map.isEmpty() else map.size == 1 },
             argThat { value -> value == showLobby }
         )
@@ -929,7 +929,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             mockLobbyErrorHeaderViewModel,
             times(1)
         ).update(
-            argThat { status -> status == CallStatus.CONNECTED },
+            argThat { status -> status == CallingStatus.CONNECTED },
             argThat { value -> value == null },
             argThat { value -> value == showLobby }
         )
@@ -946,7 +946,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             mockLobbyHeaderViewModel,
             times(1)
         ).init(
-            argThat { status -> status == CallStatus.NONE },
+            argThat { status -> status == CallingStatus.NONE },
             argThat { map -> map.isEmpty() },
             argThat { value -> value == showLobby }
         )
@@ -955,7 +955,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             mockLobbyErrorHeaderViewModel,
             times(1)
         ).init(
-            argThat { status -> status == CallStatus.NONE },
+            argThat { status -> status == CallingStatus.NONE },
             argThat { value -> value == null },
             argThat { value -> value == showLobby }
         )
@@ -997,7 +997,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             on { update(any(), any(), any()) } doAnswer { }
         }
         val mockLobbyErrorHeaderViewModel = mock<LobbyErrorHeaderViewModel> {
-            on { update(CallStatus.CONNECTED, null, true) } doAnswer { }
+            on { update(CallingStatus.CONNECTED, null, true) } doAnswer { }
         }
         val mockAudioDeviceListViewModel = mock<AudioDeviceListViewModel>()
         val mockBannerViewModel = mock<BannerViewModel>()
@@ -1040,7 +1040,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         newState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
         newState.localUserState = getLocalUserState()
         newState.callState = CallingState(
-            CallStatus.CONNECTED,
+            CallingStatus.CONNECTED,
             isRecording = false,
             isTranscribing = false
         )
@@ -1076,7 +1076,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         verify(
             mockLobbyHeaderViewModel,
             times(1)
-        ).update(argThat { status -> status == CallStatus.CONNECTED }, argThat { map -> map.size == lobbyParticipantCount }, argThat { value -> value == true })
+        ).update(argThat { status -> status == CallingStatus.CONNECTED }, argThat { map -> map.size == lobbyParticipantCount }, argThat { value -> value == true })
 
         verify(mockBannerViewModel, times(1)).update(any())
         verify(mockControlBarViewModel, times(2)).update(
@@ -1092,7 +1092,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         verify(
             mockLobbyErrorHeaderViewModel,
             times(1)
-        ).update(CallStatus.CONNECTED, null, true)
+        ).update(CallingStatus.CONNECTED, null, true)
 
         flowJob.cancel()
     }

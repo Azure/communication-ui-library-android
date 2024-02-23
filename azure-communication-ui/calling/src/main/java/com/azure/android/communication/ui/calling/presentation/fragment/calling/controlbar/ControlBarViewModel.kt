@@ -9,7 +9,7 @@ import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
-import com.azure.android.communication.ui.calling.redux.state.CallStatus
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
@@ -24,7 +24,7 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
     private lateinit var audioDeviceSelectionStatusStateFlow: MutableStateFlow<AudioDeviceSelectionStatus>
     private lateinit var shouldEnableMicButtonStateFlow: MutableStateFlow<Boolean>
     private lateinit var onHoldCallStatusStateFlow: MutableStateFlow<Boolean>
-    private lateinit var callStateFlow: MutableStateFlow<CallStatus>
+    private lateinit var callStateFlow: MutableStateFlow<CallingStatus>
     private lateinit var isVisibleStateFlow: MutableStateFlow<Boolean>
 
     lateinit var requestCallEnd: () -> Unit
@@ -41,7 +41,7 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
         openMoreMenuCallback: () -> Unit,
         pipState: VisibilityState,
     ) {
-        callStateFlow = MutableStateFlow(callState.callStatus)
+        callStateFlow = MutableStateFlow(callState.callingStatus)
         cameraStateFlow =
             MutableStateFlow(CameraModel(permissionState.cameraPermissionState, cameraState))
         audioOperationalStatusStateFlow = MutableStateFlow(audioState.operation)
@@ -59,21 +59,21 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
         permissionState: PermissionState,
         cameraState: CameraState,
         audioState: AudioState,
-        callStatus: CallStatus,
+        callingStatus: CallingStatus,
         visibilityState: VisibilityState,
     ) {
-        callStateFlow.value = callStatus
+        callStateFlow.value = callingStatus
         cameraStateFlow.value = CameraModel(permissionState.cameraPermissionState, cameraState)
         audioOperationalStatusStateFlow.value = audioState.operation
         audioDeviceSelectionStatusStateFlow.value = audioState.device
         shouldEnableMicButtonStateFlow.value = shouldEnableMicButton(audioState)
-        onHoldCallStatusStateFlow.value = callStatus == CallStatus.LOCAL_HOLD
+        onHoldCallStatusStateFlow.value = callingStatus == CallingStatus.LOCAL_HOLD
         isVisibleStateFlow.value = visibilityState.status == VisibilityStatus.PIP_MODE_ENTERED
     }
 
     val isVisible: StateFlow<Boolean> get() = isVisibleStateFlow
 
-    fun getCallStateFlow(): StateFlow<CallStatus> {
+    fun getCallStateFlow(): StateFlow<CallingStatus> {
         return callStateFlow
     }
 

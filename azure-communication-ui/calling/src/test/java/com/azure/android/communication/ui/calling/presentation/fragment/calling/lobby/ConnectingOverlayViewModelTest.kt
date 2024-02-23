@@ -8,7 +8,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.CallingState
-import com.azure.android.communication.ui.calling.redux.state.CallStatus
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.AudioState
@@ -41,7 +41,7 @@ class ConnectingOverlayViewModelTest : ACSBaseTestCoroutine() {
             val viewModel = ConnectingOverlayViewModel(mockAppStore::dispatch)
             viewModel.init(
                 CallingState(
-                    callStatus = CallStatus.NONE,
+                    callingStatus = CallingStatus.NONE,
                 ),
                 PermissionState(
                     audioPermissionState = PermissionStatus.GRANTED,
@@ -69,7 +69,7 @@ class ConnectingOverlayViewModelTest : ACSBaseTestCoroutine() {
             // act
             viewModel.update(
                 CallingState(
-                    callStatus = CallStatus.CONNECTED,
+                    callingStatus = CallingStatus.CONNECTED,
                 ),
                 CameraOperationalStatus.ON,
                 PermissionState(

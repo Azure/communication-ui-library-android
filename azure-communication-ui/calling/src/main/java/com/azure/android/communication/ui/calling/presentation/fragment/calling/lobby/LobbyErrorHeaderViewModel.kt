@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
-import com.azure.android.communication.ui.calling.redux.state.CallStatus
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -19,24 +19,24 @@ internal class LobbyErrorHeaderViewModel(private val dispatch: (Action) -> Unit)
     fun getLobbyErrorFlow(): StateFlow<CallCompositeLobbyErrorCode?> = lobbyErrorFlow
 
     fun update(
-        callStatus: CallStatus,
+        callingStatus: CallingStatus,
         error: CallCompositeLobbyErrorCode?,
         canShowLobby: Boolean
     ) {
         displayLobbyErrorHeaderFlow.value = error != null &&
-            callStatus == CallStatus.CONNECTED &&
+            callingStatus == CallingStatus.CONNECTED &&
             canShowLobby
         lobbyErrorFlow.value = error
     }
 
     fun init(
-        callStatus: CallStatus,
+        callingStatus: CallingStatus,
         error: CallCompositeLobbyErrorCode?,
         canShowLobby: Boolean
     ) {
         displayLobbyErrorHeaderFlow = MutableStateFlow(
             error != null &&
-                callStatus == CallStatus.CONNECTED &&
+                callingStatus == CallingStatus.CONNECTED &&
                 canShowLobby
         )
         lobbyErrorFlow = MutableStateFlow(error)

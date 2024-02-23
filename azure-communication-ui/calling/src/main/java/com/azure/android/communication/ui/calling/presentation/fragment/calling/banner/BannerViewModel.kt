@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.banner
 
 import com.azure.android.communication.ui.calling.redux.state.CallingState
-import com.azure.android.communication.ui.calling.redux.state.CallStatus
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 
 internal class BannerViewModel {
@@ -34,11 +34,11 @@ internal class BannerViewModel {
                 callingState.isTranscribing
             )
         )
-        _isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayed(callingState.callStatus))
+        _isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayed(callingState.callingStatus))
     }
 
-    fun updateIsOverlayDisplayed(callStatus: CallStatus) {
-        _isOverlayDisplayedFlow.value = isOverlayDisplayed(callStatus)
+    fun updateIsOverlayDisplayed(callingStatus: CallingStatus) {
+        _isOverlayDisplayedFlow.value = isOverlayDisplayed(callingStatus)
     }
 
     fun update(callingState: CallingState) {
@@ -139,8 +139,8 @@ internal class BannerViewModel {
         }
     }
 
-    private fun isOverlayDisplayed(callStatus: CallStatus) =
-        callStatus == CallStatus.IN_LOBBY || callStatus == CallStatus.LOCAL_HOLD
+    private fun isOverlayDisplayed(callingStatus: CallingStatus) =
+        callingStatus == CallingStatus.IN_LOBBY || callingStatus == CallingStatus.LOCAL_HOLD
 }
 
 internal enum class ComplianceState {

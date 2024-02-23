@@ -12,7 +12,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallStateC
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
-import com.azure.android.communication.ui.calling.redux.state.CallStatus
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import junit.framework.TestCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -95,7 +95,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             }
             testScheduler.runCurrent()
             val appStateNew = AppReduxState("", false, false, false)
-            appStateNew.callState = CallingState(callStatus = CallStatus.CONNECTED)
+            appStateNew.callState = CallingState(callingStatus = CallingStatus.CONNECTED)
             storeStateFlow.value = appStateNew
 
             // assert
@@ -117,7 +117,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val appState = AppReduxState("", false, false, false)
-            appState.callState = CallingState(callStatus = CallStatus.CONNECTED)
+            appState.callState = CallingState(callingStatus = CallingStatus.CONNECTED)
 
             val storeStateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -156,7 +156,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val appState = AppReduxState("", false, false, false)
-            appState.callState = CallingState(callStatus = CallStatus.CONNECTED)
+            appState.callState = CallingState(callingStatus = CallingStatus.CONNECTED)
 
             val storeStateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -208,54 +208,54 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
         runScopedTest {
             // test all
             testCallState(
-                CallStatus.CONNECTING,
+                CallingStatus.CONNECTING,
                 CallCompositeCallStateCode.CONNECTING
             )
             testCallState(
-                CallStatus.DISCONNECTED,
+                CallingStatus.DISCONNECTED,
                 CallCompositeCallStateCode.DISCONNECTED
             )
             testCallState(
-                CallStatus.CONNECTED,
+                CallingStatus.CONNECTED,
                 CallCompositeCallStateCode.CONNECTED
             )
             testCallState(
-                CallStatus.DISCONNECTING,
+                CallingStatus.DISCONNECTING,
                 CallCompositeCallStateCode.DISCONNECTING
             )
             testCallState(
-                CallStatus.EARLY_MEDIA,
+                CallingStatus.EARLY_MEDIA,
                 CallCompositeCallStateCode.EARLY_MEDIA
             )
             testCallState(
-                CallStatus.IN_LOBBY,
+                CallingStatus.IN_LOBBY,
                 CallCompositeCallStateCode.IN_LOBBY
             )
             testCallState(
-                CallStatus.LOCAL_HOLD,
+                CallingStatus.LOCAL_HOLD,
                 CallCompositeCallStateCode.LOCAL_HOLD
             )
             testCallState(
-                CallStatus.NONE,
+                CallingStatus.NONE,
                 CallCompositeCallStateCode.NONE
             )
             testCallState(
-                CallStatus.REMOTE_HOLD,
+                CallingStatus.REMOTE_HOLD,
                 CallCompositeCallStateCode.REMOTE_HOLD
             )
             testCallState(
-                CallStatus.RINGING,
+                CallingStatus.RINGING,
                 CallCompositeCallStateCode.RINGING
             )
             testNotCallState(
-                CallStatus.RINGING,
+                CallingStatus.RINGING,
                 CallCompositeCallStateCode.CONNECTING
             )
         }
     }
 
     private fun TestScope.testCallState(
-        callStatus: CallStatus,
+        callingStatus: CallingStatus,
         callCompositeCallStateCode: CallCompositeCallStateCode,
     ) {
         // arrange
@@ -276,7 +276,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
         )
 
         // act
-        appState.callState = CallingState(callStatus = callStatus)
+        appState.callState = CallingState(callingStatus = callingStatus)
         var job = launch {
             handler.start(this)
         }
@@ -296,7 +296,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
     }
 
     private fun TestScope.testNotCallState(
-        callStatus: CallStatus,
+        callingStatus: CallingStatus,
         callCompositeCallStateCode: CallCompositeCallStateCode,
     ) {
         // arrange
@@ -317,7 +317,7 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
         )
 
         // act
-        appState.callState = CallingState(callStatus)
+        appState.callState = CallingState(callingStatus)
         var job = launch {
             handler.start(this)
         }

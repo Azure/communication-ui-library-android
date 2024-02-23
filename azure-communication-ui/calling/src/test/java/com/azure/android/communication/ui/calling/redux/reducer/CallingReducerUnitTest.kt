@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.calling.redux.reducer
 
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.state.CallingState
-import com.azure.android.communication.ui.calling.redux.state.CallStatus
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,28 +17,28 @@ internal class CallingReducerUnitTest {
     fun callingReducer_reduce_when_actionUpdateCallState_then_changeCallingState() {
         // arrange
         val reducer = CallStateReducerImpl()
-        val previousState = CallingState(CallStatus.NONE)
-        val action = CallingAction.StateUpdated(CallStatus.CONNECTED)
+        val previousState = CallingState(CallingStatus.NONE)
+        val action = CallingAction.StateUpdated(CallingStatus.CONNECTED)
 
         // act
         val newState = reducer.reduce(previousState, action)
 
         // assert
-        Assert.assertEquals(CallStatus.CONNECTED, newState.callStatus)
+        Assert.assertEquals(CallingStatus.CONNECTED, newState.callingStatus)
     }
 
     @Test
     fun callingReducer_reduce_when_actionStartCall_then_doNotChangeCallingState() {
         // arrange
         val reducer = CallStateReducerImpl()
-        val previousState = CallingState(CallStatus.NONE)
+        val previousState = CallingState(CallingStatus.NONE)
         val action = CallingAction.CallStartRequested()
 
         // act
         val newState = reducer.reduce(previousState, action)
 
         // assert
-        Assert.assertEquals(CallStatus.NONE, newState.callStatus)
+        Assert.assertEquals(CallingStatus.NONE, newState.callingStatus)
         Assert.assertNotNull(newState.callStartDateTime)
     }
 }

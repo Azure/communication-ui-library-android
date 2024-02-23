@@ -12,7 +12,7 @@ import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticMo
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioState
-import com.azure.android.communication.ui.calling.redux.state.CallStatus
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
@@ -46,7 +46,7 @@ internal class CallingService(
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
     private var callInfoModelSharedFlow = MutableSharedFlow<CallInfoModel>()
     private var callIdStateFlow = MutableStateFlow<String?>(null)
-    private var callStatus: CallStatus = CallStatus.NONE
+    private var callingStatus: CallingStatus = CallingStatus.NONE
 
     //region Call Diagnostics
     private val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
@@ -168,9 +168,9 @@ internal class CallingService(
         coroutineScope.launch {
             callingSdk.getCallingStateWrapperSharedFlow().collect {
                 logger?.debug(it.toString())
-                val callStateError = it.asCallStateError(currentStatus = callStatus)
-                callStatus = it.toCallStatus()
-                callInfoModelSharedFlow.emit(CallInfoModel(callStatus, callStateError))
+                val callStateError = it.asCallStateError(currentStatus = callingStatus)
+                callingStatus = it.toCallStatus()
+                callInfoModelSharedFlow.emit(CallInfoModel(callingStatus, callStateError))
             }
         }
 

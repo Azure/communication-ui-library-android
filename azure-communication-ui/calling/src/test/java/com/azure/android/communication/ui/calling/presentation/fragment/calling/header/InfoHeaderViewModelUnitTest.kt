@@ -7,7 +7,7 @@ import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
-import com.azure.android.communication.ui.calling.redux.state.CallStatus
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
@@ -46,7 +46,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 lobbyErrorCode = null
             )
             appState.callState = CallingState(
-                CallStatus.CONNECTED,
+                CallingStatus.CONNECTED,
                 joinCallIsRequested = false,
                 isRecording = false,
                 isTranscribing = false
@@ -54,7 +54,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val floatingHeaderViewModel = InfoHeaderViewModel(false)
             floatingHeaderViewModel.init(
-                appState.callState.callStatus,
+                appState.callState.callingStatus,
                 expectedParticipantMap.count(),
                 { }
             )
@@ -105,7 +105,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 lobbyErrorCode = null
             )
             appState.callState = CallingState(
-                CallStatus.CONNECTED,
+                CallingStatus.CONNECTED,
                 joinCallIsRequested = false,
                 isRecording = false,
                 isTranscribing = false
@@ -113,7 +113,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val floatingHeaderViewModel = InfoHeaderViewModel(false)
             floatingHeaderViewModel.init(
-                appState.callState.callStatus,
+                appState.callState.callingStatus,
                 expectedParticipantMap.count(),
                 {}
             )
@@ -127,8 +127,8 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             // act
-            floatingHeaderViewModel.updateIsOverlayDisplayed(CallStatus.CONNECTED)
-            floatingHeaderViewModel.updateIsOverlayDisplayed(CallStatus.IN_LOBBY)
+            floatingHeaderViewModel.updateIsOverlayDisplayed(CallingStatus.CONNECTED)
+            floatingHeaderViewModel.updateIsOverlayDisplayed(CallingStatus.IN_LOBBY)
 
             // assert
             Assert.assertEquals(

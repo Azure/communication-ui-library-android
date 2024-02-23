@@ -7,7 +7,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideo
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
-import com.azure.android.communication.ui.calling.redux.state.CallStatus
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -50,7 +50,7 @@ internal class LocalParticipantViewModel(
         audioOperationalStatus: AudioOperationalStatus,
         videoStreamID: String?,
         numberOfRemoteParticipants: Int,
-        callingState: CallStatus,
+        callingState: CallingStatus,
         cameraDeviceSelectionStatus: CameraDeviceSelectionStatus,
         camerasCount: Int,
         pipStatus: VisibilityStatus,
@@ -78,7 +78,7 @@ internal class LocalParticipantViewModel(
 
         enableCameraSwitchFlow.value =
             cameraDeviceSelectionStatus != CameraDeviceSelectionStatus.SWITCHING &&
-            callingState != CallStatus.LOCAL_HOLD
+            callingState != CallingStatus.LOCAL_HOLD
         cameraDeviceSelectionFlow.value = cameraDeviceSelectionStatus
         numberOfRemoteParticipantsFlow.value = numberOfRemoteParticipants
 
@@ -106,7 +106,7 @@ internal class LocalParticipantViewModel(
         audioOperationalStatus: AudioOperationalStatus,
         videoStreamID: String?,
         numberOfRemoteParticipants: Int,
-        callingState: CallStatus,
+        callingState: CallingStatus,
         cameraDeviceSelectionStatus: CameraDeviceSelectionStatus,
         camerasCount: Int,
         pipStatus: VisibilityStatus,
@@ -147,8 +147,8 @@ internal class LocalParticipantViewModel(
 
     fun getNumberOfRemoteParticipantsFlow(): StateFlow<Int> = numberOfRemoteParticipantsFlow
 
-    fun updateIsOverlayDisplayed(callStatus: CallStatus) {
-        isOverlayDisplayedFlow.value = isOverlayDisplayed(callStatus)
+    fun updateIsOverlayDisplayed(callingStatus: CallingStatus) {
+        isOverlayDisplayedFlow.value = isOverlayDisplayed(callingStatus)
     }
 
     private fun shouldDisplayVideo(videoStreamID: String?) = videoStreamID != null
@@ -160,16 +160,16 @@ internal class LocalParticipantViewModel(
     ) =
         !displayVideo && viewMode == LocalParticipantViewMode.FULL_SCREEN && !displayLobbyOverlay
 
-    private fun shouldDisplayLobbyOverlay(callStatus: CallStatus) =
-        callStatus == CallStatus.IN_LOBBY
+    private fun shouldDisplayLobbyOverlay(callingStatus: CallingStatus) =
+        callingStatus == CallingStatus.IN_LOBBY
 
     private fun getLocalParticipantViewMode(numberOfRemoteParticipants: Int): LocalParticipantViewMode {
         return if (numberOfRemoteParticipants > 0)
             LocalParticipantViewMode.SELFIE_PIP else LocalParticipantViewMode.FULL_SCREEN
     }
 
-    private fun isOverlayDisplayed(callStatus: CallStatus) =
-        callStatus == CallStatus.IN_LOBBY || callStatus == CallStatus.LOCAL_HOLD
+    private fun isOverlayDisplayed(callingStatus: CallingStatus) =
+        callingStatus == CallingStatus.IN_LOBBY || callingStatus == CallingStatus.LOCAL_HOLD
 
     internal data class VideoModel(
         val shouldDisplayVideo: Boolean,

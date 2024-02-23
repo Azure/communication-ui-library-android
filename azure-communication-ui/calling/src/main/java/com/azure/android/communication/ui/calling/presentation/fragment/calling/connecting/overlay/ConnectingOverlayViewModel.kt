@@ -12,7 +12,7 @@ import com.azure.android.communication.ui.calling.redux.action.PermissionAction
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
-import com.azure.android.communication.ui.calling.redux.state.CallStatus
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.InitialCallJoinState
@@ -100,7 +100,7 @@ internal class ConnectingOverlayViewModel(private val dispatch: (Action) -> Unit
         permissionState: PermissionState,
         initialCallJoinState: InitialCallJoinState,
     ) =
-        (callingState.callStatus == CallStatus.NONE || callingState.callStatus == CallStatus.CONNECTING) &&
+        (callingState.callingStatus == CallingStatus.NONE || callingState.callingStatus == CallingStatus.CONNECTING) &&
             permissionState.audioPermissionState != PermissionStatus.DENIED &&
             initialCallJoinState.skipSetupScreen
 

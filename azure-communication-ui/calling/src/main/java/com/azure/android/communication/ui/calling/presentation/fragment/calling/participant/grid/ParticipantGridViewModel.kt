@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.ParticipantGridCellViewModelFactory
-import com.azure.android.communication.ui.calling.redux.state.CallStatus
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,10 +30,10 @@ internal class ParticipantGridViewModel(
     private lateinit var isLobbyOverlayDisplayedFlow: MutableStateFlow<Boolean>
 
     fun init(
-        callStatus: CallStatus,
+        callingStatus: CallingStatus,
         visibilityState: VisibilityState,
     ) {
-        isLobbyOverlayDisplayedFlow = MutableStateFlow(isLobbyOverlayDisplayed(callStatus))
+        isLobbyOverlayDisplayedFlow = MutableStateFlow(isLobbyOverlayDisplayed(callingStatus))
         this.visibilityStatus = visibilityState.status
     }
 
@@ -59,8 +59,8 @@ internal class ParticipantGridViewModel(
 
     fun getIsLobbyOverlayDisplayedFlow(): StateFlow<Boolean> = isLobbyOverlayDisplayedFlow
 
-    fun updateIsLobbyOverlayDisplayed(callStatus: CallStatus) {
-        isLobbyOverlayDisplayedFlow.value = isLobbyOverlayDisplayed(callStatus)
+    fun updateIsLobbyOverlayDisplayed(callingStatus: CallingStatus) {
+        isLobbyOverlayDisplayedFlow.value = isLobbyOverlayDisplayed(callingStatus)
     }
 
     fun update(
@@ -251,6 +251,6 @@ internal class ParticipantGridViewModel(
         updateVideoStreamsCallback?.invoke(usersVideoStream)
     }
 
-    private fun isLobbyOverlayDisplayed(callStatus: CallStatus) =
-        callStatus == CallStatus.IN_LOBBY
+    private fun isLobbyOverlayDisplayed(callingStatus: CallingStatus) =
+        callingStatus == CallingStatus.IN_LOBBY
 }

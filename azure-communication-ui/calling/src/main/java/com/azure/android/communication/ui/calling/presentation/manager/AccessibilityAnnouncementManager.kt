@@ -10,7 +10,7 @@ import android.view.accessibility.AccessibilityManager
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
-import com.azure.android.communication.ui.calling.redux.state.CallStatus
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
@@ -62,7 +62,7 @@ internal abstract class AccessibilityHook {
 internal class ParticipantAddedOrRemovedHook : AccessibilityHook() {
     private var callJoinTime = System.currentTimeMillis()
     override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean {
-        if (lastState.callState.callStatus != CallStatus.CONNECTED && newState.callState.callStatus == CallStatus.CONNECTED) {
+        if (lastState.callState.callingStatus != CallingStatus.CONNECTED && newState.callState.callingStatus == CallingStatus.CONNECTED) {
             callJoinTime = System.currentTimeMillis()
             return false
         }
@@ -98,7 +98,7 @@ internal class ParticipantAddedOrRemovedHook : AccessibilityHook() {
 
 internal class MeetingJoinedHook : AccessibilityHook() {
     override fun shouldTrigger(lastState: ReduxState, newState: ReduxState) =
-        (lastState.callState.callStatus != CallStatus.CONNECTED && newState.callState.callStatus == CallStatus.CONNECTED)
+        (lastState.callState.callingStatus != CallingStatus.CONNECTED && newState.callState.callingStatus == CallingStatus.CONNECTED)
 
     override fun message(lastState: ReduxState, newState: ReduxState, context: Context) =
         context.getString(R.string.azure_communication_ui_calling_accessibility_meeting_connected)

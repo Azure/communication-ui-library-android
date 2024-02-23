@@ -12,7 +12,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioOperationalSt
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.BluetoothState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
-import com.azure.android.communication.ui.calling.redux.state.CallStatus
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
@@ -39,7 +39,7 @@ internal class LeaveConfirmViewModelUnitTest {
     fun leaveConfirmViewModel_confirm_then_dispatchEndCall() {
 
         val appState = AppReduxState("", false, false, false)
-        appState.callState = CallingState(CallStatus.CONNECTED)
+        appState.callState = CallingState(CallingStatus.CONNECTED)
 
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState
@@ -61,7 +61,7 @@ internal class LeaveConfirmViewModelUnitTest {
     fun leaveConfirmViewModel_confirm_then_dispatchNavigationExit() {
 
         val appState = AppReduxState("", false, false)
-        appState.callState = CallingState(CallStatus.CONNECTING)
+        appState.callState = CallingState(CallingStatus.CONNECTING)
         appState.localUserState = LocalUserState(
             CameraState(
                 CameraOperationalStatus.OFF,
