@@ -39,6 +39,25 @@ internal class CallStateHandler(
         }
     }
 
+    // make sure to notify Contoso about call state before exiting the composite
+    // This helps to fix race condition when disconnected call is notified after exiting the composite
+    fun onCompositeExit() {
+        val currentState = store.getCurrentState()
+        if (lastSentCallingStatus != currentState.callState.callingStatus) {
+            lastSentCallingStatus = currentState.callState.callingStatus
+            lastSentCallingStatus?.let {
+                currentState.callState.callId?.let { callID ->
+                    sendCallStateChangedEvent(
+                        it,
+                        callID,
+                        currentState.callState.callEndReasonCode,
+                        currentState.callState.callEndReasonSubCode,
+                    )
+                }
+            }
+        }
+    }
+
     fun getCallCompositeCallState(): CallCompositeCallStateCode {
         return store.getStateFlow().value.callState.callingStatus.callCompositeCallState()
     }

@@ -421,8 +421,8 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             telecomConnectionManager?.endConnection()
         }
-        destroy()
         unsubscribe()
+        destroy()
     }
 
     private fun registerIncomingCallAndDispose() {
