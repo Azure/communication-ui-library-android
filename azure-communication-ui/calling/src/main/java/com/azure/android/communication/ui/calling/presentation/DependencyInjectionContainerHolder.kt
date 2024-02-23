@@ -91,7 +91,8 @@ internal class DependencyInjectionContainerHolder(
                 application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants),
                 container.debugInfoManager
             ),
-            container.networkManager
+            container.networkManager,
+            container.configuration.displayLeaveCallConfirmation
         )
     }
 }

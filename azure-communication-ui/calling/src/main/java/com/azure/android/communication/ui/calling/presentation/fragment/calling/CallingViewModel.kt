@@ -8,6 +8,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.factorie
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.OperationStatus
@@ -18,7 +19,8 @@ import kotlinx.coroutines.CoroutineScope
 internal class CallingViewModel(
     store: Store<ReduxState>,
     callingViewModelProvider: CallingViewModelFactory,
-    private val networkManager: NetworkManager
+    private val networkManager: NetworkManager,
+    private val displayLeaveCallConfirmation: Boolean
 ) :
     BaseViewModel(store) {
 
@@ -43,7 +45,11 @@ internal class CallingViewModel(
     }
 
     fun requestCallEnd() {
-        confirmLeaveOverlayViewModel.requestExitConfirmation()
+        if (displayLeaveCallConfirmation) {
+            confirmLeaveOverlayViewModel.requestExitConfirmation()
+        } else {
+            leaveCallWithoutConfirmation()
+        }
     }
 
     override fun init(coroutineScope: CoroutineScope) {
@@ -201,5 +207,19 @@ internal class CallingViewModel(
         floatingHeaderViewModel.updateIsOverlayDisplayed(callingStatus)
         bannerViewModel.updateIsOverlayDisplayed(callingStatus)
         localParticipantViewModel.updateIsOverlayDisplayed(callingStatus)
+    }
+
+    private fun leaveCallWithoutConfirmation() {
+        if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&
+            (
+                    store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTED &&
+                            store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTING &&
+                            store.getCurrentState().callState.callingStatus != CallingStatus.RINGING
+                    )
+        ) {
+            dispatchAction(action = NavigationAction.Exit())
+        } else {
+            dispatchAction(action = CallingAction.CallEndRequested())
+        }
     }
 }

@@ -19,7 +19,7 @@ public final class CallCompositeBuilder {
     private CallCompositeLocalizationOptions localizationConfig = null;
     private CallCompositeSupportedScreenOrientation callScreenOrientation = null;
     private CallCompositeSupportedScreenOrientation setupScreenOrientation = null;
-
+    private Boolean displayLeaveCallConfirmation = true;
     /**
      * Sets an optional theme for call-composite to use by {@link CallComposite}.
      *
@@ -66,6 +66,18 @@ public final class CallCompositeBuilder {
         return this;
     }
 
+    /***
+     * When leaving a call, user will be shown a confirmation dialog.
+     *
+     * @param option Boolean value to enable or disable the confirmation dialog.
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    public CallCompositeBuilder displayLeaveCallConfirmation(
+            final Boolean option) {
+        this.displayLeaveCallConfirmation = option;
+        return this;
+    }
+
     /**
      * Builds the CallCompositeClass {@link CallComposite}.
      *
@@ -77,6 +89,7 @@ public final class CallCompositeBuilder {
         config.setLocalizationConfig(localizationConfig);
         config.setCallScreenOrientation(this.callScreenOrientation);
         config.setSetupScreenOrientation(this.setupScreenOrientation);
+        config.setDisplayLeaveCallConfirmation(displayLeaveCallConfirmation);
         return new CallComposite(config);
     }
 }
