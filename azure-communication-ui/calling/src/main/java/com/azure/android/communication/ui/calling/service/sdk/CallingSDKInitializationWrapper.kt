@@ -84,7 +84,7 @@ internal class CallingSDKCallAgentWrapper(private val logger: Logger) {
         if (callAgentCompletableFuture == null || callAgentCompletableFuture!!.isCompletedExceptionally) {
             callAgentCompletableFuture = CompletableFuture<CallAgent>()
             val options = CallAgentOptions().apply { displayName = name }
-            options.setdisableInternalPushForIncomingCall(disableInternalPushForIncomingCall)
+            options.isDisableInternalPushForIncomingCall = disableInternalPushForIncomingCall
             try {
                 setupCall()?.whenComplete { callClient, callAgentError ->
                     if (callAgentError != null) {
