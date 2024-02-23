@@ -23,10 +23,11 @@ internal class AppStateReducer(
     override fun reduce(state: AppReduxState, action: Action): AppReduxState {
 
         val appState = AppReduxState(
-            state.localParticipantState.displayName,
-            cameraOnByDefault = state.localParticipantState.initialCallJoinState.startWithCameraOn,
-            microphoneOnByDefault = state.localParticipantState.initialCallJoinState.startWithMicrophoneOn,
-            avMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+            state.localUserState.displayName,
+            cameraOnByDefault = state.localUserState.initialCallJoinState.startWithCameraOn,
+            microphoneOnByDefault = state.localUserState.initialCallJoinState.startWithMicrophoneOn,
+            avMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+            skipSetupScreen = state.localUserState.initialCallJoinState.skipSetupScreen,
         )
 
         appState.callState = callStateReducer.reduce(
@@ -39,8 +40,8 @@ internal class AppStateReducer(
             action
         )
 
-        appState.localParticipantState = deviceStateReducer.reduce(
-            state.localParticipantState,
+        appState.localUserState = deviceStateReducer.reduce(
+            state.localUserState,
             action
         )
 

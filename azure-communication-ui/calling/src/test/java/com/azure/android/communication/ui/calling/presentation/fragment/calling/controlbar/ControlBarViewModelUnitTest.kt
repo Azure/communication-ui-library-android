@@ -43,7 +43,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
     @Test
     fun controlBarViewModel_turnMicOn_then_dispatchTurnMicOn() {
         val appState = AppReduxState("", false, false)
-        appState.localParticipantState = LocalUserState(
+        appState.localUserState = LocalUserState(
             CameraState(
                 CameraOperationalStatus.PAUSED,
                 CameraDeviceSelectionStatus.FRONT,
@@ -76,7 +76,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
     @Test
     fun controlBarViewModel_turnMicOn_then_dispatchTurnMicOff() {
         val appState = AppReduxState("", false, false)
-        appState.localParticipantState = LocalUserState(
+        appState.localUserState = LocalUserState(
             CameraState(
                 CameraOperationalStatus.PAUSED,
                 CameraDeviceSelectionStatus.FRONT,

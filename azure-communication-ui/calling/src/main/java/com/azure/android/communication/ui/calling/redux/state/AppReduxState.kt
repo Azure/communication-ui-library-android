@@ -10,9 +10,10 @@ internal class AppReduxState(
     cameraOnByDefault: Boolean,
     microphoneOnByDefault: Boolean,
     avMode: CallCompositeAudioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+    skipSetupScreen: Boolean,
 ) : ReduxState {
 
-    override var callState: CallingState = CallingState(CallStatus.NONE, OperationStatus.NONE)
+    override var callState: CallingState = CallingState()
 
     override var remoteParticipantState: RemoteParticipantsState = RemoteParticipantsState(
         participantMap = HashMap(),
@@ -22,7 +23,7 @@ internal class AppReduxState(
         lobbyErrorCode = null
     )
 
-    override var localParticipantState: LocalUserState =
+    override var localUserState: LocalUserState =
         LocalUserState(
             CameraState(
                 operation = if (avMode == CallCompositeAudioVideoMode.AUDIO_ONLY)
@@ -40,9 +41,10 @@ internal class AppReduxState(
             ),
             videoStreamID = null,
             displayName = displayName,
-            initialCallJoinState = InitialCallControllerState(
-                cameraOnByDefault,
-                microphoneOnByDefault
+            initialCallJoinState = InitialCallJoinState(
+                startWithCameraOn = cameraOnByDefault,
+                startWithMicrophoneOn = microphoneOnByDefault,
+                skipSetupScreen = skipSetupScreen,
             ),
             localParticipantRole = null
         )

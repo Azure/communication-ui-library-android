@@ -18,14 +18,8 @@ internal enum class CallStatus {
     REMOTE_HOLD,
 }
 
-internal enum class OperationStatus {
-    NONE,
-    SKIP_SETUP_SCREEN,
-}
-
 internal data class CallingState(
-    val callStatus: CallStatus,
-    val operationStatus: OperationStatus,
+    val callStatus: CallStatus = CallStatus.NONE,
     var callId: String? = null,
     // due to the async nature of the CallStatus update we need to indicate joining call
     // until we receive CallStatus.CONNECTING from the SDK.

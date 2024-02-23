@@ -20,7 +20,6 @@ import com.azure.android.communication.ui.calling.redux.state.AudioOperationalSt
 import com.azure.android.communication.ui.calling.redux.state.CallStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
-import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
@@ -67,8 +66,8 @@ internal class CallingMiddlewareActionHandlerImpl(
         store.dispatch(LifecycleAction.EnterBackgroundSucceeded())
         val state = store.getCurrentState()
 
-        if (state.localParticipantState.cameraState.operation != CameraOperationalStatus.OFF &&
-            state.localParticipantState.cameraState.operation != CameraOperationalStatus.PAUSED
+        if (state.localUserState.cameraState.operation != CameraOperationalStatus.OFF &&
+            state.localUserState.cameraState.operation != CameraOperationalStatus.PAUSED
         ) {
             if (state.callState.callStatus != CallStatus.NONE &&
                 state.callState.callStatus != CallStatus.LOCAL_HOLD
@@ -105,9 +104,9 @@ internal class CallingMiddlewareActionHandlerImpl(
     override fun onCameraPermissionIsSet(store: Store<ReduxState>) {
         val state = store.getCurrentState()
         if ((state.permissionState.cameraPermissionState == PermissionStatus.GRANTED) &&
-            (state.localParticipantState.cameraState.operation == CameraOperationalStatus.PENDING)
+            (state.localUserState.cameraState.operation == CameraOperationalStatus.PENDING)
         ) {
-            when (state.localParticipantState.cameraState.transmission) {
+            when (state.localUserState.cameraState.transmission) {
                 CameraTransmissionStatus.LOCAL -> {
                     store.dispatch(LocalParticipantAction.CameraPreviewOnTriggered())
                 }
@@ -120,11 +119,11 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     override fun callSetupWithSkipSetupScreen(store: Store<ReduxState>) {
 
-        if (store.getCurrentState().localParticipantState.initialCallJoinState.startWithMicrophoneOn) {
+        if (store.getCurrentState().localUserState.initialCallJoinState.startWithMicrophoneOn) {
             store.dispatch(action = LocalParticipantAction.MicPreviewOnTriggered())
         }
 
-        if (store.getCurrentState().localParticipantState.initialCallJoinState.startWithCameraOn) {
+        if (store.getCurrentState().localUserState.initialCallJoinState.startWithCameraOn) {
             store.dispatch(action = LocalParticipantAction.CameraPreviewOnRequested())
         }
 
@@ -251,7 +250,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                     )
                 )
             } else {
-                if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
+                if (store.getCurrentState().localUserState.initialCallJoinState.skipSetupScreen) {
                     store.dispatch(action = CallingAction.CallStartRequested())
                 }
             }
@@ -272,8 +271,8 @@ internal class CallingMiddlewareActionHandlerImpl(
         subscribeOnLocalParticipantRoleChanged(store)
 
         callingService.startCall(
-            store.getCurrentState().localParticipantState.cameraState,
-            store.getCurrentState().localParticipantState.audioState
+            store.getCurrentState().localUserState.cameraState,
+            store.getCurrentState().localUserState.audioState
         ).handle { _, error: Throwable? ->
             if (error != null) {
                 store.dispatch(
@@ -310,7 +309,7 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun switchCamera(store: Store<ReduxState>) {
-        val currentCamera = store.getCurrentState().localParticipantState.cameraState.device
+        val currentCamera = store.getCurrentState().localUserState.cameraState.device
 
         callingService.switchCamera().handle { cameraDevice, error: Throwable? ->
             if (error != null) {
@@ -327,7 +326,7 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun turnMicOn(store: Store<ReduxState>) {
-        if (store.getCurrentState().localParticipantState.audioState.operation != AudioOperationalStatus.PENDING) {
+        if (store.getCurrentState().localUserState.audioState.operation != AudioOperationalStatus.PENDING) {
             callingService.turnMicOn().whenComplete { _, error: Throwable? ->
                 if (error != null) {
                     store.dispatch(
@@ -341,7 +340,7 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun turnMicOff(store: Store<ReduxState>) {
-        if (store.getCurrentState().localParticipantState.audioState.operation != AudioOperationalStatus.PENDING) {
+        if (store.getCurrentState().localUserState.audioState.operation != AudioOperationalStatus.PENDING) {
             callingService.turnMicOff().whenComplete { _, error: Throwable? ->
                 if (error != null) {
                     store.dispatch(
@@ -463,7 +462,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                     tryCameraOn(store)
                 }
 
-                if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&
+                if (store.getCurrentState().localUserState.initialCallJoinState.skipSetupScreen &&
                     callInfoModel.callStatus == CallStatus.CONNECTED
                 ) {
                     tryCameraOn(store)
@@ -475,7 +474,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                     if (it.callCompositeEventCode == CallCompositeEventCode.CALL_EVICTED ||
                         it.callCompositeEventCode == CallCompositeEventCode.CALL_DECLINED
                     ) {
-                        if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
+                        if (store.getCurrentState().localUserState.initialCallJoinState.skipSetupScreen) {
                             store.dispatch(NavigationAction.Exit())
                         } else {
                             store.dispatch(NavigationAction.SetupLaunched())
@@ -487,7 +486,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                         store.dispatch(CallingAction.IsRecordingUpdated(false))
                         store.dispatch(ParticipantAction.ListUpdated(HashMap()))
                         store.dispatch(CallingAction.StateUpdated(CallStatus.NONE))
-                        if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
+                        if (store.getCurrentState().localUserState.initialCallJoinState.skipSetupScreen) {
                             store.dispatch(NavigationAction.Exit())
                         } else {
                             store.dispatch(NavigationAction.SetupLaunched())
@@ -520,8 +519,8 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     private fun tryCameraOn(store: Store<ReduxState>) {
         val state = store.getCurrentState()
-        if (state.localParticipantState.cameraState.operation == CameraOperationalStatus.PAUSED ||
-            state.localParticipantState.cameraState.operation == CameraOperationalStatus.PENDING
+        if (state.localUserState.cameraState.operation == CameraOperationalStatus.PAUSED ||
+            state.localUserState.cameraState.operation == CameraOperationalStatus.PENDING
         ) {
             if (state.callState.callStatus != CallStatus.NONE) {
                 callingService.turnCameraOn().handle { newVideoStreamId, error: Throwable? ->

@@ -66,9 +66,10 @@ internal data class BluetoothState(
     val deviceName: String,
 )
 
-internal data class InitialCallControllerState(
+internal data class InitialCallJoinState(
     val startWithCameraOn: Boolean,
-    val startWithMicrophoneOn: Boolean
+    val startWithMicrophoneOn: Boolean,
+    val skipSetupScreen: Boolean,
 )
 
 internal data class LocalUserState(
@@ -76,9 +77,10 @@ internal data class LocalUserState(
     val audioState: AudioState,
     val videoStreamID: String?,
     val displayName: String?,
-    val initialCallJoinState: InitialCallControllerState = InitialCallControllerState(
-        false,
-        false
+    val initialCallJoinState: InitialCallJoinState = InitialCallJoinState(
+        startWithCameraOn = false,
+        startWithMicrophoneOn = false,
+        skipSetupScreen = false,
     ),
     val localParticipantRole: CallCompositeInternalParticipantRole?
 )
