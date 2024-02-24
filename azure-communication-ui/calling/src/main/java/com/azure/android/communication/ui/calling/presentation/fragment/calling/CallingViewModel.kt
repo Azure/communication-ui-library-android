@@ -114,7 +114,7 @@ internal class CallingViewModel(
         )
         holdOverlayViewModel.init(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 
-        participantGridViewModel.init(state.callState.callingStatus, state.visibilityState)
+        participantGridViewModel.init(state.callState.callingStatus)
 
         lobbyHeaderViewModel.init(
             state.callState.callingStatus,

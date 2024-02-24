@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.ParticipantGridCellViewModelFactory
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
-import com.azure.android.communication.ui.calling.redux.state.VisibilityState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,15 +25,13 @@ internal class ParticipantGridViewModel(
     private var updateVideoStreamsCallback: ((List<Pair<String, String>>) -> Unit)? = null
     private var remoteParticipantStateModifiedTimeStamp: Number = 0
     private var dominantSpeakersStateModifiedTimestamp: Number = 0
-    private var visibilityStatus: VisibilityStatus = VisibilityStatus.VISIBLE
+    private var visibilityStatus: VisibilityStatus? = null
     private lateinit var isLobbyOverlayDisplayedFlow: MutableStateFlow<Boolean>
 
     fun init(
         callingStatus: CallingStatus,
-        visibilityState: VisibilityState,
     ) {
         isLobbyOverlayDisplayedFlow = MutableStateFlow(isLobbyOverlayDisplayed(callingStatus))
-        this.visibilityStatus = visibilityState.status
     }
 
     fun clear() {
