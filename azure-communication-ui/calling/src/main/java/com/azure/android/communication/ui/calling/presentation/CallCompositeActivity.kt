@@ -95,6 +95,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             diContainerHolder.instanceId = instanceId
             diContainerHolder.container.callCompositeActivityWeakReference = WeakReference(this)
         } catch (invalidIDException: CallCompositeException) {
+            super.onCreate(savedInstanceState)
             finish() // Container has vanished (probably due to process death); we cannot continue
             return
         }
