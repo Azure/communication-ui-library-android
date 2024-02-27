@@ -21,6 +21,8 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.ConnectingLobbyOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.WaitingLobbyOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
+import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.LifecycleState
@@ -44,6 +46,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.any
+import org.mockito.kotlin.argThat
 import org.mockito.kotlin.doAnswer
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
@@ -112,7 +115,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val callingViewModel = CallingViewModel(
                 mockAppStore,
                 mockCallingViewModelProvider,
-                mockNetworkManager
+                mockNetworkManager,
+                true
             )
 
             val newBackgroundState = AppReduxState("", false, false)
@@ -199,7 +203,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val callingViewModel = CallingViewModel(
                 mockAppStore,
                 mockCallingViewModelProvider,
-                mockNetworkManager
+                mockNetworkManager,
+                true
             )
 
             val newForegroundState = AppReduxState("", false, false)
@@ -286,7 +291,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val callingViewModel = CallingViewModel(
                 mockAppStore,
                 mockCallingViewModelProvider,
-                mockNetworkManager
+                mockNetworkManager,
+                true
             )
 
             val storeState = AppReduxState("", false, false)
@@ -381,7 +387,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             val callingViewModel = CallingViewModel(
                 mockAppStore,
                 mockCallingViewModelProvider,
-                mockNetworkManager
+                mockNetworkManager,
+                true
             )
 
             val newForegroundState = AppReduxState("", false, false)
@@ -427,4 +434,162 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         "test",
         "test"
     )
+
+    @Test
+    @ExperimentalCoroutinesApi
+    fun callingViewModel_displayLeaveCallDialogOn_doNotCallExitAction() {
+
+        runScopedTest {
+            // arrange
+            val appState = AppReduxState("", false, false)
+            appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.SKIP_SETUP_SCREEN)
+            appState.localParticipantState = getLocalUserState()
+            val stateFlow = MutableStateFlow<ReduxState>(appState)
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { getStateFlow() } doAnswer { stateFlow }
+                on { getCurrentState() } doAnswer { appState }
+            }
+            val mockParticipantGridViewModel = mock<ParticipantGridViewModel> {
+            }
+
+            val mockControlBarViewModel = mock<ControlBarViewModel> {
+                on { update(any(), any(), any(), any(),) } doAnswer { }
+            }
+
+            val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
+
+            val mockLocalParticipantViewModel = mock<LocalParticipantViewModel> {
+                on { update(any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
+            }
+
+            val mockFloatingHeaderViewModel = mock<InfoHeaderViewModel> {}
+
+            val mockAudioDeviceListViewModel = mock<AudioDeviceListViewModel>()
+
+            val mockParticipantListViewModel = mock<ParticipantListViewModel>()
+
+            val mockBannerViewModel = mock<BannerViewModel>()
+            val mockWaitingLobbyOverlayViewModel = mock<WaitingLobbyOverlayViewModel>()
+            val mockConnectingLobbyOverlayViewModel = mock<ConnectingLobbyOverlayViewModel>()
+            val mockOnHoldOverlayViewModel = mock<OnHoldOverlayViewModel>()
+            val mockMoreCallOptionsListViewModel = mock<MoreCallOptionsListViewModel>()
+            val mockNetworkManager = mock<NetworkManager>()
+
+            val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
+                on { participantGridViewModel } doAnswer { mockParticipantGridViewModel }
+                on { controlBarViewModel } doAnswer { mockControlBarViewModel }
+                on { confirmLeaveOverlayViewModel } doAnswer { mockConfirmLeaveOverlayViewModel }
+                on { localParticipantViewModel } doAnswer { mockLocalParticipantViewModel }
+                on { floatingHeaderViewModel } doAnswer { mockFloatingHeaderViewModel }
+                on { audioDeviceListViewModel } doAnswer { mockAudioDeviceListViewModel }
+                on { participantListViewModel } doAnswer { mockParticipantListViewModel }
+                on { bannerViewModel } doAnswer { mockBannerViewModel }
+                on { waitingLobbyOverlayViewModel } doAnswer { mockWaitingLobbyOverlayViewModel }
+                on { connectingLobbyOverlayViewModel } doAnswer { mockConnectingLobbyOverlayViewModel }
+                on { onHoldOverlayViewModel } doAnswer { mockOnHoldOverlayViewModel }
+                on { moreCallOptionsListViewModel } doAnswer { mockMoreCallOptionsListViewModel }
+            }
+
+            val callingViewModel = CallingViewModel(
+                mockAppStore,
+                mockCallingViewModelProvider,
+                mockNetworkManager,
+                true
+            )
+
+            // act
+            val flowJob = launch {
+                callingViewModel.init(this)
+            }
+            callingViewModel.requestCallEnd()
+
+            // assert
+            verify(mockConfirmLeaveOverlayViewModel, times(1)).requestExitConfirmation()
+            verify(mockAppStore, times(0)).dispatch(
+                argThat { action ->
+                    action is NavigationAction.Exit
+                }
+            )
+            flowJob.cancel()
+        }
+    }
+
+    @Test
+    @ExperimentalCoroutinesApi
+    fun callingViewModel_displayLeaveCallDialogOff_callExitAction() {
+
+        runScopedTest {
+            // arrange
+            val appState = AppReduxState("", false, false)
+            appState.callState = CallingState(CallingStatus.CONNECTED, OperationStatus.SKIP_SETUP_SCREEN)
+            appState.localParticipantState = getLocalUserState()
+            val stateFlow = MutableStateFlow<ReduxState>(appState)
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { getStateFlow() } doAnswer { stateFlow }
+                on { getCurrentState() } doAnswer { appState }
+            }
+            val mockParticipantGridViewModel = mock<ParticipantGridViewModel> {
+            }
+
+            val mockControlBarViewModel = mock<ControlBarViewModel> {
+                on { update(any(), any(), any(), any(),) } doAnswer { }
+            }
+
+            val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
+
+            val mockLocalParticipantViewModel = mock<LocalParticipantViewModel> {
+                on { update(any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
+            }
+
+            val mockFloatingHeaderViewModel = mock<InfoHeaderViewModel> {}
+
+            val mockAudioDeviceListViewModel = mock<AudioDeviceListViewModel>()
+
+            val mockParticipantListViewModel = mock<ParticipantListViewModel>()
+
+            val mockBannerViewModel = mock<BannerViewModel>()
+            val mockWaitingLobbyOverlayViewModel = mock<WaitingLobbyOverlayViewModel>()
+            val mockConnectingLobbyOverlayViewModel = mock<ConnectingLobbyOverlayViewModel>()
+            val mockOnHoldOverlayViewModel = mock<OnHoldOverlayViewModel>()
+            val mockMoreCallOptionsListViewModel = mock<MoreCallOptionsListViewModel>()
+            val mockNetworkManager = mock<NetworkManager>()
+
+            val mockCallingViewModelProvider = mock<CallingViewModelFactory> {
+                on { participantGridViewModel } doAnswer { mockParticipantGridViewModel }
+                on { controlBarViewModel } doAnswer { mockControlBarViewModel }
+                on { confirmLeaveOverlayViewModel } doAnswer { mockConfirmLeaveOverlayViewModel }
+                on { localParticipantViewModel } doAnswer { mockLocalParticipantViewModel }
+                on { floatingHeaderViewModel } doAnswer { mockFloatingHeaderViewModel }
+                on { audioDeviceListViewModel } doAnswer { mockAudioDeviceListViewModel }
+                on { participantListViewModel } doAnswer { mockParticipantListViewModel }
+                on { bannerViewModel } doAnswer { mockBannerViewModel }
+                on { waitingLobbyOverlayViewModel } doAnswer { mockWaitingLobbyOverlayViewModel }
+                on { connectingLobbyOverlayViewModel } doAnswer { mockConnectingLobbyOverlayViewModel }
+                on { onHoldOverlayViewModel } doAnswer { mockOnHoldOverlayViewModel }
+                on { moreCallOptionsListViewModel } doAnswer { mockMoreCallOptionsListViewModel }
+            }
+
+            val callingViewModel = CallingViewModel(
+                mockAppStore,
+                mockCallingViewModelProvider,
+                mockNetworkManager,
+                false
+            )
+
+            // act
+            val flowJob = launch {
+                callingViewModel.init(this)
+            }
+            callingViewModel.requestCallEnd()
+
+            // assert
+            verify(mockConfirmLeaveOverlayViewModel, times(0)).requestExitConfirmation()
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is CallingAction.CallEndRequested
+                }
+            )
+            flowJob.cancel()
+        }
+    }
 }
