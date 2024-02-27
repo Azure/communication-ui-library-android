@@ -509,7 +509,7 @@ internal class CallingMiddlewareActionHandlerImpl(
 
                 if (callInfoModel.callStateError == null) {
                     when (callInfoModel.callingStatus) {
-                        CallingStatus.CONNECTED, CallingStatus.IN_LOBBY -> {
+                        CallingStatus.CONNECTED, CallingStatus.RINGING, CallingStatus.IN_LOBBY -> {
                             store.dispatch(NavigationAction.CallLaunched())
                         }
                         CallingStatus.DISCONNECTED -> {

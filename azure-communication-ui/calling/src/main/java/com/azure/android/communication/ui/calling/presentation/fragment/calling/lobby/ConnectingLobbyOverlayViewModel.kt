@@ -71,7 +71,7 @@ internal class ConnectingLobbyOverlayViewModel(
         audioOperationalStatus: AudioOperationalStatus,
     ) {
         val displayLobbyOverlay = shouldDisplayLobbyOverlay(callingState, permissionState)
-        displayLobbyOverlayFlow.value = displayLobbyOverlay
+        displayLobbyOverlayFlow.value = displayLobbyOverlay && callType != CallType.ONE_TO_N_CALL_OUTGOING
 
         audioOperationalStatusStateFlow.value = audioOperationalStatus
         cameraStateFlow.value = cameraOperationalStatus
@@ -109,8 +109,7 @@ internal class ConnectingLobbyOverlayViewModel(
     }
 
     private fun shouldDisplayLobbyOverlay(callingState: CallingState, permissionState: PermissionState) =
-        ((callingState.callingStatus == CallingStatus.NONE) || (callingState.callingStatus == CallingStatus.CONNECTING)) ||
-            (callingState.callingStatus == CallingStatus.RINGING) &&
+        ((callingState.callingStatus == CallingStatus.NONE) || (callingState.callingStatus == CallingStatus.CONNECTING)) &&
             (permissionState.audioPermissionState != PermissionStatus.DENIED) &&
             (callingState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN)
 

@@ -62,7 +62,7 @@ internal class ConnectingLobbyOverlayView : LinearLayout {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCallingStatusStateFlow().collect {
                 if (it == CallingStatus.RINGING) {
-                    overlayInfo.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_ringing_call)
+                    // overlayInfo.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_ringing_call)
                 }
             }
         }

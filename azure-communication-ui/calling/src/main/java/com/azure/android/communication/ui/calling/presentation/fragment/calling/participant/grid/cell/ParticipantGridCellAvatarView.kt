@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.azure.android.communication.ui.R
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
+import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel
 import com.microsoft.fluentui.persona.AvatarView
 import kotlinx.coroutines.flow.collect
@@ -45,6 +46,19 @@ internal class ParticipantGridCellAvatarView(
         lifecycleScope.launch {
             participantViewModel.getIsMutedStateFlow().collect {
                 setMicButtonVisibility(it)
+            }
+        }
+
+        lifecycleScope.launch {
+            participantViewModel.getParticipantStatusStateFlow().collect {
+                if (it == ParticipantStatus.RINGING || it == ParticipantStatus.CONNECTING) {
+                    displayNameAudioTextView.visibility = VISIBLE
+                    displayNameAudioTextView.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_ringing_call)
+                    setMicButtonVisibility(false)
+                } else {
+                    setMicButtonVisibility(participantViewModel.getIsMutedStateFlow().value)
+                    setDisplayName(participantViewModel.getDisplayNameStateFlow().value)
+                }
             }
         }
 

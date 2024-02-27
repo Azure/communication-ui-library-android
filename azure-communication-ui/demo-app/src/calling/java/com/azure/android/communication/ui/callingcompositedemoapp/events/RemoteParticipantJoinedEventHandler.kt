@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.callingcompositedemoapp.events
 
 import android.content.Context
 import android.graphics.BitmapFactory
+import android.util.Log
 import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.common.CommunicationUserIdentifier
 import com.azure.android.communication.common.MicrosoftTeamsUserIdentifier
@@ -34,6 +35,22 @@ class RemoteParticipantJoinedEventHandler(
                 } else {
                     selectRandomAvatar(communicationIdentifier)
                 }
+            }
+
+            if (communicationIdentifier.rawId == "8:acs:efd3c229-b212-437a-945d-92326f13a1be_0000001e-8395-b7ca-08c8-3e3a0d0013e2") {
+                Log.d("InderpalTesting", "RemoteParticipantJoinedEvent: ${communicationIdentifier.rawId}")
+                val result = callComposite.setRemoteParticipantViewData(
+                    communicationIdentifier,
+                    CallCompositeParticipantViewData().setDisplayName("Inder1")
+                )
+            }
+
+            if (communicationIdentifier.rawId == "8:acs:efd3c229-b212-437a-945d-92326f13a1be_0000001e-8398-840c-ceb1-a43a0d0016a8") {
+                Log.d("InderpalTesting", "RemoteParticipantJoinedEvent: ${communicationIdentifier.rawId}")
+                val result = callComposite.setRemoteParticipantViewData(
+                    communicationIdentifier,
+                    CallCompositeParticipantViewData().setDisplayName("Lovekesh")
+                )
             }
         }
     }

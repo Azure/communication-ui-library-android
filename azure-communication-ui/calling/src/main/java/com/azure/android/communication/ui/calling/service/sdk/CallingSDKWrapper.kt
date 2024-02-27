@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.service.sdk
 
 import android.content.Context
+import android.util.Log
 import com.azure.android.communication.calling.AcceptCallOptions
 import com.azure.android.communication.calling.Call
 import com.azure.android.communication.calling.CallAgent
@@ -619,6 +620,7 @@ internal class CallingSDKWrapper(
         videoOptions?.let { startCallOptions.outgoingVideoOptions = videoOptions }
 
         nullableCall = agent.startCall(context, participants, startCallOptions)
+        Log.d("InderpalTesting ", "startCall Remote participants count: ${nullableCall?.remoteParticipants?.size}")
         callingSDKEventHandler.onJoinCall(call)
     }
 

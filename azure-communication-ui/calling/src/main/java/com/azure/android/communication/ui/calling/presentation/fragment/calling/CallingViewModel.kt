@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
+import android.util.Log
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
@@ -132,7 +133,10 @@ internal class CallingViewModel(
     }
 
     override suspend fun onStateChange(state: ReduxState) {
+        updateViewModels(state)
+    }
 
+    private fun updateViewModels(state: ReduxState) {
         if (!hasSetupCalled &&
             state.callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&
             state.permissionState.audioPermissionState == PermissionStatus.GRANTED
@@ -146,6 +150,7 @@ internal class CallingViewModel(
             localParticipantViewModel.clear()
             return
         }
+        Log.d("InderpalTesting", "updateViewModels: ${state.remoteParticipantState.participantMap}")
 
         val remoteParticipantsForGridView = remoteParticipantsForGridView(state.remoteParticipantState.participantMap)
 
@@ -208,6 +213,7 @@ internal class CallingViewModel(
         }
 
         if (shouldUpdateRemoteParticipantsViewModels(state)) {
+            Log.d("InderpalTesting", "Updating participantGridViewModel with remoteParticipantsForGridView: $remoteParticipantsForGridView")
             participantGridViewModel.update(
                 state.remoteParticipantState.participantMapModifiedTimestamp,
                 remoteParticipantsForGridView,
@@ -279,7 +285,9 @@ internal class CallingViewModel(
 
     private fun shouldUpdateRemoteParticipantsViewModels(state: ReduxState) =
         state.callState.callingStatus == CallingStatus.CONNECTED ||
-            state.callState.callingStatus == CallingStatus.REMOTE_HOLD
+            state.callState.callingStatus == CallingStatus.REMOTE_HOLD ||
+            state.callState.callingStatus == CallingStatus.RINGING ||
+                (state.callState.callingStatus == CallingStatus.CONNECTING && callType == CallType.ONE_TO_N_CALL_OUTGOING)
 
     private fun updateOverlayDisplayedState(callingStatus: CallingStatus) {
         floatingHeaderViewModel.updateIsOverlayDisplayed(callingStatus)

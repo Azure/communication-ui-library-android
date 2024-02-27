@@ -70,7 +70,7 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCallingStatusStateFlow().collect {
                 if (it == CallingStatus.RINGING) {
-                    joiningCallText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_ringing_call)
+                    // joiningCallText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_ringing_call)
                 }
             }
         }

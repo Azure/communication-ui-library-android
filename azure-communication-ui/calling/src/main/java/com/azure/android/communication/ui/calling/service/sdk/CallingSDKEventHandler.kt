@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.service.sdk
 
+import android.util.Log
 import com.azure.android.communication.calling.Call
 import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.DiagnosticFlagChangedListener
@@ -125,6 +126,8 @@ internal class CallingSDKEventHandler(
                 onParticipantAdded(participant.identifier.rawId, participant)
             }
         }
+        onRemoteParticipantUpdated()
+        Log.d("InderpalTesting ", "onJoinCall Remote participants count: ${call.remoteParticipants?.size}")
 
         call.addOnStateChangedListener(onCallStateChanged)
         call.addOnIsMutedChangedListener(onIsMutedChanged)
@@ -352,6 +355,7 @@ internal class CallingSDKEventHandler(
 
         val callState = call?.state
         var callEndStatus = Pair(0, 0)
+        Log.d("InderpalTesting ", "callState: $callState")
 
         when (callState) {
             CallState.CONNECTED -> {
@@ -377,6 +381,7 @@ internal class CallingSDKEventHandler(
                 }
             }
         }
+        onRemoteParticipantUpdated()
     }
 
     private fun onIsMutedChange() {
@@ -454,12 +459,15 @@ internal class CallingSDKEventHandler(
         )
 
     private fun onParticipantsUpdated(participantsUpdatedEvent: ParticipantsUpdatedEvent) {
+        Log.d("InderpalTesting ", "onParticipantsUpdated addedParticipants participants count: ${participantsUpdatedEvent.addedParticipants?.size}")
+
         participantsUpdatedEvent.addedParticipants.forEach { addedParticipant ->
             val id = addedParticipant.identifier.rawId
             if (!remoteParticipantsCacheMap.containsKey(id)) {
                 onParticipantAdded(id, addedParticipant)
             }
         }
+        Log.d("InderpalTesting ", "onParticipantsUpdated removedParticipants participants count: ${participantsUpdatedEvent.removedParticipants?.size}")
 
         participantsUpdatedEvent.removedParticipants.forEach { removedParticipant ->
             val id = removedParticipant.identifier.rawId
@@ -554,8 +562,10 @@ internal class CallingSDKEventHandler(
 
     private fun onRemoteParticipantUpdated() {
         val state = call?.state
-        if (state == CallState.CONNECTED || state == CallState.REMOTE_HOLD) {
+        if (state == CallState.CONNECTED || state == CallState.REMOTE_HOLD || state == CallState.RINGING
+            || state == CallState.CONNECTING) {
             coroutineScope.launch {
+                Log.d("InderpalTesting ", "onRemoteParticipantUpdated Remote participants count: ${remoteParticipantsCacheMap.size}")
                 remoteParticipantsInfoModelSharedFlow.emit(remoteParticipantsInfoModelMap)
             }
         }

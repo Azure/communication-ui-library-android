@@ -15,7 +15,7 @@
     <!--    Setup View-->
     <string name="azure_communication_ui_calling_setup_view_button_connecting_call">Joining call…</string>
     <string name="azure_communication_ui_calling_setup_view_button_starting_call">Starting call…</string>
-    <string name="azure_communication_ui_calling_setup_view_button_ringing_call">Ringing call…</string>
+    <string name="azure_communication_ui_calling_setup_view_button_ringing_call">Calling…</string>
     <string name="azure_communication_ui_calling_setup_view_button_start_call">Start call</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_off">Video off</string>
     <string name="azure_communication_ui_calling_setup_view_button_video_on">Video on</string>
