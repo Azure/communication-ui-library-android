@@ -212,10 +212,10 @@ internal class CallingViewModel(
     private fun leaveCallWithoutConfirmation() {
         if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&
             (
-                    store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTED &&
-                            store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTING &&
-                            store.getCurrentState().callState.callingStatus != CallingStatus.RINGING
-                    )
+                store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTED &&
+                    store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTING &&
+                    store.getCurrentState().callState.callingStatus != CallingStatus.RINGING
+                )
         ) {
             dispatchAction(action = NavigationAction.Exit())
         } else {
