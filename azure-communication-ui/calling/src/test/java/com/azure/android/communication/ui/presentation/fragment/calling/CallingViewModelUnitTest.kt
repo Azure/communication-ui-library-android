@@ -609,7 +609,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         val callingViewModel = CallingViewModel(
             mockAppStore,
             mockCallingViewModelProvider,
-            mockNetworkManager
+            mockNetworkManager,
+            true
         )
 
         val newState = AppReduxState("", false, false)
