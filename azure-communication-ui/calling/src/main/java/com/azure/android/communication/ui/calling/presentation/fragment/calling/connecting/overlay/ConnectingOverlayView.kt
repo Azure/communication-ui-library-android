@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby
+package com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay
 
 import android.content.Context
 import android.media.AudioManager
@@ -19,13 +19,13 @@ import com.azure.android.communication.ui.calling.implementation.R
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-internal class ConnectingLobbyOverlayView : LinearLayout {
+internal class ConnectingOverlayView : LinearLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     private lateinit var connectingProgressBar: ProgressBar
     private lateinit var overlayInfo: AppCompatTextView
-    private lateinit var viewModel: ConnectingLobbyOverlayViewModel
+    private lateinit var viewModel: ConnectingOverlayViewModel
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -35,18 +35,18 @@ internal class ConnectingLobbyOverlayView : LinearLayout {
 
     fun start(
         viewLifecycleOwner: LifecycleOwner,
-        viewModel: ConnectingLobbyOverlayViewModel,
+        viewModel: ConnectingOverlayViewModel,
     ) {
         this.viewModel = viewModel
 
         val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         // This checks before joining the call, the microphone is free to use or not
-        if (viewModel.getDisplayLobbyOverlayFlow().value && (audioManager.mode != AudioManager.MODE_NORMAL)) {
+        if (viewModel.getDisplayOverlayFlow().value && (audioManager.mode != AudioManager.MODE_NORMAL)) {
             viewModel.handleMicrophoneAccessFailed()
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getDisplayLobbyOverlayFlow().collect {
+            viewModel.getDisplayOverlayFlow().collect {
                 visibility = if (it) VISIBLE else GONE
             }
         }

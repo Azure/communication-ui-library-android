@@ -12,7 +12,6 @@ import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
-import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -53,7 +52,7 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
             // act
             viewModel.update(
                 PermissionStatus.GRANTED,
-                CallingState(CallingStatus.NONE, OperationStatus.NONE),
+                CallingState(CallingStatus.NONE),
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
                 2
@@ -101,7 +100,7 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
             // act
             viewModel.update(
                 PermissionStatus.DENIED,
-                CallingState(CallingStatus.NONE, OperationStatus.NONE),
+                CallingState(CallingStatus.NONE),
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
                 2
@@ -154,7 +153,7 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
             // act
             viewModel.update(
                 PermissionStatus.GRANTED,
-                CallingState(CallingStatus.CONNECTING, OperationStatus.NONE),
+                CallingState(CallingStatus.CONNECTING),
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
                 2
@@ -168,7 +167,7 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
             // act
             viewModel.update(
                 PermissionStatus.GRANTED,
-                CallingState(CallingStatus.NONE, OperationStatus.NONE),
+                CallingState(CallingStatus.NONE),
                 PermissionStatus.GRANTED,
                 CameraOperationalStatus.ON,
                 2
@@ -209,7 +208,7 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
             // act
             viewModel.update(
                 PermissionStatus.GRANTED,
-                CallingState(CallingStatus.NONE, OperationStatus.NONE),
+                CallingState(CallingStatus.NONE),
                 PermissionStatus.UNKNOWN,
                 CameraOperationalStatus.ON,
                 2
@@ -257,7 +256,7 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
             // act
             viewModel.update(
                 PermissionStatus.GRANTED,
-                CallingState(CallingStatus.NONE, OperationStatus.NONE),
+                CallingState(CallingStatus.NONE),
                 PermissionStatus.UNKNOWN,
                 CameraOperationalStatus.PENDING,
                 2

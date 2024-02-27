@@ -35,7 +35,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListView
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListView
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.ConnectingLobbyOverlayView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay.ConnectingOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
@@ -68,7 +68,7 @@ internal class CallingFragment :
     private lateinit var bannerView: BannerView
     private lateinit var errorInfoView: ErrorInfoView
     private lateinit var waitingLobbyOverlay: WaitingLobbyOverlayView
-    private lateinit var connectingLobbyOverlay: ConnectingLobbyOverlayView
+    private lateinit var connectingLobbyOverlay: ConnectingOverlayView
     private lateinit var holdOverlay: OnHoldOverlayView
     private lateinit var sensorManager: SensorManager
     private lateinit var powerManager: PowerManager

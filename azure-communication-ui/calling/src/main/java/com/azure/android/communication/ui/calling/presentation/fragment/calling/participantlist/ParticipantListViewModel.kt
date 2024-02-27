@@ -9,6 +9,8 @@ import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
+import com.azure.android.communication.ui.calling.redux.state.VisibilityState
+import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -36,7 +38,11 @@ internal class ParticipantListViewModel(private val dispatch: (Action) -> Unit) 
         false
     )
 
-    fun init(participantMap: Map<String, ParticipantInfoModel>, localUserState: LocalUserState, canShowLobby: Boolean) {
+    fun init(
+        participantMap: Map<String, ParticipantInfoModel>,
+        localUserState: LocalUserState,
+        canShowLobby: Boolean,
+    ) {
         val remoteParticipantList: List<ParticipantListCellModel> =
             participantMap.values.map {
                 getRemoteParticipantListCellModel(it)
@@ -47,7 +53,12 @@ internal class ParticipantListViewModel(private val dispatch: (Action) -> Unit) 
             MutableStateFlow(getLocalParticipantListCellModel(localUserState))
     }
 
-    fun update(participantMap: Map<String, ParticipantInfoModel>, localUserState: LocalUserState, canShowLobby: Boolean) {
+    fun update(
+        participantMap: Map<String, ParticipantInfoModel>,
+        localUserState: LocalUserState,
+        visibilityState: VisibilityState,
+        canShowLobby: Boolean
+    ) {
         val remoteParticipantList: MutableList<ParticipantListCellModel> =
             participantMap.values.map {
                 getRemoteParticipantListCellModel(it)
@@ -55,6 +66,9 @@ internal class ParticipantListViewModel(private val dispatch: (Action) -> Unit) 
         remoteParticipantListCellStateFlow.value = remoteParticipantList
 
         localParticipantListCellStateFlow.value = getLocalParticipantListCellModel(localUserState)
+
+        if (visibilityState.status != VisibilityStatus.VISIBLE)
+            closeParticipantList()
     }
 
     private fun participantListRemoteParticipantVisibility(
