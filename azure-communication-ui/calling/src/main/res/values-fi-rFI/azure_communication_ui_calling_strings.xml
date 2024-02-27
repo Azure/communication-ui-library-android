@@ -19,9 +19,9 @@
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Mikrofoni ei käytössä</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">Mikrofoni käytössä</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">Liity puheluun</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Ääni on poistettu käytöstä. Ota käyttöön siirtymällä Asetuksiin ja sallimalla käyttö. Sinun on
+    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Ääni on poistettu käytöstä. Ota se käyttöön siirtymällä asetuksiin ja sallimalla käyttö. Sinun on
         otettava ääni käyttöön aloittaaksesi tämän puhelun.</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Kamerasi on poistettu käytöstä. Ota käyttöön siirtymällä Asetuksiin
+    <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Kamerasi on poistettu käytöstä. Ota se käyttöön siirtymällä asetuksiin
         ja sallimalla käyttö.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Vaaditut käyttöoikeudet</string>
     <string name="azure_communication_ui_calling_setup_view_go_to_settings">Siirry asetuksiin</string>
@@ -63,32 +63,33 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">Lisää</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">Jaa diagnostiikkatiedot</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnostiikkatiedot</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Tallennus on aloitettu.</b> Liittymällä annat
-        suostumuksen sille, että tämä kokous litteroidaan.
-        <u>Tietosuojakäytäntö</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Tallennus on aloitettu.</b> Liittymällä
+        annat suostumuksesi kokouksen litteroimiseen.
+         <u>Tietosuojakäytäntö</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Tallennetta tallennetaan.</b> Tallennus on pysäytetty.
          <u>Lisätietoja</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Litterointi on alkanut.</b> Liittymällä
-        annat suostumuksesi tämän kokouksen litteroimiseen. <u>Tietosuojakäytäntö</u></string>
+        annat suostumuksesi kokouksen litteroimiseen. <u>Tietosuojakäytäntö</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Litterointia tallennetaan.</b> Litterointi
-        on pysäytetty. <u> Lisätietoja</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Tallennus ja litterointi on aloitettu.
-        </b> Liittymällä annat suostumuksesi kokouksen litteroimiseen
-        .<u>Tietosuojakäytäntö</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Tallennus ja litterointi tallennetaan
-        </b> Tallennus ja litterointi on pysäytetty. <u>Lisätietoja</u></string>
+        on pysäytetty. <u>Lisätietoja</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Tallennus ja litterointi on
+        aloitettu.</b> Liittymällä annat suostumuksesi kokouksen litteroimiseen
+        . <u>Tietosuojakäytäntö</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Tallennus ja litterointi
+        tallennetaan.</b> Tallennus ja litterointi on pysäytetty. <u>Lisätietoja</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Tallennus on pysäytetty.</b> Sinä
-        litteroit nyt vain tämän kokouksen. <u>Tietosuojakäytäntö</u></string>
+        ainoastaan litteroit nyt tätä kokousta. <u>Tietosuojakäytäntö</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Litterointi on pysäytetty.
-        </b> Olet nyt tallentamassa vain tätä kokousta.<u>Tietosuojakäytäntö</u></string>
+    </b> Sinä ainoastaan tallennat nyt tätä kokousta. <u>Tietosuojakäytäntö</u></string>
     <string name="azure_communication_ui_calling_view_link">Linkki</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Hylkää</string>
     <string name="azure_communication_ui_calling_alert_title">Ilmoitus</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Sinut poistettiin puhelusta virheen vuoksi.</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">Sinut on ehkä poistettu kokouksesta tai yhteys katkesi. Yritä liittyä uudelleen.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Puheluun liittyminen ei onnistu virheen vuoksi.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Sinut poistettiin puhelusta.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Puheluun liittyminen ei onnistu. Tarkista verkkoyhteys.</string>
@@ -102,4 +103,20 @@
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s on liittynyt kokoukseen</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s poistui kokouksesta</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">Olet liittynyt puheluun</string>
+
+    <!-- Call Diagnostics -->
+    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Verkkoyhteys katkesi</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">Yhdistetään uudelleen...</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">Verkkoyhteyden laatu on huono</string>
+    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">Sinut on mykistetty</string>
+    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">Mikrofoni ei toimi odotetulla tavalla</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">Kameraa ei voi käynnistää</string>
+    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">Kamera lakkasi toimimasta</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">Kaiutin ei toimi odotetulla tavalla</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">Kaiutinta ei löydy</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">Mikrofonia ei löydy</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">Kaiuttimesi on vaimennettu</string>
+
+    <!--    Upper Message Bar Notification -->
+    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Hylkää</string>
 </resources>

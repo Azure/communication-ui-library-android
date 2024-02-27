@@ -63,6 +63,7 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">Altro</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">Condividi informazioni di diagnostica</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Informazioni di diagnostica</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>La registrazione è stata avviata.</b> Partecipando,
@@ -102,4 +103,20 @@
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s partecipa alla riunione</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s ha abbandonato la riunione</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">Partecipi alla chiamata</string>
+
+    <!-- Call Diagnostics -->
+    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Rete persa</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">Riconnessione in corso...</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">La qualità della rete è bassa</string>
+    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">Microfono disattivato</string>
+    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">Il microfono non funziona come previsto</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">Impossibile avviare la fotocamera</string>
+    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">La fotocamera ha smesso di funzionare</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">L\'altoparlante non funziona come previsto</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">Impossibile individuare altoparlante</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">Impossibile individuare il microfono</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">L\'altoparlante è disattivato</string>
+
+    <!--    Upper Message Bar Notification -->
+    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Ignora</string>
 </resources>

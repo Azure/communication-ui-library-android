@@ -63,6 +63,7 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">Diğer</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">Tanılama bilgilerini paylaş</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Tanılama bilgileri</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Kayıt başlatıldı.</b> Katılarak,
@@ -102,4 +103,20 @@
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s toplantıya katıldı</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s toplantıdan ayrıldı</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">Aramaya katıldınız</string>
+
+    <!-- Call Diagnostics -->
+    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Ağ bağlantısı kesildi</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">Yeniden bağlanıyor...</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">Ağ kalitesi düşük</string>
+    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">Sesiniz kapatıldı</string>
+    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">Mikrofon beklendiği gibi çalışmıyor</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">Kamera başlatılamıyor</string>
+    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">Kamera çalışmayı durdurdu</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">Hoparlör beklendiği gibi çalışmıyor</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">Hoparlör bulunamıyor</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">Mikrofon bulunamıyor</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">Hoparlörün sesi kapatıldı</string>
+
+    <!--    Upper Message Bar Notification -->
+    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Kapat</string>
 </resources>

@@ -63,24 +63,25 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">Mer</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">Dela diagnostikinformation</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnostikinformation</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Inspelning har startat.</b> Genom att ansluta
-        ger du medgivande för att det här mötet transkriberas.
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Postning har startat.</b> Genom att ansluta är du
+        ge medgivande för att det här mötet ska transkriberas.
          <u>Sekretesspolicy</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Inspelningen sparas.</b> Inspelningen har stoppats.
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Postning sparas.</b> Inspelningen har stoppats.
          <u>Läs mer</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Transcription har startat.</b> Genom att gå med ger du
-        medgivande för att det här mötet transkriberas. <u>Sekretesspolicy</u></string>
+        samtycker till att det här mötet transkriberas. <u>Sekretesspolicy</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Transkription sparas.</b> Transkription
         har stoppats. <u>Läs mer</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Inspelning och transkription har
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Inspelning och transkription har 
         startat.</b> Genom att ansluta ger du ditt medgivande till att det här mötet transkriberas
         . <u>Sekretesspolicy</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Inspelning och transkription 
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Inspelning och transkription
         sparas.</b> Inspelning och transkription har stoppats. <u>Läs mer</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Inspelning har stoppats.</b> Du
-        transkriberar nu bara mötet. <u>Privacy-princip</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Postningen har stoppats.</b> Du
+        transkriberar nu bara det här mötet. <u>Sekretesspolicy</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Transkription har stoppats.
     </b> Du spelar nu bara in det här mötet. <u>Sekretesspolicy</u></string>
     <string name="azure_communication_ui_calling_view_link">Länk</string>
@@ -88,7 +89,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Stäng</string>
     <string name="azure_communication_ui_calling_alert_title">Avisering</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Du togs bort från samtalet på grund av ett fel.</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">Du kan ha tagits bort från mötet eller förlorat anslutningen. Försök att ansluta igen.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Det gick inte att ansluta till samtalet på grund av ett fel.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Du togs bort från samtalet.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Det går inte att ansluta till samtalet. Kontrollera nätverksanslutningen.</string>
@@ -102,4 +103,20 @@
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s har anslutit till mötet</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s har lämnat mötet</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">Du har anslutit till mötet</string>
+
+    <!-- Call Diagnostics -->
+    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Nätverket bröts</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">Ansluter igen...</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">Nätverkskvaliteten är låg</string>
+    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">Ditt ljud är avstängt</string>
+    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">Mikrofonen fungerar inte som förväntat</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">Det går inte att starta kameran</string>
+    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">Kameran slutade fungera</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">Högtalaren fungerar inte som förväntat</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">Det gick inte att hitta högtalaren</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">Det gick inte att hitta mikrofonen</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">Högtalaren är avstängd</string>
+
+    <!--    Upper Message Bar Notification -->
+    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Stäng</string>
 </resources>

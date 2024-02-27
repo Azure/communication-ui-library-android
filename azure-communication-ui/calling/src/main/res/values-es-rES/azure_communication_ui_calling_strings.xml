@@ -63,15 +63,16 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">Más</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">Compartir información de diagnóstico</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Información de diagnóstico</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Se ha iniciado la grabación.</b> Al unirse, está
-        dando su consentimiento para que se transcriba esta reunión.
-        <u>Directiva de privacidad</u></string>
+        da su consentimiento para que se transcriba esta reunión.
+         <u>Directiva de privacidad</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>La grabación se está guardando.</b> La grabación se ha detenido.
          <u>Obtener más información</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Se ha iniciado la transcripción.</b> Al unirse, 
-        está dando su consentimiento para que se transcriba esta reunión. <u>Directiva de privacidad</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Se ha iniciado la transcripción.</b> Al unirse,
+        da su consentimiento para que se transcriba esta reunión. <u>Directiva de privacidad</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Se está guardando la transcripción.</b>La transcripción
         se ha detenido. <u>Obtener más información</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>La grabación y transcripción han
@@ -80,15 +81,15 @@
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>La grabación y transcripción se
         están guardando.</b> Se detuvo la grabación y transcripción. <u>Obtener más información</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>La grabación se ha detenido.</b> Ahora
-        solo está transcribiendo esta reunión. <u>Directiva de privacidad</u></string>
+        ahora solo está transcribiendo esta reunión. <u>Directiva de privacidad</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>La transcripción se ha detenido.
-    </b> Ahora solo está grabando esta reunión. <u>Directiva de privacidad</u></string>
+    </b> Solo está grabando esta reunión. <u>Directiva de privacidad</u></string>
     <string name="azure_communication_ui_calling_view_link">Vínculo</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Descartar</string>
     <string name="azure_communication_ui_calling_alert_title">Alerta</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Se le ha quitado de la llamada debido a un error.</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">Puede que se le haya eliminado de la reunión o que haya perdido la conexión. Intente unirse de nuevo.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">No se puede unir a la llamada debido a un error.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Te han quitado de la llamada.</string>
     <string name="azure_communication_ui_calling_no_connection_available">No se puede unir a la llamada. Comprueba la conexión de red.</string>
@@ -102,4 +103,20 @@
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s se ha unido a la reunión</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s ha abandonado la reunión</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">Te has unido a la llamada.</string>
+
+    <!-- Call Diagnostics -->
+    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Se perdió la red</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">Reconectando...</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">La calidad de la red es baja.</string>
+    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">Está silenciado</string>
+    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">El micrófono no funciona como se esperaba</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">No se puede iniciar la cámara</string>
+    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">La cámara dejó de funcionar</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">El altavoz no funciona como se esperaba</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">No se puede encontrar el altavoz</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">No se puede encontrar el micrófono</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">El altavoz está silenciado</string>
+
+    <!--    Upper Message Bar Notification -->
+    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Descartar</string>
 </resources>

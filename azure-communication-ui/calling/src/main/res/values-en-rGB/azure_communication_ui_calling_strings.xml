@@ -63,6 +63,7 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">More</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">Share diagnostics info</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnostics info</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Recording has started.</b> By joining, you are
@@ -88,7 +89,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Dismiss</string>
     <string name="azure_communication_ui_calling_alert_title">Alert</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">You were removed from the call due to an error.</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">You may have been removed from the meeting, or lost your connection. Try to join again.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Unable to join the call due to an error.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">You were removed from the call.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Unable to join call. Check your network connection.</string>
@@ -102,4 +103,20 @@
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s has joined the meeting</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s has left the meeting</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">You have joined the call</string>
+
+    <!-- Call Diagnostics -->
+    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Network was lost</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">Reconnecting...</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">Network quality is low</string>
+    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">You are muted</string>
+    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">Microphone isn\'t working as expected</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">Unable to start camera</string>
+    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">Camera stopped working</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">Speaker isn\'t working as expected</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">Unable to locate speaker</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">Unable to locate microphone</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">Speaker is muted</string>
+
+    <!--    Upper Message Bar Notification -->
+    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Dismiss</string>
 </resources>
