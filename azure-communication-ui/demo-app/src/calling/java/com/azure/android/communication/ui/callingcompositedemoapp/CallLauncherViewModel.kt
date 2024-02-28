@@ -122,6 +122,7 @@ class CallLauncherViewModel : ViewModel() {
             .localization(CallCompositeLocalizationOptions(locale, SettingsFeatures.getLayoutDirection()))
             .setupScreenOrientation(setupScreenOrientation)
             .callScreenOrientation(callScreenOrientation)
+            .displayLeaveCallConfirmation(SettingsFeatures.getDisplayLeaveCallConfirmationValue())
 
         if (AdditionalFeatures.secondaryThemeFeature.active)
             callCompositeBuilder.theme(R.style.MyCompany_Theme_Calling)

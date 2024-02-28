@@ -17,6 +17,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.CALL_TITLE
 import com.azure.android.communication.ui.callingcompositedemoapp.CAMERA_ON_BY_DEFAULT_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CALL_SCREEN_ORIENTATION_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LANGUAGE_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_MIC_ON_BY_DEFAULT_VALUE
@@ -24,6 +25,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_PERSON
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_RTL_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SETUP_SCREEN_ORIENTATION_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SKIP_SETUP_SCREEN_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.END_CALL_ON_BY_DEFAULT_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY
@@ -162,6 +164,11 @@ class SettingsFeatures {
                 SETUP_SCREEN_ORIENTATION_SHARED_PREF_KEY,
                 DEFAULT_SETUP_SCREEN_ORIENTATION_VALUE
             )
+        }
+
+        @JvmStatic
+        fun getDisplayLeaveCallConfirmationValue(): Boolean {
+            return sharedPrefs.getBoolean(DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE, DEFAULT_DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE)
         }
     }
 }
