@@ -3,6 +3,6 @@
    Licensed under the MIT License.
   -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/azure_communication_ui_calling_ic_fluent_people_24_focussed"  android:state_focused="true"  />
+    <item android:drawable="@drawable/azure_communication_ui_calling_ic_fluent_people_24_focused"  android:state_focused="true"  />
     <item android:drawable="@drawable/azure_communication_ui_calling_ic_fluent_people_24_regular" />
 </selector>

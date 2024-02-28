@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/azure_communication_ui_calling_ic_fluent_arrow_left_24_filled" android:state_enabled="false" />
+    <item android:drawable="@drawable/azure_communication_ui_calling_ic_fluent_arrow_left_24_focused"  android:state_focused="true"  />
+    <item android:drawable="@drawable/azure_communication_ui_calling_ic_fluent_arrow_left_24_filled" />
+</selector>

@@ -10,15 +10,19 @@ import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
 import android.view.WindowManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.R
@@ -186,7 +190,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 )
             )
         )
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_left_24_filled)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.azure_communication_ui_calling_aarow_left_selector)
     }
 
     private fun configureLocalization() {
@@ -271,6 +275,8 @@ internal class CallCompositeActivity : AppCompatActivity() {
             NavigationStatus.SETUP -> {
                 notificationService.removeNotification()
                 supportActionBar?.show()
+                supportActionBar?.title = localOptions?.setupScreenViewData?.title
+                actionBarAccessibilitySetup()
                 val setupScreenOrientation: Int? = getScreenOrientation(configuration.setupScreenOrientation)
                 requestedOrientation =
                     when {
@@ -280,6 +286,28 @@ internal class CallCompositeActivity : AppCompatActivity() {
                     }
                 launchFragment(SetupFragment::class.java.name)
             }
+        }
+    }
+
+    private fun actionBarAccessibilitySetup() {
+        try {
+            findViewById<View>(R.id.action_bar)?.let { actionBarView ->
+                val viewGroup = actionBarView as ViewGroup
+                val buttonView = viewGroup.children.filter { it is AppCompatImageButton }.first()
+                buttonView.setOnKeyListener { _, keyCode, event ->
+                    if (event.action == KeyEvent.ACTION_DOWN && (keyCode == KeyEvent.KEYCODE_DPAD_DOWN || keyCode == KeyEvent.KEYCODE_DPAD_RIGHT)) {
+                        val videoLayout = findViewById<View>(R.id.azure_communication_ui_setup_video_layout)
+                        videoLayout?.requestFocus()
+                    }
+                    false
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    buttonView.focusable = View.FOCUSABLE
+                    buttonView.isFocusableInTouchMode = true
+                }
+            }
+        } catch (e: Exception) {
+            logger.warning("Error setting focus for action bar")
         }
     }
 
