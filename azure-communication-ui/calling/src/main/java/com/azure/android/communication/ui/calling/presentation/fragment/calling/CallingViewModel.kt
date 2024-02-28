@@ -258,7 +258,10 @@ internal class CallingViewModel(
                 )
             )
 
-            bannerViewModel.update(state.callState)
+            bannerViewModel.update(
+                state.callState,
+                state.visibilityState,
+            )
         }
 
         confirmLeaveOverlayViewModel.update(state.visibilityState)
