@@ -307,7 +307,7 @@ internal class CallCompositeActivity : AppCompatActivity() {
                 }
             }
         } catch (e: Exception) {
-            logger.warning("Error setting focus for action bar")
+            logger.error("Error setting focus for action bar")
         }
     }
 
