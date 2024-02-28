@@ -358,7 +358,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             verify(mockParticipantGridViewModel, times(1)).update(any(), any(), any(), any(), any())
             verify(mockFloatingHeaderViewModel, times(1)).update(any())
             verify(mockParticipantListViewModel, times(1)).update(any(), any(), any(), any())
-            verify(mockBannerViewModel, times(1)).update(any())
+            verify(mockBannerViewModel, times(1)).update(any(), any())
             verify(mockControlBarViewModel, times(2)).update(
                 any(),
                 any(),
@@ -459,7 +459,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             verify(mockParticipantGridViewModel, times(0)).update(any(), any(), any(), any(), any())
             verify(mockFloatingHeaderViewModel, times(0)).update(any())
             verify(mockParticipantListViewModel, times(0)).update(any(), any(), any(), any())
-            verify(mockBannerViewModel, times(0)).update(any())
+            verify(mockBannerViewModel, times(0)).update(any(), any())
             verify(mockControlBarViewModel, times(2)).update(
                 any(),
                 any(),
@@ -1078,7 +1078,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             times(1)
         ).update(argThat { status -> status == CallingStatus.CONNECTED }, argThat { map -> map.size == lobbyParticipantCount }, argThat { value -> value == true })
 
-        verify(mockBannerViewModel, times(1)).update(any())
+        verify(mockBannerViewModel, times(1)).update(any(), any())
         verify(mockControlBarViewModel, times(2)).update(
             any(),
             any(),
