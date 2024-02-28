@@ -213,12 +213,6 @@ class CallLauncherViewModel : ViewModel() {
                     SettingsFeatures.getLayoutDirection()
                 )
             )
-            .localization(
-                CallCompositeLocalizationOptions(
-                    locale,
-                    SettingsFeatures.getLayoutDirection()
-                )
-            )
             .setupScreenOrientation(setupScreenOrientation)
             .callScreenOrientation(callScreenOrientation)
 
