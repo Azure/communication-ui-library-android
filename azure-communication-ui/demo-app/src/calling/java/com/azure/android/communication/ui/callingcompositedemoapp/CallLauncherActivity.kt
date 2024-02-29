@@ -13,9 +13,9 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.common.CommunicationTokenCredential
-import com.azure.android.communication.ui.calling.utilities.launchAll
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.FeatureFlags
@@ -27,6 +27,7 @@ import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.UUID
 
@@ -294,6 +295,15 @@ class CallLauncherActivity : AppCompatActivity() {
             EndCompositeButtonView.get(this).hide()
         } else {
             EndCompositeButtonView.get(this).show(callLauncherViewModel)
+        }
+    }
+}
+
+// We also type launch way to much, this will let it be clean.
+internal fun LifecycleCoroutineScope.launchAll(vararg blocks: suspend () -> Unit) {
+    launch {
+        blocks.forEach { block ->
+            launch { block() }
         }
     }
 }
