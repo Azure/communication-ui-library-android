@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
@@ -220,20 +221,33 @@ internal class ControlBarView : ConstraintLayout {
         endCallButton.setOnClickListener {
             viewModel.requestCallEnd()
         }
-        micToggle.setOnClickListener {
-            if (micToggle.isSelected) {
-                viewModel.turnMicOff()
-            } else {
-                viewModel.turnMicOn()
-            }
-
-            if (isAndroidTV(context)) {
-                // Steal focus back after 1 frame
-                // This isn't ideal, focus is lost because button is enabled->disabled->enabled
-                // As there is intermediary "camera toggling/audio toggling" state
-                postDelayed({ micToggle.requestFocus() }, 33)
+        micToggle.setOnTouchListener { _, event ->
+            when(event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    viewModel.turnMicOn()
+                    true
+                }
+                MotionEvent.ACTION_UP -> {
+                    viewModel.turnMicOff()
+                    false
+                }
+                else -> false
             }
         }
+//        micToggle.setOnClickListener {
+//            if (micToggle.isSelected) {
+//                viewModel.turnMicOff()
+//            } else {
+//                viewModel.turnMicOn()
+//            }
+//
+//            if (isAndroidTV(context)) {
+//                // Steal focus back after 1 frame
+//                // This isn't ideal, focus is lost because button is enabled->disabled->enabled
+//                // As there is intermediary "camera toggling/audio toggling" state
+//                postDelayed({ micToggle.requestFocus() }, 33)
+//            }
+//        }
         cameraToggle.setOnClickListener {
             if (cameraToggle.isSelected) {
                 viewModel.turnCameraOff()
