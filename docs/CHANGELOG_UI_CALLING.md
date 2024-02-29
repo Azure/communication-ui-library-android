@@ -1,10 +1,9 @@
 # Azure Communication UI Calling Release History
 
-## 1.6.0 (2023-02-05)
+## 1.6.0 (2023-02-29)
 - Audio Only Mode
 - Enhanced Supportability
-- Teams Lobby Admit
-- PiP
+- Multitasking with Picture-in-Picture support
 
 ## 1.5.0 (2023-12-04)
 

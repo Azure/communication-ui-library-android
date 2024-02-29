@@ -30,7 +30,7 @@ internal fun <T> Pair<LifecycleCoroutineScope, Store<T>>.collect(
     second.collect(first, function)
 
 // We also type launch way to much, this will let it be clean.
-fun LifecycleCoroutineScope.launchAll(vararg blocks: suspend () -> Unit) {
+internal fun LifecycleCoroutineScope.launchAll(vararg blocks: suspend () -> Unit) {
     launch {
         blocks.forEach { block ->
             launch { block() }
