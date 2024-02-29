@@ -230,7 +230,7 @@ internal class ControlBarView : ConstraintLayout {
             viewModel.requestCallEnd()
         }
         micToggle.setOnTouchListener { _, event ->
-            when(event.action) {
+            when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     viewModel.turnMicOn()
                     true
