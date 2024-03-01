@@ -64,6 +64,7 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">Lisää</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">Jaa diagnostiikkatiedot</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnostiikkatiedot</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Tallennus on aloitettu.</b> Liittymällä
@@ -89,7 +90,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Hylkää</string>
     <string name="azure_communication_ui_calling_alert_title">Ilmoitus</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Sinut poistettiin puhelusta virheen vuoksi.</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">Sinut on ehkä poistettu kokouksesta tai yhteys katkesi. Yritä liittyä uudelleen.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Puheluun liittyminen ei onnistu virheen vuoksi.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Sinut poistettiin puhelusta.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Puheluun liittyminen ei onnistu. Tarkista verkkoyhteys.</string>
