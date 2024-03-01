@@ -10,7 +10,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
@@ -110,13 +110,14 @@ internal class AudioDeviceListView(
                         ),
                         null,
                         context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
-                        enabled = initialDevice == AudioDeviceSelectionStatus.RECEIVER_SELECTED,
+                        isChecked = initialDevice == AudioDeviceSelectionStatus.RECEIVER_SELECTED,
                         null,
                         false,
-                    ) {
-                        viewModel.switchAudioDevice(AudioDeviceSelectionStatus.RECEIVER_REQUESTED)
-                        audioDeviceDrawer.dismiss()
-                    }
+                        onClickAction = {
+                            viewModel.switchAudioDevice(AudioDeviceSelectionStatus.RECEIVER_REQUESTED)
+                            audioDeviceDrawer.dismiss()
+                        }
+                    )
                 )
             }
 
@@ -134,13 +135,14 @@ internal class AudioDeviceListView(
                     ),
                     null,
                     context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
-                    enabled = initialDevice == AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                    isChecked = initialDevice == AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                     null,
                     false,
-                ) {
-                    viewModel.switchAudioDevice(AudioDeviceSelectionStatus.SPEAKER_REQUESTED)
-                    audioDeviceDrawer.dismiss()
-                }
+                    onClickAction = {
+                        viewModel.switchAudioDevice(AudioDeviceSelectionStatus.SPEAKER_REQUESTED)
+                        audioDeviceDrawer.dismiss()
+                    }
+                )
             )
 
             if (viewModel.audioStateFlow.value.bluetoothState.available) {
@@ -161,13 +163,14 @@ internal class AudioDeviceListView(
 
                         null,
                         context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
-                        enabled = initialDevice == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED,
+                        isChecked = initialDevice == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED,
                         null,
                         false,
-                    ) {
-                        viewModel.switchAudioDevice(AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED)
-                        audioDeviceDrawer.dismiss()
-                    }
+                        onClickAction = {
+                            viewModel.switchAudioDevice(AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED)
+                            audioDeviceDrawer.dismiss()
+                        }
+                    )
                 )
             }
             return bottomCellItems

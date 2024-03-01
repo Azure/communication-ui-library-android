@@ -13,6 +13,7 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
@@ -89,7 +90,12 @@ class CallLauncherActivity : AppCompatActivity() {
             }
 
             acsTokenText.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
                 }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -104,6 +110,9 @@ class CallLauncherActivity : AppCompatActivity() {
                 launch()
             }
 
+            showUIButton.setOnClickListener {
+                showUI()
+            }
             closeCompositeButton.setOnClickListener { callLauncherViewModel.close() }
 
             groupCallRadioButton.setOnClickListener {
@@ -123,28 +132,38 @@ class CallLauncherActivity : AppCompatActivity() {
                 showCallHistory()
             }
 
-            lifecycleScope.launch {
-                callLauncherViewModel.callCompositeCallStateStateFlow.collect {
-                    runOnUiThread {
-                        if (it.isNotEmpty()) {
-                            callStateText.text = it
-                            EndCompositeButtonView.get(application).updateText(it)
+            lifecycleScope.launchAll(
+                {
+                    callLauncherViewModel.callCompositeCallStateStateFlow.collect {
+                        runOnUiThread {
+                            if (it.isNotEmpty()) {
+                                callStateText.text = it
+                                EndCompositeButtonView.get(application).updateText(it)
+                            }
                         }
                     }
-                }
-            }
-
-            lifecycleScope.launch {
-                callLauncherViewModel.callCompositeExitSuccessStateFlow.collect {
-                    runOnUiThread {
-                        if (it &&
-                            SettingsFeatures.getReLaunchOnExitByDefaultOption()
-                        ) {
-                            launch()
+                },
+                {
+                    callLauncherViewModel.callCompositeExitSuccessStateFlow.collect {
+                        runOnUiThread {
+                            if (it &&
+                                SettingsFeatures.getReLaunchOnExitByDefaultOption()
+                            ) {
+                                launch()
+                            }
                         }
                     }
-                }
-            }
+                },
+                {
+                    callLauncherViewModel.userReportedIssueEventHandler.userIssuesFlow.collect {
+                        runOnUiThread {
+                            it?.apply {
+                                showAlert(this.userMessage)
+                            }
+                        }
+                    }
+                },
+            )
 
             if (BuildConfig.DEBUG) {
                 versionText.text = "${BuildConfig.VERSION_NAME}"
@@ -159,10 +178,6 @@ class CallLauncherActivity : AppCompatActivity() {
         EndCompositeButtonView.get(this).hide()
         EndCompositeButtonView.buttonView = null
         callLauncherViewModel.unsubscribe()
-
-        if (isFinishing) {
-            callLauncherViewModel.close()
-        }
     }
 
     // check whether new Activity instance was brought to top of stack,
@@ -222,6 +237,10 @@ class CallLauncherActivity : AppCompatActivity() {
         )
     }
 
+    private fun showUI() {
+        callLauncherViewModel.displayCallCompositeIfWasHidden(this)
+    }
+
     private fun showCallHistory() {
         val history = callLauncherViewModel
             .getCallHistory(this@CallLauncherActivity)
@@ -230,7 +249,8 @@ class CallLauncherActivity : AppCompatActivity() {
         val title = "Total calls: ${history.count()}"
         var message = "Last Call: none"
         history.lastOrNull()?.let {
-            message = "Last Call: ${it.callStartedOn.format(DateTimeFormatter.ofPattern("MMM dd 'at' hh:mm"))}"
+            message =
+                "Last Call: ${it.callStartedOn.format(DateTimeFormatter.ofPattern("MMM dd 'at' hh:mm"))}"
             it.callIds.forEach { callId ->
                 message += "\nCallId: $callId"
             }
@@ -251,6 +271,7 @@ class CallLauncherActivity : AppCompatActivity() {
             startActivity(settingIntent)
             true
         }
+
         else -> super.onOptionsItemSelected(item)
     }
 
@@ -274,6 +295,15 @@ class CallLauncherActivity : AppCompatActivity() {
             EndCompositeButtonView.get(this).hide()
         } else {
             EndCompositeButtonView.get(this).show(callLauncherViewModel)
+        }
+    }
+}
+
+// We also type launch way to much, this will let it be clean.
+internal fun LifecycleCoroutineScope.launchAll(vararg blocks: suspend () -> Unit) {
+    launch {
+        blocks.forEach { block ->
+            launch { block() }
         }
     }
 }

@@ -34,7 +34,7 @@ internal data class CallingStateWrapper(
         internal const val CALL_END_REASON_SUB_CODE_DECLINED = 5854
     }
 
-    internal fun toCallingStatus(): CallingStatus {
+    internal fun toCallStatus(): CallingStatus {
         return when (callState) {
             CallState.CONNECTED -> CallingStatus.CONNECTED
             CallState.CONNECTING -> CallingStatus.CONNECTING

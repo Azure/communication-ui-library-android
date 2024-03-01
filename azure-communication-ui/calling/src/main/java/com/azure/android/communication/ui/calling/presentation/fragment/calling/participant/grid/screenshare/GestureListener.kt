@@ -98,7 +98,7 @@ internal class GestureListener(
     }
 
     override fun onScroll(
-        e1: MotionEvent,
+        e1: MotionEvent?,
         e2: MotionEvent,
         distanceX: Float,
         distanceY: Float,
@@ -109,7 +109,7 @@ internal class GestureListener(
     override fun onLongPress(e: MotionEvent) {}
 
     override fun onFling(
-        e1: MotionEvent,
+        e1: MotionEvent?,
         e2: MotionEvent,
         velocityX: Float,
         velocityY: Float,

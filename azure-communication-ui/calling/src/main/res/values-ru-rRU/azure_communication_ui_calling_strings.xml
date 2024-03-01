@@ -2,7 +2,7 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--    Device-->
     <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Динамик</string>
@@ -44,6 +44,7 @@
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Ожидание присоединения других участников</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Звонок с 1 пользователем</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Звонок с несколькими (%1$d) людьми</string>
+    <string name="azure_communication_ui_calling_view_go_back">Назад</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(Я)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Участник без имени</string>
     <string name="azure_communication_ui_calling_view_leave_call">Покинуть звонок?</string>
@@ -104,6 +105,33 @@
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s покидает собрание</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">Вы присоединились к вызову</string>
 
+    <!--    Participant list-->
+    <string name="azure_communication_ui_calling_participant_list_in_call_n_people">Во время звонка (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">В зале ожидания (%1$d)</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Коснитесь дважды, чтобы допустить или отклонить участника</string>
+
+    <!--    Admit participant dialog-->
+    <string name="azure_communication_ui_calling_admit_name">Допустить %1$s?</string>
+    <string name="azure_communication_ui_calling_admit">Допустить</string>
+    <string name="azure_communication_ui_calling_decline">Отклонить</string>
+    <string name="azure_communication_ui_calling_admit_all">Допустить всех</string>
+
+    <!--    Lobby header-->
+    <string name="azure_communication_ui_calling_lobby_header_text">Люди ожидают присоединения</string>
+    <string name="azure_communication_ui_calling_lobby_header_icon_content_description">"Зал ожидания"</string>
+    <string name="azure_communication_ui_calling_lobby_header_view_participant_button">Просмотреть "зал ожидания"</string>
+    <string name="azure_communication_ui_calling_lobby_header_accessibility_label">Просмотреть "зал ожидания"</string>
+    <string name="azure_communication_ui_calling_lobby_header_close_description">Закрыть "зал ожидания"</string>
+
+    <!--    Lobby error header-->
+    <string name="azure_communication_ui_calling_lobby_header_error_close_description">Ошибка закрытия "зала ожидания"</string>
+    <string name="azure_communication_ui_calling_lobby_error_content_description">Ошибка "зала ожидания"</string>
+    <string name="azure_communication_ui_calling_error_lobby_disabled_by_configuration">"Зал ожидания" отключен</string>
+    <string name="azure_communication_ui_calling_error_lobby_conversation_type_not_supported">"Зал ожидания" не поддерживается</string>
+    <string name="azure_communication_ui_calling_error_lobby_meeting_role_not_allowded">Ваша роль не может действовать в "зале ожидания"</string>
+    <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">Не удалось отклонить</string>
+    <string name="azure_communication_ui_calling_error_lobby_unknown">Ошибка действия "зала ожидания"</string>
+
     <!-- Call Diagnostics -->
     <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Сеть потеряна</string>
     <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">Повторное подключение…</string>
@@ -119,4 +147,15 @@
 
     <!--    Upper Message Bar Notification -->
     <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Закрыть</string>
+
+    <!--     Support Form -->
+    <string name="azure_communication_ui_calling_report_issue">Сообщить о проблеме</string>
+    <string name="azure_communication_ui_calling_report_issue_title">Сообщить о проблеме</string>
+    <string name="azure_communication_ui_calling_logs_attach_notice">Журналы будут вложены автоматически.</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label">Политика конфиденциальности</string>
+    <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Опишите свою проблему...</string>
+    <string name="azure_communication_ui_calling_cancel_button_label">Отмена</string>
+    <string name="azure_communication_ui_calling_attach_screenshot">Вложить снимок экрана</string>
+    <string name="azure_communication_ui_calling_report_a_problem_label">Сообщить о проблеме</string>
+    <string name="azure_communication_ui_calling_send_feedback_label">Отправить</string>
 </resources>

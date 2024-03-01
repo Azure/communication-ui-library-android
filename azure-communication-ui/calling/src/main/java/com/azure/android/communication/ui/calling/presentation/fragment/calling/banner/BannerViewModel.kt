@@ -5,6 +5,8 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.VisibilityState
+import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 
 internal class BannerViewModel {
@@ -12,8 +14,10 @@ internal class BannerViewModel {
     private var _bannerInfoTypeStateFlow: MutableStateFlow<BannerInfoType> =
         MutableStateFlow(BannerInfoType.BLANK)
     var bannerInfoTypeStateFlow = _bannerInfoTypeStateFlow
+
     private var _isOverlayDisplayedFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
     var isOverlayDisplayedFlow = _isOverlayDisplayedFlow
+
     private var _shouldShowBannerStateFlow = MutableStateFlow(false)
     var shouldShowBannerStateFlow = _shouldShowBannerStateFlow
 
@@ -21,6 +25,8 @@ internal class BannerViewModel {
     private var transcriptionState: ComplianceState = ComplianceState.OFF
 
     private var _displayedBannerType: BannerInfoType = BannerInfoType.BLANK
+    private var hideWhileInPip: Boolean = false
+
     var displayedBannerType: BannerInfoType
         get() = _displayedBannerType
         internal set(value) {
@@ -41,7 +47,17 @@ internal class BannerViewModel {
         _isOverlayDisplayedFlow.value = isOverlayDisplayed(callingStatus)
     }
 
-    fun update(callingState: CallingState) {
+    fun update(
+        callingState: CallingState,
+        visibilityState: VisibilityState,
+    ) {
+
+        if (hideWhileInPip && visibilityState.status == VisibilityStatus.VISIBLE) {
+            _shouldShowBannerStateFlow.value = true
+            hideWhileInPip = false
+            return
+        }
+
         val currentBannerInfoType = bannerInfoTypeStateFlow.value
         val newBannerInfoType =
             createBannerInfoType(callingState.isRecording, callingState.isTranscribing)
@@ -49,6 +65,13 @@ internal class BannerViewModel {
         if (newBannerInfoType != currentBannerInfoType) {
             bannerInfoTypeStateFlow.value = newBannerInfoType
             _shouldShowBannerStateFlow.value = true
+            hideWhileInPip = false
+        }
+
+        if (_shouldShowBannerStateFlow.value && visibilityState.status != VisibilityStatus.VISIBLE) {
+            _shouldShowBannerStateFlow.value = false
+            hideWhileInPip = true
+            return
         }
     }
 
@@ -57,6 +80,7 @@ internal class BannerViewModel {
     }
 
     fun dismissBanner() {
+        hideWhileInPip = false
         _shouldShowBannerStateFlow.value = false
         _displayedBannerType = BannerInfoType.BLANK
         resetStoppedStates()

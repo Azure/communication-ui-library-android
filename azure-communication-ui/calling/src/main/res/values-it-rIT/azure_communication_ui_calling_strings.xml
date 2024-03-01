@@ -2,7 +2,7 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--    Device-->
     <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Altoparlante</string>
@@ -44,6 +44,7 @@
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">In attesa di altri partecipanti</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Chiamata con 1 persona</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Chiamata con %1$d persone</string>
+    <string name="azure_communication_ui_calling_view_go_back">Indietro</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(me)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Partecipante senza nome</string>
     <string name="azure_communication_ui_calling_view_leave_call">Abbandona la chiamata?</string>
@@ -104,6 +105,33 @@
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s ha abbandonato la riunione</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">Partecipi alla chiamata</string>
 
+    <!--    Participant list-->
+    <string name="azure_communication_ui_calling_participant_list_in_call_n_people">Nella chiamata (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">In sala di attesa (%1$d)</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Tocca due volte per ammettere/rifiutare il partecipante</string>
+
+    <!--    Admit participant dialog-->
+    <string name="azure_communication_ui_calling_admit_name">Ammettere %1$s?</string>
+    <string name="azure_communication_ui_calling_admit">Ammetti</string>
+    <string name="azure_communication_ui_calling_decline">Rifiuta</string>
+    <string name="azure_communication_ui_calling_admit_all">Ammetti tutti</string>
+
+    <!--    Lobby header-->
+    <string name="azure_communication_ui_calling_lobby_header_text">Le persone stanno aspettando di partecipare</string>
+    <string name="azure_communication_ui_calling_lobby_header_icon_content_description">Sala di attesa</string>
+    <string name="azure_communication_ui_calling_lobby_header_view_participant_button">Visualizza la sala d\'attesa</string>
+    <string name="azure_communication_ui_calling_lobby_header_accessibility_label">Visualizza la sala d\'attesa</string>
+    <string name="azure_communication_ui_calling_lobby_header_close_description">Chiudi sala di attesa</string>
+
+    <!--    Lobby error header-->
+    <string name="azure_communication_ui_calling_lobby_header_error_close_description">Errore di chiusura della sala di attesa</string>
+    <string name="azure_communication_ui_calling_lobby_error_content_description">Errore sala di attesa</string>
+    <string name="azure_communication_ui_calling_error_lobby_disabled_by_configuration">La sala di attesa è stata disabilitata</string>
+    <string name="azure_communication_ui_calling_error_lobby_conversation_type_not_supported">Sala di attesa non supportata</string>
+    <string name="azure_communication_ui_calling_error_lobby_meeting_role_not_allowded">Il tuo ruolo non può agire nella sala di attesa</string>
+    <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">Non è stato possibile rifiutare</string>
+    <string name="azure_communication_ui_calling_error_lobby_unknown">Errore azione sala di attesa</string>
+
     <!-- Call Diagnostics -->
     <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Rete persa</string>
     <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">Riconnessione in corso...</string>
@@ -119,4 +147,15 @@
 
     <!--    Upper Message Bar Notification -->
     <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Ignora</string>
+
+    <!--     Support Form -->
+    <string name="azure_communication_ui_calling_report_issue">Segnala problema</string>
+    <string name="azure_communication_ui_calling_report_issue_title">Segnala problema</string>
+    <string name="azure_communication_ui_calling_logs_attach_notice">I log verranno allegati automaticamente.</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label">Informativa sulla privacy</string>
+    <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Descrivi il problema qui...</string>
+    <string name="azure_communication_ui_calling_cancel_button_label">Annulla</string>
+    <string name="azure_communication_ui_calling_attach_screenshot">Allega screenshot</string>
+    <string name="azure_communication_ui_calling_report_a_problem_label">Segnala un problema</string>
+    <string name="azure_communication_ui_calling_send_feedback_label">Invia</string>
 </resources>

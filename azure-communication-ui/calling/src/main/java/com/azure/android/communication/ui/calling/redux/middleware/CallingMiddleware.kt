@@ -13,6 +13,7 @@ import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.action.LifecycleAction
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
+import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandler
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
@@ -89,6 +90,15 @@ internal class CallingMiddlewareImpl(
                 }
                 is ErrorAction.EmergencyExit -> {
                     callingMiddlewareActionHandler.exit(store)
+                }
+                is ParticipantAction.AdmitAll -> {
+                    callingMiddlewareActionHandler.admitAll(store)
+                }
+                is ParticipantAction.Admit -> {
+                    callingMiddlewareActionHandler.admit(action.userIdentifier, store)
+                }
+                is ParticipantAction.Decline -> {
+                    callingMiddlewareActionHandler.decline(action.userIdentifier, store)
                 }
             }
             next(action)
