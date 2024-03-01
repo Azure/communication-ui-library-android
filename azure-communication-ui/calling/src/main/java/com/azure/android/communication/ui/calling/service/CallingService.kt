@@ -4,6 +4,8 @@
 package com.azure.android.communication.ui.calling.service
 
 import com.azure.android.communication.ui.calling.logger.Logger
+import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
+import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
@@ -20,10 +22,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.io.File
 
 internal class CallingService(
     private val callingSdk: CallingSDK,
@@ -65,6 +68,18 @@ internal class CallingService(
         return callingSdk.switchCameraAsync()
     }
 
+    fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?> {
+        return callingSdk.admitAll()
+    }
+
+    fun admit(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
+        return callingSdk.admit(userIdentifier)
+    }
+
+    fun decline(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
+        return callingSdk.decline(userIdentifier)
+    }
+
     fun turnMicOff(): CompletableFuture<Void> {
         return callingSdk.turnOffMicAsync()
     }
@@ -86,6 +101,10 @@ internal class CallingService(
 
     fun getParticipantsInfoModelSharedFlow(): SharedFlow<Map<String, ParticipantInfoModel>> {
         return participantsInfoModelSharedFlow
+    }
+
+    fun getLocalParticipantRoleSharedFlow(): SharedFlow<CallCompositeInternalParticipantRole?> {
+        return callingSdk.getLocalParticipantRoleSharedFlow()
     }
 
     fun getDominantSpeakersSharedFlow(): SharedFlow<List<String>> {
@@ -150,7 +169,7 @@ internal class CallingService(
             callingSdk.getCallingStateWrapperSharedFlow().collect {
                 logger?.debug(it.toString())
                 val callStateError = it.asCallStateError(currentStatus = callingStatus)
-                callingStatus = it.toCallingStatus()
+                callingStatus = it.toCallStatus()
                 callInfoModelSharedFlow.emit(CallInfoModel(callingStatus, callStateError))
             }
         }
@@ -213,4 +232,6 @@ internal class CallingService(
 
         return callingSdk.startCall(cameraState, audioState)
     }
+
+    fun getLogFiles(): List<File> = callingSdk.getLogFiles()
 }

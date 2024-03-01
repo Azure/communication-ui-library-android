@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.models;
 
 import java.util.List;
+
 import org.threeten.bp.OffsetDateTime;
 
 /**
@@ -20,6 +21,7 @@ public class CallCompositeCallHistoryRecord {
 
     /**
      * Get offset date call started on.
+     *
      * @return
      */
     public OffsetDateTime getCallStartedOn() {
@@ -28,9 +30,18 @@ public class CallCompositeCallHistoryRecord {
 
     /**
      * Call Id list associated with particular call.
+     *
      * @return
      */
     public List<String> getCallIds() {
         return callIds;
+    }
+
+    @Override
+    public String toString() {
+        return "CallCompositeCallHistoryRecord{"
+               + "callStartedOn=" + callStartedOn
+               + ", callIds=" + callIds
+               + '}';
     }
 }

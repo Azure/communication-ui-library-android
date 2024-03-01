@@ -12,6 +12,8 @@ import com.azure.android.communication.ui.calling.handlers.CallStateHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.logger.Logger
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
+import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactory
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactoryImpl
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
@@ -51,6 +53,8 @@ import com.azure.android.communication.ui.calling.redux.reducer.Reducer
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
+import com.azure.android.communication.ui.calling.presentation.manager.MultitaskingManager
+import com.azure.android.communication.ui.calling.redux.reducer.PipReducerImpl
 import com.azure.android.communication.ui.calling.service.CallHistoryService
 import com.azure.android.communication.ui.calling.service.CallHistoryServiceImpl
 import com.azure.android.communication.ui.calling.service.NotificationService
@@ -58,14 +62,18 @@ import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKEventHandler
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKWrapper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
+import java.lang.ref.WeakReference
 
 internal class DependencyInjectionContainerImpl(
+    private val instanceId: Int,
     private val parentContext: Context,
     override val callComposite: CallComposite,
     private val customCallingSDK: CallingSDK?,
     private val customVideoStreamRendererFactory: VideoStreamRendererFactory?,
     private val customCoroutineContextProvider: CoroutineContextProvider?,
 ) : DependencyInjectionContainer {
+
+    override var callCompositeActivityWeakReference: WeakReference<CallCompositeActivity> = WeakReference(null)
 
     override val configuration by lazy {
         callComposite.getConfig()
@@ -136,6 +144,7 @@ internal class DependencyInjectionContainerImpl(
     override val debugInfoManager: DebugInfoManager by lazy {
         DebugInfoManagerImpl(
             callHistoryRepository,
+            getLogFiles = callingService::getLogFiles,
         )
     }
 
@@ -172,6 +181,10 @@ internal class DependencyInjectionContainerImpl(
         LifecycleManagerImpl(appStore)
     }
 
+    override val multitaskingManager by lazy {
+        MultitaskingManager(appStore, configuration)
+    }
+
     override val appStore by lazy {
         AppStore(
             initialState,
@@ -182,7 +195,7 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val notificationService by lazy {
-        NotificationService(parentContext, appStore)
+        NotificationService(parentContext, appStore, configuration, instanceId)
     }
 
     override val remoteParticipantHandler by lazy {
@@ -201,9 +214,11 @@ internal class DependencyInjectionContainerImpl(
     // Initial State
     private val initialState by lazy {
         AppReduxState(
-            configuration.callConfig?.displayName,
-            localOptions?.isCameraOn == true,
-            localOptions?.isMicrophoneOn == true
+            displayName = configuration.callConfig?.displayName,
+            cameraOnByDefault = localOptions?.isCameraOn ?: false,
+            microphoneOnByDefault = localOptions?.isMicrophoneOn ?: false,
+            avMode = localOptions?.audioVideoMode ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+            skipSetupScreen = localOptions?.isSkipSetupScreen ?: false,
         )
     }
 
@@ -216,6 +231,7 @@ internal class DependencyInjectionContainerImpl(
     private val errorReducer get() = ErrorReducerImpl()
     private val navigationReducer get() = NavigationReducerImpl()
     private val audioSessionReducer get() = AudioSessionStateReducerImpl()
+    private val pipReducer get() = PipReducerImpl()
     private val callDiagnosticsReducer get() = CallDiagnosticsReducerImpl()
 
     // Middleware
@@ -238,6 +254,7 @@ internal class DependencyInjectionContainerImpl(
             errorReducer,
             navigationReducer,
             audioSessionReducer,
+            pipReducer,
             callDiagnosticsReducer
         ) as Reducer<ReduxState>
     }
@@ -259,11 +276,12 @@ internal class DependencyInjectionContainerImpl(
 
     private val callingSDKEventHandler by lazy {
         CallingSDKEventHandler(
-            coroutineContextProvider
+            coroutineContextProvider,
+            localOptions?.audioVideoMode ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
         )
     }
 
-    private val callingService by lazy {
+    override val callingService by lazy {
         CallingService(callingSDKWrapper, coroutineContextProvider)
     }
     //endregion

@@ -2,7 +2,7 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--    Device-->
     <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Högtalare</string>
@@ -44,6 +44,7 @@
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Väntar på att andra ska ansluta</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Ring med 1 person</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Ring med %1$d personer</string>
+    <string name="azure_communication_ui_calling_view_go_back">Tillbaka</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(jag)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Namnlös deltagare</string>
     <string name="azure_communication_ui_calling_view_leave_call">Vill du lämna samtalet?</string>
@@ -65,22 +66,22 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnostikinformation</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Inspelning har startat.</b> Genom att ansluta
-        ger du medgivande för att det här mötet transkriberas.
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Postning har startat.</b> Genom att ansluta är du
+        ge medgivande för att det här mötet ska transkriberas.
          <u>Sekretesspolicy</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Inspelningen sparas.</b> Inspelningen har stoppats.
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Postning sparas.</b> Inspelningen har stoppats.
          <u>Läs mer</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Transcription har startat.</b> Genom att gå med ger du
-        medgivande för att det här mötet transkriberas. <u>Sekretesspolicy</u></string>
+        samtycker till att det här mötet transkriberas. <u>Sekretesspolicy</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Transkription sparas.</b> Transkription
         har stoppats. <u>Läs mer</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Inspelning och transkription har
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Inspelning och transkription har 
         startat.</b> Genom att ansluta ger du ditt medgivande till att det här mötet transkriberas
         . <u>Sekretesspolicy</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Inspelning och transkription 
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Inspelning och transkription
         sparas.</b> Inspelning och transkription har stoppats. <u>Läs mer</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Inspelning har stoppats.</b> Du
-        transkriberar nu bara mötet. <u>Privacy-princip</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Postningen har stoppats.</b> Du
+        transkriberar nu bara det här mötet. <u>Sekretesspolicy</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Transkription har stoppats.
     </b> Du spelar nu bara in det här mötet. <u>Sekretesspolicy</u></string>
     <string name="azure_communication_ui_calling_view_link">Länk</string>
@@ -88,7 +89,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Stäng</string>
     <string name="azure_communication_ui_calling_alert_title">Avisering</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Du togs bort från samtalet på grund av ett fel.</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">Du har tagits bort från samtalet på grund av ett fel.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Det gick inte att ansluta till samtalet på grund av ett fel.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Du togs bort från samtalet.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Det går inte att ansluta till samtalet. Kontrollera nätverksanslutningen.</string>
@@ -102,6 +103,33 @@
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s har anslutit till mötet</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s har lämnat mötet</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">Du har anslutit till mötet</string>
+
+    <!--    Participant list-->
+    <string name="azure_communication_ui_calling_participant_list_in_call_n_people">I samtalet (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">I lobbyn (%1$d)</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Dubbeltryck för att släppa in/avböja deltagare</string>
+
+    <!--    Admit participant dialog-->
+    <string name="azure_communication_ui_calling_admit_name">Vill du släppa in %1$s?</string>
+    <string name="azure_communication_ui_calling_admit">Släpp in</string>
+    <string name="azure_communication_ui_calling_decline">Avböj</string>
+    <string name="azure_communication_ui_calling_admit_all">Tillåt alla</string>
+
+    <!--    Lobby header-->
+    <string name="azure_communication_ui_calling_lobby_header_text">Personer väntar på att få ansluta</string>
+    <string name="azure_communication_ui_calling_lobby_header_icon_content_description">Lobby</string>
+    <string name="azure_communication_ui_calling_lobby_header_view_participant_button">Visa lobby</string>
+    <string name="azure_communication_ui_calling_lobby_header_accessibility_label">Visa lobby</string>
+    <string name="azure_communication_ui_calling_lobby_header_close_description">Stäng lobbyn</string>
+
+    <!--    Lobby error header-->
+    <string name="azure_communication_ui_calling_lobby_header_error_close_description">Fel vid stängning av lobbyn</string>
+    <string name="azure_communication_ui_calling_lobby_error_content_description">Lobbyfel</string>
+    <string name="azure_communication_ui_calling_error_lobby_disabled_by_configuration">Lobbyn har inaktiverats</string>
+    <string name="azure_communication_ui_calling_error_lobby_conversation_type_not_supported">Lobbyn stöds inte</string>
+    <string name="azure_communication_ui_calling_error_lobby_meeting_role_not_allowded">Din roll kan inte agera i lobbyn</string>
+    <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">Det gick inte att avböja</string>
+    <string name="azure_communication_ui_calling_error_lobby_unknown">Fel på lobbyåtgärd</string>
 
     <!-- Call Diagnostics -->
     <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Nätverket bröts</string>
@@ -118,4 +146,15 @@
 
     <!--    Upper Message Bar Notification -->
     <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Stäng</string>
+
+    <!--     Support Form -->
+    <string name="azure_communication_ui_calling_report_issue">Rapportera problem</string>
+    <string name="azure_communication_ui_calling_report_issue_title">Rapportera problem</string>
+    <string name="azure_communication_ui_calling_logs_attach_notice">Loggar bifogas automatiskt.</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label">Sekretesspolicy</string>
+    <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Beskriv problemet ...</string>
+    <string name="azure_communication_ui_calling_cancel_button_label">Avbryt</string>
+    <string name="azure_communication_ui_calling_attach_screenshot">Bifoga skärmbild</string>
+    <string name="azure_communication_ui_calling_report_a_problem_label">Rapportera ett problem</string>
+    <string name="azure_communication_ui_calling_send_feedback_label">Skicka</string>
 </resources>

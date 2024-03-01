@@ -15,7 +15,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
@@ -111,6 +111,12 @@ internal class ControlBarView : ConstraintLayout {
                 }
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.isVisible.collect {
+                visibility = if (it) View.GONE else View.VISIBLE
+            }
+        }
     }
 
     private fun accessibilityNonSelectableViews() = setOf(micToggle, cameraToggle)
@@ -156,8 +162,10 @@ internal class ControlBarView : ConstraintLayout {
     }
 
     private fun updateCamera(cameraState: ControlBarViewModel.CameraModel) {
+        val shouldHide = (cameraState.cameraState.operation == CameraOperationalStatus.DISABLED)
         val cameraPermissionIsNotDenied = (cameraState.cameraPermissionState != PermissionStatus.DENIED)
         val shouldBeEnabled = (cameraPermissionIsNotDenied && callStatePassedConnecting)
+        cameraToggle.visibility = if (shouldHide) View.GONE else View.VISIBLE
         cameraToggle.isEnabled = shouldBeEnabled
 
         when (cameraState.cameraState.operation) {

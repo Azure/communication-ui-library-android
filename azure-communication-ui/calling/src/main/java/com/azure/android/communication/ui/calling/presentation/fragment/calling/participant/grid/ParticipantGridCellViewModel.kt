@@ -14,6 +14,7 @@ internal class ParticipantGridCellViewModel(
     displayName: String,
     cameraVideoStreamModel: VideoStreamModel?,
     screenShareVideoStreamModel: VideoStreamModel?,
+    isCameraDisabled: Boolean,
     isMuted: Boolean,
     isSpeaking: Boolean,
     modifiedTimestamp: Number,
@@ -28,7 +29,8 @@ internal class ParticipantGridCellViewModel(
         getVideoStreamModel(
             createVideoViewModel(cameraVideoStreamModel),
             createVideoViewModel(screenShareVideoStreamModel),
-            isOnHoldStateFlow.value
+            isOnHoldStateFlow.value,
+            isCameraDisabled,
         )
     )
 
@@ -81,7 +83,8 @@ internal class ParticipantGridCellViewModel(
         this.videoViewModelStateFlow.value = getVideoStreamModel(
             createVideoViewModel(participant.cameraVideoStreamModel),
             createVideoViewModel(participant.screenShareVideoStreamModel),
-            this.isOnHoldStateFlow.value
+            this.isOnHoldStateFlow.value,
+            participant.isCameraDisabled
         )
 
         this.isSpeakingStateFlow.value = participant.isSpeaking && !participant.isMuted
@@ -99,9 +102,11 @@ internal class ParticipantGridCellViewModel(
         cameraVideoStreamModel: VideoViewModel?,
         screenShareVideoStreamModel: VideoViewModel?,
         isOnHold: Boolean,
+        isCameraDisabled: Boolean
     ): VideoViewModel? {
         if (isOnHold) return null
         if (screenShareVideoStreamModel != null) return screenShareVideoStreamModel
+        if (isCameraDisabled) return null
         if (cameraVideoStreamModel != null) return cameraVideoStreamModel
         return null
     }

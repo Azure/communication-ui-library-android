@@ -17,7 +17,11 @@ internal class CompositeExitManager(
 ) {
 
     fun onCompositeDestroy() {
-        notifyCompositeExit()
+        try {
+            notifyCompositeExit()
+        } catch (error: Throwable) {
+            // suppress any possible application errors
+        }
     }
 
     fun exit() {

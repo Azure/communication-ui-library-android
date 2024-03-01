@@ -14,7 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.implementation.R
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -51,6 +51,7 @@ internal class ToastNotificationView : ConstraintLayout {
                 if (accessibilityEnabled && it) {
                     toastNotificationLayout.performAccessibilityAction(AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS, null)
                     toastNotificationLayout.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED)
+                    toastNotificationLayout.sendAccessibilityEvent(AccessibilityEvent.WINDOWS_CHANGE_ACCESSIBILITY_FOCUSED)
                 }
             }
         }

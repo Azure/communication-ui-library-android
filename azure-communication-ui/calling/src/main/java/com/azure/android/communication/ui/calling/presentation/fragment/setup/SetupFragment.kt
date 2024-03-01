@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.setup
 
+import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
@@ -10,13 +11,14 @@ import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.util.LayoutDirection
 import android.view.View
+import androidx.activity.addCallback
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.presentation.DependencyInjectionContainerHolder
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
@@ -26,10 +28,9 @@ import com.azure.android.communication.ui.calling.presentation.fragment.setup.co
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupControlBarView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupGradientView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupParticipantAvatarView
-import com.azure.android.communication.ui.calling.presentation.navigation.BackNavigation
 
 internal class SetupFragment :
-    Fragment(R.layout.azure_communication_ui_calling_fragment_setup), BackNavigation {
+    Fragment(R.layout.azure_communication_ui_calling_fragment_setup) {
 
     // Get the DI Container, which gives us what we need for this fragment (dependencies)
     private val holder: DependencyInjectionContainerHolder by activityViewModels()
@@ -103,14 +104,26 @@ internal class SetupFragment :
         viewModel.setupCall()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireActivity().onBackInvokedDispatcher.registerOnBackInvokedCallback(1000, viewModel::exitComposite)
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback {
+            viewModel.exitComposite()
+        }
+    }
+
     override fun onDestroy() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireActivity().onBackInvokedDispatcher.unregisterOnBackInvokedCallback(viewModel::exitComposite)
+        }
+
         super.onDestroy()
         if (this::audioDeviceListView.isInitialized) audioDeviceListView.stop()
         if (this::errorInfoView.isInitialized) errorInfoView.stop()
-    }
-
-    override fun onBackPressed() {
-        viewModel.exitComposite()
     }
 
     val callCompositeActivity

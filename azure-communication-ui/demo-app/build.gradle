@@ -9,15 +9,15 @@ if (project.rootProject.file('local.properties').canRead()) {
 }
 
 android {
-    compileSdkVersion 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.azure.android.communication.ui.callingcompositedemoapp"
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode ui_library_version_code
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
+        
         buildConfigField 'String', 'TOKEN_FUNCTION_URL', properties.getProperty('TOKEN_FUNCTION_URL', '""')
         buildConfigField 'String', 'USER_NAME', properties.getProperty('USER_NAME', '""')
         buildConfigField 'String', 'GROUP_CALL_ID', properties.getProperty('GROUP_CALL_ID', '""')
@@ -30,6 +30,7 @@ android {
         buildConfigField 'boolean', 'CHECK_TASK_ROOT', String.valueOf(!shouldNotCheckTaskRoot())
         buildConfigField 'String', 'THREAD_ID', properties.getProperty('THREAD_ID', '""')
         buildConfigField 'String', 'END_POINT_URL', properties.getProperty('END_POINT_URL', '""')
+        buildConfigField 'String', 'SUPPORT_END_POINT_URL', properties.getProperty('SUPPORT_END_POINT_URL', '""')
         buildConfigField "String", 'AAD_TOKEN', properties.getProperty('AAD_TOKEN', '""')
     }
 
@@ -177,6 +178,7 @@ dependencies {
     implementation files('lib/magnifier-0.0.17.aar')
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
     testImplementation "junit:junit:$junit_version"
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
     androidTestImplementation('com.microsoft.appcenter:espresso-test-extension:1.4')
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     androidTestImplementation 'net.java.dev.jna:jna:5.10.0'

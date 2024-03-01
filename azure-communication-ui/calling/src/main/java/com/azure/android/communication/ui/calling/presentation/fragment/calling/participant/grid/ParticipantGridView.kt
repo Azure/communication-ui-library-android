@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
@@ -49,6 +50,13 @@ internal class ParticipantGridView : GridLayout {
     private lateinit var accessibilityManager: AccessibilityManager
     private lateinit var displayedRemoteParticipantsView: MutableList<ParticipantGridCellView>
     private lateinit var getParticipantViewDataCallback: (participantID: String) -> CallCompositeParticipantViewData?
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        post {
+            updateGrid(participantGridViewModel.getRemoteParticipantsUpdateStateFlow().value)
+        }
+    }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -162,6 +170,20 @@ internal class ParticipantGridView : GridLayout {
                 }
             }
         })
+
+        addOnLayoutChangeListener { _, left, top, right, bottom,
+            oldLeft, oldTop, oldRight, oldBottom ->
+            if (left != oldLeft ||
+                right != oldRight ||
+                top != oldTop ||
+                bottom != oldBottom
+            ) {
+                // The playerView's bounds changed, update the source hint rect to
+                // reflect its new bounds.
+                val sourceRectHint = Rect()
+                getGlobalVisibleRect(sourceRectHint)
+            }
+        }
     }
 
     fun stop() {
