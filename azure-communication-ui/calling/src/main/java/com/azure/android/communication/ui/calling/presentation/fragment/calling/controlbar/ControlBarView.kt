@@ -234,13 +234,7 @@ internal class ControlBarView : ConstraintLayout {
             } else {
                 viewModel.turnMicOn()
             }
-
-            if (isAndroidTV(context)) {
-                // Steal focus back after 1 frame
-                // This isn't ideal, focus is lost because button is enabled->disabled->enabled
-                // As there is intermediary "camera toggling/audio toggling" state
-                postDelayed({ micToggle.requestFocus() }, 33)
-            }
+            postDelayed({ micToggle.requestFocus() }, 33)
         }
         cameraToggle.setOnClickListener {
             if (cameraToggle.isSelected) {
@@ -248,11 +242,7 @@ internal class ControlBarView : ConstraintLayout {
             } else {
                 viewModel.turnCameraOn()
             }
-
-            if (isAndroidTV(context)) {
-                // Same as above (Steal back focus)
-                postDelayed({ cameraToggle.requestFocus() }, 33)
-            }
+            postDelayed({ cameraToggle.requestFocus() }, 33)
         }
         callAudioDeviceButton.setOnClickListener {
             viewModel.openAudioDeviceSelectionMenu()
