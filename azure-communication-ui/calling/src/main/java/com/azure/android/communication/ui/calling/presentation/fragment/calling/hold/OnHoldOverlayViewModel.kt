@@ -32,7 +32,7 @@ internal class OnHoldOverlayViewModel(private val dispatch: (Action) -> Unit) {
     ) {
         val displayHoldOverlay = shouldDisplayHoldOverlay(callingState)
         displayHoldOverlayFlow.value = displayHoldOverlay
-        displayMicUsedToast.value = audioFocusStatus == AudioFocusStatus.REJECTED
+        displayMicUsedToast.value = audioFocusStatus == AudioFocusStatus.REJECTED && callingState == CallingStatus.LOCAL_HOLD
     }
 
     fun resumeCall() {
