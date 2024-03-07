@@ -238,9 +238,11 @@ public final class CallComposite {
     /**
      * Accept incoming call.
      * Build composite using {@link CallCompositeBuilder#build(Context, CommunicationTokenCredential)}.
+     * @param activityContext   The android context used to start the Composite.
      * @param callId The call id.
      */
-    public void acceptIncomingCall(final String callId) {
+    public void acceptIncomingCall(final Context activityContext,
+                                   final String callId) {
     }
 
     /**
