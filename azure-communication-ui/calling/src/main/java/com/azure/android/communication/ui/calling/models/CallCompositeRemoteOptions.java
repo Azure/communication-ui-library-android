@@ -3,12 +3,16 @@
 
 package com.azure.android.communication.ui.calling.models;
 
+import android.content.Context;
+
 import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.calling.CallComposite;
+import com.azure.android.communication.ui.calling.CallCompositeBuilder;
 
 /**
  * CallCompositeRemoteOptions for CallComposite.launch.
- *
+ * @deprecated use {@link CallComposite} launch with {@link CallCompositeJoinLocator}.
+ * Build composite using {@link CallCompositeBuilder#build(Context, CommunicationTokenCredential)}.
  * <pre>
  *
  * &#47;&#47; Initialize the call composite builder
@@ -28,6 +32,7 @@ import com.azure.android.communication.ui.calling.CallComposite;
  *
  * @see CallComposite
  */
+@Deprecated
 public final class CallCompositeRemoteOptions {
     // Mandatory
     private final CommunicationTokenCredential credential;
