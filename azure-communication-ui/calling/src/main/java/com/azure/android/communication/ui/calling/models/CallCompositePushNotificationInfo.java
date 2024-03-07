@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.calling.models;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 /**
@@ -24,15 +23,9 @@ public class CallCompositePushNotificationInfo {
      * Create {@link CallCompositePushNotificationInfo}.
      * @param notificationInfoMap Notification info map.
      */
-    public CallCompositePushNotificationInfo(final Map<String, String> notificationInfoMap)
-            throws ClassNotFoundException, NoSuchMethodException,
-            InvocationTargetException, IllegalAccessException, InstantiationException {
-
+    public CallCompositePushNotificationInfo(final Map<String, String> notificationInfoMap) {
         final com.azure.android.communication.calling.PushNotificationInfo pushNotificationInfo =
                 com.azure.android.communication.calling.PushNotificationInfo.fromMap(notificationInfoMap);
-
-        final Class<?> pushNotificationInfoClass =
-                Class.forName("com.azure.android.communication.calling.PushNotificationInfo");
 
         fromDisplayName = pushNotificationInfo.getFromDisplayName();
 
