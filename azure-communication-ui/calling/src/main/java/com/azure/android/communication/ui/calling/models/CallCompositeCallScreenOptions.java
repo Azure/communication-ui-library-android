@@ -7,21 +7,21 @@ package com.azure.android.communication.ui.calling.models;
  * Options for the CallCompositeCallScreen.
  */
 public final class CallCompositeCallScreenOptions {
-    private final CallCompositeControlBarOptions controlBarOptions;
+    private final CallCompositeCallScreenControlBarOptions controlBarOptions;
 
     /**
      * Creates a CallCompositeCallScreenOptions object.
      * @param controlBarOptions The control bar options.
      */
-    public CallCompositeCallScreenOptions(final CallCompositeControlBarOptions controlBarOptions) {
+    public CallCompositeCallScreenOptions(final CallCompositeCallScreenControlBarOptions controlBarOptions) {
         this.controlBarOptions = controlBarOptions;
     }
 
     /**
      * Get the control bar options.
-     * @return {@link CallCompositeControlBarOptions}.
+     * @return {@link CallCompositeCallScreenControlBarOptions}.
      */
-    public CallCompositeControlBarOptions getControlBarOptions() {
+    public CallCompositeCallScreenControlBarOptions getControlBarOptions() {
         return controlBarOptions;
     }
 }

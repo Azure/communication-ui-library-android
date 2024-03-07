@@ -7,7 +7,6 @@ import com.azure.android.communication.common.CommunicationIdentifier;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * CallCompositePushNotificationInfo for forwarding calling push notifications to UI Library.
@@ -29,36 +28,23 @@ public class CallCompositePushNotificationInfo {
             throws ClassNotFoundException, NoSuchMethodException,
             InvocationTargetException, IllegalAccessException, InstantiationException {
 
+        final com.azure.android.communication.calling.PushNotificationInfo pushNotificationInfo =
+                com.azure.android.communication.calling.PushNotificationInfo.fromMap(notificationInfoMap);
+
         final Class<?> pushNotificationInfoClass =
                 Class.forName("com.azure.android.communication.calling.PushNotificationInfo");
 
-        final Object pushNotificationInfo = pushNotificationInfoClass
-                .getMethod("fromMap", Map.class)
-                .invoke(null, notificationInfoMap);
+        fromDisplayName = pushNotificationInfo.getFromDisplayName();
 
-        fromDisplayName = (String) pushNotificationInfoClass
-                .getMethod("getFromDisplayName")
-                .invoke(pushNotificationInfo);
+        from = pushNotificationInfo.getFrom();
 
-        from = ((CommunicationIdentifier) pushNotificationInfoClass
-                .getMethod("getFrom")
-                .invoke(pushNotificationInfo));
+        isIncomingWithVideo = pushNotificationInfo.isIncomingWithVideo();
 
-        isIncomingWithVideo = (boolean) pushNotificationInfoClass
-                .getMethod("isIncomingWithVideo")
-                .invoke(pushNotificationInfo);
+        callId = pushNotificationInfo.getCallId().toString();
 
-        callId = ((UUID) pushNotificationInfoClass
-                .getMethod("getCallId")
-                .invoke(pushNotificationInfo)).toString();
+        to = pushNotificationInfo.getTo();
 
-        to = ((CommunicationIdentifier) pushNotificationInfoClass
-                .getMethod("getTo")
-                .invoke(pushNotificationInfo));
-
-        eventTypeResult = pushNotificationInfoClass
-                .getMethod("getEventType")
-                .invoke(pushNotificationInfo).toString();
+        eventTypeResult = pushNotificationInfo.getEventType().toString();
 
         this.notificationInfoMap = notificationInfoMap;
     }
