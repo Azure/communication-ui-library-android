@@ -3,10 +3,15 @@
 
 package com.azure.android.communication.ui.calling;
 
+import android.content.Context;
+
+import com.azure.android.communication.common.CommunicationTokenCredential;
+import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation;
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomOptions;
 
 /**
  * Builder for creating {@link CallComposite}.
@@ -15,13 +20,17 @@ import com.azure.android.communication.ui.calling.models.CallCompositeSupportedS
  * <p>This class can be used to specify a Custom theme or locale to be used by the Call Composite.</p>
  */
 public final class CallCompositeBuilder {
-
     private Integer themeConfig = null;
     private CallCompositeLocalizationOptions localizationConfig = null;
     private Boolean enableMultitasking = false;
     private Boolean enableSystemPiPWhenMultitasking = false;
     private CallCompositeSupportedScreenOrientation callScreenOrientation = null;
     private CallCompositeSupportedScreenOrientation setupScreenOrientation = null;
+    private CommunicationTokenCredential credential = null;;
+    private String displayName = null;
+    private Context context = null;
+    private CallCompositeTelecomOptions telecomOptions = null;
+    private CallCompositeCallScreenOptions callScreenOptions = null;
 
     /**
      * Sets an optional theme for call-composite to use by {@link CallComposite}.
@@ -82,11 +91,35 @@ public final class CallCompositeBuilder {
         return this;
     }
 
+    /***
+     * Sets an optional telecom options for call-composite to use by {@link CallComposite}.
+     *
+     * @param telecomOptions {@link CallCompositeTelecomOptions}.
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    public CallCompositeBuilder telecomOptions(
+            final CallCompositeTelecomOptions telecomOptions) {
+        this.telecomOptions = telecomOptions;
+        return this;
+    }
+
+    /**
+     * Sets the display name.
+     *
+     * @param displayName display name.
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    public CallCompositeBuilder displayName(final String displayName) {
+        this.displayName = displayName;
+        return this;
+    }
+
     /**
      * Builds the CallCompositeClass {@link CallComposite}.
-     *
+     * @deprecated Use {@link #build(Context, CommunicationTokenCredential)} instead.
      * @return {@link CallComposite}
      */
+    @Deprecated
     public CallComposite build() {
         final CallCompositeConfiguration config = new CallCompositeConfiguration();
         config.setThemeConfig(themeConfig);
@@ -95,6 +128,41 @@ public final class CallCompositeBuilder {
         config.setEnableSystemPiPWhenMultitasking(enableSystemPiPWhenMultitasking);
         config.setCallScreenOrientation(this.callScreenOrientation);
         config.setSetupScreenOrientation(this.setupScreenOrientation);
+        config.setCredential(credential);
+        config.setDisplayName(displayName);
+        config.setContext(context);
+        config.setCallScreenOptions(callScreenOptions);
+        return new CallComposite(config);
+    }
+
+    /**
+     * Builds the CallCompositeClass {@link CallComposite}.
+     *
+     * @param applicationContext The application context.
+     * @param credential The credential to be used for the call.
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    public CallComposite build(final Context applicationContext, final CommunicationTokenCredential credential) {
+        if (applicationContext == null) {
+            throw new NullPointerException("Application context cannot be null");
+        }
+        if (credential == null) {
+            throw new NullPointerException("CommunicationTokenCredential cannot be null");
+        }
+        this.credential = credential;
+        this.context = applicationContext;
+        final CallCompositeConfiguration config = new CallCompositeConfiguration();
+        config.setThemeConfig(themeConfig);
+        config.setLocalizationConfig(localizationConfig);
+        config.setEnableMultitasking(enableMultitasking);
+        config.setEnableSystemPiPWhenMultitasking(enableSystemPiPWhenMultitasking);
+        config.setCallScreenOrientation(this.callScreenOrientation);
+        config.setSetupScreenOrientation(this.setupScreenOrientation);
+        config.setTelecomOptions(telecomOptions);
+        config.setCredential(credential);
+        config.setDisplayName(displayName);
+        config.setContext(context);
+        config.setCallScreenOptions(callScreenOptions);
         return new CallComposite(config);
     }
 }

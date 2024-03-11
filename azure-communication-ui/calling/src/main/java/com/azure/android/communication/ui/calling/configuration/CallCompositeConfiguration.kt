@@ -3,12 +3,21 @@
 
 package com.azure.android.communication.ui.calling.configuration
 
+import android.content.Context
+import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.calling.configuration.events.CallCompositeEventsHandler
+import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomOptions
 
 internal class CallCompositeConfiguration {
+    var callScreenOptions: CallCompositeCallScreenOptions? = null
+    var context: Context? = null
+    var displayName: String? = null
+    var credential: CommunicationTokenCredential? = null
+    var telecomOptions: CallCompositeTelecomOptions? = null
     var themeConfig: Int? = null
     var localizationConfig: CallCompositeLocalizationOptions? = null
     var callCompositeEventsHandler = CallCompositeEventsHandler()
