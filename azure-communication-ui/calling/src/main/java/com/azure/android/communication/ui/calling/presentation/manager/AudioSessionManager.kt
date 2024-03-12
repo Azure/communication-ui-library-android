@@ -226,12 +226,12 @@ internal class AudioSessionManager(
         if (initialized) return
         initialized = true
 
-        enableSpeakerPhone()
+        enableEarpiece()
 
         updateHeadphoneStatus()
 
         store.dispatch(
-            LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.SPEAKER_SELECTED)
+            LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.RECEIVER_SELECTED)
         )
     }
 
