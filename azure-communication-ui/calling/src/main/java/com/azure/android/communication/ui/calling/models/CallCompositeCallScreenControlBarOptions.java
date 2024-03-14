@@ -20,16 +20,18 @@ public final class CallCompositeCallScreenControlBarOptions {
      *
      * @param hideLeaveCallConfirmDialog The hideLeaveCallConfirmDialog to set.
      */
-    public void setHideLeaveCallConfirmDialog(final boolean hideLeaveCallConfirmDialog) {
+    public CallCompositeCallScreenControlBarOptions setHideLeaveCallConfirmDialog(
+            final boolean hideLeaveCallConfirmDialog) {
         this.hideLeaveCallConfirmDialog = hideLeaveCallConfirmDialog;
+        return this;
     }
 
     /**
-     * Get the hideLeaveCallConfirmDialog.
+     * Is hideLeaveCallConfirmDialog.
      *
      * @return The hideLeaveCallConfirmDialog that is currently set.
      */
-    public boolean getHideLeaveCallConfirmDialog() {
+    public boolean isHideLeaveCallConfirmDialog() {
         return hideLeaveCallConfirmDialog;
     }
 }
