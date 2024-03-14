@@ -94,12 +94,12 @@ public final class CallCompositeBuilder {
     /***
      * Sets an optional telecom options for call-composite to use by {@link CallComposite}.
      *
-     * @param telecomOptions {@link CallCompositeTelecomManagerOptions}.
+     * @param telecomManagerOptions {@link CallCompositeTelecomManagerOptions}.
      * @return {@link CallCompositeBuilder} for chaining options.
      */
-    public CallCompositeBuilder telecomOptions(
-            final CallCompositeTelecomManagerOptions telecomOptions) {
-        this.telecomOptions = telecomOptions;
+    public CallCompositeBuilder telecomManagerOptions(
+            final CallCompositeTelecomManagerOptions telecomManagerOptions) {
+        this.telecomOptions = telecomManagerOptions;
         return this;
     }
 
