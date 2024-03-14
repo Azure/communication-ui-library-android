@@ -21,7 +21,7 @@ public class CallCompositePushNotification {
 
     /**
      * Create {@link CallCompositePushNotification}.
-     * @param notification Notification info map.
+     * @param notification Notification map.
      */
     public CallCompositePushNotification(final Map<String, String> notification) {
         final com.azure.android.communication.calling.PushNotificationInfo pushNotificationInfo =
