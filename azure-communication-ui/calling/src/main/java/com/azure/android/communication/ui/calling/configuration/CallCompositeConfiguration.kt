@@ -10,14 +10,14 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallScreen
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
-import com.azure.android.communication.ui.calling.models.CallCompositeTelecomOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions
 
 internal class CallCompositeConfiguration {
     var callScreenOptions: CallCompositeCallScreenOptions? = null
     var context: Context? = null
     var displayName: String? = null
     var credential: CommunicationTokenCredential? = null
-    var telecomOptions: CallCompositeTelecomOptions? = null
+    var telecomOptions: CallCompositeTelecomManagerOptions? = null
     var themeConfig: Int? = null
     var localizationConfig: CallCompositeLocalizationOptions? = null
     var callCompositeEventsHandler = CallCompositeEventsHandler()

@@ -7,7 +7,7 @@ package com.azure.android.communication.ui.calling.models;
  * Options for the CallCompositeCallScreenControlBarOptions.
  */
 public final class CallCompositeCallScreenControlBarOptions {
-    private boolean hideLeaveCallConfirmDialog = false;
+    private boolean disableLeaveCallConfirmation = false;
 
     /**
      * Create a CallCompositeCallScreenControlBarOptions object.
@@ -16,22 +16,22 @@ public final class CallCompositeCallScreenControlBarOptions {
     }
 
     /**
-     * Set the hideLeaveCallConfirmDialog.
+     * Set the disableLeaveCallConfirmation.
      *
-     * @param hideLeaveCallConfirmDialog The hideLeaveCallConfirmDialog to set.
+     * @param disableLeaveCallConfirmation The disableLeaveCallConfirmation to set.
      */
-    public CallCompositeCallScreenControlBarOptions setHideLeaveCallConfirmDialog(
-            final boolean hideLeaveCallConfirmDialog) {
-        this.hideLeaveCallConfirmDialog = hideLeaveCallConfirmDialog;
+    public CallCompositeCallScreenControlBarOptions setDisableLeaveCallConfirmation(
+            final boolean disableLeaveCallConfirmation) {
+        this.disableLeaveCallConfirmation = disableLeaveCallConfirmation;
         return this;
     }
 
     /**
-     * Is hideLeaveCallConfirmDialog.
+     * Is disableLeaveCallConfirmation.
      *
-     * @return The hideLeaveCallConfirmDialog that is currently set.
+     * @return The disableLeaveCallConfirmation that is currently set.
      */
-    public boolean isHideLeaveCallConfirmDialog() {
-        return hideLeaveCallConfirmDialog;
+    public boolean isDisableLeaveCallConfirmation() {
+        return disableLeaveCallConfirmation;
     }
 }
