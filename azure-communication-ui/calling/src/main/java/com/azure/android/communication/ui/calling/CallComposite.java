@@ -29,7 +29,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocato
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositePictureInPictureChangedEvent;
-import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationInfo;
+import com.azure.android.communication.ui.calling.models.CallCompositePushNotification;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
@@ -181,10 +181,10 @@ public final class CallComposite {
     /**
      * Handle incoming call push notification.
      * Build composite using {@link CallCompositeBuilder#build(Context, CommunicationTokenCredential)}.
-     * @param info     The {@link CallCompositePushNotificationInfo}.
+     * @param info     The {@link CallCompositePushNotification}.
      * @return {@link CompletableFuture} of {@link Void}.
      */
-    public CompletableFuture<Void> handlePushNotification(final CallCompositePushNotificationInfo info) {
+    public CompletableFuture<Void> handlePushNotification(final CallCompositePushNotification info) {
         return CompletableFuture.completedFuture(null);
     }
 
