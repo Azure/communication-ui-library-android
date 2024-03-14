@@ -17,7 +17,7 @@ internal class CallCompositeConfiguration {
     var context: Context? = null
     var displayName: String? = null
     var credential: CommunicationTokenCredential? = null
-    var telecomOptions: CallCompositeTelecomManagerOptions? = null
+    var telecomManagerOptions: CallCompositeTelecomManagerOptions? = null
     var themeConfig: Int? = null
     var localizationConfig: CallCompositeLocalizationOptions? = null
     var callCompositeEventsHandler = CallCompositeEventsHandler()

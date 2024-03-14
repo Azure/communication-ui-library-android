@@ -181,10 +181,10 @@ public final class CallComposite {
     /**
      * Handle incoming call push notification.
      * Build composite using {@link CallCompositeBuilder#build(Context, CommunicationTokenCredential)}.
-     * @param info     The {@link CallCompositePushNotification}.
+     * @param pushNotification     The {@link CallCompositePushNotification}.
      * @return {@link CompletableFuture} of {@link Void}.
      */
-    public CompletableFuture<Void> handlePushNotification(final CallCompositePushNotification info) {
+    public CompletableFuture<Void> handlePushNotification(final CallCompositePushNotification pushNotification) {
         return CompletableFuture.completedFuture(null);
     }
 

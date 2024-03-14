@@ -158,7 +158,7 @@ public final class CallCompositeBuilder {
         config.setEnableSystemPiPWhenMultitasking(enableSystemPiPWhenMultitasking);
         config.setCallScreenOrientation(this.callScreenOrientation);
         config.setSetupScreenOrientation(this.setupScreenOrientation);
-        config.setTelecomOptions(telecomOptions);
+        config.setTelecomManagerOptions(telecomOptions);
         config.setCredential(credential);
         config.setDisplayName(displayName);
         config.setContext(context);
