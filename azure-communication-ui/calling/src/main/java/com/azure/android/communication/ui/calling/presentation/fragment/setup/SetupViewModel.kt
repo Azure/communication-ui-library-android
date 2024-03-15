@@ -18,11 +18,10 @@ internal class SetupViewModel(
     store: Store<ReduxState>,
     setupViewModelProvider: SetupViewModelFactory,
     private val networkManager: NetworkManager,
-    /* <SETUPLOGO>
+    /* <SETUPLOGO:4>
     val logoDrawable: Drawable?
-    </SETUPLOGO> */
-) :
-    BaseViewModel(store) {
+    </SETUPLOGO:1> */
+) : BaseViewModel(store) {
 
     val warningsViewModel = setupViewModelProvider.warningsViewModel
     val setupControlBarViewModel = setupViewModelProvider.setupControlBarViewModel

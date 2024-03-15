@@ -124,33 +124,40 @@ tasks.register('printFlag') {
     doLast {
         String flagName = project.property('flagName')
         FileTree files = fileTree(dir: 'src', includes: ['**/*.java', '**/*.kt'])
-        Pattern startPattern = Pattern.compile("/\\* <${flagName}(:\\d+)?")
-        Pattern endPattern = Pattern.compile("</${flagName}> \\*/")
+        Pattern startPattern = Pattern.compile("/\\* <${flagName}(?::(\\d+))?>")
+        Pattern endPattern = Pattern.compile("</${flagName}(?::(\\d+))?> \\*/")
         int defaultContextLines = 5 // Default number of contextual lines
 
         files.each { File file ->
             List<String> lines = file.readLines()
             boolean isReading = false
             int tagStart = -1
-            int contextStart = 0
-            int tagEnd
-            int contextEnd
+            int contextLinesBefore = defaultContextLines
+            int contextLinesAfter = defaultContextLines
 
             lines.eachWithIndex { line, index ->
-                if (!isReading && startPattern.matcher(line).find()) {
-                    // Transition from Scanning to Reading
+                Matcher startMatcher = startPattern.matcher(line)
+                if (!isReading && startMatcher.find()) {
                     isReading = true
                     tagStart = index
-                    contextStart = Math.max(0, index - defaultContextLines)
+                    contextLinesBefore = startMatcher.group(1) ? Integer.parseInt(startMatcher.group(1)) : defaultContextLines
+                    // Calculate the start index for printing context before the flag
+                    int contextStart = Math.max(0, index - contextLinesBefore)
                     println "File: ${file} - Flag: ${flagName}"
-                    lines.subList(contextStart, index).each { println "  ${it}" } // Print context before tag
-                } else if (isReading && endPattern.matcher(line).find()) {
-                    // Transition from Reading to Scanning
+                    // Print context before the flag
+                    lines.subList(contextStart, index).each { println "  ${it}" }
+                }
+                Matcher endMatcher = endPattern.matcher(line)
+                if (isReading && endMatcher.find()) {
                     isReading = false
-                    tagEnd = index
-                    contextEnd = Math.min(lines.size(), index + defaultContextLines + 1)
-                    lines.subList(tagStart + 1, tagEnd).each { println "+ ${it}" } // Print tag contents with +
-                    lines.subList(tagEnd + 1, contextEnd).each { println "  ${it}" } // Print context after tag
+                    int tagEnd = index
+                    contextLinesAfter = endMatcher.group(1) ? Integer.parseInt(endMatcher.group(1)) : defaultContextLines
+                    // Calculate the end index for printing context after the flag
+                    int contextEnd = Math.min(lines.size(), tagEnd + contextLinesAfter + 1)
+                    // Print the flag content
+                    lines.subList(tagStart + 1, tagEnd).each { println "+ ${it}" }
+                    // Print context after the flag
+                    lines.subList(tagEnd + 1, contextEnd).each { println "  ${it}" }
                     println "\n" // Separate blocks for readability
                 }
             }

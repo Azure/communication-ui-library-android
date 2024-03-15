@@ -59,9 +59,9 @@ internal class DependencyInjectionContainerHolder(
             container.appStore,
             SetupViewModelFactory(container.appStore, application),
             container.networkManager,
-            /* <SETUPLOGO>
+            /* <SETUPLOGO:5>
             container.configuration.setupLogo
-            </SETUPLOGO> */
+            </SETUPLOGO:2> */
         )
     }
     val callingViewModel by lazy {
