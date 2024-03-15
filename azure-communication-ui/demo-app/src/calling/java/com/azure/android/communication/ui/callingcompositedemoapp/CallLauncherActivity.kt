@@ -30,12 +30,14 @@ import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.UUID
 
 class CallLauncherActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCallLauncherBinding
     private val callLauncherViewModel: CallLauncherViewModel by viewModels()
+    private val imageContent = "image/*";
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -195,7 +197,7 @@ class CallLauncherActivity : AppCompatActivity() {
             }
 
         selectLogo.setOnClickListener {
-            getContent.launch("image/*")
+            getContent.launch(imageContent)
         }
     }
     </SETUPLOGO> */

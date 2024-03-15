@@ -103,11 +103,14 @@ internal class SetupFragment :
         errorInfoView = ErrorInfoView(view)
         errorInfoView.start(viewLifecycleOwner, viewModel.errorInfoViewModel)
 
+        /* <SETUPLOGO>
         logoImageView = view.findViewById(R.id.azure_communication_ui_setup_logo_image)
         if (viewModel.logoDrawable != null) {
             logoImageView.visibility = View.VISIBLE
             logoImageView.setImageDrawable(viewModel.logoDrawable)
         }
+
+        </SETUPLOGO> */
         viewModel.setupCall()
     }
 
