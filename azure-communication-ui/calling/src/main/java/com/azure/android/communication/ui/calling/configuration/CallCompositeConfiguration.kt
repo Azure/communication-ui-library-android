@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.configuration
 
-import android.graphics.drawable.Drawable
 import com.azure.android.communication.ui.calling.configuration.events.CallCompositeEventsHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
@@ -24,5 +23,4 @@ internal class CallCompositeConfiguration {
     /* <SETUPLOGO>
     var setupLogo: Drawable? = null
     </SETUPLOGO> */
-
 }
