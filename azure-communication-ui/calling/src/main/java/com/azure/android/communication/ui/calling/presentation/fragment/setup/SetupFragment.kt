@@ -11,7 +11,6 @@ import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.util.LayoutDirection
 import android.view.View
-import android.widget.ImageView
 import androidx.activity.addCallback
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
