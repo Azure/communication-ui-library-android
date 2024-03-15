@@ -27,7 +27,8 @@ import java.util.regex.Matcher
 def getFlagsStatus() {
     def flags = [:]
     def projectDir = project.projectDir
-    def flagPattern = /\/\* <(.+?)> \*\//
+    def flagPattern = /\/\* <(.+?)>( \*)?/
+
 
     projectDir.traverse(type: groovy.io.FileType.FILES, nameFilter: ~/.*\.(java|kt)/) { file ->
         def content = file.text
@@ -35,11 +36,13 @@ def getFlagsStatus() {
             def matcher = (line =~ flagPattern)
             if (matcher.find()) {
                 String flagName = matcher.group(1)
+                // These are end tags, I.e. </FEATURE> = /FEATURE
+                // We don't care when finding them.
                 if (flagName.startsWith("/")) {
                     return
                 }
                 if (!flags.containsKey(flagName)) {
-                    boolean isEnabled = !(content.contains("/* <${flagName}> */") && content.contains("/**/"))
+                    boolean isEnabled = content.contains("/* <${flagName}> */")
                     flags[flagName] = isEnabled ? "Enabled" : "Disabled"
                 }
             }
@@ -48,11 +51,11 @@ def getFlagsStatus() {
     return flags
 }
 
-task listFlags {
+tasks.register('listFlags') {
     doLast {
         def flags = getFlagsStatus()
 
-        println "Feature Flags:"
+        println "\nFeature Flags (${flags.size()})"
         flags.each { key, value ->
             println "$key: $value"
         }
@@ -60,7 +63,7 @@ task listFlags {
     println "To Update:   gradlew toggleFlag -PflagName=YOUR_FLAG_NAME"
 }
 
-task toggleFlag() {
+tasks.register('toggleFlag') {
     doFirst {
         if (!project.hasProperty('flagName')) {
             throw new GradleException("Flag name must be provided using the -PflagName=YOUR_FLAG_NAME argument.")
