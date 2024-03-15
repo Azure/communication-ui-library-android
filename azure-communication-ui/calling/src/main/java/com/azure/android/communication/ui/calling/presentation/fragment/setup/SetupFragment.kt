@@ -109,7 +109,6 @@ internal class SetupFragment :
             logoImageView.visibility = View.VISIBLE
             logoImageView.setImageDrawable(viewModel.logoDrawable)
         }
-
         </SETUPLOGO> */
         viewModel.setupCall()
     }

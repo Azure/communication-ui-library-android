@@ -20,6 +20,9 @@ import java.util.regex.Matcher
  *
  * - To toggle a specific feature flag (replace 'YOUR_FLAG_NAME' with the actual flag name):
  *   ./gradlew toggleFlag -PflagName=YOUR_FLAG_NAME
+ *
+ * - To Contextualize a flag and it's code
+ *   ./gradlew printFlag -PflagName=YOUR_FLAG_NAME
  */
 
 
@@ -111,3 +114,46 @@ tasks.register('toggleFlag') {
     }
 }
 
+tasks.register('printFlag') {
+    doFirst {
+        if (!project.hasProperty('flagName')) {
+            throw new GradleException("Flag name must be provided using the -PflagName=YOUR_FLAG_NAME argument.")
+        }
+    }
+
+    doLast {
+        String flagName = project.property('flagName')
+        FileTree files = fileTree(dir: 'src', includes: ['**/*.java', '**/*.kt'])
+        Pattern startPattern = Pattern.compile("/\\* <${flagName}(:\\d+)?")
+        Pattern endPattern = Pattern.compile("</${flagName}> \\*/")
+        int defaultContextLines = 5 // Default number of contextual lines
+
+        files.each { File file ->
+            List<String> lines = file.readLines()
+            boolean isReading = false
+            int tagStart = -1
+            int contextStart = 0
+            int tagEnd
+            int contextEnd
+
+            lines.eachWithIndex { line, index ->
+                if (!isReading && startPattern.matcher(line).find()) {
+                    // Transition from Scanning to Reading
+                    isReading = true
+                    tagStart = index
+                    contextStart = Math.max(0, index - defaultContextLines)
+                    println "File: ${file} - Flag: ${flagName}"
+                    lines.subList(contextStart, index).each { println "  ${it}" } // Print context before tag
+                } else if (isReading && endPattern.matcher(line).find()) {
+                    // Transition from Reading to Scanning
+                    isReading = false
+                    tagEnd = index
+                    contextEnd = Math.min(lines.size(), index + defaultContextLines + 1)
+                    lines.subList(tagStart + 1, tagEnd).each { println "+ ${it}" } // Print tag contents with +
+                    lines.subList(tagEnd + 1, contextEnd).each { println "  ${it}" } // Print context after tag
+                    println "\n" // Separate blocks for readability
+                }
+            }
+        }
+    }
+}
