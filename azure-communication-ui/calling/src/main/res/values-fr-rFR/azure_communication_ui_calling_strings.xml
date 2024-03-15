@@ -19,10 +19,10 @@
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Microphone désactivé</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">Microphone activé</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">Rejoindre l’appel</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Votre audio est désactivé. Pour l’activer, accédez à Paramètres pour autoriser l’accès. Vous devez
-         activer l’audio pour démarrer cet appel.</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Votre caméra est désactivée. Pour l’activer, accédez à Paramètres
-        pour autoriser l’accès.</string>
+    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Votre audio est désactivé. Pour l\'activer, accédez à Paramètres pour autoriser l\'accès. Vous devez
+        activer l\'audio pour démarrer cet appel.</string>
+    <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Votre caméra est désactivée. Pour l\'activer, accédez à Paramètres
+        pour autoriser l\'accès.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Autorisations requises</string>
     <string name="azure_communication_ui_calling_setup_view_go_to_settings">Accéder aux paramètres</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Sélectionné</string>
@@ -66,30 +66,30 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Informations de diagnostic</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>La transcription a démarré.</b> En participant, vous
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>L\'enregistrement a démarré.</b> En participant, vous
         autorisez la transcription de cette réunion.
-        <u>Politique de confidentialité</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>L\'enregistrement est en cours d’enregistrement.</b>L\'enregistrement s’est arrêté.
+         <u>Politique de confidentialité</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>L\'enregistrement est en cours d\'enregistrement.</b>L\'enregistrement s\'est arrêté.
          <u>En savoir plus</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>La transcription a démarré.</b> En participant, vous
         autorisez la transcription de cette réunion. <u>Politique de confidentialité</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>La transcription est en cours d’enregistrement.</b> La transcription
-        s’est arrêtée. <u>En savoir plus</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>L’enregistrement et la transcription ont
-       démarré.</b> En participant, vous autorisez la transcription de cette réunion
-         . <u>Politique de confidentialité</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>L’enregistrement et la transcription sont
-        en cours d’enregistrement.</b> L’enregistrement et la transcription se sont arrêtés. <u>En savoir plus</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>L\'enregistrement s’est arrêté.</b> Vous
-        transcrivez uniquement cette réunion à présent. <u>Politique de confidentialité</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>La transcription s’est arrêtée.
-     </b> Vous        enregistrez cette réunion uniquement à présent. <u>Politique de confidentialité</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>La transcription est en cours d\'enregistrement.</b> La transcription
+        s\'est arrêtée. <u>En savoir plus</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>L\'enregistrement et la transcription ont
+        démarré.</b> En participant, vous autorisez la transcription de cette réunion
+        . <u>Politique de confidentialité</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>L\'enregistrement et la transcription sont
+        en cours d\'enregistrement.</b> L\'enregistrement et la transcription se sont arrêtés. <u>En savoir plus</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>L\'enregistrement s\'est arrêté.</b> Vous
+        ne transcrivez que cette réunion. <u>Politique de confidentialité</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>La transcription s\'est arrêtée.
+    </b>Vous enregistrez uniquement cette réunion. <u>Politique de confidentialité</u></string>
     <string name="azure_communication_ui_calling_view_link">Lien</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Ignorer</string>
     <string name="azure_communication_ui_calling_alert_title">Alerte</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Vous avez été supprimé de l’appel en raison d’une erreur.</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">Vous avez peut-être été supprimé de la réunion ou perdu votre connexion. Réessayez de rejoindre la réunion.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Impossible de rejoindre l’appel en raison d’une erreur.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Vous avez été retiré de l’appel.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Impossible de rejoindre l’appel. Vérifiez votre connexion réseau.</string>

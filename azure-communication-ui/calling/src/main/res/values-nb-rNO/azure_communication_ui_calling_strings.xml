@@ -20,9 +20,9 @@
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">Mikrofon på</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">Bli med i samtale</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Lyden er deaktivert. Hvis du vil aktivere, kan du gå til Innstillinger for å gi tilgang. Du må
- aktivere lyd for å starte denne samtalen.</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Kameraet er deaktivert. Hvis du vil aktivere, kan du gå til Innstillinger
- for å gi tilgang.</string>
+        aktivere lyd for å starte denne samtalen.</string>
+    <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Kameraet er deaktivert. Hvis du vil aktivere, går du til Innstillinger
+        for å gi tilgang.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Tillatelser kreves</string>
     <string name="azure_communication_ui_calling_setup_view_go_to_settings">Gå til Innstillinger</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Valgt</string>
@@ -67,29 +67,29 @@
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Opptak er startet.</b> Ved å bli med, gir du
- samtykke til at dette møtet transkriberes.
- <u>Personvernerklæring</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Opptak lagres.</b> Opptak har stoppet.
- <u>Mer informasjon</u></string>
+        samtykke til at dette møtet blir transkribert.
+         <u>Personvernerklæring</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Opptaket lagres.</b> Opptaket er stoppet.
+         <u>Mer informasjon</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Transkripsjon har startet.</b> Ved å bli med,
-        samtykker du til at dette møtet blir transkribert. <u>Personvernerklæring</u></string>
+        gir du samtykke til at dette møtet blir transkribert. <u>Personvernerklæring</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Transkripsjon lagres.</b> Transkripsjon
- har stoppet. <u>Mer informasjon</u></string>
+        er stoppet. <u>Mer informasjon</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Opptak og transkripsjon har
- startet.</b> Ved å bli med gir du samtykke til at dette møtet transkriberes
- . <u>Personvernerklæring</u></string>
+        startet.</b> Ved å bli med gir du samtykke til at dette møtet transkriberes
+        . <u>Personvernerklæring</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Opptak og transkripsjon
- lagres.</b> Opptak og transkripsjon er stoppet. <u>Mer informasjon</u></string>
+        lagres.</b> Innspilling og transkripsjon er stoppet. <u>Mer informasjon</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Opptak er stoppet.</b> Du
- transkriberer nå bare dette møtet. <u>Personvernerklæring</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Transkripsjon har stoppet.
- </b> Du tar nå bare opp dette møtet. <u>Personvernerklæring</u></string>
+        bare transkriberer dette møtet nå. <u>Personvernerklæring</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Transkripsjon er stoppet.
+    </b> Du tar nå bare opp dette møtet. <u>Personvernerklæring</u></string>
     <string name="azure_communication_ui_calling_view_link">Kobling</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Lukk</string>
     <string name="azure_communication_ui_calling_alert_title">Varsel</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Du ble fjernet fra samtalen på grunn av en feil.</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">Du kan ha blitt fjernet fra møtet eller mistet tilkoblingen. Prøv å bli med på nytt.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Kan ikke bli med i samtalen på grunn av en feil.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Du ble fjernet fra samtalen.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Kan ikke bli med i samtalen. Kontroller nettverkstilkoblingen.</string>

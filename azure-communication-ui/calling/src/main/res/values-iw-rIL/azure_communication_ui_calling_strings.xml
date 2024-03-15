@@ -19,8 +19,8 @@
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">מיקרופון כבוי</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">מיקרופון מופעל</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">הצטרף לשיחה</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">השמע שלך מושבת. כדי להפעיל אותו, עבור אל \'הגדרות\' כדי לאפשר גישה. עליך
-       להפעיל שמע כדי להתחיל את שיחה זו.</string>
+    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">השמע שלך מושבת. כדי להפעיל אותו, עבור אל \'הגדרות\' כדי לאפשר גישה. עליך 
+        להפעיל שמע כדי להתחיל את השיחה הזו.</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">המצלמה שלך מושבתת. כדי להפעיל אותה, עבור אל \'הגדרות\'
         כדי לאפשר גישה.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">נדרשות הרשאות</string>
@@ -72,24 +72,24 @@
     <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>ההקלטה נשמרת. </b> ההקלטה הופסקה.
          <u>מידע נוסף</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>התמלול התחיל.</b> על-ידי הצטרפות, אתה
-        נותן את הסכמתך לתמלול של פגישה זו. <u>מדיניות פרטיות</u></string>
+        נותן את הסכמתך לתעתק פגישה זו. <u>מדיניות פרטיות</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>התמלול נשמר.</b> התמלול
-        הופסק. <u>למידע נוסף</u></string>
+        הופסק. <u>מידע נוסף</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>ההקלטה והתמלול
         התחילו.</b> על-ידי הצטרפות, אתה נותן את הסכמתך לתמלול של פגישה זו
-        .<u>מדיניות פרטיות</u></string>
+        . <u>מדיניות פרטיות</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>ההקלטה והתמלול
-        נשמרים.</b> ההקלטה והתמלול הפסיקו. <u>למידע נוסף</u></string>
+        נשמרים.</b> ההקלטה והתמלול הפסיקו. <u>מידע נוסף</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>ההקלטה הופסקה.</b> אתה
-        מתעתק כעת רק את פגישה זו. <u>מדיניות הפרטיות של</u></string>
+        מתעתק עכשיו רק את הפגישה הזו. <u>מדיניות פרטיות</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>התמלול הופסק.
-    </b> אתה מתמלל כעת רק הקלטה של פגישה זו. <u>מדיניות פרטיות</u></string>
+    </b> אתה כעת רק מקליט את הפגישה. <u>מדיניות פרטיות</u></string>
     <string name="azure_communication_ui_calling_view_link">קישור</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">התעלם</string>
     <string name="azure_communication_ui_calling_alert_title">התראה</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">הוסרת מהשיחה עקב שגיאה.</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">ייתכן שהוסרת מהפגישה או שהחיבור שלך אבד. נסה להצטרף שוב.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">לא ניתן להצטרף לשיחה עקב שגיאה.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">הוסרת מהשיחה.</string>
     <string name="azure_communication_ui_calling_no_connection_available">לא ניתן להצטרף לשיחה. בדוק את חיבור הרשת שלך.</string>
