@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.app.Application
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
@@ -36,6 +37,7 @@ import kotlinx.coroutines.launch
 import java.util.UUID
 
 class CallLauncherViewModel : ViewModel() {
+    private var selectedLogo: Drawable? = null
     val callCompositeCallStateStateFlow = MutableStateFlow("")
     val callCompositeExitSuccessStateFlow = MutableStateFlow(false)
     val userReportedIssueEventHandler: UserReportedIssueHandler = UserReportedIssueHandler()
@@ -219,6 +221,9 @@ class CallLauncherViewModel : ViewModel() {
                     SettingsFeatures.getLayoutDirection()
                 )
             )
+            /* <SETUPLOGO>
+            .logo(selectedLogo)
+            </SETUPLOGO> */
             .setupScreenOrientation(setupScreenOrientation)
             .callScreenOrientation(callScreenOrientation)
 
@@ -256,6 +261,12 @@ class CallLauncherViewModel : ViewModel() {
             callHangup()
         }
     }
+
+    /* <SETUPLOGO>
+    fun setLogo(drawable: Drawable?) {
+        selectedLogo = drawable;
+    }
+    </SETUPLOGO> */
 }
 
 class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>) :

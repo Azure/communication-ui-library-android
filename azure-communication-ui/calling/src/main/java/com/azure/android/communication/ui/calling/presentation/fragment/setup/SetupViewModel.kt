@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.setup
 
+import android.graphics.drawable.Drawable
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.SetupViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
@@ -18,8 +19,12 @@ internal class SetupViewModel(
     store: Store<ReduxState>,
     setupViewModelProvider: SetupViewModelFactory,
     private val networkManager: NetworkManager,
+    /* <SETUPLOGO>
+    val logoDrawable: Drawable?
+    </SETUPLOGO> */
 ) :
     BaseViewModel(store) {
+
 
     val warningsViewModel = setupViewModelProvider.warningsViewModel
     val setupControlBarViewModel = setupViewModelProvider.setupControlBarViewModel
