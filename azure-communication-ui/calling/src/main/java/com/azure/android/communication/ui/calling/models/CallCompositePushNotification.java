@@ -22,6 +22,9 @@ public class CallCompositePushNotification {
     /**
      * Create {@link CallCompositePushNotification}.
      * @param notification Notification map.
+     *                     The map received for incoming call will contain the following keys:
+     *                     "callId", "recipientId", "recipientId",
+     *                     "displayName", "videoCall", "cp", "eventId".
      */
     public CallCompositePushNotification(final Map<String, String> notification) {
         final com.azure.android.communication.calling.PushNotificationInfo pushNotificationInfo =
