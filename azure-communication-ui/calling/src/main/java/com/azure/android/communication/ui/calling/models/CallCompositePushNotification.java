@@ -23,7 +23,7 @@ public class CallCompositePushNotification {
      * Create {@link CallCompositePushNotification}.
      * @param notification Notification map.
      *                     The map received for incoming call will contain the following keys:
-     *                     "callId", "recipientId", "recipientId",
+     *                     "callId", "recipientId", "callerId",
      *                     "displayName", "videoCall", "cp", "eventId".
      */
     public CallCompositePushNotification(final Map<String, String> notification) {
