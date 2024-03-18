@@ -35,12 +35,12 @@ buildscript {
             azure_calling_sdk_version = privateDropProps.getProperty('PRIVATE_DROP_VERSION', '""')
         }
         else {
-            azure_calling_sdk_version = '2.2.1'
+            azure_calling_sdk_version = '2.10.0'
         }
 
         // while modifying this version, make sure to modify in ChatContainer
-        azure_chat_sdk_version = '2.0.0'
-        azure_common_sdk_version = '1.0.2'
+        azure_chat_sdk_version = '2.0.3'
+        azure_common_sdk_version = '1.1.0'
 
         jetbrains_kotlinx_coroutines_test_version = '1.6.0-native-mt'
 
@@ -97,6 +97,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        mavenLocal()
         maven {
             url "https://pkgs.dev.azure.com/MicrosoftDeviceSDK/DuoSDK-Public/_packaging/Duo-SDK-Feed/maven/v1"
         }

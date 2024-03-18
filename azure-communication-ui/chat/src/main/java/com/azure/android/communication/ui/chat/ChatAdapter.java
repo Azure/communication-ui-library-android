@@ -87,11 +87,12 @@ public final class ChatAdapter {
      */
     public CompletableFuture<Void> connect(final Context context) {
         chatContainer = new ChatContainer(this, configuration, instanceId);
-
-        launchComposite(context.getApplicationContext(), threadId);
-        final CompletableFuture<Void> result = new CompletableFuture<>();
-        result.complete(null);
-        return result;
+        chatContainer.start(context, new ChatCompositeRemoteOptions(endpoint,
+                threadId, credential, identity, displayName));
+//        launchComposite(context.getApplicationContext(), threadId);
+//        final CompletableFuture<Void> result = new CompletableFuture<>();
+//        result.complete(null);
+        return null;
     }
 
     /**

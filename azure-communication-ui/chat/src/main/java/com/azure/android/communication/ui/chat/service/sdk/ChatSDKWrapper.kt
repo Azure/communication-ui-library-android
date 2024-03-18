@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.chat.service.sdk
 
 import android.content.Context
+import android.util.Log
 import com.azure.android.communication.chat.ChatClient
 import com.azure.android.communication.chat.ChatClientBuilder
 import com.azure.android.communication.chat.ChatThreadClient
@@ -22,7 +23,9 @@ import com.azure.android.communication.ui.chat.models.MessageInfoModel
 import com.azure.android.communication.ui.chat.models.MessagesPageModel
 import com.azure.android.communication.ui.chat.models.into
 import com.azure.android.communication.ui.chat.redux.state.ChatStatus
+import com.azure.android.communication.ui.chat.service.sdk.wrapper.*
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatEventType
+import com.azure.android.communication.ui.chat.service.sdk.wrapper.ChatMessageType
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.CommunicationIdentifier
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.SendChatMessageResult
 import com.azure.android.communication.ui.chat.service.sdk.wrapper.into
@@ -94,9 +97,16 @@ internal class ChatSDKWrapper(
     override fun initialization(): CompletableFuture<Void> {
         val future = CompletableFuture<Void>()
         try {
+            Log.d("Sanath testing", "initialization Enter")
             chatStatusStateFlow.value = ChatStatus.INITIALIZATION
             createChatClient()
+            chatClient.startRealtimeNotifications(context) {
+                Log.d("Sanath testing", it.toString())
+                throw it
+            }
+            Log.d("Sanath testing", "initialization 1")
             createChatThreadClient()
+            Log.d("Sanath testing", "initialization 2")
             // TODO: initialize polling or try to get first message here to make sure SDK can establish connection with thread
             // TODO: above will make sure, network is connected as well
             onChatEventReceived(
@@ -109,11 +119,24 @@ internal class ChatSDKWrapper(
                     eventReceivedOffsetDateTime = null
                 )
             )
+            Log.d("Sanath testing", "initialization 3")
 
             adminUserId = threadClient.properties.createdByCommunicationIdentifier.into().id
             chatStatusStateFlow.value = ChatStatus.INITIALIZED
+            Log.d("Sanath testing", "initialization 4")
             future.complete(null)
+            Log.d("Sanath testing", "Sending message finally")
+            sendMessage(
+                MessageInfoModel(
+                    content = "Chat initialized, testing",
+                    messageType = ChatMessageType.TEXT
+                )
+            )
+            Log.d("Sanath testing", "initialization 5")
+            startEventNotifications()
+            Log.d("Sanath testing", "initialization Exit")
         } catch (ex: Exception) {
+            Log.d("Sanath testing", ex.toString())
             future.completeExceptionally(ex)
             logger.debug("sendMessage failed.", ex)
         }
@@ -319,21 +342,28 @@ internal class ChatSDKWrapper(
     }
 
     override fun startEventNotifications() {
+        Log.d("Sanath testing", "startEventNotifications Enter")
         if (startedEventNotifications) return
+        Log.d("Sanath testing", "startEventNotifications 2")
         startedEventNotifications = true
+        Log.d("Sanath testing", "startEventNotifications 3")
         chatClient.startRealtimeNotifications(context) {
+            Log.d("Sanath testing", it.toString())
             throw it
         }
+        Log.d("Sanath testing", "startEventNotifications 4")
         chatEventHandler.start(
             chatClient = chatClient,
             threadID = threadId,
             localParticipantIdentifier = localParticipantIdentifier,
             eventSubscriber = this::onChatEventReceived
         )
+        Log.d("Sanath testing", "startEventNotifications 5")
         chatFetchNotificationHandler.start(
             chatThreadClient = threadClient,
             eventSubscriber = this::onChatEventReceived
         )
+        Log.d("Sanath testing", "startEventNotifications Exit")
     }
 
     override fun stopEventNotifications() {

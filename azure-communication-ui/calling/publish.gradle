@@ -86,9 +86,15 @@ publishing {
 
             groupId 'com.azure.android'
             artifactId 'azure-communication-calling'
-            version '2.2.0-pre-validation'
+            version '2.10.0'
 
-            artifact("/Users/pavelprystinka/Documents/GitHub/package-host/SDK/calling/azure-communication-calling-2.2.0-pre-validation.aar")
+            artifact("C:\\Skype2\\SpoolCallingStack\\native\\staging.d\\release\\BETA\\sdk\\arm64-v8a\\azure-communication-calling-1.0.0-beta.1.aar")
+
+            //groupId 'com.microsoft'
+            //artifactId 'trouter-client-android'
+            //version '2.0.0'
+
+            //artifact("C:\\Skype2\\SpoolCallingStack\\native\\staging.d\\release\\BETA\\sdk\\arm64-v8a\\trouter-client-android.aar")
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
@@ -96,7 +102,7 @@ publishing {
                 def dependencyNode = dependenciesNode.appendNode('dependency')
                 dependencyNode.appendNode('groupId', 'com.azure.android')
                 dependencyNode.appendNode('artifactId', 'azure-communication-common')
-                dependencyNode.appendNode('version', '1.0.0')
+                dependencyNode.appendNode('version', '1.1.0')
 
                 dependencyNode = dependenciesNode.appendNode('dependency')
                 dependencyNode.appendNode('groupId', 'net.sourceforge.streamsupport')
@@ -106,7 +112,7 @@ publishing {
                 dependencyNode = dependenciesNode.appendNode('dependency')
                 dependencyNode.appendNode('groupId', 'com.google.code.gson')
                 dependencyNode.appendNode('artifactId', 'gson')
-                dependencyNode.appendNode('version', '2.8.6')
+                dependencyNode.appendNode('version', '2.10')
 
             }
         }

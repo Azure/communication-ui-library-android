@@ -6,19 +6,26 @@ package com.azure.android.communication.ui.callwithchatdemoapp
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.azure.android.communication.common.CommunicationTokenCredential
+import com.azure.android.communication.common.CommunicationUserIdentifier
 import com.azure.android.communication.ui.callingcompositedemoapp.BuildConfig
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallwithchatLauncherBinding
 import com.azure.android.communication.ui.callwithchatdemoapp.features.conditionallyRegisterDiagnostics
+import com.azure.android.communication.ui.chat.ChatAdapterBuilder
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.UUID
 
 class CallWithChatLauncherActivity : AppCompatActivity(), AlertHandler {
@@ -95,9 +102,12 @@ class CallWithChatLauncherActivity : AppCompatActivity(), AlertHandler {
                 groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
             }
 
+            chatThreadIdText.setText(BuildConfig.THREAD_ID)
+
             launchButton.setOnClickListener {
                 launchButton.isEnabled = false
                 launch()
+                acsCommunicationUserIdText.setText(BuildConfig.IDENTITY)
             }
 
             tokenFunctionRadioButton.setOnClickListener {
@@ -148,9 +158,30 @@ class CallWithChatLauncherActivity : AppCompatActivity(), AlertHandler {
             }
         }
 
+        this.lifecycleScope.launch {
+            Log.d("Sanath testing", "launch")
+            delay(30000)
+            Log.d("Sanath testing", "post delay sending message")
+            sendMessage()
+            Log.d("Sanath testing", "launch completed")
+        }
+
         callLauncherViewModel.fetchResult.observe(this) {
             processResult(it)
         }
+    }
+
+    fun sendMessage() {
+        Log.d("Sanath testing", "Inside sendMessage");
+        val chatAdapter = ChatAdapterBuilder()
+            .endpoint("https://acs-ui-dev.unitedstates.communication.azure.com")
+            .credential(CommunicationTokenCredential(BuildConfig.ACS_TOKEN))
+            .identity(CommunicationUserIdentifier(BuildConfig.IDENTITY))
+            .displayName(BuildConfig.USER_NAME)
+            .threadId(BuildConfig.THREAD_ID)
+            .build()
+
+        chatAdapter.connect(applicationContext)
     }
 
     override fun onDestroy() {

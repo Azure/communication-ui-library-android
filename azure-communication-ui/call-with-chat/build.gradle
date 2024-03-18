@@ -36,6 +36,11 @@ dependencies {
         exclude group: 'com.microsoft', module: 'trouter-client-android'
     }
 
+    implementation ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version") {
+        exclude group: 'com.microsoft', module: 'trouter-client-android'
+    }
+
+    implementation files("C:\\Skype2\\SpoolCallingStack\\native\\staging.d\\release\\BETA\\sdk\\arm64-v8a\\trouter-client-android.aar")
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

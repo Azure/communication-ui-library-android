@@ -80,6 +80,7 @@ dependencies {
 
     api("com.azure.android:azure-communication-chat:$azure_chat_sdk_version")
     api("com.azure.android:azure-communication-common:$azure_common_sdk_version")
+    //api 'com.microsoft:trouter-client-android:2.0.0'
 
     implementation "com.microsoft.fluentui:fluentui_others:$microsoft_fluent_ui_version_v2"
     implementation "com.microsoft.fluentui:fluentui_persona:$microsoft_fluent_ui_version"

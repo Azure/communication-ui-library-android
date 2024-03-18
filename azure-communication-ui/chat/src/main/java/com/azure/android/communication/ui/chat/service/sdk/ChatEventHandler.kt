@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.chat.service.sdk
 
+import android.util.Log
 import com.azure.android.communication.chat.ChatClient
 import com.azure.android.communication.chat.models.ChatEvent
 import com.azure.android.communication.chat.models.ChatEventType
@@ -57,7 +58,6 @@ internal class ChatEventHandler {
         localParticipantIdentifier: String,
         eventSubscriber: (ChatEventModel) -> Unit,
     ) {
-
         this.chatThreadID = threadID
         this.eventSubscriber = eventSubscriber
         this.localParticipantIdentifier = localParticipantIdentifier
@@ -104,6 +104,7 @@ internal class ChatEventHandler {
             return
         }
 
+        Log.d("Sanath testing", chatEvent.toString());
         when (eventType) {
             ChatEventType.CHAT_MESSAGE_RECEIVED -> {
                 val event = chatEvent as ChatMessageReceivedEvent
