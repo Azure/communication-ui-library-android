@@ -6,7 +6,6 @@ plugins {
 
 apply from: file('publish.gradle')
 apply from: file('jacoco.gradle')
-apply from: file('../java_compile_flags.gradle')
 
 // Compile time features
 def FEATURE_SUPPORT_FILES = "SupportFiles"

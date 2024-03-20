@@ -3,8 +3,6 @@ plugins {
     id 'kotlin-android'
 }
 
-apply from: file('../java_compile_flags.gradle')
-
 Properties properties = new Properties()
 if (project.rootProject.file('local.properties').canRead()) {
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
