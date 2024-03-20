@@ -1,6 +1,5 @@
 import java.util.regex.Pattern
 import java.util.regex.Matcher
-import java.nio.file.Paths
 
 //    ## For Gradle Users
 //
@@ -223,84 +222,6 @@ tasks.register('printFlag') {
                     lines.subList(tagEnd + 1, contextEnd).each { println "  ${it}" }
                     println "\n"
                 }
-            }
-        }
-    }
-}
-
-def lockFilePath = Paths.get(project.rootDir.absolutePath, "flags.lock")
-
-tasks.register('lockFlags') {
-    doLast {
-        def flags = getFlagsStatus()
-        def lockFileContent = flags.collect { "${it.key}=${it.value == 'Enabled'}" }.join('\n')
-        lockFilePath.toFile().text = lockFileContent
-    }
-}
-
-tasks.register('syncFlags') {
-    doLast {
-        if (!lockFilePath.toFile().exists()) {
-            throw new GradleException("flags.lock file does not exist. Run the lockFlags task first.")
-        }
-
-        def lockFileContent = lockFilePath.toFile().text
-        def flagsInLockFile = lockFileContent.split('\n').collectEntries { entry ->
-            def (key, value) = entry.split('=')
-            [(key): value == 'true']
-        }
-
-        flagsInLockFile.each { flagName, isEnabled ->
-            project.exec {
-                commandLine 'gradlew', 'toggleFlag', "-PflagName=${flagName}"
-            }
-        }
-    }
-}
-
-tasks.register('enableAllFlags') {
-    doLast {
-        def flags = getFlagsStatus()
-        flags.each { flagName, status ->
-            if (status == 'Disabled') {
-                project.exec {
-                    commandLine 'gradlew', 'toggleFlag', "-PflagName=${flagName}"
-                }
-            }
-        }
-    }
-}
-
-tasks.register('disableAllFlags') {
-    doLast {
-        def flags = getFlagsStatus()
-        flags.each { flagName, status ->
-            if (status == 'Enabled') {
-                project.exec {
-                    commandLine 'gradlew', 'toggleFlag', "-PflagName=${flagName}"
-                }
-            }
-        }
-    }
-}
-
-tasks.register('validateFlagLock') {
-    doLast {
-        if (!lockFilePath.toFile().exists()) {
-            throw new GradleException("flags.lock file does not exist. Run the lockFlags task first.")
-        }
-
-        def lockFileContent = lockFilePath.toFile().text
-        def flagsInLockFile = lockFileContent.split('\n').collectEntries { entry ->
-            def (key, value) = entry.split('=')
-            [(key): value == 'true']
-        }
-
-        def flags = getFlagsStatus()
-        flags.each { flagName, status ->
-            def isEnabled = status == 'Enabled'
-            if (flagsInLockFile[flagName] != isEnabled) {
-                throw new GradleException("Flag ${flagName} does not match the state in the flags.lock file.")
             }
         }
     }
