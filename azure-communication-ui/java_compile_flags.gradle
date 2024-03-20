@@ -1,51 +1,112 @@
 import java.util.regex.Pattern
 import java.util.regex.Matcher
+import java.nio.file.Paths
 
+//    ## For Gradle Users
+//
+//    ### Listing Flags
+//
+//    To list all the feature flags in your project and their current status (Enabled or Disabled), use the `listFlags` task:
+//
+//    ```shell
+//    gradlew listFlags
+//    ```
+//
+//    This will print out all the feature flags in your project and their current status.
+//
+//    ### Toggling Flags
+//
+//    To toggle the status of a feature flag, use the `toggleFlag` task with the `-PflagName=YOUR_FLAG_NAME` argument:
+//
+//    ```shell
+//    gradlew toggleFlag -PflagName=YOUR_FLAG_NAME
+//    ```
+//
+//    Replace `YOUR_FLAG_NAME` with the name of the flag you want to toggle. This will toggle the status of the specified feature flag.
+//
+//    ### Printing Flags
+//
+//    To print the context of a feature flag, use the `printFlag` task with the `-PflagName=YOUR_FLAG_NAME` argument:
+//
+//    ```shell
+//    gradlew printFlag -PflagName=YOUR_FLAG_NAME
+//    ```
+//
+//    Replace `YOUR_FLAG_NAME` with the name of the flag you want to print. This will print the lines of code that are within the context of the specified feature flag.
+//
+//    ## For Java/Kotlin/Gradle File Writers
+//
+//    ### Flag Format
+//
+//    The expected flag format in your Java/Kotlin/Gradle files is a comment block with the flag name enclosed in angle brackets `<` and `>`. The start and end of the comment block depend on the file type:
+//
+//    - For Kotlin and Java files, the start of the comment block is `/*` and the end is `*/`.
+//    - For XML files, the start of the comment block is `<!--` and the end is `-->`.
+//
+//    Here's an example of a feature flag in a Kotlin or Java file:
+//
+//    ```java
+//    /* <YOUR_FLAG_NAME> */
+//    // Your code here
+//    /* </YOUR_FLAG_NAME> */
+//    ```
+//
+//    And here's an example of a feature flag in an XML file:
+//
+//    ```xml
+//            <!-- <YOUR_FLAG_NAME> -->
+//            <!-- Your code here -->
+//            <!-- </YOUR_FLAG_NAME> -->
+//    ```
+//
+//    Replace `YOUR_FLAG_NAME` with the name of your feature flag.
+//
+//    ### Context
+//
+//    The `printFlag` task prints the lines of code that are within the context of the specified feature flag. By default, it prints 5 lines before and after the flag. You can specify a different number of context lines by appending `:NUMBER` to the flag name, where `NUMBER` is the number of context lines you want. For example:
+//
+//    ```java
+//    /* <YOUR_FLAG_NAME:3> */
+//    // Your code here
+//    /* </YOUR_FLAG_NAME:3> */
+//    ```
+//
+//    This will print 3 lines before and after the flag when you use the `printFlag` task.
 
-/**
- * Gradle Script for Managing Feature Flags in Java/Kotlin Projects
- *
- * This script provides tasks to list and toggle feature flags in Java and Kotlin source files.
- * Feature flags are identified by markers in the source code.
- *
- * Usage:
- * 1. Include this script in your project's build.gradle file.
- * 2. Use the provided Gradle tasks to manage your feature flags:
- *    - `listFlags`: Lists all the feature flags and their current status (Enabled/Disabled).
- *    - `toggleFlag`: Toggles a specified feature flag between enabled and disabled states.
- *
- * Command Line Usage:
- * - To list all feature flags:
- *   ./gradlew listFlags
- *
- * - To toggle a specific feature flag (replace 'YOUR_FLAG_NAME' with the actual flag name):
- *   ./gradlew toggleFlag -PflagName=YOUR_FLAG_NAME
- *
- * - To Contextualize a flag and it's code
- *   ./gradlew printFlag -PflagName=YOUR_FLAG_NAME
- */
+class FlagFileDefinition {
+    String extension
+    String startTag
+    String endTag
 
+    FlagFileDefinition(String extension, String startTag, String endTag) {
+        this.extension = extension
+        this.startTag = startTag
+        this.endTag = endTag
+    }
+}
 
-// Task to list all feature flags and their status
+def flagFileDefinitions = [
+        new FlagFileDefinition('.kt', '/*', '*/'),
+        new FlagFileDefinition('.java', '/*', '*/'),
+        new FlagFileDefinition('.xml', '<!--', '-->')
+]
+
 def getFlagsStatus() {
     def flags = [:]
     def projectDir = project.projectDir
-    def flagPattern = /\/\* <(.+?)>( \*)?/
+    def flagPattern = /\/\* <(.+?)(?::\d+)?>( \*)?/
 
-
-    projectDir.traverse(type: groovy.io.FileType.FILES, nameFilter: ~/.*\.(java|kt)/) { file ->
+    projectDir.traverse(type: groovy.io.FileType.FILES, nameFilter: ~/.*\.(java|kt|xml)/) { file ->
         def content = file.text
         content.eachLine { line ->
             def matcher = (line =~ flagPattern)
             if (matcher.find()) {
                 String flagName = matcher.group(1)
-                // These are end tags, I.e. </FEATURE> = /FEATURE
-                // We don't care when finding them.
                 if (flagName.startsWith("/")) {
                     return
                 }
                 if (!flags.containsKey(flagName)) {
-                    boolean isEnabled = content.contains("/* <${flagName}> */")
+                    boolean isEnabled = content.contains("/* <${flagName}> */") || content.contains("/* <${flagName}:\d+> */")
                     flags[flagName] = isEnabled ? "Enabled" : "Disabled"
                 }
             }
@@ -77,16 +138,23 @@ tasks.register('toggleFlag') {
         String flagName = project.property('flagName')
         def flags = getFlagsStatus()
         boolean isEnabled = flags[flagName] == "Enabled"
-        String startMarkerEnabled = "/* <${flagName}> */"
-        String endMarkerEnabled = "/* </${flagName}> */"
-        String startMarkerDisabled = "/* <${flagName}>"
-        String endMarkerDisabled = "</${flagName}> */"
 
-        FileTree files = fileTree(dir: 'src', includes: ['**/*.java', '**/*.kt'])
+        FileTree files = fileTree(dir: 'src', includes: ['**/*.java', '**/*.kt', '**/*.xml'])
 
         files.each { File file ->
             String content = file.text
             boolean madeReplacement = false
+
+            def flagFileDefinition = flagFileDefinitions.find { file.name.endsWith(it.extension) }
+            if (flagFileDefinition == null) {
+                println "Unsupported file type: ${file}"
+                return
+            }
+
+            String startMarkerEnabled = "${flagFileDefinition.startTag} <${flagName}> ${flagFileDefinition.endTag}"
+            String endMarkerEnabled = "${flagFileDefinition.startTag} </${flagName}> ${flagFileDefinition.endTag}"
+            String startMarkerDisabled = "${flagFileDefinition.startTag} <${flagName}>"
+            String endMarkerDisabled = "</${flagName}> ${flagFileDefinition.endTag}"
 
             if (isEnabled) {
                 if (content.contains(startMarkerEnabled) || content.contains(endMarkerEnabled)) {
@@ -123,10 +191,10 @@ tasks.register('printFlag') {
 
     doLast {
         String flagName = project.property('flagName')
-        FileTree files = fileTree(dir: 'src', includes: ['**/*.java', '**/*.kt'])
+        FileTree files = fileTree(dir: 'src', includes: ['**/*.java', '**/*.kt', '**/*.xml'])
         Pattern startPattern = Pattern.compile("/\\* <${flagName}(?::(\\d+))?>")
         Pattern endPattern = Pattern.compile("</${flagName}(?::(\\d+))?> \\*/")
-        int defaultContextLines = 5 // Default number of contextual lines
+        int defaultContextLines = 5
 
         files.each { File file ->
             List<String> lines = file.readLines()
@@ -141,10 +209,8 @@ tasks.register('printFlag') {
                     isReading = true
                     tagStart = index
                     contextLinesBefore = startMatcher.group(1) ? Integer.parseInt(startMatcher.group(1)) : defaultContextLines
-                    // Calculate the start index for printing context before the flag
                     int contextStart = Math.max(0, index - contextLinesBefore)
                     println "File: ${file} - Flag: ${flagName}"
-                    // Print context before the flag
                     lines.subList(contextStart, index).each { println "  ${it}" }
                 }
                 Matcher endMatcher = endPattern.matcher(line)
@@ -152,14 +218,89 @@ tasks.register('printFlag') {
                     isReading = false
                     int tagEnd = index
                     contextLinesAfter = endMatcher.group(1) ? Integer.parseInt(endMatcher.group(1)) : defaultContextLines
-                    // Calculate the end index for printing context after the flag
                     int contextEnd = Math.min(lines.size(), tagEnd + contextLinesAfter + 1)
-                    // Print the flag content
                     lines.subList(tagStart + 1, tagEnd).each { println "+ ${it}" }
-                    // Print context after the flag
                     lines.subList(tagEnd + 1, contextEnd).each { println "  ${it}" }
-                    println "\n" // Separate blocks for readability
+                    println "\n"
                 }
+            }
+        }
+    }
+}
+
+def lockFilePath = Paths.get(project.rootDir.absolutePath, "flags.lock")
+
+tasks.register('lockFlags') {
+    doLast {
+        def flags = getFlagsStatus()
+        def lockFileContent = flags.collect { "${it.key}=${it.value == 'Enabled'}" }.join('\n')
+        lockFilePath.toFile().text = lockFileContent
+    }
+}
+
+tasks.register('syncFlags') {
+    doLast {
+        if (!lockFilePath.toFile().exists()) {
+            throw new GradleException("flags.lock file does not exist. Run the lockFlags task first.")
+        }
+
+        def lockFileContent = lockFilePath.toFile().text
+        def flagsInLockFile = lockFileContent.split('\n').collectEntries { entry ->
+            def (key, value) = entry.split('=')
+            [(key): value == 'true']
+        }
+
+        flagsInLockFile.each { flagName, isEnabled ->
+            project.exec {
+                commandLine 'gradlew', 'toggleFlag', "-PflagName=${flagName}"
+            }
+        }
+    }
+}
+
+tasks.register('enableAllFlags') {
+    doLast {
+        def flags = getFlagsStatus()
+        flags.each { flagName, status ->
+            if (status == 'Disabled') {
+                project.exec {
+                    commandLine 'gradlew', 'toggleFlag', "-PflagName=${flagName}"
+                }
+            }
+        }
+    }
+}
+
+tasks.register('disableAllFlags') {
+    doLast {
+        def flags = getFlagsStatus()
+        flags.each { flagName, status ->
+            if (status == 'Enabled') {
+                project.exec {
+                    commandLine 'gradlew', 'toggleFlag', "-PflagName=${flagName}"
+                }
+            }
+        }
+    }
+}
+
+tasks.register('validateFlagLock') {
+    doLast {
+        if (!lockFilePath.toFile().exists()) {
+            throw new GradleException("flags.lock file does not exist. Run the lockFlags task first.")
+        }
+
+        def lockFileContent = lockFilePath.toFile().text
+        def flagsInLockFile = lockFileContent.split('\n').collectEntries { entry ->
+            def (key, value) = entry.split('=')
+            [(key): value == 'true']
+        }
+
+        def flags = getFlagsStatus()
+        flags.each { flagName, status ->
+            def isEnabled = status == 'Enabled'
+            if (flagsInLockFile[flagName] != isEnabled) {
+                throw new GradleException("Flag ${flagName} does not match the state in the flags.lock file.")
             }
         }
     }
