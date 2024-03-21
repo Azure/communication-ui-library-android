@@ -11,7 +11,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeLocalizati
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation;
-import com.azure.android.communication.ui.calling.models.CallCompositeTelecomOptions;
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions;
 
 /**
  * Builder for creating {@link CallComposite}.
@@ -29,7 +29,7 @@ public final class CallCompositeBuilder {
     private CommunicationTokenCredential credential = null;;
     private String displayName = null;
     private Context context = null;
-    private CallCompositeTelecomOptions telecomOptions = null;
+    private CallCompositeTelecomManagerOptions telecomOptions = null;
     private CallCompositeCallScreenOptions callScreenOptions = null;
 
     /**
@@ -92,14 +92,14 @@ public final class CallCompositeBuilder {
     }
 
     /***
-     * Sets an optional telecom options for call-composite to use by {@link CallComposite}.
+     * Sets an optional telecom manager options for call-composite to use by {@link CallComposite}.
      *
-     * @param telecomOptions {@link CallCompositeTelecomOptions}.
+     * @param telecomManagerOptions {@link CallCompositeTelecomManagerOptions}.
      * @return {@link CallCompositeBuilder} for chaining options.
      */
-    public CallCompositeBuilder telecomOptions(
-            final CallCompositeTelecomOptions telecomOptions) {
-        this.telecomOptions = telecomOptions;
+    public CallCompositeBuilder telecomManagerOptions(
+            final CallCompositeTelecomManagerOptions telecomManagerOptions) {
+        this.telecomOptions = telecomManagerOptions;
         return this;
     }
 
@@ -158,7 +158,7 @@ public final class CallCompositeBuilder {
         config.setEnableSystemPiPWhenMultitasking(enableSystemPiPWhenMultitasking);
         config.setCallScreenOrientation(this.callScreenOrientation);
         config.setSetupScreenOrientation(this.setupScreenOrientation);
-        config.setTelecomOptions(telecomOptions);
+        config.setTelecomManagerOptions(telecomOptions);
         config.setCredential(credential);
         config.setDisplayName(displayName);
         config.setContext(context);

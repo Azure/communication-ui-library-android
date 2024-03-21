@@ -8,10 +8,10 @@ import com.azure.android.communication.common.CommunicationIdentifier;
 import java.util.Map;
 
 /**
- * CallCompositePushNotificationInfo for forwarding calling push notifications to UI Library.
+ * CallCompositePushNotification for forwarding calling push notifications to UI Library.
  */
-public class CallCompositePushNotificationInfo {
-    private final Map<String, String> notificationInfoMap;
+public class CallCompositePushNotification {
+    private final Map<String, String> notification;
     private final String fromDisplayName;
     private final CommunicationIdentifier from;
     private final boolean isIncomingWithVideo;
@@ -20,12 +20,15 @@ public class CallCompositePushNotificationInfo {
     private final String eventTypeResult;
 
     /**
-     * Create {@link CallCompositePushNotificationInfo}.
-     * @param notificationInfoMap Notification info map.
+     * Create {@link CallCompositePushNotification}.
+     * @param notification Notification map.
+     *                     The map received for incoming call will contain the following keys:
+     *                     "callId", "recipientId", "callerId",
+     *                     "displayName", "videoCall", "cp", "eventId".
      */
-    public CallCompositePushNotificationInfo(final Map<String, String> notificationInfoMap) {
+    public CallCompositePushNotification(final Map<String, String> notification) {
         final com.azure.android.communication.calling.PushNotificationInfo pushNotificationInfo =
-                com.azure.android.communication.calling.PushNotificationInfo.fromMap(notificationInfoMap);
+                com.azure.android.communication.calling.PushNotificationInfo.fromMap(notification);
 
         fromDisplayName = pushNotificationInfo.getFromDisplayName();
 
@@ -39,7 +42,7 @@ public class CallCompositePushNotificationInfo {
 
         eventTypeResult = pushNotificationInfo.getEventType().toString();
 
-        this.notificationInfoMap = notificationInfoMap;
+        this.notification = notification;
     }
 
     /**
@@ -96,6 +99,6 @@ public class CallCompositePushNotificationInfo {
      * @return PushNotificationInfo.
      */
     public Map<String, String> getNotificationInfo() {
-        return notificationInfoMap;
+        return notification;
     }
 }
