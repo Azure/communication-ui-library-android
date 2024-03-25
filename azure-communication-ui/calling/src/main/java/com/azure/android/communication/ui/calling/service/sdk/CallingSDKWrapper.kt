@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.service.sdk
 
 import android.content.Context
+import android.os.Build
 import android.telecom.CallAudioState
 import com.azure.android.communication.calling.AudioOptions
 import com.azure.android.communication.calling.Call
@@ -206,7 +207,7 @@ internal class CallingSDKWrapper(
     }
 
     override fun turnOnVideoAsync(): CompletableFuture<LocalVideoStream> {
-        call.setAudioRoute(CallAudioState.ROUTE_SPEAKER)
+        call.setAudioRoute(android.telecom.CallAudioState.ROUTE_SPEAKER)
 
         val result = CompletableFuture<LocalVideoStream>()
         this.getLocalVideoStream()
@@ -311,13 +312,15 @@ internal class CallingSDKWrapper(
 
         if (callAgentCompletableFuture == null || callAgentCompletableFuture!!.isCompletedExceptionally) {
             callAgentCompletableFuture = CompletableFuture<CallAgent>()
-            val telecomManagerOptions = TelecomManagerOptions().also {
-//                it.isResumeCallAutomatically = false
-                it.phoneAccountId = "48a00980-964d-11ee-9708-1d255bf21164"
-            }
 
             val options = CallAgentOptions().apply { displayName = callConfig.displayName }
-            options.telecomManagerOptions = telecomManagerOptions
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                val telecomManagerOptions = TelecomManagerOptions("48a00980-964d-11ee-9708-1d255bf21164")
+                telecomManagerOptions.isResumeCallAutomatically = true
+                options.telecomManagerOptions = telecomManagerOptions
+            }
+
             try {
                 val createCallAgentFutureCompletableFuture = callClient!!.createCallAgent(
                     context,

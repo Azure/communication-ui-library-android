@@ -11,7 +11,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 
-@RequiresApi(Build.VERSION_CODES.M)
+@RequiresApi(Build.VERSION_CODES.N_MR1)
 class TelecomConnectionService : ConnectionService() {
 
     companion object {
@@ -23,18 +23,14 @@ class TelecomConnectionService : ConnectionService() {
         connectionManagerPhoneAccount: PhoneAccountHandle?,
         request: ConnectionRequest,
     ): Connection? {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            val bundle = request.extras
-            val name = bundle.getString("NAME")
-            val connection = createTelecomConnection(bundle)
+        val bundle = request.extras
+        val name = bundle.getString("NAME")
+        val connection = createTelecomConnection(bundle)
 
-            connection.setCallerDisplayName(name, TelecomManager.PRESENTATION_ALLOWED)
-            connection.setAddress(request.address, TelecomManager.PRESENTATION_ALLOWED)
-            TelecomConnectionService.connection = connection
-            connection
-        } else {
-            null
-        }
+        connection.setCallerDisplayName(name, TelecomManager.PRESENTATION_ALLOWED)
+        connection.setAddress(request.address, TelecomManager.PRESENTATION_ALLOWED)
+        TelecomConnectionService.connection = connection
+        return connection
     }
 
     override fun onCreateIncomingConnectionFailed(
@@ -73,7 +69,6 @@ class TelecomConnectionService : ConnectionService() {
         return null
     }
 
-    @RequiresApi(Build.VERSION_CODES.N_MR1)
     private fun createTelecomConnection(
         originalBundle: Bundle
     ): TelecomConnection {

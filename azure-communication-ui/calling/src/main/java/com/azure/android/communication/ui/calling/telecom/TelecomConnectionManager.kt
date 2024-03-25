@@ -21,7 +21,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 
-@RequiresApi(Build.VERSION_CODES.M)
+@RequiresApi(Build.VERSION_CODES.N_MR1)
 internal class TelecomConnectionManager(
     context: Context,
     val phoneAccountId: String,
@@ -54,7 +54,6 @@ internal class TelecomConnectionManager(
         TelecomConnectionService.connection?.setActive()
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     fun startIncomingConnection(context: Context, fromDisplayName: String, isVideoCall: Boolean) {
         if (context.checkSelfPermission(Manifest.permission.MANAGE_OWN_CALLS) ==
             PackageManager.PERMISSION_GRANTED
@@ -78,7 +77,6 @@ internal class TelecomConnectionManager(
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     fun startOutgoingConnection(context: Context, callerDisplayName: String, isVideoCall: Boolean) {
 
         if (context.checkSelfPermission(Manifest.permission.MANAGE_OWN_CALLS) ==
