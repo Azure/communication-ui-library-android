@@ -84,7 +84,7 @@ class FlagFileDefinition {
     }
 }
 
-def flagFileDefinitions = [
+ext.flagFileDefinitions = [
         new FlagFileDefinition('.kt', '/*', '*/'),
         new FlagFileDefinition('.java', '/*', '*/'),
         new FlagFileDefinition('.xml', '<!--', '-->')
@@ -156,7 +156,6 @@ def updateFlagStatus(String flagName, boolean enable) {
         String content = file.text
         boolean madeReplacement = false
 
-        print(file.absolutePath)
         def flagFileDefinition = flagFileDefinitions.find { file.name.endsWith(it.extension) }
         if (flagFileDefinition == null) {
             println "Unsupported file type: ${file}"
@@ -226,8 +225,6 @@ tasks.register('printFlag') {
 
     doLast {
         String flagName = project.property('flagName')
-
-
         Set<String> printedFiles = new HashSet<>()
         Pattern startPattern = Pattern.compile("/\\* <${flagName}(?::(\\d+))?>")
         Pattern endPattern = Pattern.compile("</${flagName}(?::(\\d+))?> \\*/")
