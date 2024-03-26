@@ -186,8 +186,6 @@ def updateFlagStatus(String flagName, boolean enable) {
         if (madeReplacement) {
             file.text = content
             println "File updated: ${file}"
-        } else {
-            println "No changes made to file: ${file}"
         }
     }
 }
