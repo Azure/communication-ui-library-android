@@ -148,6 +148,35 @@ class FlagInstance {
         file.text = fileLines.join("\n")
     }
 
+    def enable() {
+        // Read the current file lines
+        List<String> fileLines = file.readLines()
+
+        // Extract the original start and end lines
+        def startLineContent = fileLines[startLine]
+        def endLineContent = fileLines[endLine]
+
+
+        // Count leading whitespace in the original lines
+        int startLineWhitespaceCount = countLeadingWhitespace(startLineContent)
+        int endLineWhitespaceCount = countLeadingWhitespace(endLineContent)
+
+        // Prepare the whitespace strings
+        def startLineIndent = ' ' * startLineWhitespaceCount
+        def endLineIndent = ' ' * endLineWhitespaceCount
+
+        // Construct new lines with the appropriate indentation
+        def newStart = startLineIndent + ffd.startTag + " <" + ffd.whatFlag(startLineContent) + ":" + FlagFileDefinition.howMuchContext(startLineContent) + "> " + ffd.endTag
+        def newEnd = endLineIndent + ffd.startTag + " </" + ffd.whatFlag(endLineContent) + ":" + FlagFileDefinition.howMuchContext(endLineContent) + "> " + ffd.endTag
+
+        // Update the fileLines with the new start and end
+        fileLines[startLine] = newStart
+        fileLines[endLine] = newEnd
+
+        // Write the updated lines back to the file
+        file.text = fileLines.join("\n")
+    }
+
 
     def isEnabled() {
         return fileContent.get(startLine).contains(ffd.startTag)
@@ -267,6 +296,23 @@ tasks.register('disableFlag') {
 
         flags.each { value ->
             value.disable()
+        }
+    }
+}
+
+
+tasks.register('enableFlag') {
+    doFirst {
+        if (!project.hasProperty('flagName')) {
+            throw new GradleException("Flag name must be provided using the -PflagName=YOUR_FLAG_NAME argument.")
+        }
+    }
+    doLast {
+        String flagName = project.property('flagName')
+        def flags = getFlagsStatus().findAll { it.flagName() == flagName }
+
+        flags.each { value ->
+            value.enable()
         }
     }
 }
