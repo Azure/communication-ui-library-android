@@ -200,9 +200,10 @@ tasks.register('printFlag') {
         String flagName = project.property('flagName')
 
 
+        Set<String> printedFiles = new HashSet<>()
         Pattern startPattern = Pattern.compile("/\\* <${flagName}(?::(\\d+))?>")
         Pattern endPattern = Pattern.compile("</${flagName}(?::(\\d+))?> \\*/")
-        int defaultContextLines = 5
+        int defaultContextLines = 0
 
         project.projectDir.traverse(type: groovy.io.FileType.FILES, nameFilter: ~/.*\.(java|kt|xml)/) { File file ->
             List<String> lines = file.readLines()
@@ -218,7 +219,14 @@ tasks.register('printFlag') {
                     tagStart = index
                     contextLinesBefore = startMatcher.group(1) ? Integer.parseInt(startMatcher.group(1)) : defaultContextLines
                     int contextStart = Math.max(0, index - contextLinesBefore)
-                    println "File: ${file} - Flag: ${flagName}"
+                    String fileLabel = "\nFile: ./${projectDir.relativePath(file)}"
+                    if (!printedFiles.contains(fileLabel)) {
+                        println fileLabel
+                        printedFiles.add(fileLabel)
+                    } else {
+                        println "..."
+                    }
+
                     lines.subList(contextStart, index).each { println "  ${it}" }
                 }
                 Matcher endMatcher = endPattern.matcher(line)
@@ -229,7 +237,6 @@ tasks.register('printFlag') {
                     int contextEnd = Math.min(lines.size(), tagEnd + contextLinesAfter + 1)
                     lines.subList(tagStart + 1, tagEnd).each { println "+ ${it}" }
                     lines.subList(tagEnd + 1, contextEnd).each { println "  ${it}" }
-                    println "\n"
                 }
             }
         }
