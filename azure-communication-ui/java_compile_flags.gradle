@@ -259,6 +259,20 @@ def getFlagsStatus() {
     return flags
 }
 
+def purgeDeletions() {
+    def projectDir = project.projectDir
+
+    projectDir.traverse(type: groovy.io.FileType.FILES, nameFilter: ~/.*\.(java|kt|xml)/) { file ->
+        if (file.absolutePath.contains("build")) {
+            return
+        }
+
+        def lines = file.readLines()
+        def newLines = lines.findAll { line -> !line.startsWith("DELETE_ME") }
+        file.text = newLines.join("\n")
+    }
+}
+
 tasks.register('listFlags') {
     doLast {
         def flags = getFlagsStatus()
@@ -340,6 +354,7 @@ tasks.register('deleteFlag') {
         flags.each { value ->
             value.prepDelete()
         }
+        purgeDeletions()
     }
 }
 
