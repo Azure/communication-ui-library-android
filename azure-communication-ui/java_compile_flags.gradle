@@ -207,8 +207,8 @@ class FlagInstance {
         final printEnd = endLine + flagContextBottom
 
         String topContext = fileContent.subList(printStart, startLine).join("\n")
-        String content = "\n+"+fileContent.subList(startLine, endLine).join("\n+")
-        String bottomContext = "\n"+fileContent.subList(endLine, printEnd).join("\n")
+        String content = "\n+"+fileContent.subList(startLine+1, endLine).join("\n+")
+        String bottomContext = "\n"+fileContent.subList(endLine+1, printEnd+1).join("\n")
 
         def output = file.name+"\n"+topContext + content + bottomContext+"\n"
         println output
@@ -432,6 +432,7 @@ tasks.register('flagHelp') {
         println "  listFlags: Lists all the feature flags in your project and their current status."
         println "  enableFlag -PflagName=[flagName]: Enables the specified feature flag."
         println "  disableFlag -PflagName=[flagName]: Disables the specified feature flag."
+        println "  deleteFlag -PflagName=[flagName]: Deletes all traces of a flag from the project."
         println "  printFlag -PflagName=[flagName]: Prints the lines of code that are within the context of the specified feature flag."
         println "  flagLock: Writes the current status of all flags to a lock file."
         println "  syncWithFlagLock: Syncs the status of all flags with the lock file."
