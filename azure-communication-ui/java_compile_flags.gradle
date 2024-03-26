@@ -136,57 +136,78 @@ tasks.register('flagHelp') {
         println "  ./gradlew printFlag -PflagName=FLAG_NAME"
     }
 }
-tasks.register('toggleFlag') {
+def updateFlagStatus(String flagName, boolean enable) {
+    def flags = getFlagsStatus()
+    boolean isEnabled = flags[flagName] == "Enabled"
+
+    if (isEnabled == enable) {
+        println "Flag '${flagName}' is already ${enable ? 'enabled' : 'disabled'}"
+        return
+    }
+
+    project.projectDir.traverse(type: groovy.io.FileType.FILES, nameFilter: ~/.*\.(java|kt|xml)/) { File file ->
+        String content = file.text
+        boolean madeReplacement = false
+
+        print(file.absolutePath)
+        def flagFileDefinition = flagFileDefinitions.find { file.name.endsWith(it.extension) }
+        if (flagFileDefinition == null) {
+            println "Unsupported file type: ${file}"
+            return
+        }
+
+        String startMarkerEnabled = "${flagFileDefinition.startTag} <${flagName}> ${flagFileDefinition.endTag}"
+        String endMarkerEnabled = "${flagFileDefinition.startTag} </${flagName}> ${flagFileDefinition.endTag}"
+        String startMarkerDisabled = "${flagFileDefinition.startTag} <${flagName}>"
+        String endMarkerDisabled = "</${flagName}> ${flagFileDefinition.endTag}"
+
+        if (enable) {
+            if (content.contains(startMarkerDisabled) || content.contains(endMarkerDisabled)) {
+                println "Found disabled flag '${flagName}' in file: ${file}"
+                content = content.replaceAll(Pattern.quote(startMarkerDisabled), Matcher.quoteReplacement(startMarkerEnabled))
+                content = content.replaceAll(Pattern.quote(endMarkerDisabled), Matcher.quoteReplacement(endMarkerEnabled))
+                madeReplacement = true
+            }
+        } else {
+            if (content.contains(startMarkerEnabled) || content.contains(endMarkerEnabled)) {
+                println "Found enabled flag '${flagName}' in file: ${file}"
+                content = content.replaceAll(Pattern.quote(startMarkerEnabled), Matcher.quoteReplacement(startMarkerDisabled))
+                content = content.replaceAll(Pattern.quote(endMarkerEnabled), Matcher.quoteReplacement(endMarkerDisabled))
+                madeReplacement = true
+            }
+        }
+
+        if (madeReplacement) {
+            file.text = content
+            println "File updated: ${file}"
+        } else {
+            println "No changes made to file: ${file}"
+        }
+    }
+}
+
+tasks.register('enableFlag') {
     doFirst {
         if (!project.hasProperty('flagName')) {
             throw new GradleException("Flag name must be provided using the -PflagName=YOUR_FLAG_NAME argument.")
         }
     }
-  doLast {
-      String flagName = project.property('flagName')
-      def flags = getFlagsStatus()
-      boolean isEnabled = flags[flagName] == "Enabled"
+    doLast {
+        String flagName = project.property('flagName')
+        updateFlagStatus(flagName, true)
+    }
+}
 
-      project.projectDir.traverse(type: groovy.io.FileType.FILES, nameFilter: ~/.*\.(java|kt|xml)/) { File file ->
-          String content = file.text
-          boolean madeReplacement = false
-
-          print(file.absolutePath)
-          def flagFileDefinition = flagFileDefinitions.find { file.name.endsWith(it.extension) }
-          if (flagFileDefinition == null) {
-              println "Unsupported file type: ${file}"
-              return
-          }
-
-          String startMarkerEnabled = "${flagFileDefinition.startTag} <${flagName}> ${flagFileDefinition.endTag}"
-          String endMarkerEnabled = "${flagFileDefinition.startTag} </${flagName}> ${flagFileDefinition.endTag}"
-          String startMarkerDisabled = "${flagFileDefinition.startTag} <${flagName}>"
-          String endMarkerDisabled = "</${flagName}> ${flagFileDefinition.endTag}"
-
-          if (isEnabled) {
-              if (content.contains(startMarkerEnabled) || content.contains(endMarkerEnabled)) {
-                  println "Found enabled flag '${flagName}' in file: ${file}"
-                  content = content.replaceAll(Pattern.quote(startMarkerEnabled), Matcher.quoteReplacement(startMarkerDisabled))
-                  content = content.replaceAll(Pattern.quote(endMarkerEnabled), Matcher.quoteReplacement(endMarkerDisabled))
-                  madeReplacement = true
-              }
-          } else {
-              if (content.contains(startMarkerDisabled) || content.contains(endMarkerDisabled)) {
-                  println "Found disabled flag '${flagName}' in file: ${file}"
-                  content = content.replaceAll(Pattern.quote(startMarkerDisabled), Matcher.quoteReplacement(startMarkerEnabled))
-                  content = content.replaceAll(Pattern.quote(endMarkerDisabled), Matcher.quoteReplacement(endMarkerEnabled))
-                  madeReplacement = true
-              }
-          }
-
-          if (madeReplacement) {
-              file.text = content
-              println "File updated: ${file}"
-          } else {
-              println "No changes made to file: ${file}"
-          }
-      }
-  }
+tasks.register('disableFlag') {
+    doFirst {
+        if (!project.hasProperty('flagName')) {
+            throw new GradleException("Flag name must be provided using the -PflagName=YOUR_FLAG_NAME argument.")
+        }
+    }
+    doLast {
+        String flagName = project.property('flagName')
+        updateFlagStatus(flagName, false)
+    }
 }
 
 tasks.register('printFlag') {
