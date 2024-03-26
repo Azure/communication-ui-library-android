@@ -114,6 +114,20 @@ class FlagInstance {
         this.ffd = ffd
     }
 
+    def disable() {
+        List<String> fileLines = file.readLines()
+        def indentStartLine = fileLines[startLine].indexOf(ffd.startTag)
+        // Create a new line with the right indentation
+        def newStartLine = fileLines[startLine].substring(0, indentStartLine) + ffd.startTag + " <" + ffd.whatFlag(fileLines[startLine]) + ">"
+        fileLines[startLine] = newStartLine
+
+        def indentEndLine = fileLines[endLine].indexOf(ffd.endTag)
+        // Create a new line with the right indentation
+        def newEndLine = fileLines[endLine].substring(0, indentEndLine) + " </" + ffd.whatFlag(fileLines[endLine]) + "/> " + ffd.endTag
+        fileLines[endLine] = newEndLine
+
+        file.write(fileLines.join("\n"))
+    }
     def isEnabled() {
         return fileContent.get(startLine).contains(ffd.startTag)
                 && fileContent.get(startLine).contains(ffd.endTag)
@@ -204,7 +218,6 @@ tasks.register('listFlags') {
     }
 }
 
-
 tasks.register('printFlag') {
     doFirst {
         if (!project.hasProperty('flagName')) {
@@ -217,6 +230,22 @@ tasks.register('printFlag') {
         def flags = getFlagsStatus().findAll { it.flagName() == flagName }
         flags.each { value ->
             value.print()
+        }
+    }
+}
+
+tasks.register('disableFlag') {
+    doFirst {
+        if (!project.hasProperty('flagName')) {
+            throw new GradleException("Flag name must be provided using the -PflagName=YOUR_FLAG_NAME argument.")
+        }
+    }
+    doLast {
+        String flagName = project.property('flagName')
+        def flags = getFlagsStatus().findAll { it.flagName() == flagName }
+
+        flags.each { value ->
+            value.disable()
         }
     }
 }
@@ -241,26 +270,3 @@ tasks.register('flagHelp') {
     }
 }
 
-tasks.register('enableFlag') {
-    doFirst {
-        if (!project.hasProperty('flagName')) {
-            throw new GradleException("Flag name must be provided using the -PflagName=YOUR_FLAG_NAME argument.")
-        }
-    }
-    doLast {
-        String flagName = project.property('flagName')
-        updateFlagStatus(flagName, true)
-    }
-}
-
-tasks.register('disableFlag') {
-    doFirst {
-        if (!project.hasProperty('flagName')) {
-            throw new GradleException("Flag name must be provided using the -PflagName=YOUR_FLAG_NAME argument.")
-        }
-    }
-    doLast {
-        String flagName = project.property('flagName')
-        updateFlagStatus(flagName, false)
-    }
-}
