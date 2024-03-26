@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.app.Application
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel

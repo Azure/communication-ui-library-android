@@ -402,11 +402,6 @@ public final class CallComposite {
         return createDebugInfoManager(context.getApplicationContext(), Collections::emptyList);
     }
 
-    /* <TEST_FEATURE:1>
-    public String testString() {
-        return "testString";
-    }
-    </TEST_FEATURE:1> */
 
     private void launchComposite(final Context context,
                                  final CallCompositeRemoteOptions remoteOptions,
