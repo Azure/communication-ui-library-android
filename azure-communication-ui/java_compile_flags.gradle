@@ -116,16 +116,12 @@ class FlagInstance {
 
     def disable() {
         List<String> fileLines = file.readLines()
-        def indentStartLine = fileLines[startLine].indexOf(ffd.startTag)
-        // Create a new line with the right indentation
-        def newStartLine = fileLines[startLine].substring(0, indentStartLine) + ffd.startTag + " <" + ffd.whatFlag(fileLines[startLine]) + ":"+FlagFileDefinition.howMuchContext(fileLines[startLine])+">"
-        fileLines[startLine] = newStartLine
-
-        def indentEndLine = fileLines[endLine].indexOf(ffd.endTag)
-        // Create a new line with the right indentation
-        def newEndLine = fileLines[endLine].substring(0, indentEndLine) + " <" + ffd.whatFlag(fileLines[endLine]) + ":"+FlagFileDefinition.howMuchContext(fileLines[endLine])+"> " + ffd.endTag
-        fileLines[endLine] = newEndLine
-
+        def start = fileLines[this.startLine]
+        def end = fileLines[this.endLine]
+        def newStart = ffd.startTag + "<" + ffd.whatFlag(start) + ">"
+        def newEnd = "<" + ffd.whatFlag(start) + ">" + ffd.endTag
+        fileLines[this.startLine] = newStart
+        fileLines[this.endLine] = newEnd
         file.write(fileLines.join("\n"))
     }
     def isEnabled() {
