@@ -425,19 +425,24 @@ tasks.register('flagHelp') {
     dependsOn('listFlags')
     doLast {
         def flags = getFlagsStatus()
-        def exampleFlag = flags.keySet().iterator().next()
+        def exampleFlag = flags.iterator().next().flagName()
 
-        println "Usage: ./gradlew [listFlags|enableFlag|disableFlag|printFlag] -PflagName=[flagName]"
+        println "Usage: ./gradlew [listFlags|enableFlag|disableFlag|printFlag|flagLock|syncWithFlagLock|validateFlagLock] -PflagName=[flagName]"
         println "\nCommands:"
         println "  listFlags: Lists all the feature flags in your project and their current status."
         println "  enableFlag -PflagName=[flagName]: Enables the specified feature flag."
         println "  disableFlag -PflagName=[flagName]: Disables the specified feature flag."
         println "  printFlag -PflagName=[flagName]: Prints the lines of code that are within the context of the specified feature flag."
+        println "  flagLock: Writes the current status of all flags to a lock file."
+        println "  syncWithFlagLock: Syncs the status of all flags with the lock file."
+        println "  validateFlagLock: Validates that the status of all flags matches the lock file."
         println "\nExamples:"
         println "  ./gradlew listFlags"
         println "  ./gradlew enableFlag -PflagName=${exampleFlag}"
         println "  ./gradlew disableFlag -PflagName=${exampleFlag}"
         println "  ./gradlew printFlag -PflagName=${exampleFlag}"
+        println "  ./gradlew flagLock"
+        println "  ./gradlew syncWithFlagLock"
+        println "  ./gradlew validateFlagLock"
     }
 }
-
