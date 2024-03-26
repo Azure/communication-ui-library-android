@@ -1,77 +1,7 @@
 import java.util.regex.Pattern
 import java.util.regex.Matcher
 
-//    ## For Gradle Users
-//
-//    ### Listing Flags
-//
-//    To list all the feature flags in your project and their current status (Enabled or Disabled), use the `listFlags` task:
-//
-//    ```shell
-//    gradlew listFlags
-//    ```
-//
-//    This will print out all the feature flags in your project and their current status.
-//
-//    ### Toggling Flags
-//
-//    To toggle the status of a feature flag, use the `toggleFlag` task with the `-PflagName=YOUR_FLAG_NAME` argument:
-//
-//    ```shell
-//    gradlew toggleFlag -PflagName=YOUR_FLAG_NAME
-//    ```
-//
-//    Replace `YOUR_FLAG_NAME` with the name of the flag you want to toggle. This will toggle the status of the specified feature flag.
-//
-//    ### Printing Flags
-//
-//    To print the context of a feature flag, use the `printFlag` task with the `-PflagName=YOUR_FLAG_NAME` argument:
-//
-//    ```shell
-//    gradlew printFlag -PflagName=YOUR_FLAG_NAME
-//    ```
-//
-//    Replace `YOUR_FLAG_NAME` with the name of the flag you want to print. This will print the lines of code that are within the context of the specified feature flag.
-//
-//    ## For Java/Kotlin/Gradle File Writers
-//
-//    ### Flag Format
-//
-//    The expected flag format in your Java/Kotlin/Gradle files is a comment block with the flag name enclosed in angle brackets `<` and `>`. The start and end of the comment block depend on the file type:
-//
-//    - For Kotlin and Java files, the start of the comment block is `/*` and the end is `*/`.
-//    - For XML files, the start of the comment block is `<!--` and the end is `-->`.
-//
-//    Here's an example of a feature flag in a Kotlin or Java file:
-//
-//    ```java
-//    /* <YOUR_FLAG_NAME> */
-//    // Your code here
-//    /* </YOUR_FLAG_NAME> */
-//    ```
-//
-//    And here's an example of a feature flag in an XML file:
-//
-//    ```xml
-//            <!-- <YOUR_FLAG_NAME> -->
-//            <!-- Your code here -->
-//            <!-- </YOUR_FLAG_NAME> -->
-//    ```
-//
-//    Replace `YOUR_FLAG_NAME` with the name of your feature flag.
-//
-//    ### Context
-//
-//    The `printFlag` task prints the lines of code that are within the context of the specified feature flag. By default, it prints 5 lines before and after the flag. You can specify a different number of context lines by appending `:NUMBER` to the flag name, where `NUMBER` is the number of context lines you want. For example:
-//
-//    ```java
-//    /* <YOUR_FLAG_NAME:3> */
-//    // Your code here
-//    /* </YOUR_FLAG_NAME:3> */
-//    ```
-//
-//    This will print 3 lines before and after the flag when you use the `printFlag` task.
-
+// This class helps find FLAGS amongst the code
 class FlagFileDefinition {
     String extension
     String startTag
@@ -82,6 +12,82 @@ class FlagFileDefinition {
         this.startTag = startTag
         this.endTag = endTag
     }
+
+    def isStartLine(String line) {
+        // If we see no flag, skip
+        if (whatFlag(line).isEmpty()) {
+            return false
+        }
+
+        // Start by getting rid of whitespace ie. "/* <FLAG_NAME>"
+        // This will make it easier to identify the "/*" start tag here
+        def trimmed1 = line.trim()
+
+        // Not the right start tag? Then false
+        if (!trimmed1.startsWith(startTag)) {
+            return false
+        }
+
+        // Lets skip ahead past the start tag
+        def trimmedLineAfterStartTag = trimmed1.substring(startTag.length()).trim()
+
+        // Skip end tags
+        if (trimmedLineAfterStartTag.startsWith("</")) {
+            return false
+        }
+
+        if (!trimmedLineAfterStartTag.startsWith("<")) {
+            return false
+        }
+
+        return true
+    }
+
+    def isEndLine(String line) {
+        def trimmed2 = line.trim()
+        if (!trimmed2.endsWith(endTag)) {
+            return false
+        }
+        def substring2 = trimmed2.substring(0, trimmed2.length() - endTag.length()).trim()
+        if (substring2.endsWith(">")) {
+            return true
+        }
+        return false
+    }
+
+    def whatFlag(String line) {
+        if (!line.contains(startTag) && !line.contains(endTag)) {
+            return ""
+        }
+
+        def pattern = Pattern.compile("<(/?[A-Z_]+)(?::\\d+)?>")
+        def matcher = pattern.matcher(line)
+
+        if (matcher.find()) {
+            def result = matcher.group(1).replace("/", "")
+            return result
+        }
+        return ""
+    }
+
+    static def howMuchContext(String line) {
+        // Find the number of context lines in <FLAG_NAME:3> or </FLAG_NAME:3>
+        // Default to 0 if not found
+
+        // Create a pattern to match :3 in <FLAG_NAME:3> or </FLAG_NAME:3>
+        def pattern = Pattern.compile("<(/?\\w+):(\\d+)>")
+
+        // Create a matcher for the line
+        def matcher = pattern.matcher(line)
+
+        // If a match is found, return the number of context lines
+        if (matcher.find()) {
+            return Integer.parseInt(matcher.group(2))
+        }
+
+        // If no match is found, return 0
+        return 0
+    }
 }
 
 ext.flagFileDefinitions = [
@@ -90,24 +96,85 @@ ext.flagFileDefinitions = [
         new FlagFileDefinition('.xml', '<!--', '-->')
 ]
 
-def getFlagsStatus() {
-    def flags = [:]
-    def projectDir = project.projectDir
-    def flagPattern = /\/\* <(.+?)(?::\d+)?>( \*)?/
 
-    projectDir.traverse(type: groovy.io.FileType.FILES, nameFilter: ~/.*\.(java|kt|xml)/) { file ->
-        def content = file.text
-        content.eachLine { line ->
-            def matcher = (line =~ flagPattern)
-            if (matcher.find()) {
-                String flagName = matcher.group(1)
-                if (flagName.startsWith("/")) {
-                    return
+
+// An actual hit on a flag
+class FlagInstance {
+    final File file
+    final List<String> fileContent
+    final FlagFileDefinition ffd
+    final int startLine
+    final int endLine
+
+    FlagInstance(File file, List<String> fileContent, int startLine, int endLine, FlagFileDefinition ffd) {
+        this.file = file
+        this.startLine = startLine
+        this.endLine = endLine
+        this.fileContent = fileContent
+        this.ffd = ffd
+    }
+
+    String toString() {
+        return "";
+    }
+
+    def flagName() {
+        return ffd.whatFlag(fileContent.get(startLine))
+    }
+
+    String print() {
+        final flagContextTop = FlagFileDefinition.howMuchContext(fileContent.get(startLine))
+        final flagContextBottom = FlagFileDefinition.howMuchContext(fileContent.get(startLine))
+        final printStart = startLine - flagContextTop
+        final printEnd = endLine + flagContextBottom
+
+        String topContext = fileContent.subList(printStart, startLine).join("\n")
+        String content = "+"+fileContent.subList(printStart, startLine).join("\n+")
+        String bottomContext = fileContent.subList(endLine, printEnd).join("\n")
+
+        def output = topContext + content + bottomContext
+        println output
+    }
+}
+
+// Scans the folder for flags
+def getFlagsStatus() {
+    List<FlagInstance> flags = []
+    def projectDir = project.projectDir
+
+    flagFileDefinitions.each { flagFileDefinition ->
+
+        projectDir.traverse(type: groovy.io.FileType.FILES, nameFilter: ~/.*\.(java|kt|xml)/) { file ->
+            if (file.absolutePath.contains("build")) {
+                return
+            }
+
+            if (!file.name.endsWith(flagFileDefinition.extension)) {
+                return
+            }
+
+            def content = file.text
+            def lines = content.readLines()
+            def foundStart = false
+
+            // Need to define variables to populate flagInstances
+            int startLine = 0
+            int endLine = 0
+
+            lines.eachWithIndex { line, index ->
+                if (!foundStart && flagFileDefinition.isStartLine(line)) {
+                    foundStart = true
+                    startLine = index
+
+                } else if (foundStart && flagFileDefinition.isEndLine(line)) {
+                    endLine = index
+                    foundStart = false
+
+                    def flagInstance = new FlagInstance(file, lines, startLine, endLine, flagFileDefinition)
+                    flags.add(flagInstance)
                 }
-                if (!flags.containsKey(flagName)) {
-                    boolean isEnabled = content.contains("/* <${flagName}> */") || content.contains("/* <${flagName}:\d+> */")
-                    flags[flagName] = isEnabled ? "Enabled" : "Disabled"
-                }
+
+
             }
         }
     }
@@ -116,9 +183,9 @@ def getFlagsStatus() {
 
 tasks.register('listFlags') {
     doLast {
-        def flags = getFlagsStatus()
-        flags.each { key, value ->
-            println "$key: $value"
+        def flags = getFlagsStatus().collect({ it.flagName() }).unique()
+        flags.each { value ->
+            println value
         }
     }
 }
@@ -162,10 +229,10 @@ def updateFlagStatus(String flagName, boolean enable) {
             return
         }
 
-        String startMarkerEnabled = "${flagFileDefinition.startTag} <${flagName}> ${flagFileDefinition.endTag}"
-        String endMarkerEnabled = "${flagFileDefinition.startTag} </${flagName}> ${flagFileDefinition.endTag}"
-        String startMarkerDisabled = "${flagFileDefinition.startTag} <${flagName}>"
-        String endMarkerDisabled = "</${flagName}> ${flagFileDefinition.endTag}"
+        String startMarkerEnabled = "${flagFileDefinition.startTag} *<${flagName}> *${flagFileDefinition.endTag}"
+        String endMarkerEnabled = "${flagFileDefinition.startTag} *</${flagName}> *${flagFileDefinition.endTag}"
+        String startMarkerDisabled = "${flagFileDefinition.startTag} *<${flagName}>"
+        String endMarkerDisabled = "</${flagName}> *${flagFileDefinition.endTag}"
 
         if (enable) {
             if (content.contains(startMarkerDisabled) || content.contains(endMarkerDisabled)) {

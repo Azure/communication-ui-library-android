@@ -42,9 +42,9 @@ private constructor() {
          * Return and instance of the required feature
          *
          * @param feature interface of the required feature
-         * @param <F> type of the feature interface
+         * @param type of the feature interface
          * @return requested interface feature
-         </F> */
+         */
         inline fun <reified F : ACSFeature> getFeature(): F {
             return featureList[F::class.java]!! as F
         }
