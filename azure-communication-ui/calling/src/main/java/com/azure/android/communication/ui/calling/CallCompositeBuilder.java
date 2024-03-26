@@ -110,9 +110,9 @@ public final class CallCompositeBuilder {
         config.setEnableSystemPiPWhenMultitasking(enableSystemPiPWhenMultitasking);
         config.setCallScreenOrientation(this.callScreenOrientation);
         config.setSetupScreenOrientation(this.setupScreenOrientation);
-        /* <SETUP_LOGO_INJECTION>
+        /* <SETUP_LOGO_INJECTION:0>
         config.setSETUP_LOGO_INJECTION(logo);
-        </SETUP_LOGO_INJECTION> */
+        </SETUP_LOGO_INJECTION:0> */
         return new CallComposite(config);
     }
 }
