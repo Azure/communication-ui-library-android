@@ -118,12 +118,12 @@ class FlagInstance {
         List<String> fileLines = file.readLines()
         def indentStartLine = fileLines[startLine].indexOf(ffd.startTag)
         // Create a new line with the right indentation
-        def newStartLine = fileLines[startLine].substring(0, indentStartLine) + ffd.startTag + " <" + ffd.whatFlag(fileLines[startLine]) + ">"
+        def newStartLine = fileLines[startLine].substring(0, indentStartLine) + ffd.startTag + " <" + ffd.whatFlag(fileLines[startLine]) + ":"+FlagFileDefinition.howMuchContext(fileLines[startLine])+"">"
         fileLines[startLine] = newStartLine
 
         def indentEndLine = fileLines[endLine].indexOf(ffd.endTag)
         // Create a new line with the right indentation
-        def newEndLine = fileLines[endLine].substring(0, indentEndLine) + " </" + ffd.whatFlag(fileLines[endLine]) + "/> " + ffd.endTag
+        def newEndLine = fileLines[endLine].substring(0, indentEndLine) + ffd.endTag + " <" + ffd.whatFlag(fileLines[endLine]) + ":"+FlagFileDefinition.howMuchContext(fileLines[endLine])+"">"
         fileLines[endLine] = newEndLine
 
         file.write(fileLines.join("\n"))
