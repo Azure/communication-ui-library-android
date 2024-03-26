@@ -43,9 +43,9 @@ internal class SetupFragment :
     private lateinit var setupGradientView: SetupGradientView
     private lateinit var errorInfoView: ErrorInfoView
     private lateinit var setupJoinCallButtonHolderView: JoinCallButtonHolderView
-    /* <SETUPLOGO:8>
+    /* <SETUP_LOGO_INJECTION:8>
     private lateinit var logoImageView: ImageView
-    </SETUPLOGO:0> */
+    </SETUP_LOGO_INJECTION:0> */
 
     private val videoViewManager get() = holder.container.videoViewManager
     private val avatarViewManager get() = holder.container.avatarViewManager
@@ -104,13 +104,13 @@ internal class SetupFragment :
         errorInfoView = ErrorInfoView(view)
         errorInfoView.start(viewLifecycleOwner, viewModel.errorInfoViewModel)
 
-        /* <SETUPLOGO:0>
+        /* <SETUP_LOGO_INJECTION:0>
         logoImageView = view.findViewById(R.id.azure_communication_ui_setup_logo_image)
         if (viewModel.logoDrawable != null) {
             logoImageView.visibility = View.VISIBLE
             logoImageView.setImageDrawable(viewModel.logoDrawable)
         }
-        </SETUPLOGO:0> */
+        </SETUP_LOGO_INJECTION:0> */
         viewModel.setupCall()
     }
 

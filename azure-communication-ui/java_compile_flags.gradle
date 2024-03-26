@@ -117,15 +117,25 @@ def getFlagsStatus() {
 tasks.register('listFlags') {
     doLast {
         def flags = getFlagsStatus()
-
-        println "\nFeature Flags (${flags.size()})"
         flags.each { key, value ->
             println "$key: $value"
         }
     }
-    println "To Update:   gradlew toggleFlag -PflagName=YOUR_FLAG_NAME"
 }
 
+tasks.register('flagHelp') {
+    doLast {
+        println "Usage: ./gradlew [listFlags|toggleFlag|printFlag] -PflagName=[flagName]"
+        println "\nCommands:"
+        println "  listFlags: Lists all the feature flags in your project and their current status."
+        println "  toggleFlag -PflagName=[flagName]: Toggles the status of the specified feature flag."
+        println "  printFlag -PflagName=[flagName]: Prints the lines of code that are within the context of the specified feature flag."
+        println "\nExamples:"
+        println "  ./gradlew listFlags"
+        println "  ./gradlew toggleFlag -PflagName=SETUPLOGO"
+        println "  ./gradlew printFlag -PflagName=SETUPLOGO"
+    }
+}
 tasks.register('toggleFlag') {
     doFirst {
         if (!project.hasProperty('flagName')) {

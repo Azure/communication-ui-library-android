@@ -17,7 +17,7 @@
 
 
     <!-- Logo Image for Setup Screen Feature
-        <SETUPLOGO>
+        <SETUP_LOGO_INJECTION>
         This can't be flagged effectively because it's a relativelayout
         Putting the tag on the second line means we can find this block,
         but won't work with disabling.
@@ -38,7 +38,7 @@
         android:visibility="gone"
         android:contentDescription="Logo" />
     <!--
-        </SETUPLOGO>
+        </SETUP_LOGO_INJECTION>
     -->
 
 

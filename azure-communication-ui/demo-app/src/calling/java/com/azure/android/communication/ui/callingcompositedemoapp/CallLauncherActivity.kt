@@ -167,9 +167,9 @@ class CallLauncherActivity : AppCompatActivity() {
                 },
             )
 
-            /* <SETUPLOGO>
-            setupLogo()
-            </SETUPLOGO> */
+            /* <SETUP_LOGO_INJECTION>
+            SETUP_LOGO_INJECTION()
+            </SETUP_LOGO_INJECTION> */
 
             if (BuildConfig.DEBUG) {
                 versionText.text = "${BuildConfig.VERSION_NAME}"
@@ -179,8 +179,8 @@ class CallLauncherActivity : AppCompatActivity() {
         }
     }
 
-    /* <SETUPLOGO>
-    private fun ActivityCallLauncherBinding.setupLogo() {
+    /* <SETUP_LOGO_INJECTION>
+    private fun ActivityCallLauncherBinding.SETUP_LOGO_INJECTION() {
         val getContent =
             registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
                 // Handle the returned Uri
@@ -196,7 +196,7 @@ class CallLauncherActivity : AppCompatActivity() {
             getContent.launch(imageContent)
         }
     }
-    </SETUPLOGO> */
+    </SETUP_LOGO_INJECTION> */
 
     override fun onDestroy() {
         super.onDestroy()

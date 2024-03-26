@@ -228,9 +228,9 @@ class CallLauncherViewModel : ViewModel() {
                     SettingsFeatures.getLayoutDirection()
                 )
             )
-            /* <SETUPLOGO>
+            /* <SETUP_LOGO_INJECTION>
             .logo(selectedLogo)
-            </SETUPLOGO> */
+            </SETUP_LOGO_INJECTION> */
             .setupScreenOrientation(setupScreenOrientation)
             .callScreenOrientation(callScreenOrientation)
 
@@ -269,11 +269,11 @@ class CallLauncherViewModel : ViewModel() {
         }
     }
 
-    /* <SETUPLOGO>
+    /* <SETUP_LOGO_INJECTION>
     fun setLogo(drawable: Drawable?) {
         selectedLogo = drawable;
     }
-    </SETUPLOGO> */
+    </SETUP_LOGO_INJECTION> */
 }
 
 class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>) :
