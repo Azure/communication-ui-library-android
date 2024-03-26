@@ -132,8 +132,8 @@ tasks.register('flagHelp') {
         println "  printFlag -PflagName=[flagName]: Prints the lines of code that are within the context of the specified feature flag."
         println "\nExamples:"
         println "  ./gradlew listFlags"
-        println "  ./gradlew toggleFlag -PflagName=SETUPLOGO"
-        println "  ./gradlew printFlag -PflagName=SETUPLOGO"
+        println "  ./gradlew toggleFlag -PflagName=FLAG_NAME"
+        println "  ./gradlew printFlag -PflagName=FLAG_NAME"
     }
 }
 tasks.register('toggleFlag') {
@@ -142,53 +142,51 @@ tasks.register('toggleFlag') {
             throw new GradleException("Flag name must be provided using the -PflagName=YOUR_FLAG_NAME argument.")
         }
     }
+  doLast {
+      String flagName = project.property('flagName')
+      def flags = getFlagsStatus()
+      boolean isEnabled = flags[flagName] == "Enabled"
 
-    doLast {
-        String flagName = project.property('flagName')
-        def flags = getFlagsStatus()
-        boolean isEnabled = flags[flagName] == "Enabled"
+      project.projectDir.traverse(type: groovy.io.FileType.FILES, nameFilter: ~/.*\.(java|kt|xml)/) { File file ->
+          String content = file.text
+          boolean madeReplacement = false
 
-        FileTree files = fileTree(dir: 'src', includes: ['**/*.java', '**/*.kt', '**/*.xml'])
+          print(file.absolutePath)
+          def flagFileDefinition = flagFileDefinitions.find { file.name.endsWith(it.extension) }
+          if (flagFileDefinition == null) {
+              println "Unsupported file type: ${file}"
+              return
+          }
 
-        files.each { File file ->
-            String content = file.text
-            boolean madeReplacement = false
+          String startMarkerEnabled = "${flagFileDefinition.startTag} <${flagName}> ${flagFileDefinition.endTag}"
+          String endMarkerEnabled = "${flagFileDefinition.startTag} </${flagName}> ${flagFileDefinition.endTag}"
+          String startMarkerDisabled = "${flagFileDefinition.startTag} <${flagName}>"
+          String endMarkerDisabled = "</${flagName}> ${flagFileDefinition.endTag}"
 
-            def flagFileDefinition = flagFileDefinitions.find { file.name.endsWith(it.extension) }
-            if (flagFileDefinition == null) {
-                println "Unsupported file type: ${file}"
-                return
-            }
+          if (isEnabled) {
+              if (content.contains(startMarkerEnabled) || content.contains(endMarkerEnabled)) {
+                  println "Found enabled flag '${flagName}' in file: ${file}"
+                  content = content.replaceAll(Pattern.quote(startMarkerEnabled), Matcher.quoteReplacement(startMarkerDisabled))
+                  content = content.replaceAll(Pattern.quote(endMarkerEnabled), Matcher.quoteReplacement(endMarkerDisabled))
+                  madeReplacement = true
+              }
+          } else {
+              if (content.contains(startMarkerDisabled) || content.contains(endMarkerDisabled)) {
+                  println "Found disabled flag '${flagName}' in file: ${file}"
+                  content = content.replaceAll(Pattern.quote(startMarkerDisabled), Matcher.quoteReplacement(startMarkerEnabled))
+                  content = content.replaceAll(Pattern.quote(endMarkerDisabled), Matcher.quoteReplacement(endMarkerEnabled))
+                  madeReplacement = true
+              }
+          }
 
-            String startMarkerEnabled = "${flagFileDefinition.startTag} <${flagName}> ${flagFileDefinition.endTag}"
-            String endMarkerEnabled = "${flagFileDefinition.startTag} </${flagName}> ${flagFileDefinition.endTag}"
-            String startMarkerDisabled = "${flagFileDefinition.startTag} <${flagName}>"
-            String endMarkerDisabled = "</${flagName}> ${flagFileDefinition.endTag}"
-
-            if (isEnabled) {
-                if (content.contains(startMarkerEnabled) || content.contains(endMarkerEnabled)) {
-                    println "Found enabled flag '${flagName}' in file: ${file}"
-                    content = content.replaceAll(Pattern.quote(startMarkerEnabled), Matcher.quoteReplacement(startMarkerDisabled))
-                    content = content.replaceAll(Pattern.quote(endMarkerEnabled), Matcher.quoteReplacement(endMarkerDisabled))
-                    madeReplacement = true
-                }
-            } else {
-                if (content.contains(startMarkerDisabled) || content.contains(endMarkerDisabled)) {
-                    println "Found disabled flag '${flagName}' in file: ${file}"
-                    content = content.replaceAll(Pattern.quote(startMarkerDisabled), Matcher.quoteReplacement(startMarkerEnabled))
-                    content = content.replaceAll(Pattern.quote(endMarkerDisabled), Matcher.quoteReplacement(endMarkerEnabled))
-                    madeReplacement = true
-                }
-            }
-
-            if (madeReplacement) {
-                file.text = content
-                println "File updated: ${file}"
-            } else {
-                println "No changes made to file: ${file}"
-            }
-        }
-    }
+          if (madeReplacement) {
+              file.text = content
+              println "File updated: ${file}"
+          } else {
+              println "No changes made to file: ${file}"
+          }
+      }
+  }
 }
 
 tasks.register('printFlag') {
@@ -200,12 +198,13 @@ tasks.register('printFlag') {
 
     doLast {
         String flagName = project.property('flagName')
-        FileTree files = fileTree(dir: 'src', includes: ['**/*.java', '**/*.kt', '**/*.xml'])
+
+
         Pattern startPattern = Pattern.compile("/\\* <${flagName}(?::(\\d+))?>")
         Pattern endPattern = Pattern.compile("</${flagName}(?::(\\d+))?> \\*/")
         int defaultContextLines = 5
 
-        files.each { File file ->
+        project.projectDir.traverse(type: groovy.io.FileType.FILES, nameFilter: ~/.*\.(java|kt|xml)/) { File file ->
             List<String> lines = file.readLines()
             boolean isReading = false
             int tagStart = -1
