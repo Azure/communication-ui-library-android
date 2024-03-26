@@ -124,15 +124,15 @@ class FlagInstance {
 
     String print() {
         final flagContextTop = FlagFileDefinition.howMuchContext(fileContent.get(startLine))
-        final flagContextBottom = FlagFileDefinition.howMuchContext(fileContent.get(startLine))
+        final flagContextBottom = FlagFileDefinition.howMuchContext(fileContent.get(endLine))
         final printStart = startLine - flagContextTop
         final printEnd = endLine + flagContextBottom
 
         String topContext = fileContent.subList(printStart, startLine).join("\n")
-        String content = "+"+fileContent.subList(printStart, startLine).join("\n+")
-        String bottomContext = fileContent.subList(endLine, printEnd).join("\n")
+        String content = "\n+"+fileContent.subList(startLine, endLine).join("\n+")
+        String bottomContext = "\n"+fileContent.subList(endLine, printEnd).join("\n")
 
-        def output = topContext + content + bottomContext
+        def output = file.name+"\n"+topContext + content + bottomContext+"\n"
         println output
     }
 }
@@ -190,6 +190,23 @@ tasks.register('listFlags') {
     }
 }
 
+
+tasks.register('printFlag') {
+    doFirst {
+        if (!project.hasProperty('flagName')) {
+            throw new GradleException("Flag name must be provided using the -PflagName=YOUR_FLAG_NAME argument.")
+        }
+    }
+
+    doLast {
+        String flagName = project.property('flagName')
+        def flags = getFlagsStatus().findAll { it.flagName() == flagName }
+        flags.each { value ->
+            value.print()
+        }
+    }
+}
+
 tasks.register('flagHelp') {
     dependsOn('listFlags')
     doLast {
@@ -207,53 +224,6 @@ tasks.register('flagHelp') {
         println "  ./gradlew enableFlag -PflagName=${exampleFlag}"
         println "  ./gradlew disableFlag -PflagName=${exampleFlag}"
         println "  ./gradlew printFlag -PflagName=${exampleFlag}"
-    }
-}
-
-def updateFlagStatus(String flagName, boolean enable) {
-    def flags = getFlagsStatus()
-    boolean isEnabled = flags[flagName] == "Enabled"
-
-    if (isEnabled == enable) {
-        println "Flag '${flagName}' is already ${enable ? 'enabled' : 'disabled'}"
-        return
-    }
-
-    project.projectDir.traverse(type: groovy.io.FileType.FILES, nameFilter: ~/.*\.(java|kt|xml)/) { File file ->
-        String content = file.text
-        boolean madeReplacement = false
-
-        def flagFileDefinition = flagFileDefinitions.find { file.name.endsWith(it.extension) }
-        if (flagFileDefinition == null) {
-            println "Unsupported file type: ${file}"
-            return
-        }
-
-        String startMarkerEnabled = "${flagFileDefinition.startTag} *<${flagName}> *${flagFileDefinition.endTag}"
-        String endMarkerEnabled = "${flagFileDefinition.startTag} *</${flagName}> *${flagFileDefinition.endTag}"
-        String startMarkerDisabled = "${flagFileDefinition.startTag} *<${flagName}>"
-        String endMarkerDisabled = "</${flagName}> *${flagFileDefinition.endTag}"
-
-        if (enable) {
-            if (content.contains(startMarkerDisabled) || content.contains(endMarkerDisabled)) {
-                println "Found disabled flag '${flagName}' in file: ${file}"
-                content = content.replaceAll(Pattern.quote(startMarkerDisabled), Matcher.quoteReplacement(startMarkerEnabled))
-                content = content.replaceAll(Pattern.quote(endMarkerDisabled), Matcher.quoteReplacement(endMarkerEnabled))
-                madeReplacement = true
-            }
-        } else {
-            if (content.contains(startMarkerEnabled) || content.contains(endMarkerEnabled)) {
-                println "Found enabled flag '${flagName}' in file: ${file}"
-                content = content.replaceAll(Pattern.quote(startMarkerEnabled), Matcher.quoteReplacement(startMarkerDisabled))
-                content = content.replaceAll(Pattern.quote(endMarkerEnabled), Matcher.quoteReplacement(endMarkerDisabled))
-                madeReplacement = true
-            }
-        }
-
-        if (madeReplacement) {
-            file.text = content
-            println "File updated: ${file}"
-        }
     }
 }
 
@@ -278,57 +248,5 @@ tasks.register('disableFlag') {
     doLast {
         String flagName = project.property('flagName')
         updateFlagStatus(flagName, false)
-    }
-}
-
-tasks.register('printFlag') {
-    doFirst {
-        if (!project.hasProperty('flagName')) {
-            throw new GradleException("Flag name must be provided using the -PflagName=YOUR_FLAG_NAME argument.")
-        }
-    }
-
-    doLast {
-        String flagName = project.property('flagName')
-        Set<String> printedFiles = new HashSet<>()
-        Pattern startPattern = Pattern.compile("/\\* <${flagName}(?::(\\d+))?>")
-        Pattern endPattern = Pattern.compile("</${flagName}(?::(\\d+))?> \\*/")
-        int defaultContextLines = 0
-
-        project.projectDir.traverse(type: groovy.io.FileType.FILES, nameFilter: ~/.*\.(java|kt|xml)/) { File file ->
-            List<String> lines = file.readLines()
-            boolean isReading = false
-            int tagStart = -1
-            int contextLinesBefore = defaultContextLines
-            int contextLinesAfter = defaultContextLines
-
-            lines.eachWithIndex { line, index ->
-                Matcher startMatcher = startPattern.matcher(line)
-                if (!isReading && startMatcher.find()) {
-                    isReading = true
-                    tagStart = index
-                    contextLinesBefore = startMatcher.group(1) ? Integer.parseInt(startMatcher.group(1)) : defaultContextLines
-                    int contextStart = Math.max(0, index - contextLinesBefore)
-                    String fileLabel = "\nFile: ./${projectDir.relativePath(file)}"
-                    if (!printedFiles.contains(fileLabel)) {
-                        println fileLabel
-                        printedFiles.add(fileLabel)
-                    } else {
-                        println "..."
-                    }
-
-                    lines.subList(contextStart, index).each { println "  ${it}" }
-                }
-                Matcher endMatcher = endPattern.matcher(line)
-                if (isReading && endMatcher.find()) {
-                    isReading = false
-                    int tagEnd = index
-                    contextLinesAfter = endMatcher.group(1) ? Integer.parseInt(endMatcher.group(1)) : defaultContextLines
-                    int contextEnd = Math.min(lines.size(), tagEnd + contextLinesAfter + 1)
-                    lines.subList(tagStart + 1, tagEnd).each { println "+ ${it}" }
-                    lines.subList(tagEnd + 1, contextEnd).each { println "  ${it}" }
-                }
-            }
-        }
     }
 }
