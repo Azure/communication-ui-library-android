@@ -114,17 +114,41 @@ class FlagInstance {
         this.ffd = ffd
     }
 
-    def disable() {
-        List<String> fileLines = file.readLines()
-        def start = fileLines[this.startLine]
-        def end = fileLines[this.endLine]
-
-        def newStart = ffd.startTag + " <" + ffd.whatFlag(start) + ":"+FlagFileDefinition.howMuchContext(start)+">"
-        def newEnd = "</" + ffd.whatFlag(start) + ":"+FlagFileDefinition.howMuchContext(end)+"> " + ffd.endTag
-        fileLines[this.startLine] = newStart
-        fileLines[this.endLine] = newEnd
-        file.write(fileLines.join("\n"))
+    // Function to count leading whitespace characters
+    static def countLeadingWhitespace(String line) {
+        line.takeWhile { it == ' ' || it == '\t' }.length()
     }
+
+    def disable() {
+        // Read the current file lines
+        List<String> fileLines = file.readLines()
+
+        // Extract the original start and end lines
+        def startLineContent = fileLines[startLine]
+        def endLineContent = fileLines[endLine]
+
+
+        // Count leading whitespace in the original lines
+        int startLineWhitespaceCount = countLeadingWhitespace(startLineContent)
+        int endLineWhitespaceCount = countLeadingWhitespace(endLineContent)
+
+        // Prepare the whitespace strings
+        def startLineIndent = ' ' * startLineWhitespaceCount
+        def endLineIndent = ' ' * endLineWhitespaceCount
+
+        // Construct new lines with the appropriate indentation
+        def newStart = startLineIndent + ffd.startTag + " <" + ffd.whatFlag(startLineContent) + ":" + FlagFileDefinition.howMuchContext(startLineContent) + ">"
+        def newEnd = endLineIndent + "</" + ffd.whatFlag(endLineContent) + ":" + FlagFileDefinition.howMuchContext(endLineContent) + "> " + ffd.endTag
+
+        // Update the fileLines with the new start and end
+        fileLines[startLine] = newStart
+        fileLines[endLine] = newEnd
+
+        // Write the updated lines back to the file
+        file.text = fileLines.join("\n")
+    }
+
+
     def isEnabled() {
         return fileContent.get(startLine).contains(ffd.startTag)
                 && fileContent.get(startLine).contains(ffd.endTag)
