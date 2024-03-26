@@ -19,4 +19,7 @@ internal class CallCompositeConfiguration {
     var enableSystemPiPWhenMultitasking: Boolean = false
     var callScreenOrientation: CallCompositeSupportedScreenOrientation? = null
     var setupScreenOrientation: CallCompositeSupportedScreenOrientation? = null
+    /* <SETUP_LOGO_INJECTION:11>
+    var SETUP_LOGO_INJECTION: Drawable? = null
+    </SETUP_LOGO_INJECTION:1> */
 }

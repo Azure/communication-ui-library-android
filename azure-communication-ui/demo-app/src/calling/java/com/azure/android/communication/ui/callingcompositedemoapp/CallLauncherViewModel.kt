@@ -47,6 +47,9 @@ class CallLauncherViewModel : ViewModel() {
     private var remoteParticipantJoinedEvent: RemoteParticipantJoinedHandler? = null
     private var exitedCompositeToAcceptCall: Boolean = false
     private var callComposite: CallComposite? = null
+    /* <SETUP_LOGO_INJECTION:0>
+    private var selectedLogo: Drawable? = null
+    </SETUP_LOGO_INJECTION:0> */
 
     fun destroy() {
         unsubscribeFromEvents()
@@ -118,6 +121,13 @@ class CallLauncherViewModel : ViewModel() {
                     .setTitle(SettingsFeatures.getTitle())
                     .setSubtitle(SettingsFeatures.getSubtitle())
             )
+            /* <CUSTOM_CALL_SCREEN_TITLE:0>
+            .setCallScreenViewData(
+                CallCompositeSetupScreenViewData()
+                    .setTitle(SettingsFeatures.getTitle())
+                    .setSubtitle(SettingsFeatures.getSubtitle())
+            )
+            </CUSTOM_CALL_SCREEN_TITLE:0> */
             .setSkipSetupScreen(SettingsFeatures.getSkipSetupScreenFeatureOption())
             .setAudioVideoMode(avMode)
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
@@ -219,6 +229,9 @@ class CallLauncherViewModel : ViewModel() {
                     SettingsFeatures.getLayoutDirection()
                 )
             )
+            /* <SETUP_LOGO_INJECTION:14>
+            .logo(selectedLogo)
+            </SETUP_LOGO_INJECTION:2> */
             .setupScreenOrientation(setupScreenOrientation)
             .callScreenOrientation(callScreenOrientation)
 
@@ -256,6 +269,12 @@ class CallLauncherViewModel : ViewModel() {
             callHangup()
         }
     }
+
+    /* <SETUP_LOGO_INJECTION:0>
+    fun setLogo(drawable: Drawable?) {
+        selectedLogo = drawable;
+    }
+    </SETUP_LOGO_INJECTION:0> */
 }
 
 class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>) :

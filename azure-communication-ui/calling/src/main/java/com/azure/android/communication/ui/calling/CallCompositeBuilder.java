@@ -3,6 +3,8 @@
 
 package com.azure.android.communication.ui.calling;
 
+import android.graphics.drawable.Drawable;
+
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions;
@@ -22,6 +24,7 @@ public final class CallCompositeBuilder {
     private Boolean enableSystemPiPWhenMultitasking = false;
     private CallCompositeSupportedScreenOrientation callScreenOrientation = null;
     private CallCompositeSupportedScreenOrientation setupScreenOrientation = null;
+    private Drawable logo;
 
     /**
      * Sets an optional theme for call-composite to use by {@link CallComposite}.
@@ -83,6 +86,18 @@ public final class CallCompositeBuilder {
     }
 
     /**
+     * Sets a logo to be used in the app
+     * @param logo
+     * @return
+     */
+    /* <SETUP_LOGO_INJECTION:5>
+    public CallCompositeBuilder logo(final Drawable logo) {
+        this.logo = logo;
+        return this;
+    }
+    </SETUP_LOGO_INJECTION:0> */
+    
+    /**
      * Builds the CallCompositeClass {@link CallComposite}.
      *
      * @return {@link CallComposite}
@@ -95,6 +110,9 @@ public final class CallCompositeBuilder {
         config.setEnableSystemPiPWhenMultitasking(enableSystemPiPWhenMultitasking);
         config.setCallScreenOrientation(this.callScreenOrientation);
         config.setSetupScreenOrientation(this.setupScreenOrientation);
+        /* <SETUP_LOGO_INJECTION:0>
+        config.setSETUP_LOGO_INJECTION(logo);
+        </SETUP_LOGO_INJECTION:0> */
         return new CallComposite(config);
     }
 }

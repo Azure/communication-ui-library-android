@@ -204,3 +204,5 @@ tasks.register("combinedCoverageReport", JacocoReport) {
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
+
+apply from: file('java_compile_flags.gradle')

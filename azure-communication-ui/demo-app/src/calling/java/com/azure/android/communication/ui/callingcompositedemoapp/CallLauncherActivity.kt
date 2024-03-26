@@ -34,6 +34,7 @@ import java.util.UUID
 class CallLauncherActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCallLauncherBinding
     private val callLauncherViewModel: CallLauncherViewModel by viewModels()
+    private val imageContent = "image/*"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -113,6 +114,7 @@ class CallLauncherActivity : AppCompatActivity() {
             showUIButton.setOnClickListener {
                 showUI()
             }
+
             closeCompositeButton.setOnClickListener { callLauncherViewModel.close() }
 
             groupCallRadioButton.setOnClickListener {
@@ -165,6 +167,10 @@ class CallLauncherActivity : AppCompatActivity() {
                 },
             )
 
+            /* <SETUP_LOGO_INJECTION:0>
+            SETUP_LOGO_INJECTION()
+            </SETUP_LOGO_INJECTION:0> */
+
             if (BuildConfig.DEBUG) {
                 versionText.text = "${BuildConfig.VERSION_NAME}"
             } else {
@@ -172,6 +178,25 @@ class CallLauncherActivity : AppCompatActivity() {
             }
         }
     }
+
+    /* <SETUP_LOGO_INJECTION:0>
+    private fun ActivityCallLauncherBinding.SETUP_LOGO_INJECTION() {
+        val getContent =
+            registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+                // Handle the returned Uri
+                uri?.let {
+                    // Convert Uri to Drawable
+                    val inputStream = contentResolver.openInputStream(it)
+                    val drawable = Drawable.createFromStream(inputStream, uri.toString())
+                    callLauncherViewModel.setLogo(drawable);
+                }
+            }
+
+        selectLogo.setOnClickListener {
+            getContent.launch(imageContent)
+        }
+    }
+    </SETUP_LOGO_INJECTION:0> */
 
     override fun onDestroy() {
         super.onDestroy()
