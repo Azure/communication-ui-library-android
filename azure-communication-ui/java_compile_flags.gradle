@@ -125,17 +125,23 @@ tasks.register('listFlags') {
 
 tasks.register('flagHelp') {
     doLast {
-        println "Usage: ./gradlew [listFlags|toggleFlag|printFlag] -PflagName=[flagName]"
+        def flags = getFlagsStatus()
+        def exampleFlag = flags.keySet().iterator().next()
+
+        println "Usage: ./gradlew [listFlags|enableFlag|disableFlag|printFlag] -PflagName=[flagName]"
         println "\nCommands:"
         println "  listFlags: Lists all the feature flags in your project and their current status."
-        println "  toggleFlag -PflagName=[flagName]: Toggles the status of the specified feature flag."
+        println "  enableFlag -PflagName=[flagName]: Enables the specified feature flag."
+        println "  disableFlag -PflagName=[flagName]: Disables the specified feature flag."
         println "  printFlag -PflagName=[flagName]: Prints the lines of code that are within the context of the specified feature flag."
         println "\nExamples:"
         println "  ./gradlew listFlags"
-        println "  ./gradlew toggleFlag -PflagName=FLAG_NAME"
-        println "  ./gradlew printFlag -PflagName=FLAG_NAME"
+        println "  ./gradlew enableFlag -PflagName=${exampleFlag}"
+        println "  ./gradlew disableFlag -PflagName=${exampleFlag}"
+        println "  ./gradlew printFlag -PflagName=${exampleFlag}"
     }
 }
+
 def updateFlagStatus(String flagName, boolean enable) {
     def flags = getFlagsStatus()
     boolean isEnabled = flags[flagName] == "Enabled"
