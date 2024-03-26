@@ -122,13 +122,13 @@ class CallLauncherViewModel : ViewModel() {
                     .setTitle(SettingsFeatures.getTitle())
                     .setSubtitle(SettingsFeatures.getSubtitle())
             )
-            /* <CUSTOM_CALL_SCREEN_TITLE>
+            /* <CUSTOM_CALL_SCREEN_TITLE:0>
             .setCallScreenViewData(
                 CallCompositeSetupScreenViewData()
                     .setTitle(SettingsFeatures.getTitle())
                     .setSubtitle(SettingsFeatures.getSubtitle())
             )
-            </CUSTOM_CALL_SCREEN_TITLE> */
+            </CUSTOM_CALL_SCREEN_TITLE:0> */
             .setSkipSetupScreen(SettingsFeatures.getSkipSetupScreenFeatureOption())
             .setAudioVideoMode(avMode)
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())

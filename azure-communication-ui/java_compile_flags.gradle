@@ -388,6 +388,7 @@ tasks.register('syncWithFlagLock') {
         }
     }
 }
+
 tasks.register('validateFlagLock') {
     doLast {
         def flagLockFile = new File(project.projectDir, 'flags.lock')
@@ -402,6 +403,7 @@ tasks.register('validateFlagLock') {
         }
     }
 }
+
 tasks.register('deleteFlag') {
     doFirst {
         if (!project.hasProperty('flagName')) {

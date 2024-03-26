@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-/* <CUSTOM_CALL_SCREEN_TITLE>
+/* <CUSTOM_CALL_SCREEN_TITLE:0>
 package com.azure.android.communication.ui.calling.models;
 
 public final class CallCompositeCallScreenViewData {
@@ -29,4 +29,4 @@ public final class CallCompositeCallScreenViewData {
         return this;
     }
 }
-</CUSTOM_CALL_SCREEN_TITLE> */
+</CUSTOM_CALL_SCREEN_TITLE:0> */
