@@ -114,6 +114,11 @@ class FlagInstance {
         this.ffd = ffd
     }
 
+    def isEnabled() {
+        return fileContent.get(startLine).contains(ffd.startTag)
+                && fileContent.get(startLine).contains(ffd.endTag)
+    }
+
     String toString() {
         return "";
     }
@@ -183,9 +188,18 @@ def getFlagsStatus() {
 
 tasks.register('listFlags') {
     doLast {
-        def flags = getFlagsStatus().collect({ it.flagName() }).unique()
-        flags.each { value ->
-            println value
+        def flags = getFlagsStatus()
+        def uniqueFlags = flags.collect({ it.flagName() }).unique()
+        uniqueFlags.each { value ->
+            def instance = flags.findAll { it.flagName() == value }
+            // if instance all are enable
+            if (instance.every { it.isEnabled() }) {
+                println value + " is enabled"
+            } else if (instance.every { !it.isEnabled() }) {
+                println value + " is disabled"
+            } else {
+                println value + " is partially enabled"
+            }
         }
     }
 }
