@@ -118,8 +118,8 @@ class FlagInstance {
         List<String> fileLines = file.readLines()
         def start = fileLines[this.startLine]
         def end = fileLines[this.endLine]
-        def newStart = ffd.startTag + "<" + ffd.whatFlag(start) + ">"
-        def newEnd = "<" + ffd.whatFlag(start) + ">" + ffd.endTag
+        def newStart = ffd.startTag + " <" + ffd.whatFlag(start) + ":"+FlagFileDefinition.howMuchContext(start)+">"
+        def newEnd = "</" + ffd.whatFlag(start) + ":"+FlagFileDefinition.howMuchContext(end)+">" + ffd.endTag
         fileLines[this.startLine] = newStart
         fileLines[this.endLine] = newEnd
         file.write(fileLines.join("\n"))
