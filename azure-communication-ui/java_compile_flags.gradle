@@ -124,6 +124,7 @@ tasks.register('listFlags') {
 }
 
 tasks.register('flagHelp') {
+    dependsOn('listFlags')
     doLast {
         def flags = getFlagsStatus()
         def exampleFlag = flags.keySet().iterator().next()
