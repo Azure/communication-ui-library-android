@@ -177,6 +177,15 @@ class FlagInstance {
         file.text = fileLines.join("\n")
     }
 
+    def prepDelete() {
+        def lines = file.readLines()
+        // Review all the lines and everything between to flags should be replaced with DELETE_ME
+        for (int i = startLine; i <= endLine; i++) {
+            lines[i] = "DELETE_ME"
+        }
+        file.text = lines.join("\n")
+    }
+
 
     def isEnabled() {
         return fileContent.get(startLine).contains(ffd.startTag)
@@ -313,6 +322,23 @@ tasks.register('enableFlag') {
 
         flags.each { value ->
             value.enable()
+        }
+    }
+}
+
+
+tasks.register('deleteFlag') {
+    doFirst {
+        if (!project.hasProperty('flagName')) {
+            throw new GradleException("Flag name must be provided using the -PflagName=YOUR_FLAG_NAME argument.")
+        }
+    }
+    doLast {
+        String flagName = project.property('flagName')
+        def flags = getFlagsStatus().findAll { it.flagName() == flagName }
+
+        flags.each { value ->
+            value.prepDelete()
         }
     }
 }
