@@ -267,9 +267,12 @@ def purgeDeletions() {
             return
         }
 
-        def lines = file.readLines()
-        def newLines = lines.findAll { line -> !line.startsWith("DELETE_ME") }
-        file.text = newLines.join("\n")
+        def text = file.text
+        if (text.contains("DELETE_ME")) {
+            def lines = file.readLines()
+            def newLines = lines.findAll { line -> !line.contains("DELETE_ME") }
+            file.text = newLines.join("\n")
+        }
     }
 }
 
