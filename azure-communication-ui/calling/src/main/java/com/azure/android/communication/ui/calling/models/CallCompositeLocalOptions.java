@@ -5,6 +5,9 @@ package com.azure.android.communication.ui.calling.models;
 
 import com.azure.android.communication.ui.calling.CallComposite;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 /**
  * {@link CallCompositeLocalOptions} for {@link CallComposite#launch}.
  *
@@ -33,6 +36,10 @@ import com.azure.android.communication.ui.calling.CallComposite;
 public final class CallCompositeLocalOptions {
     private CallCompositeParticipantViewData participantViewData = null;
     private CallCompositeSetupScreenViewData setupScreenViewData = null;
+
+    /* <CUSTOM_CALL_SCREEN_TITLE>
+    private CallCompositeCallScreenViewData callScreenViewData = null;
+    </CUSTOM_CALL_SCREEN_TITLE> */
     private boolean cameraOn = false;
     private boolean microphoneOn = false;
     private boolean skipSetupScreen = false;
@@ -179,4 +186,11 @@ public final class CallCompositeLocalOptions {
     public CallCompositeAudioVideoMode getAudioVideoMode() {
         return audioVideoMode;
     }
+
+    /* <CUSTOM_CALL_SCREEN_TITLE>
+    public Object setCallScreenViewData(@Nullable CallCompositeSetupScreenViewData viewData) {
+        this.callScreenViewData = viewData;
+        return this;
+    }
+    */
 }
