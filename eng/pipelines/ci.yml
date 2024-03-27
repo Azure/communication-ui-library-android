@@ -31,7 +31,9 @@ extends:
       os: windows
       image: windows-2022
       name: Azure-Pipelines-1ESPT-ExDShared
-
+    sdl:
+      suppression:
+        suppressionFile: $(Build.SourcesDirectory)\guardian\SDL\.gdnsuppress
     stages:
     - stage: Stage
       jobs:
