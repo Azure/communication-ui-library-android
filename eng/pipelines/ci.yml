@@ -29,7 +29,7 @@ extends:
   parameters:
     pool:
       name: ess-buster-a  # Name of your hosted pool
-      os: macos-latest  # OS of the image. This value cannot be a variable. Allowed values: windows, linux, macOS
+      os: macos  # OS of the image. This value cannot be a variable. Allowed values: windows, linux, macOS
 
     stages:
     - stage: Stage
