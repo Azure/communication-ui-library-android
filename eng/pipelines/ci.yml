@@ -91,7 +91,7 @@ extends:
               gradleOptions: '-Xmx3072m'
               publishJUnitResults: false
               tasks: ':combinedCoverageReport'
-          - task: PublishCodeCoverageResults@1
+          - task: PublishCodeCoverageResults@2
             displayName: 'Calling - Publish code coverage report'
             inputs:
               summaryFileLocation: $(System.DefaultWorkingDirectory)/azure-communication-ui/build/reports/coverage/test/debug/report.xml
