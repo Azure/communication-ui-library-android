@@ -14,6 +14,7 @@ import android.view.View
 import androidx.activity.addCallback
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -43,6 +44,7 @@ internal class SetupFragment :
     private lateinit var setupGradientView: SetupGradientView
     private lateinit var errorInfoView: ErrorInfoView
     private lateinit var setupJoinCallButtonHolderView: JoinCallButtonHolderView
+    private lateinit var toolbar: Toolbar
 
     private val videoViewManager get() = holder.container.videoViewManager
     private val avatarViewManager get() = holder.container.avatarViewManager
@@ -52,8 +54,9 @@ internal class SetupFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.init(viewLifecycleOwner.lifecycleScope)
-
-        setActionBarTitle()
+        toolbar = view.findViewById(R.id.azure_communication_setup_toolbar);
+        callCompositeActivity?.setSupportActionBar(toolbar);
+        setActionBarTitle();
 
         setupGradientView = view.findViewById(R.id.azure_communication_ui_setup_gradient)
         setupGradientView.start(viewLifecycleOwner, viewModel.setupGradientViewModel)

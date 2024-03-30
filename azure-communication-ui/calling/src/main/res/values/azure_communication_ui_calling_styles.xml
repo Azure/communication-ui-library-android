@@ -7,9 +7,11 @@
     <style name="AzureCommunicationUICalling.ButtonText" parent="TextAppearance.FluentUI.Button">
         <item name="textAllCaps">false</item>
     </style>
-    <style name="AzureCommunicationUICalling.ActionBar" parent="Widget.AppCompat.ActionBar">
-        <item name="titleTextStyle">@style/AzureCommunicationUICalling.ActionBar.Title</item>
-        <item name="subtitleTextStyle">@style/AzureCommunicationUICalling.ActionBar.Subtitle</item>
+    <style name="AzureCommunicationUICalling.ActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+<!--        <item name="titleTextStyle">@style/AzureCommunicationUICalling.ActionBar.Title</item>-->
+<!--        <item name="subtitleTextStyle">@style/AzureCommunicationUICalling.ActionBar.Subtitle</item>-->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
     <style name="AzureCommunicationUICalling.ActionBar.Title" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textSize">@dimen/azure_communication_ui_calling_actionbar_title_textsize</item>
