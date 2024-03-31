@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.setup
 
+import android.media.Image
 import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
@@ -11,6 +12,7 @@ import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.util.LayoutDirection
 import android.view.View
+import android.widget.ImageButton
 import androidx.activity.addCallback
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
@@ -56,7 +58,11 @@ internal class SetupFragment :
         viewModel.init(viewLifecycleOwner.lifecycleScope)
         toolbar = view.findViewById(R.id.azure_communication_setup_toolbar);
         callCompositeActivity?.setSupportActionBar(toolbar);
-        //setActionBarTitle();
+
+        val navigationButton = view.findViewById<ImageButton>(R.id.navigation_button);
+        navigationButton.setOnClickListener {
+            callCompositeActivity.finish();
+        }
 
         setupGradientView = view.findViewById(R.id.azure_communication_ui_setup_gradient)
         setupGradientView.start(viewLifecycleOwner, viewModel.setupGradientViewModel)
@@ -155,8 +161,6 @@ internal class SetupFragment :
         }
 
         setActionbarTextColor(titleSpan, R.color.azure_communication_ui_calling_color_action_bar_text)
-
-        callCompositeActivity.supportActionBar?.title = titleSpan
 
         // Only set the subtitle if the title has also been set
         if (!TextUtils.isEmpty(localOptions?.setupScreenViewData?.subtitle)) {
