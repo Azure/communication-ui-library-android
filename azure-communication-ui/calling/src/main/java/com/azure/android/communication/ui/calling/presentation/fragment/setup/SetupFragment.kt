@@ -3,21 +3,16 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.setup
 
-import android.media.Image
 import android.os.Build
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableString
 import android.text.TextUtils
-import android.text.style.ForegroundColorSpan
 import android.util.LayoutDirection
 import android.view.View
 import android.widget.ImageButton
+import android.widget.TextView
 import androidx.activity.addCallback
-import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -47,6 +42,9 @@ internal class SetupFragment :
     private lateinit var errorInfoView: ErrorInfoView
     private lateinit var setupJoinCallButtonHolderView: JoinCallButtonHolderView
     private lateinit var toolbar: Toolbar
+    private lateinit var navigationButton: ImageButton
+    private lateinit var toolbarTitle: TextView
+    private lateinit var toolbarSubtitle: TextView
 
     private val videoViewManager get() = holder.container.videoViewManager
     private val avatarViewManager get() = holder.container.avatarViewManager
@@ -56,13 +54,17 @@ internal class SetupFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.init(viewLifecycleOwner.lifecycleScope)
-        toolbar = view.findViewById(R.id.azure_communication_setup_toolbar);
-        callCompositeActivity?.setSupportActionBar(toolbar);
+        toolbar = view.findViewById(R.id.azure_communication_setup_toolbar)
+        callCompositeActivity?.setSupportActionBar(toolbar)
 
-        val navigationButton = view.findViewById<ImageButton>(R.id.navigation_button);
+        navigationButton = view.findViewById<ImageButton>(R.id.navigation_button)
         navigationButton.setOnClickListener {
-            callCompositeActivity.finish();
+            callCompositeActivity.finish()
         }
+
+        toolbarTitle = view.findViewById(R.id.toolbar_title)
+        toolbarSubtitle = view.findViewById(R.id.toolbar_subtitle)
+        setActionBarTitle()
 
         setupGradientView = view.findViewById(R.id.azure_communication_ui_setup_gradient)
         setupGradientView.start(viewLifecycleOwner, viewModel.setupGradientViewModel)
@@ -139,35 +141,24 @@ internal class SetupFragment :
         get() = (activity as AppCompatActivity)
 
     private fun setActionBarTitle() {
-        fun setActionbarTextColor(text: SpannableString, @ColorInt color: Int) {
-            text.setSpan(
-                ForegroundColorSpan(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        color
-                    )
-                ),
-                0,
-                text.length,
-                Spannable.SPAN_INCLUSIVE_INCLUSIVE
-            )
-        }
 
         val localOptions = holder.container.configuration.callCompositeLocalOptions
-        val titleSpan = if (!TextUtils.isEmpty(localOptions?.setupScreenViewData?.title)) {
-            SpannableString(localOptions?.setupScreenViewData?.title)
+        val titleText = if (!TextUtils.isEmpty(localOptions?.setupScreenViewData?.title)) {
+            localOptions?.setupScreenViewData?.title
         } else {
-            SpannableString(getString(R.string.azure_communication_ui_calling_call_setup_action_bar_title))
+            getString(R.string.azure_communication_ui_calling_call_setup_action_bar_title)
         }
 
-        setActionbarTextColor(titleSpan, R.color.azure_communication_ui_calling_color_action_bar_text)
+        toolbarTitle.text = titleText
+        toolbarTitle.contentDescription = titleText + "Title"
 
         // Only set the subtitle if the title has also been set
         if (!TextUtils.isEmpty(localOptions?.setupScreenViewData?.subtitle)) {
             if (!TextUtils.isEmpty(localOptions?.setupScreenViewData?.title)) {
-                val subtitleSpan = SpannableString(localOptions?.setupScreenViewData?.subtitle)
-                setActionbarTextColor(subtitleSpan, R.color.azure_communication_ui_calling_color_action_bar_subtext)
-                callCompositeActivity.supportActionBar?.subtitle = subtitleSpan
+                val subtitleText = localOptions?.setupScreenViewData?.subtitle
+                toolbarSubtitle.visibility = View.VISIBLE
+                toolbarSubtitle.text = subtitleText
+                toolbarSubtitle.contentDescription = subtitleText + "Subtitle"
             } else {
                 holder.container.logger.error(
                     "Provided setupScreenViewData has subtitle, but no title provided. In this case subtitle is not displayed."

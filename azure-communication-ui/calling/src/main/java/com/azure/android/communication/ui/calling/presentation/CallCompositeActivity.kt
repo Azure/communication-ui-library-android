@@ -113,10 +113,10 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         configureLocalization()
-        configureActionBar()
+        //configureActionBar()
         setStatusBarColor()
         setNavigationBarColor()
-        setActionBarVisibility()
+        //setActionBarVisibility()
 
         configuration.themeConfig?.let {
             theme.applyStyle(it, true)
