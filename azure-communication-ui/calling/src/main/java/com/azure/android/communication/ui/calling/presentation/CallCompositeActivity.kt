@@ -8,18 +8,15 @@ import android.app.PictureInPictureParams
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
 import android.util.LayoutDirection
-import android.util.Log
 import android.util.Rational
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
 import android.view.WindowManager
-import android.widget.ImageButton
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -113,10 +110,8 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         configureLocalization()
-        //configureActionBar()
         setStatusBarColor()
         setNavigationBarColor()
-        //setActionBarVisibility()
 
         configuration.themeConfig?.let {
             theme.applyStyle(it, true)
@@ -210,7 +205,6 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         // Covers edge case where Android tries to recreate call activity after process death
         // (e.g. due to revoked permission).
         // If no configs are detected we can just exit without cleanup.
-        Log.d("Mohtasim", "Finish was called()");
         if (CallCompositeInstanceManager.hasCallComposite(instanceId)) {
             audioFocusManager.stop()
             audioSessionManager.onDestroy(this)
@@ -312,19 +306,6 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         }
     }
 
-    private fun configureActionBar() {
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-//        supportActionBar?.setBackgroundDrawable(
-//            ColorDrawable(
-//                ContextCompat.getColor(
-//                    this,
-//                    R.color.azure_communication_ui_calling_color_background
-//                )
-//            )
-//        )
-//        supportActionBar?.setHomeAsUpIndicator(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_left_24_filled)
-    }
-
     private fun forwardSupportEventToUser(userText: String) {
         val debugInfo = container.debugInfoManager.getDebugInfo()
 
@@ -361,14 +342,6 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
         supportView.layoutDirection =
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
-    }
-
-    private fun setActionBarVisibility() {
-        if (store.getCurrentState().navigationState.navigationState != NavigationStatus.SETUP) {
-            supportActionBar?.hide()
-        } else {
-            supportActionBar?.show()
-        }
     }
 
     private fun getCameraPermissionLauncher(): ActivityResultLauncher<String> {
