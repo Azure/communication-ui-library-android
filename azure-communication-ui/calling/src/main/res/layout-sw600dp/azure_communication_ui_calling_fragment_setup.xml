@@ -58,6 +58,58 @@
         app:layout_constraintTop_toTopOf="@id/azure_communication_ui_guideline_top"
         >
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/azure_communication_setup_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="20dp"
+            android:background="@color/azure_communication_ui_calling_color_background"
+            app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_setup_video_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!--                <LinearLayout-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:orientation="horizontal">-->
+
+            <!--                    <ImageButton-->
+            <!--                        android:id="@+id/backButton"-->
+            <!--                        android:layout_width="wrap_content"-->
+            <!--                        android:layout_height="wrap_content"-->
+            <!--                        android:contentDescription="back navigation"-->
+            <!--                        android:background="@color/fluentui_gray_25"-->
+            <!--                        android:src="@drawable/azure_communication_ui_calling_ic_fluent_arrow_left_24_filled" />-->
+            <!--                </LinearLayout>-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/toolbarTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Setup Title"
+                    android:text="@string/azure_communication_ui_calling_call_setup_action_bar_title"
+                    android:textColor="@color/azure_communication_ui_calling_color_action_bar_text"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/toolbarSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Subtitle Subtitle"
+                    android:text="subtitle"
+                    android:textColor="@color/azure_communication_ui_calling_color_action_bar_subtext"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/azure_communication_ui_setup_video_layout"

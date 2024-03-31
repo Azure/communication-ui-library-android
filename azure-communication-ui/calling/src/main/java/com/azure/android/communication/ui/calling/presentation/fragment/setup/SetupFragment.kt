@@ -56,7 +56,7 @@ internal class SetupFragment :
         viewModel.init(viewLifecycleOwner.lifecycleScope)
         toolbar = view.findViewById(R.id.azure_communication_setup_toolbar);
         callCompositeActivity?.setSupportActionBar(toolbar);
-        setActionBarTitle();
+        //setActionBarTitle();
 
         setupGradientView = view.findViewById(R.id.azure_communication_ui_setup_gradient)
         setupGradientView.start(viewLifecycleOwner, viewModel.setupGradientViewModel)
