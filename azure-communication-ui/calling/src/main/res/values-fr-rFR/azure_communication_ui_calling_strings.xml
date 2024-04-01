@@ -64,6 +64,7 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">Plus</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">Partager les informations de diagnostic</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Informations de diagnostic</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>L\'enregistrement a démarré.</b> En participant, vous
@@ -89,7 +90,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Ignorer</string>
     <string name="azure_communication_ui_calling_alert_title">Alerte</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Vous avez été supprimé de l’appel en raison d’une erreur.</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">Vous avez peut-être été supprimé de la réunion ou perdu votre connexion. Réessayez de rejoindre la réunion.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Impossible de rejoindre l’appel en raison d’une erreur.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Vous avez été retiré de l’appel.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Impossible de rejoindre l’appel. Vérifiez votre connexion réseau.</string>

@@ -64,6 +64,7 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">Дополнительно</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">Поделиться диагностическими сведениями</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Диагностические сведения</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Началась запись.</b> Присоединяясь, вы
@@ -89,7 +90,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Закрыть</string>
     <string name="azure_communication_ui_calling_alert_title">Оповещение</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Вы были удалены из звонка из-за ошибки.</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">Возможно, вы были удалены из собрания или потеряли подключение. Попробуйте присоединиться еще раз.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Не удалось присоединиться к звонку из-за ошибки.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Вас удалили из вызова.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Не удалось присоединиться к звонку. Проверьте сетевое подключение.</string>

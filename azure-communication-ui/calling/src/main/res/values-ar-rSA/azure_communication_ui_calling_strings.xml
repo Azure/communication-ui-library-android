@@ -64,6 +64,7 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">المزيد</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">مشاركة معلومات التشخيص</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">معلومات التشخيص</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>لقد بدأ التسجيل.</b> من خلال الانضمام، فأنت
@@ -89,7 +90,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">تجاهل</string>
     <string name="azure_communication_ui_calling_alert_title">تنبيه</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">تمت إزالتك من المكالمة بسبب حدوث خطأ.</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">ربما تمت إزالتك من الاجتماع، أو فقدت الاتصال. حاول الانضمام مرة أخرى.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">يتعذر الانضمام إلى المكالمة بسبب حدوث خطأ.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">تمت إزالتك من المكالمة.</string>
     <string name="azure_communication_ui_calling_no_connection_available">تعذر الانضمام إلى المكالمة. تحقق من اتصال الشبكة.</string>
