@@ -40,7 +40,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:contentDescription="back navigation"
-                android:onClick="goToHome"
                 android:background="@color/azure_communication_ui_calling_color_background"
                 android:src="@drawable/azure_communication_ui_calling_ic_fluent_arrow_left_24_filled" />
 
