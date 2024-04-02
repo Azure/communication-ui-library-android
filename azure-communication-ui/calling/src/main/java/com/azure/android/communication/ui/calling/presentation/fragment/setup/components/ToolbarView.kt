@@ -75,4 +75,3 @@ internal class ToolbarView : Toolbar {
         }
     }
 }
- 
