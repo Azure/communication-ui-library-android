@@ -5,14 +5,10 @@ package com.azure.android.communication.ui.calling.presentation.fragment.setup
 
 import android.os.Build
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.LayoutDirection
 import android.view.View
-import android.widget.ImageButton
-import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -26,6 +22,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.setup.co
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupControlBarView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupGradientView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupParticipantAvatarView
+import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ToolbarView
 
 internal class SetupFragment :
     Fragment(R.layout.azure_communication_ui_calling_fragment_setup) {
@@ -41,30 +38,18 @@ internal class SetupFragment :
     private lateinit var setupGradientView: SetupGradientView
     private lateinit var errorInfoView: ErrorInfoView
     private lateinit var setupJoinCallButtonHolderView: JoinCallButtonHolderView
-    private lateinit var toolbar: Toolbar
-    private lateinit var navigationButton: ImageButton
-    private lateinit var toolbarTitle: TextView
-    private lateinit var toolbarSubtitle: TextView
+    private lateinit var toolbarView: ToolbarView
 
     private val videoViewManager get() = holder.container.videoViewManager
     private val avatarViewManager get() = holder.container.avatarViewManager
-    private val networkManager get() = holder.container.networkManager
     private val viewModel get() = holder.setupViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.init(viewLifecycleOwner.lifecycleScope)
-        toolbar = view.findViewById(R.id.azure_communication_setup_toolbar)
-        callCompositeActivity?.setSupportActionBar(toolbar)
-
-        navigationButton = view.findViewById<ImageButton>(R.id.navigation_button)
-        navigationButton.setOnClickListener {
-            callCompositeActivity.finish()
-        }
-
-        toolbarTitle = view.findViewById(R.id.toolbar_title)
-        toolbarSubtitle = view.findViewById(R.id.toolbar_subtitle)
-        setActionBarTitle()
+        toolbarView = view.findViewById(R.id.azure_communication_setup_toolbar)
+        toolbarView.start(holder, callCompositeActivity)
+        callCompositeActivity?.setSupportActionBar(toolbarView)
 
         setupGradientView = view.findViewById(R.id.azure_communication_ui_setup_gradient)
         setupGradientView.start(viewLifecycleOwner, viewModel.setupGradientViewModel)
@@ -135,35 +120,9 @@ internal class SetupFragment :
         super.onDestroy()
         if (this::audioDeviceListView.isInitialized) audioDeviceListView.stop()
         if (this::errorInfoView.isInitialized) errorInfoView.stop()
+        if (this::toolbarView.isInitialized) toolbarView.stop()
     }
 
     val callCompositeActivity
         get() = (activity as AppCompatActivity)
-
-    private fun setActionBarTitle() {
-
-        val localOptions = holder.container.configuration.callCompositeLocalOptions
-        val titleText = if (!TextUtils.isEmpty(localOptions?.setupScreenViewData?.title)) {
-            localOptions?.setupScreenViewData?.title
-        } else {
-            getString(R.string.azure_communication_ui_calling_call_setup_action_bar_title)
-        }
-
-        toolbarTitle.text = titleText
-        toolbarTitle.contentDescription = titleText + "Title"
-
-        // Only set the subtitle if the title has also been set
-        if (!TextUtils.isEmpty(localOptions?.setupScreenViewData?.subtitle)) {
-            if (!TextUtils.isEmpty(localOptions?.setupScreenViewData?.title)) {
-                val subtitleText = localOptions?.setupScreenViewData?.subtitle
-                toolbarSubtitle.visibility = View.VISIBLE
-                toolbarSubtitle.text = subtitleText
-                toolbarSubtitle.contentDescription = subtitleText + "Subtitle"
-            } else {
-                holder.container.logger.error(
-                    "Provided setupScreenViewData has subtitle, but no title provided. In this case subtitle is not displayed."
-                )
-            }
-        }
-    }
 }
