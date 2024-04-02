@@ -33,9 +33,12 @@
         <item name="titleTextColor">
             @color/azure_communication_ui_calling_color_action_bar_text
         </item>
-<!--        <item name="actionBarStyle">@style/AzureCommunicationUICalling.ActionBar</item>-->
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">
+            false
+        </item>
+        <item name="windowNoTitle">
+            true
+        </item>
     </style>
 
     <style name="AzureCommunicationUICalling.FluentUI.Button.Borderless" parent="@style/Widget.FluentUI.Button.Borderless">
