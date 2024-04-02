@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@color/azure_communication_ui_calling_color_background"
-            android:contentDescription="back navigation"
+            android:contentDescription="@string/azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement"
             android:src="@drawable/azure_communication_ui_calling_ic_fluent_arrow_left_24_filled" />
 
         <LinearLayout

@@ -31,6 +31,7 @@
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">安装</string>
     <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement"> Title</string>
     <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement"> Subtitle</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Back navigation</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">正在等待主持人</string>
