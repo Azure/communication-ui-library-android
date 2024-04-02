@@ -48,7 +48,9 @@ internal class SetupFragment :
         super.onViewCreated(view, savedInstanceState)
         viewModel.init(viewLifecycleOwner.lifecycleScope)
         toolbarView = view.findViewById(R.id.azure_communication_setup_toolbar)
-        toolbarView.start(holder, callCompositeActivity)
+        toolbarView.start(holder.container.configuration.callCompositeLocalOptions,
+            holder.container.logger,
+            this::exitComposite)
         callCompositeActivity?.setSupportActionBar(toolbarView)
 
         setupGradientView = view.findViewById(R.id.azure_communication_ui_setup_gradient)
@@ -125,4 +127,8 @@ internal class SetupFragment :
 
     val callCompositeActivity
         get() = (activity as AppCompatActivity)
+
+    private fun exitComposite() {
+        viewModel.exitComposite()
+    }
 }

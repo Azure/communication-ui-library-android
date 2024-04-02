@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 package com.azure.android.communication.ui.calling.presentation.fragment.setup.components
 
 import android.content.Context
@@ -6,19 +9,20 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.azure.android.communication.ui.calling.implementation.R
-import com.azure.android.communication.ui.calling.presentation.DependencyInjectionContainerHolder
+import com.azure.android.communication.ui.calling.logger.Logger
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 
 internal class ToolbarView : Toolbar {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
-    private lateinit var diContainer: DependencyInjectionContainerHolder
     private lateinit var navigationButton: ImageButton
     private lateinit var toolbarTitle: TextView
     private lateinit var toolbarSubtitle: TextView
+    private lateinit var logger: Logger
+    private var callCompositeLocalOptions: CallCompositeLocalOptions? = null
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -27,23 +31,26 @@ internal class ToolbarView : Toolbar {
         toolbarSubtitle = findViewById(R.id.toolbar_subtitle)
     }
 
-    fun start(holder: DependencyInjectionContainerHolder, callCompositeActivity: AppCompatActivity) {
-        this.diContainer = holder
+    fun start(
+        callCompositeLocalOptions: CallCompositeLocalOptions?,
+        logger: Logger,
+        exitComposite: () -> Unit
+    ) {
+        this.callCompositeLocalOptions = callCompositeLocalOptions
+        this.logger = logger
         setActionBarTitleSubtitle()
-
         navigationButton.setOnClickListener {
-            callCompositeActivity?.finish()
+            exitComposite()
         }
     }
 
     fun stop() {
-        rootView.invalidate()
         // to fix memory leak
+        rootView.invalidate()
     }
 
     private fun setActionBarTitleSubtitle() {
-
-        val localOptions = diContainer.container.configuration.callCompositeLocalOptions
+        val localOptions = callCompositeLocalOptions
         val titleText = if (!TextUtils.isEmpty(localOptions?.setupScreenViewData?.title)) {
             localOptions?.setupScreenViewData?.title
         } else {
@@ -61,10 +68,11 @@ internal class ToolbarView : Toolbar {
                 toolbarSubtitle.text = subtitleText
                 toolbarSubtitle.contentDescription = subtitleText + context.applicationContext.getString(R.string.azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement)
             } else {
-                diContainer.container.logger.error(
+                logger.error(
                     "Provided setupScreenViewData has subtitle, but no title provided. In this case subtitle is not displayed."
                 )
             }
         }
     }
 }
+ 
