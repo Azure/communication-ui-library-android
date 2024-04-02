@@ -22,9 +22,9 @@ internal class ToolbarView : Toolbar {
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        navigationButton = findViewById(R.id.navigation_button);
-        toolbarTitle = findViewById(R.id.toolbar_title);
-        toolbarSubtitle = findViewById(R.id.toolbar_subtitle);
+        navigationButton = findViewById(R.id.navigation_button)
+        toolbarTitle = findViewById(R.id.toolbar_title)
+        toolbarSubtitle = findViewById(R.id.toolbar_subtitle)
     }
 
     fun start(holder: DependencyInjectionContainerHolder, callCompositeActivity: AppCompatActivity) {
@@ -32,7 +32,7 @@ internal class ToolbarView : Toolbar {
         setActionBarTitleSubtitle()
 
         navigationButton.setOnClickListener {
-            callCompositeActivity?.finish();
+            callCompositeActivity?.finish()
         }
     }
 
