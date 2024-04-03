@@ -10,6 +10,7 @@
     android:background="@color/azure_communication_ui_calling_color_background"
     android:fitsSystemWindows="true"
     android:minHeight="20dp"
+    android:nextFocusRight="@+id/azure_communication_ui_navigation_button"
     app:contentInsetLeft="0dp"
     app:contentInsetStart="0dp"
     app:contentInsetStartWithNavigation="0dp">
@@ -25,6 +26,10 @@
             android:layout_height="match_parent"
             android:background="@color/azure_communication_ui_calling_color_background"
             android:contentDescription="@string/azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:nextFocusLeft="@+id/azure_communication_setup_toolbar"
+            android:nextFocusRight="@+id/azure_communication_ui_toolbar_title"
             android:src="@drawable/azure_communication_ui_calling_ic_fluent_arrow_left_24_filled" />
 
         <LinearLayout
@@ -41,6 +46,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:nextFocusLeft="@+id/azure_communication_ui_navigation_button"
                 android:textColor="@color/azure_communication_ui_calling_color_action_bar_text" />
 
             <TextView
@@ -49,6 +57,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:textColor="@color/azure_communication_ui_calling_color_action_bar_subtext"
                 android:visibility="gone" />
         </LinearLayout>

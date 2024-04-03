@@ -29,6 +29,8 @@ internal class ToolbarView : Toolbar {
         navigationButton = findViewById(R.id.azure_communication_ui_navigation_button)
         toolbarTitle = findViewById(R.id.azure_communication_ui_toolbar_title)
         toolbarSubtitle = findViewById(R.id.azure_communication_ui_toolbar_subtitle)
+        this.isFocusable = true
+        this.isFocusableInTouchMode = true
     }
 
     fun start(
@@ -42,6 +44,7 @@ internal class ToolbarView : Toolbar {
         navigationButton.setOnClickListener {
             exitComposite()
         }
+        navigationButton.requestFocus()
     }
 
     fun stop() {
