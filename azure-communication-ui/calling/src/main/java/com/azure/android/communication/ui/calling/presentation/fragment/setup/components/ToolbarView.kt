@@ -26,9 +26,9 @@ internal class ToolbarView : Toolbar {
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        navigationButton = findViewById(R.id.navigation_button)
-        toolbarTitle = findViewById(R.id.toolbar_title)
-        toolbarSubtitle = findViewById(R.id.toolbar_subtitle)
+        navigationButton = findViewById(R.id.azure_communication_ui_navigation_button)
+        toolbarTitle = findViewById(R.id.azure_communication_ui_toolbar_title)
+        toolbarSubtitle = findViewById(R.id.azure_communication_ui_toolbar_subtitle)
     }
 
     fun start(
