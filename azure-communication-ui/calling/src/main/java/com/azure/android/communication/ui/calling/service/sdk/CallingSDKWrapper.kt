@@ -19,6 +19,7 @@ import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVi
 import com.azure.android.communication.calling.HangUpOptions
 import com.azure.android.communication.calling.JoinCallOptions
 import com.azure.android.communication.calling.JoinMeetingLocator
+import com.azure.android.communication.calling.TeamsCallAgentOptions
 import com.azure.android.communication.calling.TeamsMeetingLinkLocator
 import com.azure.android.communication.calling.TelecomManagerOptions
 import com.azure.android.communication.calling.VideoDevicesUpdatedListener
@@ -207,7 +208,7 @@ internal class CallingSDKWrapper(
     }
 
     override fun turnOnVideoAsync(): CompletableFuture<LocalVideoStream> {
-        call.setAudioRoute(android.telecom.CallAudioState.ROUTE_SPEAKER)
+        call.setTelecomManagerAudioRoute(android.telecom.CallAudioState.ROUTE_SPEAKER)
 
         val result = CompletableFuture<LocalVideoStream>()
         this.getLocalVideoStream()
@@ -230,7 +231,8 @@ internal class CallingSDKWrapper(
     }
 
     override fun turnOffVideoAsync(): CompletableFuture<Void> {
-        call.setAudioRoute(CallAudioState.ROUTE_EARPIECE)
+        call.setTelecomManagerAudioRoute(CallAudioState.ROUTE_EARPIECE)
+
 
         val result = CompletableFuture<Void>()
         this.getLocalVideoStream()
@@ -355,8 +357,6 @@ internal class CallingSDKWrapper(
 
         nullableCall = agent.join(context, joinMeetingLocator, joinCallOptions)
         callingSDKEventHandler.onJoinCall(call)
-
-
     }
 
     private fun getDeviceManagerCompletableFuture(): CompletableFuture<DeviceManager> {
@@ -534,6 +534,8 @@ internal class CallingSDKWrapper(
     }
 
     private fun switchCameraAsyncMobile(): CompletableFuture<CameraDeviceSelectionStatus> {
+
+
         val result = CompletableFuture<CameraDeviceSelectionStatus>()
         this.getLocalVideoStream()
             .thenAccept { videoStream: LocalVideoStream ->
