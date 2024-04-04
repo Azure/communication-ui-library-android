@@ -29,9 +29,9 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Kleurovergang instellen</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Camera wisselen</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Configuratie</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement"> Title</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement"> Subtitle</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Back navigation</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement"> Titel</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement"> Ondertitel</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Terug navigatie</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">Wachten op host</string>
@@ -67,7 +67,7 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">Meer</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">Diagnostische gegevens delen</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnostische gegevens</string>
-    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Knop Diagnostische gegevens delen</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Opname is gestart.</b> Door deel te nemen geeft u
@@ -93,7 +93,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Sluiten</string>
     <string name="azure_communication_ui_calling_alert_title">Waarschuwing</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">U bent uit de oproep verwijderd vanwege een fout.</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">Mogelijk bent u uit de vergadering verwijderd of is de verbinding verbroken. Probeer opnieuw mee te doen.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Kan niet deelnemen aan de oproep vanwege een fout.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">U bent verwijderd uit het gesprek.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Kan niet deelnemen aan gesprek. Controleer de netwerkverbinding.</string>
