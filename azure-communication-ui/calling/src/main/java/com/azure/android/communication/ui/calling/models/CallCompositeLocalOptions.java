@@ -184,10 +184,10 @@ public final class CallCompositeLocalOptions {
         return audioVideoMode;
     }
 
-    /* <CUSTOM_CALL_SCREEN_TITLE>
-    public Object setCallScreenViewData(@Nullable CallCompositeSetupScreenViewData viewData) {
+    /* <CUSTOM_CALL_SCREEN_TITLE:0>
+    public CallCompositeLocalOptions setCallScreenViewData(final CallCompositeCallScreenViewData viewData) {
         this.callScreenViewData = viewData;
         return this;
     }
-    </CUSTOM_CALL_SCREEN_TITLE> */
+    </CUSTOM_CALL_SCREEN_TITLE:0> */
 }
