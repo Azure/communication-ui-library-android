@@ -93,7 +93,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">關閉</string>
     <string name="azure_communication_ui_calling_alert_title">警示</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">您可能已從會議中移除，或中斷您的連線。再次嘗試加入。</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">因為發生錯誤，您已從通話中移除。</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">發生錯誤，因此無法加入通話。</string>
     <string name="azure_communication_ui_calling_call_state_evicted">已從通話中移除您。</string>
     <string name="azure_communication_ui_calling_no_connection_available">無法加入通話。檢查您的網路連線。</string>

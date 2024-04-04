@@ -93,7 +93,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Lukk</string>
     <string name="azure_communication_ui_calling_alert_title">Varsel</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Du kan ha blitt fjernet fra møtet eller mistet tilkoblingen. Prøv å bli med på nytt.</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">Du ble fjernet fra samtalen på grunn av en feil.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Kan ikke bli med i samtalen på grunn av en feil.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Du ble fjernet fra samtalen.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Kan ikke bli med i samtalen. Kontroller nettverkstilkoblingen.</string>

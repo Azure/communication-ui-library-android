@@ -93,7 +93,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">关闭</string>
     <string name="azure_communication_ui_calling_alert_title">警报</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">系统可能已将你从会议中删除，或者你的连接已中断。请再次尝试加入。</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">由于出现错误，你已从通话中删除。</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">由于出现错误，无法加入呼叫。</string>
     <string name="azure_communication_ui_calling_call_state_evicted">已将你从通话中移除。</string>
     <string name="azure_communication_ui_calling_no_connection_available">无法加入呼叫。请检查网络连接。</string>

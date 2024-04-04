@@ -93,7 +93,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Ignorar</string>
     <string name="azure_communication_ui_calling_alert_title">Alerta</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Você pode ter sido removido da reunião ou perdido a conexão. Tente entrar novamente.</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">Você foi removido da chamada devido a um erro.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Não é possível ingressar na chamada devido a um erro.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Você foi removido da chamada.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Não é possível ingressar na chamada. Verifique sua conexão de rede.</string>
