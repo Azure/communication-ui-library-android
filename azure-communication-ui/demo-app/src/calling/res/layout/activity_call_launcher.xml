@@ -83,14 +83,14 @@
             android:text="@string/re_open_ui_button_text"
             android:layout_marginTop="16dp"/>
 
-        <!-- <SETUP_LOGO_INJECTION:0>
+        <!-- <SETUP_LOGO_INJECTION:0> -->
         <Button
             android:id="@+id/select_logo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/take_photo_for_logo"
             android:layout_marginTop="16dp"/>
-        </SETUP_LOGO_INJECTION:0> -->
+        <!-- </SETUP_LOGO_INJECTION:0> -->
 
         <Button
             android:id="@+id/closeCompositeButton"

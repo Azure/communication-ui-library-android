@@ -5,9 +5,6 @@ package com.azure.android.communication.ui.calling.models;
 
 import com.azure.android.communication.ui.calling.CallComposite;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 /**
  * {@link CallCompositeLocalOptions} for {@link CallComposite#launch}.
  *
@@ -192,5 +189,5 @@ public final class CallCompositeLocalOptions {
         this.callScreenViewData = viewData;
         return this;
     }
-    */
+    </CUSTOM_CALL_SCREEN_TITLE> */
 }

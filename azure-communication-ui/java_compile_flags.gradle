@@ -145,7 +145,7 @@ class FlagInstance {
         fileLines[endLine] = newEnd
 
         // Write the updated lines back to the file
-        file.text = fileLines.join("\n")
+        file.text = fileLines.join("\n")+"\n"
     }
 
     def enable() {
@@ -174,7 +174,7 @@ class FlagInstance {
         fileLines[endLine] = newEnd
 
         // Write the updated lines back to the file
-        file.text = fileLines.join("\n")
+        file.text = fileLines.join("\n")+"\n"
     }
 
     def prepDelete() {
@@ -183,7 +183,7 @@ class FlagInstance {
         for (int i = startLine; i <= endLine; i++) {
             lines[i] = "DELETE_ME"
         }
-        file.text = lines.join("\n")
+        file.text = lines.join("\n")+"\n"
     }
 
 
@@ -271,7 +271,7 @@ def purgeDeletions() {
         if (text.contains("DELETE_ME")) {
             def lines = file.readLines()
             def newLines = lines.findAll { line -> !line.contains("DELETE_ME") }
-            file.text = newLines.join("\n")
+            file.text = newLines.join("\n")+"\n"
         }
     }
 }

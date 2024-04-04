@@ -90,12 +90,12 @@ public final class CallCompositeBuilder {
      * @param logo
      * @return
      */
-    /* <SETUP_LOGO_INJECTION:5>
+    /* <SETUP_LOGO_INJECTION:5> */
     public CallCompositeBuilder logo(final Drawable logo) {
         this.logo = logo;
         return this;
     }
-    </SETUP_LOGO_INJECTION:0> */
+    /* </SETUP_LOGO_INJECTION:0> */
     
     /**
      * Builds the CallCompositeClass {@link CallComposite}.
@@ -110,9 +110,9 @@ public final class CallCompositeBuilder {
         config.setEnableSystemPiPWhenMultitasking(enableSystemPiPWhenMultitasking);
         config.setCallScreenOrientation(this.callScreenOrientation);
         config.setSetupScreenOrientation(this.setupScreenOrientation);
-        /* <SETUP_LOGO_INJECTION:0>
-        config.setSETUP_LOGO_INJECTION(logo);
-        </SETUP_LOGO_INJECTION:0> */
+        /* <SETUP_LOGO_INJECTION:0> */
+        config.setSetupScreenLogo(logo);
+        /* </SETUP_LOGO_INJECTION:0> */
         return new CallComposite(config);
     }
 }
