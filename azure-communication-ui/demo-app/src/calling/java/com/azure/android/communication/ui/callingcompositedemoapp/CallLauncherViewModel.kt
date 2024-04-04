@@ -5,9 +5,9 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.app.Application
 import android.content.Context
-/* <SETUP_LOGO_INJECTION:0> */
+/* <SETUP_LOGO_INJECTION:0>
 import android.graphics.drawable.Drawable
-/* </SETUP_LOGO_INJECTION:0> */
+</SETUP_LOGO_INJECTION:0> */
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
@@ -50,9 +50,9 @@ class CallLauncherViewModel : ViewModel() {
     private var remoteParticipantJoinedEvent: RemoteParticipantJoinedHandler? = null
     private var exitedCompositeToAcceptCall: Boolean = false
     private var callComposite: CallComposite? = null
-    /* <SETUP_LOGO_INJECTION:0> */
+    /* <SETUP_LOGO_INJECTION:0>
     private var selectedLogo: Drawable? = null
-    /* </SETUP_LOGO_INJECTION:0> */
+    </SETUP_LOGO_INJECTION:0> */
 
     fun destroy() {
         unsubscribeFromEvents()
@@ -232,9 +232,9 @@ class CallLauncherViewModel : ViewModel() {
                     SettingsFeatures.getLayoutDirection()
                 )
             )
-            /* <SETUP_LOGO_INJECTION:14> */
+            /* <SETUP_LOGO_INJECTION:14>
             .logo(selectedLogo)
-            /* </SETUP_LOGO_INJECTION:2> */
+            </SETUP_LOGO_INJECTION:2> */
             .setupScreenOrientation(setupScreenOrientation)
             .callScreenOrientation(callScreenOrientation)
 
@@ -273,11 +273,11 @@ class CallLauncherViewModel : ViewModel() {
         }
     }
 
-    /* <SETUP_LOGO_INJECTION:0> */
+    /* <SETUP_LOGO_INJECTION:0>
     fun setLogo(drawable: Drawable?) {
         selectedLogo = drawable;
     }
-    /* </SETUP_LOGO_INJECTION:0> */
+    </SETUP_LOGO_INJECTION:0> */
 }
 
 class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>) :

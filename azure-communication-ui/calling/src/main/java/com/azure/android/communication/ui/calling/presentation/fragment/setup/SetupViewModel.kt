@@ -3,9 +3,9 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.setup
 
-/* <SETUP_LOGO_INJECTION:0> */
+/* <SETUP_LOGO_INJECTION:0>
 import android.graphics.drawable.Drawable
-/* </SETUP_LOGO_INJECTION:0> */
+</SETUP_LOGO_INJECTION:0> */
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.SetupViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
@@ -21,9 +21,9 @@ internal class SetupViewModel(
     store: Store<ReduxState>,
     setupViewModelProvider: SetupViewModelFactory,
     private val networkManager: NetworkManager,
-    /* <SETUP_LOGO_INJECTION:4> */
+    /* <SETUP_LOGO_INJECTION:4>
     val logoDrawable: Drawable?
-    /* </SETUP_LOGO_INJECTION:1> */
+    </SETUP_LOGO_INJECTION:1> */
 ) : BaseViewModel(store) {
 
     val warningsViewModel = setupViewModelProvider.warningsViewModel
