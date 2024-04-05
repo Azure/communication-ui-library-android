@@ -306,17 +306,19 @@ internal class ParticipantListView(
             if (isMuted == true) R.string.azure_communication_ui_calling_view_participant_list_muted_accessibility_label
             else R.string.azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label
         )
-
         val onHoldAnnouncement: String = if (isOnHold == true) context.getString(R.string.azure_communication_ui_calling_remote_participant_on_hold) else ""
+        val contentDescription = if (onHoldAnnouncement.isNotEmpty()) {
+            displayName + onHoldAnnouncement + context.getString(R.string.azure_communication_ui_calling_view_participant_list_dismiss_list)
+        } else if (status == ParticipantStatus.IN_LOBBY) {
+            displayName + context.getString(R.string.azure_communication_ui_calling_view_participant_list_dismiss_lobby_list)
+        } else {
+            displayName + micAccessibilityAnnouncement + context.getString(R.string.azure_communication_ui_calling_view_participant_list_dismiss_list)
+        }
 
         return BottomCellItem(
             null,
             displayName,
-            displayName +
-                if (status == ParticipantStatus.IN_LOBBY)
-                    context.getString(R.string.azure_communication_ui_calling_view_participant_list_dismiss_lobby_list)
-                else context.getString(R.string.azure_communication_ui_calling_view_participant_list_dismiss_list) +
-                    onHoldAnnouncement,
+            contentDescription,
             if (status != ParticipantStatus.IN_LOBBY) micIcon else null,
             if (status != ParticipantStatus.IN_LOBBY) R.color.azure_communication_ui_calling_color_participant_list_mute_mic else null,
             micAccessibilityAnnouncement,
