@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.calling;
 
-import android.graphics.drawable.Drawable;
-
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions;
