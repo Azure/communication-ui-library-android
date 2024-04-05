@@ -24,7 +24,6 @@ public final class CallCompositeBuilder {
     private Boolean enableSystemPiPWhenMultitasking = false;
     private CallCompositeSupportedScreenOrientation callScreenOrientation = null;
     private CallCompositeSupportedScreenOrientation setupScreenOrientation = null;
-    private Drawable logo;
 
     /**
      * Sets an optional theme for call-composite to use by {@link CallComposite}.
@@ -85,12 +84,6 @@ public final class CallCompositeBuilder {
         return this;
     }
 
-    /**
-     * Sets a logo to be used in the app
-     * @param logo
-     * @return
-     */
-    
     /**
      * Builds the CallCompositeClass {@link CallComposite}.
      *

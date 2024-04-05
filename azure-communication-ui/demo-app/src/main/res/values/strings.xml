@@ -57,5 +57,4 @@
     <string name="multitasking_option">Multitasking</string>
     <string name="enable_multitasking_option">Enable Multitasking</string>
     <string name="enable_pip_when_multitasking_option">Enable Pip when multitasking</string>
-    <string name="take_photo_for_logo">Take Photo (for logo)</string>
 </resources>

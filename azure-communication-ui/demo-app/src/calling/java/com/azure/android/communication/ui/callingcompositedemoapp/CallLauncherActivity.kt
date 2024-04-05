@@ -34,7 +34,6 @@ import java.util.UUID
 class CallLauncherActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCallLauncherBinding
     private val callLauncherViewModel: CallLauncherViewModel by viewModels()
-    private val imageContent = "image/*"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,7 +113,6 @@ class CallLauncherActivity : AppCompatActivity() {
             showUIButton.setOnClickListener {
                 showUI()
             }
-
             closeCompositeButton.setOnClickListener { callLauncherViewModel.close() }
 
             groupCallRadioButton.setOnClickListener {

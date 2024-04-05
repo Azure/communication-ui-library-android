@@ -33,7 +33,6 @@ import com.azure.android.communication.ui.calling.CallComposite;
 public final class CallCompositeLocalOptions {
     private CallCompositeParticipantViewData participantViewData = null;
     private CallCompositeSetupScreenViewData setupScreenViewData = null;
-
     private boolean cameraOn = false;
     private boolean microphoneOn = false;
     private boolean skipSetupScreen = false;
@@ -180,5 +179,4 @@ public final class CallCompositeLocalOptions {
     public CallCompositeAudioVideoMode getAudioVideoMode() {
         return audioVideoMode;
     }
-
 }

@@ -15,33 +15,6 @@
     tools:context="com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment"
     >
 
-
-    <!-- Logo Image for Setup Screen Feature
-        <SETUP_LOGO_INJECTION>
-        This can't be flagged effectively because it's a relativelayout
-        Putting the tag on the second line means we can find this block,
-        but won't work with disabling.
-
-        To do so would mean invisible anchors/another layout/or additional flags+branching
-
-        We can't remove a view without breaking it's constraints
-
-        However, this being hidden by default means effectively off
-    -->
-    <ImageView
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:id="@+id/azure_communication_ui_setup_logo_image"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:visibility="gone"
-        android:contentDescription="Logo" />
-    <!--
-        </SETUP_LOGO_INJECTION>
-    -->
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/azure_communication_ui_setup_video_layout"
         android:layout_width="0dp"
@@ -54,7 +27,7 @@
         app:layout_constraintBottom_toTopOf="@id/azure_communication_ui_setup_join_call_holder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/azure_communication_ui_setup_logo_image"
+        app:layout_constraintTop_toTopOf="parent"
         >
 
         <com.azure.android.communication.ui.calling.presentation.fragment.setup.components.PreviewAreaView
