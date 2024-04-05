@@ -34,9 +34,6 @@ public final class CallCompositeLocalOptions {
     private CallCompositeParticipantViewData participantViewData = null;
     private CallCompositeSetupScreenViewData setupScreenViewData = null;
 
-    /* <CUSTOM_CALL_SCREEN_TITLE:0>
-    private CallCompositeCallScreenViewData callScreenViewData = null;
-    </CUSTOM_CALL_SCREEN_TITLE:0> */
     private boolean cameraOn = false;
     private boolean microphoneOn = false;
     private boolean skipSetupScreen = false;
@@ -184,10 +181,4 @@ public final class CallCompositeLocalOptions {
         return audioVideoMode;
     }
 
-    /* <CUSTOM_CALL_SCREEN_TITLE:0>
-    public CallCompositeLocalOptions setCallScreenViewData(final CallCompositeCallScreenViewData viewData) {
-        this.callScreenViewData = viewData;
-        return this;
-    }
-    </CUSTOM_CALL_SCREEN_TITLE:0> */
 }

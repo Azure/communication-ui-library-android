@@ -15,9 +15,6 @@ import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
-/* <CUSTOM_CALL_SCREEN_TITLE:0>
-import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenViewData
-</CUSTOM_CALL_SCREEN_TITLE:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
@@ -121,13 +118,6 @@ class CallLauncherViewModel : ViewModel() {
                     .setTitle(SettingsFeatures.getTitle())
                     .setSubtitle(SettingsFeatures.getSubtitle())
             )
-            /* <CUSTOM_CALL_SCREEN_TITLE:0>
-            .setCallScreenViewData(
-                CallCompositeCallScreenViewData()
-                    .setTitle(SettingsFeatures.getTitle())
-                    .setSubtitle(SettingsFeatures.getSubtitle())
-            )
-            </CUSTOM_CALL_SCREEN_TITLE:0> */
             .setSkipSetupScreen(SettingsFeatures.getSkipSetupScreenFeatureOption())
             .setAudioVideoMode(avMode)
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
