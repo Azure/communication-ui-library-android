@@ -3,9 +3,6 @@
 
 package com.azure.android.communication.ui.calling.configuration
 
-/* <SETUP_LOGO_INJECTION:0>
-import android.graphics.drawable.Drawable
-</SETUP_LOGO_INJECTION:0> */
 import com.azure.android.communication.ui.calling.configuration.events.CallCompositeEventsHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
@@ -22,7 +19,4 @@ internal class CallCompositeConfiguration {
     var enableSystemPiPWhenMultitasking: Boolean = false
     var callScreenOrientation: CallCompositeSupportedScreenOrientation? = null
     var setupScreenOrientation: CallCompositeSupportedScreenOrientation? = null
-    /* <SETUP_LOGO_INJECTION:11>
-    var setupScreenLogo: Drawable? = null
-    </SETUP_LOGO_INJECTION:1> */
 }

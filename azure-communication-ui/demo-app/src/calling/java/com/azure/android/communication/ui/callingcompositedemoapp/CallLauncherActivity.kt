@@ -4,18 +4,12 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.content.Intent
-/* <SETUP_LOGO_INJECTION:0>
-import android.graphics.drawable.Drawable
-</SETUP_LOGO_INJECTION:0> */
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
-/* <SETUP_LOGO_INJECTION:0>
-import androidx.activity.result.contract.ActivityResultContracts
-</SETUP_LOGO_INJECTION:0> */
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -173,9 +167,6 @@ class CallLauncherActivity : AppCompatActivity() {
                 },
             )
 
-            /* <SETUP_LOGO_INJECTION:0>
-            SETUP_LOGO_INJECTION()
-            </SETUP_LOGO_INJECTION:0> */
 
             if (BuildConfig.DEBUG) {
                 versionText.text = "${BuildConfig.VERSION_NAME}"
@@ -185,24 +176,6 @@ class CallLauncherActivity : AppCompatActivity() {
         }
     }
 
-    /* <SETUP_LOGO_INJECTION:0>
-    private fun ActivityCallLauncherBinding.SETUP_LOGO_INJECTION() {
-        val getContent =
-            registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-                // Handle the returned Uri
-                uri?.let {
-                    // Convert Uri to Drawable
-                    val inputStream = contentResolver.openInputStream(it)
-                    val drawable = Drawable.createFromStream(inputStream, uri.toString())
-                    callLauncherViewModel.setLogo(drawable);
-                }
-            }
-
-        selectLogo.setOnClickListener {
-            getContent.launch(imageContent)
-        }
-    }
-    </SETUP_LOGO_INJECTION:0> */
 
     override fun onDestroy() {
         super.onDestroy()
