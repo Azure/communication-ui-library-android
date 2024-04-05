@@ -256,7 +256,6 @@ class CallLauncherViewModel : ViewModel() {
             callHangup()
         }
     }
-
 }
 
 class CallStateEventHandler(private val callCompositeCallStateStateFlow: MutableStateFlow<String>) :

@@ -167,7 +167,6 @@ class CallLauncherActivity : AppCompatActivity() {
                 },
             )
 
-
             if (BuildConfig.DEBUG) {
                 versionText.text = "${BuildConfig.VERSION_NAME}"
             } else {
@@ -175,7 +174,6 @@ class CallLauncherActivity : AppCompatActivity() {
             }
         }
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
