@@ -61,7 +61,7 @@ internal class ToolbarView : Toolbar {
         }
 
         toolbarTitle.text = titleText
-        toolbarTitle.contentDescription = titleText + context.applicationContext.getString(R.string.azure_communication_ui_calling_call_setup_toolbar_title_announcement)
+        toolbarTitle.contentDescription = titleText + " " + context.applicationContext.getString(R.string.azure_communication_ui_calling_call_setup_toolbar_title_announcement)
 
         // Only set the subtitle if the title has also been set
         if (!TextUtils.isEmpty(localOptions?.setupScreenViewData?.subtitle)) {
@@ -69,7 +69,7 @@ internal class ToolbarView : Toolbar {
                 val subtitleText = localOptions?.setupScreenViewData?.subtitle
                 toolbarSubtitle.visibility = View.VISIBLE
                 toolbarSubtitle.text = subtitleText
-                toolbarSubtitle.contentDescription = subtitleText + context.applicationContext.getString(R.string.azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement)
+                toolbarSubtitle.contentDescription = subtitleText + " " + context.applicationContext.getString(R.string.azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement)
             } else {
                 logger.error(
                     "Provided setupScreenViewData has subtitle, but no title provided. In this case subtitle is not displayed."

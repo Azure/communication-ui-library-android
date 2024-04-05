@@ -29,8 +29,8 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Setup Gradient</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Switch Camera</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Setup</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement"> Title</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement"> Subtitle</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Title</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Subtitle</string>
     <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Back navigation</string>
 
     <!--    Lobby View-->
