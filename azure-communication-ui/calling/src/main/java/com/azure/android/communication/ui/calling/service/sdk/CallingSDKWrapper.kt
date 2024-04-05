@@ -111,12 +111,7 @@ internal class CallingSDKWrapper(
         callingSDKEventHandler.getMediaCallDiagnosticsSharedFlow()
 
     override fun getLogFiles(): List<File> {
-        callClient?.apply {
-
-            // TODO: Fix after merge up, DO NOT LET ME CHECK THIS IN!!!!!!!!!!!!!!!!!!!!!!!!!
-            // get debug info and return log files (on older SDK)
-        }
-        return Collections.emptyList()
+        return callClient?.debugInfo?.supportFiles ?: Collections.emptyList()
     }
 
     //endregion
