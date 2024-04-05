@@ -1,9 +1,5 @@
 /**
  * This script is used to manage feature flags in your project.
- *
- * Todo:
- *  Auto-Flag? 1) Compare against base branch, Identify changes that aren't flagged. 2) Flag them.
- *  Pythonify? 2) Would it be hard to use with iOS if it wasn't gradle entangled?
  */
 
 import java.util.regex.Pattern
