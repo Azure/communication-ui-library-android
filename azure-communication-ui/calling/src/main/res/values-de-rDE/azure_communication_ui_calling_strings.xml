@@ -29,8 +29,8 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Farbverlauf einrichten</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Kamera wechseln</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Setup</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement"> Titel</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement"> Untertitel</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Titel</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Untertitel</string>
     <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Navigation zurück</string>
 
     <!--    Lobby View-->

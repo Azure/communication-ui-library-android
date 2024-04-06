@@ -29,8 +29,8 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Gradering av oppsett</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Bytt kamera</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Oppsett</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement"> Tittel</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement"> Undertittel</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Tittel</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Undertittel</string>
     <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Tilbake-navigasjon</string>
 
     <!--    Lobby View-->
