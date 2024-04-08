@@ -16,7 +16,7 @@ import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.calling.ScalingMode
-import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
@@ -202,6 +202,12 @@ internal class LocalParticipantView : ConstraintLayout {
                 }
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getIsVisibleFlow().collect {
+                visibility = if (it) View.VISIBLE else View.GONE
+            }
+        }
     }
 
     private fun setupAccessibility() {
@@ -217,10 +223,10 @@ internal class LocalParticipantView : ConstraintLayout {
         localParticipantPipCameraHolder.removeAllViews()
 
         localParticipantPip.visibility =
-            if (model.viewMode == LocalParticipantViewMode.PIP) View.VISIBLE else View.GONE
+            if (model.viewMode == LocalParticipantViewMode.SELFIE_PIP) View.VISIBLE else View.GONE
 
         val videoHolder = when (model.viewMode) {
-            LocalParticipantViewMode.PIP -> localParticipantPipCameraHolder
+            LocalParticipantViewMode.SELFIE_PIP -> localParticipantPipCameraHolder
             LocalParticipantViewMode.FULL_SCREEN -> localParticipantFullCameraHolder
         }
 
@@ -234,15 +240,8 @@ internal class LocalParticipantView : ConstraintLayout {
         videoHolder: ConstraintLayout,
         viewMode: LocalParticipantViewMode
     ) {
-        val scalingMode =
-            // If in PIP Always Crop
-            if (viewMode == LocalParticipantViewMode.PIP)
-                ScalingMode.CROP
-            // When not in PIP, Fit on TV, Crop Otherwise
-            else if (isAndroidTV(context))
-                ScalingMode.FIT
-            else
-                ScalingMode.CROP
+        val scalingMode = if (isAndroidTV(context)) ScalingMode.FIT else ScalingMode.CROP
+
         videoViewManager.getLocalVideoRenderer(
             videoStreamID,
             scalingMode

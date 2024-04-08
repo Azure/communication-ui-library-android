@@ -3,10 +3,10 @@
 
 package com.azure.android.communication.ui.calling.redux.middleware.handler
 
-import com.azure.android.communication.ui.calling.error.ErrorCode
-import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.calling.error.CallCompositeError
+import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.FatalError
+import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
@@ -15,11 +15,11 @@ import com.azure.android.communication.ui.calling.redux.action.LocalParticipantA
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
+import com.azure.android.communication.ui.calling.redux.action.CallDiagnosticsAction
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
-import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
@@ -50,6 +50,9 @@ internal interface CallingMiddlewareActionHandler {
     fun callSetupWithSkipSetupScreen(store: Store<ReduxState>)
     fun exit(store: Store<ReduxState>)
     fun dispose()
+    fun admitAll(store: Store<ReduxState>)
+    fun admit(userIdentifier: String, store: Store<ReduxState>)
+    fun decline(userIdentifier: String, store: Store<ReduxState>)
 }
 
 internal class CallingMiddlewareActionHandlerImpl(
@@ -130,6 +133,36 @@ internal class CallingMiddlewareActionHandlerImpl(
     override fun dispose() {
         coroutineScope.cancel()
         callingService.dispose()
+    }
+
+    override fun admitAll(store: Store<ReduxState>) {
+        callingService.admitAll().whenComplete { lobbyErrorCode, _ ->
+            if (lobbyErrorCode != null) {
+                store.dispatch(
+                    ParticipantAction.LobbyError(lobbyErrorCode)
+                )
+            }
+        }
+    }
+
+    override fun admit(userIdentifier: String, store: Store<ReduxState>) {
+        callingService.admit(userIdentifier).whenComplete { lobbyErrorCode, _ ->
+            if (lobbyErrorCode != null) {
+                store.dispatch(
+                    ParticipantAction.LobbyError(lobbyErrorCode)
+                )
+            }
+        }
+    }
+
+    override fun decline(userIdentifier: String, store: Store<ReduxState>) {
+        callingService.decline(userIdentifier).whenComplete { lobbyErrorCode, _ ->
+            if (lobbyErrorCode != null) {
+                store.dispatch(
+                    ParticipantAction.LobbyError(lobbyErrorCode)
+                )
+            }
+        }
     }
 
     override fun exit(store: Store<ReduxState>) {
@@ -217,7 +250,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                     )
                 )
             } else {
-                if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
+                if (store.getCurrentState().localParticipantState.initialCallJoinState.skipSetupScreen) {
                     store.dispatch(action = CallingAction.CallStartRequested())
                 }
             }
@@ -226,13 +259,16 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     override fun startCall(store: Store<ReduxState>) {
 
-        subscribeRemoteParticipantsUpdate(store, coroutineScope)
+        subscribeRemoteParticipantsUpdate(store)
         subscribeIsMutedUpdate(store)
         subscribeIsRecordingUpdate(store)
         subscribeIsTranscribingUpdate(store)
+        subscribeToUserFacingDiagnosticsUpdates(store)
         subscribeCallInfoModelEventUpdate(store)
         subscribeCallIdUpdate(store)
         subscribeCamerasCountUpdate(store)
+        subscribeDominantSpeakersUpdate(store)
+        subscribeOnLocalParticipantRoleChanged(store)
 
         callingService.startCall(
             store.getCurrentState().localParticipantState.cameraState,
@@ -340,7 +376,6 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     private fun subscribeRemoteParticipantsUpdate(
         store: Store<ReduxState>,
-        coroutineScope: CoroutineScope,
     ) {
         coroutineScope.launch {
             callingService.getParticipantsInfoModelSharedFlow().collect {
@@ -352,10 +387,31 @@ internal class CallingMiddlewareActionHandlerImpl(
         }
     }
 
+    private fun subscribeDominantSpeakersUpdate(
+        store: Store<ReduxState>,
+    ) {
+        coroutineScope.launch {
+            callingService.getDominantSpeakersSharedFlow()?.collect {
+                if (isActive) {
+                    store.dispatch(ParticipantAction.DominantSpeakersUpdated(it))
+                }
+            }
+        }
+    }
+
     private fun subscribeIsRecordingUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
-            callingService.getIsRecordingSharedFlow().collect {
+            callingService.getIsRecordingSharedFlow()?.collect {
                 val action = CallingAction.IsRecordingUpdated(it)
+                store.dispatch(action)
+            }
+        }
+    }
+
+    private fun subscribeOnLocalParticipantRoleChanged(store: Store<ReduxState>) {
+        coroutineScope.launch {
+            callingService.getLocalParticipantRoleSharedFlow()?.collect {
+                val action = LocalParticipantAction.RoleChanged(it)
                 store.dispatch(action)
             }
         }
@@ -363,8 +419,31 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     private fun subscribeIsTranscribingUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
-            callingService.getIsTranscribingSharedFlow().collect {
+            callingService.getIsTranscribingSharedFlow()?.collect {
                 val action = CallingAction.IsTranscribingUpdated(it)
+                store.dispatch(action)
+            }
+        }
+    }
+
+    private fun subscribeToUserFacingDiagnosticsUpdates(store: Store<ReduxState>) {
+        coroutineScope.launch {
+            callingService.getNetworkQualityCallDiagnosticsFlow().collect {
+                val action = CallDiagnosticsAction.NetworkQualityCallDiagnosticsUpdated(it)
+                store.dispatch(action)
+            }
+        }
+
+        coroutineScope.launch {
+            callingService.getNetworkCallDiagnosticsFlow().collect {
+                val action = CallDiagnosticsAction.NetworkCallDiagnosticsUpdated(it)
+                store.dispatch(action)
+            }
+        }
+
+        coroutineScope.launch {
+            callingService.getMediaCallDiagnosticsFlow().collect {
+                val action = CallDiagnosticsAction.MediaCallDiagnosticsUpdated(it)
                 store.dispatch(action)
             }
         }
@@ -383,7 +462,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                     tryCameraOn(store)
                 }
 
-                if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&
+                if (store.getCurrentState().localParticipantState.initialCallJoinState.skipSetupScreen &&
                     callInfoModel.callingStatus == CallingStatus.CONNECTED
                 ) {
                     tryCameraOn(store)
@@ -395,7 +474,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                     if (it.callCompositeEventCode == CallCompositeEventCode.CALL_EVICTED ||
                         it.callCompositeEventCode == CallCompositeEventCode.CALL_DECLINED
                     ) {
-                        if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
+                        if (store.getCurrentState().localParticipantState.initialCallJoinState.skipSetupScreen) {
                             store.dispatch(NavigationAction.Exit())
                         } else {
                             store.dispatch(NavigationAction.SetupLaunched())
@@ -407,7 +486,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                         store.dispatch(CallingAction.IsRecordingUpdated(false))
                         store.dispatch(ParticipantAction.ListUpdated(HashMap()))
                         store.dispatch(CallingAction.StateUpdated(CallingStatus.NONE))
-                        if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN) {
+                        if (store.getCurrentState().localParticipantState.initialCallJoinState.skipSetupScreen) {
                             store.dispatch(NavigationAction.Exit())
                         } else {
                             store.dispatch(NavigationAction.SetupLaunched())

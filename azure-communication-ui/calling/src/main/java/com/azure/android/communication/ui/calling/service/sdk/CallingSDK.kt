@@ -4,14 +4,19 @@
 package com.azure.android.communication.ui.calling.service.sdk
 
 import android.view.View
+import com.azure.android.communication.calling.CameraFacing
+import com.azure.android.communication.calling.CreateViewOptions
+import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.ParticipantState
 import com.azure.android.communication.calling.PropertyChangedListener
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
-import com.azure.android.communication.calling.MediaStreamType
-import com.azure.android.communication.calling.CameraFacing
-import com.azure.android.communication.calling.VideoDeviceType
-import com.azure.android.communication.calling.CreateViewOptions
 import com.azure.android.communication.calling.ScalingMode
+import com.azure.android.communication.calling.VideoDeviceType
+import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
+import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
+import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
@@ -20,6 +25,7 @@ import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.io.File
 
 /**
  * An interface that describes our interactions with the underlying calling SDK.
@@ -44,12 +50,24 @@ internal interface CallingSDK {
     fun getLocalVideoStream(): CompletableFuture<LocalVideoStream>
     fun getRemoteParticipantsMap(): Map<String, RemoteParticipant>
     fun getIsTranscribingSharedFlow(): SharedFlow<Boolean>
+    fun getDominantSpeakersSharedFlow(): SharedFlow<DominantSpeakersInfo>
     fun getIsRecordingSharedFlow(): SharedFlow<Boolean>
     fun getIsMutedSharedFlow(): SharedFlow<Boolean>
     fun getCallingStateWrapperSharedFlow(): SharedFlow<CallingStateWrapper>
     fun getCallIdStateFlow(): StateFlow<String?>
     fun getRemoteParticipantInfoModelSharedFlow(): Flow<Map<String, ParticipantInfoModel>>
     fun getCamerasCountStateFlow(): StateFlow<Int>
+    fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?>
+    fun admit(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?>
+    fun decline(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?>
+    fun getLocalParticipantRoleSharedFlow(): SharedFlow<CallCompositeInternalParticipantRole?>
+
+    //region Call Diagnostics
+    fun getNetworkQualityCallDiagnosticSharedFlow(): SharedFlow<NetworkQualityCallDiagnosticModel>
+    fun getNetworkCallDiagnosticSharedFlow(): SharedFlow<NetworkCallDiagnosticModel>
+    fun getMediaCallDiagnosticSharedFlow(): SharedFlow<MediaCallDiagnosticModel>
+    fun getLogFiles(): List<File>
+    //endregion
 }
 
 internal interface RemoteParticipant {
@@ -67,6 +85,10 @@ internal interface RemoteParticipant {
     fun removeOnIsSpeakingChangedListener(listener: PropertyChangedListener?)
     fun addOnStateChangedListener(listener: PropertyChangedListener?)
     fun removeOnStateChangedListener(listener: PropertyChangedListener?)
+}
+
+internal interface DominantSpeakersInfo {
+    val speakers: List<String>
 }
 
 internal sealed class CommunicationIdentifier(val id: String) {

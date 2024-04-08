@@ -2,7 +2,7 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--    Device-->
     <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Speaker</string>
@@ -29,6 +29,9 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Setup Gradient</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Switch Camera</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Setup</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Title</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Subtitle</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Back navigation</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">Waiting for host</string>
@@ -44,6 +47,7 @@
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Waiting for others to join</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Call with 1 person</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Call with %1$d people</string>
+    <string name="azure_communication_ui_calling_view_go_back">Back</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(me)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Unnamed participant</string>
     <string name="azure_communication_ui_calling_view_leave_call">Leave call?</string>
@@ -63,6 +67,7 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">More</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">Share diagnostics info</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnostics info</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Recording has started.</b> By joining, you are
@@ -94,7 +99,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Dismiss</string>
     <string name="azure_communication_ui_calling_alert_title">Alert</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">You were removed from the call due to an error.</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">You may have been removed from the meeting, or lost your connection. Try to join again.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Unable to join the call due to an error.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">You were removed from the call.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Unable to join call. Check your network connection.</string>
@@ -108,4 +113,58 @@
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s has joined the meeting</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s has left the meeting</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">You have joined the call</string>
+
+    <!--    Participant list-->
+    <string name="azure_communication_ui_calling_participant_list_in_call_n_people">In the call (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">In the lobby (%1$d)</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Double tap to admit/decline participant</string>
+
+    <!--    Admit participant dialog-->
+    <string name="azure_communication_ui_calling_admit_name">Admit %1$s?</string>
+    <string name="azure_communication_ui_calling_admit">Admit</string>
+    <string name="azure_communication_ui_calling_decline">Decline</string>
+    <string name="azure_communication_ui_calling_admit_all">Admit all</string>
+
+    <!--    Lobby header-->
+    <string name="azure_communication_ui_calling_lobby_header_text">People are waiting to join</string>
+    <string name="azure_communication_ui_calling_lobby_header_icon_content_description">Lobby</string>
+    <string name="azure_communication_ui_calling_lobby_header_view_participant_button">View lobby</string>
+    <string name="azure_communication_ui_calling_lobby_header_accessibility_label">View lobby</string>
+    <string name="azure_communication_ui_calling_lobby_header_close_description">Close lobby</string>
+
+    <!--    Lobby error header-->
+    <string name="azure_communication_ui_calling_lobby_header_error_close_description">Close lobby error</string>
+    <string name="azure_communication_ui_calling_lobby_error_content_description">Lobby error</string>
+    <string name="azure_communication_ui_calling_error_lobby_disabled_by_configuration">Lobby has been disabled</string>
+    <string name="azure_communication_ui_calling_error_lobby_conversation_type_not_supported">Lobby not supported</string>
+    <string name="azure_communication_ui_calling_error_lobby_meeting_role_not_allowded">Your role cannot act on the lobby</string>
+    <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">Failed to decline</string>
+    <string name="azure_communication_ui_calling_error_lobby_unknown">Lobby action error</string>
+
+    <!-- Call Diagnostics -->
+    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Network was lost</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">Reconnecting...</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">Network quality is low</string>
+    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">You are muted</string>
+    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">Microphone isn\'t working as expected</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">Unable to start camera</string>
+    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">Camera stopped working</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">Speaker isn\'t working as expected</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">Unable to locate speaker</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">Unable to locate microphone</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">Speaker is muted</string>
+
+    <!--    Upper Message Bar Notification -->
+    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Dismiss</string>
+
+    <!--     Support Form -->
+    <string name="azure_communication_ui_calling_report_issue">Report Issue</string>
+    <string name="azure_communication_ui_calling_report_issue_title">Report Issue</string>
+    <string name="azure_communication_ui_calling_logs_attach_notice">We\'ll automatically attach logs.</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label">Privacy Policy</string>
+    <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Please describe your issue...</string>
+    <string name="azure_communication_ui_calling_cancel_button_label">Cancel</string>
+    <string name="azure_communication_ui_calling_attach_screenshot">Attach screenshot</string>
+    <string name="azure_communication_ui_calling_report_a_problem_label">Report a problem</string>
+    <string name="azure_communication_ui_calling_send_feedback_label">Send</string>
 </resources>

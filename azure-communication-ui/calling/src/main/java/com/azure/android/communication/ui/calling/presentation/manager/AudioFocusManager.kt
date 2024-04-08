@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.manager
 
 import android.content.Context
+import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.media.AudioManager.MODE_NORMAL
@@ -34,7 +35,13 @@ internal class AudioFocusHandler26(val context: Context) : AudioFocusHandler() {
     private fun audioManager() = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
     private val audioFocusRequest26 = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
-        .setOnAudioFocusChangeListener(this).build()
+        .setOnAudioFocusChangeListener(this)
+        .setAudioAttributes(
+            AudioAttributes.Builder()
+                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .build()
+        )
+        .build()
 
     override fun getAudioFocus() =
         audioManager().requestAudioFocus(audioFocusRequest26) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
@@ -79,6 +86,10 @@ internal class AudioFocusManager(
     }
 
     suspend fun start() {
+        if (audioFocusHandler?.getAudioFocus() == false) {
+            store.dispatch(AudioSessionAction.AudioFocusRejected())
+        }
+
         audioFocusHandler?.onFocusChange = {
             // Todo: AudioFocus can be resumed as well (e.g. transient is temporary, we will get back.
             // I.e. like how spotify can continue playing after a call is done.
@@ -104,6 +115,8 @@ internal class AudioFocusManager(
                             store.dispatch(AudioSessionAction.AudioFocusApproved())
                         }
                     }
+                } else if (it.audioSessionState.audioFocusStatus == AudioFocusStatus.APPROVED) {
+                    store.dispatch(AudioSessionAction.AudioFocusApproved())
                 }
             } else if (previousCallState != it.callState.callingStatus) {
                 previousCallState = it.callState.callingStatus

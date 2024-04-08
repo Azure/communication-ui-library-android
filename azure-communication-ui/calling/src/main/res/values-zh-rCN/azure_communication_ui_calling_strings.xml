@@ -2,7 +2,7 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--    Device-->
     <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">扬声器</string>
@@ -19,16 +19,19 @@
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">关闭麦克风</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">打开麦克风</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">加入通话</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">你的音频已禁用。若要启用，请转到“设置”以允许访问。
-必须启用音频才能开始此通话。</string>
+    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">你的音频已禁用。若要启用，请转到“设置”以允许访问。必须
+       启用音频以开始此通话。</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">你的相机已禁用。若要启用，请转到“设置”
-以允许访问。</string>
+       以允许访问。</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">需要权限</string>
     <string name="azure_communication_ui_calling_setup_view_go_to_settings">转到“设置”</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">已选择</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">设置渐变</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">切换摄像头</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">安装</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">标题</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">副标题</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">反向导航</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">正在等待主持人</string>
@@ -44,6 +47,7 @@
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">正在等待其他人加入</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">与 1 个人通话</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">与 %1$d 人通话</string>
+    <string name="azure_communication_ui_calling_view_go_back">返回</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(我)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">未命名的参与者</string>
     <string name="azure_communication_ui_calling_view_leave_call">离开会议?</string>
@@ -63,32 +67,33 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">更多</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">共享诊断信息</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">诊断信息</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">共享诊断信息按钮</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>录制已开始。</b>加入即表示你
-同意誊写此会议。
- <u>隐私策略</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>录制已启动。</b>加入即表示
+       你同意听录此会议。
+        <u>隐私策略</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>正在保存录制。</b>录制已停止。
-<u>了解详细信息</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>听录已开始。</b>加入即表示你
-同意誊写此会议。<u>隐私策略</u></string>
+        <u>了解详细信息</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>听录已开始。</b>加入即表示
+       你同意听录此会议。<u>隐私策略</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>正在保存听录。</b>听录
-已停止。<u>了解详细信息</u></string>
+       已停止。<u>了解详细信息</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>录制和听录已
-已启动。</b>加入即表示你同意誊写此会议
-。<u>隐私策略</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>正在
-保存录制和听录。</b>录制和听录已停止。<u>了解详细信息</u></string>
+       开始。</b>加入即表示你同意听录此会议。
+       。<u>隐私策略</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>录制和听录
+       正在保存。</b> 录制和听录已停止。<u>了解详细信息</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>录制已停止。</b>你
-现在仅在誊写此会议。<u>隐私策略</u></string>
+       现在仅听录此会议。<u>隐私策略</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>听录已停止。
-</b>你现在仅在录制此会议。<u>隐私策略</u></string>
+   </b>现在仅录制此会议。<u>隐私策略</u></string>
     <string name="azure_communication_ui_calling_view_link">链接</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">关闭</string>
     <string name="azure_communication_ui_calling_alert_title">警报</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">由于出现错误，你已从通话中删除。</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">系统可能已将你从会议中删除，或者你的连接已中断。请再次尝试加入。</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">由于出现错误，无法加入呼叫。</string>
     <string name="azure_communication_ui_calling_call_state_evicted">已将你从通话中移除。</string>
     <string name="azure_communication_ui_calling_no_connection_available">无法加入呼叫。请检查网络连接。</string>
@@ -102,4 +107,58 @@
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s 已加入会议</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s 已离开会议。</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">你已加入通话</string>
+
+    <!--    Participant list-->
+    <string name="azure_communication_ui_calling_participant_list_in_call_n_people">在通话中 (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">在大厅中 (%1$d)</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">双击以允许/拒绝参与者</string>
+
+    <!--    Admit participant dialog-->
+    <string name="azure_communication_ui_calling_admit_name">允许 %1$s?</string>
+    <string name="azure_communication_ui_calling_admit">允许</string>
+    <string name="azure_communication_ui_calling_decline">拒绝</string>
+    <string name="azure_communication_ui_calling_admit_all">全部允许</string>
+
+    <!--    Lobby header-->
+    <string name="azure_communication_ui_calling_lobby_header_text">人员正在等待加入</string>
+    <string name="azure_communication_ui_calling_lobby_header_icon_content_description">大厅</string>
+    <string name="azure_communication_ui_calling_lobby_header_view_participant_button">查看大厅</string>
+    <string name="azure_communication_ui_calling_lobby_header_accessibility_label">查看大厅</string>
+    <string name="azure_communication_ui_calling_lobby_header_close_description">关闭大厅</string>
+
+    <!--    Lobby error header-->
+    <string name="azure_communication_ui_calling_lobby_header_error_close_description">关闭大厅错误</string>
+    <string name="azure_communication_ui_calling_lobby_error_content_description">大厅错误</string>
+    <string name="azure_communication_ui_calling_error_lobby_disabled_by_configuration">大厅已禁用</string>
+    <string name="azure_communication_ui_calling_error_lobby_conversation_type_not_supported">不支持大厅</string>
+    <string name="azure_communication_ui_calling_error_lobby_meeting_role_not_allowded">你的角色无法在大厅中操作</string>
+    <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">拒绝失败</string>
+    <string name="azure_communication_ui_calling_error_lobby_unknown">大厅操作错误</string>
+
+    <!-- Call Diagnostics -->
+    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">网络已丢失</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">正在重新连接…</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">网络质量低</string>
+    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">已将你设为静音</string>
+    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">麦克风未按预期工作</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">无法启动摄像头</string>
+    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">摄像头已停止运行</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">扬声器未按预期工作</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">找不到扬声器</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">找不到麦克风</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">扬声器已静音</string>
+
+    <!--    Upper Message Bar Notification -->
+    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">关闭</string>
+
+    <!--     Support Form -->
+    <string name="azure_communication_ui_calling_report_issue">报告问题</string>
+    <string name="azure_communication_ui_calling_report_issue_title">报告问题</string>
+    <string name="azure_communication_ui_calling_logs_attach_notice">我们将自动附加日志。</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label">隐私策略</string>
+    <string name="azure_communication_ui_calling_describe_your_issue_hint_text">请描述你的问题...</string>
+    <string name="azure_communication_ui_calling_cancel_button_label">取消</string>
+    <string name="azure_communication_ui_calling_attach_screenshot">附加屏幕截图</string>
+    <string name="azure_communication_ui_calling_report_a_problem_label">报告问题</string>
+    <string name="azure_communication_ui_calling_send_feedback_label">发送</string>
 </resources>

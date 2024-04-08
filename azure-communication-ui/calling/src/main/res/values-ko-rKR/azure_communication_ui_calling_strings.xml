@@ -2,7 +2,7 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--    Device-->
     <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">스피커</string>
@@ -29,6 +29,9 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">설정 그라데이션</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">카메라 전환</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">설정</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Title</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Subtitle</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Back navigation</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">호스트 대기 중</string>
@@ -44,6 +47,7 @@
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">다른 사용자의 참여를 기다리는 중</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">1명의 사용자와 통화</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">%1$d명과 통화</string>
+    <string name="azure_communication_ui_calling_view_go_back">뒤로</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(자신)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">명명되지 않은 참가자</string>
     <string name="azure_communication_ui_calling_view_leave_call">통화를 종료하시겠어요?</string>
@@ -63,32 +67,33 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">더 보기</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">진단 정보 공유</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">진단 정보</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>녹음을 시작했습니다.</b>참가하면 이 모임을 전사하는데
-       동의하게 됩니다.
-         <u>개인 정보 취급 방침</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>녹음을 저장하는 중입니다. </b> 녹음이 중지되었습니다.
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>녹음/녹화를 시작했습니다.</b> 참가하면
+        이 모임의 대화 내용을 기록하는 데 동의하게 됩니다.
+         <u>개인정보처리방침</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>녹음/녹화를 저장하는 중입니다. </b>녹음/녹화를 중지했습니다.
          <u>자세한 정보</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>대화 내용 기록을 시작했습니다.</b>참가하면 이 모임의 대화 내용을 기록하는데
-       동의하게 됩니다. <u>개인 정보 취급 방침</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>대화 내용 기록을 저장하는 중입니다.</b> 대화 내용 기록이
-        중지되었습니다. <u>자세한 정보</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>녹음 및 대화 내용 기록을
-        시작했습니다.</b> 참가하면 이 모임을
-        대화 내용을 기록하는데 동의하게 됩니다. <u>개인 정보 취급 방침</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>녹음 및 대화 내용 기록이 저장되고
-        있습니다.</b>녹음 및 대화 내용 기록이 중지되었습니다. <u>자세한 정보</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>녹음이 중지되었습니다.</b>이제 이 모임에서
-        전사만 합니다. <u>개인 정보 취급 방침</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>대화 내용 기록이 중지되었습니다.</b>이제 이 모임에서
-        녹음만 합니다. <u>개인 정보 취급 방침</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>대화 내용 기록을 시작했습니다.</b>참가하면
+        이 모임의 대화 내용을 기록하는 데 동의하게 됩니다. <u>개인정보처리방침</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>대화 내용 기록을 저장하는 중입니다.</b> 대화 내용 기록을
+        중지했습니다. <u>자세한 정보</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>녹음/녹화 및 대화 내용 기록을
+        시작했습니다.</b> 참가하면 이 모임의 대화 내용을 기록하는 데 동의하게 됩니다
+        . <u>개인정보처리방침</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>녹음/녹화 및 대화 내용 기록을
+        저장하는 중입니다.</b> 녹음/녹화 및 대화 내용 기록을 중지했습니다. <u>자세한 정보</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>녹음/녹화를 중지했습니다.</b>이제 이 모임의
+        대화 기록만 진행합니다. <u>개인정보처리방침</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>대화 내용 기록을 중지했습니다.
+    </b> 이제 이 모임의 녹음/녹화만 진행합니다. <u>개인정보처리방침</u></string>
     <string name="azure_communication_ui_calling_view_link">링크</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">해제</string>
     <string name="azure_communication_ui_calling_alert_title">알림</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">오류로 인해 통화에서 제외되었습니다.</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">모임에서 제거되거나 연결이 끊어진 것 같습니다. 다시 시도하세요.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">오류로 인해 통화에 참가할 수 없습니다.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">통화에서 제거되었습니다.</string>
     <string name="azure_communication_ui_calling_no_connection_available">통화에 참가할 수 없습니다. 네트워크 연결을 확인하세요.</string>
@@ -102,4 +107,58 @@
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s님이 모임에 참가했습니다.</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s님이 모임에서 나갔습니다.</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">통화에 참여하지 않았습니다.</string>
+
+    <!--    Participant list-->
+    <string name="azure_communication_ui_calling_participant_list_in_call_n_people">통화 중(%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">대기실에 있음(%1$d)</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">참가자를 허용/거절하려면 두 번 탭하세요.</string>
+
+    <!--    Admit participant dialog-->
+    <string name="azure_communication_ui_calling_admit_name">%1$s을(를) 허용하시겠어요?</string>
+    <string name="azure_communication_ui_calling_admit">허용</string>
+    <string name="azure_communication_ui_calling_decline">거절</string>
+    <string name="azure_communication_ui_calling_admit_all">모두 허용</string>
+
+    <!--    Lobby header-->
+    <string name="azure_communication_ui_calling_lobby_header_text">사람들이 참가를 기다리는 중</string>
+    <string name="azure_communication_ui_calling_lobby_header_icon_content_description">대기실</string>
+    <string name="azure_communication_ui_calling_lobby_header_view_participant_button">대기실 보기</string>
+    <string name="azure_communication_ui_calling_lobby_header_accessibility_label">대기실 보기</string>
+    <string name="azure_communication_ui_calling_lobby_header_close_description">대기실 닫기</string>
+
+    <!--    Lobby error header-->
+    <string name="azure_communication_ui_calling_lobby_header_error_close_description">대기실 닫기 오류</string>
+    <string name="azure_communication_ui_calling_lobby_error_content_description">대기실 오류</string>
+    <string name="azure_communication_ui_calling_error_lobby_disabled_by_configuration">대기실 비활성화됨</string>
+    <string name="azure_communication_ui_calling_error_lobby_conversation_type_not_supported">대기실이 지원되지 않음</string>
+    <string name="azure_communication_ui_calling_error_lobby_meeting_role_not_allowded">역할이 대기실에서 작동할 수 없음</string>
+    <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">거절 실패</string>
+    <string name="azure_communication_ui_calling_error_lobby_unknown">대기실 작업 오류</string>
+
+    <!-- Call Diagnostics -->
+    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">네트워크 연결이 끊겼습니다.</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">다시 연결하는 중...</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">네트워크 품질이 낮습니다.</string>
+    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">음소거 상태입니다.</string>
+    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">마이크가 예상대로 작동하지 않습니다.</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">카메라를 시작할 수 없습니다.</string>
+    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">카메라가 작동을 중단했습니다.</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">스피커가 예상대로 작동하지 않습니다.</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">스피커를 찾을 수 없습니다.</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">마이크를 찾을 수 없습니다.</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">스피커를 음소거했습니다.</string>
+
+    <!--    Upper Message Bar Notification -->
+    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">해제</string>
+
+    <!--     Support Form -->
+    <string name="azure_communication_ui_calling_report_issue">문제 신고</string>
+    <string name="azure_communication_ui_calling_report_issue_title">문제 신고</string>
+    <string name="azure_communication_ui_calling_logs_attach_notice">로그를 자동으로 첨부합니다.</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label">개인정보처리방침</string>
+    <string name="azure_communication_ui_calling_describe_your_issue_hint_text">문제를 설명해 주세요...</string>
+    <string name="azure_communication_ui_calling_cancel_button_label">취소</string>
+    <string name="azure_communication_ui_calling_attach_screenshot">스크린샷 첨부</string>
+    <string name="azure_communication_ui_calling_report_a_problem_label">문제 보고</string>
+    <string name="azure_communication_ui_calling_send_feedback_label">보내기</string>
 </resources>

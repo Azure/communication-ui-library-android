@@ -4,7 +4,12 @@
 package com.azure.android.communication.ui.calling.service
 
 import com.azure.android.communication.ui.calling.logger.Logger
+import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
+import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.calling.models.CallInfoModel
+import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
@@ -17,10 +22,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.io.File
 
 internal class CallingService(
     private val callingSdk: CallingSDK,
@@ -36,10 +42,17 @@ internal class CallingService(
     private val isMutedSharedFlow = MutableSharedFlow<Boolean>()
     private val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
     private val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
+    private val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
     private var callInfoModelSharedFlow = MutableSharedFlow<CallInfoModel>()
     private var callIdStateFlow = MutableStateFlow<String?>(null)
     private var callingStatus: CallingStatus = CallingStatus.NONE
+
+    //region Call Diagnostics
+    private val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
+    private val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
+    private val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+    //endregion
 
     fun turnCameraOn(): CompletableFuture<String> {
         return callingSdk.turnOnVideoAsync().thenApply { stream ->
@@ -53,6 +66,18 @@ internal class CallingService(
 
     fun switchCamera(): CompletableFuture<CameraDeviceSelectionStatus> {
         return callingSdk.switchCameraAsync()
+    }
+
+    fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?> {
+        return callingSdk.admitAll()
+    }
+
+    fun admit(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
+        return callingSdk.admit(userIdentifier)
+    }
+
+    fun decline(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
+        return callingSdk.decline(userIdentifier)
     }
 
     fun turnMicOff(): CompletableFuture<Void> {
@@ -78,6 +103,14 @@ internal class CallingService(
         return participantsInfoModelSharedFlow
     }
 
+    fun getLocalParticipantRoleSharedFlow(): SharedFlow<CallCompositeInternalParticipantRole?> {
+        return callingSdk.getLocalParticipantRoleSharedFlow()
+    }
+
+    fun getDominantSpeakersSharedFlow(): SharedFlow<List<String>> {
+        return dominantSpeakersSharedFlow
+    }
+
     fun getIsMutedSharedFlow(): Flow<Boolean> {
         return isMutedSharedFlow
     }
@@ -93,6 +126,20 @@ internal class CallingService(
     fun getIsTranscribingSharedFlow(): Flow<Boolean> {
         return isTranscribingSharedFlow
     }
+
+    //region Call Diagnostics
+    fun getNetworkQualityCallDiagnosticsFlow(): Flow<NetworkQualityCallDiagnosticModel> {
+        return networkQualityCallDiagnosticsSharedFlow
+    }
+
+    fun getNetworkCallDiagnosticsFlow(): Flow<NetworkCallDiagnosticModel> {
+        return networkCallDiagnosticsSharedFlow
+    }
+
+    fun getMediaCallDiagnosticsFlow(): Flow<MediaCallDiagnosticModel> {
+        return mediaCallDiagnosticsSharedFlow
+    }
+    //endregion
 
     fun getCamerasCountStateFlow() = callingSdk.getCamerasCountStateFlow()
 
@@ -122,7 +169,7 @@ internal class CallingService(
             callingSdk.getCallingStateWrapperSharedFlow().collect {
                 logger?.debug(it.toString())
                 val callStateError = it.asCallStateError(currentStatus = callingStatus)
-                callingStatus = it.toCallingStatus()
+                callingStatus = it.toCallStatus()
                 callInfoModelSharedFlow.emit(CallInfoModel(callingStatus, callStateError))
             }
         }
@@ -157,6 +204,34 @@ internal class CallingService(
             }
         }
 
+        //region Call Diagnostics
+        coroutineScope.launch {
+            callingSdk.getNetworkQualityCallDiagnosticSharedFlow().collect {
+                networkQualityCallDiagnosticsSharedFlow.emit(it)
+            }
+        }
+
+        coroutineScope.launch {
+            callingSdk.getNetworkCallDiagnosticSharedFlow().collect {
+                networkCallDiagnosticsSharedFlow.emit(it)
+            }
+        }
+
+        coroutineScope.launch {
+            callingSdk.getMediaCallDiagnosticSharedFlow().collect {
+                mediaCallDiagnosticsSharedFlow.emit(it)
+            }
+        }
+        //endregion
+
+        coroutineScope.launch {
+            callingSdk.getDominantSpeakersSharedFlow().collect {
+                dominantSpeakersSharedFlow.emit(it.speakers)
+            }
+        }
+
         return callingSdk.startCall(cameraState, audioState)
     }
+
+    fun getLogFiles(): List<File> = callingSdk.getLogFiles()
 }

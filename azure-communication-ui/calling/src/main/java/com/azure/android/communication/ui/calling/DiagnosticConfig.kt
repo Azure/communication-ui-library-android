@@ -3,11 +3,13 @@
 
 package com.azure.android.communication.ui.calling
 
+import com.azure.android.communication.ui.calling.implementation.BuildConfig
+
 internal class DiagnosticConfig {
     val tags: Array<String> by lazy { arrayOf(getApplicationId()) }
 
     private fun getApplicationId(): String {
-        val callingCompositeVersionName = "1.3.0-beta.1"
+        val callingCompositeVersionName = BuildConfig.UI_SDK_VERSION
         val baseTag = "ac"
         // Tag template is: acXYYY/<version>
         // Where:
@@ -19,6 +21,7 @@ internal class DiagnosticConfig {
         //          [0: undefined, 1: Call Composite, 2: Chat Composite, 3: CallWithChatComposite, 4: UI Components]
         //      Y[2] is reserved for implementation details,
         //          [0: undefined]
+        // - Version of this artifact
         return "${baseTag}a110/$callingCompositeVersionName"
     }
 }

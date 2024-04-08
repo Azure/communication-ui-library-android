@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
-import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.implementation.R
 import com.microsoft.fluentui.persona.AvatarView
 
 internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder(itemView) {
@@ -76,7 +76,7 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
         accessoryImageView.contentDescription = bottomCellItem.accessoryImageDescription
         accessoryImageView.visibility =
             if (isAccessoryImageViewable(bottomCellItem)) View.VISIBLE else View.INVISIBLE
-        additionalText.visibility = if (bottomCellItem.isOnHold) View.VISIBLE else View.INVISIBLE
+        additionalText.visibility = if (bottomCellItem.isOnHold == true) View.VISIBLE else View.INVISIBLE
     }
 
     private fun isAccessoryImageViewable(bottomCellItem: BottomCellItem): Boolean {
@@ -86,8 +86,8 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
             .getString(R.string.azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label)
 
         return (
-            !bottomCellItem.isOnHold && (
-                bottomCellItem.enabled == true || bottomCellItem.accessoryImageDescription == muteDescription ||
+            bottomCellItem.isOnHold == false && (
+                bottomCellItem.isChecked == true || bottomCellItem.accessoryImageDescription == muteDescription ||
                     bottomCellItem.accessoryImageDescription == unMutedDescription
                 )
             )

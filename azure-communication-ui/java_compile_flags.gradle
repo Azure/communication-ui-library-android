@@ -1,0 +1,452 @@
+/**
+ * This script is used to manage feature flags in your project.
+ */
+
+import java.util.regex.Pattern
+
+// This class helps find FLAGS amongst the code
+class FlagFileDefinition {
+    String extension
+    String startTag
+    String endTag
+
+    FlagFileDefinition(String extension, String startTag, String endTag) {
+        this.extension = extension
+        this.startTag = startTag
+        this.endTag = endTag
+    }
+
+    def isStartLine(String line) {
+        // If we see no flag, skip
+        if (whatFlag(line).isEmpty()) {
+            return false
+        }
+
+        // Start by getting rid of whitespace ie. "/* <FLAG_NAME>"
+        // This will make it easier to identify the "/*" start tag here
+        def trimmed1 = line.trim()
+
+        // Not the right start tag? Then false
+        if (!trimmed1.startsWith(startTag)) {
+            return false
+        }
+
+        // Lets skip ahead past the start tag
+        def trimmedLineAfterStartTag = trimmed1.substring(startTag.length()).trim()
+
+        // Skip end tags
+        if (trimmedLineAfterStartTag.startsWith("</")) {
+            return false
+        }
+
+        if (!trimmedLineAfterStartTag.startsWith("<")) {
+            return false
+        }
+
+        return true
+    }
+
+    def isEndLine(String line) {
+        def trimmed2 = line.trim()
+        if (!trimmed2.endsWith(endTag)) {
+            return false
+        }
+        def substring2 = trimmed2.substring(0, trimmed2.length() - endTag.length()).trim()
+        if (substring2.endsWith(">")) {
+            return true
+        }
+        return false
+    }
+
+    def whatFlag(String line) {
+        if (!line.contains(startTag) && !line.contains(endTag)) {
+            return ""
+        }
+
+        def pattern = Pattern.compile("<(/?[A-Z_]+)(?::\\d+)?>")
+        def matcher = pattern.matcher(line)
+
+        if (matcher.find()) {
+            def result = matcher.group(1).replace("/", "")
+            return result
+        }
+        return ""
+    }
+
+    static def howMuchContext(String line) {
+        // Find the number of context lines in <FLAG_NAME:3> or </FLAG_NAME:3>
+        // Default to 0 if not found
+
+        // Create a pattern to match :3 in <FLAG_NAME:3> or </FLAG_NAME:3>
+        def pattern = Pattern.compile("<(/?\\w+):(\\d+)>")
+
+        // Create a matcher for the line
+        def matcher = pattern.matcher(line)
+
+        // If a match is found, return the number of context lines
+        if (matcher.find()) {
+            return Integer.parseInt(matcher.group(2))
+        }
+
+        // If no match is found, return 0
+        return 0
+    }
+}
+
+ext.flagFileDefinitions = [
+        new FlagFileDefinition('.kt', '/*', '*/'),
+        new FlagFileDefinition('.java', '/*', '*/'),
+        new FlagFileDefinition('.xml', '<!--', '-->')
+]
+
+
+
+// An actual hit on a flag
+class FlagInstance {
+    final File file
+    final List<String> fileContent
+    final FlagFileDefinition ffd
+    final int startLine
+    final int endLine
+
+    FlagInstance(File file, List<String> fileContent, int startLine, int endLine, FlagFileDefinition ffd) {
+        this.file = file
+        this.startLine = startLine
+        this.endLine = endLine
+        this.fileContent = fileContent
+        this.ffd = ffd
+    }
+
+    // Function to count leading whitespace characters
+    static def countLeadingWhitespace(String line) {
+        line.takeWhile { it == ' ' || it == '\t' }.length()
+    }
+
+    def disable() {
+        // Read the current file lines
+        List<String> fileLines = file.readLines()
+
+        // Extract the original start and end lines
+        def startLineContent = fileLines[startLine]
+        def endLineContent = fileLines[endLine]
+
+
+        // Count leading whitespace in the original lines
+        int startLineWhitespaceCount = countLeadingWhitespace(startLineContent)
+        int endLineWhitespaceCount = countLeadingWhitespace(endLineContent)
+
+        // Prepare the whitespace strings
+        def startLineIndent = ' ' * startLineWhitespaceCount
+        def endLineIndent = ' ' * endLineWhitespaceCount
+
+        // Construct new lines with the appropriate indentation
+        def newStart = startLineIndent + ffd.startTag + " <" + ffd.whatFlag(startLineContent) + ":" + FlagFileDefinition.howMuchContext(startLineContent) + ">"
+        def newEnd = endLineIndent + "</" + ffd.whatFlag(endLineContent) + ":" + FlagFileDefinition.howMuchContext(endLineContent) + "> " + ffd.endTag
+
+        // Update the fileLines with the new start and end
+        fileLines[startLine] = newStart
+        fileLines[endLine] = newEnd
+
+        // Write the updated lines back to the file
+        file.text = fileLines.join("\n")+"\n"
+    }
+
+    def enable() {
+        // Read the current file lines
+        List<String> fileLines = file.readLines()
+
+        // Extract the original start and end lines
+        def startLineContent = fileLines[startLine]
+        def endLineContent = fileLines[endLine]
+
+
+        // Count leading whitespace in the original lines
+        int startLineWhitespaceCount = countLeadingWhitespace(startLineContent)
+        int endLineWhitespaceCount = countLeadingWhitespace(endLineContent)
+
+        // Prepare the whitespace strings
+        def startLineIndent = ' ' * startLineWhitespaceCount
+        def endLineIndent = ' ' * endLineWhitespaceCount
+
+        // Construct new lines with the appropriate indentation
+        def newStart = startLineIndent + ffd.startTag + " <" + ffd.whatFlag(startLineContent) + ":" + FlagFileDefinition.howMuchContext(startLineContent) + "> " + ffd.endTag
+        def newEnd = endLineIndent + ffd.startTag + " </" + ffd.whatFlag(endLineContent) + ":" + FlagFileDefinition.howMuchContext(endLineContent) + "> " + ffd.endTag
+
+        // Update the fileLines with the new start and end
+        fileLines[startLine] = newStart
+        fileLines[endLine] = newEnd
+
+        // Write the updated lines back to the file
+        file.text = fileLines.join("\n")+"\n"
+    }
+
+    def prepDelete() {
+        def lines = file.readLines()
+        // Review all the lines and everything between to flags should be replaced with DELETE_ME
+        for (int i = startLine; i <= endLine; i++) {
+            lines[i] = "DELETE_ME"
+        }
+        file.text = lines.join("\n")+"\n"
+    }
+
+
+    def isEnabled() {
+        return fileContent.get(startLine).contains(ffd.startTag)
+                && fileContent.get(startLine).contains(ffd.endTag)
+    }
+
+    String toString() {
+        return "";
+    }
+
+    def flagName() {
+        return ffd.whatFlag(fileContent.get(startLine))
+    }
+
+    String print() {
+        final flagContextTop = FlagFileDefinition.howMuchContext(fileContent.get(startLine))
+        final flagContextBottom = FlagFileDefinition.howMuchContext(fileContent.get(endLine))
+        final printStart = startLine - flagContextTop
+        final printEnd = endLine + flagContextBottom
+
+        String topContext = fileContent.subList(printStart, startLine).join("\n")
+        String content = "\n+"+fileContent.subList(startLine+1, endLine).join("\n+")
+        String bottomContext = "\n"+fileContent.subList(endLine+1, printEnd+1).join("\n")
+
+        def output = file.name+"\n"+topContext + content + bottomContext+"\n"
+        println output
+    }
+}
+
+// Scans the folder for flags
+def getFlagsStatus() {
+    List<FlagInstance> flags = []
+    def projectDir = project.projectDir
+
+    flagFileDefinitions.each { flagFileDefinition ->
+
+        projectDir.traverse(type: groovy.io.FileType.FILES, nameFilter: ~/.*\.(java|kt|xml)/) { file ->
+            if (file.absolutePath.contains("build")) {
+                return
+            }
+
+            if (!file.name.endsWith(flagFileDefinition.extension)) {
+                return
+            }
+
+            def content = file.text
+            def lines = content.readLines()
+            def foundStart = false
+
+            // Need to define variables to populate flagInstances
+            int startLine = 0
+            int endLine = 0
+
+            lines.eachWithIndex { line, index ->
+                if (!foundStart && flagFileDefinition.isStartLine(line)) {
+                    foundStart = true
+                    startLine = index
+
+                } else if (foundStart && flagFileDefinition.isEndLine(line)) {
+                    endLine = index
+                    foundStart = false
+
+                    def flagInstance = new FlagInstance(file, lines, startLine, endLine, flagFileDefinition)
+                    flags.add(flagInstance)
+                }
+
+
+            }
+        }
+    }
+    return flags
+}
+
+def purgeDeletions() {
+    def projectDir = project.projectDir
+
+    projectDir.traverse(type: groovy.io.FileType.FILES, nameFilter: ~/.*\.(java|kt|xml)/) { file ->
+        if (file.absolutePath.contains("build")) {
+            return
+        }
+
+        def text = file.text
+        if (text.contains("DELETE_ME")) {
+            def lines = file.readLines()
+            def newLines = lines.findAll { line -> !line.contains("DELETE_ME") }
+            file.text = newLines.join("\n")+"\n"
+        }
+    }
+}
+
+tasks.register('listFlags') {
+    doLast {
+        def flags = getFlagsStatus()
+        def uniqueFlags = flags.collect({ it.flagName() }).unique()
+        uniqueFlags.each { value ->
+            def instance = flags.findAll { it.flagName() == value }
+            // if instance all are enable
+            if (instance.every { it.isEnabled() }) {
+                println value + " is enabled"
+            } else if (instance.every { !it.isEnabled() }) {
+                println value + " is disabled"
+            } else {
+                println value + " is partially enabled"
+            }
+        }
+    }
+}
+
+tasks.register('printFlag') {
+    doFirst {
+        if (!project.hasProperty('flagName')) {
+            throw new GradleException("Flag name must be provided using the -PflagName=YOUR_FLAG_NAME argument.")
+        }
+    }
+
+    doLast {
+        String flagName = project.property('flagName')
+        def flags = getFlagsStatus().findAll { it.flagName() == flagName }
+        flags.each { value ->
+            value.print()
+        }
+    }
+}
+
+tasks.register('disableFlag') {
+    doFirst {
+        if (!project.hasProperty('flagName')) {
+            throw new GradleException("Flag name must be provided using the -PflagName=YOUR_FLAG_NAME argument.")
+        }
+    }
+    doLast {
+        String flagName = project.property('flagName')
+        def flags = getFlagsStatus().findAll { it.flagName() == flagName }
+
+        flags.each { value ->
+            value.disable()
+        }
+    }
+}
+
+
+tasks.register('enableFlag') {
+    doFirst {
+        if (!project.hasProperty('flagName')) {
+            throw new GradleException("Flag name must be provided using the -PflagName=YOUR_FLAG_NAME argument.")
+        }
+    }
+    doLast {
+        String flagName = project.property('flagName')
+        def flags = getFlagsStatus().findAll { it.flagName() == flagName }
+
+        flags.each { value ->
+            value.enable()
+        }
+    }
+}
+
+tasks.register('flagLock') {
+    doLast {
+        def flags = getFlagsStatus()
+        def flagLockFile = new File(project.projectDir, 'flags.lock')
+
+        // Group flags by their name
+        def groupedFlags = flags.groupBy { it.flagName() }
+
+        // Check if any flag is mixed (true/false)
+        def mixedFlags = groupedFlags.find { flagName, flagInstances ->
+            def enabledFlags = flagInstances.count { it.isEnabled() }
+            def disabledFlags = flagInstances.size() - enabledFlags
+            enabledFlags > 0 && disabledFlags > 0
+        }
+
+        // If any flag is mixed, fail the task
+        if (mixedFlags) {
+            throw new GradleException("The flag ${mixedFlags.key} is mixed (true/false).")
+        }
+
+        // Write the lock file
+        flagLockFile.withWriter { writer ->
+            groupedFlags.each { flagName, flagInstances ->
+                writer.write("${flagName}=${flagInstances[0].isEnabled()}\n")
+            }
+        }
+    }
+}
+
+tasks.register('syncWithFlagLock') {
+    doLast {
+        def flagLockFile = new File(project.projectDir, 'flags.lock')
+        flagLockFile.eachLine { line ->
+            def (flagName, isEnabled) = line.split('=')
+            def flags = getFlagsStatus().findAll { it.flagName() == flagName }
+            flags.each { flag ->
+                if (isEnabled == 'true') {
+                    flag.enable()
+                } else {
+                    flag.disable()
+                }
+            }
+        }
+    }
+}
+
+tasks.register('validateFlagLock') {
+    doLast {
+        def flagLockFile = new File(project.projectDir, 'flags.lock')
+        flagLockFile.eachLine { line ->
+            def (flagName, isEnabled) = line.split('=')
+            def flags = getFlagsStatus().findAll { it.flagName() == flagName }
+            flags.each { flag ->
+                if ((isEnabled == 'true' && !flag.isEnabled()) || (isEnabled == 'false' && flag.isEnabled())) {
+                    throw new GradleException("The flag ${flagName} is out of sync with the flags.lock file.")
+                }
+            }
+        }
+    }
+}
+
+tasks.register('deleteFlag') {
+    doFirst {
+        if (!project.hasProperty('flagName')) {
+            throw new GradleException("Flag name must be provided using the -PflagName=YOUR_FLAG_NAME argument.")
+        }
+    }
+    doLast {
+        String flagName = project.property('flagName')
+        def flags = getFlagsStatus().findAll { it.flagName() == flagName }
+
+        flags.each { value ->
+            value.prepDelete()
+        }
+        purgeDeletions()
+    }
+}
+
+tasks.register('flagHelp') {
+    dependsOn('listFlags')
+    doLast {
+        def flags = getFlagsStatus()
+        def exampleFlag = flags.iterator().next().flagName()
+
+        println "Usage: ./gradlew [listFlags|enableFlag|disableFlag|printFlag|flagLock|syncWithFlagLock|validateFlagLock] -PflagName=[flagName]"
+        println "\nCommands:"
+        println "  listFlags: Lists all the feature flags in your project and their current status."
+        println "  enableFlag -PflagName=[flagName]: Enables the specified feature flag."
+        println "  disableFlag -PflagName=[flagName]: Disables the specified feature flag."
+        println "  deleteFlag -PflagName=[flagName]: Deletes all traces of a flag from the project."
+        println "  printFlag -PflagName=[flagName]: Prints the lines of code that are within the context of the specified feature flag."
+        println "  flagLock: Writes the current status of all flags to a lock file."
+        println "  syncWithFlagLock: Syncs the status of all flags with the lock file."
+        println "  validateFlagLock: Validates that the status of all flags matches the lock file."
+        println "\nExamples:"
+        println "  ./gradlew listFlags"
+        println "  ./gradlew enableFlag -PflagName=${exampleFlag}"
+        println "  ./gradlew disableFlag -PflagName=${exampleFlag}"
+        println "  ./gradlew printFlag -PflagName=${exampleFlag}"
+        println "  ./gradlew flagLock"
+        println "  ./gradlew syncWithFlagLock"
+        println "  ./gradlew validateFlagLock"
+    }
+}

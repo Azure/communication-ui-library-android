@@ -67,6 +67,24 @@
             tools:ignore="UsingOnClickInXml"
             />
 
+        <CheckBox
+            android:id="@+id/composite_end_call_button_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onCheckBoxTap"
+            android:text="@string/is_exit_composite_button_check_box_label"
+            tools:ignore="UsingOnClickInXml"
+            />
+
+        <CheckBox
+            android:id="@+id/re_launch_on_exit_success"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onCheckBoxTap"
+            android:text="@string/launch_on_end_composite_success"
+            tools:ignore="UsingOnClickInXml"
+            />
+
         <TextView
             android:id="@+id/call_setting_text_view"
             android:layout_width="match_parent"
@@ -89,6 +107,50 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/azure_communication_ui_calling_inner_space_padding"
             />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/call_screen_orientation_adapter_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding"
+            >
+
+            <AutoCompleteTextView
+                android:id="@+id/call_screen_orientation_auto_complete_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/call_screen_orientation_dropdown_hint"
+                android:inputType="none"
+                android:paddingTop="@dimen/azure_communication_ui_calling_fab_margin"
+                android:paddingBottom="@dimen/azure_communication_ui_calling_fab_margin"
+                android:text="@string/language_default_selection"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/setup_screen_orientation_adapter_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding"
+            >
+
+            <AutoCompleteTextView
+                android:id="@+id/setup_screen_orientation_auto_complete_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/setup_screen_orientation_dropdown_hint"
+                android:inputType="none"
+                android:paddingTop="@dimen/azure_communication_ui_calling_fab_margin"
+                android:paddingBottom="@dimen/azure_communication_ui_calling_fab_margin"
+                android:text="@string/language_default_selection"
+                android:textSize="16sp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/callSellingAvatarInjection"
@@ -297,6 +359,51 @@
             android:text="@string/camera_control"
             tools:ignore="UsingOnClickInXml"
             />
+
+        <CheckBox
+            android:id="@+id/audio_only_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onCheckBoxTap"
+            android:text="@string/audio_only"
+            tools:ignore="UsingOnClickInXml"
+            />
+
+        <TextView
+            android:id="@+id/multitaskingOptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/azure_communication_ui_calling_fab_margin"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:text="@string/multitasking_option"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/azure_communication_ui_calling_color_on_surface"
+            android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding"
+            />
+
+        <CheckBox
+            android:id="@+id/multitasking_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onCheckBoxTap"
+            android:text="@string/enable_multitasking_option"
+            tools:ignore="UsingOnClickInXml"
+            />
+
+        <CheckBox
+            android:id="@+id/multitasking_pip_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onCheckBoxTap"
+            android:text="@string/enable_pip_when_multitasking_option"
+            tools:ignore="UsingOnClickInXml"
+            />
+
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </ScrollView>

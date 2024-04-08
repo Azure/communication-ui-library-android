@@ -2,7 +2,7 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--    Device-->
     <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Lautsprecher</string>
@@ -20,15 +20,18 @@
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">Mikrofon ein</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">An Anruf teilnehmen</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Ihr Audio ist deaktiviert. Um es zu aktivieren, wechseln Sie zu „Einstellungen“, um den Zugriff zuzulassen. Sie müssen
- Audio aktivieren, um diesen Anruf zu starten.</string>
+        Audio aktivieren, um diesen Anruf zu starten.</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Ihre Kamera ist deaktiviert. Wechseln Sie zum Aktivieren zu „Einstellungen“
-,         um den Zugriff zuzulassen.</string>
+        , um den Zugriff zuzulassen.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Berechtigungen erforderlich</string>
     <string name="azure_communication_ui_calling_setup_view_go_to_settings">Zu „Einstellungen“ wechseln</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Ausgewählt</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Farbverlauf einrichten</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Kamera wechseln</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Setup</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Titel</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Untertitel</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Navigation zurück</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">Warten auf Host</string>
@@ -44,6 +47,7 @@
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Warten auf andere Teilnehmer</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Anruf mit 1 Person</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Anruf mit %1$d Personen</string>
+    <string name="azure_communication_ui_calling_view_go_back">Zurück</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(ich)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Unbenannter Teilnehmer</string>
     <string name="azure_communication_ui_calling_view_leave_call">Anruf verlassen?</string>
@@ -63,32 +67,33 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">Mehr</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">Diagnoseinformationen freigeben</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnoseinformationen</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Schaltfläche „Diagnoseinformationen freigeben“</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Die Transkription hat begonnen.</b> Indem Sie sich anmelden, erklären Sie
- sich damit einverstanden, dass diese Besprechung transkribiert wird.
- <u>Datenschutzrichtlinie</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Die Aufnahme wird gespeichert.</b> Die Aufzeichnung wurde beendet.
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Die Aufzeichnung hat begonnen.</b> Mit Ihrer Teilnahme, erklären Sie
+        sich damit einverstanden, dass diese Besprechung transkribiert wird.
+         <u>Datenschutzrichtlinie</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Die Aufzeichnung wird gespeichert.</b> Die Aufzeichnung wurde beendet.
          <u>Weitere Informationen</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Die Transkription hat begonnen.</b> Indem Sie sich anmelden, erklären Sie
- sich damit einverstanden, dass dieses Treffen transkribiert wird. <u>Datenschutzrichtlinie</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Die Transkription hat begonnen.</b> Mit Ihrer Teilnahme, erklären Sie
+        sich damit einverstanden, dass diese Besprechung transkribiert wird. <u>Datenschutzrichtlinie</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Die Transkription wird gespeichert.</b> Die Transkription
         wurde beendet. <u>Weitere Informationen</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Aufzeichnung und Transkription haben
-      begonnen.</b> Mit Ihrer Teilnahme erklären Sie sich damit einverstanden, dass diese Besprechung transkribiert wird
-     . <u>Datenschutzbestimmungen</u></string>
+        begonnen.</b> Mit Ihrer Teilnahme erklären Sie sich damit einverstanden, dass diese Besprechung transkribiert wird
+        . <u>Datenschutzrichtlinie</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Aufnahme und Transkription werden
         gespeichert.</b> Aufzeichnung und Transkription wurden beendet. <u>Weitere Informationen</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Die Aufzeichnung wurde gestoppt.</b> Sie
- transkribieren jetzt nur diese Besprechung. <u>Datenschutzbestimmungen</u></string>
+        transkribieren diese Besprechung jetzt nur noch. <u>Datenschutzrichtlinie</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Die Transkription wurde beendet.
-    </b> Sie nehmen jetzt nur diese Besprechung auf. <u>Datenschutzrichtlinie</u></string>
+    </b> Sie zeichnen diese Besprechung jetzt nur auf. <u>Datenschutzrichtlinie</u></string>
     <string name="azure_communication_ui_calling_view_link">Link</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Schließen</string>
     <string name="azure_communication_ui_calling_alert_title">Warnung</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Sie wurden aufgrund eines Fehlers aus dem Anruf entfernt.</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">Möglicherweise wurden Sie aus der Besprechung entfernt oder Ihre Verbindung wurde unterbrochen. Versuchen Sie, erneut beizutreten.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Teilnahme am Anruf aufgrund eines Fehlers nicht möglich.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Sie wurden aus dem Anruf entfernt.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Teilnahme am Anruf nicht möglich. Überprüfen Sie Ihre Netzwerkverbindung.</string>
@@ -102,4 +107,58 @@
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s ist der Besprechung beigetreten</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s hat die Besprechung verlassen</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">Sie sind dem Anruf beigetreten.</string>
+
+    <!--    Participant list-->
+    <string name="azure_communication_ui_calling_participant_list_in_call_n_people">Im Anruf (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">Im Wartebereich (%1$d)</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Doppeltippen, um Teilnehmer zuzulassen/abzulehnen</string>
+
+    <!--    Admit participant dialog-->
+    <string name="azure_communication_ui_calling_admit_name">%1$s zulassen?</string>
+    <string name="azure_communication_ui_calling_admit">Hineinlassen</string>
+    <string name="azure_communication_ui_calling_decline">Ablehnen</string>
+    <string name="azure_communication_ui_calling_admit_all">Alle zulassen</string>
+
+    <!--    Lobby header-->
+    <string name="azure_communication_ui_calling_lobby_header_text">Personen warten darauf, beizutreten</string>
+    <string name="azure_communication_ui_calling_lobby_header_icon_content_description">Wartebereich</string>
+    <string name="azure_communication_ui_calling_lobby_header_view_participant_button">Wartebereich anzeigen</string>
+    <string name="azure_communication_ui_calling_lobby_header_accessibility_label">Wartebereich anzeigen</string>
+    <string name="azure_communication_ui_calling_lobby_header_close_description">Wartebereich schließen</string>
+
+    <!--    Lobby error header-->
+    <string name="azure_communication_ui_calling_lobby_header_error_close_description">Fehler beim Schließen des Wartebereichs</string>
+    <string name="azure_communication_ui_calling_lobby_error_content_description">Wartebereichsfehler</string>
+    <string name="azure_communication_ui_calling_error_lobby_disabled_by_configuration">Wartebereich wurde deaktiviert</string>
+    <string name="azure_communication_ui_calling_error_lobby_conversation_type_not_supported">Wartebereich wird nicht unterstützt</string>
+    <string name="azure_communication_ui_calling_error_lobby_meeting_role_not_allowded">Ihre Rolle kann nicht auf den Wartebereich reagieren</string>
+    <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">Fehler beim Ablehnen.</string>
+    <string name="azure_communication_ui_calling_error_lobby_unknown">Fehler bei Wartebereichsaktion</string>
+
+    <!-- Call Diagnostics -->
+    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Die Netzwerkverbindung wurde unterbrochen</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">Verbindung wird wiederhergestellt...</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">Die Netzwerkqualität ist niedrig</string>
+    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">Sie sind stummgeschaltet</string>
+    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">Mikrofon funktioniert nicht wie erwartet</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">Kamera kann nicht gestartet werden</string>
+    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">Kamera funktioniert nicht mehr</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">Lautsprecher funktioniert nicht wie erwartet</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">Lautsprecher kann nicht gefunden werden</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">Das Mikrofon wurde nicht gefunden</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">Lautsprecher ist stummgeschaltet</string>
+
+    <!--    Upper Message Bar Notification -->
+    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Verwerfen</string>
+
+    <!--     Support Form -->
+    <string name="azure_communication_ui_calling_report_issue">Problem melden</string>
+    <string name="azure_communication_ui_calling_report_issue_title">Problem melden</string>
+    <string name="azure_communication_ui_calling_logs_attach_notice">Protokolle werden automatisch angefügt.</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label">Datenschutzrichtlinie</string>
+    <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Beschreiben Sie Ihr Problem...</string>
+    <string name="azure_communication_ui_calling_cancel_button_label">Abbrechen</string>
+    <string name="azure_communication_ui_calling_attach_screenshot">Screenshot anfügen</string>
+    <string name="azure_communication_ui_calling_report_a_problem_label">Ein Problem melden</string>
+    <string name="azure_communication_ui_calling_send_feedback_label">Senden</string>
 </resources>

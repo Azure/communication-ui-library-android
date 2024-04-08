@@ -26,7 +26,7 @@ internal class RemoteParticipantHandler(
     }
 
     private fun onStateChanged(remoteParticipantsState: RemoteParticipantsState) {
-        if (remoteParticipantsState.modifiedTimestamp != lastRemoteParticipantsState?.modifiedTimestamp) {
+        if (remoteParticipantsState.participantMapModifiedTimestamp != lastRemoteParticipantsState?.participantMapModifiedTimestamp) {
             if (configuration.callCompositeEventsHandler.getOnRemoteParticipantJoinedHandlers().any()) {
                 if (lastRemoteParticipantsState != null) {
                     val joinedParticipants =

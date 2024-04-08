@@ -6,8 +6,10 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.ParticipantGridCellViewModelFactory
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.lang.Integer.min
 
 internal class ParticipantGridViewModel(
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
@@ -22,6 +24,8 @@ internal class ParticipantGridViewModel(
 
     private var updateVideoStreamsCallback: ((List<Pair<String, String>>) -> Unit)? = null
     private var remoteParticipantStateModifiedTimeStamp: Number = 0
+    private var dominantSpeakersStateModifiedTimestamp: Number = 0
+    private var visibilityStatus: VisibilityStatus? = null
     private lateinit var isLobbyOverlayDisplayedFlow: MutableStateFlow<Boolean>
 
     fun init(
@@ -32,6 +36,7 @@ internal class ParticipantGridViewModel(
 
     fun clear() {
         remoteParticipantStateModifiedTimeStamp = 0
+        dominantSpeakersStateModifiedTimestamp = 0
         displayedRemoteParticipantsViewModelMap.clear()
         remoteParticipantsUpdatedStateFlow.value = mutableListOf()
     }
@@ -45,7 +50,8 @@ internal class ParticipantGridViewModel(
     }
 
     fun getMaxRemoteParticipantsSize(): Int {
-        return maxRemoteParticipantSize
+        return if (visibilityStatus == VisibilityStatus.VISIBLE)
+            maxRemoteParticipantSize else 1
     }
 
     fun getIsLobbyOverlayDisplayedFlow(): StateFlow<Boolean> = isLobbyOverlayDisplayedFlow
@@ -55,22 +61,30 @@ internal class ParticipantGridViewModel(
     }
 
     fun update(
-        participantStateUpdatedTimestamp: Number,
+        remoteParticipantsMapUpdatedTimestamp: Number,
         remoteParticipantsMap: Map<String, ParticipantInfoModel>,
+        dominantSpeakersInfo: List<String>,
+        dominantSpeakersModifiedTimestamp: Number,
+        visibilityStatus: VisibilityStatus,
     ) {
-        if (participantStateUpdatedTimestamp == remoteParticipantStateModifiedTimeStamp) {
+        if (remoteParticipantsMapUpdatedTimestamp == remoteParticipantStateModifiedTimeStamp &&
+            dominantSpeakersModifiedTimestamp == dominantSpeakersStateModifiedTimestamp &&
+            this.visibilityStatus == visibilityStatus
+        ) {
             return
         }
 
-        remoteParticipantStateModifiedTimeStamp = participantStateUpdatedTimestamp
+        remoteParticipantStateModifiedTimeStamp = remoteParticipantsMapUpdatedTimestamp
+        dominantSpeakersStateModifiedTimestamp = dominantSpeakersModifiedTimestamp
+        this.visibilityStatus = visibilityStatus
 
         var remoteParticipantsMapSorted = remoteParticipantsMap
         val participantSharingScreen = getParticipantSharingScreen(remoteParticipantsMap)
 
         if (participantSharingScreen.isNullOrEmpty()) {
-            if (remoteParticipantsMap.size > maxRemoteParticipantSize) {
+            if (remoteParticipantsMap.size > getMaxRemoteParticipantsSize()) {
                 remoteParticipantsMapSorted =
-                    sortRemoteParticipantsByTimestamp(remoteParticipantsMap)
+                    sortRemoteParticipants(remoteParticipantsMap, dominantSpeakersInfo)
             }
         } else {
             remoteParticipantsMapSorted = mapOf(
@@ -161,12 +175,52 @@ internal class ParticipantGridViewModel(
         }
     }
 
-    private fun sortRemoteParticipantsByTimestamp(
+    private fun sortRemoteParticipants(
         remoteParticipantsMap: Map<String, ParticipantInfoModel>,
+        dominantSpeakersInfo: List<String>,
     ): Map<String, ParticipantInfoModel> {
+
+        val dominantSpeakersOrder = mutableMapOf<String, Int>()
+
+        for (i in 0 until min(maxRemoteParticipantSize, dominantSpeakersInfo.count())) {
+            dominantSpeakersOrder[dominantSpeakersInfo[i]] = i
+        }
+
+        val lengthComparator = Comparator<Pair<String, ParticipantInfoModel>> { keyValuePair1, keyValuePair2 ->
+            val participantId1 = keyValuePair1.first
+            val participantId2 = keyValuePair2.first
+            val participant1 = keyValuePair1.second
+            val participant2 = keyValuePair2.second
+
+            if (dominantSpeakersOrder.containsKey(participantId1) &&
+                dominantSpeakersOrder.containsKey(participantId2)
+            ) {
+                val order1 = dominantSpeakersOrder.getValue(participantId1)
+                val order2 = dominantSpeakersOrder.getValue(participantId2)
+                return@Comparator if (order1 > order2)
+                    1 else -1
+            }
+
+            if (dominantSpeakersOrder.containsKey(participantId1))
+                return@Comparator -1
+
+            if (dominantSpeakersOrder.containsKey(participantId2))
+                return@Comparator 1
+
+            if ((participant1.cameraVideoStreamModel != null && participant2.cameraVideoStreamModel != null) ||
+                (participant1.cameraVideoStreamModel == null && participant2.cameraVideoStreamModel == null)
+            )
+                return@Comparator 0
+
+            if (participant1.cameraVideoStreamModel != null)
+                return@Comparator -1
+            else
+                return@Comparator 1
+        }
+
         return remoteParticipantsMap.toList()
-            .sortedByDescending { it.second.speakingTimestamp.toLong() }
-            .take(maxRemoteParticipantSize).toMap()
+            .sortedWith(lengthComparator)
+            .take(getMaxRemoteParticipantsSize()).toMap()
     }
 
     private fun updateRemoteParticipantsVideoStreams(

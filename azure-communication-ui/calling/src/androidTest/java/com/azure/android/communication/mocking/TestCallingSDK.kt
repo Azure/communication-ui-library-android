@@ -11,6 +11,14 @@ import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.PropertyChangedListener
+import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
+import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
+import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
+import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
+import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.NetworkCallDiagnostic
+import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.models.VideoStreamModel
@@ -20,11 +28,12 @@ import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.CallingStateWrapper
 import com.azure.android.communication.ui.calling.service.sdk.CommunicationIdentifier
-import com.azure.android.communication.ui.calling.service.sdk.LocalVideoStream
-import com.azure.android.communication.ui.calling.service.sdk.RemoteParticipant
-import com.azure.android.communication.ui.calling.service.sdk.RemoteVideoStream
-import com.azure.android.communication.ui.calling.service.sdk.VideoDeviceInfo
+import com.azure.android.communication.ui.calling.service.sdk.DominantSpeakersInfo
 import com.azure.android.communication.ui.calling.service.sdk.into
+import com.azure.android.communication.ui.calling.service.sdk.LocalVideoStream
+import com.azure.android.communication.ui.calling.service.sdk.VideoDeviceInfo
+import com.azure.android.communication.ui.calling.service.sdk.RemoteVideoStream
+import com.azure.android.communication.ui.calling.service.sdk.RemoteParticipant
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.CoroutineScope
@@ -35,6 +44,7 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.io.File
 
 internal interface LocalStreamEventObserver {
     fun onSwitchSource(deviceInfo: VideoDeviceInfo)
@@ -72,8 +82,13 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         MutableSharedFlow<Map<String, ParticipantInfoModel>>()
     private var isMutedSharedFlow = MutableSharedFlow<Boolean>()
     private var isRecordingSharedFlow = MutableSharedFlow<Boolean>()
+    private var dominantSpeakersSharedFlow = MutableSharedFlow<DominantSpeakersInfo>()
     private var isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
     private var getCameraCountStateFlow = MutableStateFlow(2)
+    private val participantRoleSharedFlow = MutableSharedFlow<CallCompositeInternalParticipantRole?>()
+    private var networkQualityCallDiagnosticSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
+    private var networkCallDiagnosticSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
+    private var mediaCallDiagnosticSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
 
     @GuardedBy("this")
     private val remoteParticipantsMap: MutableMap<String, RemoteParticipant> = mutableMapOf()
@@ -81,6 +96,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
 
     private var localCameraFacing = CameraFacing.FRONT
     private val localVideoStream = LocalVideoStreamTest(callEvents, localCameraFacing, coroutineScope)
+    private var lobbyResultCompletableFuture: CompletableFuture<CallCompositeLobbyErrorCode?> = CompletableFuture()
 
     suspend fun addRemoteParticipant(
         id: CommunicationIdentifier,
@@ -111,6 +127,34 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         emitRemoteParticipantFlow()
     }
 
+    suspend fun changeParticipantState(id: String, state: ParticipantState) {
+        synchronized(this) {
+            if (!remoteParticipantsMap.containsKey(id)) {
+                return
+            }
+            val rpi = remoteParticipantsMap[id]!!
+            remoteParticipantsMap[id] = RemoteParticipantImpl(
+                identifier = rpi.identifier,
+                displayName = rpi.displayName,
+                isMuted = rpi.isMuted,
+                isSpeaking = rpi.isSpeaking,
+                videoStreams = rpi.videoStreams,
+                state = state
+            )
+        }
+        emitRemoteParticipantFlow()
+    }
+
+    fun setLobbyResultCompletableFuture(lobbyResultCompletableFuture: CompletableFuture<CallCompositeLobbyErrorCode?>) {
+        this.lobbyResultCompletableFuture = lobbyResultCompletableFuture
+    }
+
+    fun setParticipantRoleSharedFlow(participantRole: CallCompositeInternalParticipantRole?) {
+        coroutineScope.launch {
+            participantRoleSharedFlow.emit(participantRole)
+        }
+    }
+
     suspend fun removeParticipant(id: String) {
         synchronized(this) {
             remoteParticipantsMap.remove(id)
@@ -139,6 +183,71 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
             )
         }
         emitRemoteParticipantFlow()
+    }
+
+    suspend fun setLowNetworkRecieveQuality(lowNetworkReceiveQuality: Boolean) {
+        val model = NetworkQualityCallDiagnosticModel(NetworkCallDiagnostic.NETWORK_RECEIVE_QUALITY, if (lowNetworkReceiveQuality) CallDiagnosticQuality.BAD else CallDiagnosticQuality.GOOD)
+        networkQualityCallDiagnosticSharedFlow.emit(model)
+    }
+
+    suspend fun setLowNetworkSendQuality(lowNetworkSendQuality: Boolean) {
+        val model = NetworkQualityCallDiagnosticModel(NetworkCallDiagnostic.NETWORK_SEND_QUALITY, if (lowNetworkSendQuality) CallDiagnosticQuality.BAD else CallDiagnosticQuality.GOOD)
+        networkQualityCallDiagnosticSharedFlow.emit(model)
+    }
+
+    suspend fun setLowNetworkReconnectionQuality(lowNetworkReconnectionQuality: Boolean) {
+        val model = NetworkQualityCallDiagnosticModel(NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY, if (lowNetworkReconnectionQuality) CallDiagnosticQuality.BAD else CallDiagnosticQuality.GOOD)
+        networkQualityCallDiagnosticSharedFlow.emit(model)
+    }
+
+    suspend fun setNetworkUnavailable(networkUnavailable: Boolean) {
+        val model = NetworkCallDiagnosticModel(NetworkCallDiagnostic.NETWORK_UNAVAILABLE, networkUnavailable)
+        networkCallDiagnosticSharedFlow.emit(model)
+    }
+
+    suspend fun setNetworkRelaysUnreachable(networkRelaysUnreachable: Boolean) {
+        val model = NetworkCallDiagnosticModel(NetworkCallDiagnostic.NETWORK_RELAYS_UNREACHABLE, networkRelaysUnreachable)
+        networkCallDiagnosticSharedFlow.emit(model)
+    }
+
+    suspend fun setCameraStartFailed(cameraStartFailed: Boolean) {
+        val model = MediaCallDiagnosticModel(MediaCallDiagnostic.CAMERA_START_FAILED, cameraStartFailed)
+        mediaCallDiagnosticSharedFlow.emit(model)
+    }
+
+    suspend fun setCameraStartTimedOut(cameraStartTimedOut: Boolean) {
+        val model = MediaCallDiagnosticModel(MediaCallDiagnostic.CAMERA_START_TIMED_OUT, cameraStartTimedOut)
+        mediaCallDiagnosticSharedFlow.emit(model)
+    }
+
+    suspend fun setSpeakingWhileMuted(speakingWhileMuted: Boolean) {
+        val model = MediaCallDiagnosticModel(MediaCallDiagnostic.SPEAKING_WHILE_MICROPHONE_IS_MUTED, speakingWhileMuted)
+        mediaCallDiagnosticSharedFlow.emit(model)
+    }
+
+    suspend fun setNoSpeakerDevicesAvailable(speakerDevicesAvailable: Boolean) {
+        val model = MediaCallDiagnosticModel(MediaCallDiagnostic.NO_SPEAKER_DEVICES_AVAILABLE, speakerDevicesAvailable)
+        mediaCallDiagnosticSharedFlow.emit(model)
+    }
+
+    suspend fun setNoMicrophoneDevicesAvailable(microphoneDevicesAvailable: Boolean) {
+        val model = MediaCallDiagnosticModel(MediaCallDiagnostic.NO_MICROPHONE_DEVICES_AVAILABLE, microphoneDevicesAvailable)
+        mediaCallDiagnosticSharedFlow.emit(model)
+    }
+
+    suspend fun setMicrophoneNotFunctioning(microphoneNotFunctioning: Boolean) {
+        val model = MediaCallDiagnosticModel(MediaCallDiagnostic.MICROPHONE_NOT_FUNCTIONING, microphoneNotFunctioning)
+        mediaCallDiagnosticSharedFlow.emit(model)
+    }
+
+    suspend fun setSpeakerNotFunctioning(speakerNotFunctioning: Boolean) {
+        val model = MediaCallDiagnosticModel(MediaCallDiagnostic.SPEAKER_NOT_FUNCTIONING, speakerNotFunctioning)
+        mediaCallDiagnosticSharedFlow.emit(model)
+    }
+
+    suspend fun setSpeakerVolumeZero(speakerVolumeZero: Boolean) {
+        val model = MediaCallDiagnosticModel(MediaCallDiagnostic.SPEAKER_VOLUME_ZERO, speakerVolumeZero)
+        mediaCallDiagnosticSharedFlow.emit(model)
     }
 
     override fun setupCall(): CompletableFuture<Void> {
@@ -235,6 +344,10 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         return isTranscribingSharedFlow
     }
 
+    override fun getDominantSpeakersSharedFlow(): SharedFlow<DominantSpeakersInfo> {
+        return dominantSpeakersSharedFlow
+    }
+
     override fun getIsRecordingSharedFlow(): SharedFlow<Boolean> {
         return isRecordingSharedFlow
     }
@@ -258,6 +371,37 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     }
 
     override fun getCamerasCountStateFlow(): StateFlow<Int> = getCameraCountStateFlow
+    override fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?> {
+        return lobbyResultCompletableFuture
+    }
+
+    override fun admit(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
+        return lobbyResultCompletableFuture
+    }
+
+    override fun decline(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
+        return lobbyResultCompletableFuture
+    }
+
+    override fun getLocalParticipantRoleSharedFlow(): SharedFlow<CallCompositeInternalParticipantRole?> {
+        return participantRoleSharedFlow
+    }
+
+    override fun getNetworkQualityCallDiagnosticSharedFlow(): SharedFlow<NetworkQualityCallDiagnosticModel> {
+        return networkQualityCallDiagnosticSharedFlow
+    }
+
+    override fun getNetworkCallDiagnosticSharedFlow(): SharedFlow<NetworkCallDiagnosticModel> {
+        return networkCallDiagnosticSharedFlow
+    }
+
+    override fun getMediaCallDiagnosticSharedFlow(): SharedFlow<MediaCallDiagnosticModel> {
+        return mediaCallDiagnosticSharedFlow
+    }
+
+    override fun getLogFiles(): List<File> {
+        return emptyList()
+    }
 
     private fun RemoteVideoStream.asVideoStreamModel(): VideoStreamModel {
         return VideoStreamModel(
@@ -293,7 +437,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
             }?.asVideoStreamModel(),
 
             modifiedTimestamp = System.currentTimeMillis(),
-            speakingTimestamp = System.currentTimeMillis()
+            isCameraDisabled = false
         )
     }
 }

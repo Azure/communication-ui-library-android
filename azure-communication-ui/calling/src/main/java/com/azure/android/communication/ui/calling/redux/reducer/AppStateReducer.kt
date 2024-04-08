@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.redux.reducer
 
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 
@@ -14,7 +15,9 @@ internal class AppStateReducer(
     private val lifecycleReducer: LifecycleReducer,
     private val errorReducer: ErrorReducer,
     private val navigationReducer: NavigationReducer,
-    private val audioSessionReducer: AudioSessionReducer
+    private val audioSessionReducer: AudioSessionReducer,
+    private val pipReducer: PipReducer,
+    private val callDiagnosticsReducer: CallDiagnosticsReducer
 ) :
     Reducer<AppReduxState> {
     override fun reduce(state: AppReduxState, action: Action): AppReduxState {
@@ -23,6 +26,8 @@ internal class AppStateReducer(
             state.localParticipantState.displayName,
             cameraOnByDefault = state.localParticipantState.initialCallJoinState.startWithCameraOn,
             microphoneOnByDefault = state.localParticipantState.initialCallJoinState.startWithMicrophoneOn,
+            avMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+            skipSetupScreen = state.localParticipantState.initialCallJoinState.skipSetupScreen,
         )
 
         appState.callState = callStateReducer.reduce(
@@ -45,6 +50,8 @@ internal class AppStateReducer(
         appState.errorState = errorReducer.reduce(state.errorState, action)
         appState.navigationState = navigationReducer.reduce(state.navigationState, action)
         appState.audioSessionState = audioSessionReducer.reduce(state.audioSessionState, action)
+        appState.visibilityState = pipReducer.reduce(state.visibilityState, action)
+        appState.callDiagnosticsState = callDiagnosticsReducer.reduce(state.callDiagnosticsState, action)
         return appState
     }
 }

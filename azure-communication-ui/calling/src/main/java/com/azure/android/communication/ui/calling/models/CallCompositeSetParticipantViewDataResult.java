@@ -28,17 +28,17 @@ public final class CallCompositeSetParticipantViewDataResult
             = fromString("participantNotInCall");
 
     /**
-     * Creates or finds a CallCompositeSetParticipantViewDataResult from it's string representation.
+     * Creates or finds a {@link CallCompositeSetParticipantViewDataResult} from it's string representation.
      *
      * @param name a name to look for.
-     * @return the corresponding CallCompositeSetParticipantViewDataResult.
+     * @return the corresponding {@link CallCompositeSetParticipantViewDataResult}.
      */
-    private static CallCompositeSetParticipantViewDataResult fromString(final String name) {
+    public static CallCompositeSetParticipantViewDataResult fromString(final String name) {
         return fromString(name, CallCompositeSetParticipantViewDataResult.class);
     }
 
     /**
-     * @return known CallCompositeSetParticipantViewDataResult values.
+     * @return known {@link CallCompositeSetParticipantViewDataResult} values.
      */
     public static Collection<CallCompositeSetParticipantViewDataResult> values() {
         return values(CallCompositeSetParticipantViewDataResult.class);

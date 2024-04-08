@@ -91,6 +91,7 @@ class CallingCompositeBaselineUiTest : BaseUiTest() {
     fun testJoinAndLeaveMultipleTimes() {
         for (i in 0..5) {
             joinGroupCall()
+            Thread.sleep(1000)
         }
     }
 }

@@ -9,15 +9,15 @@ if (project.rootProject.file('local.properties').canRead()) {
 }
 
 android {
-    compileSdkVersion 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.azure.android.communication.ui.callingcompositedemoapp"
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode ui_library_version_code
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
+        
         buildConfigField 'String', 'TOKEN_FUNCTION_URL', properties.getProperty('TOKEN_FUNCTION_URL', '""')
         buildConfigField 'String', 'USER_NAME', properties.getProperty('USER_NAME', '""')
         buildConfigField 'String', 'GROUP_CALL_ID', properties.getProperty('GROUP_CALL_ID', '""')
@@ -30,6 +30,7 @@ android {
         buildConfigField 'boolean', 'CHECK_TASK_ROOT', String.valueOf(!shouldNotCheckTaskRoot())
         buildConfigField 'String', 'THREAD_ID', properties.getProperty('THREAD_ID', '""')
         buildConfigField 'String', 'END_POINT_URL', properties.getProperty('END_POINT_URL', '""')
+        buildConfigField 'String', 'SUPPORT_END_POINT_URL', properties.getProperty('SUPPORT_END_POINT_URL', '""')
         buildConfigField "String", 'AAD_TOKEN', properties.getProperty('AAD_TOKEN', '""')
         buildConfigField 'String', 'ROOMS_ID', properties.getProperty('ROOMS_ID', '""')
     }
@@ -90,11 +91,6 @@ android {
             java.srcDirs = ['src/main/java', 'src/chat/java']
             res.srcDirs = ['src/main/res', 'src/chat/res']
             manifest.srcFile 'src/chat/AndroidManifest.xml'
-        }
-        callwithchat {
-            java.srcDirs = ['src/main/java', 'src/call-with-chat/java']
-            res.srcDirs = ['src/main/res', 'src/call-with-chat/res']
-            manifest.srcFile 'src/call-with-chat/AndroidManifest.xml'
         }
     }
 
@@ -158,33 +154,8 @@ android {
                 }
             }
         }
-        callwithchat {
-            minSdkVersion 23
-            dimension "product"
-            matchingFallbacks = ["callwithchat"]
-            buildTypes {
-                release {
-                    minifyEnabled false
-                    shrinkResources false
-                    manifestPlaceholders = [
-                            appIcon     : "@mipmap/ic_launcher",
-                            appIconRound: "@mipmap/ic_launcher_round"
-                    ]
-                    if (file(String.valueOf(System.getenv("KEYSTORE_FILEPATH"))).canRead()) {
-                        signingConfig signingConfigs.release
-                    }
-                }
-
-                debug {
-                    applicationIdSuffix = ".debug"
-                    manifestPlaceholders = [
-                            appIcon     : "@mipmap/ic_launcher_debug",
-                            appIconRound: "@mipmap/ic_launcher_debug_round"
-                    ]
-                }
-            }
-        }
     }
+
     packagingOptions {
         resources.excludes.add("META-INF/*")
     }
@@ -194,8 +165,6 @@ dependencies {
     def app_center_sdk_version = '4.1.0'
     callingImplementation project(path: ':calling')
     chatImplementation project(path: ':chat')
-    callwithchatImplementation project(path: ':call-with-chat')
-
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.core:core-ktx:$androidx_core_ktx_version"
     implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
@@ -210,6 +179,7 @@ dependencies {
     implementation files('lib/magnifier-0.0.17.aar')
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
     testImplementation "junit:junit:$junit_version"
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
     androidTestImplementation('com.microsoft.appcenter:espresso-test-extension:1.4')
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     androidTestImplementation 'net.java.dev.jna:jna:5.10.0'

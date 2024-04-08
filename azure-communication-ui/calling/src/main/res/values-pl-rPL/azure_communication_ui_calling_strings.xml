@@ -2,7 +2,7 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--    Device-->
     <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Głośnik</string>
@@ -19,16 +19,19 @@
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Mikrofon wyłączony</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">Mikrofon włączony</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">Dołącz do rozmowy</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Dźwięk jest wyłączony. Aby włączyć, przejdź do ustawień, aby zezwolić na dostęp. Aby rozpocząć to połączenie, musisz
- włączyć dźwięk.</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Kamera jest wyłączona. Aby włączyć, przejdź do obszaru Ustawienia
-,        aby zezwolić na dostęp.</string>
+    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Dźwięk jest wyłączony. Aby go włączyć, przejdź do obszaru Ustawienia, aby zezwolić na dostęp. Musisz
+        włączyć dźwięk, aby rozpocząć to połączenie.</string>
+    <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Kamera jest wyłączona. Aby ją włączyć, przejdź do obszaru Ustawienia,
+        aby zezwolić na dostęp.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Wymagane są uprawnienia</string>
     <string name="azure_communication_ui_calling_setup_view_go_to_settings">Przejdź do ustawień</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Wybrano</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Ustawianie gradientu</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Przełącz kamerę</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Konfiguruj</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Title</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Subtitle</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Back navigation</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">Oczekiwanie na hosta</string>
@@ -44,6 +47,7 @@
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Oczekiwanie na dołączenie innych osób</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Rozmowa z 1 osobą</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Rozmowa z %1$d osobami</string>
+    <string name="azure_communication_ui_calling_view_go_back">Wstecz</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(ja)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Uczestnik bez nazwy</string>
     <string name="azure_communication_ui_calling_view_leave_call">Opuścić rozmowę?</string>
@@ -63,32 +67,33 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">Więcej</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">Udostępnij informacje diagnostyczne</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Informacje diagnostyczne</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Rozpoczęto nagrywanie.</b> Dołączając, 
- wyrażasz zgodę na transkrybowanie tego spotkania.
- <u> Zasady ochrony prywatności</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Trwa zapisywanie nagrywania.</b> Nagrywanie zostało zatrzymane.
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Rozpoczęto nagrywanie.</b> Dołączając,
+        wyrażasz zgodę na transkrypcję tego spotkania.
+         <u>Zasady ochrony prywatności</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Trwa zapisywanie nagrania.</b> Nagrywanie zostało zatrzymane.
          <u>Dowiedz się więcej</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Transkrypcja została uruchomiona.</b>Dołączając,
-        wyrażasz zgodę na transkrypcję tego spotkania. <u> Zasady prywatności</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Trwa zapisywanie transkrypcji.</b> Zatrzymano
-        transkrypcję. <u>Dowiedz się więcej</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Rozpoczęto nagrywanie i transkrypcję
-.</b> Dołączając, wyrażasz zgodę na transkrypcję tego spotkania
-        . <u> Zasady ochrony prywatności</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Rejestrowanie i transkrypcja są
- zapisywane.</b> Nagrywanie i transkrypcja zostały zatrzymane. <u>Dowiedz się więcej</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Rozpoczęto transkrypcję.</b>Dołączając,
+        wyrażasz zgodę na transkrypcję tego spotkania. <u>Zasady ochrony prywatności</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Trwa zapisywanie transkrypcji.</b> Transkrypcja
+        została zatrzymana. <u>Dowiedz się więcej</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Rozpoczęto nagrywanie i transkrypcję.
+        </b> Dołączając, wyrażasz zgodę na transkrypcję tego spotkania.
+          <u>Zasady ochrony prywatności</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Nagranie i transkrypcja są
+        zapisywane.</b> Nagrywanie i transkrypcja zostały zatrzymane. <u>Dowiedz się więcej</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Nagrywanie zostało zatrzymane.</b>
-        Teraz tylko transkrybują to spotkanie. <u>Zasad ochrony prywatności</u></string>
+        Teraz tylko transkrybujesz to spotkanie. <u>Zasady ochrony prywatności</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Transkrypcja została zatrzymana.
-    </b> Nagrywasz teraz tylko to spotkanie. <u>Zasady ochrony prywatności</u></string>
+    </b> Teraz tylko nagrywasz to spotkanie. <u>Zasady ochrony prywatności</u></string>
     <string name="azure_communication_ui_calling_view_link">Link</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Odrzuć</string>
     <string name="azure_communication_ui_calling_alert_title">Alert</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Usunięto Cię z rozmowy z powodu błędu.</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">Być może usunięto Cię ze spotkania lub utracono połączenie. Spróbuj ponownie dołączyć.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Nie można dołączyć do połączenia z powodu błędu.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Usunięto Cię z rozmowy.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Nie można dołączyć do rozmowy. Sprawdź połączenie sieciowe.</string>
@@ -102,4 +107,58 @@
     <string name="azure_communication_ui_calling_accessibility_user_added">Użytkownik %1$s dołączył do spotkania</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">Użytkownik %1$s opuścił spotkanie</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">Dołączono do rozmowy</string>
+
+    <!--    Participant list-->
+    <string name="azure_communication_ui_calling_participant_list_in_call_n_people">W trakcie rozmowy (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">W poczekalni (%1$d)</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Naciśnij dwukrotnie, aby wpuścić/odrzucić uczestnika</string>
+
+    <!--    Admit participant dialog-->
+    <string name="azure_communication_ui_calling_admit_name">Wpuścić %1$s?</string>
+    <string name="azure_communication_ui_calling_admit">Wpuść</string>
+    <string name="azure_communication_ui_calling_decline">Odrzuć</string>
+    <string name="azure_communication_ui_calling_admit_all">Wpuść wszystkich</string>
+
+    <!--    Lobby header-->
+    <string name="azure_communication_ui_calling_lobby_header_text">Osoby oczekujące na dołączenie</string>
+    <string name="azure_communication_ui_calling_lobby_header_icon_content_description">Poczekalnia</string>
+    <string name="azure_communication_ui_calling_lobby_header_view_participant_button">Wyświetl poczekalnię</string>
+    <string name="azure_communication_ui_calling_lobby_header_accessibility_label">Wyświetl poczekalnię</string>
+    <string name="azure_communication_ui_calling_lobby_header_close_description">Zamknij poczekalnię</string>
+
+    <!--    Lobby error header-->
+    <string name="azure_communication_ui_calling_lobby_header_error_close_description">Błąd zamykania poczekalni</string>
+    <string name="azure_communication_ui_calling_lobby_error_content_description">Błąd poczekalni</string>
+    <string name="azure_communication_ui_calling_error_lobby_disabled_by_configuration">Poczekalnia została wyłączona</string>
+    <string name="azure_communication_ui_calling_error_lobby_conversation_type_not_supported">Poczekalnia nie jest obsługiwana</string>
+    <string name="azure_communication_ui_calling_error_lobby_meeting_role_not_allowded">Twoja rola nie działa w poczekalni</string>
+    <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">Nie można odrzucić</string>
+    <string name="azure_communication_ui_calling_error_lobby_unknown">Błąd działania poczekalni</string>
+
+    <!-- Call Diagnostics -->
+    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Sieć została utracona</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">Trwa ponowne łączenie...</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">Jakość sieci jest niska</string>
+    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">Wyciszono Cię</string>
+    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">Mikrofon nie działa zgodnie z oczekiwaniami</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">Nie można uruchomić kamery</string>
+    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">Kamera przestała działać</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">Głośnik nie działa zgodnie z oczekiwaniami</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">Nie można zlokalizować głośnika</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">Nie można zlokalizować mikrofonu</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">Głośnik jest wyciszony</string>
+
+    <!--    Upper Message Bar Notification -->
+    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Odrzuć</string>
+
+    <!--     Support Form -->
+    <string name="azure_communication_ui_calling_report_issue">Zgłoś problem</string>
+    <string name="azure_communication_ui_calling_report_issue_title">Zgłoś problem</string>
+    <string name="azure_communication_ui_calling_logs_attach_notice">Automatycznie dołączymy dzienniki.</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label">Zasady ochrony prywatności</string>
+    <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Opisz swój problem...</string>
+    <string name="azure_communication_ui_calling_cancel_button_label">Anuluj</string>
+    <string name="azure_communication_ui_calling_attach_screenshot">Załącz wycinek ekranu</string>
+    <string name="azure_communication_ui_calling_report_a_problem_label">Zgłoś problem</string>
+    <string name="azure_communication_ui_calling_send_feedback_label">Wyślij</string>
 </resources>

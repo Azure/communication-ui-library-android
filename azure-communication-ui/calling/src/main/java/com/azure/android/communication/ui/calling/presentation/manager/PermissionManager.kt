@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
 package com.azure.android.communication.ui.calling.presentation.manager
-
 import android.Manifest
 import android.app.Activity
 import android.content.pm.PackageManager
@@ -14,7 +12,9 @@ import com.azure.android.communication.ui.calling.redux.action.PermissionAction
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 internal class PermissionManager(
     private val store: Store<ReduxState>,
@@ -24,27 +24,28 @@ internal class PermissionManager(
     private lateinit var cameraPermissionLauncher: ActivityResultLauncher<String>
     private var previousPermissionState: PermissionState? = null
 
-    private val audioPermission by lazy { getPermissionsList() }
-
-    suspend fun start(
+    fun start(
         activity: Activity,
         audioPermissionLauncher: ActivityResultLauncher<Array<String>>,
         cameraPermissionLauncher: ActivityResultLauncher<String>,
+        coroutineScope: CoroutineScope,
     ) {
         this.activity = activity
         this.audioPermissionLauncher = audioPermissionLauncher
         this.cameraPermissionLauncher = cameraPermissionLauncher
-        store.getStateFlow().collect {
-            if (previousPermissionState == null || previousPermissionState != it.permissionState) {
-                onPermissionStateChange(it.permissionState)
+        coroutineScope.launch {
+            store.getStateFlow().collect {
+                if (previousPermissionState == null || previousPermissionState != it.permissionState) {
+                    onPermissionStateChange(it.permissionState)
+                }
+                previousPermissionState = it.permissionState
             }
-            previousPermissionState = it.permissionState
         }
     }
 
     private fun createAudioPermissionRequest() {
         if (getAudioPermissionState(activity) == PermissionStatus.NOT_ASKED) {
-            audioPermissionLauncher.launch(audioPermission)
+            audioPermissionLauncher.launch(getPermissionsList())
         } else {
             setAudioPermissionsState()
         }
@@ -115,31 +116,23 @@ internal class PermissionManager(
     private fun isPermissionGranted(permission: String) =
         ActivityCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED
 
-    private fun getPermissionsList(): Array<String> =
-        when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ->
-                arrayOf(
-                    Manifest.permission.BLUETOOTH_CONNECT,
-                    Manifest.permission.RECORD_AUDIO,
-                    Manifest.permission.ACCESS_NETWORK_STATE,
-                    Manifest.permission.WAKE_LOCK,
-                    Manifest.permission.MODIFY_AUDIO_SETTINGS,
-                    Manifest.permission.FOREGROUND_SERVICE
-                )
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.P ->
-                arrayOf(
-                    Manifest.permission.RECORD_AUDIO,
-                    Manifest.permission.ACCESS_NETWORK_STATE,
-                    Manifest.permission.WAKE_LOCK,
-                    Manifest.permission.MODIFY_AUDIO_SETTINGS,
-                    Manifest.permission.FOREGROUND_SERVICE
-                )
-            else ->
-                arrayOf(
-                    Manifest.permission.RECORD_AUDIO,
-                    Manifest.permission.ACCESS_NETWORK_STATE,
-                    Manifest.permission.WAKE_LOCK,
-                    Manifest.permission.MODIFY_AUDIO_SETTINGS,
-                )
-        }
+    private fun getPermissionsList(): Array<String> {
+        val permissions = mutableListOf(
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.WAKE_LOCK,
+            Manifest.permission.MODIFY_AUDIO_SETTINGS,
+        )
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+            permissions.add(Manifest.permission.FOREGROUND_SERVICE)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+            permissions.add(Manifest.permission.BLUETOOTH_CONNECT)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            permissions.add(Manifest.permission.POST_NOTIFICATIONS)
+
+        return permissions.toTypedArray()
+    }
 }

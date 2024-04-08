@@ -14,13 +14,19 @@ internal class NavigationReducerImpl : NavigationReducer {
     override fun reduce(state: NavigationState, action: Action): NavigationState {
         return when (action) {
             is NavigationAction.Exit -> {
-                NavigationState(NavigationStatus.EXIT)
+                state.copy(navigationState = NavigationStatus.EXIT)
             }
             is NavigationAction.CallLaunched, is NavigationAction.CallLaunchWithoutSetup -> {
-                NavigationState(NavigationStatus.IN_CALL)
+                state.copy(navigationState = NavigationStatus.IN_CALL)
             }
             is NavigationAction.SetupLaunched -> {
-                NavigationState(NavigationStatus.SETUP)
+                state.copy(navigationState = NavigationStatus.SETUP)
+            }
+            is NavigationAction.HideSupportForm -> {
+                state.copy(supportVisible = false)
+            }
+            is NavigationAction.ShowSupportForm -> {
+                state.copy(supportVisible = true)
             }
             else -> state
         }

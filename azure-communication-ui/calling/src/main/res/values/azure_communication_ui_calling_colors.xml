@@ -27,6 +27,8 @@
     <color name="azure_communication_ui_calling_color_action_bar_text">#212121</color>
     <color name="azure_communication_ui_calling_color_action_bar_subtext">#6E6E6E</color>
     <color name="azure_communication_ui_calling_color_focus_highlight">#808080</color>
+    <color name="azure_communication_ui_calling_color_call_diagnostic_notification_text">#FFFFFF</color>
+    <color name="azure_communication_ui_calling_color_call_diagnostic_notification_icon">#FFFFFF</color>
 
     <!--Static colors-->
     <color name="azure_communication_ui_calling_color_on_surface_camera_active">#FFFFFF</color>

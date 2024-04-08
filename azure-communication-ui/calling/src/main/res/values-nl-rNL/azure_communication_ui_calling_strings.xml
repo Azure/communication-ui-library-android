@@ -2,7 +2,7 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--    Device-->
     <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Luidspreker</string>
@@ -20,15 +20,18 @@
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">Microfoon aan</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">Deelnemen aan gesprek</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Uw audio is uitgeschakeld. Als u deze wilt inschakelen, gaat u naar Instellingen om toegang toe te staan. U moet
-         audio inschakelen om dit gesprek te starten.</string>
+        audio inschakelen om dit gesprek te starten.</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Uw camera is uitgeschakeld. Als u deze wilt inschakelen, gaat u naar Instellingen
-        om toegang toe te staan.</string>
+        om toegang te verlenen.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Machtigingen vereist</string>
     <string name="azure_communication_ui_calling_setup_view_go_to_settings">Ga naar Instellingen</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Geselecteerd</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Kleurovergang instellen</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Camera wisselen</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Configuratie</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Titel</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Ondertitel</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Terug navigatie</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">Wachten op host</string>
@@ -44,6 +47,7 @@
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Wachten tot anderen deelnemen</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Gesprek met 1 persoon</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Bellen met %1$d personen</string>
+    <string name="azure_communication_ui_calling_view_go_back">Terug</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(ik)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Naamloze deelnemer</string>
     <string name="azure_communication_ui_calling_view_leave_call">Gesprek verlaten?</string>
@@ -63,32 +67,33 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">Meer</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">Diagnostische gegevens delen</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnostische gegevens</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Knop Diagnostische gegevens delen</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Opname is gestart.</b> Door deel te nemen geeft
-        u toestemming om een transcriptie te maken van deze vergadering.
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Opname is gestart.</b> Door deel te nemen geeft u
+        toestemming voor het transcriberen van deze vergadering.
          <u>Privacybeleid</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Opname wordt opgeslagen.</b> Opname is gestopt.
          <u>Meer informatie</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Transcriptie is gestart.</b> Door deel te nemen geeft
-        u toestemming om een transcriptie te maken van deze vergadering. <u>Privacybeleid</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Transcriptie is gestart.</b> Door deel te nemen geeft u
+        toestemming voor het transcriberen van deze vergadering. <u>Privacybeleid</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Transcriptie wordt opgeslagen.</b> Transcriptie
         is gestopt. <u>Meer informatie</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Opname en transcriptie zijn
-        gestart.</b> Door deel te nemen geeft u toestemming om een transcriptie te maken van deze vergadering
+        gestart.</b> Door deel te nemen geeft u toestemming voor het transcriberen van deze vergadering
         . <u>Privacybeleid</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Opname en transcriptie
-        worden opgeslagen.</b> Opname en transcriptie zijn gestopt. <u>Meer informatie</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Opname en transcriptie worden
+        opgeslagen.</b> Opname en transcriptie zijn gestopt. <u>Meer informatie</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Opname is gestopt.</b> U
-        maakt nu alleen een transcriptie van deze vergadering. <u>Privacybeleid</u></string>
+        bent nu alleen deze vergadering aan het transcriberen. <u>Privacybeleid</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Transcriptie is gestopt.
-        </b>U maakt nu alleen een opname van deze vergadering. <u>Privacybeleid</u></string>
+    </b> U bent nu alleen deze vergadering aan het opnemen. <u>Privacybeleid</u></string>
     <string name="azure_communication_ui_calling_view_link">Koppeling</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Sluiten</string>
     <string name="azure_communication_ui_calling_alert_title">Waarschuwing</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">U bent uit de oproep verwijderd vanwege een fout.</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">Mogelijk bent u uit de vergadering verwijderd of is de verbinding verbroken. Probeer opnieuw mee te doen.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Kan niet deelnemen aan de oproep vanwege een fout.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">U bent verwijderd uit het gesprek.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Kan niet deelnemen aan gesprek. Controleer de netwerkverbinding.</string>
@@ -102,4 +107,58 @@
     <string name="azure_communication_ui_calling_accessibility_user_added">%1$s neemt nu deel aan de vergadering</string>
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s heeft de vergadering verlaten</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">U neemt deel aan het gesprek</string>
+
+    <!--    Participant list-->
+    <string name="azure_communication_ui_calling_participant_list_in_call_n_people">In het gesprek (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">In de lobby (%1$d)</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Dubbeltik om deelnemer toe te laten/weigeren</string>
+
+    <!--    Admit participant dialog-->
+    <string name="azure_communication_ui_calling_admit_name">%1$s toelaten?</string>
+    <string name="azure_communication_ui_calling_admit">Toelaten</string>
+    <string name="azure_communication_ui_calling_decline">Weigeren</string>
+    <string name="azure_communication_ui_calling_admit_all">Allen toelaten</string>
+
+    <!--    Lobby header-->
+    <string name="azure_communication_ui_calling_lobby_header_text">Personen wachten om deel te nemen</string>
+    <string name="azure_communication_ui_calling_lobby_header_icon_content_description">Lobby</string>
+    <string name="azure_communication_ui_calling_lobby_header_view_participant_button">Lobby weergeven</string>
+    <string name="azure_communication_ui_calling_lobby_header_accessibility_label">Lobby weergeven</string>
+    <string name="azure_communication_ui_calling_lobby_header_close_description">Lobby sluiten</string>
+
+    <!--    Lobby error header-->
+    <string name="azure_communication_ui_calling_lobby_header_error_close_description">Lobbyfout sluiten</string>
+    <string name="azure_communication_ui_calling_lobby_error_content_description">Lobbyfout</string>
+    <string name="azure_communication_ui_calling_error_lobby_disabled_by_configuration">Lobby is uitgeschakeld</string>
+    <string name="azure_communication_ui_calling_error_lobby_conversation_type_not_supported">Lobby wordt niet ondersteund</string>
+    <string name="azure_communication_ui_calling_error_lobby_meeting_role_not_allowded">Uw rol kan niet handelen op de lobby</string>
+    <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">Kan niet weigeren</string>
+    <string name="azure_communication_ui_calling_error_lobby_unknown">Lobbyactiefout</string>
+
+    <!-- Call Diagnostics -->
+    <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Netwerk verloren </string>
+    <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">Opnieuw verbinden...</string>
+    <string name="azure_communication_ui_calling_diagnostics_network_quality_low">Netwerkkwaliteit is laag</string>
+    <string name="azure_communication_ui_calling_diagnostics_you_are_muted">Uw microfoon is gedempt</string>
+    <string name="azure_communication_ui_calling_diagnostics_microphone_not_working_as_expected">Microfoon werkt niet zoals verwacht</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_start_camera">Kan camera niet starten</string>
+    <string name="azure_communication_ui_calling_diagnostics_camera_stoppped_working">Camera werkt niet meer</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_not_working_as_expected">Luidspreker werkt niet zoals verwacht</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_speaker">Kan luidspreker niet vinden</string>
+    <string name="azure_communication_ui_calling_diagnostics_unable_to_locate_microphone">Kan microfoon niet vinden</string>
+    <string name="azure_communication_ui_calling_diagnostics_speaker_muted">Luidspreker is gedempt</string>
+
+    <!--    Upper Message Bar Notification -->
+    <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Sluiten</string>
+
+    <!--     Support Form -->
+    <string name="azure_communication_ui_calling_report_issue">Probleem melden</string>
+    <string name="azure_communication_ui_calling_report_issue_title">Probleem melden</string>
+    <string name="azure_communication_ui_calling_logs_attach_notice">Logboeken worden automatisch bijgevoegd.</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label">Privacybeleid</string>
+    <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Beschrijf uw probleem...</string>
+    <string name="azure_communication_ui_calling_cancel_button_label">Annuleren</string>
+    <string name="azure_communication_ui_calling_attach_screenshot">Schermopname bijvoegen</string>
+    <string name="azure_communication_ui_calling_report_a_problem_label">Een probleem melden</string>
+    <string name="azure_communication_ui_calling_send_feedback_label">Verzenden</string>
 </resources>
