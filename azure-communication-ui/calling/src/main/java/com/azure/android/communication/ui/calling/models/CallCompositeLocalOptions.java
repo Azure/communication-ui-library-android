@@ -33,7 +33,9 @@ import com.azure.android.communication.ui.calling.CallComposite;
 public final class CallCompositeLocalOptions {
     private CallCompositeParticipantViewData participantViewData = null;
     private CallCompositeSetupScreenViewData setupScreenViewData = null;
+    /* </ROOMS_SUPPORT:3> */
     private CallCompositeParticipantRole roleHint = null;
+    /* </ROOMS_SUPPORT:0> */
     private boolean cameraOn = false;
     private boolean microphoneOn = false;
     private boolean skipSetupScreen = false;
@@ -97,9 +99,11 @@ public final class CallCompositeLocalOptions {
      * Get role hint.
      * @return {@link CallCompositeParticipantRole}
      */
+    /* <ROOMS_SUPPORT:4> */
     public CallCompositeParticipantRole getRoleHint() {
         return roleHint;
     }
+    /* </ROOMS_SUPPORT:0> */
 
     /**
      * Get role hint. Use this to hint the role of the user when the role is not available before a Rooms
@@ -109,10 +113,12 @@ public final class CallCompositeLocalOptions {
      * The true role of the user will be synced with ACS services when a Rooms call starts.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
+    /* <ROOMS_SUPPORT:8> */
     public CallCompositeLocalOptions setRoleHint(final CallCompositeParticipantRole roleHint) {
         this.roleHint = roleHint;
         return this;
     }
+    /* </ROOMS_SUPPORT:0> */
 
     /**
      * Get the boolean value for skip setup screen.
