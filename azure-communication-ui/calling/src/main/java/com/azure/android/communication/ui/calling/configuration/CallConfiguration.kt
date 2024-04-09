@@ -13,7 +13,9 @@ import java.util.UUID
 internal enum class CallType {
     GROUP_CALL,
     TEAMS_MEETING,
+    /* <ROOMS_SUPPORT:3> */
     ROOMS_CALL,
+    /* </ROOMS_SUPPORT:0> */
 }
 
 internal data class CallConfiguration(

@@ -33,7 +33,7 @@ import com.azure.android.communication.ui.calling.CallComposite;
 public final class CallCompositeLocalOptions {
     private CallCompositeParticipantViewData participantViewData = null;
     private CallCompositeSetupScreenViewData setupScreenViewData = null;
-    /* </ROOMS_SUPPORT:3> */
+    /* <ROOMS_SUPPORT:3> */
     private CallCompositeParticipantRole roleHint = null;
     /* </ROOMS_SUPPORT:0> */
     private boolean cameraOn = false;

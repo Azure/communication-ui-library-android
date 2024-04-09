@@ -141,9 +141,9 @@ class CallLauncherActivity : AppCompatActivity() {
                     teamsMeetingRadioButton.isChecked = false
                     /* <ROOMS_SUPPORT:4> */
                     roomsMeetingRadioButton.isChecked = false
-                    /* </ROOMS_SUPPORT:1> */
                     attendeeRoleRadioButton.visibility = View.GONE
                     presenterRoleRadioButton.visibility = View.GONE
+                    /* </ROOMS_SUPPORT:1> */
                 }
             }
             teamsMeetingRadioButton.setOnClickListener {
@@ -152,9 +152,9 @@ class CallLauncherActivity : AppCompatActivity() {
                     groupCallRadioButton.isChecked = false
                     /* <ROOMS_SUPPORT:4> */
                     roomsMeetingRadioButton.isChecked = false
-                    /* </ROOMS_SUPPORT:1> */
                     attendeeRoleRadioButton.visibility = View.GONE
                     presenterRoleRadioButton.visibility = View.GONE
+                    /* </ROOMS_SUPPORT:1> */
                 }
             }
             /* <ROOMS_SUPPORT:0> */
@@ -297,7 +297,7 @@ class CallLauncherActivity : AppCompatActivity() {
             acsToken,
             userName,
             groupId,
-            /* </ROOMS_SUPPORT:5> */
+            /* <ROOMS_SUPPORT:5> */
             roomId,
             roomRole,
             /* </ROOMS_SUPPORT:2> */
