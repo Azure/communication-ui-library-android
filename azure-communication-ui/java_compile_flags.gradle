@@ -153,8 +153,8 @@ class FlagInstance {
 
         // Mute the internal block comments in the feature
         for (int i=startLine+1;i<endLine;i++) {
-            fileLines[i] = fileLines[i].replaceAll(ffd.startTag, ffd.mutedStartTag)
-                    .replaceAll(ffd.endTag, ffd.mutedEndTag);
+            fileLines[i] = fileLines[i].replace(ffd.startTag, ffd.mutedStartTag)
+                    .replace(ffd.endTag, ffd.mutedEndTag);
         }
 
         // Write the updated lines back to the file
@@ -188,8 +188,8 @@ class FlagInstance {
 
         // Unmute the internal block comments in the feature
         for (int i=startLine+1;i<endLine;i++) {
-            fileLines[i] = fileLines[i].replaceAll(ffd.mutedStartTag, ffd.startTag)
-                    .replaceAll(ffd.mutedEndTag, ffd.endTag);
+            fileLines[i] = fileLines[i].replace(ffd.mutedStartTag, ffd.startTag)
+                    .replace(ffd.mutedEndTag, ffd.endTag);
         }
 
         // Write the updated lines back to the file
@@ -231,7 +231,7 @@ class FlagInstance {
 
         def output = file.name+"\n"+topContext + content + bottomContext+"\n"
         // Clean output of muted tags
-        output = output.replaceAll(ffd.mutedStartTag, ffd.startTag)
+        output = output.replace(ffd.mutedStartTag, ffd.startTag)
                 .replace(ffd.mutedEndTag, ffd.endTag)
 
         println output
