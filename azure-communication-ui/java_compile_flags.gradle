@@ -1,5 +1,46 @@
 /**
- * This script is used to manage feature flags in your project.
+ * # Feature Flag Management Script
+ *
+ * This script provides a robust solution for managing feature flags in your project. It leverages block comments in various languages to enable or disable flags.
+ *
+ * ## Supported Languages
+ * - Java
+ * - Kotlin
+ * - XML
+ * - Swift
+ *
+ * ## Key Concepts
+ * - A flag is defined by a start and end tag.
+ * - The start tag is "<FLAG_NAME>" and the end tag is "</FLAG_NAME>".
+ * - The flag is enabled when the start and end tags are closed.
+ * - The flag is disabled when the start and end tags are open.
+ *
+ * ## Usage
+ * Run `./gradlew flagHelp` in your terminal.
+ *
+ * ## Developer Tips
+ * ### Flag Formatting
+ * - Flags must start and end on their own line.
+ * - The flag name must match the regex [A-Z_]+. Lowercase, camelCase, and other formats are not supported.
+ * - Example: `<FLAG_NAME:10>`, where:
+ *   - `10` represents the lines of context to print above and below the flag. This aids in understanding the flag's context when printing.
+ *   - `FLAG_NAME` is the name of the flag.
+ *
+ * ### Flagging Code in an Existing Branch
+ * - Review the diff in GitHub and consider if you can better group or isolate the code.
+ * - Optionally refactor as necessary to minimize or group your changes.
+ * - Finish by reviewing the diff and flagging all the code.
+ *
+ * ### Flagging Fresh Code
+ * - Flag the code as you write it.
+ * - Validate with the flag disabled before committing.
+ * - Update `flag.lock` as necessary.
+ *
+ * ### Validating Flags
+ * 1. Run the demo with both enabled and disabled states.
+ * 2. Fix any ktLint/Checkstyle issues for the two variants.
+ * 3. Validate that `flag.lock` is as expected.
+ * 4. Commit and push.
  */
 
 import java.util.regex.Pattern
@@ -100,7 +141,8 @@ class FlagFileDefinition {
 ext.flagFileDefinitions = [
         new FlagFileDefinition('.kt', '/*', '*/', '!!!*', '*!!!'),
         new FlagFileDefinition('.java', '/*', '*/', '!!!*', '*!!!'),
-        new FlagFileDefinition('.xml', '<!--', '-->', '!!!*', '*!!!')
+        new FlagFileDefinition('.xml', '<!--', '-->', '!!!*', '*!!!'),
+        new FlagFileDefinition('.swift', '/*', '*/', '!!!*', '*!!!'),
 ]
 
 // An actual hit on a flag
