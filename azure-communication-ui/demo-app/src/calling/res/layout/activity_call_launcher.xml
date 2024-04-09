@@ -52,6 +52,7 @@
                 android:text="@string/teams_meeting_label" />
         </LinearLayout>
 
+        <!-- <ROOMS_SUPPORT:0> -->
         <RadioButton
             android:id="@+id/roomsMeetingRadioButton"
             android:layout_width="wrap_content"
@@ -85,6 +86,7 @@
             app:layout_constraintStart_toEndOf="@id/presenterRoleRadioButton"
             app:layout_constraintTop_toBottomOf="@id/groupCallRadioButton"
             />
+        <!-- </ROOMS_SUPPORT:0> -->
 
         <EditText
             android:id="@+id/groupIdOrTeamsMeetingLinkText"

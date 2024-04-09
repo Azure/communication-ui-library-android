@@ -20,9 +20,11 @@ import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocato
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions
+/* <ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
-import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator
+/* </ROOMS_SUPPORT:0> */
+import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
@@ -48,8 +50,10 @@ class CallLauncherViewModel : ViewModel() {
         acsToken: String,
         displayName: String,
         groupId: UUID?,
+        /* <ROOMS_SUPPORT:5> */
         roomId: String?,
         roomRoleHint: CallCompositeParticipantRole?,
+        /* </ROOMS_SUPPORT:2> */
         meetingLink: String?,
     ) {
         // The handler needs the application context to manage notifications.
@@ -87,7 +91,9 @@ class CallLauncherViewModel : ViewModel() {
         val locator: CallCompositeJoinLocator =
             if (groupId != null) CallCompositeGroupCallLocator(groupId)
             else if (meetingLink != null) CallCompositeTeamsMeetingLinkLocator(meetingLink)
+            /* <ROOMS_SUPPORT:3> */
             else if (roomId != null && roomRoleHint != null) CallCompositeRoomLocator(roomId)
+            /* </ROOMS_SUPPORT:1> */
             else throw IllegalArgumentException("Cannot launch call composite with provided arguments.")
 
         val remoteOptions =
@@ -103,7 +109,9 @@ class CallLauncherViewModel : ViewModel() {
                     .setTitle(SettingsFeatures.getTitle())
                     .setSubtitle(SettingsFeatures.getSubtitle())
             )
+            /* <ROOMS_SUPPORT:7> */
             .setRoleHint(roomRoleHint)
+            /* </1ROOMS_SUPPORT:4> */
             .setSkipSetupScreen(SettingsFeatures.getSkipSetupScreenFeatureOption())
             .setAudioVideoMode(avMode)
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
