@@ -9,11 +9,15 @@ class FlagFileDefinition {
     String extension
     String startTag
     String endTag
+    String mutedStartTag
+    String mutedEndTag
 
-    FlagFileDefinition(String extension, String startTag, String endTag) {
+    FlagFileDefinition(String extension, String startTag, String endTag, String mutedStartTag, String mutedEndTag) {
         this.extension = extension
         this.startTag = startTag
         this.endTag = endTag
+        this.mutedStartTag = mutedStartTag
+        this.mutedEndTag = mutedEndTag
     }
 
     def isStartLine(String line) {
@@ -94,9 +98,9 @@ class FlagFileDefinition {
 }
 
 ext.flagFileDefinitions = [
-        new FlagFileDefinition('.kt', '/*', '*/'),
-        new FlagFileDefinition('.java', '/*', '*/'),
-        new FlagFileDefinition('.xml', '<!--', '-->')
+        new FlagFileDefinition('.kt', '/*', '*/', '!!!*', '*!!!'),
+        new FlagFileDefinition('.java', '/*', '*/', '!!!*', '*!!!'),
+        new FlagFileDefinition('.xml', '<!--', '-->', '!!!*', '*!!!')
 ]
 
 
@@ -147,6 +151,12 @@ class FlagInstance {
         fileLines[startLine] = newStart
         fileLines[endLine] = newEnd
 
+        // Mute the internal block comments in the feature
+        for (int i=startLine+1;i<endLine;i++) {
+            fileLines[i] = fileLines[i].replaceAll(ffd.startTag, ffd.mutedStartTag)
+                    .replaceAll(ffd.endTag, ffd.mutedEndTag);
+        }
+
         // Write the updated lines back to the file
         file.text = fileLines.join("\n")+"\n"
     }
@@ -175,6 +185,12 @@ class FlagInstance {
         // Update the fileLines with the new start and end
         fileLines[startLine] = newStart
         fileLines[endLine] = newEnd
+
+        // Unmute the internal block comments in the feature
+        for (int i=startLine+1;i<endLine;i++) {
+            fileLines[i] = fileLines[i].replaceAll(ffd.mutedStartTag, ffd.startTag)
+                    .replaceAll(ffd.mutedEndTag, ffd.endTag);
+        }
 
         // Write the updated lines back to the file
         file.text = fileLines.join("\n")+"\n"
@@ -214,6 +230,10 @@ class FlagInstance {
         String bottomContext = "\n"+fileContent.subList(endLine+1, printEnd+1).join("\n")
 
         def output = file.name+"\n"+topContext + content + bottomContext+"\n"
+        // Clean output of muted tags
+        output = output.replaceAll(ffd.mutedStartTag, ffd.startTag)
+                .replace(ffd.mutedEndTag, ffd.endTag)
+
         println output
     }
 }
