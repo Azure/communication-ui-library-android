@@ -103,6 +103,8 @@ ext.flagFileDefinitions = [
         new FlagFileDefinition('.xml', '<!--', '-->', '!!!*', '*!!!')
 ]
 
+def osName = System.getProperty("os.name").toLowerCase()
+ext.platformLineEnding = (osName.contains("win"))? "\r\n":"\n"
 
 
 // An actual hit on a flag
@@ -158,7 +160,7 @@ class FlagInstance {
         }
 
         // Write the updated lines back to the file
-        file.text = fileLines.join("\r\n")+"\r\n"
+        file.text = fileLines.join(platformLineEnding)+platformLineEnding
     }
 
     def enable() {
@@ -193,7 +195,7 @@ class FlagInstance {
         }
 
         // Write the updated lines back to the file
-        file.text = fileLines.join("\r\n")+"\r\n"
+        file.text = fileLines.join(platformLineEnding)+platformLineEnding
     }
 
     def prepDelete() {
@@ -202,7 +204,7 @@ class FlagInstance {
         for (int i = startLine; i <= endLine; i++) {
             lines[i] = "DELETE_ME"
         }
-        file.text = lines.join("\r\n")+"\r\n"
+        file.text = lines.join(platformLineEnding)+platformLineEnding
     }
 
 
@@ -225,11 +227,11 @@ class FlagInstance {
         final printStart = startLine - flagContextTop
         final printEnd = endLine + flagContextBottom
 
-        String topContext = fileContent.subList(printStart, startLine).join("\r\n")
+        String topContext = fileContent.subList(printStart, startLine).join(platformLineEnding)
         String content = "\r\n+"+fileContent.subList(startLine+1, endLine).join("\r\n+")
-        String bottomContext = "\r\n"+fileContent.subList(endLine+1, printEnd+1).join("\r\n")
+        String bottomContext = platformLineEnding+fileContent.subList(endLine+1, printEnd+1).join(platformLineEnding)
 
-        def output = file.name+"\r\n"+topContext + content + bottomContext+"\r\n"
+        def output = file.name+platformLineEnding+topContext + content + bottomContext+platformLineEnding
         // Clean output of muted tags
         output = output.replace(ffd.mutedStartTag, ffd.startTag)
                 .replace(ffd.mutedEndTag, ffd.endTag)
@@ -294,7 +296,7 @@ def purgeDeletions() {
         if (text.contains("DELETE_ME")) {
             def lines = file.readLines()
             def newLines = lines.findAll { line -> !line.contains("DELETE_ME") }
-            file.text = newLines.join("\r\n")+"\r\n"
+            file.text = newLines.join(platformLineEnding)+platformLineEnding
         }
     }
 }
