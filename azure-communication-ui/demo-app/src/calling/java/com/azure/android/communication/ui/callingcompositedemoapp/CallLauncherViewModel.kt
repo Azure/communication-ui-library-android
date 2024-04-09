@@ -111,7 +111,7 @@ class CallLauncherViewModel : ViewModel() {
             )
             /* <ROOMS_SUPPORT:7> */
             .setRoleHint(roomRoleHint)
-            /* </1ROOMS_SUPPORT:4> */
+            /* </ROOMS_SUPPORT:4> */
             .setSkipSetupScreen(SettingsFeatures.getSkipSetupScreenFeatureOption())
             .setAudioVideoMode(avMode)
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
