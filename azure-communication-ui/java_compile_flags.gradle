@@ -103,10 +103,6 @@ ext.flagFileDefinitions = [
         new FlagFileDefinition('.xml', '<!--', '-->', '!!!*', '*!!!')
 ]
 
-def osName = System.getProperty("os.name").toLowerCase()
-ext.platformLineEnding = (osName.contains("win"))? "\r\n":"\n"
-
-
 // An actual hit on a flag
 class FlagInstance {
     final File file
@@ -114,6 +110,9 @@ class FlagInstance {
     final FlagFileDefinition ffd
     final int startLine
     final int endLine
+
+    static def osName = System.getProperty("os.name").toLowerCase()
+    static def platformLineEnding = osName.contains("win") ? "\r\n":"\n"
 
     FlagInstance(File file, List<String> fileContent, int startLine, int endLine, FlagFileDefinition ffd) {
         this.file = file
