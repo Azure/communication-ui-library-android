@@ -158,7 +158,7 @@ class FlagInstance {
         }
 
         // Write the updated lines back to the file
-        file.text = fileLines.join("\n")+"\n"
+        file.text = fileLines.join("\r\n")+"\r\n"
     }
 
     def enable() {
@@ -193,7 +193,7 @@ class FlagInstance {
         }
 
         // Write the updated lines back to the file
-        file.text = fileLines.join("\n")+"\n"
+        file.text = fileLines.join("\r\n")+"\r\n"
     }
 
     def prepDelete() {
@@ -202,7 +202,7 @@ class FlagInstance {
         for (int i = startLine; i <= endLine; i++) {
             lines[i] = "DELETE_ME"
         }
-        file.text = lines.join("\n")+"\n"
+        file.text = lines.join("\r\n")+"\r\n"
     }
 
 
@@ -225,11 +225,11 @@ class FlagInstance {
         final printStart = startLine - flagContextTop
         final printEnd = endLine + flagContextBottom
 
-        String topContext = fileContent.subList(printStart, startLine).join("\n")
-        String content = "\n+"+fileContent.subList(startLine+1, endLine).join("\n+")
-        String bottomContext = "\n"+fileContent.subList(endLine+1, printEnd+1).join("\n")
+        String topContext = fileContent.subList(printStart, startLine).join("\r\n")
+        String content = "\r\n+"+fileContent.subList(startLine+1, endLine).join("\r\n+")
+        String bottomContext = "\r\n"+fileContent.subList(endLine+1, printEnd+1).join("\r\n")
 
-        def output = file.name+"\n"+topContext + content + bottomContext+"\n"
+        def output = file.name+"\r\n"+topContext + content + bottomContext+"\r\n"
         // Clean output of muted tags
         output = output.replace(ffd.mutedStartTag, ffd.startTag)
                 .replace(ffd.mutedEndTag, ffd.endTag)
@@ -294,7 +294,7 @@ def purgeDeletions() {
         if (text.contains("DELETE_ME")) {
             def lines = file.readLines()
             def newLines = lines.findAll { line -> !line.contains("DELETE_ME") }
-            file.text = newLines.join("\n")+"\n"
+            file.text = newLines.join("\r\n")+"\r\n"
         }
     }
 }
@@ -389,7 +389,7 @@ tasks.register('flagLock') {
         // Write the lock file
         flagLockFile.withWriter { writer ->
             groupedFlags.each { flagName, flagInstances ->
-                writer.write("${flagName}=${flagInstances[0].isEnabled()}\n")
+                writer.write("${flagName}=${flagInstances[0].isEnabled()}\r\n")
             }
         }
     }
@@ -451,7 +451,7 @@ tasks.register('flagHelp') {
         def exampleFlag = flags.iterator().next().flagName()
 
         println "Usage: ./gradlew [listFlags|enableFlag|disableFlag|printFlag|flagLock|syncWithFlagLock|validateFlagLock] -PflagName=[flagName]"
-        println "\nCommands:"
+        println "\r\nCommands:"
         println "  listFlags: Lists all the feature flags in your project and their current status."
         println "  enableFlag -PflagName=[flagName]: Enables the specified feature flag."
         println "  disableFlag -PflagName=[flagName]: Disables the specified feature flag."
@@ -460,7 +460,7 @@ tasks.register('flagHelp') {
         println "  flagLock: Writes the current status of all flags to a lock file."
         println "  syncWithFlagLock: Syncs the status of all flags with the lock file."
         println "  validateFlagLock: Validates that the status of all flags matches the lock file."
-        println "\nExamples:"
+        println "\r\nExamples:"
         println "  ./gradlew listFlags"
         println "  ./gradlew enableFlag -PflagName=${exampleFlag}"
         println "  ./gradlew disableFlag -PflagName=${exampleFlag}"
