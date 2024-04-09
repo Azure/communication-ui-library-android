@@ -48,6 +48,7 @@
                 android:layout_gravity="center_vertical"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:accessibilityHeading="true"
                 android:nextFocusLeft="@+id/azure_communication_ui_navigation_button"
                 android:textColor="@color/azure_communication_ui_calling_color_action_bar_text" />
 
