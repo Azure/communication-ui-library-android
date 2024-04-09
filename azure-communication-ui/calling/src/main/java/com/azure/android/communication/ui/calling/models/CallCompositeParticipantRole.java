@@ -4,12 +4,13 @@
 package com.azure.android.communication.ui.calling.models;
 
 import com.azure.android.core.util.ExpandableStringEnum;
+
 import java.util.Collection;
 
 /**
  * Defines values for {@linkCallCompositeParticipantRole}.
  */
-public  final class CallCompositeParticipantRole extends ExpandableStringEnum<CallCompositeParticipantRole> {
+public final class CallCompositeParticipantRole extends ExpandableStringEnum<CallCompositeParticipantRole> {
 
     /**
      * Presenter Role in the Room call.
