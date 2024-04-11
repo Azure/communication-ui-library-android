@@ -12,6 +12,7 @@
     tools:context="com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment"
     >
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/azure_communication_ui_call_main_layout"
         android:layout_width="0dp"

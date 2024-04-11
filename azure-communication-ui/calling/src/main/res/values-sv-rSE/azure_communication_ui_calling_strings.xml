@@ -29,6 +29,9 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Konfigurera toning</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Växla kamera</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Konfigurera</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Title</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Subtitle</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Back navigation</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">Väntar på värd</string>
@@ -64,6 +67,7 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">Mer</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">Dela diagnostikinformation</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnostikinformation</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Postning har startat.</b> Genom att ansluta är du
@@ -89,7 +93,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Stäng</string>
     <string name="azure_communication_ui_calling_alert_title">Avisering</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Du har tagits bort från samtalet på grund av ett fel.</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">Du kan ha tagits bort från mötet eller förlorat anslutningen. Försök att ansluta igen.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Det gick inte att ansluta till samtalet på grund av ett fel.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Du togs bort från samtalet.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Det går inte att ansluta till samtalet. Kontrollera nätverksanslutningen.</string>

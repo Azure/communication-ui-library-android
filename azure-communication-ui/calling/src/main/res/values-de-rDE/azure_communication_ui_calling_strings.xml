@@ -29,6 +29,9 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Farbverlauf einrichten</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Kamera wechseln</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Setup</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Titel</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Untertitel</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Navigation zurück</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">Warten auf Host</string>
@@ -64,6 +67,7 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">Mehr</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">Diagnoseinformationen freigeben</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnoseinformationen</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Schaltfläche „Diagnoseinformationen freigeben“</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Die Aufzeichnung hat begonnen.</b> Mit Ihrer Teilnahme, erklären Sie
@@ -89,7 +93,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Schließen</string>
     <string name="azure_communication_ui_calling_alert_title">Warnung</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Sie wurden aufgrund eines Fehlers aus dem Anruf entfernt.</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">Möglicherweise wurden Sie aus der Besprechung entfernt oder Ihre Verbindung wurde unterbrochen. Versuchen Sie, erneut beizutreten.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Teilnahme am Anruf aufgrund eines Fehlers nicht möglich.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Sie wurden aus dem Anruf entfernt.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Teilnahme am Anruf nicht möglich. Überprüfen Sie Ihre Netzwerkverbindung.</string>

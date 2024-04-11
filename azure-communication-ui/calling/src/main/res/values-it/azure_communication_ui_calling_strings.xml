@@ -29,6 +29,9 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Imposta sfumatura</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Gira fotocamera</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Configura</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Title</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Subtitle</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Back navigation</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">In attesa dell\'organizzatore</string>
@@ -64,6 +67,7 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">Altro</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">Condividi informazioni di diagnostica</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Informazioni di diagnostica</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>La registrazione è stata avviata.</b> Partecipando,

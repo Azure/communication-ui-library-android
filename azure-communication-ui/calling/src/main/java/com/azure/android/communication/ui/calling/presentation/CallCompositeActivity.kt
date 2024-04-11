@@ -8,7 +8,6 @@ import android.app.PictureInPictureParams
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
@@ -111,10 +110,8 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         configureLocalization()
-        configureActionBar()
         setStatusBarColor()
         setNavigationBarColor()
-        setActionBarVisibility()
 
         configuration.themeConfig?.let {
             theme.applyStyle(it, true)
@@ -309,19 +306,6 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         }
     }
 
-    private fun configureActionBar() {
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setBackgroundDrawable(
-            ColorDrawable(
-                ContextCompat.getColor(
-                    this,
-                    R.color.azure_communication_ui_calling_color_background
-                )
-            )
-        )
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_left_24_filled)
-    }
-
     private fun forwardSupportEventToUser(userText: String) {
         val debugInfo = container.debugInfoManager.getDebugInfo()
 
@@ -358,14 +342,6 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
         supportView.layoutDirection =
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
-    }
-
-    private fun setActionBarVisibility() {
-        if (store.getCurrentState().navigationState.navigationState != NavigationStatus.SETUP) {
-            supportActionBar?.hide()
-        } else {
-            supportActionBar?.show()
-        }
     }
 
     private fun getCameraPermissionLauncher(): ActivityResultLauncher<String> {

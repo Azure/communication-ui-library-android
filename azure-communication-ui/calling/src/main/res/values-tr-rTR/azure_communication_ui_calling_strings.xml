@@ -29,6 +29,9 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Gradyan Kur</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Kamerayı Değiştir</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Kurulum</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Title</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Subtitle</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Back navigation</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">Oturum sahibi bekleniyor</string>
@@ -64,6 +67,7 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">Diğer</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">Tanılama bilgilerini paylaş</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Tanılama bilgileri</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Kayıt başlatıldı.</b> Katılarak,
@@ -89,7 +93,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Kapat</string>
     <string name="azure_communication_ui_calling_alert_title">Uyarı</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Bir hata nedeniyle aramadan çıkarıldınız.</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">Toplantıdan çıkarılmış olabilirsiniz veya bağlantınız kesilmiş olabilir. Yeniden katılmayı deneyin.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Bir hata nedeniyle aramaya katılınamıyor.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Aramadan çıkarıldınız.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Aramaya katılınamıyor. Ağ bağlantınızı kontrol edin.</string>

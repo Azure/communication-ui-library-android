@@ -23,8 +23,6 @@ import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.logger.Logger
-import com.azure.android.communication.ui.calling.features.ACSFeatureFactory
-import com.azure.android.communication.ui.calling.features.interfaces.SupportFilesFeature
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
@@ -113,10 +111,7 @@ internal class CallingSDKWrapper(
         callingSDKEventHandler.getMediaCallDiagnosticsSharedFlow()
 
     override fun getLogFiles(): List<File> {
-        callClient?.apply {
-            return ACSFeatureFactory.getFeature<SupportFilesFeature>().getSupportFiles(this, context)
-        }
-        return Collections.emptyList()
+        return callClient?.debugInfo?.supportFiles ?: Collections.emptyList()
     }
 
     //endregion
