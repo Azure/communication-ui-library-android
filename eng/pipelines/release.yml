@@ -113,40 +113,32 @@ extends:
               ls $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app
 
               echo '$(system.defaultWorkingDirectory)/azure-communication-ui/demo-app'
-        - task: Gradle@2
+        - task: Gradle@3
           displayName: gradlew ktlintCheck
           inputs:
             wrapperScript: azure-communication-ui/gradlew
             cwd: azure-communication-ui
             tasks: ktlintCheck
             publishJUnitResults: false
-            javaHomeSelection: Path
-            jdkUserInputPath: $(JDK_PATH）
-        - task: Gradle@2
+        - task: Gradle@3
           displayName: gradlew build
           inputs:
             wrapperScript: azure-communication-ui/gradlew
             cwd: azure-communication-ui
             tasks: build --stacktrace
             publishJUnitResults: false
-            javaHomeSelection: Path
-            jdkUserInputPath: $(JDK_PATH)
         - task: Gradle@3
           displayName: publish calling to local dir
           inputs:
             wrapperScript: azure-communication-ui/gradlew
             cwd: azure-communication-ui/calling
             tasks: publishReleasePublicationToLocalDirectoryRepository
-            javaHomeSelection: Path
-            jdkUserInputPath: $(JDK_PATH)
         - task: Gradle@3
           displayName: publish chat to local dir
           inputs:
             wrapperScript: azure-communication-ui/gradlew
             cwd: azure-communication-ui/chat
             tasks: publishReleasePublicationToLocalDirectoryRepository
-            javaHomeSelection: Path
-            jdkUserInputPath: $(JDK_PATH)
 
         - task: MavenAuthenticate@0
           displayName: Maven Authenticate
@@ -160,8 +152,6 @@ extends:
             wrapperScript: azure-communication-ui/gradlew
             cwd: azure-communication-ui/calling
             tasks: publishReleasePublicationToCscRepository
-            javaHomeSelection: Path
-            jdkUserInputPath: $(JDK_PATH)
         - task: UniversalPackages@0
           displayName: Universal publish
           enabled: False
