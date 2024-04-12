@@ -143,6 +143,8 @@ extends:
             wrapperScript: azure-communication-ui/gradlew
             cwd: azure-communication-ui/chat
             tasks: publishReleasePublicationToLocalDirectoryRepository
+            javaHomeOption: 'JDKVersion'
+            jdkVersionOption: '1.11'
 
         - task: MavenAuthenticate@0
           displayName: Maven Authenticate
@@ -156,6 +158,8 @@ extends:
             wrapperScript: azure-communication-ui/gradlew
             cwd: azure-communication-ui/calling
             tasks: publishReleasePublicationToCscRepository
+            javaHomeOption: 'JDKVersion'
+            jdkVersionOption: '1.11'
         - task: UniversalPackages@0
           displayName: Universal publish
           enabled: False
