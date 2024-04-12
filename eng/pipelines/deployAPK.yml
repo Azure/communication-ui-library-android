@@ -4,7 +4,7 @@ resources:
   - repository: 1esPipelines
     type: git
     name: 1ESPipelineTemplates/1ESPipelineTemplates
-    ref: refs/tags/develop
+    ref: refs/tags/release
 extends:
   template: v1/1ES.Unofficial.PipelineTemplate.yml@1esPipelines
   parameters:
@@ -22,10 +22,10 @@ extends:
         displayName: Agent job 1
         templateContext:
           outputs:
-          - output: Publish Demo app
+          - output: pipelineArtifact
             targetPath: $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app/build/outputs/apk/$(build_variant)/release/demo-app-$(build_variant)-release.apk
             artifactName: $(build_variant) apk
-          - output: 'Publish $(build_variant): drop'
+          - output: pipelineArtifact
             targetPath: azure-communication-ui/$(build_variant)/build/publish/
             artifactName: $(build_variant) aar
         steps:
