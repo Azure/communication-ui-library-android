@@ -120,6 +120,8 @@ extends:
             cwd: azure-communication-ui
             tasks: ktlintCheck
             publishJUnitResults: false
+            javaHomeOption: 'JDKVersion'
+            jdkVersionOption: '1.11'
         - task: Gradle@3
           displayName: gradlew build
           inputs:
@@ -127,6 +129,8 @@ extends:
             cwd: azure-communication-ui
             tasks: build --stacktrace
             publishJUnitResults: false
+            javaHomeOption: 'JDKVersion'
+            jdkVersionOption: '1.11'
         - task: Gradle@3
           displayName: publish calling to local dir
           inputs:
