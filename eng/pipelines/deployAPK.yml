@@ -167,16 +167,16 @@ extends:
 
 
               cat "$(system.defaultWorkingDirectory)/azure-communication-ui/azure-communication-ui/src/main/res/values/azure_communication_ui_feature_flags.xml"
-        - task: Gradle@2
+        - task: Gradle@3
           displayName: gradlew ktlintCheck
           inputs:
             wrapperScript: azure-communication-ui/gradlew
             cwd: azure-communication-ui
             tasks: ktlintCheck
             publishJUnitResults: false
-            javaHomeSelection: Path
-            jdkUserInputPath: $(JDK_PATH)
-        - task: Gradle@2
+            javaHomeOption: 'JDKVersion'
+            jdkVersionOption: '1.11'
+        - task: Gradle@3
           displayName: gradlew assembleDebug --stacktrace
           enabled: False
           inputs:
@@ -184,9 +184,9 @@ extends:
             cwd: azure-communication-ui
             tasks: assembleDebug --stacktrace
             publishJUnitResults: false
-            javaHomeSelection: Path
-            jdkUserInputPath: $(JDK_PATH)
-        - task: Gradle@2
+            javaHomeOption: 'JDKVersion'
+            jdkVersionOption: '1.11'
+        - task: Gradle@3
           displayName: gradlew assemble$(build_variant) --stacktrace
           inputs:
             wrapperScript: azure-communication-ui/gradlew
@@ -194,17 +194,17 @@ extends:
             options: -PversionCode=$(Build.BuildId)
             tasks: assemble$(build_variant) --stacktrace
             publishJUnitResults: false
-            javaHomeSelection: Path
-            jdkUserInputPath: $(JDK_PATH)
-        - task: Gradle@2
+            javaHomeOption: 'JDKVersion'
+            jdkVersionOption: '1.11'
+        - task: Gradle@3
           displayName: publish $(build_variant) to local dir
           inputs:
             wrapperScript: azure-communication-ui/gradlew
             cwd: azure-communication-ui/$(build_variant)
             tasks: publishReleasePublicationToLocalDirectoryRepository
-            javaHomeSelection: Path
-            jdkUserInputPath: $(JDK_PATH)
-        - task: Gradle@2
+            javaHomeOption: 'JDKVersion'
+            jdkVersionOption: '1.11'
+        - task: Gradle@3
           displayName: gradlew test --stacktrace
           enabled: False
           inputs:
@@ -212,8 +212,8 @@ extends:
             cwd: azure-communication-ui
             tasks: test --stacktrace
             publishJUnitResults: false
-            javaHomeSelection: Path
-            jdkUserInputPath: $(JDK_PATH)
+            javaHomeOption: 'JDKVersion'
+            jdkVersionOption: '1.11'
         - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
           displayName: print release folder files
           inputs:
