@@ -137,6 +137,8 @@ extends:
             wrapperScript: azure-communication-ui/gradlew
             cwd: azure-communication-ui/calling
             tasks: publishReleasePublicationToLocalDirectoryRepository
+            javaHomeOption: 'JDKVersion'
+            jdkVersionOption: '1.11'
         - task: Gradle@3
           displayName: publish chat to local dir
           inputs:
