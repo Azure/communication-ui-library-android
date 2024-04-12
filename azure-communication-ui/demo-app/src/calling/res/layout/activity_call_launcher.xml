@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -36,20 +35,54 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="16dp">
-
             <RadioButton
                 android:id="@+id/groupCallRadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
                 android:checked="true"
+                android:layout_weight="1"
                 android:text="@string/group_call_label" />
 
             <RadioButton
                 android:id="@+id/teamsMeetingRadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:layout_marginStart="10dp"
                 android:text="@string/teams_meeting_label" />
+            <!-- <ROOMS_SUPPORT:0> -->
+            <RadioButton
+                android:id="@+id/roomsMeetingRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/rooms_meeting_label"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/presenterRoleRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="16dp"
+                android:text="@string/rooms_presenter"
+                android:visibility="gone"
+                />
+            <RadioButton
+                android:id="@+id/attendeeRoleRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="16dp"
+                android:text="@string/rooms_attendee"
+                android:visibility="gone"
+                />
+        <!-- </ROOMS_SUPPORT:0> -->
         </LinearLayout>
 
         <EditText
@@ -59,7 +92,8 @@
             android:layout_marginTop="16dp"
             android:ems="10"
             android:hint="@string/group_call_id_or_teams_meeting_hint"
-            android:inputType="textNoSuggestions" />
+            android:inputType="textNoSuggestions"
+            />
 
         <Button
             android:id="@+id/showCallHistoryButton"
