@@ -116,10 +116,12 @@ extends:
         - task: Gradle@2
           displayName: gradlew ktlintCheck
           inputs:
-            workingDirectory: 'azure-communication-ui'
-            gradleWrapperFile: 'azure-communication-ui/gradlew'
-            gradleOptions: '-Xmx3072m'
-            tasks: 'ktlintCheck'
+            wrapperScript: azure-communication-ui/gradlew
+            cwd: azure-communication-ui
+            tasks: ktlintCheck
+            publishJUnitResults: false
+            javaHomeSelection: Path
+            jdkUserInputPath: $(JDK_PATH）
         - task: Gradle@2
           displayName: gradlew build
           inputs:
