@@ -116,10 +116,10 @@ extends:
         - task: Gradle@2
           displayName: gradlew ktlintCheck
           inputs:
-            wrapperScript: azure-communication-ui/gradlew
-            cwd: azure-communication-ui
-            tasks: ktlintCheck
+            workingDirectory: 'azure-communication-ui'
+            gradleWrapperFile: 'azure-communication-ui/gradlew'
             gradleOptions: '-Xmx3072m'
+            tasks: 'ktlintCheck'
         - task: Gradle@2
           displayName: gradlew build
           inputs:
