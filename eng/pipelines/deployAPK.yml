@@ -26,6 +26,9 @@ extends:
       jobs:
       - job: Job_1
         displayName: Agent job 1
+        pool:
+            os: linux
+            name: ess-buster-a
         templateContext:
           outputs:
           - output: pipelineArtifact
@@ -34,9 +37,6 @@ extends:
           - output: pipelineArtifact
             targetPath: azure-communication-ui/$(build_variant)/build/publish/
             artifactName: $(build_variant) aar
-          pool:
-            os: linux
-            name: ess-buster-a
         steps:
         - checkout: self
           clean: true
