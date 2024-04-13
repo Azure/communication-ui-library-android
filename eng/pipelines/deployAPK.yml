@@ -5,6 +5,12 @@ resources:
     type: git
     name: 1ESPipelineTemplates/1ESPipelineTemplates
     ref: refs/tags/release
+parameters:
+- name: pools
+  type: object
+  default:
+  - name: vsts-mac-131-xcode-142 
+    os: macos
 extends:
   template: v1/1ES.Unofficial.PipelineTemplate.yml@1esPipelines
   parameters:
@@ -21,7 +27,8 @@ extends:
       - job: Job_1
         displayName: Agent job 1
         pool: 
-          name: ess-buster-a
+          os: macos
+          name: vsts-mac-131-xcode-142
         templateContext:
           outputs:
           - output: pipelineArtifact
