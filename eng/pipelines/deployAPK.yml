@@ -67,7 +67,7 @@ extends:
             SourceFolder: $(Agent.TempDirectory)
             Contents: '*.json'
             TargetFolder: $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app
-        - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
+        - task: ShellScript@2
           displayName: Shell Script
           inputs:
             type: InlineScript
@@ -146,7 +146,7 @@ extends:
               cat local.properties
 
               cd ..
-        - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
+        - task: ShellScript@2
           displayName: Set Environment Variables
           inputs:
             type: InlineScript
@@ -158,7 +158,7 @@ extends:
               export KEY_ALIAS="androiddebugkey"
 
               export KEY_PASSWORD="android"
-        - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
+        - task: ShellScript@2
           displayName: Add app host link
           inputs:
             type: InlineScript
@@ -166,7 +166,7 @@ extends:
               sed -i "s%https://test%$(DEEP_LINK_URL)%g" "$(system.defaultWorkingDirectory)/azure-communication-ui/demo-app/src/main/AndroidManifest.xml"
 
 
-        - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
+        - task: ShellScript@2
           displayName: Enable Features
           enabled: False
           inputs:
@@ -223,7 +223,7 @@ extends:
             publishJUnitResults: false
             javaHomeOption: 'JDKVersion'
             jdkVersionOption: '1.11'
-        - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
+        - task: ShellScript@2
           displayName: print release folder files
           inputs:
             type: InlineScript
