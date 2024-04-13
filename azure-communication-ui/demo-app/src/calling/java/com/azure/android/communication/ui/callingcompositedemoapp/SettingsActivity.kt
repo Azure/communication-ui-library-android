@@ -11,12 +11,10 @@ import android.widget.AutoCompleteTextView
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.google.android.material.textfield.TextInputLayout
-import java.util.Locale
 
 // Key for the SharedPrefs store that will be used for FeatureFlags
 const val SETTINGS_SHARED_PREFS = "Settings"
@@ -40,7 +38,6 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var micOnByDefaultCheckBox: CheckBox
     private lateinit var cameraOnByDefaultCheckBox: CheckBox
     private lateinit var endCallOnDefaultCheckBox: CheckBox
-    private lateinit var relaunchCompositeOnExitCheckbox: CheckBox
     private lateinit var supportedScreenOrientations: List<String>
     private lateinit var callScreenOrientationAdapterLayout: TextInputLayout
     private lateinit var setupScreenOrientationAdapterLayout: TextInputLayout
@@ -67,11 +64,6 @@ class SettingsActivity : AppCompatActivity() {
         supportedScreenOrientations = CallCompositeSupportedScreenOrientation.values().map {
             SettingsFeatures.displayOrientationName(it)
         }
-        setLanguageInSharedPrefForFirstTime()
-        setScreenOrientationInSharedPrefForFirstTime()
-        updateRenderedDisplayNameText()
-        updateTitle()
-        updateSubtitle()
     }
 
     override fun onResume() {
@@ -112,12 +104,14 @@ class SettingsActivity : AppCompatActivity() {
 
         updateAudioOnlyDefaultCheckbox()
 
-        relaunchCompositeOnExitCheckbox()
-
         updateEnableMultitaskingCheckbox()
         updateEnablePipMultitaskingCheckbox()
 
         saveRenderedDisplayName()
+
+        updateRenderedDisplayNameText()
+        updateTitle()
+        updateSubtitle()
 
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
             val selectedItem: String = supportedLanguages[position]
@@ -144,7 +138,7 @@ class SettingsActivity : AppCompatActivity() {
                         LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY +
                             sharedPreference.getString(
                                 LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
-                                DEFAULT_LANGUAGE_VALUE
+                                null,
                             ),
                         view.isChecked
                     ).apply()
@@ -176,12 +170,6 @@ class SettingsActivity : AppCompatActivity() {
                 R.id.composite_end_call_button_checkbox -> {
                     sharedPreference.edit().putBoolean(
                         END_CALL_ON_BY_DEFAULT_KEY,
-                        view.isChecked
-                    ).apply()
-                }
-                R.id.re_launch_on_exit_success -> {
-                    sharedPreference.edit().putBoolean(
-                        LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY,
                         view.isChecked
                     ).apply()
                 }
@@ -227,7 +215,6 @@ class SettingsActivity : AppCompatActivity() {
         callScreenOrientationAutoCompleteTextView = findViewById(R.id.call_screen_orientation_auto_complete_text_view)
         setupScreenOrientationAutoCompleteTextView = findViewById(R.id.setup_screen_orientation_auto_complete_text_view)
         endCallOnDefaultCheckBox = findViewById(R.id.composite_end_call_button_checkbox)
-        relaunchCompositeOnExitCheckbox = findViewById(R.id.re_launch_on_exit_success)
         callScreenOrientationAdapterLayout = findViewById(R.id.call_screen_orientation_adapter_layout)
         setupScreenOrientationAdapterLayout = findViewById(R.id.setup_screen_orientation_adapter_layout)
         callScreenOrientationAutoCompleteTextView = findViewById(R.id.call_screen_orientation_auto_complete_text_view)
@@ -235,16 +222,6 @@ class SettingsActivity : AppCompatActivity() {
         enableMultitaskingCheckbox = findViewById(R.id.multitasking_check_box)
         enablePipWhenMultitaskingCheckbox = findViewById(R.id.multitasking_pip_check_box)
         audioOnlyModeCheckBox = findViewById(R.id.audio_only_check_box)
-
-        renderDisplayNameTextView.addTextChangedListener {
-            saveRenderedDisplayName()
-        }
-        titleTextView.addTextChangedListener {
-            saveTitle()
-        }
-        subtitleTextView.addTextChangedListener {
-            saveSubtitle()
-        }
     }
 
     private fun updateRTLCheckbox() {
@@ -256,27 +233,14 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-    private fun setLanguageInSharedPrefForFirstTime() {
-        if (isFirstRun()) {
-            setLanguageValueInSharedPref(Locale.ENGLISH.displayName)
-        }
-    }
-
-    private fun setScreenOrientationInSharedPrefForFirstTime() {
-        if (isFirstRun()) {
-            saveCallScreenOrientationInSharedPref(DEFAULT_CALL_SCREEN_ORIENTATION_VALUE)
-            saveSetupScreenOrientationInSharedPref(DEFAULT_SETUP_SCREEN_ORIENTATION_VALUE)
-        }
-    }
-
     private fun setLanguageInAdapter() {
 
         autoCompleteTextView.setText(
             sharedPreference.getString(
                 LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
-                Locale.ENGLISH.displayName
+                LANGUAGE_IS_YET_TOBE_SET
             ),
-            true
+            true,
         )
         languageArrayAdapter.filter.filter(null)
     }
@@ -302,15 +266,6 @@ class SettingsActivity : AppCompatActivity() {
             true
         )
         setupScreenOrientationArrayAdapter.filter.filter(null)
-    }
-
-    private fun isFirstRun(): Boolean {
-        return sharedPreference.getString(
-            LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
-            LANGUAGE_IS_YET_TOBE_SET
-        ).equals(
-            LANGUAGE_IS_YET_TOBE_SET
-        )
     }
 
     private fun setLanguageValueInSharedPref(languageValue: String) {
@@ -398,13 +353,6 @@ class SettingsActivity : AppCompatActivity() {
         )
     }
 
-    private fun relaunchCompositeOnExitCheckbox() {
-        relaunchCompositeOnExitCheckbox.isChecked = sharedPreference.getBoolean(
-            LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY,
-            LAUNCH_ON_EXIT_ON_BY_DEFAULT_VALUE
-        )
-    }
-
     private fun updateEnableMultitaskingCheckbox() {
         enableMultitaskingCheckbox.isChecked = sharedPreference.getBoolean(
             ENABLE_MULTITASKING,
@@ -430,13 +378,13 @@ class SettingsActivity : AppCompatActivity() {
 // Shared pref Keys for language & rtl settings
 const val LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY = "LANGUAGE_ADAPTER_VALUE"
 const val LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY = "RTL_VALUE_OF_"
-const val LANGUAGE_IS_YET_TOBE_SET = "LANGUAGE_IS_YET_TOBE_SET"
+const val LANGUAGE_IS_YET_TOBE_SET = "Not selected"
 
 // Shared pref keys for screen orientation settings
 const val CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY = "CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY"
 const val SETUP_SCREEN_ORIENTATION_SHARED_PREF_KEY = "SETUP_SCREEN_ORIENTATION_SHARED_PREF_KEY"
-const val DEFAULT_CALL_SCREEN_ORIENTATION_VALUE = "ACS_DEFAULT"
-const val DEFAULT_SETUP_SCREEN_ORIENTATION_VALUE = "PORTRAIT"
+const val DEFAULT_CALL_SCREEN_ORIENTATION_VALUE = "Not selected"
+const val DEFAULT_SETUP_SCREEN_ORIENTATION_VALUE = "Not selected"
 
 // Shared pref default values for language & rtl settings
 const val DEFAULT_LANGUAGE_VALUE = "ENGLISH"
@@ -457,8 +405,6 @@ const val CAMERA_ON_BY_DEFAULT_KEY = "CAMERA_ON_BY_DEFAULT_KEY"
 const val DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE = false
 const val END_CALL_ON_BY_DEFAULT_KEY = "END_CALL_ON_BY_DEFAULT_KEY"
 const val DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE = false
-const val LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY = "LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY"
-const val LAUNCH_ON_EXIT_ON_BY_DEFAULT_VALUE = false
 const val AUDIO_ONLY_MODE_ON_BY_DEFAULT_KEY = "LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY"
 const val AUDIO_ONLY_MODE_ON_BY_DEFAULT_VALUE = false
 

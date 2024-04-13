@@ -25,7 +25,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.features.Addit
 import com.azure.android.communication.ui.callingcompositedemoapp.features.FeatureFlags
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.conditionallyRegisterDiagnostics
-import com.azure.android.communication.ui.callingcompositedemoapp.views.EndCompositeButtonView
+import com.azure.android.communication.ui.callingcompositedemoapp.views.DismissCompositeButtonView
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
@@ -45,6 +45,9 @@ class CallLauncherActivity : AppCompatActivity() {
             finish()
             return
         }
+
+        SettingsFeatures.initialize(applicationContext)
+
         if (!AppCenter.isConfigured() && !BuildConfig.DEBUG) {
             AppCenter.start(
                 application,
@@ -131,7 +134,7 @@ class CallLauncherActivity : AppCompatActivity() {
             showUIButton.setOnClickListener {
                 showUI()
             }
-            closeCompositeButton.setOnClickListener { callLauncherViewModel.close() }
+            closeCompositeButton.setOnClickListener { callLauncherViewModel.dismissCallComposite() }
 
             groupCallRadioButton.setOnClickListener {
                 if (groupCallRadioButton.isChecked) {
@@ -193,18 +196,7 @@ class CallLauncherActivity : AppCompatActivity() {
                         runOnUiThread {
                             if (it.isNotEmpty()) {
                                 callStateText.text = it
-                                EndCompositeButtonView.get(application).updateText(it)
-                            }
-                        }
-                    }
-                },
-                {
-                    callLauncherViewModel.callCompositeExitSuccessStateFlow.collect {
-                        runOnUiThread {
-                            if (it &&
-                                SettingsFeatures.getReLaunchOnExitByDefaultOption()
-                            ) {
-                                launch()
+                                DismissCompositeButtonView.get(application).updateText(it)
                             }
                         }
                     }
@@ -230,9 +222,8 @@ class CallLauncherActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        EndCompositeButtonView.get(this).hide()
-        EndCompositeButtonView.buttonView = null
-        callLauncherViewModel.unsubscribe()
+        DismissCompositeButtonView.get(this).hide()
+        DismissCompositeButtonView.buttonView = null
     }
 
     // check whether new Activity instance was brought to top of stack,
@@ -304,7 +295,7 @@ class CallLauncherActivity : AppCompatActivity() {
     }
 
     private fun showUI() {
-        callLauncherViewModel.displayCallCompositeIfWasHidden(this)
+        callLauncherViewModel.bringCallCompositeToForeground(this)
     }
 
     private fun showCallHistory() {
@@ -358,9 +349,9 @@ class CallLauncherActivity : AppCompatActivity() {
 
     private fun toggleEndCompositeButton() {
         if (!SettingsFeatures.getEndCallOnByDefaultOption()) {
-            EndCompositeButtonView.get(this).hide()
+            DismissCompositeButtonView.get(this).hide()
         } else {
-            EndCompositeButtonView.get(this).show(callLauncherViewModel)
+            DismissCompositeButtonView.get(this).show(callLauncherViewModel)
         }
     }
 }
