@@ -1,5 +1,46 @@
 /**
- * This script is used to manage feature flags in your project.
+ * # Feature Flag Management Script
+ *
+ * This script provides a robust solution for managing feature flags in your project. It leverages block comments in various languages to enable or disable flags.
+ *
+ * ## Supported Languages
+ * - Java
+ * - Kotlin
+ * - XML
+ * - Swift
+ *
+ * ## Key Concepts
+ * - A flag is defined by a start and end tag.
+ * - The start tag is "<FLAG_NAME>" and the end tag is "</FLAG_NAME>".
+ * - The flag is enabled when the start and end tags are closed.
+ * - The flag is disabled when the start and end tags are open.
+ *
+ * ## Usage
+ * Run `./gradlew flagHelp` in your terminal.
+ *
+ * ## Developer Tips
+ * ### Flag Formatting
+ * - Flags must start and end on their own line.
+ * - The flag name must match the regex [A-Z_]+. Lowercase, camelCase, and other formats are not supported.
+ * - Example: `<FLAG_NAME:10>`, where:
+ *   - `10` represents the lines of context to print above and below the flag. This aids in understanding the flag's context when printing.
+ *   - `FLAG_NAME` is the name of the flag.
+ *
+ * ### Flagging Code in an Existing Branch
+ * - Review the diff in GitHub and consider if you can better group or isolate the code.
+ * - Optionally refactor as necessary to minimize or group your changes.
+ * - Finish by reviewing the diff and flagging all the code.
+ *
+ * ### Flagging Fresh Code
+ * - Flag the code as you write it.
+ * - Validate with the flag disabled before committing.
+ * - Update `flag.lock` as necessary.
+ *
+ * ### Validating Flags
+ * 1. Run the demo with both enabled and disabled states.
+ * 2. Fix any ktLint/Checkstyle issues for the two variants.
+ * 3. Validate that `flag.lock` is as expected.
+ * 4. Commit and push.
  */
 
 import java.util.regex.Pattern
@@ -9,11 +50,15 @@ class FlagFileDefinition {
     String extension
     String startTag
     String endTag
+    String mutedStartTag
+    String mutedEndTag
 
-    FlagFileDefinition(String extension, String startTag, String endTag) {
+    FlagFileDefinition(String extension, String startTag, String endTag, String mutedStartTag, String mutedEndTag) {
         this.extension = extension
         this.startTag = startTag
         this.endTag = endTag
+        this.mutedStartTag = mutedStartTag
+        this.mutedEndTag = mutedEndTag
     }
 
     def isStartLine(String line) {
@@ -94,12 +139,11 @@ class FlagFileDefinition {
 }
 
 ext.flagFileDefinitions = [
-        new FlagFileDefinition('.kt', '/*', '*/'),
-        new FlagFileDefinition('.java', '/*', '*/'),
-        new FlagFileDefinition('.xml', '<!--', '-->')
+        new FlagFileDefinition('.kt', '/*', '*/', '!!!*', '*!!!'),
+        new FlagFileDefinition('.java', '/*', '*/', '!!!*', '*!!!'),
+        new FlagFileDefinition('.xml', '<!--', '-->', '!!!*', '*!!!'),
+        new FlagFileDefinition('.swift', '/*', '*/', '!!!*', '*!!!'),
 ]
-
-
 
 // An actual hit on a flag
 class FlagInstance {
@@ -108,6 +152,9 @@ class FlagInstance {
     final FlagFileDefinition ffd
     final int startLine
     final int endLine
+
+    static def osName = System.getProperty("os.name").toLowerCase()
+    static def platformLineEnding = osName.contains("win") ? "\r\n":"\n"
 
     FlagInstance(File file, List<String> fileContent, int startLine, int endLine, FlagFileDefinition ffd) {
         this.file = file
@@ -147,8 +194,14 @@ class FlagInstance {
         fileLines[startLine] = newStart
         fileLines[endLine] = newEnd
 
+        // Mute the internal block comments in the feature
+        for (int i=startLine+1;i<endLine;i++) {
+            fileLines[i] = fileLines[i].replace(ffd.startTag, ffd.mutedStartTag)
+                    .replace(ffd.endTag, ffd.mutedEndTag);
+        }
+
         // Write the updated lines back to the file
-        file.text = fileLines.join("\n")+"\n"
+        file.text = fileLines.join(platformLineEnding)+platformLineEnding
     }
 
     def enable() {
@@ -176,8 +229,14 @@ class FlagInstance {
         fileLines[startLine] = newStart
         fileLines[endLine] = newEnd
 
+        // Unmute the internal block comments in the feature
+        for (int i=startLine+1;i<endLine;i++) {
+            fileLines[i] = fileLines[i].replace(ffd.mutedStartTag, ffd.startTag)
+                    .replace(ffd.mutedEndTag, ffd.endTag);
+        }
+
         // Write the updated lines back to the file
-        file.text = fileLines.join("\n")+"\n"
+        file.text = fileLines.join(platformLineEnding)+platformLineEnding
     }
 
     def prepDelete() {
@@ -186,7 +245,7 @@ class FlagInstance {
         for (int i = startLine; i <= endLine; i++) {
             lines[i] = "DELETE_ME"
         }
-        file.text = lines.join("\n")+"\n"
+        file.text = lines.join(platformLineEnding)+platformLineEnding
     }
 
 
@@ -209,11 +268,15 @@ class FlagInstance {
         final printStart = startLine - flagContextTop
         final printEnd = endLine + flagContextBottom
 
-        String topContext = fileContent.subList(printStart, startLine).join("\n")
-        String content = "\n+"+fileContent.subList(startLine+1, endLine).join("\n+")
-        String bottomContext = "\n"+fileContent.subList(endLine+1, printEnd+1).join("\n")
+        String topContext = fileContent.subList(printStart, startLine).join(platformLineEnding)
+        String content = "\r\n+"+fileContent.subList(startLine+1, endLine).join("\r\n+")
+        String bottomContext = platformLineEnding+fileContent.subList(endLine+1, printEnd+1).join(platformLineEnding)
 
-        def output = file.name+"\n"+topContext + content + bottomContext+"\n"
+        def output = file.name+platformLineEnding+topContext + content + bottomContext+platformLineEnding
+        // Clean output of muted tags
+        output = output.replace(ffd.mutedStartTag, ffd.startTag)
+                .replace(ffd.mutedEndTag, ffd.endTag)
+
         println output
     }
 }
@@ -274,7 +337,7 @@ def purgeDeletions() {
         if (text.contains("DELETE_ME")) {
             def lines = file.readLines()
             def newLines = lines.findAll { line -> !line.contains("DELETE_ME") }
-            file.text = newLines.join("\n")+"\n"
+            file.text = newLines.join(platformLineEnding)+platformLineEnding
         }
     }
 }
@@ -369,7 +432,7 @@ tasks.register('flagLock') {
         // Write the lock file
         flagLockFile.withWriter { writer ->
             groupedFlags.each { flagName, flagInstances ->
-                writer.write("${flagName}=${flagInstances[0].isEnabled()}\n")
+                writer.write("${flagName}=${flagInstances[0].isEnabled()}\r\n")
             }
         }
     }
@@ -431,7 +494,7 @@ tasks.register('flagHelp') {
         def exampleFlag = flags.iterator().next().flagName()
 
         println "Usage: ./gradlew [listFlags|enableFlag|disableFlag|printFlag|flagLock|syncWithFlagLock|validateFlagLock] -PflagName=[flagName]"
-        println "\nCommands:"
+        println "\r\nCommands:"
         println "  listFlags: Lists all the feature flags in your project and their current status."
         println "  enableFlag -PflagName=[flagName]: Enables the specified feature flag."
         println "  disableFlag -PflagName=[flagName]: Disables the specified feature flag."
@@ -440,7 +503,7 @@ tasks.register('flagHelp') {
         println "  flagLock: Writes the current status of all flags to a lock file."
         println "  syncWithFlagLock: Syncs the status of all flags with the lock file."
         println "  validateFlagLock: Validates that the status of all flags matches the lock file."
-        println "\nExamples:"
+        println "\r\nExamples:"
         println "  ./gradlew listFlags"
         println "  ./gradlew enableFlag -PflagName=${exampleFlag}"
         println "  ./gradlew disableFlag -PflagName=${exampleFlag}"
