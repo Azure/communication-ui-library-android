@@ -63,12 +63,12 @@ extends:
           inputs:
             type: InlineScript
             script: >
-              mv $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app/google-services-acs-calling-ui-library-demo-app.json $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app/google-services.json
+              mv $(system.defaultWorkingDirectory)\azure-communication-ui\demo-app\google-services-acs-calling-ui-library-demo-app.json $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app/google-services.json
 
 
-              ls $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app
+              ls $(system.defaultWorkingDirectory)\azure-communication-ui\demo-app
 
-              echo '$(system.defaultWorkingDirectory)/azure-communication-ui/demo-app'
+              echo '$(system.defaultWorkingDirectory)\azure-communication-ui\demo-app'
         - task: UseDotNet@2
           displayName: Use .NET Core sdk 6.0.x
           inputs:
