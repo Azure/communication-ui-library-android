@@ -42,8 +42,9 @@
     <string name="debug">Debug</string>
     <string name="rendered_display_name">Rendered Display Name</string>
     <string name="local_avatar_injection">Local Avatar Injection</string>
-    <string name="remote_avatar_injection">Remote Avatar Injection</string>
+    <string name="remote_avatar_injection">Remote Participant Injections</string>
     <string name="remote_participant_inject_avatar">Inject avatar\'s</string>
+    <string name="remote_participant_inject_display_name">Add display name when avatar injected</string>
     <string name="call_title">Call title</string>
     <string name="call_subtitle">Call subtitle</string>
     <string name="rooms_meeting_label">Rooms</string>

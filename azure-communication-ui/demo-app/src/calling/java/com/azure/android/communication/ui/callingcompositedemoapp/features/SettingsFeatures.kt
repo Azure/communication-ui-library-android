@@ -5,33 +5,31 @@ package com.azure.android.communication.ui.callingcompositedemoapp.features
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.util.LayoutDirection
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
-import com.azure.android.communication.ui.callingcompositedemoapp.AUDIO_ONLY_MODE_ON_BY_DEFAULT_KEY
-import com.azure.android.communication.ui.callingcompositedemoapp.AUDIO_ONLY_MODE_ON_BY_DEFAULT_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.AUDIO_ONLY_MODE_ON
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_AUDIO_ONLY_MODE_ON
 import com.azure.android.communication.ui.callingcompositedemoapp.AVATAR_IMAGE
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SUBTITLE
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_TITLE
 import com.azure.android.communication.ui.callingcompositedemoapp.CAMERA_ON_BY_DEFAULT_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE
-import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.DISPLAY_DISMISS_BUTTON_KEY_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LANGUAGE_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_MIC_ON_BY_DEFAULT_VALUE
-import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.PERSONA_INJECTION_VALUE_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_RTL_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SKIP_SETUP_SCREEN_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.ENABLE_MULTITASKING
 import com.azure.android.communication.ui.callingcompositedemoapp.ENABLE_MULTITASKING_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.ENABLE_PIP_WHEN_MULTITASKING
 import com.azure.android.communication.ui.callingcompositedemoapp.ENABLE_PIP_WHEN_MULTITASKING_DEFAULT_VALUE
-import com.azure.android.communication.ui.callingcompositedemoapp.END_CALL_ON_BY_DEFAULT_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.DISPLAY_DISMISS_BUTTON_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.MIC_ON_BY_DEFAULT_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.PERSONA_INJECTION_DISPLAY_NAME_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.RENDERED_DISPLAY_NAME
 import com.azure.android.communication.ui.callingcompositedemoapp.SETTINGS_SHARED_PREFS
 import com.azure.android.communication.ui.callingcompositedemoapp.SETUP_SCREEN_ORIENTATION_SHARED_PREF_KEY
@@ -106,9 +104,12 @@ class SettingsFeatures {
             return displayName
         }
 
-        @JvmStatic
-        fun getRemoteParticipantPersonaInjectionSelection(): Boolean {
-            return sharedPrefs.getBoolean(DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY, false)
+        fun getInjectionAvatarForRemoteParticipantSelection(): Boolean {
+            return sharedPrefs.getBoolean(PERSONA_INJECTION_VALUE_PREF_KEY, false)
+        }
+
+        fun getInjectionDisplayNameRemoteParticipantSelection(): Boolean {
+            return sharedPrefs.getBoolean(PERSONA_INJECTION_DISPLAY_NAME_KEY, false)
         }
 
         fun getSkipSetupScreenFeatureOption(): Boolean? {
@@ -136,37 +137,21 @@ class SettingsFeatures {
         }
 
         fun getAudioOnlyByDefaultOption(): Boolean? {
-            return if (sharedPrefs.contains(AUDIO_ONLY_MODE_ON_BY_DEFAULT_KEY)) {
-                sharedPrefs.getBoolean(AUDIO_ONLY_MODE_ON_BY_DEFAULT_KEY, AUDIO_ONLY_MODE_ON_BY_DEFAULT_VALUE)
+            return if (sharedPrefs.contains(AUDIO_ONLY_MODE_ON)) {
+                sharedPrefs.getBoolean(AUDIO_ONLY_MODE_ON, DEFAULT_AUDIO_ONLY_MODE_ON)
             } else {
                 null
             }
         }
 
-        @JvmStatic
-        fun getEndCallOnByDefaultOption(): Boolean {
+        fun getDisplayDismissButtonOption(): Boolean {
             if (!this::sharedPrefs.isInitialized) return false
-            return sharedPrefs.getBoolean(END_CALL_ON_BY_DEFAULT_KEY, DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE)
+            return sharedPrefs.getBoolean(DISPLAY_DISMISS_BUTTON_KEY, DISPLAY_DISMISS_BUTTON_KEY_DEFAULT_VALUE)
         }
 
-        @JvmStatic
-        fun getParticipantViewData(context: Context): CallCompositeParticipantViewData? {
-            val displayName = sharedPrefs.getString(RENDERED_DISPLAY_NAME, "")
-            val avatarImageName = sharedPrefs.getString(AVATAR_IMAGE, "")
-            var avatarImageBitmap: Bitmap? = null
-            avatarImageName?.let {
-                if (it.isNotEmpty()) {
-                    avatarImageBitmap = BitmapFactory.decodeResource(context.resources, it.toInt())
-                }
-            }
+        fun getRenderedDisplayNameOption(): String? = sharedPrefs.getString(RENDERED_DISPLAY_NAME, null)
 
-            if (!displayName.isNullOrEmpty() || avatarImageBitmap != null)
-                return CallCompositeParticipantViewData()
-                    .setDisplayName(displayName)
-                    .setAvatarBitmap(avatarImageBitmap)
-
-            return null
-        }
+        fun getAvatarImageOption(): String? = sharedPrefs.getString(AVATAR_IMAGE, null)
 
         fun getTitle(): String? = sharedPrefs.getString(CALL_TITLE, null)
 

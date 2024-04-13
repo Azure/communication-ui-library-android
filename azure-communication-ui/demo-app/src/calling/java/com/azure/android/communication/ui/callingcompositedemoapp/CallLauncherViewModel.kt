@@ -5,6 +5,8 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.app.Application
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
@@ -23,6 +25,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeLocalizati
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions
 /* <ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 /* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 /* <ROOMS_SUPPORT:0> */
@@ -64,7 +67,7 @@ class CallLauncherViewModel : ViewModel() {
         // The handler needs the application context to manage notifications.
         userReportedIssueEventHandler.context = context.applicationContext as Application
 
-        if (SettingsFeatures.getEndCallOnByDefaultOption()) {
+        if (SettingsFeatures.getDisplayDismissButtonOption()) {
             DismissCompositeButtonView.get(context).show(this)
         } else {
             DismissCompositeButtonView.get(context).hide()
@@ -127,10 +130,25 @@ class CallLauncherViewModel : ViewModel() {
         val localOptions = CallCompositeLocalOptions()
         var isAnythingChanged = false
 
-        if (SettingsFeatures.getParticipantViewData(context.applicationContext) != null) {
-            localOptions.setParticipantViewData(SettingsFeatures.getParticipantViewData(context.applicationContext))
+        val renderedDisplayName = SettingsFeatures.getRenderedDisplayNameOption()
+        var avatarImageBitmap: Bitmap? = null
+        SettingsFeatures.getAvatarImageOption()?.let {
+            if (it.isNotEmpty()) {
+                avatarImageBitmap = BitmapFactory.decodeResource(context.resources, it.toInt())
+            }
+        }
+
+        if (renderedDisplayName != null || avatarImageBitmap != null) {
+            val participantViewData = CallCompositeParticipantViewData()
+            if (renderedDisplayName != null)
+                participantViewData.setDisplayName(renderedDisplayName)
+            if (avatarImageBitmap != null)
+                participantViewData.setAvatarBitmap(avatarImageBitmap)
+
+            localOptions.setParticipantViewData(participantViewData)
             isAnythingChanged = true
         }
+
         SettingsFeatures.getTitle()?.let { title ->
             val setupScreenViewData = CallCompositeSetupScreenViewData().setTitle(title)
             SettingsFeatures.getSubtitle()?.let { subTitle ->
@@ -173,9 +191,6 @@ class CallLauncherViewModel : ViewModel() {
         errorHandler = CallLauncherActivityErrorHandler(context, callComposite)
         callComposite.addOnErrorEventHandler(errorHandler)
 
-        remoteParticipantJoinedEvent = RemoteParticipantJoinedHandler(callComposite, context)
-        callComposite.addOnRemoteParticipantJoinedEventHandler(remoteParticipantJoinedEvent)
-
         callStateEventHandler = {
             callCompositeCallStateStateFlow.value = it.code.toString()
             toast(context, "Call State: ${it.code}.")
@@ -194,7 +209,7 @@ class CallLauncherViewModel : ViewModel() {
             toast(context, "isInPictureInPicture: " + it.isInPictureInPicture)
         }
 
-        if (SettingsFeatures.getRemoteParticipantPersonaInjectionSelection()) {
+        if (SettingsFeatures.getInjectionAvatarForRemoteParticipantSelection()) {
             callComposite.addOnRemoteParticipantJoinedEventHandler(
                 RemoteParticipantJoinedHandler(callComposite, context)
             )

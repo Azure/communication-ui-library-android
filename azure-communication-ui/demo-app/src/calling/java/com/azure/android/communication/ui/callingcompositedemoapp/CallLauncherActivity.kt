@@ -334,21 +334,21 @@ class CallLauncherActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        toggleEndCompositeButton()
+        toggleDismissCompositeButton()
     }
 
     override fun onStop() {
         super.onStop()
-        toggleEndCompositeButton()
+        toggleDismissCompositeButton()
     }
 
     override fun onResume() {
         super.onResume()
-        toggleEndCompositeButton()
+        toggleDismissCompositeButton()
     }
 
-    private fun toggleEndCompositeButton() {
-        if (!SettingsFeatures.getEndCallOnByDefaultOption()) {
+    private fun toggleDismissCompositeButton() {
+        if (!SettingsFeatures.getDisplayDismissButtonOption()) {
             DismissCompositeButtonView.get(this).hide()
         } else {
             DismissCompositeButtonView.get(this).show(callLauncherViewModel)

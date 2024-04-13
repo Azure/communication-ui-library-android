@@ -33,6 +33,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var titleTextView: TextView
     private lateinit var subtitleTextView: TextView
     private lateinit var remoteAvatarInjectionCheckBox: CheckBox
+    private lateinit var remoteDisplayInjectionCheckBox: CheckBox
     private lateinit var skipSetupScreenCheckBox: CheckBox
     private lateinit var audioOnlyModeCheckBox: CheckBox
     private lateinit var micOnByDefaultCheckBox: CheckBox
@@ -93,6 +94,7 @@ class SettingsActivity : AppCompatActivity() {
         updateRTLCheckbox()
 
         updateAvatarInjectionCheckbox()
+        updateDisplayNameInjectionCheckbox()
 
         updateSkipSetupScreenCheckbox()
 
@@ -145,7 +147,13 @@ class SettingsActivity : AppCompatActivity() {
                 }
                 R.id.remote_avatar_injection_check_box -> {
                     sharedPreference.edit().putBoolean(
-                        DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY,
+                        PERSONA_INJECTION_VALUE_PREF_KEY,
+                        view.isChecked
+                    ).apply()
+                }
+                R.id.remote_name_injection_check_box -> {
+                    sharedPreference.edit().putBoolean(
+                        PERSONA_INJECTION_DISPLAY_NAME_KEY,
                         view.isChecked
                     ).apply()
                 }
@@ -169,7 +177,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
                 R.id.composite_end_call_button_checkbox -> {
                     sharedPreference.edit().putBoolean(
-                        END_CALL_ON_BY_DEFAULT_KEY,
+                        DISPLAY_DISMISS_BUTTON_KEY,
                         view.isChecked
                     ).apply()
                 }
@@ -188,7 +196,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
                 R.id.audio_only_check_box -> {
                     sharedPreference.edit().putBoolean(
-                        AUDIO_ONLY_MODE_ON_BY_DEFAULT_KEY,
+                        AUDIO_ONLY_MODE_ON,
                         view.isChecked
                     ).apply()
                 }
@@ -202,6 +210,7 @@ class SettingsActivity : AppCompatActivity() {
         languageSettingLabelDivider = findViewById(R.id.language_setting_label_divider)
         isRTLCheckBox = findViewById(R.id.language_is_rtl_checkbox)
         remoteAvatarInjectionCheckBox = findViewById(R.id.remote_avatar_injection_check_box)
+        remoteDisplayInjectionCheckBox = findViewById(R.id.remote_name_injection_check_box)
         languageAdapterLayout = findViewById(R.id.language_adapter_layout)
         autoCompleteTextView = findViewById(R.id.auto_complete_text_view)
         renderDisplayNameTextView = findViewById(R.id.render_display_name)
@@ -320,8 +329,16 @@ class SettingsActivity : AppCompatActivity() {
     private fun updateAvatarInjectionCheckbox() {
         remoteAvatarInjectionCheckBox.isChecked =
             sharedPreference.getBoolean(
-                DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY,
+                PERSONA_INJECTION_VALUE_PREF_KEY,
                 REMOTE_PARTICIPANT_PERSONA_INJECTION_VALUE
+            )
+    }
+
+    private fun updateDisplayNameInjectionCheckbox() {
+        remoteDisplayInjectionCheckBox.isChecked =
+            sharedPreference.getBoolean(
+                PERSONA_INJECTION_DISPLAY_NAME_KEY,
+                DEFAULT_PERSONA_INJECTION_DISPLAY_NAME_KEY
             )
     }
 
@@ -348,8 +365,8 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun updateEndCallOnDefaultCheckBox() {
         endCallOnDefaultCheckBox.isChecked = sharedPreference.getBoolean(
-            END_CALL_ON_BY_DEFAULT_KEY,
-            DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE
+            DISPLAY_DISMISS_BUTTON_KEY,
+            DISPLAY_DISMISS_BUTTON_KEY_DEFAULT_VALUE
         )
     }
 
@@ -369,8 +386,8 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun updateAudioOnlyDefaultCheckbox() {
         audioOnlyModeCheckBox.isChecked = sharedPreference.getBoolean(
-            AUDIO_ONLY_MODE_ON_BY_DEFAULT_KEY,
-            AUDIO_ONLY_MODE_ON_BY_DEFAULT_VALUE
+            AUDIO_ONLY_MODE_ON,
+            DEFAULT_AUDIO_ONLY_MODE_ON
         )
     }
 }
@@ -393,8 +410,12 @@ const val DEFAULT_RTL_VALUE = false
 // Shared pref default values for persona data
 const val RENDERED_DISPLAY_NAME = "RENDERED_DISPLAY_NAME"
 const val AVATAR_IMAGE = "AVATAR_IMAGE"
-const val DEFAULT_PERSONA_INJECTION_VALUE_PREF_KEY = "PERSONA_INJECTION_VALUE_PREF_KEY"
+const val PERSONA_INJECTION_VALUE_PREF_KEY = "PERSONA_INJECTION_VALUE_PREF_KEY"
 const val REMOTE_PARTICIPANT_PERSONA_INJECTION_VALUE = false
+
+const val PERSONA_INJECTION_DISPLAY_NAME_KEY = "PERSONA_INJECTION_DISPLAY_NAME_KEY"
+const val DEFAULT_PERSONA_INJECTION_DISPLAY_NAME_KEY = false
+
 const val CALL_TITLE = "CALL_TITLE"
 const val CALL_SUBTITLE = "CALL_SUBTITLE"
 const val SKIP_SETUP_SCREEN_VALUE_KEY = "SKIP_SETUP_SCREEN_VALUE_KEY"
@@ -403,10 +424,10 @@ const val MIC_ON_BY_DEFAULT_KEY = "MIC_ON_BY_DEFAULT_KEY"
 const val DEFAULT_MIC_ON_BY_DEFAULT_VALUE = false
 const val CAMERA_ON_BY_DEFAULT_KEY = "CAMERA_ON_BY_DEFAULT_KEY"
 const val DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE = false
-const val END_CALL_ON_BY_DEFAULT_KEY = "END_CALL_ON_BY_DEFAULT_KEY"
-const val DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE = false
-const val AUDIO_ONLY_MODE_ON_BY_DEFAULT_KEY = "LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY"
-const val AUDIO_ONLY_MODE_ON_BY_DEFAULT_VALUE = false
+const val DISPLAY_DISMISS_BUTTON_KEY = "DISPLAY_DISMISS_BUTTON_KEY"
+const val DISPLAY_DISMISS_BUTTON_KEY_DEFAULT_VALUE = false
+const val AUDIO_ONLY_MODE_ON = "AUDIO_ONLY_MODE_ON"
+const val DEFAULT_AUDIO_ONLY_MODE_ON = false
 
 // Multitasking
 const val ENABLE_MULTITASKING = "ENABLE_MULTITASKING"
