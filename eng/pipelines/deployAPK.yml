@@ -200,7 +200,7 @@ extends:
           displayName: publish $(build_variant) to local dir
           inputs:
             wrapperScript: azure-communication-ui/gradlew
-            cwd: azure-communication-ui/${build_variant}
+            cwd: azure-communication-ui/$(build_variant)
             tasks: publishReleasePublicationToLocalDirectoryRepository
             javaHomeOption: 'JDKVersion'
             jdkVersionOption: '1.11'
@@ -218,7 +218,7 @@ extends:
           displayName: print release folder files
           inputs:
             type: InlineScript
-            script: ls $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app/build/outputs/apk/${build_variant}/release/
+            script: ls $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app/build/outputs/apk/$(build_variant)/release/
         - task: CmdLine@2
           displayName: ESRPSigningEnabled status
           condition: and(succeeded(), eq('false', 'true'))
