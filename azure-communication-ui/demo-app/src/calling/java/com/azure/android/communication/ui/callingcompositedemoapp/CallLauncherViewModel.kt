@@ -5,8 +5,6 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
@@ -22,17 +20,19 @@ import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocato
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions
+/* <ROOMS_SUPPORT:0> */
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
+/* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
+/* <ROOMS_SUPPORT:0> */
+import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator
+/* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.views.EndCompositeButtonView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
 import java.util.UUID
 
 class CallLauncherViewModel : ViewModel() {
@@ -45,28 +45,17 @@ class CallLauncherViewModel : ViewModel() {
     private var exitEventHandler: CallExitEventHandler? = null
     private var errorHandler: CallLauncherActivityErrorHandler? = null
     private var remoteParticipantJoinedEvent: RemoteParticipantJoinedHandler? = null
-    private var exitedCompositeToAcceptCall: Boolean = false
     private var callComposite: CallComposite? = null
-
-    fun destroy() {
-        unsubscribeFromEvents()
-        callComposite = null
-    }
-
-    fun onCompositeDismiss() {
-        unsubscribeFromEvents()
-        callComposite = null
-    }
-
-    companion object {
-        var callComposite: CallComposite? = null
-    }
 
     fun launch(
         context: Context,
         acsToken: String,
         displayName: String,
         groupId: UUID?,
+        /* <ROOMS_SUPPORT:5> */
+        roomId: String?,
+        roomRoleHint: CallCompositeParticipantRole?,
+        /* </ROOMS_SUPPORT:2> */
         meetingLink: String?,
     ) {
         // The handler needs the application context to manage notifications.
@@ -103,7 +92,11 @@ class CallLauncherViewModel : ViewModel() {
 
         val locator: CallCompositeJoinLocator =
             if (groupId != null) CallCompositeGroupCallLocator(groupId)
-            else CallCompositeTeamsMeetingLinkLocator(meetingLink)
+            else if (meetingLink != null) CallCompositeTeamsMeetingLinkLocator(meetingLink)
+            /* <ROOMS_SUPPORT:3> */
+            else if (roomId != null && roomRoleHint != null) CallCompositeRoomLocator(roomId)
+            /* </ROOMS_SUPPORT:1> */
+            else throw IllegalArgumentException("Cannot launch call composite with provided arguments.")
 
         val remoteOptions =
             CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
@@ -118,6 +111,9 @@ class CallLauncherViewModel : ViewModel() {
                     .setTitle(SettingsFeatures.getTitle())
                     .setSubtitle(SettingsFeatures.getSubtitle())
             )
+            /* <ROOMS_SUPPORT:7> */
+            .setRoleHint(roomRoleHint)
+            /* </ROOMS_SUPPORT:4> */
             .setSkipSetupScreen(SettingsFeatures.getSkipSetupScreenFeatureOption())
             .setAudioVideoMode(avMode)
             .setCameraOn(SettingsFeatures.getCameraOnByDefaultOption())
@@ -133,23 +129,6 @@ class CallLauncherViewModel : ViewModel() {
         isExitRequested = false
 
         callComposite.launch(context, remoteOptions, localOptions)
-    }
-
-    private fun displayDebugInfoIn20Seconds(context: Context) {
-        CoroutineScope(Dispatchers.Main).launch {
-            delay(20000)
-
-            callComposite?.getDebugInfo(context)?.let {
-                val result = """Calling UI Version: ${it.versions.azureCallingUILibrary}
-                        Calling SDK Version: ${it.versions.azureCallingLibrary}                    
-                        Call History (${it.callHistoryRecords.size}) 
-                        Log Files (${it.logFiles.size})"""
-                result.split("\n").map { line -> line.trim() }.forEach {
-                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-                    Log.i("ACSCallingUI", it)
-                }
-            }
-        }
     }
 
     private fun subscribeToEvents(context: Context) {
