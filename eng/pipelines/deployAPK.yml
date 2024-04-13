@@ -5,6 +5,12 @@ resources:
     type: git
     name: 1ESPipelineTemplates/1ESPipelineTemplates
     ref: refs/tags/release
+parameters:
+- name: pools
+  type: object
+  default:
+  - name: ess-buster-a
+    os: linux
 extends:
   template: v1/1ES.Unofficial.PipelineTemplate.yml@1esPipelines
   parameters:
@@ -28,6 +34,9 @@ extends:
           - output: pipelineArtifact
             targetPath: azure-communication-ui/$(build_variant)/build/publish/
             artifactName: $(build_variant) aar
+          pool:
+            os: linux
+            name: ess-buster-a
         steps:
         - checkout: self
           clean: true
