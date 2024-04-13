@@ -82,7 +82,7 @@ extends:
 
               export ANDROID_HOME=$PWD/android-sdk
 
-              export ANDROID_COMPILE_SDK="31"
+              export ANDROID_COMPILE_SDK="34"
 
               export ANDROID_BUILD_TOOLS="32.00"
 
