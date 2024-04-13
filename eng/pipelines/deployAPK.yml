@@ -20,6 +20,8 @@ extends:
       jobs:
       - job: Job_1
         displayName: Agent job 1
+        pool: 
+          name: ess-buster-a
         templateContext:
           outputs:
           - output: pipelineArtifact
@@ -42,7 +44,7 @@ extends:
           displayName: Download release certificate copy
           inputs:
             secureFile: 540d81b1-b671-4a7b-8f2b-8c557dbf93a4
-        - task: WindowsMachineFileCopy@2
+        - task: CopyFiles@2
           displayName: Copy cert to CallingCompositeDemoApp
           inputs:
             SourceFolder: $(Agent.TempDirectory)
@@ -52,7 +54,7 @@ extends:
           displayName: Download google-service.json
           inputs:
             secureFile: f456b0bd-423f-4152-8bba-76154ae01d82
-        - task: WindowsMachineFileCopy@2
+        - task: CopyFiles@2
           displayName: Copy google-services-acs-calling-ui-library-demo-app.json to demo app copy
           inputs:
             SourceFolder: $(Agent.TempDirectory)
