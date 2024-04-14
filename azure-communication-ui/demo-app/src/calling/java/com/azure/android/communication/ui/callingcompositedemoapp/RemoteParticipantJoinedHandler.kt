@@ -56,7 +56,6 @@ class RemoteParticipantJoinedHandler(
                         communicationIdentifier,
                         CallCompositeParticipantViewData().setAvatarBitmap(bitMap),
                     )
-
                 } catch (e: Exception) {
                 }
             }.start()
@@ -82,7 +81,6 @@ class RemoteParticipantJoinedHandler(
 
                     setRemoteParticipantViewData(communicationIdentifier, participantViewData)
                 }
-
             } catch (e: Exception) {
             }
         }.start()
