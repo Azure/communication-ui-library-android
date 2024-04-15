@@ -29,7 +29,7 @@ public final class CallCompositeBuilder {
     private CommunicationTokenCredential credential = null;;
     private String displayName = null;
     private Context context = null;
-    private CallCompositeTelecomManagerOptions telecomOptions = null;
+    private CallCompositeTelecomManagerOptions telecomManagerOptions = null;
     private CallCompositeCallScreenOptions callScreenOptions = null;
 
     /**
@@ -99,7 +99,7 @@ public final class CallCompositeBuilder {
      */
     public CallCompositeBuilder telecomManagerOptions(
             final CallCompositeTelecomManagerOptions telecomManagerOptions) {
-        this.telecomOptions = telecomManagerOptions;
+        this.telecomManagerOptions = telecomManagerOptions;
         return this;
     }
 
@@ -115,11 +115,42 @@ public final class CallCompositeBuilder {
     }
 
     /**
+     * Sets the application context.
+     *
+     * @param context application context.
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    public CallCompositeBuilder context(final Context context) {
+        this.context = context;
+        return this;
+    }
+
+    /**
+     * Sets the call screen options.
+     *
+     * @param callScreenOptions call screen options.
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    public CallCompositeBuilder callScreenOptions(final CallCompositeCallScreenOptions callScreenOptions) {
+        this.callScreenOptions = callScreenOptions;
+        return this;
+    }
+
+    /**
+     * Sets the credential.
+     *
+     * @param credential {@link CommunicationTokenCredential}.
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    public CallCompositeBuilder credential(final CommunicationTokenCredential credential) {
+        this.credential = credential;
+        return this;
+    }
+
+    /**
      * Builds the CallCompositeClass {@link CallComposite}.
-     * @deprecated Use {@link #build(Context, CommunicationTokenCredential)} instead.
      * @return {@link CallComposite}
      */
-    @Deprecated
     public CallComposite build() {
         final CallCompositeConfiguration config = new CallCompositeConfiguration();
         config.setThemeConfig(themeConfig);
@@ -132,37 +163,9 @@ public final class CallCompositeBuilder {
         config.setDisplayName(displayName);
         config.setContext(context);
         config.setCallScreenOptions(callScreenOptions);
-        return new CallComposite(config);
-    }
-
-    /**
-     * Builds the CallCompositeClass {@link CallComposite}.
-     *
-     * @param applicationContext The application context.
-     * @param credential The credential to be used for the call.
-     * @return {@link CallCompositeBuilder} for chaining options.
-     */
-    public CallComposite build(final Context applicationContext, final CommunicationTokenCredential credential) {
-        if (applicationContext == null) {
-            throw new NullPointerException("Application context cannot be null");
-        }
-        if (credential == null) {
-            throw new NullPointerException("CommunicationTokenCredential cannot be null");
-        }
-        this.credential = credential;
-        this.context = applicationContext;
-        final CallCompositeConfiguration config = new CallCompositeConfiguration();
-        config.setThemeConfig(themeConfig);
-        config.setLocalizationConfig(localizationConfig);
-        config.setEnableMultitasking(enableMultitasking);
-        config.setEnableSystemPiPWhenMultitasking(enableSystemPiPWhenMultitasking);
-        config.setCallScreenOrientation(this.callScreenOrientation);
-        config.setSetupScreenOrientation(this.setupScreenOrientation);
-        config.setTelecomManagerOptions(telecomOptions);
+        config.setTelecomManagerOptions(telecomManagerOptions);
         config.setCredential(credential);
-        config.setDisplayName(displayName);
         config.setContext(context);
-        config.setCallScreenOptions(callScreenOptions);
         return new CallComposite(config);
     }
 }
