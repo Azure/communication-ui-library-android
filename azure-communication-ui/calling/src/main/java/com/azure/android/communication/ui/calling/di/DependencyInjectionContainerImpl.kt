@@ -267,6 +267,7 @@ internal class DependencyInjectionContainerImpl(
                 callingSDKEventHandler,
                 configuration.callConfig,
                 CallingSDKInstanceManager.callingSDKCallAgentWrapper!!,
+                configuration.telecomOptions,
             )
     }
 

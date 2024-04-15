@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.calling;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation;
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomIntegration;
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions;
 
@@ -79,6 +80,14 @@ public final class CallCompositeBuilder {
      */
     public CallCompositeBuilder telecom(
             final CallCompositeTelecomOptions telecomOptions) {
+        if (telecomOptions != null
+                && telecomOptions.getTelecomIntegration()
+                == CallCompositeTelecomIntegration.USE_SDK_PROVIDED_TELECOM_MANAGER
+                && telecomOptions.getPhoneAccountId() == null) {
+            throw new CallCompositeException(
+                    "When TelecomManager integration is set to USE_SDK_PROVIDED_TELECOM_MANAGER,"
+                            + " PhoneAccountId has to set as well");
+        }
         this.telecomOptions = telecomOptions;
         return this;
     }

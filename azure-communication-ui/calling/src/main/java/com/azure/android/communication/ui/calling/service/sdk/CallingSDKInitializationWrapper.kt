@@ -10,9 +10,12 @@ import com.azure.android.communication.calling.CallClient
 import com.azure.android.communication.calling.CallClientOptions
 import com.azure.android.communication.calling.IncomingCall
 import com.azure.android.communication.calling.IncomingCallListener
+import com.azure.android.communication.calling.TelecomManagerOptions
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.calling.DiagnosticConfig
 import com.azure.android.communication.ui.calling.logger.Logger
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomIntegration
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomOptions
 import com.azure.android.communication.ui.calling.service.sdk.ext.setTags
 import java9.util.concurrent.CompletableFuture
 
@@ -37,13 +40,15 @@ internal class CallingSDKCallAgentWrapper(private val logger: Logger) {
         name: String,
         communicationTokenCredential: CommunicationTokenCredential,
         deviceRegistrationToken: String,
-        disableInternalPushForIncomingCall: Boolean
+        disableInternalPushForIncomingCall: Boolean,
+        telecomOptions: CallCompositeTelecomOptions?,
     ): java.util.concurrent.CompletableFuture<Void> {
         val completableFuture: java.util.concurrent.CompletableFuture<Void> =
             java.util.concurrent.CompletableFuture<Void>()
         createCallAgent(
             context, name, communicationTokenCredential,
-            disableInternalPushForIncomingCall
+            disableInternalPushForIncomingCall,
+            telecomOptions,
         ).whenComplete { callAgent, callAgentError ->
             if (callAgentError != null) {
                 completableFuture.completeExceptionally(callAgentError)
@@ -79,12 +84,24 @@ internal class CallingSDKCallAgentWrapper(private val logger: Logger) {
         context: Context,
         name: String,
         communicationTokenCredential: CommunicationTokenCredential,
-        disableInternalPushForIncomingCall: Boolean
+        disableInternalPushForIncomingCall: Boolean,
+        telecomOptions: CallCompositeTelecomOptions?,
     ): CompletableFuture<CallAgent> {
         if (callAgentCompletableFuture == null || callAgentCompletableFuture!!.isCompletedExceptionally) {
             callAgentCompletableFuture = CompletableFuture<CallAgent>()
             val options = CallAgentOptions().apply { displayName = name }
             options.isDisableInternalPushForIncomingCall = disableInternalPushForIncomingCall
+
+            telecomOptions?.let { it ->
+                if (telecomOptions.telecomIntegration == CallCompositeTelecomIntegration.USE_SDK_PROVIDED_TELECOM_MANAGER) {
+                    val telecomManagerOptions = TelecomManagerOptions(it.phoneAccountId)
+                    it.isResumeCallAutomatically?.let { resumeAutomatically ->
+                        telecomManagerOptions.isResumeCallAutomatically = resumeAutomatically
+                    }
+
+                    options.telecomManagerOptions = telecomManagerOptions
+                }
+            }
             try {
                 setupCall()?.whenComplete { callClient, callAgentError ->
                     if (callAgentError != null) {

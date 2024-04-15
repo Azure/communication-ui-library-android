@@ -59,6 +59,15 @@
             android:exported="false"
             />
 
+        <service
+            android:name="com.azure.android.communication.calling.TelecomConnectionService"
+            android:permission="android.permission.BIND_TELECOM_CONNECTION_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.telecom.ConnectionService" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

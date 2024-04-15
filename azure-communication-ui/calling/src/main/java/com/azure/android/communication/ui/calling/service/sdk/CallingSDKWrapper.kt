@@ -26,6 +26,7 @@ import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomOptions
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
@@ -43,7 +44,8 @@ internal class CallingSDKWrapper(
     private val context: Context,
     private val callingSDKEventHandler: CallingSDKEventHandler,
     private val callConfigInjected: CallConfiguration?,
-    private val callingSDKCallAgentWrapper: CallingSDKCallAgentWrapper
+    private val callingSDKCallAgentWrapper: CallingSDKCallAgentWrapper,
+    private val telecomOptions: CallCompositeTelecomOptions?,
 ) : CallingSDK {
     private var setupCallCompletableFuture: CompletableFuture<Void> = CompletableFuture()
 
@@ -382,7 +384,8 @@ internal class CallingSDKWrapper(
             context = context,
             name = callConfig.displayName,
             communicationTokenCredential = callConfig.communicationTokenCredential,
-            callConfig.disableInternalPushForIncomingCall
+            callConfig.disableInternalPushForIncomingCall,
+            telecomOptions,
         ).thenAccept { agent: CallAgent ->
             val audioOptions = OutgoingAudioOptions()
             audioOptions.isMuted = (audioState.operation != AudioOperationalStatus.ON)
@@ -576,7 +579,8 @@ internal class CallingSDKWrapper(
                 context = context,
                 name = callConfig.displayName,
                 communicationTokenCredential = callConfig.communicationTokenCredential,
-                callConfig.disableInternalPushForIncomingCall
+                callConfig.disableInternalPushForIncomingCall,
+                telecomOptions,
             ).thenAccept { agent: CallAgent ->
                 agent.registerPushNotification(deviceRegistrationToken)
                     .whenComplete { _, error: Throwable? ->

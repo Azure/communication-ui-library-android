@@ -12,6 +12,7 @@ import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEndedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomOptions
 import java.util.concurrent.CompletableFuture
 
 internal interface IncomingCallEvent {
@@ -90,15 +91,17 @@ internal class IncomingCallWrapper(
         context: Context,
         displayName: String,
         communicationTokenCredential: CommunicationTokenCredential,
-        pushNotificationInfo: Map<String, String>,
-        disableInternalPushForIncomingCall: Boolean
+        pushNotificationInfo: MutableMap<String, String>,
+        disableInternalPushForIncomingCall: Boolean,
+        telecomOptions: CallCompositeTelecomOptions?
     ): CompletableFuture<Void> {
         val completableFuture: CompletableFuture<Void> = CompletableFuture<Void>()
         callingSDKCallAgentWrapper.createCallAgent(
             context,
             displayName,
             communicationTokenCredential,
-            disableInternalPushForIncomingCall
+            disableInternalPushForIncomingCall,
+            telecomOptions,
         ).whenComplete { callAgent, callAgentError ->
             if (callAgentError != null) {
                 completableFuture.completeExceptionally(callAgentError)

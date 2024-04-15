@@ -682,11 +682,13 @@ public final class CallComposite {
                 null,
                 null,
                 options.getDisableInternalPushForIncomingCall()));
+
         return callAgentWrapper.registerPushNotification(context,
                 options.getDisplayName(),
                 options.getCredential(),
                 options.getDeviceRegistrationToken(),
-                options.getDisableInternalPushForIncomingCall());
+                options.getDisableInternalPushForIncomingCall(),
+                configuration.getTelecomOptions());
     }
 
     /**
@@ -827,7 +829,8 @@ public final class CallComposite {
                 remoteOptions.getDisplayName(),
                 remoteOptions.getCredential(),
                 pushNotificationInfo.getNotificationInfo(),
-                remoteOptions.getDisableInternalPushForIncomingCall());
+                remoteOptions.getDisableInternalPushForIncomingCall(),
+                configuration.getTelecomOptions());
     }
 
     private void initializeCallAgent() {

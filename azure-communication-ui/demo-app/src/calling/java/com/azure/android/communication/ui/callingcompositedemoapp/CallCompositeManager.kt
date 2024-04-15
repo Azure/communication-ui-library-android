@@ -282,6 +282,8 @@ class CallCompositeManager(private var applicationContext: Context?) : CallCompo
         if (SettingsFeatures.getTelecomManagerFeatureValue()) {
             val telecomOptions =
                 CallCompositeTelecomOptions(CallCompositeTelecomIntegration.APPLICATION_IMPLEMENTED_TELECOM_MANAGER)
+                    // use randomly generated guid as a phoneAccountId
+                    .setPhoneAccountId("029E5C6B-8F41-4C9F-8554-0D18DA11B2A7")
             callCompositeBuilder.telecom(telecomOptions)
         }
 
