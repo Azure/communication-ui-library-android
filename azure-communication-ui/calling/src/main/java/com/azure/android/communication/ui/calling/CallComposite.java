@@ -114,7 +114,7 @@ public final class CallComposite {
 
     /**
      * Launch composite to join a groupCall/TeamsMeeting.
-     * Build composite using {@link CallCompositeBuilder#build(Context, CommunicationTokenCredential)}}.
+     * Build {@link CallCompositeBuilder} using {@link CommunicationTokenCredential} and application {@link Context} .
      * @param activityContext   The android context used to start the Composite.
      * @param locator The {@link CallCompositeJoinLocator}.
      */
@@ -123,7 +123,7 @@ public final class CallComposite {
 
     /**
      * Launch composite to join a groupCall/TeamsMeeting with {@link CallCompositeLocalOptions}.
-     * Build composite using {@link CallCompositeBuilder#build(Context, CommunicationTokenCredential)}}.
+     * Build {@link CallCompositeBuilder} using {@link CommunicationTokenCredential} and application {@link Context} .
      * @param activityContext   The android context used to start the Composite.
      * @param locator The {@link CallCompositeJoinLocator}.
      * @param localOptions  The {@link CallCompositeLocalOptions} has local parameters to
@@ -137,7 +137,7 @@ public final class CallComposite {
 
     /**
      * Launch composite to dial participants.
-     * Build composite using {@link CallCompositeBuilder#build(Context, CommunicationTokenCredential)}}.
+     * Build {@link CallCompositeBuilder} using {@link CommunicationTokenCredential} and application {@link Context} .
      * @param activityContext   The android context used to start the Composite.
      * @param participants  The collection of {@link CommunicationIdentifier} to start the call.
      * @param localOptions  The {@link CallCompositeLocalOptions} has local parameters to
@@ -151,7 +151,7 @@ public final class CallComposite {
 
     /**
      * Launch composite to dial participants.
-     * Build composite using {@link CallCompositeBuilder#build(Context, CommunicationTokenCredential)}.
+     * Build {@link CallCompositeBuilder} using {@link CommunicationTokenCredential} and application {@link Context} .
      * @param activityContext   The android context used to start the Composite.
      * @param participants  The collection of {@link CommunicationIdentifier} to start the call.
      */
@@ -180,7 +180,7 @@ public final class CallComposite {
 
     /**
      * Handle incoming call push notification.
-     * Build composite using {@link CallCompositeBuilder#build(Context, CommunicationTokenCredential)}.
+     * Build {@link CallCompositeBuilder} using {@link CommunicationTokenCredential} and application {@link Context} .
      * @param pushNotification     The {@link CallCompositePushNotification}.
      * @return {@link CompletableFuture} of {@link Void}.
      */
@@ -224,33 +224,32 @@ public final class CallComposite {
 
     /**
      * Accept incoming call.
-     * Build composite using {@link CallCompositeBuilder#build(Context, CommunicationTokenCredential)}.
-     activityContext
+     * Build {@link CallCompositeBuilder} using {@link CommunicationTokenCredential} and application {@link Context} .
      * @param activityContext   The android context used to start the Composite.
-     * @param callId The call id.
+     * @param incomingCallId The call id.
      * @param localOptions The {@link CallCompositeLocalOptions}.
      */
-    public void acceptIncomingCall(final Context activityContext,
-                                   final String callId,
+    public void accept(final Context activityContext,
+                                   final String incomingCallId,
                                    final CallCompositeLocalOptions localOptions) {
     }
 
     /**
      * Accept incoming call.
-     * Build composite using {@link CallCompositeBuilder#build(Context, CommunicationTokenCredential)}.
+     * Build {@link CallCompositeBuilder} using {@link CommunicationTokenCredential} and application {@link Context} .
      * @param activityContext   The android context used to start the Composite.
-     * @param callId The call id.
+     * @param incomingCallId The call id.
      */
-    public void acceptIncomingCall(final Context activityContext,
-                                   final String callId) {
+    public void accept(final Context activityContext,
+                                   final String incomingCallId) {
     }
 
     /**
      * Reject incoming call.
-     * Build composite using {@link CallCompositeBuilder#build(Context, CommunicationTokenCredential)}.
-     * @param callId The call id.
+     * Build {@link CallCompositeBuilder} using {@link CommunicationTokenCredential} and application {@link Context} .
+     * @param incomingCallId The call id.
      */
-    public CompletableFuture<Void> rejectIncomingCall(final String callId)  {
+    public CompletableFuture<Void> reject(final String incomingCallId) {
         return null;
     }
 
@@ -386,7 +385,7 @@ public final class CallComposite {
 
     /**
      * RegisterPushNotification to receive incoming call notification.
-     * Build composite using {@link CallCompositeBuilder#build(Context, CommunicationTokenCredential)}.
+     * Build {@link CallCompositeBuilder} using {@link CommunicationTokenCredential} and application {@link Context} .
      * @param deviceRegistrationToken The device registration token.
      * @return {@link CompletableFuture} of {@link Void}.
      */
@@ -396,7 +395,7 @@ public final class CallComposite {
 
     /**
      * UnregisterPushNotification to stop receiving incoming call notification.
-     * Build composite using {@link CallCompositeBuilder#build(Context, CommunicationTokenCredential)}.
+     * Build {@link CallCompositeBuilder} using {@link CommunicationTokenCredential} and application {@link Context} .
      * @return {@link CompletableFuture} of {@link Void}.
      */
     public CompletableFuture<Void> unregisterPushNotification() {

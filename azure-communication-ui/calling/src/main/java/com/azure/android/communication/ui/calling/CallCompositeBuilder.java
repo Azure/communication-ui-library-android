@@ -151,7 +151,6 @@ public final class CallCompositeBuilder {
      * Builds the CallCompositeClass {@link CallComposite}.
      * @return {@link CallComposite}
      */
-    @Deprecated
     public CallComposite build() {
         final CallCompositeConfiguration config = new CallCompositeConfiguration();
         config.setThemeConfig(themeConfig);

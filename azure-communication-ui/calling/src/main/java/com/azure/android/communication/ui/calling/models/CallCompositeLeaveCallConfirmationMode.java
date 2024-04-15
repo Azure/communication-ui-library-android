@@ -11,7 +11,8 @@ import java.util.Collection;
  * Represents the leave call confirmation mode for a call composite.
  * This class defines the options for the leave call confirmation, such as enable or disable.
  */
-public final class CallCompositeLeaveCallConfirmationMode extends ExpandableStringEnum<CallCompositeLeaveCallConfirmationMode> {
+public final class CallCompositeLeaveCallConfirmationMode
+        extends ExpandableStringEnum<CallCompositeLeaveCallConfirmationMode> {
 
     /**
      * Enables the leave call confirmation.
