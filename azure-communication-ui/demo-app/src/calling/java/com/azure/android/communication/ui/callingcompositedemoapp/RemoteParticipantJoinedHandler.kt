@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.content.Context
 import android.graphics.BitmapFactory
+import android.util.Log
 import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.common.CommunicationUserIdentifier
 import com.azure.android.communication.common.MicrosoftTeamsUserIdentifier
@@ -15,6 +16,7 @@ import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import java.net.URL
 
 class RemoteParticipantJoinedHandler(
@@ -22,6 +24,7 @@ class RemoteParticipantJoinedHandler(
     private val context: Context,
 ) :
     CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent> {
+    private val tag = "RemoteParticipantJoined"
 
     override fun handle(event: CallCompositeRemoteParticipantJoinedEvent) {
         event.identifiers.forEach { communicationIdentifier ->
@@ -48,18 +51,11 @@ class RemoteParticipantJoinedHandler(
                         .filterNot { it == ":"[0] || it == "-"[0] }
                     val url = URL("$imageTestUrl$id.png")
                     val bitMap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
-                    val result = callComposite.setRemoteParticipantViewData(
+
+                    setRemoteParticipantViewData(
                         communicationIdentifier,
-                        CallCompositeParticipantViewData().setAvatarBitmap(bitMap)
+                        CallCompositeParticipantViewData().setAvatarBitmap(bitMap),
                     )
-
-                    if (result == CallCompositeSetParticipantViewDataResult.PARTICIPANT_NOT_IN_CALL) {
-                        // participant not in call
-                    }
-
-                    if (result == CallCompositeSetParticipantViewDataResult.SUCCESS) {
-                        // success
-                    }
                 } catch (e: Exception) {
                 }
             }.start()
@@ -69,52 +65,67 @@ class RemoteParticipantJoinedHandler(
     private fun selectRandomAvatar(communicationIdentifier: CommunicationIdentifier) {
         Thread {
             try {
-                val id = getRemoteParticipantId(communicationIdentifier)
-                val lastChar = id[id.length - 1]
+                getImage(communicationIdentifier)?.let { imageResourceId ->
+                    val bitMap =
+                        BitmapFactory.decodeResource(context.resources, imageResourceId)
 
-                // get last char of id
-                // if string then do nothing
-                // if from 0 to 5 pick in order from cat,fox,koala, monkey, mouse, octopus
-                if (lastChar.isDigit()) {
-                    val number = lastChar.toString().toInt()
-                    val images = listOf(
-                        R.drawable.image_cat,
-                        R.drawable.image_fox,
-                        R.drawable.image_koala,
-                        R.drawable.image_monkey,
-                        R.drawable.image_mouse,
-                        R.drawable.image_octopus,
-                        R.drawable.image_cat,
-                        R.drawable.image_fox,
-                        R.drawable.image_koala,
-                        R.drawable.image_monkey,
-                    )
-                    images[number].let {
-                        val bitMap =
-                            BitmapFactory.decodeResource(context.resources, it)
-                        val result = callComposite.setRemoteParticipantViewData(
-                            communicationIdentifier,
-                            CallCompositeParticipantViewData()
-                                .setDisplayName(
-                                    context.resources.getResourceEntryName(
-                                        it
-                                    )
-                                )
-                                .setAvatarBitmap(bitMap)
+                    val participantViewData = CallCompositeParticipantViewData()
+                        .setAvatarBitmap(bitMap)
+
+                    if (SettingsFeatures.getInjectionDisplayNameRemoteParticipantSelection()) {
+                        val displayName = context.resources.getResourceEntryName(
+                            imageResourceId
                         )
-
-                        if (result == CallCompositeSetParticipantViewDataResult.PARTICIPANT_NOT_IN_CALL) {
-                            // participant not in call
-                        }
-
-                        if (result == CallCompositeSetParticipantViewDataResult.SUCCESS) {
-                            // success
-                        }
+                        participantViewData.setDisplayName(displayName)
                     }
+
+                    setRemoteParticipantViewData(communicationIdentifier, participantViewData)
                 }
             } catch (e: Exception) {
             }
         }.start()
+    }
+
+    private fun setRemoteParticipantViewData(
+        communicationIdentifier: CommunicationIdentifier,
+        participantViewData: CallCompositeParticipantViewData,
+    ) {
+        val result = callComposite.setRemoteParticipantViewData(
+            communicationIdentifier,
+            participantViewData,
+        )
+
+        if (result == CallCompositeSetParticipantViewDataResult.PARTICIPANT_NOT_IN_CALL) {
+            // participant not in call
+            Log.i(tag, "setRemoteParticipantViewData: PARTICIPANT_NOT_IN_CALL")
+        }
+
+        if (result == CallCompositeSetParticipantViewDataResult.SUCCESS) {
+            // success
+            Log.i(tag, "setRemoteParticipantViewData SUCCESS")
+        }
+    }
+
+    private fun getImage(communicationIdentifier: CommunicationIdentifier): Int? {
+        val id = getRemoteParticipantId(communicationIdentifier)
+        val lastChar = id[id.length - 1]
+
+        if (!lastChar.isDigit()) return null
+
+        val number = lastChar.toString().toInt()
+        val images = listOf(
+            R.drawable.image_cat,
+            R.drawable.image_fox,
+            R.drawable.image_koala,
+            R.drawable.image_monkey,
+            R.drawable.image_mouse,
+            R.drawable.image_octopus,
+            R.drawable.image_cat,
+            R.drawable.image_fox,
+            R.drawable.image_koala,
+            R.drawable.image_monkey,
+        )
+        return images[number]
     }
 
     private fun getRemoteParticipantId(identifier: CommunicationIdentifier): String {
