@@ -115,9 +115,9 @@ public final class CallCompositeBuilder {
     }
 
     /**
-     * Sets the context.
+     * Sets the application context.
      *
-     * @param context context.
+     * @param context application context.
      * @return {@link CallCompositeBuilder} for chaining options.
      */
     public CallCompositeBuilder context(final Context context) {
