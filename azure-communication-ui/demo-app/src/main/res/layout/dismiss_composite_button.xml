@@ -3,6 +3,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:text="@string/exit_composite_button_text"
+    android:text="@string/dismiss_composite_button_text"
     android:visibility="gone"
     />
