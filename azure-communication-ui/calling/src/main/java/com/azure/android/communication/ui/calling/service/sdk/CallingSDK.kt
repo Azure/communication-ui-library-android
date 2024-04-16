@@ -79,6 +79,7 @@ internal interface CallingSDK {
     fun muteOutgoingAudio(): java.util.concurrent.CompletableFuture<Void>
     fun holdCall(): java.util.concurrent.CompletableFuture<Void>
     fun resumeCall(): java.util.concurrent.CompletableFuture<Void>
+    fun setTelecomManagerAudioRoute(audioRoute: Int)
 }
 
 internal interface RemoteParticipant {

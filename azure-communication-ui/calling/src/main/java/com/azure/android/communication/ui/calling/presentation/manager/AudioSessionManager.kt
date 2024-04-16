@@ -277,14 +277,12 @@ internal class AudioSessionManager(
         audioManager.stopBluetoothSco()
         audioManager.isBluetoothScoOn = false
         audioManager.isSpeakerphoneOn = true
-        notifyEventHandlerOnSelectionChange(CallCompositeAudioSelectionType.SPEAKER)
     }
 
     private fun enableEarpiece() {
         audioManager.stopBluetoothSco()
         audioManager.isBluetoothScoOn = false
         audioManager.isSpeakerphoneOn = false
-        notifyEventHandlerOnSelectionChange(CallCompositeAudioSelectionType.RECEIVER)
     }
 
     private fun enableBluetooth() {
@@ -293,7 +291,6 @@ internal class AudioSessionManager(
                 audioManager.startBluetoothSco()
                 audioManager.isBluetoothScoOn = true
                 audioManager.isSpeakerphoneOn = false
-                notifyEventHandlerOnSelectionChange(CallCompositeAudioSelectionType.BLUETOOTH)
             }
         } catch (exception: Exception) {
             revertToPreviousAudioDevice()

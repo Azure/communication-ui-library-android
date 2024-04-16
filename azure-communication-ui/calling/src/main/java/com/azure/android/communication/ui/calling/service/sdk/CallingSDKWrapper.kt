@@ -598,6 +598,10 @@ internal class CallingSDKWrapper(
         return result
     }
 
+    override fun setTelecomManagerAudioRoute(audioRoute: Int) {
+        call.setTelecomManagerAudioRoute(audioRoute)
+    }
+
     private fun joinCall(
         agent: CallAgent,
         audioOptions: OutgoingAudioOptions,

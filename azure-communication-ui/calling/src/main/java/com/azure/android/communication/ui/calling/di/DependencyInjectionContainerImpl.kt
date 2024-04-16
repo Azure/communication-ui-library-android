@@ -83,6 +83,7 @@ internal class DependencyInjectionContainerImpl(
         CallingMiddlewareActionHandlerImpl(
             callingService,
             coroutineContextProvider,
+            configuration,
         )
     }
 

@@ -279,4 +279,8 @@ internal class CallingService(
 
         return callingSdk.startCall(cameraState, audioState)
     }
+
+    fun setTelecomManagerAudioRoute(audioRoute: Int) {
+        callingSdk.setTelecomManagerAudioRoute(audioRoute)
+    }
 }
