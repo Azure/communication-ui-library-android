@@ -15,122 +15,86 @@ pr:
   - develop
   - release/*
 
-pool:
-  vmImage: 'macos-latest'
+# The `resources` specify the location and version of the 1ES PT.
+resources:
+  repositories:
+  - repository: 1esPipelines
+    type: git
+    name: 1ESPipelineTemplates/1ESPipelineTemplates
+    ref: refs/tags/release
 
-steps:
-- task: servicetree-link-build-task@1
-  displayName: 'ServiceTree Integration'
-  inputs:
-    ServiceTreeGateway: 'ServiceTree Gateway'
-    Service: 'e312ec77-9c77-48a7-9837-32fe6d08d460'
-    BuildOutputUsage: 'test'
+extends:
 
-- task: Shellpp@0
-  displayName: 'Private aad feed settings'
-  inputs:
-    type: InlineScript
-    script: |
-     cd azure-communication-ui
-     echo MAVEN_REPO_NAME=$(MAVEN_REPO_NAME) >> local.properties
-     echo MAVEN_REPO_USERNAME=$(MAVEN_REPO_USERNAME) >> local.properties
-     echo MAVEN_REPO_URL=$(MAVEN_REPO_URL) >> local.properties
-     echo MAVEN_REPO_KEY=$(MAVEN_REPO_KEY) >> local.properties
-     cd ..
-
-# By default, JAVA_HOME points to java1.8, but we need java11 for the current Android Gradle plugin.
-# macos-12 image comes iwth java11 preinstalled, so use that instead.
-- task: JavaToolInstaller@0
-  displayName: 'Configure Java 11'
-  inputs:
-    versionSpec: '11'
-    jdkArchitectureOption: 'x64'
-    jdkSourceOption: 'PreInstalled'
-
-- task: DownloadSecureFile@1
-  displayName: 'Download google-service.json'
-  inputs:
-    secureFile: 'google-services-acs-calling-ui-library-demo-app.json'
-
-- task: CopyFiles@2
-  displayName: 'Copy google-services-acs-calling-ui-library-demo-app.json to demo app copy'
-  inputs:
-    SourceFolder: '$(Agent.TempDirectory)'
-    Contents: '*.json'
-    TargetFolder: '$(system.defaultWorkingDirectory)/azure-communication-ui/demo-app'
-
-- task: Shellpp@0
-  displayName: 'Rename google service'
-  inputs:
-    type: InlineScript
-    script: |
-     mv $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app/google-services-acs-calling-ui-library-demo-app.json $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app/google-services.json
-
-# Run linters first to fail quickly on code style issues.
-- task: Gradle@2
-  displayName: 'ktlintCheck'
-  inputs:
-    workingDirectory: 'azure-communication-ui'
-    gradleWrapperFile: 'azure-communication-ui/gradlew'
-    gradleOptions: '-Xmx3072m'
-    tasks: 'ktlintCheck'
-
-- task: Gradle@2
-  displayName: 'build all'
-  inputs:
-    workingDirectory: 'azure-communication-ui/calling'
-    gradleWrapperFile: 'azure-communication-ui/gradlew'
-    gradleOptions: '-Xmx3072m'
-    publishJUnitResults: false
-    tasks: 'build --stacktrace'
-
-# Build task runs assemble and test for all variants.
-# For now, avoid doing this for 'demo-app' - it'll need to be signed, etc.
-# For the demo-app, we'll just verify that we can assemble it.
-- task: Gradle@2
-  displayName: 'calling compile, lint, test'
-  inputs:
-    workingDirectory: 'azure-communication-ui/calling'
-    gradleWrapperFile: 'azure-communication-ui/gradlew'
-    gradleOptions: '-Xmx3072m'
-    publishJUnitResults: false
-    tasks: ':calling:build --stacktrace'
-
-- task: Gradle@2
-  displayName: 'chat compile, lint, test'
-  inputs:
-    workingDirectory: 'azure-communication-ui'
-    gradleWrapperFile: 'azure-communication-ui/gradlew'
-    gradleOptions: '-Xmx3072m'
-    publishJUnitResults: true
-    testResultsFiles: '**/TEST-*.xml'
-    tasks: ':chat:build --stacktrace'
-
-- task: Gradle@2
-  displayName: 'build (compile, lint, test)'
-  inputs:
-    workingDirectory: 'azure-communication-ui'
-    gradleWrapperFile: 'azure-communication-ui/gradlew'
-    gradleOptions: '-Xmx3072m'
-    publishJUnitResults: false
-    tasks: 'build --stacktrace'
-
-- task: Gradle@2
-  displayName: 'Coverage report for all packages'
-  inputs:
-    workingDirectory: 'azure-communication-ui'
-    gradleWrapperFile: 'azure-communication-ui/gradlew'
-    gradleOptions: '-Xmx3072m'
-    publishJUnitResults: false
-    tasks: ':combinedCoverageReport'
-
-- task: PublishCodeCoverageResults@1
-  displayName: 'Calling - Publish code coverage report'
-  inputs:
-    summaryFileLocation: $(System.DefaultWorkingDirectory)/azure-communication-ui/build/reports/coverage/test/debug/report.xml
-    reportDirectory: $(System.DefaultWorkingDirectory)/azure-communication-ui/build/reports/coverage/test/debug
-    
-- task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
-  displayName: 'Component Detection'
-    
-
+  template: v1/1ES.Unofficial.PipelineTemplate.yml@1esPipelines
+  parameters:
+    pool:
+      os: windows
+      image: windows-2022
+      name: Azure-Pipelines-1ESPT-ExDShared
+    sdl:
+      suppression:
+        suppressionFile: $(Build.SourcesDirectory)\guardian\SDL\.gdnsuppress
+    stages:
+    - stage: Stage
+      jobs:
+        - job: Job
+          steps:
+          - task: servicetree-link-build-task@1
+            displayName: 'ServiceTree Integration'
+            inputs:
+              ServiceTreeGateway: 'ServiceTree Gateway'
+              Service: 'e312ec77-9c77-48a7-9837-32fe6d08d460'
+              BuildOutputUsage: 'test'
+          - task: JavaToolInstaller@0
+            displayName: 'Configure Java 11'
+            inputs:
+              versionSpec: '11'
+              jdkArchitectureOption: 'x64'
+              jdkSourceOption: 'PreInstalled'
+          - task: Gradle@2
+            displayName: 'ktlintCheck'
+            inputs:
+              workingDirectory: 'azure-communication-ui'
+              gradleWrapperFile: 'azure-communication-ui/gradlew'
+              gradleOptions: '-Xmx3072m'
+              tasks: 'ktlintCheck'
+          - task: Gradle@2
+            displayName: 'calling compile, lint, test'
+            inputs:
+              workingDirectory: 'azure-communication-ui/calling'
+              gradleWrapperFile: 'azure-communication-ui/gradlew'
+              gradleOptions: '-Xmx3072m'
+              publishJUnitResults: false
+              tasks: ':calling:build --stacktrace'
+          - task: Gradle@2
+            displayName: 'chat compile, lint, test'
+            inputs:
+              workingDirectory: 'azure-communication-ui'
+              gradleWrapperFile: 'azure-communication-ui/gradlew'
+              gradleOptions: '-Xmx3072m'
+              publishJUnitResults: true
+              testResultsFiles: '**/TEST-*.xml'
+              tasks: ':chat:build --stacktrace'
+          - task: Gradle@2
+            displayName: 'build (compile, lint, test)'
+            inputs:
+              workingDirectory: 'azure-communication-ui'
+              gradleWrapperFile: 'azure-communication-ui/gradlew'
+              gradleOptions: '-Xmx3072m'
+              publishJUnitResults: false
+              tasks: 'build --stacktrace'
+          - task: Gradle@2
+            displayName: 'Coverage report for all packages'
+            inputs:
+              workingDirectory: 'azure-communication-ui'
+              gradleWrapperFile: 'azure-communication-ui/gradlew'
+              gradleOptions: '-Xmx3072m'
+              publishJUnitResults: false
+              tasks: ':combinedCoverageReport'
+          - task: PublishCodeCoverageResults@2
+            displayName: 'Calling - Publish code coverage report'
+            inputs:
+              summaryFileLocation: $(System.DefaultWorkingDirectory)/azure-communication-ui/build/reports/coverage/test/debug/report.xml
+              reportDirectory: $(System.DefaultWorkingDirectory)/azure-communication-ui/build/reports/coverage/test/debug
+          - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
+            displayName: 'Component Detection'
