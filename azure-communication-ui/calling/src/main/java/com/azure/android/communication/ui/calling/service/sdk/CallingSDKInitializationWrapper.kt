@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.service.sdk
 
 import android.content.Context
+import android.os.Build
 import com.azure.android.communication.calling.CallAgent
 import com.azure.android.communication.calling.CallAgentOptions
 import com.azure.android.communication.calling.CallClient
@@ -99,7 +100,9 @@ internal class CallingSDKCallAgentWrapper(private val logger: Logger) {
                         telecomManagerOptions.isResumeCallAutomatically = resumeAutomatically
                     }
 
-                    options.telecomManagerOptions = telecomManagerOptions
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                        options.telecomManagerOptions = telecomManagerOptions
+                    }
                 }
             }
             try {
