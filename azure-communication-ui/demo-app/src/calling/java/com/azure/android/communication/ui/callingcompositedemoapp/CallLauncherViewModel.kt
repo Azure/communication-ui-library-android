@@ -42,12 +42,6 @@ import java.util.UUID
 class CallLauncherViewModel : ViewModel() {
     val callCompositeCallStateStateFlow = MutableStateFlow("")
     val callCompositeExitSuccessStateFlow = MutableStateFlow(false)
-    val userReportedIssueEventHandler: UserReportedIssueHandler = UserReportedIssueHandler()
-
-    private var callStateEventHandler: ((CallCompositeCallStateChangedEvent) -> Unit)? = null
-    private var onDismissedEventHandler: ((CallCompositeDismissedEvent) -> Unit)? = null
-    private var errorHandler: CallLauncherActivityErrorHandler? = null
-    private var remoteParticipantJoinedEvent: RemoteParticipantJoinedHandler? = null
 
     companion object {
         private var callComposite: CallComposite? = null
@@ -64,9 +58,6 @@ class CallLauncherViewModel : ViewModel() {
         /* </ROOMS_SUPPORT:2> */
         meetingLink: String?,
     ) {
-        // The handler needs the application context to manage notifications.
-        userReportedIssueEventHandler.context = context.applicationContext as Application
-
         if (SettingsFeatures.getDisplayDismissButtonOption()) {
             DismissCompositeButtonView.get(context).show(this)
         } else {
@@ -138,7 +129,7 @@ class CallLauncherViewModel : ViewModel() {
             }
         }
 
-        if (renderedDisplayName != null || avatarImageBitmap != null) {
+        if (!renderedDisplayName.isNullOrEmpty() || avatarImageBitmap != null) {
             val participantViewData = CallCompositeParticipantViewData()
             if (renderedDisplayName != null)
                 participantViewData.setDisplayName(renderedDisplayName)
@@ -150,13 +141,17 @@ class CallLauncherViewModel : ViewModel() {
         }
 
         SettingsFeatures.getTitle()?.let { title ->
-            val setupScreenViewData = CallCompositeSetupScreenViewData().setTitle(title)
-            SettingsFeatures.getSubtitle()?.let { subTitle ->
-                setupScreenViewData.setSubtitle(subTitle)
-            }
+            if (title.isNotEmpty()) {
+                val setupScreenViewData = CallCompositeSetupScreenViewData().setTitle(title)
+                SettingsFeatures.getSubtitle()?.let { subTitle ->
+                    if (subTitle.isNotEmpty()) {
+                        setupScreenViewData.setSubtitle(subTitle)
+                    }
+                }
 
-            localOptions.setSetupScreenViewData(setupScreenViewData)
-            isAnythingChanged = true
+                localOptions.setSetupScreenViewData(setupScreenViewData)
+                isAnythingChanged = true
+            }
         }
         SettingsFeatures.getSkipSetupScreenFeatureOption()?.let {
             localOptions.setSkipSetupScreen(it)
@@ -188,18 +183,21 @@ class CallLauncherViewModel : ViewModel() {
         context: Context,
         callComposite: CallComposite,
     ) {
-        errorHandler = CallLauncherActivityErrorHandler(context, callComposite)
-        callComposite.addOnErrorEventHandler(errorHandler)
+        callComposite.addOnErrorEventHandler(CallLauncherActivityErrorHandler(context, callComposite))
 
-        callStateEventHandler = {
+        val callStateEventHandler: ((CallCompositeCallStateChangedEvent) -> Unit) = {
             callCompositeCallStateStateFlow.value = it.code.toString()
             toast(context, "Call State: ${it.code}.")
         }
 
         callComposite.addOnCallStateChangedEventHandler(callStateEventHandler)
-        callComposite.addOnUserReportedEventHandler(userReportedIssueEventHandler)
 
-        onDismissedEventHandler = {
+        callComposite.addOnUserReportedEventHandler {
+            toast(context, "onUserReportedEvent: ${it.userMessage}")
+        }
+        callComposite.addOnUserReportedEventHandler(UserReportedIssueHandler(context.applicationContext as Application))
+
+        val onDismissedEventHandler: ((CallCompositeDismissedEvent) -> Unit) = {
             toast(context, "onDismissed: errorCode: ${it.errorCode}, cause: ${it.cause?.message}.")
             CallLauncherViewModel.callComposite = null
         }
@@ -207,6 +205,10 @@ class CallLauncherViewModel : ViewModel() {
 
         callComposite.addOnPictureInPictureChangedEventHandler {
             toast(context, "isInPictureInPicture: " + it.isInPictureInPicture)
+        }
+
+        callComposite.addOnRemoteParticipantJoinedEventHandler {
+            toast(context, message = "Joined ${it.identifiers.count()} remote participants")
         }
 
         if (SettingsFeatures.getInjectionAvatarForRemoteParticipantSelection()) {

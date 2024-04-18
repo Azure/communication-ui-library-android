@@ -14,7 +14,6 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallHistor
 import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import okhttp3.Call
 import okhttp3.Callback
@@ -34,12 +33,9 @@ import java.io.IOException
  * The class demonstrates how to send diagnostic information to a server endpoint for support purposes and
  * how to provide user feedback through notifications.
  */
-class UserReportedIssueHandler : CallCompositeEventHandler<CallCompositeUserReportedIssueEvent> {
-    // Flow to observe user reported issues.
-    val userIssuesFlow = MutableStateFlow<CallCompositeUserReportedIssueEvent?>(null)
-
-    // Reference to the application context, used to display notifications.
-    lateinit var context: Application
+class UserReportedIssueHandler(
+    private val context: Application,
+) : CallCompositeEventHandler<CallCompositeUserReportedIssueEvent> {
 
     // Lazy initialization of the NotificationManagerCompat for managing notifications.
     private val notificationManager by lazy { NotificationManagerCompat.from(context) }
@@ -52,7 +48,6 @@ class UserReportedIssueHandler : CallCompositeEventHandler<CallCompositeUserRepo
      */
     override fun handle(eventData: CallCompositeUserReportedIssueEvent?) {
         createNotificationChannel()
-        userIssuesFlow.value = eventData
         eventData?.apply {
             sendToServer(
                 userMessage,
