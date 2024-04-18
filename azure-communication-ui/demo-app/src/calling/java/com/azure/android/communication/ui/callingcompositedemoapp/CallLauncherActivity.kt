@@ -201,15 +201,6 @@ class CallLauncherActivity : AppCompatActivity() {
                         }
                     }
                 },
-                {
-                    callLauncherViewModel.userReportedIssueEventHandler.userIssuesFlow.collect {
-                        runOnUiThread {
-                            it?.apply {
-                                showAlert(this.userMessage)
-                            }
-                        }
-                    }
-                },
             )
 
             if (BuildConfig.DEBUG) {
