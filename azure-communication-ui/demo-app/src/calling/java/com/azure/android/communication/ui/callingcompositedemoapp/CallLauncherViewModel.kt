@@ -138,7 +138,7 @@ class CallLauncherViewModel : ViewModel() {
             }
         }
 
-        if (renderedDisplayName != null || avatarImageBitmap != null) {
+        if (!renderedDisplayName.isNullOrEmpty() || avatarImageBitmap != null) {
             val participantViewData = CallCompositeParticipantViewData()
             if (renderedDisplayName != null)
                 participantViewData.setDisplayName(renderedDisplayName)
@@ -150,13 +150,17 @@ class CallLauncherViewModel : ViewModel() {
         }
 
         SettingsFeatures.getTitle()?.let { title ->
-            val setupScreenViewData = CallCompositeSetupScreenViewData().setTitle(title)
-            SettingsFeatures.getSubtitle()?.let { subTitle ->
-                setupScreenViewData.setSubtitle(subTitle)
-            }
+            if (title.isNotEmpty()) {
+                val setupScreenViewData = CallCompositeSetupScreenViewData().setTitle(title)
+                SettingsFeatures.getSubtitle()?.let { subTitle ->
+                    if (subTitle.isNotEmpty()) {
+                        setupScreenViewData.setSubtitle(subTitle)
+                    }
+                }
 
-            localOptions.setSetupScreenViewData(setupScreenViewData)
-            isAnythingChanged = true
+                localOptions.setSetupScreenViewData(setupScreenViewData)
+                isAnythingChanged = true
+            }
         }
         SettingsFeatures.getSkipSetupScreenFeatureOption()?.let {
             localOptions.setSkipSetupScreen(it)
