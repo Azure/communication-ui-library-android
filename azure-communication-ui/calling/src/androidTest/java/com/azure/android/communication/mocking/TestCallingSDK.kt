@@ -11,6 +11,8 @@ import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.PropertyChangedListener
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsData
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsType
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
@@ -439,6 +441,54 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
             modifiedTimestamp = System.currentTimeMillis(),
             isCameraDisabled = false
         )
+    }
+
+    override fun startCaptions(spokenLanguage: String): CompletableFuture<Void> {
+        return completedNullFuture()
+    }
+
+    override fun stopCaptions(): CompletableFuture<Void> {
+        return completedNullFuture()
+    }
+
+    override fun setCaptionsSpokenLanguage(language: String): CompletableFuture<Void> {
+        return completedNullFuture()
+    }
+
+    override fun setCaptionsCaptionLanguage(language: String): CompletableFuture<Void> {
+        return completedNullFuture()
+    }
+
+    override fun getCaptionsSupportedSpokenLanguagesSharedFlow(): SharedFlow<List<String>> {
+        return MutableSharedFlow()
+    }
+
+    override fun getCaptionsSupportedCaptionLanguagesSharedFlow(): SharedFlow<List<String>> {
+        return MutableSharedFlow()
+    }
+
+    override fun getIsCaptionsTranslationSupportedSharedFlow(): SharedFlow<Boolean> {
+        return MutableSharedFlow()
+    }
+
+    override fun getCaptionsReceivedSharedFlow(): SharedFlow<CallCompositeCaptionsData> {
+        return MutableSharedFlow()
+    }
+
+    override fun getActiveSpokenLanguageChangedSharedFlow(): SharedFlow<String> {
+        return MutableSharedFlow()
+    }
+
+    override fun getActiveCaptionLanguageChangedSharedFlow(): SharedFlow<String> {
+        return MutableSharedFlow()
+    }
+
+    override fun getCaptionsEnabledChangedSharedFlow(): SharedFlow<Boolean> {
+        return MutableSharedFlow()
+    }
+
+    override fun getCaptionsTypeChangedSharedFlow(): SharedFlow<CallCompositeCaptionsType> {
+        return MutableSharedFlow()
     }
 }
 

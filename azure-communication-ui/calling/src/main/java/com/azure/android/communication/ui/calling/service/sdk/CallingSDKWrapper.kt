@@ -12,6 +12,7 @@ import com.azure.android.communication.calling.CallClient
 import com.azure.android.communication.calling.CallClientOptions
 import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.DeviceManager
+import com.azure.android.communication.calling.Features
 import com.azure.android.communication.calling.GroupCallLocator
 import com.azure.android.communication.calling.HangUpOptions
 import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVideoStream
@@ -19,6 +20,8 @@ import com.azure.android.communication.calling.JoinCallOptions
 import com.azure.android.communication.calling.JoinMeetingLocator
 /* <ROOMS_SUPPORT:0> */
 import com.azure.android.communication.calling.RoomCallLocator
+import com.azure.android.communication.calling.StartCaptionsOptions
+import com.azure.android.communication.calling.TeamsCaptions
 /* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.calling.TeamsMeetingLinkLocator
 import com.azure.android.communication.calling.VideoDevicesUpdatedListener
@@ -118,6 +121,33 @@ internal class CallingSDKWrapper(
     }
 
     //endregion
+
+    //region Captions
+    override fun getCaptionsSupportedSpokenLanguagesSharedFlow() =
+        callingSDKEventHandler.getCaptionsSupportedSpokenLanguagesSharedFlow()
+
+    override fun getCaptionsSupportedCaptionLanguagesSharedFlow() =
+        callingSDKEventHandler.getCaptionsSupportedCaptionLanguagesSharedFlow()
+
+    override fun getIsCaptionsTranslationSupportedSharedFlow() =
+        callingSDKEventHandler.getIsCaptionsTranslationSupportedSharedFlow()
+
+    override fun getCaptionsReceivedSharedFlow() =
+        callingSDKEventHandler.getCaptionsReceivedSharedFlow()
+
+    override fun getActiveSpokenLanguageChangedSharedFlow() =
+        callingSDKEventHandler.getActiveSpokenLanguageChangedSharedFlow()
+
+    override fun getActiveCaptionLanguageChangedSharedFlow() =
+        callingSDKEventHandler.getActiveCaptionLanguageChangedSharedFlow()
+
+    override fun getCaptionsEnabledChangedSharedFlow() =
+        callingSDKEventHandler.getCaptionsEnabledChangedSharedFlow()
+
+    override fun getCaptionsTypeChangedSharedFlow() =
+        callingSDKEventHandler.getCaptionsTypeChangedSharedFlow()
+    //endregion
+
     override fun getDominantSpeakersSharedFlow() =
         callingSDKEventHandler.getDominantSpeakersSharedFlow()
 
@@ -393,6 +423,96 @@ internal class CallingSDKWrapper(
         }
 
         return result
+    }
+
+    override fun startCaptions(spokenLanguage: String): CompletableFuture<Void> {
+        val resultFuture = CompletableFuture<Void>()
+        val captionsFeature = call.feature(Features.CAPTIONS)
+        captionsFeature.captions.whenComplete { callCaptions, throwable ->
+            if (throwable != null) {
+                resultFuture.completeExceptionally(throwable)
+            } else {
+                val captionsOptions = StartCaptionsOptions()
+                if (spokenLanguage.isNotEmpty()) {
+                    captionsOptions.spokenLanguage = spokenLanguage
+                }
+                callCaptions.startCaptions(captionsOptions)
+                    .whenComplete { _, error: Throwable? ->
+                        if (error != null) {
+                            resultFuture.completeExceptionally(error)
+                        } else {
+                            callingSDKEventHandler.onCaptionsStart(callCaptions)
+                            resultFuture.complete(null)
+                        }
+                    }
+            }
+        }
+        return resultFuture
+    }
+
+    override fun stopCaptions(): CompletableFuture<Void> {
+        val resultFuture = CompletableFuture<Void>()
+        val captionsFeature = call.feature(Features.CAPTIONS)
+        captionsFeature.captions.whenComplete { callCaptions, throwable ->
+            if (throwable != null) {
+                resultFuture.completeExceptionally(throwable)
+            } else {
+                callCaptions.stopCaptions()
+                    .whenComplete { _, error: Throwable? ->
+                        if (error != null) {
+                            resultFuture.completeExceptionally(error)
+                        } else {
+                            callingSDKEventHandler.onCaptionsStop(callCaptions)
+                            resultFuture.complete(null)
+                        }
+                    }
+            }
+        }
+        return resultFuture
+    }
+
+    override fun setCaptionsSpokenLanguage(language: String): CompletableFuture<Void> {
+        val resultFuture = CompletableFuture<Void>()
+        val captionsFeature = call.feature(Features.CAPTIONS)
+        captionsFeature.captions.whenComplete { callCaptions, throwable ->
+            if (throwable != null) {
+                resultFuture.completeExceptionally(throwable)
+            } else {
+                callCaptions.setSpokenLanguage(language)
+                    .whenComplete { _, error: Throwable? ->
+                        if (error != null) {
+                            resultFuture.completeExceptionally(error)
+                        } else {
+                            resultFuture.complete(null)
+                        }
+                    }
+            }
+        }
+        return resultFuture
+    }
+
+    override fun setCaptionsCaptionLanguage(language: String): CompletableFuture<Void> {
+        val resultFuture = CompletableFuture<Void>()
+        val captionsFeature = call.feature(Features.CAPTIONS)
+        captionsFeature.captions.whenComplete { callCaptions, throwable ->
+            if (throwable != null) {
+                resultFuture.completeExceptionally(throwable)
+            } else {
+                if (callCaptions !is TeamsCaptions) {
+                    resultFuture.complete(null)
+                }
+
+                (callCaptions as TeamsCaptions).setCaptionLanguage(language)
+                    .whenComplete { _, error: Throwable? ->
+                        if (error != null) {
+                            resultFuture.completeExceptionally(error)
+                        } else {
+                            resultFuture.complete(null)
+                        }
+                    }
+            }
+        }
+        return resultFuture
     }
 
     private fun createCallAgent(): CompletableFuture<CallAgent> {
