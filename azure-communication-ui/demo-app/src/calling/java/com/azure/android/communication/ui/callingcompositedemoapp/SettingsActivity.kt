@@ -11,6 +11,7 @@ import android.widget.AutoCompleteTextView
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
@@ -108,8 +109,6 @@ class SettingsActivity : AppCompatActivity() {
 
         updateEnableMultitaskingCheckbox()
         updateEnablePipMultitaskingCheckbox()
-
-        saveRenderedDisplayName()
 
         updateRenderedDisplayNameText()
         updateTitle()
@@ -231,6 +230,16 @@ class SettingsActivity : AppCompatActivity() {
         enableMultitaskingCheckbox = findViewById(R.id.multitasking_check_box)
         enablePipWhenMultitaskingCheckbox = findViewById(R.id.multitasking_pip_check_box)
         audioOnlyModeCheckBox = findViewById(R.id.audio_only_check_box)
+
+        renderDisplayNameTextView.addTextChangedListener {
+            saveRenderedDisplayName()
+        }
+        titleTextView.addTextChangedListener {
+            saveTitle()
+        }
+        subtitleTextView.addTextChangedListener {
+            saveSubtitle()
+        }
     }
 
     private fun updateRTLCheckbox() {
