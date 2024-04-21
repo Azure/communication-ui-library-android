@@ -65,6 +65,9 @@ internal class AppReduxStateReducerUnitTest {
     @Mock
     private lateinit var mockCallDiagnosticsReducerImpl: CallDiagnosticsReducerImpl
 
+    @Mock
+    private lateinit var mockCaptionsReducer: CaptionsReducerImpl
+
     @Test
     fun appStateReducer_reduce_when_invoked_then_callAllReducers() {
 
@@ -80,7 +83,8 @@ internal class AppReduxStateReducerUnitTest {
                 mockNavigationReducerImpl,
                 mockAudioSessionReducerImpl,
                 pipReducer,
-                mockCallDiagnosticsReducerImpl
+                mockCallDiagnosticsReducerImpl,
+                mockCaptionsReducer
             )
         val action = NavigationAction.CallLaunched()
         val state = AppReduxState("", false, false)
@@ -158,6 +162,9 @@ internal class AppReduxStateReducerUnitTest {
                 action
             )
         ).thenReturn(state.audioSessionState)
+
+        Mockito.`when`(mockCaptionsReducer.reduce(state.captionsState, action))
+            .thenReturn(state.captionsState)
 
         Mockito.`when`(
             pipReducer.reduce(

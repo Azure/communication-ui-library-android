@@ -14,4 +14,5 @@ internal interface ReduxState {
     var audioSessionState: AudioSessionState
     val visibilityState: VisibilityState
     var callDiagnosticsState: CallDiagnosticsState
+    val captionsState: CaptionsState
 }

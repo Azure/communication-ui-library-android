@@ -24,6 +24,7 @@ import com.azure.android.communication.ui.calling.presentation.manager.AudioSess
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.CompositeExitManager
 import com.azure.android.communication.ui.calling.presentation.manager.CameraStatusHook
+import com.azure.android.communication.ui.calling.presentation.manager.CaptionsViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManagerImpl
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManagerImpl
@@ -54,6 +55,7 @@ import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.presentation.manager.MultitaskingManager
+import com.azure.android.communication.ui.calling.redux.reducer.CaptionsReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.PipReducerImpl
 import com.azure.android.communication.ui.calling.service.CallHistoryService
 import com.azure.android.communication.ui.calling.service.CallHistoryServiceImpl
@@ -164,6 +166,10 @@ internal class DependencyInjectionContainerImpl(
         )
     }
 
+    override val captionsViewManager by lazy {
+        CaptionsViewManager(callingService)
+    }
+
     override val accessibilityManager by lazy {
         AccessibilityAnnouncementManager(
             appStore,
@@ -233,6 +239,7 @@ internal class DependencyInjectionContainerImpl(
     private val audioSessionReducer get() = AudioSessionStateReducerImpl()
     private val pipReducer get() = PipReducerImpl()
     private val callDiagnosticsReducer get() = CallDiagnosticsReducerImpl()
+    private val captionsReducer get() = CaptionsReducerImpl()
 
     // Middleware
     private val appMiddleware get() = mutableListOf(callingMiddleware)
@@ -255,7 +262,8 @@ internal class DependencyInjectionContainerImpl(
             navigationReducer,
             audioSessionReducer,
             pipReducer,
-            callDiagnosticsReducer
+            callDiagnosticsReducer,
+            captionsReducer,
         ) as Reducer<ReduxState>
     }
     //endregion
