@@ -70,7 +70,8 @@ internal class DependencyInjectionContainerHolder(
                 application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants),
                 container.debugInfoManager,
                 container.configuration.callCompositeEventsHandler.getOnUserReportedHandlers().toList().isNotEmpty(),
-                container.configuration.enableMultitasking
+                container.configuration.enableMultitasking,
+                isCaptionsEnabled = true,
             ),
             container.networkManager,
             container.configuration.enableMultitasking,

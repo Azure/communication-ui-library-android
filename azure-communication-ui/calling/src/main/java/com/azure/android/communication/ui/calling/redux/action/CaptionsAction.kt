@@ -20,4 +20,9 @@ internal sealed class CaptionsAction : Action {
     class Error(val errors: CallCompositeCaptionsErrors) : CaptionsAction()
     class SupportedSpokenLanguagesChanged(val languages: List<String>) : CaptionsAction()
     class SupportedCaptionLanguagesChanged(val languages: List<String>) : CaptionsAction()
+    class ShowCaptionsOptions : CaptionsAction()
+    class CloseCaptionsOptions : CaptionsAction()
+    class ShowSupportedSpokenLanguagesOptions : CaptionsAction()
+    class ShowSupportedCaptionLanguagesOptions : CaptionsAction()
+    class HideSupportedLanguagesOptions : CaptionsAction()
 }

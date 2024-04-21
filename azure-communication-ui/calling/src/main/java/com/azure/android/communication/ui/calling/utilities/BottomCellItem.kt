@@ -24,6 +24,13 @@ internal data class BottomCellItem(
     var isOnHold: Boolean?,
     val itemType: BottomCellItemType = BottomCellItemType.BottomMenuAction,
     var onClickAction: ((View) -> Unit)?,
+    var isEnabled: Boolean = true,
     var showAdmitAllButton: Boolean = false,
+    var showRightArrow: Boolean = false,
+    var showToggleButton: Boolean = false,
+    var enableToggleButton: Boolean = false,
+    var isToggleButtonOn: Boolean = false,
+    var subtitle: String? = null,
+    var toggleButtonAction: ((View, Boolean) -> Unit)? = null,
     var admitAllButtonAction: ((View) -> Unit)? = null
 )

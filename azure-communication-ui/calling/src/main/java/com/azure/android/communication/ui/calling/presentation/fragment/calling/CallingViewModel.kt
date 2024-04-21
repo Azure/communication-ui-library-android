@@ -46,6 +46,9 @@ internal class CallingViewModel(
     val errorInfoViewModel = callingViewModelProvider.errorInfoViewModel
     val lobbyHeaderViewModel = callingViewModelProvider.lobbyHeaderViewModel
     val lobbyErrorHeaderViewModel = callingViewModelProvider.lobbyErrorHeaderViewModel
+    val captionsListViewModel = callingViewModelProvider.captionsListViewModel
+    val captionsLanguageSelectionListViewModel = callingViewModelProvider.captionsLanguageSelectionListViewModel
+    val captionsInfoViewModel = callingViewModelProvider.captionsInfoViewModel
 
     fun switchFloatingHeader() {
         floatingHeaderViewModel.switchFloatingHeader()
@@ -128,6 +131,9 @@ internal class CallingViewModel(
             canShowLobby(state.localParticipantState.localParticipantRole, state.visibilityState)
         )
 
+        captionsListViewModel.init(state.captionsState, state.callState.callingStatus)
+        captionsLanguageSelectionListViewModel.init(state.captionsState)
+        captionsInfoViewModel.init(state.callState.callingStatus)
         super.init(coroutineScope)
     }
 
@@ -166,6 +172,10 @@ internal class CallingViewModel(
             state.visibilityState.status,
             avMode
         )
+
+        captionsListViewModel.update(state.captionsState, state.callState.callingStatus)
+        captionsLanguageSelectionListViewModel.update(state.captionsState)
+        captionsInfoViewModel.update(state.callState.callingStatus)
 
         audioDeviceListViewModel.update(
             state.localParticipantState.audioState,
@@ -265,7 +275,9 @@ internal class CallingViewModel(
         }
 
         confirmLeaveOverlayViewModel.update(state.visibilityState)
-        moreCallOptionsListViewModel.update(state.visibilityState)
+        moreCallOptionsListViewModel.update(
+            state.visibilityState
+        )
 
         state.localParticipantState.cameraState.error?.let {
             errorInfoViewModel.updateCallCompositeError(it)

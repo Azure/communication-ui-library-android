@@ -5,6 +5,6 @@ package com.azure.android.communication.ui.calling.presentation.manager
 
 import com.azure.android.communication.ui.calling.service.CallingService
 
-internal class CaptionsViewManager(private val callingService: CallingService,) {
+internal class CaptionsDataManager(private val callingService: CallingService,) {
     fun getCaptionsDataReceivedSharedFlow() = callingService.getCaptionsReceivedSharedFlow()
 }

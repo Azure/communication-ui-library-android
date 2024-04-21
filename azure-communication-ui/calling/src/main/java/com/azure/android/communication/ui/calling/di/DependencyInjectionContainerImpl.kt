@@ -24,7 +24,7 @@ import com.azure.android.communication.ui.calling.presentation.manager.AudioSess
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.CompositeExitManager
 import com.azure.android.communication.ui.calling.presentation.manager.CameraStatusHook
-import com.azure.android.communication.ui.calling.presentation.manager.CaptionsViewManager
+import com.azure.android.communication.ui.calling.presentation.manager.CaptionsDataManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManagerImpl
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManagerImpl
@@ -166,8 +166,8 @@ internal class DependencyInjectionContainerImpl(
         )
     }
 
-    override val captionsViewManager by lazy {
-        CaptionsViewManager(callingService)
+    override val captionsDataManager by lazy {
+        CaptionsDataManager(callingService)
     }
 
     override val accessibilityManager by lazy {

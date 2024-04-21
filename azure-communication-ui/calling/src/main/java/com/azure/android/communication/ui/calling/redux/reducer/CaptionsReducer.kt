@@ -39,6 +39,21 @@ internal class CaptionsReducerImpl : CaptionsReducer {
             is CaptionsAction.TypeChanged -> {
                 state.copy(activeType = action.type)
             }
+            is CaptionsAction.ShowCaptionsOptions -> {
+                state.copy(showCaptionsOptions = true)
+            }
+            is CaptionsAction.CloseCaptionsOptions -> {
+                state.copy(showCaptionsOptions = false)
+            }
+            is CaptionsAction.ShowSupportedSpokenLanguagesOptions -> {
+                state.copy(showSupportedSpokenLanguages = true)
+            }
+            is CaptionsAction.ShowSupportedCaptionLanguagesOptions -> {
+                state.copy(showSupportedCaptionLanguages = true)
+            }
+            is CaptionsAction.HideSupportedLanguagesOptions -> {
+                state.copy(showSupportedSpokenLanguages = false, showSupportedCaptionLanguages = false)
+            }
             else -> {
                 state
             }

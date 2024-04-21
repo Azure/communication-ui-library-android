@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.factories
 
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsInfoViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderViewModel
@@ -17,6 +18,8 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay.ConnectingOverlayViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.captions.CaptionsLanguageSelectionListViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.captions.CaptionsListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutViewModel
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
@@ -30,13 +33,15 @@ internal class CallingViewModelFactory(
     private val debugInfoManager: DebugInfoManager,
     private val showSupportFormOption: Boolean = false,
     private val enableMultitasking: Boolean,
+    private val isCaptionsEnabled: Boolean = false,
 ) : BaseViewModelFactory(store) {
 
     val moreCallOptionsListViewModel by lazy {
         MoreCallOptionsListViewModel(
             debugInfoManager,
             showSupportFormOption = showSupportFormOption,
-            store::dispatch
+            isCaptionsEnabled = isCaptionsEnabled,
+            store::dispatch,
         )
     }
 
@@ -99,4 +104,7 @@ internal class CallingViewModelFactory(
     }
 
     val lobbyErrorHeaderViewModel by lazy { LobbyErrorHeaderViewModel(store::dispatch) }
+    val captionsListViewModel by lazy { CaptionsListViewModel(store) }
+    val captionsLanguageSelectionListViewModel by lazy { CaptionsLanguageSelectionListViewModel(store) }
+    val captionsInfoViewModel by lazy { CaptionsInfoViewModel() }
 }

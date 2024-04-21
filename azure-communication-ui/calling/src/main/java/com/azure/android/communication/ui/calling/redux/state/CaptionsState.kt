@@ -9,6 +9,9 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsTy
 internal data class CaptionsState(
     val isEnabled: Boolean = false,
     val isStarted: Boolean = false,
+    val showCaptionsOptions: Boolean = false,
+    val showSupportedSpokenLanguages: Boolean = false,
+    val showSupportedCaptionLanguages: Boolean = false,
     val supportedSpokenLanguages: List<String> = emptyList(),
     val activeSpokenLanguage: String = "",
     val supportedCaptionLanguages: List<String> = emptyList(),
