@@ -59,6 +59,7 @@ internal class SetupViewModel(
         setupControlBarViewModel.init(
             state.permissionState,
             state.localParticipantState.cameraState,
+            state.localParticipantState.audioVideoMode,
             state.localParticipantState.audioState,
             state.callState,
             audioDeviceListViewModel::displayAudioDeviceSelectionMenu,
@@ -92,6 +93,7 @@ internal class SetupViewModel(
         setupControlBarViewModel.update(
             state.permissionState,
             state.localParticipantState.cameraState,
+            state.localParticipantState.audioVideoMode,
             state.localParticipantState.audioState,
             state.callState,
         )

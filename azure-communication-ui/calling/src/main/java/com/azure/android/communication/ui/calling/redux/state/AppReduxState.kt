@@ -26,8 +26,7 @@ internal class AppReduxState(
     override var localParticipantState: LocalUserState =
         LocalUserState(
             CameraState(
-                operation = if (avMode == CallCompositeAudioVideoMode.AUDIO_ONLY)
-                    CameraOperationalStatus.DISABLED else CameraOperationalStatus.OFF,
+                operation = CameraOperationalStatus.OFF,
                 device = CameraDeviceSelectionStatus.FRONT,
                 transmission = CameraTransmissionStatus.LOCAL
             ),
@@ -47,6 +46,7 @@ internal class AppReduxState(
                 skipSetupScreen = skipSetupScreen,
             ),
             localParticipantRole = null,
+            audioVideoMode = avMode,
             capabilities = emptySet(),
         )
 

@@ -55,57 +55,56 @@ internal class SetupControlBarView : LinearLayout {
         // viewModel.turnCameraOnDefault()
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getCameraIsEnabled().collect {
+            viewModel.cameraIsEnabled.collect {
                 cameraButton.isEnabled = it
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getIsVisibleState().collect { visible ->
+            viewModel.cameraIsVisible.collect {
+                cameraButton.visibility = if (it) VISIBLE else GONE
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.isVisibleState.collect { visible ->
                 visibility = if (visible) VISIBLE else INVISIBLE
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getAudioOperationalStatusStateFlow().collect {
+            viewModel.audioOperationalStatusStat.collect {
                 setMicButtonState(it)
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getMicIsEnabled().collect {
+            viewModel.micIsEnabled.collect {
                 micButton.isEnabled = it
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getCameraState().collect {
+            viewModel.cameraState.collect {
                 setCameraButtonState(it)
                 setButtonColorOnCameraState(it)
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getAudioDeviceSelectionStatusStateFlow().collect {
+            viewModel.audioDeviceSelectionStatusState.collect {
                 setAudioDeviceButtonState(it)
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getDeviceIsEnabled().collect {
-                audioDeviceButton.isEnabled = it
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getDeviceIsEnabled().collect {
+            viewModel.deviceIsEnabled.collect {
                 audioDeviceButton.isEnabled = it
             }
         }
     }
 
     private fun setMicButtonState(audioOperationalStatus: AudioOperationalStatus) {
-        val previousState = micButton.isON
         when (audioOperationalStatus) {
             AudioOperationalStatus.ON -> {
                 micButton.isON = true
@@ -121,11 +120,6 @@ internal class SetupControlBarView : LinearLayout {
     }
 
     private fun setCameraButtonState(operation: CameraOperationalStatus) {
-        if (operation == CameraOperationalStatus.DISABLED) {
-            cameraButton.visibility = View.GONE
-            return
-        }
-
         when (operation) {
             CameraOperationalStatus.ON -> {
                 cameraButton.isON = true

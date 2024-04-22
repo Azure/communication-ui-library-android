@@ -68,6 +68,8 @@ internal class CallingViewModel(
             audioDeviceListViewModel::displayAudioDeviceSelectionMenu,
             moreCallOptionsListViewModel::display,
             state.visibilityState,
+            state.localParticipantState.audioVideoMode,
+            state.localParticipantState.capabilities,
         )
 
         localParticipantViewModel.init(
@@ -153,6 +155,8 @@ internal class CallingViewModel(
             state.localParticipantState.audioState,
             state.callState.callingStatus,
             state.visibilityState,
+            state.localParticipantState.audioVideoMode,
+            state.localParticipantState.capabilities,
         )
 
         localParticipantViewModel.update(
