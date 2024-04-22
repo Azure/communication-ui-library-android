@@ -92,7 +92,7 @@ internal class DependencyInjectionContainerHolder(
                 container.debugInfoManager
             ),
             container.networkManager,
-            container.configuration.displayLeaveCallConfirmation
+            container.configuration.callScreenOptions
         )
     }
 }

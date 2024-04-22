@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling;
 
+import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation;
@@ -19,7 +20,7 @@ public final class CallCompositeBuilder {
     private CallCompositeLocalizationOptions localizationConfig = null;
     private CallCompositeSupportedScreenOrientation callScreenOrientation = null;
     private CallCompositeSupportedScreenOrientation setupScreenOrientation = null;
-    private Boolean displayLeaveCallConfirmation = true;
+    private CallCompositeCallScreenOptions callScreenOptions = null;
     /**
      * Sets an optional theme for call-composite to use by {@link CallComposite}.
      *
@@ -66,15 +67,14 @@ public final class CallCompositeBuilder {
         return this;
     }
 
-    /***
-     * When leaving a call, user will be shown a confirmation dialog.
+    /**
+     * Sets the call screen options.
      *
-     * @param option Boolean value to enable or disable the confirmation dialog.
+     * @param callScreenOptions call screen options.
      * @return {@link CallCompositeBuilder} for chaining options.
      */
-    public CallCompositeBuilder displayLeaveCallConfirmation(
-            final Boolean option) {
-        this.displayLeaveCallConfirmation = option;
+    public CallCompositeBuilder callScreenOptions(final CallCompositeCallScreenOptions callScreenOptions) {
+        this.callScreenOptions = callScreenOptions;
         return this;
     }
 
@@ -89,7 +89,7 @@ public final class CallCompositeBuilder {
         config.setLocalizationConfig(localizationConfig);
         config.setCallScreenOrientation(this.callScreenOrientation);
         config.setSetupScreenOrientation(this.setupScreenOrientation);
-        config.setDisplayLeaveCallConfirmation(displayLeaveCallConfirmation);
+        config.setCallScreenOptions(callScreenOptions);
         return new CallComposite(config);
     }
 }

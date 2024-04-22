@@ -3,6 +3,8 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
+import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeLeaveCallConfirmationMode
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
@@ -22,7 +24,7 @@ internal class CallingViewModel(
     store: Store<ReduxState>,
     callingViewModelProvider: CallingViewModelFactory,
     private val networkManager: NetworkManager,
-    private val displayLeaveCallConfirmation: Boolean
+    private val callScreenOptions: CallCompositeCallScreenOptions? = null
 ) :
     BaseViewModel(store) {
 
@@ -48,12 +50,20 @@ internal class CallingViewModel(
         floatingHeaderViewModel.switchFloatingHeader()
     }
 
+    fun requestCallEndOnBackPressed() {
+        confirmLeaveOverlayViewModel.requestExitConfirmation()
+    }
+
     fun requestCallEnd() {
-        if (displayLeaveCallConfirmation) {
-            confirmLeaveOverlayViewModel.requestExitConfirmation()
-        } else {
-            leaveCallWithoutConfirmation()
-        }
+        callScreenOptions?.controlBarOptions?.leaveCallConfirmation?.let {
+            if (it == CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED) {
+                confirmLeaveOverlayViewModel.requestExitConfirmation()
+            } else {
+                leaveCallWithoutConfirmation()
+            }
+        } ?:
+        // Default to always enabled
+        confirmLeaveOverlayViewModel.requestExitConfirmation()
     }
 
     override fun init(coroutineScope: CoroutineScope) {

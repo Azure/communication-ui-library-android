@@ -266,7 +266,7 @@ internal class CallingFragment :
     }
 
     private fun requestCallEnd() {
-        viewModel.requestCallEnd()
+        viewModel.requestCallEndOnBackPressed()
     }
 
     private fun displayParticipantList() {

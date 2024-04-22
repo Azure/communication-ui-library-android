@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.configuration
 
 import com.azure.android.communication.ui.calling.configuration.events.CallCompositeEventsHandler
+import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
@@ -17,5 +18,5 @@ internal class CallCompositeConfiguration {
     val remoteParticipantsConfiguration: RemoteParticipantsConfiguration = RemoteParticipantsConfiguration()
     var callScreenOrientation: CallCompositeSupportedScreenOrientation? = null
     var setupScreenOrientation: CallCompositeSupportedScreenOrientation? = null
-    var displayLeaveCallConfirmation: Boolean = true
+    var callScreenOptions: CallCompositeCallScreenOptions? = null
 }
