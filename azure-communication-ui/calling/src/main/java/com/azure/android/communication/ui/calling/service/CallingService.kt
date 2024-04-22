@@ -10,6 +10,7 @@ import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
@@ -105,6 +106,10 @@ internal class CallingService(
 
     fun getLocalParticipantRoleSharedFlow(): SharedFlow<CallCompositeInternalParticipantRole?> {
         return callingSdk.getLocalParticipantRoleSharedFlow()
+    }
+
+    fun getCallCapabilitiesSharedFlow(): SharedFlow<List<ParticipantCapabilityType>> {
+        return callingSdk.getCallCapabilitiesSharedFlow()
     }
 
     fun getDominantSpeakersSharedFlow(): SharedFlow<List<String>> {

@@ -244,6 +244,11 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
                     localParticipantRole = action.callCompositeInternalParticipantRole
                 )
             }
+            is LocalParticipantAction.SetCapabilities -> {
+                localUserState.copy(
+                    capabilities = action.capabilities.toSet()
+                )
+            }
             else -> localUserState
         }
     }

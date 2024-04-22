@@ -46,7 +46,8 @@ internal class AppReduxState(
                 startWithMicrophoneOn = microphoneOnByDefault,
                 skipSetupScreen = skipSetupScreen,
             ),
-            localParticipantRole = null
+            localParticipantRole = null,
+            capabilities = emptySet(),
         )
 
     override var permissionState: PermissionState =

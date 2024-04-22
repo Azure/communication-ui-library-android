@@ -685,7 +685,6 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             // act
             callingService.getLocalParticipantRoleSharedFlow()
             localParticipantRoleSharedFlow.emit(CallCompositeInternalParticipantRole.ATTENDEE)
-            localParticipantRoleSharedFlow.emit(CallCompositeInternalParticipantRole.COORGANIZER)
             localParticipantRoleSharedFlow.emit(CallCompositeInternalParticipantRole.ORGANIZER)
             localParticipantRoleSharedFlow.emit(CallCompositeInternalParticipantRole.PRESENTER)
             localParticipantRoleSharedFlow.emit(CallCompositeInternalParticipantRole.CONSUMER)
@@ -693,11 +692,10 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
 
             // assert
             Assert.assertEquals(CallCompositeInternalParticipantRole.ATTENDEE, emitResultFromFlow[0])
-            Assert.assertEquals(CallCompositeInternalParticipantRole.COORGANIZER, emitResultFromFlow[1])
-            Assert.assertEquals(CallCompositeInternalParticipantRole.ORGANIZER, emitResultFromFlow[2])
-            Assert.assertEquals(CallCompositeInternalParticipantRole.PRESENTER, emitResultFromFlow[3])
-            Assert.assertEquals(CallCompositeInternalParticipantRole.CONSUMER, emitResultFromFlow[4])
-            Assert.assertEquals(CallCompositeInternalParticipantRole.UNINITIALIZED, emitResultFromFlow[5])
+            Assert.assertEquals(CallCompositeInternalParticipantRole.ORGANIZER, emitResultFromFlow[1])
+            Assert.assertEquals(CallCompositeInternalParticipantRole.PRESENTER, emitResultFromFlow[2])
+            Assert.assertEquals(CallCompositeInternalParticipantRole.CONSUMER, emitResultFromFlow[3])
+            Assert.assertEquals(CallCompositeInternalParticipantRole.UNINITIALIZED, emitResultFromFlow[4])
 
             job.cancel()
         }
@@ -706,7 +704,6 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
     fun typeConversion_testRoleConversion() {
         // assert
         Assert.assertEquals(CallCompositeInternalParticipantRole.UNINITIALIZED, CallParticipantRole.UNINITIALIZED.into())
-        // Assert.assertEquals(CallCompositeInternalParticipantRole.COORGANIZER, CallParticipantRole.CO_ORGANIZER.into())
         Assert.assertEquals(CallCompositeInternalParticipantRole.ORGANIZER, CallParticipantRole.ORGANIZER.into())
         Assert.assertEquals(CallCompositeInternalParticipantRole.PRESENTER, CallParticipantRole.PRESENTER.into())
         Assert.assertEquals(CallCompositeInternalParticipantRole.CONSUMER, CallParticipantRole.CONSUMER.into())

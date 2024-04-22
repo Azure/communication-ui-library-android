@@ -11,7 +11,9 @@ import com.azure.android.communication.common.PhoneNumberIdentifier
 import com.azure.android.communication.common.UnknownIdentifier
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
+import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
+import com.azure.android.communication.calling.ParticipantCapabilityType as SdkParticipantCapabilityType
 
 internal fun com.azure.android.communication.calling.RemoteParticipant.into(): RemoteParticipant {
     return RemoteParticipantWrapper(this)
@@ -77,9 +79,30 @@ internal fun com.azure.android.communication.calling.CallParticipantRole.into():
         com.azure.android.communication.calling.CallParticipantRole.CONSUMER -> CallCompositeInternalParticipantRole.CONSUMER
         com.azure.android.communication.calling.CallParticipantRole.PRESENTER -> CallCompositeInternalParticipantRole.PRESENTER
         com.azure.android.communication.calling.CallParticipantRole.ORGANIZER -> CallCompositeInternalParticipantRole.ORGANIZER
-        // com.azure.android.communication.calling.CallParticipantRole.CO_ORGANIZER -> CallCompositeInternalParticipantRole.COORGANIZER
         com.azure.android.communication.calling.CallParticipantRole.UNINITIALIZED -> CallCompositeInternalParticipantRole.UNINITIALIZED
         else -> { null }
+    }
+}
+
+internal fun List<com.azure.android.communication.calling.ParticipantCapability>.into(): List<ParticipantCapabilityType> {
+    return this.map {
+        when (it.type) {
+            SdkParticipantCapabilityType.ADD_COMMUNICATION_USER -> ParticipantCapabilityType.ADD_COMMUNICATION_USER
+            SdkParticipantCapabilityType.TURN_VIDEO_ON -> ParticipantCapabilityType.TURN_VIDEO_ON
+            SdkParticipantCapabilityType.UNMUTE_MIC -> ParticipantCapabilityType.UNMUTE_MIC
+            SdkParticipantCapabilityType.SHARE_SCREEN -> ParticipantCapabilityType.SHARE_SCREEN
+            SdkParticipantCapabilityType.REMOVE_PARTICIPANT -> ParticipantCapabilityType.REMOVE_PARTICIPANT
+            SdkParticipantCapabilityType.HANG_UP_FOR_EVERY_ONE -> ParticipantCapabilityType.HANG_UP_FOR_EVERY_ONE
+            SdkParticipantCapabilityType.ADD_TEAMS_USER -> ParticipantCapabilityType.ADD_TEAMS_USER
+            SdkParticipantCapabilityType.ADD_PHONE_NUMBER -> ParticipantCapabilityType.ADD_PHONE_NUMBER
+            SdkParticipantCapabilityType.MANAGE_LOBBY -> ParticipantCapabilityType.MANAGE_LOBBY
+            SdkParticipantCapabilityType.SPOTLIGHT_PARTICIPANT -> ParticipantCapabilityType.SPOTLIGHT_PARTICIPANT
+            SdkParticipantCapabilityType.REMOVE_PARTICIPANT_SPOTLIGHT -> ParticipantCapabilityType.REMOVE_PARTICIPANT_SPOTLIGHT
+            SdkParticipantCapabilityType.BLUR_BACKGROUND -> ParticipantCapabilityType.BLUR_BACKGROUND
+            SdkParticipantCapabilityType.CUSTOM_BACKGROUND -> ParticipantCapabilityType.CUSTOM_BACKGROUND
+            SdkParticipantCapabilityType.START_LIVE_CAPTIONS -> ParticipantCapabilityType.START_LIVE_CAPTIONS
+            SdkParticipantCapabilityType.RAISE_HAND -> ParticipantCapabilityType.RAISE_HAND
+        }
     }
 }
 

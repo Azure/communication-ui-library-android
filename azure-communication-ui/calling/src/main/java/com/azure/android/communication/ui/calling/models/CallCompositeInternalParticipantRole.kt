@@ -9,5 +9,4 @@ internal enum class CallCompositeInternalParticipantRole {
     CONSUMER,
     PRESENTER,
     ORGANIZER,
-    COORGANIZER;
 }

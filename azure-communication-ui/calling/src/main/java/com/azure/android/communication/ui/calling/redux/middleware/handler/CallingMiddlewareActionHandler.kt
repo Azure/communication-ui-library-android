@@ -269,6 +269,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         subscribeCamerasCountUpdate(store)
         subscribeDominantSpeakersUpdate(store)
         subscribeOnLocalParticipantRoleChanged(store)
+        subscribeOnLocalParticipantCapabilitiesChanged(store)
 
         callingService.startCall(
             store.getCurrentState().localParticipantState.cameraState,
@@ -412,6 +413,15 @@ internal class CallingMiddlewareActionHandlerImpl(
         coroutineScope.launch {
             callingService.getLocalParticipantRoleSharedFlow()?.collect {
                 val action = LocalParticipantAction.RoleChanged(it)
+                store.dispatch(action)
+            }
+        }
+    }
+
+    private fun subscribeOnLocalParticipantCapabilitiesChanged(store: Store<ReduxState>) {
+        coroutineScope.launch {
+            callingService.getCallCapabilitiesSharedFlow()?.collect {
+                val action = LocalParticipantAction.SetCapabilities(it)
                 store.dispatch(action)
             }
         }

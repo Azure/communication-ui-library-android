@@ -96,6 +96,9 @@ internal class CallingSDKWrapper(
     override fun getLocalParticipantRoleSharedFlow() =
         callingSDKEventHandler.getCallParticipantRoleSharedFlow()
 
+    override fun getCallCapabilitiesSharedFlow() =
+        callingSDKEventHandler.getCallCapabilitiesSharedFlow()
+
     override fun getIsMutedSharedFlow() = callingSDKEventHandler.getIsMutedSharedFlow()
 
     override fun getIsRecordingSharedFlow() = callingSDKEventHandler.getIsRecordingSharedFlow()

@@ -5,6 +5,9 @@ package com.azure.android.communication.ui.calling.service.sdk
 
 import com.azure.android.communication.calling.Call
 import com.azure.android.communication.calling.CallState
+import com.azure.android.communication.calling.CapabilitiesCallFeature
+import com.azure.android.communication.calling.CapabilitiesChangedEvent
+import com.azure.android.communication.calling.CapabilitiesChangedListener
 import com.azure.android.communication.calling.DiagnosticFlagChangedListener
 import com.azure.android.communication.calling.DiagnosticQualityChangedListener
 import com.azure.android.communication.calling.DominantSpeakersCallFeature
@@ -28,6 +31,7 @@ import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticMode
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnostic
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import kotlinx.coroutines.CoroutineScope
@@ -57,6 +61,7 @@ internal class CallingSDKEventHandler(
     private var dominantSpeakersSharedFlow = MutableSharedFlow<DominantSpeakersInfo>()
     private var callingStateWrapperSharedFlow = MutableSharedFlow<CallingStateWrapper>()
     private var callParticipantRoleSharedFlow = MutableSharedFlow<CallCompositeInternalParticipantRole?>()
+    private var callCapabilitiesSharedFlow = MutableSharedFlow<List<ParticipantCapabilityType>>()
     private var callIdSharedFlow = MutableStateFlow<String?>(null)
     private var remoteParticipantsInfoModelSharedFlow =
         MutableSharedFlow<Map<String, ParticipantInfoModel>>()
@@ -80,6 +85,7 @@ internal class CallingSDKEventHandler(
     private lateinit var recordingFeature: RecordingCallFeature
     private lateinit var transcriptionFeature: TranscriptionCallFeature
     private lateinit var dominantSpeakersCallFeature: DominantSpeakersCallFeature
+    private lateinit var capabilitiesFeature: CapabilitiesCallFeature
 
     private var networkDiagnostics: NetworkDiagnostics? = null
     private var mediaDiagnostics: MediaDiagnostics? = null
@@ -99,6 +105,9 @@ internal class CallingSDKEventHandler(
 
     fun getCallParticipantRoleSharedFlow(): SharedFlow<CallCompositeInternalParticipantRole?> =
         callParticipantRoleSharedFlow
+
+    fun getCallCapabilitiesSharedFlow(): SharedFlow<List<ParticipantCapabilityType>> =
+        callCapabilitiesSharedFlow
 
     // region Call Diagnostics
     fun getNetworkQualityCallDiagnosticsSharedFlow(): SharedFlow<NetworkQualityCallDiagnosticModel> = networkQualityCallDiagnosticsSharedFlow
@@ -128,6 +137,10 @@ internal class CallingSDKEventHandler(
         transcriptionFeature.addOnIsTranscriptionActiveChangedListener(onTranscriptionChanged)
         dominantSpeakersCallFeature = call.feature { DominantSpeakersCallFeature::class.java }
         dominantSpeakersCallFeature.addOnDominantSpeakersChangedListener(onDominantSpeakersChanged)
+
+        capabilitiesFeature = call.feature { CapabilitiesCallFeature::class.java }
+        capabilitiesFeature.addOnCapabilitiesChangedListener(onCapabilitiesChanged)
+
         subscribeToUserFacingDiagnosticsEvents()
     }
 
@@ -173,6 +186,11 @@ internal class CallingSDKEventHandler(
     private val onRoleChanged =
         PropertyChangedListener {
             onRoleChanged()
+        }
+
+    private val onCapabilitiesChanged =
+        CapabilitiesChangedListener {
+            onCapabilitiesChanged(it)
         }
 
     private val onTranscriptionChanged =
@@ -330,6 +348,12 @@ internal class CallingSDKEventHandler(
     private fun onRoleChanged() {
         coroutineScope.launch {
             callParticipantRoleSharedFlow.emit(call?.callParticipantRole?.into())
+        }
+    }
+
+    private fun onCapabilitiesChanged(capabilitiesChangedEvent: CapabilitiesChangedEvent) {
+        coroutineScope.launch {
+            callCapabilitiesSharedFlow.emit(capabilitiesFeature.capabilities.into())
         }
     }
 

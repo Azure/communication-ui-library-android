@@ -777,15 +777,6 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         }
     }
 
-    @Test
-    @ExperimentalCoroutinesApi
-    fun callingViewModel_onParticipantListChange_then_showLobbyParticipantsOnGridAndParticipantList_ifRoleIsCoorganizer() {
-        runScopedTest {
-            val localParticipantRole = CallCompositeInternalParticipantRole.COORGANIZER
-            testForParticipantRoleLobbyVisibility(localParticipantRole, true)
-        }
-    }
-
     private suspend fun TestScope.testForParticipantRoleLobbyVisibility(
         localParticipantRole: CallCompositeInternalParticipantRole,
         showLobby: Boolean
