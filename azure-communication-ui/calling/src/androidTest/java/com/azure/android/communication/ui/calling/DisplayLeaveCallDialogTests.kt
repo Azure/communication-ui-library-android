@@ -9,9 +9,12 @@ import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.tapWhenDisplayed
 import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
+import com.azure.android.communication.ui.calling.models.CallCompositeLeaveCallConfirmationMode
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.waitUntilDisplayed
 import java9.util.concurrent.CompletableFuture
@@ -70,9 +73,11 @@ internal class DisplayLeaveCallDialogTests : BaseUiTest() {
     private fun createAndLaunchCallCompositeWithOption(displayLeaveCall: CallCompositeLeaveCallConfirmationMode) : CallComposite {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val callComposite = CallCompositeBuilder()
-            .callScreenOptions(CallCompositeCallScreenOptions(
-                CallCompositeCallScreenControlBarOptions(displayLeaveCall)
-            ))
+            .callScreenOptions(
+                CallCompositeCallScreenOptions(
+                CallCompositeCallScreenControlBarOptions().setLeaveCallConfirmation(displayLeaveCall)
+            )
+            )
             .build()
 
         val communicationTokenRefreshOptions =
