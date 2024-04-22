@@ -154,15 +154,13 @@ class CallLauncherViewModel : ViewModel() {
     private fun callScreenOptions(): CallCompositeCallScreenOptions? {
         return if (SettingsFeatures.getDisplayLeaveCallConfirmationValue()) {
             CallCompositeCallScreenOptions(
-                CallCompositeCallScreenControlBarOptions(
-                    CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED
-                )
+                CallCompositeCallScreenControlBarOptions()
+                    .setLeaveCallConfirmation(CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED)
             )
         } else {
             CallCompositeCallScreenOptions(
-                CallCompositeCallScreenControlBarOptions(
-                    CallCompositeLeaveCallConfirmationMode.ALWAYS_DISABLED
-                )
+                CallCompositeCallScreenControlBarOptions()
+                    .setLeaveCallConfirmation(CallCompositeLeaveCallConfirmationMode.ALWAYS_DISABLED)
             )
         }
     }

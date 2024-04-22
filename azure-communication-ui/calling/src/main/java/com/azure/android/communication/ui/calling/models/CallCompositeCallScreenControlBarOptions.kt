@@ -1,3 +1,0 @@
-package com.azure.android.communication.ui.calling.models
-
-class CallCompositeCallScreenControlBarOptions(var leaveCallConfirmation: CallCompositeLeaveCallConfirmationMode = CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED)
