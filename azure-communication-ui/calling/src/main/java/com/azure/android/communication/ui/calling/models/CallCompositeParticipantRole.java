@@ -13,14 +13,19 @@ import java.util.Collection;
 public final class CallCompositeParticipantRole extends ExpandableStringEnum<CallCompositeParticipantRole> {
 
     /**
-     * Presenter Role in the Room call.
+     * Presenter role in the Rooms call.
      */
     public static final CallCompositeParticipantRole PRESENTER = fromString("Presenter");
 
     /**
-     * Attendee Role in the Room call.
+     * Attendee role in the Rooms call.
      */
     public static final CallCompositeParticipantRole ATTENDEE = fromString("Attendee");
+
+    /**
+     * Consumer role in the Rooms call.
+     */
+    public static final CallCompositeParticipantRole CONSUMER = fromString("Consumer");
 
     /**
      * Creates instance of {@linkCallCompositeParticipantRole}.

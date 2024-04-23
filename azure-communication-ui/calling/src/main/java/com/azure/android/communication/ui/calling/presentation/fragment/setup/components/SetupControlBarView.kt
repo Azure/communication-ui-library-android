@@ -8,7 +8,6 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Build
 import android.util.AttributeSet
-import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
@@ -75,6 +74,12 @@ internal class SetupControlBarView : LinearLayout {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.audioOperationalStatusStat.collect {
                 setMicButtonState(it)
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.micIsVisible.collect {
+                micButton.visibility = if (it) VISIBLE else GONE
             }
         }
 

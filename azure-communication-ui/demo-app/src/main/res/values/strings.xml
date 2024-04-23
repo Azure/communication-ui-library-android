@@ -50,6 +50,7 @@
     <string name="rooms_meeting_label">Rooms</string>
     <string name="rooms_attendee">Attendee</string>
     <string name="rooms_presenter">Presenter</string>
+    <string name="rooms_consumer">Consumer</string>
     <string name="skip_setup_screen_option">Skip Setup Screen Option</string>
     <string name="skip_setup_screen">Skip Setup Screen</string>
     <string name="call_control_option">Default Call Control Option</string>

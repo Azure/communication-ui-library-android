@@ -10,7 +10,7 @@ import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_DECLINED
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_EVICTED
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
-import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
+import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
@@ -1701,7 +1701,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { turnCameraOn() } doReturn cameraStateCompletableFuture
                 on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
                 on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
-                on { getLocalParticipantRoleSharedFlow() } doReturn MutableSharedFlow<CallCompositeInternalParticipantRole?>()
+                on { getLocalParticipantRoleSharedFlow() } doReturn MutableSharedFlow<ParticipantRole?>()
                 on { getNetworkQualityCallDiagnosticsFlow() } doReturn networkQualityCallDiagnosticsSharedFlow
                 on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
@@ -2588,7 +2588,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
             val camerasCountUpdatedStateFlow = MutableStateFlow(2)
             val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
-            val localParticipantRoleSharedFlow = MutableSharedFlow<CallCompositeInternalParticipantRole?>()
+            val localParticipantRoleSharedFlow = MutableSharedFlow<ParticipantRole?>()
             val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
             val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
             val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
@@ -2621,13 +2621,13 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
             // act
             handler.startCall(mockAppStore)
-            localParticipantRoleSharedFlow.emit(CallCompositeInternalParticipantRole.PRESENTER)
+            localParticipantRoleSharedFlow.emit(ParticipantRole.PRESENTER)
 
             // assert
             verify(mockAppStore, times(1)).dispatch(
                 argThat { action ->
                     action is LocalParticipantAction.RoleChanged &&
-                        action.callCompositeInternalParticipantRole == CallCompositeInternalParticipantRole.PRESENTER
+                        action.participantRole == ParticipantRole.PRESENTER
                 }
             )
         }

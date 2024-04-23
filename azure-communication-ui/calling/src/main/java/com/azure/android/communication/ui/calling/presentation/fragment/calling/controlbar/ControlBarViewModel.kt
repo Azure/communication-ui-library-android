@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar
 
-import android.widget.Button
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.redux.action.Action
@@ -83,11 +82,12 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
         audioDeviceSelectionStatusStateFlow = MutableStateFlow(audioState.device)
 
         isMicButtonVisibleStateFlow = MutableStateFlow(shouldMicBeVisible(capabilities))
-        isMicButtonEnabledFlow = MutableStateFlow(shouldMicBeEnabled(
-            audioState,
-            callState.callingStatus,
-            ))
-
+        isMicButtonEnabledFlow = MutableStateFlow(
+            shouldMicBeEnabled(
+                audioState,
+                callState.callingStatus,
+            )
+        )
 
         isAudioDeviceButtonEnabledFlow = MutableStateFlow(shouldAudioDeviceButtonBeEnable(callState.callingStatus))
         isMoreButtonEnabledFlow = MutableStateFlow(shouldMoreButtonBeEnabled(callState.callingStatus))
@@ -95,7 +95,6 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
         requestCallEnd = requestCallEndCallback
         openAudioDeviceSelectionMenu = openAudioDeviceSelectionMenuCallback
         openMoreMenu = openMoreMenuCallback
-
     }
 
     fun update(
@@ -172,13 +171,14 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
         return visibilityState.status != VisibilityStatus.PIP_MODE_ENTERED
     }
 
-    private fun shouldCameraBeVisibility(visibilityState: VisibilityState,
-                                         audioVideoMode: CallCompositeAudioVideoMode,
-                                         capabilities: Set<ParticipantCapabilityType>,
+    private fun shouldCameraBeVisibility(
+        visibilityState: VisibilityState,
+        audioVideoMode: CallCompositeAudioVideoMode,
+        capabilities: Set<ParticipantCapabilityType>,
     ): Boolean {
-        return visibilityState.status != VisibilityStatus.PIP_MODE_ENTERED
-                && audioVideoMode != CallCompositeAudioVideoMode.AUDIO_ONLY
-                && capabilities.contains(ParticipantCapabilityType.TURN_VIDEO_ON)
+        return visibilityState.status != VisibilityStatus.PIP_MODE_ENTERED &&
+            audioVideoMode != CallCompositeAudioVideoMode.AUDIO_ONLY &&
+            capabilities.contains(ParticipantCapabilityType.TURN_VIDEO_ON)
     }
 
     private fun shouldCameraBeEnabled(
@@ -186,11 +186,10 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
         callingStatus: CallingStatus,
         operation: CameraOperationalStatus,
     ): Boolean {
-        return permissionState.cameraPermissionState != PermissionStatus.DENIED
-                && callingStatus == CallingStatus.CONNECTED
-                && operation != CameraOperationalStatus.PENDING
+        return permissionState.cameraPermissionState != PermissionStatus.DENIED &&
+            callingStatus == CallingStatus.CONNECTED &&
+            operation != CameraOperationalStatus.PENDING
     }
-
 
     private fun shouldMicBeVisible(capabilities: Set<ParticipantCapabilityType>): Boolean {
         return capabilities.contains(ParticipantCapabilityType.UNMUTE_MIC)
@@ -199,8 +198,8 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
         audioState: AudioState,
         callingStatus: CallingStatus,
     ): Boolean {
-        return audioState.operation != AudioOperationalStatus.PENDING
-                && callingStatus == CallingStatus.CONNECTED
+        return audioState.operation != AudioOperationalStatus.PENDING &&
+            callingStatus == CallingStatus.CONNECTED
     }
 
     private fun shouldAudioDeviceButtonBeEnable(callingStatus: CallingStatus): Boolean {

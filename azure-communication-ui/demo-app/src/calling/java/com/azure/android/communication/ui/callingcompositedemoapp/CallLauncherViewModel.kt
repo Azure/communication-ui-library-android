@@ -79,7 +79,12 @@ class CallLauncherViewModel : ViewModel() {
             displayName,
         )
 
-        val localOptions = getLocalOptions(context)
+        val localOptions = getLocalOptions(
+            context,
+            /* <ROOMS_SUPPORT:5> */
+            roomRoleHint,
+            /* </ROOMS_SUPPORT:2> */
+        )
         if (localOptions == null) {
             callComposite.launch(context, remoteOptions)
         } else {
@@ -117,9 +122,20 @@ class CallLauncherViewModel : ViewModel() {
         return CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
     }
 
-    private fun getLocalOptions(context: Context): CallCompositeLocalOptions? {
+    private fun getLocalOptions(
+        context: Context,
+        /* <ROOMS_SUPPORT:1> */
+        roomRoleHint: CallCompositeParticipantRole?
+        /* <ROOMS_SUPPORT:1> */
+
+    ): CallCompositeLocalOptions? {
         val localOptions = CallCompositeLocalOptions()
         var isAnythingChanged = false
+
+        if (roomRoleHint != null) {
+            localOptions.roleHint = roomRoleHint
+            isAnythingChanged = true
+        }
 
         val renderedDisplayName = SettingsFeatures.getRenderedDisplayNameOption()
         var avatarImageBitmap: Bitmap? = null

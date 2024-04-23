@@ -23,7 +23,7 @@ import com.azure.android.communication.calling.RemoteParticipant
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.TranscriptionCallFeature
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
-import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
+import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.CallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
@@ -60,7 +60,7 @@ internal class CallingSDKEventHandler(
     private var isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
     private var dominantSpeakersSharedFlow = MutableSharedFlow<DominantSpeakersInfo>()
     private var callingStateWrapperSharedFlow = MutableSharedFlow<CallingStateWrapper>()
-    private var callParticipantRoleSharedFlow = MutableSharedFlow<CallCompositeInternalParticipantRole?>()
+    private var callParticipantRoleSharedFlow = MutableSharedFlow<ParticipantRole?>()
     private var callCapabilitiesSharedFlow = MutableSharedFlow<List<ParticipantCapabilityType>>()
     private var callIdSharedFlow = MutableStateFlow<String?>(null)
     private var remoteParticipantsInfoModelSharedFlow =
@@ -103,7 +103,7 @@ internal class CallingSDKEventHandler(
 
     fun getIsTranscribingSharedFlow(): SharedFlow<Boolean> = isTranscribingSharedFlow
 
-    fun getCallParticipantRoleSharedFlow(): SharedFlow<CallCompositeInternalParticipantRole?> =
+    fun getCallParticipantRoleSharedFlow(): SharedFlow<ParticipantRole?> =
         callParticipantRoleSharedFlow
 
     fun getCallCapabilitiesSharedFlow(): SharedFlow<List<ParticipantCapabilityType>> =

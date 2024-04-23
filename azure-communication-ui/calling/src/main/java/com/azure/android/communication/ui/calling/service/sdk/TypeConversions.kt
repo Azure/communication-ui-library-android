@@ -10,7 +10,7 @@ import com.azure.android.communication.common.MicrosoftTeamsUserIdentifier
 import com.azure.android.communication.common.PhoneNumberIdentifier
 import com.azure.android.communication.common.UnknownIdentifier
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
-import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
+import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.calling.ParticipantCapabilityType as SdkParticipantCapabilityType
@@ -73,13 +73,13 @@ internal fun com.azure.android.communication.calling.DominantSpeakersInfo.into()
     return DominantSpeakersInfoWrapper(this)
 }
 
-internal fun com.azure.android.communication.calling.CallParticipantRole.into(): CallCompositeInternalParticipantRole? {
+internal fun com.azure.android.communication.calling.CallParticipantRole.into(): ParticipantRole? {
     return when (this) {
-        com.azure.android.communication.calling.CallParticipantRole.ATTENDEE -> CallCompositeInternalParticipantRole.ATTENDEE
-        com.azure.android.communication.calling.CallParticipantRole.CONSUMER -> CallCompositeInternalParticipantRole.CONSUMER
-        com.azure.android.communication.calling.CallParticipantRole.PRESENTER -> CallCompositeInternalParticipantRole.PRESENTER
-        com.azure.android.communication.calling.CallParticipantRole.ORGANIZER -> CallCompositeInternalParticipantRole.ORGANIZER
-        com.azure.android.communication.calling.CallParticipantRole.UNINITIALIZED -> CallCompositeInternalParticipantRole.UNINITIALIZED
+        com.azure.android.communication.calling.CallParticipantRole.ATTENDEE -> ParticipantRole.ATTENDEE
+        com.azure.android.communication.calling.CallParticipantRole.CONSUMER -> ParticipantRole.CONSUMER
+        com.azure.android.communication.calling.CallParticipantRole.PRESENTER -> ParticipantRole.PRESENTER
+        com.azure.android.communication.calling.CallParticipantRole.ORGANIZER -> ParticipantRole.ORGANIZER
+        com.azure.android.communication.calling.CallParticipantRole.UNINITIALIZED -> ParticipantRole.UNINITIALIZED
         else -> { null }
     }
 }

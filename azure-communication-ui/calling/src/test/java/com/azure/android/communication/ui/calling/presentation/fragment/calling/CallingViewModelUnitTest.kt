@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
-import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
+import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.models.StreamType
@@ -81,7 +81,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(), any(),) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -158,6 +158,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 any(),
                 any(),
                 any(),
+                any(),
+                any(),
             )
             verify(mockLocalParticipantViewModel, times(1)).update(
                 any(), any(), any(), any(), any(), any(), any(), any(), any()
@@ -184,7 +186,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(), any(),) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -258,6 +260,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 any(),
                 any(),
                 any(),
+                any(),
+                any(),
             )
             verify(mockLocalParticipantViewModel, times(2)).update(
                 any(), any(), any(), any(), any(), any(), any(), any(), any()
@@ -285,7 +289,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(), any(),) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -365,6 +369,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 any(),
                 any(),
                 any(),
+                any(),
+                any(),
             )
             verify(mockLocalParticipantViewModel, times(2)).update(
                 any(), any(), any(), any(), any(), any(), any(), any(), any()
@@ -391,7 +397,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(), any(),) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -461,6 +467,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             verify(mockParticipantListViewModel, times(0)).update(any(), any(), any(), any())
             verify(mockBannerViewModel, times(0)).update(any(), any())
             verify(mockControlBarViewModel, times(2)).update(
+                any(),
+                any(),
                 any(),
                 any(),
                 any(),
@@ -736,7 +744,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
     @ExperimentalCoroutinesApi
     fun callingViewModel_onParticipantListChange_then_hideLobbyParticipantsOnGridAndParticipantList_ifRoleIsUninitialized() {
         runScopedTest {
-            val localParticipantRole = CallCompositeInternalParticipantRole.UNINITIALIZED
+            val localParticipantRole = ParticipantRole.UNINITIALIZED
             testForParticipantRoleLobbyVisibility(localParticipantRole, false)
         }
     }
@@ -745,7 +753,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
     @ExperimentalCoroutinesApi
     fun callingViewModel_onParticipantListChange_then_hideLobbyParticipantsOnGridAndParticipantList_ifRoleIsAttendee() {
         runScopedTest {
-            val localParticipantRole = CallCompositeInternalParticipantRole.ATTENDEE
+            val localParticipantRole = ParticipantRole.ATTENDEE
             testForParticipantRoleLobbyVisibility(localParticipantRole, false)
         }
     }
@@ -754,7 +762,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
     @ExperimentalCoroutinesApi
     fun callingViewModel_onParticipantListChange_then_hideLobbyParticipantsOnGridAndParticipantList_ifRoleIsConsumer() {
         runScopedTest {
-            val localParticipantRole = CallCompositeInternalParticipantRole.CONSUMER
+            val localParticipantRole = ParticipantRole.CONSUMER
             testForParticipantRoleLobbyVisibility(localParticipantRole, false)
         }
     }
@@ -763,7 +771,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
     @ExperimentalCoroutinesApi
     fun callingViewModel_onParticipantListChange_then_showLobbyParticipantsOnGridAndParticipantList_ifRoleIsPresenter() {
         runScopedTest {
-            val localParticipantRole = CallCompositeInternalParticipantRole.PRESENTER
+            val localParticipantRole = ParticipantRole.PRESENTER
             testForParticipantRoleLobbyVisibility(localParticipantRole, true)
         }
     }
@@ -772,13 +780,13 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
     @ExperimentalCoroutinesApi
     fun callingViewModel_onParticipantListChange_then_showLobbyParticipantsOnGridAndParticipantList_ifRoleIsOrganizer() {
         runScopedTest {
-            val localParticipantRole = CallCompositeInternalParticipantRole.ORGANIZER
+            val localParticipantRole = ParticipantRole.ORGANIZER
             testForParticipantRoleLobbyVisibility(localParticipantRole, true)
         }
     }
 
     private suspend fun TestScope.testForParticipantRoleLobbyVisibility(
-        localParticipantRole: CallCompositeInternalParticipantRole,
+        localParticipantRole: ParticipantRole,
         showLobby: Boolean
     ) {
         // one lobby participant and two connected participants
@@ -978,7 +986,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         val mockParticipantGridViewModel = mock<ParticipantGridViewModel> {}
 
         val mockControlBarViewModel = mock<ControlBarViewModel> {
-            on { update(any(), any(), any(), any(), any()) } doAnswer { }
+            on { update(any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
         }
         val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
         val mockLocalParticipantViewModel = mock<LocalParticipantViewModel> {
@@ -1076,6 +1084,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             any(),
             any(),
             any(),
+            any(),
+            any(),
         )
         verify(mockLocalParticipantViewModel, times(2)).update(
             any(), any(), any(), any(), any(), any(), any(), any(), any()
@@ -1109,7 +1119,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         modifiedTimestamp,
     )
 
-    private fun getLocalUserState(localParticipantRole: CallCompositeInternalParticipantRole = CallCompositeInternalParticipantRole.PRESENTER) = LocalUserState(
+    private fun getLocalUserState(localParticipantRole: ParticipantRole = ParticipantRole.PRESENTER) = LocalUserState(
         CameraState(
             CameraOperationalStatus.OFF,
             CameraDeviceSelectionStatus.FRONT,

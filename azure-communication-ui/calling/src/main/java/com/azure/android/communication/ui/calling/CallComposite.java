@@ -421,6 +421,14 @@ public final class CallComposite {
         /* </ROOMS_SUPPORT:0> */
         final CallType callType;
 
+
+        if (localOptions != null) {
+            configuration.setCallCompositeLocalOptions(localOptions);
+            /* <ROOMS_SUPPORT:2> */
+            roomRole = localOptions.getRoleHint();
+            /* </ROOMS_SUPPORT:1> */
+        }
+
         final CallCompositeJoinLocator locator = remoteOptions.getLocator();
         if (locator instanceof CallCompositeGroupCallLocator) {
             callType = CallType.GROUP_CALL;
@@ -433,16 +441,13 @@ public final class CallComposite {
             callType = CallType.ROOMS_CALL;
             final CallCompositeRoomLocator roomLocator = (CallCompositeRoomLocator) locator;
             roomId = roomLocator.getRoomId();
+            if (roomRole == null) {
+                throw new CallCompositeException("A CallCompositeParticipantRole has to be set"
+                        + " on the CallCompositeLocalOptions when using CallCompositeRoomLocator");
+            }
             /* </ROOMS_SUPPORT:0> */
         } else {
             throw new CallCompositeException("Not supported Call Locator type");
-        }
-
-        if (localOptions != null) {
-            configuration.setCallCompositeLocalOptions(localOptions);
-            /* <ROOMS_SUPPORT:2> */
-            roomRole = localOptions.getRoleHint();
-            /* </ROOMS_SUPPORT:1> */
         }
 
         configuration.setCallConfig(new CallConfiguration(

@@ -219,6 +219,7 @@ internal class DependencyInjectionContainerImpl(
             microphoneOnByDefault = localOptions?.isMicrophoneOn ?: false,
             avMode = localOptions?.audioVideoMode ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             skipSetupScreen = localOptions?.isSkipSetupScreen ?: false,
+            roleHint = localOptions?.roleHint
         )
     }
 

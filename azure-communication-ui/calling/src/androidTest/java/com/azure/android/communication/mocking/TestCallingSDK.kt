@@ -12,7 +12,7 @@ import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.PropertyChangedListener
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
-import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
+import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
@@ -85,7 +85,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     private var dominantSpeakersSharedFlow = MutableSharedFlow<DominantSpeakersInfo>()
     private var isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
     private var getCameraCountStateFlow = MutableStateFlow(2)
-    private val participantRoleSharedFlow = MutableSharedFlow<CallCompositeInternalParticipantRole?>()
+    private val participantRoleSharedFlow = MutableSharedFlow<ParticipantRole?>()
     private var networkQualityCallDiagnosticSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
     private var networkCallDiagnosticSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
     private var mediaCallDiagnosticSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
@@ -149,7 +149,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         this.lobbyResultCompletableFuture = lobbyResultCompletableFuture
     }
 
-    fun setParticipantRoleSharedFlow(participantRole: CallCompositeInternalParticipantRole?) {
+    fun setParticipantRoleSharedFlow(participantRole: ParticipantRole?) {
         coroutineScope.launch {
             participantRoleSharedFlow.emit(participantRole)
         }
@@ -383,7 +383,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         return lobbyResultCompletableFuture
     }
 
-    override fun getLocalParticipantRoleSharedFlow(): SharedFlow<CallCompositeInternalParticipantRole?> {
+    override fun getLocalParticipantRoleSharedFlow(): SharedFlow<ParticipantRole?> {
         return participantRoleSharedFlow
     }
 

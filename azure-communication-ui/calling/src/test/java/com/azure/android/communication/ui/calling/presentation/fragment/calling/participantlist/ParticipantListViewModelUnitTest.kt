@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist
 
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
+import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.models.StreamType
@@ -103,7 +103,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 ),
                 "video_stream_id",
                 "local_user",
-                localParticipantRole = CallCompositeInternalParticipantRole.PRESENTER
+                localParticipantRole = ParticipantRole.PRESENTER
             )
 
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -192,7 +192,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 ),
                 "video_stream_id",
                 "local_user",
-                localParticipantRole = CallCompositeInternalParticipantRole.PRESENTER
+                localParticipantRole = ParticipantRole.PRESENTER
             )
 
             val expectedUpdatedLocalParticipantListCellModel =
@@ -276,7 +276,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 ),
                 "video_stream_id",
                 "local_user",
-                localParticipantRole = CallCompositeInternalParticipantRole.PRESENTER
+                localParticipantRole = ParticipantRole.PRESENTER
             )
 
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -340,7 +340,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 ),
                 "video_stream_id",
                 "local_user",
-                localParticipantRole = CallCompositeInternalParticipantRole.PRESENTER
+                localParticipantRole = ParticipantRole.PRESENTER
             )
 
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -445,7 +445,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 ),
                 "video_stream_id",
                 "local_user",
-                localParticipantRole = CallCompositeInternalParticipantRole.PRESENTER
+                localParticipantRole = ParticipantRole.PRESENTER
             )
 
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -552,7 +552,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 ),
                 "video_stream_id",
                 "local_user",
-                localParticipantRole = CallCompositeInternalParticipantRole.PRESENTER
+                localParticipantRole = ParticipantRole.PRESENTER
             )
 
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -669,7 +669,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 ),
                 "video_stream_id",
                 "local_user",
-                localParticipantRole = CallCompositeInternalParticipantRole.PRESENTER
+                localParticipantRole = ParticipantRole.PRESENTER
             )
 
             val mockAppStore = mock<AppStore<ReduxState>> {

@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.calling.service
 
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
-import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
+import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
@@ -104,7 +104,7 @@ internal class CallingService(
         return participantsInfoModelSharedFlow
     }
 
-    fun getLocalParticipantRoleSharedFlow(): SharedFlow<CallCompositeInternalParticipantRole?> {
+    fun getLocalParticipantRoleSharedFlow(): SharedFlow<ParticipantRole?> {
         return callingSdk.getLocalParticipantRoleSharedFlow()
     }
 

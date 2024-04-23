@@ -21,7 +21,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioOperationalSt
 import com.azure.android.communication.ui.calling.service.sdk.CallingStateWrapper
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
-import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
+import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.helper.UnconfinedTestContextProvider
 import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
@@ -673,29 +673,29 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
     fun callingService_getLocalParticipantRoleSharedFlow_when_roleChanged() =
         runScopedTest {
             // arrange
-            val localParticipantRoleSharedFlow = MutableSharedFlow<CallCompositeInternalParticipantRole?>()
+            val localParticipantRoleSharedFlow = MutableSharedFlow<ParticipantRole?>()
             Mockito.`when`(mockCallingGateway.getLocalParticipantRoleSharedFlow())
                 .thenReturn(localParticipantRoleSharedFlow)
             val callingService = CallingService(mockCallingGateway, contextProvider)
-            val emitResultFromFlow = mutableListOf<CallCompositeInternalParticipantRole?>()
+            val emitResultFromFlow = mutableListOf<ParticipantRole?>()
             val job = launch {
                 callingService.getLocalParticipantRoleSharedFlow().toList(emitResultFromFlow)
             }
 
             // act
             callingService.getLocalParticipantRoleSharedFlow()
-            localParticipantRoleSharedFlow.emit(CallCompositeInternalParticipantRole.ATTENDEE)
-            localParticipantRoleSharedFlow.emit(CallCompositeInternalParticipantRole.ORGANIZER)
-            localParticipantRoleSharedFlow.emit(CallCompositeInternalParticipantRole.PRESENTER)
-            localParticipantRoleSharedFlow.emit(CallCompositeInternalParticipantRole.CONSUMER)
-            localParticipantRoleSharedFlow.emit(CallCompositeInternalParticipantRole.UNINITIALIZED)
+            localParticipantRoleSharedFlow.emit(ParticipantRole.ATTENDEE)
+            localParticipantRoleSharedFlow.emit(ParticipantRole.ORGANIZER)
+            localParticipantRoleSharedFlow.emit(ParticipantRole.PRESENTER)
+            localParticipantRoleSharedFlow.emit(ParticipantRole.CONSUMER)
+            localParticipantRoleSharedFlow.emit(ParticipantRole.UNINITIALIZED)
 
             // assert
-            Assert.assertEquals(CallCompositeInternalParticipantRole.ATTENDEE, emitResultFromFlow[0])
-            Assert.assertEquals(CallCompositeInternalParticipantRole.ORGANIZER, emitResultFromFlow[1])
-            Assert.assertEquals(CallCompositeInternalParticipantRole.PRESENTER, emitResultFromFlow[2])
-            Assert.assertEquals(CallCompositeInternalParticipantRole.CONSUMER, emitResultFromFlow[3])
-            Assert.assertEquals(CallCompositeInternalParticipantRole.UNINITIALIZED, emitResultFromFlow[4])
+            Assert.assertEquals(ParticipantRole.ATTENDEE, emitResultFromFlow[0])
+            Assert.assertEquals(ParticipantRole.ORGANIZER, emitResultFromFlow[1])
+            Assert.assertEquals(ParticipantRole.PRESENTER, emitResultFromFlow[2])
+            Assert.assertEquals(ParticipantRole.CONSUMER, emitResultFromFlow[3])
+            Assert.assertEquals(ParticipantRole.UNINITIALIZED, emitResultFromFlow[4])
 
             job.cancel()
         }
@@ -703,11 +703,11 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
     @Test
     fun typeConversion_testRoleConversion() {
         // assert
-        Assert.assertEquals(CallCompositeInternalParticipantRole.UNINITIALIZED, CallParticipantRole.UNINITIALIZED.into())
-        Assert.assertEquals(CallCompositeInternalParticipantRole.ORGANIZER, CallParticipantRole.ORGANIZER.into())
-        Assert.assertEquals(CallCompositeInternalParticipantRole.PRESENTER, CallParticipantRole.PRESENTER.into())
-        Assert.assertEquals(CallCompositeInternalParticipantRole.CONSUMER, CallParticipantRole.CONSUMER.into())
-        Assert.assertEquals(CallCompositeInternalParticipantRole.ATTENDEE, CallParticipantRole.ATTENDEE.into())
+        Assert.assertEquals(ParticipantRole.UNINITIALIZED, CallParticipantRole.UNINITIALIZED.into())
+        Assert.assertEquals(ParticipantRole.ORGANIZER, CallParticipantRole.ORGANIZER.into())
+        Assert.assertEquals(ParticipantRole.PRESENTER, CallParticipantRole.PRESENTER.into())
+        Assert.assertEquals(ParticipantRole.CONSUMER, CallParticipantRole.CONSUMER.into())
+        Assert.assertEquals(ParticipantRole.ATTENDEE, CallParticipantRole.ATTENDEE.into())
     }
 
 //    @Test
