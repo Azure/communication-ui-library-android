@@ -260,11 +260,9 @@ class CallLauncherViewModel : ViewModel() {
                         CallCompositeLocalizationOptions(it)
                     },
                 )
-            )
-            .localization(CallCompositeLocalizationOptions(locale, SettingsFeatures.getLayoutDirection()))
-            .setupScreenOrientation(setupScreenOrientation)
-            .callScreenOrientation(callScreenOrientation)
-            .callScreenOptions(callScreenOptions())
+                .setupScreenOrientation(setupScreenOrientation)
+                .callScreenOrientation(callScreenOrientation)
+                .callScreenOptions(callScreenOptions())
         }
 
         if (AdditionalFeatures.secondaryThemeFeature.active) {
@@ -288,7 +286,9 @@ class CallLauncherViewModel : ViewModel() {
         }
 
         return callCompositeBuilder.build()
-    private fun callScreenOptions(): CallCompositeCallScreenOptions? {
+    }
+
+    private fun callScreenOptions(): CallCompositeCallScreenOptions {
         return if (SettingsFeatures.getDisplayLeaveCallConfirmationValue()) {
             CallCompositeCallScreenOptions(
                 CallCompositeCallScreenControlBarOptions()
@@ -300,10 +300,6 @@ class CallLauncherViewModel : ViewModel() {
                     .setLeaveCallConfirmation(CallCompositeLeaveCallConfirmationMode.ALWAYS_DISABLED)
             )
         }
-    }
-
-    companion object {
-        var callComposite: CallComposite? = null
     }
 
     private fun toast(

@@ -27,7 +27,7 @@ internal class CallingViewModel(
     store: Store<ReduxState>,
     callingViewModelProvider: CallingViewModelFactory,
     private val networkManager: NetworkManager,
-    private val callScreenOptions: CallCompositeCallScreenOptions? = null
+    private val callScreenOptions: CallCompositeCallScreenOptions? = null,
     val multitaskingEnabled: Boolean,
     val avMode: CallCompositeAudioVideoMode,
 ) :
@@ -323,12 +323,12 @@ internal class CallingViewModel(
     }
 
     private fun leaveCallWithoutConfirmation() {
-        if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&
+        if (store.getCurrentState().localParticipantState.initialCallJoinState.skipSetupScreen &&
             (
-                store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTED &&
-                    store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTING &&
-                    store.getCurrentState().callState.callingStatus != CallingStatus.RINGING
-                )
+                    store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTED &&
+                            store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTING &&
+                            store.getCurrentState().callState.callingStatus != CallingStatus.RINGING
+                    )
         ) {
             dispatchAction(action = NavigationAction.Exit())
         } else {
