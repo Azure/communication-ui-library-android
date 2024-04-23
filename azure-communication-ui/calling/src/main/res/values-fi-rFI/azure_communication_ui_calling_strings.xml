@@ -2,7 +2,7 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--    Device-->
     <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Kaiutin</string>
@@ -29,6 +29,9 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Määritä liukuvärjäys</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Vaihda kameraa</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Määritä</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Otsikko</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Tekstitys</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Takaisin siirtyminen</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">Odotetaan isäntää</string>
@@ -44,6 +47,7 @@
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Odotetaan että muut liittyvät</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Puhelu yhden henkilön kanssa</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Soita %1$d henkilölle</string>
+    <string name="azure_communication_ui_calling_view_go_back">Edellinen</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(minä)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Nimetön osallistuja</string>
     <string name="azure_communication_ui_calling_view_leave_call">Poistutaanko puhelusta?</string>
@@ -63,7 +67,7 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">Lisää</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">Jaa diagnostiikkatiedot</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnostiikkatiedot</string>
-    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Jaa diagnostiikkatiedot -painike</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Tallennus on aloitettu.</b> Liittymällä
@@ -104,6 +108,33 @@
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s poistui kokouksesta</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">Olet liittynyt puheluun</string>
 
+    <!--    Participant list-->
+    <string name="azure_communication_ui_calling_participant_list_in_call_n_people">Puhelussa (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">Odotustilassa (%1$d)</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Hyväksy tai hylkää osallistuja kaksoisnapauttamalla</string>
+
+    <!--    Admit participant dialog-->
+    <string name="azure_communication_ui_calling_admit_name">Hyväksy %1$s?</string>
+    <string name="azure_communication_ui_calling_admit">Hyväksy</string>
+    <string name="azure_communication_ui_calling_decline">Hylkää</string>
+    <string name="azure_communication_ui_calling_admit_all">Hyväksy kaikki</string>
+
+    <!--    Lobby header-->
+    <string name="azure_communication_ui_calling_lobby_header_text">Ihmiset odottavat liittymistä</string>
+    <string name="azure_communication_ui_calling_lobby_header_icon_content_description">Odotustila</string>
+    <string name="azure_communication_ui_calling_lobby_header_view_participant_button">Näytä odotustila</string>
+    <string name="azure_communication_ui_calling_lobby_header_accessibility_label">Näytä odotustila</string>
+    <string name="azure_communication_ui_calling_lobby_header_close_description">Sulje odotustila</string>
+
+    <!--    Lobby error header-->
+    <string name="azure_communication_ui_calling_lobby_header_error_close_description">Sulje odotustilan virhe</string>
+    <string name="azure_communication_ui_calling_lobby_error_content_description">Odotustilan virhe</string>
+    <string name="azure_communication_ui_calling_error_lobby_disabled_by_configuration">Odotustila on poistettu käytöstä</string>
+    <string name="azure_communication_ui_calling_error_lobby_conversation_type_not_supported">Odotustila ei ole tuettu</string>
+    <string name="azure_communication_ui_calling_error_lobby_meeting_role_not_allowded">Roolisi ei voi toimia odotustilassa</string>
+    <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">Hylkääminen epäonnistui</string>
+    <string name="azure_communication_ui_calling_error_lobby_unknown">Odotustilan toimintovirhe</string>
+
     <!-- Call Diagnostics -->
     <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Verkkoyhteys katkesi</string>
     <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">Yhdistetään uudelleen...</string>
@@ -119,4 +150,15 @@
 
     <!--    Upper Message Bar Notification -->
     <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Hylkää</string>
+
+    <!--     Support Form -->
+    <string name="azure_communication_ui_calling_report_issue">Ilmoita ongelmasta</string>
+    <string name="azure_communication_ui_calling_report_issue_title">Ilmoita ongelmasta</string>
+    <string name="azure_communication_ui_calling_logs_attach_notice">Lokit liitetään automaattisesti.</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label">Tietosuojakäytäntö</string>
+    <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Kuvaile ongelmaa...</string>
+    <string name="azure_communication_ui_calling_cancel_button_label">Peruuta</string>
+    <string name="azure_communication_ui_calling_attach_screenshot">Liitä näyttökuva</string>
+    <string name="azure_communication_ui_calling_report_a_problem_label">Ilmoita ongelmasta</string>
+    <string name="azure_communication_ui_calling_send_feedback_label">Lähetä</string>
 </resources>

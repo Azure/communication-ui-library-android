@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@drawable/azure_communication_ui_calling_corner_radius_rectangle_4dp_drawer_background"
+    >
+        <com.microsoft.fluentui.widget.Button
+            style="@style/Widget.FluentUI.Button.Borderless"
+            android:id="@+id/azure_communication_ui_send_button"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/azure_communication_ui_calling_send_feedback_label"/>
+
+        <TextView
+            android:id="@+id/azure_communication_ui_calling_send_feedback_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@id/azure_communication_ui_send_button"
+            style="@style/TextAppearance.FluentUI.Heading"
+            android:text="@string/azure_communication_ui_calling_report_a_problem_label"
+            />
+
+        <com.microsoft.fluentui.widget.Button
+            android:id="@+id/azure_communication_ui_cancel_button"
+            style="@style/Widget.FluentUI.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/azure_communication_ui_calling_cancel_button_label" />
+
+                <EditText
+                    android:layout_weight="1"
+                    android:id="@+id/azure_communication_ui_user_message_edit_text"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:hint="@string/azure_communication_ui_calling_describe_your_issue_hint_text"
+                    android:textColorHint="@color/azure_communication_ui_calling_color_on_surface"
+                    android:inputType="textMultiLine"
+                    android:minLines="5"
+                    android:gravity="top"
+                    android:layout_marginTop="32dp"
+                    app:layout_constraintHeight_min="200dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/azure_communication_ui_calling_send_feedback_title"
+                    app:layout_constraintBottom_toTopOf="@id/azure_communication_ui_support_form_logs_notice"
+                    app:layout_constraintWidth_default="spread"
+                    app:layout_constraintHeight_default="spread"
+                    android:importantForAutofill="no" />
+
+
+                <TextView
+                    android:id="@+id/azure_communication_ui_support_form_logs_notice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.FluentUI.Caption"
+                    app:layout_constraintStart_toStartOf="@id/azure_communication_ui_user_message_edit_text"
+                    app:layout_constraintTop_toBottomOf="@id/azure_communication_ui_user_message_edit_text"
+                    android:layout_marginBottom="24dp"
+                    android:text="@string/azure_communication_ui_calling_logs_attach_notice"
+                    />
+
+                <TextView
+                    android:id="@+id/azure_communication_ui_support_form_privacy_link"
+                    android:textColor="@color/fluentui_communication_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@id/azure_communication_ui_support_form_logs_notice"
+                    app:layout_constraintBaseline_toBaselineOf="@id/azure_communication_ui_support_form_logs_notice"
+                    android:layout_marginStart="8dp"
+                    style="@style/TextAppearance.FluentUI.Caption"
+                    android:text="@string/azure_communication_ui_calling_privacy_policy_label"
+                    />
+</androidx.constraintlayout.widget.ConstraintLayout>

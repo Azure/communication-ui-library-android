@@ -19,6 +19,8 @@ import com.azure.android.communication.calling.RecordingCallFeature
 import com.azure.android.communication.calling.RemoteParticipant
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.TranscriptionCallFeature
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
+import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.calling.models.CallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
@@ -27,7 +29,6 @@ import com.azure.android.communication.ui.calling.models.NetworkCallDiagnostic
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
-import com.azure.android.communication.ui.calling.service.ParticipantIdentifierHelper
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview
@@ -42,6 +43,7 @@ import kotlinx.coroutines.launch
 
 internal class CallingSDKEventHandler(
     coroutineContextProvider: CoroutineContextProvider,
+    private val avMode: CallCompositeAudioVideoMode,
 ) {
     companion object {
         private const val SAMPLING_PERIOD_MILLIS: Long = 1000
@@ -54,6 +56,7 @@ internal class CallingSDKEventHandler(
     private var isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
     private var dominantSpeakersSharedFlow = MutableSharedFlow<DominantSpeakersInfo>()
     private var callingStateWrapperSharedFlow = MutableSharedFlow<CallingStateWrapper>()
+    private var callParticipantRoleSharedFlow = MutableSharedFlow<CallCompositeInternalParticipantRole?>()
     private var callIdSharedFlow = MutableStateFlow<String?>(null)
     private var remoteParticipantsInfoModelSharedFlow =
         MutableSharedFlow<Map<String, ParticipantInfoModel>>()
@@ -94,6 +97,9 @@ internal class CallingSDKEventHandler(
 
     fun getIsTranscribingSharedFlow(): SharedFlow<Boolean> = isTranscribingSharedFlow
 
+    fun getCallParticipantRoleSharedFlow(): SharedFlow<CallCompositeInternalParticipantRole?> =
+        callParticipantRoleSharedFlow
+
     // region Call Diagnostics
     fun getNetworkQualityCallDiagnosticsSharedFlow(): SharedFlow<NetworkQualityCallDiagnosticModel> = networkQualityCallDiagnosticsSharedFlow
     fun getNetworkCallDiagnosticsSharedFlow(): SharedFlow<NetworkCallDiagnosticModel> = networkCallDiagnosticsSharedFlow
@@ -115,6 +121,7 @@ internal class CallingSDKEventHandler(
         call.addOnStateChangedListener(onCallStateChanged)
         call.addOnIsMutedChangedListener(onIsMutedChanged)
         call.addOnRemoteParticipantsUpdatedListener(onParticipantsUpdated)
+        call.addOnRoleChangedListener(onRoleChanged)
         recordingFeature = call.feature { RecordingCallFeature::class.java }
         recordingFeature.addOnIsRecordingActiveChangedListener(onRecordingChanged)
         transcriptionFeature = call.feature { TranscriptionCallFeature::class.java }
@@ -143,7 +150,7 @@ internal class CallingSDKEventHandler(
             onTranscriptionChanged
         )
         dominantSpeakersCallFeature.removeOnDominantSpeakersChangedListener(onDominantSpeakersChanged)
-
+        call?.removeOnRoleChangedListener(onRoleChanged)
         call?.removeOnIsMutedChangedListener(onIsMutedChanged)
         unsubscribeFromUserFacingDiagnosticsEvents()
     }
@@ -161,6 +168,11 @@ internal class CallingSDKEventHandler(
     private val onRecordingChanged =
         PropertyChangedListener {
             onRecordingChanged()
+        }
+
+    private val onRoleChanged =
+        PropertyChangedListener {
+            onRoleChanged()
         }
 
     private val onTranscriptionChanged =
@@ -315,6 +327,12 @@ internal class CallingSDKEventHandler(
             onParticipantsUpdated(it)
         }
 
+    private fun onRoleChanged() {
+        coroutineScope.launch {
+            callParticipantRoleSharedFlow.emit(call?.callParticipantRole?.into())
+        }
+    }
+
     private fun onCallStateChange() {
         coroutineScope.launch {
             callIdSharedFlow.emit(call?.id)
@@ -378,7 +396,7 @@ internal class CallingSDKEventHandler(
 
     private fun addParticipants(remoteParticipantValue: List<RemoteParticipant>) {
         remoteParticipantValue.forEach { addedParticipant ->
-            val id = ParticipantIdentifierHelper.getRemoteParticipantId(addedParticipant.identifier)
+            val id = addedParticipant.identifier.rawId
             if (!remoteParticipantsCacheMap.containsKey(id)) {
                 onParticipantAdded(id, addedParticipant)
             }
@@ -400,8 +418,9 @@ internal class CallingSDKEventHandler(
 
         return ParticipantInfoModel(
             displayName = participant.displayName,
-            userIdentifier = ParticipantIdentifierHelper.getRemoteParticipantId(participant.identifier),
+            userIdentifier = participant.identifier.rawId,
             isMuted = participant.isMuted,
+            isCameraDisabled = avMode == CallCompositeAudioVideoMode.AUDIO_ONLY,
             isSpeaking = participant.isSpeaking && !participant.isMuted,
             screenShareVideoStreamModel = createVideoStreamModel(
                 participant,
@@ -424,15 +443,14 @@ internal class CallingSDKEventHandler(
 
     private fun onParticipantsUpdated(participantsUpdatedEvent: ParticipantsUpdatedEvent) {
         participantsUpdatedEvent.addedParticipants.forEach { addedParticipant ->
-            val id = ParticipantIdentifierHelper.getRemoteParticipantId(addedParticipant.identifier)
+            val id = addedParticipant.identifier.rawId
             if (!remoteParticipantsCacheMap.containsKey(id)) {
                 onParticipantAdded(id, addedParticipant)
             }
         }
 
         participantsUpdatedEvent.removedParticipants.forEach { removedParticipant ->
-            val id =
-                ParticipantIdentifierHelper.getRemoteParticipantId(removedParticipant.identifier)
+            val id = removedParticipant.identifier.rawId
             if (remoteParticipantsCacheMap.containsKey(id)) {
                 removedParticipant.removeOnVideoStreamsUpdatedListener(
                     videoStreamsUpdatedListenersMap[id]

@@ -6,20 +6,22 @@ plugins {
 
 apply from: file('publish.gradle')
 apply from: file('jacoco.gradle')
-apply from: file('../java_compile_flags.gradle')
+
 android {
-    compileSdkVersion 33
     resourcePrefix 'azure_communication_ui_calling_'
+    compileSdk 34
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 33
+        targetSdkVersion 34
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+        buildConfigField "String", "UI_SDK_VERSION", "\"" + call_library_version_name + "\""
+        buildConfigField "String", "CALL_SDK_VERSION", "\"" + azure_calling_sdk_version + "\""
     }
 
     buildFeatures {
-        buildConfig = false
+        buildConfig = true
         resValues = false
     }
 
@@ -29,6 +31,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -73,6 +76,7 @@ android {
             exclude({ it.file.absolutePath.contains("/generated/") })
         }
     }
+
     if (!shouldByPassMavenPublish()) {
         publishing {
             multipleVariants('release') {

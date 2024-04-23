@@ -48,6 +48,7 @@ open class BaseUiTest {
     @Before
     open fun setup() {
         reportHelper.label("Starting test")
+        Thread.sleep(5000)
     }
 
     @After

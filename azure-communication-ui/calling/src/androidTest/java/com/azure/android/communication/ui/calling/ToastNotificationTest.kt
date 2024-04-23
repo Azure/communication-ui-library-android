@@ -7,7 +7,7 @@ import com.azure.android.communication.BaseUiTest
 import com.azure.android.communication.assertDisplayed
 import com.azure.android.communication.assertViewGone
 import com.azure.android.communication.assertViewText
-import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.tapWhenDisplayed
 import com.azure.android.communication.waitUntilDisplayed
 import kotlinx.coroutines.test.runTest
@@ -35,7 +35,6 @@ internal class ToastNotificationTest : BaseUiTest() {
 
         callingSDK.setLowNetworkRecieveQuality(false)
 
-        // Assert toast notification is still shown even after UFD is set to false
         assertViewGone(toastNotificationId)
         assertViewGone(toastNotificationIconId)
     }
@@ -61,7 +60,6 @@ internal class ToastNotificationTest : BaseUiTest() {
 
         callingSDK.setLowNetworkSendQuality(false)
 
-        // Assert toast notification is still shown even after UFD is set to false
         assertViewGone(toastNotificationId)
         assertViewGone(toastNotificationIconId)
     }
@@ -88,7 +86,6 @@ internal class ToastNotificationTest : BaseUiTest() {
         // Stop speaking while muted
         callingSDK.setLowNetworkReconnectionQuality(false)
 
-        // Assert toast notification is still shown even after UFD is set to false
         assertViewGone(toastNotificationId)
         assertViewGone(toastNotificationIconId)
     }
@@ -171,7 +168,6 @@ internal class ToastNotificationTest : BaseUiTest() {
         // Stop speaking while muted
         callingSDK.setSpeakingWhileMuted(false)
 
-        // Assert toast notification is still shown even after UFD is set to false
         assertViewGone(toastNotificationId)
         assertViewGone(toastNotificationIconId)
     }

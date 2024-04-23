@@ -2,7 +2,7 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--    Device-->
     <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">مكبر الصوت</string>
@@ -29,6 +29,9 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">إعداد التدرّج</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">تبديل الكاميرا</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">إعداد</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">العنوان</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">عنوان فرعي</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">تنقل خلفي</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">في انتظار المضيف</string>
@@ -44,6 +47,7 @@
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">في انتظار انضمام الآخرين</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">الاتصال مع شخص</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">الاتصال بـ %1$d من الأشخاص</string>
+    <string name="azure_communication_ui_calling_view_go_back">رجوع</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(أنا)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">مشارك غير مسمى</string>
     <string name="azure_communication_ui_calling_view_leave_call">هل تريد مغادرة المكالمة؟</string>
@@ -63,7 +67,7 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">المزيد</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">مشاركة معلومات التشخيص</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">معلومات التشخيص</string>
-    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">زر مشاركة معلومات التشخيص</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>لقد بدأ التسجيل.</b> من خلال الانضمام، فأنت
@@ -104,6 +108,33 @@
     <string name="azure_communication_ui_calling_accessibility_user_left">غادر %1$s الاجتماع</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">لقد انضممت إلى المكالمة</string>
 
+    <!--    Participant list-->
+    <string name="azure_communication_ui_calling_participant_list_in_call_n_people">في المكالمة (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">في ساحة الانتظار (%1$d)</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">اضغط ضغطا مزدوجا برفق لقبول/رفض المشارك</string>
+
+    <!--    Admit participant dialog-->
+    <string name="azure_communication_ui_calling_admit_name">هل تقبل %1$s؟</string>
+    <string name="azure_communication_ui_calling_admit">سماح</string>
+    <string name="azure_communication_ui_calling_decline">رفض</string>
+    <string name="azure_communication_ui_calling_admit_all">السماح للكل</string>
+
+    <!--    Lobby header-->
+    <string name="azure_communication_ui_calling_lobby_header_text">الأشخاص في انتظار الانضمام</string>
+    <string name="azure_communication_ui_calling_lobby_header_icon_content_description">ساحة الانتظار</string>
+    <string name="azure_communication_ui_calling_lobby_header_view_participant_button">عرض ساحة الانتظار</string>
+    <string name="azure_communication_ui_calling_lobby_header_accessibility_label">عرض ساحة الانتظار</string>
+    <string name="azure_communication_ui_calling_lobby_header_close_description">إغلاق ساحة الانتظار</string>
+
+    <!--    Lobby error header-->
+    <string name="azure_communication_ui_calling_lobby_header_error_close_description">خطأ إغلاق ساحة الانتظار</string>
+    <string name="azure_communication_ui_calling_lobby_error_content_description">خطأ في ساحة الانتظار</string>
+    <string name="azure_communication_ui_calling_error_lobby_disabled_by_configuration">تم تعطيل ساحة الانتظار</string>
+    <string name="azure_communication_ui_calling_error_lobby_conversation_type_not_supported">ساحة الانتظار غير مدعومة</string>
+    <string name="azure_communication_ui_calling_error_lobby_meeting_role_not_allowded">لا يمكن لدورك العمل في ساحة الانتظار</string>
+    <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">فشل الرفض</string>
+    <string name="azure_communication_ui_calling_error_lobby_unknown">خطأ في إجراء ساحة الانتظار</string>
+
     <!-- Call Diagnostics -->
     <string name="azure_communication_ui_calling_diagnostics_network_was_lost">تم فقدان الشبكة</string>
     <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">إعادة الاتصال...</string>
@@ -119,4 +150,15 @@
 
     <!--    Upper Message Bar Notification -->
     <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">تجاهل</string>
+
+    <!--     Support Form -->
+    <string name="azure_communication_ui_calling_report_issue">الإبلاغ عن مشكلة</string>
+    <string name="azure_communication_ui_calling_report_issue_title">الإبلاغ عن مشكلة</string>
+    <string name="azure_communication_ui_calling_logs_attach_notice">سنقوم بإرفاق السجلات تلقائيًا.</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label">نهج الخصوصية</string>
+    <string name="azure_communication_ui_calling_describe_your_issue_hint_text">يُرجى وصف مشكلتك...</string>
+    <string name="azure_communication_ui_calling_cancel_button_label">إلغاء</string>
+    <string name="azure_communication_ui_calling_attach_screenshot">إرفاق لقطة الشاشة</string>
+    <string name="azure_communication_ui_calling_report_a_problem_label">الإبلاغ عن مشكلة</string>
+    <string name="azure_communication_ui_calling_send_feedback_label">إرسال</string>
 </resources>

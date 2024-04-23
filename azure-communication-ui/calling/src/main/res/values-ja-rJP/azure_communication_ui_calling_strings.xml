@@ -2,7 +2,7 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--    Device-->
     <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">スピーカー</string>
@@ -29,6 +29,9 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">グラデーションの設定</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">カメラの切り替え</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">セットアップ</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">タイトル</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">サブタイトル</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">戻るナビゲーション</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">ホストを待機しています</string>
@@ -44,6 +47,7 @@
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">他のユーザーの参加を待っています</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">1 人のユーザーと通話</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">%1$d 人のユーザーと通話</string>
+    <string name="azure_communication_ui_calling_view_go_back">戻る</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(自分)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">名前のない参加者</string>
     <string name="azure_communication_ui_calling_view_leave_call">通話を終了しますか?</string>
@@ -63,7 +67,7 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">その他</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">診断情報を共有する</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">診断情報</string>
-    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">診断情報の共有ボタン</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>レコーディングが開始されました。</b> 参加すると、
@@ -104,6 +108,33 @@
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s が会議から退出しました</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">通話に参加しました</string>
 
+    <!--    Participant list-->
+    <string name="azure_communication_ui_calling_participant_list_in_call_n_people">通話中 (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">ロビーで待機中 (%1$d)</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">ダブルタップして参加者を許可/拒否します</string>
+
+    <!--    Admit participant dialog-->
+    <string name="azure_communication_ui_calling_admit_name">%1$s を許可しますか?</string>
+    <string name="azure_communication_ui_calling_admit">参加許可</string>
+    <string name="azure_communication_ui_calling_decline">拒否</string>
+    <string name="azure_communication_ui_calling_admit_all">すべて参加許可</string>
+
+    <!--    Lobby header-->
+    <string name="azure_communication_ui_calling_lobby_header_text">ユーザーが参加待ちの状態です</string>
+    <string name="azure_communication_ui_calling_lobby_header_icon_content_description">ロビー</string>
+    <string name="azure_communication_ui_calling_lobby_header_view_participant_button">ロビーを表示</string>
+    <string name="azure_communication_ui_calling_lobby_header_accessibility_label">ロビーを表示</string>
+    <string name="azure_communication_ui_calling_lobby_header_close_description">ロビーを閉じる</string>
+
+    <!--    Lobby error header-->
+    <string name="azure_communication_ui_calling_lobby_header_error_close_description">ロビー エラーを閉じる</string>
+    <string name="azure_communication_ui_calling_lobby_error_content_description">ロビー エラー</string>
+    <string name="azure_communication_ui_calling_error_lobby_disabled_by_configuration">ロビーが無効になりました</string>
+    <string name="azure_communication_ui_calling_error_lobby_conversation_type_not_supported">ロビーはサポートされていません</string>
+    <string name="azure_communication_ui_calling_error_lobby_meeting_role_not_allowded">あなたのロールではロビーを操作できません</string>
+    <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">拒否できませんでした</string>
+    <string name="azure_communication_ui_calling_error_lobby_unknown">ロビー アクション エラー</string>
+
     <!-- Call Diagnostics -->
     <string name="azure_communication_ui_calling_diagnostics_network_was_lost">ネットワークが失われました</string>
     <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">再接続中...</string>
@@ -119,4 +150,15 @@
 
     <!--    Upper Message Bar Notification -->
     <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">閉じる</string>
+
+    <!--     Support Form -->
+    <string name="azure_communication_ui_calling_report_issue">問題の報告</string>
+    <string name="azure_communication_ui_calling_report_issue_title">問題の報告</string>
+    <string name="azure_communication_ui_calling_logs_attach_notice">ログは自動的に添付されます。</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label">プライバシー ポリシー</string>
+    <string name="azure_communication_ui_calling_describe_your_issue_hint_text">問題を説明してください...</string>
+    <string name="azure_communication_ui_calling_cancel_button_label">取り消す</string>
+    <string name="azure_communication_ui_calling_attach_screenshot">スクリーンショットを添付する</string>
+    <string name="azure_communication_ui_calling_report_a_problem_label">問題を報告する</string>
+    <string name="azure_communication_ui_calling_send_feedback_label">送信する</string>
 </resources>

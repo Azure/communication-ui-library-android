@@ -18,6 +18,7 @@ internal data class ParticipantInfoModel(
     val displayName: String,
     val userIdentifier: String,
     var isMuted: Boolean,
+    var isCameraDisabled: Boolean,
     var isSpeaking: Boolean,
     var participantStatus: ParticipantStatus?,
     var screenShareVideoStreamModel: VideoStreamModel?,

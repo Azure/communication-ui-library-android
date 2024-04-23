@@ -33,9 +33,13 @@ import com.azure.android.communication.ui.calling.CallComposite;
 public final class CallCompositeLocalOptions {
     private CallCompositeParticipantViewData participantViewData = null;
     private CallCompositeSetupScreenViewData setupScreenViewData = null;
+    /* <ROOMS_SUPPORT:3> */
+    private CallCompositeParticipantRole roleHint = null;
+    /* </ROOMS_SUPPORT:0> */
     private boolean cameraOn = false;
     private boolean microphoneOn = false;
     private boolean skipSetupScreen = false;
+    private CallCompositeAudioVideoMode audioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO;
 
     /**
      * Create LocalSettings.
@@ -92,6 +96,31 @@ public final class CallCompositeLocalOptions {
     }
 
     /**
+     * Get role hint.
+     * @return {@link CallCompositeParticipantRole}
+     */
+    /* <ROOMS_SUPPORT:4> */
+    public CallCompositeParticipantRole getRoleHint() {
+        return roleHint;
+    }
+    /* </ROOMS_SUPPORT:0> */
+
+    /**
+     * Get role hint. Use this to hint the role of the user when the role is not available before a Rooms
+     * call is started.
+     * This value should be obtained using the Rooms API. This role will determine permissions in the
+     * Setup screen of the {@link CallComposite}.
+     * The true role of the user will be synced with ACS services when a Rooms call starts.
+     * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
+     */
+    /* <ROOMS_SUPPORT:8> */
+    public CallCompositeLocalOptions setRoleHint(final CallCompositeParticipantRole roleHint) {
+        this.roleHint = roleHint;
+        return this;
+    }
+    /* </ROOMS_SUPPORT:0> */
+
+    /**
      * Get the boolean value for skip setup screen.
      * @return The boolean that is currently set.
      */
@@ -111,14 +140,20 @@ public final class CallCompositeLocalOptions {
 
     /**
      * Get the initial camera configuration boolean value.
+     * Note: If AUDIO_ONLY mode is set, this will always return false.
      * @return The boolean that is currently set.
      */
     public boolean isCameraOn() {
+        //Override if the AV Mode is audio only
+        if (audioVideoMode == CallCompositeAudioVideoMode.AUDIO_ONLY) {
+            return false;
+        }
         return this.cameraOn;
     }
 
     /**
-     * Set a boolean to be used.
+     * Enables the Local Camera by default.
+     * Note: If AvMode is set to Audio Only, this will have no effect
      * @param cameraOn The boolean value to be used for initial camera configuration.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
@@ -147,5 +182,29 @@ public final class CallCompositeLocalOptions {
     ) {
         this.microphoneOn = microphoneOn;
         return this;
+    }
+
+
+    /**
+     * Sets the Audio/Video Mode of the local call.
+     * Currently supported (Audio Only, Audio and Video)
+     * Audio Only: This will disable the camera and incoming video feeds.
+     * Audio and Video: This will enable the camera and incoming video feeds.
+     * See {@link CallCompositeAudioVideoMode}
+     * @param audioVideoMode The {@link CallCompositeAudioVideoMode} to be used.
+     * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
+     */
+    public CallCompositeLocalOptions setAudioVideoMode(final CallCompositeAudioVideoMode audioVideoMode) {
+        this.audioVideoMode = audioVideoMode;
+        return this;
+    }
+
+    /**
+     * Returns the Audio/Video mode of the local call
+     *
+     * @return The boolean value to be used for audio only mode.
+     */
+    public CallCompositeAudioVideoMode getAudioVideoMode() {
+        return audioVideoMode;
     }
 }

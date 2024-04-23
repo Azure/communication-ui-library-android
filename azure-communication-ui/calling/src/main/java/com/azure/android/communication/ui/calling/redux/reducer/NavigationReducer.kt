@@ -22,6 +22,12 @@ internal class NavigationReducerImpl : NavigationReducer {
             is NavigationAction.SetupLaunched -> {
                 state.copy(navigationState = NavigationStatus.SETUP)
             }
+            is NavigationAction.HideSupportForm -> {
+                state.copy(supportVisible = false)
+            }
+            is NavigationAction.ShowSupportForm -> {
+                state.copy(supportVisible = true)
+            }
             else -> state
         }
     }
