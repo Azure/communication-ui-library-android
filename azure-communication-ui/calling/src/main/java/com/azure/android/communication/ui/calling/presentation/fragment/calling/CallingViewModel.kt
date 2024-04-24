@@ -101,7 +101,7 @@ internal class CallingViewModel(
         floatingHeaderViewModel.init(
             state.callState.callingStatus,
             remoteParticipantsForGridView.count(),
-            this::requestCallEnd,
+            this::requestCallEndOnBackPressed,
         )
 
         audioDeviceListViewModel.init(
