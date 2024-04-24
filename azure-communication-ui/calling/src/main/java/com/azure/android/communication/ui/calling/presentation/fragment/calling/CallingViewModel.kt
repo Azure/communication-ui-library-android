@@ -66,9 +66,9 @@ internal class CallingViewModel(
             } else {
                 leaveCallWithoutConfirmation()
             }
-        } ?:
-        // Default to always enabled
-        confirmLeaveOverlayViewModel.requestExitConfirmation()
+        }
+            // Default to always enabled
+            ?: confirmLeaveOverlayViewModel.requestExitConfirmation()
     }
 
     override fun init(coroutineScope: CoroutineScope) {
@@ -325,10 +325,10 @@ internal class CallingViewModel(
     private fun leaveCallWithoutConfirmation() {
         if (store.getCurrentState().localParticipantState.initialCallJoinState.skipSetupScreen &&
             (
-                    store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTED &&
-                            store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTING &&
-                            store.getCurrentState().callState.callingStatus != CallingStatus.RINGING
-                    )
+                store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTED &&
+                    store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTING &&
+                    store.getCurrentState().callState.callingStatus != CallingStatus.RINGING
+                )
         ) {
             dispatchAction(action = NavigationAction.Exit())
         } else {

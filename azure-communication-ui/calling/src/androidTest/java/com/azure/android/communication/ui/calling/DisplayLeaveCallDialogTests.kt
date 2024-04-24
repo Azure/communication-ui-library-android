@@ -73,13 +73,13 @@ internal class DisplayLeaveCallDialogTests : BaseUiTest() {
         confirmCallEnded(callComposite)
     }
 
-    private fun createAndLaunchCallCompositeWithOption(displayLeaveCall: CallCompositeLeaveCallConfirmationMode) : CallComposite {
+    private fun createAndLaunchCallCompositeWithOption(displayLeaveCall: CallCompositeLeaveCallConfirmationMode): CallComposite {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val callComposite = CallCompositeBuilder()
             .callScreenOptions(
                 CallCompositeCallScreenOptions(
-                CallCompositeCallScreenControlBarOptions().setLeaveCallConfirmation(displayLeaveCall)
-            )
+                    CallCompositeCallScreenControlBarOptions().setLeaveCallConfirmation(displayLeaveCall)
+                )
             )
             .build()
 
@@ -98,7 +98,7 @@ internal class DisplayLeaveCallDialogTests : BaseUiTest() {
         return callComposite
     }
 
-    private fun confirmCallEnded(callComposite : CallComposite) {
+    private fun confirmCallEnded(callComposite: CallComposite) {
         exitCallCompletableFuture.whenComplete { _, _ ->
             assert(isExitCompositeReceived)
             assert(callComposite.callState == CallCompositeCallStateCode.NONE)
