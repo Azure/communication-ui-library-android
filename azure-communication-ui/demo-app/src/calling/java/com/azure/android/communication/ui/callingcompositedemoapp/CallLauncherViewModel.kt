@@ -260,10 +260,11 @@ class CallLauncherViewModel : ViewModel() {
                         CallCompositeLocalizationOptions(it)
                     },
                 )
-                .setupScreenOrientation(setupScreenOrientation)
-                .callScreenOrientation(callScreenOrientation)
-                .callScreenOptions(callScreenOptions())
+
         }
+        callCompositeBuilder.setupScreenOrientation(setupScreenOrientation)
+            .callScreenOrientation(callScreenOrientation)
+            .callScreenOptions(callScreenOptions())
 
         if (AdditionalFeatures.secondaryThemeFeature.active) {
             callCompositeBuilder.theme(R.style.MyCompany_Theme_Calling)
