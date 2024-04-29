@@ -75,4 +75,6 @@ internal sealed class LocalParticipantAction : Action {
     class RoleChanged(val participantRole: ParticipantRole?) : LocalParticipantAction()
 
     class SetCapabilities(val capabilities: List<ParticipantCapabilityType>) : LocalParticipantAction()
+
+    class CapabilitiesChanged() : LocalParticipantAction()
 }

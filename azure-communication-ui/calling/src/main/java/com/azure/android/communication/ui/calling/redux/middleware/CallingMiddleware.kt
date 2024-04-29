@@ -100,6 +100,12 @@ internal class CallingMiddlewareImpl(
                 is ParticipantAction.Decline -> {
                     callingMiddlewareActionHandler.decline(action.userIdentifier, store)
                 }
+                is LocalParticipantAction.SetCapabilities -> {
+                    callingMiddlewareActionHandler.setCapabilities(action.capabilities, store)
+                }
+                is LocalParticipantAction.CapabilitiesChanged -> {
+                    callingMiddlewareActionHandler.onCapabilitiesChanged(store)
+                }
             }
             next(action)
         }
