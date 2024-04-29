@@ -441,10 +441,6 @@ public final class CallComposite {
             callType = CallType.ROOMS_CALL;
             final CallCompositeRoomLocator roomLocator = (CallCompositeRoomLocator) locator;
             roomId = roomLocator.getRoomId();
-            if (roomRole == null) {
-                throw new CallCompositeException("A CallCompositeParticipantRole has to be set"
-                        + " on the CallCompositeLocalOptions when using CallCompositeRoomLocator");
-            }
             /* </ROOMS_SUPPORT:0> */
         } else {
             throw new CallCompositeException("Not supported Call Locator type");
