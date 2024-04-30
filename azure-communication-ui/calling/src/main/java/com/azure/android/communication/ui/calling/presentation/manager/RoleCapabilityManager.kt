@@ -7,7 +7,7 @@ import com.azure.android.communication.ui.calling.models.ParticipantRole
 
 // Provides a capability according to the role for Rooms call context.
 internal fun ParticipantRole.hasCapability(capabilityType: ParticipantCapabilityType): Boolean {
-    if (capabilityType == ParticipantCapabilityType.UNMUTE_MIC || capabilityType == ParticipantCapabilityType.TURN_VIDEO_ON) {
+    if (capabilityType == ParticipantCapabilityType.UNMUTE_MICROPHONE || capabilityType == ParticipantCapabilityType.TURN_VIDEO_ON) {
         return this != ParticipantRole.CONSUMER
     }
 

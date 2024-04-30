@@ -10,9 +10,9 @@ internal enum class ParticipantCapabilityType {
     TURN_VIDEO_ON,
 
     /**
-     * Unmute mic
+     * Unmute MICROPHONE
      */
-    UNMUTE_MIC,
+    UNMUTE_MICROPHONE,
 
     /**
      * Share Screen

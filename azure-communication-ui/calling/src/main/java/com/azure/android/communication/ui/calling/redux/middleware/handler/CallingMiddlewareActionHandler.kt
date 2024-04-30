@@ -180,7 +180,7 @@ internal class CallingMiddlewareActionHandlerImpl(
             store.dispatch(LocalParticipantAction.CameraOffTriggered())
         }
 
-        if (!store.getCurrentState().localParticipantState.capabilities.contains(ParticipantCapabilityType.UNMUTE_MIC)) {
+        if (!store.getCurrentState().localParticipantState.capabilities.contains(ParticipantCapabilityType.UNMUTE_MICROPHONE)) {
             store.dispatch(LocalParticipantAction.MicOffTriggered())
         }
     }

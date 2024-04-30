@@ -151,7 +151,7 @@ internal class SetupControlBarViewModel(private val dispatch: (Action) -> Unit) 
         if (roleHint == null) {
             return true
         }
-        return roleHint.hasCapability(ParticipantCapabilityType.UNMUTE_MIC)
+        return roleHint.hasCapability(ParticipantCapabilityType.UNMUTE_MICROPHONE)
     }
 
     private fun shouldMicButtonBeEnabled(callingState: CallingState, audioStateOperation: AudioOperationalStatus): Boolean {

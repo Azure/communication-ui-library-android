@@ -192,7 +192,7 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
     }
 
     private fun shouldMicBeVisible(capabilities: Set<ParticipantCapabilityType>): Boolean {
-        return capabilities.contains(ParticipantCapabilityType.UNMUTE_MIC)
+        return capabilities.contains(ParticipantCapabilityType.UNMUTE_MICROPHONE)
     }
     private fun shouldMicBeEnabled(
         audioState: AudioState,

@@ -89,7 +89,7 @@ internal fun List<com.azure.android.communication.calling.ParticipantCapability>
         when (it.type) {
             SdkParticipantCapabilityType.ADD_COMMUNICATION_USER -> ParticipantCapabilityType.ADD_COMMUNICATION_USER
             SdkParticipantCapabilityType.TURN_VIDEO_ON -> ParticipantCapabilityType.TURN_VIDEO_ON
-            SdkParticipantCapabilityType.UNMUTE_MIC -> ParticipantCapabilityType.UNMUTE_MIC
+            SdkParticipantCapabilityType.UNMUTE_MICROPHONE -> ParticipantCapabilityType.UNMUTE_MICROPHONE
             SdkParticipantCapabilityType.SHARE_SCREEN -> ParticipantCapabilityType.SHARE_SCREEN
             SdkParticipantCapabilityType.REMOVE_PARTICIPANT -> ParticipantCapabilityType.REMOVE_PARTICIPANT
             SdkParticipantCapabilityType.HANG_UP_FOR_EVERY_ONE -> ParticipantCapabilityType.HANG_UP_FOR_EVERY_ONE
