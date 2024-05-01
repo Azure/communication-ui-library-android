@@ -260,7 +260,6 @@ class CallLauncherViewModel : ViewModel() {
                         CallCompositeLocalizationOptions(it)
                     },
                 )
-
         }
         callCompositeBuilder.setupScreenOrientation(setupScreenOrientation)
             .callScreenOrientation(callScreenOrientation)
