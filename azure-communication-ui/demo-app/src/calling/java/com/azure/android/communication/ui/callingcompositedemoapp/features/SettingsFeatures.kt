@@ -187,7 +187,6 @@ class SettingsFeatures {
             }
         }
 
-        @JvmStatic
         fun getDisplayLeaveCallConfirmationValue(): Boolean {
             return sharedPrefs.getBoolean(DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE, DEFAULT_DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE)
         }

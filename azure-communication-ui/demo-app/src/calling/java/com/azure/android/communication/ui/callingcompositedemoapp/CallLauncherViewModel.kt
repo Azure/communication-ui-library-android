@@ -261,9 +261,8 @@ class CallLauncherViewModel : ViewModel() {
                     },
                 )
         }
-        callCompositeBuilder.setupScreenOrientation(setupScreenOrientation)
-            .callScreenOrientation(callScreenOrientation)
-            .callScreenOptions(callScreenOptions())
+
+        callCompositeBuilder.callScreenOptions(callScreenOptions())
 
         if (AdditionalFeatures.secondaryThemeFeature.active) {
             callCompositeBuilder.theme(R.style.MyCompany_Theme_Calling)
