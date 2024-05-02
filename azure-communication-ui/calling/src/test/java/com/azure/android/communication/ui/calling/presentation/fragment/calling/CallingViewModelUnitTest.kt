@@ -141,7 +141,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockAppStore,
                 mockCallingViewModelProvider,
                 mockNetworkManager,
-                callScreenOptions = CallCompositeCallScreenOptions(
+                callScreenOptions = CallCompositeCallScreenOptions().setControlBarOptions(
                     CallCompositeCallScreenControlBarOptions().setLeaveCallConfirmation(
                         CallCompositeLeaveCallConfirmationMode.ALWAYS_DISABLED
                     )
@@ -246,7 +246,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockAppStore,
                 mockCallingViewModelProvider,
                 mockNetworkManager,
-                callScreenOptions = CallCompositeCallScreenOptions(
+                callScreenOptions = CallCompositeCallScreenOptions().setControlBarOptions(
                     CallCompositeCallScreenControlBarOptions().setLeaveCallConfirmation(
                         CallCompositeLeaveCallConfirmationMode.ALWAYS_DISABLED
                     )
@@ -350,7 +350,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockAppStore,
                 mockCallingViewModelProvider,
                 mockNetworkManager,
-                callScreenOptions = CallCompositeCallScreenOptions(
+                callScreenOptions = CallCompositeCallScreenOptions().setControlBarOptions(
                     CallCompositeCallScreenControlBarOptions().setLeaveCallConfirmation(
                         CallCompositeLeaveCallConfirmationMode.ALWAYS_DISABLED
                     )
@@ -461,7 +461,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockAppStore,
                 mockCallingViewModelProvider,
                 mockNetworkManager,
-                callScreenOptions = CallCompositeCallScreenOptions(
+                callScreenOptions = CallCompositeCallScreenOptions().setControlBarOptions(
                     CallCompositeCallScreenControlBarOptions().setLeaveCallConfirmation(
                         CallCompositeLeaveCallConfirmationMode.ALWAYS_DISABLED
                     )
@@ -698,7 +698,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockAppStore,
                 mockCallingViewModelProvider,
                 mockNetworkManager,
-                callScreenOptions = CallCompositeCallScreenOptions(
+                callScreenOptions = CallCompositeCallScreenOptions().setControlBarOptions(
                     CallCompositeCallScreenControlBarOptions().setLeaveCallConfirmation(
                         CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED
                     )
@@ -910,7 +910,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             mockAppStore,
             mockCallingViewModelProvider,
             mockNetworkManager,
-            callScreenOptions = CallCompositeCallScreenOptions(
+            callScreenOptions = CallCompositeCallScreenOptions().setControlBarOptions(
                 CallCompositeCallScreenControlBarOptions().setLeaveCallConfirmation(
                     CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED
                 )
@@ -1067,7 +1067,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             mockAppStore,
             mockCallingViewModelProvider,
             mockNetworkManager,
-            callScreenOptions = CallCompositeCallScreenOptions(
+            callScreenOptions = CallCompositeCallScreenOptions().setControlBarOptions(
                 CallCompositeCallScreenControlBarOptions().setLeaveCallConfirmation(
                     CallCompositeLeaveCallConfirmationMode.ALWAYS_DISABLED
                 )
@@ -1246,7 +1246,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockAppStore,
                 mockCallingViewModelProvider,
                 mockNetworkManager,
-                callScreenOptions = CallCompositeCallScreenOptions(
+                callScreenOptions = CallCompositeCallScreenOptions().setControlBarOptions(
                     CallCompositeCallScreenControlBarOptions().setLeaveCallConfirmation(
                         CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED
                     )
@@ -1344,7 +1344,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 mockAppStore,
                 mockCallingViewModelProvider,
                 mockNetworkManager,
-                callScreenOptions = CallCompositeCallScreenOptions(
+                callScreenOptions = CallCompositeCallScreenOptions().setControlBarOptions(
                     CallCompositeCallScreenControlBarOptions().setLeaveCallConfirmation(
                         CallCompositeLeaveCallConfirmationMode.ALWAYS_DISABLED
                     )
