@@ -411,7 +411,7 @@
             android:paddingTop="@dimen/azure_communication_ui_calling_fab_margin"
             android:textStyle="bold"
             android:textSize="24sp"
-            android:text="@string/display_leave_call_confirmation"
+            android:text="@string/call_screen_settings"
             />
 
         <View
