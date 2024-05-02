@@ -47,6 +47,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var setupScreenOrientationAutoCompleteTextView: AutoCompleteTextView
     private lateinit var callScreenOrientationArrayAdapter: ArrayAdapter<String>
     private lateinit var setupScreenOrientationArrayAdapter: ArrayAdapter<String>
+    private lateinit var displayLeaveCallConfirmationCheckBox: CheckBox
     private lateinit var enableMultitaskingCheckbox: CheckBox
     private lateinit var enablePipWhenMultitaskingCheckbox: CheckBox
 
@@ -113,6 +114,8 @@ class SettingsActivity : AppCompatActivity() {
         updateRenderedDisplayNameText()
         updateTitle()
         updateSubtitle()
+
+        updateDisplayLeaveCallConfirmationCheckbox()
 
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
             val selectedItem: String = supportedLanguages[position]
@@ -199,6 +202,12 @@ class SettingsActivity : AppCompatActivity() {
                         view.isChecked
                     ).apply()
                 }
+                R.id.display_leave_call_confirmation_check_box -> {
+                    sharedPreference.edit().putBoolean(
+                        DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE,
+                        view.isChecked
+                    ).apply()
+                }
             }
         }
     }
@@ -230,6 +239,7 @@ class SettingsActivity : AppCompatActivity() {
         enableMultitaskingCheckbox = findViewById(R.id.multitasking_check_box)
         enablePipWhenMultitaskingCheckbox = findViewById(R.id.multitasking_pip_check_box)
         audioOnlyModeCheckBox = findViewById(R.id.audio_only_check_box)
+        displayLeaveCallConfirmationCheckBox = findViewById(R.id.display_leave_call_confirmation_check_box)
 
         renderDisplayNameTextView.addTextChangedListener {
             saveRenderedDisplayName()
@@ -399,6 +409,14 @@ class SettingsActivity : AppCompatActivity() {
             DEFAULT_AUDIO_ONLY_MODE_ON
         )
     }
+
+    private fun updateDisplayLeaveCallConfirmationCheckbox() {
+        val isChecked = sharedPreference.getBoolean(
+            DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE,
+            DEFAULT_DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE
+        )
+        displayLeaveCallConfirmationCheckBox.isChecked = isChecked
+    }
 }
 
 // Shared pref Keys for language & rtl settings
@@ -443,3 +461,9 @@ const val ENABLE_MULTITASKING = "ENABLE_MULTITASKING"
 const val ENABLE_MULTITASKING_DEFAULT_VALUE = false
 const val ENABLE_PIP_WHEN_MULTITASKING = "ENABLE_PIP_WHEN_MULTITASKING"
 const val ENABLE_PIP_WHEN_MULTITASKING_DEFAULT_VALUE = false
+const val END_CALL_ON_BY_DEFAULT_KEY = "END_CALL_ON_BY_DEFAULT_KEY"
+const val DEFAULT_END_CALL_ON_BY_DEFAULT_VALUE = false
+const val LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY = "LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY"
+const val LAUNCH_ON_EXIT_ON_BY_DEFAULT_VALUE = false
+const val DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE = "DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE_KEY"
+const val DEFAULT_DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE = true

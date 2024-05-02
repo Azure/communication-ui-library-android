@@ -16,10 +16,13 @@ import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
+import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
+import com.azure.android.communication.ui.calling.models.CallCompositeLeaveCallConfirmationMode
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions
@@ -259,6 +262,8 @@ class CallLauncherViewModel : ViewModel() {
                 )
         }
 
+        callCompositeBuilder.callScreenOptions(callScreenOptions())
+
         if (AdditionalFeatures.secondaryThemeFeature.active) {
             callCompositeBuilder.theme(R.style.MyCompany_Theme_Calling)
         }
@@ -280,6 +285,20 @@ class CallLauncherViewModel : ViewModel() {
         }
 
         return callCompositeBuilder.build()
+    }
+
+    private fun callScreenOptions(): CallCompositeCallScreenOptions {
+        return if (SettingsFeatures.getDisplayLeaveCallConfirmationValue()) {
+            CallCompositeCallScreenOptions().setControlBarOptions(
+                CallCompositeCallScreenControlBarOptions()
+                    .setLeaveCallConfirmation(CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED)
+            )
+        } else {
+            CallCompositeCallScreenOptions().setControlBarOptions(
+                CallCompositeCallScreenControlBarOptions()
+                    .setLeaveCallConfirmation(CallCompositeLeaveCallConfirmationMode.ALWAYS_DISABLED)
+            )
+        }
     }
 
     private fun toast(
