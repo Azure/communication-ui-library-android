@@ -77,9 +77,7 @@ internal class DisplayLeaveCallDialogTests : BaseUiTest() {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val callComposite = CallCompositeBuilder()
             .callScreenOptions(
-                CallCompositeCallScreenOptions(
-                    CallCompositeCallScreenControlBarOptions().setLeaveCallConfirmation(displayLeaveCall)
-                )
+                CallCompositeCallScreenOptions().setControlBarOptions(CallCompositeCallScreenControlBarOptions().setLeaveCallConfirmation(displayLeaveCall))
             )
             .build()
 
