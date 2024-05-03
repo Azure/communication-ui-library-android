@@ -302,8 +302,8 @@ internal class AudioSessionManager(
     }
 
     private fun closeProfileProxy() {
-        btAdapter?.run {
-            closeProfileProxy(BluetoothProfile.HEADSET, bluetoothAudioProxy)
+        bluetoothAudioProxy?.let {
+            btAdapter?.closeProfileProxy(BluetoothProfile.HEADSET, bluetoothAudioProxy)
             bluetoothAudioProxy = null
         }
     }
@@ -314,6 +314,8 @@ internal class AudioSessionManager(
     }
 
     override fun onServiceDisconnected(profile: Int) {
-        closeProfileProxy()
+        bluetoothAudioProxy?.let {
+            closeProfileProxy()
+        }
     }
 }
