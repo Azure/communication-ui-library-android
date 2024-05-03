@@ -319,7 +319,6 @@ internal class CallingSDKWrapper(
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                 val telecomManagerOptions = TelecomManagerOptions("48a00980-964d-11ee-9708-1d255bf21164")
-                telecomManagerOptions.isResumeCallAutomatically = true
                 options.telecomManagerOptions = telecomManagerOptions
             }
 
