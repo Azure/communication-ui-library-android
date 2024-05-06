@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling;
 
+import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions;
@@ -22,7 +23,7 @@ public final class CallCompositeBuilder {
     private Boolean enableSystemPiPWhenMultitasking = false;
     private CallCompositeSupportedScreenOrientation callScreenOrientation = null;
     private CallCompositeSupportedScreenOrientation setupScreenOrientation = null;
-
+    private CallCompositeCallScreenOptions callScreenOptions = null;
     /**
      * Sets an optional theme for call-composite to use by {@link CallComposite}.
      *
@@ -83,6 +84,17 @@ public final class CallCompositeBuilder {
     }
 
     /**
+     * Sets the call screen options.
+     *
+     * @param callScreenOptions call screen options.
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    public CallCompositeBuilder callScreenOptions(final CallCompositeCallScreenOptions callScreenOptions) {
+        this.callScreenOptions = callScreenOptions;
+        return this;
+    }
+
+    /**
      * Builds the CallCompositeClass {@link CallComposite}.
      *
      * @return {@link CallComposite}
@@ -95,6 +107,7 @@ public final class CallCompositeBuilder {
         config.setEnableSystemPiPWhenMultitasking(enableSystemPiPWhenMultitasking);
         config.setCallScreenOrientation(this.callScreenOrientation);
         config.setSetupScreenOrientation(this.setupScreenOrientation);
+        config.setCallScreenOptions(callScreenOptions);
         return new CallComposite(config);
     }
 }
