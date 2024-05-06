@@ -311,7 +311,6 @@ internal class AudioSessionManager(
             btAdapter?.closeProfileProxy(BluetoothProfile.HEADSET, bluetoothAudioProxy)
             bluetoothAudioProxy = null
         }
-
     }
 
     override fun onServiceConnected(profile: Int, proxy: BluetoothProfile?) {
