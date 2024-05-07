@@ -72,7 +72,7 @@ internal class AudioFocusHandlerLegacy(val context: Context) : AudioFocusHandler
 internal class AudioFocusManager(
     private val store: Store<ReduxState>,
     applicationContext: Context,
-    private val telecomManagerOptions: CallCompositeTelecomManagerOptions? = null,
+    private val telecomManagerOptions: CallCompositeTelecomManagerOptions?,
 ) {
     private var audioFocusHandler: AudioFocusHandler? = null
     private var isAudioFocused = false

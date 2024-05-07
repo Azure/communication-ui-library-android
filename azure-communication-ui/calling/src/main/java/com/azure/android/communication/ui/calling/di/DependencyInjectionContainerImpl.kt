@@ -126,6 +126,7 @@ internal class DependencyInjectionContainerImpl(
         AudioFocusManager(
             appStore,
             applicationContext,
+            configuration.telecomManagerOptions
         )
     }
 
