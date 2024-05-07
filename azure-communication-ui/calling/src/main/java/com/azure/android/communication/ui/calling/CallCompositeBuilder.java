@@ -97,7 +97,7 @@ public final class CallCompositeBuilder {
         return this;
     }
 
-    /***
+    /**
      * Sets an optional telecom manager options for call-composite to use by {@link CallComposite}.
      *
      * @param telecomManagerOptions {@link CallCompositeTelecomManagerOptions}.
