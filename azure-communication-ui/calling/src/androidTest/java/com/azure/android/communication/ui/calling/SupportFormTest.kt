@@ -20,6 +20,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.azure.android.communication.assertTextNotDisplayed
+import com.azure.android.communication.waitUntilTextDisplayed
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 
@@ -54,6 +55,7 @@ internal class SupportFormTest : BaseUiTest() {
         tapWhenDisplayed(joinCallId)
         waitUntilDisplayed(endCallId)
         tapWhenDisplayed(moreOptionsId)
+        waitUntilTextDisplayed(showSupportFormTextId)
         tapOnText(showSupportFormTextId)
         waitUntilDisplayed(userMessageEditTextId)
 

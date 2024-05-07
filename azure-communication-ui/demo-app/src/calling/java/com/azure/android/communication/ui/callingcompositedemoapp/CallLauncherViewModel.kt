@@ -36,6 +36,8 @@ import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocato
 /* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegration
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.views.DismissCompositeButtonView
@@ -260,6 +262,17 @@ class CallLauncherViewModel : ViewModel() {
                         CallCompositeLocalizationOptions(it)
                     },
                 )
+        }
+
+        SettingsFeatures.telecomManagerIntegration()?.let {
+            if (it != null && it != DEFAULT_TELECOM_MANAGER_INTEGRATION_OPTION) {
+                callCompositeBuilder.telecomManagerOptions(
+                    CallCompositeTelecomManagerOptions(
+                        CallCompositeTelecomManagerIntegration.fromString(it),
+                        BuildConfig.APPLICATION_ID,
+                    )
+                )
+            }
         }
 
         callCompositeBuilder.callScreenOptions(callScreenOptions())

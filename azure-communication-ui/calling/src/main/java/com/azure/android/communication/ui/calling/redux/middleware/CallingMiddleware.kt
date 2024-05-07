@@ -100,6 +100,15 @@ internal class CallingMiddlewareImpl(
                 is ParticipantAction.Decline -> {
                     callingMiddlewareActionHandler.decline(action.userIdentifier, store)
                 }
+                is LocalParticipantAction.AudioDeviceChangeRequested -> {
+                    callingMiddlewareActionHandler.onAudioDeviceChangeRequested(action.requestedAudioDevice, store)
+                }
+                is LocalParticipantAction.AudioDeviceChangeSucceeded -> {
+                    callingMiddlewareActionHandler.onAudioDeviceChangeSucceeded(action.selectedAudioDevice, store)
+                }
+                is AudioSessionAction.AudioFocusRequesting -> {
+                    callingMiddlewareActionHandler.onAudioFocusRequesting(store)
+                }
             }
             next(action)
         }

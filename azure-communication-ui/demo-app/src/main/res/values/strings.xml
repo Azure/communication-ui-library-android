@@ -63,4 +63,5 @@
     <string name="enable_pip_when_multitasking_option">Enable Pip when multitasking</string>
     <string name="display_leave_call_confirmation">Display Leave Call Confirmation</string>
     <string name="call_screen_settings">Call screen settings</string>
+    <string name="telecom_manager_options">Telecom manager options</string>
 </resources>

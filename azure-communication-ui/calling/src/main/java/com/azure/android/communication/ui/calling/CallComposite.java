@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.calling.configuration.CallConfiguratio
 import com.azure.android.communication.ui.calling.configuration.CallType;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainerImpl;
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
@@ -294,6 +295,43 @@ public final class CallComposite {
         }
 
         return CallCompositeCallStateCode.NONE;
+    }
+
+    /**
+     * Add {@link CallCompositeEventHandler}.
+     *
+     * <p> Add a callback for Call Composite Audio Selection Changed Event.
+     * See {@link com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent}
+     * for values.</p>
+     * <pre>
+     *
+     * &#47;&#47; add audio selection changed handler
+     * callComposite.addOnAudioSelectionChangedEventHandler&#40;event -> {
+     *     &#47;&#47; Process audio selection changed event
+     *     System.out.println&#40;event.getSelectionType&#40;&#41;&#41;;
+     * }&#41;;
+     *
+     * </pre>
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void addOnAudioSelectionChangedEventHandler(
+            final CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().addOnAudioSelectionChangedEventHandler(eventHandler);
+    }
+
+    /**
+     * Remove {@link CallCompositeEventHandler}.
+     *
+     * <p> Remove a callback for Call Composite Audio Selection Changed Event.
+     * See {@link com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent}
+     * for values.</p>
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnAudioSelectionChangedEventHandler(
+            final CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().removeOnAudioSelectionChangedEventHandler(eventHandler);
     }
 
     /**
