@@ -63,7 +63,7 @@ internal class AudioSelectionEventAndTelecomManagerTest : BaseUiTest() {
 
         audioDeviceChangedCompletableFuture.get()
 
-        assert(audioDeviceChanged?.mode == CallCompositeAudioSelectionMode.SPEAKER)
+        assert(audioDeviceChanged?.audioSelectionMode == CallCompositeAudioSelectionMode.SPEAKER)
 
         callComposite.dismiss()
     }
@@ -110,7 +110,7 @@ internal class AudioSelectionEventAndTelecomManagerTest : BaseUiTest() {
 
         audioDeviceChangedCompletableFuture.get()
 
-        assert(audioDeviceChanged?.mode == CallCompositeAudioSelectionMode.RECEIVER)
+        assert(audioDeviceChanged?.audioSelectionMode == CallCompositeAudioSelectionMode.RECEIVER)
 
         callComposite.dismiss()
     }
@@ -160,7 +160,7 @@ internal class AudioSelectionEventAndTelecomManagerTest : BaseUiTest() {
 
         audioDeviceChangedCompletableFuture.get()
 
-        assert(audioDeviceChanged?.mode == CallCompositeAudioSelectionMode.SPEAKER)
+        assert(audioDeviceChanged?.audioSelectionMode == CallCompositeAudioSelectionMode.SPEAKER)
 
         callComposite.dismiss()
     }
@@ -206,7 +206,7 @@ internal class AudioSelectionEventAndTelecomManagerTest : BaseUiTest() {
 
         audioDeviceChangedCompletableFuture.get()
 
-        assert(audioDeviceChanged?.mode == CallCompositeAudioSelectionMode.SPEAKER)
+        assert(audioDeviceChanged?.audioSelectionMode == CallCompositeAudioSelectionMode.SPEAKER)
 
         callComposite.dismiss()
     }

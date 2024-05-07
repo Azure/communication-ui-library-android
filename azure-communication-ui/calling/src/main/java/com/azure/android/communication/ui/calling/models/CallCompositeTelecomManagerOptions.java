@@ -13,35 +13,38 @@ public final class CallCompositeTelecomManagerOptions {
     /**
      * Creates a CallCompositeTelecomManagerOptions.
      *
-     * <p>
-     *     The telecom integration is set to
-     *     {@link CallCompositeTelecomManagerIntegrationMode#USE_SDK_PROVIDED_TELECOM_MANAGER}.
-     *     The phone account id is set to the provided phoneAccountId.
-     *     The telecom manager will be managed by the SDK.
-     * </p>
+     * @param mode           {@link CallCompositeTelecomManagerIntegrationMode}
      * @param phoneAccountId A string identifier that is unique across PhoneAccountHandles with the
      *                       same component name. Apps registering PhoneAccountHandles should ensure
      *                       that the ID provided does not expose personally identifying information.
      *                       A ConnectionService should use an opaque token as the PhoneAccountHandle identifier.
      *                       Note: Each String field is limited to 256 characters.
+     * <p>
+     *    The phoneAccountId is required for USE_SDK_PROVIDED_TELECOM_MANAGER mode.
+     * </p>
      */
-    public CallCompositeTelecomManagerOptions(final String phoneAccountId) {
-        this.telecomIntegration = CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER;
+    public CallCompositeTelecomManagerOptions(final CallCompositeTelecomManagerIntegrationMode mode,
+                                              final String phoneAccountId) {
+        if (mode == CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER
+                && phoneAccountId == null) {
+            throw new
+                    IllegalArgumentException("Phone account id is required for USE_SDK_PROVIDED_TELECOM_MANAGER mode.");
+        }
+        this.telecomIntegration = mode;
         this.phoneAccountId = phoneAccountId;
     }
 
+
     /**
      * Creates a CallCompositeTelecomManagerOptions.
+     *
+     * @param mode {@link CallCompositeTelecomManagerIntegrationMode}
      * <p>
-     *     The telecom integration is set to
-     *     {@link CallCompositeTelecomManagerIntegrationMode#APPLICATION_IMPLEMENTED_TELECOM_MANAGER}.
-     *     The phone account id is set to null.
-     *     The telecom manager will be managed by the application.
+     *   The phoneAccountId is required for USE_SDK_PROVIDED_TELECOM_MANAGER mode.
      * </p>
      */
-    public CallCompositeTelecomManagerOptions() {
-        this.telecomIntegration = CallCompositeTelecomManagerIntegrationMode.APPLICATION_IMPLEMENTED_TELECOM_MANAGER;
-        this.phoneAccountId = null;
+    public CallCompositeTelecomManagerOptions(final CallCompositeTelecomManagerIntegrationMode mode) {
+        this(mode, null);
     }
 
     /**

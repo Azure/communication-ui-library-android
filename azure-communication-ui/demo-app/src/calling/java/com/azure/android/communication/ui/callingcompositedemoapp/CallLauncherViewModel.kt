@@ -269,11 +269,14 @@ class CallLauncherViewModel : ViewModel() {
                 val telecomManagerOptions = if (CallCompositeTelecomManagerIntegrationMode.fromString(it)
                     == CallCompositeTelecomManagerIntegrationMode.APPLICATION_IMPLEMENTED_TELECOM_MANAGER
                 ) {
-                    CallCompositeTelecomManagerOptions()
+                    CallCompositeTelecomManagerOptions(CallCompositeTelecomManagerIntegrationMode.APPLICATION_IMPLEMENTED_TELECOM_MANAGER)
                 } else if (CallCompositeTelecomManagerIntegrationMode.fromString(it)
                     == CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER
                 ) {
-                    CallCompositeTelecomManagerOptions(BuildConfig.APPLICATION_ID)
+                    CallCompositeTelecomManagerOptions(
+                        CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER,
+                        BuildConfig.APPLICATION_ID
+                    )
                 } else {
                     null
                 }
