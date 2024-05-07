@@ -29,7 +29,7 @@ import com.azure.android.communication.ui.calling.configuration.CallConfiguratio
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
-import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegration
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
@@ -409,7 +409,7 @@ internal class CallingSDKWrapper(
             callAgentCompletableFuture = CompletableFuture<CallAgent>()
             val options = CallAgentOptions().apply { displayName = callConfig.displayName }
             telecomManagerOptions?.let {
-                if (it.telecomManagerIntegration == CallCompositeTelecomManagerIntegration.USE_SDK_PROVIDED_TELECOM_MANAGER) {
+                if (it.telecomManagerIntegration == CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER) {
                     options.telecomManagerOptions = TelecomManagerOptions(it.phoneAccountId)
                 }
             }

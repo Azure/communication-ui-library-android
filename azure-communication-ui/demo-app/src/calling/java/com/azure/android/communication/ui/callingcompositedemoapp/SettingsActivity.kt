@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
-import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegration
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.google.android.material.textfield.TextInputLayout
 
@@ -72,7 +72,7 @@ class SettingsActivity : AppCompatActivity() {
         supportedScreenOrientations = CallCompositeSupportedScreenOrientation.values().map {
             SettingsFeatures.displayOrientationName(it)
         }
-        val telecomManagerOptions = CallCompositeTelecomManagerIntegration.values().map {
+        val telecomManagerOptions = CallCompositeTelecomManagerIntegrationMode.values().map {
             SettingsFeatures.displayTelecomManagerOptionName(it)
         }
         telecomManagerIntegrationOptions = telecomManagerOptions + DEFAULT_TELECOM_MANAGER_INTEGRATION_OPTION

@@ -36,7 +36,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocato
 /* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
-import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegration
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
@@ -265,13 +265,21 @@ class CallLauncherViewModel : ViewModel() {
         }
 
         SettingsFeatures.telecomManagerIntegration()?.let {
-            if (it != null && it != DEFAULT_TELECOM_MANAGER_INTEGRATION_OPTION) {
-                callCompositeBuilder.telecomManagerOptions(
-                    CallCompositeTelecomManagerOptions(
-                        CallCompositeTelecomManagerIntegration.fromString(it),
-                        BuildConfig.APPLICATION_ID,
-                    )
-                )
+            if (it != DEFAULT_TELECOM_MANAGER_INTEGRATION_OPTION) {
+                val telecomManagerOptions = if (CallCompositeTelecomManagerIntegrationMode.fromString(it)
+                    == CallCompositeTelecomManagerIntegrationMode.APPLICATION_IMPLEMENTED_TELECOM_MANAGER
+                ) {
+                    CallCompositeTelecomManagerOptions()
+                } else if (CallCompositeTelecomManagerIntegrationMode.fromString(it)
+                    == CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER
+                ) {
+                    CallCompositeTelecomManagerOptions(BuildConfig.APPLICATION_ID)
+                } else {
+                    null
+                }
+                telecomManagerOptions?.let { option ->
+                    callCompositeBuilder.telecomManagerOptions(option)
+                }
             }
         }
 

@@ -26,7 +26,7 @@ import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.helper.UnconfinedTestContextProvider
-import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegration
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
@@ -471,7 +471,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
             val configuration = CallCompositeConfiguration()
             configuration.telecomManagerOptions = CallCompositeTelecomManagerOptions(
-                CallCompositeTelecomManagerIntegration.USE_SDK_PROVIDED_TELECOM_MANAGER,
+                CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER,
                 "com.example.telecom.TelecomManager",
             )
 
@@ -2566,7 +2566,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
         val configuration = CallCompositeConfiguration()
         configuration.telecomManagerOptions = CallCompositeTelecomManagerOptions(
-            CallCompositeTelecomManagerIntegration.APPLICATION_IMPLEMENTED_TELECOM_MANAGER,
+            CallCompositeTelecomManagerIntegrationMode.APPLICATION_IMPLEMENTED_TELECOM_MANAGER,
             "com.example.telecom.TelecomManager",
         )
 
@@ -2617,7 +2617,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
         val configuration = CallCompositeConfiguration()
         configuration.telecomManagerOptions = CallCompositeTelecomManagerOptions(
-            CallCompositeTelecomManagerIntegration.USE_SDK_PROVIDED_TELECOM_MANAGER,
+            CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER,
             "com.example.telecom.TelecomManager",
         )
 
@@ -2676,7 +2676,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
         val configuration = CallCompositeConfiguration()
         configuration.telecomManagerOptions = CallCompositeTelecomManagerOptions(
-            CallCompositeTelecomManagerIntegration.USE_SDK_PROVIDED_TELECOM_MANAGER,
+            CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER,
             "com.example.telecom.TelecomManager",
         )
 

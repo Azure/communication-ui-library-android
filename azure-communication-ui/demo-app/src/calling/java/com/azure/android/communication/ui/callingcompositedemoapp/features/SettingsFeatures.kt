@@ -7,7 +7,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.LayoutDirection
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
-import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegration
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
 import com.azure.android.communication.ui.callingcompositedemoapp.AUDIO_ONLY_MODE_ON
 import com.azure.android.communication.ui.callingcompositedemoapp.AVATAR_IMAGE
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY
@@ -108,7 +108,7 @@ class SettingsFeatures {
             return displayName
         }
 
-        fun displayTelecomManagerOptionName(option: CallCompositeTelecomManagerIntegration): String {
+        fun displayTelecomManagerOptionName(option: CallCompositeTelecomManagerIntegrationMode): String {
             return option.toString()
         }
 

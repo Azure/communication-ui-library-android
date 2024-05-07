@@ -10,12 +10,12 @@ import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.tapOnText
 import com.azure.android.communication.tapWhenDisplayed
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent
-import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionType
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionMode
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegration
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions
 import com.azure.android.communication.waitUntilDisplayed
 import com.azure.android.communication.waitUntilTextDisplayed
@@ -63,7 +63,7 @@ internal class AudioSelectionEventAndTelecomManagerTest : BaseUiTest() {
 
         audioDeviceChangedCompletableFuture.get()
 
-        assert(audioDeviceChanged?.selectionType == CallCompositeAudioSelectionType.SPEAKER)
+        assert(audioDeviceChanged?.selectionType == CallCompositeAudioSelectionMode.SPEAKER)
 
         callComposite.dismiss()
     }
@@ -110,7 +110,7 @@ internal class AudioSelectionEventAndTelecomManagerTest : BaseUiTest() {
 
         audioDeviceChangedCompletableFuture.get()
 
-        assert(audioDeviceChanged?.selectionType == CallCompositeAudioSelectionType.RECEIVER)
+        assert(audioDeviceChanged?.selectionType == CallCompositeAudioSelectionMode.RECEIVER)
 
         callComposite.dismiss()
     }
@@ -125,7 +125,7 @@ internal class AudioSelectionEventAndTelecomManagerTest : BaseUiTest() {
         val callComposite = CallCompositeBuilder()
             .telecomManagerOptions(
                 CallCompositeTelecomManagerOptions(
-                    CallCompositeTelecomManagerIntegration.USE_SDK_PROVIDED_TELECOM_MANAGER,
+                    CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER,
                     "test"
                 )
             )
@@ -160,7 +160,7 @@ internal class AudioSelectionEventAndTelecomManagerTest : BaseUiTest() {
 
         audioDeviceChangedCompletableFuture.get()
 
-        assert(audioDeviceChanged?.selectionType == CallCompositeAudioSelectionType.SPEAKER)
+        assert(audioDeviceChanged?.selectionType == CallCompositeAudioSelectionMode.SPEAKER)
 
         callComposite.dismiss()
     }
@@ -175,7 +175,7 @@ internal class AudioSelectionEventAndTelecomManagerTest : BaseUiTest() {
         val callComposite = CallCompositeBuilder()
             .telecomManagerOptions(
                 CallCompositeTelecomManagerOptions(
-                    CallCompositeTelecomManagerIntegration.USE_SDK_PROVIDED_TELECOM_MANAGER,
+                    CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER,
                     "test"
                 )
             )
@@ -206,7 +206,7 @@ internal class AudioSelectionEventAndTelecomManagerTest : BaseUiTest() {
 
         audioDeviceChangedCompletableFuture.get()
 
-        assert(audioDeviceChanged?.selectionType == CallCompositeAudioSelectionType.SPEAKER)
+        assert(audioDeviceChanged?.selectionType == CallCompositeAudioSelectionMode.SPEAKER)
 
         callComposite.dismiss()
     }

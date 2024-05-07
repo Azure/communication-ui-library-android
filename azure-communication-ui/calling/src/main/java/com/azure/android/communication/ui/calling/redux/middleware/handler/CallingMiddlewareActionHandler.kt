@@ -9,9 +9,9 @@ import com.azure.android.communication.ui.calling.error.CallCompositeError
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.FatalError
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent
-import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionType
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionMode
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
-import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegration
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
@@ -375,7 +375,7 @@ internal class CallingMiddlewareActionHandlerImpl(
     ) {
         if (configuration.telecomManagerOptions != null) {
             // it TelecomManger integration is handled by SDK call setTelecomManagerAudioRoute
-            if (configuration.telecomManagerOptions?.telecomManagerIntegration == CallCompositeTelecomManagerIntegration.USE_SDK_PROVIDED_TELECOM_MANAGER) {
+            if (configuration.telecomManagerOptions?.telecomManagerIntegration == CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER) {
                 val route = when (requestedAudioDevice) {
                     AudioDeviceSelectionStatus.SPEAKER_REQUESTED -> CallAudioState.ROUTE_SPEAKER
                     AudioDeviceSelectionStatus.RECEIVER_REQUESTED -> CallAudioState.ROUTE_EARPIECE
@@ -394,9 +394,9 @@ internal class CallingMiddlewareActionHandlerImpl(
         configuration.callCompositeEventsHandler.getOnAudioSelectionChangedEventHandlers().forEach {
             try {
                 val audioSelectionType = when (selectedAudioDevice) {
-                    AudioDeviceSelectionStatus.SPEAKER_SELECTED -> CallCompositeAudioSelectionType.SPEAKER
-                    AudioDeviceSelectionStatus.RECEIVER_SELECTED -> CallCompositeAudioSelectionType.RECEIVER
-                    AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> CallCompositeAudioSelectionType.BLUETOOTH
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED -> CallCompositeAudioSelectionMode.SPEAKER
+                    AudioDeviceSelectionStatus.RECEIVER_SELECTED -> CallCompositeAudioSelectionMode.RECEIVER
+                    AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> CallCompositeAudioSelectionMode.BLUETOOTH
                     else -> return
                 }
                 val event = CallCompositeAudioSelectionChangedEvent(audioSelectionType)
