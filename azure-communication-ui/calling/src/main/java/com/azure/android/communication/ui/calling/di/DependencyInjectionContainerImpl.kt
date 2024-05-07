@@ -86,7 +86,8 @@ internal class DependencyInjectionContainerImpl(
     override val callingMiddlewareActionHandler by lazy {
         CallingMiddlewareActionHandlerImpl(
             callingService,
-            coroutineContextProvider
+            coroutineContextProvider,
+            configuration,
         )
     }
 

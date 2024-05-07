@@ -11,6 +11,7 @@ import com.azure.android.communication.calling.CallAgentOptions
 import com.azure.android.communication.calling.CallClient
 import com.azure.android.communication.calling.CallClientOptions
 import com.azure.android.communication.calling.CameraFacing
+import com.azure.android.communication.calling.CapabilitiesCallFeature
 import com.azure.android.communication.calling.DeviceManager
 import com.azure.android.communication.calling.GroupCallLocator
 import com.azure.android.communication.calling.HangUpOptions
@@ -28,6 +29,7 @@ import com.azure.android.communication.ui.calling.configuration.CallConfiguratio
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
+import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
@@ -98,6 +100,9 @@ internal class CallingSDKWrapper(
 
     override fun getCallCapabilitiesSharedFlow() =
         callingSDKEventHandler.getCallCapabilitiesSharedFlow()
+
+    override fun getCallCapabilitiesEventSharedFlow() =
+        callingSDKEventHandler.getCallCapabilitiesEventSharedFlow()
 
     override fun getIsMutedSharedFlow() = callingSDKEventHandler.getIsMutedSharedFlow()
 
@@ -255,6 +260,10 @@ internal class CallingSDKWrapper(
         }
         createCallAgent()
         return setupCallCompletableFuture
+    }
+
+    override fun getCapabilities(): List<ParticipantCapabilityType> {
+        return nullableCall?.feature { CapabilitiesCallFeature::class.java }?.capabilities?.into() ?: emptyList()
     }
 
     override fun startCall(

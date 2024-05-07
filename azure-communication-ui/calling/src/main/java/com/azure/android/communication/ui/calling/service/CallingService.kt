@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.service
 
+import com.azure.android.communication.calling.CapabilitiesChangedEvent
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.ParticipantRole
@@ -23,7 +24,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -40,20 +40,10 @@ internal class CallingService(
 
     private val participantsInfoModelSharedFlow =
         MutableSharedFlow<Map<String, ParticipantInfoModel>>()
-    private val isMutedSharedFlow = MutableSharedFlow<Boolean>()
-    private val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
-    private val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
     private val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
-    private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
     private var callInfoModelSharedFlow = MutableSharedFlow<CallInfoModel>()
-    private var callIdStateFlow = MutableStateFlow<String?>(null)
+    private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
     private var callingStatus: CallingStatus = CallingStatus.NONE
-
-    //region Call Diagnostics
-    private val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
-    private val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
-    private val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
-    //endregion
 
     fun turnCameraOn(): CompletableFuture<String> {
         return callingSdk.turnOnVideoAsync().thenApply { stream ->
@@ -108,42 +98,32 @@ internal class CallingService(
         return callingSdk.getLocalParticipantRoleSharedFlow()
     }
 
-    fun getCallCapabilitiesSharedFlow(): SharedFlow<List<ParticipantCapabilityType>> {
-        return callingSdk.getCallCapabilitiesSharedFlow()
-    }
+    fun getCallCapabilitiesSharedFlow(): SharedFlow<List<ParticipantCapabilityType>> =
+        callingSdk.getCallCapabilitiesSharedFlow()
+
+    fun getCallCapabilitiesEventSharedFlow(): SharedFlow<CapabilitiesChangedEvent> =
+        callingSdk.getCallCapabilitiesEventSharedFlow()
 
     fun getDominantSpeakersSharedFlow(): SharedFlow<List<String>> {
         return dominantSpeakersSharedFlow
     }
 
-    fun getIsMutedSharedFlow(): Flow<Boolean> {
-        return isMutedSharedFlow
-    }
+    fun getIsMutedSharedFlow(): Flow<Boolean> = callingSdk.getIsMutedSharedFlow()
 
-    fun getIsRecordingSharedFlow(): Flow<Boolean> {
-        return isRecordingSharedFlow
-    }
+    fun getIsRecordingSharedFlow(): Flow<Boolean> = callingSdk.getIsRecordingSharedFlow()
 
     fun getCallInfoModelEventSharedFlow(): SharedFlow<CallInfoModel> = callInfoModelSharedFlow
 
-    fun getCallIdStateFlow(): SharedFlow<String?> = callIdStateFlow
+    fun getCallIdStateFlow(): SharedFlow<String?> = callingSdk.getCallIdStateFlow()
 
-    fun getIsTranscribingSharedFlow(): Flow<Boolean> {
-        return isTranscribingSharedFlow
-    }
+    fun getIsTranscribingSharedFlow(): Flow<Boolean> = callingSdk.getIsTranscribingSharedFlow()
 
     //region Call Diagnostics
-    fun getNetworkQualityCallDiagnosticsFlow(): Flow<NetworkQualityCallDiagnosticModel> {
-        return networkQualityCallDiagnosticsSharedFlow
-    }
+    fun getNetworkQualityCallDiagnosticsFlow(): Flow<NetworkQualityCallDiagnosticModel> = callingSdk.getNetworkQualityCallDiagnosticSharedFlow()
 
-    fun getNetworkCallDiagnosticsFlow(): Flow<NetworkCallDiagnosticModel> {
-        return networkCallDiagnosticsSharedFlow
-    }
+    fun getNetworkCallDiagnosticsFlow(): Flow<NetworkCallDiagnosticModel> = callingSdk.getNetworkCallDiagnosticSharedFlow()
 
-    fun getMediaCallDiagnosticsFlow(): Flow<MediaCallDiagnosticModel> {
-        return mediaCallDiagnosticsSharedFlow
-    }
+    fun getMediaCallDiagnosticsFlow(): Flow<MediaCallDiagnosticModel> = callingSdk.getMediaCallDiagnosticSharedFlow()
     //endregion
 
     fun getCamerasCountStateFlow() = callingSdk.getCamerasCountStateFlow()
@@ -180,54 +160,10 @@ internal class CallingService(
         }
 
         coroutineScope.launch {
-            callingSdk.getCallIdStateFlow().collect {
-                callIdStateFlow.emit(it)
-            }
-        }
-
-        coroutineScope.launch {
-            callingSdk.getIsMutedSharedFlow().collect {
-                isMutedSharedFlow.emit(it)
-            }
-        }
-
-        coroutineScope.launch {
             callingSdk.getRemoteParticipantInfoModelSharedFlow().collect {
                 participantsInfoModelSharedFlow.emit(it)
             }
         }
-
-        coroutineScope.launch {
-            callingSdk.getIsRecordingSharedFlow().collect {
-                isRecordingSharedFlow.emit(it)
-            }
-        }
-
-        coroutineScope.launch {
-            callingSdk.getIsTranscribingSharedFlow().collect {
-                isTranscribingSharedFlow.emit(it)
-            }
-        }
-
-        //region Call Diagnostics
-        coroutineScope.launch {
-            callingSdk.getNetworkQualityCallDiagnosticSharedFlow().collect {
-                networkQualityCallDiagnosticsSharedFlow.emit(it)
-            }
-        }
-
-        coroutineScope.launch {
-            callingSdk.getNetworkCallDiagnosticSharedFlow().collect {
-                networkCallDiagnosticsSharedFlow.emit(it)
-            }
-        }
-
-        coroutineScope.launch {
-            callingSdk.getMediaCallDiagnosticSharedFlow().collect {
-                mediaCallDiagnosticsSharedFlow.emit(it)
-            }
-        }
-        //endregion
 
         coroutineScope.launch {
             callingSdk.getDominantSpeakersSharedFlow().collect {
@@ -239,4 +175,5 @@ internal class CallingService(
     }
 
     fun getLogFiles(): List<File> = callingSdk.getLogFiles()
+    fun getCallCapabilities(): List<ParticipantCapabilityType> = callingSdk.getCapabilities()
 }

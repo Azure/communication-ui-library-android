@@ -61,10 +61,10 @@ internal class CallingSDKEventHandler(
     private var dominantSpeakersSharedFlow = MutableSharedFlow<DominantSpeakersInfo>()
     private var callingStateWrapperSharedFlow = MutableSharedFlow<CallingStateWrapper>()
     private var callParticipantRoleSharedFlow = MutableSharedFlow<ParticipantRole?>()
-    private var callCapabilitiesSharedFlow = MutableSharedFlow<List<ParticipantCapabilityType>>()
     private var callIdSharedFlow = MutableStateFlow<String?>(null)
-    private var remoteParticipantsInfoModelSharedFlow =
-        MutableSharedFlow<Map<String, ParticipantInfoModel>>()
+    private var remoteParticipantsInfoModelSharedFlow = MutableSharedFlow<Map<String, ParticipantInfoModel>>()
+    private var callCapabilitiesSharedFlow = MutableSharedFlow<List<ParticipantCapabilityType>>()
+    private var callCapabilitiesEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
 
     //region Call Diagnostics
     private var networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
@@ -108,6 +108,9 @@ internal class CallingSDKEventHandler(
 
     fun getCallCapabilitiesSharedFlow(): SharedFlow<List<ParticipantCapabilityType>> =
         callCapabilitiesSharedFlow
+
+    fun getCallCapabilitiesEventSharedFlow(): SharedFlow<CapabilitiesChangedEvent> =
+        callCapabilitiesEventSharedFlow
 
     // region Call Diagnostics
     fun getNetworkQualityCallDiagnosticsSharedFlow(): SharedFlow<NetworkQualityCallDiagnosticModel> = networkQualityCallDiagnosticsSharedFlow
@@ -163,6 +166,7 @@ internal class CallingSDKEventHandler(
             onTranscriptionChanged
         )
         dominantSpeakersCallFeature.removeOnDominantSpeakersChangedListener(onDominantSpeakersChanged)
+        capabilitiesFeature.removeOnCapabilitiesChangedListener(onCapabilitiesChanged)
         call?.removeOnRoleChangedListener(onRoleChanged)
         call?.removeOnIsMutedChangedListener(onIsMutedChanged)
         unsubscribeFromUserFacingDiagnosticsEvents()
@@ -354,6 +358,9 @@ internal class CallingSDKEventHandler(
     private fun onCapabilitiesChanged(capabilitiesChangedEvent: CapabilitiesChangedEvent) {
         coroutineScope.launch {
             callCapabilitiesSharedFlow.emit(capabilitiesFeature.capabilities.into())
+        }
+        coroutineScope.launch {
+            callCapabilitiesEventSharedFlow.emit(capabilitiesChangedEvent)
         }
     }
 
@@ -571,6 +578,9 @@ internal class CallingSDKEventHandler(
         callingStateWrapperSharedFlow = MutableSharedFlow()
         callIdSharedFlow = MutableStateFlow(null)
         remoteParticipantsInfoModelSharedFlow = MutableSharedFlow()
+        callParticipantRoleSharedFlow = MutableSharedFlow()
+        callCapabilitiesSharedFlow = MutableSharedFlow()
+        callCapabilitiesEventSharedFlow = MutableSharedFlow()
 
         //region Call Diagnostics
         networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow()

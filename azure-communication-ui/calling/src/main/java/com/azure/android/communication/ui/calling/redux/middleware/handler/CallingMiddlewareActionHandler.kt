@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.redux.middleware.handler
 
+import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.error.CallCompositeError
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.FatalError
@@ -60,7 +61,8 @@ internal interface CallingMiddlewareActionHandler {
 
 internal class CallingMiddlewareActionHandlerImpl(
     private val callingService: CallingService,
-    coroutineContextProvider: CoroutineContextProvider
+    coroutineContextProvider: CoroutineContextProvider,
+    private val configuration: CallCompositeConfiguration
 ) :
     CallingMiddlewareActionHandler {
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
@@ -443,6 +445,15 @@ internal class CallingMiddlewareActionHandlerImpl(
             callingService.getCallCapabilitiesSharedFlow().collect {
                 val action = LocalParticipantAction.SetCapabilities(it)
                 store.dispatch(action)
+            }
+        }
+        coroutineScope.launch {
+            callingService.getCallCapabilitiesEventSharedFlow().collect { event ->
+                configuration.callCompositeEventsHandler.getOnCapabilitiesChangedEvents().forEach { handler ->
+                    try {
+                        handler.handle(event)
+                    } catch (_: Exception) { }
+                }
             }
         }
     }

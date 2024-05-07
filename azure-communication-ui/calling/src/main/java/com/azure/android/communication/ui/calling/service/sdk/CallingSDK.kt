@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.service.sdk
 
 import android.view.View
 import com.azure.android.communication.calling.CameraFacing
+import com.azure.android.communication.calling.CapabilitiesChangedEvent
 import com.azure.android.communication.calling.CreateViewOptions
 import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.ParticipantState
@@ -63,12 +64,14 @@ internal interface CallingSDK {
     fun decline(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?>
     fun getLocalParticipantRoleSharedFlow(): SharedFlow<ParticipantRole?>
     fun getCallCapabilitiesSharedFlow(): SharedFlow<List<ParticipantCapabilityType>>
+    fun getCallCapabilitiesEventSharedFlow(): SharedFlow<CapabilitiesChangedEvent>
 
     //region Call Diagnostics
     fun getNetworkQualityCallDiagnosticSharedFlow(): SharedFlow<NetworkQualityCallDiagnosticModel>
     fun getNetworkCallDiagnosticSharedFlow(): SharedFlow<NetworkCallDiagnosticModel>
     fun getMediaCallDiagnosticSharedFlow(): SharedFlow<MediaCallDiagnosticModel>
     fun getLogFiles(): List<File>
+    fun getCapabilities(): List<ParticipantCapabilityType>
     //endregion
 }
 

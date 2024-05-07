@@ -36,6 +36,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeeti
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.views.DismissCompositeButtonView
+import com.microsoft.appcenter.utils.HandlerUtils.runOnUiThread
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.UUID
 
@@ -227,6 +228,10 @@ class CallLauncherViewModel : ViewModel() {
             toast(context, message = "Joined ${it.identifiers.count()} remote participants")
         }
 
+        callComposite.addOnCapabilitiesEventHandler {
+            toast(context, message = "${it.changedCapabilities.count()} capabilities changed.")
+        }
+
         if (SettingsFeatures.getInjectionAvatarForRemoteParticipantSelection()) {
             callComposite.addOnRemoteParticipantJoinedEventHandler(
                 RemoteParticipantJoinedHandler(callComposite, context)
@@ -303,6 +308,8 @@ class CallLauncherViewModel : ViewModel() {
         message: String,
     ) {
         Log.i("ACSCallingUI", message)
-        Toast.makeText(context.applicationContext, "Debug: $message", Toast.LENGTH_SHORT).show()
+        runOnUiThread {
+            Toast.makeText(context.applicationContext, "Debug: $message", Toast.LENGTH_SHORT).show()
+        }
     }
 }

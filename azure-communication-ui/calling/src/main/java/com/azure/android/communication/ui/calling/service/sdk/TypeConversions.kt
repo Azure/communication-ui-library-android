@@ -85,25 +85,28 @@ internal fun com.azure.android.communication.calling.CallParticipantRole.into():
 }
 
 internal fun List<com.azure.android.communication.calling.ParticipantCapability>.into(): List<ParticipantCapabilityType> {
-    return this.map {
-        when (it.type) {
-            SdkParticipantCapabilityType.ADD_COMMUNICATION_USER -> ParticipantCapabilityType.ADD_COMMUNICATION_USER
-            SdkParticipantCapabilityType.TURN_VIDEO_ON -> ParticipantCapabilityType.TURN_VIDEO_ON
-            SdkParticipantCapabilityType.UNMUTE_MICROPHONE -> ParticipantCapabilityType.UNMUTE_MICROPHONE
-            SdkParticipantCapabilityType.SHARE_SCREEN -> ParticipantCapabilityType.SHARE_SCREEN
-            SdkParticipantCapabilityType.REMOVE_PARTICIPANT -> ParticipantCapabilityType.REMOVE_PARTICIPANT
-            SdkParticipantCapabilityType.HANG_UP_FOR_EVERY_ONE -> ParticipantCapabilityType.HANG_UP_FOR_EVERY_ONE
-            SdkParticipantCapabilityType.ADD_TEAMS_USER -> ParticipantCapabilityType.ADD_TEAMS_USER
-            SdkParticipantCapabilityType.ADD_PHONE_NUMBER -> ParticipantCapabilityType.ADD_PHONE_NUMBER
-            SdkParticipantCapabilityType.MANAGE_LOBBY -> ParticipantCapabilityType.MANAGE_LOBBY
-            SdkParticipantCapabilityType.SPOTLIGHT_PARTICIPANT -> ParticipantCapabilityType.SPOTLIGHT_PARTICIPANT
-            SdkParticipantCapabilityType.REMOVE_PARTICIPANT_SPOTLIGHT -> ParticipantCapabilityType.REMOVE_PARTICIPANT_SPOTLIGHT
-            SdkParticipantCapabilityType.BLUR_BACKGROUND -> ParticipantCapabilityType.BLUR_BACKGROUND
-            SdkParticipantCapabilityType.CUSTOM_BACKGROUND -> ParticipantCapabilityType.CUSTOM_BACKGROUND
-            SdkParticipantCapabilityType.START_LIVE_CAPTIONS -> ParticipantCapabilityType.START_LIVE_CAPTIONS
-            SdkParticipantCapabilityType.RAISE_HAND -> ParticipantCapabilityType.RAISE_HAND
+    return this
+        .filter { it.isAllowed }
+        .filter { it.type != null }
+        .map {
+            when (it.type) {
+                SdkParticipantCapabilityType.ADD_COMMUNICATION_USER -> ParticipantCapabilityType.ADD_COMMUNICATION_USER
+                SdkParticipantCapabilityType.TURN_VIDEO_ON -> ParticipantCapabilityType.TURN_VIDEO_ON
+                SdkParticipantCapabilityType.UNMUTE_MICROPHONE -> ParticipantCapabilityType.UNMUTE_MICROPHONE
+                SdkParticipantCapabilityType.SHARE_SCREEN -> ParticipantCapabilityType.SHARE_SCREEN
+                SdkParticipantCapabilityType.REMOVE_PARTICIPANT -> ParticipantCapabilityType.REMOVE_PARTICIPANT
+                SdkParticipantCapabilityType.HANG_UP_FOR_EVERYONE -> ParticipantCapabilityType.HANG_UP_FOR_EVERY_ONE
+                SdkParticipantCapabilityType.ADD_TEAMS_USER -> ParticipantCapabilityType.ADD_TEAMS_USER
+                SdkParticipantCapabilityType.ADD_PHONE_NUMBER -> ParticipantCapabilityType.ADD_PHONE_NUMBER
+                SdkParticipantCapabilityType.MANAGE_LOBBY -> ParticipantCapabilityType.MANAGE_LOBBY
+                SdkParticipantCapabilityType.SPOTLIGHT_PARTICIPANT -> ParticipantCapabilityType.SPOTLIGHT_PARTICIPANT
+                SdkParticipantCapabilityType.REMOVE_PARTICIPANT_SPOTLIGHT -> ParticipantCapabilityType.REMOVE_PARTICIPANT_SPOTLIGHT
+                SdkParticipantCapabilityType.BLUR_BACKGROUND -> ParticipantCapabilityType.BLUR_BACKGROUND
+                SdkParticipantCapabilityType.CUSTOM_BACKGROUND -> ParticipantCapabilityType.CUSTOM_BACKGROUND
+                SdkParticipantCapabilityType.START_LIVE_CAPTIONS -> ParticipantCapabilityType.START_LIVE_CAPTIONS
+                SdkParticipantCapabilityType.RAISE_HAND -> ParticipantCapabilityType.RAISE_HAND
+            }
         }
-    }
 }
 
 internal fun getLobbyErrorCode(error: CallingCommunicationException) = CallCompositeLobbyErrorCode.UNKNOWN_ERROR
