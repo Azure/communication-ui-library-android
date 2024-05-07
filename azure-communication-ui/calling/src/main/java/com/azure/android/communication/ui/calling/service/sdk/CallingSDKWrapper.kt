@@ -400,7 +400,9 @@ internal class CallingSDKWrapper(
     }
 
     override fun setTelecomManagerAudioRoute(audioRoute: Int) {
-        call.setTelecomManagerAudioRoute(audioRoute)
+        if (nullableCall != null) {
+            call.setTelecomManagerAudioRoute(audioRoute)
+        }
     }
 
     private fun createCallAgent(): CompletableFuture<CallAgent> {

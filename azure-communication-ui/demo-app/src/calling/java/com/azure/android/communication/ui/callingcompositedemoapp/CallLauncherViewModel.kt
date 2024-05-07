@@ -216,6 +216,10 @@ class CallLauncherViewModel : ViewModel() {
             toast(context, message = "Joined ${it.identifiers.count()} remote participants")
         }
 
+        callComposite.addOnAudioSelectionChangedEventHandler { event ->
+            toast(context, message = "Audio selection changed to ${event.audioSelectionMode}")
+        }
+
         if (SettingsFeatures.getInjectionAvatarForRemoteParticipantSelection()) {
             callComposite.addOnRemoteParticipantJoinedEventHandler(
                 RemoteParticipantJoinedHandler(callComposite, context)
