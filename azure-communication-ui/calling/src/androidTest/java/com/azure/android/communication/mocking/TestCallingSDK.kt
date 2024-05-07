@@ -403,6 +403,9 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         return emptyList()
     }
 
+    override fun setTelecomManagerAudioRoute(audioRoute: Int) {
+    }
+
     private fun RemoteVideoStream.asVideoStreamModel(): VideoStreamModel {
         return VideoStreamModel(
             this.id.toString(),

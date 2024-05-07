@@ -100,7 +100,7 @@ android {
     flavorDimensions "product"
     productFlavors {
         calling {
-            minSdkVersion 21
+            minSdkVersion 26
             dimension "product"
             matchingFallbacks = ["calling"]
 

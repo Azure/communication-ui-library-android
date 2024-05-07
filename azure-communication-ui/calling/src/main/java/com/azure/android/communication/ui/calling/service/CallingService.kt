@@ -234,4 +234,8 @@ internal class CallingService(
     }
 
     fun getLogFiles(): List<File> = callingSdk.getLogFiles()
+
+    fun setTelecomManagerAudioRoute(audioRoute: Int) {
+        callingSdk.setTelecomManagerAudioRoute(audioRoute)
+    }
 }

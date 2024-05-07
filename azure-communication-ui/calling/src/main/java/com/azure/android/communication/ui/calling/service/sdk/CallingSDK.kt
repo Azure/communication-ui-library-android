@@ -68,6 +68,8 @@ internal interface CallingSDK {
     fun getMediaCallDiagnosticSharedFlow(): SharedFlow<MediaCallDiagnosticModel>
     fun getLogFiles(): List<File>
     //endregion
+
+    fun setTelecomManagerAudioRoute(audioRoute: Int)
 }
 
 internal interface RemoteParticipant {

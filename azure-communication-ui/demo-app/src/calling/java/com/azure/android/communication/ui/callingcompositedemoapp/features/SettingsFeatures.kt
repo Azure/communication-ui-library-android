@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.LayoutDirection
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegration
 import com.azure.android.communication.ui.callingcompositedemoapp.AUDIO_ONLY_MODE_ON
 import com.azure.android.communication.ui.callingcompositedemoapp.AVATAR_IMAGE
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY
@@ -36,6 +37,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.RENDERED_DISPL
 import com.azure.android.communication.ui.callingcompositedemoapp.SETTINGS_SHARED_PREFS
 import com.azure.android.communication.ui.callingcompositedemoapp.SETUP_SCREEN_ORIENTATION_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.SKIP_SETUP_SCREEN_VALUE_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.TELECOM_MANAGER_INTEGRATION_OPTION_KEY
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import java.util.Locale
@@ -106,6 +108,10 @@ class SettingsFeatures {
             return displayName
         }
 
+        fun displayTelecomManagerOptionName(option: CallCompositeTelecomManagerIntegration): String {
+            return option.toString()
+        }
+
         fun getInjectionAvatarForRemoteParticipantSelection(): Boolean {
             return sharedPrefs.getBoolean(PERSONA_INJECTION_VALUE_PREF_KEY, false)
         }
@@ -162,6 +168,12 @@ class SettingsFeatures {
         fun callScreenOrientation(): String? =
             sharedPrefs.getString(
                 CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY,
+                null,
+            )
+
+        fun telecomManagerIntegration(): String? =
+            sharedPrefs.getString(
+                TELECOM_MANAGER_INTEGRATION_OPTION_KEY,
                 null,
             )
 
