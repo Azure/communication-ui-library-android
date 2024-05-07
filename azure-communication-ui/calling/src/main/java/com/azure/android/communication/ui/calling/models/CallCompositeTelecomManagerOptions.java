@@ -8,7 +8,7 @@ package com.azure.android.communication.ui.calling.models;
  */
 public final class CallCompositeTelecomManagerOptions {
     private final CallCompositeTelecomManagerIntegrationMode telecomIntegration;
-    private String phoneAccountId;
+    private final String phoneAccountId;
 
     /**
      * Creates a CallCompositeTelecomManagerOptions.
@@ -49,7 +49,7 @@ public final class CallCompositeTelecomManagerOptions {
      *
      * @return {@link CallCompositeTelecomManagerIntegrationMode}
      */
-    public CallCompositeTelecomManagerIntegrationMode getTelecomManagerIntegration() {
+    public CallCompositeTelecomManagerIntegrationMode getTelecomManagerIntegrationMode() {
         return telecomIntegration;
     }
 

@@ -7,23 +7,23 @@ package com.azure.android.communication.ui.calling.models;
  * Event with audio selection changed.
  */
 public final class CallCompositeAudioSelectionChangedEvent {
-    private final CallCompositeAudioSelectionMode selectionType;
+    private final CallCompositeAudioSelectionMode mode;
 
     /**
      * Create {@link CallCompositeAudioSelectionChangedEvent} with selection.
      *
-     * @param selectionType selection type  {@link CallCompositeAudioSelectionMode}.
+     * @param mode selection type  {@link CallCompositeAudioSelectionMode}.
      */
-    public CallCompositeAudioSelectionChangedEvent(final CallCompositeAudioSelectionMode selectionType) {
-        this.selectionType = selectionType;
+    public CallCompositeAudioSelectionChangedEvent(final CallCompositeAudioSelectionMode mode) {
+        this.mode = mode;
     }
 
     /**
-     * Get selection type.
+     * Get audio selection mode.
      *
      * @return the {@link CallCompositeAudioSelectionMode}.
      */
-    public CallCompositeAudioSelectionMode getSelectionType() {
-        return selectionType;
+    public CallCompositeAudioSelectionMode getAudioSelectionMode() {
+        return mode;
     }
 }
