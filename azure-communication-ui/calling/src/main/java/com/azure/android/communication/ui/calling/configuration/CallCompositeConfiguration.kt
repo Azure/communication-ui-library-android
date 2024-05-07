@@ -8,6 +8,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallScreen
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions
 
 internal class CallCompositeConfiguration {
     var themeConfig: Int? = null
@@ -21,4 +22,5 @@ internal class CallCompositeConfiguration {
     var callScreenOrientation: CallCompositeSupportedScreenOrientation? = null
     var setupScreenOrientation: CallCompositeSupportedScreenOrientation? = null
     var callScreenOptions: CallCompositeCallScreenOptions? = null
+    var telecomManagerOptions: CallCompositeTelecomManagerOptions? = null
 }

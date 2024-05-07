@@ -21,6 +21,7 @@ import com.azure.android.communication.calling.JoinMeetingLocator
 import com.azure.android.communication.calling.RoomCallLocator
 /* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.calling.TeamsMeetingLinkLocator
+import com.azure.android.communication.calling.TelecomManagerOptions
 import com.azure.android.communication.calling.VideoDevicesUpdatedListener
 import com.azure.android.communication.calling.VideoOptions
 import com.azure.android.communication.ui.calling.CallCompositeException
@@ -28,6 +29,8 @@ import com.azure.android.communication.ui.calling.configuration.CallConfiguratio
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
@@ -48,6 +51,7 @@ internal class CallingSDKWrapper(
     private val callingSDKEventHandler: CallingSDKEventHandler,
     private val callConfigInjected: CallConfiguration?,
     private val logger: Logger? = null,
+    private val telecomManagerOptions: CallCompositeTelecomManagerOptions? = null,
 ) : CallingSDK {
     private var nullableCall: Call? = null
     private var callClient: CallClient? = null
@@ -395,11 +399,22 @@ internal class CallingSDKWrapper(
         return result
     }
 
+    override fun setTelecomManagerAudioRoute(audioRoute: Int) {
+        if (nullableCall != null) {
+            call.setTelecomManagerAudioRoute(audioRoute)
+        }
+    }
+
     private fun createCallAgent(): CompletableFuture<CallAgent> {
 
         if (callAgentCompletableFuture == null || callAgentCompletableFuture!!.isCompletedExceptionally) {
             callAgentCompletableFuture = CompletableFuture<CallAgent>()
             val options = CallAgentOptions().apply { displayName = callConfig.displayName }
+            telecomManagerOptions?.let {
+                if (it.telecomManagerIntegrationMode == CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER) {
+                    options.telecomManagerOptions = TelecomManagerOptions(it.phoneAccountId)
+                }
+            }
             try {
                 val createCallAgentFutureCompletableFuture = callClient!!.createCallAgent(
                     context,

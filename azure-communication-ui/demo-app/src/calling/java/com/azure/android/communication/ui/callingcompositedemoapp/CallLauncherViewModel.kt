@@ -36,6 +36,8 @@ import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocato
 /* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.views.DismissCompositeButtonView
@@ -214,6 +216,10 @@ class CallLauncherViewModel : ViewModel() {
             toast(context, message = "Joined ${it.identifiers.count()} remote participants")
         }
 
+        callComposite.addOnAudioSelectionChangedEventHandler { event ->
+            toast(context, message = "Audio selection changed to ${event.audioSelectionMode}")
+        }
+
         if (SettingsFeatures.getInjectionAvatarForRemoteParticipantSelection()) {
             callComposite.addOnRemoteParticipantJoinedEventHandler(
                 RemoteParticipantJoinedHandler(callComposite, context)
@@ -260,6 +266,28 @@ class CallLauncherViewModel : ViewModel() {
                         CallCompositeLocalizationOptions(it)
                     },
                 )
+        }
+
+        SettingsFeatures.telecomManagerIntegration()?.let {
+            if (it != DEFAULT_TELECOM_MANAGER_INTEGRATION_OPTION) {
+                val telecomManagerOptions = if (CallCompositeTelecomManagerIntegrationMode.fromString(it)
+                    == CallCompositeTelecomManagerIntegrationMode.APPLICATION_IMPLEMENTED_TELECOM_MANAGER
+                ) {
+                    CallCompositeTelecomManagerOptions(CallCompositeTelecomManagerIntegrationMode.APPLICATION_IMPLEMENTED_TELECOM_MANAGER)
+                } else if (CallCompositeTelecomManagerIntegrationMode.fromString(it)
+                    == CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER
+                ) {
+                    CallCompositeTelecomManagerOptions(
+                        CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER,
+                        BuildConfig.APPLICATION_ID
+                    )
+                } else {
+                    null
+                }
+                telecomManagerOptions?.let { option ->
+                    callCompositeBuilder.telecomManagerOptions(option)
+                }
+            }
         }
 
         callCompositeBuilder.callScreenOptions(callScreenOptions())

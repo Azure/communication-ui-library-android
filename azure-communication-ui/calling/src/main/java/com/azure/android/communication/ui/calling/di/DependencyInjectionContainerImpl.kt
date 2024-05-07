@@ -86,7 +86,8 @@ internal class DependencyInjectionContainerImpl(
     override val callingMiddlewareActionHandler by lazy {
         CallingMiddlewareActionHandlerImpl(
             callingService,
-            coroutineContextProvider
+            coroutineContextProvider,
+            configuration,
         )
     }
 
@@ -125,6 +126,7 @@ internal class DependencyInjectionContainerImpl(
         AudioFocusManager(
             appStore,
             applicationContext,
+            configuration.telecomManagerOptions
         )
     }
 
@@ -270,7 +272,9 @@ internal class DependencyInjectionContainerImpl(
             ?: CallingSDKWrapper(
                 applicationContext,
                 callingSDKEventHandler,
-                configuration.callConfig
+                configuration.callConfig,
+                logger,
+                configuration.telecomManagerOptions
             )
     }
 

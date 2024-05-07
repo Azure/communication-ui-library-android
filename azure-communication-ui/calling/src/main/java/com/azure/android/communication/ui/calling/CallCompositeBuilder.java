@@ -8,6 +8,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeLocalizati
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation;
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions;
 
 /**
  * Builder for creating {@link CallComposite}.
@@ -24,6 +25,8 @@ public final class CallCompositeBuilder {
     private CallCompositeSupportedScreenOrientation callScreenOrientation = null;
     private CallCompositeSupportedScreenOrientation setupScreenOrientation = null;
     private CallCompositeCallScreenOptions callScreenOptions = null;
+    private CallCompositeTelecomManagerOptions telecomManagerOptions = null;
+
     /**
      * Sets an optional theme for call-composite to use by {@link CallComposite}.
      *
@@ -95,6 +98,18 @@ public final class CallCompositeBuilder {
     }
 
     /**
+     * Sets an optional telecom manager options for call-composite to use by {@link CallComposite}.
+     *
+     * @param telecomManagerOptions {@link CallCompositeTelecomManagerOptions}.
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    public CallCompositeBuilder telecomManagerOptions(
+            final CallCompositeTelecomManagerOptions telecomManagerOptions) {
+        this.telecomManagerOptions = telecomManagerOptions;
+        return this;
+    }
+
+    /**
      * Builds the CallCompositeClass {@link CallComposite}.
      *
      * @return {@link CallComposite}
@@ -108,6 +123,7 @@ public final class CallCompositeBuilder {
         config.setCallScreenOrientation(this.callScreenOrientation);
         config.setSetupScreenOrientation(this.setupScreenOrientation);
         config.setCallScreenOptions(callScreenOptions);
+        config.setTelecomManagerOptions(telecomManagerOptions);
         return new CallComposite(config);
     }
 }

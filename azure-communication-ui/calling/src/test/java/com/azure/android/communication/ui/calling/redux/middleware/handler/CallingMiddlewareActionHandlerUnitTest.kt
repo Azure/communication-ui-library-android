@@ -3,7 +3,9 @@
 
 package com.azure.android.communication.ui.calling.redux.middleware.handler
 
+import android.telecom.CallAudioState
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_END_FAILED
@@ -24,9 +26,12 @@ import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.helper.UnconfinedTestContextProvider
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
+import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
 
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
@@ -78,9 +83,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             on { turnCameraOff() } doReturn cameraStateCompletableFuture
         }
 
-        val handler = CallingMiddlewareActionHandlerImpl(
-            mockCallingService, UnconfinedTestContextProvider()
-        )
+        val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doAnswer { appState }
             on { dispatch(any()) } doAnswer { }
@@ -125,9 +128,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             on { turnCameraOff() } doReturn cameraStateCompletableFuture
         }
 
-        val handler = CallingMiddlewareActionHandlerImpl(
-            mockCallingService, UnconfinedTestContextProvider()
-        )
+        val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doAnswer { appState }
             on { dispatch(any()) } doAnswer { }
@@ -162,9 +163,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             on { turnCameraOn() } doReturn cameraStateCompletableFuture
         }
 
-        val handler = CallingMiddlewareActionHandlerImpl(
-            mockCallingService, UnconfinedTestContextProvider()
-        )
+        val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState
             on { dispatch(any()) } doAnswer { }
@@ -196,9 +195,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
         val mockCallingService: CallingService = mock {}
 
-        val handler = CallingMiddlewareActionHandlerImpl(
-            mockCallingService, UnconfinedTestContextProvider()
-        )
+        val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doAnswer { appState }
             on { dispatch(any()) } doAnswer { }
@@ -226,10 +223,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
         val mockCallingService: CallingService = mock {}
 
-        val handler = CallingMiddlewareActionHandlerImpl(
-            mockCallingService,
-            UnconfinedTestContextProvider()
-        )
+        val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doAnswer { appState }
             on { dispatch(any()) } doAnswer { }
@@ -256,10 +250,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             on { turnLocalCameraOn() } doReturn cameraStateCompletableFuture
         }
 
-        val handler = CallingMiddlewareActionHandlerImpl(
-            mockCallingService,
-            UnconfinedTestContextProvider()
-        )
+        val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { dispatch(any()) } doAnswer { }
         }
@@ -290,10 +281,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
         val mockCallingService: CallingService = mock {}
 
-        val handler = CallingMiddlewareActionHandlerImpl(
-            mockCallingService,
-            UnconfinedTestContextProvider()
-        )
+        val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState
             on { dispatch(any()) } doAnswer { }
@@ -323,10 +311,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
         val mockCallingService: CallingService = mock {}
 
-        val handler = CallingMiddlewareActionHandlerImpl(
-            mockCallingService,
-            UnconfinedTestContextProvider()
-        )
+        val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState
             on { dispatch(any()) } doAnswer { }
@@ -409,10 +394,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }
@@ -430,6 +412,86 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                         action.participantMap == participantMap
                 }
             )
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun callingMiddlewareActionHandler_startCall_then_dispatchSetAudioDevice_forTelecomManager() =
+        runScopedTest {
+            // arrange
+            val appState = AppReduxState("", false, false)
+            appState.callState = CallingState(CallingStatus.CONNECTED,)
+            appState.localParticipantState =
+                LocalUserState(
+                    CameraState(
+                        CameraOperationalStatus.OFF,
+                        CameraDeviceSelectionStatus.FRONT,
+                        CameraTransmissionStatus.REMOTE,
+                        0
+                    ),
+                    AudioState(
+                        AudioOperationalStatus.OFF,
+                        AudioDeviceSelectionStatus.SPEAKER_REQUESTED,
+                        BluetoothState(available = false, deviceName = "bluetooth")
+                    ),
+                    "",
+                    "",
+                    localParticipantRole = null
+                )
+            val callingServiceParticipantsSharedFlow =
+                MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
+            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callIdFlow = MutableStateFlow<String?>(null)
+            val isMutedSharedFlow = MutableSharedFlow<Boolean>()
+            val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
+            val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
+            val camerasCountUpdatedStateFlow = MutableStateFlow(2)
+            val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
+            val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
+            val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
+            val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+
+            val completableFuture = CompletableFuture<Void>()
+            val mockCallingService: CallingService = mock {
+                on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
+                on { startCall(any(), any()) } doReturn completableFuture
+                on { getCallIdStateFlow() } doReturn callIdFlow
+                on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
+                on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
+                on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
+                on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
+                on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
+                on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
+                on { getLocalParticipantRoleSharedFlow() } doReturn MutableSharedFlow()
+                on { getNetworkQualityCallDiagnosticsFlow() } doReturn networkQualityCallDiagnosticsSharedFlow
+                on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
+                on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
+                on { setTelecomManagerAudioRoute(CallAudioState.ROUTE_SPEAKER) } doAnswer {}
+            }
+
+            val configuration = CallCompositeConfiguration()
+            configuration.telecomManagerOptions = CallCompositeTelecomManagerOptions(
+                CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER,
+                "com.example.telecom.TelecomManager",
+            )
+
+            val handler = CallingMiddlewareActionHandlerImpl(
+                mockCallingService,
+                UnconfinedTestContextProvider(),
+                configuration
+            )
+
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { dispatch(any()) } doAnswer { }
+                on { getCurrentState() } doAnswer { appState }
+            }
+
+            // act
+            completableFuture.complete(null)
+            handler.startCall(mockAppStore)
+
+            // assert
+            verify(mockCallingService, times(1)).setTelecomManagerAudioRoute(CallAudioState.ROUTE_SPEAKER)
         }
 
     @ExperimentalCoroutinesApi
@@ -487,10 +549,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }
@@ -563,10 +622,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }
@@ -598,10 +654,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { setupCall() } doReturn setupCallCompletableFuture
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }
@@ -675,10 +728,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }
@@ -753,10 +803,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }
@@ -824,10 +871,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }
@@ -895,10 +939,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }
@@ -964,10 +1005,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }
@@ -1013,10 +1051,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             on { turnCameraOff() } doReturn cameraStateCompletableFuture
         }
 
-        val handler = CallingMiddlewareActionHandlerImpl(
-            mockCallingService,
-            UnconfinedTestContextProvider()
-        )
+        val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState
@@ -1063,10 +1098,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         val cameraStateCompletableFuture = CompletableFuture<String>()
 
         val mockCallingService: CallingService = mock()
-        val handler = CallingMiddlewareActionHandlerImpl(
-            mockCallingService,
-            UnconfinedTestContextProvider()
-        )
+        val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState
@@ -1116,10 +1148,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         val cameraStateCompletableFuture = CompletableFuture<String>()
 
         val mockCallingService: CallingService = mock {}
-        val handler = CallingMiddlewareActionHandlerImpl(
-            mockCallingService,
-            UnconfinedTestContextProvider()
-        )
+        val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState
@@ -1170,10 +1199,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         val cameraStateCompletableFuture = CompletableFuture<String>()
 
         val mockCallingService: CallingService = mock()
-        val handler = CallingMiddlewareActionHandlerImpl(
-            mockCallingService,
-            UnconfinedTestContextProvider()
-        )
+        val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState
@@ -1222,10 +1248,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         val mockCallingService: CallingService = mock {
             on { turnCameraOn() } doReturn cameraStateCompletableFuture
         }
-        val handler = CallingMiddlewareActionHandlerImpl(
-            mockCallingService,
-            UnconfinedTestContextProvider()
-        )
+        val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState
@@ -1270,10 +1293,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         val cameraStateCompletableFuture = CompletableFuture<String>()
 
         val mockCallingService: CallingService = mock {}
-        val handler = CallingMiddlewareActionHandlerImpl(
-            mockCallingService,
-            UnconfinedTestContextProvider()
-        )
+        val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState
@@ -1317,10 +1337,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         val cameraStateCompletableFuture = CompletableFuture<String>()
 
         val mockCallingService: CallingService = mock()
-        val handler = CallingMiddlewareActionHandlerImpl(
-            mockCallingService,
-            UnconfinedTestContextProvider()
-        )
+        val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState
@@ -1366,10 +1383,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         val cameraStateCompletableFuture = CompletableFuture<String>()
 
         val mockCallingService: CallingService = mock()
-        val handler = CallingMiddlewareActionHandlerImpl(
-            mockCallingService,
-            UnconfinedTestContextProvider()
-        )
+        val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState
@@ -1409,10 +1423,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             on { turnCameraOn() } doReturn cameraStateCompletableFuture
         }
 
-        val handler = CallingMiddlewareActionHandlerImpl(
-            mockCallingService,
-            UnconfinedTestContextProvider()
-        )
+        val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doAnswer { appState }
@@ -1460,10 +1471,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         val mockCallingService: CallingService = mock {
         }
 
-        val handler = CallingMiddlewareActionHandlerImpl(
-            mockCallingService,
-            UnconfinedTestContextProvider()
-        )
+        val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState
         }
@@ -1507,10 +1515,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             on { turnMicOff() } doReturn audioStateCompletableFuture
         }
 
-        val handler = CallingMiddlewareActionHandlerImpl(
-            mockCallingService,
-            UnconfinedTestContextProvider()
-        )
+        val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState
             on { dispatch(any()) } doAnswer { }
@@ -1558,10 +1563,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             on { turnMicOn() } doReturn audioStateCompletableFuture
         }
 
-        val handler = CallingMiddlewareActionHandlerImpl(
-            mockCallingService,
-            UnconfinedTestContextProvider()
-        )
+        val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState
             on { dispatch(any()) } doAnswer { }
@@ -1619,10 +1621,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }
@@ -1707,10 +1706,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }
@@ -1768,10 +1764,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = provideAppStore()
 
@@ -1845,10 +1838,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = provideAppStore()
             val appStoreSequence = inOrder(mockAppStore)
@@ -1918,10 +1908,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = provideAppStore()
 
@@ -1995,10 +1982,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = provideAppStore()
             val appStoreSequence = inOrder(mockAppStore)
@@ -2070,10 +2054,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }
@@ -2161,10 +2142,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }
@@ -2240,10 +2218,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }
@@ -2346,10 +2321,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }
@@ -2382,10 +2354,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { admitAll() } doReturn resultCompletableFuture
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }
@@ -2416,10 +2385,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { admitAll() } doReturn resultCompletableFuture
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = mock<AppStore<ReduxState>> {
             }
@@ -2444,10 +2410,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { admit(any()) } doReturn resultCompletableFuture
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }
@@ -2482,10 +2445,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { admit(any()) } doReturn resultCompletableFuture
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = mock<AppStore<ReduxState>> {
             }
@@ -2514,10 +2474,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { decline(any()) } doReturn resultCompletableFuture
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }
@@ -2552,10 +2509,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { decline(any()) } doReturn resultCompletableFuture
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = mock<AppStore<ReduxState>> {
             }
@@ -2571,6 +2525,177 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 }
             )
         }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun callingMiddlewareActionHandler_onAudioDeviceChangeRequested_toBluetooth_then_callServiceChangeAudioDevice() =
+        runScopedTest {
+            val routeToService = CallAudioState.ROUTE_BLUETOOTH
+            val selection = AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED
+            audioDeviceChangedTests(routeToService, selection)
+        }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun callingMiddlewareActionHandler_onAudioDeviceChangeRequested_toSpeaker_then_callServiceChangeAudioDevice() =
+        runScopedTest {
+            val routeToService = CallAudioState.ROUTE_SPEAKER
+            val selection = AudioDeviceSelectionStatus.SPEAKER_REQUESTED
+            audioDeviceChangedTests(routeToService, selection)
+        }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun callingMiddlewareActionHandler_onAudioDeviceChangeRequested_toEarpiece_then_callServiceChangeAudioDevice() =
+        runScopedTest {
+            val routeToService = CallAudioState.ROUTE_EARPIECE
+            val selection = AudioDeviceSelectionStatus.RECEIVER_REQUESTED
+            audioDeviceChangedTests(routeToService, selection)
+        }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun callingMiddlewareActionHandler_onAudioDeviceChangeRequested_toEarpiece_then_doNotCallAudioForTelecom_ifSDKOptionNotSet() = runScopedTest {
+        val routeToService = CallAudioState.ROUTE_EARPIECE
+        val selection = AudioDeviceSelectionStatus.RECEIVER_REQUESTED
+
+        val appState = AppReduxState("", false, false)
+        appState.callState = CallingState(CallingStatus.NONE)
+
+        val mockCallingService: CallingService = mock { }
+
+        val configuration = CallCompositeConfiguration()
+        configuration.telecomManagerOptions = CallCompositeTelecomManagerOptions(
+            CallCompositeTelecomManagerIntegrationMode.APPLICATION_IMPLEMENTED_TELECOM_MANAGER,
+        )
+
+        val handler = CallingMiddlewareActionHandlerImpl(
+            mockCallingService,
+            UnconfinedTestContextProvider(),
+            configuration
+        )
+
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+
+        handler.onAudioDeviceChangeRequested(selection, mockAppStore)
+
+        // assert
+        verify(mockCallingService, times(0)).setTelecomManagerAudioRoute(any())
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun callingMiddlewareActionHandler_onAudioDeviceChangeRequested_doNotCallService_if_telecomOptionNotSet() = runScopedTest {
+        val appState = AppReduxState("", false, false)
+        appState.callState = CallingState(CallingStatus.NONE)
+
+        val mockCallingService: CallingService = mock {}
+
+        val configuration = CallCompositeConfiguration()
+        val handler = CallingMiddlewareActionHandlerImpl(
+            mockCallingService,
+            UnconfinedTestContextProvider(),
+            configuration
+        )
+
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+
+        handler.onAudioDeviceChangeRequested(AudioDeviceSelectionStatus.RECEIVER_REQUESTED, mockAppStore)
+
+        // assert
+        verify(mockCallingService, times(0)).setTelecomManagerAudioRoute(any())
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun callingMiddlewareActionHandler_onAudioFocusRequesting_then_dispatchAudioFocusApproved() = runScopedTest {
+        val appState = AppReduxState("", false, false)
+        appState.callState = CallingState(CallingStatus.NONE)
+
+        val mockCallingService: CallingService = mock {}
+
+        val configuration = CallCompositeConfiguration()
+        configuration.telecomManagerOptions = CallCompositeTelecomManagerOptions(
+            CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER,
+            "com.example.telecom.TelecomManager",
+        )
+
+        val handler = CallingMiddlewareActionHandlerImpl(
+            mockCallingService,
+            UnconfinedTestContextProvider(),
+            configuration
+        )
+
+        val mockAppStore = mock<AppStore<ReduxState>> {
+            on { dispatch(any()) } doAnswer { }
+        }
+
+        handler.onAudioFocusRequesting(mockAppStore)
+
+        // assert
+        verify(mockAppStore, times(1)).dispatch(
+            argThat { action ->
+                action is AudioSessionAction.AudioFocusApproved
+            }
+        )
+    }
+
+    @Test
+    fun callingMiddlewareActionHandler_onAudioFocusRequesting_then_dispatchNoAction_ifTelecomActionNotSet() = runScopedTest {
+        val appState = AppReduxState("", false, false)
+        appState.callState = CallingState(CallingStatus.NONE)
+
+        val mockCallingService: CallingService = mock {}
+
+        val configuration = CallCompositeConfiguration()
+        val handler = CallingMiddlewareActionHandlerImpl(
+            mockCallingService,
+            UnconfinedTestContextProvider(),
+            configuration
+        )
+
+        val mockAppStore = mock<AppStore<ReduxState>> { }
+
+        handler.onAudioFocusRequesting(mockAppStore)
+
+        // assert
+        verify(mockAppStore, times(0)).dispatch(any())
+    }
+
+    private fun audioDeviceChangedTests(
+        routeToService: Int,
+        selection: AudioDeviceSelectionStatus
+    ) {
+        val appState = AppReduxState("", false, false)
+        appState.callState = CallingState(CallingStatus.NONE)
+
+        val mockCallingService: CallingService = mock {
+            on { setTelecomManagerAudioRoute(routeToService) } doAnswer { }
+        }
+
+        val configuration = CallCompositeConfiguration()
+        configuration.telecomManagerOptions = CallCompositeTelecomManagerOptions(
+            CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER,
+            "com.example.telecom.TelecomManager"
+        )
+
+        val handler = CallingMiddlewareActionHandlerImpl(
+            mockCallingService,
+            UnconfinedTestContextProvider(),
+            configuration
+        )
+
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+
+        handler.onAudioDeviceChangeRequested(selection, mockAppStore)
+
+        // assert
+        verify(mockCallingService, times(1)).setTelecomManagerAudioRoute(
+            argThat { arg ->
+                arg == routeToService
+            }
+        )
+    }
 
     @ExperimentalCoroutinesApi
     @Test
@@ -2609,10 +2734,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
             }
 
-            val handler = CallingMiddlewareActionHandlerImpl(
-                mockCallingService,
-                UnconfinedTestContextProvider()
-            )
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
 
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { dispatch(any()) } doAnswer { }
@@ -2631,6 +2753,13 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 }
             )
         }
+
+    private fun callingMiddlewareActionHandlerImpl(mockCallingService: CallingService) =
+        CallingMiddlewareActionHandlerImpl(
+            mockCallingService,
+            UnconfinedTestContextProvider(),
+            CallCompositeConfiguration()
+        )
 
     private fun provideAppStore(): AppStore<ReduxState> {
         val appState = AppReduxState("CallingMiddleWareActionHandlerUnitTest", false, false)

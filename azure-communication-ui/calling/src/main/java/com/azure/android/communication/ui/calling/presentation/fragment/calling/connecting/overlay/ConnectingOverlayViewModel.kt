@@ -21,13 +21,18 @@ import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class ConnectingOverlayViewModel(private val dispatch: (Action) -> Unit) {
+internal class ConnectingOverlayViewModel(
+    private val dispatch: (Action) -> Unit,
+    private val isTelecomManagerEnabled: Boolean = false,
+) {
 
     private lateinit var displayOverlayFlow: MutableStateFlow<Boolean>
     private lateinit var networkManager: NetworkManager
 
     private lateinit var cameraStateFlow: MutableStateFlow<CameraOperationalStatus>
     private lateinit var audioOperationalStatusStateFlow: MutableStateFlow<AudioOperationalStatus>
+
+    fun isTelecomManagerEnabled() = isTelecomManagerEnabled
 
     fun getDisplayOverlayFlow(): StateFlow<Boolean> = displayOverlayFlow
 

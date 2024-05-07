@@ -30,6 +30,7 @@ internal class CallingViewModelFactory(
     private val debugInfoManager: DebugInfoManager,
     private val showSupportFormOption: Boolean = false,
     private val enableMultitasking: Boolean,
+    private val isTelecomManagerEnabled: Boolean = false,
 ) : BaseViewModelFactory(store) {
 
     val moreCallOptionsListViewModel by lazy {
@@ -91,7 +92,7 @@ internal class CallingViewModelFactory(
     }
 
     val connectingOverlayViewModel by lazy {
-        ConnectingOverlayViewModel(store::dispatch)
+        ConnectingOverlayViewModel(store::dispatch, isTelecomManagerEnabled)
     }
 
     val onHoldOverlayViewModel by lazy {

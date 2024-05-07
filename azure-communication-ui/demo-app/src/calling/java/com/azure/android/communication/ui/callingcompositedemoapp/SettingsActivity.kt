@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.google.android.material.textfield.TextInputLayout
 
@@ -50,6 +51,10 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var displayLeaveCallConfirmationCheckBox: CheckBox
     private lateinit var enableMultitaskingCheckbox: CheckBox
     private lateinit var enablePipWhenMultitaskingCheckbox: CheckBox
+    private lateinit var telecomManagerIntegrationOptions: List<String>
+    private lateinit var telecomManagerArrayAdapter: ArrayAdapter<String>
+    private lateinit var telecomManagerAutoCompleteTextView: AutoCompleteTextView
+    private lateinit var telecomManagerAdapterLayout: TextInputLayout
 
     private val sharedPreference by lazy {
         getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
@@ -67,6 +72,10 @@ class SettingsActivity : AppCompatActivity() {
         supportedScreenOrientations = CallCompositeSupportedScreenOrientation.values().map {
             SettingsFeatures.displayOrientationName(it)
         }
+        val telecomManagerOptions = CallCompositeTelecomManagerIntegrationMode.values().map {
+            SettingsFeatures.displayTelecomManagerOptionName(it)
+        }
+        telecomManagerIntegrationOptions = telecomManagerOptions + DEFAULT_TELECOM_MANAGER_INTEGRATION_OPTION
     }
 
     override fun onResume() {
@@ -90,6 +99,13 @@ class SettingsActivity : AppCompatActivity() {
             ArrayAdapter(applicationContext, R.layout.screen_orientation_dropdown_item, supportedScreenOrientations)
         setupScreenOrientationAutoCompleteTextView.setAdapter(setupScreenOrientationArrayAdapter)
         setupScreenOrientationArrayAdapter.filter.filter(null)
+
+        telecomManagerArrayAdapter =
+            ArrayAdapter(applicationContext, R.layout.screen_orientation_dropdown_item, telecomManagerIntegrationOptions)
+        telecomManagerAutoCompleteTextView.setAdapter(telecomManagerArrayAdapter)
+        telecomManagerArrayAdapter.filter.filter(null)
+
+        telecomManagerAutoCompleteAdapter()
 
         setOrientationInSetupScreenOrientationAdapter()
 
@@ -132,6 +148,27 @@ class SettingsActivity : AppCompatActivity() {
             val selectedItem: String = supportedScreenOrientations[position]
             saveSetupScreenOrientationInSharedPref(selectedItem)
         }
+
+        setupScreenOrientationAutoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
+            val selectedItem: String = telecomManagerIntegrationOptions[position]
+            saveTelecomManagerIntegrationOptionInSharedPref(selectedItem)
+        }
+
+        telecomManagerAutoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
+            val selectedItem: String = telecomManagerIntegrationOptions[position]
+            saveTelecomManagerIntegrationOptionInSharedPref(selectedItem)
+        }
+    }
+
+    private fun telecomManagerAutoCompleteAdapter() {
+        telecomManagerAutoCompleteTextView.setText(
+            sharedPreference.getString(
+                TELECOM_MANAGER_INTEGRATION_OPTION_KEY,
+                DEFAULT_TELECOM_MANAGER_INTEGRATION_OPTION
+            ),
+            true
+        )
+        telecomManagerArrayAdapter.filter.filter(null)
     }
 
     fun onCheckBoxTap(view: View) {
@@ -240,6 +277,8 @@ class SettingsActivity : AppCompatActivity() {
         enablePipWhenMultitaskingCheckbox = findViewById(R.id.multitasking_pip_check_box)
         audioOnlyModeCheckBox = findViewById(R.id.audio_only_check_box)
         displayLeaveCallConfirmationCheckBox = findViewById(R.id.display_leave_call_confirmation_check_box)
+        telecomManagerAutoCompleteTextView = findViewById(R.id.telecom_manager_selection_auto_complete_text_view)
+        telecomManagerAdapterLayout = findViewById(R.id.telecom_manager_selection_adapter_layout)
 
         renderDisplayNameTextView.addTextChangedListener {
             saveRenderedDisplayName()
@@ -315,6 +354,11 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun saveSetupScreenOrientationInSharedPref(orientationValue: String) {
         sharedPreference.edit().putString(SETUP_SCREEN_ORIENTATION_SHARED_PREF_KEY, orientationValue)
+            .apply()
+    }
+
+    private fun saveTelecomManagerIntegrationOptionInSharedPref(selectedItem: String) {
+        sharedPreference.edit().putString(TELECOM_MANAGER_INTEGRATION_OPTION_KEY, selectedItem)
             .apply()
     }
 
@@ -467,3 +511,7 @@ const val LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY = "LAUNCH_ON_EXIT_ON_BY_DEFAULT_KEY"
 const val LAUNCH_ON_EXIT_ON_BY_DEFAULT_VALUE = false
 const val DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE = "DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE_KEY"
 const val DEFAULT_DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE = true
+
+// TelecomManager Integration
+const val TELECOM_MANAGER_INTEGRATION_OPTION_KEY = "TELECOM_MANAGER_INTEGRATION_OPTION"
+const val DEFAULT_TELECOM_MANAGER_INTEGRATION_OPTION = "Not selected"
