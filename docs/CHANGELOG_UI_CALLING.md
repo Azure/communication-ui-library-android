@@ -3,8 +3,14 @@
 ## 1.7.0 (*)
 
 ### Features
-
 - Disable leave call confirmation dialog
+
+
+## 1.6.2 (2024-05-03)
+
+### Bug Fixes
+- Setup screen camera preview is not working.
+
 
 ## 1.6.1 (2024-04-10)
 
