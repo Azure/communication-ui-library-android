@@ -55,7 +55,7 @@ internal class AudioSelectionEventAndTelecomManagerTest : BaseUiTest() {
             audioDeviceChangedCompletableFuture.complete(null)
         }
 
-        callComposite.launchTest(appContext, CallCompositeGroupCallLocator(UUID.fromString("74fce2c1-520f-11ec-97de-71411a9a8e14")), null)
+        callComposite.launchTest(appContext, CallCompositeGroupCallLocator(UUID.fromString(groupCallTestGUID)), null)
 
         tapWhenDisplayed(joinCallId)
         waitUntilDisplayed(endCallId)
@@ -82,7 +82,7 @@ internal class AudioSelectionEventAndTelecomManagerTest : BaseUiTest() {
             CommunicationTokenCredential(communicationTokenRefreshOptions)
         val remoteOptions =
             CallCompositeRemoteOptions(
-                CallCompositeGroupCallLocator(UUID.fromString("74fce2c1-520f-11ec-97de-71411a9a8e14")),
+                CallCompositeGroupCallLocator(UUID.fromString(groupCallTestGUID)),
                 communicationTokenCredential,
                 "test"
             )
@@ -135,7 +135,7 @@ internal class AudioSelectionEventAndTelecomManagerTest : BaseUiTest() {
             CommunicationTokenCredential(communicationTokenRefreshOptions)
         val remoteOptions =
             CallCompositeRemoteOptions(
-                CallCompositeGroupCallLocator(UUID.fromString("74fce2c1-520f-11ec-97de-71411a9a8e14")),
+                CallCompositeGroupCallLocator(UUID.fromString(groupCallTestGUID)),
                 communicationTokenCredential,
                 "test"
             )
@@ -185,7 +185,7 @@ internal class AudioSelectionEventAndTelecomManagerTest : BaseUiTest() {
             CommunicationTokenCredential(communicationTokenRefreshOptions)
         val remoteOptions =
             CallCompositeRemoteOptions(
-                CallCompositeGroupCallLocator(UUID.fromString("74fce2c1-520f-11ec-97de-71411a9a8e14")),
+                CallCompositeGroupCallLocator(UUID.fromString(groupCallTestGUID)),
                 communicationTokenCredential,
                 "test"
             )
