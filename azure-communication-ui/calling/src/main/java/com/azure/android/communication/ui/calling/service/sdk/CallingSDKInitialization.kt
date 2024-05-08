@@ -59,7 +59,7 @@ internal class CallingSDKInitialization(
         return completableFuture
     }
 
-    fun setupCall(): CompletableFuture<CallClient>? {
+    fun setupCallClient(): CompletableFuture<CallClient>? {
         if (callClientCompletableFuture == null ||
             callClientCompletableFuture!!.isCompletedExceptionally
         ) {
@@ -86,7 +86,7 @@ internal class CallingSDKInitialization(
                 }
             }
             try {
-                setupCall()?.whenComplete { callClient, callAgentError ->
+                setupCallClient()?.whenComplete { callClient, callAgentError ->
                     if (callAgentError != null) {
                         throw callAgentError
                     }

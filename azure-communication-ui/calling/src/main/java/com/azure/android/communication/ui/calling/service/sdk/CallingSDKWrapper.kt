@@ -234,7 +234,7 @@ internal class CallingSDKWrapper(
     }
 
     override fun setupCall(): CompletableFuture<Void> {
-        callingSDKInitialization.setupCall()?.whenComplete { callClient, _ ->
+        callingSDKInitialization.setupCallClient()?.whenComplete { callClient, _ ->
             this.callClient = callClient
             createDeviceManager().handle { _, error: Throwable? ->
                 if (error != null) {
