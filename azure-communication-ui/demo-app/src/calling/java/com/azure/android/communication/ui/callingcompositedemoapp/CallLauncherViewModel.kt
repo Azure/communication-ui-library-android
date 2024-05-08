@@ -228,7 +228,7 @@ class CallLauncherViewModel : ViewModel() {
             toast(context, message = "Joined ${it.identifiers.count()} remote participants")
         }
 
-        callComposite.addOnCapabilitiesEventHandler {
+        callComposite.addOnCapabilitiesChangedEventHandler {
             toast(context, message = "${it.changedCapabilities.count()} capabilities changed.")
         }
 

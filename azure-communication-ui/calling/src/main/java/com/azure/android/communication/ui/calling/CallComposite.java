@@ -287,7 +287,7 @@ public final class CallComposite {
      * Add on user capabilities changed event handler {@link CallCompositeEventHandler}.
      * @param eventHandler The {@link CallCompositeEventHandler}.
      */
-    public void addOnCapabilitiesEventHandler(
+    public void addOnCapabilitiesChangedEventHandler(
             final CallCompositeEventHandler<CapabilitiesChangedEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().addOnCapabilitiesChangedEvent(eventHandler);
     }
