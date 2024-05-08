@@ -220,7 +220,7 @@ internal class DependencyInjectionContainerImpl(
     // Initial State
     private val initialState by lazy {
         AppReduxState(
-            displayName = configuration.callConfig?.displayName,
+            displayName = configuration.displayName,
             cameraOnByDefault = localOptions?.isCameraOn ?: false,
             microphoneOnByDefault = localOptions?.isMicrophoneOn ?: false,
             avMode = localOptions?.audioVideoMode ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,

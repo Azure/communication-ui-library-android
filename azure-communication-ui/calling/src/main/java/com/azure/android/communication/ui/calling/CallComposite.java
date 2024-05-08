@@ -682,8 +682,6 @@ public final class CallComposite {
         }
 
         configuration.setCallConfig(new CallConfiguration(
-                remoteOptions.getCredential(),
-                remoteOptions.getDisplayName(),
                 groupId,
                 meetingLink,
                 /* <ROOMS_SUPPORT:5> */
@@ -752,8 +750,6 @@ public final class CallComposite {
 
         // initializeCallingSDK validated Credential and Context
         configuration.setCallConfig(new CallConfiguration(
-                configuration.getCredential(),
-                configuration.getDisplayName(),
                 groupId,
                 meetingLink,
                 /* <ROOMS_SUPPORT:5> */
