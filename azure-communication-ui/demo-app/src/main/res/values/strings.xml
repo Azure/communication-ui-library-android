@@ -64,4 +64,6 @@
     <string name="display_leave_call_confirmation">Display Leave Call Confirmation</string>
     <string name="call_screen_settings">Call screen settings</string>
     <string name="telecom_manager_options">Telecom manager options</string>
+    <string name="deprecated_settings_text">Deprecated apis</string>
+    <string name="use_deprecated_launch_text">Use deprecated launch</string>
 </resources>

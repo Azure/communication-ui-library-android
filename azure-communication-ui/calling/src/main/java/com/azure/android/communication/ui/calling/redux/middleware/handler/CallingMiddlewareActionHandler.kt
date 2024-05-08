@@ -8,10 +8,10 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import com.azure.android.communication.ui.calling.error.CallCompositeError
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.FatalError
-import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionMode
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
+import com.azure.android.communication.ui.calling.models.buildCallCompositeAudioSelectionChangedEvent
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
@@ -399,7 +399,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                     AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> CallCompositeAudioSelectionMode.BLUETOOTH
                     else -> return
                 }
-                val event = CallCompositeAudioSelectionChangedEvent(audioSelectionType)
+                val event = buildCallCompositeAudioSelectionChangedEvent(audioSelectionType)
                 it.handle(event)
             } catch (ex: Exception) {
                 // catching and suppressing any client's exceptions

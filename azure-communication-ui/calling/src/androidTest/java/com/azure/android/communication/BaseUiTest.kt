@@ -51,6 +51,7 @@ internal open class BaseUiTest {
     internal val cancelButtonId = R.id.azure_communication_ui_cancel_button
     internal val userMessageEditTextId = R.id.azure_communication_ui_user_message_edit_text
     internal val showSupportFormTextId = R.string.azure_communication_ui_calling_report_issue_title
+    internal val groupCallTestGUID = "9d3ee939-cd87-4ec1-b076-94b2b7382523"
 
     @Rule
     @JvmField

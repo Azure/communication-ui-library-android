@@ -7,9 +7,7 @@ import android.content.Context
 import com.azure.android.communication.calling.AudioOptions
 import com.azure.android.communication.calling.Call
 import com.azure.android.communication.calling.CallAgent
-import com.azure.android.communication.calling.CallAgentOptions
 import com.azure.android.communication.calling.CallClient
-import com.azure.android.communication.calling.CallClientOptions
 import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.DeviceManager
 import com.azure.android.communication.calling.GroupCallLocator
@@ -21,7 +19,6 @@ import com.azure.android.communication.calling.JoinMeetingLocator
 import com.azure.android.communication.calling.RoomCallLocator
 /* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.calling.TeamsMeetingLinkLocator
-import com.azure.android.communication.calling.TelecomManagerOptions
 import com.azure.android.communication.calling.VideoDevicesUpdatedListener
 import com.azure.android.communication.calling.VideoOptions
 import com.azure.android.communication.ui.calling.CallCompositeException
@@ -29,15 +26,12 @@ import com.azure.android.communication.ui.calling.configuration.CallConfiguratio
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
-import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
-import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
-import com.azure.android.communication.ui.calling.service.sdk.ext.setTags
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
@@ -51,12 +45,11 @@ internal class CallingSDKWrapper(
     private val callingSDKEventHandler: CallingSDKEventHandler,
     private val callConfigInjected: CallConfiguration?,
     private val logger: Logger? = null,
-    private val telecomManagerOptions: CallCompositeTelecomManagerOptions? = null,
+    private val callingSDKInitialization: CallingSDKInitialization,
 ) : CallingSDK {
     private var nullableCall: Call? = null
     private var callClient: CallClient? = null
 
-    private var callAgentCompletableFuture: CompletableFuture<CallAgent>? = null
     private var deviceManagerCompletableFuture: CompletableFuture<DeviceManager>? = null
     private var localVideoStreamCompletableFuture: CompletableFuture<LocalVideoStream>? = null
     private var endCallCompletableFuture: CompletableFuture<Void>? = null
@@ -241,20 +234,17 @@ internal class CallingSDKWrapper(
     }
 
     override fun setupCall(): CompletableFuture<Void> {
-        if (callClient == null) {
-            val callClientOptions = CallClientOptions().also {
-                it.setTags(callConfig.diagnosticConfig.tags, logger)
+        callingSDKInitialization.setupCallClient()?.whenComplete { callClient, _ ->
+            this.callClient = callClient
+            createDeviceManager().handle { _, error: Throwable? ->
+                if (error != null) {
+                    setupCallCompletableFuture.completeExceptionally(error)
+                } else {
+                    setupCallCompletableFuture.complete(null)
+                }
             }
-            callClient = CallClient(callClientOptions)
+            createCallAgent()
         }
-        createDeviceManager().handle { _, error: Throwable? ->
-            if (error != null) {
-                setupCallCompletableFuture.completeExceptionally(error)
-            } else {
-                setupCallCompletableFuture.complete(null)
-            }
-        }
-        createCallAgent()
         return setupCallCompletableFuture
     }
 
@@ -406,34 +396,7 @@ internal class CallingSDKWrapper(
     }
 
     private fun createCallAgent(): CompletableFuture<CallAgent> {
-
-        if (callAgentCompletableFuture == null || callAgentCompletableFuture!!.isCompletedExceptionally) {
-            callAgentCompletableFuture = CompletableFuture<CallAgent>()
-            val options = CallAgentOptions().apply { displayName = callConfig.displayName }
-            telecomManagerOptions?.let {
-                if (it.telecomManagerIntegrationMode == CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER) {
-                    options.telecomManagerOptions = TelecomManagerOptions(it.phoneAccountId)
-                }
-            }
-            try {
-                val createCallAgentFutureCompletableFuture = callClient!!.createCallAgent(
-                    context,
-                    callConfig.communicationTokenCredential,
-                    options
-                )
-                createCallAgentFutureCompletableFuture.whenComplete { callAgent: CallAgent, error: Throwable? ->
-                    if (error != null) {
-                        callAgentCompletableFuture!!.completeExceptionally(error)
-                    } else {
-                        callAgentCompletableFuture!!.complete(callAgent)
-                    }
-                }
-            } catch (error: Throwable) {
-                callAgentCompletableFuture!!.completeExceptionally(error)
-            }
-        }
-
-        return callAgentCompletableFuture!!
+        return callingSDKInitialization.createCallAgent()
     }
 
     private fun joinCall(
@@ -565,10 +528,8 @@ internal class CallingSDKWrapper(
         videoDevicesUpdatedListener?.let {
             deviceManagerCompletableFuture?.get()?.removeOnCamerasUpdatedListener(it)
         }
-        callAgentCompletableFuture?.get()?.dispose()
         callClient = null
         nullableCall = null
-        callAgentCompletableFuture = null
         localVideoStreamCompletableFuture = null
         camerasInitializedCompletableFuture = null
         deviceManagerCompletableFuture = null

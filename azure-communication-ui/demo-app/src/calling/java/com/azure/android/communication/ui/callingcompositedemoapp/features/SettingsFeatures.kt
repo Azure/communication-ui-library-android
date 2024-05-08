@@ -38,6 +38,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.SETTINGS_SHARE
 import com.azure.android.communication.ui.callingcompositedemoapp.SETUP_SCREEN_ORIENTATION_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.SKIP_SETUP_SCREEN_VALUE_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.TELECOM_MANAGER_INTEGRATION_OPTION_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.USE_DEPRECATED_LAUNCH_KEY
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import java.util.Locale
@@ -155,6 +156,10 @@ class SettingsFeatures {
         fun getDisplayDismissButtonOption(): Boolean {
             if (!this::sharedPrefs.isInitialized) return false
             return sharedPrefs.getBoolean(DISPLAY_DISMISS_BUTTON_KEY, DISPLAY_DISMISS_BUTTON_KEY_DEFAULT_VALUE)
+        }
+
+        fun getUseDeprecatedLaunch(): Boolean {
+            return sharedPrefs.getBoolean(USE_DEPRECATED_LAUNCH_KEY, false)
         }
 
         fun getRenderedDisplayNameOption(): String? = sharedPrefs.getString(RENDERED_DISPLAY_NAME, null)

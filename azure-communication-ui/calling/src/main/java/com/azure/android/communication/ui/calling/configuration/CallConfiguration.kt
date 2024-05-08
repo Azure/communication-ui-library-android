@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.configuration
 
-import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.calling.DiagnosticConfig
 /* <ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
@@ -19,8 +18,6 @@ internal enum class CallType {
 }
 
 internal data class CallConfiguration(
-    val communicationTokenCredential: CommunicationTokenCredential,
-    val displayName: String,
     val groupId: UUID?,
     val meetingLink: String?,
     /* <ROOMS_SUPPORT:5> */

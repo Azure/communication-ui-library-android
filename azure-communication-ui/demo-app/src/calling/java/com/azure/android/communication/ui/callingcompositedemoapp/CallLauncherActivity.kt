@@ -3,8 +3,18 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.media.AudioAttributes
+import android.media.AudioManager
+import android.media.RingtoneManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -36,8 +46,22 @@ import org.threeten.bp.format.DateTimeFormatter
 import java.util.UUID
 
 class CallLauncherActivity : AppCompatActivity() {
+
+    companion object {
+        const val TAG = "calling.demo.app"
+        var isActivityRunning = false
+        const val CALL_LAUNCHER_BROADCAST_ACTION = "CALL_LAUNCHER_BROADCAST_ACTION"
+    }
+
     private lateinit var binding: ActivityCallLauncherBinding
     private val callLauncherViewModel: CallLauncherViewModel by viewModels()
+    private val callLauncherBroadCastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action == CALL_LAUNCHER_BROADCAST_ACTION) {
+                onBroadCastReceived(intent)
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +69,8 @@ class CallLauncherActivity : AppCompatActivity() {
             finish()
             return
         }
-
+        isActivityRunning = true
+        createNotificationChannels()
         SettingsFeatures.initialize(applicationContext)
 
         if (!AppCenter.isConfigured() && !BuildConfig.DEBUG) {
@@ -209,10 +234,16 @@ class CallLauncherActivity : AppCompatActivity() {
                 versionText.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
             }
         }
+        registerReceiver(
+            callLauncherBroadCastReceiver,
+            IntentFilter(CALL_LAUNCHER_BROADCAST_ACTION)
+        )
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        isActivityRunning = false
+        unregisterReceiver(callLauncherBroadCastReceiver)
         DismissCompositeButtonView.get(this).hide()
         DismissCompositeButtonView.buttonView = null
     }
@@ -239,9 +270,10 @@ class CallLauncherActivity : AppCompatActivity() {
 
         /* <ROOMS_SUPPORT:0> */
         val roomId = binding.groupIdOrTeamsMeetingLinkText.text.toString()
-        val roomRole = if (binding.attendeeRoleRadioButton.isChecked) CallCompositeParticipantRole.ATTENDEE
-        else if (binding.presenterRoleRadioButton.isChecked) CallCompositeParticipantRole.PRESENTER
-        else null
+        val roomRole =
+            if (binding.attendeeRoleRadioButton.isChecked) CallCompositeParticipantRole.ATTENDEE
+            else if (binding.presenterRoleRadioButton.isChecked) CallCompositeParticipantRole.PRESENTER
+            else null
         /* </ROOMS_SUPPORT:0> */
 
         var groupId: UUID? = null
@@ -290,8 +322,10 @@ class CallLauncherActivity : AppCompatActivity() {
     }
 
     private fun showCallHistory() {
+        val userName = binding.userNameText.text.toString()
+        val acsToken = binding.acsTokenText.text.toString()
         val history = callLauncherViewModel
-            .getCallHistory(this@CallLauncherActivity)
+            .getCallHistory(this@CallLauncherActivity, acsToken, userName)
             .sortedBy { it.callStartedOn }
 
         val title = "Total calls: ${history.count()}"
@@ -344,6 +378,70 @@ class CallLauncherActivity : AppCompatActivity() {
         } else {
             DismissCompositeButtonView.get(this).show(callLauncherViewModel)
         }
+    }
+
+    private fun onBroadCastReceived(intent: Intent) {
+        val extras = intent.extras
+        val tag = extras?.getString("tag")
+        tag?.let {
+            onIntentAction(tag, extras)
+        }
+    }
+
+    private fun onIntentAction(tag: String, extras: Bundle?) {
+        when (tag) {
+            "incoming_call" -> {
+            }
+
+            "answer" -> {
+            }
+
+            "decline" -> {
+            }
+
+            "hold" -> {
+            }
+
+            "resume" -> {
+            }
+
+            "handle_incoming_call_push" -> {
+            }
+
+            "clear_push_notification" -> {
+            }
+        }
+    }
+
+    private fun createNotificationChannels() {
+        val name: CharSequence = "acs"
+        val description = "acs"
+        val importance = NotificationManager.IMPORTANCE_HIGH
+
+        val channel = NotificationChannel(
+            "acs",
+            name,
+            importance
+        )
+
+        channel.description = description
+        channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+        channel.enableVibration(true)
+        channel.setSound(
+            RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE),
+            AudioAttributes.Builder()
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .setLegacyStreamType(AudioManager.STREAM_RING)
+                .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE).build()
+        )
+        channel.enableLights(true)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            channel.setAllowBubbles(true)
+        }
+        val notificationManager = getSystemService(
+            NotificationManager::class.java
+        )
+        notificationManager.createNotificationChannel(channel)
     }
 }
 
