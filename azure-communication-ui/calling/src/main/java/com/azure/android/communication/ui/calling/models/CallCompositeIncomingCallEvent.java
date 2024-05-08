@@ -20,7 +20,7 @@ public final class CallCompositeIncomingCallEvent {
      * @param callerDisplayName caller display name.
      * @param callerIdentifier caller CommunicationIdentifier.
      */
-    public CallCompositeIncomingCallEvent(final String callId,
+    CallCompositeIncomingCallEvent(final String callId,
                                           final String callerDisplayName,
                                           final CommunicationIdentifier callerIdentifier) {
         this.callId = callId;

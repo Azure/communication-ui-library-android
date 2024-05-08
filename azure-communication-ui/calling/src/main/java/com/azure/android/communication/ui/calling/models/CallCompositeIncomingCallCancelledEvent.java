@@ -17,7 +17,7 @@ public class CallCompositeIncomingCallCancelledEvent {
      * @param subCode call end sub code.
      * @param callId call id.
      */
-    public CallCompositeIncomingCallCancelledEvent(final int code,
+    CallCompositeIncomingCallCancelledEvent(final int code,
                                                    final int subCode,
                                                    final String callId) {
         this.code = code;
