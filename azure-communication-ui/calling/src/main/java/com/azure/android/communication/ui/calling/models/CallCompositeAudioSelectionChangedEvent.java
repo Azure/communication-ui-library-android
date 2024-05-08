@@ -14,7 +14,7 @@ public final class CallCompositeAudioSelectionChangedEvent {
      *
      * @param mode selection type  {@link CallCompositeAudioSelectionMode}.
      */
-    public CallCompositeAudioSelectionChangedEvent(final CallCompositeAudioSelectionMode mode) {
+    CallCompositeAudioSelectionChangedEvent(final CallCompositeAudioSelectionMode mode) {
         this.mode = mode;
     }
 
