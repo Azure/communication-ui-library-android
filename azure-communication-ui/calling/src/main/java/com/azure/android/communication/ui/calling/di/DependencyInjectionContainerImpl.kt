@@ -7,10 +7,10 @@ import android.content.Context
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.data.CallHistoryRepositoryImpl
 import com.azure.android.communication.ui.calling.error.ErrorHandler
+import com.azure.android.communication.ui.calling.getCallingSDKInitialization
 import com.azure.android.communication.ui.calling.getConfig
 import com.azure.android.communication.ui.calling.handlers.CallStateHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
-import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity
@@ -71,7 +71,11 @@ internal class DependencyInjectionContainerImpl(
     private val customCallingSDK: CallingSDK?,
     private val customVideoStreamRendererFactory: VideoStreamRendererFactory?,
     private val customCoroutineContextProvider: CoroutineContextProvider?,
+    private val defaultLogger: Logger
 ) : DependencyInjectionContainer {
+    private val callingSDKInitialization by lazy {
+        callComposite.getCallingSDKInitialization()
+    }
 
     override var callCompositeActivityWeakReference: WeakReference<CallCompositeActivity> = WeakReference(null)
 
@@ -265,7 +269,7 @@ internal class DependencyInjectionContainerImpl(
     //region System
     private val applicationContext get() = parentContext.applicationContext
 
-    override val logger: Logger by lazy { DefaultLogger() }
+    override val logger: Logger by lazy { defaultLogger }
 
     private val callingSDKWrapper: CallingSDK by lazy {
         customCallingSDK
@@ -274,7 +278,7 @@ internal class DependencyInjectionContainerImpl(
                 callingSDKEventHandler,
                 configuration.callConfig,
                 logger,
-                configuration.telecomManagerOptions
+                callingSDKInitialization
             )
     }
 

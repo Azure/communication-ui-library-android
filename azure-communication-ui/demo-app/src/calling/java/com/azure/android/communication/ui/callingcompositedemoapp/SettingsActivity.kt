@@ -55,6 +55,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var telecomManagerArrayAdapter: ArrayAdapter<String>
     private lateinit var telecomManagerAutoCompleteTextView: AutoCompleteTextView
     private lateinit var telecomManagerAdapterLayout: TextInputLayout
+    private lateinit var useDeprecatedLaunchCheckbox: CheckBox
 
     private val sharedPreference by lazy {
         getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
@@ -115,6 +116,8 @@ class SettingsActivity : AppCompatActivity() {
         updateDisplayNameInjectionCheckbox()
 
         updateSkipSetupScreenCheckbox()
+
+        updateDeprecatedLaunchCheckbox()
 
         updateMicOnByDefaultCheckbox()
 
@@ -245,6 +248,12 @@ class SettingsActivity : AppCompatActivity() {
                         view.isChecked
                     ).apply()
                 }
+                R.id.deprecated_launch_checkbox -> {
+                    sharedPreference.edit().putBoolean(
+                        USE_DEPRECATED_LAUNCH_KEY,
+                        view.isChecked
+                    ).apply()
+                }
             }
         }
     }
@@ -279,7 +288,7 @@ class SettingsActivity : AppCompatActivity() {
         displayLeaveCallConfirmationCheckBox = findViewById(R.id.display_leave_call_confirmation_check_box)
         telecomManagerAutoCompleteTextView = findViewById(R.id.telecom_manager_selection_auto_complete_text_view)
         telecomManagerAdapterLayout = findViewById(R.id.telecom_manager_selection_adapter_layout)
-
+        useDeprecatedLaunchCheckbox = findViewById(R.id.deprecated_launch_checkbox)
         renderDisplayNameTextView.addTextChangedListener {
             saveRenderedDisplayName()
         }
@@ -412,6 +421,13 @@ class SettingsActivity : AppCompatActivity() {
         )
     }
 
+    private fun updateDeprecatedLaunchCheckbox() {
+        useDeprecatedLaunchCheckbox.isChecked = sharedPreference.getBoolean(
+            USE_DEPRECATED_LAUNCH_KEY,
+            DEFAULT_USE_DEPRECATED_LAUNCH_VALUE
+        )
+    }
+
     private fun updateMicOnByDefaultCheckbox() {
         micOnByDefaultCheckBox.isChecked = sharedPreference.getBoolean(
             MIC_ON_BY_DEFAULT_KEY,
@@ -515,3 +531,7 @@ const val DEFAULT_DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE = true
 // TelecomManager Integration
 const val TELECOM_MANAGER_INTEGRATION_OPTION_KEY = "TELECOM_MANAGER_INTEGRATION_OPTION"
 const val DEFAULT_TELECOM_MANAGER_INTEGRATION_OPTION = "Not selected"
+
+// Deprecated Launch
+const val USE_DEPRECATED_LAUNCH_KEY = "USE_DEPRECATED_LAUNCH"
+const val DEFAULT_USE_DEPRECATED_LAUNCH_VALUE = false

@@ -70,7 +70,7 @@ class CallLauncherViewModel : ViewModel() {
         }
         callCompositeExitSuccessStateFlow.value = false
 
-        val callComposite = createCallComposite()
+        val callComposite = createCallComposite(acsToken, displayName, context)
         subscribeToEvents(context, callComposite)
 
         val remoteOptions = getRemoteOptions(
@@ -84,11 +84,30 @@ class CallLauncherViewModel : ViewModel() {
             displayName,
         )
 
+        val locator = getLocator(
+            groupId,
+            meetingLink,
+            /* <ROOMS_SUPPORT:5> */
+            roomId,
+            roomRoleHint,
+            /* </ROOMS_SUPPORT:2> */
+        )
+
+        val useDeprecatedLaunch = SettingsFeatures.getUseDeprecatedLaunch()
+
         val localOptions = getLocalOptions(context)
         if (localOptions == null) {
-            callComposite.launch(context, remoteOptions)
+            if (useDeprecatedLaunch) {
+                callComposite.launch(context, remoteOptions)
+            } else {
+                callComposite.launch(context, locator)
+            }
         } else {
-            callComposite.launch(context, remoteOptions, localOptions)
+            if (useDeprecatedLaunch) {
+                callComposite.launch(context, remoteOptions, localOptions)
+            } else {
+                callComposite.launch(context, locator, localOptions)
+            }
         }
 
         CallLauncherViewModel.callComposite = callComposite
@@ -120,6 +139,27 @@ class CallLauncherViewModel : ViewModel() {
             }
 
         return CallCompositeRemoteOptions(locator, communicationTokenCredential, displayName)
+    }
+
+    private fun getLocator(
+        groupId: UUID?,
+        meetingLink: String?,
+        /* <ROOMS_SUPPORT:5> */
+        roomId: String?,
+        roomRoleHint: CallCompositeParticipantRole?,
+        /* </ROOMS_SUPPORT:2> */
+    ): CallCompositeJoinLocator {
+        val locator: CallCompositeJoinLocator =
+            when {
+                groupId != null -> CallCompositeGroupCallLocator(groupId)
+                meetingLink != null -> CallCompositeTeamsMeetingLinkLocator(meetingLink)
+                /* <ROOMS_SUPPORT:1> */
+                roomId != null && roomRoleHint != null -> CallCompositeRoomLocator(roomId)
+                /* <ROOMS_SUPPORT:1> */
+                else -> throw IllegalArgumentException("Cannot launch call composite with provided arguments.")
+            }
+
+        return locator
     }
 
     private fun getLocalOptions(context: Context): CallCompositeLocalOptions? {
@@ -235,12 +275,20 @@ class CallLauncherViewModel : ViewModel() {
         callComposite?.bringToForeground(context)
     }
 
-    fun getCallHistory(context: Context): List<CallCompositeCallHistoryRecord> {
-        val callComposite = CallLauncherViewModel.callComposite ?: createCallComposite()
+    fun getCallHistory(context: Context, acsToken: String, displayName: String): List<CallCompositeCallHistoryRecord> {
+        val callComposite = CallLauncherViewModel.callComposite ?: createCallComposite(
+            acsToken,
+            displayName,
+            context
+        )
         return callComposite.getDebugInfo(context).callHistoryRecords
     }
 
-    private fun createCallComposite(): CallComposite {
+    private fun createCallComposite(acsToken: String, displayName: String, context: Context): CallComposite {
+        val communicationTokenRefreshOptions =
+            CommunicationTokenRefreshOptions({ acsToken }, true)
+        val communicationTokenCredential =
+            CommunicationTokenCredential(communicationTokenRefreshOptions)
         val callScreenOrientation =
             SettingsFeatures.orientation(SettingsFeatures.callScreenOrientation())
         val setupScreenOrientation =
@@ -266,6 +314,12 @@ class CallLauncherViewModel : ViewModel() {
                         CallCompositeLocalizationOptions(it)
                     },
                 )
+        }
+
+        if (!SettingsFeatures.getUseDeprecatedLaunch()) {
+            callCompositeBuilder.credential(communicationTokenCredential)
+            callCompositeBuilder.context(context)
+            callCompositeBuilder.displayName(displayName)
         }
 
         SettingsFeatures.telecomManagerIntegration()?.let {
