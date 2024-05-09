@@ -31,6 +31,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocato
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositePictureInPictureChangedEvent;
+import com.azure.android.communication.ui.calling.models.CallCompositePushNotification;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
 /* <ROOMS_SUPPORT:0> */
@@ -613,6 +614,16 @@ public final class CallComposite {
         if (diContainer != null) {
             diContainer.getAppStore().dispatch(new PipAction.HideRequested());
         }
+    }
+
+    /**
+     * Handle incoming call push notification.
+     * Build {@link CallCompositeBuilder} using {@link CommunicationTokenCredential} and application {@link Context} .
+     * @param pushNotification     The {@link CallCompositePushNotification}.
+     * @return {@link CompletableFuture} of {@link Void}.
+     */
+    public CompletableFuture<Void> handlePushNotification(final CallCompositePushNotification pushNotification) {
+        return CompletableFuture.completedFuture(null);
     }
 
     /**
