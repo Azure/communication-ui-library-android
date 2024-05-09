@@ -33,7 +33,7 @@ internal class SetupViewModelFactory(
         SetupControlBarViewModel(
             store::dispatch,
             diContainer.capabilitiesManager,
-            )
+        )
     }
 
     val setupGradientViewModel by lazy {

@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.StateFlow
 internal class SetupControlBarViewModel(
     private val dispatch: (Action) -> Unit,
     private val capabilitiesManager: CapabilitiesManager,
-    ) {
+) {
     private lateinit var cameraIsEnabledStateFlow: MutableStateFlow<Boolean>
     private lateinit var cameraIsVisibleStateFlow: MutableStateFlow<Boolean>
 

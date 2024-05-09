@@ -181,8 +181,8 @@ internal class ControlBarViewModel(
         capabilities: Set<ParticipantCapabilityType>,
     ): Boolean {
         return visibilityState.status != VisibilityStatus.PIP_MODE_ENTERED &&
-                audioVideoMode != CallCompositeAudioVideoMode.AUDIO_ONLY &&
-                capabilitiesManager.hasCapability(capabilities, ParticipantCapabilityType.TURN_VIDEO_ON)
+            audioVideoMode != CallCompositeAudioVideoMode.AUDIO_ONLY &&
+            capabilitiesManager.hasCapability(capabilities, ParticipantCapabilityType.TURN_VIDEO_ON)
     }
 
     private fun shouldCameraBeEnabled(

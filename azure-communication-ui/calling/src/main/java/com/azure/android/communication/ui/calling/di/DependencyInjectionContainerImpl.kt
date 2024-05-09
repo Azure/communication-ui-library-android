@@ -243,6 +243,7 @@ internal class DependencyInjectionContainerImpl(
         CallingViewModelFactory(
             appStore,
             ParticipantGridCellViewModelFactory(),
+            applicationContext.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants),
             debugInfoManager,
             capabilitiesManager,
             configuration.callCompositeEventsHandler.getOnUserReportedHandlers().toList().isNotEmpty(),

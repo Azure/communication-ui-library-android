@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.factories
 
-import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmViewModel
@@ -28,6 +27,7 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 internal class CallingViewModelFactory(
     private val store: Store<ReduxState>,
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
+    private val maxRemoteParticipants: Int,
     private val debugInfoManager: DebugInfoManager,
     private val capabilitiesManager: CapabilitiesManager,
     private val showSupportFormOption: Boolean = false,
@@ -43,14 +43,14 @@ internal class CallingViewModelFactory(
     }
 
     val participantGridViewModel by lazy {
-        ParticipantGridViewModel(participantGridCellViewModelFactory)
+        ParticipantGridViewModel(participantGridCellViewModelFactory, maxRemoteParticipants)
     }
 
     val controlBarViewModel by lazy {
         ControlBarViewModel(
             store::dispatch,
             capabilitiesManager,
-            )
+        )
     }
 
     val floatingHeaderViewModel by lazy {
