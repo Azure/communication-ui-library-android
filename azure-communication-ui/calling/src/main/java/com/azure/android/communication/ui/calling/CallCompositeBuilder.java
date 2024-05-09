@@ -3,6 +3,8 @@
 
 package com.azure.android.communication.ui.calling;
 
+import com.azure.android.communication.ui.calling.models.CallCompositeCapabilitiesChangeNotificationMode;
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions;
@@ -22,6 +24,8 @@ public final class CallCompositeBuilder {
     private Boolean enableSystemPiPWhenMultitasking = false;
     private CallCompositeSupportedScreenOrientation callScreenOrientation = null;
     private CallCompositeSupportedScreenOrientation setupScreenOrientation = null;
+    private CallCompositeCapabilitiesChangeNotificationMode capabilitiesChangeNotificationMode =
+            CallCompositeCapabilitiesChangeNotificationMode.ALWAYS_DISPLAY;
 
     /**
      * Sets an optional theme for call-composite to use by {@link CallComposite}.
@@ -82,19 +86,36 @@ public final class CallCompositeBuilder {
         return this;
     }
 
+    /* <ROOMS_SUPPORT> */
+    /**
+     * Sets capabilities change notification mode.
+     * @param mode see {@link CallCompositeLocalOptions}
+     * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
+     */
+    public CallCompositeBuilder capabilitiesChangeNotificationMode(
+            final CallCompositeCapabilitiesChangeNotificationMode mode
+    ) {
+        this.capabilitiesChangeNotificationMode = mode;
+        return this;
+    }
+
+    /* </ROOMS_SUPPORT> */
+
     /**
      * Builds the CallCompositeClass {@link CallComposite}.
      *
      * @return {@link CallComposite}
      */
     public CallComposite build() {
-        final CallCompositeConfiguration config = new CallCompositeConfiguration();
-        config.setThemeConfig(themeConfig);
-        config.setLocalizationConfig(localizationConfig);
-        config.setEnableMultitasking(enableMultitasking);
-        config.setEnableSystemPiPWhenMultitasking(enableSystemPiPWhenMultitasking);
-        config.setCallScreenOrientation(this.callScreenOrientation);
-        config.setSetupScreenOrientation(this.setupScreenOrientation);
+        final CallCompositeConfiguration config = new CallCompositeConfiguration(
+                this.themeConfig,
+                this.localizationConfig,
+                this.callScreenOrientation,
+                this.setupScreenOrientation,
+                this.enableMultitasking,
+                this.enableSystemPiPWhenMultitasking/* <ROOMS_SUPPORT> */,
+                this.capabilitiesChangeNotificationMode/* </ROOMS_SUPPORT> */);
+
         return new CallComposite(config);
     }
 }

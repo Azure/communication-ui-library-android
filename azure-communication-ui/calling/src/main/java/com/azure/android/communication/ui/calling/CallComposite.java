@@ -283,6 +283,7 @@ public final class CallComposite {
         configuration.getCallCompositeEventsHandler().removeOnCallStateEventHandler(eventHandler);
     }
 
+    /* <ROOMS_SUPPORT> */
     /**
      * Add on user capabilities changed event handler {@link CallCompositeEventHandler}.
      * @param eventHandler The {@link CallCompositeEventHandler}.
@@ -300,6 +301,7 @@ public final class CallComposite {
             final CallCompositeEventHandler<CapabilitiesChangedEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().removeOnCapabilitiesChangedEvent(eventHandler);
     }
+    /* </ROOMS_SUPPORT> */
 
     /**
      * Get Call State.

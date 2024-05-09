@@ -4,19 +4,24 @@
 package com.azure.android.communication.ui.calling.configuration
 
 import com.azure.android.communication.ui.calling.configuration.events.CallCompositeEventsHandler
+import com.azure.android.communication.ui.calling.models.CallCompositeCapabilitiesChangeNotificationMode
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
 
-internal class CallCompositeConfiguration {
-    var themeConfig: Int? = null
-    var localizationConfig: CallCompositeLocalizationOptions? = null
-    var callCompositeEventsHandler = CallCompositeEventsHandler()
-    lateinit var callConfig: CallConfiguration
+internal class CallCompositeConfiguration(
+    val themeConfig: Int?,
+    val localizationConfig: CallCompositeLocalizationOptions?,
+    val callScreenOrientation: CallCompositeSupportedScreenOrientation?,
+    val setupScreenOrientation: CallCompositeSupportedScreenOrientation?,
+    val enableMultitasking: Boolean,
+    val enableSystemPiPWhenMultitasking: Boolean,
+    /* <ROOMS_SUPPORT> */
+    val capabilitiesChangeNotificationMode: CallCompositeCapabilitiesChangeNotificationMode,
+    /* </ROOMS_SUPPORT> */
+) {
     var callCompositeLocalOptions: CallCompositeLocalOptions? = null
+    val callCompositeEventsHandler = CallCompositeEventsHandler()
+    lateinit var callConfig: CallConfiguration
     val remoteParticipantsConfiguration: RemoteParticipantsConfiguration = RemoteParticipantsConfiguration()
-    var enableMultitasking: Boolean = false
-    var enableSystemPiPWhenMultitasking: Boolean = false
-    var callScreenOrientation: CallCompositeSupportedScreenOrientation? = null
-    var setupScreenOrientation: CallCompositeSupportedScreenOrientation? = null
 }
