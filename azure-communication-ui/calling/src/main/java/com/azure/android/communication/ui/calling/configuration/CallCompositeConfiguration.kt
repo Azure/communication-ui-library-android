@@ -12,7 +12,7 @@ internal class CallCompositeConfiguration {
     var themeConfig: Int? = null
     var localizationConfig: CallCompositeLocalizationOptions? = null
     var callCompositeEventsHandler = CallCompositeEventsHandler()
-    var callConfig: CallConfiguration? = null
+    lateinit var callConfig: CallConfiguration
     var callCompositeLocalOptions: CallCompositeLocalOptions? = null
     val remoteParticipantsConfiguration: RemoteParticipantsConfiguration = RemoteParticipantsConfiguration()
     var enableMultitasking: Boolean = false

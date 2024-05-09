@@ -10,6 +10,7 @@ import com.azure.android.communication.ui.calling.error.ErrorHandler
 import com.azure.android.communication.ui.calling.getConfig
 import com.azure.android.communication.ui.calling.handlers.CallStateHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
+import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
@@ -17,6 +18,11 @@ import com.azure.android.communication.ui.calling.presentation.CallCompositeActi
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactory
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactoryImpl
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
+import com.azure.android.communication.ui.calling.presentation.fragment.factories.ParticipantGridCellViewModelFactory
+import com.azure.android.communication.ui.calling.presentation.fragment.factories.SetupViewModelFactory
+import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupViewModel
 import com.azure.android.communication.ui.calling.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioModeManager
@@ -24,6 +30,7 @@ import com.azure.android.communication.ui.calling.presentation.manager.AudioSess
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.CompositeExitManager
 import com.azure.android.communication.ui.calling.presentation.manager.CameraStatusHook
+import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManagerImpl
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManagerImpl
@@ -88,6 +95,7 @@ internal class DependencyInjectionContainerImpl(
             callingService,
             coroutineContextProvider,
             configuration,
+            capabilitiesManager,
         )
     }
 
@@ -205,6 +213,49 @@ internal class DependencyInjectionContainerImpl(
 
     override val callHistoryRepository by lazy {
         CallHistoryRepositoryImpl(applicationContext, logger)
+    }
+
+    override val callingViewModel by lazy {
+        CallingViewModel(
+            appStore,
+            callingViewModelFactory,
+            networkManager,
+            configuration.enableMultitasking,
+            configuration.callCompositeLocalOptions?.audioVideoMode
+                ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+            capabilitiesManager,
+        )
+    }
+
+    override val setupViewModel by lazy {
+        SetupViewModel(
+            appStore,
+            setupViewModelFactory,
+            networkManager,
+        )
+    }
+
+    override val capabilitiesManager by lazy {
+        CapabilitiesManager(configuration.callConfig.callType)
+    }
+
+    private val callingViewModelFactory by lazy {
+        CallingViewModelFactory(
+            appStore,
+            ParticipantGridCellViewModelFactory(),
+            debugInfoManager,
+            capabilitiesManager,
+            configuration.callCompositeEventsHandler.getOnUserReportedHandlers().toList().isNotEmpty(),
+            configuration.enableMultitasking
+        )
+    }
+
+    private val setupViewModelFactory by lazy {
+        SetupViewModelFactory(
+            appStore,
+            applicationContext,
+            this,
+        )
     }
 
     private val localOptions by lazy {

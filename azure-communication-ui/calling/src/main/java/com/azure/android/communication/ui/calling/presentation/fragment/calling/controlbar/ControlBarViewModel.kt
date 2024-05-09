@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
+import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
@@ -21,7 +22,10 @@ import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
+internal class ControlBarViewModel(
+    private val dispatch: (Action) -> Unit,
+    private val capabilitiesManager: CapabilitiesManager,
+) {
     private lateinit var isVisibleStateFlow: MutableStateFlow<Boolean>
 
     // Camera button
@@ -177,8 +181,8 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
         capabilities: Set<ParticipantCapabilityType>,
     ): Boolean {
         return visibilityState.status != VisibilityStatus.PIP_MODE_ENTERED &&
-            audioVideoMode != CallCompositeAudioVideoMode.AUDIO_ONLY &&
-            capabilities.contains(ParticipantCapabilityType.TURN_VIDEO_ON)
+                audioVideoMode != CallCompositeAudioVideoMode.AUDIO_ONLY &&
+                capabilitiesManager.hasCapability(capabilities, ParticipantCapabilityType.TURN_VIDEO_ON)
     }
 
     private fun shouldCameraBeEnabled(
@@ -192,7 +196,7 @@ internal class ControlBarViewModel(private val dispatch: (Action) -> Unit) {
     }
 
     private fun shouldMicBeVisible(capabilities: Set<ParticipantCapabilityType>): Boolean {
-        return capabilities.contains(ParticipantCapabilityType.UNMUTE_MICROPHONE)
+        return capabilitiesManager.hasCapability(capabilities, ParticipantCapabilityType.UNMUTE_MICROPHONE)
     }
     private fun shouldMicBeEnabled(
         audioState: AudioState,

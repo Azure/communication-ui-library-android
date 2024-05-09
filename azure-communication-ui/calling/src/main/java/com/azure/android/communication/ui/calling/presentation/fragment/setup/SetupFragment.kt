@@ -42,7 +42,7 @@ internal class SetupFragment :
 
     private val videoViewManager get() = holder.container.videoViewManager
     private val avatarViewManager get() = holder.container.avatarViewManager
-    private val viewModel get() = holder.setupViewModel
+    private val viewModel get() = holder.container.setupViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

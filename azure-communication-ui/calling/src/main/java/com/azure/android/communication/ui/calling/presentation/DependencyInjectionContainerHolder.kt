@@ -53,29 +53,4 @@ internal class DependencyInjectionContainerHolder(
 
         return@lazy CallCompositeInstanceManager.getCallComposite(instanceId).getDiContainer()
     }
-
-    val setupViewModel by lazy {
-        SetupViewModel(
-            container.appStore,
-            SetupViewModelFactory(container.appStore, application),
-            container.networkManager
-        )
-    }
-    val callingViewModel by lazy {
-        CallingViewModel(
-            container.appStore,
-            CallingViewModelFactory(
-                container.appStore,
-                ParticipantGridCellViewModelFactory(),
-                application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants),
-                container.debugInfoManager,
-                container.configuration.callCompositeEventsHandler.getOnUserReportedHandlers().toList().isNotEmpty(),
-                container.configuration.enableMultitasking
-            ),
-            container.networkManager,
-            container.configuration.enableMultitasking,
-            container.configuration.callCompositeLocalOptions?.audioVideoMode
-                ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
-        )
-    }
 }

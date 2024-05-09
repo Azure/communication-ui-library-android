@@ -9,6 +9,7 @@ import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.FatalError
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
+import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
@@ -62,7 +63,8 @@ internal interface CallingMiddlewareActionHandler {
 internal class CallingMiddlewareActionHandlerImpl(
     private val callingService: CallingService,
     coroutineContextProvider: CoroutineContextProvider,
-    private val configuration: CallCompositeConfiguration
+    private val configuration: CallCompositeConfiguration,
+    private val capabilitiesManager: CapabilitiesManager,
 ) :
     CallingMiddlewareActionHandler {
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
@@ -178,11 +180,12 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun onCapabilitiesChanged(store: Store<ReduxState>) {
-        if (!store.getCurrentState().localParticipantState.capabilities.contains(ParticipantCapabilityType.TURN_VIDEO_ON)) {
+        val capabilities = store.getCurrentState().localParticipantState.capabilities
+        if (!capabilitiesManager.hasCapability(capabilities, ParticipantCapabilityType.TURN_VIDEO_ON)) {
             store.dispatch(LocalParticipantAction.CameraOffTriggered())
         }
 
-        if (!store.getCurrentState().localParticipantState.capabilities.contains(ParticipantCapabilityType.UNMUTE_MICROPHONE)) {
+        if (!capabilitiesManager.hasCapability(capabilities, ParticipantCapabilityType.UNMUTE_MICROPHONE)) {
             store.dispatch(LocalParticipantAction.MicOffTriggered())
         }
     }

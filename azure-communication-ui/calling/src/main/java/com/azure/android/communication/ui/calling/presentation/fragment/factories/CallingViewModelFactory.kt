@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.factories
 
+import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmViewModel
@@ -19,6 +20,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay.ConnectingOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutViewModel
+import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
@@ -26,8 +28,8 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 internal class CallingViewModelFactory(
     private val store: Store<ReduxState>,
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
-    private val maxRemoteParticipants: Int,
     private val debugInfoManager: DebugInfoManager,
+    private val capabilitiesManager: CapabilitiesManager,
     private val showSupportFormOption: Boolean = false,
     private val enableMultitasking: Boolean,
 ) : BaseViewModelFactory(store) {
@@ -41,11 +43,14 @@ internal class CallingViewModelFactory(
     }
 
     val participantGridViewModel by lazy {
-        ParticipantGridViewModel(participantGridCellViewModelFactory, maxRemoteParticipants)
+        ParticipantGridViewModel(participantGridCellViewModelFactory)
     }
 
     val controlBarViewModel by lazy {
-        ControlBarViewModel(store::dispatch)
+        ControlBarViewModel(
+            store::dispatch,
+            capabilitiesManager,
+            )
     }
 
     val floatingHeaderViewModel by lazy {

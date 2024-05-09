@@ -9,6 +9,7 @@ import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
+import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
@@ -26,6 +27,7 @@ internal class CallingViewModel(
     private val networkManager: NetworkManager,
     val multitaskingEnabled: Boolean,
     val avMode: CallCompositeAudioVideoMode,
+    private val capabilitiesManager: CapabilitiesManager,
 ) :
     BaseViewModel(store) {
 
@@ -287,7 +289,7 @@ internal class CallingViewModel(
         if (visibilityState.status != VisibilityStatus.VISIBLE)
             return false
 
-        return capabilities.contains(ParticipantCapabilityType.MANAGE_LOBBY)
+        return capabilitiesManager.hasCapability(capabilities, ParticipantCapabilityType.MANAGE_LOBBY)
     }
 
     private fun remoteParticipantsForGridView(participants: Map<String, ParticipantInfoModel>): Map<String, ParticipantInfoModel> =

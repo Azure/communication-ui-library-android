@@ -53,7 +53,7 @@ internal class CallingFragment :
 
     private val videoViewManager get() = holder.container.videoViewManager
     private val avatarViewManager get() = holder.container.avatarViewManager
-    private val viewModel get() = holder.callingViewModel
+    private val viewModel get() = holder.container.callingViewModel
 
     private val closeToUser = 0f
     private lateinit var controlBarView: ControlBarView

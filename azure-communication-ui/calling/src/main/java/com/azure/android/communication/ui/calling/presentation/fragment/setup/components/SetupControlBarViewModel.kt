@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.setup.c
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantRole
-import com.azure.android.communication.ui.calling.presentation.manager.hasCapability
+import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
@@ -23,7 +23,10 @@ import com.azure.android.communication.ui.calling.redux.state.isDisconnected
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class SetupControlBarViewModel(private val dispatch: (Action) -> Unit) {
+internal class SetupControlBarViewModel(
+    private val dispatch: (Action) -> Unit,
+    private val capabilitiesManager: CapabilitiesManager,
+    ) {
     private lateinit var cameraIsEnabledStateFlow: MutableStateFlow<Boolean>
     private lateinit var cameraIsVisibleStateFlow: MutableStateFlow<Boolean>
 
@@ -140,7 +143,7 @@ internal class SetupControlBarViewModel(private val dispatch: (Action) -> Unit) 
         roleHint: ParticipantRole?
     ): Boolean {
         return audioVideoMode == CallCompositeAudioVideoMode.AUDIO_AND_VIDEO &&
-            (roleHint == null || roleHint.hasCapability(ParticipantCapabilityType.TURN_VIDEO_ON))
+            (roleHint == null || capabilitiesManager.hasCapability(roleHint, ParticipantCapabilityType.TURN_VIDEO_ON))
     }
 
     private fun shouldCameraButtonBeEnabled(callingState: CallingState, cameraPermissionState: PermissionStatus): Boolean {
@@ -151,7 +154,7 @@ internal class SetupControlBarViewModel(private val dispatch: (Action) -> Unit) 
         if (roleHint == null) {
             return true
         }
-        return roleHint.hasCapability(ParticipantCapabilityType.UNMUTE_MICROPHONE)
+        return capabilitiesManager.hasCapability(roleHint, ParticipantCapabilityType.UNMUTE_MICROPHONE)
     }
 
     private fun shouldMicButtonBeEnabled(callingState: CallingState, audioStateOperation: AudioOperationalStatus): Boolean {
