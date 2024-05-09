@@ -28,4 +28,5 @@ internal class CallCompositeConfiguration {
     var applicationContext: Context? = null
     var displayName: String? = null
     var credential: CommunicationTokenCredential? = null
+    var disableInternalPushForIncomingCall: Boolean = false
 }

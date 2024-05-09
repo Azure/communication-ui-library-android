@@ -32,6 +32,7 @@ public final class CallCompositeBuilder {
     private Context context = null;
     private String displayName = null;
     private CommunicationTokenCredential credential = null;
+    private Boolean disableInternalPushForIncomingCall = false;
 
     /**
      * Sets an optional theme for call-composite to use by {@link CallComposite}.
@@ -149,6 +150,17 @@ public final class CallCompositeBuilder {
     }
 
     /**
+     * Sets the disableInternalPushForIncomingCall.
+     *
+     * @param disableInternalPushForIncomingCall disableInternalPushForIncomingCall.
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    public CallCompositeBuilder disableInternalPushForIncomingCall(final Boolean disableInternalPushForIncomingCall) {
+        this.disableInternalPushForIncomingCall = disableInternalPushForIncomingCall;
+        return this;
+    }
+
+    /**
      * Builds the CallCompositeClass {@link CallComposite}.
      *
      * @return {@link CallComposite}
@@ -166,6 +178,7 @@ public final class CallCompositeBuilder {
         config.setCredential(credential);
         config.setDisplayName(displayName);
         config.setApplicationContext(context);
+        config.setDisableInternalPushForIncomingCall(disableInternalPushForIncomingCall);
         return new CallComposite(config);
     }
 }
