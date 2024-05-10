@@ -40,7 +40,6 @@ import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.UUID
@@ -97,6 +96,7 @@ class CallLauncherActivity : AppCompatActivity() {
         /* </ROOMS_SUPPORT:5> */
         val deepLinkRoomsId = data?.getQueryParameter("roomsid")
         /* </ROOMS_SUPPORT:0> */
+        val participantMRIs = data?.getQueryParameter("participantmris")
 
         binding.run {
             if (!deeplinkAcsToken.isNullOrEmpty()) {
@@ -131,6 +131,8 @@ class CallLauncherActivity : AppCompatActivity() {
                 teamsMeetingRadioButton.isChecked = false
                 roomsMeetingRadioButton.isChecked = true
                 /* </ROOMS_SUPPORT:1> */
+            } else if (!participantMRIs.isNullOrEmpty()) {
+                groupIdOrTeamsMeetingLinkText.setText(participantMRIs)
             } else {
                 groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
             }
@@ -167,6 +169,7 @@ class CallLauncherActivity : AppCompatActivity() {
                     teamsMeetingRadioButton.isChecked = false
                     /* <ROOMS_SUPPORT:4> */
                     roomsMeetingRadioButton.isChecked = false
+                    oneToNCallRadioButton.isChecked = false
                     attendeeRoleRadioButton.visibility = View.GONE
                     presenterRoleRadioButton.visibility = View.GONE
                     /* </ROOMS_SUPPORT:1> */
@@ -176,6 +179,7 @@ class CallLauncherActivity : AppCompatActivity() {
                 if (teamsMeetingRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.TEAMS_MEETING_LINK)
                     groupCallRadioButton.isChecked = false
+                    oneToNCallRadioButton.isChecked = false
                     /* <ROOMS_SUPPORT:4> */
                     roomsMeetingRadioButton.isChecked = false
                     attendeeRoleRadioButton.visibility = View.GONE
@@ -191,10 +195,24 @@ class CallLauncherActivity : AppCompatActivity() {
                     attendeeRoleRadioButton.visibility = View.VISIBLE
                     attendeeRoleRadioButton.isChecked = true
                     groupCallRadioButton.isChecked = false
+                    oneToNCallRadioButton.isChecked = false
                     teamsMeetingRadioButton.isChecked = false
                 } else {
                     presenterRoleRadioButton.visibility = View.GONE
                     attendeeRoleRadioButton.visibility = View.GONE
+                }
+            }
+
+            oneToNCallRadioButton.setOnClickListener {
+                if (oneToNCallRadioButton.isChecked) {
+                    groupIdOrTeamsMeetingLinkText.setText(BuildConfig.PARTICIPANT_MRIS)
+                    groupCallRadioButton.isChecked = false
+                    teamsMeetingRadioButton.isChecked = false
+                    /* <ROOMS_SUPPORT:4> */
+                    roomsMeetingRadioButton.isChecked = false
+                    attendeeRoleRadioButton.visibility = View.GONE
+                    presenterRoleRadioButton.visibility = View.GONE
+                    /* </ROOMS_SUPPORT:1> */
                 }
             }
 
@@ -297,6 +315,16 @@ class CallLauncherActivity : AppCompatActivity() {
             }
         }
 
+        var participantMris: String? = null
+        if (binding.oneToNCallRadioButton.isChecked) {
+            participantMris = binding.groupIdOrTeamsMeetingLinkText.text.toString()
+            if (participantMris.isBlank()) {
+                val message = "Participant MRIs is invalid or empty."
+                showAlert(message)
+                return
+            }
+        }
+
         try {
             CommunicationTokenCredential(acsToken)
         } catch (e: Exception) {
@@ -314,6 +342,7 @@ class CallLauncherActivity : AppCompatActivity() {
             roomRole,
             /* </ROOMS_SUPPORT:2> */
             meetingLink,
+            participantMris
         )
     }
 

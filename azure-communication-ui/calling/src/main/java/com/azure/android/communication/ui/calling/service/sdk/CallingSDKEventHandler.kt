@@ -116,7 +116,7 @@ internal class CallingSDKEventHandler(
         call = null
     }
 
-    fun onJoinCall(call: Call) {
+    fun onCallCreated(call: Call) {
         this.call = call
         call.addOnStateChangedListener(onCallStateChanged)
         call.addOnIsMutedChangedListener(onIsMutedChanged)

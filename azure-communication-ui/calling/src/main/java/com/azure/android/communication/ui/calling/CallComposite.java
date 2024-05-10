@@ -182,7 +182,7 @@ public final class CallComposite {
     public void launch(final Context activityContext,
                        final CallCompositeJoinLocator locator,
                        final CallCompositeLocalOptions localOptions) {
-        launchComposite(activityContext, locator, localOptions, false);
+        launchComposite(activityContext, locator, null, localOptions, false);
     }
 
     /**
@@ -196,7 +196,7 @@ public final class CallComposite {
     public void launch(final Context activityContext,
                        final Collection<CommunicationIdentifier> participants,
                        final CallCompositeLocalOptions localOptions) {
-
+        launchComposite(activityContext, null, participants, localOptions, false);
     }
 
     /**
@@ -207,7 +207,7 @@ public final class CallComposite {
      */
     public void launch(final Context activityContext,
                        final Collection<CommunicationIdentifier> participants) {
-
+        launchComposite(activityContext, null, participants, null, false);
     }
 
 
@@ -719,7 +719,8 @@ public final class CallComposite {
                 roomId,
                 roomRole,
                 /* </ROOMS_SUPPORT:1> */
-                callType));
+                callType,
+                null));
 
         configuration.setApplicationContext(context.getApplicationContext());
         configuration.setCredential(remoteOptions.getCredential());
@@ -742,6 +743,7 @@ public final class CallComposite {
 
     private void launchComposite(final Context context,
                                  final CallCompositeJoinLocator locator,
+                                 final Collection<CommunicationIdentifier> participants,
                                  final CallCompositeLocalOptions localOptions,
                                  final boolean isTest) {
         AndroidThreeTen.init(context.getApplicationContext());
@@ -766,8 +768,11 @@ public final class CallComposite {
             final CallCompositeRoomLocator roomLocator = (CallCompositeRoomLocator) locator;
             roomId = roomLocator.getRoomId();
             /* </ROOMS_SUPPORT:0> */
-        } else {
-            throw new CallCompositeException("Not supported Call Locator type");
+        } else if (participants != null) {
+            callType = CallType.ONE_TO_N_OUTGOING;
+        }
+        else {
+            throw new CallCompositeException("Not supported Call type");
         }
 
         if (localOptions != null) {
@@ -787,8 +792,8 @@ public final class CallComposite {
                 roomId,
                 roomRole,
                 /* </ROOMS_SUPPORT:1> */
-                callType));
-
+                callType,
+                participants));
 
         diContainer = new DependencyInjectionContainerImpl(
                 instanceId,
@@ -853,6 +858,6 @@ public final class CallComposite {
     void launchTest(final Context context,
                     final CallCompositeJoinLocator locator,
                     final CallCompositeLocalOptions localOptions) {
-        launchComposite(context, locator, localOptions, true);
+        launchComposite(context, locator, null, localOptions, true);
     }
 }

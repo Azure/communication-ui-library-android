@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.calling.service.sdk
 
 import android.content.Context
-import com.azure.android.communication.calling.AudioOptions
 import com.azure.android.communication.calling.Call
 import com.azure.android.communication.calling.CallAgent
 import com.azure.android.communication.calling.CallClient
@@ -15,12 +14,14 @@ import com.azure.android.communication.calling.HangUpOptions
 import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVideoStream
 import com.azure.android.communication.calling.JoinCallOptions
 import com.azure.android.communication.calling.JoinMeetingLocator
+import com.azure.android.communication.calling.OutgoingAudioOptions
+import com.azure.android.communication.calling.OutgoingVideoOptions
 /* <ROOMS_SUPPORT:0> */
 import com.azure.android.communication.calling.RoomCallLocator
+import com.azure.android.communication.calling.StartCallOptions
 /* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.calling.TeamsMeetingLinkLocator
 import com.azure.android.communication.calling.VideoDevicesUpdatedListener
-import com.azure.android.communication.calling.VideoOptions
 import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration
 import com.azure.android.communication.ui.calling.configuration.CallType
@@ -266,34 +267,26 @@ internal class CallingSDKWrapper(
         cameraState: CameraState,
         audioState: AudioState,
     ): CompletableFuture<Void> {
-
         val startCallCompletableFuture = CompletableFuture<Void>()
         createCallAgent().thenAccept { agent: CallAgent ->
-            val audioOptions = AudioOptions()
+            val audioOptions = OutgoingAudioOptions()
             audioOptions.isMuted = (audioState.operation != AudioOperationalStatus.ON)
-            val callLocator: JoinMeetingLocator = when (callConfig.callType) {
-                CallType.GROUP_CALL -> GroupCallLocator(callConfig.groupId)
-                CallType.TEAMS_MEETING -> TeamsMeetingLinkLocator(callConfig.meetingLink)
-                /* <ROOMS_SUPPORT:3> */
-                CallType.ROOMS_CALL -> RoomCallLocator(callConfig.roomId)
-                /* </ROOMS_SUPPORT:1> */
-            }
-            var videoOptions: VideoOptions? = null
             // it is possible to have camera state not on, (Example: waiting for local video stream)
             // if camera on is in progress, the waiting will make sure for starting call with right state
             if (camerasCountStateFlow.value != 0 && cameraState.operation != CameraOperationalStatus.OFF) {
                 getLocalVideoStream().whenComplete { videoStream, error ->
+                    val videoOptions = OutgoingVideoOptions()
                     if (error == null) {
                         val localVideoStreams =
                             arrayOf(videoStream.native as NativeLocalVideoStream)
-                        videoOptions = VideoOptions(localVideoStreams)
+                        videoOptions.setOutgoingVideoStreams(localVideoStreams.asList())
                     }
-                    joinCall(agent, audioOptions, videoOptions, callLocator)
+                    connectCall(agent, audioOptions, videoOptions)
                 }.exceptionally { error ->
                     onJoinCallFailed(startCallCompletableFuture, error)
                 }
             } else {
-                joinCall(agent, audioOptions, videoOptions, callLocator)
+                connectCall(agent, audioOptions, null)
             }
 
             startCallCompletableFuture.complete(null)
@@ -413,18 +406,43 @@ internal class CallingSDKWrapper(
         return callingSDKInitialization.createCallAgent()
     }
 
-    private fun joinCall(
+    private fun connectCall(
         agent: CallAgent,
-        audioOptions: AudioOptions,
-        videoOptions: VideoOptions?,
-        joinMeetingLocator: JoinMeetingLocator,
+        audioOptions: OutgoingAudioOptions,
+        videoOptions: OutgoingVideoOptions?
     ) {
-        val joinCallOptions = JoinCallOptions()
-        joinCallOptions.audioOptions = audioOptions
-        videoOptions?.let { joinCallOptions.videoOptions = videoOptions }
-
-        nullableCall = agent.join(context, joinMeetingLocator, joinCallOptions)
-        callingSDKEventHandler.onJoinCall(call)
+        if (callConfig.callType == CallType.ONE_TO_N_OUTGOING) {
+            val startCallOptions = StartCallOptions()
+            startCallOptions.outgoingAudioOptions = audioOptions
+            videoOptions?.let { startCallOptions.outgoingVideoOptions = videoOptions }
+            if (callConfig.participants == null || callConfig.participants?.isEmpty() == true) {
+                throw CallCompositeException(
+                    "Participants are not set",
+                    IllegalStateException()
+                )
+            }
+            nullableCall = agent.startCall(context, callConfig.participants, startCallOptions)
+            callingSDKEventHandler.onCallCreated(call)
+        } else {
+            val joinCallOptions = JoinCallOptions()
+            joinCallOptions.outgoingAudioOptions = audioOptions
+            videoOptions?.let { joinCallOptions.outgoingVideoOptions = videoOptions }
+            val callLocator: JoinMeetingLocator? = when (callConfig.callType) {
+                CallType.GROUP_CALL -> GroupCallLocator(callConfig.groupId)
+                CallType.TEAMS_MEETING -> TeamsMeetingLinkLocator(callConfig.meetingLink)
+                /* <ROOMS_SUPPORT:3> */
+                CallType.ROOMS_CALL -> RoomCallLocator(callConfig.roomId)
+                /* </ROOMS_SUPPORT:1> */
+                else -> {
+                    throw CallCompositeException(
+                        "Unsupported call type",
+                        IllegalStateException()
+                    )
+                }
+            }
+            nullableCall = agent.join(context, callLocator, joinCallOptions)
+            callingSDKEventHandler.onCallCreated(call)
+        }
     }
 
     private fun getDeviceManagerCompletableFuture(): CompletableFuture<DeviceManager> {

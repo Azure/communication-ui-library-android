@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
+import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
@@ -62,6 +63,7 @@ class CallLauncherViewModel : ViewModel() {
         roomRoleHint: CallCompositeParticipantRole?,
         /* </ROOMS_SUPPORT:2> */
         meetingLink: String?,
+        participantMris: String?,
     ) {
         if (SettingsFeatures.getDisplayDismissButtonOption()) {
             DismissCompositeButtonView.get(context).show(this)
@@ -72,45 +74,52 @@ class CallLauncherViewModel : ViewModel() {
 
         val callComposite = createCallComposite(acsToken, displayName, context)
         subscribeToEvents(context, callComposite)
-
-        val remoteOptions = getRemoteOptions(
-            acsToken,
-            groupId,
-            meetingLink,
-            /* <ROOMS_SUPPORT:5> */
-            roomId,
-            roomRoleHint,
-            /* </ROOMS_SUPPORT:2> */
-            displayName,
-        )
-
-        val locator = getLocator(
-            groupId,
-            meetingLink,
-            /* <ROOMS_SUPPORT:5> */
-            roomId,
-            roomRoleHint,
-            /* </ROOMS_SUPPORT:2> */
-        )
-
-        val useDeprecatedLaunch = SettingsFeatures.getUseDeprecatedLaunch()
+        CallLauncherViewModel.callComposite = callComposite
 
         val localOptions = getLocalOptions(context)
-        if (localOptions == null) {
-            if (useDeprecatedLaunch) {
-                callComposite.launch(context, remoteOptions)
+
+        val participants = participantMris?.split(",")
+        if (!participants.isNullOrEmpty()) {
+            if (localOptions == null) {
+                callComposite.launch(context, participants.map { CommunicationIdentifier.fromRawId(it) })
             } else {
-                callComposite.launch(context, locator)
+                callComposite.launch(context, participants.map { CommunicationIdentifier.fromRawId(it) }, localOptions)
             }
         } else {
-            if (useDeprecatedLaunch) {
-                callComposite.launch(context, remoteOptions, localOptions)
+            val useDeprecatedLaunch = SettingsFeatures.getUseDeprecatedLaunch()
+            val remoteOptions = getRemoteOptions(
+                acsToken,
+                groupId,
+                meetingLink,
+                /* <ROOMS_SUPPORT:5> */
+                roomId,
+                roomRoleHint,
+                /* </ROOMS_SUPPORT:2> */
+                displayName,
+            )
+            val locator = getLocator(
+                groupId,
+                meetingLink,
+                /* <ROOMS_SUPPORT:5> */
+                roomId,
+                roomRoleHint,
+                /* </ROOMS_SUPPORT:2> */
+            )
+
+            if (localOptions == null) {
+                if (useDeprecatedLaunch) {
+                    callComposite.launch(context, remoteOptions)
+                } else {
+                    callComposite.launch(context, locator)
+                }
             } else {
-                callComposite.launch(context, locator, localOptions)
+                if (useDeprecatedLaunch) {
+                    callComposite.launch(context, remoteOptions, localOptions)
+                } else {
+                    callComposite.launch(context, locator, localOptions)
+                }
             }
         }
-
-        CallLauncherViewModel.callComposite = callComposite
     }
 
     private fun getRemoteOptions(
