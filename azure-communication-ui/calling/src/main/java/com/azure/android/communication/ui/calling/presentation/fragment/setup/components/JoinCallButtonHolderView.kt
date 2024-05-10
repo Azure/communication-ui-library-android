@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import com.azure.android.communication.ui.calling.configuration.CallType
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import com.azure.android.communication.ui.calling.implementation.R
@@ -62,6 +63,14 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getDisableJoinCallButtonFlow().collect { onDisableJoinCallButtonChanged(it) }
+        }
+
+        viewModel.getCallType()?.let {
+            if (it == CallType.ONE_TO_N_OUTGOING) {
+                setupJoinCallButtonText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_start_call)
+            } else {
+                setupJoinCallButtonText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_join_call)
+            }
         }
     }
 

@@ -115,7 +115,7 @@ internal class ParticipantGridView : GridLayout {
         viewLifecycleOwner.lifecycleScope.launch {
             avatarViewManager.getRemoteParticipantsPersonaSharedFlow()
                 .collect { remoteParticipantViewData ->
-                    if (::displayedRemoteParticipantsView.isInitialized) {
+                    if (::displayedRemoteParticipantsView.isInitialized && displayedRemoteParticipantsView.isNotEmpty()) {
                         displayedRemoteParticipantsView.forEach { displayedParticipant ->
                             val identifier = displayedParticipant.getParticipantIdentifier()
                             if (remoteParticipantViewData.keys.contains(identifier)) {

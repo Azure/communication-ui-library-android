@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.setup.c
 import android.media.AudioManager
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
@@ -33,7 +34,11 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockNetworkManager = mock<NetworkManager>()
             val mockAudioManager = mock<AudioManager>()
 
-            val viewModel = JoinCallButtonHolderViewModel(mockAppStore::dispatch, mockAudioManager)
+            val viewModel = JoinCallButtonHolderViewModel(
+                mockAppStore::dispatch,
+                mockAudioManager,
+                CallType.GROUP_CALL
+            )
             viewModel.init(
                 PermissionStatus.DENIED,
                 PermissionStatus.GRANTED,
@@ -81,7 +86,11 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockNetworkManager = mock<NetworkManager>()
             val mockAudioManager = mock<AudioManager>()
 
-            val viewModel = JoinCallButtonHolderViewModel(mockAppStore::dispatch, mockAudioManager)
+            val viewModel = JoinCallButtonHolderViewModel(
+                mockAppStore::dispatch,
+                mockAudioManager,
+                CallType.GROUP_CALL
+            )
             viewModel.init(
                 PermissionStatus.GRANTED,
                 PermissionStatus.GRANTED,
@@ -129,7 +138,11 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockNetworkManager = mock<NetworkManager>()
             val mockAudioManager = mock<AudioManager>()
 
-            val viewModel = JoinCallButtonHolderViewModel(mockAppStore::dispatch, mockAudioManager)
+            val viewModel = JoinCallButtonHolderViewModel(
+                mockAppStore::dispatch,
+                mockAudioManager,
+                CallType.GROUP_CALL
+            )
             viewModel.init(
                 PermissionStatus.GRANTED,
                 PermissionStatus.GRANTED,
@@ -189,7 +202,11 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockNetworkManager = mock<NetworkManager>()
             val mockAudioManager = mock<AudioManager>()
 
-            val viewModel = JoinCallButtonHolderViewModel(mockAppStore::dispatch, mockAudioManager)
+            val viewModel = JoinCallButtonHolderViewModel(
+                mockAppStore::dispatch,
+                mockAudioManager,
+                CallType.GROUP_CALL
+            )
             viewModel.init(
                 PermissionStatus.GRANTED,
                 PermissionStatus.GRANTED,
@@ -237,7 +254,11 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
             val mockNetworkManager = mock<NetworkManager>()
             val mockAudioManager = mock<AudioManager>()
 
-            val viewModel = JoinCallButtonHolderViewModel(mockAppStore::dispatch, mockAudioManager)
+            val viewModel = JoinCallButtonHolderViewModel(
+                mockAppStore::dispatch,
+                mockAudioManager,
+                CallType.GROUP_CALL
+            )
             viewModel.init(
                 PermissionStatus.GRANTED,
                 PermissionStatus.GRANTED,

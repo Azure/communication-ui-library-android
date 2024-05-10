@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
+import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel
 import com.microsoft.fluentui.persona.AvatarView
 import kotlinx.coroutines.flow.collect
@@ -37,8 +38,16 @@ internal class ParticipantGridCellAvatarView(
     init {
         lifecycleScope.launch {
             participantViewModel.getDisplayNameStateFlow().collect {
-                setDisplayName(it)
+                lastParticipantViewData = null
                 updateParticipantViewData()
+            }
+        }
+
+        lifecycleScope.launch {
+            participantViewModel.getParticipantStatusStateFlow().collect {
+                lastParticipantViewData = null
+                updateParticipantViewData()
+                setMicButtonVisibility(participantViewModel.getIsMutedStateFlow().value)
             }
         }
 
@@ -100,6 +109,22 @@ internal class ParticipantGridCellAvatarView(
         }
     }
 
+    private fun setTextViewDisplayName(displayName: String) {
+        if (participantViewModel.getParticipantStatusStateFlow().value == ParticipantStatus.CONNECTING ||
+            participantViewModel.getParticipantStatusStateFlow().value == ParticipantStatus.RINGING
+        ) {
+            displayNameAudioTextView.visibility = VISIBLE
+            displayNameAudioTextView.text = context.getString(R.string.azure_communication_ui_calling_call_view_calling)
+            return
+        }
+
+        if (displayName.isBlank()) {
+            displayNameAudioTextView.visibility = GONE
+        } else {
+            displayNameAudioTextView.text = displayName
+        }
+    }
+
     private fun setSpeakingIndicator(
         isSpeaking: Boolean,
     ) {
@@ -116,16 +141,12 @@ internal class ParticipantGridCellAvatarView(
     private fun setDisplayName(displayName: String) {
         avatarView.name = displayName
         avatarView.invalidate()
-
-        if (displayName.isBlank()) {
-            displayNameAudioTextView.visibility = GONE
-        } else {
-            displayNameAudioTextView.text = displayName
-        }
+        setTextViewDisplayName(displayName)
     }
 
     private fun setMicButtonVisibility(isMicButtonVisible: Boolean) {
-        if (!isMicButtonVisible) {
+        val status = participantViewModel.getParticipantStatusStateFlow().value
+        if (!isMicButtonVisible || status == ParticipantStatus.CONNECTING || status == ParticipantStatus.RINGING) {
             micIndicatorAudioImageView.visibility = GONE
         } else {
             micIndicatorAudioImageView.visibility = VISIBLE

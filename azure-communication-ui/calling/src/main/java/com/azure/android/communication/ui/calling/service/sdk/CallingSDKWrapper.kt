@@ -422,7 +422,7 @@ internal class CallingSDKWrapper(
                 )
             }
             nullableCall = agent.startCall(context, callConfig.participants, startCallOptions)
-            callingSDKEventHandler.onCallCreated(call)
+            callingSDKEventHandler.onCallCreated(call, callConfig.callType)
         } else {
             val joinCallOptions = JoinCallOptions()
             joinCallOptions.outgoingAudioOptions = audioOptions
@@ -441,7 +441,7 @@ internal class CallingSDKWrapper(
                 }
             }
             nullableCall = agent.join(context, callLocator, joinCallOptions)
-            callingSDKEventHandler.onCallCreated(call)
+            callingSDKEventHandler.onCallCreated(call, callConfig.callType)
         }
     }
 

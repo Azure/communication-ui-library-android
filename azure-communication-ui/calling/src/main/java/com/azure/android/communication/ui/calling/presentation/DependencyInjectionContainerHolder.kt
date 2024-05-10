@@ -57,8 +57,11 @@ internal class DependencyInjectionContainerHolder(
     val setupViewModel by lazy {
         SetupViewModel(
             container.appStore,
-            SetupViewModelFactory(container.appStore, application),
-            container.networkManager
+            SetupViewModelFactory(
+                container.appStore, application,
+                container.configuration.callConfig?.callType
+            ),
+            container.networkManager,
         )
     }
     val callingViewModel by lazy {
@@ -71,13 +74,15 @@ internal class DependencyInjectionContainerHolder(
                 container.debugInfoManager,
                 container.configuration.callCompositeEventsHandler.getOnUserReportedHandlers().toList().isNotEmpty(),
                 container.configuration.enableMultitasking,
-                isTelecomManagerEnabled = container.configuration.telecomManagerOptions != null
+                isTelecomManagerEnabled = container.configuration.telecomManagerOptions != null,
+                container.configuration.callConfig?.callType
             ),
             container.networkManager,
             container.configuration.callScreenOptions,
             container.configuration.enableMultitasking,
             container.configuration.callCompositeLocalOptions?.audioVideoMode
-                ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+            container.configuration.callConfig?.callType
         )
     }
 }

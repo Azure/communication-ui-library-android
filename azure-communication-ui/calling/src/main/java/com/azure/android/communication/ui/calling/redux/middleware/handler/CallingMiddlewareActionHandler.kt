@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.redux.middleware.handler
 
 import android.telecom.CallAudioState
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
+import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.error.CallCompositeError
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.FatalError
@@ -555,14 +556,26 @@ internal class CallingMiddlewareActionHandlerImpl(
                 }
 
                 if (callInfoModel.callStateError == null) {
-                    when (callInfoModel.callingStatus) {
-                        CallingStatus.CONNECTED, CallingStatus.IN_LOBBY -> {
-                            store.dispatch(NavigationAction.CallLaunched())
+                    if (configuration.callConfig?.callType == CallType.ONE_TO_N_OUTGOING) {
+                        when (callInfoModel.callingStatus) {
+                            CallingStatus.CONNECTED, CallingStatus.CONNECTING -> {
+                                store.dispatch(NavigationAction.CallLaunched())
+                            }
+                            CallingStatus.DISCONNECTED -> {
+                                store.dispatch(NavigationAction.Exit())
+                            }
+                            else -> {}
                         }
-                        CallingStatus.DISCONNECTED -> {
-                            store.dispatch(NavigationAction.Exit())
+                    } else {
+                        when (callInfoModel.callingStatus) {
+                            CallingStatus.CONNECTED, CallingStatus.IN_LOBBY -> {
+                                store.dispatch(NavigationAction.CallLaunched())
+                            }
+                            CallingStatus.DISCONNECTED -> {
+                                store.dispatch(NavigationAction.Exit())
+                            }
+                            else -> {}
                         }
-                        else -> {}
                     }
                 }
             }

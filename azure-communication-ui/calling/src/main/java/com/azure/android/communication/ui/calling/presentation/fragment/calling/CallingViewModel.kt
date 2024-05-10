@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
+import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
@@ -30,6 +31,7 @@ internal class CallingViewModel(
     private val callScreenOptions: CallCompositeCallScreenOptions? = null,
     val multitaskingEnabled: Boolean,
     val avMode: CallCompositeAudioVideoMode,
+    private val callType: CallType? = null,
 ) :
     BaseViewModel(store) {
 
@@ -314,7 +316,11 @@ internal class CallingViewModel(
         }
 
     private fun shouldUpdateRemoteParticipantsViewModels(state: ReduxState) =
-        state.callState.callingStatus == CallingStatus.CONNECTED
+        state.callState.callingStatus == CallingStatus.CONNECTED ||
+            (
+                (state.callState.callingStatus == CallingStatus.RINGING || state.callState.callingStatus == CallingStatus.CONNECTING) &&
+                    callType == CallType.ONE_TO_N_OUTGOING
+                )
 
     private fun updateOverlayDisplayedState(callingStatus: CallingStatus) {
         floatingHeaderViewModel.updateIsOverlayDisplayed(callingStatus)

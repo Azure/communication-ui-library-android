@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.factories
 
+import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmViewModel
@@ -31,6 +32,7 @@ internal class CallingViewModelFactory(
     private val showSupportFormOption: Boolean = false,
     private val enableMultitasking: Boolean,
     private val isTelecomManagerEnabled: Boolean = false,
+    private val callType: CallType? = null
 ) : BaseViewModelFactory(store) {
 
     val moreCallOptionsListViewModel by lazy {
@@ -92,7 +94,7 @@ internal class CallingViewModelFactory(
     }
 
     val connectingOverlayViewModel by lazy {
-        ConnectingOverlayViewModel(store::dispatch, isTelecomManagerEnabled)
+        ConnectingOverlayViewModel(store::dispatch, isTelecomManagerEnabled, callType)
     }
 
     val onHoldOverlayViewModel by lazy {
