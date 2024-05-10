@@ -306,10 +306,20 @@ public final class CallComposite {
      * @return {@link CompletableFuture} of {@link Void}.
      */
     public CompletableFuture<Void>  hold() {
+        final CompletableFuture<Void> holdFuture = new CompletableFuture<>();
         if (diContainer != null) {
             final DependencyInjectionContainer container = diContainer;
+            container.getCallingService().hold().whenComplete((aVoid, throwable) -> {
+                if (throwable != null) {
+                    holdFuture.completeExceptionally(throwable);
+                } else {
+                    holdFuture.complete(aVoid);
+                }
+            });
+        } else {
+            holdFuture.completeExceptionally(new IllegalStateException("CallComposite is not initialized"));
         }
-        return null;
+        return holdFuture;
     }
 
     /**
@@ -318,10 +328,20 @@ public final class CallComposite {
      * @return {@link CompletableFuture} of {@link Void}.
      */
     public CompletableFuture<Void>  resume() {
+        final CompletableFuture<Void> resumeFuture = new CompletableFuture<>();
         if (diContainer != null) {
             final DependencyInjectionContainer container = diContainer;
+            container.getCallingService().resume().whenComplete((aVoid, throwable) -> {
+                if (throwable != null) {
+                    resumeFuture.completeExceptionally(throwable);
+                } else {
+                    resumeFuture.complete(aVoid);
+                }
+            });
+        } else {
+            resumeFuture.completeExceptionally(new IllegalStateException("CallComposite is not initialized"));
         }
-        return null;
+        return resumeFuture;
     }
 
     /**

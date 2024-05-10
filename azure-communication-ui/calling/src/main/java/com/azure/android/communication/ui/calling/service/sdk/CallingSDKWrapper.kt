@@ -122,29 +122,43 @@ internal class CallingSDKWrapper(
         callingSDKEventHandler.getRemoteParticipantInfoModelFlow()
 
     override fun hold(): CompletableFuture<Void> {
-        val call: Call?
+        val completableFuture = CompletableFuture<Void>()
 
         try {
-            call = this.call
+            val call = this.call
+            call.hold().whenComplete { _, error ->
+                if (error != null) {
+                    completableFuture.completeExceptionally(error)
+                } else {
+                    completableFuture.complete(null)
+                }
+            }
         } catch (e: Exception) {
             // We can't access the call currently, return a no-op and exit
-            return CompletableFuture.runAsync { }
+            completableFuture.completeExceptionally(e)
         }
 
-        return call.hold()
+        return completableFuture
     }
 
     override fun resume(): CompletableFuture<Void> {
-        val call: Call?
+        val completableFuture = CompletableFuture<Void>()
 
         try {
-            call = this.call
+            val call = this.call
+            call.resume().whenComplete { _, error ->
+                if (error != null) {
+                    completableFuture.completeExceptionally(error)
+                } else {
+                    completableFuture.complete(null)
+                }
+            }
         } catch (e: Exception) {
             // We can't access the call currently, return a no-op and exit
-            return CompletableFuture.runAsync { }
+            completableFuture.completeExceptionally(e)
         }
 
-        return call.resume()
+        return completableFuture
     }
 
     override fun endCall(): CompletableFuture<Void> {
