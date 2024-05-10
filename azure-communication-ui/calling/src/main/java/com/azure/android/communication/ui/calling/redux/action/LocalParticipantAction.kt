@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.calling.redux.action
 
-import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantCapabilityType
 import com.azure.android.communication.ui.calling.error.CallCompositeError
 import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
@@ -74,7 +74,7 @@ internal sealed class LocalParticipantAction : Action {
 
     class RoleChanged(val participantRole: ParticipantRole?) : LocalParticipantAction()
 
-    class SetCapabilities(val capabilities: List<ParticipantCapabilityType>) : LocalParticipantAction()
+    class SetCapabilities(val capabilities: List<CallCompositeParticipantCapabilityType>): LocalParticipantAction()
 
     class CapabilitiesChanged() : LocalParticipantAction()
 }

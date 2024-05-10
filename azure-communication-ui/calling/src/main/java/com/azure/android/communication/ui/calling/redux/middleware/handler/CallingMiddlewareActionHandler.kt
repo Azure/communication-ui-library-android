@@ -8,7 +8,7 @@ import com.azure.android.communication.ui.calling.error.CallCompositeError
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.FatalError
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
-import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantCapabilityType
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
@@ -56,7 +56,7 @@ internal interface CallingMiddlewareActionHandler {
     fun admitAll(store: Store<ReduxState>)
     fun admit(userIdentifier: String, store: Store<ReduxState>)
     fun decline(userIdentifier: String, store: Store<ReduxState>)
-    fun setCapabilities(capabilities: List<ParticipantCapabilityType>, store: Store<ReduxState>)
+    fun setCapabilities(capabilities: List<CallCompositeParticipantCapabilityType>, store: Store<ReduxState>)
     fun onCapabilitiesChanged(store: Store<ReduxState>)
 }
 
@@ -173,7 +173,7 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun setCapabilities(
-        capabilities: List<ParticipantCapabilityType>,
+        capabilities: List<CallCompositeParticipantCapabilityType>,
         store: Store<ReduxState>
     ) {
         store.dispatch(LocalParticipantAction.CapabilitiesChanged())
@@ -181,11 +181,11 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     override fun onCapabilitiesChanged(store: Store<ReduxState>) {
         val capabilities = store.getCurrentState().localParticipantState.capabilities
-        if (!capabilitiesManager.hasCapability(capabilities, ParticipantCapabilityType.TURN_VIDEO_ON)) {
+        if (!capabilitiesManager.hasCapability(capabilities, CallCompositeParticipantCapabilityType.TURN_VIDEO_ON)) {
             store.dispatch(LocalParticipantAction.CameraOffTriggered())
         }
 
-        if (!capabilitiesManager.hasCapability(capabilities, ParticipantCapabilityType.UNMUTE_MICROPHONE)) {
+        if (!capabilitiesManager.hasCapability(capabilities, CallCompositeParticipantCapabilityType.UNMUTE_MICROPHONE)) {
             store.dispatch(LocalParticipantAction.MicOffTriggered())
         }
     }
@@ -306,6 +306,10 @@ internal class CallingMiddlewareActionHandlerImpl(
                         FatalError(error, ErrorCode.CALL_JOIN_FAILED)
                     )
                 )
+            }
+            else {
+                val action = LocalParticipantAction.SetCapabilities(callingService.getCallCapabilities())
+                store.dispatch(action)
             }
         }
     }
@@ -445,14 +449,13 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     private fun subscribeOnLocalParticipantCapabilitiesChanged(store: Store<ReduxState>) {
         coroutineScope.launch {
-            callingService.getCallCapabilitiesSharedFlow().collect {
-                val action = LocalParticipantAction.SetCapabilities(it)
-                store.dispatch(action)
-            }
-        }
-        coroutineScope.launch {
             callingService.getCallCapabilitiesEventSharedFlow().collect { event ->
                 configuration.callCompositeEventsHandler.getOnCapabilitiesChangedEvents().forEach { handler ->
+                    // Update redux with fresh capabilities
+                    val action = LocalParticipantAction.SetCapabilities(callingService.getCallCapabilities())
+                    store.dispatch(action)
+
+                    // Notify public API event subscribers
                     try {
                         handler.handle(event)
                     } catch (_: Exception) { }

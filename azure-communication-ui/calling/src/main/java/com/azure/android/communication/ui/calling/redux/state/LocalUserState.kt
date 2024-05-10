@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.redux.state
 import com.azure.android.communication.ui.calling.error.CallCompositeError
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.ParticipantRole
-import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantCapabilityType
 
 internal enum class CameraOperationalStatus {
     PENDING,
@@ -81,6 +81,6 @@ internal data class LocalUserState(
     val initialCallJoinState: InitialCallJoinState = InitialCallJoinState(),
     val localParticipantRole: ParticipantRole?,
     val audioVideoMode: CallCompositeAudioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
-    val capabilities: Set<ParticipantCapabilityType> = emptySet(),
+    val capabilities: Set<CallCompositeParticipantCapabilityType> = emptySet(),
     val roleHint: ParticipantRole? = null,
 )

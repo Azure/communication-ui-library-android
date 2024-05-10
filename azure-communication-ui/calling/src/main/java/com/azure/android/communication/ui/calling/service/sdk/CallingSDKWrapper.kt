@@ -29,7 +29,7 @@ import com.azure.android.communication.ui.calling.configuration.CallConfiguratio
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
-import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
@@ -97,9 +97,6 @@ internal class CallingSDKWrapper(
 
     override fun getLocalParticipantRoleSharedFlow() =
         callingSDKEventHandler.getCallParticipantRoleSharedFlow()
-
-    override fun getCallCapabilitiesSharedFlow() =
-        callingSDKEventHandler.getCallCapabilitiesSharedFlow()
 
     override fun getCallCapabilitiesEventSharedFlow() =
         callingSDKEventHandler.getCallCapabilitiesEventSharedFlow()
@@ -262,8 +259,19 @@ internal class CallingSDKWrapper(
         return setupCallCompletableFuture
     }
 
-    override fun getCapabilities(): List<ParticipantCapabilityType> {
-        return nullableCall?.feature { CapabilitiesCallFeature::class.java }?.capabilities?.into() ?: emptyList()
+    override fun getCapabilities(): List<CallCompositeParticipantCapabilityType> {
+        val capabilitiesFeature = nullableCall?.feature { CapabilitiesCallFeature::class.java }
+        capabilitiesFeature?.capabilities?.let { capabilities ->
+            val notNull = capabilities
+                .mapNotNull { it.into() }
+            val filtered = notNull
+                .filter { it.isAllowed }
+                .map { it.type }
+
+            return filtered
+        }
+
+        return emptyList()
     }
 
     override fun startCall(

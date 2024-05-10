@@ -5,13 +5,14 @@ package com.azure.android.communication.ui.calling.service
 
 import com.azure.android.communication.calling.CapabilitiesChangedEvent
 import com.azure.android.communication.ui.calling.logger.Logger
+import com.azure.android.communication.ui.calling.models.CallCompositeCapabilitiesChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
-import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
@@ -98,10 +99,7 @@ internal class CallingService(
         return callingSdk.getLocalParticipantRoleSharedFlow()
     }
 
-    fun getCallCapabilitiesSharedFlow(): SharedFlow<List<ParticipantCapabilityType>> =
-        callingSdk.getCallCapabilitiesSharedFlow()
-
-    fun getCallCapabilitiesEventSharedFlow(): SharedFlow<CapabilitiesChangedEvent> =
+    fun getCallCapabilitiesEventSharedFlow(): SharedFlow<CallCompositeCapabilitiesChangedEvent> =
         callingSdk.getCallCapabilitiesEventSharedFlow()
 
     fun getDominantSpeakersSharedFlow(): SharedFlow<List<String>> {
@@ -175,5 +173,5 @@ internal class CallingService(
     }
 
     fun getLogFiles(): List<File> = callingSdk.getLogFiles()
-    fun getCallCapabilities(): List<ParticipantCapabilityType> = callingSdk.getCapabilities()
+    fun getCallCapabilities(): List<CallCompositeParticipantCapabilityType> = callingSdk.getCapabilities()
 }

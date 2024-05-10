@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
-import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
@@ -285,11 +285,11 @@ internal class CallingViewModel(
             state.remoteParticipantState.participantMap.filter { it.value.participantStatus == ParticipantStatus.IN_LOBBY }
         else mapOf()
 
-    private fun canShowLobby(capabilities: Set<ParticipantCapabilityType>, visibilityState: VisibilityState): Boolean {
+    private fun canShowLobby(capabilities: Set<CallCompositeParticipantCapabilityType>, visibilityState: VisibilityState): Boolean {
         if (visibilityState.status != VisibilityStatus.VISIBLE)
             return false
 
-        return capabilitiesManager.hasCapability(capabilities, ParticipantCapabilityType.MANAGE_LOBBY)
+        return capabilitiesManager.hasCapability(capabilities, CallCompositeParticipantCapabilityType.MANAGE_LOBBY)
     }
 
     private fun remoteParticipantsForGridView(participants: Map<String, ParticipantInfoModel>): Map<String, ParticipantInfoModel> =

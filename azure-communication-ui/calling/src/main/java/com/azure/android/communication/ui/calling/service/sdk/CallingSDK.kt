@@ -13,12 +13,13 @@ import com.azure.android.communication.calling.PropertyChangedListener
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.calling.VideoDeviceType
+import com.azure.android.communication.ui.calling.models.CallCompositeCapabilitiesChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
-import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
@@ -63,15 +64,15 @@ internal interface CallingSDK {
     fun admit(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?>
     fun decline(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?>
     fun getLocalParticipantRoleSharedFlow(): SharedFlow<ParticipantRole?>
-    fun getCallCapabilitiesSharedFlow(): SharedFlow<List<ParticipantCapabilityType>>
-    fun getCallCapabilitiesEventSharedFlow(): SharedFlow<CapabilitiesChangedEvent>
+    fun getCallCapabilitiesEventSharedFlow(): SharedFlow<CallCompositeCapabilitiesChangedEvent>
+    fun getCapabilities(): List<CallCompositeParticipantCapabilityType>
 
     //region Call Diagnostics
     fun getNetworkQualityCallDiagnosticSharedFlow(): SharedFlow<NetworkQualityCallDiagnosticModel>
     fun getNetworkCallDiagnosticSharedFlow(): SharedFlow<NetworkCallDiagnosticModel>
     fun getMediaCallDiagnosticSharedFlow(): SharedFlow<MediaCallDiagnosticModel>
     fun getLogFiles(): List<File>
-    fun getCapabilities(): List<ParticipantCapabilityType>
+
     //endregion
 }
 

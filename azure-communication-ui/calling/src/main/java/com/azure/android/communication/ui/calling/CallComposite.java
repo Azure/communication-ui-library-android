@@ -9,7 +9,7 @@ import static com.azure.android.communication.ui.calling.service.sdk.TypeConvers
 import android.content.Context;
 import android.content.Intent;
 
-import com.azure.android.communication.calling.CapabilitiesChangedEvent;
+import com.azure.android.communication.ui.calling.models.CallCompositeCapabilitiesChangedEvent;
 import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
@@ -289,7 +289,7 @@ public final class CallComposite {
      * @param eventHandler The {@link CallCompositeEventHandler}.
      */
     public void addOnCapabilitiesChangedEventHandler(
-            final CallCompositeEventHandler<CapabilitiesChangedEvent> eventHandler) {
+            final CallCompositeEventHandler<CallCompositeCapabilitiesChangedEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().addOnCapabilitiesChangedEvent(eventHandler);
     }
 
@@ -298,7 +298,7 @@ public final class CallComposite {
      * @param eventHandler The {@link CallCompositeEventHandler}.
      */
     public void removeOnCapabilitiesChangedEventHandler(
-            final CallCompositeEventHandler<CapabilitiesChangedEvent> eventHandler) {
+            final CallCompositeEventHandler<CallCompositeCapabilitiesChangedEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().removeOnCapabilitiesChangedEvent(eventHandler);
     }
     /* </ROOMS_SUPPORT> */

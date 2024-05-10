@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar
 
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
-import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantCapabilityType
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
@@ -60,7 +60,7 @@ internal class ControlBarViewModel(
         openMoreMenuCallback: () -> Unit,
         visibilityState: VisibilityState,
         audioVideoMode: CallCompositeAudioVideoMode,
-        capabilities: Set<ParticipantCapabilityType>,
+        capabilities: Set<CallCompositeParticipantCapabilityType>,
     ) {
         isVisibleStateFlow = MutableStateFlow(shouldBeVisible(visibilityState))
 
@@ -108,7 +108,7 @@ internal class ControlBarViewModel(
         callingStatus: CallingStatus,
         visibilityState: VisibilityState,
         audioVideoMode: CallCompositeAudioVideoMode,
-        capabilities: Set<ParticipantCapabilityType>,
+        capabilities: Set<CallCompositeParticipantCapabilityType>,
     ) {
 
         isVisibleStateFlow.value = shouldBeVisible(visibilityState)
@@ -178,11 +178,11 @@ internal class ControlBarViewModel(
     private fun shouldCameraBeVisibility(
         visibilityState: VisibilityState,
         audioVideoMode: CallCompositeAudioVideoMode,
-        capabilities: Set<ParticipantCapabilityType>,
+        capabilities: Set<CallCompositeParticipantCapabilityType>,
     ): Boolean {
         return visibilityState.status != VisibilityStatus.PIP_MODE_ENTERED &&
             audioVideoMode != CallCompositeAudioVideoMode.AUDIO_ONLY &&
-            capabilitiesManager.hasCapability(capabilities, ParticipantCapabilityType.TURN_VIDEO_ON)
+            capabilitiesManager.hasCapability(capabilities, CallCompositeParticipantCapabilityType.TURN_VIDEO_ON)
     }
 
     private fun shouldCameraBeEnabled(
@@ -195,8 +195,8 @@ internal class ControlBarViewModel(
             operation != CameraOperationalStatus.PENDING
     }
 
-    private fun shouldMicBeVisible(capabilities: Set<ParticipantCapabilityType>): Boolean {
-        return capabilitiesManager.hasCapability(capabilities, ParticipantCapabilityType.UNMUTE_MICROPHONE)
+    private fun shouldMicBeVisible(capabilities: Set<CallCompositeParticipantCapabilityType>): Boolean {
+        return capabilitiesManager.hasCapability(capabilities, CallCompositeParticipantCapabilityType.UNMUTE_MICROPHONE)
     }
     private fun shouldMicBeEnabled(
         audioState: AudioState,
