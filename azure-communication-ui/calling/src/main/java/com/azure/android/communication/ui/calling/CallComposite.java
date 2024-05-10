@@ -9,7 +9,6 @@ import static com.azure.android.communication.ui.calling.service.sdk.TypeConvers
 import android.content.Context;
 import android.content.Intent;
 
-import com.azure.android.communication.calling.CapabilitiesChangedEvent;
 import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
@@ -282,26 +281,6 @@ public final class CallComposite {
             final CallCompositeEventHandler<CallCompositeCallStateChangedEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().removeOnCallStateEventHandler(eventHandler);
     }
-
-    /* <ROOMS_SUPPORT> */
-    /**
-     * Add on user capabilities changed event handler {@link CallCompositeEventHandler}.
-     * @param eventHandler The {@link CallCompositeEventHandler}.
-     */
-    public void addOnCapabilitiesChangedEventHandler(
-            final CallCompositeEventHandler<CapabilitiesChangedEvent> eventHandler) {
-        configuration.getCallCompositeEventsHandler().addOnCapabilitiesChangedEvent(eventHandler);
-    }
-
-    /**
-     * Remove on user capabilities changed event handler {@link CallCompositeEventHandler}.
-     * @param eventHandler The {@link CallCompositeEventHandler}.
-     */
-    public void removeOnCapabilitiesChangedEventHandler(
-            final CallCompositeEventHandler<CapabilitiesChangedEvent> eventHandler) {
-        configuration.getCallCompositeEventsHandler().removeOnCapabilitiesChangedEvent(eventHandler);
-    }
-    /* </ROOMS_SUPPORT> */
 
     /**
      * Get Call State.

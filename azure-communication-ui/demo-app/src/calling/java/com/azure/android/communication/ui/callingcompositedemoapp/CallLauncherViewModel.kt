@@ -228,10 +228,6 @@ class CallLauncherViewModel : ViewModel() {
             toast(context, message = "Joined ${it.identifiers.count()} remote participants")
         }
 
-        callComposite.addOnCapabilitiesChangedEventHandler {
-            toast(context, message = "${it.changedCapabilities.count()} capabilities changed.")
-        }
-
         if (SettingsFeatures.getInjectionAvatarForRemoteParticipantSelection()) {
             callComposite.addOnRemoteParticipantJoinedEventHandler(
                 RemoteParticipantJoinedHandler(callComposite, context)
