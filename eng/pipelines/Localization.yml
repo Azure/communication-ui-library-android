@@ -71,7 +71,7 @@ extends:
                 inputs:
                   teamId: "44987"
                   authType: 'FederatedIdentity'
-                  FederatedIdentityServiceConnection: 'Touchdown-Build-authentication-for-acs-web-ui'
+                  FederatedIdentityServiceConnection: 'native-ui-key-valut'
                   relativePathRoot: azure-communication-ui/azure-communication-ui/src/main/res/values
                   resourceFilePath: azure_communication_ui_strings.xml;P:246
                   outputDirectoryRoot: azure-communication-ui/azure-communication-ui/src/main
@@ -82,7 +82,7 @@ extends:
                 inputs:
                   teamId: "44987"
                   authType: 'FederatedIdentity'
-                  FederatedIdentityServiceConnection: 'Touchdown-Build-authentication-for-acs-web-ui'
+                  FederatedIdentityServiceConnection: 'native-ui-key-valut'
                   relativePathRoot: azure-communication-ui/calling/src/main/res/values
                   resourceFilePath: azure_communication_ui_calling_strings.xml;P:246
                   outputDirectoryRoot: azure-communication-ui/calling/src/main/res
