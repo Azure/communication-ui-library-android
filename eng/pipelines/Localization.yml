@@ -71,7 +71,7 @@ extends:
                 inputs:
                   teamId: "44987"
                   authType: 'FederatedIdentity'
-                  FederatedIdentityServiceConnection: 'native-ui-key-valut'
+                  FederatedIdentityServiceConnection: 'ACSUILibrary'
                   relativePathRoot: azure-communication-ui/azure-communication-ui/src/main/res/values
                   resourceFilePath: azure_communication_ui_strings.xml;P:246
                   outputDirectoryRoot: azure-communication-ui/azure-communication-ui/src/main
@@ -82,7 +82,7 @@ extends:
                 inputs:
                   teamId: "44987"
                   authType: 'FederatedIdentity'
-                  FederatedIdentityServiceConnection: 'native-ui-key-valut'
+                  FederatedIdentityServiceConnection: 'ACSUILibrary'
                   relativePathRoot: azure-communication-ui/calling/src/main/res/values
                   resourceFilePath: azure_communication_ui_calling_strings.xml;P:246
                   outputDirectoryRoot: azure-communication-ui/calling/src/main/res
