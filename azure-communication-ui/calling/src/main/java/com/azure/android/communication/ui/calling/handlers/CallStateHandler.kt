@@ -24,7 +24,16 @@ internal class CallStateHandler(
             store.getStateFlow().collect { state ->
                 if (lastSentCallingStatus != state.callState.callingStatus) {
                     lastSentCallingStatus = state.callState.callingStatus
-                    lastSentCallingStatus?.let { sendCallStateChangedEvent(it) }
+                    lastSentCallingStatus?.let {
+                        state.callState.callId?.let { callID ->
+                            sendCallStateChangedEvent(
+                                it,
+                                callID,
+                                state.callState.callEndReasonCode,
+                                state.callState.callEndReasonSubCode,
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -34,10 +43,41 @@ internal class CallStateHandler(
         return store.getStateFlow().value.callState.callingStatus.callCompositeCallState()
     }
 
-    private fun sendCallStateChangedEvent(status: CallingStatus) {
+    // make sure to notify Contoso about call state before exiting the composite
+    // This helps to fix race condition when disconnected call is notified after exiting the composite
+    fun onCompositeExit() {
+        val currentState = store.getCurrentState()
+        if (lastSentCallingStatus != currentState.callState.callingStatus) {
+            lastSentCallingStatus = currentState.callState.callingStatus
+            lastSentCallingStatus?.let {
+                currentState.callState.callId?.let { callID ->
+                    sendCallStateChangedEvent(
+                        it,
+                        callID,
+                        currentState.callState.callEndReasonCode,
+                        currentState.callState.callEndReasonSubCode,
+                    )
+                }
+            }
+        }
+    }
+
+    private fun sendCallStateChangedEvent(
+        status: CallingStatus,
+        callID: String,
+        callEndReasonCode: Int?,
+        callEndReasonSubCode: Int?,
+    ) {
         try {
             configuration.callCompositeEventsHandler.getCallStateHandler().forEach {
-                it.handle(CallCompositeCallStateChangedEvent(status.callCompositeCallState()))
+                it.handle(
+                    CallCompositeCallStateChangedEvent(
+                        status.callCompositeCallState(),
+                        callEndReasonCode ?: 0,
+                        callEndReasonSubCode ?: 0,
+                        callID
+                    )
+                )
             }
         } catch (error: Throwable) {
             // suppress any possible application errors

@@ -515,7 +515,7 @@ internal class CallingMiddlewareActionHandlerImpl(
             callingService.getCallInfoModelEventSharedFlow().collect { callInfoModel ->
                 val previousCallState = store.getCurrentState().callState.callingStatus
 
-                store.dispatch(CallingAction.StateUpdated(callInfoModel.callingStatus))
+                store.dispatch(CallingAction.StateUpdated(callInfoModel.callingStatus, callInfoModel.callEndReasonCode, callInfoModel.callEndReasonSubCode))
 
                 if (previousCallState == CallingStatus.LOCAL_HOLD &&
                     callInfoModel.callingStatus == CallingStatus.CONNECTED
