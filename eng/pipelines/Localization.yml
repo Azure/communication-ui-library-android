@@ -33,8 +33,8 @@ extends:
   template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
   parameters:
     pool:
-      os: windows
-      image: windows-2022
+      os: linux
+      image: ubuntu-latest
       name: Azure-Pipelines-1ESPT-ExDShared
     sdl:
       suppression:
