@@ -37,6 +37,10 @@ extends:
       image: ubuntu-latest
       name: Azure-Pipelines-1ESPT-ExDShared
     sdl:
+      sourceAnalysisPool:
+        name: Azure-Pipelines-1ESPT-ExDShared
+        image: windows-latest
+        os: windows
       suppression:
         suppressionFile: $(Build.SourcesDirectory)\guardian\SDL\.gdnsuppress
     customBuildTags:
