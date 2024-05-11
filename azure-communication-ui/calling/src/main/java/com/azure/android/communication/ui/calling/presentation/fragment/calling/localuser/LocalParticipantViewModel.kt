@@ -60,7 +60,8 @@ internal class LocalParticipantViewModel(
         val displayVideo = shouldDisplayVideo(videoStreamID)
         val displayLobbyOverlay = shouldDisplayLobbyOverlay(callingState)
         val displayFullScreenAvatar =
-            shouldDisplayFullScreenAvatar(displayVideo, displayLobbyOverlay, viewMode)
+            shouldDisplayFullScreenAvatar(displayVideo, displayLobbyOverlay, viewMode) &&
+                callingState == CallingStatus.CONNECTED
 
         videoStatusFlow.value = VideoModel(displayVideo, videoStreamID, viewMode)
         displayNameStateFlow.value = displayName
