@@ -4,12 +4,16 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.app.Application
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.RingtoneManager
 import android.util.Log
 import android.widget.Toast
-import androidx.lifecycle.ViewModel
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
@@ -20,8 +24,11 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallHistor
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallCancelledEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeLeaveCallConfirmationMode
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
@@ -30,6 +37,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeMultitaski
 /* <ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
+import com.azure.android.communication.ui.calling.models.CallCompositePushNotification
 /* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 /* <ROOMS_SUPPORT:0> */
@@ -42,19 +50,17 @@ import com.azure.android.communication.ui.calling.models.CallCompositeTelecomMan
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.views.DismissCompositeButtonView
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.UUID
 
-class CallLauncherViewModel : ViewModel() {
+class CallCompositeManager(private val context: Context) {
     val callCompositeCallStateStateFlow = MutableStateFlow("")
-    val callCompositeExitSuccessStateFlow = MutableStateFlow(false)
-
-    companion object {
-        private var callComposite: CallComposite? = null
-    }
+    private var callComposite: CallComposite? = null
+    private var incomingCallId: String? = null
 
     fun launch(
-        context: Context,
+        applicationContext: Context,
         acsToken: String,
         displayName: String,
         groupId: UUID?,
@@ -66,24 +72,25 @@ class CallLauncherViewModel : ViewModel() {
         participantMris: String?,
     ) {
         if (SettingsFeatures.getDisplayDismissButtonOption()) {
-            DismissCompositeButtonView.get(context).show(this)
+            DismissCompositeButtonView.get(applicationContext).show(this)
         } else {
-            DismissCompositeButtonView.get(context).hide()
+            DismissCompositeButtonView.get(applicationContext).hide()
         }
-        callCompositeExitSuccessStateFlow.value = false
 
-        val callComposite = createCallComposite(acsToken, displayName, context)
-        subscribeToEvents(context, callComposite)
-        CallLauncherViewModel.callComposite = callComposite
+        createCallCompositeAndSubscribeToEvents(
+            applicationContext,
+            acsToken,
+            displayName
+        )
 
-        val localOptions = getLocalOptions(context)
+        val localOptions = getLocalOptions(applicationContext)
 
         val participants = participantMris?.split(",")
         if (!participants.isNullOrEmpty()) {
             if (localOptions == null) {
-                callComposite.launch(context, participants.map { CommunicationIdentifier.fromRawId(it) })
+                callComposite?.launch(applicationContext, participants.map { CommunicationIdentifier.fromRawId(it) })
             } else {
-                callComposite.launch(context, participants.map { CommunicationIdentifier.fromRawId(it) }, localOptions)
+                callComposite?.launch(applicationContext, participants.map { CommunicationIdentifier.fromRawId(it) }, localOptions)
             }
         } else {
             val useDeprecatedLaunch = SettingsFeatures.getUseDeprecatedLaunch()
@@ -108,15 +115,15 @@ class CallLauncherViewModel : ViewModel() {
 
             if (localOptions == null) {
                 if (useDeprecatedLaunch) {
-                    callComposite.launch(context, remoteOptions)
+                    callComposite?.launch(applicationContext, remoteOptions)
                 } else {
-                    callComposite.launch(context, locator)
+                    callComposite?.launch(applicationContext, locator)
                 }
             } else {
                 if (useDeprecatedLaunch) {
-                    callComposite.launch(context, remoteOptions, localOptions)
+                    callComposite?.launch(applicationContext, remoteOptions, localOptions)
                 } else {
-                    callComposite.launch(context, locator, localOptions)
+                    callComposite?.launch(applicationContext, locator, localOptions)
                 }
             }
         }
@@ -253,7 +260,6 @@ class CallLauncherViewModel : ViewModel() {
 
         val onDismissedEventHandler: ((CallCompositeDismissedEvent) -> Unit) = {
             toast(context, "onDismissed: errorCode: ${it.errorCode}, cause: ${it.cause?.message}.")
-            CallLauncherViewModel.callComposite = null
         }
         callComposite.addOnDismissedEventHandler(onDismissedEventHandler)
 
@@ -269,6 +275,14 @@ class CallLauncherViewModel : ViewModel() {
             toast(context, message = "Audio selection changed to ${event.audioSelectionMode}")
         }
 
+        callComposite.addOnIncomingCallEventHandler {
+            onIncomingCall(it)
+        }
+
+        callComposite.addOnIncomingCallCancelledEventHandler {
+            onIncomingCallCancelled(it)
+        }
+
         if (SettingsFeatures.getInjectionAvatarForRemoteParticipantSelection()) {
             callComposite.addOnRemoteParticipantJoinedEventHandler(
                 RemoteParticipantJoinedHandler(callComposite, context)
@@ -278,19 +292,99 @@ class CallLauncherViewModel : ViewModel() {
 
     fun dismissCallComposite() {
         callComposite?.dismiss()
+        callComposite = null
     }
 
     fun bringCallCompositeToForeground(context: Context) {
         callComposite?.bringToForeground(context)
     }
 
-    fun getCallHistory(context: Context, acsToken: String, displayName: String): List<CallCompositeCallHistoryRecord> {
-        val callComposite = CallLauncherViewModel.callComposite ?: createCallComposite(
-            acsToken,
-            displayName,
-            context
-        )
-        return callComposite.getDebugInfo(context).callHistoryRecords
+    fun getCallHistory(context: Context, acsToken: String, displayName: String): List<CallCompositeCallHistoryRecord>? {
+        createCallCompositeAndSubscribeToEvents(context, acsToken, displayName)
+        return callComposite?.getDebugInfo(context)?.callHistoryRecords
+    }
+
+    fun acceptIncomingCall(applicationContext: Context, acsToken: String, displayName: String) {
+        hideIncomingCallNotification()
+        createCallCompositeAndSubscribeToEvents(applicationContext, acsToken, displayName)
+        val localOptions = getLocalOptions(applicationContext)
+        if (localOptions == null) {
+            callComposite?.accept(applicationContext, incomingCallId)
+        } else {
+            callComposite?.accept(applicationContext, incomingCallId, localOptions)
+        }
+    }
+
+    fun declineIncomingCall() {
+        hideIncomingCallNotification()
+        callComposite?.reject(incomingCallId)
+    }
+
+    fun hold() {
+        callComposite?.hold()
+    }
+
+    fun resume() {
+        callComposite?.resume()
+    }
+
+    fun hideIncomingCallNotification() {
+        val notificationManager = NotificationManagerCompat.from(context)
+        notificationManager.cancel(1)
+    }
+
+    fun handleIncomingCall(
+        value: Map<String, String>,
+        acsIdentityToken: String,
+        displayName: String,
+        applicationContext: Context
+    ) {
+        createCallCompositeAndSubscribeToEvents(applicationContext, acsIdentityToken, displayName)
+        if (callComposite?.callState == CallCompositeCallStateCode.CONNECTED) {
+            toast(applicationContext, "Incoming call ignored as there is already an active call.")
+            return
+        }
+        // in case setup screen opened, dismiss it
+        callComposite?.dismiss()
+        callComposite?.handlePushNotification(CallCompositePushNotification(value))
+    }
+
+    fun registerPush(applicationContext: Context, acsToken: String, displayName: String) {
+        createCallCompositeAndSubscribeToEvents(applicationContext, acsToken, displayName)
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                throw task.exception ?: IllegalStateException("Failed to get Firebase token")
+            }
+            val deviceRegistrationToken = task.result
+            callComposite?.registerPushNotification(deviceRegistrationToken)
+                ?.whenComplete { _, throwable ->
+                    if (throwable != null) {
+                        throw throwable
+                    }
+                }
+        }
+    }
+    private fun createCallCompositeAndSubscribeToEvents(
+        context: Context,
+        acsToken: String,
+        displayName: String,
+    ) {
+        if (this.callComposite != null) {
+            return
+        }
+        val callComposite = createCallComposite(acsToken, displayName, context)
+        subscribeToEvents(context, callComposite)
+        this.callComposite = callComposite
+    }
+
+    private fun onIncomingCall(incomingCall: CallCompositeIncomingCallEvent) {
+        incomingCallId = incomingCall.callId
+        showNotificationForIncomingCall(incomingCall)
+    }
+
+    private fun onIncomingCallCancelled(callCancelled: CallCompositeIncomingCallCancelledEvent) {
+        incomingCallId = null
+        hideIncomingCallNotification()
     }
 
     private fun createCallComposite(acsToken: String, displayName: String, context: Context): CallComposite {
@@ -307,6 +401,10 @@ class CallLauncherViewModel : ViewModel() {
 
         if (setupScreenOrientation != null) {
             callCompositeBuilder.setupScreenOrientation(setupScreenOrientation)
+        }
+
+        if (SettingsFeatures.getDisableInternalPushForIncomingCallCheckbox()) {
+            callCompositeBuilder.disableInternalPushForIncomingCall(true)
         }
 
         if (callScreenOrientation != null) {
@@ -398,5 +496,86 @@ class CallLauncherViewModel : ViewModel() {
     ) {
         Log.i("ACSCallingUI", message)
         Toast.makeText(context.applicationContext, "Debug: $message", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showNotificationForIncomingCall(notification: CallCompositeIncomingCallEvent) {
+        context.let { context ->
+            Log.i(CallLauncherActivity.TAG, "Showing notification for incoming call")
+
+            val resultIntent = Intent(context, CallLauncherActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                action = IntentHelper.INCOMING_CALL
+            }
+            val resultPendingIntent = PendingIntent.getActivity(
+                context, 0,
+                resultIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
+            val answerIntent = Intent(context, CallLauncherActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                action = IntentHelper.ANSWER
+                putExtra("action", IntentHelper.ANSWER)
+            }
+            val answerCallPendingIntent = PendingIntent.getActivity(
+                context, 0,
+                answerIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
+            val declineIntent = Intent(context, CallLauncherActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                action = IntentHelper.DECLINE
+                putExtra("action", IntentHelper.DECLINE)
+            }
+            val declineCallPendingIntent = PendingIntent.getActivity(
+                context, 0,
+                declineIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
+            val content = java.lang.String.format(
+                "%s",
+                notification.callerDisplayName
+            )
+
+            val intent = Intent(context, IncomingCallActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
+            intent.putExtra(IncomingCallActivity.DISPLAY_NAME, notification.callerDisplayName)
+            val pendingIntent = PendingIntent.getActivity(
+                context, 0, intent,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
+
+            val builder: NotificationCompat.Builder =
+                NotificationCompat.Builder(context, "acs")
+                    .setContentIntent(resultPendingIntent)
+                    .setSmallIcon(android.R.drawable.ic_menu_call)
+                    .setDefaults(NotificationCompat.DEFAULT_ALL)
+                    .setWhen(System.currentTimeMillis())
+                    .setContentTitle("Incoming Call")
+                    .setContentText(content)
+                    .addAction(
+                        android.R.drawable.ic_menu_call,
+                        context.getString(R.string.accept),
+                        answerCallPendingIntent
+                    )
+                    .addAction(
+                        android.R.drawable.ic_menu_call,
+                        context.getString(R.string.decline),
+                        declineCallPendingIntent
+                    )
+                    .setStyle(NotificationCompat.DecoratedCustomViewStyle())
+                    .setCategory(NotificationCompat.CATEGORY_CALL)
+                    .setPriority(NotificationManagerCompat.IMPORTANCE_MAX)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE))
+                    .setOngoing(true)
+                    .setAutoCancel(true)
+                    .setFullScreenIntent(pendingIntent, true)
+            val notificationManager = NotificationManagerCompat.from(context)
+            notificationManager.notify(1, builder.build())
+        }
     }
 }

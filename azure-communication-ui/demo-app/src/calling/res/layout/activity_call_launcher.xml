@@ -132,12 +132,46 @@
             android:text="@string/close_button_text"
             android:layout_marginTop="16dp"/>
 
+        <Button
+            android:id="@+id/registerPushNotificationButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/register_push_notification"
+            android:layout_marginTop="16dp"/>
+
         <TextView
             android:id="@+id/callStateText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="17sp"
             android:layout_marginTop="16dp"/>
+
+        <LinearLayout
+            android:id="@+id/incomingCallLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_margin="10dp"
+            android:visibility="gone"
+            >
+
+            <Button
+                android:id="@+id/acceptCallButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/accept"
+                android:layout_margin="2dp"
+                />
+
+            <Button
+                android:id="@+id/declineCallButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/decline"
+                android:layout_margin="2dp"
+                />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

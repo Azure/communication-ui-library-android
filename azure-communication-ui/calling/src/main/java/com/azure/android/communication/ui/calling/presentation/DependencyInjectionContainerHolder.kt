@@ -59,7 +59,8 @@ internal class DependencyInjectionContainerHolder(
             container.appStore,
             SetupViewModelFactory(
                 container.appStore, application,
-                container.configuration.callConfig?.callType
+                container.configuration.callConfig?.callType,
+                isTelecomManagerEnabled = container.configuration.telecomManagerOptions != null,
             ),
             container.networkManager,
         )

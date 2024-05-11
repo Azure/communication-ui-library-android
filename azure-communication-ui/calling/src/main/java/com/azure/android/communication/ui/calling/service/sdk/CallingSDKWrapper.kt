@@ -434,6 +434,7 @@ internal class CallingSDKWrapper(
             }
             val acceptCallOptions = AcceptCallOptions()
             videoOptions.let { acceptCallOptions.outgoingVideoOptions = videoOptions }
+            acceptCallOptions.outgoingAudioOptions = audioOptions
             nullableCall = incomingCall.accept(context, acceptCallOptions)?.get()
             callingSDKEventHandler.onCallCreated(call, callConfig.callType)
         } else {

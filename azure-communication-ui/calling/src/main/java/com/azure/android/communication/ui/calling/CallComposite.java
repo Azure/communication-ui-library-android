@@ -8,6 +8,7 @@ import static com.azure.android.communication.ui.calling.service.sdk.TypeConvers
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.common.CommunicationTokenCredential;
@@ -791,7 +792,6 @@ public final class CallComposite {
             roomRole = localOptions.getRoleHint();
             /* </ROOMS_SUPPORT:1> */
         }
-
         initializeCallingSDK();
 
         // initializeCallingSDK validated Credential and Context
@@ -838,7 +838,6 @@ public final class CallComposite {
         if (isTest) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
-
         context.startActivity(intent);
     }
 

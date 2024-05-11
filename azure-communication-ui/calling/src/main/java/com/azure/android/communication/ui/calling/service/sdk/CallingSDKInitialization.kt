@@ -41,7 +41,7 @@ internal class CallingSDKInitialization(
         return incomingCall
     }
 
-    fun isAnyCallActive(): Boolean {
+    private fun isAnyCallActive(): Boolean {
         return callAgentCompletableFuture?.get()?.calls?.isNotEmpty() ?: false
     }
 
@@ -107,6 +107,7 @@ internal class CallingSDKInitialization(
                     options.telecomManagerOptions = TelecomManagerOptions(it.phoneAccountId)
                 }
             }
+            options.setDisableInternalPushForIncomingCall(callCompositeConfiguration.disableInternalPushForIncomingCall)
             try {
                 setupCallClient()?.whenComplete { callClient, callAgentError ->
                     if (callAgentError != null) {
@@ -184,10 +185,6 @@ internal class CallingSDKInitialization(
     }
 
     private fun onIncomingCall(incomingCall: IncomingCall?) {
-        if (this.incomingCall != null) {
-            logger.info("Incoming call received - but already have an incoming call")
-            return
-        }
         if (isAnyCallActive()) {
             logger.info("Currently UI Library is busy with an active call - only one call is supported")
             return

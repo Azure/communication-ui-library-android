@@ -49,6 +49,7 @@ internal class ParticipantGridCellVideoView(
         lifecycleScope.launch {
             participantViewModel.getDisplayNameStateFlow().collect {
                 lastParticipantViewData = null
+                setDisplayName(it)
                 updateParticipantViewData()
             }
         }

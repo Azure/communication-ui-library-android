@@ -39,6 +39,7 @@ internal class ParticipantGridCellAvatarView(
         lifecycleScope.launch {
             participantViewModel.getDisplayNameStateFlow().collect {
                 lastParticipantViewData = null
+                setDisplayName(it)
                 updateParticipantViewData()
             }
         }

@@ -19,6 +19,7 @@ internal class SetupViewModelFactory(
     private val store: Store<ReduxState>,
     private val context: Context,
     private val callType: CallType? = null,
+    private val isTelecomManagerEnabled: Boolean = false,
 ) : BaseViewModelFactory(store) {
 
     val audioDeviceListViewModel by lazy {
@@ -45,7 +46,8 @@ internal class SetupViewModelFactory(
         JoinCallButtonHolderViewModel(
             store::dispatch,
             context.getSystemService(Context.AUDIO_SERVICE) as AudioManager,
-            callType
+            callType,
+            isTelecomManagerEnabled
         )
     }
 }

@@ -21,6 +21,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LANGUA
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_MIC_ON_BY_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_RTL_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SKIP_SETUP_SCREEN_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.DISABLE_INTERNAL_PUSH_NOTIFICATIONS
 import com.azure.android.communication.ui.callingcompositedemoapp.DISPLAY_DISMISS_BUTTON_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.DISPLAY_DISMISS_BUTTON_KEY_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE
@@ -156,6 +157,10 @@ class SettingsFeatures {
         fun getDisplayDismissButtonOption(): Boolean {
             if (!this::sharedPrefs.isInitialized) return false
             return sharedPrefs.getBoolean(DISPLAY_DISMISS_BUTTON_KEY, DISPLAY_DISMISS_BUTTON_KEY_DEFAULT_VALUE)
+        }
+
+        fun getDisableInternalPushForIncomingCallCheckbox(): Boolean {
+            return sharedPrefs.getBoolean(DISABLE_INTERNAL_PUSH_NOTIFICATIONS, false)
         }
 
         fun getUseDeprecatedLaunch(): Boolean {
