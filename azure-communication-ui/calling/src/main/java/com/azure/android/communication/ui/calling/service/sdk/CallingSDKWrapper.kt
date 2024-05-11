@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.service.sdk
 
 import android.content.Context
+import com.azure.android.communication.calling.AcceptCallOptions
 import com.azure.android.communication.calling.Call
 import com.azure.android.communication.calling.CallAgent
 import com.azure.android.communication.calling.CallClient
@@ -402,7 +403,7 @@ internal class CallingSDKWrapper(
         }
     }
 
-    private fun createCallAgent(): CompletableFuture<CallAgent> {
+    private fun createCallAgent(): java.util.concurrent.CompletableFuture<CallAgent> {
         return callingSDKInitialization.createCallAgent()
     }
 
@@ -422,6 +423,18 @@ internal class CallingSDKWrapper(
                 )
             }
             nullableCall = agent.startCall(context, callConfig.participants, startCallOptions)
+            callingSDKEventHandler.onCallCreated(call, callConfig.callType)
+        } else if (callConfig.callType == CallType.ONE_TO_ONE_INCOMING) {
+            val incomingCall = callingSDKInitialization.getIncomingCall()
+            if (incomingCall == null || callConfig.incomingCallId != incomingCall.id) {
+                throw CallCompositeException(
+                    "Incoming call not found",
+                    IllegalStateException()
+                )
+            }
+            val acceptCallOptions = AcceptCallOptions()
+            videoOptions.let { acceptCallOptions.outgoingVideoOptions = videoOptions }
+            nullableCall = incomingCall.accept(context, acceptCallOptions)?.get()
             callingSDKEventHandler.onCallCreated(call, callConfig.callType)
         } else {
             val joinCallOptions = JoinCallOptions()

@@ -182,7 +182,7 @@ public final class CallComposite {
     public void launch(final Context activityContext,
                        final CallCompositeJoinLocator locator,
                        final CallCompositeLocalOptions localOptions) {
-        launchComposite(activityContext, locator, null, localOptions, false);
+        launchComposite(activityContext, locator, null, null, localOptions, false);
     }
 
     /**
@@ -196,7 +196,7 @@ public final class CallComposite {
     public void launch(final Context activityContext,
                        final Collection<CommunicationIdentifier> participants,
                        final CallCompositeLocalOptions localOptions) {
-        launchComposite(activityContext, null, participants, localOptions, false);
+        launchComposite(activityContext, null, participants, null, localOptions, false);
     }
 
     /**
@@ -207,7 +207,7 @@ public final class CallComposite {
      */
     public void launch(final Context activityContext,
                        final Collection<CommunicationIdentifier> participants) {
-        launchComposite(activityContext, null, participants, null, false);
+        launchComposite(activityContext, null, participants, null, null, false);
     }
 
 
@@ -221,6 +221,7 @@ public final class CallComposite {
     public void accept(final Context activityContext,
                        final String incomingCallId,
                        final CallCompositeLocalOptions localOptions) {
+        launchComposite(activityContext, null, null, incomingCallId, localOptions, false);
     }
 
     /**
@@ -231,6 +232,7 @@ public final class CallComposite {
      */
     public void accept(final Context activityContext,
                        final String incomingCallId) {
+        launchComposite(activityContext, null, null, incomingCallId, null, false);
     }
 
     /**
@@ -239,7 +241,7 @@ public final class CallComposite {
      * @param incomingCallId The call id.
      */
     public CompletableFuture<Void> reject(final String incomingCallId) {
-        return null;
+        return initializeCallingSDK().rejectIncomingCall(incomingCallId);
     }
 
 
@@ -261,6 +263,7 @@ public final class CallComposite {
      */
     public void addOnIncomingCallEventHandler(
             final CallCompositeEventHandler<CallCompositeIncomingCallEvent> handler) {
+        configuration.getCallCompositeEventsHandler().addOnIncomingCallEventHandler(handler);
     }
 
     /**
@@ -270,6 +273,7 @@ public final class CallComposite {
      */
     public void removeOnIncomingCallEventHandler(
             final CallCompositeEventHandler<CallCompositeIncomingCallEvent> handler) {
+        configuration.getCallCompositeEventsHandler().removeOnIncomingCallEventHandler(handler);
     }
 
     /**
@@ -289,6 +293,7 @@ public final class CallComposite {
      */
     public void addOnIncomingCallCancelledEventHandler(
             final CallCompositeEventHandler<CallCompositeIncomingCallCancelledEvent> handler) {
+        configuration.getCallCompositeEventsHandler().addOnIncomingCallCancelledEventHandler(handler);
     }
 
     /**
@@ -298,6 +303,7 @@ public final class CallComposite {
      */
     public void removeOnIncomingCallCancelledEventHandler(
             final CallCompositeEventHandler<CallCompositeIncomingCallCancelledEvent> handler) {
+        configuration.getCallCompositeEventsHandler().removeOnIncomingCallCancelledEventHandler(handler);
     }
 
     /**
@@ -643,7 +649,7 @@ public final class CallComposite {
      * @return {@link CompletableFuture} of {@link Void}.
      */
     public CompletableFuture<Void> handlePushNotification(final CallCompositePushNotification pushNotification) {
-        return CompletableFuture.completedFuture(null);
+        return initializeCallingSDK().handlePushNotification(pushNotification);
     }
 
     /**
@@ -720,6 +726,7 @@ public final class CallComposite {
                 roomRole,
                 /* </ROOMS_SUPPORT:1> */
                 callType,
+                null,
                 null));
 
         configuration.setApplicationContext(context.getApplicationContext());
@@ -744,6 +751,7 @@ public final class CallComposite {
     private void launchComposite(final Context context,
                                  final CallCompositeJoinLocator locator,
                                  final Collection<CommunicationIdentifier> participants,
+                                 final String incomingCallId,
                                  final CallCompositeLocalOptions localOptions,
                                  final boolean isTest) {
         AndroidThreeTen.init(context.getApplicationContext());
@@ -770,6 +778,8 @@ public final class CallComposite {
             /* </ROOMS_SUPPORT:0> */
         } else if (participants != null) {
             callType = CallType.ONE_TO_N_OUTGOING;
+        } else if (incomingCallId != null) {
+            callType = CallType.ONE_TO_ONE_INCOMING;
         }
         else {
             throw new CallCompositeException("Not supported Call type");
@@ -793,7 +803,8 @@ public final class CallComposite {
                 roomRole,
                 /* </ROOMS_SUPPORT:1> */
                 callType,
-                participants));
+                participants,
+                incomingCallId));
 
         diContainer = new DependencyInjectionContainerImpl(
                 instanceId,
@@ -858,6 +869,6 @@ public final class CallComposite {
     void launchTest(final Context context,
                     final CallCompositeJoinLocator locator,
                     final CallCompositeLocalOptions localOptions) {
-        launchComposite(context, locator, null, localOptions, true);
+        launchComposite(context, locator, null, null, localOptions, true);
     }
 }

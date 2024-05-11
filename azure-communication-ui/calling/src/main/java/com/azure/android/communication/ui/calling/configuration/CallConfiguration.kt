@@ -29,6 +29,7 @@ internal data class CallConfiguration(
     /* </ROOMS_SUPPORT:4> */
     val callType: CallType,
     val participants: Collection<CommunicationIdentifier>? = null,
+    val incomingCallId: String? = null,
 ) {
     val diagnosticConfig = DiagnosticConfig()
 }
