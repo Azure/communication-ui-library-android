@@ -7,7 +7,9 @@ import android.media.AudioManager
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.configuration.CallType
+import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
+import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
@@ -20,7 +22,11 @@ import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.argThat
+import org.mockito.kotlin.doAnswer
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
 internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
@@ -296,4 +302,78 @@ internal class JoinCallButtonHolderViewModelUnitTest : ACSBaseTestCoroutine() {
 
             resultFlow.cancel()
         }
+
+    @Test
+    fun joinCallButtonHolderViewModel_onUpdate_then_notifyHandleMicrophoneUnavailability_when_TelecomManagerDisabled() {
+        // arrange
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+        val mockNetworkManager = mock<NetworkManager> {
+            on { isNetworkConnectionAvailable() } doAnswer { true }
+        }
+        val mockAudioManager = mock<AudioManager> {
+            on { mode } doAnswer { AudioManager.MODE_IN_CALL }
+        }
+
+        val viewModel = JoinCallButtonHolderViewModel(
+            mockAppStore::dispatch,
+            mockAudioManager,
+            CallType.GROUP_CALL,
+            false
+        )
+        viewModel.init(
+            PermissionStatus.GRANTED,
+            PermissionStatus.GRANTED,
+            CameraOperationalStatus.ON,
+            2,
+            mockNetworkManager
+        )
+
+        // Act
+        viewModel.launchCallScreen()
+
+        // Assert
+        verify(mockAppStore, times(1)).dispatch(
+            argThat { action ->
+                action is ErrorAction.CallStateErrorOccurred &&
+                    action.callStateError.errorCode == ErrorCode.MICROPHONE_NOT_AVAILABLE
+            }
+        )
+    }
+
+    @Test
+    fun joinCallButtonHolderViewModel_onUpdate_then_notNotifyHandleMicrophoneUnavailability_when_TelecomManagerEnabled() {
+        // arrange
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+        val mockNetworkManager = mock<NetworkManager> {
+            on { isNetworkConnectionAvailable() } doAnswer { true }
+        }
+        val mockAudioManager = mock<AudioManager> {
+            on { mode } doAnswer { AudioManager.MODE_IN_CALL }
+        }
+
+        val viewModel = JoinCallButtonHolderViewModel(
+            mockAppStore::dispatch,
+            mockAudioManager,
+            CallType.GROUP_CALL,
+            true
+        )
+        viewModel.init(
+            PermissionStatus.GRANTED,
+            PermissionStatus.GRANTED,
+            CameraOperationalStatus.ON,
+            2,
+            mockNetworkManager
+        )
+
+        // Act
+        viewModel.launchCallScreen()
+
+        // Assert
+        verify(mockAppStore, times(0)).dispatch(
+            argThat { action ->
+                action is ErrorAction.CallStateErrorOccurred &&
+                    action.callStateError.errorCode == ErrorCode.MICROPHONE_NOT_AVAILABLE
+            }
+        )
+    }
 }
