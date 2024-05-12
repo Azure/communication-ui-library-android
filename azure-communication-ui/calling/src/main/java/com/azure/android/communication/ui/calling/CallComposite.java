@@ -54,6 +54,7 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 import java.util.Collection;
 import java.util.Collections;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -868,5 +869,17 @@ public final class CallComposite {
                     final CallCompositeJoinLocator locator,
                     final CallCompositeLocalOptions localOptions) {
         launchComposite(context, locator, null, null, localOptions, true);
+    }
+
+    void launchTest(final Context context,
+                    final List<CommunicationIdentifier> participants,
+                    final CallCompositeLocalOptions localOptions) {
+        launchComposite(context, null, participants, null, localOptions, true);
+    }
+
+    void launchTest(final Context context,
+                    final String incomingCallId,
+                    final CallCompositeLocalOptions localOptions) {
+        launchComposite(context, null, null, incomingCallId, localOptions, true);
     }
 }

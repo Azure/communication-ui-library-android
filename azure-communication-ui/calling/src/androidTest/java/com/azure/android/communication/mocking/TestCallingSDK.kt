@@ -295,6 +295,12 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         }
     }
 
+    fun setCallState(callState: CallState) {
+        coroutineScope.launch {
+            callingStateWrapperSharedFlow.emit(CallingStateWrapper(callState, 0, 0))
+        }
+    }
+
     override fun startCall(
         cameraState: CameraState,
         audioState: AudioState,
