@@ -344,8 +344,6 @@ class CallCompositeManager(private val context: Context) {
             toast(applicationContext, "Incoming call ignored as there is already an active call.")
             return
         }
-        // in case setup screen opened, dismiss it
-        callComposite?.dismiss()
         callComposite?.handlePushNotification(CallCompositePushNotification(value))
     }
 
