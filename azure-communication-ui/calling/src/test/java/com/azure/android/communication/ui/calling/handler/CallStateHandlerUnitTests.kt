@@ -38,7 +38,9 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             val storeStateFlow = MutableStateFlow<ReduxState>(AppReduxState("", false, false, false))
             storeStateFlow.value.callState = CallingState(
                 callingStatus = CallingStatus.NONE,
-                callId = "callId"
+                callId = "callId",
+                callEndReasonCode = 123,
+                callEndReasonSubCode = 456
             )
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getStateFlow() } doReturn storeStateFlow
@@ -64,10 +66,53 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
             // assert
             verify(mockHandler, times(1)).handle(
                 argThat { event ->
-                    event is CallCompositeCallStateChangedEvent && event.code == CallCompositeCallStateCode.NONE
+                    event is CallCompositeCallStateChangedEvent &&
+                        event.code == CallCompositeCallStateCode.NONE &&
+                        event.callEndReasonCode == 123 &&
+                        event.callEndReasonSubCode == 456
                 }
             )
             job.cancel()
+        }
+    }
+
+    @Test
+    fun callStateEventHandler_onCompositeExit_eventIsFiredToContoso() {
+        runScopedTest {
+            // arrange
+            val storeStateFlow = MutableStateFlow<ReduxState>(AppReduxState("", false, false, false))
+            storeStateFlow.value.callState = CallingState(
+                callingStatus = CallingStatus.NONE,
+                callId = "callId",
+                callEndReasonCode = 123,
+                callEndReasonSubCode = 456
+            )
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { getCurrentState() } doReturn storeStateFlow.value
+            }
+            val mockHandler =
+                mock<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
+            val configuration = CallCompositeConfiguration()
+            configuration.callCompositeEventsHandler.addOnCallStateChangedEventHandler(
+                mockHandler
+            )
+            val handler = CallStateHandler(
+                configuration,
+                mockAppStore
+            )
+
+            // act
+            handler.onCompositeExit()
+
+            // assert
+            verify(mockHandler, times(1)).handle(
+                argThat { event ->
+                    event is CallCompositeCallStateChangedEvent &&
+                        event.code == CallCompositeCallStateCode.NONE &&
+                        event.callEndReasonCode == 123 &&
+                        event.callEndReasonSubCode == 456
+                }
+            )
         }
     }
 
