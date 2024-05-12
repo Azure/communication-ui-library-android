@@ -138,6 +138,8 @@ extends:
 
               echo MAVEN_REPO_KEY=$(MAVEN_REPO_KEY) >> local.properties
 
+              echo ENABLE_GOOGLE_SERVICES=true >> local.properties
+
               cat local.properties
 
               cd ..

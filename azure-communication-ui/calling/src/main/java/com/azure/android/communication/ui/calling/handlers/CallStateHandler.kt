@@ -25,14 +25,12 @@ internal class CallStateHandler(
                 if (lastSentCallingStatus != state.callState.callingStatus) {
                     lastSentCallingStatus = state.callState.callingStatus
                     lastSentCallingStatus?.let {
-                        state.callState.callId?.let { callID ->
-                            sendCallStateChangedEvent(
-                                it,
-                                callID,
-                                state.callState.callEndReasonCode,
-                                state.callState.callEndReasonSubCode,
-                            )
-                        }
+                        sendCallStateChangedEvent(
+                            it,
+                            state.callState.callId,
+                            state.callState.callEndReasonCode,
+                            state.callState.callEndReasonSubCode,
+                        )
                     }
                 }
             }
@@ -50,21 +48,19 @@ internal class CallStateHandler(
         if (lastSentCallingStatus != currentState.callState.callingStatus) {
             lastSentCallingStatus = currentState.callState.callingStatus
             lastSentCallingStatus?.let {
-                currentState.callState.callId?.let { callID ->
-                    sendCallStateChangedEvent(
-                        it,
-                        callID,
-                        currentState.callState.callEndReasonCode,
-                        currentState.callState.callEndReasonSubCode,
-                    )
-                }
+                sendCallStateChangedEvent(
+                    it,
+                    currentState.callState.callId,
+                    currentState.callState.callEndReasonCode,
+                    currentState.callState.callEndReasonSubCode,
+                )
             }
         }
     }
 
     private fun sendCallStateChangedEvent(
         status: CallingStatus,
-        callID: String,
+        callID: String?,
         callEndReasonCode: Int?,
         callEndReasonSubCode: Int?,
     ) {
