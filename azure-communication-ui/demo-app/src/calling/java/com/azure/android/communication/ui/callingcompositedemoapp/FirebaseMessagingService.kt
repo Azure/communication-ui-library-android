@@ -57,11 +57,8 @@ class FirebaseMessagingService : FirebaseMessagingService() {
                 val acsIdentityToken = sharedPreference.getString(CACHED_TOKEN, "")
                 val displayName = sharedPreference.getString(CACHED_USER_NAME, "")
                 val application = application as CallLauncherApplication
-                if (application.callCompositeManager == null) {
-                    application.callCompositeManager = CallCompositeManager(applicationContext)
-                }
                 SettingsFeatures.initialize(applicationContext)
-                application.callCompositeManager?.handleIncomingCall(
+                application.getCallCompositeManager(this).handleIncomingCall(
                     it.data,
                     acsIdentityToken!!,
                     displayName!!,

@@ -301,7 +301,7 @@ class CallLauncherActivity : AppCompatActivity() {
         unregisterReceiver(callLauncherBroadCastReceiver)
         DismissCompositeButtonView.get(this).hide()
         DismissCompositeButtonView.buttonView = null
-        (application as CallLauncherApplication).callCompositeManager = null
+        (application as CallLauncherApplication).onDestroy()
     }
 
     // check whether new Activity instance was brought to top of stack,
@@ -525,17 +525,9 @@ class CallLauncherActivity : AppCompatActivity() {
     }
 
     private fun initCallCompositeManager() {
-        if (callCompositeManager != null) {
-            return
-        }
         val application = application as CallLauncherApplication
         SettingsFeatures.initialize(application)
-        if (application.callCompositeManager != null) {
-            callCompositeManager = application.callCompositeManager
-            return
-        }
-        callCompositeManager = CallCompositeManager(this@CallLauncherActivity)
-        application.callCompositeManager = callCompositeManager
+        callCompositeManager = application.getCallCompositeManager(this)
     }
 
     private fun stringToMap(jsonString: String): Map<String, String> {

@@ -4,7 +4,19 @@
 package com.azure.android.communication.ui.callingcompositedemoapp
 
 import android.app.Application
+import android.content.Context
 
 class CallLauncherApplication : Application() {
-    var callCompositeManager: CallCompositeManager? = null
+    private var callCompositeManager: CallCompositeManager? = null
+
+    fun getCallCompositeManager(context: Context): CallCompositeManager {
+        if (callCompositeManager == null) {
+            callCompositeManager = CallCompositeManager(context)
+        }
+        return callCompositeManager!!
+    }
+
+    fun onDestroy() {
+        callCompositeManager = null
+    }
 }

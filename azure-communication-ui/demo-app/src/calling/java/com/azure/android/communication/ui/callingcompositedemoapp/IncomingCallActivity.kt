@@ -28,17 +28,18 @@ class IncomingCallActivity : AppCompatActivity() {
                 or WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
                 or WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
         )
+        val context = this
         binding.run {
             accept.setOnClickListener {
                 val application = application as CallLauncherApplication
                 val acsIdentityToken = sharedPreference.getString(CACHED_TOKEN, "")
                 val displayName = sharedPreference.getString(CACHED_USER_NAME, "")
-                application.callCompositeManager?.acceptIncomingCall(this@IncomingCallActivity, acsIdentityToken!!, displayName!!)
+                application.getCallCompositeManager(context).acceptIncomingCall(this@IncomingCallActivity, acsIdentityToken!!, displayName!!)
                 finish()
             }
             decline.setOnClickListener {
                 val application = application as CallLauncherApplication
-                application.callCompositeManager?.declineIncomingCall()
+                application.getCallCompositeManager(context).declineIncomingCall()
                 finish()
             }
 

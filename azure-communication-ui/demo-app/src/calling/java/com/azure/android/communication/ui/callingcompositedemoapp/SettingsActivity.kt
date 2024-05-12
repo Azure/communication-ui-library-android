@@ -84,7 +84,7 @@ class SettingsActivity : AppCompatActivity() {
         super.onDestroy()
         // recreate composite as settings are changed
         val application = application as CallLauncherApplication
-        application.callCompositeManager?.dismissCallComposite()
+        application.getCallCompositeManager(this).dismissCallComposite()
     }
 
     override fun onResume() {

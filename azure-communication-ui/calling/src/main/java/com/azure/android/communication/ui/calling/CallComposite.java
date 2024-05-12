@@ -8,7 +8,6 @@ import static com.azure.android.communication.ui.calling.service.sdk.TypeConvers
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.common.CommunicationTokenCredential;
