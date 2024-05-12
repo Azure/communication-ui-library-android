@@ -122,6 +122,7 @@ internal class ParticipantGridCellAvatarView(
         if (displayName.isBlank()) {
             displayNameAudioTextView.visibility = GONE
         } else {
+            displayNameAudioTextView.visibility = VISIBLE
             displayNameAudioTextView.text = displayName
         }
     }
