@@ -92,7 +92,7 @@ internal class ParticipantListViewModel(private val dispatch: (Action) -> Unit) 
     }
 
     fun declineParticipant(userIdentifier: String) {
-        dispatch(ParticipantAction.Decline(userIdentifier))
+        dispatch(ParticipantAction.Reject(userIdentifier))
     }
 
     fun admitAllLobbyParticipants() {

@@ -236,7 +236,9 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val capabilitiesManager by lazy {
-        CapabilitiesManager(configuration.callConfig.callType)
+        CapabilitiesManager(
+            configuration.callConfig.callType,
+            )
     }
 
     private val callingViewModelFactory by lazy {

@@ -97,8 +97,8 @@ internal class CallingMiddlewareImpl(
                 is ParticipantAction.Admit -> {
                     callingMiddlewareActionHandler.admit(action.userIdentifier, store)
                 }
-                is ParticipantAction.Decline -> {
-                    callingMiddlewareActionHandler.decline(action.userIdentifier, store)
+                is ParticipantAction.Reject -> {
+                    callingMiddlewareActionHandler.reject(action.userIdentifier, store)
                 }
                 is LocalParticipantAction.SetCapabilities -> {
                     callingMiddlewareActionHandler.setCapabilities(action.capabilities, store)

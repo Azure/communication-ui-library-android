@@ -305,7 +305,7 @@ internal class CallingMiddlewareUnitTest {
     @Test
     fun callingMiddleware_invoke_when_invokedWithDecline_then_invokeDecline() {
         // arrange
-        val actionToDispatch = ParticipantAction.Decline("id")
+        val actionToDispatch = ParticipantAction.Reject("id")
 
         val mockAppStore = mock<AppStore<ReduxState>> {}
 

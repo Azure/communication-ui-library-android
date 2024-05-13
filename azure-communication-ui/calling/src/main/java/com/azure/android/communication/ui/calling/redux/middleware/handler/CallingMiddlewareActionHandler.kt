@@ -55,7 +55,7 @@ internal interface CallingMiddlewareActionHandler {
     fun dispose()
     fun admitAll(store: Store<ReduxState>)
     fun admit(userIdentifier: String, store: Store<ReduxState>)
-    fun decline(userIdentifier: String, store: Store<ReduxState>)
+    fun reject(userIdentifier: String, store: Store<ReduxState>)
     fun setCapabilities(capabilities: List<ParticipantCapabilityType>, store: Store<ReduxState>)
     fun onCapabilitiesChanged(store: Store<ReduxState>)
 }
@@ -162,8 +162,8 @@ internal class CallingMiddlewareActionHandlerImpl(
         }
     }
 
-    override fun decline(userIdentifier: String, store: Store<ReduxState>) {
-        callingService.decline(userIdentifier).whenComplete { lobbyErrorCode, _ ->
+    override fun reject(userIdentifier: String, store: Store<ReduxState>) {
+        callingService.reject(userIdentifier).whenComplete { lobbyErrorCode, _ ->
             if (lobbyErrorCode != null) {
                 store.dispatch(
                     ParticipantAction.LobbyError(lobbyErrorCode)
@@ -181,11 +181,12 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     override fun onCapabilitiesChanged(store: Store<ReduxState>) {
         val capabilities = store.getCurrentState().localParticipantState.capabilities
-        if (!capabilitiesManager.hasCapability(capabilities, ParticipantCapabilityType.TURN_VIDEO_ON)) {
+        val role = store.getCurrentState().localParticipantState.localParticipantRole
+        if (!capabilitiesManager.hasCapability(capabilities, role, ParticipantCapabilityType.TURN_VIDEO_ON)) {
             store.dispatch(LocalParticipantAction.CameraOffTriggered())
         }
 
-        if (!capabilitiesManager.hasCapability(capabilities, ParticipantCapabilityType.UNMUTE_MICROPHONE)) {
+        if (!capabilitiesManager.hasCapability(capabilities, role, ParticipantCapabilityType.UNMUTE_MICROPHONE)) {
             store.dispatch(LocalParticipantAction.MicOffTriggered())
         }
     }

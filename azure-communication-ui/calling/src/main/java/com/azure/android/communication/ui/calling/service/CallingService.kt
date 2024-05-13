@@ -67,8 +67,8 @@ internal class CallingService(
         return callingSdk.admit(userIdentifier)
     }
 
-    fun decline(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
-        return callingSdk.decline(userIdentifier)
+    fun reject(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
+        return callingSdk.reject(userIdentifier)
     }
 
     fun turnMicOff(): CompletableFuture<Void> {

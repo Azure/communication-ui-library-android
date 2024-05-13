@@ -61,7 +61,7 @@ internal interface CallingSDK {
     fun getCamerasCountStateFlow(): StateFlow<Int>
     fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?>
     fun admit(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?>
-    fun decline(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?>
+    fun reject(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?>
     fun getLocalParticipantRoleSharedFlow(): SharedFlow<ParticipantRole?>
     fun getCallCapabilitiesSharedFlow(): SharedFlow<List<ParticipantCapabilityType>>
     fun getCallCapabilitiesEventSharedFlow(): SharedFlow<CapabilitiesChangedEvent>

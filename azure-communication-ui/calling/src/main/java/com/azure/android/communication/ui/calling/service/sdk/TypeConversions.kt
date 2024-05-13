@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.service.sdk
 
+import com.azure.android.communication.calling.CallingCommunicationErrors
 import com.azure.android.communication.calling.CallingCommunicationException
 import com.azure.android.communication.calling.ParticipantState
 import com.azure.android.communication.common.CommunicationUserIdentifier
@@ -109,24 +110,24 @@ internal fun List<com.azure.android.communication.calling.ParticipantCapability>
         }
 }
 
-internal fun getLobbyErrorCode(error: CallingCommunicationException) = CallCompositeLobbyErrorCode.UNKNOWN_ERROR
-//    when (error.errorCode) {
-//        CallingCommunicationErrors.LOBBY_DISABLED_BY_CONFIGURATIONS -> {
-//            CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS
-//        }
-//
-//        CallingCommunicationErrors.LOBBY_CONVERSATION_TYPE_NOT_SUPPORTED -> {
-//            CallCompositeLobbyErrorCode.LOBBY_CONVERSATION_TYPE_NOT_SUPPORTED
-//        }
-//
-//        CallingCommunicationErrors.LOBBY_MEETING_ROLE_NOT_ALLOWED -> {
-//            CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED
-//        }
-//
-//        CallingCommunicationErrors.REMOVE_PARTICIPANT_OPERATION_FAILURE -> {
-//            CallCompositeLobbyErrorCode.REMOVE_PARTICIPANT_OPERATION_FAILURE
-//        }
-//        else -> {
-//            CallCompositeLobbyErrorCode.UNKNOWN_ERROR
-//        }
-//    }
+internal fun getLobbyErrorCode(error: CallingCommunicationException) =
+    when (error.errorCode) {
+        CallingCommunicationErrors.LOBBY_DISABLED_BY_CONFIGURATIONS -> {
+            CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS
+        }
+
+        CallingCommunicationErrors.LOBBY_CONVERSATION_TYPE_NOT_SUPPORTED -> {
+            CallCompositeLobbyErrorCode.LOBBY_CONVERSATION_TYPE_NOT_SUPPORTED
+        }
+
+        CallingCommunicationErrors.LOBBY_MEETING_ROLE_NOT_ALLOWED -> {
+            CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED
+        }
+
+        CallingCommunicationErrors.REMOVE_PARTICIPANT_OPERATION_FAILURE -> {
+            CallCompositeLobbyErrorCode.REMOVE_PARTICIPANT_OPERATION_FAILURE
+        }
+        else -> {
+            CallCompositeLobbyErrorCode.UNKNOWN_ERROR
+        }
+    }

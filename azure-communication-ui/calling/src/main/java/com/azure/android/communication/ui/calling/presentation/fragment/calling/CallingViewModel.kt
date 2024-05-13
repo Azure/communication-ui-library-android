@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
@@ -72,6 +73,7 @@ internal class CallingViewModel(
             state.visibilityState,
             state.localParticipantState.audioVideoMode,
             state.localParticipantState.capabilities,
+            state.localParticipantState.localParticipantRole,
         )
 
         localParticipantViewModel.init(
@@ -103,7 +105,11 @@ internal class CallingViewModel(
         participantListViewModel.init(
             state.remoteParticipantState.participantMap,
             state.localParticipantState,
-            canShowLobby(state.localParticipantState.capabilities, state.visibilityState)
+            canShowLobby(
+                state.localParticipantState.capabilities,
+                state.localParticipantState.localParticipantRole,
+                state.visibilityState
+            )
         )
 
         waitingLobbyOverlayViewModel.init(state.callState.callingStatus)
@@ -123,13 +129,20 @@ internal class CallingViewModel(
         lobbyHeaderViewModel.init(
             state.callState.callingStatus,
             getLobbyParticipantsForHeader(state),
-            canShowLobby(state.localParticipantState.capabilities, state.visibilityState)
+            canShowLobby(
+                state.localParticipantState.capabilities,
+                state.localParticipantState.localParticipantRole,
+                state.visibilityState)
         )
 
         lobbyErrorHeaderViewModel.init(
             state.callState.callingStatus,
             state.remoteParticipantState.lobbyErrorCode,
-            canShowLobby(state.localParticipantState.capabilities, state.visibilityState)
+            canShowLobby(
+                state.localParticipantState.capabilities,
+                state.localParticipantState.localParticipantRole,
+                state.visibilityState,
+                )
         )
 
         super.init(coroutineScope)
@@ -159,6 +172,7 @@ internal class CallingViewModel(
             state.visibilityState,
             state.localParticipantState.audioVideoMode,
             state.localParticipantState.capabilities,
+            state.localParticipantState.localParticipantRole,
         )
 
         localParticipantViewModel.update(
@@ -233,6 +247,7 @@ internal class CallingViewModel(
                 getLobbyParticipantsForHeader(state),
                 canShowLobby(
                     state.localParticipantState.capabilities,
+                    state.localParticipantState.localParticipantRole,
                     state.visibilityState
                 )
             )
@@ -242,6 +257,7 @@ internal class CallingViewModel(
                 state.remoteParticipantState.lobbyErrorCode,
                 canShowLobby(
                     state.localParticipantState.capabilities,
+                    state.localParticipantState.localParticipantRole,
                     state.visibilityState
                 )
             )
@@ -260,6 +276,7 @@ internal class CallingViewModel(
                 state.visibilityState,
                 canShowLobby(
                     state.localParticipantState.capabilities,
+                    state.localParticipantState.localParticipantRole,
                     state.visibilityState
                 )
             )
@@ -281,15 +298,19 @@ internal class CallingViewModel(
     }
 
     private fun getLobbyParticipantsForHeader(state: ReduxState) =
-        if (canShowLobby(state.localParticipantState.capabilities, state.visibilityState))
+        if (canShowLobby(state.localParticipantState.capabilities, state.localParticipantState.localParticipantRole, state.visibilityState))
             state.remoteParticipantState.participantMap.filter { it.value.participantStatus == ParticipantStatus.IN_LOBBY }
         else mapOf()
 
-    private fun canShowLobby(capabilities: Set<ParticipantCapabilityType>, visibilityState: VisibilityState): Boolean {
+    private fun canShowLobby(
+        capabilities: Set<ParticipantCapabilityType>,
+        participantRole: ParticipantRole?,
+        visibilityState: VisibilityState,
+        ): Boolean {
         if (visibilityState.status != VisibilityStatus.VISIBLE)
             return false
 
-        return capabilitiesManager.hasCapability(capabilities, ParticipantCapabilityType.MANAGE_LOBBY)
+        return capabilitiesManager.hasCapability(capabilities, participantRole, ParticipantCapabilityType.MANAGE_LOBBY)
     }
 
     private fun remoteParticipantsForGridView(participants: Map<String, ParticipantInfoModel>): Map<String, ParticipantInfoModel> =
