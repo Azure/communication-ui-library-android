@@ -19,9 +19,9 @@
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Microfono disattivato</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">Microfono acceso</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">Partecipa alla chiamata</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">L\'audio è disabilitato. Per abilitarlo, vai a Impostazioni per consentire l\'accesso. È necessario
-        abilita l\'audio per avviare questa chiamata.</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">La fotocamera è disabilitata. Per abilitarla, passa a Impostazioni
+    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">L\'audio è disabilitato. Per abilitaloe, vai a Impostazioni per consentire l\'accesso. È necessario
+        abilitare l\'audio per avviare questa chiamata.</string>
+    <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">La fotocamera è disabilitata. Per abilitarla, passare a Impostazioni
         per consentire l\'accesso.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Autorizzazioni necessarie</string>
     <string name="azure_communication_ui_calling_setup_view_go_to_settings">Vai a Impostazioni</string>
@@ -71,23 +71,23 @@
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>La registrazione è stata avviata.</b> Partecipando,
-        fornisci il consenso per la trascrizione di questa riunione.
+        fornisci il consenso per la trascrizione della riunione 
          <u>Informativa sulla privacy</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>È in corso il salvataggio della registrazione.</b> La registrazione è stata arrestata.
-         <u>Scopri di più.</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>La trascrizione è stata avviata.</b> Partecipando, 
-        fornisci il consenso per la trascrizione di questa riunione. <u>Informativa sulla privacy</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>È in corso il salvataggio della registrazione. </b> La registrazione è stata arrestata.
+         <u>Altre informazioni</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>trascrizione è stata avviata.</b> Partecipando,
+        fornisci il consenso per la trascrizione della riunione.<u>Informativa sulla privacy</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>È in corso il salvataggio della trascrizione.</b> La trascrizione
-        è stato arrestata. <u>Scopri di più.</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>La registrazione e la trascrizione sono
-        state avviate.</b> Partecipando, fornisci il consenso per la trascrizione della riunione online
+        è stata arrestata. <u>Altre informazioni</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Registrazione e trascrizione sono
+        avviati.</b> Partecipando, fornisci il consenso per la trascrizione della riunione.
         . <u>Informativa sulla privacy</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>La registrazione e la trascrizione vengono
-        salvati.</b> La registrazione e la trascrizione sono state arrestate. <u>Scopri di più.</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>La registrazione è stata arrestata.</b> Ora
-        sta trascrivendo solo questa riunione. <u>Informativa sulla privacy</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Registrazione e trascrizione sono
+        in fase di salvataggio.</b> La registrazione e la trascrizione sono state arrestate. <u>Altre informazioni</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>La registrazione è stata arrestata.</b>Ora
+        stai solo trascrivendo questa riunione. <u>Informativa sulla privacy</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>La trascrizione è stata arrestata.
-    </b>È in corso la registrazione solo di questa riunione. <u>Informativa sulla privacy</u></string>
+    </b>Ora stai solo registrando questa riunione. <u>Informativa sulla privacy</u></string>
     <string name="azure_communication_ui_calling_view_link">Collegamento</string>
 
     <!--    PopUp warning-->
@@ -161,4 +161,8 @@
     <string name="azure_communication_ui_calling_attach_screenshot">Allega screenshot</string>
     <string name="azure_communication_ui_calling_report_a_problem_label">Segnala un problema</string>
     <string name="azure_communication_ui_calling_send_feedback_label">Invia</string>
+
+    <!--    Outgoing Call-->
+    <string name="azure_communication_ui_calling_setup_view_start_call">Start call</string>
+    <string name="azure_communication_ui_calling_call_view_calling">Calling...</string>
 </resources>
