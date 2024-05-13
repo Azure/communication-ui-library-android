@@ -49,6 +49,7 @@ internal class CallingViewModel(
     val errorInfoViewModel = callingViewModelProvider.errorInfoViewModel
     val lobbyHeaderViewModel = callingViewModelProvider.lobbyHeaderViewModel
     val lobbyErrorHeaderViewModel = callingViewModelProvider.lobbyErrorHeaderViewModel
+    val participantMenuViewModel = callingViewModelProvider.participantMenuViewModel
 
     fun switchFloatingHeader() {
         floatingHeaderViewModel.switchFloatingHeader()
@@ -102,6 +103,8 @@ internal class CallingViewModel(
             state.callState
         )
 
+        participantMenuViewModel.init()
+
         participantListViewModel.init(
             state.remoteParticipantState.participantMap,
             state.localParticipantState,
@@ -109,7 +112,8 @@ internal class CallingViewModel(
                 state.localParticipantState.capabilities,
                 state.localParticipantState.localParticipantRole,
                 state.visibilityState
-            )
+            ),
+            participantMenuViewModel::displayParticipantMenuCallback
         )
 
         waitingLobbyOverlayViewModel.init(state.callState.callingStatus)

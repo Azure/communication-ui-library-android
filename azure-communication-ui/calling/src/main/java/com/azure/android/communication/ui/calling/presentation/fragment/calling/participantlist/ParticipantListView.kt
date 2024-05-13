@@ -326,20 +326,19 @@ internal class ParticipantListView(
             participantViewData,
             isOnHold,
             onClickAction = {
-                if (accessibilityManager.isEnabled) {
-                    participantListDrawer.dismiss()
+                when (status) {
+                    ParticipantStatus.IN_LOBBY -> showAdmitDialog(userIdentifier, displayName)
+                    else -> displayParticipantMenu(userIdentifier, displayName)
                 }
 
-                if (status == ParticipantStatus.IN_LOBBY) {
-                    showAdmitDialog(displayName, userIdentifier)
-                } else if (accessibilityManager.isEnabled) {
+                if (status != ParticipantStatus.IN_LOBBY && accessibilityManager.isEnabled) {
                     participantListDrawer.dismiss()
                 }
             }
         )
     }
 
-    private fun showAdmitDialog(displayName: String?, userIdentifier: String) {
+    private fun showAdmitDialog(userIdentifier: String, displayName: String?) {
         admitDeclinePopUpParticipantId = userIdentifier
         val dialog =
             AlertDialog.Builder(context, R.style.AzureCommunicationUICalling_AlertDialog_Theme)
@@ -365,6 +364,10 @@ internal class ParticipantListView(
             }
         admitDeclineAlertDialog = dialog.create()
         admitDeclineAlertDialog.show()
+    }
+
+    private fun displayParticipantMenu(userIdentifier: String, displayName: String?) {
+        viewModel.displayParticipantMenu(userIdentifier, displayName)
     }
 
     private fun getNameToDisplay(

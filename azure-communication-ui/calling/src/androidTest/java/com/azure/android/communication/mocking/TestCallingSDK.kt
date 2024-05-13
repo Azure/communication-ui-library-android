@@ -9,6 +9,7 @@ import com.azure.android.communication.calling.VideoDeviceType
 import com.azure.android.communication.calling.ParticipantState
 import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.CallState
+import com.azure.android.communication.calling.CapabilitiesChangedEvent
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.PropertyChangedListener
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
@@ -19,6 +20,7 @@ import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticMode
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnostic
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.models.VideoStreamModel
@@ -379,12 +381,20 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         return lobbyResultCompletableFuture
     }
 
-    override fun decline(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
+    override fun reject(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
         return lobbyResultCompletableFuture
     }
 
     override fun getLocalParticipantRoleSharedFlow(): SharedFlow<ParticipantRole?> {
         return participantRoleSharedFlow
+    }
+
+    override fun getCallCapabilitiesSharedFlow(): SharedFlow<List<ParticipantCapabilityType>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getCallCapabilitiesEventSharedFlow(): SharedFlow<CapabilitiesChangedEvent> {
+        TODO("Not yet implemented")
     }
 
     override fun getNetworkQualityCallDiagnosticSharedFlow(): SharedFlow<NetworkQualityCallDiagnosticModel> {
@@ -401,6 +411,10 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
 
     override fun getLogFiles(): List<File> {
         return emptyList()
+    }
+
+    override fun getCapabilities(): List<ParticipantCapabilityType> {
+        TODO("Not yet implemented")
     }
 
     private fun RemoteVideoStream.asVideoStreamModel(): VideoStreamModel {

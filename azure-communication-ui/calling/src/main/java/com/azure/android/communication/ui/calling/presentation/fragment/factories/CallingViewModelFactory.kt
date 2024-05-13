@@ -19,6 +19,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay.ConnectingOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.menu.ParticipantMenuViewModel
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.redux.Store
@@ -85,6 +86,10 @@ internal class CallingViewModelFactory(
 
     val participantListViewModel by lazy {
         ParticipantListViewModel(store::dispatch)
+    }
+
+    val participantMenuViewModel by lazy {
+        ParticipantMenuViewModel(store::dispatch)
     }
 
     val bannerViewModel by lazy {
