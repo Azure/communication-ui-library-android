@@ -161,8 +161,6 @@ class CallLauncherActivity : AppCompatActivity() {
                 }
             })
 
-            cacheTokenAndDisplayName()
-
             launchButton.setOnClickListener {
                 launch()
             }
