@@ -282,10 +282,19 @@ class CallLauncherActivity : AppCompatActivity() {
         }
 
         handlePushNotificationAction(intent)
-        registerReceiver(
-            callLauncherBroadCastReceiver,
-            IntentFilter(CALL_LAUNCHER_BROADCAST_ACTION)
-        )
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(
+                callLauncherBroadCastReceiver,
+                IntentFilter(CALL_LAUNCHER_BROADCAST_ACTION),
+                RECEIVER_EXPORTED
+            )
+        } else {
+            registerReceiver(
+                callLauncherBroadCastReceiver,
+                IntentFilter(CALL_LAUNCHER_BROADCAST_ACTION)
+            )
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {
