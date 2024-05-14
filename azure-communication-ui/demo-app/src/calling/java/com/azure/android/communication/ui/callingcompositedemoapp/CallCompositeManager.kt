@@ -10,6 +10,8 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.RingtoneManager
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
@@ -496,7 +498,9 @@ class CallCompositeManager(private val context: Context) {
         message: String,
     ) {
         Log.i("ACSCallingUI", message)
-        Toast.makeText(context.applicationContext, "Debug: $message", Toast.LENGTH_SHORT).show()
+        Handler(Looper.getMainLooper()).post {
+            Toast.makeText(context.applicationContext, "Debug: $message", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun showNotificationForIncomingCall(notification: CallCompositeIncomingCallEvent) {
