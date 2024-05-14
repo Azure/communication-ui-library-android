@@ -556,27 +556,16 @@ internal class CallingMiddlewareActionHandlerImpl(
                 }
 
                 if (callInfoModel.callStateError == null) {
-                    if (configuration.callConfig?.callType == CallType.ONE_TO_N_OUTGOING) {
-                        when (callInfoModel.callingStatus) {
-                            CallingStatus.CONNECTED, CallingStatus.CONNECTING -> {
-                                store.dispatch(NavigationAction.CallLaunched())
-                            }
-                            CallingStatus.DISCONNECTED -> {
-                                store.dispatch(NavigationAction.Exit())
-                            }
-                            else -> {}
+                    val action: NavigationAction? = when (callInfoModel.callingStatus) {
+                        CallingStatus.DISCONNECTED -> NavigationAction.Exit()
+                        CallingStatus.CONNECTED -> NavigationAction.CallLaunched()
+                        CallingStatus.CONNECTING -> {
+                            if (configuration.callConfig?.callType == CallType.ONE_TO_N_OUTGOING) NavigationAction.CallLaunched() else null
                         }
-                    } else {
-                        when (callInfoModel.callingStatus) {
-                            CallingStatus.CONNECTED, CallingStatus.IN_LOBBY -> {
-                                store.dispatch(NavigationAction.CallLaunched())
-                            }
-                            CallingStatus.DISCONNECTED -> {
-                                store.dispatch(NavigationAction.Exit())
-                            }
-                            else -> {}
-                        }
+                        CallingStatus.IN_LOBBY -> NavigationAction.CallLaunched()
+                        else -> null
                     }
+                    action?.let { store.dispatch(it) }
                 }
             }
         }

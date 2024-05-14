@@ -48,7 +48,6 @@ internal class ParticipantGridCellAvatarView(
             participantViewModel.getParticipantStatusStateFlow().collect {
                 lastParticipantViewData = null
                 updateParticipantViewData()
-                setMicButtonVisibility(participantViewModel.getIsMutedStateFlow().value)
             }
         }
 
@@ -147,8 +146,7 @@ internal class ParticipantGridCellAvatarView(
     }
 
     private fun setMicButtonVisibility(isMicButtonVisible: Boolean) {
-        val status = participantViewModel.getParticipantStatusStateFlow().value
-        if (!isMicButtonVisible || status == ParticipantStatus.CONNECTING || status == ParticipantStatus.RINGING) {
+        if (!isMicButtonVisible) {
             micIndicatorAudioImageView.visibility = GONE
         } else {
             micIndicatorAudioImageView.visibility = VISIBLE

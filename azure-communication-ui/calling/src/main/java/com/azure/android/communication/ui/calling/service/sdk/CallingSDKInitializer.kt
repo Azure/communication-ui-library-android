@@ -192,22 +192,30 @@ internal class CallingSDKInitializer(
             return
         }
         logger.info("Incoming call received")
-        incomingCall?.let {
-            this.incomingCall = incomingCall
-            it.addOnCallEndedListener(onIncomingCallEnded)
-            notifyHandlerForIncomingCall(it)
+        try {
+            incomingCall?.let {
+                this.incomingCall = incomingCall
+                it.addOnCallEndedListener(onIncomingCallEnded)
+                notifyHandlerForIncomingCall(it)
+            }
+        } catch (e: Exception) {
+            logger.error("Error while handling incoming call", e)
         }
     }
 
     private fun notifyHandlerForIncomingCall(incomingCall: IncomingCall) {
-        callCompositeConfiguration.callCompositeEventsHandler.getOnIncomingCallHandlers().forEach {
-            it.handle(
-                buildCallCompositeIncomingCallEvent(
-                    incomingCall.id,
-                    incomingCall.callerInfo.displayName,
-                    incomingCall.callerInfo.identifier
+        try {
+            callCompositeConfiguration.callCompositeEventsHandler.getOnIncomingCallHandlers().forEach {
+                it.handle(
+                    buildCallCompositeIncomingCallEvent(
+                        incomingCall.id,
+                        incomingCall.callerInfo.displayName,
+                        incomingCall.callerInfo.identifier
+                    )
                 )
-            )
+            }
+        } catch (e: Exception) {
+            logger.error("Error while notifying incoming call", e)
         }
     }
 

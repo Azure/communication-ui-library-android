@@ -56,7 +56,7 @@ class CallLauncherActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityCallLauncherBinding
-    private var callCompositeManager: CallCompositeManager? = null
+    private lateinit var callCompositeManager: CallCompositeManager
     private val callLauncherBroadCastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action == CALL_LAUNCHER_BROADCAST_ACTION) {
@@ -168,7 +168,7 @@ class CallLauncherActivity : AppCompatActivity() {
             showUIButton.setOnClickListener {
                 showUI()
             }
-            closeCompositeButton.setOnClickListener { callCompositeManager?.dismissCallComposite() }
+            closeCompositeButton.setOnClickListener { callCompositeManager.dismissCallComposite() }
 
             groupCallRadioButton.setOnClickListener {
                 if (groupCallRadioButton.isChecked) {
@@ -244,7 +244,7 @@ class CallLauncherActivity : AppCompatActivity() {
                 incomingCallLayout.visibility = LinearLayout.GONE
                 val acsIdentityToken = sharedPreference.getString(CACHED_TOKEN, "")
                 val displayName = sharedPreference.getString(CACHED_USER_NAME, "")
-                callCompositeManager?.acceptIncomingCall(this@CallLauncherActivity, acsIdentityToken!!, displayName!!)
+                callCompositeManager.acceptIncomingCall(this@CallLauncherActivity, acsIdentityToken!!, displayName!!)
             }
 
             registerPushNotificationButton.setOnClickListener {
@@ -258,12 +258,12 @@ class CallLauncherActivity : AppCompatActivity() {
 
             declineCallButton.setOnClickListener {
                 incomingCallLayout.visibility = LinearLayout.GONE
-                callCompositeManager?.declineIncomingCall()
+                callCompositeManager.declineIncomingCall()
             }
 
             lifecycleScope.launchAll(
                 {
-                    callCompositeManager?.callCompositeCallStateStateFlow?.collect {
+                    callCompositeManager.callCompositeCallStateStateFlow.collect {
                         runOnUiThread {
                             if (it.isNotEmpty()) {
                                 callStateText.text = it
@@ -379,7 +379,7 @@ class CallLauncherActivity : AppCompatActivity() {
             return
         }
 
-        callCompositeManager?.launch(
+        callCompositeManager.launch(
             this@CallLauncherActivity,
             acsToken,
             userName,
@@ -394,13 +394,13 @@ class CallLauncherActivity : AppCompatActivity() {
     }
 
     private fun showUI() {
-        callCompositeManager?.bringCallCompositeToForeground(this)
+        callCompositeManager.bringCallCompositeToForeground(this)
     }
 
     private fun showCallHistory() {
         val userName = binding.userNameText.text.toString()
         val acsToken = binding.acsTokenText.text.toString()
-        val history = callCompositeManager?.getCallHistory(this@CallLauncherActivity, acsToken, userName)?.sortedBy { it.callStartedOn }
+        val history = callCompositeManager.getCallHistory(this@CallLauncherActivity, acsToken, userName)?.sortedBy { it.callStartedOn }
 
         val title = "Total calls: ${history?.count()}"
         var message = "Last Call: none"
@@ -450,7 +450,7 @@ class CallLauncherActivity : AppCompatActivity() {
         if (!SettingsFeatures.getDisplayDismissButtonOption()) {
             DismissCompositeButtonView.get(this).hide()
         } else {
-            callCompositeManager?.let {
+            callCompositeManager.let {
                 DismissCompositeButtonView.get(this).show(it)
             }
         }
@@ -473,17 +473,17 @@ class CallLauncherActivity : AppCompatActivity() {
                 binding.incomingCallLayout.visibility = View.GONE
                 val acsIdentityToken = sharedPreference.getString(CACHED_TOKEN, "")
                 val displayName = sharedPreference.getString(CACHED_USER_NAME, "")
-                callCompositeManager?.acceptIncomingCall(this@CallLauncherActivity, acsIdentityToken!!, displayName!!)
+                callCompositeManager.acceptIncomingCall(this@CallLauncherActivity, acsIdentityToken!!, displayName!!)
             }
             IntentHelper.DECLINE -> {
                 binding.incomingCallLayout.visibility = View.GONE
-                callCompositeManager?.declineIncomingCall()
+                callCompositeManager.declineIncomingCall()
             }
             IntentHelper.HANDLE_INCOMING_CALL_PUSH -> {
                 extras?.let { onIncomingCallPushNotificationReceived(it) }
             }
             IntentHelper.CLEAR_PUSH_NOTIFICATION -> {
-                callCompositeManager?.hideIncomingCallNotification()
+                callCompositeManager.hideIncomingCallNotification()
             }
         }
     }
@@ -492,7 +492,7 @@ class CallLauncherActivity : AppCompatActivity() {
         val acsIdentityToken = sharedPreference.getString(CACHED_TOKEN, "")
         val displayName = sharedPreference.getString(CACHED_USER_NAME, "")
         val value = stringToMap(extras.getString("data")!!)
-        callCompositeManager?.handleIncomingCall(
+        callCompositeManager.handleIncomingCall(
             value,
             acsIdentityToken!!,
             displayName!!,
@@ -550,7 +550,7 @@ class CallLauncherActivity : AppCompatActivity() {
     private fun registerPuhNotification() {
         val acsToken = sharedPreference.getString(CACHED_TOKEN, "")
         val userName = sharedPreference.getString(CACHED_USER_NAME, "")
-        callCompositeManager?.registerPush(
+        callCompositeManager.registerPush(
             this@CallLauncherActivity,
             acsToken!!,
             userName!!

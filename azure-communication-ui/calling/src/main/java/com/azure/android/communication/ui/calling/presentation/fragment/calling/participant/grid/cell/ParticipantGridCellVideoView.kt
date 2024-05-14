@@ -58,7 +58,6 @@ internal class ParticipantGridCellVideoView(
             participantViewModel.getParticipantStatusStateFlow().collect {
                 lastParticipantViewData = null
                 updateParticipantViewData()
-                setMicButtonVisibility(participantViewModel.getIsMutedStateFlow().value)
             }
         }
 
@@ -203,8 +202,7 @@ internal class ParticipantGridCellVideoView(
     }
 
     private fun setMicButtonVisibility(isMicButtonVisible: Boolean) {
-        val status = participantViewModel.getParticipantStatusStateFlow().value
-        if (!isMicButtonVisible || status == ParticipantStatus.CONNECTING || status == ParticipantStatus.RINGING) {
+        if (!isMicButtonVisible) {
             micIndicatorOnVideoImageView.visibility = GONE
         } else {
             micIndicatorOnVideoImageView.visibility = VISIBLE

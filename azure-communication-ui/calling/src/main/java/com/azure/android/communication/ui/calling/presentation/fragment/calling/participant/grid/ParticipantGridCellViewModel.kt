@@ -79,7 +79,7 @@ internal class ParticipantGridCellViewModel(
     ) {
         this.participantUserIdentifier = participant.userIdentifier
         this.displayNameStateFlow.value = participant.displayName
-        this.isMutedStateFlow.value = participant.isMuted
+        this.isMutedStateFlow.value = participant.isMuted && participant.participantStatus != ParticipantStatus.CONNECTING && participant.participantStatus != ParticipantStatus.RINGING
         this.isOnHoldStateFlow.value = isOnHold(participant.participantStatus)
 
         this.isNameIndicatorVisibleStateFlow.value =
