@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling
 
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
-import com.azure.android.communication.ui.calling.service.sdk.CallingSDKInitialization
+import com.azure.android.communication.ui.calling.service.sdk.CallingSDKInitializer
 import java.lang.IllegalStateException
 
 internal class CallCompositeInstanceManager {
@@ -58,6 +58,6 @@ internal fun CallComposite.getConfig(): CallCompositeConfiguration {
     return this.configuration
 }
 
-internal fun CallComposite.getCallingSDKInitialization(): CallingSDKInitialization {
+internal fun CallComposite.getCallingSDKInitialization(): CallingSDKInitializer {
     return this.sdkInitialization
 }

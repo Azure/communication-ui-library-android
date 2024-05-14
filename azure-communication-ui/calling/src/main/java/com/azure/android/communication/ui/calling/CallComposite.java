@@ -47,7 +47,7 @@ import com.azure.android.communication.ui.calling.presentation.MultitaskingCallC
 import com.azure.android.communication.ui.calling.presentation.PiPCallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
 import com.azure.android.communication.ui.calling.redux.action.PipAction;
-import com.azure.android.communication.ui.calling.service.sdk.CallingSDKInitialization;
+import com.azure.android.communication.ui.calling.service.sdk.CallingSDKInitializer;
 import com.azure.android.communication.ui.calling.utilities.TestHelper;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
@@ -81,7 +81,7 @@ public final class CallComposite {
     static DependencyInjectionContainer diContainer;
 
     // helps to dispose the previous instance of CallingSDKInitialization
-    private static CallingSDKInitialization sdkInitialization;
+    private static CallingSDKInitializer sdkInitializer;
 
     // on each launch, an InstanceID will be assigned and incremented.
     private static int instanceIdCounter = 0;
@@ -92,10 +92,10 @@ public final class CallComposite {
     CallComposite(final CallCompositeConfiguration configuration) {
         this.configuration = configuration;
         diContainer = null;
-        if (sdkInitialization != null) {
-            sdkInitialization.dispose();
+        if (sdkInitializer != null) {
+            sdkInitializer.dispose();
+            sdkInitializer = null;
         }
-        sdkInitialization = null;
     }
 
     /**
@@ -424,6 +424,10 @@ public final class CallComposite {
         final DependencyInjectionContainer container = diContainer;
         if (container != null) {
             container.getCompositeExitManager().exit();
+        }
+        if (sdkInitializer != null) {
+            sdkInitializer.dispose();
+            sdkInitializer = null;
         }
     }
 
@@ -841,18 +845,18 @@ public final class CallComposite {
         context.startActivity(intent);
     }
 
-    private CallingSDKInitialization initializeCallingSDK() {
-        if (sdkInitialization == null) {
+    private CallingSDKInitializer initializeCallingSDK() {
+        if (sdkInitializer == null) {
             if (configuration.getCredential() == null || configuration.getApplicationContext() == null) {
                 throw new IllegalArgumentException("Credential and application context must be set.");
             }
-            sdkInitialization = new CallingSDKInitialization(logger, configuration);
+            sdkInitializer = new CallingSDKInitializer(logger, configuration);
         }
-        return sdkInitialization;
+        return sdkInitializer;
     }
 
-    CallingSDKInitialization getSdkInitialization() {
-        return sdkInitialization;
+    CallingSDKInitializer getSdkInitialization() {
+        return sdkInitializer;
     }
 
     CallCompositeConfiguration getConfiguration() {

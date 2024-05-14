@@ -17,6 +17,7 @@ class CallLauncherApplication : Application() {
     }
 
     fun onDestroy() {
+        callCompositeManager?.dismissCallComposite()
         callCompositeManager = null
     }
 }

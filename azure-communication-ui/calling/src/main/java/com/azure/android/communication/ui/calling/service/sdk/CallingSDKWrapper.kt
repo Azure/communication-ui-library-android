@@ -47,7 +47,7 @@ internal class CallingSDKWrapper(
     private val callingSDKEventHandler: CallingSDKEventHandler,
     private val callConfigInjected: CallConfiguration?,
     private val logger: Logger? = null,
-    private val callingSDKInitialization: CallingSDKInitialization,
+    private val callingSDKInitializer: CallingSDKInitializer,
 ) : CallingSDK {
     private var nullableCall: Call? = null
     private var callClient: CallClient? = null
@@ -250,7 +250,7 @@ internal class CallingSDKWrapper(
     }
 
     override fun setupCall(): CompletableFuture<Void> {
-        callingSDKInitialization.setupCallClient()?.whenComplete { callClient, _ ->
+        callingSDKInitializer.setupCallClient()?.whenComplete { callClient, _ ->
             this.callClient = callClient
             createDeviceManager().handle { _, error: Throwable? ->
                 if (error != null) {
@@ -404,7 +404,7 @@ internal class CallingSDKWrapper(
     }
 
     private fun createCallAgent(): java.util.concurrent.CompletableFuture<CallAgent> {
-        return callingSDKInitialization.createCallAgent()
+        return callingSDKInitializer.createCallAgent()
     }
 
     private fun connectCall(
@@ -425,7 +425,7 @@ internal class CallingSDKWrapper(
             nullableCall = agent.startCall(context, callConfig.participants, startCallOptions)
             callingSDKEventHandler.onCallCreated(call, callConfig.callType)
         } else if (callConfig.callType == CallType.ONE_TO_ONE_INCOMING) {
-            val incomingCall = callingSDKInitialization.getIncomingCall()
+            val incomingCall = callingSDKInitializer.getIncomingCall()
             if (incomingCall == null || callConfig.incomingCallId != incomingCall.id) {
                 throw CallCompositeException(
                     "Incoming call not found",

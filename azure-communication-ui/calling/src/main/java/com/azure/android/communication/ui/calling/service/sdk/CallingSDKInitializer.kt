@@ -22,7 +22,7 @@ import com.azure.android.communication.ui.calling.models.buildCallCompositeIncom
 import com.azure.android.communication.ui.calling.service.sdk.ext.setTags
 import java.util.concurrent.CompletableFuture
 
-internal class CallingSDKInitialization(
+internal class CallingSDKInitializer(
     private val logger: Logger,
     private val callCompositeConfiguration: CallCompositeConfiguration
 ) {
@@ -118,6 +118,7 @@ internal class CallingSDKInitialization(
                         callCompositeConfiguration.credential,
                         options
                     )
+                    logger.info("creating call agent")
                     createCallAgentFutureCompletableFuture.whenComplete { callAgent: CallAgent, error: Throwable? ->
                         if (error != null) {
                             callAgentCompletableFuture!!.completeExceptionally(error)
@@ -137,6 +138,7 @@ internal class CallingSDKInitialization(
     }
 
     fun dispose() {
+        logger.info("dispose")
         incomingCall?.removeOnCallEndedListener(onIncomingCallEnded)
         incomingCall = null
         callAgentCompletableFuture?.get()?.removeOnIncomingCallListener(callCompositeIncomingCallListener)
@@ -189,6 +191,7 @@ internal class CallingSDKInitialization(
             logger.info("Currently UI Library is busy with an active call - only one call is supported")
             return
         }
+        logger.info("Incoming call received")
         incomingCall?.let {
             this.incomingCall = incomingCall
             it.addOnCallEndedListener(onIncomingCallEnded)
@@ -209,6 +212,7 @@ internal class CallingSDKInitialization(
     }
 
     private fun onIncomingCallCancelled() {
+        logger.info("Incoming call cancelled")
         incomingCall?.let { incomingCall ->
             incomingCall.callEndReason?.let { callEndReason ->
                 callCompositeConfiguration.callCompositeEventsHandler.getOnIncomingCallCancelledHandlers().forEach {
