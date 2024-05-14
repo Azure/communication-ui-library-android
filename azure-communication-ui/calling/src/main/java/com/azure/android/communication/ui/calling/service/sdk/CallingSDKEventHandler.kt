@@ -555,7 +555,11 @@ internal class CallingSDKEventHandler(
 
     private fun onRemoteParticipantUpdated() {
         val state = call?.state
-        if (state == CallState.CONNECTED || state == CallState.CONNECTING || state == CallState.RINGING) {
+        if (state == CallState.CONNECTED ||
+            state == CallState.CONNECTING ||
+            state == CallState.RINGING ||
+            state == CallState.REMOTE_HOLD
+        ) {
             coroutineScope.launch {
                 remoteParticipantsInfoModelSharedFlow.emit(remoteParticipantsInfoModelMap)
             }

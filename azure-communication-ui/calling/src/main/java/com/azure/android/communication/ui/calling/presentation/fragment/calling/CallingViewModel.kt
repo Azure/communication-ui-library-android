@@ -320,7 +320,7 @@ internal class CallingViewModel(
             (
                 (state.callState.callingStatus == CallingStatus.RINGING || state.callState.callingStatus == CallingStatus.CONNECTING) &&
                     callType == CallType.ONE_TO_N_OUTGOING
-                )
+                ) || state.callState.callingStatus == CallingStatus.REMOTE_HOLD
 
     private fun updateOverlayDisplayedState(callingStatus: CallingStatus) {
         floatingHeaderViewModel.updateIsOverlayDisplayed(callingStatus)
