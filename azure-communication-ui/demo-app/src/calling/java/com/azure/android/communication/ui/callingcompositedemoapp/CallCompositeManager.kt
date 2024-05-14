@@ -357,7 +357,10 @@ class CallCompositeManager(private val context: Context) {
             callComposite?.registerPushNotification(deviceRegistrationToken)
                 ?.whenComplete { _, throwable ->
                     if (throwable != null) {
+                        toast(applicationContext, "Register push failed.")
                         throw throwable
+                    } else {
+                        toast(applicationContext, "Register push success.")
                     }
                 }
         }
