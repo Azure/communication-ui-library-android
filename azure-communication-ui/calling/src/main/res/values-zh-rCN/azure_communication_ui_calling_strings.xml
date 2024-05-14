@@ -19,10 +19,10 @@
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">关闭麦克风</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">打开麦克风</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">加入通话</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">你的音频已禁用。若要启用，请转到“设置”以允许访问。
-必须启用音频才能开始此通话。</string>
+    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">你的音频已禁用。若要启用，请转到“设置”以允许访问。你必须
+       启用音频以开始此通话。</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">你的相机已禁用。若要启用，请转到“设置”
-以允许访问。</string>
+       以允许访问。</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">需要权限</string>
     <string name="azure_communication_ui_calling_setup_view_go_to_settings">转到“设置”</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">已选择</string>
@@ -70,24 +70,24 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">共享诊断信息按钮</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>录制已开始。</b>加入即表示你
-同意誊写此会议。
- <u>隐私策略</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>录制已启动。</b>加入即表示你
+       同意听录此会议。
+        <u>隐私策略</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>正在保存录制。</b>录制已停止。
-<u>了解详细信息</u></string>
+        <u>了解详细信息</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>听录已开始。</b>加入即表示你
-同意誊写此会议。<u>隐私策略</u></string>
+       同意听录此会议。<u>隐私策略</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>正在保存听录。</b>听录
-已停止。<u>了解详细信息</u></string>
+       已停止。<u>了解详细信息</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>录制和听录已
-已启动。</b>加入即表示你同意誊写此会议
-。<u>隐私策略</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>正在
-保存录制和听录。</b>录制和听录已停止。<u>了解详细信息</u></string>
+       开始。</b>加入即表示你同意听录此会议
+       。<u>隐私策略</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>录制和听录
+       正在保存。</b>录制和听录已停止。<u>了解详细信息</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>录制已停止。</b>你
-现在仅在誊写此会议。<u>隐私策略</u></string>
+       现在只能听录此会议。<u>隐私策略</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>听录已停止。
-</b>你现在仅在录制此会议。<u>隐私策略</u></string>
+   </b>你现在只能录制此会议。<u>隐私策略</u></string>
     <string name="azure_communication_ui_calling_view_link">链接</string>
 
     <!--    PopUp warning-->
@@ -164,5 +164,6 @@
 
     <!--    Outgoing Call-->
     <string name="azure_communication_ui_calling_setup_view_start_call">Start call</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Starting call…</string>
     <string name="azure_communication_ui_calling_call_view_calling">Calling...</string>
 </resources>
