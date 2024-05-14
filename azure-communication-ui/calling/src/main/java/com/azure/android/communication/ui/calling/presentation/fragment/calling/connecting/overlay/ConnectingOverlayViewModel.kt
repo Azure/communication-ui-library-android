@@ -33,9 +33,6 @@ internal class ConnectingOverlayViewModel(
 
     private lateinit var cameraStateFlow: MutableStateFlow<CameraOperationalStatus>
     private lateinit var audioOperationalStatusStateFlow: MutableStateFlow<AudioOperationalStatus>
-    private var callingStatus: CallingStatus = CallingStatus.NONE
-
-    fun getCallingStatus() = callingStatus
 
     fun isTelecomManagerEnabled() = isTelecomManagerEnabled
 
@@ -52,7 +49,6 @@ internal class ConnectingOverlayViewModel(
         this.networkManager = networkManager
         val displayOverlay = shouldDisplayOverlay(callingState, permissionState, initialCallJoinState)
         displayOverlayFlow = MutableStateFlow(displayOverlay)
-        callingStatus = callingState.callingStatus
         cameraStateFlow = MutableStateFlow(cameraState.operation)
         audioOperationalStatusStateFlow = MutableStateFlow(audioState.operation)
         if (displayOverlay) {
@@ -70,7 +66,6 @@ internal class ConnectingOverlayViewModel(
         audioOperationalStatus: AudioOperationalStatus,
         initialCallJoinState: InitialCallJoinState,
     ) {
-        callingStatus = callingState.callingStatus
         val displayOverlay = shouldDisplayOverlay(callingState, permissionState, initialCallJoinState)
         displayOverlayFlow.value = displayOverlay
 

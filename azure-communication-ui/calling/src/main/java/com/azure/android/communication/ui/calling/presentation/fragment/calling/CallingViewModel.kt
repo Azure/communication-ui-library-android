@@ -315,12 +315,17 @@ internal class CallingViewModel(
                 it.value.participantStatus != ParticipantStatus.IN_LOBBY
         }
 
-    private fun shouldUpdateRemoteParticipantsViewModels(state: ReduxState) =
-        state.callState.callingStatus == CallingStatus.CONNECTED ||
-            (
-                (state.callState.callingStatus == CallingStatus.RINGING || state.callState.callingStatus == CallingStatus.CONNECTING) &&
-                    callType == CallType.ONE_TO_N_OUTGOING
-                ) || state.callState.callingStatus == CallingStatus.REMOTE_HOLD
+    private fun shouldUpdateRemoteParticipantsViewModels(state: ReduxState): Boolean {
+        val isOutgoingCallInProgress = (
+            state.callState.callingStatus == CallingStatus.RINGING ||
+                state.callState.callingStatus == CallingStatus.CONNECTING
+            ) &&
+            callType == CallType.ONE_TO_N_OUTGOING
+        val isOnRemoteHold = state.callState.callingStatus == CallingStatus.REMOTE_HOLD
+        val isConnected = state.callState.callingStatus == CallingStatus.CONNECTED
+
+        return isOutgoingCallInProgress || isOnRemoteHold || isConnected
+    }
 
     private fun updateOverlayDisplayedState(callingStatus: CallingStatus) {
         floatingHeaderViewModel.updateIsOverlayDisplayed(callingStatus)

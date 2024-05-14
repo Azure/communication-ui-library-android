@@ -22,17 +22,7 @@ internal class CallStateHandler(
     fun start(coroutineScope: CoroutineScope) {
         coroutineScope.launch {
             store.getStateFlow().collect { state ->
-                if (lastSentCallingStatus != state.callState.callingStatus) {
-                    lastSentCallingStatus = state.callState.callingStatus
-                    lastSentCallingStatus?.let {
-                        sendCallStateChangedEvent(
-                            it,
-                            state.callState.callId,
-                            state.callState.callEndReasonCode,
-                            state.callState.callEndReasonSubCode,
-                        )
-                    }
-                }
+                onStateChange(state)
             }
         }
     }
@@ -45,6 +35,10 @@ internal class CallStateHandler(
     // This helps to fix race condition when disconnected call is notified after exiting the composite
     fun onCompositeExit() {
         val currentState = store.getCurrentState()
+        onStateChange(currentState)
+    }
+
+    private fun onStateChange(currentState: ReduxState) {
         if (lastSentCallingStatus != currentState.callState.callingStatus) {
             lastSentCallingStatus = currentState.callState.callingStatus
             lastSentCallingStatus?.let {
