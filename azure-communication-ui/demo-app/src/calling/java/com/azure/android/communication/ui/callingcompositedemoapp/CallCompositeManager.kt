@@ -278,10 +278,12 @@ class CallCompositeManager(private val context: Context) {
         }
 
         callComposite.addOnIncomingCallEventHandler {
+            toast(context, "Incoming call. ${it.callId}")
             onIncomingCall(it)
         }
 
         callComposite.addOnIncomingCallCancelledEventHandler {
+            toast(context, "Incoming call cancelled. ${it.callId}")
             onIncomingCallCancelled(it)
         }
 
