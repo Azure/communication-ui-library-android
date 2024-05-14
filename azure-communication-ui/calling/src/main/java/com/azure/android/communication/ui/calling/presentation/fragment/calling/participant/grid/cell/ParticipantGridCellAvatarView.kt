@@ -15,7 +15,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
-import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel
 import com.microsoft.fluentui.persona.AvatarView
 import kotlinx.coroutines.flow.collect
@@ -45,7 +44,7 @@ internal class ParticipantGridCellAvatarView(
         }
 
         lifecycleScope.launch {
-            participantViewModel.getParticipantStatusStateFlow().collect {
+            participantViewModel.showCallingTextStateFlow().collect {
                 lastParticipantViewData = null
                 updateParticipantViewData()
             }
@@ -110,9 +109,7 @@ internal class ParticipantGridCellAvatarView(
     }
 
     private fun setTextViewDisplayName(displayName: String) {
-        if (participantViewModel.getParticipantStatusStateFlow().value == ParticipantStatus.CONNECTING ||
-            participantViewModel.getParticipantStatusStateFlow().value == ParticipantStatus.RINGING
-        ) {
+        if (participantViewModel.showCallingTextStateFlow().value) {
             displayNameAudioTextView.visibility = VISIBLE
             displayNameAudioTextView.text = context.getString(R.string.azure_communication_ui_calling_call_view_calling)
             return

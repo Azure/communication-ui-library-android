@@ -18,7 +18,6 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
-import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.VideoViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.screenshare.ScreenShareViewManager
@@ -55,7 +54,7 @@ internal class ParticipantGridCellVideoView(
         }
 
         lifecycleScope.launch {
-            participantViewModel.getParticipantStatusStateFlow().collect {
+            participantViewModel.showCallingTextStateFlow().collect {
                 lastParticipantViewData = null
                 updateParticipantViewData()
             }
@@ -186,9 +185,7 @@ internal class ParticipantGridCellVideoView(
     }
 
     private fun setDisplayName(displayName: String) {
-        if (participantViewModel.getParticipantStatusStateFlow().value == ParticipantStatus.CONNECTING ||
-            participantViewModel.getParticipantStatusStateFlow().value == ParticipantStatus.RINGING
-        ) {
+        if (participantViewModel.showCallingTextStateFlow().value) {
             displayNameOnVideoTextView.visibility = VISIBLE
             displayNameOnVideoTextView.text = context.getString(R.string.azure_communication_ui_calling_call_view_calling)
             return
