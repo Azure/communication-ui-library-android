@@ -163,7 +163,7 @@ class CallLauncherActivity : AppCompatActivity() {
             /* <ROOMS_SUPPORT:0> */
             roomsMeetingRadioButton.setOnClickListener {
                 if (roomsMeetingRadioButton.isChecked) {
-                    groupIdOrTeamsMeetingLinkText.setText(BuildConfig.ROOMS_ID)
+                    groupIdOrTeamsMeetingLinkText.setText(BuildConfig.ROOM_ID)
                     presenterRoleRadioButton.visibility = View.VISIBLE
                     attendeeRoleRadioButton.visibility = View.VISIBLE
                     consumerRoleRadioButton.visibility = View.VISIBLE

@@ -3,11 +3,11 @@
 
 package com.azure.android.communication.ui.calling.service
 
-import com.azure.android.communication.calling.CapabilitiesChangedEvent
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.CallInfoModel
+import com.azure.android.communication.ui.calling.models.CapabilitiesChangedEvent
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
@@ -97,9 +97,6 @@ internal class CallingService(
     fun getLocalParticipantRoleSharedFlow(): SharedFlow<ParticipantRole?> {
         return callingSdk.getLocalParticipantRoleSharedFlow()
     }
-
-    fun getCallCapabilitiesSharedFlow(): SharedFlow<List<ParticipantCapabilityType>> =
-        callingSdk.getCallCapabilitiesSharedFlow()
 
     fun getCallCapabilitiesEventSharedFlow(): SharedFlow<CapabilitiesChangedEvent> =
         callingSdk.getCallCapabilitiesEventSharedFlow()

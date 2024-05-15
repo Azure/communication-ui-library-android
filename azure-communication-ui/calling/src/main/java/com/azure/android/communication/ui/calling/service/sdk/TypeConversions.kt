@@ -3,16 +3,24 @@
 
 package com.azure.android.communication.ui.calling.service.sdk
 
-import com.azure.android.communication.calling.CallingCommunicationErrors
-import com.azure.android.communication.calling.CallingCommunicationException
+import com.azure.android.communication.calling.CallingCommunicationErrors as SdkCallingCommunicationErrors
+import com.azure.android.communication.calling.CallingCommunicationException as SdkCallingCommunicationException
+import com.azure.android.communication.calling.CapabilityResolutionReason as SdkCapabilityResolutionReason
+import com.azure.android.communication.calling.CapabilitiesChangedEvent as SdkCapabilitiesChangedEvent
+import com.azure.android.communication.calling.CapabilitiesChangedReason as SdkCapabilitiesChangedReason
+import com.azure.android.communication.calling.ParticipantCapability as SdkParticipantCapability
 import com.azure.android.communication.calling.ParticipantState
 import com.azure.android.communication.common.CommunicationUserIdentifier
 import com.azure.android.communication.common.MicrosoftTeamsUserIdentifier
 import com.azure.android.communication.common.PhoneNumberIdentifier
 import com.azure.android.communication.common.UnknownIdentifier
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
-import com.azure.android.communication.ui.calling.models.ParticipantRole
+import com.azure.android.communication.ui.calling.models.CapabilitiesChangedEvent
+import com.azure.android.communication.ui.calling.models.CapabilitiesChangedReason
+import com.azure.android.communication.ui.calling.models.CapabilityResolutionReason
+import com.azure.android.communication.ui.calling.models.ParticipantCapability
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
+import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.calling.ParticipantCapabilityType as SdkParticipantCapabilityType
 
@@ -85,46 +93,76 @@ internal fun com.azure.android.communication.calling.CallParticipantRole.into():
     }
 }
 
-internal fun List<com.azure.android.communication.calling.ParticipantCapability>.into(): List<ParticipantCapabilityType> {
-    return this
-        .filter { it.isAllowed }
-        .filter { it.type != null }
-        .map {
-            when (it.type) {
-                SdkParticipantCapabilityType.ADD_COMMUNICATION_USER -> ParticipantCapabilityType.ADD_COMMUNICATION_USER
-                SdkParticipantCapabilityType.TURN_VIDEO_ON -> ParticipantCapabilityType.TURN_VIDEO_ON
-                SdkParticipantCapabilityType.UNMUTE_MICROPHONE -> ParticipantCapabilityType.UNMUTE_MICROPHONE
-                SdkParticipantCapabilityType.SHARE_SCREEN -> ParticipantCapabilityType.SHARE_SCREEN
-                SdkParticipantCapabilityType.REMOVE_PARTICIPANT -> ParticipantCapabilityType.REMOVE_PARTICIPANT
-                SdkParticipantCapabilityType.HANG_UP_FOR_EVERYONE -> ParticipantCapabilityType.HANG_UP_FOR_EVERY_ONE
-                SdkParticipantCapabilityType.ADD_TEAMS_USER -> ParticipantCapabilityType.ADD_TEAMS_USER
-                SdkParticipantCapabilityType.ADD_PHONE_NUMBER -> ParticipantCapabilityType.ADD_PHONE_NUMBER
-                SdkParticipantCapabilityType.MANAGE_LOBBY -> ParticipantCapabilityType.MANAGE_LOBBY
-                SdkParticipantCapabilityType.SPOTLIGHT_PARTICIPANT -> ParticipantCapabilityType.SPOTLIGHT_PARTICIPANT
-                SdkParticipantCapabilityType.REMOVE_PARTICIPANT_SPOTLIGHT -> ParticipantCapabilityType.REMOVE_PARTICIPANT_SPOTLIGHT
-                SdkParticipantCapabilityType.BLUR_BACKGROUND -> ParticipantCapabilityType.BLUR_BACKGROUND
-                SdkParticipantCapabilityType.CUSTOM_BACKGROUND -> ParticipantCapabilityType.CUSTOM_BACKGROUND
-                SdkParticipantCapabilityType.START_LIVE_CAPTIONS -> ParticipantCapabilityType.START_LIVE_CAPTIONS
-                SdkParticipantCapabilityType.RAISE_HAND -> ParticipantCapabilityType.RAISE_HAND
-            }
-        }
+internal fun SdkParticipantCapability.into(): ParticipantCapability? {
+
+    val isCallingUiSupportedCapability = this.type.into() != null
+
+    if (isCallingUiSupportedCapability) {
+        return ParticipantCapability(
+            this.type.into()!!,
+            this.isAllowed,
+            this.reason.into(),
+        )
+    }
+    return null
 }
 
-internal fun getLobbyErrorCode(error: CallingCommunicationException) =
+internal fun SdkCapabilitiesChangedEvent.into(): CapabilitiesChangedEvent {
+    return CapabilitiesChangedEvent(
+        this.changedCapabilities.mapNotNull { it.into() },
+        this.reason.into()
+    )
+}
+
+internal fun SdkCapabilitiesChangedReason.into(): CapabilitiesChangedReason {
+    return when (this) {
+        SdkCapabilitiesChangedReason.ROLE_CHANGED ->
+            CapabilitiesChangedReason.ROLE_CHANGED
+        SdkCapabilitiesChangedReason.USER_POLICY_CHANGED ->
+            CapabilitiesChangedReason.USER_POLICY_CHANGED
+        SdkCapabilitiesChangedReason.MEETING_DETAILS_CHANGED ->
+            CapabilitiesChangedReason.MEETING_DETAILS_CHANGED
+    }
+}
+
+internal fun SdkParticipantCapabilityType.into(): ParticipantCapabilityType? {
+    return when (this) {
+        SdkParticipantCapabilityType.TURN_VIDEO_ON -> ParticipantCapabilityType.TURN_VIDEO_ON
+        SdkParticipantCapabilityType.UNMUTE_MICROPHONE -> ParticipantCapabilityType.UNMUTE_MICROPHONE
+        SdkParticipantCapabilityType.REMOVE_PARTICIPANT -> ParticipantCapabilityType.REMOVE_PARTICIPANT
+        SdkParticipantCapabilityType.MANAGE_LOBBY -> ParticipantCapabilityType.MANAGE_LOBBY
+        else -> null
+    }
+}
+
+internal fun SdkCapabilityResolutionReason.into(): CapabilityResolutionReason {
+    return when (this) {
+        SdkCapabilityResolutionReason.CAPABLE -> CapabilityResolutionReason.CAPABLE
+        SdkCapabilityResolutionReason.CALL_TYPE_RESTRICTED -> CapabilityResolutionReason.CALL_TYPE_RESTRICTED
+        SdkCapabilityResolutionReason.USER_POLICY_RESTRICTED -> CapabilityResolutionReason.USER_POLICY_RESTRICTED
+        SdkCapabilityResolutionReason.ROLE_RESTRICTED -> CapabilityResolutionReason.ROLE_RESTRICTED
+        SdkCapabilityResolutionReason.MEETING_RESTRICTED -> CapabilityResolutionReason.MEETING_RESTRICTED
+        SdkCapabilityResolutionReason.FEATURE_NOT_SUPPORTED -> CapabilityResolutionReason.FEATURE_NOT_SUPPORTED
+        SdkCapabilityResolutionReason.NOT_INITIALIZED -> CapabilityResolutionReason.NOT_INITIALIZED
+        SdkCapabilityResolutionReason.NOT_CAPABLE -> CapabilityResolutionReason.NOT_CAPABLE
+    }
+}
+
+internal fun getLobbyErrorCode(error: SdkCallingCommunicationException) =
     when (error.errorCode) {
-        CallingCommunicationErrors.LOBBY_DISABLED_BY_CONFIGURATIONS -> {
+        SdkCallingCommunicationErrors.LOBBY_DISABLED_BY_CONFIGURATIONS -> {
             CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS
         }
 
-        CallingCommunicationErrors.LOBBY_CONVERSATION_TYPE_NOT_SUPPORTED -> {
+        SdkCallingCommunicationErrors.LOBBY_CONVERSATION_TYPE_NOT_SUPPORTED -> {
             CallCompositeLobbyErrorCode.LOBBY_CONVERSATION_TYPE_NOT_SUPPORTED
         }
 
-        CallingCommunicationErrors.LOBBY_MEETING_ROLE_NOT_ALLOWED -> {
+        SdkCallingCommunicationErrors.LOBBY_MEETING_ROLE_NOT_ALLOWED -> {
             CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED
         }
 
-        CallingCommunicationErrors.REMOVE_PARTICIPANT_OPERATION_FAILURE -> {
+        SdkCallingCommunicationErrors.REMOVE_PARTICIPANT_OPERATION_FAILURE -> {
             CallCompositeLobbyErrorCode.REMOVE_PARTICIPANT_OPERATION_FAILURE
         }
         else -> {

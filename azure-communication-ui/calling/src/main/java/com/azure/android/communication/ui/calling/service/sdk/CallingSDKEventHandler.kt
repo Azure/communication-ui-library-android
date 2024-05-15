@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.service.sdk
 import com.azure.android.communication.calling.Call
 import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.CapabilitiesCallFeature
-import com.azure.android.communication.calling.CapabilitiesChangedEvent
+import com.azure.android.communication.calling.CapabilitiesChangedEvent as SdkCapabilitiesChangedEvent
 import com.azure.android.communication.calling.CapabilitiesChangedListener
 import com.azure.android.communication.calling.DiagnosticFlagChangedListener
 import com.azure.android.communication.calling.DiagnosticQualityChangedListener
@@ -26,12 +26,12 @@ import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideo
 import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.CallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
+import com.azure.android.communication.ui.calling.models.CapabilitiesChangedEvent
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnostic
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
-import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import kotlinx.coroutines.CoroutineScope
@@ -63,7 +63,6 @@ internal class CallingSDKEventHandler(
     private var callParticipantRoleSharedFlow = MutableSharedFlow<ParticipantRole?>()
     private var callIdSharedFlow = MutableStateFlow<String?>(null)
     private var remoteParticipantsInfoModelSharedFlow = MutableSharedFlow<Map<String, ParticipantInfoModel>>()
-    private var callCapabilitiesSharedFlow = MutableSharedFlow<List<ParticipantCapabilityType>>()
     private var callCapabilitiesEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
 
     //region Call Diagnostics
@@ -105,9 +104,6 @@ internal class CallingSDKEventHandler(
 
     fun getCallParticipantRoleSharedFlow(): SharedFlow<ParticipantRole?> =
         callParticipantRoleSharedFlow
-
-    fun getCallCapabilitiesSharedFlow(): SharedFlow<List<ParticipantCapabilityType>> =
-        callCapabilitiesSharedFlow
 
     fun getCallCapabilitiesEventSharedFlow(): SharedFlow<CapabilitiesChangedEvent> =
         callCapabilitiesEventSharedFlow
@@ -355,12 +351,9 @@ internal class CallingSDKEventHandler(
         }
     }
 
-    private fun onCapabilitiesChanged(capabilitiesChangedEvent: CapabilitiesChangedEvent) {
+    private fun onCapabilitiesChanged(capabilitiesChangedEvent: SdkCapabilitiesChangedEvent) {
         coroutineScope.launch {
-            callCapabilitiesSharedFlow.emit(capabilitiesFeature.capabilities.into())
-        }
-        coroutineScope.launch {
-            callCapabilitiesEventSharedFlow.emit(capabilitiesChangedEvent)
+            callCapabilitiesEventSharedFlow.emit(capabilitiesChangedEvent.into())
         }
     }
 
@@ -579,7 +572,6 @@ internal class CallingSDKEventHandler(
         callIdSharedFlow = MutableStateFlow(null)
         remoteParticipantsInfoModelSharedFlow = MutableSharedFlow()
         callParticipantRoleSharedFlow = MutableSharedFlow()
-        callCapabilitiesSharedFlow = MutableSharedFlow()
         callCapabilitiesEventSharedFlow = MutableSharedFlow()
 
         //region Call Diagnostics

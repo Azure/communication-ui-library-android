@@ -103,9 +103,7 @@ internal class CallingMiddlewareImpl(
                 is LocalParticipantAction.SetCapabilities -> {
                     callingMiddlewareActionHandler.setCapabilities(action.capabilities, store)
                 }
-                is LocalParticipantAction.CapabilitiesChanged -> {
-                    callingMiddlewareActionHandler.onCapabilitiesChanged(store)
-                }
+
             }
             next(action)
         }

@@ -56,8 +56,7 @@ internal interface CallingMiddlewareActionHandler {
     fun admitAll(store: Store<ReduxState>)
     fun admit(userIdentifier: String, store: Store<ReduxState>)
     fun reject(userIdentifier: String, store: Store<ReduxState>)
-    fun setCapabilities(capabilities: List<ParticipantCapabilityType>, store: Store<ReduxState>)
-    fun onCapabilitiesChanged(store: Store<ReduxState>)
+    fun setCapabilities(capabilities: Set<ParticipantCapabilityType>, store: Store<ReduxState>)
 }
 
 internal class CallingMiddlewareActionHandlerImpl(
@@ -172,25 +171,6 @@ internal class CallingMiddlewareActionHandlerImpl(
         }
     }
 
-    override fun setCapabilities(
-        capabilities: List<ParticipantCapabilityType>,
-        store: Store<ReduxState>
-    ) {
-        store.dispatch(LocalParticipantAction.CapabilitiesChanged())
-    }
-
-    override fun onCapabilitiesChanged(store: Store<ReduxState>) {
-        val capabilities = store.getCurrentState().localParticipantState.capabilities
-        val role = store.getCurrentState().localParticipantState.localParticipantRole
-        if (!capabilitiesManager.hasCapability(capabilities, role, ParticipantCapabilityType.TURN_VIDEO_ON)) {
-            store.dispatch(LocalParticipantAction.CameraOffTriggered())
-        }
-
-        if (!capabilitiesManager.hasCapability(capabilities, role, ParticipantCapabilityType.UNMUTE_MICROPHONE)) {
-            store.dispatch(LocalParticipantAction.MicOffTriggered())
-        }
-    }
-
     override fun exit(store: Store<ReduxState>) {
         store.dispatch(NavigationAction.Exit())
     }
@@ -252,7 +232,8 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun turnCameraOff(store: Store<ReduxState>) {
-        if (store.getCurrentState().callState.callingStatus != CallingStatus.NONE) {
+        //TODO: test for any consequences of not checking for call status
+//        if (store.getCurrentState().callState.callingStatus != CallingStatus.NONE) {
             callingService.turnCameraOff().whenComplete { _, error ->
                 if (error != null) {
                     store.dispatch(
@@ -264,7 +245,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                     store.dispatch(LocalParticipantAction.CameraOffSucceeded())
                 }
             }
-        }
+//        }
     }
 
     override fun setupCall(store: Store<ReduxState>) {
@@ -380,6 +361,17 @@ internal class CallingMiddlewareActionHandlerImpl(
         }
     }
 
+    override fun setCapabilities(capabilities: Set<ParticipantCapabilityType>, store: Store<ReduxState>) {
+        val role = store.getCurrentState().localParticipantState.localParticipantRole
+        if (!capabilitiesManager.hasCapability(capabilities, role, ParticipantCapabilityType.TURN_VIDEO_ON)) {
+            store.dispatch(LocalParticipantAction.CameraOffTriggered())
+        }
+
+        if (!capabilitiesManager.hasCapability(capabilities, role, ParticipantCapabilityType.UNMUTE_MICROPHONE)) {
+            store.dispatch(LocalParticipantAction.MicOffTriggered())
+        }
+    }
+
     private fun subscribeCamerasCountUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
             callingService.getCamerasCountStateFlow().collect {
@@ -446,18 +438,11 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     private fun subscribeOnLocalParticipantCapabilitiesChanged(store: Store<ReduxState>) {
         coroutineScope.launch {
-            callingService.getCallCapabilitiesSharedFlow().collect {
-                val action = LocalParticipantAction.SetCapabilities(it)
-                store.dispatch(action)
-            }
-        }
-        coroutineScope.launch {
             callingService.getCallCapabilitiesEventSharedFlow().collect { event ->
-                configuration.callCompositeEventsHandler.getOnCapabilitiesChangedEvents().forEach { handler ->
-                    try {
-                        handler.handle(event)
-                    } catch (_: Exception) { }
-                }
+                // Set capabilities to the store
+                val capabilities = callingService.getCallCapabilities().toSet()
+                val action = LocalParticipantAction.SetCapabilities(capabilities)
+                store.dispatch(action)
             }
         }
     }

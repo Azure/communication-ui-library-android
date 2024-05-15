@@ -246,7 +246,7 @@ internal class LocalParticipantStateReducerImpl : LocalParticipantStateReducer {
             }
             is LocalParticipantAction.SetCapabilities -> {
                 localUserState.copy(
-                    capabilities = action.capabilities.toSet()
+                    capabilities = action.capabilities
                 )
             }
             else -> localUserState

@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.configuration.events
 
-import com.azure.android.communication.calling.CapabilitiesChangedEvent
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
@@ -24,8 +23,6 @@ internal class CallCompositeEventsHandler {
         mutableListOf<CallCompositeEventHandler<CallCompositeUserReportedIssueEvent>>()
     private val multitaskingStateChangedEvent =
         mutableListOf<CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent>>()
-    private val capabilitiesHandlers =
-        mutableListOf<CallCompositeEventHandler<CapabilitiesChangedEvent>>()
 
     fun getOnErrorHandlers() = errorHandlers.asIterable()
 
@@ -57,14 +54,6 @@ internal class CallCompositeEventsHandler {
 
     fun addOnCallStateChangedEventHandler(eventHandler: CallCompositeEventHandler<CallCompositeCallStateChangedEvent>) =
         callStateHandlers.add(eventHandler)
-
-    fun addOnCapabilitiesChangedEvent(eventHandler: CallCompositeEventHandler<CapabilitiesChangedEvent>) =
-        capabilitiesHandlers.add(eventHandler)
-
-    fun removeOnCapabilitiesChangedEvent(eventHandler: CallCompositeEventHandler<CapabilitiesChangedEvent>) =
-        capabilitiesHandlers.remove(eventHandler)
-
-    fun getOnCapabilitiesChangedEvents() = capabilitiesHandlers
 
     fun getOnExitEventHandlers() = exitEventHandlers.asIterable()
 

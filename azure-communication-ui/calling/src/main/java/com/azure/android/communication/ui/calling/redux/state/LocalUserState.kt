@@ -5,8 +5,8 @@ package com.azure.android.communication.ui.calling.redux.state
 
 import com.azure.android.communication.ui.calling.error.CallCompositeError
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
-import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
+import com.azure.android.communication.ui.calling.models.ParticipantRole
 
 internal enum class CameraOperationalStatus {
     PENDING,

@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.calling.service.sdk
 
 import android.view.View
 import com.azure.android.communication.calling.CameraFacing
-import com.azure.android.communication.calling.CapabilitiesChangedEvent
 import com.azure.android.communication.calling.CreateViewOptions
 import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.ParticipantState
@@ -14,6 +13,7 @@ import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.calling.VideoDeviceType
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
+import com.azure.android.communication.ui.calling.models.CapabilitiesChangedEvent
 import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
@@ -63,15 +63,15 @@ internal interface CallingSDK {
     fun admit(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?>
     fun reject(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?>
     fun getLocalParticipantRoleSharedFlow(): SharedFlow<ParticipantRole?>
-    fun getCallCapabilitiesSharedFlow(): SharedFlow<List<ParticipantCapabilityType>>
     fun getCallCapabilitiesEventSharedFlow(): SharedFlow<CapabilitiesChangedEvent>
+    fun getCapabilities(): List<ParticipantCapabilityType>
 
     //region Call Diagnostics
     fun getNetworkQualityCallDiagnosticSharedFlow(): SharedFlow<NetworkQualityCallDiagnosticModel>
     fun getNetworkCallDiagnosticSharedFlow(): SharedFlow<NetworkCallDiagnosticModel>
     fun getMediaCallDiagnosticSharedFlow(): SharedFlow<MediaCallDiagnosticModel>
     fun getLogFiles(): List<File>
-    fun getCapabilities(): List<ParticipantCapabilityType>
+
     //endregion
 }
 

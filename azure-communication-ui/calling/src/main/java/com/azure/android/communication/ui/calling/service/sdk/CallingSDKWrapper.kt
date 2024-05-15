@@ -99,9 +99,6 @@ internal class CallingSDKWrapper(
     override fun getLocalParticipantRoleSharedFlow() =
         callingSDKEventHandler.getCallParticipantRoleSharedFlow()
 
-    override fun getCallCapabilitiesSharedFlow() =
-        callingSDKEventHandler.getCallCapabilitiesSharedFlow()
-
     override fun getCallCapabilitiesEventSharedFlow() =
         callingSDKEventHandler.getCallCapabilitiesEventSharedFlow()
 
@@ -264,7 +261,17 @@ internal class CallingSDKWrapper(
     }
 
     override fun getCapabilities(): List<ParticipantCapabilityType> {
-        return nullableCall?.feature { CapabilitiesCallFeature::class.java }?.capabilities?.into() ?: emptyList()
+        val capabilitiesFeature = nullableCall?.feature { CapabilitiesCallFeature::class.java }
+        capabilitiesFeature?.capabilities?.let { capabilities ->
+            val filtered = capabilities
+                .mapNotNull { it.into() }
+                .filter { it.isAllowed }
+                .map { it.type }
+
+            return filtered
+        }
+
+        return emptyList()
     }
 
     override fun startCall(

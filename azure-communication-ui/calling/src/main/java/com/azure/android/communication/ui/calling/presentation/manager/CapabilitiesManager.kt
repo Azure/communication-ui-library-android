@@ -6,8 +6,6 @@ package com.azure.android.communication.ui.calling.presentation.manager
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantRole
-import com.azure.android.communication.ui.calling.redux.Store
-import com.azure.android.communication.ui.calling.redux.state.ReduxState
 
 internal class CapabilitiesManager(
     private val callType: CallType,
