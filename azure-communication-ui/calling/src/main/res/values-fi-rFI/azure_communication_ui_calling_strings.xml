@@ -19,9 +19,9 @@
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Mikrofoni ei käytössä</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">Mikrofoni käytössä</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">Liity puheluun</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Ääni on poistettu käytöstä. Ota käyttöön siirtymällä Asetuksiin ja sallimalla käyttö. Sinun on
+    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Ääni on poistettu käytöstä. Ota se käyttöön siirtymällä asetuksiin ja sallimalla käyttö. Sinun on
         otettava ääni käyttöön aloittaaksesi tämän puhelun.</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Kamerasi on poistettu käytöstä. Ota käyttöön siirtymällä Asetuksiin
+    <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Kamerasi on poistettu käytöstä. Ota se käyttöön siirtymällä asetuksiin
         ja sallimalla käyttö.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Vaaditut käyttöoikeudet</string>
     <string name="azure_communication_ui_calling_setup_view_go_to_settings">Siirry asetuksiin</string>
@@ -70,24 +70,24 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Jaa diagnostiikkatiedot -painike</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Tallennus on aloitettu.</b> Liittymällä annat
-        suostumuksen sille, että tämä kokous litteroidaan.
-        <u>Tietosuojakäytäntö</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Tallennus on aloitettu.</b> Liittymällä
+        annat suostumuksesi kokouksen litteroimiseen.
+         <u>Tietosuojakäytäntö</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Tallennetta tallennetaan.</b> Tallennus on pysäytetty.
          <u>Lisätietoja</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Litterointi on alkanut.</b> Liittymällä
-        annat suostumuksesi tämän kokouksen litteroimiseen. <u>Tietosuojakäytäntö</u></string>
+        annat suostumuksesi kokouksen litteroimiseen. <u>Tietosuojakäytäntö</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Litterointia tallennetaan.</b> Litterointi
-        on pysäytetty. <u> Lisätietoja</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Tallennus ja litterointi on aloitettu.
-        </b> Liittymällä annat suostumuksesi kokouksen litteroimiseen
-        .<u>Tietosuojakäytäntö</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Tallennus ja litterointi tallennetaan
-        </b> Tallennus ja litterointi on pysäytetty. <u>Lisätietoja</u></string>
+        on pysäytetty. <u>Lisätietoja</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Tallennus ja litterointi on
+        aloitettu.</b> Liittymällä annat suostumuksesi kokouksen litteroimiseen
+        . <u>Tietosuojakäytäntö</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Tallennus ja litterointi
+        tallennetaan.</b> Tallennus ja litterointi on pysäytetty. <u>Lisätietoja</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Tallennus on pysäytetty.</b> Sinä
-        litteroit nyt vain tämän kokouksen. <u>Tietosuojakäytäntö</u></string>
+        ainoastaan litteroit nyt tätä kokousta. <u>Tietosuojakäytäntö</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Litterointi on pysäytetty.
-        </b> Olet nyt tallentamassa vain tätä kokousta.<u>Tietosuojakäytäntö</u></string>
+    </b> Sinä ainoastaan tallennat nyt tätä kokousta. <u>Tietosuojakäytäntö</u></string>
     <string name="azure_communication_ui_calling_view_link">Linkki</string>
 
     <!--    PopUp warning-->
@@ -164,5 +164,6 @@
 
     <!--    Outgoing Call-->
     <string name="azure_communication_ui_calling_setup_view_start_call">Start call</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Starting call…</string>
     <string name="azure_communication_ui_calling_call_view_calling">Calling...</string>
 </resources>

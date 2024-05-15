@@ -72,11 +72,11 @@
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Se ha iniciado la grabación.</b> Al unirse, está
         dando su consentimiento para que se transcriba esta reunión.
-        <u>Directiva de privacidad</u></string>
+         <u>Directiva de privacidad</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>La grabación se está guardando.</b> La grabación se ha detenido.
          <u>Obtener más información</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Se ha iniciado la transcripción.</b> Al unirse, 
-        está dando su consentimiento para que se transcriba esta reunión. <u>Directiva de privacidad</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Se ha iniciado la transcripción.</b> Al unirse,
+        da su consentimiento para que se transcriba esta reunión. <u>Directiva de privacidad</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Se está guardando la transcripción.</b>La transcripción
         se ha detenido. <u>Obtener más información</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>La grabación y transcripción han
@@ -87,7 +87,7 @@
     <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>La grabación se ha detenido.</b> Ahora
         solo está transcribiendo esta reunión. <u>Directiva de privacidad</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>La transcripción se ha detenido.
-    </b> Ahora solo está grabando esta reunión. <u>Directiva de privacidad</u></string>
+    </b> Solo está grabando esta reunión. <u>Directiva de privacidad</u></string>
     <string name="azure_communication_ui_calling_view_link">Vínculo</string>
 
     <!--    PopUp warning-->
@@ -164,5 +164,6 @@
 
     <!--    Outgoing Call-->
     <string name="azure_communication_ui_calling_setup_view_start_call">Start call</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Starting call…</string>
     <string name="azure_communication_ui_calling_call_view_calling">Calling...</string>
 </resources>
