@@ -58,6 +58,6 @@ internal fun CallComposite.getConfig(): CallCompositeConfiguration {
     return this.configuration
 }
 
-internal fun CallComposite.getCallingSDKInitialization(): CallingSDKInitializer {
+internal fun CallComposite.getCallingSDKInitializer(): CallingSDKInitializer {
     return this.sdkInitialization
 }
