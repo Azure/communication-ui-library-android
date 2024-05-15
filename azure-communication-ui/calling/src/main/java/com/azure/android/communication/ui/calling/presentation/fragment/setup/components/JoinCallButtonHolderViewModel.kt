@@ -34,7 +34,7 @@ internal class JoinCallButtonHolderViewModel(
 
     fun getDisableJoinCallButtonFlow(): StateFlow<Boolean> = disableJoinCallButtonFlow
 
-    fun getCallType(): CallType? = callType
+    fun isStartCall() = callType == CallType.ONE_TO_N_OUTGOING
 
     fun launchCallScreen() {
         val networkAvailable = isNetworkAvailable()
