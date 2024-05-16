@@ -17,7 +17,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
-import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherViewModel
+import com.azure.android.communication.ui.callingcompositedemoapp.CallCompositeManager
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 
 internal class DismissCompositeButtonView private constructor(
@@ -43,7 +43,7 @@ internal class DismissCompositeButtonView private constructor(
     private val windowManager: WindowManager =
         dismissCompositeButton.context.getSystemService(Service.WINDOW_SERVICE) as WindowManager
 
-    fun show(callLauncherViewModel: CallLauncherViewModel) {
+    fun show(callCompositeManager: CallCompositeManager) {
         if (drawOverlaysPermission(context) && dismissCompositeButton.visibility != View.VISIBLE) {
             if (!isInitialized) {
                 isInitialized = true
@@ -51,7 +51,7 @@ internal class DismissCompositeButtonView private constructor(
             }
             dismissCompositeButton.visibility = View.VISIBLE
             dismissCompositeButton.setOnClickListener {
-                callLauncherViewModel.dismissCallComposite()
+                callCompositeManager.dismissCallComposite()
             }
         }
     }

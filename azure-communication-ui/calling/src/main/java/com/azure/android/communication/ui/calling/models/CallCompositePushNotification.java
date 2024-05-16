@@ -27,8 +27,12 @@ public class CallCompositePushNotification {
      *                     "displayName", "videoCall", "cp", "eventId".
      */
     public CallCompositePushNotification(final Map<String, String> notification) {
-        final com.azure.android.communication.calling.PushNotificationInfo pushNotificationInfo =
-                com.azure.android.communication.calling.PushNotificationInfo.fromMap(notification);
+        final com.azure.android.communication.calling.PushNotificationInfo pushNotificationInfo;
+        try {
+            pushNotificationInfo = com.azure.android.communication.calling.PushNotificationInfo.fromMap(notification);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to parse push notification info", e);
+        }
 
         fromDisplayName = pushNotificationInfo.getFromDisplayName();
 

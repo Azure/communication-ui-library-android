@@ -47,7 +47,15 @@ internal class ParticipantGridCellVideoView(
     init {
         lifecycleScope.launch {
             participantViewModel.getDisplayNameStateFlow().collect {
+                lastParticipantViewData = null
                 setDisplayName(it)
+                updateParticipantViewData()
+            }
+        }
+
+        lifecycleScope.launch {
+            participantViewModel.showCallingTextStateFlow().collect {
+                lastParticipantViewData = null
                 updateParticipantViewData()
             }
         }
@@ -177,9 +185,15 @@ internal class ParticipantGridCellVideoView(
     }
 
     private fun setDisplayName(displayName: String) {
+        if (participantViewModel.showCallingTextStateFlow().value) {
+            displayNameOnVideoTextView.visibility = VISIBLE
+            displayNameOnVideoTextView.text = context.getString(R.string.azure_communication_ui_calling_call_view_calling)
+            return
+        }
         if (displayName.isBlank()) {
             displayNameOnVideoTextView.visibility = GONE
         } else {
+            displayNameOnVideoTextView.visibility = VISIBLE
             displayNameOnVideoTextView.text = displayName
         }
     }

@@ -11,9 +11,20 @@
 
     <uses-sdk tools:overrideLibrary="com.microsoft.office.outlook.magnifierlib" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".CallLauncherApplication"
         android:enableOnBackInvokedCallback="true"
         android:theme="@style/Theme.AppCompat">
+        <activity
+            android:name=".IncomingCallActivity"
+            android:exported="false"
+            android:turnScreenOn="true"
+            android:showOnLockScreen="true"/>
+
         <activity
             android:name="com.azure.android.communication.ui.callingcompositedemoapp.SettingsActivity"
             android:exported="false"

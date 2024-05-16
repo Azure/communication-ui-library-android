@@ -47,13 +47,14 @@ import com.azure.android.communication.ui.calling.presentation.MultitaskingCallC
 import com.azure.android.communication.ui.calling.presentation.PiPCallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
 import com.azure.android.communication.ui.calling.redux.action.PipAction;
-import com.azure.android.communication.ui.calling.service.sdk.CallingSDKInitialization;
+import com.azure.android.communication.ui.calling.service.sdk.CallingSDKInitializer;
 import com.azure.android.communication.ui.calling.utilities.TestHelper;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import java.util.Collection;
 import java.util.Collections;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -80,7 +81,7 @@ public final class CallComposite {
     static DependencyInjectionContainer diContainer;
 
     // helps to dispose the previous instance of CallingSDKInitialization
-    private static CallingSDKInitialization sdkInitialization;
+    private static CallingSDKInitializer sdkInitializer;
 
     // on each launch, an InstanceID will be assigned and incremented.
     private static int instanceIdCounter = 0;
@@ -91,10 +92,10 @@ public final class CallComposite {
     CallComposite(final CallCompositeConfiguration configuration) {
         this.configuration = configuration;
         diContainer = null;
-        if (sdkInitialization != null) {
-            sdkInitialization.dispose();
+        if (sdkInitializer != null) {
+            sdkInitializer.dispose();
+            sdkInitializer = null;
         }
-        sdkInitialization = null;
     }
 
     /**
@@ -182,7 +183,7 @@ public final class CallComposite {
     public void launch(final Context activityContext,
                        final CallCompositeJoinLocator locator,
                        final CallCompositeLocalOptions localOptions) {
-        launchComposite(activityContext, locator, localOptions, false);
+        launchComposite(activityContext, locator, null, null, localOptions, false);
     }
 
     /**
@@ -196,7 +197,7 @@ public final class CallComposite {
     public void launch(final Context activityContext,
                        final Collection<CommunicationIdentifier> participants,
                        final CallCompositeLocalOptions localOptions) {
-
+        launchComposite(activityContext, null, participants, null, localOptions, false);
     }
 
     /**
@@ -207,7 +208,7 @@ public final class CallComposite {
      */
     public void launch(final Context activityContext,
                        final Collection<CommunicationIdentifier> participants) {
-
+        launchComposite(activityContext, null, participants, null, null, false);
     }
 
 
@@ -221,6 +222,7 @@ public final class CallComposite {
     public void accept(final Context activityContext,
                        final String incomingCallId,
                        final CallCompositeLocalOptions localOptions) {
+        launchComposite(activityContext, null, null, incomingCallId, localOptions, false);
     }
 
     /**
@@ -231,6 +233,7 @@ public final class CallComposite {
      */
     public void accept(final Context activityContext,
                        final String incomingCallId) {
+        launchComposite(activityContext, null, null, incomingCallId, null, false);
     }
 
     /**
@@ -239,7 +242,7 @@ public final class CallComposite {
      * @param incomingCallId The call id.
      */
     public CompletableFuture<Void> reject(final String incomingCallId) {
-        return null;
+        return initializeCallingSDK().rejectIncomingCall(incomingCallId);
     }
 
 
@@ -261,6 +264,7 @@ public final class CallComposite {
      */
     public void addOnIncomingCallEventHandler(
             final CallCompositeEventHandler<CallCompositeIncomingCallEvent> handler) {
+        configuration.getCallCompositeEventsHandler().addOnIncomingCallEventHandler(handler);
     }
 
     /**
@@ -270,6 +274,7 @@ public final class CallComposite {
      */
     public void removeOnIncomingCallEventHandler(
             final CallCompositeEventHandler<CallCompositeIncomingCallEvent> handler) {
+        configuration.getCallCompositeEventsHandler().removeOnIncomingCallEventHandler(handler);
     }
 
     /**
@@ -289,6 +294,7 @@ public final class CallComposite {
      */
     public void addOnIncomingCallCancelledEventHandler(
             final CallCompositeEventHandler<CallCompositeIncomingCallCancelledEvent> handler) {
+        configuration.getCallCompositeEventsHandler().addOnIncomingCallCancelledEventHandler(handler);
     }
 
     /**
@@ -298,6 +304,7 @@ public final class CallComposite {
      */
     public void removeOnIncomingCallCancelledEventHandler(
             final CallCompositeEventHandler<CallCompositeIncomingCallCancelledEvent> handler) {
+        configuration.getCallCompositeEventsHandler().removeOnIncomingCallCancelledEventHandler(handler);
     }
 
     /**
@@ -306,10 +313,20 @@ public final class CallComposite {
      * @return {@link CompletableFuture} of {@link Void}.
      */
     public CompletableFuture<Void>  hold() {
+        final CompletableFuture<Void> holdFuture = new CompletableFuture<>();
         if (diContainer != null) {
             final DependencyInjectionContainer container = diContainer;
+            container.getCallingService().hold().whenComplete((aVoid, throwable) -> {
+                if (throwable != null) {
+                    holdFuture.completeExceptionally(throwable);
+                } else {
+                    holdFuture.complete(aVoid);
+                }
+            });
+        } else {
+            holdFuture.completeExceptionally(new IllegalStateException("CallComposite is not initialized"));
         }
-        return null;
+        return holdFuture;
     }
 
     /**
@@ -318,10 +335,20 @@ public final class CallComposite {
      * @return {@link CompletableFuture} of {@link Void}.
      */
     public CompletableFuture<Void>  resume() {
+        final CompletableFuture<Void> resumeFuture = new CompletableFuture<>();
         if (diContainer != null) {
             final DependencyInjectionContainer container = diContainer;
+            container.getCallingService().resume().whenComplete((aVoid, throwable) -> {
+                if (throwable != null) {
+                    resumeFuture.completeExceptionally(throwable);
+                } else {
+                    resumeFuture.complete(aVoid);
+                }
+            });
+        } else {
+            resumeFuture.completeExceptionally(new IllegalStateException("CallComposite is not initialized"));
         }
-        return null;
+        return resumeFuture;
     }
 
     /**
@@ -397,6 +424,10 @@ public final class CallComposite {
         final DependencyInjectionContainer container = diContainer;
         if (container != null) {
             container.getCompositeExitManager().exit();
+        }
+        if (sdkInitializer != null) {
+            sdkInitializer.dispose();
+            sdkInitializer = null;
         }
     }
 
@@ -623,7 +654,7 @@ public final class CallComposite {
      * @return {@link CompletableFuture} of {@link Void}.
      */
     public CompletableFuture<Void> handlePushNotification(final CallCompositePushNotification pushNotification) {
-        return CompletableFuture.completedFuture(null);
+        return initializeCallingSDK().handlePushNotification(pushNotification);
     }
 
     /**
@@ -699,7 +730,9 @@ public final class CallComposite {
                 roomId,
                 roomRole,
                 /* </ROOMS_SUPPORT:1> */
-                callType));
+                callType,
+                null,
+                null));
 
         configuration.setApplicationContext(context.getApplicationContext());
         configuration.setCredential(remoteOptions.getCredential());
@@ -722,6 +755,8 @@ public final class CallComposite {
 
     private void launchComposite(final Context context,
                                  final CallCompositeJoinLocator locator,
+                                 final Collection<CommunicationIdentifier> participants,
+                                 final String incomingCallId,
                                  final CallCompositeLocalOptions localOptions,
                                  final boolean isTest) {
         AndroidThreeTen.init(context.getApplicationContext());
@@ -746,8 +781,13 @@ public final class CallComposite {
             final CallCompositeRoomLocator roomLocator = (CallCompositeRoomLocator) locator;
             roomId = roomLocator.getRoomId();
             /* </ROOMS_SUPPORT:0> */
-        } else {
-            throw new CallCompositeException("Not supported Call Locator type");
+        } else if (participants != null) {
+            callType = CallType.ONE_TO_N_OUTGOING;
+        } else if (incomingCallId != null) {
+            callType = CallType.ONE_TO_ONE_INCOMING;
+        }
+        else {
+            throw new CallCompositeException("Not supported Call type");
         }
 
         if (localOptions != null) {
@@ -756,7 +796,6 @@ public final class CallComposite {
             roomRole = localOptions.getRoleHint();
             /* </ROOMS_SUPPORT:1> */
         }
-
         initializeCallingSDK();
 
         // initializeCallingSDK validated Credential and Context
@@ -767,8 +806,9 @@ public final class CallComposite {
                 roomId,
                 roomRole,
                 /* </ROOMS_SUPPORT:1> */
-                callType));
-
+                callType,
+                participants,
+                incomingCallId));
 
         diContainer = new DependencyInjectionContainerImpl(
                 instanceId,
@@ -802,22 +842,21 @@ public final class CallComposite {
         if (isTest) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
-
         context.startActivity(intent);
     }
 
-    private CallingSDKInitialization initializeCallingSDK() {
-        if (sdkInitialization == null) {
+    private CallingSDKInitializer initializeCallingSDK() {
+        if (sdkInitializer == null) {
             if (configuration.getCredential() == null || configuration.getApplicationContext() == null) {
                 throw new IllegalArgumentException("Credential and application context must be set.");
             }
-            sdkInitialization = new CallingSDKInitialization(logger, configuration);
+            sdkInitializer = new CallingSDKInitializer(logger, configuration);
         }
-        return sdkInitialization;
+        return sdkInitializer;
     }
 
-    CallingSDKInitialization getSdkInitialization() {
-        return sdkInitialization;
+    CallingSDKInitializer getSdkInitialization() {
+        return sdkInitializer;
     }
 
     CallCompositeConfiguration getConfiguration() {
@@ -833,6 +872,18 @@ public final class CallComposite {
     void launchTest(final Context context,
                     final CallCompositeJoinLocator locator,
                     final CallCompositeLocalOptions localOptions) {
-        launchComposite(context, locator, localOptions, true);
+        launchComposite(context, locator, null, null, localOptions, true);
+    }
+
+    void launchTest(final Context context,
+                    final List<CommunicationIdentifier> participants,
+                    final CallCompositeLocalOptions localOptions) {
+        launchComposite(context, null, participants, null, localOptions, true);
+    }
+
+    void launchTest(final Context context,
+                    final String incomingCallId,
+                    final CallCompositeLocalOptions localOptions) {
+        launchComposite(context, null, null, incomingCallId, localOptions, true);
     }
 }

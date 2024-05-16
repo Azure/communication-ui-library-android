@@ -7,6 +7,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.PowerManager
 import android.util.Log
+import com.azure.android.communication.ui.calling.models.CallCompositePushNotification
+import com.azure.android.communication.ui.calling.models.CallCompositePushNotificationEventType
+import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -27,6 +30,18 @@ class FirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
         Log.d(CallLauncherActivity.TAG, "onMessageReceived firebase push notification " + remoteMessage.data.toString())
+        if (remoteMessage.data.isNotEmpty()) {
+            val pushNotificationInfo = CallCompositePushNotification(remoteMessage.data)
+            Log.d(CallLauncherActivity.TAG, "onMessageReceived - ${pushNotificationInfo.eventType}")
+            if (pushNotificationInfo.eventType == CallCompositePushNotificationEventType.INCOMING_CALL ||
+                pushNotificationInfo.eventType == CallCompositePushNotificationEventType.INCOMING_GROUP_CALL
+            ) {
+                wakeAppIfScreenOff()
+                sendIntent(IntentHelper.HANDLE_INCOMING_CALL_PUSH, remoteMessage)
+            } else {
+                sendIntent(IntentHelper.CLEAR_PUSH_NOTIFICATION, remoteMessage)
+            }
+        }
     }
 
     private fun sendIntent(tag: String, remoteMessage: RemoteMessage?) {
@@ -37,6 +52,19 @@ class FirebaseMessagingService : FirebaseMessagingService() {
                 intent.putExtra("data", mapToString(it.data))
             }
             sendBroadcast(intent)
+        } else {
+            remoteMessage?.let {
+                val acsIdentityToken = sharedPreference.getString(CACHED_TOKEN, "")
+                val displayName = sharedPreference.getString(CACHED_USER_NAME, "")
+                val application = application as CallLauncherApplication
+                SettingsFeatures.initialize(applicationContext)
+                application.getCallCompositeManager(this).handleIncomingCall(
+                    it.data,
+                    acsIdentityToken!!,
+                    displayName!!,
+                    applicationContext
+                )
+            }
         }
     }
 

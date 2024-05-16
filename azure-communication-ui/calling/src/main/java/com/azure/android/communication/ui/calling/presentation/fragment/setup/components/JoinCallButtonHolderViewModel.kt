@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.setup.components
 
 import android.media.AudioManager
+import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
@@ -20,7 +21,9 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class JoinCallButtonHolderViewModel(
     private val dispatch: (Action) -> Unit,
-    private val audioManager: AudioManager
+    private val audioManager: AudioManager,
+    private val callType: CallType? = null,
+    private val isTelecomManagerEnabled: Boolean = false,
 ) {
 
     private lateinit var joinCallButtonEnabledFlow: MutableStateFlow<Boolean>
@@ -31,6 +34,8 @@ internal class JoinCallButtonHolderViewModel(
 
     fun getDisableJoinCallButtonFlow(): StateFlow<Boolean> = disableJoinCallButtonFlow
 
+    fun isStartCall() = callType == CallType.ONE_TO_N_OUTGOING
+
     fun launchCallScreen() {
         val networkAvailable = isNetworkAvailable()
         // We try to check for mic availability for the current application through current audio mode
@@ -38,7 +43,7 @@ internal class JoinCallButtonHolderViewModel(
 
         if (!networkAvailable) {
             handleOffline()
-        } else if (!normalAudioMode) {
+        } else if (!normalAudioMode && !isTelecomManagerEnabled) {
             handleMicrophoneUnavailability()
         } else {
             dispatch(CallingAction.CallStartRequested())
@@ -51,7 +56,7 @@ internal class JoinCallButtonHolderViewModel(
         cameraPermissionState: PermissionStatus,
         cameraOperationalStatus: CameraOperationalStatus,
         camerasCount: Int,
-        networkManager: NetworkManager,
+        networkManager: NetworkManager
     ) {
         joinCallButtonEnabledFlow =
             MutableStateFlow(

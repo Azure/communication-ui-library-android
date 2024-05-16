@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.redux.middleware.handler
 
 import android.telecom.CallAudioState
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
+import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.error.CallCompositeError
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.FatalError
@@ -514,7 +515,7 @@ internal class CallingMiddlewareActionHandlerImpl(
             callingService.getCallInfoModelEventSharedFlow().collect { callInfoModel ->
                 val previousCallState = store.getCurrentState().callState.callingStatus
 
-                store.dispatch(CallingAction.StateUpdated(callInfoModel.callingStatus))
+                store.dispatch(CallingAction.StateUpdated(callInfoModel.callingStatus, callInfoModel.callEndReasonCode, callInfoModel.callEndReasonSubCode))
 
                 if (previousCallState == CallingStatus.LOCAL_HOLD &&
                     callInfoModel.callingStatus == CallingStatus.CONNECTED
@@ -555,15 +556,16 @@ internal class CallingMiddlewareActionHandlerImpl(
                 }
 
                 if (callInfoModel.callStateError == null) {
-                    when (callInfoModel.callingStatus) {
-                        CallingStatus.CONNECTED, CallingStatus.IN_LOBBY -> {
-                            store.dispatch(NavigationAction.CallLaunched())
+                    val action: NavigationAction? = when (callInfoModel.callingStatus) {
+                        CallingStatus.DISCONNECTED -> NavigationAction.Exit()
+                        CallingStatus.CONNECTED -> NavigationAction.CallLaunched()
+                        CallingStatus.CONNECTING -> {
+                            if (configuration.callConfig?.callType == CallType.ONE_TO_N_OUTGOING) NavigationAction.CallLaunched() else null
                         }
-                        CallingStatus.DISCONNECTED -> {
-                            store.dispatch(NavigationAction.Exit())
-                        }
-                        else -> {}
+                        CallingStatus.IN_LOBBY -> NavigationAction.CallLaunched()
+                        else -> null
                     }
+                    action?.let { store.dispatch(it) }
                 }
             }
         }

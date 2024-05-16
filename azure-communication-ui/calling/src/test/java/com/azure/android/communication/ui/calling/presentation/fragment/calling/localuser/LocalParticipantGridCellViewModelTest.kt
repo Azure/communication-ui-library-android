@@ -329,6 +329,92 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
         }
 
     @Test
+    fun localParticipantViewModel_update_when_callStateNotConnected_Then_fullScreenAvatarNotDisplayed() =
+        runScopedTest {
+
+            // arrange
+            val displayName = "username"
+            val audioState = AudioOperationalStatus.ON
+            val videoStreamID = null
+
+            // arrange
+            val mockAppStore = mock<AppStore<ReduxState>> {}
+            val viewModel =
+                LocalParticipantViewModel(
+                    mockAppStore::dispatch,
+                )
+
+            viewModel.init(
+                displayName = displayName,
+                audioState,
+                videoStreamID = videoStreamID,
+                numberOfRemoteParticipants = 0,
+                CallingStatus.CONNECTING,
+                CameraDeviceSelectionStatus.FRONT,
+                2,
+                VisibilityStatus.VISIBLE,
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+            )
+
+            val modelFlow = mutableListOf<Boolean>()
+            val displayLobbyJob = launch {
+                viewModel.getDisplayFullScreenAvatarFlow().toList(modelFlow)
+            }
+
+            // act
+            viewModel.update(
+                displayName,
+                audioState,
+                videoStreamID,
+                0,
+                CallingStatus.CONNECTING,
+                CameraDeviceSelectionStatus.FRONT,
+                2,
+                VisibilityStatus.VISIBLE,
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+            )
+            viewModel.update(
+                displayName,
+                audioState,
+                videoStreamID,
+                1,
+                CallingStatus.DISCONNECTING,
+                CameraDeviceSelectionStatus.FRONT,
+                2,
+                VisibilityStatus.VISIBLE,
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+            )
+            viewModel.update(
+                displayName,
+                audioState,
+                videoStreamID,
+                2,
+                CallingStatus.DISCONNECTED,
+                CameraDeviceSelectionStatus.FRONT,
+                2,
+                VisibilityStatus.VISIBLE,
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+            )
+            viewModel.update(
+                displayName,
+                audioState,
+                videoStreamID,
+                0,
+                CallingStatus.CONNECTING,
+                CameraDeviceSelectionStatus.FRONT,
+                2,
+                VisibilityStatus.VISIBLE,
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+            )
+
+            // assert
+            Assert.assertEquals(1, modelFlow.count())
+            Assert.assertEquals(false, modelFlow[0])
+
+            displayLobbyJob.cancel()
+        }
+
+    @Test
     fun localParticipantViewModel_update_when_cameraDeviceSelectionStatus_Then_enableCameraSwitchUpdated() =
         runScopedTest {
 

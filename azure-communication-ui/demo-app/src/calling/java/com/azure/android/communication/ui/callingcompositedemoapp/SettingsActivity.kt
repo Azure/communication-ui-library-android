@@ -56,6 +56,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var telecomManagerAutoCompleteTextView: AutoCompleteTextView
     private lateinit var telecomManagerAdapterLayout: TextInputLayout
     private lateinit var useDeprecatedLaunchCheckbox: CheckBox
+    private lateinit var disableInternalPushForIncomingCallCheckbox: CheckBox
 
     private val sharedPreference by lazy {
         getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
@@ -77,6 +78,13 @@ class SettingsActivity : AppCompatActivity() {
             SettingsFeatures.displayTelecomManagerOptionName(it)
         }
         telecomManagerIntegrationOptions = telecomManagerOptions + DEFAULT_TELECOM_MANAGER_INTEGRATION_OPTION
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // recreate composite as settings are changed
+        val application = application as CallLauncherApplication
+        application.getCallCompositeManager(this).dismissCallComposite()
     }
 
     override fun onResume() {
@@ -118,6 +126,8 @@ class SettingsActivity : AppCompatActivity() {
         updateSkipSetupScreenCheckbox()
 
         updateDeprecatedLaunchCheckbox()
+
+        updateDisableInternalPushForIncomingCallCheckbox()
 
         updateMicOnByDefaultCheckbox()
 
@@ -254,6 +264,12 @@ class SettingsActivity : AppCompatActivity() {
                         view.isChecked
                     ).apply()
                 }
+                R.id.disable_internal_push_checkbox -> {
+                    sharedPreference.edit().putBoolean(
+                        DISABLE_INTERNAL_PUSH_NOTIFICATIONS,
+                        view.isChecked
+                    ).apply()
+                }
             }
         }
     }
@@ -289,6 +305,7 @@ class SettingsActivity : AppCompatActivity() {
         telecomManagerAutoCompleteTextView = findViewById(R.id.telecom_manager_selection_auto_complete_text_view)
         telecomManagerAdapterLayout = findViewById(R.id.telecom_manager_selection_adapter_layout)
         useDeprecatedLaunchCheckbox = findViewById(R.id.deprecated_launch_checkbox)
+        disableInternalPushForIncomingCallCheckbox = findViewById(R.id.disable_internal_push_checkbox)
         renderDisplayNameTextView.addTextChangedListener {
             saveRenderedDisplayName()
         }
@@ -428,6 +445,13 @@ class SettingsActivity : AppCompatActivity() {
         )
     }
 
+    private fun updateDisableInternalPushForIncomingCallCheckbox() {
+        disableInternalPushForIncomingCallCheckbox.isChecked = sharedPreference.getBoolean(
+            DISABLE_INTERNAL_PUSH_NOTIFICATIONS,
+            DEFAULT_DISABLE_INTERNAL_PUSH_NOTIFICATIONS
+        )
+    }
+
     private fun updateMicOnByDefaultCheckbox() {
         micOnByDefaultCheckBox.isChecked = sharedPreference.getBoolean(
             MIC_ON_BY_DEFAULT_KEY,
@@ -535,3 +559,10 @@ const val DEFAULT_TELECOM_MANAGER_INTEGRATION_OPTION = "Not selected"
 // Deprecated Launch
 const val USE_DEPRECATED_LAUNCH_KEY = "USE_DEPRECATED_LAUNCH"
 const val DEFAULT_USE_DEPRECATED_LAUNCH_VALUE = false
+
+// Push Notifications
+const val DISABLE_INTERNAL_PUSH_NOTIFICATIONS = "DISABLE_INTERNAL_PUSH_NOTIFICATIONS"
+const val DEFAULT_DISABLE_INTERNAL_PUSH_NOTIFICATIONS = false
+
+const val CACHED_TOKEN = "CACHED_TOKEN"
+const val CACHED_USER_NAME = "CACHED_USER_NAME"

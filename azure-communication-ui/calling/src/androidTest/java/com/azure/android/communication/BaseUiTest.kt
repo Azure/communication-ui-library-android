@@ -45,6 +45,9 @@ internal open class BaseUiTest {
     internal val callCameraButtonId = R.id.azure_communication_ui_call_switch_camera_button
     internal val audioDeviceSelectionButtonId = R.id.azure_communication_ui_call_audio_device_button
     internal val androidAudioDevice = R.string.azure_communication_ui_calling_audio_device_drawer_android
+    internal val startCallString = R.string.azure_communication_ui_calling_setup_view_start_call
+    internal val callingString = R.string.azure_communication_ui_calling_call_view_calling
+    internal val audioTextView = R.id.azure_communication_ui_participant_audio_view_display_name
 
     // Support Form
     internal val sendButtonId = R.id.azure_communication_ui_send_button

@@ -10,6 +10,7 @@ import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -28,6 +29,7 @@ import org.mockito.kotlin.mock
 @RunWith(MockitoJUnitRunner::class)
 internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
 
+    @OptIn(InternalCoroutinesApi::class)
     private fun createNavigationRouter(stateFlow: MutableStateFlow<ReduxState>):
         Pair<NavigationRouter, List<NavigationStatus>> {
 

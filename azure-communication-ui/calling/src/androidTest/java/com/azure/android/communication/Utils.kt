@@ -16,6 +16,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import androidx.test.platform.app.InstrumentationRegistry
 import junit.framework.AssertionFailedError
 import org.hamcrest.Matchers
+import org.hamcrest.Matchers.allOf
 
 // Common UI helper functions.
 
@@ -172,4 +173,9 @@ internal fun waitUntilTextDisplayed(stringId: Int) {
         Espresso.onView(ViewMatchers.withText(textToWaitFor))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
+}
+
+internal fun confirmTextDisplayed(id: Int, text: String) {
+    Espresso.onView(allOf(ViewMatchers.withId(id), ViewMatchers.withText(text)))
+        .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 }
