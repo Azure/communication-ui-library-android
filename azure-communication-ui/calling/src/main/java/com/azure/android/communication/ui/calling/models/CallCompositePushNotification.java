@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.models;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
+import com.azure.android.communication.ui.calling.CallCompositeException;
 
 import java.util.Map;
 
@@ -31,7 +32,8 @@ public class CallCompositePushNotification {
         try {
             pushNotificationInfo = com.azure.android.communication.calling.PushNotificationInfo.fromMap(notification);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to parse push notification info", e);
+            final String message = "Failed to parse push notification info";
+            throw new CallCompositeException(message, e);
         }
 
         fromDisplayName = pushNotificationInfo.getFromDisplayName();

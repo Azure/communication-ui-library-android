@@ -29,7 +29,7 @@ public final class CallCompositeBuilder {
     private CallCompositeSupportedScreenOrientation setupScreenOrientation = null;
     private CallCompositeCallScreenOptions callScreenOptions = null;
     private CallCompositeTelecomManagerOptions telecomManagerOptions = null;
-    private Context context = null;
+    private Context applicationContext = null;
     private String displayName = null;
     private CommunicationTokenCredential credential = null;
     private Boolean disableInternalPushForIncomingCall = false;
@@ -130,11 +130,11 @@ public final class CallCompositeBuilder {
     /**
      * Sets the application context.
      *
-     * @param context application context.
+     * @param applicationContext application context.
      * @return {@link CallCompositeBuilder} for chaining options.
      */
-    public CallCompositeBuilder context(final Context context) {
-        this.context = context;
+    public CallCompositeBuilder applicationContext(final Context applicationContext) {
+        this.applicationContext = applicationContext;
         return this;
     }
 
@@ -177,7 +177,7 @@ public final class CallCompositeBuilder {
         config.setTelecomManagerOptions(telecomManagerOptions);
         config.setCredential(credential);
         config.setDisplayName(displayName);
-        config.setApplicationContext(context);
+        config.setApplicationContext(applicationContext);
         config.setDisableInternalPushForIncomingCall(disableInternalPushForIncomingCall);
         return new CallComposite(config);
     }

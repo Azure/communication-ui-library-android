@@ -847,8 +847,13 @@ public final class CallComposite {
 
     private CallingSDKInitializer initializeCallingSDK() {
         if (sdkInitializer == null) {
-            if (configuration.getCredential() == null || configuration.getApplicationContext() == null) {
-                throw new IllegalArgumentException("Credential and application context must be set.");
+            if (configuration.getApplicationContext() == null) {
+                final String message = "Application context must be set.";
+                throw new CallCompositeException(message, new IllegalArgumentException(message));
+            }
+            if (configuration.getCredential() == null) {
+                final String message = "Credential must be set.";
+                throw new CallCompositeException(message, new IllegalArgumentException(message));
             }
             sdkInitializer = new CallingSDKInitializer(logger, configuration);
         }

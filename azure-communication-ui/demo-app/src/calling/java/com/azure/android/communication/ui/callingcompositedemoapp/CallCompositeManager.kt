@@ -358,15 +358,19 @@ class CallCompositeManager(private val context: Context) {
                 throw task.exception ?: IllegalStateException("Failed to get Firebase token")
             }
             val deviceRegistrationToken = task.result
-            callComposite?.registerPushNotification(deviceRegistrationToken)
-                ?.whenComplete { _, throwable ->
-                    if (throwable != null) {
-                        toast(applicationContext, "Register push failed.")
-                        throw throwable
-                    } else {
-                        toast(applicationContext, "Register push success.")
+            try {
+                callComposite?.registerPushNotification(deviceRegistrationToken)
+                    ?.whenComplete { _, throwable ->
+                        if (throwable != null) {
+                            toast(applicationContext, "Register push failed.")
+                            throw throwable
+                        } else {
+                            toast(applicationContext, "Register push success.")
+                        }
                     }
-                }
+            } catch (e: Exception) {
+                e.message?.let { toast(applicationContext, it) }
+            }
         }
     }
     private fun createCallCompositeAndSubscribeToEvents(
@@ -430,7 +434,7 @@ class CallCompositeManager(private val context: Context) {
 
         if (!SettingsFeatures.getUseDeprecatedLaunch()) {
             callCompositeBuilder.credential(communicationTokenCredential)
-            callCompositeBuilder.context(context)
+            callCompositeBuilder.applicationContext(context)
             callCompositeBuilder.displayName(displayName)
         }
 
@@ -441,10 +445,10 @@ class CallCompositeManager(private val context: Context) {
                 ) {
                     CallCompositeTelecomManagerOptions(CallCompositeTelecomManagerIntegrationMode.APPLICATION_IMPLEMENTED_TELECOM_MANAGER)
                 } else if (CallCompositeTelecomManagerIntegrationMode.fromString(it)
-                    == CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER
+                    == CallCompositeTelecomManagerIntegrationMode.SDK_PROVIDED_TELECOM_MANAGER
                 ) {
                     CallCompositeTelecomManagerOptions(
-                        CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER,
+                        CallCompositeTelecomManagerIntegrationMode.SDK_PROVIDED_TELECOM_MANAGER,
                         BuildConfig.APPLICATION_ID
                     )
                 } else {

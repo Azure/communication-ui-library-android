@@ -16,11 +16,15 @@ public final class CallCompositeCallStateChangedEvent {
      * Create {@link CallCompositeCallStateChangedEvent} with call state.
      *
      * @param code call state {@link CallCompositeCallStateCode}.
-     * @param callEndReasonCode the call end reason code.
-     * @param callEndReasonSubCode the call end reason sub code.
-     * @param callId the call id.
      */
-    public CallCompositeCallStateChangedEvent(final CallCompositeCallStateCode code,
+    public CallCompositeCallStateChangedEvent(final CallCompositeCallStateCode code) {
+        this.code = code;
+        this.callEndReasonCode = 0;
+        this.callEndReasonSubCode = 0;
+        this.callId = "";
+    }
+
+    CallCompositeCallStateChangedEvent(final CallCompositeCallStateCode code,
                                               final int callEndReasonCode,
                                               final int callEndReasonSubCode,
                                               final String callId) {

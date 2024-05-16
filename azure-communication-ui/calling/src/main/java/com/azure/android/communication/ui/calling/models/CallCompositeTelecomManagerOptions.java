@@ -3,6 +3,8 @@
 
 package com.azure.android.communication.ui.calling.models;
 
+import com.azure.android.communication.ui.calling.CallCompositeException;
+
 /**
  * CallCompositeTelecomManagerOptions {@link CallCompositeTelecomManagerOptions}.
  */
@@ -25,10 +27,10 @@ public final class CallCompositeTelecomManagerOptions {
      */
     public CallCompositeTelecomManagerOptions(final CallCompositeTelecomManagerIntegrationMode mode,
                                               final String phoneAccountId) {
-        if (mode == CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER
+        if (mode == CallCompositeTelecomManagerIntegrationMode.SDK_PROVIDED_TELECOM_MANAGER
                 && phoneAccountId == null) {
             throw new
-                    IllegalArgumentException("Phone account id is required for USE_SDK_PROVIDED_TELECOM_MANAGER mode.");
+                    CallCompositeException("Phone account id is required for USE_SDK_PROVIDED_TELECOM_MANAGER mode.");
         }
         this.telecomIntegration = mode;
         this.phoneAccountId = phoneAccountId;

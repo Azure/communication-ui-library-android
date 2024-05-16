@@ -376,7 +376,7 @@ internal class CallingMiddlewareActionHandlerImpl(
     ) {
         if (configuration.telecomManagerOptions != null) {
             // it TelecomManger integration is handled by SDK call setTelecomManagerAudioRoute
-            if (configuration.telecomManagerOptions?.telecomManagerIntegrationMode == CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER) {
+            if (configuration.telecomManagerOptions?.telecomManagerIntegrationMode == CallCompositeTelecomManagerIntegrationMode.SDK_PROVIDED_TELECOM_MANAGER) {
                 val route = when (requestedAudioDevice) {
                     AudioDeviceSelectionStatus.SPEAKER_REQUESTED -> CallAudioState.ROUTE_SPEAKER
                     AudioDeviceSelectionStatus.RECEIVER_REQUESTED -> CallAudioState.ROUTE_EARPIECE
