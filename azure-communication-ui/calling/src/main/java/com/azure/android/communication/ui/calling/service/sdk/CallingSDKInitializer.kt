@@ -12,6 +12,7 @@ import com.azure.android.communication.calling.IncomingCallListener
 import com.azure.android.communication.calling.PropertyChangedListener
 import com.azure.android.communication.calling.PushNotificationInfo
 import com.azure.android.communication.calling.TelecomManagerOptions
+import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.DiagnosticConfig
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.logger.Logger
@@ -111,7 +112,7 @@ internal class CallingSDKInitializer(
             try {
                 setupCallClient()?.whenComplete { callClient, callAgentError ->
                     if (callAgentError != null) {
-                        throw callAgentError
+                        throw CallCompositeException("Failed to create call agent", callAgentError)
                     }
                     val createCallAgentFutureCompletableFuture = callClient.createCallAgent(
                         callCompositeConfiguration.applicationContext,
