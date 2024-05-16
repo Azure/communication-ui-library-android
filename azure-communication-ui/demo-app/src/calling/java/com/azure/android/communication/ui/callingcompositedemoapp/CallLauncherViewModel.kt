@@ -29,7 +29,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeParticipan
 /* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 /* <ROOMS_SUPPORT:0> */
-import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator
+import com.azure.android.communication.ui.calling.models.CallCompositeRoomCallLocator
 /* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
@@ -115,7 +115,9 @@ class CallLauncherViewModel : ViewModel() {
                 groupId != null -> CallCompositeGroupCallLocator(groupId)
                 meetingLink != null -> CallCompositeTeamsMeetingLinkLocator(meetingLink)
                 /* <ROOMS_SUPPORT:1> */
-                roomId != null && roomRoleHint != null -> CallCompositeRoomLocator(roomId)
+                roomId != null && roomRoleHint != null -> CallCompositeRoomCallLocator(
+                    roomId
+                )
                 /* <ROOMS_SUPPORT:1> */
                 else -> throw IllegalArgumentException("Cannot launch call composite with provided arguments.")
             }

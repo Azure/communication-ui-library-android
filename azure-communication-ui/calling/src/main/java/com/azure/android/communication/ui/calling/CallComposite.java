@@ -28,7 +28,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositePictureInP
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
 /* <ROOMS_SUPPORT:0> */
-import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator;
+import com.azure.android.communication.ui.calling.models.CallCompositeRoomCallLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole;
 /* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
@@ -437,9 +437,9 @@ public final class CallComposite {
             callType = CallType.TEAMS_MEETING;
             meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
             /* <ROOMS_SUPPORT:0> */
-        } else if (locator instanceof CallCompositeRoomLocator) {
+        } else if (locator instanceof CallCompositeRoomCallLocator) {
             callType = CallType.ROOMS_CALL;
-            final CallCompositeRoomLocator roomLocator = (CallCompositeRoomLocator) locator;
+            final CallCompositeRoomCallLocator roomLocator = (CallCompositeRoomCallLocator) locator;
             roomId = roomLocator.getRoomId();
             /* </ROOMS_SUPPORT:0> */
         } else {
