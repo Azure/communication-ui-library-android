@@ -41,7 +41,7 @@ internal class AudioSelectionEventAndTelecomManagerTest : BaseUiTest() {
 
         val callComposite = CallCompositeBuilder()
             .credential(communicationTokenCredential)
-            .context(appContext)
+            .applicationContext(appContext)
             .displayName("test")
             .build()
 
@@ -124,7 +124,7 @@ internal class AudioSelectionEventAndTelecomManagerTest : BaseUiTest() {
         val callComposite = CallCompositeBuilder()
             .telecomManagerOptions(
                 CallCompositeTelecomManagerOptions(
-                    CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER,
+                    CallCompositeTelecomManagerIntegrationMode.SDK_PROVIDED_TELECOM_MANAGER,
                     "test"
                 )
             )
@@ -174,7 +174,7 @@ internal class AudioSelectionEventAndTelecomManagerTest : BaseUiTest() {
         val callComposite = CallCompositeBuilder()
             .telecomManagerOptions(
                 CallCompositeTelecomManagerOptions(
-                    CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER,
+                    CallCompositeTelecomManagerIntegrationMode.SDK_PROVIDED_TELECOM_MANAGER,
                     "test"
                 )
             )

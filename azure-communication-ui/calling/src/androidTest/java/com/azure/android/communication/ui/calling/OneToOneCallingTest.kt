@@ -37,7 +37,7 @@ internal class OneToOneCallingTest : BaseUiTest() {
 
         val callComposite = CallCompositeBuilder()
             .credential(communicationTokenCredential)
-            .context(appContext)
+            .applicationContext(appContext)
             .displayName("test")
             .build()
 
@@ -86,7 +86,7 @@ internal class OneToOneCallingTest : BaseUiTest() {
 
         val callComposite = CallCompositeBuilder()
             .credential(communicationTokenCredential)
-            .context(appContext)
+            .applicationContext(appContext)
             .displayName("test")
             .build()
 
@@ -133,7 +133,7 @@ internal class OneToOneCallingTest : BaseUiTest() {
 
         val callComposite = CallCompositeBuilder()
             .credential(communicationTokenCredential)
-            .context(appContext)
+            .applicationContext(appContext)
             .displayName("test")
             .build()
 
@@ -182,7 +182,7 @@ internal class OneToOneCallingTest : BaseUiTest() {
 
         val callComposite = CallCompositeBuilder()
             .credential(communicationTokenCredential)
-            .context(appContext)
+            .applicationContext(appContext)
             .displayName("test")
             .build()
 

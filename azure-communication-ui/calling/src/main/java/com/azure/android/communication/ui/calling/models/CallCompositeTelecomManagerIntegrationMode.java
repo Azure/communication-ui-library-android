@@ -16,8 +16,8 @@ public final class CallCompositeTelecomManagerIntegrationMode
     /**
      * Use telecom manager provided by native calling sdk.
      */
-    public static final CallCompositeTelecomManagerIntegrationMode USE_SDK_PROVIDED_TELECOM_MANAGER =
-            fromString("USE_SDK_PROVIDED_TELECOM_MANAGER");
+    public static final CallCompositeTelecomManagerIntegrationMode SDK_PROVIDED_TELECOM_MANAGER =
+            fromString("SDK_PROVIDED_TELECOM_MANAGER");
 
     /**
      * Use telecom manager managed by application.

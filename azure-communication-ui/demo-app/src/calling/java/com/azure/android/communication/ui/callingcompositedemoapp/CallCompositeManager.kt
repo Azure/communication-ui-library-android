@@ -430,7 +430,7 @@ class CallCompositeManager(private val context: Context) {
 
         if (!SettingsFeatures.getUseDeprecatedLaunch()) {
             callCompositeBuilder.credential(communicationTokenCredential)
-            callCompositeBuilder.context(context)
+            callCompositeBuilder.applicationContext(context)
             callCompositeBuilder.displayName(displayName)
         }
 
@@ -441,10 +441,10 @@ class CallCompositeManager(private val context: Context) {
                 ) {
                     CallCompositeTelecomManagerOptions(CallCompositeTelecomManagerIntegrationMode.APPLICATION_IMPLEMENTED_TELECOM_MANAGER)
                 } else if (CallCompositeTelecomManagerIntegrationMode.fromString(it)
-                    == CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER
+                    == CallCompositeTelecomManagerIntegrationMode.SDK_PROVIDED_TELECOM_MANAGER
                 ) {
                     CallCompositeTelecomManagerOptions(
-                        CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER,
+                        CallCompositeTelecomManagerIntegrationMode.SDK_PROVIDED_TELECOM_MANAGER,
                         BuildConfig.APPLICATION_ID
                     )
                 } else {

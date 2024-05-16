@@ -25,7 +25,7 @@ public final class CallCompositeTelecomManagerOptions {
      */
     public CallCompositeTelecomManagerOptions(final CallCompositeTelecomManagerIntegrationMode mode,
                                               final String phoneAccountId) {
-        if (mode == CallCompositeTelecomManagerIntegrationMode.USE_SDK_PROVIDED_TELECOM_MANAGER
+        if (mode == CallCompositeTelecomManagerIntegrationMode.SDK_PROVIDED_TELECOM_MANAGER
                 && phoneAccountId == null) {
             throw new
                     IllegalArgumentException("Phone account id is required for USE_SDK_PROVIDED_TELECOM_MANAGER mode.");
