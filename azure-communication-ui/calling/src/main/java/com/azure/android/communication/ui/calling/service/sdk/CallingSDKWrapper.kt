@@ -260,7 +260,7 @@ internal class CallingSDKWrapper(
         return setupCallCompletableFuture
     }
 
-    override fun getCapabilities(): List<ParticipantCapabilityType> {
+    override fun getCapabilities(): Set<ParticipantCapabilityType> {
         val capabilitiesFeature = nullableCall?.feature { CapabilitiesCallFeature::class.java }
         capabilitiesFeature?.capabilities?.let { capabilities ->
             val filtered = capabilities
@@ -268,10 +268,10 @@ internal class CallingSDKWrapper(
                 .filter { it.isAllowed }
                 .map { it.type }
 
-            return filtered
+            return filtered.toSet()
         }
 
-        return emptyList()
+        return emptySet()
     }
 
     override fun startCall(

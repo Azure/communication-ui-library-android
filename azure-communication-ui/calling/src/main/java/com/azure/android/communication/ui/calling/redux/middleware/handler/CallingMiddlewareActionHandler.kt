@@ -440,7 +440,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         coroutineScope.launch {
             callingService.getCallCapabilitiesEventSharedFlow().collect { event ->
                 // Set capabilities to the store
-                val capabilities = callingService.getCallCapabilities().toSet()
+                val capabilities = callingService.getCallCapabilities()
                 val action = LocalParticipantAction.SetCapabilities(capabilities)
                 store.dispatch(action)
             }
@@ -482,7 +482,8 @@ internal class CallingMiddlewareActionHandlerImpl(
     private fun subscribeCallInfoModelEventUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
             callingService.getCallInfoModelEventSharedFlow().collect { callInfoModel ->
-                val previousCallState = store.getCurrentState().callState.callingStatus
+                val state = store.getCurrentState()
+                val previousCallState = state.callState.callingStatus
 
                 store.dispatch(CallingAction.StateUpdated(callInfoModel.callingStatus))
 
@@ -492,7 +493,21 @@ internal class CallingMiddlewareActionHandlerImpl(
                     tryCameraOn(store)
                 }
 
-                if (store.getCurrentState().localParticipantState.initialCallJoinState.skipSetupScreen &&
+                val capabilities = callingService.getCallCapabilities()
+
+                if (previousCallState == CallingStatus.CONNECTING &&
+                    callInfoModel.callingStatus == CallingStatus.CONNECTED) {
+                    store.dispatch(LocalParticipantAction.SetCapabilities(capabilities))
+                }
+
+                val hasVideoOnCapability = capabilitiesManager.hasCapability(
+                    capabilities,
+                    state.localParticipantState.roleHint,
+                    ParticipantCapabilityType.TURN_VIDEO_ON,
+                    )
+
+                if (hasVideoOnCapability &&
+                    store.getCurrentState().localParticipantState.initialCallJoinState.skipSetupScreen &&
                     callInfoModel.callingStatus == CallingStatus.CONNECTED
                 ) {
                     tryCameraOn(store)
@@ -504,7 +519,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                     if (it.callCompositeEventCode == CallCompositeEventCode.CALL_EVICTED ||
                         it.callCompositeEventCode == CallCompositeEventCode.CALL_DECLINED
                     ) {
-                        if (store.getCurrentState().localParticipantState.initialCallJoinState.skipSetupScreen) {
+                        if (state.localParticipantState.initialCallJoinState.skipSetupScreen) {
                             store.dispatch(NavigationAction.Exit())
                         } else {
                             store.dispatch(NavigationAction.SetupLaunched())

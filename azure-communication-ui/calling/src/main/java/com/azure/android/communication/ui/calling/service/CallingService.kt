@@ -172,5 +172,5 @@ internal class CallingService(
     }
 
     fun getLogFiles(): List<File> = callingSdk.getLogFiles()
-    fun getCallCapabilities(): List<ParticipantCapabilityType> = callingSdk.getCapabilities()
+    fun getCallCapabilities(): Set<ParticipantCapabilityType> = callingSdk.getCapabilities()
 }
