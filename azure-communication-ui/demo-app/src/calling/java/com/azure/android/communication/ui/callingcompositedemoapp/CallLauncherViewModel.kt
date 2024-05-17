@@ -113,7 +113,7 @@ class CallLauncherViewModel : ViewModel() {
                 meetingLink != null -> CallCompositeTeamsMeetingLinkLocator(meetingLink)
                 /* <ROOMS_SUPPORT:1> */
                 roomId != null && roomRoleHint != null -> CallCompositeRoomLocator(roomId)
-                /* <ROOMS_SUPPORT:1> */
+                /* </ROOMS_SUPPORT:1> */
                 else -> throw IllegalArgumentException("Cannot launch call composite with provided arguments.")
             }
 
