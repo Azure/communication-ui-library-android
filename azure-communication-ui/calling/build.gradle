@@ -5,6 +5,7 @@ plugins {
 }
 
 apply from: file('publish.gradle')
+apply from: file('publishReleasePublicationToCscRepository.gradle')
 apply from: file('jacoco.gradle')
 
 android {
