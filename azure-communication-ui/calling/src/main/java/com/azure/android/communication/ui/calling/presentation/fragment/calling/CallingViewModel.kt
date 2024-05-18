@@ -277,6 +277,11 @@ internal class CallingViewModel(
                 state.callDiagnosticsState
             )
 
+            participantMenuViewModel.update(
+                state.localParticipantState.capabilities,
+                state.localParticipantState.localParticipantRole,
+            )
+
             participantListViewModel.update(
                 state.remoteParticipantState.participantMap,
                 state.localParticipantState,

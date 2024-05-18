@@ -25,6 +25,7 @@ internal data class BottomCellItem(
     var isOnHold: Boolean?,
     val itemType: BottomCellItemType = BottomCellItemType.BottomMenuAction,
     var onClickAction: ((View) -> Unit)?,
+    val isEnabled: Boolean = true,
     var showAdmitAllButton: Boolean = false,
     var admitAllButtonAction: ((View) -> Unit)? = null
 )

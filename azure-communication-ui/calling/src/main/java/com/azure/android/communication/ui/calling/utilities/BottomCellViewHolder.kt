@@ -15,13 +15,14 @@ internal open class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHold
 
     open fun setCellData(bottomCellItem: BottomCellItem) {
         title.text = bottomCellItem.title
+        title.isEnabled = bottomCellItem.isEnabled
         itemView.contentDescription = bottomCellItem.contentDescription
         if (bottomCellItem.contentDescription != null)
             itemView.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_YES
         else
             itemView.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_AUTO
         itemView.setOnClickListener(bottomCellItem.onClickAction)
-        itemView.isClickable = bottomCellItem.onClickAction != null
+        itemView.isClickable = bottomCellItem.onClickAction != null && bottomCellItem.isEnabled
 
         admitAllButton?.visibility = View.GONE
         admitAllButton?.visibility = if (bottomCellItem.showAdmitAllButton) View.VISIBLE else View.GONE

@@ -53,6 +53,11 @@ internal class ParticipantMenuView(
                 refreshDrawerItems()
             }
         }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.remoteParticipantEnabledFlow.collect {
+                refreshDrawerItems()
+            }
+        }
     }
 
     fun stop() {
@@ -102,48 +107,50 @@ internal class ParticipantMenuView(
         val bottomCellItems = mutableListOf(
             // Leave title
             BottomCellItem(
-                null,
-                viewModel.displayName ?: "",
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                false,
-                BottomCellItemType.BottomMenuCenteredTitle,
-                null
+                icon = null,
+                title = viewModel.displayName ?: "",
+                contentDescription = null,
+                accessoryImage = null,
+                accessoryColor = null,
+                accessoryImageDescription = null,
+                isChecked = null,
+                participantViewData = null,
+                isOnHold = false,
+                itemType = BottomCellItemType.BottomMenuCenteredTitle,
+                onClickAction = null
             ),
             BottomCellItem(
-                ContextCompat.getDrawable(
+                icon = ContextCompat.getDrawable(
                     context,
                     R.drawable.azure_communication_ui_calling_ic_fluent_mic_off_24_regular
                 ),
-                context.getString(R.string.azure_communication_ui_calling_view_participant_menu_mute),
-                context.getString(R.string.azure_communication_ui_calling_view_participant_menu_mute_accessibility_label),
-                null,
-                null,
-                null,
-                null,
-                null,
-                false,
+                title = context.getString(R.string.azure_communication_ui_calling_view_participant_menu_mute),
+                contentDescription = context.getString(R.string.azure_communication_ui_calling_view_participant_menu_mute_accessibility_label),
+                accessoryImage = null,
+                accessoryColor = null,
+                accessoryImageDescription = null,
+                isChecked = null,
+                participantViewData = null,
+                isOnHold = false,
+                isEnabled = viewModel.muteParticipantEnabledFlow.value,
                 onClickAction = {
                     viewModel.muteParticipant()
                 }
             ),
             BottomCellItem(
-                ContextCompat.getDrawable(
+                icon = ContextCompat.getDrawable(
                     context,
                     R.drawable.azure_communication_ui_calling_ic_fluent_person_delete_24_regular
                 ),
-                context.getString(R.string.azure_communication_ui_calling_view_participant_menu_remove),
-                context.getString(R.string.azure_communication_ui_calling_view_participant_menu_remove_accessibility_label),
-                null,
-                null,
-                null,
-                null,
-                null,
-                false,
+                title = context.getString(R.string.azure_communication_ui_calling_view_participant_menu_remove),
+                contentDescription = context.getString(R.string.azure_communication_ui_calling_view_participant_menu_remove_accessibility_label),
+                accessoryImage = null,
+                accessoryColor = null,
+                accessoryImageDescription = null,
+                isChecked = null,
+                participantViewData = null,
+                isOnHold = false,
+                isEnabled = viewModel.remoteParticipantEnabledFlow.value,
                 onClickAction = {
                     viewModel.removeParticipant()
                 },

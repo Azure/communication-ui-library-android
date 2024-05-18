@@ -23,6 +23,7 @@ internal class ParticipantMenuViewModel(
     val displayMenuFlow = displayMenuStateFlow.asStateFlow()
     var displayName: String? = null
     val muteParticipantEnabledFlow = muteParticipantEnabledMutableFlow.asStateFlow()
+    val remoteParticipantEnabledFlow = remoteParticipantEnabledMutableFlow.asStateFlow()
 
 
     fun init(capabilities: Set<ParticipantCapabilityType>, localParticipantRole: ParticipantRole?) {
