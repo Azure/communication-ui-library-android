@@ -30,7 +30,6 @@ internal class SetupControlBarViewModel(
     private lateinit var cameraIsEnabledStateFlow: MutableStateFlow<Boolean>
     private lateinit var cameraIsVisibleStateFlow: MutableStateFlow<Boolean>
 
-    private lateinit var micIsVisibleStateFlow: MutableStateFlow<Boolean>
     private lateinit var micIsEnabledStateFlow: MutableStateFlow<Boolean>
     private lateinit var deviceIsEnabledStateFlow: MutableStateFlow<Boolean>
 
@@ -51,11 +50,10 @@ internal class SetupControlBarViewModel(
         roleHint: ParticipantRole?,
     ) {
         visibleStateFlow = MutableStateFlow(isVisible(permissionState.audioPermissionState))
-        cameraIsEnabledStateFlow = MutableStateFlow(shouldCameraButtonBeEnabled(callingState, permissionState.cameraPermissionState))
-        cameraIsVisibleStateFlow = MutableStateFlow(shouldCameraButtonBeVisible(audioVideoMode, roleHint))
+        cameraIsEnabledStateFlow = MutableStateFlow(shouldCameraButtonBeEnabled(callingState, permissionState.cameraPermissionState, roleHint))
+        cameraIsVisibleStateFlow = MutableStateFlow(shouldCameraButtonBeVisible(audioVideoMode))
 
-        micIsVisibleStateFlow = MutableStateFlow(shouldMicButtonBeVisible(roleHint))
-        micIsEnabledStateFlow = MutableStateFlow(shouldMicButtonBeEnabled(callingState, audioState.operation))
+        micIsEnabledStateFlow = MutableStateFlow(shouldMicButtonBeEnabled(callingState, audioState.operation, roleHint))
         deviceIsEnabledStateFlow = MutableStateFlow(!shouldControlsBeDisabled(callingState))
 
         cameraStateFlow = MutableStateFlow(cameraState.operation)
@@ -77,11 +75,10 @@ internal class SetupControlBarViewModel(
         roleHint: ParticipantRole?,
     ) {
         visibleStateFlow.value = isVisible(permissionState.audioPermissionState)
-        cameraIsEnabledStateFlow.value = shouldCameraButtonBeEnabled(callingState, permissionState.cameraPermissionState)
-        cameraIsVisibleStateFlow.value = shouldCameraButtonBeVisible(audioVideoMode, roleHint)
+        cameraIsEnabledStateFlow.value = shouldCameraButtonBeEnabled(callingState, permissionState.cameraPermissionState, roleHint)
+        cameraIsVisibleStateFlow.value = shouldCameraButtonBeVisible(audioVideoMode)
 
-        micIsVisibleStateFlow.value = shouldMicButtonBeVisible(roleHint)
-        micIsEnabledStateFlow.value = shouldMicButtonBeEnabled(callingState, audioState.operation)
+        micIsEnabledStateFlow.value = shouldMicButtonBeEnabled(callingState, audioState.operation, roleHint)
         deviceIsEnabledStateFlow.value = !shouldControlsBeDisabled(callingState)
 
         cameraStateFlow.value = cameraState.operation
@@ -95,8 +92,6 @@ internal class SetupControlBarViewModel(
 
     val cameraIsEnabled: StateFlow<Boolean> get() = cameraIsEnabledStateFlow
     val cameraIsVisible: StateFlow<Boolean> get() = cameraIsVisibleStateFlow
-
-    val micIsVisible: StateFlow<Boolean> get() = micIsVisibleStateFlow
     val micIsEnabled: StateFlow<Boolean> get() = micIsEnabledStateFlow
 
     val deviceIsEnabled: StateFlow<Boolean> get() = deviceIsEnabledStateFlow
@@ -140,25 +135,28 @@ internal class SetupControlBarViewModel(
 
     private fun shouldCameraButtonBeVisible(
         audioVideoMode: CallCompositeAudioVideoMode,
-        roleHint: ParticipantRole?
     ): Boolean {
-        return audioVideoMode == CallCompositeAudioVideoMode.AUDIO_AND_VIDEO &&
-            (roleHint == null || capabilitiesManager.hasCapability(roleHint, ParticipantCapabilityType.TURN_VIDEO_ON))
+        return audioVideoMode == CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
     }
 
-    private fun shouldCameraButtonBeEnabled(callingState: CallingState, cameraPermissionState: PermissionStatus): Boolean {
-        return !shouldControlsBeDisabled(callingState) && cameraPermissionState != PermissionStatus.DENIED
+    private fun shouldCameraButtonBeEnabled(
+        callingState: CallingState,
+        cameraPermissionState: PermissionStatus,
+        roleHint: ParticipantRole?
+        ): Boolean {
+        return !shouldControlsBeDisabled(callingState) &&
+                cameraPermissionState != PermissionStatus.DENIED &&
+                capabilitiesManager.hasCapability(roleHint, ParticipantCapabilityType.TURN_VIDEO_ON)
     }
 
-    private fun shouldMicButtonBeVisible(roleHint: ParticipantRole?): Boolean {
-        if (roleHint == null) {
-            return true
-        }
-        return capabilitiesManager.hasCapability(roleHint, ParticipantCapabilityType.UNMUTE_MICROPHONE)
-    }
-
-    private fun shouldMicButtonBeEnabled(callingState: CallingState, audioStateOperation: AudioOperationalStatus): Boolean {
-        return !shouldControlsBeDisabled(callingState) && audioStateOperation != AudioOperationalStatus.PENDING
+    private fun shouldMicButtonBeEnabled(
+        callingState: CallingState,
+        audioStateOperation: AudioOperationalStatus,
+        roleHint: ParticipantRole?,
+        ): Boolean {
+        return !shouldControlsBeDisabled(callingState) &&
+                audioStateOperation != AudioOperationalStatus.PENDING &&
+                capabilitiesManager.hasCapability(roleHint, ParticipantCapabilityType.UNMUTE_MICROPHONE)
     }
 
     private fun shouldControlsBeDisabled(callingState: CallingState): Boolean {

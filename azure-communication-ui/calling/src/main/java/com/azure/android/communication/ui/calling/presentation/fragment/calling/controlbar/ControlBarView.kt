@@ -92,11 +92,6 @@ internal class ControlBarView : ConstraintLayout {
                 }
             },
             {
-                viewModel.isMicButtonVisibleState.collect {
-                    micToggle.visibility = if (it) VISIBLE else GONE
-                }
-            },
-            {
                 viewModel.isMicButtonEnabled.collect {
                     micToggle.isEnabled = it
                 }

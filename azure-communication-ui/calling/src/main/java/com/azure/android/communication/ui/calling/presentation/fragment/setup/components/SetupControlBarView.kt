@@ -78,12 +78,6 @@ internal class SetupControlBarView : LinearLayout {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.micIsVisible.collect {
-                micButton.visibility = if (it) VISIBLE else GONE
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.micIsEnabled.collect {
                 micButton.isEnabled = it
             }

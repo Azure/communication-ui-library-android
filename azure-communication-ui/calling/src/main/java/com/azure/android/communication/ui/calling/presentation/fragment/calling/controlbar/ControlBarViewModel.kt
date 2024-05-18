@@ -35,7 +35,6 @@ internal class ControlBarViewModel(
     private lateinit var cameraStatusFlow: MutableStateFlow<CameraOperationalStatus>
 
     // Mic button
-    private lateinit var isMicButtonVisibleStateFlow: MutableStateFlow<Boolean>
     private lateinit var isMicButtonEnabledFlow: MutableStateFlow<Boolean>
     private lateinit var audioOperationalStatusStateFlow: MutableStateFlow<AudioOperationalStatus>
     private lateinit var audioDeviceSelectionStatusStateFlow: MutableStateFlow<AudioDeviceSelectionStatus>
@@ -68,10 +67,7 @@ internal class ControlBarViewModel(
 
         isCameraButtonVisibleFlow = MutableStateFlow(
             shouldCameraBeVisibility(
-                visibilityState,
                 audioVideoMode,
-                capabilities,
-                localParticipantRole,
             )
         )
 
@@ -80,6 +76,8 @@ internal class ControlBarViewModel(
                 permissionState,
                 callState.callingStatus,
                 cameraState.operation,
+                capabilities,
+                localParticipantRole,
             )
         )
 
@@ -88,11 +86,12 @@ internal class ControlBarViewModel(
         audioOperationalStatusStateFlow = MutableStateFlow(audioState.operation)
         audioDeviceSelectionStatusStateFlow = MutableStateFlow(audioState.device)
 
-        isMicButtonVisibleStateFlow = MutableStateFlow(shouldMicBeVisible(capabilities, localParticipantRole))
         isMicButtonEnabledFlow = MutableStateFlow(
             shouldMicBeEnabled(
                 audioState,
                 callState.callingStatus,
+                capabilities,
+                localParticipantRole,
             )
         )
 
@@ -118,25 +117,25 @@ internal class ControlBarViewModel(
         isVisibleStateFlow.value = shouldBeVisible(visibilityState)
 
         isCameraButtonVisibleFlow.value = shouldCameraBeVisibility(
-            visibilityState,
             audioVideoMode,
-            capabilities,
-            localParticipantRole,
         )
         isCameraButtonEnabledFlow.value = shouldCameraBeEnabled(
             permissionState,
             callingStatus,
             cameraState.operation,
+            capabilities,
+            localParticipantRole,
         )
         cameraStatusFlow.value = cameraState.operation
 
         audioOperationalStatusStateFlow.value = audioState.operation
         audioDeviceSelectionStatusStateFlow.value = audioState.device
 
-        isMicButtonVisibleStateFlow.value = shouldMicBeVisible(capabilities, localParticipantRole)
         isMicButtonEnabledFlow.value = shouldMicBeEnabled(
             audioState,
-            callingStatus
+            callingStatus,
+            capabilities,
+            localParticipantRole,
         )
 
         isAudioDeviceButtonEnabledFlow.value = shouldAudioDeviceButtonBeEnable(callingStatus)
@@ -149,7 +148,6 @@ internal class ControlBarViewModel(
     val isCameraButtonEnabled: StateFlow<Boolean> get() = isCameraButtonEnabledFlow
     val cameraStatus: StateFlow<CameraOperationalStatus> get() = cameraStatusFlow
 
-    val isMicButtonVisibleState: StateFlow<Boolean> get() = isMicButtonVisibleStateFlow
     val isMicButtonEnabled: StateFlow<Boolean> get() = isMicButtonEnabledFlow
     val audioOperationalStatus: StateFlow<AudioOperationalStatus> get() = audioOperationalStatusStateFlow
 
@@ -181,43 +179,41 @@ internal class ControlBarViewModel(
     }
 
     private fun shouldCameraBeVisibility(
-        visibilityState: VisibilityState,
         audioVideoMode: CallCompositeAudioVideoMode,
-        capabilities: Set<ParticipantCapabilityType>,
-        localParticipantRole: ParticipantRole?,
     ): Boolean {
-        return visibilityState.status != VisibilityStatus.PIP_MODE_ENTERED &&
-            audioVideoMode != CallCompositeAudioVideoMode.AUDIO_ONLY &&
-            capabilitiesManager.hasCapability(
-                capabilities,
-                localParticipantRole,
-                ParticipantCapabilityType.TURN_VIDEO_ON,
-                )
+        return audioVideoMode != CallCompositeAudioVideoMode.AUDIO_ONLY
     }
 
     private fun shouldCameraBeEnabled(
         permissionState: PermissionState,
         callingStatus: CallingStatus,
         operation: CameraOperationalStatus,
+        capabilities: Set<ParticipantCapabilityType>,
+        localParticipantRole: ParticipantRole?,
     ): Boolean {
         return permissionState.cameraPermissionState != PermissionStatus.DENIED &&
-            callingStatus == CallingStatus.CONNECTED &&
-            operation != CameraOperationalStatus.PENDING
+                callingStatus == CallingStatus.CONNECTED &&
+                operation != CameraOperationalStatus.PENDING &&
+                capabilitiesManager.hasCapability(
+                    capabilities,
+                    localParticipantRole,
+                    ParticipantCapabilityType.TURN_VIDEO_ON,
+                )
     }
 
-    private fun shouldMicBeVisible(capabilities: Set<ParticipantCapabilityType>, localParticipantRole: ParticipantRole?): Boolean {
-        return capabilitiesManager.hasCapability(
-            capabilities,
-            localParticipantRole,
-            ParticipantCapabilityType.UNMUTE_MICROPHONE,
-            )
-    }
     private fun shouldMicBeEnabled(
         audioState: AudioState,
         callingStatus: CallingStatus,
+        capabilities: Set<ParticipantCapabilityType>,
+        localParticipantRole: ParticipantRole?,
     ): Boolean {
         return audioState.operation != AudioOperationalStatus.PENDING &&
-            callingStatus == CallingStatus.CONNECTED
+                callingStatus == CallingStatus.CONNECTED &&
+                capabilitiesManager.hasCapability(
+                    capabilities,
+                    localParticipantRole,
+                    ParticipantCapabilityType.UNMUTE_MICROPHONE,
+                )
     }
 
     private fun shouldAudioDeviceButtonBeEnable(callingStatus: CallingStatus): Boolean {
