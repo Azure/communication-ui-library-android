@@ -100,6 +100,9 @@ internal class CallingMiddlewareImpl(
                 is ParticipantAction.Reject -> {
                     callingMiddlewareActionHandler.reject(action.userIdentifier, store)
                 }
+                is ParticipantAction.Remove -> {
+                    callingMiddlewareActionHandler.removeParticipant(action.userIdentifier, store)
+                }
                 is LocalParticipantAction.SetCapabilities -> {
                     callingMiddlewareActionHandler.setCapabilities(action.capabilities, store)
                 }

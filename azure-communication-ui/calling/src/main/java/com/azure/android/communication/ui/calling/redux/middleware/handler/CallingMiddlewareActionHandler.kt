@@ -56,6 +56,7 @@ internal interface CallingMiddlewareActionHandler {
     fun admitAll(store: Store<ReduxState>)
     fun admit(userIdentifier: String, store: Store<ReduxState>)
     fun reject(userIdentifier: String, store: Store<ReduxState>)
+    fun removeParticipant(userIdentifier: String, store: Store<ReduxState>)
     fun setCapabilities(capabilities: Set<ParticipantCapabilityType>, store: Store<ReduxState>)
 }
 
@@ -166,6 +167,16 @@ internal class CallingMiddlewareActionHandlerImpl(
             if (lobbyErrorCode != null) {
                 store.dispatch(
                     ParticipantAction.LobbyError(lobbyErrorCode)
+                )
+            }
+        }
+    }
+
+    override fun removeParticipant(userIdentifier: String, store: Store<ReduxState>) {
+        callingService.removeParticipant(userIdentifier).whenComplete { _, error ->
+            if (error != null) {
+                store.dispatch(
+                    ParticipantAction.RemoveParticipantError()
                 )
             }
         }

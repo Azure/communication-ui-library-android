@@ -14,4 +14,6 @@ internal sealed class ParticipantAction : Action {
     class Reject(val userIdentifier: String) : ParticipantAction()
     class LobbyError(val code: CallCompositeLobbyErrorCode) : ParticipantAction()
     class ClearLobbyError : ParticipantAction()
+    class Remove(val userIdentifier: String) : ParticipantAction()
+    class RemoveParticipantError() : ParticipantAction()
 }

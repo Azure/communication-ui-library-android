@@ -103,7 +103,10 @@ internal class CallingViewModel(
             state.callState
         )
 
-        participantMenuViewModel.init()
+        participantMenuViewModel.init(
+            state.localParticipantState.capabilities,
+            state.localParticipantState.localParticipantRole,
+        )
 
         participantListViewModel.init(
             state.remoteParticipantState.participantMap,
@@ -113,7 +116,7 @@ internal class CallingViewModel(
                 state.localParticipantState.localParticipantRole,
                 state.visibilityState
             ),
-            participantMenuViewModel::displayParticipantMenuCallback
+            participantMenuViewModel::displayParticipantMenu
         )
 
         waitingLobbyOverlayViewModel.init(state.callState.callingStatus)

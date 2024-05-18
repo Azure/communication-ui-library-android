@@ -71,6 +71,10 @@ internal class CallingService(
         return callingSdk.reject(userIdentifier)
     }
 
+    fun removeParticipant(userIdentifier: String): CompletableFuture<Void?> {
+        return callingSdk.removeParticipant(userIdentifier)
+    }
+
     fun turnMicOff(): CompletableFuture<Void> {
         return callingSdk.turnOffMicAsync()
     }

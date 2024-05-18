@@ -237,6 +237,26 @@ internal class CallingSDKWrapper(
         return future
     }
 
+    override fun removeParticipant(userIdentifier: String): CompletableFuture<Void?> {
+        val future = CompletableFuture<Void?>()
+        val participantToRemove = call.remoteParticipants
+            .find {
+                it.identifier.rawId == userIdentifier
+            }
+
+        participantToRemove?.let {
+            call.removeParticipant(it).whenComplete { _, error ->
+                if (error != null) {
+                    future.completeExceptionally(error)
+                } else {
+                    future.complete(null)
+                }
+            }
+        }
+
+        return future
+    }
+
     override fun dispose() {
         callingSDKEventHandler.dispose()
         cleanupResources()

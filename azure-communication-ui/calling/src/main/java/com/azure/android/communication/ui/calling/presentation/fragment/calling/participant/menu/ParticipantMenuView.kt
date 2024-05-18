@@ -6,11 +6,15 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import android.content.Context
 import android.view.accessibility.AccessibilityManager
 import android.widget.RelativeLayout
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
+import com.azure.android.communication.ui.calling.utilities.BottomCellItem
+import com.azure.android.communication.ui.calling.utilities.BottomCellItemType
 import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -32,6 +36,7 @@ internal class ParticipantMenuView(
     }
 
     fun start(viewLifecycleOwner: LifecycleOwner) {
+        initializeDrawer()
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.displayMenuFlow.collect {
                 if (it) {
@@ -41,6 +46,11 @@ internal class ParticipantMenuView(
                         menuDrawer.dismissDialog()
                     }
                 }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.muteParticipantEnabledFlow.collect {
+                refreshDrawerItems()
             }
         }
     }
@@ -57,10 +67,89 @@ internal class ParticipantMenuView(
         this.removeAllViews()
     }
 
+    private fun initializeDrawer() {
+        accessibilityManager =
+            context?.applicationContext?.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
+
+        bottomCellAdapter = BottomCellAdapter()
+        participantTable.adapter = bottomCellAdapter
+        participantTable.layoutManager = LinearLayoutManager(context)
+
+        menuDrawer = DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM)
+        menuDrawer.setOnDismissListener {
+            viewModel.close()
+        }
+        menuDrawer.setContentView(this)
+    }
+
     private fun show() {
         if (!menuDrawer.isShowing) {
-//            updateRemoteParticipantName()
+            bottomCellAdapter.setBottomCellItems(getBottomCellItems())
+            bottomCellAdapter.notifyDataSetChanged()
             menuDrawer.show()
         }
+    }
+
+    private fun refreshDrawerItems() {
+        if (menuDrawer.isShowing) {
+            bottomCellAdapter.setBottomCellItems(getBottomCellItems())
+            bottomCellAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun getBottomCellItems(): List<BottomCellItem> {
+
+        val bottomCellItems = mutableListOf(
+            // Leave title
+            BottomCellItem(
+                null,
+                viewModel.displayName ?: "",
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                false,
+                BottomCellItemType.BottomMenuCenteredTitle,
+                null
+            ),
+            BottomCellItem(
+                ContextCompat.getDrawable(
+                    context,
+                    R.drawable.azure_communication_ui_calling_ic_fluent_mic_off_24_regular
+                ),
+                context.getString(R.string.azure_communication_ui_calling_view_participant_menu_mute),
+                context.getString(R.string.azure_communication_ui_calling_view_participant_menu_mute_accessibility_label),
+                null,
+                null,
+                null,
+                null,
+                null,
+                false,
+                onClickAction = {
+                    viewModel.muteParticipant()
+                }
+            ),
+            BottomCellItem(
+                ContextCompat.getDrawable(
+                    context,
+                    R.drawable.azure_communication_ui_calling_ic_fluent_person_delete_24_regular
+                ),
+                context.getString(R.string.azure_communication_ui_calling_view_participant_menu_remove),
+                context.getString(R.string.azure_communication_ui_calling_view_participant_menu_remove_accessibility_label),
+                null,
+                null,
+                null,
+                null,
+                null,
+                false,
+                onClickAction = {
+                    viewModel.removeParticipant()
+                },
+            )
+        )
+
+        return bottomCellItems
     }
 }

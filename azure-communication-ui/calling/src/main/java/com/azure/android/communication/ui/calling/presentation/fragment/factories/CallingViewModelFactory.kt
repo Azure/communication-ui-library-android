@@ -89,7 +89,10 @@ internal class CallingViewModelFactory(
     }
 
     val participantMenuViewModel by lazy {
-        ParticipantMenuViewModel(store::dispatch)
+        ParticipantMenuViewModel(
+            store::dispatch,
+            capabilitiesManager,
+            )
     }
 
     val bannerViewModel by lazy {

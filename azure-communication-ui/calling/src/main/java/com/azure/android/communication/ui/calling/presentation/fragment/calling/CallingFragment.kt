@@ -38,6 +38,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay.ConnectingOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.menu.ParticipantMenuView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
 
 internal class CallingFragment :
@@ -65,6 +66,7 @@ internal class CallingFragment :
     private lateinit var participantGridView: ParticipantGridView
     private lateinit var audioDeviceListView: AudioDeviceListView
     private lateinit var participantListView: ParticipantListView
+    private lateinit var participantMenuView: ParticipantMenuView
     private lateinit var bannerView: BannerView
     private lateinit var errorInfoView: ErrorInfoView
     private lateinit var waitingLobbyOverlay: WaitingLobbyOverlayView
@@ -170,6 +172,14 @@ internal class CallingFragment :
         participantListView.layoutDirection =
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         participantListView.start(viewLifecycleOwner)
+
+        participantMenuView = ParticipantMenuView(
+            this.requireContext(),
+            viewModel.participantMenuViewModel,
+        )
+        participantMenuView.layoutDirection =
+            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
+        participantMenuView.start(viewLifecycleOwner)
 
         bannerView = view.findViewById(R.id.azure_communication_ui_call_banner)
         bannerView.start(
