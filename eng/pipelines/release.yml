@@ -179,8 +179,7 @@ extends:
                       "-Djavadoc=azure-communication-ui-calling-$(ACSSDKVersion)-javadoc.jar" 
                       "-Durl=$(CSCMavenRepoUrl)" 
                       "-DrepositoryId=csc"
-          workingDirectory: $(system.defaultWorkingDirectory)/azure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling/$(ACSSDKVersion)
-          displayName: "Publish SDK to Maven feed in CSC"
+            workingDirectory: $(system.defaultWorkingDirectory)/azure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling/$(ACSSDKVersion)
         
         - task: UniversalPackages@0
           displayName: Universal publish
