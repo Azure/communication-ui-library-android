@@ -161,26 +161,26 @@ extends:
           enabled: true
           inputs:
             artifactsFeeds: csc
-        - task: Gradle@3
-          displayName: gradlew publish To csc
-          enabled: true
-          inputs:
-            wrapperScript: azure-communication-ui/gradlew
-            cwd: azure-communication-ui/calling
-            tasks: publishReleasePublicationToCscRepository
-            javaHomeOption: 'JDKVersion'
-            jdkVersionOption: '1.11'
-        - task: UniversalPackages@0
-          displayName: Universal publish
-          enabled: true
-          inputs:
-            command: publish
-            feedListDownload: 08483367-b157-44ce-8443-adbd56e9d933
-            publishDirectory: azure-communication-ui/calling/build/publish/com/azure/android/test/azure-communication-ui-calling-testing/0.0.1
-            feedListPublish: 08483367-b157-44ce-8443-adbd56e9d933
-            packageListPublish: azure-communication-ui-calling-testing
-            versionPublishSelector: custom
-            versionPublish: 0.0.1
-        - task: Maven@3
-          displayName: Maven pom.xml
-          enabled: true
+        - script: |
+                      echo ********** Running Maven Deploy **********
+                      mvn deploy:deploy-file "-DpomFile=azure-communication-ui-calling-$(ACSSDKVersion).pom" 
+                      "-Dfile=azure-communication-ui-calling-$(ACSSDKVersion).aar" 
+                      "-Dpackaging=aar" 
+                      "-Dsources=azure-communication-ui-calling-$(ACSSDKVersion)-sources.jar" 
+                      "-Djavadoc=azure-communication-ui-calling-$(ACSSDKVersion)-javadoc.jar" 
+                      "-Durl=$(CSCMavenRepoUrl)" 
+                      "-DrepositoryId=csc"
+                    workingDirectory: azure-communication-ui/calling
+                    displayName: "Publish SDK to Maven feed in CSC"
+        
+        # - task: UniversalPackages@0
+        #   displayName: Universal publish
+        #   enabled: true
+        #   inputs:
+        #     command: publish
+        #     feedListDownload: 08483367-b157-44ce-8443-adbd56e9d933
+        #     publishDirectory: azure-communication-ui/calling/build/publish/com/azure/android/test/azure-communication-ui-calling-testing/0.0.1
+        #     feedListPublish: 08483367-b157-44ce-8443-adbd56e9d933
+        #     packageListPublish: azure-communication-ui-calling-testing
+        #     versionPublishSelector: custom
+        #     versionPublish: 0.0.1
