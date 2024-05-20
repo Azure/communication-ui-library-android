@@ -166,7 +166,11 @@ extends:
           enabled: true
           inputs:
             artifactsFeeds: csc
-        - script: |
+        - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
+          displayName: print build folder files
+          inputs:
+            type: InlineScript
+            script: 
                       echo ********** Running Maven Deploy **********
                       mvn deploy:deploy-file "-DpomFile=azure-communication-ui-calling-$(ACSSDKVersion).pom" 
                       "-Dfile=azure-communication-ui-calling-$(ACSSDKVersion).aar" 
