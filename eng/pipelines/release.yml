@@ -181,15 +181,3 @@ extends:
                 -Durl=$(CSCMavenRepoUrl) \
                 -DrepositoryId=csc
             workingDirectory: $(system.defaultWorkingDirectory)/azure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling/$(ACSSDKVersion)
-        
-        - task: UniversalPackages@0
-          displayName: Universal publish
-          enabled: true
-          inputs:
-            command: publish
-            feedListDownload: 08483367-b157-44ce-8443-adbd56e9d933
-            publishDirectory: azure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling/$(ACSSDKVersion)
-            feedListPublish: 08483367-b157-44ce-8443-adbd56e9d933
-            packageListPublish: azure-communication-ui-calling-testing
-            versionPublishSelector: custom
-            versionPublish: 0.0.1
