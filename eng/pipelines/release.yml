@@ -170,8 +170,8 @@ extends:
                       "-Djavadoc=azure-communication-ui-calling-$(ACSSDKVersion)-javadoc.jar" 
                       "-Durl=$(CSCMavenRepoUrl)" 
                       "-DrepositoryId=csc"
-                    workingDirectory: azure-communication-ui/calling
-                    displayName: "Publish SDK to Maven feed in CSC"
+          workingDirectory: azure-communication-ui/calling
+          displayName: "Publish SDK to Maven feed in CSC"
         
         # - task: UniversalPackages@0
         #   displayName: Universal publish
