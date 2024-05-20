@@ -160,7 +160,7 @@ extends:
           displayName: print build folder files
           inputs:
             type: InlineScript
-            script: ls $(system.defaultWorkingDirectory)/aazure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling/
+            script: ls $(system.defaultWorkingDirectory)/azure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling/
         - task: MavenAuthenticate@0
           displayName: Maven Authenticate
           enabled: true
