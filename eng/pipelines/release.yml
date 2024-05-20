@@ -167,18 +167,19 @@ extends:
           inputs:
             artifactsFeeds: csc
         - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
-          displayName: print build folder files
+          displayName: maven deploy 
           inputs:
             type: InlineScript
             script: 
-                      echo ********** Running Maven Deploy **********
-                      mvn deploy:deploy-file "-DpomFile=azure-communication-ui-calling-$(ACSSDKVersion).pom" 
-                      "-Dfile=azure-communication-ui-calling-$(ACSSDKVersion).aar" 
-                      "-Dpackaging=aar" 
-                      "-Dsources=azure-communication-ui-calling-$(ACSSDKVersion)-sources.jar" 
-                      "-Djavadoc=azure-communication-ui-calling-$(ACSSDKVersion)-javadoc.jar" 
-                      "-Durl=$(CSCMavenRepoUrl)" 
-                      "-DrepositoryId=csc"
+              echo "********** Running Maven Deploy **********"
+              mvn deploy:deploy-file \
+                -DpomFile=azure-communication-ui-calling-$(ACSSDKVersion).pom \
+                -Dfile=azure-communication-ui-calling-$(ACSSDKVersion).aar \
+                -Dpackaging=aar \
+                -Dsources=azure-communication-ui-calling-$(ACSSDKVersion)-sources.jar \
+                -Djavadoc=azure-communication-ui-calling-$(ACSSDKVersion)-javadoc.jar \
+                -Durl=$(CSCMavenRepoUrl) \
+                -DrepositoryId=csc
             workingDirectory: $(system.defaultWorkingDirectory)/azure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling/$(ACSSDKVersion)
         
         - task: UniversalPackages@0
