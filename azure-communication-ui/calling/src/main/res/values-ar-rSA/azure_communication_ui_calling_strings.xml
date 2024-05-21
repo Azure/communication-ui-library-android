@@ -29,8 +29,8 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">إعداد التدرّج</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">تبديل الكاميرا</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">إعداد</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">العنوان</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">عنوان فرعي</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement"> العنوان</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement"> عنوان فرعي</string>
     <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">تنقل خلفي</string>
 
     <!--    Lobby View-->
