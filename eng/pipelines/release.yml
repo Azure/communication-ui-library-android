@@ -1,4 +1,6 @@
 name: $(date:yyyyMMdd)$(rev:.r)
+trigger: none
+pr: none
 resources:
   repositories:
   - repository: 1esPipelines
