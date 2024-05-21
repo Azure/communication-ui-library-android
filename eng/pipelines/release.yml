@@ -161,9 +161,9 @@ extends:
           inputs:
             type: InlineScript
             script: cd $(system.defaultWorkingDirectory)/azure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling \
-            found_file=$(find . -name \"*-sources.jar\") \
-            found_file=${found_file#*/}\n\n \
-            $(ACSSDKVersion)=${found_file%%/*}
+              found_file=$(find . -name \"*-sources.jar\") \
+              found_file=${found_file#*/}\n\n 
+              $(ACSSDKVersion)=${found_file%%/*}
         - task: MavenAuthenticate@0
           displayName: Maven Authenticate
           enabled: true
