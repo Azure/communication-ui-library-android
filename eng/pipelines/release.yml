@@ -3,6 +3,7 @@ trigger: none
 pr: none
 variables:
   buildVersion: '0.0.1'
+  isPrivateRelease: false
 resources:
   repositories:
   - repository: 1esPipelines
@@ -191,3 +192,4 @@ extends:
                 -DrepositoryId=csc
           workingDirectory: $(system.defaultWorkingDirectory)/azure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling/$(buildVersion)
           displayName: deploy to maven
+          condition: eq(variables['isPrivateRelease'], true)
