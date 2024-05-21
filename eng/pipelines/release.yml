@@ -1,6 +1,7 @@
 name: $(date:yyyyMMdd)$(rev:.r)
 trigger: none
 pr: none
+variables:
 - name: ACSSDKVersion
   value: ''
 resources:
