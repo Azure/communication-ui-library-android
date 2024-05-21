@@ -1,4 +1,8 @@
 name: $(date:yyyyMMdd)$(rev:.r)
+trigger: none
+pr: none
+- name: ACSSDKVersion
+  value: ''
 resources:
   repositories:
   - repository: 1esPipelines
@@ -155,7 +159,7 @@ extends:
           displayName: Put .pom file to the .aar file
           inputs:
             type: InlineScript
-            script: "putPomFileToSources() {\n  composite=$@\n  # Find the file\n  found_file=$(find . -name \"*-sources.jar\")\n\n  found_file=${found_file#*/}\n\n version=${found_file%%/*}\n\n $(ACSSDKVersion)=$version \n\n sources_file_name=${found_file#*/} \n\n  # Unzip the file\n  unzip ./$version/$sources_file_name -d ./tmp\n  mkdir ./tmp/META-INF/maven\n  mkdir ./tmp/META-INF/maven/\n  mkdir ./tmp/META-INF/maven/com.azure.android/\n  mkdir ./tmp/META-INF/maven/com.azure.android/azure-communication-ui-$composite\n  \n  # Add the new file to the unzip location\n  cp ./$version/*.pom ./tmp/META-INF/maven/com.azure.android/azure-communication-ui-$composite/pom.xml\n\n  cd tmp\n\n  # Zip the folder to a new archive\n  zip -r ../$version/$sources_file_name ./\n\n  cd ..\n\n  rm -r tmp\n}\n\n\n# Go to calling directory\ncd azure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling\n\nputPomFileToSources \"calling\"\n\n\n# Go to chat directory\ncd ../../../../../../../../azure-communication-ui/chat/build/publish/com/azure/android/azure-communication-ui-chat\n\nputPomFileToSources \"chat\""
+            script: "putPomFileToSources() {\n  composite=$@\n  # Find the file\n  found_file=$(find . -name \"*-sources.jar\")\n\n  found_file=${found_file#*/}\n\n version=${found_file%%/*}\n\n ACSSDKVersion=${found_file%%/*} \n\n sources_file_name=${found_file#*/} \n\n  # Unzip the file\n  unzip ./$version/$sources_file_name -d ./tmp\n  mkdir ./tmp/META-INF/maven\n  mkdir ./tmp/META-INF/maven/\n  mkdir ./tmp/META-INF/maven/com.azure.android/\n  mkdir ./tmp/META-INF/maven/com.azure.android/azure-communication-ui-$composite\n  \n  # Add the new file to the unzip location\n  cp ./$version/*.pom ./tmp/META-INF/maven/com.azure.android/azure-communication-ui-$composite/pom.xml\n\n  cd tmp\n\n  # Zip the folder to a new archive\n  zip -r ../$version/$sources_file_name ./\n\n  cd ..\n\n  rm -r tmp\n}\n\n\n# Go to calling directory\ncd azure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling\n\nputPomFileToSources \"calling\"\n\n\n# Go to chat directory\ncd ../../../../../../../../azure-communication-ui/chat/build/publish/com/azure/android/azure-communication-ui-chat\n\nputPomFileToSources \"chat\""
         - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
           displayName: print build folder files
           inputs:
