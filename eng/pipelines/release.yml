@@ -191,3 +191,4 @@ extends:
                 -DrepositoryId=csc
           workingDirectory: $(system.defaultWorkingDirectory)/azure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling/$(buildVersion)
           displayName: deploy to maven
+          condition: eq(variables['isPrivateRelease'], true)
