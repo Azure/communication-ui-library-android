@@ -166,11 +166,7 @@ extends:
           enabled: true
           inputs:
             artifactsFeeds: csc
-        - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
-          displayName: maven deploy 
-          inputs:
-            type: InlineScript
-            script: 
+        - script: |
               echo "********** Running Maven Deploy **********"
               mvn deploy:deploy-file \
                 -DpomFile=azure-communication-ui-calling-$(ACSSDKVersion).pom \
@@ -181,3 +177,4 @@ extends:
                 -Durl=$(CSCMavenRepoUrl) \
                 -DrepositoryId=csc
             workingDirectory: $(system.defaultWorkingDirectory)/azure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling/$(ACSSDKVersion)
+            displayName: deploy to maven
