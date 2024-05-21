@@ -164,7 +164,7 @@ extends:
           displayName: print build folder files
           inputs:
             type: InlineScript
-            script: ls $(system.defaultWorkingDirectory)/azure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling/$(ACSSDKVersion)
+            script: ls $(system.defaultWorkingDirectory)/azure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling/ACSSDKVersion
         
         - task: MavenAuthenticate@0
           displayName: Maven Authenticate
