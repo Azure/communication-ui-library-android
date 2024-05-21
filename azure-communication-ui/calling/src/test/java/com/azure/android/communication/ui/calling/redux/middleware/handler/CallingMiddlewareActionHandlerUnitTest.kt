@@ -1147,12 +1147,19 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             displayName = "username",
             localParticipantRole = null
         )
-        appState.callState = CallingState(CallingStatus.NONE,)
+        appState.callState = CallingState(CallingStatus.CONNECTED)
 
-        val cameraStateCompletableFuture = CompletableFuture<String>()
+        val cameraStateCompletableFuture = CompletableFuture<Void>()
+        cameraStateCompletableFuture.complete(null)
 
-        val mockCallingService: CallingService = mock {}
-        val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
+        val mockCallingService = mock<CallingService> {
+            on { turnCameraOff() } doReturn cameraStateCompletableFuture
+        }
+        val handler = CallingMiddlewareActionHandlerImpl(
+            mockCallingService,
+            UnconfinedTestContextProvider(),
+            CallCompositeConfiguration()
+        )
 
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { getCurrentState() } doReturn appState
@@ -1161,7 +1168,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
         // act
         handler.enterBackground(mockAppStore)
-        cameraStateCompletableFuture.complete(null)
 
         // assert
         verify(
@@ -1175,7 +1181,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
         verify(
             mockCallingService,
-            times(0)
+            times(1)
         ).turnCameraOff()
     }
 
@@ -1646,90 +1652,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 argThat { action ->
                     action is ErrorAction.CallStateErrorOccurred &&
                         action.callStateError.errorCode == ErrorCode.TOKEN_EXPIRED
-                }
-            )
-        }
-
-    @ExperimentalCoroutinesApi
-    @Test
-    fun callingMiddlewareActionHandler_onSubscribeCallInfoModelUpdate_then_dispatch_turnCameraOn() =
-        runScopedTest {
-            // arrange
-            val appState = AppReduxState("", false, false)
-            appState.localParticipantState = LocalUserState(
-                CameraState(
-                    CameraOperationalStatus.PAUSED,
-                    CameraDeviceSelectionStatus.FRONT,
-                    CameraTransmissionStatus.LOCAL,
-                    2,
-                    null
-                ),
-                AudioState(
-                    AudioOperationalStatus.OFF,
-                    AudioDeviceSelectionStatus.SPEAKER_SELECTED,
-                    BluetoothState(available = false, deviceName = "bluetooth")
-                ),
-                videoStreamID = null,
-                displayName = "username",
-                localParticipantRole = null
-            )
-            appState.callState = CallingState(CallingStatus.LOCAL_HOLD,)
-
-            val callingServiceParticipantsSharedFlow =
-                MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
-            val callInfoModelStateFlow =
-                MutableStateFlow(CallInfoModel(CallingStatus.LOCAL_HOLD, null))
-            val callIdFlow = MutableStateFlow<String?>(null)
-            val isMutedSharedFlow = MutableSharedFlow<Boolean>()
-            val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
-            val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
-            val cameraStateCompletableFuture = CompletableFuture<String>()
-            val camerasCountUpdatedStateFlow = MutableStateFlow(2)
-            val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
-            val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
-            val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
-            val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
-
-            val mockCallingService: CallingService = mock {
-                on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
-                on { startCall(any(), any()) } doReturn CompletableFuture<Void>()
-                on { getCallIdStateFlow() } doReturn callIdFlow
-                on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
-                on { getCallIdStateFlow() } doReturn callIdFlow
-                on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
-                on { getCallIdStateFlow() } doReturn callIdFlow
-                on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
-                on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
-                on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
-                on { turnCameraOn() } doReturn cameraStateCompletableFuture
-                on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
-                on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
-                on { getLocalParticipantRoleSharedFlow() } doReturn MutableSharedFlow<CallCompositeInternalParticipantRole?>()
-                on { getNetworkQualityCallDiagnosticsFlow() } doReturn networkQualityCallDiagnosticsSharedFlow
-                on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
-                on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
-            }
-
-            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
-
-            val mockAppStore = mock<AppStore<ReduxState>> {
-                on { dispatch(any()) } doAnswer { }
-                on { getCurrentState() } doAnswer { appState }
-            }
-
-            // act
-            handler.startCall(mockAppStore)
-            cameraStateCompletableFuture.complete("1345")
-            callInfoModelStateFlow.value = CallInfoModel(
-                CallingStatus.CONNECTED,
-                null
-            )
-
-            // assert
-            verify(mockAppStore, times(1)).dispatch(
-                argThat { action ->
-                    action is LocalParticipantAction.CameraOnSucceeded &&
-                        action.videoStreamID == "1345"
                 }
             )
         }

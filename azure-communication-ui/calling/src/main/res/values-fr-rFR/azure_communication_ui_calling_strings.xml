@@ -29,8 +29,8 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Configurer le dégradé</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Changer de caméra</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Configuration</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Titre</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Sous-titre</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement"> Titre</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement"> Sous-titre</string>
     <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Navigation arrière</string>
 
     <!--    Lobby View-->
