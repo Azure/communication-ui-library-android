@@ -253,7 +253,16 @@ class CallLauncherActivity : AppCompatActivity() {
                     return@setOnClickListener
                 }
                 cacheTokenAndDisplayName()
-                registerPuhNotification()
+                registerPushNotification()
+            }
+
+            unregisterPushNotificationButton.setOnClickListener {
+                if (acsTokenText.text.toString().isEmpty()) {
+                    showAlert("ACS token is empty.")
+                    return@setOnClickListener
+                }
+                cacheTokenAndDisplayName()
+                unregisterPushNotification()
             }
 
             declineCallButton.setOnClickListener {
@@ -547,10 +556,20 @@ class CallLauncherActivity : AppCompatActivity() {
         }
     }
 
-    private fun registerPuhNotification() {
+    private fun registerPushNotification() {
         val acsToken = sharedPreference.getString(CACHED_TOKEN, "")
         val userName = sharedPreference.getString(CACHED_USER_NAME, "")
         callCompositeManager.registerPush(
+            this@CallLauncherActivity,
+            acsToken!!,
+            userName!!
+        )
+    }
+
+    private fun unregisterPushNotification() {
+        val acsToken = sharedPreference.getString(CACHED_TOKEN, "")
+        val userName = sharedPreference.getString(CACHED_USER_NAME, "")
+        callCompositeManager.unregisterPush(
             this@CallLauncherActivity,
             acsToken!!,
             userName!!

@@ -373,6 +373,24 @@ class CallCompositeManager(private val context: Context) {
             }
         }
     }
+
+    fun unregisterPush(applicationContext: Context, acsToken: String, displayName: String) {
+        createCallCompositeAndSubscribeToEvents(applicationContext, acsToken, displayName)
+        try {
+            callComposite?.unregisterPushNotification()
+                ?.whenComplete { _, throwable ->
+                    if (throwable != null) {
+                        toast(applicationContext, "Unregister push failed.")
+                        throw throwable
+                    } else {
+                        toast(applicationContext, "Unregister push success.")
+                    }
+                }
+        } catch (e: Exception) {
+            e.message?.let { toast(applicationContext, it) }
+        }
+    }
+
     private fun createCallCompositeAndSubscribeToEvents(
         context: Context,
         acsToken: String,

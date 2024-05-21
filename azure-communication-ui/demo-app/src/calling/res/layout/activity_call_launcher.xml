@@ -139,6 +139,13 @@
             android:text="@string/register_push_notification"
             android:layout_marginTop="16dp"/>
 
+        <Button
+            android:id="@+id/unregisterPushNotificationButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/unregister_push_notification"
+            android:layout_marginTop="16dp"/>
+
         <TextView
             android:id="@+id/callStateText"
             android:layout_width="match_parent"
