@@ -102,7 +102,7 @@ extends:
               export KEY_PASSWORD="android"
         - script: |
             echo "Extracting version..."
-            VERSION=$(grep 'call_library_version_name' $(system.defaultWorkingDirectory)/azure-communication-ui/build.gradle)
+            VERSION=$(grep 'call_library_version_name' $(system.defaultWorkingDirectory)/azure-communication-ui/build.gradle | sed -n "s/.*call_library_version_name = '\([^']*\)'.*/\1/p")
             echo "##vso[task.setvariable variable=buildVersion]$VERSION"
           displayName: 'Get Android Gradle Build Version'
         - script: |
