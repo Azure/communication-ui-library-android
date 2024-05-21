@@ -176,7 +176,6 @@ extends:
                 -Dsources=azure-communication-ui-calling-$(ACSSDKVersion)-sources.jar \
                 -Djavadoc=azure-communication-ui-calling-$(ACSSDKVersion)-javadoc.jar \
                 -Durl=$(CSCMavenRepoUrl) \
-                -Drevision= 0.0.1 \
                 -DrepositoryId=csc
           workingDirectory: $(system.defaultWorkingDirectory)/azure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling/$(ACSSDKVersion)
           displayName: deploy to maven
