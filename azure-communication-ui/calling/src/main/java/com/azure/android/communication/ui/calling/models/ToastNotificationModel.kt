@@ -6,11 +6,11 @@ package com.azure.android.communication.ui.calling.models
 internal data class ToastNotificationModel(
     val notificationIconId: Int,
     val notificationMessageId: Int,
-    val networkCallDiagnostic: NetworkCallDiagnostic?,
-    val mediaCallDiagnostic: MediaCallDiagnostic?,
+//    val networkCallDiagnostic: NetworkCallDiagnostic?,
+//    val mediaCallDiagnostic: MediaCallDiagnostic?,
 ) {
 
-    fun isEmpty(): Boolean {
-        return notificationIconId == 0 && notificationMessageId == 0
-    }
+//    fun isEmpty(): Boolean {
+//        return notificationIconId == 0 && notificationMessageId == 0
+//    }
 }

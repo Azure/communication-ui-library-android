@@ -64,4 +64,6 @@ internal class AppReduxState(
     override var visibilityState: VisibilityState = VisibilityState(status = VisibilityStatus.VISIBLE)
 
     override var callDiagnosticsState: CallDiagnosticsState = CallDiagnosticsState(networkQualityCallDiagnostic = null, networkCallDiagnostic = null, mediaCallDiagnostic = null)
+
+    override var toastNotificationState: ToastNotificationState = ToastNotificationState(null)
 }

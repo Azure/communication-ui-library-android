@@ -266,7 +266,7 @@ internal class CallingViewModel(
             )
 
             toastNotificationViewModel.update(
-                state.callDiagnosticsState
+                state.toastNotificationState
             )
 
             participantMenuViewModel.update(

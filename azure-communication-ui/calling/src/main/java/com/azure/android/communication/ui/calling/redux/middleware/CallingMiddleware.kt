@@ -9,12 +9,14 @@ import com.azure.android.communication.ui.calling.redux.Middleware
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
+import com.azure.android.communication.ui.calling.redux.action.CallDiagnosticsAction
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.action.LifecycleAction
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
+import com.azure.android.communication.ui.calling.redux.action.ToastNotificationAction
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandler
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 
@@ -105,6 +107,21 @@ internal class CallingMiddlewareImpl(
                 }
                 is LocalParticipantAction.SetCapabilities -> {
                     callingMiddlewareActionHandler.setCapabilities(action.capabilities, store)
+                }
+                is CallDiagnosticsAction.NetworkQualityCallDiagnosticsUpdated -> {
+                    callingMiddlewareActionHandler
+                        .onNetworkQualityCallDiagnosticsUpdated(action.networkQualityCallDiagnosticModel, store)
+                }
+                is CallDiagnosticsAction.NetworkCallDiagnosticsUpdated -> {
+                    callingMiddlewareActionHandler
+                        .onNetworkCallDiagnosticsUpdated(action.networkCallDiagnosticModel, store)
+                }
+                is CallDiagnosticsAction.MediaCallDiagnosticsUpdated -> {
+                    callingMiddlewareActionHandler
+                        .onMediaCallDiagnosticsUpdated(action.mediaCallDiagnosticModel, store)
+                }
+                is ToastNotificationAction.DismissNotification -> {
+                    callingMiddlewareActionHandler.dismissNotification(store)
                 }
             }
             next(action)

@@ -8,6 +8,13 @@ import com.azure.android.communication.ui.calling.error.CallCompositeError
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.FatalError
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
+import com.azure.android.communication.ui.calling.models.CallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
+import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
+import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.NetworkCallDiagnostic
+import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.Store
@@ -19,12 +26,14 @@ import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
 import com.azure.android.communication.ui.calling.redux.action.CallDiagnosticsAction
+import com.azure.android.communication.ui.calling.redux.action.ToastNotificationAction
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import com.azure.android.communication.ui.calling.redux.state.ToastNotificationKind
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import kotlinx.coroutines.CoroutineScope
@@ -58,6 +67,21 @@ internal interface CallingMiddlewareActionHandler {
     fun reject(userIdentifier: String, store: Store<ReduxState>)
     fun removeParticipant(userIdentifier: String, store: Store<ReduxState>)
     fun setCapabilities(capabilities: Set<ParticipantCapabilityType>, store: Store<ReduxState>)
+    fun onNetworkQualityCallDiagnosticsUpdated(
+        model: CallDiagnosticModel<NetworkCallDiagnostic, CallDiagnosticQuality>,
+        store: Store<ReduxState>
+    )
+    fun onNetworkCallDiagnosticsUpdated(
+        model: CallDiagnosticModel<NetworkCallDiagnostic, Boolean>,
+        store: Store<ReduxState>
+    )
+
+    fun onMediaCallDiagnosticsUpdated(
+        model: CallDiagnosticModel<MediaCallDiagnostic, Boolean>,
+        store: Store<ReduxState>
+    )
+
+    fun dismissNotification(store: Store<ReduxState>)
 }
 
 internal class CallingMiddlewareActionHandlerImpl(
@@ -384,6 +408,150 @@ internal class CallingMiddlewareActionHandlerImpl(
             state.localParticipantState.audioState.operation != AudioOperationalStatus.OFF
         ) {
             store.dispatch(LocalParticipantAction.MicOffTriggered())
+        }
+    }
+
+    override fun onNetworkQualityCallDiagnosticsUpdated(
+        model: CallDiagnosticModel<NetworkCallDiagnostic, CallDiagnosticQuality>,
+        store: Store<ReduxState>
+    ) {
+        if (model.diagnosticValue == CallDiagnosticQuality.BAD ||
+            model.diagnosticValue == CallDiagnosticQuality.POOR
+        ) {
+            val kind = when (model.diagnosticKind) {
+                NetworkCallDiagnostic.NETWORK_RECEIVE_QUALITY -> {
+                    ToastNotificationKind.NETWORK_RECEIVE_QUALITY
+                }
+                NetworkCallDiagnostic.NETWORK_SEND_QUALITY -> {
+                    ToastNotificationKind.NETWORK_SEND_QUALITY
+                }
+                NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY -> {
+                    ToastNotificationKind.NETWORK_SEND_QUALITY
+                }
+                else -> null
+            }
+            kind?.let {
+                store.dispatch(
+                    ToastNotificationAction.ShowNotification(kind)
+                )
+            }
+        } else {
+            store.dispatch(ToastNotificationAction.DismissNotification())
+        }
+    }
+
+    override fun onNetworkCallDiagnosticsUpdated(
+        model: CallDiagnosticModel<NetworkCallDiagnostic, Boolean>,
+        store: Store<ReduxState>
+    ) {
+        val kind = when (model.diagnosticKind) {
+            NetworkCallDiagnostic.NETWORK_UNAVAILABLE -> ToastNotificationKind.NETWORK_UNAVAILABLE
+            NetworkCallDiagnostic.NETWORK_RELAYS_UNREACHABLE -> ToastNotificationKind.NETWORK_RELAYS_UNREACHABLE
+
+            else -> null
+        }
+        kind?.let {
+            if (model.diagnosticValue) {
+                store.dispatch(
+                    ToastNotificationAction.ShowNotification(
+                        kind
+                    )
+                )
+            }
+        }
+    }
+
+    override fun onMediaCallDiagnosticsUpdated(
+        model: CallDiagnosticModel<MediaCallDiagnostic, Boolean>,
+        store: Store<ReduxState>
+    ) {
+        when (model.diagnosticKind) {
+            MediaCallDiagnostic.SPEAKING_WHILE_MICROPHONE_IS_MUTED -> {
+                if (model.diagnosticValue) {
+                    store.dispatch(
+                        ToastNotificationAction.ShowNotification(
+                            ToastNotificationKind.SPEAKING_WHILE_MICROPHONE_IS_MUTED
+                        )
+                    )
+                } else {
+                    store.dispatch(ToastNotificationAction.DismissNotification())
+                }
+            }
+            MediaCallDiagnostic.CAMERA_START_FAILED -> {
+                if (model.diagnosticValue) {
+                    store.dispatch(
+                        ToastNotificationAction.ShowNotification(
+                            ToastNotificationKind.CAMERA_START_FAILED
+                        )
+                    )
+                }
+            }
+            MediaCallDiagnostic.CAMERA_START_TIMED_OUT -> {
+                if (model.diagnosticValue) {
+                    store.dispatch(
+                        ToastNotificationAction.ShowNotification(
+                            ToastNotificationKind.CAMERA_START_TIMED_OUT
+                        )
+                    )
+                }
+            }
+            else -> {}
+        }
+    }
+
+    override fun dismissNotification(store: Store<ReduxState>) {
+        store.getCurrentState().toastNotificationState.kind?.let { kind ->
+
+            if (kind == ToastNotificationKind.NETWORK_UNAVAILABLE) {
+                val model = NetworkCallDiagnosticModel(
+                    NetworkCallDiagnostic.NETWORK_UNAVAILABLE,
+                    false
+                )
+                store.dispatch(CallDiagnosticsAction.NetworkCallDiagnosticsDismissed(model))
+            }
+            if (kind == ToastNotificationKind.NETWORK_RELAYS_UNREACHABLE) {
+                val model = NetworkCallDiagnosticModel(
+                    NetworkCallDiagnostic.NETWORK_RELAYS_UNREACHABLE,
+                    false
+                )
+                store.dispatch(CallDiagnosticsAction.NetworkCallDiagnosticsDismissed(model))
+            }
+            if (kind == ToastNotificationKind.NETWORK_RECEIVE_QUALITY ||
+                kind == ToastNotificationKind.NETWORK_RECONNECTION_QUALITY ||
+                kind == ToastNotificationKind.NETWORK_SEND_QUALITY
+            ) {
+                val diagnostic = when (kind) {
+                    ToastNotificationKind.NETWORK_RECEIVE_QUALITY -> NetworkCallDiagnostic.NETWORK_RECEIVE_QUALITY
+                    ToastNotificationKind.NETWORK_RECONNECTION_QUALITY -> NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY
+                    ToastNotificationKind.NETWORK_SEND_QUALITY -> NetworkCallDiagnostic.NETWORK_SEND_QUALITY
+                    else -> null
+                }
+                diagnostic?.let {
+                    val model = NetworkQualityCallDiagnosticModel(
+                        diagnostic,
+                        CallDiagnosticQuality.UNKNOWN
+                    )
+                    store.dispatch(CallDiagnosticsAction.NetworkQualityCallDiagnosticsDismissed(model))
+                }
+            }
+
+            if (kind == ToastNotificationKind.SPEAKING_WHILE_MICROPHONE_IS_MUTED ||
+                kind == ToastNotificationKind.CAMERA_START_FAILED ||
+                kind == ToastNotificationKind.CAMERA_START_TIMED_OUT
+            ) {
+
+                val mediaCallDiagnostic = when (kind) {
+                    ToastNotificationKind.SPEAKING_WHILE_MICROPHONE_IS_MUTED -> MediaCallDiagnostic.SPEAKING_WHILE_MICROPHONE_IS_MUTED
+                    ToastNotificationKind.CAMERA_START_FAILED -> MediaCallDiagnostic.CAMERA_START_FAILED
+                    ToastNotificationKind.CAMERA_START_TIMED_OUT -> MediaCallDiagnostic.CAMERA_START_TIMED_OUT
+                    else -> null
+                }
+
+                mediaCallDiagnostic?.let {
+                    val model = MediaCallDiagnosticModel(mediaCallDiagnostic, false)
+                    store.dispatch(CallDiagnosticsAction.MediaCallDiagnosticsDismissed(model))
+                }
+            }
         }
     }
 
