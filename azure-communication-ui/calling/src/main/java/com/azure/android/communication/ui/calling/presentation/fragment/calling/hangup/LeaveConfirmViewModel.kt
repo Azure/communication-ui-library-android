@@ -8,8 +8,9 @@ import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
-import com.azure.android.communication.ui.calling.redux.state.OperationStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import com.azure.android.communication.ui.calling.redux.state.VisibilityState
+import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -21,8 +22,13 @@ internal class LeaveConfirmViewModel(private val store: Store<ReduxState>) {
         return shouldDisplayLeaveConfirmStateFlow
     }
 
+    fun update(visibilityState: VisibilityState) {
+        if (visibilityState.status != VisibilityStatus.VISIBLE)
+            cancel()
+    }
+
     fun confirm() {
-        if (store.getCurrentState().callState.operationStatus == OperationStatus.SKIP_SETUP_SCREEN &&
+        if (store.getCurrentState().localParticipantState.initialCallJoinState.skipSetupScreen &&
             store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTED
         ) {
             dispatchAction(action = NavigationAction.Exit())

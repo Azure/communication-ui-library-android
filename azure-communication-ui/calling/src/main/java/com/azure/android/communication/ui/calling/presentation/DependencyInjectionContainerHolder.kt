@@ -5,21 +5,17 @@ package com.azure.android.communication.ui.calling.presentation
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer
-import com.azure.android.communication.ui.calling.di.DependencyInjectionContainerImpl
+import com.azure.android.communication.ui.calling.getDiContainer
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.ParticipantGridCellViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.SetupViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupViewModel
-import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
-import com.azure.android.communication.ui.calling.setDependencyInjectionContainer
-import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
-
-import java.lang.IllegalArgumentException
 
 /**
  * ViewModel for the CallCompositeActivity
@@ -32,9 +28,6 @@ import java.lang.IllegalArgumentException
  */
 internal class DependencyInjectionContainerHolder(
     application: Application,
-    private val customCallingSDK: CallingSDK?,
-    private val customVideoStreamRendererFactory: VideoStreamRendererFactory?,
-    private val customCoroutineContextProvider: CoroutineContextProvider?
 ) : AndroidViewModel(application) {
     companion object {
         private const val commonMessage =
@@ -58,20 +51,7 @@ internal class DependencyInjectionContainerHolder(
             throw CallCompositeException(exceptionMessage, IllegalStateException(exceptionMessage))
         }
 
-        val callComposite = CallCompositeInstanceManager.getCallComposite(instanceId)
-
-        // Generate a new instance
-        val container = DependencyInjectionContainerImpl(
-            application,
-            callComposite,
-            customCallingSDK,
-            customVideoStreamRendererFactory,
-            customCoroutineContextProvider
-        )
-
-        callComposite.setDependencyInjectionContainer(container)
-
-        return@lazy container
+        return@lazy CallCompositeInstanceManager.getCallComposite(instanceId).getDiContainer()
     }
 
     val setupViewModel by lazy {
@@ -81,7 +61,6 @@ internal class DependencyInjectionContainerHolder(
             container.networkManager
         )
     }
-
     val callingViewModel by lazy {
         CallingViewModel(
             container.appStore,
@@ -89,9 +68,15 @@ internal class DependencyInjectionContainerHolder(
                 container.appStore,
                 ParticipantGridCellViewModelFactory(),
                 application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants),
-                container.debugInfoManager
+                container.debugInfoManager,
+                container.configuration.callCompositeEventsHandler.getOnUserReportedHandlers().toList().isNotEmpty(),
+                container.configuration.enableMultitasking
             ),
-            container.networkManager
+            container.networkManager,
+            container.configuration.callScreenOptions,
+            container.configuration.enableMultitasking,
+            container.configuration.callCompositeLocalOptions?.audioVideoMode
+                ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
         )
     }
 }

@@ -7,7 +7,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.implementation.R
 
 internal class BottomCellAdapter : RecyclerView.Adapter<BottomCellViewHolder>() {
     private var bottomCellItems: List<BottomCellItem> = mutableListOf()
@@ -46,7 +46,7 @@ internal class BottomCellAdapter : RecyclerView.Adapter<BottomCellViewHolder>() 
 
     fun enableBottomCellItem(bottomCellItemName: String) {
         for (bottomCellItem in bottomCellItems) {
-            bottomCellItem.enabled = bottomCellItem.title == bottomCellItemName
+            bottomCellItem.isChecked = bottomCellItem.title == bottomCellItemName
         }
         super.notifyDataSetChanged()
     }

@@ -10,17 +10,22 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.common.CommunicationTokenCredential
+/* <ROOMS_SUPPORT:0> */
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
+/* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.FeatureFlags
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.conditionallyRegisterDiagnostics
-import com.azure.android.communication.ui.callingcompositedemoapp.views.EndCompositeButtonView
+import com.azure.android.communication.ui.callingcompositedemoapp.views.DismissCompositeButtonView
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
@@ -40,6 +45,9 @@ class CallLauncherActivity : AppCompatActivity() {
             finish()
             return
         }
+
+        SettingsFeatures.initialize(applicationContext)
+
         if (!AppCenter.isConfigured() && !BuildConfig.DEBUG) {
             AppCenter.start(
                 application,
@@ -61,6 +69,9 @@ class CallLauncherActivity : AppCompatActivity() {
         val deeplinkName = data?.getQueryParameter("name")
         val deeplinkGroupId = data?.getQueryParameter("groupid")
         val deeplinkTeamsUrl = data?.getQueryParameter("teamsurl")
+        /* </ROOMS_SUPPORT:5> */
+        val deepLinkRoomsId = data?.getQueryParameter("roomsid")
+        /* </ROOMS_SUPPORT:0> */
 
         binding.run {
             if (!deeplinkAcsToken.isNullOrEmpty()) {
@@ -80,16 +91,32 @@ class CallLauncherActivity : AppCompatActivity() {
                 groupIdOrTeamsMeetingLinkText.setText(deeplinkGroupId)
                 groupCallRadioButton.isChecked = true
                 teamsMeetingRadioButton.isChecked = false
+                /* <ROOMS_SUPPORT:4> */
+                roomsMeetingRadioButton.isChecked = false
+                /* </ROOMS_SUPPORT:1> */
             } else if (!deeplinkTeamsUrl.isNullOrEmpty()) {
                 groupIdOrTeamsMeetingLinkText.setText(deeplinkTeamsUrl)
                 groupCallRadioButton.isChecked = false
                 teamsMeetingRadioButton.isChecked = true
+                /* <ROOMS_SUPPORT:4> */
+                roomsMeetingRadioButton.isChecked = false
+            } else if (!deepLinkRoomsId.isNullOrEmpty()) {
+                groupIdOrTeamsMeetingLinkText.setText(deepLinkRoomsId)
+                groupCallRadioButton.isChecked = false
+                teamsMeetingRadioButton.isChecked = false
+                roomsMeetingRadioButton.isChecked = true
+                /* </ROOMS_SUPPORT:1> */
             } else {
                 groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
             }
 
             acsTokenText.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
                 }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -104,47 +131,77 @@ class CallLauncherActivity : AppCompatActivity() {
                 launch()
             }
 
-            closeCompositeButton.setOnClickListener { callLauncherViewModel.close() }
+            showUIButton.setOnClickListener {
+                showUI()
+            }
+            closeCompositeButton.setOnClickListener { callLauncherViewModel.dismissCallComposite() }
 
             groupCallRadioButton.setOnClickListener {
                 if (groupCallRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
                     teamsMeetingRadioButton.isChecked = false
+                    /* <ROOMS_SUPPORT:4> */
+                    roomsMeetingRadioButton.isChecked = false
+                    attendeeRoleRadioButton.visibility = View.GONE
+                    presenterRoleRadioButton.visibility = View.GONE
+                    /* </ROOMS_SUPPORT:1> */
                 }
             }
             teamsMeetingRadioButton.setOnClickListener {
                 if (teamsMeetingRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.TEAMS_MEETING_LINK)
                     groupCallRadioButton.isChecked = false
+                    /* <ROOMS_SUPPORT:4> */
+                    roomsMeetingRadioButton.isChecked = false
+                    attendeeRoleRadioButton.visibility = View.GONE
+                    presenterRoleRadioButton.visibility = View.GONE
+                    /* </ROOMS_SUPPORT:1> */
                 }
             }
+            /* <ROOMS_SUPPORT:0> */
+            roomsMeetingRadioButton.setOnClickListener {
+                if (roomsMeetingRadioButton.isChecked) {
+                    groupIdOrTeamsMeetingLinkText.setText(BuildConfig.ROOMS_ID)
+                    presenterRoleRadioButton.visibility = View.VISIBLE
+                    attendeeRoleRadioButton.visibility = View.VISIBLE
+                    attendeeRoleRadioButton.isChecked = true
+                    groupCallRadioButton.isChecked = false
+                    teamsMeetingRadioButton.isChecked = false
+                } else {
+                    presenterRoleRadioButton.visibility = View.GONE
+                    attendeeRoleRadioButton.visibility = View.GONE
+                }
+            }
+
+            presenterRoleRadioButton.setOnClickListener {
+                if (presenterRoleRadioButton.isChecked) {
+                    attendeeRoleRadioButton.isChecked = false
+                }
+            }
+
+            attendeeRoleRadioButton.setOnClickListener {
+                if (attendeeRoleRadioButton.isChecked) {
+                    presenterRoleRadioButton.isChecked = false
+                }
+            }
+            /* </ROOMS_SUPPORT:0> */
 
             showCallHistoryButton.setOnClickListener {
                 showCallHistory()
             }
 
-            lifecycleScope.launch {
-                callLauncherViewModel.callCompositeCallStateStateFlow.collect {
-                    runOnUiThread {
-                        if (it.isNotEmpty()) {
-                            callStateText.text = it
-                            EndCompositeButtonView.get(application).updateText(it)
+            lifecycleScope.launchAll(
+                {
+                    callLauncherViewModel.callCompositeCallStateStateFlow.collect {
+                        runOnUiThread {
+                            if (it.isNotEmpty()) {
+                                callStateText.text = it
+                                DismissCompositeButtonView.get(application).updateText(it)
+                            }
                         }
                     }
-                }
-            }
-
-            lifecycleScope.launch {
-                callLauncherViewModel.callCompositeExitSuccessStateFlow.collect {
-                    runOnUiThread {
-                        if (it &&
-                            SettingsFeatures.getReLaunchOnExitByDefaultOption()
-                        ) {
-                            launch()
-                        }
-                    }
-                }
-            }
+                },
+            )
 
             if (BuildConfig.DEBUG) {
                 versionText.text = "${BuildConfig.VERSION_NAME}"
@@ -156,13 +213,8 @@ class CallLauncherActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        EndCompositeButtonView.get(this).hide()
-        EndCompositeButtonView.buttonView = null
-        callLauncherViewModel.unsubscribe()
-
-        if (isFinishing) {
-            callLauncherViewModel.close()
-        }
+        DismissCompositeButtonView.get(this).hide()
+        DismissCompositeButtonView.buttonView = null
     }
 
     // check whether new Activity instance was brought to top of stack,
@@ -184,6 +236,13 @@ class CallLauncherActivity : AppCompatActivity() {
     private fun launch() {
         val userName = binding.userNameText.text.toString()
         val acsToken = binding.acsTokenText.text.toString()
+
+        /* <ROOMS_SUPPORT:0> */
+        val roomId = binding.groupIdOrTeamsMeetingLinkText.text.toString()
+        val roomRole = if (binding.attendeeRoleRadioButton.isChecked) CallCompositeParticipantRole.ATTENDEE
+        else if (binding.presenterRoleRadioButton.isChecked) CallCompositeParticipantRole.PRESENTER
+        else null
+        /* </ROOMS_SUPPORT:0> */
 
         var groupId: UUID? = null
         if (binding.groupCallRadioButton.isChecked) {
@@ -218,8 +277,16 @@ class CallLauncherActivity : AppCompatActivity() {
             acsToken,
             userName,
             groupId,
+            /* <ROOMS_SUPPORT:5> */
+            roomId,
+            roomRole,
+            /* </ROOMS_SUPPORT:2> */
             meetingLink,
         )
+    }
+
+    private fun showUI() {
+        callLauncherViewModel.bringCallCompositeToForeground(this)
     }
 
     private fun showCallHistory() {
@@ -230,7 +297,8 @@ class CallLauncherActivity : AppCompatActivity() {
         val title = "Total calls: ${history.count()}"
         var message = "Last Call: none"
         history.lastOrNull()?.let {
-            message = "Last Call: ${it.callStartedOn.format(DateTimeFormatter.ofPattern("MMM dd 'at' hh:mm"))}"
+            message =
+                "Last Call: ${it.callStartedOn.format(DateTimeFormatter.ofPattern("MMM dd 'at' hh:mm"))}"
             it.callIds.forEach { callId ->
                 message += "\nCallId: $callId"
             }
@@ -251,29 +319,39 @@ class CallLauncherActivity : AppCompatActivity() {
             startActivity(settingIntent)
             true
         }
+
         else -> super.onOptionsItemSelected(item)
     }
 
     override fun onStart() {
         super.onStart()
-        toggleEndCompositeButton()
+        toggleDismissCompositeButton()
     }
 
     override fun onStop() {
         super.onStop()
-        toggleEndCompositeButton()
+        toggleDismissCompositeButton()
     }
 
     override fun onResume() {
         super.onResume()
-        toggleEndCompositeButton()
+        toggleDismissCompositeButton()
     }
 
-    private fun toggleEndCompositeButton() {
-        if (!SettingsFeatures.getEndCallOnByDefaultOption()) {
-            EndCompositeButtonView.get(this).hide()
+    private fun toggleDismissCompositeButton() {
+        if (!SettingsFeatures.getDisplayDismissButtonOption()) {
+            DismissCompositeButtonView.get(this).hide()
         } else {
-            EndCompositeButtonView.get(this).show(callLauncherViewModel)
+            DismissCompositeButtonView.get(this).show(callLauncherViewModel)
+        }
+    }
+}
+
+// We also type launch way to much, this will let it be clean.
+internal fun LifecycleCoroutineScope.launchAll(vararg blocks: suspend () -> Unit) {
+    launch {
+        blocks.forEach { block ->
+            launch { block() }
         }
     }
 }

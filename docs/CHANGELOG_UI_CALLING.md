@@ -1,5 +1,32 @@
 # Azure Communication UI Calling Release History
 
+## 1.7.0 (*)
+
+### Features
+- Disable leave call confirmation dialog
+
+
+## 1.6.2 (2024-05-03)
+
+### Bug Fixes
+- Setup screen camera preview is not working.
+
+
+## 1.6.1 (2024-04-10)
+
+### Bug Fixes
+- Accessibility bugs fixed for announcement on title announcement, participant microphone status, share diagnostic announement.
+- Accessibility bugs fixed for keyboard focus on title, subtitle and microphone navigation.
+- Accessiblity bugs fixed for error message update.
+
+## 1.6.0 (2024-02-29)
+
+### Features
+
+- Audio Only Mode
+- Enhanced Supportability
+- Multitasking with Picture-in-Picture support
+
 ## 1.5.0 (2023-12-04)
 
 ### Features

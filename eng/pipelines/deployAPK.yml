@@ -1,0 +1,272 @@
+name: $(date:yyyyMMdd)$(rev:.r) $(Build.BuildId)
+trigger: none
+pr: none
+resources:
+  repositories:
+  - repository: 1esPipelines
+    type: git
+    name: 1ESPipelineTemplates/1ESPipelineTemplates
+    ref: refs/tags/release
+extends:
+  template: v1/1ES.Unofficial.PipelineTemplate.yml@1esPipelines
+  parameters:
+    pool:
+      os: linux
+      image: ubuntu-latest
+      name: Azure-Pipelines-1ESPT-ExDShared
+    sdl:
+      sourceAnalysisPool:
+        name: Azure-Pipelines-1ESPT-ExDShared
+        image: windows-latest
+        os: windows
+      suppression:
+        suppressionFile: $(Build.SourcesDirectory)\guardian\SDL\.gdnsuppress
+    stages:
+    - stage: Stage
+      jobs:
+      - job: Job_1
+        displayName: Agent job 1
+        templateContext:
+          outputs:
+          - output: pipelineArtifact
+            targetPath: $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app/build/outputs/apk/$(build_variant)/release/demo-app-$(build_variant)-release.apk
+            artifactName: $(build_variant) apk
+          - output: pipelineArtifact
+            targetPath: azure-communication-ui/$(build_variant)/build/publish/
+            artifactName: $(build_variant) aar
+        steps:
+        - checkout: self
+          clean: true
+          fetchTags: false
+        - task: skvso.servicetree-build-tasks.servicetree-link-build-task.servicetree-link-build-task@1
+          displayName: 'ServiceTree: [$(BuildOutputUsage)] '
+          condition: always()
+          inputs:
+            ServiceTreeGateway: c29e963a-8ea3-4e6a-b28f-a035eaff83ab
+            Service: 5b23174b-8c6d-467d-862d-a3f24958fb74
+        - task: DownloadSecureFile@1
+          displayName: Download release certificate copy
+          inputs:
+            secureFile: 540d81b1-b671-4a7b-8f2b-8c557dbf93a4
+        - task: CopyFiles@2
+          displayName: Copy cert to CallingCompositeDemoApp
+          inputs:
+            SourceFolder: $(Agent.TempDirectory)
+            Contents: '*.keystore'
+            TargetFolder: $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app
+        - task: DownloadSecureFile@1
+          displayName: Download google-service.json
+          inputs:
+            secureFile: f456b0bd-423f-4152-8bba-76154ae01d82
+        - task: CopyFiles@2
+          displayName: Copy google-services-acs-calling-ui-library-demo-app.json to demo app copy
+          inputs:
+            SourceFolder: $(Agent.TempDirectory)
+            Contents: '*.json'
+            TargetFolder: $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app
+        - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
+          displayName: Shell Script
+          inputs:
+            type: InlineScript
+            script: >
+              mv $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app/google-services-acs-calling-ui-library-demo-app.json $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app/google-services.json
+
+
+              ls $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app
+
+              echo '$(system.defaultWorkingDirectory)/azure-communication-ui/demo-app'
+        - task: UseDotNet@2
+          displayName: Use .NET Core sdk 6.0.x
+          inputs:
+            version: 6.0.x
+        - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
+          displayName: Install SDK
+          inputs:
+            type: InlineScript
+            script: >-
+              export ANDROID_CLI_TOOLS_URL="https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip"
+
+              export ANDROID_HOME=$PWD/android-sdk
+
+              export ANDROID_COMPILE_SDK="34"
+
+              export ANDROID_BUILD_TOOLS="32.00"
+
+              export PATH=$PATH:${ANDROID_HOME}/cmdline-tools/bin/
+
+              if [ -d "android-sdk" ]; then rm -Rf android-sdk; fi
+
+              mkdir android-sdk
+
+              cd android-sdk
+
+              curl --output sdk-tools-linux.zip ${ANDROID_CLI_TOOLS_URL}
+
+              unzip sdk-tools-linux.zip
+
+              yes | sdkmanager --sdk_root=${ANDROID_HOME} --licenses
+
+              sdkmanager --sdk_root=${ANDROID_HOME} "platforms;android-${ANDROID_COMPILE_SDK}"
+
+              sdkmanager --sdk_root=${ANDROID_HOME} "platform-tools"
+
+              sdkmanager --sdk_root=${ANDROID_HOME} "build-tools;${ANDROID_BUILD_TOOLS}"
+
+              cd ..
+
+              export ANDROID_SDK_ROOT=$PWD/android-sdk
+
+              cd azure-communication-ui
+
+              echo sdk.dir=$ANDROID_SDK_ROOT > local.properties
+
+              echo 'APP_SECRET="8cb48e80-76ae-43f4-939a-ab6edd255af4"' >> local.properties
+
+              #echo #'REMOTE_PARTICIPANT_AVATAR_TEST_URL="https://imagetestinderpal.blob.core.windows.net/tut#orial-container/"' >> local.properties
+
+              #echo GITHUB_MAVEN_REPO_URL=$(GITHUB_MAVEN_REPO_URL) >> local.properties
+
+              #echo GITHUB_MAVEN_REPO_USERNAME=$(GITHUB_MAVEN_REPO_USERNAME) >> local.properties
+
+              #echo GITHUB_MAVEN_REPO_PASSWORD=$(GITHUB_MAVEN_REPO_PASSWORD) >> local.properties
+
+              #echo CHECK_FOR_LATEST_VERSION=true >> local.properties
+
+              echo MAVEN_REPO_NAME=$(MAVEN_REPO_NAME) >> local.properties
+
+              echo MAVEN_REPO_USERNAME=$(MAVEN_REPO_USERNAME) >> local.properties
+
+              echo MAVEN_REPO_URL=$(MAVEN_REPO_URL) >> local.properties
+
+              echo MAVEN_REPO_KEY=$(MAVEN_REPO_KEY) >> local.properties
+
+              cat local.properties
+
+              cd ..
+        - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
+          displayName: Set Environment Variables
+          inputs:
+            type: InlineScript
+            script: >-
+              export KEYSTORE_FILEPATH="debug.keystore"
+
+              export KEYSTORE_PASSWORD="android"
+
+              export KEY_ALIAS="androiddebugkey"
+
+              export KEY_PASSWORD="android"
+        - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
+          displayName: Add app host link
+          inputs:
+            type: InlineScript
+            script: >+
+              sed -i "s%https://test%$(DEEP_LINK_URL)%g" "$(system.defaultWorkingDirectory)/azure-communication-ui/demo-app/src/main/AndroidManifest.xml"
+
+
+        - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
+          displayName: Enable Features
+          enabled: False
+          inputs:
+            type: InlineScript
+            script: >-
+              sed -i "s%false%true%g" "$(system.defaultWorkingDirectory)/azure-communication-ui/azure-communication-ui/src/main/res/values/azure_communication_ui_feature_flags.xml"
+
+
+              cat "$(system.defaultWorkingDirectory)/azure-communication-ui/azure-communication-ui/src/main/res/values/azure_communication_ui_feature_flags.xml"
+        - task: Gradle@3
+          displayName: gradlew ktlintCheck
+          inputs:
+            wrapperScript: azure-communication-ui/gradlew
+            cwd: azure-communication-ui
+            tasks: ktlintCheck
+            publishJUnitResults: false
+            javaHomeOption: 'JDKVersion'
+            jdkVersionOption: '1.11'
+        - task: Gradle@3
+          displayName: gradlew assembleDebug --stacktrace
+          enabled: False
+          inputs:
+            wrapperScript: azure-communication-ui/gradlew
+            cwd: azure-communication-ui
+            tasks: assembleDebug --stacktrace
+            publishJUnitResults: false
+            javaHomeOption: 'JDKVersion'
+            jdkVersionOption: '1.11'
+        - task: Gradle@3
+          displayName: gradlew assemble$(build_variant) --stacktrace
+          inputs:
+            wrapperScript: azure-communication-ui/gradlew
+            cwd: azure-communication-ui
+            options: -PversionCode=$(Build.BuildId)
+            tasks: assemble$(build_variant) --stacktrace
+            publishJUnitResults: false
+            javaHomeOption: 'JDKVersion'
+            jdkVersionOption: '1.11'
+        - task: Gradle@3
+          displayName: publish $(build_variant) to local dir
+          inputs:
+            wrapperScript: azure-communication-ui/gradlew
+            cwd: azure-communication-ui/$(build_variant)
+            tasks: publishReleasePublicationToLocalDirectoryRepository
+            javaHomeOption: 'JDKVersion'
+            jdkVersionOption: '1.11'
+        - task: Gradle@3
+          displayName: gradlew test --stacktrace
+          enabled: False
+          inputs:
+            wrapperScript: azure-communication-ui/gradlew
+            cwd: azure-communication-ui
+            tasks: test --stacktrace
+            publishJUnitResults: false
+            javaHomeOption: 'JDKVersion'
+            jdkVersionOption: '1.11'
+        - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
+          displayName: print release folder files
+          inputs:
+            type: InlineScript
+            script: ls $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app/build/outputs/apk/$(build_variant)/release/
+        - task: CmdLine@2
+          displayName: ESRPSigningEnabled status
+          condition: and(succeeded(), eq('false', 'true'))
+          inputs:
+            script: 'echo Respecting ESRPSigningEnabled variable enabled: false'
+        - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@3
+          displayName: ESRP CodeSigning
+          condition: and(succeeded(), or(ne('false', 'true'), eq(variables['ESRPSigningEnabled'], 'true')), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/teams-master'), eq(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release'), startsWith(variables['Build.SourceBranch'], 'refs/heads/hotfix')))
+          inputs:
+            ConnectedServiceName: cb3d1f72-016c-4cee-80b5-33219b645283
+            FolderPath: $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app/build/outputs/apk/$(build_variant)/release
+            Pattern: '*.apk'
+            signConfigType: inlineSignParams
+            CertificateId: 72
+            inlineOperation: >-
+              [
+                              {
+                                  "KeyCode" : "CP-233081-Java",
+                                  "OperationCode" : "AndroidV2Sign",
+                                  "Parameters" : {},
+                                  "ToolName" : "sign",
+                                  "ToolVersion" : "1.0"
+                              },
+                              {
+                                  "KeyCode" : "CP-233081-Java",
+                                  "OperationCode" : "JavaVerify",
+                                  "Parameters" : {},
+                                  "ToolName" : "sign",
+                                  "ToolVersion" : "1.0"
+                              }
+                          ]
+        - task: AppCenterDistribute@3
+          displayName: Deploy apk to Visual Studio App Center
+          inputs:
+            serverEndpoint: 6468c8a1-cc02-4eea-b8c0-2f48e3a18a39
+            appSlug: Azure-Communication-Services/Azure-Communication-Services-Call-UI-Library-Sample-Android-Internal
+            app: $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app/build/outputs/apk/$(build_variant)/release/demo-app-$(build_variant)-release.apk
+            symbolsType: Android
+            packParentFolder: false
+            releaseNotesInput: >-
+              Source branch: $(Build.SourceBranch)
+
+
+              Build commit: $(Build.Repository.Uri)/commit/$(Build.SourceVersion)
+            isSilent: false

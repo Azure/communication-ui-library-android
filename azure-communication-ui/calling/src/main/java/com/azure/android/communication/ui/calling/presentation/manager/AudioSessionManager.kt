@@ -13,7 +13,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.media.AudioManager
-import com.azure.android.communication.ui.R
+import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
@@ -39,6 +39,7 @@ internal class AudioSessionManager(
     private val audioManager by lazy { context.getSystemService(Context.AUDIO_SERVICE) as AudioManager }
     private var bluetoothAudioProxy: BluetoothHeadset? = null
     private var initialized = false
+    private var isProxyOpen = false
 
     private val isBluetoothScoAvailable
         get() = try {
@@ -294,16 +295,20 @@ internal class AudioSessionManager(
     }
 
     private fun openProfileProxy() {
+        if (isProxyOpen) return
         if (btAdapter?.isEnabled == true && bluetoothAudioProxy == null) {
             btAdapter?.run {
                 getProfileProxy(context, this@AudioSessionManager, BluetoothProfile.HEADSET)
+                isProxyOpen = true
             }
         }
     }
 
     private fun closeProfileProxy() {
-        btAdapter?.run {
-            closeProfileProxy(BluetoothProfile.HEADSET, bluetoothAudioProxy)
+        if (!isProxyOpen) return
+        isProxyOpen = false
+        bluetoothAudioProxy?.let {
+            btAdapter?.closeProfileProxy(BluetoothProfile.HEADSET, bluetoothAudioProxy)
             bluetoothAudioProxy = null
         }
     }
@@ -314,6 +319,8 @@ internal class AudioSessionManager(
     }
 
     override fun onServiceDisconnected(profile: Int) {
-        closeProfileProxy()
+        if (isProxyOpen) {
+            closeProfileProxy()
+        }
     }
 }

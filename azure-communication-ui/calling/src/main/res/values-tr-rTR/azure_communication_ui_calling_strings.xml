@@ -2,7 +2,7 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--    Device-->
     <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Hoparlör</string>
@@ -29,6 +29,9 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Gradyan Kur</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Kamerayı Değiştir</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Kurulum</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement"> Başlık</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement"> Alt Yazı</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Geri gezinti</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">Oturum sahibi bekleniyor</string>
@@ -44,6 +47,7 @@
     <string name="azure_communication_ui_calling_view_info_header_waiting_for_others_to_join">Diğerlerinin katılması bekleniyor</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">1 kişi ile arama</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">%1$d kişi ile arama</string>
+    <string name="azure_communication_ui_calling_view_go_back">Geri</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(ben)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Adsız katılımcı</string>
     <string name="azure_communication_ui_calling_view_leave_call">Aramadan ayrıl?</string>
@@ -63,6 +67,7 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">Diğer</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">Tanılama bilgilerini paylaş</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Tanılama bilgileri</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Tanılama bilgilerini paylaş Düğmesi</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Kayıt başlatıldı.</b> Katılarak,
@@ -103,6 +108,33 @@
     <string name="azure_communication_ui_calling_accessibility_user_left">%1$s toplantıdan ayrıldı</string>
     <string name="azure_communication_ui_calling_accessibility_meeting_connected">Aramaya katıldınız</string>
 
+    <!--    Participant list-->
+    <string name="azure_communication_ui_calling_participant_list_in_call_n_people">Aramada (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">Lobide (%1$d)</string>
+    <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Katılımcıyı kabul etmek/reddetmek için iki kez dokunun</string>
+
+    <!--    Admit participant dialog-->
+    <string name="azure_communication_ui_calling_admit_name">%1$s kabul edilsin mi?</string>
+    <string name="azure_communication_ui_calling_admit">Kabul et</string>
+    <string name="azure_communication_ui_calling_decline">Reddet</string>
+    <string name="azure_communication_ui_calling_admit_all">Tümünü kabul et</string>
+
+    <!--    Lobby header-->
+    <string name="azure_communication_ui_calling_lobby_header_text">Kişiler katılmayı bekliyor</string>
+    <string name="azure_communication_ui_calling_lobby_header_icon_content_description">Lobi</string>
+    <string name="azure_communication_ui_calling_lobby_header_view_participant_button">Lobiyi görüntüle</string>
+    <string name="azure_communication_ui_calling_lobby_header_accessibility_label">Lobiyi görüntüleyin</string>
+    <string name="azure_communication_ui_calling_lobby_header_close_description">Lobiyi kapat</string>
+
+    <!--    Lobby error header-->
+    <string name="azure_communication_ui_calling_lobby_header_error_close_description">Lobiyi kapatma hatası</string>
+    <string name="azure_communication_ui_calling_lobby_error_content_description">Lobi hatası</string>
+    <string name="azure_communication_ui_calling_error_lobby_disabled_by_configuration">Lobi devre dışı bırakıldı</string>
+    <string name="azure_communication_ui_calling_error_lobby_conversation_type_not_supported">Lobi desteklenmiyor</string>
+    <string name="azure_communication_ui_calling_error_lobby_meeting_role_not_allowded">Rolünüz lobide etkili olamaz</string>
+    <string name="azure_communication_ui_calling_error_lobby_failed_to_remove_participant">Reddedilemedi</string>
+    <string name="azure_communication_ui_calling_error_lobby_unknown">Lobi eylemi hatası</string>
+
     <!-- Call Diagnostics -->
     <string name="azure_communication_ui_calling_diagnostics_network_was_lost">Ağ bağlantısı kesildi</string>
     <string name="azure_communication_ui_calling_diagnostics_network_reconnecting">Yeniden bağlanıyor...</string>
@@ -118,4 +150,15 @@
 
     <!--    Upper Message Bar Notification -->
     <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Kapat</string>
+
+    <!--     Support Form -->
+    <string name="azure_communication_ui_calling_report_issue">Sorun Bildir</string>
+    <string name="azure_communication_ui_calling_report_issue_title">Sorun Bildir</string>
+    <string name="azure_communication_ui_calling_logs_attach_notice">Günlükler otomatik olarak eklenir.</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label">Gizlilik İlkesi</string>
+    <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Lütfen sorununuzu açıklayın...</string>
+    <string name="azure_communication_ui_calling_cancel_button_label">İptal</string>
+    <string name="azure_communication_ui_calling_attach_screenshot">Ekran görüntüsü ekle</string>
+    <string name="azure_communication_ui_calling_report_a_problem_label">Sorun bildirin</string>
+    <string name="azure_communication_ui_calling_send_feedback_label">Gönder</string>
 </resources>
