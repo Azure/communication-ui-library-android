@@ -37,4 +37,3 @@ internal enum class CapabilityResolutionReason {
      */
     NOT_CAPABLE,
 }
-

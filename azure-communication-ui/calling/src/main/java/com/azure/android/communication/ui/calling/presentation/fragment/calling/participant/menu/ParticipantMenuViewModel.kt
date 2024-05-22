@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.menu
 
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
-import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
@@ -25,7 +24,6 @@ internal class ParticipantMenuViewModel(
     val muteParticipantEnabledFlow = muteParticipantEnabledMutableFlow.asStateFlow()
     val remoteParticipantEnabledFlow = remoteParticipantEnabledMutableFlow.asStateFlow()
 
-
     fun init(capabilities: Set<ParticipantCapabilityType>) {
         update(capabilities)
     }
@@ -34,7 +32,7 @@ internal class ParticipantMenuViewModel(
         remoteParticipantEnabledMutableFlow.value = capabilitiesManager.hasCapability(
             capabilities,
             ParticipantCapabilityType.REMOVE_PARTICIPANT,
-            )
+        )
     }
 
     fun displayParticipantMenu(

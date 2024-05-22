@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class ParticipantListViewModel(
     private val dispatch: (Action) -> Unit,
-    ) {
+) {
     private val localUserIdentifier = ""
     private lateinit var remoteParticipantListCellStateFlow: MutableStateFlow<List<ParticipantListCellModel>>
     private lateinit var localParticipantListCellStateFlow: MutableStateFlow<ParticipantListCellModel>

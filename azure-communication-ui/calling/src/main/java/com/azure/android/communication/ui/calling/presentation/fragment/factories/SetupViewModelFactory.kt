@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.calling.presentation.fragment.factori
 
 import android.content.Context
 import android.media.AudioManager
-import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.JoinCallButtonHolderViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.PreviewAreaViewModel

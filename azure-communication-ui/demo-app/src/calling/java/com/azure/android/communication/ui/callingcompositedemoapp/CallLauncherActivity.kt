@@ -10,7 +10,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -18,7 +17,6 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.common.CommunicationTokenCredential
 /* <ROOMS_SUPPORT:0> */
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
 /* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures

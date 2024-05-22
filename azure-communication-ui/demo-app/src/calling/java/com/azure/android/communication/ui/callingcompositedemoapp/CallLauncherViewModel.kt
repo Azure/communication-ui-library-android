@@ -24,7 +24,6 @@ import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptio
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions
 /* <ROOMS_SUPPORT:0> */
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 /* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions

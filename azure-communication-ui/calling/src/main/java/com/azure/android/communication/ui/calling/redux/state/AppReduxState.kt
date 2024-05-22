@@ -4,9 +4,6 @@
 package com.azure.android.communication.ui.calling.redux.state
 
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
-import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenOptions
-import com.azure.android.communication.ui.calling.models.into
 
 internal class AppReduxState(
     displayName: String?,

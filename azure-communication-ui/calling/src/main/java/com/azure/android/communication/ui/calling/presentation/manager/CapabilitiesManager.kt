@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.calling.presentation.manager
 
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
-import com.azure.android.communication.ui.calling.models.ParticipantRole
 
 internal class CapabilitiesManager(
     private val callType: CallType,
@@ -13,12 +12,11 @@ internal class CapabilitiesManager(
     fun hasCapability(
         capabilities: Set<ParticipantCapabilityType>,
         capability: ParticipantCapabilityType,
-        ): Boolean {
+    ): Boolean {
         return when (callType) {
             CallType.GROUP_CALL,
             CallType.TEAMS_MEETING -> true
             CallType.ROOMS_CALL -> capabilities.contains(capability)
         }
     }
-
 }

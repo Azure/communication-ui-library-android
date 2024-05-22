@@ -1,7 +1,6 @@
 package com.azure.android.communication.ui.calling.models
 
-
-internal class CapabilitiesChangedEvent (
+internal class CapabilitiesChangedEvent(
     changedCapabilities: List<ParticipantCapability>,
     capabilitiesChangedReason: CapabilitiesChangedReason
 ) {
@@ -26,4 +25,3 @@ internal class CapabilitiesChangedEvent (
          */
         get() = capabilitiesChangedReason
 }
-

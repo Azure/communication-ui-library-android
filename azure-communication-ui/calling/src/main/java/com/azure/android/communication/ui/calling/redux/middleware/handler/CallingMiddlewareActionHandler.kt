@@ -243,19 +243,19 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun turnCameraOff(store: Store<ReduxState>) {
-        //TODO: test for any consequences of not checking for call status
+        // TODO: test for any consequences of not checking for call status
 //        if (store.getCurrentState().callState.callingStatus != CallingStatus.NONE) {
-            callingService.turnCameraOff().whenComplete { _, error ->
-                if (error != null) {
-                    store.dispatch(
-                        LocalParticipantAction.CameraOffFailed(
-                            CallCompositeError(ErrorCode.TURN_CAMERA_OFF_FAILED, error)
-                        )
+        callingService.turnCameraOff().whenComplete { _, error ->
+            if (error != null) {
+                store.dispatch(
+                    LocalParticipantAction.CameraOffFailed(
+                        CallCompositeError(ErrorCode.TURN_CAMERA_OFF_FAILED, error)
                     )
-                } else {
-                    store.dispatch(LocalParticipantAction.CameraOffSucceeded())
-                }
+                )
+            } else {
+                store.dispatch(LocalParticipantAction.CameraOffSucceeded())
             }
+        }
 //        }
     }
 
@@ -375,12 +375,14 @@ internal class CallingMiddlewareActionHandlerImpl(
     override fun setCapabilities(capabilities: Set<ParticipantCapabilityType>, store: Store<ReduxState>) {
         val state = store.getCurrentState()
         if (!capabilitiesManager.hasCapability(capabilities, ParticipantCapabilityType.TURN_VIDEO_ON) &&
-            state.localParticipantState.cameraState.operation != CameraOperationalStatus.OFF) {
+            state.localParticipantState.cameraState.operation != CameraOperationalStatus.OFF
+        ) {
             store.dispatch(LocalParticipantAction.CameraOffTriggered())
         }
 
         if (!capabilitiesManager.hasCapability(capabilities, ParticipantCapabilityType.UNMUTE_MICROPHONE) &&
-            state.localParticipantState.audioState.operation != AudioOperationalStatus.OFF) {
+            state.localParticipantState.audioState.operation != AudioOperationalStatus.OFF
+        ) {
             store.dispatch(LocalParticipantAction.MicOffTriggered())
         }
     }
@@ -509,14 +511,15 @@ internal class CallingMiddlewareActionHandlerImpl(
                 val capabilities = callingService.getCallCapabilities()
 
                 if (previousCallState == CallingStatus.CONNECTING &&
-                    callInfoModel.callingStatus == CallingStatus.CONNECTED) {
+                    callInfoModel.callingStatus == CallingStatus.CONNECTED
+                ) {
                     store.dispatch(LocalParticipantAction.SetCapabilities(capabilities))
                 }
 
                 val hasVideoOnCapability = capabilitiesManager.hasCapability(
                     capabilities,
                     ParticipantCapabilityType.TURN_VIDEO_ON,
-                    )
+                )
 
                 if (hasVideoOnCapability &&
                     store.getCurrentState().localParticipantState.initialCallJoinState.skipSetupScreen &&

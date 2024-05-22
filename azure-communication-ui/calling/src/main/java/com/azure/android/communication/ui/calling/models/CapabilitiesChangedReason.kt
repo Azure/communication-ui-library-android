@@ -1,6 +1,5 @@
 package com.azure.android.communication.ui.calling.models
 
-
 internal enum class CapabilitiesChangedReason {
     /**
      * Role changed

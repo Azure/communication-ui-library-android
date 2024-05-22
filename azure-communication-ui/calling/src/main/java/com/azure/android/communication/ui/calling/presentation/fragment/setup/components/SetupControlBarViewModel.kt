@@ -5,9 +5,6 @@ package com.azure.android.communication.ui.calling.presentation.fragment.setup.c
 
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenOptions
-import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
-import com.azure.android.communication.ui.calling.models.ParticipantRole
-import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
@@ -143,20 +140,20 @@ internal class SetupControlBarViewModel(
         callingState: CallingState,
         cameraPermissionState: PermissionStatus,
         setupScreenOptions: CallCompositeSetupScreenOptions?,
-        ): Boolean {
+    ): Boolean {
         return !shouldControlsBeDisabled(callingState) &&
-                cameraPermissionState != PermissionStatus.DENIED &&
-                setupScreenOptions?.isCameraButtonEnabled != false
+            cameraPermissionState != PermissionStatus.DENIED &&
+            setupScreenOptions?.isCameraButtonEnabled != false
     }
 
     private fun shouldMicButtonBeEnabled(
         callingState: CallingState,
         audioStateOperation: AudioOperationalStatus,
         setupScreenOptions: CallCompositeSetupScreenOptions?
-        ): Boolean {
+    ): Boolean {
         return !shouldControlsBeDisabled(callingState) &&
-                audioStateOperation != AudioOperationalStatus.PENDING &&
-                setupScreenOptions?.isMicrophoneButtonEnabled != false
+            audioStateOperation != AudioOperationalStatus.PENDING &&
+            setupScreenOptions?.isMicrophoneButtonEnabled != false
     }
 
     private fun shouldControlsBeDisabled(callingState: CallingState): Boolean {

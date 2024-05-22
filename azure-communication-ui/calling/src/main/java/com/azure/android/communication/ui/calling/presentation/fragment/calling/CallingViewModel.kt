@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
-import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
@@ -135,7 +134,8 @@ internal class CallingViewModel(
             getLobbyParticipantsForHeader(state),
             canShowLobby(
                 state.localParticipantState.capabilities,
-                state.visibilityState)
+                state.visibilityState
+            )
         )
 
         lobbyErrorHeaderViewModel.init(
@@ -144,7 +144,7 @@ internal class CallingViewModel(
             canShowLobby(
                 state.localParticipantState.capabilities,
                 state.visibilityState,
-                )
+            )
         )
 
         super.init(coroutineScope)
@@ -307,7 +307,7 @@ internal class CallingViewModel(
     private fun canShowLobby(
         capabilities: Set<ParticipantCapabilityType>,
         visibilityState: VisibilityState,
-        ): Boolean {
+    ): Boolean {
         if (visibilityState.status != VisibilityStatus.VISIBLE)
             return false
 

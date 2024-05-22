@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
-import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
@@ -185,12 +184,12 @@ internal class ControlBarViewModel(
         capabilities: Set<ParticipantCapabilityType>,
     ): Boolean {
         return permissionState.cameraPermissionState != PermissionStatus.DENIED &&
-                callingStatus == CallingStatus.CONNECTED &&
-                operation != CameraOperationalStatus.PENDING &&
-                capabilitiesManager.hasCapability(
-                    capabilities,
-                    ParticipantCapabilityType.TURN_VIDEO_ON,
-                )
+            callingStatus == CallingStatus.CONNECTED &&
+            operation != CameraOperationalStatus.PENDING &&
+            capabilitiesManager.hasCapability(
+                capabilities,
+                ParticipantCapabilityType.TURN_VIDEO_ON,
+            )
     }
 
     private fun shouldMicBeEnabled(
@@ -199,11 +198,11 @@ internal class ControlBarViewModel(
         capabilities: Set<ParticipantCapabilityType>,
     ): Boolean {
         return audioState.operation != AudioOperationalStatus.PENDING &&
-                callingStatus == CallingStatus.CONNECTED &&
-                capabilitiesManager.hasCapability(
-                    capabilities,
-                    ParticipantCapabilityType.UNMUTE_MICROPHONE,
-                )
+            callingStatus == CallingStatus.CONNECTED &&
+            capabilitiesManager.hasCapability(
+                capabilities,
+                ParticipantCapabilityType.UNMUTE_MICROPHONE,
+            )
     }
 
     private fun shouldAudioDeviceButtonBeEnable(callingStatus: CallingStatus): Boolean {

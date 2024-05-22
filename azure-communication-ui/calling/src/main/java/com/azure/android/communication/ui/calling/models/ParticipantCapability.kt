@@ -33,4 +33,3 @@ internal class ParticipantCapability constructor(
          */
         get() = capabilityResolutionReason
 }
-
