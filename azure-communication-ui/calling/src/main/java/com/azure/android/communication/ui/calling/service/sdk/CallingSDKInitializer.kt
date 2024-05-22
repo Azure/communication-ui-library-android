@@ -19,7 +19,9 @@ import com.azure.android.communication.ui.calling.DiagnosticConfig
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotification
+/* <TELECOM_MANAGER_SUPPORT:0>
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
+</TELECOM_MANAGER_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.buildCallCompositeIncomingCallCancelledEvent
 import com.azure.android.communication.ui.calling.models.buildCallCompositeIncomingCallEvent
 import com.azure.android.communication.ui.calling.service.sdk.ext.setTags
