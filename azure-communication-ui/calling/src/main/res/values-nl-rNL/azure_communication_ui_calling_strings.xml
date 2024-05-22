@@ -29,8 +29,8 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Kleurovergang instellen</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Camera wisselen</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Configuratie</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement"> Titel</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement"> Ondertitel</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Titel</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Ondertitel</string>
     <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Terug navigatie</string>
 
     <!--    Lobby View-->
@@ -163,7 +163,7 @@
     <string name="azure_communication_ui_calling_send_feedback_label">Verzenden</string>
 
     <!--    Outgoing Call-->
-    <string name="azure_communication_ui_calling_setup_view_start_call">Start call</string>
-    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Starting call…</string>
-    <string name="azure_communication_ui_calling_call_view_calling">Calling...</string>
+    <string name="azure_communication_ui_calling_setup_view_start_call">Gesprek starten</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Oproep starten…</string>
+    <string name="azure_communication_ui_calling_call_view_calling">Bellen...</string>
 </resources>

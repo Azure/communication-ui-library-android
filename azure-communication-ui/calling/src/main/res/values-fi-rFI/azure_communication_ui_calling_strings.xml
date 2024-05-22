@@ -29,8 +29,8 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Määritä liukuvärjäys</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Vaihda kameraa</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Määritä</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement"> Otsikko</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement"> Tekstitys</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Otsikko</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Alaotsikko</string>
     <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Takaisin siirtyminen</string>
 
     <!--    Lobby View-->
@@ -163,7 +163,7 @@
     <string name="azure_communication_ui_calling_send_feedback_label">Lähetä</string>
 
     <!--    Outgoing Call-->
-    <string name="azure_communication_ui_calling_setup_view_start_call">Start call</string>
-    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Starting call…</string>
-    <string name="azure_communication_ui_calling_call_view_calling">Calling...</string>
+    <string name="azure_communication_ui_calling_setup_view_start_call">Aloita puhelu</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Aloitetaan puhelua…</string>
+    <string name="azure_communication_ui_calling_call_view_calling">Soitetaan...</string>
 </resources>

@@ -19,9 +19,9 @@
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">الميكروفون قيد الإيقاف</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">الميكروفون قيد التشغيل</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">الانضمام إلى المكالمة</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">الصوت لديك معطّل. للتمكين، الرجاء الانتقال إلى الإعدادات للسماح بالوصول. يجب عليك
+    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">الصوت لديك معطّل. لتمكينه، الرجاء الانتقال إلى "الإعدادات" للسماح بالوصول. يجب عليك
         تمكين الصوت لبدء هذه المكالمة.</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">الكاميرا لديك معطّلة. للتمكين، الرجاء الانتقال إلى الإعدادات
+    <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">الكاميرا لديك معطّلة. لتمكينها، الرجاء الانتقال إلى "الإعدادات"
         للسماح بالوصول.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">الأذونات المطلوبة</string>
     <string name="azure_communication_ui_calling_setup_view_go_to_settings">انتقل إلى الإعدادات</string>
@@ -29,8 +29,8 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">إعداد التدرّج</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">تبديل الكاميرا</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">إعداد</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement"> العنوان</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement"> عنوان فرعي</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">العنوان</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">عنوان فرعي</string>
     <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">تنقل خلفي</string>
 
     <!--    Lobby View-->
@@ -70,22 +70,22 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">زر مشاركة معلومات التشخيص</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>لقد بدأ التسجيل.</b> من خلال الانضمام، فأنت
-        توافق على كتابة هذا الاجتماع.
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>لقد بدأ التسجيل.</b> بالانضمام، فأنت
+        تمنح موافقتك على إعداد نسخة مكتوبة من هذا الاجتماع.
          <u>نهج الخصوصية</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>يتم حفظ التسجيل.</b> تم إيقاف التسجيل.
-         <u>التعرّف على المزيد</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>لقد بدأ كتابة الحديث.</b> بالانضمام، أنت
-        توافق على كتابة هذا الاجتماع. <u>نهج الخصوصية</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>يتم حفظ كتابة الحديث.</b> الكتابة
-        قيد الإيقاف. <u>التعرّف على المزيد</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>لقد بدء التسجيل والنسخ
-        النصي.</b> بالانضمام، فأنت توافق على كتابة الحديث لهذا الاجتماع
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>يتم الآن حفظ التسجيل.</b> تم إيقاف التسجيل.
+         <u>تعرّف على المزيد</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>لقد بدأت كتابة الحديث.</b> بالانضمام، فأنت
+        تمنح موافقتك على إعداد نسخة مكتوبة من هذا الاجتماع. <u>نهج الخصوصية</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>يتم حفظ كتابة الحديث.</b> تم إيقاف
+        كتابة الحديث. <u>تعرّف على المزيد</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>لقد بدأ التسجيل
+        وكتابة الحديث.</b> بالانضمام، فأنت تمنح موافقتك على إعداد نسخة مكتوبة من هذا الاجتماع
         . <u>نهج الخصوصية</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>يتم حفظ التسجيل والنسخ
-        النصي.</b> تم إيقاف التسجيل وكتابة الحديث. <u>التعرّف على المزيد</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>يتم الآن حفظ التسجيل
+        وكتابة الحديث.</b> تم إيقاف التسجيل وكتابة الحديث. <u>تعرّف على المزيد</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>تم إيقاف التسجيل.</b> أنت
-        تكتب حديث هذا الاجتماع الآن فقط. <u>نهج الخصوصية</u></string>
+        تكتب الآن حديث هذا الاجتماع فقط. <u>نهج الخصوصية</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>تم إيقاف كتابة الحديث.
     </b> أنت الآن تسجل هذا الاجتماع فقط. <u>نهج الخصوصية</u></string>
     <string name="azure_communication_ui_calling_view_link">رابط</string>
@@ -163,7 +163,7 @@
     <string name="azure_communication_ui_calling_send_feedback_label">إرسال</string>
 
     <!--    Outgoing Call-->
-    <string name="azure_communication_ui_calling_setup_view_start_call">Start call</string>
-    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Starting call…</string>
-    <string name="azure_communication_ui_calling_call_view_calling">Calling...</string>
+    <string name="azure_communication_ui_calling_setup_view_start_call">بدء مكالمة</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">جارٍ بدء المكالمة…</string>
+    <string name="azure_communication_ui_calling_call_view_calling">يتم الآن الاتصال...</string>
 </resources>

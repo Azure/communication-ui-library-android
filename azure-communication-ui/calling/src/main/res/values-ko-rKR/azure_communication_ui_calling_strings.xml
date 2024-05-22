@@ -29,8 +29,8 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">설정 그라데이션</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">카메라 전환</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">설정</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement"> 제목</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement"> 부제</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">제목</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">부제</string>
     <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">탐색으로 돌아가기</string>
 
     <!--    Lobby View-->
@@ -163,7 +163,7 @@
     <string name="azure_communication_ui_calling_send_feedback_label">보내기</string>
 
     <!--    Outgoing Call-->
-    <string name="azure_communication_ui_calling_setup_view_start_call">Start call</string>
-    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Starting call…</string>
-    <string name="azure_communication_ui_calling_call_view_calling">Calling...</string>
+    <string name="azure_communication_ui_calling_setup_view_start_call">통화 시작</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">통화를 시작하는 중…</string>
+    <string name="azure_communication_ui_calling_call_view_calling">전화 거는 중...</string>
 </resources>

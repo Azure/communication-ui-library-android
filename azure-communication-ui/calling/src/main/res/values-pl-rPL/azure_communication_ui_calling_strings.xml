@@ -29,8 +29,8 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Ustawianie gradientu</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Przełącz kamerę</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Konfiguruj</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement"> Tytuł</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement"> Podtytuł</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Tytuł</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Podtytuł</string>
     <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Nawigacja wstecz</string>
 
     <!--    Lobby View-->
@@ -163,7 +163,7 @@
     <string name="azure_communication_ui_calling_send_feedback_label">Wyślij</string>
 
     <!--    Outgoing Call-->
-    <string name="azure_communication_ui_calling_setup_view_start_call">Start call</string>
-    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Starting call…</string>
-    <string name="azure_communication_ui_calling_call_view_calling">Calling...</string>
+    <string name="azure_communication_ui_calling_setup_view_start_call">Zadzwoń</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Rozpoczynanie połączenia…</string>
+    <string name="azure_communication_ui_calling_call_view_calling">Trwa łączenie...</string>
 </resources>

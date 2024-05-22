@@ -29,8 +29,8 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Konfigurera toning</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Växla kamera</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Konfigurera</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement"> Rubrik</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement"> Undertext</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Rubrik</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Undertext</string>
     <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Bakåtnavigering</string>
 
     <!--    Lobby View-->
@@ -163,7 +163,7 @@
     <string name="azure_communication_ui_calling_send_feedback_label">Skicka</string>
 
     <!--    Outgoing Call-->
-    <string name="azure_communication_ui_calling_setup_view_start_call">Start call</string>
-    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Starting call…</string>
-    <string name="azure_communication_ui_calling_call_view_calling">Calling...</string>
+    <string name="azure_communication_ui_calling_setup_view_start_call">Starta samtal</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Startar samtal…</string>
+    <string name="azure_communication_ui_calling_call_view_calling">Ringer...</string>
 </resources>

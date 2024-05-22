@@ -29,8 +29,8 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Configuración de degradado</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Cambiar de cámara</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Configurar</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement"> Título</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement"> Subtítulo</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Título</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Subtítulo</string>
     <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Navegación hacia atrás</string>
 
     <!--    Lobby View-->
@@ -163,7 +163,7 @@
     <string name="azure_communication_ui_calling_send_feedback_label">Enviar</string>
 
     <!--    Outgoing Call-->
-    <string name="azure_communication_ui_calling_setup_view_start_call">Start call</string>
-    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Starting call…</string>
-    <string name="azure_communication_ui_calling_call_view_calling">Calling...</string>
+    <string name="azure_communication_ui_calling_setup_view_start_call">Iniciar llamada</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Iniciando llamada…</string>
+    <string name="azure_communication_ui_calling_call_view_calling">Llamando...</string>
 </resources>

@@ -29,8 +29,8 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">グラデーションの設定</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">カメラの切り替え</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">セットアップ</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement"> タイトル</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement"> サブタイトル</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">タイトル</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">サブタイトル</string>
     <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">戻るナビゲーション</string>
 
     <!--    Lobby View-->
@@ -70,14 +70,14 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">診断情報の共有ボタン</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>レコーディングが開始されました。</b> 参加すると、
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>レコーディングが開始されました。</b>参加すると、
        この会議が文字起こしされることに同意したことになります。
         <u>プライバシー ポリシー</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>レコーディングを保存しています。</b>レコーディングが停止しました。
         <u>詳細情報</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>文字起こしが開始されました。</b> 参加すると、
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>文字起こしが開始されました。</b>参加すると、
        この会議が文字起こしされることに同意したことになります。<u>プライバシー ポリシー</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>文字起こしを保存しています。</b> 文字起こしが
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>文字起こしを保存しています。</b>文字起こしが
        停止しました。<u>詳細情報</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>レコーディングと文字起こしが開始され
        ました。</b>参加すると、この会議が文字起こしされることに同意したことになります
@@ -161,4 +161,9 @@
     <string name="azure_communication_ui_calling_attach_screenshot">スクリーンショットを添付する</string>
     <string name="azure_communication_ui_calling_report_a_problem_label">問題を報告する</string>
     <string name="azure_communication_ui_calling_send_feedback_label">送信する</string>
+
+    <!--    Outgoing Call-->
+    <string name="azure_communication_ui_calling_setup_view_start_call">通話を開始</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">通話を開始しています…</string>
+    <string name="azure_communication_ui_calling_call_view_calling">呼び出し中。。。</string>
 </resources>

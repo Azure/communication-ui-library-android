@@ -29,8 +29,8 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">הגדרה הדרגתית</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">החלף מצלמה</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">הגדרה</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement"> כותרת</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement"> כתובית</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">כותרת</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">כתובית</string>
     <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">ניווט לאחור</string>
 
     <!--    Lobby View-->
@@ -163,7 +163,7 @@
     <string name="azure_communication_ui_calling_send_feedback_label">שלח</string>
 
     <!--    Outgoing Call-->
-    <string name="azure_communication_ui_calling_setup_view_start_call">Start call</string>
-    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Starting call…</string>
-    <string name="azure_communication_ui_calling_call_view_calling">Calling...</string>
+    <string name="azure_communication_ui_calling_setup_view_start_call">התחל שיחה</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">מתחיל התקשרות…</string>
+    <string name="azure_communication_ui_calling_call_view_calling">מתקשר...</string>
 </resources>
