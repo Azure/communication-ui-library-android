@@ -12,32 +12,13 @@ internal class CapabilitiesManager(
 ) {
     fun hasCapability(
         capabilities: Set<ParticipantCapabilityType>,
-        participantRole: ParticipantRole?,
         capability: ParticipantCapabilityType,
         ): Boolean {
         return when (callType) {
-            CallType.GROUP_CALL -> hasCapability(participantRole, capability)
-            CallType.TEAMS_MEETING -> hasCapability(participantRole, capability)
+            CallType.GROUP_CALL,
+            CallType.TEAMS_MEETING -> true
             CallType.ROOMS_CALL -> capabilities.contains(capability)
         }
     }
 
-    fun hasCapability(
-        participantRole: ParticipantRole?,
-        capability: ParticipantCapabilityType,
-        ): Boolean {
-        if (participantRole == null)
-            return true
-
-        if (capability == ParticipantCapabilityType.UNMUTE_MICROPHONE || capability == ParticipantCapabilityType.TURN_VIDEO_ON) {
-            return participantRole != ParticipantRole.CONSUMER
-        }
-
-        if (capability == ParticipantCapabilityType.MANAGE_LOBBY) {
-            return participantRole == ParticipantRole.ORGANIZER
-                    || participantRole == ParticipantRole.PRESENTER
-        }
-
-        return false
-    }
 }

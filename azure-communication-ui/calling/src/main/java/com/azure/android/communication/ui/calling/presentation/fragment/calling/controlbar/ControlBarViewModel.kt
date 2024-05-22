@@ -61,7 +61,6 @@ internal class ControlBarViewModel(
         visibilityState: VisibilityState,
         audioVideoMode: CallCompositeAudioVideoMode,
         capabilities: Set<ParticipantCapabilityType>,
-        localParticipantRole: ParticipantRole?,
     ) {
         isVisibleStateFlow = MutableStateFlow(shouldBeVisible(visibilityState))
 
@@ -77,7 +76,6 @@ internal class ControlBarViewModel(
                 callState.callingStatus,
                 cameraState.operation,
                 capabilities,
-                localParticipantRole,
             )
         )
 
@@ -91,7 +89,6 @@ internal class ControlBarViewModel(
                 audioState,
                 callState.callingStatus,
                 capabilities,
-                localParticipantRole,
             )
         )
 
@@ -111,7 +108,6 @@ internal class ControlBarViewModel(
         visibilityState: VisibilityState,
         audioVideoMode: CallCompositeAudioVideoMode,
         capabilities: Set<ParticipantCapabilityType>,
-        localParticipantRole: ParticipantRole?,
     ) {
 
         isVisibleStateFlow.value = shouldBeVisible(visibilityState)
@@ -124,7 +120,6 @@ internal class ControlBarViewModel(
             callingStatus,
             cameraState.operation,
             capabilities,
-            localParticipantRole,
         )
         cameraStatusFlow.value = cameraState.operation
 
@@ -135,7 +130,6 @@ internal class ControlBarViewModel(
             audioState,
             callingStatus,
             capabilities,
-            localParticipantRole,
         )
 
         isAudioDeviceButtonEnabledFlow.value = shouldAudioDeviceButtonBeEnable(callingStatus)
@@ -189,14 +183,12 @@ internal class ControlBarViewModel(
         callingStatus: CallingStatus,
         operation: CameraOperationalStatus,
         capabilities: Set<ParticipantCapabilityType>,
-        localParticipantRole: ParticipantRole?,
     ): Boolean {
         return permissionState.cameraPermissionState != PermissionStatus.DENIED &&
                 callingStatus == CallingStatus.CONNECTED &&
                 operation != CameraOperationalStatus.PENDING &&
                 capabilitiesManager.hasCapability(
                     capabilities,
-                    localParticipantRole,
                     ParticipantCapabilityType.TURN_VIDEO_ON,
                 )
     }
@@ -205,13 +197,11 @@ internal class ControlBarViewModel(
         audioState: AudioState,
         callingStatus: CallingStatus,
         capabilities: Set<ParticipantCapabilityType>,
-        localParticipantRole: ParticipantRole?,
     ): Boolean {
         return audioState.operation != AudioOperationalStatus.PENDING &&
                 callingStatus == CallingStatus.CONNECTED &&
                 capabilitiesManager.hasCapability(
                     capabilities,
-                    localParticipantRole,
                     ParticipantCapabilityType.UNMUTE_MICROPHONE,
                 )
     }

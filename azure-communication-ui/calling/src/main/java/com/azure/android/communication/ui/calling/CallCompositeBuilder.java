@@ -8,6 +8,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptio
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions;
+import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation;
 
 /**
@@ -24,8 +25,8 @@ public final class CallCompositeBuilder {
     private Boolean enableSystemPiPWhenMultitasking = false;
     private CallCompositeSupportedScreenOrientation callScreenOrientation = null;
     private CallCompositeSupportedScreenOrientation setupScreenOrientation = null;
-    private CallCompositeCapabilitiesChangeNotificationMode capabilitiesChangeNotificationMode =
-            CallCompositeCapabilitiesChangeNotificationMode.ALWAYS_DISPLAY;
+    private CallCompositeCapabilitiesChangeNotificationMode capabilitiesChangeNotificationMode = null;
+    private CallCompositeSetupScreenOptions setupScreenOptions = null;
 
     /**
      * Sets an optional theme for call-composite to use by {@link CallComposite}.
@@ -99,6 +100,16 @@ public final class CallCompositeBuilder {
         return this;
     }
 
+    /**
+     * Sets call screen options.
+     * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
+     */
+    public CallCompositeBuilder setupScreenOptions(
+            final CallCompositeSetupScreenOptions options) {
+        this.setupScreenOptions = options;
+        return this;
+    }
+
     /* </ROOMS_SUPPORT> */
 
     /**
@@ -114,7 +125,8 @@ public final class CallCompositeBuilder {
                 this.setupScreenOrientation,
                 this.enableMultitasking,
                 this.enableSystemPiPWhenMultitasking/* <ROOMS_SUPPORT> */,
-                this.capabilitiesChangeNotificationMode/* </ROOMS_SUPPORT> */);
+                this.capabilitiesChangeNotificationMode,
+                this.setupScreenOptions/* </ROOMS_SUPPORT> */);
 
         return new CallComposite(config);
     }

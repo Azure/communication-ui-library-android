@@ -55,7 +55,6 @@ class CallLauncherViewModel : ViewModel() {
         groupId: UUID?,
         /* <ROOMS_SUPPORT:5> */
         roomId: String?,
-        roomRoleHint: CallCompositeParticipantRole?,
         /* </ROOMS_SUPPORT:2> */
         meetingLink: String?,
     ) {
@@ -75,16 +74,12 @@ class CallLauncherViewModel : ViewModel() {
             meetingLink,
             /* <ROOMS_SUPPORT:5> */
             roomId,
-            roomRoleHint,
             /* </ROOMS_SUPPORT:2> */
             displayName,
         )
 
         val localOptions = getLocalOptions(
             context,
-            /* <ROOMS_SUPPORT:5> */
-            roomRoleHint,
-            /* </ROOMS_SUPPORT:2> */
         )
         if (localOptions == null) {
             callComposite.launch(context, remoteOptions)
@@ -101,7 +96,6 @@ class CallLauncherViewModel : ViewModel() {
         meetingLink: String?,
         /* <ROOMS_SUPPORT:5> */
         roomId: String?,
-        roomRoleHint: CallCompositeParticipantRole?,
         /* </ROOMS_SUPPORT:2> */
         displayName: String,
     ): CallCompositeRemoteOptions {
@@ -115,7 +109,7 @@ class CallLauncherViewModel : ViewModel() {
                 groupId != null -> CallCompositeGroupCallLocator(groupId)
                 meetingLink != null -> CallCompositeTeamsMeetingLinkLocator(meetingLink)
                 /* <ROOMS_SUPPORT:1> */
-                roomId != null && roomRoleHint != null -> CallCompositeRoomLocator(roomId)
+                roomId != null -> CallCompositeRoomLocator(roomId)
                 /* <ROOMS_SUPPORT:1> */
                 else -> throw IllegalArgumentException("Cannot launch call composite with provided arguments.")
             }
@@ -125,18 +119,10 @@ class CallLauncherViewModel : ViewModel() {
 
     private fun getLocalOptions(
         context: Context,
-        /* <ROOMS_SUPPORT:1> */
-        roomRoleHint: CallCompositeParticipantRole?
-        /* <ROOMS_SUPPORT:1> */
 
     ): CallCompositeLocalOptions? {
         val localOptions = CallCompositeLocalOptions()
         var isAnythingChanged = false
-
-        if (roomRoleHint != null) {
-            localOptions.roleHint = roomRoleHint
-            isAnythingChanged = true
-        }
 
         val renderedDisplayName = SettingsFeatures.getRenderedDisplayNameOption()
         var avatarImageBitmap: Bitmap? = null

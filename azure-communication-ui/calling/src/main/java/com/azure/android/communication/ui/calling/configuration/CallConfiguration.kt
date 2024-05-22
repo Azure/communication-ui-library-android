@@ -25,7 +25,6 @@ internal data class CallConfiguration(
     val meetingLink: String?,
     /* <ROOMS_SUPPORT:5> */
     val roomId: String?,
-    val roomRoleHint: CallCompositeParticipantRole?,
     /* </ROOMS_SUPPORT:4> */
     val callType: CallType,
 ) {

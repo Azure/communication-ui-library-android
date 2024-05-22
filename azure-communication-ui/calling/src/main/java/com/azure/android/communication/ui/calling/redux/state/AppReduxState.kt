@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.redux.state
 
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
+import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenOptions
 import com.azure.android.communication.ui.calling.models.into
 
 internal class AppReduxState(
@@ -13,7 +14,6 @@ internal class AppReduxState(
     microphoneOnByDefault: Boolean = false,
     skipSetupScreen: Boolean = false,
     avMode: CallCompositeAudioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
-    roleHint: CallCompositeParticipantRole? = null,
 ) : ReduxState {
 
     override var callState: CallingState = CallingState()
@@ -51,7 +51,6 @@ internal class AppReduxState(
             localParticipantRole = null,
             audioVideoMode = avMode,
             capabilities = emptySet(),
-            roleHint = roleHint?.into()
         )
 
     override var permissionState: PermissionState =

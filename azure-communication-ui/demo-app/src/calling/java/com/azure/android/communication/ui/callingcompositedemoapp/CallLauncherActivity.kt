@@ -142,9 +142,6 @@ class CallLauncherActivity : AppCompatActivity() {
                     teamsMeetingRadioButton.isChecked = false
                     /* <ROOMS_SUPPORT:4> */
                     roomsMeetingRadioButton.isChecked = false
-                    attendeeRoleRadioButton.visibility = View.GONE
-                    presenterRoleRadioButton.visibility = View.GONE
-                    consumerRoleRadioButton.visibility = View.GONE
                     /* </ROOMS_SUPPORT:1> */
                 }
             }
@@ -154,9 +151,6 @@ class CallLauncherActivity : AppCompatActivity() {
                     groupCallRadioButton.isChecked = false
                     /* <ROOMS_SUPPORT:4> */
                     roomsMeetingRadioButton.isChecked = false
-                    attendeeRoleRadioButton.visibility = View.GONE
-                    presenterRoleRadioButton.visibility = View.GONE
-                    consumerRoleRadioButton.visibility = View.GONE
                     /* </ROOMS_SUPPORT:1> */
                 }
             }
@@ -164,38 +158,11 @@ class CallLauncherActivity : AppCompatActivity() {
             roomsMeetingRadioButton.setOnClickListener {
                 if (roomsMeetingRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.ROOM_ID)
-                    presenterRoleRadioButton.visibility = View.VISIBLE
-                    attendeeRoleRadioButton.visibility = View.VISIBLE
-                    consumerRoleRadioButton.visibility = View.VISIBLE
-                    attendeeRoleRadioButton.isChecked = true
                     groupCallRadioButton.isChecked = false
                     teamsMeetingRadioButton.isChecked = false
-                } else {
-                    presenterRoleRadioButton.visibility = View.GONE
-                    attendeeRoleRadioButton.visibility = View.GONE
-                    consumerRoleRadioButton.visibility = View.GONE
                 }
             }
 
-            presenterRoleRadioButton.setOnClickListener {
-                if (presenterRoleRadioButton.isChecked) {
-                    attendeeRoleRadioButton.isChecked = false
-                    consumerRoleRadioButton.isChecked = false
-                }
-            }
-
-            attendeeRoleRadioButton.setOnClickListener {
-                if (attendeeRoleRadioButton.isChecked) {
-                    presenterRoleRadioButton.isChecked = false
-                    consumerRoleRadioButton.isChecked = false
-                }
-            }
-            consumerRoleRadioButton.setOnClickListener {
-                if (consumerRoleRadioButton.isChecked) {
-                    attendeeRoleRadioButton.isChecked = false
-                    presenterRoleRadioButton.isChecked = false
-                }
-            }
             /* </ROOMS_SUPPORT:0> */
 
             showCallHistoryButton.setOnClickListener {
@@ -251,12 +218,6 @@ class CallLauncherActivity : AppCompatActivity() {
 
         /* <ROOMS_SUPPORT:0> */
         val roomId = binding.groupIdOrTeamsMeetingLinkText.text.toString()
-        val roomRole = when {
-            binding.attendeeRoleRadioButton.isChecked -> CallCompositeParticipantRole.ATTENDEE
-            binding.presenterRoleRadioButton.isChecked -> CallCompositeParticipantRole.PRESENTER
-            binding.consumerRoleRadioButton.isChecked -> CallCompositeParticipantRole.CONSUMER
-            else -> null
-        }
         /* </ROOMS_SUPPORT:0> */
 
         var groupId: UUID? = null
@@ -294,7 +255,6 @@ class CallLauncherActivity : AppCompatActivity() {
             groupId,
             /* <ROOMS_SUPPORT:5> */
             roomId,
-            roomRole,
             /* </ROOMS_SUPPORT:2> */
             meetingLink,
         )

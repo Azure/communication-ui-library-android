@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.setup.components
 
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
+import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenOptions
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
@@ -25,7 +26,6 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class SetupControlBarViewModel(
     private val dispatch: (Action) -> Unit,
-    private val capabilitiesManager: CapabilitiesManager,
 ) {
     private lateinit var cameraIsEnabledStateFlow: MutableStateFlow<Boolean>
     private lateinit var cameraIsVisibleStateFlow: MutableStateFlow<Boolean>
@@ -47,13 +47,13 @@ internal class SetupControlBarViewModel(
         audioState: AudioState,
         callingState: CallingState,
         openAudioDeviceSelectionMenuCallback: () -> Unit,
-        roleHint: ParticipantRole?,
+        setupScreenOptions: CallCompositeSetupScreenOptions?,
     ) {
         visibleStateFlow = MutableStateFlow(isVisible(permissionState.audioPermissionState))
-        cameraIsEnabledStateFlow = MutableStateFlow(shouldCameraButtonBeEnabled(callingState, permissionState.cameraPermissionState, roleHint))
+        cameraIsEnabledStateFlow = MutableStateFlow(shouldCameraButtonBeEnabled(callingState, permissionState.cameraPermissionState, setupScreenOptions))
         cameraIsVisibleStateFlow = MutableStateFlow(shouldCameraButtonBeVisible(audioVideoMode))
 
-        micIsEnabledStateFlow = MutableStateFlow(shouldMicButtonBeEnabled(callingState, audioState.operation, roleHint))
+        micIsEnabledStateFlow = MutableStateFlow(shouldMicButtonBeEnabled(callingState, audioState.operation, setupScreenOptions))
         deviceIsEnabledStateFlow = MutableStateFlow(!shouldControlsBeDisabled(callingState))
 
         cameraStateFlow = MutableStateFlow(cameraState.operation)
@@ -72,13 +72,13 @@ internal class SetupControlBarViewModel(
         audioVideoMode: CallCompositeAudioVideoMode,
         audioState: AudioState,
         callingState: CallingState,
-        roleHint: ParticipantRole?,
+        setupScreenOptions: CallCompositeSetupScreenOptions?,
     ) {
         visibleStateFlow.value = isVisible(permissionState.audioPermissionState)
-        cameraIsEnabledStateFlow.value = shouldCameraButtonBeEnabled(callingState, permissionState.cameraPermissionState, roleHint)
+        cameraIsEnabledStateFlow.value = shouldCameraButtonBeEnabled(callingState, permissionState.cameraPermissionState, setupScreenOptions)
         cameraIsVisibleStateFlow.value = shouldCameraButtonBeVisible(audioVideoMode)
 
-        micIsEnabledStateFlow.value = shouldMicButtonBeEnabled(callingState, audioState.operation, roleHint)
+        micIsEnabledStateFlow.value = shouldMicButtonBeEnabled(callingState, audioState.operation, setupScreenOptions)
         deviceIsEnabledStateFlow.value = !shouldControlsBeDisabled(callingState)
 
         cameraStateFlow.value = cameraState.operation
@@ -142,21 +142,21 @@ internal class SetupControlBarViewModel(
     private fun shouldCameraButtonBeEnabled(
         callingState: CallingState,
         cameraPermissionState: PermissionStatus,
-        roleHint: ParticipantRole?
+        setupScreenOptions: CallCompositeSetupScreenOptions?,
         ): Boolean {
         return !shouldControlsBeDisabled(callingState) &&
                 cameraPermissionState != PermissionStatus.DENIED &&
-                capabilitiesManager.hasCapability(roleHint, ParticipantCapabilityType.TURN_VIDEO_ON)
+                setupScreenOptions?.isCameraButtonEnabled != false
     }
 
     private fun shouldMicButtonBeEnabled(
         callingState: CallingState,
         audioStateOperation: AudioOperationalStatus,
-        roleHint: ParticipantRole?,
+        setupScreenOptions: CallCompositeSetupScreenOptions?
         ): Boolean {
         return !shouldControlsBeDisabled(callingState) &&
                 audioStateOperation != AudioOperationalStatus.PENDING &&
-                capabilitiesManager.hasCapability(roleHint, ParticipantCapabilityType.UNMUTE_MICROPHONE)
+                setupScreenOptions?.isMicrophoneButtonEnabled != false
     }
 
     private fun shouldControlsBeDisabled(callingState: CallingState): Boolean {

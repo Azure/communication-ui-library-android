@@ -26,14 +26,13 @@ internal class ParticipantMenuViewModel(
     val remoteParticipantEnabledFlow = remoteParticipantEnabledMutableFlow.asStateFlow()
 
 
-    fun init(capabilities: Set<ParticipantCapabilityType>, localParticipantRole: ParticipantRole?) {
-        update(capabilities, localParticipantRole)
+    fun init(capabilities: Set<ParticipantCapabilityType>) {
+        update(capabilities)
     }
 
-    fun update(capabilities: Set<ParticipantCapabilityType>, localParticipantRole: ParticipantRole?) {
+    fun update(capabilities: Set<ParticipantCapabilityType>) {
         remoteParticipantEnabledMutableFlow.value = capabilitiesManager.hasCapability(
             capabilities,
-            localParticipantRole,
             ParticipantCapabilityType.REMOVE_PARTICIPANT,
             )
     }

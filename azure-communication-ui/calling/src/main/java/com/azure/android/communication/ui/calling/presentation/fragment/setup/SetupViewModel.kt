@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.setup
 
+import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenOptions
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.SetupViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
@@ -18,6 +19,7 @@ internal class SetupViewModel(
     store: Store<ReduxState>,
     setupViewModelProvider: SetupViewModelFactory,
     private val networkManager: NetworkManager,
+    private val setupScreenOptions: CallCompositeSetupScreenOptions?,
 ) :
     BaseViewModel(store) {
 
@@ -63,7 +65,7 @@ internal class SetupViewModel(
             state.localParticipantState.audioState,
             state.callState,
             audioDeviceListViewModel::displayAudioDeviceSelectionMenu,
-            state.localParticipantState.roleHint,
+            setupScreenOptions,
         )
         audioDeviceListViewModel.init(
             state.localParticipantState.audioState,
@@ -97,7 +99,7 @@ internal class SetupViewModel(
             state.localParticipantState.audioVideoMode,
             state.localParticipantState.audioState,
             state.callState,
-            state.localParticipantState.roleHint,
+            setupScreenOptions,
         )
         warningsViewModel.update(state.permissionState)
         localParticipantRendererViewModel.update(

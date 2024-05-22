@@ -232,6 +232,7 @@ internal class DependencyInjectionContainerImpl(
             appStore,
             setupViewModelFactory,
             networkManager,
+            configuration.setupScreenOptions,
         )
     }
 
@@ -257,7 +258,6 @@ internal class DependencyInjectionContainerImpl(
         SetupViewModelFactory(
             appStore,
             applicationContext,
-            this,
         )
     }
 
@@ -274,7 +274,6 @@ internal class DependencyInjectionContainerImpl(
             microphoneOnByDefault = localOptions?.isMicrophoneOn ?: false,
             avMode = localOptions?.audioVideoMode ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             skipSetupScreen = localOptions?.isSkipSetupScreen ?: false,
-            roleHint = localOptions?.roleHint
         )
     }
 

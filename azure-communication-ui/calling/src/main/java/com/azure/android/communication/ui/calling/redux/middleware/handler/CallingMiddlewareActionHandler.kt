@@ -374,13 +374,12 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     override fun setCapabilities(capabilities: Set<ParticipantCapabilityType>, store: Store<ReduxState>) {
         val state = store.getCurrentState()
-        val role = state.localParticipantState.localParticipantRole
-        if (!capabilitiesManager.hasCapability(capabilities, role, ParticipantCapabilityType.TURN_VIDEO_ON) &&
+        if (!capabilitiesManager.hasCapability(capabilities, ParticipantCapabilityType.TURN_VIDEO_ON) &&
             state.localParticipantState.cameraState.operation != CameraOperationalStatus.OFF) {
             store.dispatch(LocalParticipantAction.CameraOffTriggered())
         }
 
-        if (!capabilitiesManager.hasCapability(capabilities, role, ParticipantCapabilityType.UNMUTE_MICROPHONE) &&
+        if (!capabilitiesManager.hasCapability(capabilities, ParticipantCapabilityType.UNMUTE_MICROPHONE) &&
             state.localParticipantState.audioState.operation != AudioOperationalStatus.OFF) {
             store.dispatch(LocalParticipantAction.MicOffTriggered())
         }
@@ -516,7 +515,6 @@ internal class CallingMiddlewareActionHandlerImpl(
 
                 val hasVideoOnCapability = capabilitiesManager.hasCapability(
                     capabilities,
-                    state.localParticipantState.roleHint,
                     ParticipantCapabilityType.TURN_VIDEO_ON,
                     )
 
