@@ -38,9 +38,9 @@ import com.azure.android.communication.ui.calling.models.CallCompositeLocalizati
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions
 /* <ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
+/* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotification
-/* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 /* <ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator
@@ -150,9 +150,9 @@ class CallCompositeManager(private val context: Context) {
             when {
                 groupId != null -> CallCompositeGroupCallLocator(groupId)
                 meetingLink != null -> CallCompositeTeamsMeetingLinkLocator(meetingLink)
-                /* <ROOMS_SUPPORT:1> */
+                /* <ROOMS_SUPPORT:0> */
                 roomId != null && roomRoleHint != null -> CallCompositeRoomLocator(roomId)
-                /* <ROOMS_SUPPORT:1> */
+                /* </ROOMS_SUPPORT:0> */
                 else -> throw IllegalArgumentException("Cannot launch call composite with provided arguments.")
             }
 
@@ -162,18 +162,18 @@ class CallCompositeManager(private val context: Context) {
     private fun getLocator(
         groupId: UUID?,
         meetingLink: String?,
-        /* <ROOMS_SUPPORT:5> */
+        /* <ROOMS_SUPPORT:4> */
         roomId: String?,
         roomRoleHint: CallCompositeParticipantRole?,
-        /* </ROOMS_SUPPORT:2> */
+        /* </ROOMS_SUPPORT:1> */
     ): CallCompositeJoinLocator {
         val locator: CallCompositeJoinLocator =
             when {
                 groupId != null -> CallCompositeGroupCallLocator(groupId)
                 meetingLink != null -> CallCompositeTeamsMeetingLinkLocator(meetingLink)
-                /* <ROOMS_SUPPORT:1> */
+                /* <ROOMS_SUPPORT:0> */
                 roomId != null && roomRoleHint != null -> CallCompositeRoomLocator(roomId)
-                /* <ROOMS_SUPPORT:1> */
+                /* </ROOMS_SUPPORT:0> */
                 else -> throw IllegalArgumentException("Cannot launch call composite with provided arguments.")
             }
 

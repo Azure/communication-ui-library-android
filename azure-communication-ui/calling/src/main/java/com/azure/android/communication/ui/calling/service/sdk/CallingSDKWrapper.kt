@@ -19,8 +19,8 @@ import com.azure.android.communication.calling.OutgoingAudioOptions
 import com.azure.android.communication.calling.OutgoingVideoOptions
 /* <ROOMS_SUPPORT:0> */
 import com.azure.android.communication.calling.RoomCallLocator
-import com.azure.android.communication.calling.StartCallOptions
 /* </ROOMS_SUPPORT:0> */
+import com.azure.android.communication.calling.StartCallOptions
 import com.azure.android.communication.calling.TeamsMeetingLinkLocator
 import com.azure.android.communication.calling.VideoDevicesUpdatedListener
 import com.azure.android.communication.ui.calling.CallCompositeException

@@ -210,19 +210,6 @@ class CallLauncherActivity : AppCompatActivity() {
                 }
             }
 
-            oneToNCallRadioButton.setOnClickListener {
-                if (oneToNCallRadioButton.isChecked) {
-                    groupIdOrTeamsMeetingLinkText.setText(BuildConfig.PARTICIPANT_MRIS)
-                    groupCallRadioButton.isChecked = false
-                    teamsMeetingRadioButton.isChecked = false
-                    /* <ROOMS_SUPPORT:4> */
-                    roomsMeetingRadioButton.isChecked = false
-                    attendeeRoleRadioButton.visibility = View.GONE
-                    presenterRoleRadioButton.visibility = View.GONE
-                    /* </ROOMS_SUPPORT:1> */
-                }
-            }
-
             presenterRoleRadioButton.setOnClickListener {
                 if (presenterRoleRadioButton.isChecked) {
                     attendeeRoleRadioButton.isChecked = false
@@ -235,6 +222,19 @@ class CallLauncherActivity : AppCompatActivity() {
                 }
             }
             /* </ROOMS_SUPPORT:0> */
+
+            oneToNCallRadioButton.setOnClickListener {
+                if (oneToNCallRadioButton.isChecked) {
+                    groupIdOrTeamsMeetingLinkText.setText(BuildConfig.PARTICIPANT_MRIS)
+                    groupCallRadioButton.isChecked = false
+                    teamsMeetingRadioButton.isChecked = false
+                    /* <ROOMS_SUPPORT:4> */
+                    roomsMeetingRadioButton.isChecked = false
+                    attendeeRoleRadioButton.visibility = View.GONE
+                    presenterRoleRadioButton.visibility = View.GONE
+                    /* </ROOMS_SUPPORT:1> */
+                }
+            }
 
             showCallHistoryButton.setOnClickListener {
                 showCallHistory()

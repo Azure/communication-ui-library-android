@@ -50,6 +50,13 @@
                 android:layout_weight="1"
                 android:layout_marginStart="10dp"
                 android:text="@string/teams_meeting_label" />
+            <RadioButton
+                android:id="@+id/oneToNCallRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:text="@string/one_to_n_call_label" />
             <!-- <ROOMS_SUPPORT:0> -->
             <RadioButton
                 android:id="@+id/roomsMeetingRadioButton"
@@ -58,14 +65,6 @@
                 android:layout_weight="1"
                 android:text="@string/rooms_meeting_label"
                 />
-
-            <RadioButton
-                android:id="@+id/oneToNCallRadioButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="10dp"
-                android:text="@string/one_to_n_call_label" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
