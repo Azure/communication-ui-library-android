@@ -1,4 +1,8 @@
 name: $(date:yyyyMMdd)$(rev:.r)
+trigger: none
+pr: none
+variables:
+  buildVersion: '0.0.1'
 resources:
   repositories:
   - repository: 1esPipelines
@@ -96,6 +100,14 @@ extends:
               export KEY_ALIAS="androiddebugkey"
 
               export KEY_PASSWORD="android"
+        - script: |
+            echo "Extracting version..."
+            VERSION=$(grep 'call_library_version_name' $(system.defaultWorkingDirectory)/azure-communication-ui/build.gradle | sed -n "s/.*call_library_version_name = '\([^']*\)'.*/\1/p")
+            echo "##vso[task.setvariable variable=buildVersion]$VERSION"
+          displayName: 'Get Android Gradle Build Version'
+        - script: |
+            echo "The build version is $(buildVersion)"
+          displayName: 'Display Build Version'
         - task: DownloadSecureFile@1
           displayName: Download google-service.json
           inputs:
@@ -155,32 +167,28 @@ extends:
           displayName: Put .pom file to the .aar file
           inputs:
             type: InlineScript
-            script: "putPomFileToSources() {\n  composite=$@\n  # Find the file\n  found_file=$(find . -name \"*-sources.jar\")\n\n  found_file=${found_file#*/}\n\n  version=${found_file%%/*}\n\n  sources_file_name=${found_file#*/} \n\n  # Unzip the file\n  unzip ./$version/$sources_file_name -d ./tmp\n  mkdir ./tmp/META-INF/maven\n  mkdir ./tmp/META-INF/maven/\n  mkdir ./tmp/META-INF/maven/com.azure.android/\n  mkdir ./tmp/META-INF/maven/com.azure.android/azure-communication-ui-$composite\n  \n  # Add the new file to the unzip location\n  cp ./$version/*.pom ./tmp/META-INF/maven/com.azure.android/azure-communication-ui-$composite/pom.xml\n\n  cd tmp\n\n  # Zip the folder to a new archive\n  zip -r ../$version/$sources_file_name ./\n\n  cd ..\n\n  rm -r tmp\n}\n\n\n# Go to calling directory\ncd azure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling\n\nputPomFileToSources \"calling\"\n\n\n# Go to chat directory\ncd ../../../../../../../../azure-communication-ui/chat/build/publish/com/azure/android/azure-communication-ui-chat\n\nputPomFileToSources \"chat\""
+            script: "putPomFileToSources() {\n  composite=$@\n  # Find the file\n  found_file=$(find . -name \"*-sources.jar\")\n\n  found_file=${found_file#*/}\n\n version=${found_file%%/*}\n\n sources_file_name=${found_file#*/} \n\n  # Unzip the file\n  unzip ./$version/$sources_file_name -d ./tmp\n  mkdir ./tmp/META-INF/maven\n  mkdir ./tmp/META-INF/maven/\n  mkdir ./tmp/META-INF/maven/com.azure.android/\n  mkdir ./tmp/META-INF/maven/com.azure.android/azure-communication-ui-$composite\n  \n  # Add the new file to the unzip location\n  cp ./$version/*.pom ./tmp/META-INF/maven/com.azure.android/azure-communication-ui-$composite/pom.xml\n\n  cd tmp\n\n  # Zip the folder to a new archive\n  zip -r ../$version/$sources_file_name ./\n\n  cd ..\n\n  rm -r tmp\n}\n\n\n# Go to calling directory\ncd azure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling\n\nputPomFileToSources \"calling\"\n\n\n# Go to chat directory\ncd ../../../../../../../../azure-communication-ui/chat/build/publish/com/azure/android/azure-communication-ui-chat\n\nputPomFileToSources \"chat\""
+        - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
+          displayName: print build folder files
+          inputs:
+            type: InlineScript
+            script: ls $(system.defaultWorkingDirectory)/azure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling/$(buildVersion)
+        
         - task: MavenAuthenticate@0
           displayName: Maven Authenticate
-          enabled: False
+          enabled: true
           inputs:
             artifactsFeeds: csc
-        - task: Gradle@3
-          displayName: gradlew publish To csc
-          enabled: False
-          inputs:
-            wrapperScript: azure-communication-ui/gradlew
-            cwd: azure-communication-ui/calling
-            tasks: publishReleasePublicationToCscRepository
-            javaHomeOption: 'JDKVersion'
-            jdkVersionOption: '1.11'
-        - task: UniversalPackages@0
-          displayName: Universal publish
-          enabled: False
-          inputs:
-            command: publish
-            feedListDownload: 08483367-b157-44ce-8443-adbd56e9d933
-            publishDirectory: azure-communication-ui/calling/build/publish/com/azure/android/test/azure-communication-ui-calling-testing/0.0.1
-            feedListPublish: 08483367-b157-44ce-8443-adbd56e9d933
-            packageListPublish: azure-communication-ui-calling-testing
-            versionPublishSelector: custom
-            versionPublish: 0.0.1
-        - task: Maven@3
-          displayName: Maven pom.xml
-          enabled: False
+        - script: |
+              echo "********** Running Maven Deploy **********"
+              mvn deploy:deploy-file \
+                -DpomFile=azure-communication-ui-calling-$(buildVersion).pom \
+                -Dfile=azure-communication-ui-calling-$(buildVersion).aar \
+                -Dpackaging=aar \
+                -Dsources=azure-communication-ui-calling-$(buildVersion)-sources.jar \
+                -Djavadoc=azure-communication-ui-calling-$(buildVersion)-javadoc.jar \
+                -Durl=$(CSCMavenRepoUrl) \
+                -DrepositoryId=csc
+          workingDirectory: $(system.defaultWorkingDirectory)/azure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling/$(buildVersion)
+          displayName: deploy to maven
+          condition: eq(variables['isPrivateRelease'], true)
