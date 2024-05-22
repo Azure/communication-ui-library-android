@@ -4,6 +4,7 @@
 
 ### Features
 - Telecom manager integration supported by native calling SDK
+- One to one call support with push notifications
 
 ## 1.7.0 (*)
 
