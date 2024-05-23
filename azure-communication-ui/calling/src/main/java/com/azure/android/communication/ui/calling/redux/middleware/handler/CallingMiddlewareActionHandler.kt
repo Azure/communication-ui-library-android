@@ -623,13 +623,13 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     private fun subscribeOnLocalParticipantCapabilitiesChanged(store: Store<ReduxState>) {
         coroutineScope.launch {
-            callingService.getCallCapabilitiesEventSharedFlow().collect { event ->
+            callingService.getCapabilitiesChangedEventSharedFlow().collect { event ->
                 // Set capabilities to the store
                 val capabilities = callingService.getCallCapabilities()
                 val action = LocalParticipantAction.SetCapabilities(capabilities)
                 store.dispatch(action)
 
-                if (configuration.capabilitiesChangeNotificationMode == CallCompositeCapabilitiesChangeNotificationMode.ALWAYS_DISPLAY) {
+                if (configuration.capabilitiesChangeNotificationMode != CallCompositeCapabilitiesChangeNotificationMode.NEVER_DISPLAY) {
                     val currentCapabilities =
                         store.getCurrentState().localParticipantState.capabilities
                     if (currentCapabilities.any()) {

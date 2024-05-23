@@ -64,7 +64,7 @@ internal interface CallingSDK {
     fun reject(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?>
     fun removeParticipant(userIdentifier: String): CompletableFuture<Void?>
     fun getLocalParticipantRoleSharedFlow(): SharedFlow<ParticipantRole?>
-    fun getCallCapabilitiesEventSharedFlow(): SharedFlow<CapabilitiesChangedEvent>
+    fun getCapabilitiesChangedEventSharedFlow(): SharedFlow<CapabilitiesChangedEvent>
     fun getCapabilities(): Set<ParticipantCapabilityType>
 
     //region Call Diagnostics

@@ -393,7 +393,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         TODO("Not yet implemented")
     }
 
-    override fun getCallCapabilitiesEventSharedFlow(): SharedFlow<CapabilitiesChangedEvent> {
+    override fun getCapabilitiesChangedEventSharedFlow(): SharedFlow<CapabilitiesChangedEvent> {
         TODO("Not yet implemented")
     }
 

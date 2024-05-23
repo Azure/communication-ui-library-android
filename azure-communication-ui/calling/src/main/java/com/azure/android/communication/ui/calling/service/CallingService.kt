@@ -102,8 +102,8 @@ internal class CallingService(
         return callingSdk.getLocalParticipantRoleSharedFlow()
     }
 
-    fun getCallCapabilitiesEventSharedFlow(): SharedFlow<CapabilitiesChangedEvent> =
-        callingSdk.getCallCapabilitiesEventSharedFlow()
+    fun getCapabilitiesChangedEventSharedFlow(): SharedFlow<CapabilitiesChangedEvent> =
+        callingSdk.getCapabilitiesChangedEventSharedFlow()
 
     fun getDominantSpeakersSharedFlow(): SharedFlow<List<String>> {
         return dominantSpeakersSharedFlow
