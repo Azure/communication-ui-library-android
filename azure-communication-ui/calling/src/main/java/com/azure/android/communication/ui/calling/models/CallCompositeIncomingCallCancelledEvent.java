@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.models;
 /**
  * Incoming call cancelled event.
  */
-public class CallCompositeIncomingCallCancelledEvent {
+public final class CallCompositeIncomingCallCancelledEvent {
     private final int code;
     private final int subCode;
     private final String callId;

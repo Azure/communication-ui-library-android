@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * CallCompositePushNotification for forwarding calling push notifications to UI Library.
  */
-public class CallCompositePushNotification {
+public final class CallCompositePushNotification {
     private final Map<String, String> notification;
     private final String fromDisplayName;
     private final CommunicationIdentifier from;
