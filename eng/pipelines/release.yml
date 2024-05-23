@@ -99,8 +99,6 @@ extends:
           inputs:
             type: InlineScript
             script: |
-              echo "Listing all files in the current directory:"
-              ls
               cd azure-communication-ui
               echo GITHUB_MAVEN_REPO_URL=$(GITHUB_MAVEN_REPO_URL) >> local.properties
               echo GITHUB_MAVEN_REPO_NAME=$(GITHUB_MAVEN_REPO_NAME) >> local.properties
