@@ -11,13 +11,11 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCapabiliti
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.calling.models.CallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
-import com.azure.android.communication.ui.calling.models.CapabilitiesChangedEvent
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnostic
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
-import com.azure.android.communication.ui.calling.models.ParticipantCapability
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.Store
@@ -637,9 +635,9 @@ internal class CallingMiddlewareActionHandlerImpl(
                     if (currentCapabilities.any()) {
                         // Only display toast message on capabilities changed
                         val anyLostCapability = event.changedCapabilities.any {
-                            (it.type == ParticipantCapabilityType.UNMUTE_MICROPHONE && !it.isAllowed)
-                                    || (it.type == ParticipantCapabilityType.TURN_VIDEO_ON && !it.isAllowed)
-                                    || (it.type == ParticipantCapabilityType.MANAGE_LOBBY && !it.isAllowed)
+                            (it.type == ParticipantCapabilityType.UNMUTE_MICROPHONE && !it.isAllowed) ||
+                                (it.type == ParticipantCapabilityType.TURN_VIDEO_ON && !it.isAllowed) ||
+                                (it.type == ParticipantCapabilityType.MANAGE_LOBBY && !it.isAllowed)
                         }
 
                         if (anyLostCapability) {
@@ -658,8 +656,8 @@ internal class CallingMiddlewareActionHandlerImpl(
 
                             val onlyGainedCapability = event.changedCapabilities.any {
                                 isNewCapabilityAdded(ParticipantCapabilityType.UNMUTE_MICROPHONE) ||
-                                        isNewCapabilityAdded(ParticipantCapabilityType.TURN_VIDEO_ON) ||
-                                        isNewCapabilityAdded(ParticipantCapabilityType.MANAGE_LOBBY)
+                                    isNewCapabilityAdded(ParticipantCapabilityType.TURN_VIDEO_ON) ||
+                                    isNewCapabilityAdded(ParticipantCapabilityType.MANAGE_LOBBY)
                             }
 
                             if (onlyGainedCapability) {

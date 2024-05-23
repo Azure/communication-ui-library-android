@@ -18,7 +18,8 @@ internal class CallCompositeConfiguration(
     val enableMultitasking: Boolean,
     val enableSystemPiPWhenMultitasking: Boolean,
     /* <ROOMS_SUPPORT> */
-    val capabilitiesChangeNotificationMode: CallCompositeCapabilitiesChangeNotificationMode?,
+    val capabilitiesChangeNotificationMode: CallCompositeCapabilitiesChangeNotificationMode =
+        CallCompositeCapabilitiesChangeNotificationMode.ALWAYS_DISPLAY,
     val setupScreenOptions: CallCompositeSetupScreenOptions?,
     /* </ROOMS_SUPPORT> */
 ) {
