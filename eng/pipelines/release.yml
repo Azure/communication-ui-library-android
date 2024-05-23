@@ -89,6 +89,18 @@ extends:
 
               cd ..
         - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
+          displayName: Use csc feed for native sdk drop
+          inputs:
+            type: InlineScript
+            script: >
+              cd azure-communication-ui
+              echo GITHUB_MAVEN_REPO_URL=$(GITHUB_MAVEN_REPO_URL) >> local.properties
+              echo GITHUB_MAVEN_REPO_NAME=$(GITHUB_MAVEN_REPO_NAME) >> local.properties
+              echo GITHUB_MAVEN_REPO_USERNAME=$(GITHUB_MAVEN_REPO_USERNAME) >> local.properties
+              echo GITHUB_MAVEN_REPO_PASSWORD=$(GITHUB_MAVEN_REPO_PASSWORD) >> local.properties
+              cd ..
+          condition: eq(variables['usePrivateDropForNativeSDK'], true)
+        - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
           displayName: Set Environment Variables
           inputs:
             type: InlineScript

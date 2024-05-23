@@ -132,7 +132,7 @@ allprojects {
         }
         if (localProps.containsKey('GITHUB_MAVEN_REPO_URL')) {
             maven {
-                name = 'privateGitHubRepo'
+                name = localProps.getProperty('GITHUB_MAVEN_REPO_NAME', '""')
                 url = localProps.getProperty('GITHUB_MAVEN_REPO_URL', '""')
                 credentials {
                     username localProps.getProperty('GITHUB_MAVEN_REPO_USERNAME', '""')
