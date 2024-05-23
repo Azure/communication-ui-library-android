@@ -7,14 +7,17 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import com.azure.android.communication.ui.calling.error.CallCompositeError
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.FatalError
+import com.azure.android.communication.ui.calling.models.CallCompositeCapabilitiesChangeNotificationMode
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.calling.models.CallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
+import com.azure.android.communication.ui.calling.models.CapabilitiesChangedEvent
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnostic
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.ParticipantCapability
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.Store
@@ -66,6 +69,7 @@ internal interface CallingMiddlewareActionHandler {
     fun admit(userIdentifier: String, store: Store<ReduxState>)
     fun reject(userIdentifier: String, store: Store<ReduxState>)
     fun removeParticipant(userIdentifier: String, store: Store<ReduxState>)
+    fun initCapabilities(store: Store<ReduxState>)
     fun setCapabilities(capabilities: Set<ParticipantCapabilityType>, store: Store<ReduxState>)
     fun onNetworkQualityCallDiagnosticsUpdated(
         model: CallDiagnosticModel<NetworkCallDiagnostic, CallDiagnosticQuality>,
@@ -206,6 +210,10 @@ internal class CallingMiddlewareActionHandlerImpl(
         }
     }
 
+    override fun initCapabilities(store: Store<ReduxState>) {
+        subscribeOnLocalParticipantCapabilitiesChanged(store)
+    }
+
     override fun exit(store: Store<ReduxState>) {
         store.dispatch(NavigationAction.Exit())
     }
@@ -267,8 +275,6 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun turnCameraOff(store: Store<ReduxState>) {
-        // TODO: test for any consequences of not checking for call status
-//        if (store.getCurrentState().callState.callingStatus != CallingStatus.NONE) {
         callingService.turnCameraOff().whenComplete { _, error ->
             if (error != null) {
                 store.dispatch(
@@ -280,7 +286,6 @@ internal class CallingMiddlewareActionHandlerImpl(
                 store.dispatch(LocalParticipantAction.CameraOffSucceeded())
             }
         }
-//        }
     }
 
     override fun setupCall(store: Store<ReduxState>) {
@@ -311,7 +316,6 @@ internal class CallingMiddlewareActionHandlerImpl(
         subscribeCamerasCountUpdate(store)
         subscribeDominantSpeakersUpdate(store)
         subscribeOnLocalParticipantRoleChanged(store)
-        subscribeOnLocalParticipantCapabilitiesChanged(store)
 
         callingService.startCall(
             store.getCurrentState().localParticipantState.cameraState,
@@ -626,6 +630,48 @@ internal class CallingMiddlewareActionHandlerImpl(
                 val capabilities = callingService.getCallCapabilities()
                 val action = LocalParticipantAction.SetCapabilities(capabilities)
                 store.dispatch(action)
+
+                if (configuration.capabilitiesChangeNotificationMode == CallCompositeCapabilitiesChangeNotificationMode.ALWAYS_DISPLAY) {
+                    val currentCapabilities =
+                        store.getCurrentState().localParticipantState.capabilities
+                    if (currentCapabilities.any()) {
+                        // Only display toast message on capabilities changed
+                        val anyLostCapability = event.changedCapabilities.any {
+                            (it.type == ParticipantCapabilityType.UNMUTE_MICROPHONE && !it.isAllowed)
+                                    || (it.type == ParticipantCapabilityType.TURN_VIDEO_ON && !it.isAllowed)
+                                    || (it.type == ParticipantCapabilityType.MANAGE_LOBBY && !it.isAllowed)
+                        }
+
+                        if (anyLostCapability) {
+                            store.dispatch(
+                                ToastNotificationAction.ShowNotification(
+                                    ToastNotificationKind.SOME_FEATURES_LOST
+                                )
+                            )
+                        } else {
+                            fun isNewCapabilityAdded(capability: ParticipantCapabilityType): Boolean =
+                                event.changedCapabilities.any {
+                                    it.type == capability && it.isAllowed && !currentCapabilities.contains(
+                                        capability
+                                    )
+                                }
+
+                            val onlyGainedCapability = event.changedCapabilities.any {
+                                isNewCapabilityAdded(ParticipantCapabilityType.UNMUTE_MICROPHONE) ||
+                                        isNewCapabilityAdded(ParticipantCapabilityType.TURN_VIDEO_ON) ||
+                                        isNewCapabilityAdded(ParticipantCapabilityType.MANAGE_LOBBY)
+                            }
+
+                            if (onlyGainedCapability) {
+                                store.dispatch(
+                                    ToastNotificationAction.ShowNotification(
+                                        ToastNotificationKind.SOME_FEATURES_GAINED
+                                    )
+                                )
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -676,12 +722,15 @@ internal class CallingMiddlewareActionHandlerImpl(
                     tryCameraOn(store)
                 }
 
+                // TODO: follow up on getCallCapabilities() as it does not return any capabilities
                 val capabilities = callingService.getCallCapabilities()
 
                 if (previousCallState == CallingStatus.CONNECTING &&
                     callInfoModel.callingStatus == CallingStatus.CONNECTED
                 ) {
+                    // We need to process setting capabilities to redux, then
                     store.dispatch(LocalParticipantAction.SetCapabilities(capabilities))
+                    store.dispatch(LocalParticipantAction.InitCapabilities())
                 }
 
                 val hasVideoOnCapability = capabilitiesManager.hasCapability(

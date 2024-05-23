@@ -12,6 +12,8 @@ internal enum class ToastNotificationKind {
     SPEAKING_WHILE_MICROPHONE_IS_MUTED,
     CAMERA_START_FAILED,
     CAMERA_START_TIMED_OUT,
+    SOME_FEATURES_LOST,
+    SOME_FEATURES_GAINED,
 }
 
 internal data class ToastNotificationState(

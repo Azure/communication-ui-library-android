@@ -24,54 +24,55 @@ internal class ToastNotificationViewModel(private val dispatch: (Action) -> Unit
 
     fun update(toastNotificationState: ToastNotificationState) {
         when (toastNotificationState.kind) {
-            ToastNotificationKind.NETWORK_RECEIVE_QUALITY -> {
+            ToastNotificationKind.NETWORK_RECEIVE_QUALITY ->
                 displayToastNotification(
                     notificationIconId = R.drawable.azure_communication_ui_calling_ic_fluent_wifi_warning_24_regular,
                     notificationMessageId = R.string.azure_communication_ui_calling_diagnostics_network_quality_low,
                     isPersistent = false,
                 )
-            }
-
-            ToastNotificationKind.NETWORK_SEND_QUALITY -> {
+            ToastNotificationKind.NETWORK_SEND_QUALITY ->
                 displayToastNotification(
                     notificationIconId = R.drawable.azure_communication_ui_calling_ic_fluent_wifi_warning_24_regular,
                     notificationMessageId = R.string.azure_communication_ui_calling_diagnostics_network_quality_low,
                     isPersistent = false,
                 )
-            }
-
-            ToastNotificationKind.NETWORK_RECONNECTION_QUALITY -> {
+            ToastNotificationKind.NETWORK_RECONNECTION_QUALITY ->
                 displayToastNotification(
                     notificationIconId = R.drawable.azure_communication_ui_calling_ic_fluent_wifi_warning_24_regular,
                     notificationMessageId = R.string.azure_communication_ui_calling_diagnostics_network_reconnecting,
                     isPersistent = true,
                 )
-            }
-
-            ToastNotificationKind.NETWORK_UNAVAILABLE, ToastNotificationKind.NETWORK_RELAYS_UNREACHABLE -> {
+            ToastNotificationKind.NETWORK_UNAVAILABLE, ToastNotificationKind.NETWORK_RELAYS_UNREACHABLE ->
                 displayToastNotification(
                     notificationIconId = R.drawable.azure_communication_ui_calling_ic_fluent_wifi_warning_24_regular,
                     notificationMessageId = R.string.azure_communication_ui_calling_diagnostics_network_reconnecting,
                     isPersistent = false,
                 )
-            }
 
-            ToastNotificationKind.SPEAKING_WHILE_MICROPHONE_IS_MUTED -> {
+            ToastNotificationKind.SPEAKING_WHILE_MICROPHONE_IS_MUTED ->
                 displayToastNotification(
                     notificationIconId = R.drawable.azure_communication_ui_calling_ic_fluent_mic_off_24_filled,
                     notificationMessageId = R.string.azure_communication_ui_calling_diagnostics_you_are_muted,
                     isPersistent = false,
                 )
-            }
-
-            ToastNotificationKind.CAMERA_START_FAILED, ToastNotificationKind.CAMERA_START_TIMED_OUT -> {
+            ToastNotificationKind.CAMERA_START_FAILED, ToastNotificationKind.CAMERA_START_TIMED_OUT ->
                 displayToastNotification(
                     notificationIconId = R.drawable.azure_communication_ui_calling_ic_fluent_video_off_24_regular,
                     notificationMessageId = R.string.azure_communication_ui_calling_diagnostics_unable_to_start_camera,
                     isPersistent = false,
                 )
-            }
-
+            ToastNotificationKind.SOME_FEATURES_LOST ->
+                displayToastNotification(
+                    notificationIconId = R.drawable.azure_communication_ui_calling_ic_fluent_info_24_regular,
+                    notificationMessageId = R.string.azure_communication_ui_capabilities_changed_toast_features_lost,
+                    isPersistent = false,
+                )
+            ToastNotificationKind.SOME_FEATURES_GAINED ->
+                displayToastNotification(
+                    notificationIconId = R.drawable.azure_communication_ui_calling_ic_fluent_info_24_regular,
+                    notificationMessageId = R.string.azure_communication_ui_capabilities_changed_toast_features_gained,
+                    isPersistent = false,
+                )
             null -> {
                 dismiss()
             }
