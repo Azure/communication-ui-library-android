@@ -29,8 +29,8 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Ustawianie gradientu</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Przełącz kamerę</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Konfiguruj</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement"> Tytuł</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement"> Podtytuł</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Tytuł</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Podtytuł</string>
     <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Nawigacja wstecz</string>
 
     <!--    Lobby View-->
@@ -81,7 +81,7 @@
         została zatrzymana. <u>Dowiedz się więcej</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Rozpoczęto nagrywanie i transkrypcję.
         </b> Dołączając, wyrażasz zgodę na transkrypcję tego spotkania.
-          <u>Zasady ochrony prywatności</u></string>
+        . <u>Zasady ochrony prywatności</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Nagranie i transkrypcja są
         zapisywane.</b> Nagrywanie i transkrypcja zostały zatrzymane. <u>Dowiedz się więcej</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Nagrywanie zostało zatrzymane.</b>
@@ -161,4 +161,9 @@
     <string name="azure_communication_ui_calling_attach_screenshot">Załącz wycinek ekranu</string>
     <string name="azure_communication_ui_calling_report_a_problem_label">Zgłoś problem</string>
     <string name="azure_communication_ui_calling_send_feedback_label">Wyślij</string>
+
+    <!--    Outgoing Call-->
+    <string name="azure_communication_ui_calling_setup_view_start_call">Zadzwoń</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Rozpoczynanie połączenia…</string>
+    <string name="azure_communication_ui_calling_call_view_calling">Trwa łączenie...</string>
 </resources>

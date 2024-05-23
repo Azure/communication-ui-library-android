@@ -48,7 +48,6 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
     ) {
         this.viewModel = viewModel
         setupJoinCallButtonText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_join_call)
-        joiningCallText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_connecting_call)
 
         setupJoinCallButton.setOnClickListener {
             viewModel.launchCallScreen()
@@ -62,6 +61,14 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getDisableJoinCallButtonFlow().collect { onDisableJoinCallButtonChanged(it) }
+        }
+
+        if (viewModel.isStartCall()) {
+            setupJoinCallButtonText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_start_call)
+            joiningCallText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_starting_call)
+        } else {
+            setupJoinCallButtonText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_join_call)
+            joiningCallText.text = context.getString(R.string.azure_communication_ui_calling_setup_view_button_connecting_call)
         }
     }
 

@@ -19,7 +19,7 @@
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">关闭麦克风</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">打开麦克风</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">加入通话</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">你的音频已禁用。若要启用，请转到“设置”以允许访问。必须
+    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">你的音频已禁用。若要启用，请转到“设置”以允许访问。你必须
        启用音频以开始此通话。</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">你的相机已禁用。若要启用，请转到“设置”
        以允许访问。</string>
@@ -29,8 +29,8 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">设置渐变</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">切换摄像头</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">安装</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement"> 标题</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement"> 副标题</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">标题</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">副标题</string>
     <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">反向导航</string>
 
     <!--    Lobby View-->
@@ -70,24 +70,24 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">共享诊断信息按钮</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>录制已启动。</b>加入即表示
-       你同意听录此会议。
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>录制已启动。</b>加入即表示你
+       同意听录此会议。
         <u>隐私策略</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>正在保存录制。</b>录制已停止。
         <u>了解详细信息</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>听录已开始。</b>加入即表示
-       你同意听录此会议。<u>隐私策略</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>听录已开始。</b>加入即表示你
+       同意听录此会议。<u>隐私策略</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>正在保存听录。</b>听录
        已停止。<u>了解详细信息</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>录制和听录已
-       开始。</b>加入即表示你同意听录此会议。
+       开始。</b>加入即表示你同意听录此会议
        。<u>隐私策略</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>录制和听录
-       正在保存。</b> 录制和听录已停止。<u>了解详细信息</u></string>
+       正在保存。</b>录制和听录已停止。<u>了解详细信息</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>录制已停止。</b>你
-       现在仅听录此会议。<u>隐私策略</u></string>
+       现在只能听录此会议。<u>隐私策略</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>听录已停止。
-   </b>现在仅录制此会议。<u>隐私策略</u></string>
+   </b>你现在只能录制此会议。<u>隐私策略</u></string>
     <string name="azure_communication_ui_calling_view_link">链接</string>
 
     <!--    PopUp warning-->
@@ -161,4 +161,9 @@
     <string name="azure_communication_ui_calling_attach_screenshot">附加屏幕截图</string>
     <string name="azure_communication_ui_calling_report_a_problem_label">报告问题</string>
     <string name="azure_communication_ui_calling_send_feedback_label">发送</string>
+
+    <!--    Outgoing Call-->
+    <string name="azure_communication_ui_calling_setup_view_start_call">开始呼叫</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">正在开始呼叫…</string>
+    <string name="azure_communication_ui_calling_call_view_calling">正在呼叫...</string>
 </resources>

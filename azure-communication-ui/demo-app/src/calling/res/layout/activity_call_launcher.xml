@@ -50,6 +50,13 @@
                 android:layout_weight="1"
                 android:layout_marginStart="10dp"
                 android:text="@string/teams_meeting_label" />
+            <RadioButton
+                android:id="@+id/oneToNCallRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:text="@string/one_to_n_call_label" />
             <!-- <ROOMS_SUPPORT:0> -->
             <RadioButton
                 android:id="@+id/roomsMeetingRadioButton"
@@ -124,12 +131,53 @@
             android:text="@string/close_button_text"
             android:layout_marginTop="16dp"/>
 
+        <Button
+            android:id="@+id/registerPushNotificationButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/register_push_notification"
+            android:layout_marginTop="16dp"/>
+
+        <Button
+            android:id="@+id/unregisterPushNotificationButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/unregister_push_notification"
+            android:layout_marginTop="16dp"/>
+
         <TextView
             android:id="@+id/callStateText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="17sp"
             android:layout_marginTop="16dp"/>
+
+        <LinearLayout
+            android:id="@+id/incomingCallLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_margin="10dp"
+            android:visibility="gone"
+            >
+
+            <Button
+                android:id="@+id/acceptCallButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/accept"
+                android:layout_margin="2dp"
+                />
+
+            <Button
+                android:id="@+id/declineCallButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/decline"
+                android:layout_margin="2dp"
+                />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

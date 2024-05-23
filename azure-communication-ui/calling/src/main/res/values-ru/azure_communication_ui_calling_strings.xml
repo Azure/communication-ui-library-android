@@ -29,8 +29,8 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Настройка градиента</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Переключение на другую камеру</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Настройка</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement"> Название</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement"> Подзаголовок</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Название</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Субтитр</string>
     <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Обратная навигация</string>
 
     <!--    Lobby View-->
@@ -161,4 +161,9 @@
     <string name="azure_communication_ui_calling_attach_screenshot">Вложить снимок экрана</string>
     <string name="azure_communication_ui_calling_report_a_problem_label">Сообщить о проблеме</string>
     <string name="azure_communication_ui_calling_send_feedback_label">Отправить</string>
+
+    <!--    Outgoing Call-->
+    <string name="azure_communication_ui_calling_setup_view_start_call">Позвонить</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Начало звонка…</string>
+    <string name="azure_communication_ui_calling_call_view_calling">Выполняется вызов…</string>
 </resources>

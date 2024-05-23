@@ -60,7 +60,7 @@ internal class LocalParticipantViewModel(
         val displayVideo = shouldDisplayVideo(videoStreamID)
         val displayLobbyOverlay = shouldDisplayLobbyOverlay(callingState)
         val displayFullScreenAvatar =
-            shouldDisplayFullScreenAvatar(displayVideo, displayLobbyOverlay, viewMode)
+            shouldDisplayFullScreenAvatar(displayVideo, displayLobbyOverlay, viewMode, callingState)
 
         videoStatusFlow.value = VideoModel(displayVideo, videoStreamID, viewMode)
         displayNameStateFlow.value = displayName
@@ -117,7 +117,7 @@ internal class LocalParticipantViewModel(
         val displayVideo = shouldDisplayVideo(videoStreamID)
         val displayLobbyOverlay = shouldDisplayLobbyOverlay(callingState)
         val displayFullScreenAvatar =
-            shouldDisplayFullScreenAvatar(displayVideo, displayLobbyOverlay, viewMode)
+            shouldDisplayFullScreenAvatar(displayVideo, displayLobbyOverlay, viewMode, callingState)
 
         videoStatusFlow = MutableStateFlow(VideoModel(displayVideo, videoStreamID, viewMode))
         displayNameStateFlow = MutableStateFlow(displayName)
@@ -157,8 +157,10 @@ internal class LocalParticipantViewModel(
         displayVideo: Boolean,
         displayLobbyOverlay: Boolean,
         viewMode: LocalParticipantViewMode,
+        callingState: CallingStatus,
     ) =
-        !displayVideo && viewMode == LocalParticipantViewMode.FULL_SCREEN && !displayLobbyOverlay
+        !displayVideo && viewMode == LocalParticipantViewMode.FULL_SCREEN && !displayLobbyOverlay &&
+            callingState == CallingStatus.CONNECTED
 
     private fun shouldDisplayLobbyOverlay(callingStatus: CallingStatus) =
         callingStatus == CallingStatus.IN_LOBBY

@@ -1,5 +1,11 @@
 # Azure Communication UI Calling Release History
 
+## 1.8.0 (*)
+
+### Features
+- Telecom manager integration supported by native calling SDK
+- One to one call support with push notifications
+
 ## 1.7.0 (*)
 
 ### Features

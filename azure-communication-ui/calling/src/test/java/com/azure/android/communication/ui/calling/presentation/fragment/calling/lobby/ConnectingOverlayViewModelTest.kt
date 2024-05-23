@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby
 
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay.ConnectingOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.redux.AppStore
@@ -84,6 +85,62 @@ class ConnectingOverlayViewModelTest : ACSBaseTestCoroutine() {
             Assert.assertEquals(2, modelFlow.count())
             Assert.assertEquals(true, modelFlow[0])
             Assert.assertEquals(false, modelFlow[1])
+
+            displayLobbyJob.cancel()
+        }
+
+    @Test
+    fun connectingLobbyOverlayViewModel_when_callTypeOutgoing_then_doNotDisplayOverlay() =
+        runScopedTest {
+
+            // arrange
+            val mockAppStore = mock<AppStore<ReduxState>> {}
+            val mockNetworkManager = mock<NetworkManager>()
+            val viewModel = ConnectingOverlayViewModel(mockAppStore::dispatch, false, callType = CallType.ONE_TO_N_OUTGOING)
+            viewModel.init(
+                CallingState(
+                    callingStatus = CallingStatus.CONNECTING,
+                ),
+                PermissionState(
+                    audioPermissionState = PermissionStatus.GRANTED,
+                    cameraPermissionState = PermissionStatus.GRANTED
+                ),
+                mockNetworkManager,
+                CameraState(
+                    operation = CameraOperationalStatus.PENDING,
+                    device = CameraDeviceSelectionStatus.FRONT,
+                    transmission = CameraTransmissionStatus.LOCAL,
+                ),
+                AudioState(
+                    operation = AudioOperationalStatus.ON,
+                    device = AudioDeviceSelectionStatus.RECEIVER_SELECTED,
+                    bluetoothState = BluetoothState(available = false, deviceName = "")
+                ),
+                initialCallJoinState = InitialCallJoinState(skipSetupScreen = true)
+            )
+
+            val modelFlow = mutableListOf<Boolean>()
+            val displayLobbyJob = launch {
+                viewModel.getDisplayOverlayFlow().toList(modelFlow)
+            }
+
+            // act
+            viewModel.update(
+                CallingState(
+                    callingStatus = CallingStatus.CONNECTED,
+                ),
+                CameraOperationalStatus.ON,
+                PermissionState(
+                    audioPermissionState = PermissionStatus.GRANTED,
+                    cameraPermissionState = PermissionStatus.GRANTED
+                ),
+                AudioOperationalStatus.ON,
+                InitialCallJoinState(skipSetupScreen = true)
+            )
+
+            // assert
+            Assert.assertEquals(1, modelFlow.count())
+            Assert.assertEquals(false, modelFlow[0])
 
             displayLobbyJob.cancel()
         }

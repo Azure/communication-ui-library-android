@@ -6,7 +6,6 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.azure.android.communication.BaseUiTest
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
-import com.azure.android.communication.tapOnText
 import com.azure.android.communication.tapWhenDisplayed
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
@@ -20,6 +19,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.azure.android.communication.assertTextNotDisplayed
+import com.azure.android.communication.tapWithTextWhenDisplayed
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 
@@ -54,7 +54,7 @@ internal class SupportFormTest : BaseUiTest() {
         tapWhenDisplayed(joinCallId)
         waitUntilDisplayed(endCallId)
         tapWhenDisplayed(moreOptionsId)
-        tapOnText(showSupportFormTextId)
+        tapWithTextWhenDisplayed(appContext.getString(showSupportFormTextId))
         waitUntilDisplayed(userMessageEditTextId)
 
         val testMessage = "Test support message"
