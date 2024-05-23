@@ -136,7 +136,7 @@ allprojects {
                 url = localProps.getProperty('GITHUB_MAVEN_REPO_URL', '""')
                 credentials {
                     username localProps.getProperty('GITHUB_MAVEN_REPO_USERNAME', '""')
-                    password localProps.getProperty('GITHUB_MAVEN_REPO_PASSWORD', '""')
+                    password localProps.getProperty('GITHUB-MAVEN-REPO-PASSWORD', '""')
                 }
             }
         }
