@@ -399,9 +399,9 @@ internal class CallingSDKWrapper(
 
     override fun setTelecomManagerAudioRoute(audioRoute: Int) {
         if (nullableCall != null) {
-            /* <TELECOM_MANAGER_SUPPORT:0>
+            /* <TELECOM_MANAGER_SUPPORT:0> */
             call.setTelecomManagerAudioRoute(audioRoute)
-            </TELECOM_MANAGER_SUPPORT:0> */
+            /* </TELECOM_MANAGER_SUPPORT:0> */
         }
     }
 
