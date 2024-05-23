@@ -99,12 +99,16 @@ extends:
           inputs:
             type: InlineScript
             script: >
+              echo "testing csc feed for native sdk drop"
               cd azure-communication-ui
+              ls
               echo GITHUB_MAVEN_REPO_URL=$(GITHUB_MAVEN_REPO_URL) >> local.properties
               echo GITHUB_MAVEN_REPO_NAME=$(GITHUB_MAVEN_REPO_NAME) >> local.properties
               echo GITHUB_MAVEN_REPO_USERNAME=$(GITHUB_MAVEN_REPO_USERNAME) >> local.properties
               echo GITHUB_MAVEN_REPO_PASSWORD=$(GITHUB-MAVEN-REPO-PASSWORD) >> local.properties
+              cat local.properties
               cd ..
+              ls
           condition: eq(variables['usePrivateDropForNativeSDK'], true)
         - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
           displayName: Set Environment Variables
