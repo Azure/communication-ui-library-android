@@ -98,7 +98,7 @@ extends:
           displayName: Use csc feed for native sdk drop
           inputs:
             type: InlineScript
-            script: >
+            script: |
               cd azure-communication-ui
               echo GITHUB_MAVEN_REPO_URL=$(GITHUB_MAVEN_REPO_URL) >> local.properties
               echo GITHUB_MAVEN_REPO_NAME=$(GITHUB_MAVEN_REPO_NAME) >> local.properties
