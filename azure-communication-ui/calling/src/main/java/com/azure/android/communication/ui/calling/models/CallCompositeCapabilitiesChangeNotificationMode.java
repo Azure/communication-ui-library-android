@@ -10,7 +10,7 @@ import java.util.Collection;
 /**
  * Represents notification mode for user capabilities changed.
  */
-public class CallCompositeCapabilitiesChangeNotificationMode
+public final class CallCompositeCapabilitiesChangeNotificationMode
         extends ExpandableStringEnum<CallCompositeCapabilitiesChangeNotificationMode> {
     /**
      * Always display a notification when user capabilities are changed.
