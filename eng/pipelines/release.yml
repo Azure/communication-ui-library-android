@@ -46,6 +46,12 @@ extends:
           inputs:
             ServiceTreeGateway: c29e963a-8ea3-4e6a-b28f-a035eaff83ab
             Service: 5b23174b-8c6d-467d-862d-a3f24958fb74
+        - task: AzureKeyVault@2
+          inputs:
+            azureSubscription: '$(ACSSUBSCRIPTION)'                 
+            KeyVaultName: '$(ACSKEYVAULT)'                      
+            SecretsFilter: '$(SecretsFilterValue)'                       
+            RunAsPreJob: true
         - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
           displayName: Install SDK
           inputs:
@@ -97,7 +103,7 @@ extends:
               echo GITHUB_MAVEN_REPO_URL=$(GITHUB_MAVEN_REPO_URL) >> local.properties
               echo GITHUB_MAVEN_REPO_NAME=$(GITHUB_MAVEN_REPO_NAME) >> local.properties
               echo GITHUB_MAVEN_REPO_USERNAME=$(GITHUB_MAVEN_REPO_USERNAME) >> local.properties
-              echo GITHUB_MAVEN_REPO_PASSWORD=$(GITHUB_MAVEN_REPO_PASSWORD) >> local.properties
+              echo GITHUB_MAVEN_REPO_PASSWORD=$(GITHUB-MAVEN-REPO-PASSWORD) >> local.properties
               cd ..
           condition: eq(variables['usePrivateDropForNativeSDK'], true)
         - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
