@@ -111,10 +111,6 @@ extends:
           enabled: true
           inputs:
             artifactsFeeds: csc
-        - script: |
-              echo "********** Running Maven Deploy **********"
-              mvn dependency:get -DgroupId=com.azure.android -DartifactId=azure-communication-calling -Dversion=0.0.1-beta.2-private -Dpackaging=aar -Dclassifier=pom
-          displayName: 'Download Maven Package'
         - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
           displayName: Set Environment Variables
           inputs:
