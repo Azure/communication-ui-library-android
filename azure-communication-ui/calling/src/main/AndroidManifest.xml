@@ -69,7 +69,7 @@
                 <action android:name="android.telecom.ConnectionService" />
             </intent-filter>
         </service>
-         <TELECOM_MANAGER_SUPPORT:0> -->
+         </TELECOM_MANAGER_SUPPORT:0> -->
     </application>
 
 </manifest>
