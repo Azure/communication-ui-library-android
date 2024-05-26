@@ -554,6 +554,18 @@ internal class CallingSDKEventHandler(
     }
 
     private fun onRemoteParticipantUpdated() {
+        // compare participant status for incoming call
+        // because of the limitation of the SDK, we can't get the participant status for incoming call
+        if (callType == CallType.ONE_TO_ONE_INCOMING) {
+            val callParticipants = call?.remoteParticipants
+            remoteParticipantsInfoModelMap.forEach { (id, participantInfoModel) ->
+                val remoteParticipant = callParticipants?.firstOrNull { it.identifier.rawId == id }
+                if (remoteParticipant != null) {
+                    participantInfoModel.participantStatus = remoteParticipant.state.into()
+                }
+            }
+        }
+
         val state = call?.state
         if (state == CallState.CONNECTED ||
             state == CallState.CONNECTING ||

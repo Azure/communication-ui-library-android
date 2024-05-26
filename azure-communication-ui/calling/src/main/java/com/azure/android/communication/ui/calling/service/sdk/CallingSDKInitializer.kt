@@ -11,17 +11,17 @@ import com.azure.android.communication.calling.IncomingCall
 import com.azure.android.communication.calling.IncomingCallListener
 import com.azure.android.communication.calling.PropertyChangedListener
 import com.azure.android.communication.calling.PushNotificationInfo
-/* <TELECOM_MANAGER_SUPPORT:0>
+/* <TELECOM_MANAGER_SUPPORT:0> */
 import com.azure.android.communication.calling.TelecomManagerOptions
-</TELECOM_MANAGER_SUPPORT:0> */
+/* </TELECOM_MANAGER_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.DiagnosticConfig
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotification
-/* <TELECOM_MANAGER_SUPPORT:0>
+/* <TELECOM_MANAGER_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
-</TELECOM_MANAGER_SUPPORT:0> */
+/* </TELECOM_MANAGER_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.buildCallCompositeIncomingCallCancelledEvent
 import com.azure.android.communication.ui.calling.models.buildCallCompositeIncomingCallEvent
 import com.azure.android.communication.ui.calling.service.sdk.ext.setTags
@@ -107,14 +107,14 @@ internal class CallingSDKInitializer(
         if (callAgentCompletableFuture == null || callAgentCompletableFuture!!.isCompletedExceptionally) {
             callAgentCompletableFuture = CompletableFuture<CallAgent>()
             val options = CallAgentOptions().apply { displayName = callCompositeConfiguration.displayName }
-            /* <TELECOM_MANAGER_SUPPORT:0>
+            /* <TELECOM_MANAGER_SUPPORT:0> */
             callCompositeConfiguration.telecomManagerOptions?.let {
                 if (it.telecomManagerIntegrationMode == CallCompositeTelecomManagerIntegrationMode.SDK_PROVIDED_TELECOM_MANAGER) {
                     options.telecomManagerOptions = TelecomManagerOptions(it.phoneAccountId)
                 }
             }
             options.setDisableInternalPushForIncomingCall(callCompositeConfiguration.disableInternalPushForIncomingCall)
-            </TELECOM_MANAGER_SUPPORT:0> */
+            /* </TELECOM_MANAGER_SUPPORT:0> */
 
             try {
                 setupCallClient()?.whenComplete { callClient, callAgentError ->
