@@ -26,14 +26,14 @@ import com.azure.android.communication.ui.calling.models.CallCompositeLeaveCallC
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions
-/* <ROOMS_SUPPORT:0> */
+/* <ROOMS_SUPPORT:0>
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
-/* </ROOMS_SUPPORT:0> */
+</ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
-/* <ROOMS_SUPPORT:0> */
+/* <ROOMS_SUPPORT:0>
 import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator
-/* </ROOMS_SUPPORT:0> */
+</ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
@@ -55,10 +55,10 @@ class CallLauncherViewModel : ViewModel() {
         acsToken: String,
         displayName: String,
         groupId: UUID?,
-        /* <ROOMS_SUPPORT:5> */
+        /* <ROOMS_SUPPORT:5>
         roomId: String?,
         roomRoleHint: CallCompositeParticipantRole?,
-        /* </ROOMS_SUPPORT:2> */
+        </ROOMS_SUPPORT:2> */
         meetingLink: String?,
     ) {
         if (SettingsFeatures.getDisplayDismissButtonOption()) {
@@ -75,10 +75,10 @@ class CallLauncherViewModel : ViewModel() {
             acsToken,
             groupId,
             meetingLink,
-            /* <ROOMS_SUPPORT:5> */
+            /* <ROOMS_SUPPORT:5>
             roomId,
             roomRoleHint,
-            /* </ROOMS_SUPPORT:2> */
+            </ROOMS_SUPPORT:2> */
             displayName,
         )
 
@@ -96,10 +96,10 @@ class CallLauncherViewModel : ViewModel() {
         acsToken: String,
         groupId: UUID?,
         meetingLink: String?,
-        /* <ROOMS_SUPPORT:5> */
+        /* <ROOMS_SUPPORT:5>
         roomId: String?,
         roomRoleHint: CallCompositeParticipantRole?,
-        /* </ROOMS_SUPPORT:2> */
+        </ROOMS_SUPPORT:2> */
         displayName: String,
     ): CallCompositeRemoteOptions {
         val communicationTokenRefreshOptions =
@@ -111,9 +111,9 @@ class CallLauncherViewModel : ViewModel() {
             when {
                 groupId != null -> CallCompositeGroupCallLocator(groupId)
                 meetingLink != null -> CallCompositeTeamsMeetingLinkLocator(meetingLink)
-                /* <ROOMS_SUPPORT:1> */
+                /* <ROOMS_SUPPORT:1>
                 roomId != null && roomRoleHint != null -> CallCompositeRoomLocator(roomId)
-                /* </ROOMS_SUPPORT:1> */
+                </ROOMS_SUPPORT:1> */
                 else -> throw IllegalArgumentException("Cannot launch call composite with provided arguments.")
             }
 
