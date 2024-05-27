@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.models;
 import com.azure.android.communication.ui.calling.CallComposite;
 
 /**
- * Teams meeting locator to start group call experience using {@link CallComposite}.
+ * Teams meeting locator to start call experience using {@link CallComposite}.
  */
 public final class CallCompositeTeamsMeetingIdLocator extends CallCompositeJoinLocator {
 
@@ -33,6 +33,11 @@ public final class CallCompositeTeamsMeetingIdLocator extends CallCompositeJoinL
         return meetingId;
     }
 
+    /**
+     * Get Teams meeting passcode.
+     *
+     * @return {@link String}.
+     */
     public String getMeetingPasscode() {
         return meetingPasscode;
     }
