@@ -76,4 +76,5 @@
     <string name="unregister_push_notification">Unregister Push</string>
     <string name="push_notification_text">Push notification</string>
     <string name="disable_internal_push_text">Disable internal push for incoming call</string>
+    <string name="teams_meeting_link_empty_alert">Teams meeting Id and meeting link are invalid or empty.</string>
 </resources>

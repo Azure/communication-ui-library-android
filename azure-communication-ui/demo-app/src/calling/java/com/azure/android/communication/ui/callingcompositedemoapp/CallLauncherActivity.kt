@@ -386,7 +386,7 @@ class CallLauncherActivity : AppCompatActivity() {
             meetingPasscode = ""
             /* </MEETING_ID_LOCATOR> */
             if (meetingId.isBlank() && meetingLink.isBlank()) {
-                val message = "Teams meeting Id and meeting link are invalid or empty."
+                val message = getString(R.string.teams_meeting_link_empty_alert)
                 showAlert(message)
                 return
             }
