@@ -110,11 +110,11 @@ buildscript {
 plugins {
     id 'org.jetbrains.kotlin.android' version '1.7.10' apply false
     id "org.jlleitschuh.gradle.ktlint" version "10.2.1" apply(true)
+    id "net.linguica.maven-settings" version "0.5"
 }
 
 allprojects {
     apply plugin: 'jacoco'
-
     jacoco {
         toolVersion = "$jacoco_version"
     }
@@ -133,6 +133,9 @@ allprojects {
         maven {
             url 'https://pkgs.dev.azure.com/skype/_packaging/tps/maven/v1'
             name 'csc'
+            credentials {
+                username 'skype'
+            }
             authentication {
                 basic(BasicAuthentication)
             }
@@ -143,6 +146,7 @@ allprojects {
 subprojects {
     apply plugin: "org.jlleitschuh.gradle.ktlint"
     apply from: "../checkstyle.gradle"
+    apply plugin: 'net.linguica.maven-settings'
     afterEvaluate {
         preBuild.dependsOn 'checkstyle'
         check.dependsOn 'checkstyle'
