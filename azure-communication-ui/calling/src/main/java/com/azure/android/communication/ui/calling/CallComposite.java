@@ -40,6 +40,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeParticipan
 /* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
+import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingIdLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent;
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
@@ -693,6 +694,8 @@ public final class CallComposite {
 
         UUID groupId = null;
         String meetingLink = null;
+        String meetingId = null;
+        String meetingPasscode = null;
         /* <ROOMS_SUPPORT:0> */
         String roomId = null;
         CallCompositeParticipantRole roomRole = null;
@@ -703,6 +706,10 @@ public final class CallComposite {
         if (locator instanceof CallCompositeGroupCallLocator) {
             callType = CallType.GROUP_CALL;
             groupId = ((CallCompositeGroupCallLocator) locator).getGroupId();
+        } else if (locator instanceof CallCompositeTeamsMeetingIdLocator) {
+            callType = CallType.TEAMS_MEETING;
+            meetingId = ((CallCompositeTeamsMeetingIdLocator) locator).getMeetingId();
+            meetingPasscode = ((CallCompositeTeamsMeetingIdLocator) locator).getMeetingPasscode();
         } else if (locator instanceof CallCompositeTeamsMeetingLinkLocator) {
             callType = CallType.TEAMS_MEETING;
             meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
@@ -726,6 +733,8 @@ public final class CallComposite {
         configuration.setCallConfig(new CallConfiguration(
                 groupId,
                 meetingLink,
+                meetingId,
+                meetingPasscode,
                 /* <ROOMS_SUPPORT:5> */
                 roomId,
                 roomRole,
@@ -763,6 +772,8 @@ public final class CallComposite {
 
         UUID groupId = null;
         String meetingLink = null;
+        String meetingId = null;
+        String meetingPasscode = null;
         /* <ROOMS_SUPPORT:0> */
         String roomId = null;
         CallCompositeParticipantRole roomRole = null;
@@ -772,6 +783,10 @@ public final class CallComposite {
         if (locator instanceof CallCompositeGroupCallLocator) {
             callType = CallType.GROUP_CALL;
             groupId = ((CallCompositeGroupCallLocator) locator).getGroupId();
+        } else if (locator instanceof CallCompositeTeamsMeetingIdLocator) {
+            callType = CallType.TEAMS_MEETING;
+            meetingId = ((CallCompositeTeamsMeetingIdLocator) locator).getMeetingId();
+            meetingPasscode = ((CallCompositeTeamsMeetingIdLocator) locator).getMeetingPasscode();
         } else if (locator instanceof CallCompositeTeamsMeetingLinkLocator) {
             callType = CallType.TEAMS_MEETING;
             meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
@@ -785,8 +800,7 @@ public final class CallComposite {
             callType = CallType.ONE_TO_N_OUTGOING;
         } else if (incomingCallId != null) {
             callType = CallType.ONE_TO_ONE_INCOMING;
-        }
-        else {
+        } else {
             throw new CallCompositeException("Not supported Call type");
         }
 
@@ -802,6 +816,8 @@ public final class CallComposite {
         configuration.setCallConfig(new CallConfiguration(
                 groupId,
                 meetingLink,
+                meetingId,
+                meetingPasscode,
                 /* <ROOMS_SUPPORT:5> */
                 roomId,
                 roomRole,

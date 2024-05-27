@@ -59,7 +59,7 @@ buildscript {
         }
 
         // Select GA first, but if that isn't right then BETA
-        ext.azure_calling_sdk_version = ext.azure_calling_sdk_version_ga
+        ext.azure_calling_sdk_version = ext.azure_calling_sdk_version_beta
         isUsingBetaSdk=false
         if (localProps.getProperty('USE_CALLING_SDK_BETA', 'false').toBoolean()) {
             ext.azure_calling_sdk_version = ext.azure_calling_sdk_version_beta

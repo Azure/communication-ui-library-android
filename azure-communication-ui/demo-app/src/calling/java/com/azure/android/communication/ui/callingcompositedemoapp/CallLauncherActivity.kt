@@ -24,6 +24,7 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.common.CommunicationTokenCredential
@@ -174,6 +175,8 @@ class CallLauncherActivity : AppCompatActivity() {
                 if (groupCallRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
                     teamsMeetingRadioButton.isChecked = false
+                    teamsMeetingPasscode.visibility = View.GONE
+                    teamsMeetingId.visibility = View.GONE
                     /* <ROOMS_SUPPORT:4> */
                     roomsMeetingRadioButton.isChecked = false
                     oneToNCallRadioButton.isChecked = false
@@ -187,6 +190,8 @@ class CallLauncherActivity : AppCompatActivity() {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.TEAMS_MEETING_LINK)
                     groupCallRadioButton.isChecked = false
                     oneToNCallRadioButton.isChecked = false
+                    teamsMeetingPasscode.visibility = View.VISIBLE
+                    teamsMeetingId.visibility = View.VISIBLE
                     /* <ROOMS_SUPPORT:4> */
                     roomsMeetingRadioButton.isChecked = false
                     attendeeRoleRadioButton.visibility = View.GONE
@@ -204,6 +209,8 @@ class CallLauncherActivity : AppCompatActivity() {
                     groupCallRadioButton.isChecked = false
                     oneToNCallRadioButton.isChecked = false
                     teamsMeetingRadioButton.isChecked = false
+                    teamsMeetingPasscode.visibility = View.GONE
+                    teamsMeetingId.visibility = View.GONE
                 } else {
                     presenterRoleRadioButton.visibility = View.GONE
                     attendeeRoleRadioButton.visibility = View.GONE
@@ -362,10 +369,14 @@ class CallLauncherActivity : AppCompatActivity() {
             }
         }
         var meetingLink: String? = null
+        var meetingId: String? = null
+        var meetingPasscode: String? = null
         if (binding.teamsMeetingRadioButton.isChecked) {
             meetingLink = binding.groupIdOrTeamsMeetingLinkText.text.toString()
-            if (meetingLink.isBlank()) {
-                val message = "Teams meeting link is invalid or empty."
+            meetingId = binding.teamsMeetingId.text.toString()
+            meetingPasscode = binding.teamsMeetingPasscode.text.toString()
+            if (meetingId.isBlank() && meetingLink.isBlank()) {
+                val message = "Teams meeting Id and meeting link are invalid or empty."
                 showAlert(message)
                 return
             }
@@ -398,6 +409,8 @@ class CallLauncherActivity : AppCompatActivity() {
             roomRole,
             /* </ROOMS_SUPPORT:2> */
             meetingLink,
+            meetingId,
+            meetingPasscode,
             participantMris
         )
     }

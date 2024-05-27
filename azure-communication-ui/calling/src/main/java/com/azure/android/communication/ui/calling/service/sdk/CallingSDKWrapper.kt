@@ -21,6 +21,7 @@ import com.azure.android.communication.calling.OutgoingVideoOptions
 import com.azure.android.communication.calling.RoomCallLocator
 /* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.calling.StartCallOptions
+import com.azure.android.communication.calling.TeamsMeetingIdLocator
 import com.azure.android.communication.calling.TeamsMeetingLinkLocator
 import com.azure.android.communication.calling.VideoDevicesUpdatedListener
 import com.azure.android.communication.ui.calling.CallCompositeException
@@ -445,7 +446,18 @@ internal class CallingSDKWrapper(
             videoOptions?.let { joinCallOptions.outgoingVideoOptions = videoOptions }
             val callLocator: JoinMeetingLocator? = when (callConfig.callType) {
                 CallType.GROUP_CALL -> GroupCallLocator(callConfig.groupId)
-                CallType.TEAMS_MEETING -> TeamsMeetingLinkLocator(callConfig.meetingLink)
+                CallType.TEAMS_MEETING -> {
+                    if (!callConfig.meetingLink.isNullOrEmpty()) {
+                        TeamsMeetingLinkLocator(callConfig.meetingLink)
+                    } else if (!callConfig.meetingId.isNullOrEmpty() && !callConfig.meetingPasscode.isNullOrEmpty()) {
+                        TeamsMeetingIdLocator(callConfig.meetingId, callConfig.meetingPasscode)
+                    } else {
+                        throw CallCompositeException(
+                            "Teams Meeting information is incomplete",
+                            IllegalStateException()
+                        )
+                    }
+                }
                 /* <ROOMS_SUPPORT:3> */
                 CallType.ROOMS_CALL -> RoomCallLocator(callConfig.roomId)
                 /* </ROOMS_SUPPORT:1> */
