@@ -127,17 +127,14 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+//        maven {
+//            url "https://pkgs.dev.azure.com/MicrosoftDeviceSDK/DuoSDK-Public/_packaging/Duo-SDK-Feed/maven/v1"
+//        }
         maven {
-            url "https://pkgs.dev.azure.com/MicrosoftDeviceSDK/DuoSDK-Public/_packaging/Duo-SDK-Feed/maven/v1"
-        }
-        if (localProps.containsKey('GITHUB_MAVEN_REPO_URL')) {
-            maven {
-                name = 'privateGitHubRepo'
-                url = localProps.getProperty('GITHUB_MAVEN_REPO_URL', '""')
-                credentials {
-                    username localProps.getProperty('GITHUB_MAVEN_REPO_USERNAME', '""')
-                    password localProps.getProperty('GITHUB_MAVEN_REPO_PASSWORD', '""')
-                }
+            url 'https://pkgs.dev.azure.com/skype/_packaging/tps/maven/v1'
+            name 'csc'
+            authentication {
+                basic(BasicAuthentication)
             }
         }
     }

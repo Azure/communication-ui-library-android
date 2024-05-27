@@ -138,6 +138,11 @@ extends:
             publishJUnitResults: false
             javaHomeOption: 'JDKVersion'
             jdkVersionOption: '1.11'
+        - task: MavenAuthenticate@0
+          displayName: Maven Authenticate
+          enabled: true
+          inputs:
+            artifactsFeeds: csc
         - task: Gradle@3
           displayName: gradlew build
           inputs:
