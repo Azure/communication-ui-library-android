@@ -1,6 +1,6 @@
 # Azure Communication UI Calling Release History
 
-## 1.7.0 (2024-05-28)
+## 1.7.0 (2024-05-29)
 
 ### Features
 - Disable leave call confirmation dialog
