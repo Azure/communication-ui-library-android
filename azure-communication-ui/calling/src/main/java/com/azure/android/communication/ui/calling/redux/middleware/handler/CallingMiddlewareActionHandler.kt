@@ -67,7 +67,6 @@ internal interface CallingMiddlewareActionHandler {
     fun admit(userIdentifier: String, store: Store<ReduxState>)
     fun reject(userIdentifier: String, store: Store<ReduxState>)
     fun removeParticipant(userIdentifier: String, store: Store<ReduxState>)
-    fun initCapabilities(store: Store<ReduxState>)
     fun setCapabilities(capabilities: Set<ParticipantCapabilityType>, store: Store<ReduxState>)
     fun onNetworkQualityCallDiagnosticsUpdated(
         model: CallDiagnosticModel<NetworkCallDiagnostic, CallDiagnosticQuality>,
@@ -208,10 +207,6 @@ internal class CallingMiddlewareActionHandlerImpl(
         }
     }
 
-    override fun initCapabilities(store: Store<ReduxState>) {
-        subscribeOnLocalParticipantCapabilitiesChanged(store)
-    }
-
     override fun exit(store: Store<ReduxState>) {
         store.dispatch(NavigationAction.Exit())
     }
@@ -314,6 +309,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         subscribeCamerasCountUpdate(store)
         subscribeDominantSpeakersUpdate(store)
         subscribeOnLocalParticipantRoleChanged(store)
+        subscribeOnLocalParticipantCapabilitiesChanged(store)
 
         callingService.startCall(
             store.getCurrentState().localParticipantState.cameraState,
@@ -399,14 +395,28 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun setCapabilities(capabilities: Set<ParticipantCapabilityType>, store: Store<ReduxState>) {
+
         val state = store.getCurrentState()
-        if (!capabilitiesManager.hasCapability(capabilities, ParticipantCapabilityType.TURN_VIDEO_ON) &&
+        val isInitialCapabilitySetting = state.localParticipantState.capabilities.isEmpty()
+
+        if (!capabilitiesManager.hasCapability(
+                capabilities,
+                ParticipantCapabilityType.TURN_VIDEO_ON
+            ) &&
             state.localParticipantState.cameraState.operation != CameraOperationalStatus.OFF
         ) {
             store.dispatch(LocalParticipantAction.CameraOffTriggered())
+        } else {
+            if (isInitialCapabilitySetting &&
+                state.localParticipantState.initialCallJoinState.skipSetupScreen) {
+                tryCameraOn(store)
+            }
         }
 
-        if (!capabilitiesManager.hasCapability(capabilities, ParticipantCapabilityType.UNMUTE_MICROPHONE) &&
+        if (!capabilitiesManager.hasCapability(
+                capabilities,
+                ParticipantCapabilityType.UNMUTE_MICROPHONE
+            ) &&
             state.localParticipantState.audioState.operation != AudioOperationalStatus.OFF
         ) {
             store.dispatch(LocalParticipantAction.MicOffTriggered())
@@ -630,43 +640,39 @@ internal class CallingMiddlewareActionHandlerImpl(
                 store.dispatch(action)
 
                 if (configuration.capabilitiesChangeNotificationMode != CallCompositeCapabilitiesChangeNotificationMode.NEVER_DISPLAY) {
-                    val currentCapabilities =
-                        store.getCurrentState().localParticipantState.capabilities
-                    if (currentCapabilities.any()) {
-                        // Only display toast message on capabilities changed
-                        val anyLostCapability = event.changedCapabilities.any {
-                            (it.type == ParticipantCapabilityType.UNMUTE_MICROPHONE && !it.isAllowed) ||
-                                (it.type == ParticipantCapabilityType.TURN_VIDEO_ON && !it.isAllowed) ||
-                                (it.type == ParticipantCapabilityType.MANAGE_LOBBY && !it.isAllowed)
+                    val currentCapabilities = store.getCurrentState().localParticipantState.capabilities
+
+                    // Only display toast message on capabilities changed
+                    val anyLostCapability = event.changedCapabilities.any {
+                        (it.type == ParticipantCapabilityType.UNMUTE_MICROPHONE && !it.isAllowed) ||
+                            (it.type == ParticipantCapabilityType.TURN_VIDEO_ON && !it.isAllowed) ||
+                            (it.type == ParticipantCapabilityType.MANAGE_LOBBY && !it.isAllowed)
+                    }
+
+                    if (anyLostCapability) {
+                        store.dispatch(
+                            ToastNotificationAction.ShowNotification(
+                                ToastNotificationKind.SOME_FEATURES_LOST
+                            )
+                        )
+                    } else {
+                        fun isNewCapabilityAdded(capability: ParticipantCapabilityType): Boolean =
+                            event.changedCapabilities.any {
+                                it.type == capability && it.isAllowed && !currentCapabilities.contains(capability)
+                            }
+
+                        val onlyGainedCapability = event.changedCapabilities.any {
+                            isNewCapabilityAdded(ParticipantCapabilityType.UNMUTE_MICROPHONE) ||
+                                isNewCapabilityAdded(ParticipantCapabilityType.TURN_VIDEO_ON) ||
+                                isNewCapabilityAdded(ParticipantCapabilityType.MANAGE_LOBBY)
                         }
 
-                        if (anyLostCapability) {
+                        if (onlyGainedCapability) {
                             store.dispatch(
                                 ToastNotificationAction.ShowNotification(
-                                    ToastNotificationKind.SOME_FEATURES_LOST
+                                    ToastNotificationKind.SOME_FEATURES_GAINED
                                 )
                             )
-                        } else {
-                            fun isNewCapabilityAdded(capability: ParticipantCapabilityType): Boolean =
-                                event.changedCapabilities.any {
-                                    it.type == capability && it.isAllowed && !currentCapabilities.contains(
-                                        capability
-                                    )
-                                }
-
-                            val onlyGainedCapability = event.changedCapabilities.any {
-                                isNewCapabilityAdded(ParticipantCapabilityType.UNMUTE_MICROPHONE) ||
-                                    isNewCapabilityAdded(ParticipantCapabilityType.TURN_VIDEO_ON) ||
-                                    isNewCapabilityAdded(ParticipantCapabilityType.MANAGE_LOBBY)
-                            }
-
-                            if (onlyGainedCapability) {
-                                store.dispatch(
-                                    ToastNotificationAction.ShowNotification(
-                                        ToastNotificationKind.SOME_FEATURES_GAINED
-                                    )
-                                )
-                            }
                         }
                     }
                 }
@@ -715,29 +721,6 @@ internal class CallingMiddlewareActionHandlerImpl(
                 store.dispatch(CallingAction.StateUpdated(callInfoModel.callingStatus))
 
                 if (previousCallState == CallingStatus.LOCAL_HOLD &&
-                    callInfoModel.callingStatus == CallingStatus.CONNECTED
-                ) {
-                    tryCameraOn(store)
-                }
-
-                // TODO: follow up on getCallCapabilities() as it does not return any capabilities
-                val capabilities = callingService.getCallCapabilities()
-
-                if (previousCallState == CallingStatus.CONNECTING &&
-                    callInfoModel.callingStatus == CallingStatus.CONNECTED
-                ) {
-                    // We need to process setting capabilities to redux, then
-                    store.dispatch(LocalParticipantAction.SetCapabilities(capabilities))
-                    store.dispatch(LocalParticipantAction.InitCapabilities())
-                }
-
-                val hasVideoOnCapability = capabilitiesManager.hasCapability(
-                    capabilities,
-                    ParticipantCapabilityType.TURN_VIDEO_ON,
-                )
-
-                if (hasVideoOnCapability &&
-                    store.getCurrentState().localParticipantState.initialCallJoinState.skipSetupScreen &&
                     callInfoModel.callingStatus == CallingStatus.CONNECTED
                 ) {
                     tryCameraOn(store)

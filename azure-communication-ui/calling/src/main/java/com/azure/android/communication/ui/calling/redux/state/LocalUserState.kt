@@ -73,6 +73,7 @@ internal data class InitialCallJoinState(
     val skipSetupScreen: Boolean = false,
 )
 
+// Actual default values are set in the AppReduxState
 internal data class LocalUserState(
     val cameraState: CameraState,
     val audioState: AudioState,

@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.redux.state
 
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
+import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 
 internal class AppReduxState(
     displayName: String?,
@@ -47,7 +48,10 @@ internal class AppReduxState(
             ),
             localParticipantRole = null,
             audioVideoMode = avMode,
-            capabilities = emptySet(),
+            capabilities = setOf(
+                ParticipantCapabilityType.TURN_VIDEO_ON,
+                ParticipantCapabilityType.UNMUTE_MICROPHONE
+            ),
         )
 
     override var permissionState: PermissionState =
