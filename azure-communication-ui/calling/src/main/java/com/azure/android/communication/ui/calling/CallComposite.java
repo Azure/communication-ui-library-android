@@ -712,8 +712,10 @@ public final class CallComposite {
             groupId = ((CallCompositeGroupCallLocator) locator).getGroupId();
         /* <MEETING_ID_LOCATOR> }  else if (locator instanceof CallCompositeTeamsMeetingIdLocator) {
             callType = CallType.TEAMS_MEETING;
-            meetingId = ((CallCompositeTeamsMeetingIdLocator) locator).getMeetingId();
-            meetingPasscode = ((CallCompositeTeamsMeetingIdLocator) locator).getMeetingPasscode();
+            final CallCompositeTeamsMeetingIdLocator teamsMeetingIdLocator =
+                    (CallCompositeTeamsMeetingIdLocator) locator;
+            meetingId = teamsMeetingIdLocator.getMeetingId();
+            meetingPasscode = teamsMeetingIdLocator.getMeetingPasscode();
         </MEETING_ID_LOCATOR> */ } else if (locator instanceof CallCompositeTeamsMeetingLinkLocator) {
             callType = CallType.TEAMS_MEETING;
             meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
@@ -793,8 +795,10 @@ public final class CallComposite {
             groupId = ((CallCompositeGroupCallLocator) locator).getGroupId();
         /* <MEETING_ID_LOCATOR> } else if (locator instanceof CallCompositeTeamsMeetingIdLocator) {
             callType = CallType.TEAMS_MEETING;
-            meetingId = ((CallCompositeTeamsMeetingIdLocator) locator).getMeetingId();
-            meetingPasscode = ((CallCompositeTeamsMeetingIdLocator) locator).getMeetingPasscode();
+            final CallCompositeTeamsMeetingIdLocator teamsMeetingIdLocator =
+                    (CallCompositeTeamsMeetingIdLocator) locator;
+            meetingId = teamsMeetingIdLocator.getMeetingId();
+            meetingPasscode = teamsMeetingIdLocator.getMeetingPasscode();
         </MEETING_ID_LOCATOR> */ } else if (locator instanceof CallCompositeTeamsMeetingLinkLocator) {
             callType = CallType.TEAMS_MEETING;
             meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
