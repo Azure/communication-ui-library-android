@@ -1,0 +1,194 @@
+name: $(date:yyyyMMdd)$(rev:.r)
+trigger: none
+pr: none
+variables:
+  buildVersion: '0.0.1'
+resources:
+  repositories:
+  - repository: 1esPipelines
+    type: git
+    name: 1ESPipelineTemplates/1ESPipelineTemplates
+    ref: refs/tags/release
+extends:
+  template: v1/1ES.Unofficial.PipelineTemplate.yml@1esPipelines
+  parameters:
+    pool:
+      os: linux
+      image: ubuntu-latest
+      name: Azure-Pipelines-1ESPT-ExDShared
+    sdl:
+      sourceAnalysisPool:
+        name: Azure-Pipelines-1ESPT-ExDShared
+        image: windows-latest
+        os: windows
+      suppression:
+        suppressionFile: $(Build.SourcesDirectory)\guardian\SDL\.gdnsuppress
+    stages:
+    - stage: Stage
+      jobs:
+      - job: Job_1
+        displayName: Build and publish
+        templateContext:
+          outputs:
+          - output: pipelineArtifact
+            targetPath: azure-communication-ui/calling/build/publish/
+            artifactName: calling
+          - output: pipelineArtifact
+            targetPath: azure-communication-ui/chat/build/publish/
+            artifactName: chat       
+        steps:
+        - checkout: self
+          clean: true
+          fetchTags: false
+        - task: skvso.servicetree-build-tasks.servicetree-link-build-task.servicetree-link-build-task@1
+          displayName: 'ServiceTree: [$(BuildOutputUsage)] '
+          condition: always()
+          inputs:
+            ServiceTreeGateway: c29e963a-8ea3-4e6a-b28f-a035eaff83ab
+            Service: 5b23174b-8c6d-467d-862d-a3f24958fb74
+        - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
+          displayName: Install SDK
+          inputs:
+            type: InlineScript
+            script: >
+              export ANDROID_CLI_TOOLS_URL="https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip"
+
+              export ANDROID_HOME=$PWD/android-sdk
+
+              export ANDROID_COMPILE_SDK="31"
+
+              export ANDROID_BUILD_TOOLS="32.0.0"
+
+              export PATH=$PATH:${ANDROID_HOME}/cmdline-tools/bin/
+
+              if [ -d "android-sdk" ]; then rm -Rf android-sdk; fi
+
+              mkdir android-sdk
+
+              cd android-sdk
+
+              curl --output sdk-tools-linux.zip ${ANDROID_CLI_TOOLS_URL}
+
+              unzip sdk-tools-linux.zip
+
+              yes | sdkmanager --sdk_root=${ANDROID_HOME} --licenses
+
+              sdkmanager --sdk_root=${ANDROID_HOME} "platforms;android-${ANDROID_COMPILE_SDK}"
+
+              sdkmanager --sdk_root=${ANDROID_HOME} "platform-tools"
+
+              sdkmanager --sdk_root=${ANDROID_HOME} "build-tools;${ANDROID_BUILD_TOOLS}"
+
+              cd ..
+
+              export ANDROID_SDK_ROOT=$PWD/android-sdk
+
+              cd azure-communication-ui
+
+              echo sdk.dir=$ANDROID_SDK_ROOT > local.properties
+
+              cd ..
+        - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
+          displayName: Set Environment Variables
+          inputs:
+            type: InlineScript
+            script: >-
+              export KEYSTORE_FILEPATH="debug.keystore"
+
+              export KEYSTORE_PASSWORD="android"
+
+              export KEY_ALIAS="androiddebugkey"
+
+              export KEY_PASSWORD="android"
+        - script: |
+            echo "Extracting version..."
+            VERSION=$(grep 'call_library_version_name' $(system.defaultWorkingDirectory)/azure-communication-ui/build.gradle | sed -n "s/.*call_library_version_name = '\([^']*\)'.*/\1/p")
+            echo "##vso[task.setvariable variable=buildVersion]$VERSION"
+          displayName: 'Get Android Gradle Build Version'
+        - script: |
+            echo "The build version is $(buildVersion)"
+          displayName: 'Display Build Version'
+        - task: DownloadSecureFile@1
+          displayName: Download google-service.json
+          inputs:
+            secureFile: f456b0bd-423f-4152-8bba-76154ae01d82
+        - task: CopyFiles@2
+          displayName: Copy google-services-acs-calling-ui-library-demo-app.json to demo app copy
+          inputs:
+            SourceFolder: $(Agent.TempDirectory)
+            Contents: '*.json'
+            TargetFolder: $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app
+        - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
+          displayName: Shell Script
+          inputs:
+            type: InlineScript
+            script: >-
+              mv $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app/google-services-acs-calling-ui-library-demo-app.json $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app/google-services.json
+
+
+              ls $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app
+
+              echo '$(system.defaultWorkingDirectory)/azure-communication-ui/demo-app'
+        - task: Gradle@3
+          displayName: gradlew ktlintCheck
+          inputs:
+            wrapperScript: azure-communication-ui/gradlew
+            cwd: azure-communication-ui
+            tasks: ktlintCheck
+            publishJUnitResults: false
+            javaHomeOption: 'JDKVersion'
+            jdkVersionOption: '1.11'
+        - task: Gradle@3
+          displayName: gradlew build
+          inputs:
+            wrapperScript: azure-communication-ui/gradlew
+            cwd: azure-communication-ui
+            tasks: build --stacktrace
+            publishJUnitResults: false
+            javaHomeOption: 'JDKVersion'
+            jdkVersionOption: '1.11'
+        - task: Gradle@3
+          displayName: publish calling to local dir
+          inputs:
+            wrapperScript: azure-communication-ui/gradlew
+            cwd: azure-communication-ui/calling
+            tasks: publishReleasePublicationToLocalDirectoryRepository
+            javaHomeOption: 'JDKVersion'
+            jdkVersionOption: '1.11'
+        - task: Gradle@3
+          displayName: publish chat to local dir
+          inputs:
+            wrapperScript: azure-communication-ui/gradlew
+            cwd: azure-communication-ui/chat
+            tasks: publishReleasePublicationToLocalDirectoryRepository
+            javaHomeOption: 'JDKVersion'
+            jdkVersionOption: '1.11'
+        - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
+          displayName: Put .pom file to the .aar file
+          inputs:
+            type: InlineScript
+            script: "putPomFileToSources() {\n  composite=$@\n  # Find the file\n  found_file=$(find . -name \"*-sources.jar\")\n\n  found_file=${found_file#*/}\n\n version=${found_file%%/*}\n\n sources_file_name=${found_file#*/} \n\n  # Unzip the file\n  unzip ./$version/$sources_file_name -d ./tmp\n  mkdir ./tmp/META-INF/maven\n  mkdir ./tmp/META-INF/maven/\n  mkdir ./tmp/META-INF/maven/com.azure.android/\n  mkdir ./tmp/META-INF/maven/com.azure.android/azure-communication-ui-$composite\n  \n  # Add the new file to the unzip location\n  cp ./$version/*.pom ./tmp/META-INF/maven/com.azure.android/azure-communication-ui-$composite/pom.xml\n\n  cd tmp\n\n  # Zip the folder to a new archive\n  zip -r ../$version/$sources_file_name ./\n\n  cd ..\n\n  rm -r tmp\n}\n\n\n# Go to calling directory\ncd azure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling\n\nputPomFileToSources \"calling\"\n\n\n# Go to chat directory\ncd ../../../../../../../../azure-communication-ui/chat/build/publish/com/azure/android/azure-communication-ui-chat\n\nputPomFileToSources \"chat\""
+        - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
+          displayName: print build folder files
+          inputs:
+            type: InlineScript
+            script: ls $(system.defaultWorkingDirectory)/azure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling/$(buildVersion)
+        
+        - task: MavenAuthenticate@0
+          displayName: Maven Authenticate
+          enabled: true
+          inputs:
+            artifactsFeeds: csc
+        - script: |
+              echo "********** Running Maven Deploy **********"
+              mvn deploy:deploy-file \
+                -DpomFile=azure-communication-ui-calling-$(buildVersion).pom \
+                -Dfile=azure-communication-ui-calling-$(buildVersion).aar \
+                -Dpackaging=aar \
+                -Dsources=azure-communication-ui-calling-$(buildVersion)-sources.jar \
+                -Djavadoc=azure-communication-ui-calling-$(buildVersion)-javadoc.jar \
+                -Durl=$(CSCMavenRepoUrl) \
+                -DrepositoryId=csc
+          workingDirectory: $(system.defaultWorkingDirectory)/azure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling/$(buildVersion)
+          displayName: deploy to maven
+          condition: eq(variables['isPrivateRelease'], true)

@@ -27,6 +27,10 @@ import com.azure.android.communication.ui.calling.models.CallCompositeMultitaski
 import com.azure.android.communication.ui.calling.models.CallCompositePictureInPictureChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
+/* <ROOMS_SUPPORT:0>
+import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator;
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole;
+</ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
@@ -411,15 +415,34 @@ public final class CallComposite {
 
         UUID groupId = null;
         String meetingLink = null;
+        /* <ROOMS_SUPPORT:0>
+        String roomId = null;
+        CallCompositeParticipantRole roomRole = null;
+        </ROOMS_SUPPORT:0> */
         final CallType callType;
 
         final CallCompositeJoinLocator locator = remoteOptions.getLocator();
         if (locator instanceof CallCompositeGroupCallLocator) {
             callType = CallType.GROUP_CALL;
             groupId = ((CallCompositeGroupCallLocator) locator).getGroupId();
-        } else {
+        } else if (locator instanceof CallCompositeTeamsMeetingLinkLocator) {
             callType = CallType.TEAMS_MEETING;
             meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
+            /* <ROOMS_SUPPORT:0>
+        } else if (locator instanceof CallCompositeRoomLocator) {
+            callType = CallType.ROOMS_CALL;
+            final CallCompositeRoomLocator roomLocator = (CallCompositeRoomLocator) locator;
+            roomId = roomLocator.getRoomId();
+            </ROOMS_SUPPORT:0> */
+        } else {
+            throw new CallCompositeException("Not supported Call Locator type");
+        }
+
+        if (localOptions != null) {
+            configuration.setCallCompositeLocalOptions(localOptions);
+            /* <ROOMS_SUPPORT:2>
+            roomRole = localOptions.getRoleHint();
+            </ROOMS_SUPPORT:1> */
         }
 
         configuration.setCallConfig(new CallConfiguration(
@@ -427,11 +450,12 @@ public final class CallComposite {
                 remoteOptions.getDisplayName(),
                 groupId,
                 meetingLink,
+                /* <ROOMS_SUPPORT:5>
+                roomId,
+                roomRole,
+                </ROOMS_SUPPORT:1> */
                 callType));
 
-        if (localOptions != null) {
-            configuration.setCallCompositeLocalOptions(localOptions);
-        }
 
         diContainer = new DependencyInjectionContainerImpl(
                 instanceId,

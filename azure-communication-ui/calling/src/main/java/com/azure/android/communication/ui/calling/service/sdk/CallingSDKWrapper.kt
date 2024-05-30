@@ -14,8 +14,12 @@ import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.DeviceManager
 import com.azure.android.communication.calling.GroupCallLocator
 import com.azure.android.communication.calling.HangUpOptions
+import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVideoStream
 import com.azure.android.communication.calling.JoinCallOptions
 import com.azure.android.communication.calling.JoinMeetingLocator
+/* <ROOMS_SUPPORT:0>
+import com.azure.android.communication.calling.RoomCallLocator
+</ROOMS_SUPPORT:0> */
 import com.azure.android.communication.calling.TeamsMeetingLinkLocator
 import com.azure.android.communication.calling.VideoDevicesUpdatedListener
 import com.azure.android.communication.calling.VideoOptions
@@ -38,7 +42,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.io.File
 import java.util.Collections
-import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVideoStream
 
 internal class CallingSDKWrapper(
     private val context: Context,
@@ -263,6 +266,9 @@ internal class CallingSDKWrapper(
             val callLocator: JoinMeetingLocator = when (callConfig.callType) {
                 CallType.GROUP_CALL -> GroupCallLocator(callConfig.groupId)
                 CallType.TEAMS_MEETING -> TeamsMeetingLinkLocator(callConfig.meetingLink)
+                /* <ROOMS_SUPPORT:3>
+                CallType.ROOMS_CALL -> RoomCallLocator(callConfig.roomId)
+                </ROOMS_SUPPORT:1> */
             }
             var videoOptions: VideoOptions? = null
             // it is possible to have camera state not on, (Example: waiting for local video stream)

@@ -83,8 +83,6 @@ internal class CallingMiddlewareActionHandlerImpl(
                         store.dispatch(LocalParticipantAction.CameraPauseSucceeded())
                     }
                 }
-            } else {
-                store.dispatch(LocalParticipantAction.CameraPauseSucceeded())
             }
         }
     }
@@ -455,12 +453,6 @@ internal class CallingMiddlewareActionHandlerImpl(
                 val previousCallState = store.getCurrentState().callState.callingStatus
 
                 store.dispatch(CallingAction.StateUpdated(callInfoModel.callingStatus))
-
-                if (previousCallState == CallingStatus.LOCAL_HOLD &&
-                    callInfoModel.callingStatus == CallingStatus.CONNECTED
-                ) {
-                    tryCameraOn(store)
-                }
 
                 if (store.getCurrentState().localParticipantState.initialCallJoinState.skipSetupScreen &&
                     callInfoModel.callingStatus == CallingStatus.CONNECTED
