@@ -309,7 +309,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         subscribeCamerasCountUpdate(store)
         subscribeDominantSpeakersUpdate(store)
         subscribeOnLocalParticipantRoleChanged(store)
-        subscribeOnLocalParticipantCapabilitiesChanged(store)
+        subscribeOnCapabilitiesChanged(store)
 
         callingService.startCall(
             store.getCurrentState().localParticipantState.cameraState,
@@ -631,7 +631,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         }
     }
 
-    private fun subscribeOnLocalParticipantCapabilitiesChanged(store: Store<ReduxState>) {
+    private fun subscribeOnCapabilitiesChanged(store: Store<ReduxState>) {
         coroutineScope.launch {
             callingService.getCapabilitiesChangedEventSharedFlow().collect { event ->
                 // Set capabilities to the store
