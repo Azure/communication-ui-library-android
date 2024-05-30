@@ -17,53 +17,53 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
-import com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherViewModel
+import com.azure.android.communication.ui.callingcompositedemoapp.CallCompositeManager
 import com.azure.android.communication.ui.callingcompositedemoapp.R
 
-internal class EndCompositeButtonView private constructor(
+internal class DismissCompositeButtonView private constructor(
     private val context: Context,
 ) {
     companion object {
-        var buttonView: EndCompositeButtonView? = null
+        var buttonView: DismissCompositeButtonView? = null
         private var isInitialized = false
         const val DEFAULT_GRAVITY = Gravity.TOP or Gravity.START
         const val POSITION_X = 500
         const val POSITION_L = 200
 
-        fun get(context: Context): EndCompositeButtonView {
+        fun get(context: Context): DismissCompositeButtonView {
             if (buttonView == null) {
-                buttonView = EndCompositeButtonView(context)
+                buttonView = DismissCompositeButtonView(context)
             }
             return buttonView!!
         }
     }
 
-    private val endCallButton: Button =
-        LayoutInflater.from(context).inflate(R.layout.end_composite_button, null) as Button
+    private val dismissCompositeButton: Button =
+        LayoutInflater.from(context).inflate(R.layout.dismiss_composite_button, null) as Button
     private val windowManager: WindowManager =
-        endCallButton.context.getSystemService(Service.WINDOW_SERVICE) as WindowManager
+        dismissCompositeButton.context.getSystemService(Service.WINDOW_SERVICE) as WindowManager
 
-    fun show(callLauncherViewModel: CallLauncherViewModel) {
-        if (drawOverlaysPermission(context) && endCallButton.visibility != View.VISIBLE) {
+    fun show(callCompositeManager: CallCompositeManager) {
+        if (drawOverlaysPermission(context) && dismissCompositeButton.visibility != View.VISIBLE) {
             if (!isInitialized) {
                 isInitialized = true
                 init()
             }
-            endCallButton.visibility = View.VISIBLE
-            endCallButton.setOnClickListener {
-                callLauncherViewModel.callHangup()
+            dismissCompositeButton.visibility = View.VISIBLE
+            dismissCompositeButton.setOnClickListener {
+                callCompositeManager.dismissCallComposite()
             }
         }
     }
 
     fun hide() {
-        if (endCallButton.visibility == View.VISIBLE) {
-            endCallButton.visibility = View.GONE
+        if (dismissCompositeButton.visibility == View.VISIBLE) {
+            dismissCompositeButton.visibility = View.GONE
         }
     }
 
     fun updateText(text: String) {
-        endCallButton.text = context.getText(R.string.exit_composite_button_text).toString() + "\n" + text
+        dismissCompositeButton.text = context.getText(R.string.dismiss_composite_button_text).toString() + "\n" + text
     }
 
     private fun init() {
@@ -77,10 +77,10 @@ internal class EndCompositeButtonView private constructor(
         params.gravity = DEFAULT_GRAVITY
         params.x = POSITION_X
         params.y = POSITION_L
-        windowManager.addView(endCallButton, params)
-        endCallButton.setOnTouchListener(MovingTouchListener(params, windowManager))
-        endCallButton.isHapticFeedbackEnabled = false
-        endCallButton.visibility = View.GONE
+        windowManager.addView(dismissCompositeButton, params)
+        dismissCompositeButton.setOnTouchListener(MovingTouchListener(params, windowManager))
+        dismissCompositeButton.isHapticFeedbackEnabled = false
+        dismissCompositeButton.visibility = View.GONE
     }
 
     private fun drawOverlaysPermission(context: Context): Boolean {

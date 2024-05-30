@@ -161,4 +161,9 @@
     <string name="azure_communication_ui_calling_attach_screenshot">Screenshot anfügen</string>
     <string name="azure_communication_ui_calling_report_a_problem_label">Ein Problem melden</string>
     <string name="azure_communication_ui_calling_send_feedback_label">Senden</string>
+
+    <!--    Outgoing Call-->
+    <string name="azure_communication_ui_calling_setup_view_start_call">Anruf starten</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Anruf wird gestartet…</string>
+    <string name="azure_communication_ui_calling_call_view_calling">Anrufen...</string>
 </resources>

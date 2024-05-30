@@ -21,6 +21,7 @@ internal class ParticipantGridCellViewModel(
     participantStatus: ParticipantStatus?,
 ) {
     private var isOnHoldStateFlow = MutableStateFlow(isOnHold(participantStatus))
+    private var isCallingStateFlow = MutableStateFlow(isCalling(participantStatus))
     private var displayNameStateFlow = MutableStateFlow(displayName)
     private var isMutedStateFlow = MutableStateFlow(isMuted)
     private var isSpeakingStateFlow = MutableStateFlow(isSpeaking && !isMuted)
@@ -39,6 +40,10 @@ internal class ParticipantGridCellViewModel(
 
     fun getParticipantUserIdentifier(): String {
         return participantUserIdentifier
+    }
+
+    fun showCallingTextStateFlow(): StateFlow<Boolean> {
+        return isCallingStateFlow
     }
 
     fun getDisplayNameStateFlow(): StateFlow<String> {
@@ -74,7 +79,7 @@ internal class ParticipantGridCellViewModel(
     ) {
         this.participantUserIdentifier = participant.userIdentifier
         this.displayNameStateFlow.value = participant.displayName
-        this.isMutedStateFlow.value = participant.isMuted
+        this.isMutedStateFlow.value = participant.isMuted && !isCalling(participant.participantStatus)
         this.isOnHoldStateFlow.value = isOnHold(participant.participantStatus)
 
         this.isNameIndicatorVisibleStateFlow.value =
@@ -89,7 +94,11 @@ internal class ParticipantGridCellViewModel(
 
         this.isSpeakingStateFlow.value = participant.isSpeaking && !participant.isMuted
         this.participantModifiedTimestamp = participant.modifiedTimestamp
+        this.isCallingStateFlow.value = isCalling(participant.participantStatus)
     }
+
+    private fun isCalling(participantStatus: ParticipantStatus?) =
+        participantStatus == ParticipantStatus.CONNECTING || participantStatus == ParticipantStatus.RINGING
 
     private fun createVideoViewModel(videoStreamModel: VideoStreamModel?): VideoViewModel? {
         videoStreamModel?.let {

@@ -10,23 +10,34 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
+import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration;
 import com.azure.android.communication.ui.calling.configuration.CallType;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer;
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainerImpl;
+import com.azure.android.communication.ui.calling.logger.DefaultLogger;
+import com.azure.android.communication.ui.calling.logger.Logger;
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator;
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallCancelledEvent;
+import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeJoinLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositePictureInPictureChangedEvent;
+import com.azure.android.communication.ui.calling.models.CallCompositePushNotification;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
+/* <ROOMS_SUPPORT:0> */
+import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator;
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole;
+/* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator;
@@ -36,12 +47,16 @@ import com.azure.android.communication.ui.calling.presentation.MultitaskingCallC
 import com.azure.android.communication.ui.calling.presentation.PiPCallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
 import com.azure.android.communication.ui.calling.redux.action.PipAction;
+import com.azure.android.communication.ui.calling.service.sdk.CallingSDKInitializer;
 import com.azure.android.communication.ui.calling.utilities.TestHelper;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
+import java.util.Collection;
 import java.util.Collections;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * Azure android communication calling composite component.
@@ -63,23 +78,29 @@ import java.util.UUID;
  * @see CallCompositeBuilder
  */
 public final class CallComposite {
-
     static DependencyInjectionContainer diContainer;
+
+    // helps to dispose the previous instance of CallingSDKInitialization
+    private static CallingSDKInitializer sdkInitializer;
 
     // on each launch, an InstanceID will be assigned and incremented.
     private static int instanceIdCounter = 0;
     private final int instanceId = instanceIdCounter++;
-
     private final CallCompositeConfiguration configuration;
+    private final Logger logger = new DefaultLogger();
 
     CallComposite(final CallCompositeConfiguration configuration) {
         this.configuration = configuration;
         diContainer = null;
+        if (sdkInitializer != null) {
+            sdkInitializer.dispose();
+            sdkInitializer = null;
+        }
     }
 
     /**
      * Launch group call composite.
-     *
+     * @deprecated Use {@link #launch(Context, CallCompositeJoinLocator)} instead.
      * <pre>
      *
      * final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =
@@ -100,13 +121,14 @@ public final class CallComposite {
      * @param remoteOptions The {@link CallCompositeRemoteOptions} has remote parameters to
      *                      launch call experience.
      */
+    @Deprecated
     public void launch(final Context context, final CallCompositeRemoteOptions remoteOptions) {
         launch(context, remoteOptions, null);
     }
 
     /**
      * Launch group call composite.
-     *
+     * @deprecated Use {@link #launch(Context, CallCompositeJoinLocator, CallCompositeLocalOptions)} instead.
      * <pre>
      *
      * final CommunicationTokenRefreshOptions communicationTokenRefreshOptions =
@@ -132,11 +154,201 @@ public final class CallComposite {
      * @param localOptions  The {@link CallCompositeLocalOptions} has local parameters to
      *                      launch group call experience.
      */
+    @Deprecated
     public void launch(final Context context,
                        final CallCompositeRemoteOptions remoteOptions,
                        final CallCompositeLocalOptions localOptions) {
 
         launchComposite(context, remoteOptions, localOptions, false);
+    }
+
+    /**
+     * Launch composite to join a groupCall/TeamsMeeting.
+     * Build {@link CallCompositeBuilder} using {@link CommunicationTokenCredential} and application {@link Context} .
+     * @param activityContext   The android context used to start the Composite.
+     * @param locator The {@link CallCompositeJoinLocator}.
+     */
+    public void launch(final Context activityContext, final CallCompositeJoinLocator locator) {
+        launch(activityContext, locator, null);
+    }
+
+    /**
+     * Launch composite to join a groupCall/TeamsMeeting with {@link CallCompositeLocalOptions}.
+     * Build {@link CallCompositeBuilder} using {@link CommunicationTokenCredential} and application {@link Context} .
+     * @param activityContext   The android context used to start the Composite.
+     * @param locator The {@link CallCompositeJoinLocator}.
+     * @param localOptions  The {@link CallCompositeLocalOptions} has local parameters to
+     *                      launch call experience.
+     */
+    public void launch(final Context activityContext,
+                       final CallCompositeJoinLocator locator,
+                       final CallCompositeLocalOptions localOptions) {
+        launchComposite(activityContext, locator, null, null, localOptions, false);
+    }
+
+    /**
+     * Launch composite to dial participants.
+     * Build {@link CallCompositeBuilder} using {@link CommunicationTokenCredential} and application {@link Context} .
+     * @param activityContext   The android context used to start the Composite.
+     * @param participants  The collection of {@link CommunicationIdentifier} to start the call.
+     * @param localOptions  The {@link CallCompositeLocalOptions} has local parameters to
+     *                      launch call experience.
+     */
+    public void launch(final Context activityContext,
+                       final Collection<CommunicationIdentifier> participants,
+                       final CallCompositeLocalOptions localOptions) {
+        launchComposite(activityContext, null, participants, null, localOptions, false);
+    }
+
+    /**
+     * Launch composite to dial participants.
+     * Build {@link CallCompositeBuilder} using {@link CommunicationTokenCredential} and application {@link Context} .
+     * @param activityContext   The android context used to start the Composite.
+     * @param participants  The collection of {@link CommunicationIdentifier} to start the call.
+     */
+    public void launch(final Context activityContext,
+                       final Collection<CommunicationIdentifier> participants) {
+        launchComposite(activityContext, null, participants, null, null, false);
+    }
+
+
+    /**
+     * Accept incoming call.
+     * Build {@link CallCompositeBuilder} using {@link CommunicationTokenCredential} and application {@link Context} .
+     * @param activityContext   The android context used to start the Composite.
+     * @param incomingCallId The call id.
+     * @param localOptions The {@link CallCompositeLocalOptions}.
+     */
+    public void accept(final Context activityContext,
+                       final String incomingCallId,
+                       final CallCompositeLocalOptions localOptions) {
+        launchComposite(activityContext, null, null, incomingCallId, localOptions, false);
+    }
+
+    /**
+     * Accept incoming call.
+     * Build {@link CallCompositeBuilder} using {@link CommunicationTokenCredential} and application {@link Context} .
+     * @param activityContext   The android context used to start the Composite.
+     * @param incomingCallId The call id.
+     */
+    public void accept(final Context activityContext,
+                       final String incomingCallId) {
+        launchComposite(activityContext, null, null, incomingCallId, null, false);
+    }
+
+    /**
+     * Reject incoming call.
+     * Build {@link CallCompositeBuilder} using {@link CommunicationTokenCredential} and application {@link Context} .
+     * @param incomingCallId The call id.
+     */
+    public CompletableFuture<Void> reject(final String incomingCallId) {
+        return initializeCallingSDK().rejectIncomingCall(incomingCallId);
+    }
+
+
+    /**
+     * Add on incoming call event handler {@link CallCompositeEventHandler}.
+     *
+     * <pre>
+     *
+     * &#47;&#47; add on incoming call event handler.
+     * callComposite.addOnIncomingCallEventHandler&#40;event -> {
+     *     &#47;&#47; Process incoming call event
+     *     System.out.println&#40;event.getCallId&#40;&#41;&#41;;
+     *     System.out.println&#40;event.getCallerDisplayName&#40;&#41;&#41;;
+     * }&#41;;
+     *
+     * </pre>
+     *
+     * @param handler The {@link CallCompositeEventHandler}.
+     */
+    public void addOnIncomingCallEventHandler(
+            final CallCompositeEventHandler<CallCompositeIncomingCallEvent> handler) {
+        configuration.getCallCompositeEventsHandler().addOnIncomingCallEventHandler(handler);
+    }
+
+    /**
+     * Remove on incoming call event handler {@link CallCompositeEventHandler}.
+     *
+     * @param handler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnIncomingCallEventHandler(
+            final CallCompositeEventHandler<CallCompositeIncomingCallEvent> handler) {
+        configuration.getCallCompositeEventsHandler().removeOnIncomingCallEventHandler(handler);
+    }
+
+    /**
+     * Add on incoming call cancelled event handler {@link CallCompositeEventHandler}.
+     *
+     * <pre>
+     *
+     * &#47;&#47; add on incoming call cancelled event handler.
+     * callComposite.addOnIncomingCallCancelledEventHandler&#40;event -> {
+     *     &#47;&#47; Process incoming call cancelled event
+     *     System.out.println&#40;event.getCallId&#40;&#41;&#41;;
+     * }&#41;;
+     *
+     * </pre>
+     *
+     * @param handler The {@link CallCompositeEventHandler}.
+     */
+    public void addOnIncomingCallCancelledEventHandler(
+            final CallCompositeEventHandler<CallCompositeIncomingCallCancelledEvent> handler) {
+        configuration.getCallCompositeEventsHandler().addOnIncomingCallCancelledEventHandler(handler);
+    }
+
+    /**
+     * Remove on incoming call cancelled event handler {@link CallCompositeEventHandler}.
+     *
+     * @param handler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnIncomingCallCancelledEventHandler(
+            final CallCompositeEventHandler<CallCompositeIncomingCallCancelledEvent> handler) {
+        configuration.getCallCompositeEventsHandler().removeOnIncomingCallCancelledEventHandler(handler);
+    }
+
+    /**
+     * Hold call.
+     *
+     * @return {@link CompletableFuture} of {@link Void}.
+     */
+    public CompletableFuture<Void>  hold() {
+        final CompletableFuture<Void> holdFuture = new CompletableFuture<>();
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer;
+            container.getCallingService().hold().whenComplete((aVoid, throwable) -> {
+                if (throwable != null) {
+                    holdFuture.completeExceptionally(throwable);
+                } else {
+                    holdFuture.complete(aVoid);
+                }
+            });
+        } else {
+            holdFuture.completeExceptionally(new IllegalStateException("CallComposite is not initialized"));
+        }
+        return holdFuture;
+    }
+
+    /**
+     * Resume call.
+     *
+     * @return {@link CompletableFuture} of {@link Void}.
+     */
+    public CompletableFuture<Void>  resume() {
+        final CompletableFuture<Void> resumeFuture = new CompletableFuture<>();
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer;
+            container.getCallingService().resume().whenComplete((aVoid, throwable) -> {
+                if (throwable != null) {
+                    resumeFuture.completeExceptionally(throwable);
+                } else {
+                    resumeFuture.complete(aVoid);
+                }
+            });
+        } else {
+            resumeFuture.completeExceptionally(new IllegalStateException("CallComposite is not initialized"));
+        }
+        return resumeFuture;
     }
 
     /**
@@ -212,6 +424,10 @@ public final class CallComposite {
         final DependencyInjectionContainer container = diContainer;
         if (container != null) {
             container.getCompositeExitManager().exit();
+        }
+        if (sdkInitializer != null) {
+            sdkInitializer.dispose();
+            sdkInitializer = null;
         }
     }
 
@@ -290,6 +506,43 @@ public final class CallComposite {
         }
 
         return CallCompositeCallStateCode.NONE;
+    }
+
+    /**
+     * Add {@link CallCompositeEventHandler}.
+     *
+     * <p> Add a callback for Call Composite Audio Selection Changed Event.
+     * See {@link com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent}
+     * for values.</p>
+     * <pre>
+     *
+     * &#47;&#47; add audio selection changed handler
+     * callComposite.addOnAudioSelectionChangedEventHandler&#40;event -> {
+     *     &#47;&#47; Process audio selection changed event
+     *     System.out.println&#40;event.getSelectionType&#40;&#41;&#41;;
+     * }&#41;;
+     *
+     * </pre>
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void addOnAudioSelectionChangedEventHandler(
+            final CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().addOnAudioSelectionChangedEventHandler(eventHandler);
+    }
+
+    /**
+     * Remove {@link CallCompositeEventHandler}.
+     *
+     * <p> Remove a callback for Call Composite Audio Selection Changed Event.
+     * See {@link com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent}
+     * for values.</p>
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnAudioSelectionChangedEventHandler(
+            final CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().removeOnAudioSelectionChangedEventHandler(eventHandler);
     }
 
     /**
@@ -394,6 +647,35 @@ public final class CallComposite {
         }
     }
 
+    /**
+     * Handle incoming call push notification.
+     * Build {@link CallCompositeBuilder} using {@link CommunicationTokenCredential} and application {@link Context} .
+     * @param pushNotification     The {@link CallCompositePushNotification}.
+     * @return {@link CompletableFuture} of {@link Void}.
+     */
+    public CompletableFuture<Void> handlePushNotification(final CallCompositePushNotification pushNotification) {
+        return initializeCallingSDK().handlePushNotification(pushNotification);
+    }
+
+    /**
+     * RegisterPushNotification to receive incoming call notification.
+     * Build {@link CallCompositeBuilder} using {@link CommunicationTokenCredential} and application {@link Context} .
+     * @param deviceRegistrationToken The device registration token.
+     * @return {@link CompletableFuture} of {@link Void}.
+     */
+    public CompletableFuture<Void> registerPushNotification(final String deviceRegistrationToken) {
+        return initializeCallingSDK().registerPushNotification(deviceRegistrationToken);
+    }
+
+    /**
+     * UnregisterPushNotification to stop receiving incoming call notification.
+     * Build {@link CallCompositeBuilder} using {@link CommunicationTokenCredential} and application {@link Context} .
+     * @return {@link CompletableFuture} of {@link Void}.
+     */
+    public CompletableFuture<Void> unregisterPushNotification() {
+        return initializeCallingSDK().unregisterPushNotification();
+    }
+
     private DebugInfoManager getDebugInfoManager(final Context context) {
         final DependencyInjectionContainer container = diContainer;
         if (container != null) {
@@ -411,27 +693,52 @@ public final class CallComposite {
 
         UUID groupId = null;
         String meetingLink = null;
+        /* <ROOMS_SUPPORT:0> */
+        String roomId = null;
+        CallCompositeParticipantRole roomRole = null;
+        /* </ROOMS_SUPPORT:0> */
         final CallType callType;
 
         final CallCompositeJoinLocator locator = remoteOptions.getLocator();
         if (locator instanceof CallCompositeGroupCallLocator) {
             callType = CallType.GROUP_CALL;
             groupId = ((CallCompositeGroupCallLocator) locator).getGroupId();
-        } else {
+        } else if (locator instanceof CallCompositeTeamsMeetingLinkLocator) {
             callType = CallType.TEAMS_MEETING;
             meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
+            /* <ROOMS_SUPPORT:0> */
+        } else if (locator instanceof CallCompositeRoomLocator) {
+            callType = CallType.ROOMS_CALL;
+            final CallCompositeRoomLocator roomLocator = (CallCompositeRoomLocator) locator;
+            roomId = roomLocator.getRoomId();
+            /* </ROOMS_SUPPORT:0> */
+        } else {
+            throw new CallCompositeException("Not supported Call Locator type");
         }
-
-        configuration.setCallConfig(new CallConfiguration(
-                remoteOptions.getCredential(),
-                remoteOptions.getDisplayName(),
-                groupId,
-                meetingLink,
-                callType));
 
         if (localOptions != null) {
             configuration.setCallCompositeLocalOptions(localOptions);
+            /* <ROOMS_SUPPORT:2> */
+            roomRole = localOptions.getRoleHint();
+            /* </ROOMS_SUPPORT:1> */
         }
+
+        configuration.setCallConfig(new CallConfiguration(
+                groupId,
+                meetingLink,
+                /* <ROOMS_SUPPORT:5> */
+                roomId,
+                roomRole,
+                /* </ROOMS_SUPPORT:1> */
+                callType,
+                null,
+                null));
+
+        configuration.setApplicationContext(context.getApplicationContext());
+        configuration.setCredential(remoteOptions.getCredential());
+        configuration.setDisplayName(remoteOptions.getDisplayName());
+
+        initializeCallingSDK();
 
         diContainer = new DependencyInjectionContainerImpl(
                 instanceId,
@@ -439,7 +746,78 @@ public final class CallComposite {
                 this,
                 TestHelper.INSTANCE.getCallingSDK(),
                 TestHelper.INSTANCE.getVideoStreamRendererFactory(),
-                TestHelper.INSTANCE.getCoroutineContextProvider()
+                TestHelper.INSTANCE.getCoroutineContextProvider(),
+                logger
+        );
+
+        showUI(context, isTest);
+    }
+
+    private void launchComposite(final Context context,
+                                 final CallCompositeJoinLocator locator,
+                                 final Collection<CommunicationIdentifier> participants,
+                                 final String incomingCallId,
+                                 final CallCompositeLocalOptions localOptions,
+                                 final boolean isTest) {
+        AndroidThreeTen.init(context.getApplicationContext());
+
+        UUID groupId = null;
+        String meetingLink = null;
+        /* <ROOMS_SUPPORT:0> */
+        String roomId = null;
+        CallCompositeParticipantRole roomRole = null;
+        /* </ROOMS_SUPPORT:0> */
+        final CallType callType;
+
+        if (locator instanceof CallCompositeGroupCallLocator) {
+            callType = CallType.GROUP_CALL;
+            groupId = ((CallCompositeGroupCallLocator) locator).getGroupId();
+        } else if (locator instanceof CallCompositeTeamsMeetingLinkLocator) {
+            callType = CallType.TEAMS_MEETING;
+            meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
+            /* <ROOMS_SUPPORT:0> */
+        } else if (locator instanceof CallCompositeRoomLocator) {
+            callType = CallType.ROOMS_CALL;
+            final CallCompositeRoomLocator roomLocator = (CallCompositeRoomLocator) locator;
+            roomId = roomLocator.getRoomId();
+            /* </ROOMS_SUPPORT:0> */
+        } else if (participants != null) {
+            callType = CallType.ONE_TO_N_OUTGOING;
+        } else if (incomingCallId != null) {
+            callType = CallType.ONE_TO_ONE_INCOMING;
+        }
+        else {
+            throw new CallCompositeException("Not supported Call type");
+        }
+
+        if (localOptions != null) {
+            configuration.setCallCompositeLocalOptions(localOptions);
+            /* <ROOMS_SUPPORT:2> */
+            roomRole = localOptions.getRoleHint();
+            /* </ROOMS_SUPPORT:1> */
+        }
+        initializeCallingSDK();
+
+        // initializeCallingSDK validated Credential and Context
+        configuration.setCallConfig(new CallConfiguration(
+                groupId,
+                meetingLink,
+                /* <ROOMS_SUPPORT:5> */
+                roomId,
+                roomRole,
+                /* </ROOMS_SUPPORT:1> */
+                callType,
+                participants,
+                incomingCallId));
+
+        diContainer = new DependencyInjectionContainerImpl(
+                instanceId,
+                context.getApplicationContext(),
+                this,
+                TestHelper.INSTANCE.getCallingSDK(),
+                TestHelper.INSTANCE.getVideoStreamRendererFactory(),
+                TestHelper.INSTANCE.getCoroutineContextProvider(),
+                logger
         );
 
         showUI(context, isTest);
@@ -464,8 +842,26 @@ public final class CallComposite {
         if (isTest) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
-
         context.startActivity(intent);
+    }
+
+    private CallingSDKInitializer initializeCallingSDK() {
+        if (sdkInitializer == null) {
+            if (configuration.getApplicationContext() == null) {
+                final String message = "Application context must be set.";
+                throw new CallCompositeException(message, new IllegalArgumentException(message));
+            }
+            if (configuration.getCredential() == null) {
+                final String message = "Credential must be set.";
+                throw new CallCompositeException(message, new IllegalArgumentException(message));
+            }
+            sdkInitializer = new CallingSDKInitializer(logger, configuration);
+        }
+        return sdkInitializer;
+    }
+
+    CallingSDKInitializer getSdkInitialization() {
+        return sdkInitializer;
     }
 
     CallCompositeConfiguration getConfiguration() {
@@ -476,5 +872,23 @@ public final class CallComposite {
                     final CallCompositeRemoteOptions remoteOptions,
                     final CallCompositeLocalOptions localOptions) {
         launchComposite(context, remoteOptions, localOptions, true);
+    }
+
+    void launchTest(final Context context,
+                    final CallCompositeJoinLocator locator,
+                    final CallCompositeLocalOptions localOptions) {
+        launchComposite(context, locator, null, null, localOptions, true);
+    }
+
+    void launchTest(final Context context,
+                    final List<CommunicationIdentifier> participants,
+                    final CallCompositeLocalOptions localOptions) {
+        launchComposite(context, null, participants, null, localOptions, true);
+    }
+
+    void launchTest(final Context context,
+                    final String incomingCallId,
+                    final CallCompositeLocalOptions localOptions) {
+        launchComposite(context, null, null, incomingCallId, localOptions, true);
     }
 }

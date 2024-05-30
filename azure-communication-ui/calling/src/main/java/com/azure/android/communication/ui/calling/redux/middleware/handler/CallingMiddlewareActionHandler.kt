@@ -3,11 +3,18 @@
 
 package com.azure.android.communication.ui.calling.redux.middleware.handler
 
+import android.telecom.CallAudioState
+import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
+import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.error.CallCompositeError
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.FatalError
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionMode
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
+import com.azure.android.communication.ui.calling.models.buildCallCompositeAudioSelectionChangedEvent
 import com.azure.android.communication.ui.calling.redux.Store
+import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.action.LifecycleAction
@@ -16,6 +23,7 @@ import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
 import com.azure.android.communication.ui.calling.redux.action.CallDiagnosticsAction
+import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
@@ -53,11 +61,15 @@ internal interface CallingMiddlewareActionHandler {
     fun admitAll(store: Store<ReduxState>)
     fun admit(userIdentifier: String, store: Store<ReduxState>)
     fun decline(userIdentifier: String, store: Store<ReduxState>)
+    fun onAudioDeviceChangeRequested(requestedAudioDevice: AudioDeviceSelectionStatus, store: Store<ReduxState>)
+    fun onAudioDeviceChangeSucceeded(selectedAudioDevice: AudioDeviceSelectionStatus, store: Store<ReduxState>)
+    fun onAudioFocusRequesting(store: Store<ReduxState>)
 }
 
 internal class CallingMiddlewareActionHandlerImpl(
     private val callingService: CallingService,
-    coroutineContextProvider: CoroutineContextProvider
+    coroutineContextProvider: CoroutineContextProvider,
+    private val configuration: CallCompositeConfiguration,
 ) :
     CallingMiddlewareActionHandler {
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
@@ -83,8 +95,6 @@ internal class CallingMiddlewareActionHandlerImpl(
                         store.dispatch(LocalParticipantAction.CameraPauseSucceeded())
                     }
                 }
-            } else {
-                store.dispatch(LocalParticipantAction.CameraPauseSucceeded())
             }
         }
     }
@@ -281,6 +291,11 @@ internal class CallingMiddlewareActionHandlerImpl(
                     )
                 )
             }
+            // set telecom manager audio route
+            onAudioDeviceChangeRequested(
+                store.getCurrentState().localParticipantState.audioState.device,
+                store
+            )
         }
     }
 
@@ -350,6 +365,50 @@ internal class CallingMiddlewareActionHandlerImpl(
                     )
                 }
             }
+        }
+    }
+
+    override fun onAudioDeviceChangeRequested(
+        requestedAudioDevice: AudioDeviceSelectionStatus,
+        store: Store<ReduxState>
+    ) {
+        if (configuration.telecomManagerOptions != null) {
+            // it TelecomManger integration is handled by SDK call setTelecomManagerAudioRoute
+            if (configuration.telecomManagerOptions?.telecomManagerIntegrationMode == CallCompositeTelecomManagerIntegrationMode.SDK_PROVIDED_TELECOM_MANAGER) {
+                val route = when (requestedAudioDevice) {
+                    AudioDeviceSelectionStatus.SPEAKER_REQUESTED -> CallAudioState.ROUTE_SPEAKER
+                    AudioDeviceSelectionStatus.RECEIVER_REQUESTED -> CallAudioState.ROUTE_EARPIECE
+                    AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED -> CallAudioState.ROUTE_BLUETOOTH
+                    else -> return
+                }
+                callingService.setTelecomManagerAudioRoute(route)
+            }
+        }
+    }
+
+    override fun onAudioDeviceChangeSucceeded(
+        selectedAudioDevice: AudioDeviceSelectionStatus,
+        store: Store<ReduxState>
+    ) {
+        configuration.callCompositeEventsHandler.getOnAudioSelectionChangedEventHandlers().forEach {
+            try {
+                val audioSelectionType = when (selectedAudioDevice) {
+                    AudioDeviceSelectionStatus.SPEAKER_SELECTED -> CallCompositeAudioSelectionMode.SPEAKER
+                    AudioDeviceSelectionStatus.RECEIVER_SELECTED -> CallCompositeAudioSelectionMode.RECEIVER
+                    AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> CallCompositeAudioSelectionMode.BLUETOOTH
+                    else -> return
+                }
+                val event = buildCallCompositeAudioSelectionChangedEvent(audioSelectionType)
+                it.handle(event)
+            } catch (ex: Exception) {
+                // catching and suppressing any client's exceptions
+            }
+        }
+    }
+
+    override fun onAudioFocusRequesting(store: Store<ReduxState>) {
+        if (configuration.telecomManagerOptions != null) {
+            store.dispatch(AudioSessionAction.AudioFocusApproved())
         }
     }
 
@@ -454,13 +513,7 @@ internal class CallingMiddlewareActionHandlerImpl(
             callingService.getCallInfoModelEventSharedFlow().collect { callInfoModel ->
                 val previousCallState = store.getCurrentState().callState.callingStatus
 
-                store.dispatch(CallingAction.StateUpdated(callInfoModel.callingStatus))
-
-                if (previousCallState == CallingStatus.LOCAL_HOLD &&
-                    callInfoModel.callingStatus == CallingStatus.CONNECTED
-                ) {
-                    tryCameraOn(store)
-                }
+                store.dispatch(CallingAction.StateUpdated(callInfoModel.callingStatus, callInfoModel.callEndReasonCode, callInfoModel.callEndReasonSubCode))
 
                 if (store.getCurrentState().localParticipantState.initialCallJoinState.skipSetupScreen &&
                     callInfoModel.callingStatus == CallingStatus.CONNECTED
@@ -495,15 +548,16 @@ internal class CallingMiddlewareActionHandlerImpl(
                 }
 
                 if (callInfoModel.callStateError == null) {
-                    when (callInfoModel.callingStatus) {
-                        CallingStatus.CONNECTED, CallingStatus.IN_LOBBY -> {
-                            store.dispatch(NavigationAction.CallLaunched())
+                    val action: NavigationAction? = when (callInfoModel.callingStatus) {
+                        CallingStatus.DISCONNECTED -> NavigationAction.Exit()
+                        CallingStatus.CONNECTED -> NavigationAction.CallLaunched()
+                        CallingStatus.CONNECTING -> {
+                            if (configuration.callConfig?.callType == CallType.ONE_TO_N_OUTGOING) NavigationAction.CallLaunched() else null
                         }
-                        CallingStatus.DISCONNECTED -> {
-                            store.dispatch(NavigationAction.Exit())
-                        }
-                        else -> {}
+                        CallingStatus.IN_LOBBY -> NavigationAction.CallLaunched()
+                        else -> null
                     }
+                    action?.let { store.dispatch(it) }
                 }
             }
         }

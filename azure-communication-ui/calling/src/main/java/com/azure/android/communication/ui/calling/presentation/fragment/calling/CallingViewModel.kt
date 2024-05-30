@@ -3,8 +3,11 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
+import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
+import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeLeaveCallConfirmationMode
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
@@ -12,6 +15,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.factorie
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
@@ -24,8 +28,10 @@ internal class CallingViewModel(
     store: Store<ReduxState>,
     callingViewModelProvider: CallingViewModelFactory,
     private val networkManager: NetworkManager,
+    private val callScreenOptions: CallCompositeCallScreenOptions? = null,
     val multitaskingEnabled: Boolean,
     val avMode: CallCompositeAudioVideoMode,
+    private val callType: CallType? = null,
 ) :
     BaseViewModel(store) {
 
@@ -51,8 +57,20 @@ internal class CallingViewModel(
         floatingHeaderViewModel.switchFloatingHeader()
     }
 
-    fun requestCallEnd() {
+    fun requestCallEndOnBackPressed() {
         confirmLeaveOverlayViewModel.requestExitConfirmation()
+    }
+
+    fun requestCallEnd() {
+        callScreenOptions?.controlBarOptions?.leaveCallConfirmation?.let {
+            if (it == CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED) {
+                confirmLeaveOverlayViewModel.requestExitConfirmation()
+            } else {
+                leaveCallWithoutConfirmation()
+            }
+        }
+            // Default to always enabled
+            ?: confirmLeaveOverlayViewModel.requestExitConfirmation()
     }
 
     override fun init(coroutineScope: CoroutineScope) {
@@ -85,7 +103,7 @@ internal class CallingViewModel(
         floatingHeaderViewModel.init(
             state.callState.callingStatus,
             remoteParticipantsForGridView.count(),
-            this::requestCallEnd,
+            this::requestCallEndOnBackPressed,
         )
 
         audioDeviceListViewModel.init(
@@ -297,12 +315,35 @@ internal class CallingViewModel(
                 it.value.participantStatus != ParticipantStatus.IN_LOBBY
         }
 
-    private fun shouldUpdateRemoteParticipantsViewModels(state: ReduxState) =
-        state.callState.callingStatus == CallingStatus.CONNECTED
+    private fun shouldUpdateRemoteParticipantsViewModels(state: ReduxState): Boolean {
+        val isOutgoingCallInProgress = (
+            state.callState.callingStatus == CallingStatus.RINGING ||
+                state.callState.callingStatus == CallingStatus.CONNECTING
+            ) &&
+            callType == CallType.ONE_TO_N_OUTGOING
+        val isOnRemoteHold = state.callState.callingStatus == CallingStatus.REMOTE_HOLD
+        val isConnected = state.callState.callingStatus == CallingStatus.CONNECTED
+
+        return isOutgoingCallInProgress || isOnRemoteHold || isConnected
+    }
 
     private fun updateOverlayDisplayedState(callingStatus: CallingStatus) {
         floatingHeaderViewModel.updateIsOverlayDisplayed(callingStatus)
         bannerViewModel.updateIsOverlayDisplayed(callingStatus)
         localParticipantViewModel.updateIsOverlayDisplayed(callingStatus)
+    }
+
+    private fun leaveCallWithoutConfirmation() {
+        if (store.getCurrentState().localParticipantState.initialCallJoinState.skipSetupScreen &&
+            (
+                store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTED &&
+                    store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTING &&
+                    store.getCurrentState().callState.callingStatus != CallingStatus.RINGING
+                )
+        ) {
+            dispatchAction(action = NavigationAction.Exit())
+        } else {
+            dispatchAction(action = CallingAction.CallEndRequested())
+        }
     }
 }

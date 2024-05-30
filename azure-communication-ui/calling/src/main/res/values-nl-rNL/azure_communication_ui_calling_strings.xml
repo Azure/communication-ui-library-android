@@ -161,4 +161,9 @@
     <string name="azure_communication_ui_calling_attach_screenshot">Schermopname bijvoegen</string>
     <string name="azure_communication_ui_calling_report_a_problem_label">Een probleem melden</string>
     <string name="azure_communication_ui_calling_send_feedback_label">Verzenden</string>
+
+    <!--    Outgoing Call-->
+    <string name="azure_communication_ui_calling_setup_view_start_call">Gesprek starten</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Oproep starten…</string>
+    <string name="azure_communication_ui_calling_call_view_calling">Bellen...</string>
 </resources>

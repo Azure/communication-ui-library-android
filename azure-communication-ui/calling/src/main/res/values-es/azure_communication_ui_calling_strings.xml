@@ -2,7 +2,7 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--    Device-->
     <string name="azure_communication_ui_calling_audio_device_drawer_android">Android</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Altavoz</string>
@@ -29,9 +29,9 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Configuración de degradado</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Cambiar de cámara</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Configurar</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Title</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Subtitle</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Back navigation</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Título</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Subtítulo</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Navegación hacia atrás</string>
 
     <!--    Lobby View-->
     <string name="azure_communication_ui_calling_lobby_view_text_waiting_for_host">Esperando al anfitrión</string>
@@ -67,16 +67,16 @@
     <string name="azure_communication_ui_calling_view_more_menu_accessibility_label">Más</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics">Compartir información de diagnóstico</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Información de diagnóstico</string>
-    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
+    <string name="azure_communication_ui_calling_view_share_diagnostics_description">Botón Compartir información de diagnóstico</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Se ha iniciado la grabación.</b> Al unirse, está
         dando su consentimiento para que se transcriba esta reunión.
-        <u>Directiva de privacidad</u></string>
+         <u>Directiva de privacidad</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>La grabación se está guardando.</b> La grabación se ha detenido.
          <u>Obtener más información</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Se ha iniciado la transcripción.</b> Al unirse, 
-        está dando su consentimiento para que se transcriba esta reunión. <u>Directiva de privacidad</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Se ha iniciado la transcripción.</b> Al unirse,
+        da su consentimiento para que se transcriba esta reunión. <u>Directiva de privacidad</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Se está guardando la transcripción.</b>La transcripción
         se ha detenido. <u>Obtener más información</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>La grabación y transcripción han
@@ -87,13 +87,13 @@
     <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>La grabación se ha detenido.</b> Ahora
         solo está transcribiendo esta reunión. <u>Directiva de privacidad</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>La transcripción se ha detenido.
-    </b> Ahora solo está grabando esta reunión. <u>Directiva de privacidad</u></string>
+    </b> Solo está grabando esta reunión. <u>Directiva de privacidad</u></string>
     <string name="azure_communication_ui_calling_view_link">Vínculo</string>
 
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Descartar</string>
     <string name="azure_communication_ui_calling_alert_title">Alerta</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Se le ha quitado de la llamada debido a un error.</string>
+    <string name="azure_communication_ui_calling_call_state_error_call_end">Puede que se le haya eliminado de la reunión o que haya perdido la conexión. Intente unirse de nuevo.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">No se puede unir a la llamada debido a un error.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Te han quitado de la llamada.</string>
     <string name="azure_communication_ui_calling_no_connection_available">No se puede unir a la llamada. Comprueba la conexión de red.</string>
@@ -150,4 +150,20 @@
 
     <!--    Upper Message Bar Notification -->
     <string name="azure_communication_ui_calling_notification_dismiss_accessibility_label">Descartar</string>
+
+    <!--     Support Form -->
+    <string name="azure_communication_ui_calling_report_issue">Notificar problema</string>
+    <string name="azure_communication_ui_calling_report_issue_title">Notificar problema</string>
+    <string name="azure_communication_ui_calling_logs_attach_notice">Adjuntaremos automáticamente los registros.</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label">Directiva de privacidad</string>
+    <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Describa el problema...</string>
+    <string name="azure_communication_ui_calling_cancel_button_label">Cancelar</string>
+    <string name="azure_communication_ui_calling_attach_screenshot">Adjuntar captura de pantalla</string>
+    <string name="azure_communication_ui_calling_report_a_problem_label">Informar de un problema</string>
+    <string name="azure_communication_ui_calling_send_feedback_label">Enviar</string>
+
+    <!--    Outgoing Call-->
+    <string name="azure_communication_ui_calling_setup_view_start_call">Iniciar llamada</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Iniciando llamada…</string>
+    <string name="azure_communication_ui_calling_call_view_calling">Llamando...</string>
 </resources>

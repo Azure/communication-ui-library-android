@@ -161,4 +161,9 @@
     <string name="azure_communication_ui_calling_attach_screenshot">Legg ved skjermbilde</string>
     <string name="azure_communication_ui_calling_report_a_problem_label">Rapporter et problem</string>
     <string name="azure_communication_ui_calling_send_feedback_label">Send</string>
+
+    <!--    Outgoing Call-->
+    <string name="azure_communication_ui_calling_setup_view_start_call">Start samtale</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Starter anrop …</string>
+    <string name="azure_communication_ui_calling_call_view_calling">Ringer …</string>
 </resources>
