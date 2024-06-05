@@ -5,11 +5,15 @@ package com.azure.android.communication.ui.calling;
 
 import com.azure.android.communication.ui.calling.models.CallCompositeCapabilitiesChangedNotificationMode;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
+import android.content.Context;
+import com.azure.android.communication.common.CommunicationTokenCredential;
+import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation;
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions;
 
 /**
  * Builder for creating {@link CallComposite}.
@@ -27,6 +31,12 @@ public final class CallCompositeBuilder {
     private CallCompositeSupportedScreenOrientation setupScreenOrientation = null;
     private CallCompositeCapabilitiesChangedNotificationMode capabilitiesChangedNotificationMode = null;
     private CallCompositeSetupScreenOptions setupScreenOptions = null;
+    private CallCompositeCallScreenOptions callScreenOptions = null;
+    private CallCompositeTelecomManagerOptions telecomManagerOptions = null;
+    private Context applicationContext = null;
+    private String displayName = null;
+    private CommunicationTokenCredential credential = null;
+    private Boolean disableInternalPushForIncomingCall = false;
 
     /**
      * Sets an optional theme for call-composite to use by {@link CallComposite}.
@@ -113,21 +123,95 @@ public final class CallCompositeBuilder {
     /* </ROOMS_SUPPORT> */
 
     /**
+     * Sets the call screen options.
+     *
+     * @param callScreenOptions call screen options.
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    public CallCompositeBuilder callScreenOptions(final CallCompositeCallScreenOptions callScreenOptions) {
+        this.callScreenOptions = callScreenOptions;
+        return this;
+    }
+
+    /**
+     * Sets an optional telecom manager options for call-composite to use by {@link CallComposite}.
+     *
+     * @param telecomManagerOptions {@link CallCompositeTelecomManagerOptions}.
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    public CallCompositeBuilder telecomManagerOptions(
+            final CallCompositeTelecomManagerOptions telecomManagerOptions) {
+        this.telecomManagerOptions = telecomManagerOptions;
+        return this;
+    }
+
+    /**
+     * Sets the display name.
+     *
+     * @param displayName display name.
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    public CallCompositeBuilder displayName(final String displayName) {
+        this.displayName = displayName;
+        return this;
+    }
+
+    /**
+     * Sets the application context.
+     *
+     * @param applicationContext application context.
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    public CallCompositeBuilder applicationContext(final Context applicationContext) {
+        this.applicationContext = applicationContext;
+        return this;
+    }
+
+    /**
+     * Sets the credential.
+     *
+     * @param credential {@link CommunicationTokenCredential}.
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    public CallCompositeBuilder credential(final CommunicationTokenCredential credential) {
+        this.credential = credential;
+        return this;
+    }
+
+    /**
+     * Sets the disableInternalPushForIncomingCall.
+     *
+     * @param disableInternalPushForIncomingCall disableInternalPushForIncomingCall.
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    public CallCompositeBuilder disableInternalPushForIncomingCall(final Boolean disableInternalPushForIncomingCall) {
+        this.disableInternalPushForIncomingCall = disableInternalPushForIncomingCall;
+        return this;
+    }
+
+    /**
      * Builds the CallCompositeClass {@link CallComposite}.
      *
      * @return {@link CallComposite}
      */
     public CallComposite build() {
-        final CallCompositeConfiguration config = new CallCompositeConfiguration(
-                this.themeConfig,
-                this.localizationConfig,
-                this.callScreenOrientation,
-                this.setupScreenOrientation,
-                this.enableMultitasking,
-                this.enableSystemPiPWhenMultitasking/* <ROOMS_SUPPORT> */,
-                this.capabilitiesChangedNotificationMode,
-                this.setupScreenOptions/* </ROOMS_SUPPORT> */);
-
+        final CallCompositeConfiguration config = new CallCompositeConfiguration();
+        config.setThemeConfig(themeConfig);
+        config.setLocalizationConfig(localizationConfig);
+        config.setEnableMultitasking(enableMultitasking);
+        config.setEnableSystemPiPWhenMultitasking(enableSystemPiPWhenMultitasking);
+        config.setCallScreenOrientation(this.callScreenOrientation);
+        config.setSetupScreenOrientation(this.setupScreenOrientation);
+        config.setCallScreenOptions(callScreenOptions);
+        config.setTelecomManagerOptions(telecomManagerOptions);
+        config.setCredential(credential);
+        config.setDisplayName(displayName);
+        config.setApplicationContext(applicationContext);
+        config.setDisableInternalPushForIncomingCall(disableInternalPushForIncomingCall);
+        /* <ROOMS_SUPPORT> */
+        config.setCapabilitiesChangedNotificationMode(capabilitiesChangedNotificationMode);
+        config.setSetupScreenOptions(setupScreenOptions);
+        /* </ROOMS_SUPPORT> */
         return new CallComposite(config);
     }
 }

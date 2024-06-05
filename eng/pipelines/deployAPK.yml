@@ -1,4 +1,6 @@
 name: $(date:yyyyMMdd)$(rev:.r) $(Build.BuildId)
+trigger: none
+pr: none
 resources:
   repositories:
   - repository: 1esPipelines
@@ -137,6 +139,8 @@ extends:
               echo MAVEN_REPO_URL=$(MAVEN_REPO_URL) >> local.properties
 
               echo MAVEN_REPO_KEY=$(MAVEN_REPO_KEY) >> local.properties
+
+              echo ENABLE_GOOGLE_SERVICES=true >> local.properties
 
               cat local.properties
 

@@ -5,12 +5,14 @@ package com.azure.android.communication.ui.calling.redux.middleware
 
 import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.redux.AppStore
+import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.action.LifecycleAction
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandler
+import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import org.junit.Assert
 import org.junit.Test
@@ -327,5 +329,90 @@ internal class CallingMiddlewareUnitTest {
 
         // assert
         verify(mockCallingMiddlewareActionHandler, times(1)).decline(actionToDispatch.userIdentifier, mockAppStore)
+    }
+
+    @Test
+    fun callingMiddleware_invoke_when_invokedWithAudioDeviceChangeRequested_then_invokeAudioDeviceChangeRequested() {
+        // arrange
+        val actionToDispatch = LocalParticipantAction.AudioDeviceChangeRequested(
+            AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED
+        )
+
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+
+        val mockCallingMiddlewareActionHandler = mock<CallingMiddlewareActionHandler> {
+            on { onAudioDeviceChangeRequested(actionToDispatch.requestedAudioDevice, mockAppStore) } doAnswer {}
+        }
+
+        val callingMiddlewareImplementation =
+            CallingMiddlewareImpl(
+                mockCallingMiddlewareActionHandler,
+                mockLogger
+            )
+
+        // act
+        callingMiddlewareImplementation.invoke(mockAppStore)(
+            fun(_) {
+            }
+        )(actionToDispatch)
+
+        // assert
+        verify(mockCallingMiddlewareActionHandler, times(1)).onAudioDeviceChangeRequested(actionToDispatch.requestedAudioDevice, mockAppStore)
+    }
+
+    @Test
+    fun callingMiddleware_invoke_when_invokedWithAudioDeviceChangeSucceeded_then_invokeAudioDeviceChangeSucceeded() {
+        // arrange
+        val actionToDispatch = LocalParticipantAction.AudioDeviceChangeSucceeded(
+            AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED
+        )
+
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+
+        val mockCallingMiddlewareActionHandler = mock<CallingMiddlewareActionHandler> {
+            on { onAudioDeviceChangeSucceeded(actionToDispatch.selectedAudioDevice, mockAppStore) } doAnswer {}
+        }
+
+        val callingMiddlewareImplementation =
+            CallingMiddlewareImpl(
+                mockCallingMiddlewareActionHandler,
+                mockLogger
+            )
+
+        // act
+        callingMiddlewareImplementation.invoke(mockAppStore)(
+            fun(_) {
+            }
+        )(actionToDispatch)
+
+        // assert
+        verify(mockCallingMiddlewareActionHandler, times(1)).onAudioDeviceChangeSucceeded(actionToDispatch.selectedAudioDevice, mockAppStore)
+    }
+
+    @Test
+    fun callingMiddleware_invoke_when_invokedWithAudioFocusRequesting_then_invokeAudioFocusRequesting() {
+        // arrange
+        val actionToDispatch = AudioSessionAction.AudioFocusRequesting()
+
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+
+        val mockCallingMiddlewareActionHandler = mock<CallingMiddlewareActionHandler> {
+            on { onAudioFocusRequesting(mockAppStore) } doAnswer {}
+        }
+
+        val callingMiddlewareImplementation =
+            CallingMiddlewareImpl(
+                mockCallingMiddlewareActionHandler,
+                mockLogger
+            )
+
+        // act
+        callingMiddlewareImplementation.invoke(mockAppStore)(
+            fun(_) {
+            }
+        )(actionToDispatch)
+
+        // assert
+        verify(mockCallingMiddlewareActionHandler, times(1)).onAudioFocusRequesting(mockAppStore)
     }
 }

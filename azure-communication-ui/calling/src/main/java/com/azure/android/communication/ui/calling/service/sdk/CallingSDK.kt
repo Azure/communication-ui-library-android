@@ -74,6 +74,8 @@ internal interface CallingSDK {
     fun getLogFiles(): List<File>
 
     //endregion
+
+    fun setTelecomManagerAudioRoute(audioRoute: Int)
 }
 
 internal interface RemoteParticipant {

@@ -3,14 +3,25 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.media.AudioAttributes
+import android.media.AudioManager
+import android.media.RingtoneManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
-import androidx.activity.viewModels
+import android.view.View
+import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleCoroutineScope
@@ -24,18 +35,37 @@ import com.azure.android.communication.ui.callingcompositedemoapp.features.Featu
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.conditionallyRegisterDiagnostics
 import com.azure.android.communication.ui.callingcompositedemoapp.views.DismissCompositeButtonView
+import com.fasterxml.jackson.core.JsonProcessingException
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.UUID
 
 class CallLauncherActivity : AppCompatActivity() {
+
+    companion object {
+        const val TAG = "calling.demo.app"
+        var isActivityRunning = false
+        const val CALL_LAUNCHER_BROADCAST_ACTION = "CALL_LAUNCHER_BROADCAST_ACTION"
+    }
+
     private lateinit var binding: ActivityCallLauncherBinding
-    private val callLauncherViewModel: CallLauncherViewModel by viewModels()
+    private lateinit var callCompositeManager: CallCompositeManager
+    private val callLauncherBroadCastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action == CALL_LAUNCHER_BROADCAST_ACTION) {
+                onBroadCastReceived(intent)
+            }
+        }
+    }
+    private val sharedPreference by lazy {
+        getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +73,9 @@ class CallLauncherActivity : AppCompatActivity() {
             finish()
             return
         }
-
+        isActivityRunning = true
+        createNotificationChannels()
+        initCallCompositeManager()
         SettingsFeatures.initialize(applicationContext)
 
         if (!AppCenter.isConfigured() && !BuildConfig.DEBUG) {
@@ -70,6 +102,7 @@ class CallLauncherActivity : AppCompatActivity() {
         /* </ROOMS_SUPPORT:5> */
         val deepLinkRoomsId = data?.getQueryParameter("roomsid")
         /* </ROOMS_SUPPORT:0> */
+        val participantMRIs = data?.getQueryParameter("participantmris")
 
         binding.run {
             if (!deeplinkAcsToken.isNullOrEmpty()) {
@@ -104,6 +137,8 @@ class CallLauncherActivity : AppCompatActivity() {
                 teamsMeetingRadioButton.isChecked = false
                 roomsMeetingRadioButton.isChecked = true
                 /* </ROOMS_SUPPORT:1> */
+            } else if (!participantMRIs.isNullOrEmpty()) {
+                groupIdOrTeamsMeetingLinkText.setText(participantMRIs)
             } else {
                 groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
             }
@@ -132,7 +167,7 @@ class CallLauncherActivity : AppCompatActivity() {
             showUIButton.setOnClickListener {
                 showUI()
             }
-            closeCompositeButton.setOnClickListener { callLauncherViewModel.dismissCallComposite() }
+            closeCompositeButton.setOnClickListener { callCompositeManager.dismissCallComposite() }
 
             groupCallRadioButton.setOnClickListener {
                 if (groupCallRadioButton.isChecked) {
@@ -140,6 +175,7 @@ class CallLauncherActivity : AppCompatActivity() {
                     teamsMeetingRadioButton.isChecked = false
                     /* <ROOMS_SUPPORT:4> */
                     roomsMeetingRadioButton.isChecked = false
+                    oneToNCallRadioButton.isChecked = false
                     /* </ROOMS_SUPPORT:1> */
                 }
             }
@@ -147,6 +183,7 @@ class CallLauncherActivity : AppCompatActivity() {
                 if (teamsMeetingRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.TEAMS_MEETING_LINK)
                     groupCallRadioButton.isChecked = false
+                    oneToNCallRadioButton.isChecked = false
                     /* <ROOMS_SUPPORT:4> */
                     roomsMeetingRadioButton.isChecked = false
                     /* </ROOMS_SUPPORT:1> */
@@ -157,19 +194,61 @@ class CallLauncherActivity : AppCompatActivity() {
                 if (roomsMeetingRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.ROOM_ID)
                     groupCallRadioButton.isChecked = false
+                    oneToNCallRadioButton.isChecked = false
                     teamsMeetingRadioButton.isChecked = false
                 }
             }
 
             /* </ROOMS_SUPPORT:0> */
 
+            oneToNCallRadioButton.setOnClickListener {
+                if (oneToNCallRadioButton.isChecked) {
+                    groupIdOrTeamsMeetingLinkText.setText(BuildConfig.PARTICIPANT_MRIS)
+                    groupCallRadioButton.isChecked = false
+                    teamsMeetingRadioButton.isChecked = false
+                    /* <ROOMS_SUPPORT:4> */
+                    roomsMeetingRadioButton.isChecked = false
+                    /* </ROOMS_SUPPORT:1> */
+                }
+            }
+
             showCallHistoryButton.setOnClickListener {
                 showCallHistory()
             }
 
+            acceptCallButton.setOnClickListener {
+                incomingCallLayout.visibility = LinearLayout.GONE
+                val acsIdentityToken = sharedPreference.getString(CACHED_TOKEN, "")
+                val displayName = sharedPreference.getString(CACHED_USER_NAME, "")
+                callCompositeManager.acceptIncomingCall(this@CallLauncherActivity, acsIdentityToken!!, displayName!!)
+            }
+
+            registerPushNotificationButton.setOnClickListener {
+                if (acsTokenText.text.toString().isEmpty()) {
+                    showAlert("ACS token is empty.")
+                    return@setOnClickListener
+                }
+                cacheTokenAndDisplayName()
+                registerPushNotification()
+            }
+
+            unregisterPushNotificationButton.setOnClickListener {
+                if (acsTokenText.text.toString().isEmpty()) {
+                    showAlert("ACS token is empty.")
+                    return@setOnClickListener
+                }
+                cacheTokenAndDisplayName()
+                unregisterPushNotification()
+            }
+
+            declineCallButton.setOnClickListener {
+                incomingCallLayout.visibility = LinearLayout.GONE
+                callCompositeManager.declineIncomingCall()
+            }
+
             lifecycleScope.launchAll(
                 {
-                    callLauncherViewModel.callCompositeCallStateStateFlow.collect {
+                    callCompositeManager.callCompositeCallStateStateFlow.collect {
                         runOnUiThread {
                             if (it.isNotEmpty()) {
                                 callStateText.text = it
@@ -186,12 +265,35 @@ class CallLauncherActivity : AppCompatActivity() {
                 versionText.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
             }
         }
+
+        handlePushNotificationAction(intent)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(
+                callLauncherBroadCastReceiver,
+                IntentFilter(CALL_LAUNCHER_BROADCAST_ACTION),
+                RECEIVER_EXPORTED
+            )
+        } else {
+            registerReceiver(
+                callLauncherBroadCastReceiver,
+                IntentFilter(CALL_LAUNCHER_BROADCAST_ACTION)
+            )
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        handlePushNotificationAction(intent!!)
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        isActivityRunning = false
+        unregisterReceiver(callLauncherBroadCastReceiver)
         DismissCompositeButtonView.get(this).hide()
         DismissCompositeButtonView.buttonView = null
+        (application as CallLauncherApplication).onDestroy()
     }
 
     // check whether new Activity instance was brought to top of stack,
@@ -213,6 +315,8 @@ class CallLauncherActivity : AppCompatActivity() {
     private fun launch() {
         val userName = binding.userNameText.text.toString()
         val acsToken = binding.acsTokenText.text.toString()
+        sharedPreference.edit().putString(CACHED_TOKEN, acsToken).apply()
+        sharedPreference.edit().putString(CACHED_USER_NAME, userName).apply()
 
         /* <ROOMS_SUPPORT:0> */
         val roomId = binding.groupIdOrTeamsMeetingLinkText.text.toString()
@@ -239,6 +343,16 @@ class CallLauncherActivity : AppCompatActivity() {
             }
         }
 
+        var participantMris: String? = null
+        if (binding.oneToNCallRadioButton.isChecked) {
+            participantMris = binding.groupIdOrTeamsMeetingLinkText.text.toString()
+            if (participantMris.isBlank()) {
+                val message = "Participant MRIs is invalid or empty."
+                showAlert(message)
+                return
+            }
+        }
+
         try {
             CommunicationTokenCredential(acsToken)
         } catch (e: Exception) {
@@ -246,7 +360,7 @@ class CallLauncherActivity : AppCompatActivity() {
             return
         }
 
-        callLauncherViewModel.launch(
+        callCompositeManager.launch(
             this@CallLauncherActivity,
             acsToken,
             userName,
@@ -255,21 +369,22 @@ class CallLauncherActivity : AppCompatActivity() {
             roomId,
             /* </ROOMS_SUPPORT:2> */
             meetingLink,
+            participantMris
         )
     }
 
     private fun showUI() {
-        callLauncherViewModel.bringCallCompositeToForeground(this)
+        callCompositeManager.bringCallCompositeToForeground(this)
     }
 
     private fun showCallHistory() {
-        val history = callLauncherViewModel
-            .getCallHistory(this@CallLauncherActivity)
-            .sortedBy { it.callStartedOn }
+        val userName = binding.userNameText.text.toString()
+        val acsToken = binding.acsTokenText.text.toString()
+        val history = callCompositeManager.getCallHistory(this@CallLauncherActivity, acsToken, userName)?.sortedBy { it.callStartedOn }
 
-        val title = "Total calls: ${history.count()}"
+        val title = "Total calls: ${history?.count()}"
         var message = "Last Call: none"
-        history.lastOrNull()?.let {
+        history?.lastOrNull()?.let {
             message =
                 "Last Call: ${it.callStartedOn.format(DateTimeFormatter.ofPattern("MMM dd 'at' hh:mm"))}"
             it.callIds.forEach { callId ->
@@ -315,7 +430,132 @@ class CallLauncherActivity : AppCompatActivity() {
         if (!SettingsFeatures.getDisplayDismissButtonOption()) {
             DismissCompositeButtonView.get(this).hide()
         } else {
-            DismissCompositeButtonView.get(this).show(callLauncherViewModel)
+            callCompositeManager.let {
+                DismissCompositeButtonView.get(this).show(it)
+            }
+        }
+    }
+
+    private fun onBroadCastReceived(intent: Intent) {
+        val extras = intent.extras
+        val tag = extras?.getString("tag")
+        tag?.let {
+            onIntentAction(tag, extras)
+        }
+    }
+
+    private fun onIntentAction(tag: String, extras: Bundle?) {
+        when (tag) {
+            IntentHelper.INCOMING_CALL -> {
+                binding.incomingCallLayout.visibility = View.VISIBLE
+            }
+            IntentHelper.ANSWER -> {
+                binding.incomingCallLayout.visibility = View.GONE
+                val acsIdentityToken = sharedPreference.getString(CACHED_TOKEN, "")
+                val displayName = sharedPreference.getString(CACHED_USER_NAME, "")
+                callCompositeManager.acceptIncomingCall(this@CallLauncherActivity, acsIdentityToken!!, displayName!!)
+            }
+            IntentHelper.DECLINE -> {
+                binding.incomingCallLayout.visibility = View.GONE
+                callCompositeManager.declineIncomingCall()
+            }
+            IntentHelper.HANDLE_INCOMING_CALL_PUSH -> {
+                extras?.let { onIncomingCallPushNotificationReceived(it) }
+            }
+            IntentHelper.CLEAR_PUSH_NOTIFICATION -> {
+                callCompositeManager.hideIncomingCallNotification()
+            }
+        }
+    }
+
+    private fun onIncomingCallPushNotificationReceived(extras: Bundle) {
+        val acsIdentityToken = sharedPreference.getString(CACHED_TOKEN, "")
+        val displayName = sharedPreference.getString(CACHED_USER_NAME, "")
+        val value = stringToMap(extras.getString("data")!!)
+        callCompositeManager.handleIncomingCall(
+            value,
+            acsIdentityToken!!,
+            displayName!!,
+            this@CallLauncherActivity
+        )
+    }
+
+    private fun createNotificationChannels() {
+        val name: CharSequence = "acs"
+        val description = "acs"
+        val importance = NotificationManager.IMPORTANCE_HIGH
+
+        val channel = NotificationChannel(
+            "acs",
+            name,
+            importance
+        )
+
+        channel.description = description
+        channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+        channel.enableVibration(true)
+        channel.setSound(
+            RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE),
+            AudioAttributes.Builder()
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .setLegacyStreamType(AudioManager.STREAM_RING)
+                .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE).build()
+        )
+        channel.enableLights(true)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            channel.setAllowBubbles(true)
+        }
+        val notificationManager = getSystemService(
+            NotificationManager::class.java
+        )
+        notificationManager.createNotificationChannel(channel)
+    }
+
+    private fun initCallCompositeManager() {
+        val application = application as CallLauncherApplication
+        SettingsFeatures.initialize(application)
+        callCompositeManager = application.getCallCompositeManager(this)
+    }
+
+    private fun stringToMap(jsonString: String): Map<String, String> {
+        return try {
+            val objectMapper: ObjectMapper = jacksonObjectMapper()
+            objectMapper.readValue(jsonString, Map::class.java) as Map<String, String>
+        } catch (e: JsonProcessingException) {
+            e.printStackTrace()
+            emptyMap()
+        }
+    }
+
+    private fun registerPushNotification() {
+        val acsToken = sharedPreference.getString(CACHED_TOKEN, "")
+        val userName = sharedPreference.getString(CACHED_USER_NAME, "")
+        callCompositeManager.registerPush(
+            this@CallLauncherActivity,
+            acsToken!!,
+            userName!!
+        )
+    }
+
+    private fun unregisterPushNotification() {
+        val acsToken = sharedPreference.getString(CACHED_TOKEN, "")
+        val userName = sharedPreference.getString(CACHED_USER_NAME, "")
+        callCompositeManager.unregisterPush(
+            this@CallLauncherActivity,
+            acsToken!!,
+            userName!!
+        )
+    }
+
+    private fun ActivityCallLauncherBinding.cacheTokenAndDisplayName() {
+        sharedPreference.edit().putString(CACHED_TOKEN, acsTokenText.text.toString()).apply()
+        sharedPreference.edit().putString(CACHED_USER_NAME, userNameText.text.toString()).apply()
+    }
+
+    private fun handlePushNotificationAction(newIntent: Intent) {
+        initCallCompositeManager()
+        newIntent.action?.let {
+            onIntentAction(it, newIntent.extras)
         }
     }
 }

@@ -15,6 +15,8 @@ internal class CapabilitiesManager(
     ): Boolean {
         return when (callType) {
             CallType.GROUP_CALL,
+            CallType.ONE_TO_N_OUTGOING,
+            CallType.ONE_TO_ONE_INCOMING,
             CallType.TEAMS_MEETING -> true
             CallType.ROOMS_CALL -> capabilities.contains(capability)
         }

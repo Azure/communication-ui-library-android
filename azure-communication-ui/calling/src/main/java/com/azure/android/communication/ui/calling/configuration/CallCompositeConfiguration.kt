@@ -3,27 +3,36 @@
 
 package com.azure.android.communication.ui.calling.configuration
 
+import android.content.Context
+import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.calling.configuration.events.CallCompositeEventsHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeCapabilitiesChangedNotificationMode
+import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions
 
-internal class CallCompositeConfiguration(
-    val themeConfig: Int?,
-    val localizationConfig: CallCompositeLocalizationOptions?,
-    val callScreenOrientation: CallCompositeSupportedScreenOrientation?,
-    val setupScreenOrientation: CallCompositeSupportedScreenOrientation?,
-    val enableMultitasking: Boolean,
-    val enableSystemPiPWhenMultitasking: Boolean,
-    /* <ROOMS_SUPPORT> */
-    val capabilitiesChangedNotificationMode: CallCompositeCapabilitiesChangedNotificationMode?,
-    val setupScreenOptions: CallCompositeSetupScreenOptions?,
-    /* </ROOMS_SUPPORT> */
-) {
-    var callCompositeLocalOptions: CallCompositeLocalOptions? = null
-    val callCompositeEventsHandler = CallCompositeEventsHandler()
+internal class CallCompositeConfiguration {
+    var themeConfig: Int? = null
+    var localizationConfig: CallCompositeLocalizationOptions? = null
+    var callCompositeEventsHandler = CallCompositeEventsHandler()
     lateinit var callConfig: CallConfiguration
+    var callCompositeLocalOptions: CallCompositeLocalOptions? = null
     val remoteParticipantsConfiguration: RemoteParticipantsConfiguration = RemoteParticipantsConfiguration()
+    var enableMultitasking: Boolean = false
+    var enableSystemPiPWhenMultitasking: Boolean = false
+    var callScreenOrientation: CallCompositeSupportedScreenOrientation? = null
+    var setupScreenOrientation: CallCompositeSupportedScreenOrientation? = null
+    var callScreenOptions: CallCompositeCallScreenOptions? = null
+    var telecomManagerOptions: CallCompositeTelecomManagerOptions? = null
+    var applicationContext: Context? = null
+    var displayName: String? = null
+    var credential: CommunicationTokenCredential? = null
+    var disableInternalPushForIncomingCall: Boolean = false
+    /* <ROOMS_SUPPORT> */
+    var capabilitiesChangedNotificationMode: CallCompositeCapabilitiesChangedNotificationMode? = null
+    var setupScreenOptions: CallCompositeSetupScreenOptions? = null
+    /* </ROOMS_SUPPORT> */
 }

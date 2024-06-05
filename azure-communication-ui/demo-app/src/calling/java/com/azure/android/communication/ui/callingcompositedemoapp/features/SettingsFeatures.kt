@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.LayoutDirection
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
 import com.azure.android.communication.ui.callingcompositedemoapp.AUDIO_ONLY_MODE_ON
 import com.azure.android.communication.ui.callingcompositedemoapp.AVATAR_IMAGE
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY
@@ -15,12 +16,15 @@ import com.azure.android.communication.ui.callingcompositedemoapp.CALL_TITLE
 import com.azure.android.communication.ui.callingcompositedemoapp.CAMERA_ON_BY_DEFAULT_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_AUDIO_ONLY_MODE_ON
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LANGUAGE_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_MIC_ON_BY_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_RTL_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SKIP_SETUP_SCREEN_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.DISABLE_INTERNAL_PUSH_NOTIFICATIONS
 import com.azure.android.communication.ui.callingcompositedemoapp.DISPLAY_DISMISS_BUTTON_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.DISPLAY_DISMISS_BUTTON_KEY_DEFAULT_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.ENABLE_MULTITASKING
 import com.azure.android.communication.ui.callingcompositedemoapp.ENABLE_MULTITASKING_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.ENABLE_PIP_WHEN_MULTITASKING
@@ -34,6 +38,8 @@ import com.azure.android.communication.ui.callingcompositedemoapp.RENDERED_DISPL
 import com.azure.android.communication.ui.callingcompositedemoapp.SETTINGS_SHARED_PREFS
 import com.azure.android.communication.ui.callingcompositedemoapp.SETUP_SCREEN_ORIENTATION_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.SKIP_SETUP_SCREEN_VALUE_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.TELECOM_MANAGER_INTEGRATION_OPTION_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.USE_DEPRECATED_LAUNCH_KEY
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import java.util.Locale
@@ -104,6 +110,10 @@ class SettingsFeatures {
             return displayName
         }
 
+        fun displayTelecomManagerOptionName(option: CallCompositeTelecomManagerIntegrationMode): String {
+            return option.toString()
+        }
+
         fun getInjectionAvatarForRemoteParticipantSelection(): Boolean {
             return sharedPrefs.getBoolean(PERSONA_INJECTION_VALUE_PREF_KEY, false)
         }
@@ -149,6 +159,14 @@ class SettingsFeatures {
             return sharedPrefs.getBoolean(DISPLAY_DISMISS_BUTTON_KEY, DISPLAY_DISMISS_BUTTON_KEY_DEFAULT_VALUE)
         }
 
+        fun getDisableInternalPushForIncomingCallCheckbox(): Boolean {
+            return sharedPrefs.getBoolean(DISABLE_INTERNAL_PUSH_NOTIFICATIONS, false)
+        }
+
+        fun getUseDeprecatedLaunch(): Boolean {
+            return sharedPrefs.getBoolean(USE_DEPRECATED_LAUNCH_KEY, false)
+        }
+
         fun getRenderedDisplayNameOption(): String? = sharedPrefs.getString(RENDERED_DISPLAY_NAME, null)
 
         fun getAvatarImageOption(): String? = sharedPrefs.getString(AVATAR_IMAGE, null)
@@ -160,6 +178,12 @@ class SettingsFeatures {
         fun callScreenOrientation(): String? =
             sharedPrefs.getString(
                 CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY,
+                null,
+            )
+
+        fun telecomManagerIntegration(): String? =
+            sharedPrefs.getString(
+                TELECOM_MANAGER_INTEGRATION_OPTION_KEY,
                 null,
             )
 
@@ -183,6 +207,10 @@ class SettingsFeatures {
             } else {
                 null
             }
+        }
+
+        fun getDisplayLeaveCallConfirmationValue(): Boolean {
+            return sharedPrefs.getBoolean(DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE, DEFAULT_DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE)
         }
     }
 }

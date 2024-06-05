@@ -219,7 +219,7 @@ internal class CallingFragment :
         if (viewModel.multitaskingEnabled) {
             (activity as? MultitaskingCallCompositeActivity)?.hide()
         } else {
-            viewModel.requestCallEnd()
+            viewModel.requestCallEndOnBackPressed()
         }
     }
 

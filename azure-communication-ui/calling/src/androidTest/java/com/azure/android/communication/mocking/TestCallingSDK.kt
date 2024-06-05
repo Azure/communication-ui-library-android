@@ -297,6 +297,12 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         }
     }
 
+    fun setCallState(callState: CallState) {
+        coroutineScope.launch {
+            callingStateWrapperSharedFlow.emit(CallingStateWrapper(callState, 0, 0))
+        }
+    }
+
     override fun startCall(
         cameraState: CameraState,
         audioState: AudioState,
@@ -305,8 +311,8 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         coroutineScope.launch {
             startCallCompletableFuture.complete(null)
             callStarted.compareAndSet(false, true)
-            callingStateWrapperSharedFlow.emit(CallingStateWrapper(CallState.CONNECTED, 0, 0))
             callIdStateFlow.emit("callid")
+            callingStateWrapperSharedFlow.emit(CallingStateWrapper(CallState.CONNECTED, 0, 0))
             emitRemoteParticipantFlow()
         }
         return startCallCompletableFuture
@@ -415,6 +421,8 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
 
     override fun getCapabilities(): List<ParticipantCapabilityType> {
         TODO("Not yet implemented")
+    }
+    override fun setTelecomManagerAudioRoute(audioRoute: Int) {
     }
 
     private fun RemoteVideoStream.asVideoStreamModel(): VideoStreamModel {

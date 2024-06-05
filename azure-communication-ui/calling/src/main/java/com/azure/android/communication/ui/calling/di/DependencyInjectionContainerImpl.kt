@@ -7,11 +7,11 @@ import android.content.Context
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.data.CallHistoryRepositoryImpl
 import com.azure.android.communication.ui.calling.error.ErrorHandler
+import com.azure.android.communication.ui.calling.getCallingSDKInitializer
 import com.azure.android.communication.ui.calling.getConfig
 import com.azure.android.communication.ui.calling.handlers.CallStateHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.implementation.R
-import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity
@@ -79,7 +79,11 @@ internal class DependencyInjectionContainerImpl(
     private val customCallingSDK: CallingSDK?,
     private val customVideoStreamRendererFactory: VideoStreamRendererFactory?,
     private val customCoroutineContextProvider: CoroutineContextProvider?,
+    private val defaultLogger: Logger
 ) : DependencyInjectionContainer {
+    private val callingSDKInitializer by lazy {
+        callComposite.getCallingSDKInitializer()
+    }
 
     override var callCompositeActivityWeakReference: WeakReference<CallCompositeActivity> = WeakReference(null)
 
@@ -135,6 +139,7 @@ internal class DependencyInjectionContainerImpl(
         AudioFocusManager(
             appStore,
             applicationContext,
+            configuration.telecomManagerOptions
         )
     }
 
@@ -221,9 +226,11 @@ internal class DependencyInjectionContainerImpl(
             appStore,
             callingViewModelFactory,
             networkManager,
+            configuration.callScreenOptions,
             configuration.enableMultitasking,
             configuration.callCompositeLocalOptions?.audioVideoMode
                 ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+            configuration.callConfig.callType,
             capabilitiesManager,
         )
     }
@@ -270,7 +277,7 @@ internal class DependencyInjectionContainerImpl(
     // Initial State
     private val initialState by lazy {
         AppReduxState(
-            displayName = configuration.callConfig?.displayName,
+            displayName = configuration.displayName,
             cameraOnByDefault = localOptions?.isCameraOn ?: false,
             microphoneOnByDefault = localOptions?.isMicrophoneOn ?: false,
             avMode = localOptions?.audioVideoMode ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
@@ -321,14 +328,16 @@ internal class DependencyInjectionContainerImpl(
     //region System
     private val applicationContext get() = parentContext.applicationContext
 
-    override val logger: Logger by lazy { DefaultLogger() }
+    override val logger: Logger by lazy { defaultLogger }
 
     private val callingSDKWrapper: CallingSDK by lazy {
         customCallingSDK
             ?: CallingSDKWrapper(
                 applicationContext,
                 callingSDKEventHandler,
-                configuration.callConfig
+                configuration.callConfig,
+                logger,
+                callingSDKInitializer
             )
     }
 

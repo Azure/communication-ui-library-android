@@ -123,6 +123,15 @@ internal class CallingMiddlewareImpl(
                 is ToastNotificationAction.DismissNotification -> {
                     callingMiddlewareActionHandler.dismissNotification(store)
                 }
+                is LocalParticipantAction.AudioDeviceChangeRequested -> {
+                    callingMiddlewareActionHandler.onAudioDeviceChangeRequested(action.requestedAudioDevice, store)
+                }
+                is LocalParticipantAction.AudioDeviceChangeSucceeded -> {
+                    callingMiddlewareActionHandler.onAudioDeviceChangeSucceeded(action.selectedAudioDevice, store)
+                }
+                is AudioSessionAction.AudioFocusRequesting -> {
+                    callingMiddlewareActionHandler.onAudioFocusRequesting(store)
+                }
             }
             next(action)
         }

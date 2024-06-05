@@ -10,7 +10,7 @@
     <string name="identity_hint">Identity</string>
     <string name="group_call_label">Group</string>
     <string name="teams_meeting_label">Teams</string>
-    <string name="group_call_id_or_teams_meeting_hint">Group ID or Meeting link or Room Id</string>
+    <string name="group_call_id_or_teams_meeting_hint">Group ID or Meeting link or Room Id or , separated MRIs</string>
     <string name="chat_thread_id_hint">Chat Thread ID</string>
     <string name="endpoint_url_hint">Endpoint</string>
     <string name="kotlin">Kotlin</string>
@@ -62,4 +62,17 @@
     <string name="multitasking_option">Multitasking</string>
     <string name="enable_multitasking_option">Enable Multitasking</string>
     <string name="enable_pip_when_multitasking_option">Enable Pip when multitasking</string>
+    <string name="display_leave_call_confirmation">Display Leave Call Confirmation</string>
+    <string name="call_screen_settings">Call screen settings</string>
+    <string name="telecom_manager_options">Telecom manager options</string>
+    <string name="deprecated_settings_text">Deprecated apis</string>
+    <string name="use_deprecated_launch_text">Use deprecated launch</string>
+    <string name="one_to_n_call_label">1:N call</string>
+    <string name="incoming_call">Incoming call</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
+    <string name="register_push_notification">Register Push</string>
+    <string name="unregister_push_notification">Unregister Push</string>
+    <string name="push_notification_text">Push notification</string>
+    <string name="disable_internal_push_text">Disable internal push for incoming call</string>
 </resources>

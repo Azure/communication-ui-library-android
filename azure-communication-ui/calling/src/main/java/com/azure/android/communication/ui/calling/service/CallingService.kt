@@ -156,7 +156,11 @@ internal class CallingService(
                 logger?.debug(it.toString())
                 val callStateError = it.asCallStateError(currentStatus = callingStatus)
                 callingStatus = it.toCallStatus()
-                callInfoModelSharedFlow.emit(CallInfoModel(callingStatus, callStateError))
+                if (callingStatus == CallingStatus.DISCONNECTED) {
+                    callInfoModelSharedFlow.emit(CallInfoModel(callingStatus, callStateError, it.callEndReason, it.callEndReasonSubCode))
+                } else {
+                    callInfoModelSharedFlow.emit(CallInfoModel(callingStatus, callStateError))
+                }
             }
         }
 
@@ -176,5 +180,10 @@ internal class CallingService(
     }
 
     fun getLogFiles(): List<File> = callingSdk.getLogFiles()
+
+    fun setTelecomManagerAudioRoute(audioRoute: Int) {
+        callingSdk.setTelecomManagerAudioRoute(audioRoute)
+    }
+
     fun getCallCapabilities(): Set<ParticipantCapabilityType> = callingSdk.getCapabilities()
 }
