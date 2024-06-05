@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling.configuration
 
 import com.azure.android.communication.ui.calling.configuration.events.CallCompositeEventsHandler
-import com.azure.android.communication.ui.calling.models.CallCompositeCapabilitiesChangeNotificationMode
+import com.azure.android.communication.ui.calling.models.CallCompositeCapabilitiesChangedNotificationMode
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenOptions
@@ -18,7 +18,7 @@ internal class CallCompositeConfiguration(
     val enableMultitasking: Boolean,
     val enableSystemPiPWhenMultitasking: Boolean,
     /* <ROOMS_SUPPORT> */
-    val capabilitiesChangeNotificationMode: CallCompositeCapabilitiesChangeNotificationMode?,
+    val capabilitiesChangedNotificationMode: CallCompositeCapabilitiesChangedNotificationMode?,
     val setupScreenOptions: CallCompositeSetupScreenOptions?,
     /* </ROOMS_SUPPORT> */
 ) {

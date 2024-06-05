@@ -7,7 +7,7 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import com.azure.android.communication.ui.calling.error.CallCompositeError
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.FatalError
-import com.azure.android.communication.ui.calling.models.CallCompositeCapabilitiesChangeNotificationMode
+import com.azure.android.communication.ui.calling.models.CallCompositeCapabilitiesChangedNotificationMode
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.calling.models.CallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
@@ -438,7 +438,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                     ToastNotificationKind.NETWORK_SEND_QUALITY
                 }
                 NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY -> {
-                    ToastNotificationKind.NETWORK_SEND_QUALITY
+                    ToastNotificationKind.NETWORK_RECONNECTION_QUALITY
                 }
                 else -> null
             }
@@ -639,7 +639,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                 val action = LocalParticipantAction.SetCapabilities(capabilities)
                 store.dispatch(action)
 
-                if (configuration.capabilitiesChangeNotificationMode != CallCompositeCapabilitiesChangeNotificationMode.NEVER_DISPLAY) {
+                if (configuration.capabilitiesChangedNotificationMode != CallCompositeCapabilitiesChangedNotificationMode.NEVER_DISPLAY) {
                     val currentCapabilities = store.getCurrentState().localParticipantState.capabilities
 
                     // Only display toast message on capabilities changed
