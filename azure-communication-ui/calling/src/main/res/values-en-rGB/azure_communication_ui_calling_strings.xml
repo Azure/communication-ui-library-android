@@ -161,4 +161,12 @@
     <string name="azure_communication_ui_calling_attach_screenshot">Attach screenshot</string>
     <string name="azure_communication_ui_calling_report_a_problem_label">Report a problem</string>
     <string name="azure_communication_ui_calling_send_feedback_label">Send</string>
+
+    <!-- Participant menu actions -->
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">Mute</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Mute participant menu</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">Remove from call</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Remove participant from call menu</string>
+    <string name="azure_communication_ui_capabilities_changed_toast_features_lost">Call settings updated. Some features may not be available to you.</string>
+    <string name="azure_communication_ui_capabilities_changed_toast_features_gained">Call settings updated. Some additional actions may now be available to you.</string>
 </resources>
