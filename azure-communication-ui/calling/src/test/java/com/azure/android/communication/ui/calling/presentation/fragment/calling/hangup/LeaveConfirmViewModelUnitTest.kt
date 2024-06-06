@@ -58,10 +58,54 @@ internal class LeaveConfirmViewModelUnitTest {
     }
 
     @Test
+    fun leaveConfirmViewModel_confirm_onRinging_then_dispatchEndCall() {
+
+        val appState = AppReduxState("", false, false, false)
+        appState.callState = CallingState(CallingStatus.RINGING)
+
+        val mockAppStore = mock<AppStore<ReduxState>> {
+            on { getCurrentState() } doReturn appState
+            on { dispatch(any()) } doAnswer { }
+        }
+
+        val leaveConfirmViewModel = LeaveConfirmViewModel(mockAppStore)
+
+        leaveConfirmViewModel.confirm()
+
+        verify(mockAppStore, times(1)).dispatch(
+            argThat { action ->
+                action is CallingAction.CallEndRequested
+            }
+        )
+    }
+
+    @Test
+    fun leaveConfirmViewModel_confirm_onConnecting_then_dispatchEndCall() {
+
+        val appState = AppReduxState("", false, false, false)
+        appState.callState = CallingState(CallingStatus.RINGING)
+
+        val mockAppStore = mock<AppStore<ReduxState>> {
+            on { getCurrentState() } doReturn appState
+            on { dispatch(any()) } doAnswer { }
+        }
+
+        val leaveConfirmViewModel = LeaveConfirmViewModel(mockAppStore)
+
+        leaveConfirmViewModel.confirm()
+
+        verify(mockAppStore, times(1)).dispatch(
+            argThat { action ->
+                action is CallingAction.CallEndRequested
+            }
+        )
+    }
+
+    @Test
     fun leaveConfirmViewModel_confirm_then_dispatchNavigationExit() {
 
         val appState = AppReduxState("", false, false)
-        appState.callState = CallingState(CallingStatus.CONNECTING)
+        appState.callState = CallingState(CallingStatus.DISCONNECTED)
         appState.localParticipantState = LocalUserState(
             CameraState(
                 CameraOperationalStatus.OFF,
