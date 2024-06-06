@@ -88,7 +88,7 @@
                 android:text="@string/rooms_attendee"
                 android:visibility="gone"
                 />
-        <!-- </ROOMS_SUPPORT:0> -->
+            <!-- </ROOMS_SUPPORT:0> -->
         </LinearLayout>
 
         <EditText
