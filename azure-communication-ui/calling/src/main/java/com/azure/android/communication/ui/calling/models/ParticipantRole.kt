@@ -11,11 +11,3 @@ internal enum class ParticipantRole {
     ORGANIZER,
 }
 
-internal fun CallCompositeParticipantRole.into(): ParticipantRole {
-    return when (this) {
-        CallCompositeParticipantRole.PRESENTER -> ParticipantRole.PRESENTER
-        CallCompositeParticipantRole.ATTENDEE -> ParticipantRole.ATTENDEE
-        CallCompositeParticipantRole.CONSUMER -> ParticipantRole.CONSUMER
-        else -> ParticipantRole.UNINITIALIZED
-    }
-}
