@@ -27,7 +27,7 @@ internal enum class ParticipantCapabilityType {
     /**
      * Hang up for everyone
      */
-    HANG_UP_FOR_EVERY_ONE,
+    HANGUP_FOR_EVERY_ONE,
 
     /**
      * Add Teams user

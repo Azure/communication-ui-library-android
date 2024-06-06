@@ -15,17 +15,18 @@ import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCa
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent
 
 internal class CallCompositeEventsHandler {
-    private val errorHandlers = mutableListOf<CallCompositeEventHandler<CallCompositeErrorEvent>>()
+    // mutableSet does preserve element iteration order
+    private val errorHandlers = mutableSetOf<CallCompositeEventHandler<CallCompositeErrorEvent>>()
     private val remoteParticipantJoinedHandlers =
-        mutableListOf<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
+        mutableSetOf<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
     private val callStateHandlers =
-        mutableListOf<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
+        mutableSetOf<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
     private val exitEventHandlers =
-        mutableListOf<CallCompositeEventHandler<CallCompositeDismissedEvent>>()
+        mutableSetOf<CallCompositeEventHandler<CallCompositeDismissedEvent>>()
     private val userReportHandlers =
-        mutableListOf<CallCompositeEventHandler<CallCompositeUserReportedIssueEvent>>()
+        mutableSetOf<CallCompositeEventHandler<CallCompositeUserReportedIssueEvent>>()
     private val multitaskingStateChangedEvent =
-        mutableListOf<CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent>>()
+        mutableSetOf<CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent>>()
 
     private val audioSelectionChangedEventHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeAudioSelectionChangedEvent>>()
