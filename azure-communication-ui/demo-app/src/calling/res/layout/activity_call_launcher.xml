@@ -100,7 +100,7 @@
             android:hint="@string/group_call_id_or_teams_meeting_hint"
             android:inputType="textNoSuggestions"
             />
-        <!-- <MEETING_ID_LOCATOR>
+        <!-- <MEETING_ID_LOCATOR> -->
         <EditText
             android:id="@+id/teamsMeetingId"
             android:layout_width="match_parent"
@@ -121,7 +121,7 @@
             android:inputType="textNoSuggestions"
             android:visibility="gone"
             />
-        </MEETING_ID_LOCATOR> -->
+        <!-- </MEETING_ID_LOCATOR> -->
 
         <Button
             android:id="@+id/showCallHistoryButton"
