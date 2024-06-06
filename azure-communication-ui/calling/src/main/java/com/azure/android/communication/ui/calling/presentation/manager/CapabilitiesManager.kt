@@ -16,8 +16,8 @@ internal class CapabilitiesManager(
         return when (callType) {
             CallType.GROUP_CALL,
             CallType.ONE_TO_N_OUTGOING,
-            CallType.ONE_TO_ONE_INCOMING,
-            CallType.TEAMS_MEETING -> true
+            CallType.ONE_TO_ONE_INCOMING -> true
+            CallType.TEAMS_MEETING,
             CallType.ROOMS_CALL -> capabilities.contains(capability)
         }
     }
