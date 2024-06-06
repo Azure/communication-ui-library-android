@@ -11,18 +11,12 @@ import com.azure.android.communication.ui.calling.getCallingSDKInitializer
 import com.azure.android.communication.ui.calling.getConfig
 import com.azure.android.communication.ui.calling.handlers.CallStateHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
-import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactory
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactoryImpl
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
-import com.azure.android.communication.ui.calling.presentation.fragment.factories.ParticipantGridCellViewModelFactory
-import com.azure.android.communication.ui.calling.presentation.fragment.factories.SetupViewModelFactory
-import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupViewModel
 import com.azure.android.communication.ui.calling.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioModeManager
@@ -221,51 +215,9 @@ internal class DependencyInjectionContainerImpl(
         CallHistoryRepositoryImpl(applicationContext, logger)
     }
 
-    override val callingViewModel by lazy {
-        CallingViewModel(
-            appStore,
-            callingViewModelFactory,
-            networkManager,
-            configuration.callScreenOptions,
-            configuration.enableMultitasking,
-            configuration.callCompositeLocalOptions?.audioVideoMode
-                ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
-            configuration.callConfig.callType,
-            capabilitiesManager,
-        )
-    }
-
-    override val setupViewModel by lazy {
-        SetupViewModel(
-            appStore,
-            setupViewModelFactory,
-            networkManager,
-            configuration.setupScreenOptions,
-        )
-    }
-
     override val capabilitiesManager by lazy {
         CapabilitiesManager(
             configuration.callConfig.callType,
-        )
-    }
-
-    private val callingViewModelFactory by lazy {
-        CallingViewModelFactory(
-            appStore,
-            ParticipantGridCellViewModelFactory(),
-            applicationContext.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants),
-            debugInfoManager,
-            capabilitiesManager,
-            configuration.callCompositeEventsHandler.getOnUserReportedHandlers().toList().isNotEmpty(),
-            configuration.enableMultitasking
-        )
-    }
-
-    private val setupViewModelFactory by lazy {
-        SetupViewModelFactory(
-            appStore,
-            applicationContext,
         )
     }
 

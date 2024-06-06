@@ -20,7 +20,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
-import com.azure.android.communication.ui.calling.presentation.DependencyInjectionContainerHolder
+import com.azure.android.communication.ui.calling.presentation.CallCompositeActivityViewModel
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarView
@@ -50,11 +50,11 @@ internal class CallingFragment :
     }
 
     // Get the DI Container, which gives us what we need for this fragment (dependencies)
-    private val holder: DependencyInjectionContainerHolder by activityViewModels()
+    private val activityViewModel: CallCompositeActivityViewModel by activityViewModels()
 
-    private val videoViewManager get() = holder.container.videoViewManager
-    private val avatarViewManager get() = holder.container.avatarViewManager
-    private val viewModel get() = holder.container.callingViewModel
+    private val videoViewManager get() = activityViewModel.container.videoViewManager
+    private val avatarViewManager get() = activityViewModel.container.avatarViewManager
+    private val viewModel get() = activityViewModel.callingViewModel
 
     private val closeToUser = 0f
     private lateinit var controlBarView: ControlBarView
@@ -257,7 +257,7 @@ internal class CallingFragment :
         super.onDestroy()
         if (activity?.isChangingConfigurations == false) {
             if (this::participantGridView.isInitialized) participantGridView.stop()
-            if (CallCompositeInstanceManager.hasCallComposite(holder.instanceId)) {
+            if (CallCompositeInstanceManager.hasCallComposite(activityViewModel.instanceId)) {
                 // Covers edge case where Android tries to recreate call activity after process death
                 // (e.g. due to revoked permission).
                 // If no configs are detected we can just exit without cleanup.

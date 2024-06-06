@@ -12,8 +12,6 @@ import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHand
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupViewModel
 import com.azure.android.communication.ui.calling.presentation.manager.AccessibilityAnnouncementManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioFocusManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioModeManager
@@ -84,7 +82,5 @@ internal interface DependencyInjectionContainer {
     // This isn't generally encouraged, but CallCompositeActivity context is needed for screenshot.
     var callCompositeActivityWeakReference: WeakReference<CallCompositeActivity>
 
-    val callingViewModel: CallingViewModel
-    val setupViewModel: SetupViewModel
     val capabilitiesManager: CapabilitiesManager
 }

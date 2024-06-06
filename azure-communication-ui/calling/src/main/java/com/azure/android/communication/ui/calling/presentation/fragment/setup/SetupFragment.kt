@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.calling.implementation.R
-import com.azure.android.communication.ui.calling.presentation.DependencyInjectionContainerHolder
+import com.azure.android.communication.ui.calling.presentation.CallCompositeActivityViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.JoinCallButtonHolderView
@@ -28,7 +28,7 @@ internal class SetupFragment :
     Fragment(R.layout.azure_communication_ui_calling_fragment_setup) {
 
     // Get the DI Container, which gives us what we need for this fragment (dependencies)
-    private val holder: DependencyInjectionContainerHolder by activityViewModels()
+    private val activityViewModel: CallCompositeActivityViewModel by activityViewModels()
 
     private lateinit var warningsView: PermissionWarningView
     private lateinit var setupControlsView: SetupControlBarView
@@ -40,17 +40,17 @@ internal class SetupFragment :
     private lateinit var setupJoinCallButtonHolderView: JoinCallButtonHolderView
     private lateinit var toolbarView: ToolbarView
 
-    private val videoViewManager get() = holder.container.videoViewManager
-    private val avatarViewManager get() = holder.container.avatarViewManager
-    private val viewModel get() = holder.container.setupViewModel
+    private val videoViewManager get() = activityViewModel.container.videoViewManager
+    private val avatarViewManager get() = activityViewModel.container.avatarViewManager
+    private val viewModel get() = activityViewModel.setupViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.init(viewLifecycleOwner.lifecycleScope)
         toolbarView = view.findViewById(R.id.azure_communication_setup_toolbar)
         toolbarView.start(
-            holder.container.configuration.callCompositeLocalOptions,
-            holder.container.logger,
+            activityViewModel.container.configuration.callCompositeLocalOptions,
+            activityViewModel.container.logger,
             this::exitComposite
         )
         callCompositeActivity?.setSupportActionBar(toolbarView)
