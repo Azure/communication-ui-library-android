@@ -70,22 +70,22 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Knappen Dela diagnostikinformation</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Postning har startat.</b> Genom att ansluta är du
-        ge medgivande för att det här mötet ska transkriberas.
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Inspelning har startat.</b> Genom att ansluta
+        ger du medgivande för att det här mötet transkriberas.
          <u>Sekretesspolicy</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Postning sparas.</b> Inspelningen har stoppats.
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Inspelningen sparas.</b> Inspelningen har stoppats.
          <u>Läs mer</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Transcription har startat.</b> Genom att gå med ger du
-        samtycker till att det här mötet transkriberas. <u>Sekretesspolicy</u></string>
+        medgivande för att det här mötet transkriberas. <u>Sekretesspolicy</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Transkription sparas.</b> Transkription
         har stoppats. <u>Läs mer</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Inspelning och transkription har 
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Inspelning och transkription har
         startat.</b> Genom att ansluta ger du ditt medgivande till att det här mötet transkriberas
         . <u>Sekretesspolicy</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Inspelning och transkription
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Inspelning och transkription 
         sparas.</b> Inspelning och transkription har stoppats. <u>Läs mer</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Postningen har stoppats.</b> Du
-        transkriberar nu bara det här mötet. <u>Sekretesspolicy</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Inspelning har stoppats.</b> Du
+        transkriberar nu bara mötet. <u>Privacy-princip</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Transkription har stoppats.
     </b> Du spelar nu bara in det här mötet. <u>Sekretesspolicy</u></string>
     <string name="azure_communication_ui_calling_view_link">Länk</string>
