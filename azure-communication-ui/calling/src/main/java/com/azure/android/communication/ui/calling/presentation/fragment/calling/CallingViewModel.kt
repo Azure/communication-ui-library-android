@@ -15,7 +15,6 @@ import com.azure.android.communication.ui.calling.presentation.fragment.factorie
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
-import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
@@ -334,16 +333,6 @@ internal class CallingViewModel(
     }
 
     private fun leaveCallWithoutConfirmation() {
-        if (store.getCurrentState().localParticipantState.initialCallJoinState.skipSetupScreen &&
-            (
-                store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTED &&
-                    store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTING &&
-                    store.getCurrentState().callState.callingStatus != CallingStatus.RINGING
-                )
-        ) {
-            dispatchAction(action = NavigationAction.Exit())
-        } else {
-            dispatchAction(action = CallingAction.CallEndRequested())
-        }
+        confirmLeaveOverlayViewModel.confirm()
     }
 }
