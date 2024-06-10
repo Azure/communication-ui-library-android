@@ -120,7 +120,7 @@ extends:
 
               echo sdk.dir=$ANDROID_SDK_ROOT > local.properties
 
-              echo 'APP_SECRET="8cb48e80-76ae-43f4-939a-ab6edd255af4"' >> local.properties
+              echo 'APP_SECRET= $(APPSECRET)' >> local.properties
 
               #echo #'REMOTE_PARTICIPANT_AVATAR_TEST_URL="https://imagetestinderpal.blob.core.windows.net/tut#orial-container/"' >> local.properties
 
