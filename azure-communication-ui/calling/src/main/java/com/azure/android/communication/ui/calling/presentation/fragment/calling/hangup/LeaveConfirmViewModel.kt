@@ -29,7 +29,11 @@ internal class LeaveConfirmViewModel(private val store: Store<ReduxState>) {
 
     fun confirm() {
         if (store.getCurrentState().localParticipantState.initialCallJoinState.skipSetupScreen &&
-            store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTED
+            (
+                store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTED &&
+                    store.getCurrentState().callState.callingStatus != CallingStatus.CONNECTING &&
+                    store.getCurrentState().callState.callingStatus != CallingStatus.RINGING
+                )
         ) {
             dispatchAction(action = NavigationAction.Exit())
         } else {
