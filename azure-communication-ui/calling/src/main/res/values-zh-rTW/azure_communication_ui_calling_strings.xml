@@ -169,9 +169,9 @@
 
     <!-- Participant menu actions -->
     <string name="azure_communication_ui_calling_view_participant_menu_mute">Mute</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Mute participant menu</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">將參與者選單設為靜音</string>
     <string name="azure_communication_ui_calling_view_participant_menu_remove">Remove from call</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Remove participant from call menu</string>
-    <string name="azure_communication_ui_capabilities_changed_toast_features_lost">Call settings updated. Some features may not be available to you.</string>
-    <string name="azure_communication_ui_capabilities_changed_toast_features_gained">Call settings updated. Some additional actions may now be available to you.</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">從通話選單移除參與者</string>
+    <string name="azure_communication_ui_capabilities_changed_toast_features_lost">通話設定已更新。某些功能可能無法供您使用。</string>
+    <string name="azure_communication_ui_capabilities_changed_toast_features_gained">通話設定已更新。您現在可以使用一些其他動作。</string>
 </resources>

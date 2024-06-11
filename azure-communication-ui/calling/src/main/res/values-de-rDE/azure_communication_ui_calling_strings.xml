@@ -169,9 +169,9 @@
 
     <!-- Participant menu actions -->
     <string name="azure_communication_ui_calling_view_participant_menu_mute">Mute</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Mute participant menu</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Schalten Sie das Teilnehmermenü stumm</string>
     <string name="azure_communication_ui_calling_view_participant_menu_remove">Remove from call</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Remove participant from call menu</string>
-    <string name="azure_communication_ui_capabilities_changed_toast_features_lost">Call settings updated. Some features may not be available to you.</string>
-    <string name="azure_communication_ui_capabilities_changed_toast_features_gained">Call settings updated. Some additional actions may now be available to you.</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Entfernen Sie den Teilnehmer aus dem Anrufmenü</string>
+    <string name="azure_communication_ui_capabilities_changed_toast_features_lost">Anrufeinstellungen aktualisiert. Einige Features stehen Ihnen möglicherweise nicht zur Verfügung.</string>
+    <string name="azure_communication_ui_capabilities_changed_toast_features_gained">Anrufeinstellungen aktualisiert. Einige zusätzliche Aktionen stehen Ihnen jetzt möglicherweise zur Verfügung.</string>
 </resources>
