@@ -46,6 +46,9 @@ import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOpti
 import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator
 /* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
+/* <MEETING_ID_LOCATOR> */
+import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingIdLocator
+/* </MEETING_ID_LOCATOR> */
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions
@@ -70,7 +73,11 @@ class CallCompositeManager(private val context: Context) {
         roomId: String?,
         roomRoleHint: CallCompositeParticipantRole?,
         /* </ROOMS_SUPPORT:2> */
+        /* <MEETING_ID_LOCATOR> */
         meetingLink: String?,
+        meetingId: String?,
+        /* </MEETING_ID_LOCATOR> */
+        meetingPasscode: String?,
         participantMris: String?,
     ) {
         if (SettingsFeatures.getDisplayDismissButtonOption()) {
@@ -99,7 +106,11 @@ class CallCompositeManager(private val context: Context) {
             val remoteOptions = getRemoteOptions(
                 acsToken,
                 groupId,
+                /* <MEETING_ID_LOCATOR> */
                 meetingLink,
+                meetingId,
+                /* </MEETING_ID_LOCATOR> */
+                meetingPasscode,
                 /* <ROOMS_SUPPORT:5> */
                 roomId,
                 roomRoleHint,
@@ -108,7 +119,11 @@ class CallCompositeManager(private val context: Context) {
             )
             val locator = getLocator(
                 groupId,
+                /* <MEETING_ID_LOCATOR> */
                 meetingLink,
+                meetingId,
+                /* </MEETING_ID_LOCATOR> */
+                meetingPasscode,
                 /* <ROOMS_SUPPORT:5> */
                 roomId,
                 roomRoleHint,
@@ -135,6 +150,10 @@ class CallCompositeManager(private val context: Context) {
         acsToken: String,
         groupId: UUID?,
         meetingLink: String?,
+        /* <MEETING_ID_LOCATOR> */
+        meetingId: String?,
+        meetingPasscode: String?,
+        /* </MEETING_ID_LOCATOR> */
         /* <ROOMS_SUPPORT:5> */
         roomId: String?,
         roomRoleHint: CallCompositeParticipantRole?,
@@ -149,7 +168,11 @@ class CallCompositeManager(private val context: Context) {
         val locator: CallCompositeJoinLocator =
             when {
                 groupId != null -> CallCompositeGroupCallLocator(groupId)
-                meetingLink != null -> CallCompositeTeamsMeetingLinkLocator(meetingLink)
+
+                !meetingLink.isNullOrEmpty() -> CallCompositeTeamsMeetingLinkLocator(meetingLink)
+                /* <MEETING_ID_LOCATOR> */
+                !meetingId.isNullOrEmpty() -> CallCompositeTeamsMeetingIdLocator(meetingId, meetingPasscode)
+                /* </MEETING_ID_LOCATOR> */
                 /* <ROOMS_SUPPORT:0> */
                 roomId != null && roomRoleHint != null -> CallCompositeRoomLocator(roomId)
                 /* </ROOMS_SUPPORT:0> */
@@ -162,6 +185,10 @@ class CallCompositeManager(private val context: Context) {
     private fun getLocator(
         groupId: UUID?,
         meetingLink: String?,
+        /* <MEETING_ID_LOCATOR> */
+        meetingId: String?,
+        meetingPasscode: String?,
+        /* </MEETING_ID_LOCATOR> */
         /* <ROOMS_SUPPORT:4> */
         roomId: String?,
         roomRoleHint: CallCompositeParticipantRole?,
@@ -170,7 +197,10 @@ class CallCompositeManager(private val context: Context) {
         val locator: CallCompositeJoinLocator =
             when {
                 groupId != null -> CallCompositeGroupCallLocator(groupId)
-                meetingLink != null -> CallCompositeTeamsMeetingLinkLocator(meetingLink)
+                !meetingLink.isNullOrEmpty() -> CallCompositeTeamsMeetingLinkLocator(meetingLink)
+                /* <MEETING_ID_LOCATOR> */
+                !meetingId.isNullOrEmpty() -> CallCompositeTeamsMeetingIdLocator(meetingId, meetingPasscode)
+                /* </MEETING_ID_LOCATOR> */
                 /* <ROOMS_SUPPORT:0> */
                 roomId != null && roomRoleHint != null -> CallCompositeRoomLocator(roomId)
                 /* </ROOMS_SUPPORT:0> */
