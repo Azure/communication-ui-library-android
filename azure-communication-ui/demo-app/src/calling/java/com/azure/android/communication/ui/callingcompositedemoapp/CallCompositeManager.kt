@@ -197,7 +197,7 @@ class CallCompositeManager(private val context: Context) {
         val locator: CallCompositeJoinLocator =
             when {
                 groupId != null -> CallCompositeGroupCallLocator(groupId)
-                !meetingLink.isNullOrEmpty()  -> CallCompositeTeamsMeetingLinkLocator(meetingLink)
+                !meetingLink.isNullOrEmpty() -> CallCompositeTeamsMeetingLinkLocator(meetingLink)
                 /* <MEETING_ID_LOCATOR> */
                 !meetingId.isNullOrEmpty() -> CallCompositeTeamsMeetingIdLocator(meetingId, meetingPasscode)
                 /* </MEETING_ID_LOCATOR> */
