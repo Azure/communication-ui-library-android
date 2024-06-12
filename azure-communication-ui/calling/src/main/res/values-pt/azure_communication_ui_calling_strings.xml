@@ -20,9 +20,9 @@
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">Microfone ligado</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">Ingressar na chamada</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Seu áudio está desabilitado. Para habilitar, vá para Configurações para permitir o acesso. Você deve
-        habilitar o áudio para iniciar essa chamada.</string>
+ habilitar o áudio para iniciar essa chamada.</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Sua câmera está desabilitada. Para habilitar, vá para Configurações
-        para permitir o acesso.</string>
+ para permitir o acesso.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Permissões necessárias</string>
     <string name="azure_communication_ui_calling_setup_view_go_to_settings">Vá para Configurações</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Selecionado</string>
@@ -70,24 +70,24 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Botão Compartilhar informações de diagnóstico</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>A gravação foi iniciada.</b> Ao ingressar, você está
-        dando consentimento para que esta reunião seja transcrita.
-         <u>Política de privacidade</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>A transcrição foi iniciada.</b> Ingressando, você está
+dando consentimento para que esta reunião seja transcrita.
+ <u>Política de privacidade</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>A gravação está sendo salva.</b> A gravação foi interrompida.
          <u>Saiba mais</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>A transcrição foi iniciada.</b> Ao ingressar, você
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>A transcrição foi iniciada.</b> Ingressando, você
         está dando consentimento para que esta reunião seja transcrita. <u>Política de privacidade</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>A transcrição está sendo salva.</b> A transcrição
         foi interrompida. <u>Saiba mais</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>A gravação e a transcrição
-        iniciaram.</b> Ao ingressar, você está dando consentimento para que esta reunião seja transcrita
-        . <u>Política de privacidade</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>A gravação e a transcrição foram
+ iniciadas.</b> Ingressando, você está dando consentimento para que esta reunião seja transcrita
+    . <u>Política de privacidade</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>A gravação e a transcrição estão
-        sendo salvas.</b> A gravação e transcrição foram interrompidas. <u>Saiba mais</u></string>
+        sendo salvas.</b> A gravação e a transcrição foram interrompidas. <u>Saiba mais</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>A gravação foi interrompida.</b> Você
         agora só está transcrevendo esta reunião. <u>Política de privacidade</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>A transcrição foi interrompida.
-    </b> Agora você está gravando apenas esta reunião. <u>Política de privacidade</u></string>
+    </b> Você agora só está gravando esta reunião. <u>Política de privacidade</u></string>
     <string name="azure_communication_ui_calling_view_link">Link</string>
 
     <!--    PopUp warning-->
