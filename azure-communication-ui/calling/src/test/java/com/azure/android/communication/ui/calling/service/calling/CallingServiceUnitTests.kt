@@ -300,7 +300,6 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             Mockito.`when`(mockCallingGateway.getCallingStateWrapperSharedFlow())
                 .thenReturn(callingStateWrapperStateFlow)
 
-
             Mockito.doReturn(CompletableFuture<Void>()).`when`(mockCallingGateway).startCall(
                 any(), any()
             )

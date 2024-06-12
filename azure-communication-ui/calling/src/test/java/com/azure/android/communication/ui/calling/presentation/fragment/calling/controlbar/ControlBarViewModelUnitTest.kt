@@ -142,7 +142,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 {},
                 visibilityState,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
-                capabilities=capabilities
+                capabilities = capabilities
             )
 
             val expectedAudioOperationalStatus1 = AudioOperationalStatus.ON
