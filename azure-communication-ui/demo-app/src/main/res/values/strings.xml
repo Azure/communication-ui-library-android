@@ -11,6 +11,8 @@
     <string name="group_call_label">Group</string>
     <string name="teams_meeting_label">Teams</string>
     <string name="group_call_id_or_teams_meeting_hint">Group ID or Meeting link or Room Id or , separated MRIs</string>
+    <string name="teams_meeting_passcode_hint">Teams meeting Passcode</string>
+    <string name="teams_meeting_id_hint">Teams meeting ID</string>
     <string name="chat_thread_id_hint">Chat Thread ID</string>
     <string name="endpoint_url_hint">Endpoint</string>
     <string name="kotlin">Kotlin</string>
@@ -75,4 +77,5 @@
     <string name="unregister_push_notification">Unregister Push</string>
     <string name="push_notification_text">Push notification</string>
     <string name="disable_internal_push_text">Disable internal push for incoming call</string>
+    <string name="teams_meeting_link_empty_alert">Teams meeting Id and meeting link are invalid or empty.</string>
 </resources>

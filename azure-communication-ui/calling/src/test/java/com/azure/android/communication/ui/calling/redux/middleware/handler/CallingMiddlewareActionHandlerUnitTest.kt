@@ -2098,6 +2098,10 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             configuration.callConfig = CallConfiguration(
                 groupId = null,
                 meetingLink = null,
+                /* <MEETING_ID_LOCATOR> */
+                meetingId = null,
+                meetingPasscode = null,
+                /* </MEETING_ID_LOCATOR> */
                 /* <ROOMS_SUPPORT:0> */
                 roomId = null,
                 /* </ROOMS_SUPPORT:0> */
@@ -2174,6 +2178,10 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             configuration.callConfig = CallConfiguration(
                 groupId = null,
                 meetingLink = null,
+                /* <MEETING_ID_LOCATOR> */
+                meetingId = null,
+                meetingPasscode = null,
+                /* </MEETING_ID_LOCATOR> */
                 /* <ROOMS_SUPPORT:0> */
                 roomId = null,
                 /* </ROOMS_SUPPORT:0> */
@@ -2250,6 +2258,10 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             configuration.callConfig = CallConfiguration(
                 groupId = null,
                 meetingLink = null,
+                /* <MEETING_ID_LOCATOR> */
+                meetingId = null,
+                meetingPasscode = null,
+                /* </MEETING_ID_LOCATOR> */
                 /* <ROOMS_SUPPORT:0> */
                 roomId = null,
                 /* </ROOMS_SUPPORT:0> */

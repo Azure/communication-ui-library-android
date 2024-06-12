@@ -22,6 +22,10 @@ internal enum class CallType {
 internal data class CallConfiguration(
     val groupId: UUID?,
     val meetingLink: String?,
+    /* <MEETING_ID_LOCATOR> */
+    val meetingId: String?,
+    val meetingPasscode: String?,
+    /* </MEETING_ID_LOCATOR> */
     /* <ROOMS_SUPPORT:5> */
     val roomId: String?,
     /* </ROOMS_SUPPORT:4> */
