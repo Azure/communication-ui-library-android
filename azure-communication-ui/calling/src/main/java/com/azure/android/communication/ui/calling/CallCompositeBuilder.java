@@ -6,7 +6,9 @@ package com.azure.android.communication.ui.calling;
 import android.content.Context;
 
 import com.azure.android.communication.common.CommunicationTokenCredential;
+/*  <DEFAULT_AUDIO_MODE:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionMode;
+/*  </DEFAULT_AUDIO_MODE:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
@@ -164,14 +166,13 @@ public final class CallCompositeBuilder {
         return this;
     }
 
-
+    /*  <DEFAULT_AUDIO_MODE:0> */
     /**
      * Sets the audio selection mode.
      *
      * @param audioSelectionMode audio selection mode.
      * @return {@link CallCompositeBuilder} for chaining options.
      */
-    /*  <DEFAULT_AUDIO_MODE:0> */
     public CallCompositeBuilder audioSelectionMode(final CallCompositeAudioSelectionMode audioSelectionMode) {
         this.audioSelectionMode = audioSelectionMode;
         return this;

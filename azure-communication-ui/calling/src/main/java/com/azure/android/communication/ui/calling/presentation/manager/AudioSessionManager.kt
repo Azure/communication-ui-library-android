@@ -27,7 +27,9 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
 import com.azure.android.communication.ui.calling.CallCompositeException
+/*  <DEFAULT_AUDIO_MODE:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionMode
+/*  </DEFAULT_AUDIO_MODE:0> */
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
