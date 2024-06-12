@@ -12,6 +12,7 @@ import com.azure.android.communication.common.UnknownIdentifier
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
+import com.azure.android.communication.calling.CallingCommunicationErrors
 
 internal fun com.azure.android.communication.calling.RemoteParticipant.into(): RemoteParticipant {
     return RemoteParticipantWrapper(this)
@@ -77,30 +78,30 @@ internal fun com.azure.android.communication.calling.CallParticipantRole.into():
         com.azure.android.communication.calling.CallParticipantRole.CONSUMER -> CallCompositeInternalParticipantRole.CONSUMER
         com.azure.android.communication.calling.CallParticipantRole.PRESENTER -> CallCompositeInternalParticipantRole.PRESENTER
         com.azure.android.communication.calling.CallParticipantRole.ORGANIZER -> CallCompositeInternalParticipantRole.ORGANIZER
-        // com.azure.android.communication.calling.CallParticipantRole.CO_ORGANIZER -> CallCompositeInternalParticipantRole.COORGANIZER
+        com.azure.android.communication.calling.CallParticipantRole.CO_ORGANIZER -> CallCompositeInternalParticipantRole.COORGANIZER
         com.azure.android.communication.calling.CallParticipantRole.UNINITIALIZED -> CallCompositeInternalParticipantRole.UNINITIALIZED
         else -> { null }
     }
 }
 
-internal fun getLobbyErrorCode(error: CallingCommunicationException) = CallCompositeLobbyErrorCode.UNKNOWN_ERROR
-//    when (error.errorCode) {
-//        CallingCommunicationErrors.LOBBY_DISABLED_BY_CONFIGURATIONS -> {
-//            CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS
-//        }
-//
-//        CallingCommunicationErrors.LOBBY_CONVERSATION_TYPE_NOT_SUPPORTED -> {
-//            CallCompositeLobbyErrorCode.LOBBY_CONVERSATION_TYPE_NOT_SUPPORTED
-//        }
-//
-//        CallingCommunicationErrors.LOBBY_MEETING_ROLE_NOT_ALLOWED -> {
-//            CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED
-//        }
-//
-//        CallingCommunicationErrors.REMOVE_PARTICIPANT_OPERATION_FAILURE -> {
-//            CallCompositeLobbyErrorCode.REMOVE_PARTICIPANT_OPERATION_FAILURE
-//        }
-//        else -> {
-//            CallCompositeLobbyErrorCode.UNKNOWN_ERROR
-//        }
-//    }
+internal fun getLobbyErrorCode(error: CallingCommunicationException) =
+    when (error.errorCode) {
+        CallingCommunicationErrors.LOBBY_DISABLED_BY_CONFIGURATIONS -> {
+            CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS
+        }
+
+        CallingCommunicationErrors.LOBBY_CONVERSATION_TYPE_NOT_SUPPORTED -> {
+            CallCompositeLobbyErrorCode.LOBBY_CONVERSATION_TYPE_NOT_SUPPORTED
+        }
+
+        CallingCommunicationErrors.LOBBY_MEETING_ROLE_NOT_ALLOWED -> {
+            CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED
+        }
+
+        CallingCommunicationErrors.REMOVE_PARTICIPANT_OPERATION_FAILURE -> {
+            CallCompositeLobbyErrorCode.REMOVE_PARTICIPANT_OPERATION_FAILURE
+        }
+        else -> {
+            CallCompositeLobbyErrorCode.UNKNOWN_ERROR
+        }
+    }

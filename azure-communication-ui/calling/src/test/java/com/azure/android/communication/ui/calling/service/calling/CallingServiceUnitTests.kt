@@ -5,6 +5,8 @@ package com.azure.android.communication.ui.calling.service.calling
 
 import com.azure.android.communication.calling.CallParticipantRole
 import com.azure.android.communication.calling.CallState
+import com.azure.android.communication.calling.CallingCommunicationErrors
+import com.azure.android.communication.calling.CallingCommunicationException
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
@@ -34,6 +36,7 @@ import com.azure.android.communication.ui.calling.service.sdk.CallingStateWrappe
 import com.azure.android.communication.ui.calling.service.sdk.CallingStateWrapper.Companion.CALL_END_REASON_SUB_CODE_DECLINED
 import com.azure.android.communication.ui.calling.service.sdk.DominantSpeakersInfo
 import com.azure.android.communication.ui.calling.service.sdk.LocalVideoStream
+import com.azure.android.communication.ui.calling.service.sdk.getLobbyErrorCode
 import com.azure.android.communication.ui.calling.service.sdk.into
 
 import java9.util.concurrent.CompletableFuture
@@ -713,40 +716,40 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
         Assert.assertEquals(CallCompositeInternalParticipantRole.ATTENDEE, CallParticipantRole.ATTENDEE.into())
     }
 
-//    @Test
-//    fun typeConversion_lobbyErrorCodeConversion() {
-//        // assert
-//        Assert.assertEquals(
-//            CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS,
-//            getLobbyErrorCode(
-//                CallingCommunicationException(CallingCommunicationErrors.LOBBY_DISABLED_BY_CONFIGURATIONS)
-//            )
-//        )
-//        Assert.assertEquals(
-//            CallCompositeLobbyErrorCode.LOBBY_CONVERSATION_TYPE_NOT_SUPPORTED,
-//            getLobbyErrorCode(
-//                CallingCommunicationException(CallingCommunicationErrors.LOBBY_CONVERSATION_TYPE_NOT_SUPPORTED)
-//            )
-//        )
-//        Assert.assertEquals(
-//            CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED,
-//            getLobbyErrorCode(
-//                CallingCommunicationException(CallingCommunicationErrors.LOBBY_MEETING_ROLE_NOT_ALLOWED)
-//            )
-//        )
-//        Assert.assertEquals(
-//            CallCompositeLobbyErrorCode.REMOVE_PARTICIPANT_OPERATION_FAILURE,
-//            getLobbyErrorCode(
-//                CallingCommunicationException(CallingCommunicationErrors.REMOVE_PARTICIPANT_OPERATION_FAILURE)
-//            )
-//        )
-//        Assert.assertEquals(
-//            CallCompositeLobbyErrorCode.UNKNOWN_ERROR,
-//            getLobbyErrorCode(
-//                CallingCommunicationException(CallingCommunicationErrors.CAPTIONS_FAILED_TO_START)
-//            )
-//        )
-//    }
+    @Test
+    fun typeConversion_lobbyErrorCodeConversion() {
+        // assert
+        Assert.assertEquals(
+            CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS,
+            getLobbyErrorCode(
+                CallingCommunicationException(CallingCommunicationErrors.LOBBY_DISABLED_BY_CONFIGURATIONS)
+            )
+        )
+        Assert.assertEquals(
+            CallCompositeLobbyErrorCode.LOBBY_CONVERSATION_TYPE_NOT_SUPPORTED,
+            getLobbyErrorCode(
+                CallingCommunicationException(CallingCommunicationErrors.LOBBY_CONVERSATION_TYPE_NOT_SUPPORTED)
+            )
+        )
+        Assert.assertEquals(
+            CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED,
+            getLobbyErrorCode(
+                CallingCommunicationException(CallingCommunicationErrors.LOBBY_MEETING_ROLE_NOT_ALLOWED)
+            )
+        )
+        Assert.assertEquals(
+            CallCompositeLobbyErrorCode.REMOVE_PARTICIPANT_OPERATION_FAILURE,
+            getLobbyErrorCode(
+                CallingCommunicationException(CallingCommunicationErrors.REMOVE_PARTICIPANT_OPERATION_FAILURE)
+            )
+        )
+        Assert.assertEquals(
+            CallCompositeLobbyErrorCode.UNKNOWN_ERROR,
+            getLobbyErrorCode(
+                CallingCommunicationException(CallingCommunicationErrors.CAPTIONS_FAILED_TO_START)
+            )
+        )
+    }
 
     // admitAll test
     @ExperimentalCoroutinesApi
