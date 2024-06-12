@@ -64,13 +64,13 @@ internal class ToastNotificationViewModel(private val dispatch: (Action) -> Unit
             ToastNotificationKind.SOME_FEATURES_LOST ->
                 displayToastNotification(
                     notificationIconId = R.drawable.azure_communication_ui_calling_ic_fluent_info_24_regular,
-                    notificationMessageId = R.string.azure_communication_ui_capabilities_changed_toast_features_lost,
+                    notificationMessageId = R.string.azure_communication_ui_calling_view_capabilities_changed_toast_features_lost,
                     isPersistent = false,
                 )
             ToastNotificationKind.SOME_FEATURES_GAINED ->
                 displayToastNotification(
                     notificationIconId = R.drawable.azure_communication_ui_calling_ic_fluent_info_24_regular,
-                    notificationMessageId = R.string.azure_communication_ui_capabilities_changed_toast_features_gained,
+                    notificationMessageId = R.string.azure_communication_ui_calling_view_capabilities_changed_toast_features_gained,
                     isPersistent = false,
                 )
             null -> {

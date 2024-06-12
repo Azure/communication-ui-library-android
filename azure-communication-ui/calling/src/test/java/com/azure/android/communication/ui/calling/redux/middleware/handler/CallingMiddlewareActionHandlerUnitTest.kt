@@ -30,6 +30,7 @@ import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.helper.UnconfinedTestContextProvider
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions
+import com.azure.android.communication.ui.calling.models.CapabilitiesChangedEvent
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
@@ -88,7 +89,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
         val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
         val mockAppStore = mock<AppStore<ReduxState>> {
-            on { getCurrentState() } doAnswer { appState }
             on { dispatch(any()) } doAnswer { }
         }
 
@@ -133,7 +133,6 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
         val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
         val mockAppStore = mock<AppStore<ReduxState>> {
-            on { getCurrentState() } doAnswer { appState }
             on { dispatch(any()) } doAnswer { }
         }
 
@@ -367,6 +366,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
             val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
             val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+            val capabilitiesChangedEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
 
             val participantMap: MutableMap<String, ParticipantInfoModel> = HashMap()
             participantMap["user"] =
@@ -395,6 +395,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getNetworkQualityCallDiagnosticsFlow() } doReturn networkQualityCallDiagnosticsSharedFlow
                 on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
+                on { getCapabilitiesChangedEventSharedFlow() } doReturn capabilitiesChangedEventSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -453,6 +454,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
             val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
             val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+            val capabilitiesChangedEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
 
             val completableFuture = CompletableFuture<Void>()
             val mockCallingService: CallingService = mock {
@@ -470,6 +472,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
                 on { setTelecomManagerAudioRoute(CallAudioState.ROUTE_SPEAKER) } doAnswer {}
+                on { getCapabilitiesChangedEventSharedFlow() } doReturn capabilitiesChangedEventSharedFlow
             }
 
             val configuration = CallCompositeConfiguration()
@@ -534,6 +537,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
             val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
             val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+            val capabilitiesChangedEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
 
             val dominantSpeakers = listOf("userId")
 
@@ -551,6 +555,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getNetworkQualityCallDiagnosticsFlow() } doReturn networkQualityCallDiagnosticsSharedFlow
                 on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
+                on { getCapabilitiesChangedEventSharedFlow() } doReturn capabilitiesChangedEventSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -609,6 +614,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
             val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
             val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+            val capabilitiesChangedEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -624,6 +630,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getNetworkQualityCallDiagnosticsFlow() } doReturn networkQualityCallDiagnosticsSharedFlow
                 on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
+                on { getCapabilitiesChangedEventSharedFlow() } doReturn capabilitiesChangedEventSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -717,6 +724,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
             val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
             val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+            val capabilitiesChangedEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -732,6 +740,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getNetworkQualityCallDiagnosticsFlow() } doReturn networkQualityCallDiagnosticsSharedFlow
                 on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
+                on { getCapabilitiesChangedEventSharedFlow() } doReturn capabilitiesChangedEventSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -1617,6 +1626,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
             val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
             val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+            val capabilitiesChangedEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -1632,6 +1642,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getNetworkQualityCallDiagnosticsFlow() } doReturn networkQualityCallDiagnosticsSharedFlow
                 on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
+                on { getCapabilitiesChangedEventSharedFlow() } doReturn capabilitiesChangedEventSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -1676,6 +1687,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
             val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
             val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+            val capabilitiesChangedEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -1691,6 +1703,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getNetworkQualityCallDiagnosticsFlow() } doReturn networkQualityCallDiagnosticsSharedFlow
                 on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
+                on { getCapabilitiesChangedEventSharedFlow() } doReturn capabilitiesChangedEventSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -1750,6 +1763,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
             val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
             val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+            val capabilitiesChangedEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -1765,6 +1779,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getNetworkQualityCallDiagnosticsFlow() } doReturn networkQualityCallDiagnosticsSharedFlow
                 on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
+                on { getCapabilitiesChangedEventSharedFlow() } doReturn capabilitiesChangedEventSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -1820,6 +1835,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
             val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
             val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+            val capabilitiesChangedEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -1835,6 +1851,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getNetworkQualityCallDiagnosticsFlow() } doReturn networkQualityCallDiagnosticsSharedFlow
                 on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
+                on { getCapabilitiesChangedEventSharedFlow() } doReturn capabilitiesChangedEventSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -1894,6 +1911,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
             val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
             val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+            val capabilitiesChangedEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -1909,6 +1927,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getNetworkQualityCallDiagnosticsFlow() } doReturn networkQualityCallDiagnosticsSharedFlow
                 on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
+                on { getCapabilitiesChangedEventSharedFlow() } doReturn capabilitiesChangedEventSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -1966,6 +1985,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
             val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
             val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+            val capabilitiesChangedEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -1981,6 +2001,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getNetworkQualityCallDiagnosticsFlow() } doReturn networkQualityCallDiagnosticsSharedFlow
                 on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
+                on { getCapabilitiesChangedEventSharedFlow() } doReturn capabilitiesChangedEventSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -2054,6 +2075,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
             val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
             val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+            val capabilitiesChangedEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2069,6 +2091,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getNetworkQualityCallDiagnosticsFlow() } doReturn networkQualityCallDiagnosticsSharedFlow
                 on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
+                on { getCapabilitiesChangedEventSharedFlow() } doReturn capabilitiesChangedEventSharedFlow
             }
 
             val configuration = CallCompositeConfiguration()
@@ -2128,6 +2151,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
             val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
             val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+            val capabilitiesChangedEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2143,6 +2167,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getNetworkQualityCallDiagnosticsFlow() } doReturn networkQualityCallDiagnosticsSharedFlow
                 on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
+                on { getCapabilitiesChangedEventSharedFlow() } doReturn capabilitiesChangedEventSharedFlow
             }
 
             val configuration = CallCompositeConfiguration()
@@ -2202,6 +2227,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
             val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
             val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+            val capabilitiesChangedEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2217,6 +2243,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getNetworkQualityCallDiagnosticsFlow() } doReturn networkQualityCallDiagnosticsSharedFlow
                 on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
+                on { getCapabilitiesChangedEventSharedFlow() } doReturn capabilitiesChangedEventSharedFlow
             }
 
             val configuration = CallCompositeConfiguration()
@@ -2276,6 +2303,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
             val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
             val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+            val capabilitiesChangedEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2291,6 +2319,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getNetworkQualityCallDiagnosticsFlow() } doReturn networkQualityCallDiagnosticsSharedFlow
                 on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
+                on { getCapabilitiesChangedEventSharedFlow() } doReturn capabilitiesChangedEventSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -2352,6 +2381,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
             val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
             val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+            val capabilitiesChangedEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2367,6 +2397,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getNetworkQualityCallDiagnosticsFlow() } doReturn networkQualityCallDiagnosticsSharedFlow
                 on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
+                on { getCapabilitiesChangedEventSharedFlow() } doReturn capabilitiesChangedEventSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -2454,6 +2485,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
             val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
             val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+            val capabilitiesChangedEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2470,6 +2502,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getNetworkQualityCallDiagnosticsFlow() } doReturn networkQualityCallDiagnosticsSharedFlow
                 on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
+                on { getCapabilitiesChangedEventSharedFlow() } doReturn capabilitiesChangedEventSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -2873,6 +2906,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
             val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
             val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+            val capabilitiesChangedEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2888,6 +2922,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getNetworkQualityCallDiagnosticsFlow() } doReturn networkQualityCallDiagnosticsSharedFlow
                 on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
                 on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
+                on { getCapabilitiesChangedEventSharedFlow() } doReturn capabilitiesChangedEventSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)

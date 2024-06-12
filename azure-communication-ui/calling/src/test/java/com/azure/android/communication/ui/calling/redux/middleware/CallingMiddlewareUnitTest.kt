@@ -312,7 +312,7 @@ internal class CallingMiddlewareUnitTest {
         val mockAppStore = mock<AppStore<ReduxState>> {}
 
         val mockCallingMiddlewareActionHandler = mock<CallingMiddlewareActionHandler> {
-            on { decline(actionToDispatch.userIdentifier, mockAppStore) } doAnswer {}
+            on { reject(actionToDispatch.userIdentifier, mockAppStore) } doAnswer {}
         }
 
         val callingMiddlewareImplementation =
@@ -328,7 +328,7 @@ internal class CallingMiddlewareUnitTest {
         )(actionToDispatch)
 
         // assert
-        verify(mockCallingMiddlewareActionHandler, times(1)).decline(actionToDispatch.userIdentifier, mockAppStore)
+        verify(mockCallingMiddlewareActionHandler, times(1)).reject(actionToDispatch.userIdentifier, mockAppStore)
     }
 
     @Test

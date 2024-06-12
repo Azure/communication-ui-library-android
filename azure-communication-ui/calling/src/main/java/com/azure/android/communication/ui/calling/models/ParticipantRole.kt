@@ -10,4 +10,3 @@ internal enum class ParticipantRole {
     PRESENTER,
     ORGANIZER,
 }
-

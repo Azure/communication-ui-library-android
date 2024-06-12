@@ -110,7 +110,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val participantListViewModel = ParticipantListViewModel(mockAppStore::dispatch)
-            participantListViewModel.init(initialRemoteParticipantsMap, localUserState, true)
+            participantListViewModel.init(initialRemoteParticipantsMap, localUserState, true) { _, _ -> }
 
             val resultListFromRemoteParticipantListCellStateFlow =
                 mutableListOf<List<ParticipantListCellModel>>()
@@ -212,7 +212,8 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             participantListViewModel.init(
                 initialRemoteParticipantsMap,
                 initialExpectedLocalUserState,
-                true
+                true,
+                displayParticipantMenuCallback = { _, _ -> }
             )
 
             val resultListFromLocalParticipantListCellStateFlow =
@@ -286,7 +287,8 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             participantListViewModel.init(
                 initialRemoteParticipantsMap,
                 initialExpectedLocalUserState,
-                true
+                true,
+                displayParticipantMenuCallback = { _, _ -> }
             )
 
             val resultListFromDisplayParticipantListStateFlow =
@@ -350,7 +352,8 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             participantListViewModel.init(
                 initialRemoteParticipantsMap,
                 initialExpectedLocalUserState,
-                true
+                true,
+                displayParticipantMenuCallback = { _, _ -> }
             )
 
             val resultListFromDisplayParticipantListStateFlow =
@@ -452,7 +455,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val participantListViewModel = ParticipantListViewModel(mockAppStore::dispatch)
-            participantListViewModel.init(initialRemoteParticipantsMap, localUserState, true)
+            participantListViewModel.init(initialRemoteParticipantsMap, localUserState, true) { _, _ -> }
 
             val resultListFromRemoteParticipantListCellStateFlow =
                 mutableListOf<List<ParticipantListCellModel>>()
@@ -559,7 +562,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val participantListViewModel = ParticipantListViewModel(mockAppStore::dispatch)
-            participantListViewModel.init(initialRemoteParticipantsMap, localUserState, false)
+            participantListViewModel.init(initialRemoteParticipantsMap, localUserState, false) { _, _ -> }
 
             val resultListFromRemoteParticipantListCellStateFlow =
                 mutableListOf<List<ParticipantListCellModel>>()
@@ -676,7 +679,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val participantListViewModel = ParticipantListViewModel(mockAppStore::dispatch)
-            participantListViewModel.init(initialRemoteParticipantsMap, localUserState, true)
+            participantListViewModel.init(initialRemoteParticipantsMap, localUserState, true) { _, _ -> }
 
             val resultListFromRemoteParticipantListCellStateFlow =
                 mutableListOf<List<ParticipantListCellModel>>()

@@ -122,7 +122,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             val audioDeviceState = AudioDeviceSelectionStatus.RECEIVER_SELECTED
             val visibilityState = VisibilityState(status = VisibilityStatus.VISIBLE)
             val avMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
-            val capabilities = emptySet<ParticipantCapabilityType>()
+            val capabilities = setOf(ParticipantCapabilityType.UNMUTE_MICROPHONE)
 
             val appStore = mock<AppStore<ReduxState>> { }
             val callingViewModel = ControlBarViewModel(appStore::dispatch, CapabilitiesManager(CallType.GROUP_CALL))
@@ -141,8 +141,8 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 {},
                 {},
                 visibilityState,
-                any(),
-                any(),
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                capabilities=capabilities
             )
 
             val expectedAudioOperationalStatus1 = AudioOperationalStatus.ON
@@ -428,7 +428,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             )
             val visibilityState = VisibilityState(status = VisibilityStatus.VISIBLE)
             val avMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
-            val capabilities = emptySet<ParticipantCapabilityType>()
+            val capabilities = setOf(ParticipantCapabilityType.TURN_VIDEO_ON, ParticipantCapabilityType.UNMUTE_MICROPHONE)
 
             callingViewModel.init(
                 permissionState,
@@ -492,30 +492,30 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
 
             // assert
             Assert.assertEquals(
-                false,
+                true,
                 resultListFromIsCameraButtonEnabledStateFlow[0]
             )
 
             Assert.assertEquals(
-                true,
+                false,
                 resultListFromIsCameraButtonEnabledStateFlow[1]
             )
             Assert.assertEquals(
-                false,
+                true,
                 resultListFromIsMicButtonEnabledStateFlow[0]
             )
 
             Assert.assertEquals(
-                true,
+                false,
                 resultListFromIsMicButtonEnabledStateFlow[1]
             )
             Assert.assertEquals(
-                false,
+                true,
                 resultListFromIsAudioDeviceButtonEnabledStateFlow[0]
             )
 
             Assert.assertEquals(
-                true,
+                false,
                 resultListFromIsAudioDeviceButtonEnabledStateFlow[1]
             )
 

@@ -7,7 +7,9 @@ import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.ToastNotificationAction
 import com.azure.android.communication.ui.calling.redux.state.ToastNotificationState
 
-internal class ToastNotificationReducer : Reducer<ToastNotificationState> {
+internal interface ToastNotificationReducer : Reducer<ToastNotificationState>
+
+internal class ToastNotificationReducerImpl : ToastNotificationReducer {
     override fun reduce(state: ToastNotificationState, action: Action): ToastNotificationState {
         return when (action) {
             is ToastNotificationAction.ShowNotification -> {

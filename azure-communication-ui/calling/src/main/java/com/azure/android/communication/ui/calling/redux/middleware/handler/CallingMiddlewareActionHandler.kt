@@ -703,8 +703,8 @@ internal class CallingMiddlewareActionHandlerImpl(
                     // Only display toast message on capabilities changed
                     val anyLostCapability = event.changedCapabilities.any {
                         (it.type == ParticipantCapabilityType.UNMUTE_MICROPHONE && !it.isAllowed) ||
-                                (it.type == ParticipantCapabilityType.TURN_VIDEO_ON && !it.isAllowed) ||
-                                (it.type == ParticipantCapabilityType.MANAGE_LOBBY && !it.isAllowed)
+                            (it.type == ParticipantCapabilityType.TURN_VIDEO_ON && !it.isAllowed) ||
+                            (it.type == ParticipantCapabilityType.MANAGE_LOBBY && !it.isAllowed)
                     }
 
                     store.dispatch(
@@ -753,7 +753,6 @@ internal class CallingMiddlewareActionHandlerImpl(
         coroutineScope.launch {
             callingService.getCallInfoModelEventSharedFlow().collect { callInfoModel ->
                 val state = store.getCurrentState()
-                val previousCallState = state.callState.callingStatus
 
                 store.dispatch(CallingAction.StateUpdated(callInfoModel.callingStatus, callInfoModel.callEndReasonCode, callInfoModel.callEndReasonSubCode))
 

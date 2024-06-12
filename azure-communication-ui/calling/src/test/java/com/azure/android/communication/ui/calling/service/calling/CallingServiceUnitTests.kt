@@ -82,20 +82,6 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
             .thenReturn(remoteParticipantsInfoModelSharedFlow)
         Mockito.`when`(mockCallingGateway.getCallingStateWrapperSharedFlow())
             .thenReturn(callingStateWrapperStateFlow)
-        Mockito.`when`(mockCallingGateway.getCallIdStateFlow())
-            .thenReturn(callIdFlow)
-        Mockito.`when`(mockCallingGateway.getIsMutedSharedFlow())
-            .thenReturn(isMutedSharedFlow)
-        Mockito.`when`(mockCallingGateway.getIsRecordingSharedFlow())
-            .thenReturn(isRecordingSharedFlow)
-        Mockito.`when`(mockCallingGateway.getIsTranscribingSharedFlow())
-            .thenReturn(isTranscribingSharedFlow)
-        Mockito.`when`(mockCallingGateway.getNetworkQualityCallDiagnosticSharedFlow())
-            .thenReturn(networkQualityCallDiagnosticsSharedFlow)
-        Mockito.`when`(mockCallingGateway.getNetworkCallDiagnosticSharedFlow())
-            .thenReturn(networkCallDiagnosticsSharedFlow)
-        Mockito.`when`(mockCallingGateway.getMediaCallDiagnosticSharedFlow())
-            .thenReturn(mediaCallDiagnosticsSharedFlow)
         Mockito.doReturn(CompletableFuture<Void>()).`when`(mockCallingGateway).startCall(
             any(), any()
         )
@@ -311,22 +297,9 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 .thenReturn(remoteParticipantsInfoModelSharedFlow)
             Mockito.`when`(mockCallingGateway.getRemoteParticipantInfoModelSharedFlow())
                 .thenReturn(remoteParticipantsInfoModelSharedFlow)
-            Mockito.`when`(mockCallingGateway.getCallIdStateFlow())
-                .thenReturn(callIdFlow)
             Mockito.`when`(mockCallingGateway.getCallingStateWrapperSharedFlow())
                 .thenReturn(callingStateWrapperStateFlow)
-            Mockito.`when`(mockCallingGateway.getIsMutedSharedFlow())
-                .thenReturn(isMutedSharedFlow)
-            Mockito.`when`(mockCallingGateway.getIsRecordingSharedFlow())
-                .thenReturn(isRecordingSharedFlow)
-            Mockito.`when`(mockCallingGateway.getIsTranscribingSharedFlow())
-                .thenReturn(isTranscribingSharedFlow)
-            Mockito.`when`(mockCallingGateway.getNetworkQualityCallDiagnosticSharedFlow())
-                .thenReturn(networkQualityCallDiagnosticsSharedFlow)
-            Mockito.`when`(mockCallingGateway.getNetworkCallDiagnosticSharedFlow())
-                .thenReturn(networkCallDiagnosticsSharedFlow)
-            Mockito.`when`(mockCallingGateway.getMediaCallDiagnosticSharedFlow())
-                .thenReturn(mediaCallDiagnosticsSharedFlow)
+
 
             Mockito.doReturn(CompletableFuture<Void>()).`when`(mockCallingGateway).startCall(
                 any(), any()
@@ -849,13 +822,13 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
     fun callingService_decline_when_invoked_then_returnCallCompositeLobbyErrorCodeNull_ifCallingSdk_success() {
         // arrange
         val declineCompletableFuture: CompletableFuture<CallCompositeLobbyErrorCode?> = CompletableFuture()
-        Mockito.`when`(mockCallingGateway.decline("id"))
+        Mockito.`when`(mockCallingGateway.reject("id"))
             .thenReturn(declineCompletableFuture)
         val callingService = CallingService(mockCallingGateway, UnconfinedTestContextProvider())
         var result: CallCompositeLobbyErrorCode? = null
 
         // act
-        val future = callingService.decline("id")
+        val future = callingService.reject("id")
         future.whenComplete { errorCode, _ ->
             result = errorCode
         }
@@ -873,13 +846,13 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
     fun callingService_decline_when_invoked_then_returnCallCompositeLobbyErrorCode_ifCallingSdk_returnError() {
         // arrange
         val declineCompletableFuture: CompletableFuture<CallCompositeLobbyErrorCode?> = CompletableFuture()
-        Mockito.`when`(mockCallingGateway.decline("id"))
+        Mockito.`when`(mockCallingGateway.reject("id"))
             .thenReturn(declineCompletableFuture)
         val callingService = CallingService(mockCallingGateway, UnconfinedTestContextProvider())
         var result: CallCompositeLobbyErrorCode? = null
 
         // act
-        val future = callingService.decline("id")
+        val future = callingService.reject("id")
         future.whenComplete { errorCode, _ ->
             result = errorCode
         }

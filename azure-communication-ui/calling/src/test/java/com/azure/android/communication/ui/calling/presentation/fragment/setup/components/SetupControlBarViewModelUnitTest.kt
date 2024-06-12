@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.setup.components
 
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
@@ -44,22 +45,24 @@ internal class SetupControlBarViewModelUnitTest {
 
         // Act
         setupControlBarViewModel.init(
-            PermissionState(
+            permissionState = PermissionState(
                 audioPermissionState = PermissionStatus.NOT_ASKED,
                 cameraPermissionState = PermissionStatus.NOT_ASKED
             ),
-            CameraState(
+            cameraState = CameraState(
                 CameraOperationalStatus.OFF,
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
-            AudioState(
+            audioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+            audioState = AudioState(
                 AudioOperationalStatus.OFF,
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            CallingState(CallingStatus.NONE,),
-            openAudioDeviceSelectionMenuCallback = { }
+            callingState = CallingState(CallingStatus.NONE,),
+            openAudioDeviceSelectionMenuCallback = { },
+            setupScreenOptions = null
         )
 
         // Assert
@@ -90,13 +93,15 @@ internal class SetupControlBarViewModelUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
+            audioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             AudioState(
                 AudioOperationalStatus.OFF,
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             CallingState(CallingStatus.NONE,),
-            openAudioDeviceSelectionMenuCallback = { }
+            openAudioDeviceSelectionMenuCallback = { },
+            setupScreenOptions = null
         )
 
         // Assert
@@ -125,16 +130,18 @@ internal class SetupControlBarViewModelUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
+            audioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             AudioState(
                 AudioOperationalStatus.OFF,
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             CallingState(CallingStatus.NONE,),
-            openAudioDeviceSelectionMenuCallback = { }
+            openAudioDeviceSelectionMenuCallback = { },
+            setupScreenOptions = null
         )
 
-        Assert.assertTrue(setupControlBarViewModel.getIsVisibleState().value)
+        Assert.assertTrue(setupControlBarViewModel.isVisibleState.value)
 
         setupControlBarViewModel.update(
             PermissionState(
@@ -146,15 +153,17 @@ internal class SetupControlBarViewModelUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
+            audioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             AudioState(
                 AudioOperationalStatus.OFF,
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            CallingState(CallingStatus.NONE,)
+            CallingState(CallingStatus.NONE,),
+            setupScreenOptions = null
         )
 
-        Assert.assertFalse(setupControlBarViewModel.getIsVisibleState().value)
+        Assert.assertFalse(setupControlBarViewModel.isVisibleState.value)
     }
 
     @Test
@@ -175,16 +184,18 @@ internal class SetupControlBarViewModelUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
+            audioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             AudioState(
                 AudioOperationalStatus.OFF,
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             CallingState(CallingStatus.NONE,),
-            openAudioDeviceSelectionMenuCallback = { }
+            openAudioDeviceSelectionMenuCallback = { },
+            setupScreenOptions = null
         )
 
-        Assert.assertTrue(setupControlBarViewModel.getCameraIsEnabled().value)
+        Assert.assertTrue(setupControlBarViewModel.cameraIsEnabled.value)
 
         setupControlBarViewModel.update(
             PermissionState(
@@ -196,15 +207,17 @@ internal class SetupControlBarViewModelUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
+            audioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             AudioState(
                 AudioOperationalStatus.OFF,
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            CallingState(CallingStatus.NONE,)
+            CallingState(CallingStatus.NONE,),
+            setupScreenOptions = null
         )
 
-        Assert.assertTrue(setupControlBarViewModel.getCameraIsEnabled().value)
+        Assert.assertTrue(setupControlBarViewModel.cameraIsEnabled.value)
     }
 
     @Test
@@ -225,16 +238,18 @@ internal class SetupControlBarViewModelUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
+            audioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             AudioState(
                 AudioOperationalStatus.OFF,
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             CallingState(CallingStatus.NONE,),
-            openAudioDeviceSelectionMenuCallback = { }
+            openAudioDeviceSelectionMenuCallback = { },
+            setupScreenOptions = null
         )
 
-        Assert.assertTrue(setupControlBarViewModel.getCameraIsEnabled().value)
+        Assert.assertTrue(setupControlBarViewModel.cameraIsEnabled.value)
 
         setupControlBarViewModel.update(
             PermissionState(
@@ -246,15 +261,17 @@ internal class SetupControlBarViewModelUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
+            audioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             AudioState(
                 AudioOperationalStatus.OFF,
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            CallingState(CallingStatus.NONE,)
+            CallingState(CallingStatus.NONE,),
+            setupScreenOptions = null
         )
 
-        Assert.assertFalse(setupControlBarViewModel.getCameraIsEnabled().value)
+        Assert.assertFalse(setupControlBarViewModel.cameraIsEnabled.value)
     }
 
     @Test
@@ -275,18 +292,20 @@ internal class SetupControlBarViewModelUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
+            audioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             AudioState(
                 AudioOperationalStatus.OFF,
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             CallingState(CallingStatus.NONE, joinCallIsRequested = false),
-            openAudioDeviceSelectionMenuCallback = { }
+            openAudioDeviceSelectionMenuCallback = { },
+            setupScreenOptions = null
         )
 
-        Assert.assertTrue(setupControlBarViewModel.getCameraIsEnabled().value)
-        Assert.assertTrue(setupControlBarViewModel.getMicIsEnabled().value)
-        Assert.assertTrue(setupControlBarViewModel.getDeviceIsEnabled().value)
+        Assert.assertTrue(setupControlBarViewModel.cameraIsEnabled.value)
+        Assert.assertTrue(setupControlBarViewModel.micIsEnabled.value)
+        Assert.assertTrue(setupControlBarViewModel.deviceIsEnabled.value)
 
         setupControlBarViewModel.update(
             PermissionState(
@@ -298,17 +317,19 @@ internal class SetupControlBarViewModelUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
+            audioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             AudioState(
                 AudioOperationalStatus.OFF,
                 AudioDeviceSelectionStatus.SPEAKER_SELECTED,
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
-            CallingState(CallingStatus.NONE, joinCallIsRequested = true)
+            CallingState(CallingStatus.NONE, joinCallIsRequested = true),
+            setupScreenOptions = null,
         )
 
-        Assert.assertFalse(setupControlBarViewModel.getCameraIsEnabled().value)
-        Assert.assertFalse(setupControlBarViewModel.getMicIsEnabled().value)
-        Assert.assertFalse(setupControlBarViewModel.getDeviceIsEnabled().value)
+        Assert.assertFalse(setupControlBarViewModel.cameraIsEnabled.value)
+        Assert.assertFalse(setupControlBarViewModel.micIsEnabled.value)
+        Assert.assertFalse(setupControlBarViewModel.deviceIsEnabled.value)
     }
 
     private fun initViewModel(
@@ -322,6 +343,7 @@ internal class SetupControlBarViewModelUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
+            audioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             AudioState(
                 AudioOperationalStatus.OFF,
                 AudioDeviceSelectionStatus.SPEAKER_REQUESTED,
@@ -330,7 +352,9 @@ internal class SetupControlBarViewModelUnitTest {
             CallingState(
                 CallingStatus.CONNECTING,
             ),
-        ) { }
+            openAudioDeviceSelectionMenuCallback = { },
+            setupScreenOptions = null
+        )
     }
 
     private fun updateViewModel(
@@ -344,6 +368,7 @@ internal class SetupControlBarViewModelUnitTest {
                 CameraDeviceSelectionStatus.FRONT,
                 CameraTransmissionStatus.LOCAL
             ),
+            audioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             AudioState(
                 AudioOperationalStatus.OFF,
                 AudioDeviceSelectionStatus.SPEAKER_REQUESTED,
@@ -351,7 +376,8 @@ internal class SetupControlBarViewModelUnitTest {
             ),
             CallingState(
                 CallingStatus.CONNECTING,
-            )
+            ),
+            setupScreenOptions = null
         )
     }
 }
