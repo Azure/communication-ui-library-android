@@ -19,8 +19,8 @@
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Микрофон выключен</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">Микрофон включен</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">Присоединиться к звонку</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Звук отключен. Для включения перейдите в раздел "Параметры", чтобы разрешить доступ. Необходимо
-        включить звук, чтобы начать этот звонок.</string>
+    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Звук отключен. Для включения перейдите в раздел "Параметры", чтобы разрешить доступ. Чтобы начать
+        этот звонок, включите звук.</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Камера отключена. Для включения перейдите в раздел "Параметры",
         чтобы разрешить доступ.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Требуются разрешения</string>
@@ -87,7 +87,7 @@
     <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Запись остановлена.</b> Теперь вы
         только транскрибируете это собрание. <u>Политика конфиденциальности</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Транскрибирование остановлено.
-    </b> Сейчас вы только записываете это собрание. <u>Политика конфиденциальности</u></string>
+    </b> Теперь вы только записываете это собрание. <u>Политика конфиденциальности</u></string>
     <string name="azure_communication_ui_calling_view_link">Ссылка</string>
 
     <!--    PopUp warning-->

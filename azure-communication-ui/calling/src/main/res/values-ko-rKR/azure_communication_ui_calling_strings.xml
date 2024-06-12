@@ -19,7 +19,7 @@
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">마이크 끄기</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">마이크 켜기</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">통화 참여</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">오디오를 사용할 수 없습니다. 사용하려면 설정으로 이동하여 엑세스를 허용하세요. 이 통화를 시작하려면
+    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">오디오를 사용할 수 없습니다. 사용하려면 설정으로 이동해 엑세스를 허용하세요. 이 통화를 시작하려면
         오디오를 사용하도록 설정해야 합니다.</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">카메라를 사용하지 않도록 설정했습니다. 사용하도록 설정하려면 설정으로
         이동하여 액세스를 허용하세요.</string>
@@ -70,24 +70,24 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">진단 정보 공유 단추</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>녹음/녹화를 시작했습니다.</b> 참가하면
-        이 모임의 대화 내용을 기록하는 데 동의하게 됩니다.
-         <u>개인정보처리방침</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>녹음/녹화를 저장하는 중입니다.</b> 녹음/녹화를 중지했습니다.
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>녹음을 시작했습니다.</b>참가하면 이 모임을 전사하는데
+       동의하게 됩니다.
+         <u>개인 정보 취급 방침</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>녹음을 저장하는 중입니다. </b> 녹음이 중지되었습니다.
          <u>자세한 정보</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>대화 내용 기록을 시작했습니다.</b> 참가하면
-        이 모임의 대화 내용을 기록하는 데 동의하게 됩니다. <u>개인정보처리방침</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>대화 내용 기록을 저장하는 중입니다.</b> 대화 내용 기록을
-        중지했습니다. <u>자세한 정보</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>녹음/녹화 및 대화 내용 기록을
-        시작했습니다.</b> 참가하면 이 모임의 대화 내용을 기록하는 데 동의하게 됩니다
-        . <u>개인정보처리방침</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>녹음/녹화 및 대화 내용 기록을
-        저장하는 중입니다.</b> 녹음/녹화 및 대화 내용 기록을 중지했습니다. <u>자세한 정보</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>녹음/녹화를 중지했습니다.</b> 이제 이 모임의
-        대화 내용 기록만 진행합니다. <u>개인정보처리방침</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>대화 내용 기록을 중지했습니다.
-    </b> 이제 이 모임의 녹음/녹화만 진행합니다. <u>개인정보처리방침</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>대화 내용 기록을 시작했습니다.</b>참가하면 이 모임의 대화 내용을 기록하는데
+       동의하게 됩니다. <u>개인 정보 취급 방침</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>대화 내용 기록을 저장하는 중입니다.</b> 대화 내용 기록이
+        중지되었습니다. <u>자세한 정보</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>녹음 및 대화 내용 기록을
+        시작했습니다.</b> 참가하면 이 모임을
+        대화 내용을 기록하는데 동의하게 됩니다. <u>개인 정보 취급 방침</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>녹음 및 대화 내용 기록이 저장되고
+        있습니다.</b>녹음 및 대화 내용 기록이 중지되었습니다. <u>자세한 정보</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>녹음이 중지되었습니다.</b>이제 이 모임에서
+        전사만 합니다. <u>개인 정보 취급 방침</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>대화 내용 기록이 중지되었습니다.</b>이제 이 모임에서
+        녹음만 합니다. <u>개인 정보 취급 방침</u></string>
     <string name="azure_communication_ui_calling_view_link">링크</string>
 
     <!--    PopUp warning-->
