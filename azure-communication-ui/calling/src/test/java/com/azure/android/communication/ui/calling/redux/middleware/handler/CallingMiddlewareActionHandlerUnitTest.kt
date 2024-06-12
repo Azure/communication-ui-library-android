@@ -2076,10 +2076,10 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 meetingId = null,
                 meetingPasscode = null,
                 /* </MEETING_ID_LOCATOR> */
-                /* <ROOMS_SUPPORT:0> */
+                /* <ROOMS_SUPPORT:0>
                 roomId = null,
                 roomRoleHint = null,
-                /* </ROOMS_SUPPORT:0> */
+                </ROOMS_SUPPORT:0> */
                 callType = CallType.ONE_TO_N_OUTGOING
             )
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -2154,10 +2154,10 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 meetingId = null,
                 meetingPasscode = null,
                 /* </MEETING_ID_LOCATOR> */
-                /* <ROOMS_SUPPORT:0> */
+                /* <ROOMS_SUPPORT:0>
                 roomId = null,
                 roomRoleHint = null,
-                /* </ROOMS_SUPPORT:0> */
+                </ROOMS_SUPPORT:0> */
                 callType = CallType.ONE_TO_N_OUTGOING
             )
             val handler = CallingMiddlewareActionHandlerImpl(
@@ -2232,10 +2232,10 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 meetingId = null,
                 meetingPasscode = null,
                 /* </MEETING_ID_LOCATOR> */
-                /* <ROOMS_SUPPORT:0> */
+                /* <ROOMS_SUPPORT:0>
                 roomId = null,
                 roomRoleHint = null,
-                /* </ROOMS_SUPPORT:0> */
+                </ROOMS_SUPPORT:0> */
                 callType = CallType.ONE_TO_N_OUTGOING
             )
             val handler = CallingMiddlewareActionHandlerImpl(
