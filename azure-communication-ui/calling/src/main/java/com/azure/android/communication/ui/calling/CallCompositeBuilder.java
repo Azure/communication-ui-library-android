@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.calling;
 import android.content.Context;
 
 import com.azure.android.communication.common.CommunicationTokenCredential;
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionMode;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
@@ -33,6 +34,9 @@ public final class CallCompositeBuilder {
     private String displayName = null;
     private CommunicationTokenCredential credential = null;
     private Boolean disableInternalPushForIncomingCall = false;
+    /*  <DEFAULT_AUDIO_MODE:0> */
+    private CallCompositeAudioSelectionMode audioSelectionMode = null;
+    /*  </DEFAULT_AUDIO_MODE:0> */
 
     /**
      * Sets an optional theme for call-composite to use by {@link CallComposite}.
@@ -160,6 +164,20 @@ public final class CallCompositeBuilder {
         return this;
     }
 
+
+    /**
+     * Sets the audio selection mode.
+     *
+     * @param audioSelectionMode audio selection mode.
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    /*  <DEFAULT_AUDIO_MODE:0> */
+    public CallCompositeBuilder audioSelectionMode(final CallCompositeAudioSelectionMode audioSelectionMode) {
+        this.audioSelectionMode = audioSelectionMode;
+        return this;
+    }
+    /*  </DEFAULT_AUDIO_MODE:0> */
+
     /**
      * Builds the CallCompositeClass {@link CallComposite}.
      *
@@ -179,6 +197,9 @@ public final class CallCompositeBuilder {
         config.setDisplayName(displayName);
         config.setApplicationContext(applicationContext);
         config.setDisableInternalPushForIncomingCall(disableInternalPushForIncomingCall);
+        /*  <DEFAULT_AUDIO_MODE:0> */
+        config.setAudioSelectionMode(audioSelectionMode);
+        /*  </DEFAULT_AUDIO_MODE:0> */
         return new CallComposite(config);
     }
 }
