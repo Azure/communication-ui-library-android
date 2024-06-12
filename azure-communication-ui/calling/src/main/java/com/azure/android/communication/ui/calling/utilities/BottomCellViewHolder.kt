@@ -24,7 +24,6 @@ internal open class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHold
         itemView.setOnClickListener(bottomCellItem.onClickAction)
         itemView.isClickable = bottomCellItem.onClickAction != null && bottomCellItem.isEnabled
 
-        admitAllButton?.visibility = View.GONE
         admitAllButton?.visibility = if (bottomCellItem.showAdmitAllButton) View.VISIBLE else View.GONE
         admitAllButton?.setOnClickListener(bottomCellItem.admitAllButtonAction)
     }

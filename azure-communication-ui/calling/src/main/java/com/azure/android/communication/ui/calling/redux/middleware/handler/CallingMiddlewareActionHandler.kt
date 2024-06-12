@@ -700,41 +700,18 @@ internal class CallingMiddlewareActionHandlerImpl(
                 store.dispatch(action)
 
                 if (configuration.capabilitiesChangedNotificationMode != CallCompositeCapabilitiesChangedNotificationMode.NEVER_DISPLAY) {
-                    val currentCapabilities = store.getCurrentState().localParticipantState.capabilities
-
                     // Only display toast message on capabilities changed
                     val anyLostCapability = event.changedCapabilities.any {
                         (it.type == ParticipantCapabilityType.UNMUTE_MICROPHONE && !it.isAllowed) ||
-                            (it.type == ParticipantCapabilityType.TURN_VIDEO_ON && !it.isAllowed) ||
-                            (it.type == ParticipantCapabilityType.MANAGE_LOBBY && !it.isAllowed)
+                                (it.type == ParticipantCapabilityType.TURN_VIDEO_ON && !it.isAllowed) ||
+                                (it.type == ParticipantCapabilityType.MANAGE_LOBBY && !it.isAllowed)
                     }
 
-                    if (anyLostCapability) {
-                        store.dispatch(
-                            ToastNotificationAction.ShowNotification(
-                                ToastNotificationKind.SOME_FEATURES_LOST
-                            )
+                    store.dispatch(
+                        ToastNotificationAction.ShowNotification(
+                            if (anyLostCapability) ToastNotificationKind.SOME_FEATURES_LOST else ToastNotificationKind.SOME_FEATURES_GAINED
                         )
-                    } else {
-                        fun isNewCapabilityAdded(capability: ParticipantCapabilityType): Boolean =
-                            event.changedCapabilities.any {
-                                it.type == capability && it.isAllowed && !currentCapabilities.contains(capability)
-                            }
-
-                        val onlyGainedCapability = event.changedCapabilities.any {
-                            isNewCapabilityAdded(ParticipantCapabilityType.UNMUTE_MICROPHONE) ||
-                                isNewCapabilityAdded(ParticipantCapabilityType.TURN_VIDEO_ON) ||
-                                isNewCapabilityAdded(ParticipantCapabilityType.MANAGE_LOBBY)
-                        }
-
-                        if (onlyGainedCapability) {
-                            store.dispatch(
-                                ToastNotificationAction.ShowNotification(
-                                    ToastNotificationKind.SOME_FEATURES_GAINED
-                                )
-                            )
-                        }
-                    }
+                    )
                 }
             }
         }

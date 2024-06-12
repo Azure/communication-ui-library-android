@@ -154,7 +154,7 @@ internal class ParticipantListView(
         var titles = 1
 
         // title for in lobby participants
-        if (viewModel.getRemoteParticipantListCellStateFlow().value?.any { it.status == ParticipantStatus.IN_LOBBY } == true) {
+        if (viewModel.getRemoteParticipantListCellStateFlow().value.any { it.status == ParticipantStatus.IN_LOBBY }) {
             titles += 1
         }
 
@@ -226,20 +226,20 @@ internal class ParticipantListView(
         bottomCellItemsInCallParticipants.add(
             0,
             BottomCellItem(
-                null,
-                context.getString(
+                icon = null,
+                title = context.getString(
                     R.string.azure_communication_ui_calling_participant_list_in_call_n_people,
                     bottomCellItemsInCallParticipants.size
                 ),
-                "",
-                null,
-                null,
-                null,
-                null,
-                null,
-                false,
-                BottomCellItemType.BottomMenuTitle,
-                null
+                contentDescription = "",
+                accessoryImage = null,
+                accessoryColor = null,
+                accessoryImageDescription = null,
+                isChecked = null,
+                participantViewData = null,
+                isOnHold = false,
+                itemType = BottomCellItemType.BottomMenuTitle,
+                onClickAction = null
             )
         )
 
@@ -248,21 +248,21 @@ internal class ParticipantListView(
             bottomCellItemsInLobbyParticipants.add(
                 0,
                 BottomCellItem(
-                    null,
-                    context.getString(
+                    icon = null,
+                    title = context.getString(
                         R.string.azure_communication_ui_calling_participant_list_in_lobby_n_people,
                         bottomCellItemsInLobbyParticipants.size
                     ),
-                    "",
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
+                    contentDescription = "",
+                    accessoryImage = null,
+                    accessoryColor = null,
+                    accessoryImageDescription = null,
+                    isChecked = null,
+                    participantViewData = null,
                     isOnHold = null,
-                    BottomCellItemType.BottomMenuTitle,
+                    itemType = BottomCellItemType.BottomMenuTitle,
                     onClickAction = null,
-                    true,
+                    showAdmitAllButton = true,
                     admitAllButtonAction = {
                         admitAllLobbyParticipants()
                     }

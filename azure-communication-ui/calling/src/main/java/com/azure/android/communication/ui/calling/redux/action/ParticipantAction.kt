@@ -15,5 +15,5 @@ internal sealed class ParticipantAction : Action {
     class LobbyError(val code: CallCompositeLobbyErrorCode) : ParticipantAction()
     class ClearLobbyError : ParticipantAction()
     class Remove(val userIdentifier: String) : ParticipantAction()
-    class RemoveParticipantError() : ParticipantAction()
+    class RemoveParticipantError : ParticipantAction()
 }
