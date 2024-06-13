@@ -66,6 +66,9 @@
     <string name="enable_pip_when_multitasking_option">Enable Pip when multitasking</string>
     <string name="display_leave_call_confirmation">Display Leave Call Confirmation</string>
     <string name="call_screen_settings">Call screen settings</string>
+    <string name="setup_screen_settings">Setup screen settings</string>
+    <string name="setup_screen_settings_camera_enabled">Camera is enabled</string>
+    <string name="setup_screen_settings_mic_enabled">Mic is enabled</string>
     <string name="telecom_manager_options">Telecom manager options</string>
     <string name="deprecated_settings_text">Deprecated apis</string>
     <string name="use_deprecated_launch_text">Use deprecated launch</string>
