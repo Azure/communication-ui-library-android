@@ -16,7 +16,6 @@ import com.azure.android.communication.tapOnScreen
 import com.azure.android.communication.tapWhenDisplayed
 import com.azure.android.communication.tapWithTextWhenDisplayed
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
-import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.ui.calling.service.sdk.CommunicationIdentifier
@@ -26,6 +25,7 @@ import org.junit.Test
 import java.util.UUID
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
+import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import java9.util.concurrent.CompletableFuture
 
 internal class LobbyTest : BaseUiTest() {
@@ -67,7 +67,7 @@ internal class LobbyTest : BaseUiTest() {
         // Launch the UI.
         joinTeamsCall()
 
-        callingSDK.setParticipantRoleSharedFlow(ParticipantRole.ATTENDEE)
+        callingSDK.setParticipantCapability(attendeeCapabilities)
 
         callingSDK.addRemoteParticipant(
             CommunicationIdentifier.CommunicationUserIdentifier("ACS User 2"),
@@ -88,7 +88,7 @@ internal class LobbyTest : BaseUiTest() {
         // Launch the UI.
         val appContext = joinTeamsCall()
 
-        callingSDK.setParticipantRoleSharedFlow(ParticipantRole.PRESENTER)
+        callingSDK.setParticipantCapability(presenterCapabilities)
 
         callingSDK.addRemoteParticipant(
             CommunicationIdentifier.CommunicationUserIdentifier("ACS User 2"),
@@ -131,7 +131,7 @@ internal class LobbyTest : BaseUiTest() {
         // launch the UI.
         joinTeamsCall()
 
-        callingSDK.setParticipantRoleSharedFlow(ParticipantRole.PRESENTER)
+        callingSDK.setParticipantCapability(presenterCapabilities)
 
         callingSDK.addRemoteParticipant(
             CommunicationIdentifier.CommunicationUserIdentifier("ACS User 2"),
@@ -147,203 +147,218 @@ internal class LobbyTest : BaseUiTest() {
         assertViewNotDisplayed(lobbyHeaderId)
     }
 
-//    @Test
-//    fun testOnAdmitErrorLobbyErrorHeaderIsDisplayed() = runTest {
-//        injectDependencies(testScheduler)
-//
-//        val buttonTextToClick = "Admit"
-//
-//        // Launch the UI.
-//        val appContext = joinTeamsCall()
-//
-//        lobbyButtonActionsTest(buttonTextToClick, appContext)
-//    }
-//
-//    @Test
-//    fun testOnDeclineErrorLobbyErrorHeaderIsDisplayed() = runTest {
-//        injectDependencies(testScheduler)
-//
-//        val buttonTextToClick = "Decline"
-//
-//        // Launch the UI.
-//        val appContext = joinTeamsCall()
-//
-//        lobbyButtonActionsTest(buttonTextToClick, appContext)
-//    }
-//
-//    @Test
-//    fun testOnAdmitAllErrorLobbyErrorHeaderIsDisplayed() = runTest {
-//        injectDependencies(testScheduler)
-//        // Launch the UI.
-//        val appContext = joinTeamsCall()
-//
-//        callingSDK.setParticipantRoleSharedFlow(CallCompositeInternalParticipantRole.PRESENTER)
-//
-//        callingSDK.addRemoteParticipant(
-//            CommunicationIdentifier.CommunicationUserIdentifier("ACS User 2"),
-//            displayName = "ACS User 2",
-//            isMuted = false,
-//            isSpeaking = true,
-//            videoStreams = listOf(MediaStreamType.VIDEO),
-//            state = ParticipantState.IN_LOBBY
-//        )
-//
-//        waitUntilDisplayed(lobbyHeaderId)
-//
-//        tapWhenDisplayed(lobbyHeaderOpenParticipantListButton)
-//        // one local + one remote + 2 texts (calling, lobby)
-//        assertViewHasChild(bottomDrawer, 4)
-//
-//        val lobbyActionResult = CompletableFuture<CallCompositeLobbyErrorCode?>()
-//        lobbyActionResult.complete(CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED)
-//        callingSDK.setLobbyResultCompletableFuture(lobbyActionResult)
-//
-//        // click on admit all
-//        tapWithTextWhenDisplayed("Admit all")
-//
-//        // to close participant list
-//        tapOnScreen()
-//
-//        waitUntilDisplayed(lobbyErrorHeaderId)
-//
-//        // assert error text
-//        assertViewText(
-//            lobbyErrorHeaderText,
-//            appContext!!.getString(R.string.azure_communication_ui_calling_error_lobby_meeting_role_not_allowded)
-//        )
-//
-//        // close lobby error header
-//        tapWhenDisplayed(lobbyErrorHeaderCloseButton)
-//
-//        // assert lobby error header is not displayed
-//        assertViewNotDisplayed(lobbyErrorHeaderId)
-//    }
-//
-//    @Test
-//    fun testOnAdmitAllSuccess() = runTest {
-//        injectDependencies(testScheduler)
-//        // Launch the UI.
-//        joinTeamsCall()
-//
-//        callingSDK.setParticipantRoleSharedFlow(CallCompositeInternalParticipantRole.PRESENTER)
-//
-//        callingSDK.addRemoteParticipant(
-//            CommunicationIdentifier.CommunicationUserIdentifier("ACS User 2"),
-//            displayName = "ACS User 2",
-//            isMuted = false,
-//            isSpeaking = true,
-//            videoStreams = listOf(MediaStreamType.VIDEO),
-//            state = ParticipantState.IN_LOBBY
-//        )
-//
-//        waitUntilDisplayed(lobbyHeaderId)
-//
-//        tapWhenDisplayed(lobbyHeaderOpenParticipantListButton)
-//        // one local + one remote + 2 texts (calling, lobby)
-//        assertViewHasChild(bottomDrawer, 4)
-//
-//        val lobbyActionResult = CompletableFuture<CallCompositeLobbyErrorCode?>()
-//        callingSDK.setLobbyResultCompletableFuture(lobbyActionResult)
-//
-//        // click on admit all
-//        tapWithTextWhenDisplayed("Admit all")
-//
-//        // to close participant list
-//        tapOnScreen()
-//
-//        callingSDK.changeParticipantState("ACS User 2", ParticipantState.CONNECTED)
-//        lobbyActionResult.complete(null)
-//
-//        // assert lobby error header is not displayed
-//        assertViewNotDisplayed(lobbyErrorHeaderId)
-//
-//        // tap on screen
-//        tapOnScreen()
-//        tapWhenDisplayed(participantListOpenButton)
-//
-//        // one local + one remote + 1 texts (calling)
-//        assertViewHasChild(bottomDrawer, 3)
-//    }
-//
-//    @Test
-//    fun testOnLobbyErrorMessageUIForRoleNotPermitted() = runTest {
-//        injectDependencies(testScheduler)
-//
-//        val buttonTextToClick = "Admit"
-//
-//        // Launch the UI.
-//        val appContext = joinTeamsCall()
-//
-//        lobbyButtonActionsTest(
-//            buttonTextToClick, appContext,
-//            CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED,
-//            R.string.azure_communication_ui_calling_error_lobby_meeting_role_not_allowded
-//        )
-//    }
+    @Test
+    fun testOnAdmitErrorLobbyErrorHeaderIsDisplayed() = runTest {
+        injectDependencies(testScheduler)
 
-//    @Test
-//    fun testOnLobbyErrorMessageUIForMeetingTypeNotSupported() = runTest {
-//        injectDependencies(testScheduler)
-//
-//        val buttonTextToClick = "Admit"
-//
-//        // Launch the UI.
-//        val appContext = joinTeamsCall()
-//
-//        lobbyButtonActionsTest(
-//            buttonTextToClick, appContext,
-//            CallCompositeLobbyErrorCode.LOBBY_CONVERSATION_TYPE_NOT_SUPPORTED,
-//            R.string.azure_communication_ui_calling_error_lobby_conversation_type_not_supported
-//        )
-//    }
-//
-//    @Test
-//    fun testOnLobbyErrorMessageUIForFailedToRemove() = runTest {
-//        injectDependencies(testScheduler)
-//
-//        val buttonTextToClick = "Admit"
-//
-//        // Launch the UI.
-//        val appContext = joinTeamsCall()
-//
-//        lobbyButtonActionsTest(
-//            buttonTextToClick, appContext,
-//            CallCompositeLobbyErrorCode.REMOVE_PARTICIPANT_OPERATION_FAILURE,
-//            R.string.azure_communication_ui_calling_error_lobby_failed_to_remove_participant
-//        )
-//    }
-//
-//    @Test
-//    fun testOnLobbyErrorMessageUIForUnknownError() = runTest {
-//        injectDependencies(testScheduler)
-//
-//        val buttonTextToClick = "Admit"
-//
-//        // Launch the UI.
-//        val appContext = joinTeamsCall()
-//
-//        lobbyButtonActionsTest(
-//            buttonTextToClick, appContext,
-//            CallCompositeLobbyErrorCode.UNKNOWN_ERROR,
-//            R.string.azure_communication_ui_calling_error_lobby_unknown
-//        )
-//    }
-//
-//    @Test
-//    fun testOnLobbyErrorMessageUIForLobbyDisabledError() = runTest {
-//        injectDependencies(testScheduler)
-//
-//        val buttonTextToClick = "Admit"
-//
-//        // Launch the UI.
-//        val appContext = joinTeamsCall()
-//
-//        lobbyButtonActionsTest(
-//            buttonTextToClick, appContext,
-//            CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS,
-//            R.string.azure_communication_ui_calling_error_lobby_disabled_by_configuration
-//        )
-//    }
+        val buttonTextToClick = "Admit"
+
+        // Launch the UI.
+        val appContext = joinTeamsCall()
+
+        lobbyButtonActionsTest(buttonTextToClick, appContext)
+    }
+
+    @Test
+    fun testOnDeclineErrorLobbyErrorHeaderIsDisplayed() = runTest {
+        injectDependencies(testScheduler)
+
+        val buttonTextToClick = "Decline"
+
+        // Launch the UI.
+        val appContext = joinTeamsCall()
+
+        lobbyButtonActionsTest(buttonTextToClick, appContext)
+    }
+
+    @Test
+    fun testOnAdmitAllErrorLobbyErrorHeaderIsDisplayed() = runTest {
+        injectDependencies(testScheduler)
+        // Launch the UI.
+        val appContext = joinTeamsCall()
+
+        callingSDK.setParticipantCapability(presenterCapabilities)
+
+        callingSDK.addRemoteParticipant(
+            CommunicationIdentifier.CommunicationUserIdentifier("ACS User 2"),
+            displayName = "ACS User 2",
+            isMuted = false,
+            isSpeaking = true,
+            videoStreams = listOf(MediaStreamType.VIDEO),
+            state = ParticipantState.IN_LOBBY
+        )
+
+        waitUntilDisplayed(lobbyHeaderId)
+
+        tapWhenDisplayed(lobbyHeaderOpenParticipantListButton)
+        // one local + one remote + 2 texts (calling, lobby)
+        assertViewHasChild(bottomDrawer, 4)
+
+        val lobbyActionResult = CompletableFuture<CallCompositeLobbyErrorCode?>()
+        lobbyActionResult.complete(CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED)
+        callingSDK.setLobbyResultCompletableFuture(lobbyActionResult)
+
+        // click on admit all
+        tapWithTextWhenDisplayed("Admit all")
+
+        // to close participant list
+        tapOnScreen()
+
+        waitUntilDisplayed(lobbyErrorHeaderId)
+
+        // assert error text
+        assertViewText(
+            lobbyErrorHeaderText,
+            appContext!!.getString(R.string.azure_communication_ui_calling_error_lobby_meeting_role_not_allowded)
+        )
+
+        // close lobby error header
+        tapWhenDisplayed(lobbyErrorHeaderCloseButton)
+
+        // assert lobby error header is not displayed
+        assertViewNotDisplayed(lobbyErrorHeaderId)
+    }
+
+    private val presenterCapabilities = setOf(
+        ParticipantCapabilityType.TURN_VIDEO_ON,
+        ParticipantCapabilityType.UNMUTE_MICROPHONE,
+        ParticipantCapabilityType.MANAGE_LOBBY,
+        ParticipantCapabilityType.SHARE_SCREEN,
+        ParticipantCapabilityType.REMOVE_PARTICIPANT
+    )
+
+    private val attendeeCapabilities = setOf(
+        ParticipantCapabilityType.TURN_VIDEO_ON,
+        ParticipantCapabilityType.UNMUTE_MICROPHONE
+    )
+
+    private val consumerCapabilities = emptySequence<ParticipantCapabilityType>()
+
+    @Test
+    fun testOnAdmitAllSuccess() = runTest {
+        injectDependencies(testScheduler)
+        // Launch the UI.
+        joinTeamsCall()
+
+        callingSDK.setParticipantCapability(presenterCapabilities)
+
+        callingSDK.addRemoteParticipant(
+            CommunicationIdentifier.CommunicationUserIdentifier("ACS User 2"),
+            displayName = "ACS User 2",
+            isMuted = false,
+            isSpeaking = true,
+            videoStreams = listOf(MediaStreamType.VIDEO),
+            state = ParticipantState.IN_LOBBY
+        )
+
+        waitUntilDisplayed(lobbyHeaderId)
+
+        tapWhenDisplayed(lobbyHeaderOpenParticipantListButton)
+        // one local + one remote + 2 texts (calling, lobby)
+        assertViewHasChild(bottomDrawer, 4)
+
+        val lobbyActionResult = CompletableFuture<CallCompositeLobbyErrorCode?>()
+        callingSDK.setLobbyResultCompletableFuture(lobbyActionResult)
+
+        // click on admit all
+        tapWithTextWhenDisplayed("Admit all")
+
+        // to close participant list
+        tapOnScreen()
+
+        callingSDK.changeParticipantState("ACS User 2", ParticipantState.CONNECTED)
+        lobbyActionResult.complete(null)
+
+        // assert lobby error header is not displayed
+        assertViewNotDisplayed(lobbyErrorHeaderId)
+
+        // tap on screen
+        tapOnScreen()
+        tapWhenDisplayed(participantListOpenButton)
+
+        // one local + one remote + 1 texts (calling)
+        assertViewHasChild(bottomDrawer, 3)
+    }
+
+    @Test
+    fun testOnLobbyErrorMessageUIForRoleNotPermitted() = runTest {
+        injectDependencies(testScheduler)
+
+        val buttonTextToClick = "Admit"
+
+        // Launch the UI.
+        val appContext = joinTeamsCall()
+
+        lobbyButtonActionsTest(
+            buttonTextToClick, appContext,
+            CallCompositeLobbyErrorCode.LOBBY_MEETING_ROLE_NOT_ALLOWED,
+            R.string.azure_communication_ui_calling_error_lobby_meeting_role_not_allowded
+        )
+    }
+
+    @Test
+    fun testOnLobbyErrorMessageUIForMeetingTypeNotSupported() = runTest {
+        injectDependencies(testScheduler)
+
+        val buttonTextToClick = "Admit"
+
+        // Launch the UI.
+        val appContext = joinTeamsCall()
+
+        lobbyButtonActionsTest(
+            buttonTextToClick, appContext,
+            CallCompositeLobbyErrorCode.LOBBY_CONVERSATION_TYPE_NOT_SUPPORTED,
+            R.string.azure_communication_ui_calling_error_lobby_conversation_type_not_supported
+        )
+    }
+
+    @Test
+    fun testOnLobbyErrorMessageUIForFailedToRemove() = runTest {
+        injectDependencies(testScheduler)
+
+        val buttonTextToClick = "Admit"
+
+        // Launch the UI.
+        val appContext = joinTeamsCall()
+
+        lobbyButtonActionsTest(
+            buttonTextToClick, appContext,
+            CallCompositeLobbyErrorCode.REMOVE_PARTICIPANT_OPERATION_FAILURE,
+            R.string.azure_communication_ui_calling_error_lobby_failed_to_remove_participant
+        )
+    }
+
+    @Test
+    fun testOnLobbyErrorMessageUIForUnknownError() = runTest {
+        injectDependencies(testScheduler)
+
+        val buttonTextToClick = "Admit"
+
+        // Launch the UI.
+        val appContext = joinTeamsCall()
+
+        lobbyButtonActionsTest(
+            buttonTextToClick, appContext,
+            CallCompositeLobbyErrorCode.UNKNOWN_ERROR,
+            R.string.azure_communication_ui_calling_error_lobby_unknown
+        )
+    }
+
+    @Test
+    fun testOnLobbyErrorMessageUIForLobbyDisabledError() = runTest {
+        injectDependencies(testScheduler)
+
+        val buttonTextToClick = "Admit"
+
+        // Launch the UI.
+        val appContext = joinTeamsCall()
+
+        lobbyButtonActionsTest(
+            buttonTextToClick, appContext,
+            CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS,
+            R.string.azure_communication_ui_calling_error_lobby_disabled_by_configuration
+        )
+    }
 
     private suspend fun lobbyButtonActionsTest(
         buttonTextToClick: String,
@@ -352,7 +367,7 @@ internal class LobbyTest : BaseUiTest() {
         errorUIId: Int = R.string.azure_communication_ui_calling_error_lobby_meeting_role_not_allowded
 
     ) {
-        callingSDK.setParticipantRoleSharedFlow(ParticipantRole.PRESENTER)
+        callingSDK.setParticipantCapability(presenterCapabilities)
 
         callingSDK.addRemoteParticipant(
             CommunicationIdentifier.CommunicationUserIdentifier("ACS User 2"),
