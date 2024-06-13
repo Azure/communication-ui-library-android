@@ -49,7 +49,7 @@ buildscript {
             azure_calling_sdk_version_ga = '2.9.0'
 
             // Newest version of the SDK, can be beta
-            azure_calling_sdk_version_beta = '1.0.0-beta.1'
+            azure_calling_sdk_version_beta = '2.9.0-beta.1'
         }
 
         // Initialize the SDK Version based on the calling SDK Beta flag
