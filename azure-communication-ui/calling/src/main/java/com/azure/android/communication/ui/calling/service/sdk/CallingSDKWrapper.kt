@@ -253,8 +253,8 @@ internal class CallingSDKWrapper(
         return future
     }
 
-    override fun removeParticipant(userIdentifier: String): CompletableFuture<Void?> {
-        val future = CompletableFuture<Void?>()
+    override fun removeParticipant(userIdentifier: String): CompletableFuture<Void> {
+        val future = CompletableFuture<Void>()
         val participantToRemove = call.remoteParticipants
             .find {
                 it.identifier.rawId == userIdentifier

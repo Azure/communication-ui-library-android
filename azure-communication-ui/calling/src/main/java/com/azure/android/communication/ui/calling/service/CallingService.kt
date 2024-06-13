@@ -71,7 +71,7 @@ internal class CallingService(
         return callingSdk.reject(userIdentifier)
     }
 
-    fun removeParticipant(userIdentifier: String): CompletableFuture<Void?> {
+    fun removeParticipant(userIdentifier: String): CompletableFuture<Void> {
         return callingSdk.removeParticipant(userIdentifier)
     }
 

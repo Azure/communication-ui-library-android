@@ -62,7 +62,7 @@ internal interface CallingSDK {
     fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?>
     fun admit(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?>
     fun reject(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?>
-    fun removeParticipant(userIdentifier: String): CompletableFuture<Void?>
+    fun removeParticipant(userIdentifier: String): CompletableFuture<Void>
     fun getLocalParticipantRoleSharedFlow(): SharedFlow<ParticipantRole?>
     fun getCapabilitiesChangedEventSharedFlow(): SharedFlow<CapabilitiesChangedEvent>
     fun getCapabilities(): Set<ParticipantCapabilityType>
