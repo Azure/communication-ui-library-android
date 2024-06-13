@@ -30,6 +30,21 @@ import java9.util.concurrent.CompletableFuture
 
 internal class LobbyTest : BaseUiTest() {
 
+    private val presenterCapabilities = setOf(
+        ParticipantCapabilityType.TURN_VIDEO_ON,
+        ParticipantCapabilityType.UNMUTE_MICROPHONE,
+        ParticipantCapabilityType.MANAGE_LOBBY,
+        ParticipantCapabilityType.SHARE_SCREEN,
+        ParticipantCapabilityType.REMOVE_PARTICIPANT
+    )
+
+    private val attendeeCapabilities = setOf(
+        ParticipantCapabilityType.TURN_VIDEO_ON,
+        ParticipantCapabilityType.UNMUTE_MICROPHONE
+    )
+
+    private val consumerCapabilities = emptySet<ParticipantCapabilityType>()
+
     @Test
     fun testOnGridViewLobbyParticipantAreNotVisible() = runTest {
         injectDependencies(testScheduler)
@@ -218,21 +233,6 @@ internal class LobbyTest : BaseUiTest() {
         // assert lobby error header is not displayed
         assertViewNotDisplayed(lobbyErrorHeaderId)
     }
-
-    private val presenterCapabilities = setOf(
-        ParticipantCapabilityType.TURN_VIDEO_ON,
-        ParticipantCapabilityType.UNMUTE_MICROPHONE,
-        ParticipantCapabilityType.MANAGE_LOBBY,
-        ParticipantCapabilityType.SHARE_SCREEN,
-        ParticipantCapabilityType.REMOVE_PARTICIPANT
-    )
-
-    private val attendeeCapabilities = setOf(
-        ParticipantCapabilityType.TURN_VIDEO_ON,
-        ParticipantCapabilityType.UNMUTE_MICROPHONE
-    )
-
-    private val consumerCapabilities = emptySequence<ParticipantCapabilityType>()
 
     @Test
     fun testOnAdmitAllSuccess() = runTest {
@@ -437,24 +437,7 @@ internal class LobbyTest : BaseUiTest() {
         expectedParticipantCountOnParticipantList: Int,
         addLobbyUser: Boolean = true
     ) {
-        // Launch the UI.
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        val callComposite = CallCompositeBuilder().build()
-        val communicationTokenRefreshOptions =
-            CommunicationTokenRefreshOptions({ "token" }, true)
-        val communicationTokenCredential =
-            CommunicationTokenCredential(communicationTokenRefreshOptions)
-        val remoteOptions =
-            CallCompositeRemoteOptions(
-                CallCompositeGroupCallLocator(UUID.fromString("74fce2c1-520f-11ec-97de-71411a9a8e14")),
-                communicationTokenCredential,
-                "test"
-            )
-
-        callComposite.launchTest(appContext, remoteOptions, null)
-
-        tapWhenDisplayed(joinCallId)
-        waitUntilDisplayed(endCallId)
+        joinTeamsCall()
 
         callingSDK.addRemoteParticipant(
             CommunicationIdentifier.CommunicationUserIdentifier("ACS User 1"),
