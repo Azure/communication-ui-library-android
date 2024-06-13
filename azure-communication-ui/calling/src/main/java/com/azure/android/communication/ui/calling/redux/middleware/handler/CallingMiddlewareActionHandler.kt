@@ -408,27 +408,14 @@ internal class CallingMiddlewareActionHandlerImpl(
     override fun setCapabilities(capabilities: Set<ParticipantCapabilityType>, store: Store<ReduxState>) {
 
         val state = store.getCurrentState()
-        val isInitialCapabilitySetting = state.localParticipantState.capabilities.isEmpty()
 
-        if (!capabilitiesManager.hasCapability(
-                capabilities,
-                ParticipantCapabilityType.TURN_VIDEO_ON
-            ) &&
+        if (!capabilitiesManager.hasCapability(capabilities, ParticipantCapabilityType.TURN_VIDEO_ON) &&
             state.localParticipantState.cameraState.operation != CameraOperationalStatus.OFF
         ) {
             store.dispatch(LocalParticipantAction.CameraOffTriggered())
-        } else {
-            if (isInitialCapabilitySetting &&
-                state.localParticipantState.initialCallJoinState.skipSetupScreen
-            ) {
-                tryCameraOn(store)
-            }
         }
 
-        if (!capabilitiesManager.hasCapability(
-                capabilities,
-                ParticipantCapabilityType.UNMUTE_MICROPHONE
-            ) &&
+        if (!capabilitiesManager.hasCapability(capabilities, ParticipantCapabilityType.UNMUTE_MICROPHONE) &&
             state.localParticipantState.audioState.operation != AudioOperationalStatus.OFF
         ) {
             store.dispatch(LocalParticipantAction.MicOffTriggered())
