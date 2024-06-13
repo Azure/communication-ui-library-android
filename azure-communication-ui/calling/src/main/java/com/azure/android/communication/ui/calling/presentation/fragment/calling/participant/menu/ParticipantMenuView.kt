@@ -122,24 +122,6 @@ internal class ParticipantMenuView(
             BottomCellItem(
                 icon = ContextCompat.getDrawable(
                     context,
-                    R.drawable.azure_communication_ui_calling_ic_fluent_mic_off_24_regular
-                ),
-                title = context.getString(R.string.azure_communication_ui_calling_view_participant_menu_mute),
-                contentDescription = context.getString(R.string.azure_communication_ui_calling_view_participant_menu_mute_accessibility_label),
-                accessoryImage = null,
-                accessoryColor = null,
-                accessoryImageDescription = null,
-                isChecked = null,
-                participantViewData = null,
-                isOnHold = false,
-                isEnabled = viewModel.muteParticipantEnabledFlow.value,
-                onClickAction = {
-                    viewModel.muteParticipant()
-                }
-            ),
-            BottomCellItem(
-                icon = ContextCompat.getDrawable(
-                    context,
                     R.drawable.azure_communication_ui_calling_ic_fluent_person_delete_24_regular
                 ),
                 title = context.getString(R.string.azure_communication_ui_calling_view_participant_menu_remove),
