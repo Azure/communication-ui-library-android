@@ -15,14 +15,12 @@ import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.tapOnScreen
 import com.azure.android.communication.tapWhenDisplayed
 import com.azure.android.communication.tapWithTextWhenDisplayed
-import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.ui.calling.service.sdk.CommunicationIdentifier
 import com.azure.android.communication.waitUntilDisplayed
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
-import java.util.UUID
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
