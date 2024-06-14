@@ -51,8 +51,8 @@ import java.lang.ref.WeakReference
 import java.util.Locale
 
 internal open class CallCompositeActivity : AppCompatActivity() {
-    private val diContainerHolder: DependencyInjectionContainerHolder by viewModels {
-        DependencyInjectionContainerHolderFactory(
+    private val diContainerHolder: CallCompositeActivityViewModel by viewModels {
+        CallCompositeActivityViewModelFactory(
             this@CallCompositeActivity.application,
         )
     }

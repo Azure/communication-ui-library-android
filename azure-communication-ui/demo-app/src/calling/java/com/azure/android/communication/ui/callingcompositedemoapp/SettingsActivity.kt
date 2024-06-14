@@ -58,6 +58,9 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var useDeprecatedLaunchCheckbox: CheckBox
     private lateinit var disableInternalPushForIncomingCallCheckbox: CheckBox
 
+    private lateinit var setupScreenOptionsCameraEnabledCheckbox: CheckBox
+    private lateinit var setupScreenOptionsMicEnabledCheckbox: CheckBox
+
     private val sharedPreference by lazy {
         getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
     }
@@ -139,6 +142,8 @@ class SettingsActivity : AppCompatActivity() {
 
         updateEnableMultitaskingCheckbox()
         updateEnablePipMultitaskingCheckbox()
+        updateSetupScreenCameraEnabledCheckbox()
+        updateSetupScreenMicEnabledCheckbox()
 
         updateRenderedDisplayNameText()
         updateTitle()
@@ -270,6 +275,18 @@ class SettingsActivity : AppCompatActivity() {
                         view.isChecked
                     ).apply()
                 }
+                R.id.setup_screen_camera_check_box -> {
+                    sharedPreference.edit().putBoolean(
+                        SETUP_SCREEN_CAMERA_ENABLED,
+                        view.isChecked
+                    ).apply()
+                }
+                R.id.setup_screen_mic_check_box -> {
+                    sharedPreference.edit().putBoolean(
+                        SETUP_SCREEN_MIC_ENABLED,
+                        view.isChecked
+                    ).apply()
+                }
             }
         }
     }
@@ -306,6 +323,10 @@ class SettingsActivity : AppCompatActivity() {
         telecomManagerAdapterLayout = findViewById(R.id.telecom_manager_selection_adapter_layout)
         useDeprecatedLaunchCheckbox = findViewById(R.id.deprecated_launch_checkbox)
         disableInternalPushForIncomingCallCheckbox = findViewById(R.id.disable_internal_push_checkbox)
+
+        setupScreenOptionsCameraEnabledCheckbox = findViewById(R.id.setup_screen_camera_check_box)
+        setupScreenOptionsMicEnabledCheckbox = findViewById(R.id.setup_screen_mic_check_box)
+
         renderDisplayNameTextView.addTextChangedListener {
             saveRenderedDisplayName()
         }
@@ -487,6 +508,20 @@ class SettingsActivity : AppCompatActivity() {
         )
     }
 
+    private fun updateSetupScreenCameraEnabledCheckbox() {
+        setupScreenOptionsCameraEnabledCheckbox.isChecked = sharedPreference.getBoolean(
+            SETUP_SCREEN_CAMERA_ENABLED,
+            DEFAULT_SETUP_SCREEN_CAMERA_ENABLED_VALUE
+        )
+    }
+
+    private fun updateSetupScreenMicEnabledCheckbox() {
+        setupScreenOptionsMicEnabledCheckbox.isChecked = sharedPreference.getBoolean(
+            SETUP_SCREEN_MIC_ENABLED,
+            DEFAULT_SETUP_SCREEN_MIC_ENABLED_VALUE
+        )
+    }
+
     private fun updateAudioOnlyDefaultCheckbox() {
         audioOnlyModeCheckBox.isChecked = sharedPreference.getBoolean(
             AUDIO_ONLY_MODE_ON,
@@ -566,3 +601,9 @@ const val DEFAULT_DISABLE_INTERNAL_PUSH_NOTIFICATIONS = false
 
 const val CACHED_TOKEN = "CACHED_TOKEN"
 const val CACHED_USER_NAME = "CACHED_USER_NAME"
+
+const val SETUP_SCREEN_CAMERA_ENABLED = "SETUP_SCREEN_CAMERA_ENABLED"
+const val DEFAULT_SETUP_SCREEN_CAMERA_ENABLED_VALUE = true
+
+const val SETUP_SCREEN_MIC_ENABLED = "SETUP_SCREEN_MIC_ENABLED"
+const val DEFAULT_SETUP_SCREEN_MIC_ENABLED_VALUE = true

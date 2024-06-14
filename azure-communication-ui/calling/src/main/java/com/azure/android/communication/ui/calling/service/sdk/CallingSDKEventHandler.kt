@@ -5,6 +5,9 @@ package com.azure.android.communication.ui.calling.service.sdk
 
 import com.azure.android.communication.calling.Call
 import com.azure.android.communication.calling.CallState
+import com.azure.android.communication.calling.CapabilitiesCallFeature
+import com.azure.android.communication.calling.CapabilitiesChangedEvent as SdkCapabilitiesChangedEvent
+import com.azure.android.communication.calling.CapabilitiesChangedListener
 import com.azure.android.communication.calling.DiagnosticFlagChangedListener
 import com.azure.android.communication.calling.DiagnosticQualityChangedListener
 import com.azure.android.communication.calling.DominantSpeakersCallFeature
@@ -21,9 +24,10 @@ import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.TranscriptionCallFeature
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
-import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
+import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.CallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
+import com.azure.android.communication.ui.calling.models.CapabilitiesChangedEvent
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnostic
@@ -57,10 +61,10 @@ internal class CallingSDKEventHandler(
     private var isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
     private var dominantSpeakersSharedFlow = MutableSharedFlow<DominantSpeakersInfo>()
     private var callingStateWrapperSharedFlow = MutableSharedFlow<CallingStateWrapper>()
-    private var callParticipantRoleSharedFlow = MutableSharedFlow<CallCompositeInternalParticipantRole?>()
+    private var callParticipantRoleSharedFlow = MutableSharedFlow<ParticipantRole?>()
     private var callIdSharedFlow = MutableStateFlow<String?>(null)
-    private var remoteParticipantsInfoModelSharedFlow =
-        MutableSharedFlow<Map<String, ParticipantInfoModel>>()
+    private var remoteParticipantsInfoModelSharedFlow = MutableSharedFlow<Map<String, ParticipantInfoModel>>()
+    private var callCapabilitiesEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
 
     //region Call Diagnostics
     private var networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
@@ -81,6 +85,7 @@ internal class CallingSDKEventHandler(
     private lateinit var recordingFeature: RecordingCallFeature
     private lateinit var transcriptionFeature: TranscriptionCallFeature
     private lateinit var dominantSpeakersCallFeature: DominantSpeakersCallFeature
+    private lateinit var capabilitiesFeature: CapabilitiesCallFeature
 
     private var networkDiagnostics: NetworkDiagnostics? = null
     private var mediaDiagnostics: MediaDiagnostics? = null
@@ -99,8 +104,11 @@ internal class CallingSDKEventHandler(
 
     fun getIsTranscribingSharedFlow(): SharedFlow<Boolean> = isTranscribingSharedFlow
 
-    fun getCallParticipantRoleSharedFlow(): SharedFlow<CallCompositeInternalParticipantRole?> =
+    fun getCallParticipantRoleSharedFlow(): SharedFlow<ParticipantRole?> =
         callParticipantRoleSharedFlow
+
+    fun getCallCapabilitiesEventSharedFlow(): SharedFlow<CapabilitiesChangedEvent> =
+        callCapabilitiesEventSharedFlow
 
     // region Call Diagnostics
     fun getNetworkQualityCallDiagnosticsSharedFlow(): SharedFlow<NetworkQualityCallDiagnosticModel> = networkQualityCallDiagnosticsSharedFlow
@@ -141,6 +149,10 @@ internal class CallingSDKEventHandler(
         transcriptionFeature.addOnIsTranscriptionActiveChangedListener(onTranscriptionChanged)
         dominantSpeakersCallFeature = call.feature { DominantSpeakersCallFeature::class.java }
         dominantSpeakersCallFeature.addOnDominantSpeakersChangedListener(onDominantSpeakersChanged)
+
+        capabilitiesFeature = call.feature { CapabilitiesCallFeature::class.java }
+        capabilitiesFeature.addOnCapabilitiesChangedListener(onCapabilitiesChanged)
+
         subscribeToUserFacingDiagnosticsEvents()
     }
 
@@ -164,6 +176,7 @@ internal class CallingSDKEventHandler(
             onTranscriptionChanged
         )
         dominantSpeakersCallFeature.removeOnDominantSpeakersChangedListener(onDominantSpeakersChanged)
+        capabilitiesFeature.removeOnCapabilitiesChangedListener(onCapabilitiesChanged)
         call?.removeOnRoleChangedListener(onRoleChanged)
         call?.removeOnIsMutedChangedListener(onIsMutedChanged)
         unsubscribeFromUserFacingDiagnosticsEvents()
@@ -187,6 +200,11 @@ internal class CallingSDKEventHandler(
     private val onRoleChanged =
         PropertyChangedListener {
             onRoleChanged()
+        }
+
+    private val onCapabilitiesChanged =
+        CapabilitiesChangedListener {
+            onCapabilitiesChanged(it)
         }
 
     private val onTranscriptionChanged =
@@ -344,6 +362,12 @@ internal class CallingSDKEventHandler(
     private fun onRoleChanged() {
         coroutineScope.launch {
             callParticipantRoleSharedFlow.emit(call?.callParticipantRole?.into())
+        }
+    }
+
+    private fun onCapabilitiesChanged(capabilitiesChangedEvent: SdkCapabilitiesChangedEvent) {
+        coroutineScope.launch {
+            callCapabilitiesEventSharedFlow.emit(capabilitiesChangedEvent.into())
         }
     }
 
@@ -574,6 +598,8 @@ internal class CallingSDKEventHandler(
         callingStateWrapperSharedFlow = MutableSharedFlow()
         callIdSharedFlow = MutableStateFlow(null)
         remoteParticipantsInfoModelSharedFlow = MutableSharedFlow()
+        callParticipantRoleSharedFlow = MutableSharedFlow()
+        callCapabilitiesEventSharedFlow = MutableSharedFlow()
 
         //region Call Diagnostics
         networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow()

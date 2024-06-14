@@ -20,6 +20,8 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay.ConnectingOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.menu.ParticipantMenuViewModel
+import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
@@ -29,6 +31,7 @@ internal class CallingViewModelFactory(
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
     private val maxRemoteParticipants: Int,
     private val debugInfoManager: DebugInfoManager,
+    private val capabilitiesManager: CapabilitiesManager,
     private val showSupportFormOption: Boolean = false,
     private val enableMultitasking: Boolean,
     private val isTelecomManagerEnabled: Boolean = false,
@@ -48,7 +51,10 @@ internal class CallingViewModelFactory(
     }
 
     val controlBarViewModel by lazy {
-        ControlBarViewModel(store::dispatch)
+        ControlBarViewModel(
+            store::dispatch,
+            capabilitiesManager,
+        )
     }
 
     val floatingHeaderViewModel by lazy {
@@ -83,6 +89,13 @@ internal class CallingViewModelFactory(
 
     val participantListViewModel by lazy {
         ParticipantListViewModel(store::dispatch)
+    }
+
+    val participantMenuViewModel by lazy {
+        ParticipantMenuViewModel(
+            store::dispatch,
+            capabilitiesManager,
+        )
     }
 
     val bannerViewModel by lazy {

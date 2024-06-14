@@ -10,9 +10,19 @@ import com.azure.android.communication.ui.calling.error.CallCompositeError
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.FatalError
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionMode
+import com.azure.android.communication.ui.calling.models.CallCompositeCapabilitiesChangedNotificationMode
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
+import com.azure.android.communication.ui.calling.models.CallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
+import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
+import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.NetworkCallDiagnostic
+import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.buildCallCompositeAudioSelectionChangedEvent
+import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
@@ -23,6 +33,7 @@ import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
 import com.azure.android.communication.ui.calling.redux.action.CallDiagnosticsAction
+import com.azure.android.communication.ui.calling.redux.action.ToastNotificationAction
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
@@ -30,6 +41,7 @@ import com.azure.android.communication.ui.calling.redux.state.CameraOperationalS
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import com.azure.android.communication.ui.calling.redux.state.ToastNotificationKind
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import kotlinx.coroutines.CoroutineScope
@@ -60,16 +72,32 @@ internal interface CallingMiddlewareActionHandler {
     fun dispose()
     fun admitAll(store: Store<ReduxState>)
     fun admit(userIdentifier: String, store: Store<ReduxState>)
-    fun decline(userIdentifier: String, store: Store<ReduxState>)
+    fun reject(userIdentifier: String, store: Store<ReduxState>)
     fun onAudioDeviceChangeRequested(requestedAudioDevice: AudioDeviceSelectionStatus, store: Store<ReduxState>)
     fun onAudioDeviceChangeSucceeded(selectedAudioDevice: AudioDeviceSelectionStatus, store: Store<ReduxState>)
     fun onAudioFocusRequesting(store: Store<ReduxState>)
+    fun removeParticipant(userIdentifier: String, store: Store<ReduxState>)
+    fun setCapabilities(capabilities: Set<ParticipantCapabilityType>, store: Store<ReduxState>)
+    fun onNetworkQualityCallDiagnosticsUpdated(
+        model: CallDiagnosticModel<NetworkCallDiagnostic, CallDiagnosticQuality>,
+        store: Store<ReduxState>
+    )
+    fun onNetworkCallDiagnosticsUpdated(
+        model: CallDiagnosticModel<NetworkCallDiagnostic, Boolean>,
+        store: Store<ReduxState>
+    )
+    fun onMediaCallDiagnosticsUpdated(
+        model: CallDiagnosticModel<MediaCallDiagnostic, Boolean>,
+        store: Store<ReduxState>
+    )
+    fun dismissNotification(store: Store<ReduxState>)
 }
 
 internal class CallingMiddlewareActionHandlerImpl(
     private val callingService: CallingService,
     coroutineContextProvider: CoroutineContextProvider,
     private val configuration: CallCompositeConfiguration,
+    private val capabilitiesManager: CapabilitiesManager,
 ) :
     CallingMiddlewareActionHandler {
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
@@ -165,11 +193,21 @@ internal class CallingMiddlewareActionHandlerImpl(
         }
     }
 
-    override fun decline(userIdentifier: String, store: Store<ReduxState>) {
-        callingService.decline(userIdentifier).whenComplete { lobbyErrorCode, _ ->
+    override fun reject(userIdentifier: String, store: Store<ReduxState>) {
+        callingService.reject(userIdentifier).whenComplete { lobbyErrorCode, _ ->
             if (lobbyErrorCode != null) {
                 store.dispatch(
                     ParticipantAction.LobbyError(lobbyErrorCode)
+                )
+            }
+        }
+    }
+
+    override fun removeParticipant(userIdentifier: String, store: Store<ReduxState>) {
+        callingService.removeParticipant(userIdentifier).whenComplete { _, error ->
+            if (error != null) {
+                store.dispatch(
+                    ParticipantAction.RemoveParticipantError()
                 )
             }
         }
@@ -236,17 +274,15 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun turnCameraOff(store: Store<ReduxState>) {
-        if (store.getCurrentState().callState.callingStatus != CallingStatus.NONE) {
-            callingService.turnCameraOff().whenComplete { _, error ->
-                if (error != null) {
-                    store.dispatch(
-                        LocalParticipantAction.CameraOffFailed(
-                            CallCompositeError(ErrorCode.TURN_CAMERA_OFF_FAILED, error)
-                        )
+        callingService.turnCameraOff().whenComplete { _, error ->
+            if (error != null) {
+                store.dispatch(
+                    LocalParticipantAction.CameraOffFailed(
+                        CallCompositeError(ErrorCode.TURN_CAMERA_OFF_FAILED, error)
                     )
-                } else {
-                    store.dispatch(LocalParticipantAction.CameraOffSucceeded())
-                }
+                )
+            } else {
+                store.dispatch(LocalParticipantAction.CameraOffSucceeded())
             }
         }
     }
@@ -279,6 +315,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         subscribeCamerasCountUpdate(store)
         subscribeDominantSpeakersUpdate(store)
         subscribeOnLocalParticipantRoleChanged(store)
+        subscribeOnCapabilitiesChanged(store)
 
         callingService.startCall(
             store.getCurrentState().localParticipantState.cameraState,
@@ -368,6 +405,73 @@ internal class CallingMiddlewareActionHandlerImpl(
         }
     }
 
+    override fun setCapabilities(capabilities: Set<ParticipantCapabilityType>, store: Store<ReduxState>) {
+
+        val state = store.getCurrentState()
+
+        if (!capabilitiesManager.hasCapability(capabilities, ParticipantCapabilityType.TURN_VIDEO_ON) &&
+            state.localParticipantState.cameraState.operation != CameraOperationalStatus.OFF
+        ) {
+            store.dispatch(LocalParticipantAction.CameraOffTriggered())
+        }
+
+        if (!capabilitiesManager.hasCapability(capabilities, ParticipantCapabilityType.UNMUTE_MICROPHONE) &&
+            state.localParticipantState.audioState.operation != AudioOperationalStatus.OFF
+        ) {
+            store.dispatch(LocalParticipantAction.MicOffTriggered())
+        }
+    }
+
+    override fun onNetworkQualityCallDiagnosticsUpdated(
+        model: CallDiagnosticModel<NetworkCallDiagnostic, CallDiagnosticQuality>,
+        store: Store<ReduxState>
+    ) {
+        if (model.diagnosticValue == CallDiagnosticQuality.BAD ||
+            model.diagnosticValue == CallDiagnosticQuality.POOR
+        ) {
+            val kind = when (model.diagnosticKind) {
+                NetworkCallDiagnostic.NETWORK_RECEIVE_QUALITY -> {
+                    ToastNotificationKind.NETWORK_RECEIVE_QUALITY
+                }
+                NetworkCallDiagnostic.NETWORK_SEND_QUALITY -> {
+                    ToastNotificationKind.NETWORK_SEND_QUALITY
+                }
+                NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY -> {
+                    ToastNotificationKind.NETWORK_RECONNECTION_QUALITY
+                }
+                else -> null
+            }
+            kind?.let {
+                store.dispatch(
+                    ToastNotificationAction.ShowNotification(kind)
+                )
+            }
+        } else {
+            store.dispatch(ToastNotificationAction.DismissNotification())
+        }
+    }
+
+    override fun onNetworkCallDiagnosticsUpdated(
+        model: CallDiagnosticModel<NetworkCallDiagnostic, Boolean>,
+        store: Store<ReduxState>
+    ) {
+        val kind = when (model.diagnosticKind) {
+            NetworkCallDiagnostic.NETWORK_UNAVAILABLE -> ToastNotificationKind.NETWORK_UNAVAILABLE
+            NetworkCallDiagnostic.NETWORK_RELAYS_UNREACHABLE -> ToastNotificationKind.NETWORK_RELAYS_UNREACHABLE
+
+            else -> null
+        }
+        kind?.let {
+            if (model.diagnosticValue) {
+                store.dispatch(
+                    ToastNotificationAction.ShowNotification(
+                        kind
+                    )
+                )
+            }
+        }
+    }
+
     override fun onAudioDeviceChangeRequested(
         requestedAudioDevice: AudioDeviceSelectionStatus,
         store: Store<ReduxState>
@@ -402,6 +506,104 @@ internal class CallingMiddlewareActionHandlerImpl(
                 it.handle(event)
             } catch (ex: Exception) {
                 // catching and suppressing any client's exceptions
+            }
+        }
+    }
+
+    override fun onMediaCallDiagnosticsUpdated(
+        model: CallDiagnosticModel<MediaCallDiagnostic, Boolean>,
+        store: Store<ReduxState>
+    ) {
+        when (model.diagnosticKind) {
+            MediaCallDiagnostic.SPEAKING_WHILE_MICROPHONE_IS_MUTED -> {
+                if (model.diagnosticValue) {
+                    store.dispatch(
+                        ToastNotificationAction.ShowNotification(
+                            ToastNotificationKind.SPEAKING_WHILE_MICROPHONE_IS_MUTED
+                        )
+                    )
+                } else {
+                    store.dispatch(ToastNotificationAction.DismissNotification())
+                }
+            }
+            MediaCallDiagnostic.CAMERA_START_FAILED -> {
+                if (model.diagnosticValue) {
+                    store.dispatch(
+                        ToastNotificationAction.ShowNotification(
+                            ToastNotificationKind.CAMERA_START_FAILED
+                        )
+                    )
+                }
+            }
+            MediaCallDiagnostic.CAMERA_START_TIMED_OUT -> {
+                if (model.diagnosticValue) {
+                    store.dispatch(
+                        ToastNotificationAction.ShowNotification(
+                            ToastNotificationKind.CAMERA_START_TIMED_OUT
+                        )
+                    )
+                }
+            }
+            else -> {}
+        }
+    }
+
+    override fun dismissNotification(store: Store<ReduxState>) {
+        store.getCurrentState().toastNotificationState.kind?.let { kind ->
+
+            if (kind == ToastNotificationKind.NETWORK_UNAVAILABLE) {
+                val model = NetworkCallDiagnosticModel(
+                    NetworkCallDiagnostic.NETWORK_UNAVAILABLE,
+                    false
+                )
+                store.dispatch(CallDiagnosticsAction.NetworkCallDiagnosticsDismissed(model))
+            }
+            if (kind == ToastNotificationKind.NETWORK_RELAYS_UNREACHABLE) {
+                val model = NetworkCallDiagnosticModel(
+                    NetworkCallDiagnostic.NETWORK_RELAYS_UNREACHABLE,
+                    false
+                )
+                store.dispatch(CallDiagnosticsAction.NetworkCallDiagnosticsDismissed(model))
+            }
+            if (kind == ToastNotificationKind.NETWORK_RECEIVE_QUALITY ||
+                kind == ToastNotificationKind.NETWORK_RECONNECTION_QUALITY ||
+                kind == ToastNotificationKind.NETWORK_SEND_QUALITY
+            ) {
+                val diagnostic = when (kind) {
+                    ToastNotificationKind.NETWORK_RECEIVE_QUALITY -> NetworkCallDiagnostic.NETWORK_RECEIVE_QUALITY
+                    ToastNotificationKind.NETWORK_RECONNECTION_QUALITY -> NetworkCallDiagnostic.NETWORK_RECONNECTION_QUALITY
+                    ToastNotificationKind.NETWORK_SEND_QUALITY -> NetworkCallDiagnostic.NETWORK_SEND_QUALITY
+                    else -> null
+                }
+                diagnostic?.let {
+                    val model = NetworkQualityCallDiagnosticModel(
+                        diagnostic,
+                        CallDiagnosticQuality.UNKNOWN
+                    )
+                    store.dispatch(
+                        CallDiagnosticsAction.NetworkQualityCallDiagnosticsDismissed(
+                            model
+                        )
+                    )
+                }
+            }
+
+            if (kind == ToastNotificationKind.SPEAKING_WHILE_MICROPHONE_IS_MUTED ||
+                kind == ToastNotificationKind.CAMERA_START_FAILED ||
+                kind == ToastNotificationKind.CAMERA_START_TIMED_OUT
+            ) {
+
+                val mediaCallDiagnostic = when (kind) {
+                    ToastNotificationKind.SPEAKING_WHILE_MICROPHONE_IS_MUTED -> MediaCallDiagnostic.SPEAKING_WHILE_MICROPHONE_IS_MUTED
+                    ToastNotificationKind.CAMERA_START_FAILED -> MediaCallDiagnostic.CAMERA_START_FAILED
+                    ToastNotificationKind.CAMERA_START_TIMED_OUT -> MediaCallDiagnostic.CAMERA_START_TIMED_OUT
+                    else -> null
+                }
+
+                mediaCallDiagnostic?.let {
+                    val model = MediaCallDiagnosticModel(mediaCallDiagnostic, false)
+                    store.dispatch(CallDiagnosticsAction.MediaCallDiagnosticsDismissed(model))
+                }
             }
         }
     }
@@ -450,7 +652,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         store: Store<ReduxState>,
     ) {
         coroutineScope.launch {
-            callingService.getDominantSpeakersSharedFlow()?.collect {
+            callingService.getDominantSpeakersSharedFlow().collect {
                 if (isActive) {
                     store.dispatch(ParticipantAction.DominantSpeakersUpdated(it))
                 }
@@ -460,7 +662,7 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     private fun subscribeIsRecordingUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
-            callingService.getIsRecordingSharedFlow()?.collect {
+            callingService.getIsRecordingSharedFlow().collect {
                 val action = CallingAction.IsRecordingUpdated(it)
                 store.dispatch(action)
             }
@@ -469,16 +671,42 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     private fun subscribeOnLocalParticipantRoleChanged(store: Store<ReduxState>) {
         coroutineScope.launch {
-            callingService.getLocalParticipantRoleSharedFlow()?.collect {
+            callingService.getLocalParticipantRoleSharedFlow().collect {
                 val action = LocalParticipantAction.RoleChanged(it)
                 store.dispatch(action)
             }
         }
     }
 
+    private fun subscribeOnCapabilitiesChanged(store: Store<ReduxState>) {
+        coroutineScope.launch {
+            callingService.getCapabilitiesChangedEventSharedFlow().collect { event ->
+                // Set capabilities to the store
+                val capabilities = callingService.getCallCapabilities()
+                val action = LocalParticipantAction.SetCapabilities(capabilities)
+                store.dispatch(action)
+
+                if (configuration.capabilitiesChangedNotificationMode != CallCompositeCapabilitiesChangedNotificationMode.NEVER_DISPLAY) {
+                    // Only display toast message on capabilities changed
+                    val anyLostCapability = event.changedCapabilities.any {
+                        (it.type == ParticipantCapabilityType.UNMUTE_MICROPHONE && !it.isAllowed) ||
+                            (it.type == ParticipantCapabilityType.TURN_VIDEO_ON && !it.isAllowed) ||
+                            (it.type == ParticipantCapabilityType.MANAGE_LOBBY && !it.isAllowed)
+                    }
+
+                    store.dispatch(
+                        ToastNotificationAction.ShowNotification(
+                            if (anyLostCapability) ToastNotificationKind.SOME_FEATURES_LOST else ToastNotificationKind.SOME_FEATURES_GAINED
+                        )
+                    )
+                }
+            }
+        }
+    }
+
     private fun subscribeIsTranscribingUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
-            callingService.getIsTranscribingSharedFlow()?.collect {
+            callingService.getIsTranscribingSharedFlow().collect {
                 val action = CallingAction.IsTranscribingUpdated(it)
                 store.dispatch(action)
             }
@@ -511,15 +739,9 @@ internal class CallingMiddlewareActionHandlerImpl(
     private fun subscribeCallInfoModelEventUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
             callingService.getCallInfoModelEventSharedFlow().collect { callInfoModel ->
-                val previousCallState = store.getCurrentState().callState.callingStatus
+                val state = store.getCurrentState()
 
                 store.dispatch(CallingAction.StateUpdated(callInfoModel.callingStatus, callInfoModel.callEndReasonCode, callInfoModel.callEndReasonSubCode))
-
-                if (store.getCurrentState().localParticipantState.initialCallJoinState.skipSetupScreen &&
-                    callInfoModel.callingStatus == CallingStatus.CONNECTED
-                ) {
-                    tryCameraOn(store)
-                }
 
                 callInfoModel.callStateError?.let {
                     val action = ErrorAction.CallStateErrorOccurred(it)
@@ -527,7 +749,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                     if (it.callCompositeEventCode == CallCompositeEventCode.CALL_EVICTED ||
                         it.callCompositeEventCode == CallCompositeEventCode.CALL_DECLINED
                     ) {
-                        if (store.getCurrentState().localParticipantState.initialCallJoinState.skipSetupScreen) {
+                        if (state.localParticipantState.initialCallJoinState.skipSetupScreen) {
                             store.dispatch(NavigationAction.Exit())
                         } else {
                             store.dispatch(NavigationAction.SetupLaunched())

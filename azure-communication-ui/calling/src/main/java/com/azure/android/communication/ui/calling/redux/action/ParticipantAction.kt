@@ -11,7 +11,9 @@ internal sealed class ParticipantAction : Action {
     class DominantSpeakersUpdated(val dominantSpeakersInfo: List<String>) : ParticipantAction()
     class AdmitAll : ParticipantAction()
     class Admit(val userIdentifier: String) : ParticipantAction()
-    class Decline(val userIdentifier: String) : ParticipantAction()
+    class Reject(val userIdentifier: String) : ParticipantAction()
     class LobbyError(val code: CallCompositeLobbyErrorCode) : ParticipantAction()
     class ClearLobbyError : ParticipantAction()
+    class Remove(val userIdentifier: String) : ParticipantAction()
+    class RemoveParticipantError : ParticipantAction()
 }

@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.calling.configuration
 import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.ui.calling.DiagnosticConfig
 /* <ROOMS_SUPPORT:0> */
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
 /* </ROOMS_SUPPORT:0> */
 import java.util.UUID
 
@@ -29,7 +28,6 @@ internal data class CallConfiguration(
     /* </MEETING_ID_LOCATOR> */
     /* <ROOMS_SUPPORT:5> */
     val roomId: String?,
-    val roomRoleHint: CallCompositeParticipantRole?,
     /* </ROOMS_SUPPORT:4> */
     val callType: CallType,
     val participants: Collection<CommunicationIdentifier>? = null,

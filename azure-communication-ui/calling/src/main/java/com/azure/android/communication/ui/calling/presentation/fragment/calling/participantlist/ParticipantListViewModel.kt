@@ -14,10 +14,14 @@ import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class ParticipantListViewModel(private val dispatch: (Action) -> Unit) {
+internal class ParticipantListViewModel(
+    private val dispatch: (Action) -> Unit,
+) {
+    private val localUserIdentifier = ""
     private lateinit var remoteParticipantListCellStateFlow: MutableStateFlow<List<ParticipantListCellModel>>
     private lateinit var localParticipantListCellStateFlow: MutableStateFlow<ParticipantListCellModel>
     private val displayParticipantListStateFlow = MutableStateFlow(false)
+    private lateinit var displayParticipantMenuCallback: (userIdentifier: String, displayName: String?) -> Unit
 
     fun getRemoteParticipantListCellStateFlow(): StateFlow<List<ParticipantListCellModel>> {
         return remoteParticipantListCellStateFlow
@@ -42,6 +46,7 @@ internal class ParticipantListViewModel(private val dispatch: (Action) -> Unit) 
         participantMap: Map<String, ParticipantInfoModel>,
         localUserState: LocalUserState,
         canShowLobby: Boolean,
+        displayParticipantMenuCallback: (userIdentifier: String, displayName: String?) -> Unit,
     ) {
         val remoteParticipantList: List<ParticipantListCellModel> =
             participantMap.values.map {
@@ -51,6 +56,8 @@ internal class ParticipantListViewModel(private val dispatch: (Action) -> Unit) 
 
         localParticipantListCellStateFlow =
             MutableStateFlow(getLocalParticipantListCellModel(localUserState))
+
+        this.displayParticipantMenuCallback = displayParticipantMenuCallback
     }
 
     fun update(
@@ -92,11 +99,18 @@ internal class ParticipantListViewModel(private val dispatch: (Action) -> Unit) 
     }
 
     fun declineParticipant(userIdentifier: String) {
-        dispatch(ParticipantAction.Decline(userIdentifier))
+        dispatch(ParticipantAction.Reject(userIdentifier))
     }
 
     fun admitAllLobbyParticipants() {
         dispatch(ParticipantAction.AdmitAll())
+    }
+
+    fun displayParticipantMenu(userIdentifier: String, displayName: String?) {
+        if (userIdentifier != localUserIdentifier) {
+            closeParticipantList()
+            displayParticipantMenuCallback(userIdentifier, displayName)
+        }
     }
 
     private fun getLocalParticipantListCellModel(localUserState: LocalUserState): ParticipantListCellModel {
@@ -104,7 +118,7 @@ internal class ParticipantListViewModel(private val dispatch: (Action) -> Unit) 
         return ParticipantListCellModel(
             localUserDisplayName ?: "",
             localUserState.audioState.operation == AudioOperationalStatus.OFF,
-            "",
+            localUserIdentifier,
             false
         )
     }

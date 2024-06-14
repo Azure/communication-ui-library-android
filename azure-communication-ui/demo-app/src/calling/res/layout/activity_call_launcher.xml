@@ -65,29 +65,6 @@
                 android:layout_weight="1"
                 android:text="@string/rooms_meeting_label"
                 />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <RadioButton
-                android:id="@+id/presenterRoleRadioButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginTop="16dp"
-                android:text="@string/rooms_presenter"
-                android:visibility="gone"
-                />
-            <RadioButton
-                android:id="@+id/attendeeRoleRadioButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginTop="16dp"
-                android:text="@string/rooms_attendee"
-                android:visibility="gone"
-                />
             <!-- </ROOMS_SUPPORT:0> -->
         </LinearLayout>
 

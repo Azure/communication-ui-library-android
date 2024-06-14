@@ -154,7 +154,7 @@ internal class ParticipantListView(
         var titles = 1
 
         // title for in lobby participants
-        if (viewModel.getRemoteParticipantListCellStateFlow().value?.any { it.status == ParticipantStatus.IN_LOBBY } == true) {
+        if (viewModel.getRemoteParticipantListCellStateFlow().value.any { it.status == ParticipantStatus.IN_LOBBY }) {
             titles += 1
         }
 
@@ -226,20 +226,20 @@ internal class ParticipantListView(
         bottomCellItemsInCallParticipants.add(
             0,
             BottomCellItem(
-                null,
-                context.getString(
+                icon = null,
+                title = context.getString(
                     R.string.azure_communication_ui_calling_participant_list_in_call_n_people,
                     bottomCellItemsInCallParticipants.size
                 ),
-                "",
-                null,
-                null,
-                null,
-                null,
-                null,
-                false,
-                BottomCellItemType.BottomMenuTitle,
-                null
+                contentDescription = "",
+                accessoryImage = null,
+                accessoryColor = null,
+                accessoryImageDescription = null,
+                isChecked = null,
+                participantViewData = null,
+                isOnHold = false,
+                itemType = BottomCellItemType.BottomMenuTitle,
+                onClickAction = null
             )
         )
 
@@ -248,21 +248,21 @@ internal class ParticipantListView(
             bottomCellItemsInLobbyParticipants.add(
                 0,
                 BottomCellItem(
-                    null,
-                    context.getString(
+                    icon = null,
+                    title = context.getString(
                         R.string.azure_communication_ui_calling_participant_list_in_lobby_n_people,
                         bottomCellItemsInLobbyParticipants.size
                     ),
-                    "",
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
+                    contentDescription = "",
+                    accessoryImage = null,
+                    accessoryColor = null,
+                    accessoryImageDescription = null,
+                    isChecked = null,
+                    participantViewData = null,
                     isOnHold = null,
-                    BottomCellItemType.BottomMenuTitle,
+                    itemType = BottomCellItemType.BottomMenuTitle,
                     onClickAction = null,
-                    true,
+                    showAdmitAllButton = true,
                     admitAllButtonAction = {
                         admitAllLobbyParticipants()
                     }
@@ -326,20 +326,19 @@ internal class ParticipantListView(
             participantViewData,
             isOnHold,
             onClickAction = {
-                if (accessibilityManager.isEnabled) {
+                when (status) {
+                    ParticipantStatus.IN_LOBBY -> showAdmitDialog(userIdentifier, displayName)
+                    else -> displayParticipantMenu(userIdentifier, displayName)
+                }
+
+                if (status != ParticipantStatus.IN_LOBBY && accessibilityManager.isEnabled) {
                     participantListDrawer.dismiss()
                 }
-                // TODO: uncomment when admit all button is supported
-//                if (status == ParticipantStatus.IN_LOBBY) {
-//                    showAdmitDialog(displayName, userIdentifier)
-//                } else if (accessibilityManager.isEnabled) {
-//                    participantListDrawer.dismiss()
-//                }
             }
         )
     }
 
-    private fun showAdmitDialog(displayName: String?, userIdentifier: String) {
+    private fun showAdmitDialog(userIdentifier: String, displayName: String?) {
         admitDeclinePopUpParticipantId = userIdentifier
         val dialog =
             AlertDialog.Builder(context, R.style.AzureCommunicationUICalling_AlertDialog_Theme)
@@ -365,6 +364,10 @@ internal class ParticipantListView(
             }
         admitDeclineAlertDialog = dialog.create()
         admitDeclineAlertDialog.show()
+    }
+
+    private fun displayParticipantMenu(userIdentifier: String, displayName: String?) {
+        viewModel.displayParticipantMenu(userIdentifier, displayName)
     }
 
     private fun getNameToDisplay(

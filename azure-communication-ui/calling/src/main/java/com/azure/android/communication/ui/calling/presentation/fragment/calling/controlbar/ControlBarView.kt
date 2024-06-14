@@ -18,11 +18,9 @@ import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
-import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
+import com.azure.android.communication.ui.calling.utilities.launchAll
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 internal class ControlBarView : ConstraintLayout {
     constructor(context: Context) : super(context)
@@ -34,8 +32,6 @@ internal class ControlBarView : ConstraintLayout {
     private lateinit var micToggle: ImageButton
     private lateinit var callAudioDeviceButton: ImageButton
     private lateinit var moreButton: ImageButton
-
-    private var callStatePassedConnecting: Boolean = false
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -55,67 +51,67 @@ internal class ControlBarView : ConstraintLayout {
         this.viewModel = viewModel
 
         setupAccessibility()
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getAudioOperationalStatusStateFlow().collect {
-                updateMic(it)
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getCameraStateFlow().collect {
-                updateCamera(it)
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getAudioDeviceSelectionStatusStateFlow().collect {
-                setAudioDeviceButtonState(it)
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getShouldEnableMicButtonStateFlow().collect {
-                micToggle.isEnabled = it
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getOnHoldCallStatusStateFlowStateFlow().collect {
-                if (it) {
-                    cameraToggle.isEnabled = false
-                    micToggle.isEnabled = false
-                    callAudioDeviceButton.isEnabled = false
-                } else {
-                    updateCamera(viewModel.getCameraStateFlow().value)
-                    micToggle.isEnabled = viewModel.getShouldEnableMicButtonStateFlow().value
-                    callAudioDeviceButton.isEnabled = true
+        viewLifecycleOwner.lifecycleScope.launchAll(
+            {
+                viewModel.audioOperationalStatus.collect {
+                    updateMic(it)
                 }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getCallStateFlow().collect() {
-                if (it == CallingStatus.NONE || it == CallingStatus.CONNECTING) {
-                    cameraToggle.isEnabled = false
-                    micToggle.isEnabled = false
-                    callAudioDeviceButton.isEnabled = false
-                    moreButton.isEnabled = false
-                    callStatePassedConnecting = false
-                } else {
-                    callStatePassedConnecting = true
-                    updateCamera(viewModel.getCameraStateFlow().value)
-                    micToggle.isEnabled = viewModel.getShouldEnableMicButtonStateFlow().value
-                    callAudioDeviceButton.isEnabled = true
-                    moreButton.isEnabled = true
+            },
+            {
+                viewModel.isCameraButtonVisible.collect {
+                    cameraToggle.visibility = if (it) View.VISIBLE else View.GONE
                 }
-            }
-        }
+            },
+            {
+                viewModel.isCameraButtonEnabled.collect {
+                    cameraToggle.isEnabled = it
+                }
+            },
+            {
+                viewModel.cameraStatus.collect {
+                    when (it) {
+                        CameraOperationalStatus.ON -> {
+                            cameraToggle.isSelected = true
+                            cameraToggle.contentDescription =
+                                context.getString(R.string.azure_communication_ui_calling_setup_view_button_video_on)
+                        }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.isVisible.collect {
-                visibility = if (it) View.GONE else View.VISIBLE
-            }
-        }
+                        CameraOperationalStatus.OFF -> {
+                            cameraToggle.isSelected = false
+                            cameraToggle.contentDescription =
+                                context.getString(R.string.azure_communication_ui_calling_setup_view_button_video_off)
+                        }
+
+                        else -> {}
+                    }
+                }
+            },
+            {
+                viewModel.audioDeviceSelection.collect {
+                    setAudioDeviceButtonState(it)
+                }
+            },
+            {
+                viewModel.isMicButtonEnabled.collect {
+                    micToggle.isEnabled = it
+                }
+            },
+            {
+                viewModel.isAudioDeviceButtonEnabled.collect {
+                    callAudioDeviceButton.isEnabled = it
+                }
+            },
+            {
+                viewModel.isMoreButtonEnabled.collect {
+                    moreButton.isEnabled = it
+                }
+            },
+            {
+                viewModel.isVisible.collect {
+                    visibility = if (it) View.VISIBLE else View.GONE
+                }
+            },
+        )
     }
 
     private fun accessibilityNonSelectableViews() = setOf(micToggle, cameraToggle)
@@ -158,31 +154,6 @@ internal class ControlBarView : ConstraintLayout {
         endCallButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_button_hang_up_accessibility_label)
 
         callAudioDeviceButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_button_device_options_accessibility_label)
-    }
-
-    private fun updateCamera(cameraState: ControlBarViewModel.CameraModel) {
-        val shouldHide = (cameraState.cameraState.operation == CameraOperationalStatus.DISABLED)
-        val cameraPermissionIsNotDenied = (cameraState.cameraPermissionState != PermissionStatus.DENIED)
-        val shouldBeEnabled = (cameraPermissionIsNotDenied && callStatePassedConnecting)
-        cameraToggle.visibility = if (shouldHide) View.GONE else View.VISIBLE
-        cameraToggle.isEnabled = shouldBeEnabled
-
-        when (cameraState.cameraState.operation) {
-            CameraOperationalStatus.ON -> {
-                cameraToggle.isSelected = true
-                cameraToggle.isEnabled = shouldBeEnabled
-                cameraToggle.contentDescription = context.getString(R.string.azure_communication_ui_calling_setup_view_button_video_on)
-            }
-            CameraOperationalStatus.OFF -> {
-                cameraToggle.isSelected = false
-                cameraToggle.isEnabled = shouldBeEnabled
-                cameraToggle.contentDescription = context.getString(R.string.azure_communication_ui_calling_setup_view_button_video_off)
-            }
-            else -> {
-                // disable button
-                cameraToggle.isEnabled = false
-            }
-        }
     }
 
     private fun updateMic(audioOperationalStatus: AudioOperationalStatus) {

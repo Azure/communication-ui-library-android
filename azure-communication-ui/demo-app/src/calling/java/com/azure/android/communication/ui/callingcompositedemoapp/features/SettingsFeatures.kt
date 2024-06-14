@@ -20,6 +20,8 @@ import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_DISPLA
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LANGUAGE_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_MIC_ON_BY_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_RTL_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SETUP_SCREEN_CAMERA_ENABLED_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SETUP_SCREEN_MIC_ENABLED_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SKIP_SETUP_SCREEN_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DISABLE_INTERNAL_PUSH_NOTIFICATIONS
 import com.azure.android.communication.ui.callingcompositedemoapp.DISPLAY_DISMISS_BUTTON_KEY
@@ -36,6 +38,8 @@ import com.azure.android.communication.ui.callingcompositedemoapp.PERSONA_INJECT
 import com.azure.android.communication.ui.callingcompositedemoapp.PERSONA_INJECTION_VALUE_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.RENDERED_DISPLAY_NAME
 import com.azure.android.communication.ui.callingcompositedemoapp.SETTINGS_SHARED_PREFS
+import com.azure.android.communication.ui.callingcompositedemoapp.SETUP_SCREEN_CAMERA_ENABLED
+import com.azure.android.communication.ui.callingcompositedemoapp.SETUP_SCREEN_MIC_ENABLED
 import com.azure.android.communication.ui.callingcompositedemoapp.SETUP_SCREEN_ORIENTATION_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.SKIP_SETUP_SCREEN_VALUE_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.TELECOM_MANAGER_INTEGRATION_OPTION_KEY
@@ -209,8 +213,37 @@ class SettingsFeatures {
             }
         }
 
-        fun getDisplayLeaveCallConfirmationValue(): Boolean {
-            return sharedPrefs.getBoolean(DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE, DEFAULT_DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE)
+        fun getDisplayLeaveCallConfirmationValue(): Boolean? {
+            return if (sharedPrefs.contains(DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE)) {
+                sharedPrefs.getBoolean(
+                    DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE,
+                    DEFAULT_DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE
+                )
+            } else {
+                null
+            }
+        }
+
+        fun getSetupScreenCameraEnabledValue(): Boolean? {
+            return if (sharedPrefs.contains(SETUP_SCREEN_CAMERA_ENABLED)) {
+                sharedPrefs.getBoolean(
+                    SETUP_SCREEN_CAMERA_ENABLED,
+                    DEFAULT_SETUP_SCREEN_CAMERA_ENABLED_VALUE
+                )
+            } else {
+                null
+            }
+        }
+
+        fun getSetupScreenMicEnabledValue(): Boolean? {
+            return if (sharedPrefs.contains(SETUP_SCREEN_MIC_ENABLED)) {
+                sharedPrefs.getBoolean(
+                    SETUP_SCREEN_MIC_ENABLED,
+                    DEFAULT_SETUP_SCREEN_MIC_ENABLED_VALUE
+                )
+            } else {
+                null
+            }
         }
     }
 }

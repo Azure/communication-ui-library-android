@@ -17,7 +17,8 @@ internal class AppStateReducer(
     private val navigationReducer: NavigationReducer,
     private val audioSessionReducer: AudioSessionReducer,
     private val pipReducer: PipReducer,
-    private val callDiagnosticsReducer: CallDiagnosticsReducer
+    private val callDiagnosticsReducer: CallDiagnosticsReducer,
+    private val toastNotificationReducer: ToastNotificationReducer,
 ) :
     Reducer<AppReduxState> {
     override fun reduce(state: AppReduxState, action: Action): AppReduxState {
@@ -52,6 +53,7 @@ internal class AppStateReducer(
         appState.audioSessionState = audioSessionReducer.reduce(state.audioSessionState, action)
         appState.visibilityState = pipReducer.reduce(state.visibilityState, action)
         appState.callDiagnosticsState = callDiagnosticsReducer.reduce(state.callDiagnosticsState, action)
+        appState.toastNotificationState = toastNotificationReducer.reduce(state.toastNotificationState, action)
         return appState
     }
 }

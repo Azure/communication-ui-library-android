@@ -3,8 +3,9 @@
 
 package com.azure.android.communication.ui.calling;
 
+import com.azure.android.communication.ui.calling.models.CallCompositeCapabilitiesChangedNotificationMode;
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
 import android.content.Context;
-
 import com.azure.android.communication.common.CommunicationTokenCredential;
 /*  <DEFAULT_AUDIO_MODE:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionMode;
@@ -13,6 +14,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallScreen
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions;
+import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation;
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions;
 
@@ -30,6 +32,8 @@ public final class CallCompositeBuilder {
     private Boolean enableSystemPiPWhenMultitasking = false;
     private CallCompositeSupportedScreenOrientation callScreenOrientation = null;
     private CallCompositeSupportedScreenOrientation setupScreenOrientation = null;
+    private CallCompositeCapabilitiesChangedNotificationMode capabilitiesChangedNotificationMode = null;
+    private CallCompositeSetupScreenOptions setupScreenOptions = null;
     private CallCompositeCallScreenOptions callScreenOptions = null;
     private CallCompositeTelecomManagerOptions telecomManagerOptions = null;
     private Context applicationContext = null;
@@ -98,6 +102,31 @@ public final class CallCompositeBuilder {
         this.setupScreenOrientation = setupScreenOrientation;
         return this;
     }
+
+    /* <ROOMS_SUPPORT> */
+    /**
+     * Sets capabilities change notification mode.
+     * @param mode see {@link CallCompositeLocalOptions}
+     * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
+     */
+    public CallCompositeBuilder capabilitiesChangedNotificationMode(
+            final CallCompositeCapabilitiesChangedNotificationMode mode
+    ) {
+        this.capabilitiesChangedNotificationMode = mode;
+        return this;
+    }
+
+    /**
+     * Sets call screen options.
+     * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
+     */
+    public CallCompositeBuilder setupScreenOptions(
+            final CallCompositeSetupScreenOptions options) {
+        this.setupScreenOptions = options;
+        return this;
+    }
+
+    /* </ROOMS_SUPPORT> */
 
     /**
      * Sets the call screen options.
@@ -198,6 +227,10 @@ public final class CallCompositeBuilder {
         config.setDisplayName(displayName);
         config.setApplicationContext(applicationContext);
         config.setDisableInternalPushForIncomingCall(disableInternalPushForIncomingCall);
+        /* <ROOMS_SUPPORT> */
+        config.setCapabilitiesChangedNotificationMode(capabilitiesChangedNotificationMode);
+        config.setSetupScreenOptions(setupScreenOptions);
+        /* </ROOMS_SUPPORT> */
         /*  <DEFAULT_AUDIO_MODE:0> */
         config.setAudioSelectionMode(audioSelectionMode);
         /*  </DEFAULT_AUDIO_MODE:0> */

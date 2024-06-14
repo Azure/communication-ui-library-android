@@ -13,10 +13,12 @@ import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.calling.VideoDeviceType
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
-import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
+import com.azure.android.communication.ui.calling.models.CapabilitiesChangedEvent
+import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
@@ -59,14 +61,18 @@ internal interface CallingSDK {
     fun getCamerasCountStateFlow(): StateFlow<Int>
     fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?>
     fun admit(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?>
-    fun decline(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?>
-    fun getLocalParticipantRoleSharedFlow(): SharedFlow<CallCompositeInternalParticipantRole?>
+    fun reject(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?>
+    fun removeParticipant(userIdentifier: String): CompletableFuture<Void>
+    fun getLocalParticipantRoleSharedFlow(): SharedFlow<ParticipantRole?>
+    fun getCapabilitiesChangedEventSharedFlow(): SharedFlow<CapabilitiesChangedEvent>
+    fun getCapabilities(): Set<ParticipantCapabilityType>
 
     //region Call Diagnostics
     fun getNetworkQualityCallDiagnosticSharedFlow(): SharedFlow<NetworkQualityCallDiagnosticModel>
     fun getNetworkCallDiagnosticSharedFlow(): SharedFlow<NetworkCallDiagnosticModel>
     fun getMediaCallDiagnosticSharedFlow(): SharedFlow<MediaCallDiagnosticModel>
     fun getLogFiles(): List<File>
+
     //endregion
 
     fun setTelecomManagerAudioRoute(audioRoute: Int)
