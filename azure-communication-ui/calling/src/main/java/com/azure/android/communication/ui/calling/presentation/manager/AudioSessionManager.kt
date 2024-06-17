@@ -242,10 +242,10 @@ internal class AudioSessionManager(
                 LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED)
             )
         } else { </DEFAULT_AUDIO_MODE> */
-            enableSpeakerPhone()
-            store.dispatch(
-                LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.SPEAKER_SELECTED)
-            )
+        enableSpeakerPhone()
+        store.dispatch(
+            LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.SPEAKER_SELECTED)
+        )
             /*  <DEFAULT_AUDIO_MODE:0>
         } </DEFAULT_AUDIO_MODE> */
 
