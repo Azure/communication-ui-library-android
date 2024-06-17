@@ -95,10 +95,7 @@ public final class CallComposite {
     CallComposite(final CallCompositeConfiguration configuration) {
         this.configuration = configuration;
         diContainer = null;
-        if (sdkInitializer != null) {
-            sdkInitializer.dispose();
-            sdkInitializer = null;
-        }
+        disposeSDKInitializer();
     }
 
     /**
@@ -426,11 +423,12 @@ public final class CallComposite {
     public void dismiss() {
         final DependencyInjectionContainer container = diContainer;
         if (container != null) {
-            container.getCompositeExitManager().exit();
-        }
-        if (sdkInitializer != null) {
-            sdkInitializer.dispose();
-            sdkInitializer = null;
+            container.getCompositeExitManager().exit(() -> {
+                disposeSDKInitializer();
+                return null;
+            });
+        } else {
+            disposeSDKInitializer();
         }
     }
 
@@ -896,6 +894,13 @@ public final class CallComposite {
 
     CallCompositeConfiguration getConfiguration() {
         return this.configuration;
+    }
+
+    private void disposeSDKInitializer() {
+        if (sdkInitializer != null) {
+            sdkInitializer.dispose();
+            sdkInitializer = null;
+        }
     }
 
     void launchTest(final Context context,
