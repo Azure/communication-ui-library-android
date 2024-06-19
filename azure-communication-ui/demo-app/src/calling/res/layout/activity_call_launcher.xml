@@ -57,7 +57,7 @@
                 android:layout_weight="1"
                 android:layout_marginStart="10dp"
                 android:text="@string/one_to_n_call_label" />
-            <!-- <ROOMS_SUPPORT:0> -->
+            <!-- <ROOMS_SUPPORT:0>
             <RadioButton
                 android:id="@+id/roomsMeetingRadioButton"
                 android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
                 android:text="@string/rooms_attendee"
                 android:visibility="gone"
                 />
-            <!-- </ROOMS_SUPPORT:0> -->
+            </ROOMS_SUPPORT:0> -->
         </LinearLayout>
 
         <EditText
@@ -100,7 +100,6 @@
             android:hint="@string/group_call_id_or_teams_meeting_hint"
             android:inputType="textNoSuggestions"
             />
-        <!-- <MEETING_ID_LOCATOR> -->
         <EditText
             android:id="@+id/teamsMeetingId"
             android:layout_width="match_parent"
@@ -121,7 +120,6 @@
             android:inputType="textNoSuggestions"
             android:visibility="gone"
             />
-        <!-- </MEETING_ID_LOCATOR> -->
 
         <Button
             android:id="@+id/showCallHistoryButton"
