@@ -8,6 +8,7 @@ import com.azure.android.communication.calling.AcceptCallOptions
 import com.azure.android.communication.calling.Call
 import com.azure.android.communication.calling.CallAgent
 import com.azure.android.communication.calling.CallClient
+import com.azure.android.communication.calling.CallingCommunicationException
 import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.DeviceManager
 import com.azure.android.communication.calling.GroupCallLocator
@@ -17,13 +18,11 @@ import com.azure.android.communication.calling.JoinCallOptions
 import com.azure.android.communication.calling.JoinMeetingLocator
 import com.azure.android.communication.calling.OutgoingAudioOptions
 import com.azure.android.communication.calling.OutgoingVideoOptions
-/* <ROOMS_SUPPORT:0> */
+/* <ROOMS_SUPPORT:0>
 import com.azure.android.communication.calling.RoomCallLocator
-/* </ROOMS_SUPPORT:0> */
+</ROOMS_SUPPORT:0> */
 import com.azure.android.communication.calling.StartCallOptions
-/* <MEETING_ID_LOCATOR> */
 import com.azure.android.communication.calling.TeamsMeetingIdLocator
-/* </MEETING_ID_LOCATOR> */
 import com.azure.android.communication.calling.TeamsMeetingLinkLocator
 import com.azure.android.communication.calling.VideoDevicesUpdatedListener
 import com.azure.android.communication.ui.calling.CallCompositeException
@@ -184,17 +183,17 @@ internal class CallingSDKWrapper(
     override fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?> {
         val future = CompletableFuture<CallCompositeLobbyErrorCode?>()
         if (lobbyNullCheck(future)) return future
-//        nullableCall?.callLobby?.admitAll()?.whenComplete { _, error ->
-//            if (error != null) {
-//                var errorCode = CallCompositeLobbyErrorCode.UNKNOWN_ERROR
-//                if (error.cause is CallingCommunicationException) {
-//                    errorCode = getLobbyErrorCode(error.cause as CallingCommunicationException)
-//                }
-//                future.complete(errorCode)
-//            } else {
-//                future.complete(null)
-//            }
-//        }
+        nullableCall?.callLobby?.admitAll()?.whenComplete { _, error ->
+            if (error != null) {
+                var errorCode = CallCompositeLobbyErrorCode.UNKNOWN_ERROR
+                if (error.cause is CallingCommunicationException) {
+                    errorCode = getLobbyErrorCode(error.cause as CallingCommunicationException)
+                }
+                future.complete(errorCode)
+            } else {
+                future.complete(null)
+            }
+        }
         return future
     }
 
@@ -202,27 +201,27 @@ internal class CallingSDKWrapper(
         val future = CompletableFuture<CallCompositeLobbyErrorCode?>()
         if (lobbyNullCheck(future)) return future
         val participant = nullableCall?.remoteParticipants?.find { it.identifier.rawId.equals(userIdentifier) }
-//        participant?.let {
-//            nullableCall?.callLobby?.admit(listOf(it.identifier))?.whenComplete { _, error ->
-//                if (error != null) {
-//                    var errorCode = CallCompositeLobbyErrorCode.UNKNOWN_ERROR
-//                    if (error.cause is CallingCommunicationException) {
-//                        errorCode = getLobbyErrorCode(error.cause as CallingCommunicationException)
-//                    }
-//                    future.complete(errorCode)
-//                } else {
-//                    future.complete(null)
-//                }
-//            }
-//        }
+        participant?.let {
+            nullableCall?.callLobby?.admit(listOf(it.identifier))?.whenComplete { _, error ->
+                if (error != null) {
+                    var errorCode = CallCompositeLobbyErrorCode.UNKNOWN_ERROR
+                    if (error.cause is CallingCommunicationException) {
+                        errorCode = getLobbyErrorCode(error.cause as CallingCommunicationException)
+                    }
+                    future.complete(errorCode)
+                } else {
+                    future.complete(null)
+                }
+            }
+        }
         return future
     }
 
     private fun lobbyNullCheck(future: CompletableFuture<CallCompositeLobbyErrorCode?>): Boolean {
-//        if (nullableCall == null || nullableCall?.callLobby == null) {
-//            future.complete(CallCompositeLobbyErrorCode.UNKNOWN_ERROR)
-//            return true
-//        }
+        if (nullableCall == null || nullableCall?.callLobby == null) {
+            future.complete(CallCompositeLobbyErrorCode.UNKNOWN_ERROR)
+            return true
+        }
         return false
     }
 
@@ -230,20 +229,20 @@ internal class CallingSDKWrapper(
         val future = CompletableFuture<CallCompositeLobbyErrorCode?>()
         if (lobbyNullCheck(future)) return future
         val participant = nullableCall?.remoteParticipants?.find { it.identifier.rawId.equals(userIdentifier) }
-//        participant?.let {
-//            nullableCall?.callLobby?.reject(it.identifier)
-//                ?.whenComplete { _, error ->
-//                    if (error != null) {
-//                        var errorCode = CallCompositeLobbyErrorCode.UNKNOWN_ERROR
-//                        if (error.cause is CallingCommunicationException) {
-//                            errorCode = getLobbyErrorCode(error.cause as CallingCommunicationException)
-//                        }
-//                        future.complete(errorCode)
-//                    } else {
-//                        future.complete(null)
-//                    }
-//                }
-//        }
+        participant?.let {
+            nullableCall?.callLobby?.reject(it.identifier)
+                ?.whenComplete { _, error ->
+                    if (error != null) {
+                        var errorCode = CallCompositeLobbyErrorCode.UNKNOWN_ERROR
+                        if (error.cause is CallingCommunicationException) {
+                            errorCode = getLobbyErrorCode(error.cause as CallingCommunicationException)
+                        }
+                        future.complete(errorCode)
+                    } else {
+                        future.complete(null)
+                    }
+                }
+        }
         return future
     }
 
@@ -402,9 +401,7 @@ internal class CallingSDKWrapper(
 
     override fun setTelecomManagerAudioRoute(audioRoute: Int) {
         if (nullableCall != null) {
-            /* <TELECOM_MANAGER_SUPPORT:0> */
             call.setTelecomManagerAudioRoute(audioRoute)
-            /* </TELECOM_MANAGER_SUPPORT:0> */
         }
     }
 
@@ -451,18 +448,18 @@ internal class CallingSDKWrapper(
                 CallType.TEAMS_MEETING -> {
                     if (!callConfig.meetingLink.isNullOrEmpty()) {
                         TeamsMeetingLinkLocator(callConfig.meetingLink)
-                    } /* <MEETING_ID_LOCATOR> */ else if (!callConfig.meetingId.isNullOrEmpty() && !callConfig.meetingPasscode.isNullOrEmpty()) {
+                    } else if (!callConfig.meetingId.isNullOrEmpty() && !callConfig.meetingPasscode.isNullOrEmpty()) {
                         TeamsMeetingIdLocator(callConfig.meetingId, callConfig.meetingPasscode)
-                    } /* </MEETING_ID_LOCATOR> */ else {
+                    } else {
                         throw CallCompositeException(
                             "Teams Meeting information is incomplete",
                             IllegalStateException()
                         )
                     }
                 }
-                /* <ROOMS_SUPPORT:3> */
+                /* <ROOMS_SUPPORT:3>
                 CallType.ROOMS_CALL -> RoomCallLocator(callConfig.roomId)
-                /* </ROOMS_SUPPORT:1> */
+                </ROOMS_SUPPORT:1> */
                 else -> {
                     throw CallCompositeException(
                         "Unsupported call type",

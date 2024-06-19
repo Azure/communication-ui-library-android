@@ -60,7 +60,6 @@
             android:stopWithTask="false"
             android:exported="false"
             />
-        <!-- <TELECOM_MANAGER_SUPPORT:0> -->
         <service
             android:name="com.azure.android.communication.calling.TelecomConnectionService"
             android:permission="android.permission.BIND_TELECOM_CONNECTION_SERVICE"
@@ -69,7 +68,6 @@
                 <action android:name="android.telecom.ConnectionService" />
             </intent-filter>
         </service>
-         <!-- </TELECOM_MANAGER_SUPPORT:0> -->
     </application>
 
 </manifest>
