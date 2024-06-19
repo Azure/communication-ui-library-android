@@ -43,3 +43,4 @@ library. Showcases use of both Java and Kotlin to run library.
 
 1. Follow [QuickStart](https://learn.microsoft.com/en-us/azure/communication-services/how-tos/ui-library-sdk/one-to-one-calling?tabs=kotlin&pivots=platform-android) to setup Push Notification Hub for ACS Resource or EventGrid
 2. For `demo-app` add `google-service.json`
+3. In `local.properties` set `ENABLE_GOOGLE_SERVICES=true`
