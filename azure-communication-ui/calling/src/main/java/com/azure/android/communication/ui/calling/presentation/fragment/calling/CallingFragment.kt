@@ -293,11 +293,9 @@ internal class CallingFragment :
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        mapOf(
-            LEAVE_CONFIRM_VIEW_KEY to viewModel.confirmLeaveOverlayViewModel.getShouldDisplayLeaveConfirmFlow(),
-            AUDIO_DEVICE_LIST_VIEW_KEY to viewModel.audioDeviceListViewModel.displayAudioDeviceSelectionMenuStateFlow,
-            PARTICIPANT_LIST_VIEW_KEY to viewModel.participantListViewModel.getDisplayParticipantListStateFlow()
-        ).forEach { (key, element) -> outState.putBoolean(key, element.value) }
+        outState.putBoolean(LEAVE_CONFIRM_VIEW_KEY, viewModel.confirmLeaveOverlayViewModel.getShouldDisplayLeaveConfirmFlow().value)
+        outState.putBoolean(AUDIO_DEVICE_LIST_VIEW_KEY, viewModel.audioDeviceListViewModel.displayAudioDeviceSelectionMenuStateFlow.value)
+        outState.putBoolean(PARTICIPANT_LIST_VIEW_KEY, viewModel.participantListViewModel.vvmStateFlow.value.isDisplayed)
         super.onSaveInstanceState(outState)
     }
 

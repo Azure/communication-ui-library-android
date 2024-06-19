@@ -16,4 +16,6 @@ internal sealed class ParticipantAction : Action {
     class ClearLobbyError : ParticipantAction()
     class Remove(val userIdentifier: String) : ParticipantAction()
     class RemoveParticipantError : ParticipantAction()
+
+    class SetTotalParticipantCount(val totalParticipantCount: Int) : ParticipantAction()
 }

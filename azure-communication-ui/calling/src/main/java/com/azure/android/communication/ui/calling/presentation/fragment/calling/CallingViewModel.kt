@@ -129,7 +129,8 @@ internal class CallingViewModel(
                 state.localParticipantState.capabilities,
                 state.visibilityState
             ),
-            participantMenuViewModel::displayParticipantMenu
+            participantMenuViewModel::displayParticipantMenu,
+            state.remoteParticipantState.totalParticipantCount,
         )
 
         waitingLobbyOverlayViewModel.init(state.callState.callingStatus)
@@ -182,6 +183,9 @@ internal class CallingViewModel(
         }
 
         val remoteParticipantsForGridView = remoteParticipantsForGridView(state.remoteParticipantState.participantMap)
+        val remoteParticipantsInAllStatesCount = state.remoteParticipantState.participantMap.count()
+        val hiddenRemoteParticipantsCount = remoteParticipantsInAllStatesCount - remoteParticipantsForGridView.count()
+        val totalParticipantCountExceptHidden = state.remoteParticipantState.totalParticipantCount - hiddenRemoteParticipantsCount
 
         controlBarViewModel.update(
             state.permissionState,
@@ -257,7 +261,7 @@ internal class CallingViewModel(
             )
 
             floatingHeaderViewModel.update(
-                remoteParticipantsForGridView.count()
+                totalParticipantCountExceptHidden
             )
 
             lobbyHeaderViewModel.update(
@@ -297,7 +301,8 @@ internal class CallingViewModel(
                 canShowLobby(
                     state.localParticipantState.capabilities,
                     state.visibilityState
-                )
+                ),
+                totalParticipantCountExceptHidden
             )
 
             bannerViewModel.update(

@@ -21,7 +21,8 @@ internal class AppReduxState(
         participantMapModifiedTimestamp = 0,
         dominantSpeakersInfo = emptyList(),
         dominantSpeakersModifiedTimestamp = 0,
-        lobbyErrorCode = null
+        lobbyErrorCode = null,
+        totalParticipantCount = 0,
     )
 
     override var localParticipantState: LocalUserState =

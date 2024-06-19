@@ -48,40 +48,31 @@ internal class ParticipantListView(
         viewLifecycleOwner.lifecycleScope.launch {
             avatarViewManager.getRemoteParticipantsPersonaSharedFlow().collect {
                 if (participantListDrawer.isShowing) {
-                    updateRemoteParticipantListContent(viewModel.getRemoteParticipantListCellStateFlow().value)
+                    updateRemoteParticipantListContent(viewModel.vvmStateFlow.value.remoteParticipantList,
+                        viewModel.vvmStateFlow.value.totalActiveParticipantCount)
                 }
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getRemoteParticipantListCellStateFlow().collect { participants ->
-                // To avoid, unnecessary updated to list, the state will update lists only when displayed
-                if (participantListDrawer.isShowing) {
-                    updateRemoteParticipantListContent(participants)
-                }
-
-                if (::admitDeclineAlertDialog.isInitialized && admitDeclineAlertDialog.isShowing &&
-                    !participants.any { it.userIdentifier == admitDeclinePopUpParticipantId }
-                ) {
-                    admitDeclineAlertDialog.dismiss()
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getLocalParticipantListCellStateFlow().collect {
-                updateLocalParticipantCellContent()
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getDisplayParticipantListStateFlow().collect {
-                if (it) {
+            viewModel.vvmStateFlow.collect { vvm ->
+                if (vvm.isDisplayed) {
                     showParticipantList()
                 } else {
                     if (participantListDrawer.isShowing) {
                         participantListDrawer.dismissDialog()
                     }
+                }
+
+                // To avoid, unnecessary updated to list, the state will update lists only when displayed
+                if (participantListDrawer.isShowing) {
+                    updateRemoteParticipantListContent(vvm.remoteParticipantList, vvm.totalActiveParticipantCount)
+                }
+
+                if (::admitDeclineAlertDialog.isInitialized && admitDeclineAlertDialog.isShowing &&
+                    !vvm.remoteParticipantList.any { it.userIdentifier == admitDeclinePopUpParticipantId }
+                ) {
+                    admitDeclineAlertDialog.dismiss()
                 }
             }
         }
@@ -101,8 +92,6 @@ internal class ParticipantListView(
 
     private fun showParticipantList() {
         if (!participantListDrawer.isShowing) {
-            // on show the list is updated to get latest data
-            updateRemoteParticipantListContent(viewModel.getRemoteParticipantListCellStateFlow().value)
             participantListDrawer.show()
         }
     }
@@ -117,16 +106,17 @@ internal class ParticipantListView(
         participantListDrawer.setContentView(this)
         bottomCellAdapter = BottomCellAdapter()
         participantTable.adapter = bottomCellAdapter
-        updateRemoteParticipantListContent(0)
+        updateTableHeight(0)
         participantTable.layoutManager = LinearLayoutManager(context)
     }
 
     private fun updateRemoteParticipantListContent(
         participantListCellModelList: List<ParticipantListCellModel>,
+        totalActiveParticipantCount: Int,
     ) {
         if (this::bottomCellAdapter.isInitialized) {
-            val bottomCellItems = generateBottomCellItems(participantListCellModelList)
-            updateRemoteParticipantListContent(bottomCellItems.size)
+            val bottomCellItems = generateBottomCellItems(participantListCellModelList, totalActiveParticipantCount)
+            updateTableHeight(bottomCellItems.size)
             with(bottomCellAdapter) {
                 setBottomCellItems(bottomCellItems)
                 notifyDataSetChanged()
@@ -134,27 +124,13 @@ internal class ParticipantListView(
         }
     }
 
-    private fun updateLocalParticipantCellContent() {
-        if (this::bottomCellAdapter.isInitialized) {
-
-            val bottomCellItems = generateBottomCellItems(
-                viewModel.getRemoteParticipantListCellStateFlow().value
-            )
-
-            with(bottomCellAdapter) {
-                setBottomCellItems(bottomCellItems)
-                notifyDataSetChanged()
-            }
-        }
-    }
-
-    private fun updateRemoteParticipantListContent(listSize: Int) {
+    private fun updateTableHeight(listSize: Int) {
 
         // title for in call participants
         var titles = 1
 
         // title for in lobby participants
-        if (viewModel.getRemoteParticipantListCellStateFlow().value.any { it.status == ParticipantStatus.IN_LOBBY }) {
+        if (viewModel.vvmStateFlow.value.remoteParticipantList.any { it.status == ParticipantStatus.IN_LOBBY }) {
             titles += 1
         }
 
@@ -167,12 +143,13 @@ internal class ParticipantListView(
 
     private fun generateBottomCellItems(
         remoteParticipantCellModels: List<ParticipantListCellModel>,
+        totalActiveParticipantCount: Int,
     ): MutableList<BottomCellItem> {
         val bottomCellItemsInCallParticipants = mutableListOf<BottomCellItem>()
         val bottomCellItemsInLobbyParticipants = mutableListOf<BottomCellItem>()
         // since we can not get resources from model class, we create the local participant list cell
         // with suffix in this way
-        val localParticipant = viewModel.createLocalParticipantListCell(
+        val localParticipantViewModel = viewModel.createLocalParticipantListCellViewModel(
             resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant)
         )
         val localParticipantViewData =
@@ -182,13 +159,13 @@ internal class ParticipantListView(
                 generateBottomCellItem(
                     getLocalParticipantNameToDisplay(
                         localParticipantViewData,
-                        localParticipant.displayName
+                        localParticipantViewModel.displayName
                     ),
-                    localParticipant.isMuted,
+                    localParticipantViewModel.isMuted,
                     localParticipantViewData,
-                    localParticipant.isOnHold,
-                    localParticipant.userIdentifier,
-                    localParticipant.status
+                    localParticipantViewModel.isOnHold,
+                    localParticipantViewModel.userIdentifier,
+                    localParticipantViewModel.status
                 )
             )
 
@@ -243,6 +220,28 @@ internal class ParticipantListView(
             )
         )
 
+        val plusMoreParticipants = totalActiveParticipantCount - remoteParticipantCellModels.count()
+
+        if (plusMoreParticipants > 0) {
+            bottomCellItemsInCallParticipants.add(
+                BottomCellItem(
+                    icon = null,
+                    title = context.getString(
+                        R.string.azure_communication_ui_calling_participant_list_in_call_plus_more_people,
+                        plusMoreParticipants
+                        ),
+                    contentDescription = "",
+                    accessoryImage = null,
+                    accessoryColor = null,
+                    accessoryImageDescription = null,
+                    isChecked = null,
+                    participantViewData = null,
+                    isOnHold = false,
+                    itemType = BottomCellItemType.BottomMenuTitle,
+                    onClickAction = null
+                )
+            )
+        }
         bottomCellItemsInLobbyParticipants.sortWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.title!! })
         if (bottomCellItemsInLobbyParticipants.isNotEmpty()) {
             bottomCellItemsInLobbyParticipants.add(
