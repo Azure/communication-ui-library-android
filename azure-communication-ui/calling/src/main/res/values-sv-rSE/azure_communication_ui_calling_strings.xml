@@ -110,6 +110,7 @@
 
     <!--    Participant list-->
     <string name="azure_communication_ui_calling_participant_list_in_call_n_people">I samtalet (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d more</string>
     <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">I lobbyn (%1$d)</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Dubbeltryck för att släppa in/avböja deltagare</string>
 

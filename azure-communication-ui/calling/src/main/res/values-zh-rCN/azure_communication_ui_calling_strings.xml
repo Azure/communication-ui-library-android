@@ -110,6 +110,7 @@
 
     <!--    Participant list-->
     <string name="azure_communication_ui_calling_participant_list_in_call_n_people">在通话中 (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d more</string>
     <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">在大厅中 (%1$d)</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">双击以允许/拒绝参与者</string>
 

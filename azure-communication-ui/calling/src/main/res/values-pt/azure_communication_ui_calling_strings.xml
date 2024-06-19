@@ -110,6 +110,7 @@ dando consentimento para que esta reunião seja transcrita.
 
     <!--    Participant list-->
     <string name="azure_communication_ui_calling_participant_list_in_call_n_people">Na chamada (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d more</string>
     <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">No lobby (%1$d)</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Clique duas vezes para admitir ou recusar um participante</string>
 
