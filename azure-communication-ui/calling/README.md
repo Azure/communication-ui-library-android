@@ -4,7 +4,7 @@
 
 ## Latest Release
 
-- [1.6.0 release](https://github.com/Azure/communication-ui-library-android/releases/tag/calling-v1.6.0)
+- [1.8.0 release](https://github.com/Azure/communication-ui-library-android/releases/tag/calling-v1.8.0)
 
 ## Getting Started
 
@@ -27,7 +27,7 @@ android {
 ```groovy
 dependencies {
     ...
-    implementation 'com.azure.android:azure-communication-ui-calling:1.6.0'
+    implementation 'com.azure.android:azure-communication-ui-calling:1.8.0'
     ...
 }
 ```
@@ -57,11 +57,13 @@ Create `CallComposite` and launch it. Replace `<GROUP_CALL_ID>` with your group 
 val communicationTokenRefreshOptions = CommunicationTokenRefreshOptions({ "<USER_ACCESS_TOKEN>" }, true)
 val communicationTokenCredential = CommunicationTokenCredential(communicationTokenRefreshOptions)
 
-val locator: CallCompositeJoinLocator = CallCompositeGroupCallLocator(UUID.fromString("<GROUP_CALL_ID>"))
-val remoteOptions = CallCompositeRemoteOptions(locator, communicationTokenCredential, "<DISPLAY_NAME>")
-        
-val callComposite: CallComposite = CallCompositeBuilder().build()
-callComposite.launch(context, remoteOptions)
+val locator: CallCompositeJoinLocator = CallCompositeGroupCallLocator(UUID.fromString("GROUP_CALL_ID"))
+val callComposite: CallComposite = CallCompositeBuilder()
+    .applicationContext(this.applicationContext)
+    .credential(communicationTokenCredential)
+    .displayName("DISPLAY_NAME").build()
+
+callComposite.launch(this, locator)
 ```
 
 #### [Java](#tab/java)
@@ -73,22 +75,23 @@ CommunicationTokenRefreshOptions communicationTokenRefreshOptions =
 CommunicationTokenCredential communicationTokenCredential = 
         new CommunicationTokenCredential(communicationTokenRefreshOptions);
 
-final CallCompositeJoinLocator locator =  new CallCompositeGroupCallLocator(UUID.fromString("<GROUP_CALL_ID>"));
-final CallCompositeRemoteOptions remoteOptions =
-                new CallCompositeRemoteOptions(locator, communicationTokenCredential, "<DISPLAY_NAME>");
+final CallCompositeJoinLocator locator = new CallCompositeGroupCallLocator(UUID.fromString("GROUP_CALL_ID"));
 
-CallComposite callComposite = new CallCompositeBuilder().build();
-callComposite.launch(context, remoteOptions);
+CallComposite callComposite = new CallCompositeBuilder()
+        .applicationContext(this.getApplicationContext())
+        .credential(communicationTokenCredential)
+        .displayName("DISPLAY_NAME").build();
+callComposite.launch(this, locator);
 ```
 
 For more details on Mobile UI Library functionalities visit the [API Reference Documentation](https://azure.github.io/azure-sdk-for-android/azure-communication-ui-calling).
 
 ### Accessibility
 
-Previous Android API devices could perform accessibility differently comparing to the latest version. We ran through accessibility testing on previous Android API (21, 24, 27, 28) devices to detect the possible differences on accessibility performance.
+Previous Android API devices could perform accessibility differently comparing to the latest version. We ran through accessibility testing on previous Android API (26, 27, 28) devices to detect the possible differences on accessibility performance.
 
-#### [API 21](#tab/API21)
-```API 21 
+#### [API 26](#tab/API26)
+```API 26 
 When focusing on buttons, screen reader will not announce "double tap to activate".
 There is no initial focus on setup screen.
 The state/selected change for audio device select menu and video/mic/switch camera buttons may not be announced.
