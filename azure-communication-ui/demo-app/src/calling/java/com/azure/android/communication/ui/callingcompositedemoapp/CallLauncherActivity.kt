@@ -174,6 +174,7 @@ class CallLauncherActivity : AppCompatActivity() {
                 if (groupCallRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
                     teamsMeetingRadioButton.isChecked = false
+                    oneToNCallRadioButton.isChecked = false
                     teamsMeetingPasscode.visibility = View.GONE
                     teamsMeetingId.visibility = View.GONE
                     /* <ROOMS_SUPPORT:4>
@@ -234,6 +235,8 @@ class CallLauncherActivity : AppCompatActivity() {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.PARTICIPANT_MRIS)
                     groupCallRadioButton.isChecked = false
                     teamsMeetingRadioButton.isChecked = false
+                    teamsMeetingPasscode.visibility = View.GONE
+                    teamsMeetingId.visibility = View.GONE
                     /* <ROOMS_SUPPORT:4>
                     roomsMeetingRadioButton.isChecked = false
                     attendeeRoleRadioButton.visibility = View.GONE
