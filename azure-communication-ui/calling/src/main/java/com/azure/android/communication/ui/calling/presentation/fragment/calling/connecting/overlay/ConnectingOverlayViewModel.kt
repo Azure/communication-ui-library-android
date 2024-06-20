@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay
 
+import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.FatalError
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
@@ -21,13 +22,19 @@ import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class ConnectingOverlayViewModel(private val dispatch: (Action) -> Unit) {
+internal class ConnectingOverlayViewModel(
+    private val dispatch: (Action) -> Unit,
+    private val isTelecomManagerEnabled: Boolean = false,
+    private val callType: CallType? = null,
+) {
 
     private lateinit var displayOverlayFlow: MutableStateFlow<Boolean>
     private lateinit var networkManager: NetworkManager
 
     private lateinit var cameraStateFlow: MutableStateFlow<CameraOperationalStatus>
     private lateinit var audioOperationalStatusStateFlow: MutableStateFlow<AudioOperationalStatus>
+
+    fun isTelecomManagerEnabled() = isTelecomManagerEnabled
 
     fun getDisplayOverlayFlow(): StateFlow<Boolean> = displayOverlayFlow
 
@@ -42,7 +49,6 @@ internal class ConnectingOverlayViewModel(private val dispatch: (Action) -> Unit
         this.networkManager = networkManager
         val displayOverlay = shouldDisplayOverlay(callingState, permissionState, initialCallJoinState)
         displayOverlayFlow = MutableStateFlow(displayOverlay)
-
         cameraStateFlow = MutableStateFlow(cameraState.operation)
         audioOperationalStatusStateFlow = MutableStateFlow(audioState.operation)
         if (displayOverlay) {
@@ -100,7 +106,10 @@ internal class ConnectingOverlayViewModel(private val dispatch: (Action) -> Unit
         permissionState: PermissionState,
         initialCallJoinState: InitialCallJoinState,
     ) =
-        (callingState.callingStatus == CallingStatus.NONE || callingState.callingStatus == CallingStatus.CONNECTING) &&
+        (
+            callingState.callingStatus == CallingStatus.NONE ||
+                (callingState.callingStatus == CallingStatus.CONNECTING && callType != CallType.ONE_TO_N_OUTGOING)
+            ) &&
             permissionState.audioPermissionState != PermissionStatus.DENIED &&
             initialCallJoinState.skipSetupScreen
 

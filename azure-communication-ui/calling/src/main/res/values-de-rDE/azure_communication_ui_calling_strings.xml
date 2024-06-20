@@ -20,17 +20,17 @@
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">Mikrofon ein</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">An Anruf teilnehmen</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Ihr Audio ist deaktiviert. Um es zu aktivieren, wechseln Sie zu „Einstellungen“, um den Zugriff zuzulassen. Sie müssen
-        Audio aktivieren, um diesen Anruf zu starten.</string>
+ Audio aktivieren, um diesen Anruf zu starten.</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Ihre Kamera ist deaktiviert. Wechseln Sie zum Aktivieren zu „Einstellungen“
-        , um den Zugriff zuzulassen.</string>
+,         um den Zugriff zuzulassen.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Berechtigungen erforderlich</string>
     <string name="azure_communication_ui_calling_setup_view_go_to_settings">Zu „Einstellungen“ wechseln</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Ausgewählt</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Farbverlauf einrichten</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Kamera wechseln</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Setup</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement"> Titel</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement"> Untertitel</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Titel</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Untertitel</string>
     <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Navigation zurück</string>
 
     <!--    Lobby View-->
@@ -70,24 +70,24 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Schaltfläche „Diagnoseinformationen freigeben“</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Die Aufzeichnung hat begonnen.</b> Mit Ihrer Teilnahme, erklären Sie
-        sich damit einverstanden, dass diese Besprechung transkribiert wird.
-         <u>Datenschutzrichtlinie</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Die Aufzeichnung wird gespeichert.</b> Die Aufzeichnung wurde beendet.
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Die Transkription hat begonnen.</b> Indem Sie sich anmelden, erklären Sie
+ sich damit einverstanden, dass diese Besprechung transkribiert wird.
+ <u>Datenschutzrichtlinie</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Die Aufnahme wird gespeichert.</b> Die Aufzeichnung wurde beendet.
          <u>Weitere Informationen</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Die Transkription hat begonnen.</b> Mit Ihrer Teilnahme, erklären Sie
-        sich damit einverstanden, dass diese Besprechung transkribiert wird. <u>Datenschutzrichtlinie</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Die Transkription hat begonnen.</b> Indem Sie sich anmelden, erklären Sie
+ sich damit einverstanden, dass dieses Treffen transkribiert wird. <u>Datenschutzrichtlinie</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Die Transkription wird gespeichert.</b> Die Transkription
         wurde beendet. <u>Weitere Informationen</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Aufzeichnung und Transkription haben
-        begonnen.</b> Mit Ihrer Teilnahme erklären Sie sich damit einverstanden, dass diese Besprechung transkribiert wird
-        . <u>Datenschutzrichtlinie</u></string>
+      begonnen.</b> Mit Ihrer Teilnahme erklären Sie sich damit einverstanden, dass diese Besprechung transkribiert wird
+     . <u>Datenschutzbestimmungen</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Aufnahme und Transkription werden
         gespeichert.</b> Aufzeichnung und Transkription wurden beendet. <u>Weitere Informationen</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Die Aufzeichnung wurde gestoppt.</b> Sie
-        transkribieren diese Besprechung jetzt nur noch. <u>Datenschutzrichtlinie</u></string>
+ transkribieren jetzt nur diese Besprechung. <u>Datenschutzbestimmungen</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Die Transkription wurde beendet.
-    </b> Sie zeichnen diese Besprechung jetzt nur auf. <u>Datenschutzrichtlinie</u></string>
+    </b> Sie nehmen jetzt nur diese Besprechung auf. <u>Datenschutzrichtlinie</u></string>
     <string name="azure_communication_ui_calling_view_link">Link</string>
 
     <!--    PopUp warning-->
@@ -161,4 +161,9 @@
     <string name="azure_communication_ui_calling_attach_screenshot">Screenshot anfügen</string>
     <string name="azure_communication_ui_calling_report_a_problem_label">Ein Problem melden</string>
     <string name="azure_communication_ui_calling_send_feedback_label">Senden</string>
+
+    <!--    Outgoing Call-->
+    <string name="azure_communication_ui_calling_setup_view_start_call">Anruf starten</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Anruf wird gestartet…</string>
+    <string name="azure_communication_ui_calling_call_view_calling">Anrufen...</string>
 </resources>

@@ -19,9 +19,9 @@
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Mikrofoni ei käytössä</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">Mikrofoni käytössä</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">Liity puheluun</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Ääni on poistettu käytöstä. Ota se käyttöön siirtymällä asetuksiin ja sallimalla käyttö. Sinun on
+    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Ääni on poistettu käytöstä. Ota käyttöön siirtymällä Asetuksiin ja sallimalla käyttö. Sinun on
         otettava ääni käyttöön aloittaaksesi tämän puhelun.</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Kamerasi on poistettu käytöstä. Ota se käyttöön siirtymällä asetuksiin
+    <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Kamerasi on poistettu käytöstä. Ota käyttöön siirtymällä Asetuksiin
         ja sallimalla käyttö.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">Vaaditut käyttöoikeudet</string>
     <string name="azure_communication_ui_calling_setup_view_go_to_settings">Siirry asetuksiin</string>
@@ -29,8 +29,8 @@
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Määritä liukuvärjäys</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Vaihda kameraa</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Määritä</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement"> Otsikko</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement"> Tekstitys</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Otsikko</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Alaotsikko</string>
     <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Takaisin siirtyminen</string>
 
     <!--    Lobby View-->
@@ -70,24 +70,24 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Jaa diagnostiikkatiedot -painike</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Tallennus on aloitettu.</b> Liittymällä
-        annat suostumuksesi kokouksen litteroimiseen.
-         <u>Tietosuojakäytäntö</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Tallennus on aloitettu.</b> Liittymällä annat
+        suostumuksen sille, että tämä kokous litteroidaan.
+        <u>Tietosuojakäytäntö</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Tallennetta tallennetaan.</b> Tallennus on pysäytetty.
          <u>Lisätietoja</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Litterointi on alkanut.</b> Liittymällä
-        annat suostumuksesi kokouksen litteroimiseen. <u>Tietosuojakäytäntö</u></string>
+        annat suostumuksesi tämän kokouksen litteroimiseen. <u>Tietosuojakäytäntö</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Litterointia tallennetaan.</b> Litterointi
-        on pysäytetty. <u>Lisätietoja</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Tallennus ja litterointi on
-        aloitettu.</b> Liittymällä annat suostumuksesi kokouksen litteroimiseen
-        . <u>Tietosuojakäytäntö</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Tallennus ja litterointi
-        tallennetaan.</b> Tallennus ja litterointi on pysäytetty. <u>Lisätietoja</u></string>
+        on pysäytetty. <u> Lisätietoja</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Tallennus ja litterointi on aloitettu.
+        </b> Liittymällä annat suostumuksesi kokouksen litteroimiseen
+        .<u>Tietosuojakäytäntö</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Tallennus ja litterointi tallennetaan
+        </b> Tallennus ja litterointi on pysäytetty. <u>Lisätietoja</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Tallennus on pysäytetty.</b> Sinä
-        ainoastaan litteroit nyt tätä kokousta. <u>Tietosuojakäytäntö</u></string>
+        litteroit nyt vain tämän kokouksen. <u>Tietosuojakäytäntö</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Litterointi on pysäytetty.
-    </b> Sinä ainoastaan tallennat nyt tätä kokousta. <u>Tietosuojakäytäntö</u></string>
+        </b> Olet nyt tallentamassa vain tätä kokousta.<u>Tietosuojakäytäntö</u></string>
     <string name="azure_communication_ui_calling_view_link">Linkki</string>
 
     <!--    PopUp warning-->
@@ -161,4 +161,9 @@
     <string name="azure_communication_ui_calling_attach_screenshot">Liitä näyttökuva</string>
     <string name="azure_communication_ui_calling_report_a_problem_label">Ilmoita ongelmasta</string>
     <string name="azure_communication_ui_calling_send_feedback_label">Lähetä</string>
+
+    <!--    Outgoing Call-->
+    <string name="azure_communication_ui_calling_setup_view_start_call">Aloita puhelu</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Aloitetaan puhelua…</string>
+    <string name="azure_communication_ui_calling_call_view_calling">Soitetaan...</string>
 </resources>

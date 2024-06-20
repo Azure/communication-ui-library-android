@@ -13,6 +13,7 @@ import com.azure.android.communication.common.PhoneNumberIdentifier
 import com.azure.android.communication.common.UnknownIdentifier
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
+import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult
@@ -110,7 +111,11 @@ class RemoteParticipantJoinedHandler(
         val id = getRemoteParticipantId(communicationIdentifier)
         val lastChar = id[id.length - 1]
 
-        if (!lastChar.isDigit()) return null
+        // for 1 to N call if enabled injection, inject for all participants
+        // call state will be connecting or ringing as participant is added before connected
+        val isOneToOneCall = callComposite.callState == CallCompositeCallStateCode.CONNECTING ||
+            callComposite.callState == CallCompositeCallStateCode.RINGING
+        if (!isOneToOneCall && !lastChar.isDigit()) return null
 
         val number = lastChar.toString().toInt()
         val images = listOf(

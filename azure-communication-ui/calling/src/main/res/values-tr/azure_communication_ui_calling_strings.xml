@@ -19,18 +19,18 @@
     <string name="azure_communication_ui_calling_setup_view_button_mic_off">Mikrofon kapalı</string>
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">Mikrofon açık</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">Aramaya katıl</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Sesiniz devre dışı bırakıldı. Etkinleştirmek için, erişime izin vermek üzere lütfen Ayarlar bölümüne gidin. Bu
-        aramayı başlatmak için sesi etkinleştirmeniz gerekiyor.</string>
-    <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Kameranız devre dışı. Etkinleştirmek için Ayarlar bölümüne giderek
-        erişime izin verin.</string>
+    <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">Sesiniz devre dışı. Etkinleştirmek için Ayarlar seçeneğine giderek erişime izin verin.
+    Bu aramayı başlatmak için sesi etkinleştirmeniz gerekiyor.</string>
+    <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">Kameranız devre dışı. Etkinleştirmek için Ayarlar seçeneğine giderek
+      erişime izin verin.</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">İzinler gerekli</string>
     <string name="azure_communication_ui_calling_setup_view_go_to_settings">Ayarlara Git</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">Seçili</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">Gradyan Kur</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">Kamerayı Değiştir</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">Kurulum</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement"> Başlık</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement"> Alt Yazı</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">Başlık</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">Alt Yazı</string>
     <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">Geri gezinti</string>
 
     <!--    Lobby View-->
@@ -71,23 +71,23 @@
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Kayıt başlatıldı.</b> Katılarak,
-        bu toplantının dökümünün çıkarılmasına onay verirsiniz.
-         <u>Gizlilik ilkesi</u></string>
+    bu toplantının dökümünün alınmasına izin veriyorsunuz.
+       <u>Gizlilik ilkesi</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>Kayıt kaydediliyor.</b> Kayıt durduruldu.
-         <u>Daha Fazla Bilgi Edinin</u></string>
+         <u>Daha fazla bilgi edinin</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>Döküm başlatıldı.</b> Katılarak,
-        bu toplantının dökümünün çıkarılmasına onay verirsiniz. <u>Gizlilik ilkesi</u></string>
+    bu toplantının dökümünün alınmasına izin veriyorsunuz. <u>Gizlilik ilkesi</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>Döküm kaydediliyor.</b> Döküm
-        durduruldu. <u>Daha Fazla Bilgi Edinin</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Kayıt ve döküm
-        başlatıldı.</b> Katılarak bu toplantının dökümünün alınmasına izin verirsiniz
-        . <u>Gizlilik ilkesi</u></string>
+        durduruldu. <u>Daha fazla bilgi edinin</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>Kayıt ve döküm başlatıldı.</b> Katılarak,
+    bu toplantının dökümünün alınmasına izin veriyorsunuz
+      . <u>Gizlilik ilkesi</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>Kayıt ve döküm
-        kaydediliyor.</b> Kayıt ve döküm durduruldu. <u>Daha Fazla Bilgi Edinin</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Kayıt durduruldu.</b> Şu anda
-        bu toplantının yalnızca dökümünü oluşturuyorsunuz. <u>Gizlilik ilkesi</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Döküm durduruldu.
-    </b> Şu anda yalnızca bu toplantıyı kaydediyorsunuz. <u>Gizlilik ilkesi</u></string>
+        kaydediliyor.</b> Kayıt ve döküm durduruldu. <u>Daha fazla bilgi edinin</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>Kayıt durduruldu.</b>
+    Şu anda yalnızca bu toplantının dökümünü alıyorsunuz. <u>Gizlilik ilkesi</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>Döküm durduruldu.</b>
+    Şu anda yalnızca bu toplantıyı kaydediyorsunuz. <u>Gizlilik ilkesi</u></string>
     <string name="azure_communication_ui_calling_view_link">Bağlantı</string>
 
     <!--    PopUp warning-->
@@ -161,4 +161,9 @@
     <string name="azure_communication_ui_calling_attach_screenshot">Ekran görüntüsü ekle</string>
     <string name="azure_communication_ui_calling_report_a_problem_label">Sorun bildirin</string>
     <string name="azure_communication_ui_calling_send_feedback_label">Gönder</string>
+
+    <!--    Outgoing Call-->
+    <string name="azure_communication_ui_calling_setup_view_start_call">Aramayı başlat</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">Arama başlatılıyor…</string>
+    <string name="azure_communication_ui_calling_call_view_calling">Aranıyor...</string>
 </resources>

@@ -37,7 +37,15 @@ internal class ParticipantGridCellAvatarView(
     init {
         lifecycleScope.launch {
             participantViewModel.getDisplayNameStateFlow().collect {
+                lastParticipantViewData = null
                 setDisplayName(it)
+                updateParticipantViewData()
+            }
+        }
+
+        lifecycleScope.launch {
+            participantViewModel.showCallingTextStateFlow().collect {
+                lastParticipantViewData = null
                 updateParticipantViewData()
             }
         }
@@ -100,6 +108,21 @@ internal class ParticipantGridCellAvatarView(
         }
     }
 
+    private fun setTextViewDisplayName(displayName: String) {
+        if (participantViewModel.showCallingTextStateFlow().value) {
+            displayNameAudioTextView.visibility = VISIBLE
+            displayNameAudioTextView.text = context.getString(R.string.azure_communication_ui_calling_call_view_calling)
+            return
+        }
+
+        if (displayName.isBlank()) {
+            displayNameAudioTextView.visibility = GONE
+        } else {
+            displayNameAudioTextView.visibility = VISIBLE
+            displayNameAudioTextView.text = displayName
+        }
+    }
+
     private fun setSpeakingIndicator(
         isSpeaking: Boolean,
     ) {
@@ -116,12 +139,7 @@ internal class ParticipantGridCellAvatarView(
     private fun setDisplayName(displayName: String) {
         avatarView.name = displayName
         avatarView.invalidate()
-
-        if (displayName.isBlank()) {
-            displayNameAudioTextView.visibility = GONE
-        } else {
-            displayNameAudioTextView.text = displayName
-        }
+        setTextViewDisplayName(displayName)
     }
 
     private fun setMicButtonVisibility(isMicButtonVisible: Boolean) {

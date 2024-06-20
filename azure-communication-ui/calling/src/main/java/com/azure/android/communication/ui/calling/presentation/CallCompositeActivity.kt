@@ -376,6 +376,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 store.end()
                 callingMiddlewareActionHandler.dispose()
                 videoViewManager.destroy()
+                callStateHandler.onCompositeExit()
                 container.callComposite.onExit()
                 finish()
             }

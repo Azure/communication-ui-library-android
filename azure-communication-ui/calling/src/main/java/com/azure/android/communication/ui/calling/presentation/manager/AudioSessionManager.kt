@@ -27,6 +27,9 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
 import com.azure.android.communication.ui.calling.CallCompositeException
+/*  <DEFAULT_AUDIO_MODE:0>
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionMode
+</DEFAULT_AUDIO_MODE:0> */
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
@@ -34,6 +37,10 @@ import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 internal class AudioSessionManager(
     private val store: Store<ReduxState>,
     private val context: Context,
+    /*  <DEFAULT_AUDIO_MODE:0>
+    private val audioSelectionMode: CallCompositeAudioSelectionMode? = null,
+    </DEFAULT_AUDIO_MODE:0> */
+
 ) : BluetoothProfile.ServiceListener, BroadcastReceiver() {
 
     private val audioManager by lazy { context.getSystemService(Context.AUDIO_SERVICE) as AudioManager }
@@ -223,13 +230,26 @@ internal class AudioSessionManager(
         if (initialized) return
         initialized = true
 
+        /*  <DEFAULT_AUDIO_MODE:0>
+        if (audioSelectionMode == CallCompositeAudioSelectionMode.RECEIVER) {
+            enableEarpiece()
+            store.dispatch(
+                LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.RECEIVER_SELECTED)
+            )
+        } else if (audioSelectionMode == CallCompositeAudioSelectionMode.BLUETOOTH) {
+            enableBluetooth()
+            store.dispatch(
+                LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED)
+            )
+        } else { </DEFAULT_AUDIO_MODE:0> */
         enableSpeakerPhone()
-
-        updateHeadphoneStatus()
-
         store.dispatch(
             LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.SPEAKER_SELECTED)
         )
+            /*  <DEFAULT_AUDIO_MODE:0>
+        } </DEFAULT_AUDIO_MODE:0> */
+
+        updateHeadphoneStatus()
     }
 
     private fun onAudioDeviceStateChange(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {

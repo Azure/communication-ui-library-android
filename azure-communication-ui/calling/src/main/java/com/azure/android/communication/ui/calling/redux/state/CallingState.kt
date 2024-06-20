@@ -34,6 +34,8 @@ internal data class CallingState(
      * We only need to do it once.
      */
     val isDefaultParametersCallStarted: Boolean = false,
+    val callEndReasonCode: Int? = null,
+    val callEndReasonSubCode: Int? = null,
 )
 
 internal fun CallingState.isDisconnected() =

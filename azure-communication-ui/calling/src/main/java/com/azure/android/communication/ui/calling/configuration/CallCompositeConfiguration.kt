@@ -3,13 +3,22 @@
 
 package com.azure.android.communication.ui.calling.configuration
 
+import android.content.Context
+import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.calling.configuration.events.CallCompositeEventsHandler
+/*  <DEFAULT_AUDIO_MODE:0>
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionMode
+</DEFAULT_AUDIO_MODE:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions
 
 internal class CallCompositeConfiguration {
+    /*  <DEFAULT_AUDIO_MODE:0>
+    var audioSelectionMode: CallCompositeAudioSelectionMode? = null
+    </DEFAULT_AUDIO_MODE:0> */
     var themeConfig: Int? = null
     var localizationConfig: CallCompositeLocalizationOptions? = null
     var callCompositeEventsHandler = CallCompositeEventsHandler()
@@ -21,4 +30,9 @@ internal class CallCompositeConfiguration {
     var callScreenOrientation: CallCompositeSupportedScreenOrientation? = null
     var setupScreenOrientation: CallCompositeSupportedScreenOrientation? = null
     var callScreenOptions: CallCompositeCallScreenOptions? = null
+    var telecomManagerOptions: CallCompositeTelecomManagerOptions? = null
+    var applicationContext: Context? = null
+    var displayName: String? = null
+    var credential: CommunicationTokenCredential? = null
+    var disableInternalPushForIncomingCall: Boolean = false
 }

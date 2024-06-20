@@ -33,7 +33,14 @@ library. Showcases use of both Java and Kotlin to run library.
     - `END_POINT_URL`="..."       # the URL for chat end point
     - `IDENTITY`="..."            # the identity for chat
     - `THREAD_ID`="..."           # chat thread id
+    - `PARTICIPANT_MRIS`="..."    # the MRIs for remote participants to dial
 4. For build variants:
    You can add variants selection for build to indicate which demo app you want to run or debug (
    calling, chat, call-with-chat)
 5. Build and Run
+
+### 1 to N Calling Push Notifications Setup
+
+1. Follow [QuickStart](https://learn.microsoft.com/en-us/azure/communication-services/how-tos/ui-library-sdk/one-to-one-calling?tabs=kotlin&pivots=platform-android) to setup Push Notification Hub for ACS Resource or EventGrid
+2. For `demo-app` add `google-service.json`
+3. In `local.properties` set `ENABLE_GOOGLE_SERVICES=true`

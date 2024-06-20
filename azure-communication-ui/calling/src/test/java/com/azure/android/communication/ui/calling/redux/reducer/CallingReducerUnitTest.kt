@@ -17,14 +17,16 @@ internal class CallingReducerUnitTest {
     fun callingReducer_reduce_when_actionUpdateCallState_then_changeCallingState() {
         // arrange
         val reducer = CallStateReducerImpl()
-        val previousState = CallingState(CallingStatus.NONE)
-        val action = CallingAction.StateUpdated(CallingStatus.CONNECTED)
+        val previousState = CallingState(CallingStatus.NONE, callEndReasonCode = 222, callEndReasonSubCode = 234)
+        val action = CallingAction.StateUpdated(CallingStatus.CONNECTED, callEndReasonCode = 211, callEndReasonSubCode = 231)
 
         // act
         val newState = reducer.reduce(previousState, action)
 
         // assert
         Assert.assertEquals(CallingStatus.CONNECTED, newState.callingStatus)
+        Assert.assertEquals(211, newState.callEndReasonCode)
+        Assert.assertEquals(231, newState.callEndReasonSubCode)
     }
 
     @Test

@@ -20,17 +20,17 @@
     <string name="azure_communication_ui_calling_setup_view_button_mic_on">麥克風開啟</string>
     <string name="azure_communication_ui_calling_setup_view_button_join_call">加入通話</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_audio_disabled">您的音訊已停用。若要啟用，請移至 [設定] 以允許存取。您必須
-       啟用音訊才能開始此通話。</string>
+        啟用音訊才能開始此通話。</string>
     <string name="azure_communication_ui_calling_setup_view_preview_area_camera_disabled">您的相機已停用。若要啟用，請移至 [設定]
-       以允許存取。</string>
+        以允許存取。</string>
     <string name="azure_communication_ui_calling_setup_view_warning_missing_text">需要權限</string>
     <string name="azure_communication_ui_calling_setup_view_go_to_settings">移至 [設定]</string>
     <string name="azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label">已選取</string>
     <string name="azure_communication_ui_calling_setup_view_background_gradient_accessibility_label">設定漸層</string>
     <string name="azure_communication_ui_calling_button_switch_camera_accessibility_label">切換相機</string>
     <string name="azure_communication_ui_calling_call_setup_action_bar_title">設定</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement"> 標題</string>
-    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement"> 字幕</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_title_announcement">標題</string>
+    <string name="azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement">字幕</string>
     <string name="azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement">向後瀏覽</string>
 
     <!--    Lobby View-->
@@ -70,24 +70,24 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">共用診斷資訊按鈕</string>
 
     <!--    Compliance Banner-->
-    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>[錄製] 已啟動。</b>加入後，即表示您
-       同意轉譯此會議。
-        <u>隱私權原則</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_started"><b>錄製已開始。</b>一旦加入，即表示您
+        同意轉譯此會議。
+         <u>隱私權原則</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_stopped"><b>錄製已儲存。</b>錄製已停止。
-        <u>深入了解</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>[謄寫] 已啟動。</b>加入後，即表示您
-       同意轉譯此會議。<u>隱私權原則</u></string>
+         <u>深入了解</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_started"><b>轉錄已開始。</b>一旦加入，即表示您
+        同意轉譯此會議。<u>隱私權原則</u></string>
     <string name="azure_communication_ui_calling_view_banner_transcription_stopped"><b>轉錄已儲存。</b>轉錄
-       已停止。<u>深入了解</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>錄製和轉錄已
-       開始。</b>一旦加入，即表示您同意轉譯此會議
-       。<u>隱私權原則</u></string>
+        已停止。<u>深入了解</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_started"><b>錄製和轉錄
+        已開始。</b>一旦加入，即表示您同意轉譯此會議
+        。<u>隱私權原則</u></string>
     <string name="azure_communication_ui_calling_view_banner_recording_and_transcribing_stopped"><b>錄製和轉錄
-       正在儲存。</b>已停止錄製與謄寫。<u>深入了解</u></string>
-    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>您的錄製已停止。</b>您
-       現在只謄寫此會議。<u>隱私權原則</u></string>
-    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>已停止轉錄。
-   </b>您現在只會錄製此會議。<u>隱私權原則</u></string>
+        已儲存。</b>錄製和轉錄已停止。<u>深入了解</u></string>
+    <string name="azure_communication_ui_calling_view_banner_recording_stopped_still_transcribing"><b>錄製已停止。</b> 您
+        現在只能轉譯此會議。<u>隱私權原則</u></string>
+    <string name="azure_communication_ui_calling_view_banner_transcription_stopped_still_recording"><b>轉錄已停止。</b> 您
+        現在只能錄製此會議。<u>隱私權原則</u></string>
     <string name="azure_communication_ui_calling_view_link">連結</string>
 
     <!--    PopUp warning-->
@@ -161,4 +161,9 @@
     <string name="azure_communication_ui_calling_attach_screenshot">附加螢幕擷取畫面</string>
     <string name="azure_communication_ui_calling_report_a_problem_label">回報問題</string>
     <string name="azure_communication_ui_calling_send_feedback_label">傳送</string>
+
+    <!--    Outgoing Call-->
+    <string name="azure_communication_ui_calling_setup_view_start_call">開始通話</string>
+    <string name="azure_communication_ui_calling_setup_view_button_starting_call">開始通話…</string>
+    <string name="azure_communication_ui_calling_call_view_calling">通話中...</string>
 </resources>
