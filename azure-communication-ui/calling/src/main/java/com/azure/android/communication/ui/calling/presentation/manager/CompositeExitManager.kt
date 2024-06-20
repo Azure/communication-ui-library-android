@@ -16,15 +16,19 @@ internal class CompositeExitManager(
     private val configuration: CallCompositeConfiguration
 ) {
 
+    private var exitCallBack: (() -> Unit)? = null
+
     fun onCompositeDestroy() {
         try {
             notifyCompositeExit()
+            exitCallBack?.invoke()
         } catch (error: Throwable) {
             // suppress any possible application errors
         }
     }
 
-    fun exit() {
+    fun exit(onExit: (() -> Unit)? = null) {
+        exitCallBack = onExit
         val callIsNotInProgress =
             store.getCurrentState().callState.callingStatus == CallingStatus.NONE ||
                 store.getCurrentState().callState.callingStatus == CallingStatus.DISCONNECTED
