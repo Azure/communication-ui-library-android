@@ -22,6 +22,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleCoroutineScope
@@ -356,6 +357,9 @@ class CallLauncherActivity : AppCompatActivity() {
             if (binding.attendeeRoleRadioButton.isChecked) CallCompositeParticipantRole.ATTENDEE
             else if (binding.presenterRoleRadioButton.isChecked) CallCompositeParticipantRole.PRESENTER
             else null
+        val roomRole = if (binding.attendeeRoleRadioButton.isChecked) CallCompositeParticipantRole.ATTENDEE
+        else if (binding.presenterRoleRadioButton.isChecked) CallCompositeParticipantRole.PRESENTER
+        else null
         </ROOMS_SUPPORT:0> */
 
         var groupId: UUID? = null

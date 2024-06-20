@@ -11,7 +11,7 @@
 
 ### Features
 - Disable leave call confirmation dialog
-
+- Teams meeting short URL support
 
 ## 1.6.2 (2024-05-03)
 
