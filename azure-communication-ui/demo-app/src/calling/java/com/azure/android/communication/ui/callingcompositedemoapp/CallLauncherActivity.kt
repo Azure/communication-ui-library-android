@@ -329,7 +329,6 @@ class CallLauncherActivity : AppCompatActivity() {
         unregisterReceiver(callLauncherBroadCastReceiver)
         DismissCompositeButtonView.get(this).hide()
         DismissCompositeButtonView.buttonView = null
-        (application as CallLauncherApplication).onDestroy()
     }
 
     // check whether new Activity instance was brought to top of stack,
