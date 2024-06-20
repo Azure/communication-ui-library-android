@@ -103,6 +103,11 @@ internal class ParticipantMenuView(
     }
 
     private fun getBottomCellItems(): List<BottomCellItem> {
+        val removeParticipantContentDescription: String =
+            context.getString(R.string.azure_communication_ui_calling_view_participant_menu_remove_accessibility_label) +
+                if (viewModel.remoteParticipantEnabledFlow.value) "" else ", " +
+                    context.getString(R.string.azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label)
+
 
         val bottomCellItems = mutableListOf(
             // Leave title
@@ -125,7 +130,7 @@ internal class ParticipantMenuView(
                     R.drawable.azure_communication_ui_calling_ic_fluent_person_delete_24_regular
                 ),
                 title = context.getString(R.string.azure_communication_ui_calling_view_participant_menu_remove),
-                contentDescription = context.getString(R.string.azure_communication_ui_calling_view_participant_menu_remove_accessibility_label),
+                contentDescription = removeParticipantContentDescription,
                 accessoryImage = null,
                 accessoryColor = null,
                 accessoryImageDescription = null,
