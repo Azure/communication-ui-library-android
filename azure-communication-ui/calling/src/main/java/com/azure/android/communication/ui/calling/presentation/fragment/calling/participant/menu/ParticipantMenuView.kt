@@ -108,7 +108,6 @@ internal class ParticipantMenuView(
                 if (viewModel.remoteParticipantEnabledFlow.value) "" else ", " +
                     context.getString(R.string.azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label)
 
-
         val bottomCellItems = mutableListOf(
             // Leave title
             BottomCellItem(
