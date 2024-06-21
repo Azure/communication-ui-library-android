@@ -15,9 +15,4 @@ class CallLauncherApplication : Application() {
         }
         return callCompositeManager!!
     }
-
-    fun onDestroy() {
-        callCompositeManager?.dismissCallComposite()
-        callCompositeManager = null
-    }
 }

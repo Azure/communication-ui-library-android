@@ -1,16 +1,17 @@
 # Azure Communication UI Calling Release History
 
-## 1.8.0 (*)
+## 1.8.0 (2024-06-20)
 
 ### Features
 - Telecom manager integration supported by native calling SDK
 - One to one call support with push notifications
+- Teams meeting join with meeting id
 
 ## 1.7.0 (2024-05-29)
 
 ### Features
 - Disable leave call confirmation dialog
-
+- Teams meeting short URL support
 
 ## 1.6.2 (2024-05-03)
 
