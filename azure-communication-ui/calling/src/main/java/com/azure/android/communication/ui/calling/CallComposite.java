@@ -34,10 +34,10 @@ import com.azure.android.communication.ui.calling.models.CallCompositePictureInP
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotification;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
-/* <ROOMS_SUPPORT:0>
+/* <ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole;
-</ROOMS_SUPPORT:0> */
+/* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingIdLocator;
@@ -694,10 +694,10 @@ public final class CallComposite {
         String meetingLink = null;
         String meetingId = null;
         String meetingPasscode = null;
-        /* <ROOMS_SUPPORT:0>
+        /* <ROOMS_SUPPORT:0> */
         String roomId = null;
         CallCompositeParticipantRole roomRole = null;
-        </ROOMS_SUPPORT:0> */
+        /* </ROOMS_SUPPORT:0> */
         final CallType callType;
 
         final CallCompositeJoinLocator locator = remoteOptions.getLocator();
@@ -713,21 +713,21 @@ public final class CallComposite {
         } else if (locator instanceof CallCompositeTeamsMeetingLinkLocator) {
             callType = CallType.TEAMS_MEETING;
             meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
-            /* <ROOMS_SUPPORT:0>
+            /* <ROOMS_SUPPORT:0> */
         } else if (locator instanceof CallCompositeRoomLocator) {
             callType = CallType.ROOMS_CALL;
             final CallCompositeRoomLocator roomLocator = (CallCompositeRoomLocator) locator;
             roomId = roomLocator.getRoomId();
-            </ROOMS_SUPPORT:0> */
+            /* </ROOMS_SUPPORT:0> */
         } else {
             throw new CallCompositeException("Not supported Call Locator type");
         }
 
         if (localOptions != null) {
             configuration.setCallCompositeLocalOptions(localOptions);
-            /* <ROOMS_SUPPORT:2>
+            /* <ROOMS_SUPPORT:2> */
             roomRole = localOptions.getRoleHint();
-            </ROOMS_SUPPORT:1> */
+            /* </ROOMS_SUPPORT:1> */
         }
 
         configuration.setCallConfig(new CallConfiguration(
@@ -735,10 +735,10 @@ public final class CallComposite {
                 meetingLink,
                 meetingId,
                 meetingPasscode,
-                /* <ROOMS_SUPPORT:5>
+                /* <ROOMS_SUPPORT:5> */
                 roomId,
                 roomRole,
-                </ROOMS_SUPPORT:1> */
+                /* </ROOMS_SUPPORT:1> */
                 callType,
                 null,
                 null));
@@ -774,10 +774,10 @@ public final class CallComposite {
         String meetingLink = null;
         String meetingId = null;
         String meetingPasscode = null;
-        /* <ROOMS_SUPPORT:0>
+        /* <ROOMS_SUPPORT:0> */
         String roomId = null;
         CallCompositeParticipantRole roomRole = null;
-        </ROOMS_SUPPORT:0> */
+        /* </ROOMS_SUPPORT:0> */
         final CallType callType;
 
         if (locator instanceof CallCompositeGroupCallLocator) {
@@ -792,12 +792,12 @@ public final class CallComposite {
         } else if (locator instanceof CallCompositeTeamsMeetingLinkLocator) {
             callType = CallType.TEAMS_MEETING;
             meetingLink = ((CallCompositeTeamsMeetingLinkLocator) locator).getMeetingLink();
-            /* <ROOMS_SUPPORT:0>
+            /* <ROOMS_SUPPORT:0> */
         } else if (locator instanceof CallCompositeRoomLocator) {
             callType = CallType.ROOMS_CALL;
             final CallCompositeRoomLocator roomLocator = (CallCompositeRoomLocator) locator;
             roomId = roomLocator.getRoomId();
-            </ROOMS_SUPPORT:0> */
+            /* </ROOMS_SUPPORT:0> */
         } else if (participants != null) {
             callType = CallType.ONE_TO_N_OUTGOING;
         } else if (incomingCallId != null) {
@@ -808,9 +808,9 @@ public final class CallComposite {
 
         if (localOptions != null) {
             configuration.setCallCompositeLocalOptions(localOptions);
-            /* <ROOMS_SUPPORT:2>
+            /* <ROOMS_SUPPORT:2> */
             roomRole = localOptions.getRoleHint();
-            </ROOMS_SUPPORT:1> */
+            /* </ROOMS_SUPPORT:1> */
         }
         initializeCallingSDK();
 
@@ -820,10 +820,10 @@ public final class CallComposite {
                 meetingLink,
                 meetingId,
                 meetingPasscode,
-                /* <ROOMS_SUPPORT:5>
+                /* <ROOMS_SUPPORT:5> */
                 roomId,
                 roomRole,
-                </ROOMS_SUPPORT:1> */
+                /* </ROOMS_SUPPORT:1> */
                 callType,
                 participants,
                 incomingCallId));

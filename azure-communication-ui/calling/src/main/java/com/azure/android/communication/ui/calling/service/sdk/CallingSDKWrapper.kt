@@ -18,9 +18,9 @@ import com.azure.android.communication.calling.JoinCallOptions
 import com.azure.android.communication.calling.JoinMeetingLocator
 import com.azure.android.communication.calling.OutgoingAudioOptions
 import com.azure.android.communication.calling.OutgoingVideoOptions
-/* <ROOMS_SUPPORT:0>
+/* <ROOMS_SUPPORT:0> */
 import com.azure.android.communication.calling.RoomCallLocator
-</ROOMS_SUPPORT:0> */
+/* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.calling.StartCallOptions
 import com.azure.android.communication.calling.TeamsMeetingIdLocator
 import com.azure.android.communication.calling.TeamsMeetingLinkLocator
@@ -457,9 +457,9 @@ internal class CallingSDKWrapper(
                         )
                     }
                 }
-                /* <ROOMS_SUPPORT:3>
+                /* <ROOMS_SUPPORT:3> */
                 CallType.ROOMS_CALL -> RoomCallLocator(callConfig.roomId)
-                </ROOMS_SUPPORT:1> */
+                /* </ROOMS_SUPPORT:1> */
                 else -> {
                     throw CallCompositeException(
                         "Unsupported call type",
