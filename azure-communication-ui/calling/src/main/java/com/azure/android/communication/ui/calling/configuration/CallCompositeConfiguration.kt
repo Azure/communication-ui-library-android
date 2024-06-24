@@ -37,8 +37,6 @@ internal class CallCompositeConfiguration {
     var displayName: String? = null
     var credential: CommunicationTokenCredential? = null
     var disableInternalPushForIncomingCall: Boolean = false
-    /* <ROOMS_SUPPORT> */
     var capabilitiesChangedNotificationMode: CallCompositeCapabilitiesChangedNotificationMode? = null
     var setupScreenOptions: CallCompositeSetupScreenOptions? = null
-    /* </ROOMS_SUPPORT> */
 }

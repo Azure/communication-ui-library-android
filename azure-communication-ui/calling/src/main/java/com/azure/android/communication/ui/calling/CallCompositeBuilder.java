@@ -103,7 +103,6 @@ public final class CallCompositeBuilder {
         return this;
     }
 
-    /* <ROOMS_SUPPORT> */
     /**
      * Sets capabilities change notification mode.
      * @param mode see {@link CallCompositeLocalOptions}
@@ -125,8 +124,6 @@ public final class CallCompositeBuilder {
         this.setupScreenOptions = options;
         return this;
     }
-
-    /* </ROOMS_SUPPORT> */
 
     /**
      * Sets the call screen options.
@@ -227,10 +224,8 @@ public final class CallCompositeBuilder {
         config.setDisplayName(displayName);
         config.setApplicationContext(applicationContext);
         config.setDisableInternalPushForIncomingCall(disableInternalPushForIncomingCall);
-        /* <ROOMS_SUPPORT> */
         config.setCapabilitiesChangedNotificationMode(capabilitiesChangedNotificationMode);
         config.setSetupScreenOptions(setupScreenOptions);
-        /* </ROOMS_SUPPORT> */
         /*  <DEFAULT_AUDIO_MODE:0>
         config.setAudioSelectionMode(audioSelectionMode);
         </DEFAULT_AUDIO_MODE:0> */

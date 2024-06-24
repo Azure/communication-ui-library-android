@@ -120,21 +120,17 @@ class CallLauncherActivity : AppCompatActivity() {
                 groupIdOrTeamsMeetingLinkText.setText(deeplinkGroupId)
                 groupCallRadioButton.isChecked = true
                 teamsMeetingRadioButton.isChecked = false
-                /* <ROOMS_SUPPORT:4> */
                 roomsMeetingRadioButton.isChecked = false
-                /* </ROOMS_SUPPORT:1> */
             } else if (!deeplinkTeamsUrl.isNullOrEmpty()) {
                 groupIdOrTeamsMeetingLinkText.setText(deeplinkTeamsUrl)
                 groupCallRadioButton.isChecked = false
                 teamsMeetingRadioButton.isChecked = true
-                /* <ROOMS_SUPPORT:4> */
                 roomsMeetingRadioButton.isChecked = false
             } else if (!deepLinkRoomsId.isNullOrEmpty()) {
                 groupIdOrTeamsMeetingLinkText.setText(deepLinkRoomsId)
                 groupCallRadioButton.isChecked = false
                 teamsMeetingRadioButton.isChecked = false
                 roomsMeetingRadioButton.isChecked = true
-                /* </ROOMS_SUPPORT:1> */
             } else if (!participantMRIs.isNullOrEmpty()) {
                 groupIdOrTeamsMeetingLinkText.setText(participantMRIs)
             } else {
@@ -174,10 +170,8 @@ class CallLauncherActivity : AppCompatActivity() {
                     oneToNCallRadioButton.isChecked = false
                     teamsMeetingPasscode.visibility = View.GONE
                     teamsMeetingId.visibility = View.GONE
-                    /* <ROOMS_SUPPORT:4> */
                     roomsMeetingRadioButton.isChecked = false
                     oneToNCallRadioButton.isChecked = false
-                    /* </ROOMS_SUPPORT:1> */
                 }
             }
             teamsMeetingRadioButton.setOnClickListener {
@@ -187,12 +181,9 @@ class CallLauncherActivity : AppCompatActivity() {
                     oneToNCallRadioButton.isChecked = false
                     teamsMeetingPasscode.visibility = View.VISIBLE
                     teamsMeetingId.visibility = View.VISIBLE
-                    /* <ROOMS_SUPPORT:4> */
                     roomsMeetingRadioButton.isChecked = false
-                    /* </ROOMS_SUPPORT:1> */
                 }
             }
-            /* <ROOMS_SUPPORT:0> */
             roomsMeetingRadioButton.setOnClickListener {
                 if (roomsMeetingRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.ROOM_ID)
@@ -204,7 +195,6 @@ class CallLauncherActivity : AppCompatActivity() {
                     /* </MEETING_ID_LOCATOR> */
                 }
             }
-            /* </ROOMS_SUPPORT:0> */
 
             oneToNCallRadioButton.setOnClickListener {
                 if (oneToNCallRadioButton.isChecked) {
@@ -213,9 +203,7 @@ class CallLauncherActivity : AppCompatActivity() {
                     teamsMeetingRadioButton.isChecked = false
                     teamsMeetingPasscode.visibility = View.GONE
                     teamsMeetingId.visibility = View.GONE
-                    /* <ROOMS_SUPPORT:4> */
                     roomsMeetingRadioButton.isChecked = false
-                    /* </ROOMS_SUPPORT:1> */
                 }
             }
 
@@ -324,9 +312,7 @@ class CallLauncherActivity : AppCompatActivity() {
         sharedPreference.edit().putString(CACHED_TOKEN, acsToken).apply()
         sharedPreference.edit().putString(CACHED_USER_NAME, userName).apply()
 
-        /* <ROOMS_SUPPORT:0> */
         val roomId = binding.groupIdOrTeamsMeetingLinkText.text.toString()
-        /* </ROOMS_SUPPORT:0> */
 
         var groupId: UUID? = null
         if (binding.groupCallRadioButton.isChecked) {
@@ -375,9 +361,7 @@ class CallLauncherActivity : AppCompatActivity() {
             acsToken,
             userName,
             groupId,
-            /* <ROOMS_SUPPORT:5> */
             roomId,
-            /* </ROOMS_SUPPORT:2> */
             meetingLink,
             meetingId,
             meetingPasscode,

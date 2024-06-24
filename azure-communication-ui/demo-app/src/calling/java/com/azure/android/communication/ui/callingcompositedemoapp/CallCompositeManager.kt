@@ -39,10 +39,8 @@ import com.azure.android.communication.ui.calling.models.CallCompositeMultitaski
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotification
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
-/* <ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenOptions
-/* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingIdLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
@@ -65,9 +63,7 @@ class CallCompositeManager(private val context: Context) {
         acsToken: String,
         displayName: String,
         groupId: UUID?,
-        /* <ROOMS_SUPPORT:5> */
         roomId: String?,
-        /* </ROOMS_SUPPORT:2> */
         /* <MEETING_ID_LOCATOR> */
         meetingLink: String?,
         meetingId: String?,
@@ -103,9 +99,7 @@ class CallCompositeManager(private val context: Context) {
                 meetingLink,
                 meetingId,
                 meetingPasscode,
-                /* <ROOMS_SUPPORT:5> */
                 roomId,
-                /* </ROOMS_SUPPORT:2> */
                 displayName,
             )
             val locator = getLocator(
@@ -113,9 +107,7 @@ class CallCompositeManager(private val context: Context) {
                 meetingLink,
                 meetingId,
                 meetingPasscode,
-                /* <ROOMS_SUPPORT:5> */
                 roomId,
-                /* </ROOMS_SUPPORT:2> */
             )
 
             if (localOptions == null) {
@@ -140,9 +132,7 @@ class CallCompositeManager(private val context: Context) {
         meetingLink: String?,
         meetingId: String?,
         meetingPasscode: String?,
-        /* <ROOMS_SUPPORT:5> */
         roomId: String?,
-        /* </ROOMS_SUPPORT:2> */
         displayName: String,
     ): CallCompositeRemoteOptions {
         val communicationTokenRefreshOptions =
@@ -157,9 +147,7 @@ class CallCompositeManager(private val context: Context) {
                 !meetingLink.isNullOrEmpty() -> CallCompositeTeamsMeetingLinkLocator(meetingLink)
                 !meetingId.isNullOrEmpty() -> CallCompositeTeamsMeetingIdLocator(meetingId, meetingPasscode)
                 /* </MEETING_ID_LOCATOR> */
-                /* <ROOMS_SUPPORT:0> */
                 roomId != null -> CallCompositeRoomLocator(roomId)
-                /* </ROOMS_SUPPORT:0> */
                 else -> throw IllegalArgumentException("Cannot launch call composite with provided arguments.")
             }
 
@@ -171,9 +159,7 @@ class CallCompositeManager(private val context: Context) {
         meetingLink: String?,
         meetingId: String?,
         meetingPasscode: String?,
-        /* <ROOMS_SUPPORT:4> */
         roomId: String?,
-        /* </ROOMS_SUPPORT:1> */
     ): CallCompositeJoinLocator {
         val locator: CallCompositeJoinLocator =
             when {
@@ -181,9 +167,7 @@ class CallCompositeManager(private val context: Context) {
                 !meetingLink.isNullOrEmpty() -> CallCompositeTeamsMeetingLinkLocator(meetingLink)
                 !meetingId.isNullOrEmpty() -> CallCompositeTeamsMeetingIdLocator(meetingId, meetingPasscode)
                 /* </MEETING_ID_LOCATOR> */
-                /* <ROOMS_SUPPORT:0> */
                 roomId != null -> CallCompositeRoomLocator(roomId)
-                /* </ROOMS_SUPPORT:0> */
                 else -> throw IllegalArgumentException("Cannot launch call composite with provided arguments.")
             }
 
