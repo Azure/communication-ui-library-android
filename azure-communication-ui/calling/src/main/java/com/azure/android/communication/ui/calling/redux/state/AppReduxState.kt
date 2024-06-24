@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.redux.state
 
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
+import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 
 internal class AppReduxState(
     displayName: String?,
@@ -20,14 +21,14 @@ internal class AppReduxState(
         participantMapModifiedTimestamp = 0,
         dominantSpeakersInfo = emptyList(),
         dominantSpeakersModifiedTimestamp = 0,
-        lobbyErrorCode = null
+        lobbyErrorCode = null,
+        totalParticipantCount = 0,
     )
 
     override var localParticipantState: LocalUserState =
         LocalUserState(
             CameraState(
-                operation = if (avMode == CallCompositeAudioVideoMode.AUDIO_ONLY)
-                    CameraOperationalStatus.DISABLED else CameraOperationalStatus.OFF,
+                operation = CameraOperationalStatus.OFF,
                 device = CameraDeviceSelectionStatus.FRONT,
                 transmission = CameraTransmissionStatus.LOCAL
             ),
@@ -46,7 +47,12 @@ internal class AppReduxState(
                 startWithMicrophoneOn = microphoneOnByDefault,
                 skipSetupScreen = skipSetupScreen,
             ),
-            localParticipantRole = null
+            localParticipantRole = null,
+            audioVideoMode = avMode,
+            capabilities = setOf(
+                ParticipantCapabilityType.TURN_VIDEO_ON,
+                ParticipantCapabilityType.UNMUTE_MICROPHONE
+            ),
         )
 
     override var permissionState: PermissionState =
@@ -63,4 +69,6 @@ internal class AppReduxState(
     override var visibilityState: VisibilityState = VisibilityState(status = VisibilityStatus.VISIBLE)
 
     override var callDiagnosticsState: CallDiagnosticsState = CallDiagnosticsState(networkQualityCallDiagnostic = null, networkCallDiagnostic = null, mediaCallDiagnostic = null)
+
+    override var toastNotificationState: ToastNotificationState = ToastNotificationState(null)
 }

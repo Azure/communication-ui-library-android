@@ -4,14 +4,15 @@
 package com.azure.android.communication.ui.calling.redux.state
 
 import com.azure.android.communication.ui.calling.error.CallCompositeError
-import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
+import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
+import com.azure.android.communication.ui.calling.models.ParticipantRole
 
 internal enum class CameraOperationalStatus {
     PENDING,
     ON,
     OFF,
     PAUSED,
-    DISABLED,
 }
 
 internal enum class CameraDeviceSelectionStatus {
@@ -72,11 +73,14 @@ internal data class InitialCallJoinState(
     val skipSetupScreen: Boolean = false,
 )
 
+// Actual default values are set in the AppReduxState
 internal data class LocalUserState(
     val cameraState: CameraState,
     val audioState: AudioState,
     val videoStreamID: String?,
     val displayName: String?,
     val initialCallJoinState: InitialCallJoinState = InitialCallJoinState(),
-    val localParticipantRole: CallCompositeInternalParticipantRole?
+    val localParticipantRole: ParticipantRole?,
+    val audioVideoMode: CallCompositeAudioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+    val capabilities: Set<ParticipantCapabilityType> = emptySet(),
 )

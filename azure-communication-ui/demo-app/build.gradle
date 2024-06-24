@@ -38,7 +38,7 @@ android {
         buildConfigField 'String', 'PARTICIPANT_MRIS', properties.getProperty('PARTICIPANT_MRIS', '""')
         buildConfigField "String", 'AAD_TOKEN', properties.getProperty('AAD_TOKEN', '""')
         /* <ROOMS_SUPPORT:0> */
-        buildConfigField 'String', 'ROOMS_ID', properties.getProperty('ROOMS_ID', '""')
+        buildConfigField 'String', 'ROOM_ID', properties.getProperty('ROOM_ID', '""')
         /* </ROOMS_SUPPORT:0> */
 
     }

@@ -5,11 +5,11 @@ package com.azure.android.communication.ui.calling.presentation
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.di.DependencyInjectionContainer
 import com.azure.android.communication.ui.calling.getDiContainer
+import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
@@ -26,7 +26,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.setup.Se
  *
  * Afterwards you can reference container, which holds the services.
  */
-internal class DependencyInjectionContainerHolder(
+internal class CallCompositeActivityViewModel(
     application: Application,
 ) : AndroidViewModel(application) {
     companion object {
@@ -63,6 +63,7 @@ internal class DependencyInjectionContainerHolder(
                 isTelecomManagerEnabled = container.configuration.telecomManagerOptions != null,
             ),
             container.networkManager,
+            container.configuration.setupScreenOptions
         )
     }
     val callingViewModel by lazy {
@@ -73,17 +74,19 @@ internal class DependencyInjectionContainerHolder(
                 ParticipantGridCellViewModelFactory(),
                 application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants),
                 container.debugInfoManager,
+                container.capabilitiesManager,
                 container.configuration.callCompositeEventsHandler.getOnUserReportedHandlers().toList().isNotEmpty(),
                 container.configuration.enableMultitasking,
                 isTelecomManagerEnabled = container.configuration.telecomManagerOptions != null,
-                container.configuration.callConfig?.callType
+                container.configuration.callConfig.callType
             ),
             container.networkManager,
             container.configuration.callScreenOptions,
             container.configuration.enableMultitasking,
             container.configuration.callCompositeLocalOptions?.audioVideoMode
                 ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
-            container.configuration.callConfig?.callType
+            container.configuration.callConfig.callType,
+            container.capabilitiesManager
         )
     }
 }

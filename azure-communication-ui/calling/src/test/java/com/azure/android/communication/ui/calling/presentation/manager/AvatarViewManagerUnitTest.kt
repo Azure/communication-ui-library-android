@@ -190,7 +190,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                     123,
                     listOf(),
                     0,
-                    lobbyErrorCode = null
+                    lobbyErrorCode = null,
+                    totalParticipantCount = 1,
                 )
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn reduxState
@@ -253,7 +254,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                     123,
                     listOf(),
                     0,
-                    lobbyErrorCode = null
+                    lobbyErrorCode = null,
+                    totalParticipantCount = 1,
                 )
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn reduxState
@@ -316,7 +318,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                     123,
                     listOf(),
                     0,
-                    lobbyErrorCode = null
+                    lobbyErrorCode = null,
+                    totalParticipantCount = 1,
                 )
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn reduxState
@@ -388,7 +391,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                     123,
                     listOf(),
                     0,
-                    lobbyErrorCode = null
+                    lobbyErrorCode = null,
+                    totalParticipantCount = 1,
                 )
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn reduxState
@@ -475,7 +479,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                     123,
                     listOf(),
                     0,
-                    lobbyErrorCode = null
+                    lobbyErrorCode = null,
+                    totalParticipantCount = 1,
                 )
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn reduxState
@@ -553,7 +558,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                     123,
                     listOf(),
                     0,
-                    lobbyErrorCode = null
+                    lobbyErrorCode = null,
+                    totalParticipantCount = 1,
                 )
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn reduxState
@@ -651,7 +657,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                     123,
                     listOf(),
                     0,
-                    lobbyErrorCode = null
+                    lobbyErrorCode = null,
+                    totalParticipantCount = 1,
                 )
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getCurrentState() } doReturn reduxState

@@ -405,6 +405,40 @@
 
 
         <TextView
+            android:id="@+id/setup_screen_options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/azure_communication_ui_calling_fab_margin"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:text="@string/setup_screen_settings"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/azure_communication_ui_calling_color_on_surface"
+            android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding"
+            />
+        <CheckBox
+            android:id="@+id/setup_screen_camera_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onCheckBoxTap"
+            android:text="@string/setup_screen_settings_camera_enabled"
+            tools:ignore="UsingOnClickInXml"
+            />
+
+        <CheckBox
+            android:id="@+id/setup_screen_mic_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onCheckBoxTap"
+            android:text="@string/setup_screen_settings_mic_enabled"
+            tools:ignore="UsingOnClickInXml"
+            />
+
+        <TextView
             android:id="@+id/display_leave_call_confirmation_option"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

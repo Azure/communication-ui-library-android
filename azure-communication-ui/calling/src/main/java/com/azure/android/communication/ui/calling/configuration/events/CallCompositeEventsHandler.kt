@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCa
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent
 
 internal class CallCompositeEventsHandler {
+    // mutableSet does preserve element iteration order
     private val errorHandlers = mutableSetOf<CallCompositeEventHandler<CallCompositeErrorEvent>>()
     private val remoteParticipantJoinedHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
@@ -24,7 +25,6 @@ internal class CallCompositeEventsHandler {
         mutableSetOf<CallCompositeEventHandler<CallCompositeDismissedEvent>>()
     private val userReportHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeUserReportedIssueEvent>>()
-
     private val multitaskingStateChangedEvent =
         mutableSetOf<CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent>>()
 

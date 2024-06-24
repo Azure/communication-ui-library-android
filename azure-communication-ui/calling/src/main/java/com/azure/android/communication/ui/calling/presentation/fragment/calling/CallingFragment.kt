@@ -20,7 +20,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
-import com.azure.android.communication.ui.calling.presentation.DependencyInjectionContainerHolder
+import com.azure.android.communication.ui.calling.presentation.CallCompositeActivityViewModel
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarView
@@ -38,6 +38,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay.ConnectingOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.menu.ParticipantMenuView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
 
 internal class CallingFragment :
@@ -49,11 +50,11 @@ internal class CallingFragment :
     }
 
     // Get the DI Container, which gives us what we need for this fragment (dependencies)
-    private val holder: DependencyInjectionContainerHolder by activityViewModels()
+    private val activityViewModel: CallCompositeActivityViewModel by activityViewModels()
 
-    private val videoViewManager get() = holder.container.videoViewManager
-    private val avatarViewManager get() = holder.container.avatarViewManager
-    private val viewModel get() = holder.callingViewModel
+    private val videoViewManager get() = activityViewModel.container.videoViewManager
+    private val avatarViewManager get() = activityViewModel.container.avatarViewManager
+    private val viewModel get() = activityViewModel.callingViewModel
 
     private val closeToUser = 0f
     private lateinit var controlBarView: ControlBarView
@@ -65,6 +66,7 @@ internal class CallingFragment :
     private lateinit var participantGridView: ParticipantGridView
     private lateinit var audioDeviceListView: AudioDeviceListView
     private lateinit var participantListView: ParticipantListView
+    private lateinit var participantMenuView: ParticipantMenuView
     private lateinit var bannerView: BannerView
     private lateinit var errorInfoView: ErrorInfoView
     private lateinit var waitingLobbyOverlay: WaitingLobbyOverlayView
@@ -171,6 +173,14 @@ internal class CallingFragment :
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         participantListView.start(viewLifecycleOwner)
 
+        participantMenuView = ParticipantMenuView(
+            this.requireContext(),
+            viewModel.participantMenuViewModel,
+        )
+        participantMenuView.layoutDirection =
+            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
+        participantMenuView.start(viewLifecycleOwner)
+
         bannerView = view.findViewById(R.id.azure_communication_ui_call_banner)
         bannerView.start(
             viewModel.bannerViewModel,
@@ -247,7 +257,7 @@ internal class CallingFragment :
         super.onDestroy()
         if (activity?.isChangingConfigurations == false) {
             if (this::participantGridView.isInitialized) participantGridView.stop()
-            if (CallCompositeInstanceManager.hasCallComposite(holder.instanceId)) {
+            if (CallCompositeInstanceManager.hasCallComposite(activityViewModel.instanceId)) {
                 // Covers edge case where Android tries to recreate call activity after process death
                 // (e.g. due to revoked permission).
                 // If no configs are detected we can just exit without cleanup.
@@ -283,11 +293,9 @@ internal class CallingFragment :
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        mapOf(
-            LEAVE_CONFIRM_VIEW_KEY to viewModel.confirmLeaveOverlayViewModel.getShouldDisplayLeaveConfirmFlow(),
-            AUDIO_DEVICE_LIST_VIEW_KEY to viewModel.audioDeviceListViewModel.displayAudioDeviceSelectionMenuStateFlow,
-            PARTICIPANT_LIST_VIEW_KEY to viewModel.participantListViewModel.getDisplayParticipantListStateFlow()
-        ).forEach { (key, element) -> outState.putBoolean(key, element.value) }
+        outState.putBoolean(LEAVE_CONFIRM_VIEW_KEY, viewModel.confirmLeaveOverlayViewModel.getShouldDisplayLeaveConfirmFlow().value)
+        outState.putBoolean(AUDIO_DEVICE_LIST_VIEW_KEY, viewModel.audioDeviceListViewModel.displayAudioDeviceSelectionMenuStateFlow.value)
+        outState.putBoolean(PARTICIPANT_LIST_VIEW_KEY, viewModel.participantListViewModel.viewViewModelStateFlow.value.isDisplayed)
         super.onSaveInstanceState(outState)
     }
 

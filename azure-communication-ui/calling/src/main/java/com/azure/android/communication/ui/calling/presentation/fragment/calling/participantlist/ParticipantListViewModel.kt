@@ -14,26 +14,19 @@ import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class ParticipantListViewModel(private val dispatch: (Action) -> Unit) {
-    private lateinit var remoteParticipantListCellStateFlow: MutableStateFlow<List<ParticipantListCellModel>>
-    private lateinit var localParticipantListCellStateFlow: MutableStateFlow<ParticipantListCellModel>
-    private val displayParticipantListStateFlow = MutableStateFlow(false)
+internal class ParticipantListViewModel(
+    private val dispatch: (Action) -> Unit,
+) {
+    private val localUserIdentifier = ""
+    private lateinit var viewViewModelMutableStateFlow: MutableStateFlow<ParticipantListViewViewModel>
+    private lateinit var localParticipantListCellMutableFlow: MutableStateFlow<ParticipantListCellModel>
+    private lateinit var displayParticipantMenuCallback: (userIdentifier: String, displayName: String?) -> Unit
 
-    fun getRemoteParticipantListCellStateFlow(): StateFlow<List<ParticipantListCellModel>> {
-        return remoteParticipantListCellStateFlow
-    }
+    val viewViewModelStateFlow: StateFlow<ParticipantListViewViewModel> get() = viewViewModelMutableStateFlow
 
-    fun getLocalParticipantListCellStateFlow(): StateFlow<ParticipantListCellModel> {
-        return localParticipantListCellStateFlow
-    }
-
-    fun getDisplayParticipantListStateFlow(): StateFlow<Boolean> {
-        return displayParticipantListStateFlow
-    }
-
-    fun createLocalParticipantListCell(suffix: String) = ParticipantListCellModel(
-        (localParticipantListCellStateFlow.value.displayName.trim() + " " + suffix).trim(),
-        localParticipantListCellStateFlow.value.isMuted,
+    fun createLocalParticipantListCellViewModel(suffix: String) = ParticipantListCellModel(
+        (localParticipantListCellMutableFlow.value.displayName.trim() + " " + suffix).trim(),
+        localParticipantListCellMutableFlow.value.isMuted,
         "",
         false
     )
@@ -42,33 +35,50 @@ internal class ParticipantListViewModel(private val dispatch: (Action) -> Unit) 
         participantMap: Map<String, ParticipantInfoModel>,
         localUserState: LocalUserState,
         canShowLobby: Boolean,
+        displayParticipantMenuCallback: (userIdentifier: String, displayName: String?) -> Unit,
+        totalParticipantCountExceptHidden: Int,
     ) {
         val remoteParticipantList: List<ParticipantListCellModel> =
             participantMap.values.map {
                 getRemoteParticipantListCellModel(it)
             }.filter { participantListRemoteParticipantVisibility(it, canShowLobby) }
-        remoteParticipantListCellStateFlow = MutableStateFlow(remoteParticipantList)
+        viewViewModelMutableStateFlow = MutableStateFlow(
+            ParticipantListViewViewModel(
+                remoteParticipantList = remoteParticipantList,
+                localParticipantListCell = getLocalParticipantListCellModel(localUserState),
+                totalActiveParticipantCount = totalParticipantCountExceptHidden,
+                isDisplayed = false
+            )
+        )
 
-        localParticipantListCellStateFlow =
+        localParticipantListCellMutableFlow =
             MutableStateFlow(getLocalParticipantListCellModel(localUserState))
+
+        this.displayParticipantMenuCallback = displayParticipantMenuCallback
     }
 
     fun update(
         participantMap: Map<String, ParticipantInfoModel>,
         localUserState: LocalUserState,
         visibilityState: VisibilityState,
-        canShowLobby: Boolean
+        canShowLobby: Boolean,
+        totalParticipantCountExceptHidden: Int,
     ) {
         val remoteParticipantList: MutableList<ParticipantListCellModel> =
             participantMap.values.map {
                 getRemoteParticipantListCellModel(it)
             }.filter { participantListRemoteParticipantVisibility(it, canShowLobby) }.toMutableList()
-        remoteParticipantListCellStateFlow.value = remoteParticipantList
 
-        localParticipantListCellStateFlow.value = getLocalParticipantListCellModel(localUserState)
+        val display = if (visibilityState.status != VisibilityStatus.VISIBLE)
+            false
+        else viewViewModelMutableStateFlow.value.isDisplayed
 
-        if (visibilityState.status != VisibilityStatus.VISIBLE)
-            closeParticipantList()
+        viewViewModelMutableStateFlow.value = ParticipantListViewViewModel(
+            remoteParticipantList = remoteParticipantList,
+            localParticipantListCell = getLocalParticipantListCellModel(localUserState),
+            totalActiveParticipantCount = totalParticipantCountExceptHidden,
+            isDisplayed = display,
+        )
     }
 
     private fun participantListRemoteParticipantVisibility(
@@ -80,11 +90,11 @@ internal class ParticipantListViewModel(private val dispatch: (Action) -> Unit) 
         )
 
     fun displayParticipantList() {
-        displayParticipantListStateFlow.value = true
+        viewViewModelMutableStateFlow.value = viewViewModelMutableStateFlow.value.copy(isDisplayed = true)
     }
 
     fun closeParticipantList() {
-        displayParticipantListStateFlow.value = false
+        viewViewModelMutableStateFlow.value = viewViewModelMutableStateFlow.value.copy(isDisplayed = false)
     }
 
     fun admitParticipant(userIdentifier: String) {
@@ -92,11 +102,18 @@ internal class ParticipantListViewModel(private val dispatch: (Action) -> Unit) 
     }
 
     fun declineParticipant(userIdentifier: String) {
-        dispatch(ParticipantAction.Decline(userIdentifier))
+        dispatch(ParticipantAction.Reject(userIdentifier))
     }
 
     fun admitAllLobbyParticipants() {
         dispatch(ParticipantAction.AdmitAll())
+    }
+
+    fun displayParticipantMenu(userIdentifier: String, displayName: String?) {
+        if (userIdentifier != localUserIdentifier) {
+            closeParticipantList()
+            displayParticipantMenuCallback(userIdentifier, displayName)
+        }
     }
 
     private fun getLocalParticipantListCellModel(localUserState: LocalUserState): ParticipantListCellModel {
@@ -104,7 +121,7 @@ internal class ParticipantListViewModel(private val dispatch: (Action) -> Unit) 
         return ParticipantListCellModel(
             localUserDisplayName ?: "",
             localUserState.audioState.operation == AudioOperationalStatus.OFF,
-            "",
+            localUserIdentifier,
             false
         )
     }
@@ -118,6 +135,13 @@ internal class ParticipantListViewModel(private val dispatch: (Action) -> Unit) 
         )
     }
 }
+
+internal data class ParticipantListViewViewModel(
+    val remoteParticipantList: List<ParticipantListCellModel>,
+    val localParticipantListCell: ParticipantListCellModel,
+    val totalActiveParticipantCount: Int,
+    val isDisplayed: Boolean,
+)
 
 internal data class ParticipantListCellModel(
     val displayName: String,
