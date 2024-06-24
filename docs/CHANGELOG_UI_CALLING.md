@@ -1,11 +1,13 @@
 # Azure Communication UI Calling Release History
 
+## 1.9.0 (TBD)
+- Rooms call
+
 ## 1.8.0 (2024-06-20)
 
 ### Features
 - Telecom manager integration supported by native calling SDK
 - One to one call support with push notifications
-- Rooms call
 - Teams meeting join with meeting id
 
 ## 1.7.0 (2024-05-29)
