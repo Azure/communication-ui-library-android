@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.calling.models;
 
-/* <ROOMS_SUPPORT:0> */
+/* <ROOMS_SUPPORT:0> */ 
 /**
  * Room Call locator to start Room call experience using
  *  {@link com.azure.android.communication.ui.calling.CallComposite}.

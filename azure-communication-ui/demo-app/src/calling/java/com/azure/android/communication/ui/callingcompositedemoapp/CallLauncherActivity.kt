@@ -27,8 +27,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.common.CommunicationTokenCredential
-/* <ROOMS_SUPPORT:0> */
-/* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.FeatureFlags
@@ -173,10 +171,9 @@ class CallLauncherActivity : AppCompatActivity() {
                 if (groupCallRadioButton.isChecked) {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.GROUP_CALL_ID)
                     teamsMeetingRadioButton.isChecked = false
-                    /* <MEETING_ID_LOCATOR> */
+                    oneToNCallRadioButton.isChecked = false
                     teamsMeetingPasscode.visibility = View.GONE
                     teamsMeetingId.visibility = View.GONE
-                    /* </MEETING_ID_LOCATOR> */
                     /* <ROOMS_SUPPORT:4> */
                     roomsMeetingRadioButton.isChecked = false
                     oneToNCallRadioButton.isChecked = false
@@ -188,10 +185,8 @@ class CallLauncherActivity : AppCompatActivity() {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.TEAMS_MEETING_LINK)
                     groupCallRadioButton.isChecked = false
                     oneToNCallRadioButton.isChecked = false
-                    /* <MEETING_ID_LOCATOR> */
                     teamsMeetingPasscode.visibility = View.VISIBLE
                     teamsMeetingId.visibility = View.VISIBLE
-                    /* </MEETING_ID_LOCATOR> */
                     /* <ROOMS_SUPPORT:4> */
                     roomsMeetingRadioButton.isChecked = false
                     /* </ROOMS_SUPPORT:1> */
@@ -204,13 +199,11 @@ class CallLauncherActivity : AppCompatActivity() {
                     groupCallRadioButton.isChecked = false
                     oneToNCallRadioButton.isChecked = false
                     teamsMeetingRadioButton.isChecked = false
-                    /* <MEETING_ID_LOCATOR> */
                     teamsMeetingPasscode.visibility = View.GONE
                     teamsMeetingId.visibility = View.GONE
                     /* </MEETING_ID_LOCATOR> */
                 }
             }
-
             /* </ROOMS_SUPPORT:0> */
 
             oneToNCallRadioButton.setOnClickListener {
@@ -218,6 +211,8 @@ class CallLauncherActivity : AppCompatActivity() {
                     groupIdOrTeamsMeetingLinkText.setText(BuildConfig.PARTICIPANT_MRIS)
                     groupCallRadioButton.isChecked = false
                     teamsMeetingRadioButton.isChecked = false
+                    teamsMeetingPasscode.visibility = View.GONE
+                    teamsMeetingId.visibility = View.GONE
                     /* <ROOMS_SUPPORT:4> */
                     roomsMeetingRadioButton.isChecked = false
                     /* </ROOMS_SUPPORT:1> */
@@ -305,7 +300,6 @@ class CallLauncherActivity : AppCompatActivity() {
         unregisterReceiver(callLauncherBroadCastReceiver)
         DismissCompositeButtonView.get(this).hide()
         DismissCompositeButtonView.buttonView = null
-        (application as CallLauncherApplication).onDestroy()
     }
 
     // check whether new Activity instance was brought to top of stack,
@@ -350,13 +344,8 @@ class CallLauncherActivity : AppCompatActivity() {
         var meetingPasscode: String? = null
         if (binding.teamsMeetingRadioButton.isChecked) {
             meetingLink = binding.groupIdOrTeamsMeetingLinkText.text.toString()
-            /* <MEETING_ID_LOCATOR> */
             meetingId = binding.teamsMeetingId.text.toString()
             meetingPasscode = binding.teamsMeetingPasscode.text.toString()
-            /* <|MEETING_ID_LOCATOR>
-            meetingId = ""
-            meetingPasscode = ""
-            </MEETING_ID_LOCATOR> */
             if (meetingId.isBlank() && meetingLink.isBlank()) {
                 val message = getString(R.string.teams_meeting_link_empty_alert)
                 showAlert(message)
@@ -390,10 +379,8 @@ class CallLauncherActivity : AppCompatActivity() {
             roomId,
             /* </ROOMS_SUPPORT:2> */
             meetingLink,
-            /* <MEETING_ID_LOCATOR> */
             meetingId,
             meetingPasscode,
-            /* </MEETING_ID_LOCATOR> */
             participantMris
         )
     }

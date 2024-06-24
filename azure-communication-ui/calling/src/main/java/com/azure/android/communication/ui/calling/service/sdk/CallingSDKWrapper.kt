@@ -23,9 +23,7 @@ import com.azure.android.communication.calling.OutgoingVideoOptions
 import com.azure.android.communication.calling.RoomCallLocator
 /* </ROOMS_SUPPORT:0> */
 import com.azure.android.communication.calling.StartCallOptions
-/* <MEETING_ID_LOCATOR> */
 import com.azure.android.communication.calling.TeamsMeetingIdLocator
-/* </MEETING_ID_LOCATOR> */
 import com.azure.android.communication.calling.TeamsMeetingLinkLocator
 import com.azure.android.communication.calling.VideoDevicesUpdatedListener
 import com.azure.android.communication.ui.calling.CallCompositeException
@@ -444,9 +442,7 @@ internal class CallingSDKWrapper(
 
     override fun setTelecomManagerAudioRoute(audioRoute: Int) {
         if (nullableCall != null) {
-            /* <TELECOM_MANAGER_SUPPORT:0> */
             call.setTelecomManagerAudioRoute(audioRoute)
-            /* </TELECOM_MANAGER_SUPPORT:0> */
         }
     }
 
@@ -493,9 +489,9 @@ internal class CallingSDKWrapper(
                 CallType.TEAMS_MEETING -> {
                     if (!callConfig.meetingLink.isNullOrEmpty()) {
                         TeamsMeetingLinkLocator(callConfig.meetingLink)
-                    } /* <MEETING_ID_LOCATOR> */ else if (!callConfig.meetingId.isNullOrEmpty() && !callConfig.meetingPasscode.isNullOrEmpty()) {
+                    } else if (!callConfig.meetingId.isNullOrEmpty() && !callConfig.meetingPasscode.isNullOrEmpty()) {
                         TeamsMeetingIdLocator(callConfig.meetingId, callConfig.meetingPasscode)
-                    } /* </MEETING_ID_LOCATOR> */ else {
+                    } else {
                         throw CallCompositeException(
                             "Teams Meeting information is incomplete",
                             IllegalStateException()

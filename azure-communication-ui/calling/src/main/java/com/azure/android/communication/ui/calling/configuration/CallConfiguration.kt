@@ -5,8 +5,6 @@ package com.azure.android.communication.ui.calling.configuration
 
 import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.ui.calling.DiagnosticConfig
-/* <ROOMS_SUPPORT:0> */
-/* </ROOMS_SUPPORT:0> */
 import java.util.UUID
 
 internal enum class CallType {
@@ -22,10 +20,8 @@ internal enum class CallType {
 internal data class CallConfiguration(
     val groupId: UUID?,
     val meetingLink: String?,
-    /* <MEETING_ID_LOCATOR> */
     val meetingId: String?,
     val meetingPasscode: String?,
-    /* </MEETING_ID_LOCATOR> */
     /* <ROOMS_SUPPORT:5> */
     val roomId: String?,
     /* </ROOMS_SUPPORT:4> */

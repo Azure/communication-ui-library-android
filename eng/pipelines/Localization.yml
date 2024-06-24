@@ -76,9 +76,9 @@ extends:
                   teamId: "44987"
                   authType: 'FederatedIdentity'
                   FederatedIdentityServiceConnection: 'acs-native-ui'
-                  relativePathRoot: azure-communication-ui/azure-communication-ui/src/main/res/values
-                  resourceFilePath: azure_communication_ui_strings.xml;P:246
-                  outputDirectoryRoot: azure-communication-ui/azure-communication-ui/src/main
+                  relativePathRoot: azure-communication-ui/calling/src/main/res/values
+                  resourceFilePath: azure_communication_ui_calling_strings.xml;P:246
+                  outputDirectoryRoot: azure-communication-ui/calling/src/main/res
                   cultureMappingType: Android
               - task: MicrosoftTDBuild.tdbuild-task.tdbuild-task.TouchdownBuildTask@4
                 displayName: Touchdown Build Calling - Commit Changes
