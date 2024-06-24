@@ -696,7 +696,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                 val action = LocalParticipantAction.SetCapabilities(capabilities)
                 store.dispatch(action)
 
-                if (configuration.capabilitiesChangedNotificationMode != CallCompositeCapabilitiesChangedNotificationMode.NEVER_DISPLAY) {
+                if (configuration.capabilitiesChangedNotificationMode != CallCompositeCapabilitiesChangedNotificationMode.NEVER) {
                     // Only display toast message on capabilities changed
                     val anyLostCapability = event.changedCapabilities.any {
                         (it.type == ParticipantCapabilityType.UNMUTE_MICROPHONE && !it.isAllowed) ||

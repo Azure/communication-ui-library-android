@@ -15,12 +15,12 @@ public final class CallCompositeCapabilitiesChangedNotificationMode
     /**
      * Always display a notification when user capabilities are changed.
      */
-    public static final CallCompositeCapabilitiesChangedNotificationMode ALWAYS_DISPLAY = fromString("always_display");
+    public static final CallCompositeCapabilitiesChangedNotificationMode ALWAYS = fromString("always");
 
     /**
      * Never display a notification when user capabilities are changed.
      */
-    public static final CallCompositeCapabilitiesChangedNotificationMode NEVER_DISPLAY = fromString("never_display");
+    public static final CallCompositeCapabilitiesChangedNotificationMode NEVER = fromString("never");
 
     /**
      * Creates an instance of {@link CallCompositeCapabilitiesChangedNotificationMode} from a string name.
