@@ -23,7 +23,8 @@ internal class ParticipantActionUnitTest {
             0,
             emptyList(),
             0,
-            null
+            null,
+            0,
         )
         val action = ParticipantAction.LobbyError(CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS)
 
@@ -53,7 +54,8 @@ internal class ParticipantActionUnitTest {
             0,
             emptyList(),
             0,
-            CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS
+            CallCompositeLobbyErrorCode.LOBBY_DISABLED_BY_CONFIGURATIONS,
+            0,
         )
         val action = ParticipantAction.ClearLobbyError()
 

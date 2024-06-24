@@ -62,6 +62,7 @@ internal class CallingSDKEventHandler(
     private var dominantSpeakersSharedFlow = MutableSharedFlow<DominantSpeakersInfo>()
     private var callingStateWrapperSharedFlow = MutableSharedFlow<CallingStateWrapper>()
     private var callParticipantRoleSharedFlow = MutableSharedFlow<ParticipantRole?>()
+    private var totalRemoteParticipantCountSharedFlow = MutableSharedFlow<Int>()
     private var callIdSharedFlow = MutableStateFlow<String?>(null)
     private var remoteParticipantsInfoModelSharedFlow = MutableSharedFlow<Map<String, ParticipantInfoModel>>()
     private var callCapabilitiesEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
@@ -107,6 +108,8 @@ internal class CallingSDKEventHandler(
     fun getCallParticipantRoleSharedFlow(): SharedFlow<ParticipantRole?> =
         callParticipantRoleSharedFlow
 
+    fun getTotalRemoteParticipantCountSharedFlow(): SharedFlow<Int> = totalRemoteParticipantCountSharedFlow
+
     fun getCallCapabilitiesEventSharedFlow(): SharedFlow<CapabilitiesChangedEvent> =
         callCapabilitiesEventSharedFlow
 
@@ -143,6 +146,7 @@ internal class CallingSDKEventHandler(
         call.addOnIsMutedChangedListener(onIsMutedChanged)
         call.addOnRemoteParticipantsUpdatedListener(onParticipantsUpdated)
         call.addOnRoleChangedListener(onRoleChanged)
+        call.addOnTotalParticipantCountChangedListener(onTotalParticipantCountChanged)
         recordingFeature = call.feature { RecordingCallFeature::class.java }
         recordingFeature.addOnIsRecordingActiveChangedListener(onRecordingChanged)
         transcriptionFeature = call.feature { TranscriptionCallFeature::class.java }
@@ -178,6 +182,7 @@ internal class CallingSDKEventHandler(
         dominantSpeakersCallFeature.removeOnDominantSpeakersChangedListener(onDominantSpeakersChanged)
         capabilitiesFeature.removeOnCapabilitiesChangedListener(onCapabilitiesChanged)
         call?.removeOnRoleChangedListener(onRoleChanged)
+        call?.removeOnTotalParticipantCountChangedListener(onTotalParticipantCountChanged)
         call?.removeOnIsMutedChangedListener(onIsMutedChanged)
         unsubscribeFromUserFacingDiagnosticsEvents()
     }
@@ -200,6 +205,11 @@ internal class CallingSDKEventHandler(
     private val onRoleChanged =
         PropertyChangedListener {
             onRoleChanged()
+        }
+
+    private val onTotalParticipantCountChanged =
+        PropertyChangedListener {
+            onTotalParticipantCountChanged()
         }
 
     private val onCapabilitiesChanged =
@@ -365,6 +375,12 @@ internal class CallingSDKEventHandler(
         }
     }
 
+    private fun onTotalParticipantCountChanged() {
+        coroutineScope.launch {
+            // substract local participant from total participantCount
+            totalRemoteParticipantCountSharedFlow.emit((call?.totalParticipantCount ?: 1) - 1)
+        }
+    }
     private fun onCapabilitiesChanged(capabilitiesChangedEvent: SdkCapabilitiesChangedEvent) {
         coroutineScope.launch {
             callCapabilitiesEventSharedFlow.emit(capabilitiesChangedEvent.into())
@@ -599,6 +615,7 @@ internal class CallingSDKEventHandler(
         callIdSharedFlow = MutableStateFlow(null)
         remoteParticipantsInfoModelSharedFlow = MutableSharedFlow()
         callParticipantRoleSharedFlow = MutableSharedFlow()
+        totalRemoteParticipantCountSharedFlow = MutableSharedFlow()
         callCapabilitiesEventSharedFlow = MutableSharedFlow()
 
         //region Call Diagnostics

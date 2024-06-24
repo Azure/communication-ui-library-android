@@ -110,6 +110,7 @@
 
     <!--    Participant list-->
     <string name="azure_communication_ui_calling_participant_list_in_call_n_people">En la llamada (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d more</string>
     <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">En la sala de espera (%1$d)</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Pulsa dos veces para admitir o rechazar participante</string>
 

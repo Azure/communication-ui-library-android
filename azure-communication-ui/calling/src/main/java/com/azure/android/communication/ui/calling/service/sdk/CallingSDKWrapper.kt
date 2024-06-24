@@ -101,6 +101,8 @@ internal class CallingSDKWrapper(
     override fun getLocalParticipantRoleSharedFlow() =
         callingSDKEventHandler.getCallParticipantRoleSharedFlow()
 
+    override fun getTotalRemoteParticipantCountSharedFlow() = callingSDKEventHandler.getTotalRemoteParticipantCountSharedFlow()
+
     override fun getCapabilitiesChangedEventSharedFlow() =
         callingSDKEventHandler.getCallCapabilitiesEventSharedFlow()
 

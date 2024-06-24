@@ -102,6 +102,8 @@ internal class CallingService(
         return callingSdk.getLocalParticipantRoleSharedFlow()
     }
 
+    fun getTotalRemoteParticipantCountSharedFlow() = callingSdk.getTotalRemoteParticipantCountSharedFlow()
+
     fun getCapabilitiesChangedEventSharedFlow(): SharedFlow<CapabilitiesChangedEvent> =
         callingSdk.getCapabilitiesChangedEventSharedFlow()
 
