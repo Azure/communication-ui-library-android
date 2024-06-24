@@ -110,28 +110,28 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val participantListViewModel = ParticipantListViewModel(mockAppStore::dispatch)
-            participantListViewModel.init(initialRemoteParticipantsMap, localUserState, true) { _, _ -> }
+            participantListViewModel.init(initialRemoteParticipantsMap, localUserState, true, { _, _ -> }, initialRemoteParticipantsMap.size)
 
             val resultListFromRemoteParticipantListCellStateFlow =
-                mutableListOf<List<ParticipantListCellModel>>()
+                mutableListOf<ParticipantListViewViewModel>()
 
             val flowJob = launch {
-                participantListViewModel.getRemoteParticipantListCellStateFlow()
+                participantListViewModel.viewViewModelStateFlow
                     .toList(resultListFromRemoteParticipantListCellStateFlow)
             }
 
             // act
-            participantListViewModel.update(updatedRemoteParticipantsMap, localUserState, VisibilityState(status = VisibilityStatus.VISIBLE), true)
+            participantListViewModel.update(updatedRemoteParticipantsMap, localUserState, VisibilityState(status = VisibilityStatus.VISIBLE), true, updatedRemoteParticipantsMap.count())
 
             // assert
             Assert.assertEquals(
                 expectedInitialRemoteParticipantList,
-                resultListFromRemoteParticipantListCellStateFlow[0]
+                resultListFromRemoteParticipantListCellStateFlow[0].remoteParticipantList
             )
 
             Assert.assertEquals(
                 expectedUpdatedRemoteParticipantList,
-                resultListFromRemoteParticipantListCellStateFlow[1]
+                resultListFromRemoteParticipantListCellStateFlow[1].remoteParticipantList
             )
 
             flowJob.cancel()
@@ -213,14 +213,15 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 initialRemoteParticipantsMap,
                 initialExpectedLocalUserState,
                 true,
-                displayParticipantMenuCallback = { _, _ -> }
+                displayParticipantMenuCallback = { _, _ -> },
+                totalParticipantCountExceptHidden = initialRemoteParticipantsMap.count()
             )
 
             val resultListFromLocalParticipantListCellStateFlow =
-                mutableListOf<ParticipantListCellModel>()
+                mutableListOf<ParticipantListViewViewModel>()
 
             val flowJob = launch {
-                participantListViewModel.getLocalParticipantListCellStateFlow()
+                participantListViewModel.viewViewModelStateFlow
                     .toList(resultListFromLocalParticipantListCellStateFlow)
             }
 
@@ -229,18 +230,19 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 initialRemoteParticipantsMap,
                 updatedExpectedLocalUserState,
                 VisibilityState(status = VisibilityStatus.VISIBLE),
-                true
+                true,
+                totalParticipantCountExceptHidden = initialRemoteParticipantsMap.count()
             )
 
             // assert
             Assert.assertEquals(
                 expectedInitialLocalParticipantListCellModel,
-                resultListFromLocalParticipantListCellStateFlow[0]
+                resultListFromLocalParticipantListCellStateFlow[0].localParticipantListCell
             )
 
             Assert.assertEquals(
                 expectedUpdatedLocalParticipantListCellModel,
-                resultListFromLocalParticipantListCellStateFlow[1]
+                resultListFromLocalParticipantListCellStateFlow[1].localParticipantListCell
             )
 
             flowJob.cancel()
@@ -288,14 +290,15 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 initialRemoteParticipantsMap,
                 initialExpectedLocalUserState,
                 true,
-                displayParticipantMenuCallback = { _, _ -> }
+                displayParticipantMenuCallback = { _, _ -> },
+                totalParticipantCountExceptHidden = initialRemoteParticipantsMap.size,
             )
 
             val resultListFromDisplayParticipantListStateFlow =
-                mutableListOf<Boolean>()
+                mutableListOf<ParticipantListViewViewModel>()
 
             val flowJob = launch {
-                participantListViewModel.getDisplayParticipantListStateFlow()
+                participantListViewModel.viewViewModelStateFlow
                     .toList(resultListFromDisplayParticipantListStateFlow)
             }
 
@@ -305,7 +308,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             // assert
             Assert.assertEquals(
                 true,
-                resultListFromDisplayParticipantListStateFlow[1]
+                resultListFromDisplayParticipantListStateFlow[1].isDisplayed
             )
 
             flowJob.cancel()
@@ -353,14 +356,15 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 initialRemoteParticipantsMap,
                 initialExpectedLocalUserState,
                 true,
-                displayParticipantMenuCallback = { _, _ -> }
+                displayParticipantMenuCallback = { _, _ -> },
+                totalParticipantCountExceptHidden = initialRemoteParticipantsMap.size,
             )
 
             val resultListFromDisplayParticipantListStateFlow =
-                mutableListOf<Boolean>()
+                mutableListOf<ParticipantListViewViewModel>()
 
             val flowJob = launch {
-                participantListViewModel.getDisplayParticipantListStateFlow()
+                participantListViewModel.viewViewModelStateFlow
                     .toList(resultListFromDisplayParticipantListStateFlow)
             }
 
@@ -370,7 +374,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             // assert
             Assert.assertEquals(
                 false,
-                resultListFromDisplayParticipantListStateFlow[0]
+                resultListFromDisplayParticipantListStateFlow[0].isDisplayed
             )
 
             flowJob.cancel()
@@ -455,28 +459,28 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val participantListViewModel = ParticipantListViewModel(mockAppStore::dispatch)
-            participantListViewModel.init(initialRemoteParticipantsMap, localUserState, true) { _, _ -> }
+            participantListViewModel.init(initialRemoteParticipantsMap, localUserState, true, { _, _ -> }, initialRemoteParticipantsMap.count())
 
             val resultListFromRemoteParticipantListCellStateFlow =
-                mutableListOf<List<ParticipantListCellModel>>()
+                mutableListOf<ParticipantListViewViewModel>()
 
             val flowJob = launch {
-                participantListViewModel.getRemoteParticipantListCellStateFlow()
+                participantListViewModel.viewViewModelStateFlow
                     .toList(resultListFromRemoteParticipantListCellStateFlow)
             }
 
             // act
-            participantListViewModel.update(updatedRemoteParticipantsMap, localUserState, VisibilityState(status = VisibilityStatus.VISIBLE), true)
+            participantListViewModel.update(updatedRemoteParticipantsMap, localUserState, VisibilityState(status = VisibilityStatus.VISIBLE), true, updatedRemoteParticipantsMap.size)
 
             // assert
             Assert.assertEquals(
                 expectedInitialRemoteParticipantList,
-                resultListFromRemoteParticipantListCellStateFlow[0]
+                resultListFromRemoteParticipantListCellStateFlow[0].remoteParticipantList
             )
 
             Assert.assertEquals(
                 expectedUpdatedRemoteParticipantList,
-                resultListFromRemoteParticipantListCellStateFlow[1]
+                resultListFromRemoteParticipantListCellStateFlow[1].remoteParticipantList
             )
 
             flowJob.cancel()
@@ -562,28 +566,28 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val participantListViewModel = ParticipantListViewModel(mockAppStore::dispatch)
-            participantListViewModel.init(initialRemoteParticipantsMap, localUserState, false) { _, _ -> }
+            participantListViewModel.init(initialRemoteParticipantsMap, localUserState, false, { _, _ -> }, updatedRemoteParticipantsMap.size)
 
             val resultListFromRemoteParticipantListCellStateFlow =
-                mutableListOf<List<ParticipantListCellModel>>()
+                mutableListOf<ParticipantListViewViewModel>()
 
             val flowJob = launch {
-                participantListViewModel.getRemoteParticipantListCellStateFlow()
+                participantListViewModel.viewViewModelStateFlow
                     .toList(resultListFromRemoteParticipantListCellStateFlow)
             }
 
             // act
-            participantListViewModel.update(updatedRemoteParticipantsMap, localUserState, VisibilityState(status = VisibilityStatus.VISIBLE), false)
+            participantListViewModel.update(updatedRemoteParticipantsMap, localUserState, VisibilityState(status = VisibilityStatus.VISIBLE), false, updatedRemoteParticipantsMap.size)
 
             // assert
             Assert.assertEquals(
                 expectedInitialRemoteParticipantList,
-                resultListFromRemoteParticipantListCellStateFlow[0]
+                resultListFromRemoteParticipantListCellStateFlow[0].remoteParticipantList
             )
 
             Assert.assertEquals(
                 expectedUpdatedRemoteParticipantList,
-                resultListFromRemoteParticipantListCellStateFlow[1]
+                resultListFromRemoteParticipantListCellStateFlow[1].remoteParticipantList
             )
 
             flowJob.cancel()
@@ -679,28 +683,28 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val participantListViewModel = ParticipantListViewModel(mockAppStore::dispatch)
-            participantListViewModel.init(initialRemoteParticipantsMap, localUserState, true) { _, _ -> }
+            participantListViewModel.init(initialRemoteParticipantsMap, localUserState, true, { _, _ -> }, initialRemoteParticipantsMap.size)
 
             val resultListFromRemoteParticipantListCellStateFlow =
-                mutableListOf<List<ParticipantListCellModel>>()
+                mutableListOf<ParticipantListViewViewModel>()
 
             val flowJob = launch {
-                participantListViewModel.getRemoteParticipantListCellStateFlow()
+                participantListViewModel.viewViewModelStateFlow
                     .toList(resultListFromRemoteParticipantListCellStateFlow)
             }
 
             // act
-            participantListViewModel.update(updatedRemoteParticipantsMap, localUserState, VisibilityState(status = VisibilityStatus.VISIBLE), true)
+            participantListViewModel.update(updatedRemoteParticipantsMap, localUserState, VisibilityState(status = VisibilityStatus.VISIBLE), true, 1)
 
             // assert
             Assert.assertEquals(
                 expectedInitialRemoteParticipantList,
-                resultListFromRemoteParticipantListCellStateFlow[0]
+                resultListFromRemoteParticipantListCellStateFlow[0].remoteParticipantList
             )
 
             Assert.assertEquals(
                 expectedUpdatedRemoteParticipantList,
-                resultListFromRemoteParticipantListCellStateFlow[1]
+                resultListFromRemoteParticipantListCellStateFlow[1].remoteParticipantList
             )
 
             flowJob.cancel()

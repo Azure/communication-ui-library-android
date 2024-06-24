@@ -89,7 +89,7 @@ internal class AppReduxStateReducerUnitTest {
         val action = NavigationAction.CallLaunched()
         val state = AppReduxState("", false, false)
         state.callState = CallingState(CallingStatus.CONNECTED)
-        state.remoteParticipantState = RemoteParticipantsState(HashMap(), 0, listOf(), 0, null)
+        state.remoteParticipantState = RemoteParticipantsState(HashMap(), 0, listOf(), 0, null, 0)
         state.localParticipantState = LocalUserState(
             CameraState(
                 CameraOperationalStatus.OFF,

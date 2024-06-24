@@ -411,7 +411,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             stateFlow.emit(storeState)
             verify(mockParticipantGridViewModel, times(1)).update(any(), any(), any(), any(), any())
             verify(mockFloatingHeaderViewModel, times(1)).update(any())
-            verify(mockParticipantListViewModel, times(1)).update(any(), any(), any(), any())
+            verify(mockParticipantListViewModel, times(1)).update(any(), any(), any(), any(), any())
             verify(mockBannerViewModel, times(1)).update(any(), any())
             verify(mockControlBarViewModel, times(2)).update(
                 any(),
@@ -527,7 +527,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             // assert
             verify(mockParticipantGridViewModel, times(1)).update(any(), any(), any(), any(), any())
             verify(mockFloatingHeaderViewModel, times(1)).update(any())
-            verify(mockParticipantListViewModel, times(1)).update(any(), any(), any(), any())
+            verify(mockParticipantListViewModel, times(1)).update(any(), any(), any(), any(), any())
             verify(mockBannerViewModel, times(1)).update(any(), any())
             verify(mockControlBarViewModel, times(2)).update(
                 any(),
@@ -638,7 +638,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             // assert
             verify(mockParticipantGridViewModel, times(0)).update(any(), any(), any(), any(), any())
             verify(mockFloatingHeaderViewModel, times(0)).update(any())
-            verify(mockParticipantListViewModel, times(0)).update(any(), any(), any(), any())
+            verify(mockParticipantListViewModel, times(0)).update(any(), any(), any(), any(), any())
             verify(mockBannerViewModel, times(0)).update(any(), any())
             verify(mockControlBarViewModel, times(2)).update(
                 any(),
@@ -880,7 +880,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 timestamp,
                 listOf(),
                 0,
-                lobbyErrorCode = null
+                lobbyErrorCode = null,
+                totalParticipantCount = 0,
             )
 
             // act
@@ -893,7 +894,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             verify(
                 mockParticipantListViewModel,
                 times(0)
-            ).update(any(), any(), any(), any())
+            ).update(any(), any(), any(), any(), any())
             verify(
                 mockLobbyHeaderViewModel,
                 times(0)
@@ -907,7 +908,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             verify(
                 mockParticipantListViewModel,
                 times(1)
-            ).init(argThat { map -> map.isEmpty() }, argThat { status -> status == newState.localParticipantState }, argThat { value -> value == true }, any())
+            ).init(argThat { map -> map.isEmpty() }, argThat { status -> status == newState.localParticipantState }, argThat { value -> value == true }, any(), any())
             verify(
                 mockLobbyHeaderViewModel,
                 times(1)
@@ -963,7 +964,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @Test
     @ExperimentalCoroutinesApi
-    fun callingViewModel_onParticipantListChange_then_showLobbyParticipantsOnGridAndParticipantList_ifRoleIsOrganizer() {
+    fun callingViewModel_onParticipantListChange_then_showLobbyParticipantsOnGridAndParticipantList_ifCapableManageLobby() {
         runScopedTest {
             val capabilities = setOf(
                 ParticipantCapabilityType.TURN_VIDEO_ON,
@@ -1094,7 +1095,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             timestamp,
             listOf(),
             0,
-            lobbyErrorCode = null
+            lobbyErrorCode = null,
+            totalParticipantCount = participantMap.count(),
         )
 
         // act
@@ -1111,7 +1113,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             argThat { map -> map.size == 3 },
             argThat { status -> status == newState.localParticipantState },
             argThat { value -> value.status == VisibilityStatus.VISIBLE },
-            argThat { value -> value == showLobby }
+            argThat { value -> value == showLobby },
+            argThat { value -> value == 2 }
         )
         verify(
             mockLobbyHeaderViewModel,
@@ -1138,7 +1141,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             argThat { map -> map.isEmpty() },
             argThat { status -> status == newState.localParticipantState },
             argThat { value -> value == showLobby },
-            any()
+            any(),
+            any(),
         )
         verify(
             mockLobbyHeaderViewModel,
@@ -1255,7 +1259,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             timestamp,
             listOf(),
             0,
-            lobbyErrorCode = null
+            lobbyErrorCode = null,
+            totalParticipantCount = participantMap.size,
         )
 
         // act
@@ -1278,7 +1283,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         verify(
             mockParticipantListViewModel,
             times(1)
-        ).update(argThat { map -> map.size == expectedParticipantCountOnParticipantList }, any(), any(), any())
+        ).update(argThat { map -> map.size == expectedParticipantCountOnParticipantList }, any(), any(), any(), any(),)
         verify(
             mockLobbyHeaderViewModel,
             times(1)

@@ -48,14 +48,16 @@ internal class ParticipantListView(
         viewLifecycleOwner.lifecycleScope.launch {
             avatarViewManager.getRemoteParticipantsPersonaSharedFlow().collect {
                 if (participantListDrawer.isShowing) {
-                    updateRemoteParticipantListContent(viewModel.vvmStateFlow.value.remoteParticipantList,
-                        viewModel.vvmStateFlow.value.totalActiveParticipantCount)
+                    updateRemoteParticipantListContent(
+                        viewModel.viewViewModelStateFlow.value.remoteParticipantList,
+                        viewModel.viewViewModelStateFlow.value.totalActiveParticipantCount
+                    )
                 }
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.vvmStateFlow.collect { vvm ->
+            viewModel.viewViewModelStateFlow.collect { vvm ->
                 if (vvm.isDisplayed) {
                     showParticipantList()
                 } else {
@@ -130,7 +132,7 @@ internal class ParticipantListView(
         var titles = 1
 
         // title for in lobby participants
-        if (viewModel.vvmStateFlow.value.remoteParticipantList.any { it.status == ParticipantStatus.IN_LOBBY }) {
+        if (viewModel.viewViewModelStateFlow.value.remoteParticipantList.any { it.status == ParticipantStatus.IN_LOBBY }) {
             titles += 1
         }
 
@@ -229,7 +231,7 @@ internal class ParticipantListView(
                     title = context.getString(
                         R.string.azure_communication_ui_calling_participant_list_in_call_plus_more_people,
                         plusMoreParticipants
-                        ),
+                    ),
                     contentDescription = "",
                     accessoryImage = null,
                     accessoryColor = null,

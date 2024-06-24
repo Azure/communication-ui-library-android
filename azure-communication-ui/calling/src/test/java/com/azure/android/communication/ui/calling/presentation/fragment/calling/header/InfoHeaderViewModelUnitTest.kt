@@ -43,7 +43,8 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 timestamp,
                 listOf(),
                 0,
-                lobbyErrorCode = null
+                lobbyErrorCode = null,
+                totalParticipantCount = 0,
             )
             appState.callState = CallingState(
                 CallingStatus.CONNECTED,
@@ -101,8 +102,9 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 expectedParticipantMap,
                 timestamp,
                 listOf(),
-                0,
-                lobbyErrorCode = null
+                3,
+                lobbyErrorCode = null,
+                totalParticipantCount = 0,
             )
             appState.callState = CallingState(
                 CallingStatus.CONNECTED,
