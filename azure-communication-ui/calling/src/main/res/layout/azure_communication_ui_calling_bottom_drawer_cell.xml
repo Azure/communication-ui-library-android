@@ -39,21 +39,36 @@
         app:constraint_referenced_ids="azure_communication_ui_cell_icon, azure_communication_ui_participant_list_avatar"
         />
 
-    <TextView
-        android:id="@+id/azure_communication_ui_cell_text"
+    <LinearLayout
+        android:id="@+id/azure_communication_ui_calling_bottom_drawer_title_subtitle_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:text="@string/azure_communication_ui_calling_audio_device_drawer_android"
-        android:textColor="@color/azure_communication_ui_calling_toggle_selector"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/azure_communication_ui_barrier_start_icon"
         app:layout_constraintEnd_toStartOf="@id/azure_communication_ui_barrier_end_icon"
-        />
+        app:layout_constraintStart_toEndOf="@id/azure_communication_ui_barrier_start_icon"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/azure_communication_ui_cell_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/azure_communication_ui_calling_audio_device_drawer_android"
+            android:textColor="@color/azure_communication_ui_calling_toggle_selector" />
+
+        <TextView
+            android:id="@+id/azure_communication_ui_calling_bottom_drawer_sub_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/azure_communication_ui_calling_color_participant_list_mute_mic"
+            android:visibility="gone" />
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/azure_communication_ui_cell_check_mark"
@@ -69,6 +84,34 @@
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/azure_communication_ui_calling_toggle_selector"
         />
+
+    <ImageView
+        android:id="@+id/azure_communication_ui_calling_bottom_drawer_cell_arrow_next"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="12dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/azure_communication_ui_calling_drawer_next_content_description"
+        android:src="@drawable/azure_communication_ui_calling_ic_fluent_arrow_next_24_selector"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/azure_communication_ui_calling_toggle_selector" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/azure_communication_ui_calling_bottom_drawer_toggle_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:thumbTint="@color/azure_communication_ui_calling_color_on_background"
+        app:trackTint="@color/azure_communication_ui_calling_on_primary_checked_selector" />
 
     <TextView
         android:id="@+id/azure_communication_ui_cell_additional_text"

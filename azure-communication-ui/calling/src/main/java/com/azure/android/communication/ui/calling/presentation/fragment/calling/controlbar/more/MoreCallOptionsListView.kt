@@ -81,15 +81,21 @@ internal class MoreCallOptionsListView(
             isChecked = false,
             participantViewData = null,
             isOnHold = false,
+            showRightArrow = showRightArrow(entry),
             onClickAction =
             {
                 when (entry) {
                     MoreCallOptionsListViewModel.Companion.Entries.SHARE_DIAGNOSTICS -> shareDiagnostics(context)
                     MoreCallOptionsListViewModel.Companion.Entries.REPORT_ISSUE -> viewModel.requestReportIssueScreen()
+                    MoreCallOptionsListViewModel.Companion.Entries.CAPTIONS -> { viewModel.toggleCaptionsOptions() }
                 }
                 menuDrawer.dismissDialog()
             }
         )
+    }
+
+    private fun showRightArrow(entry: MoreCallOptionsListViewModel.Companion.Entries): Boolean {
+        return entry == MoreCallOptionsListViewModel.Companion.Entries.CAPTIONS
     }
 
     private fun shareDiagnostics(context: Context) {

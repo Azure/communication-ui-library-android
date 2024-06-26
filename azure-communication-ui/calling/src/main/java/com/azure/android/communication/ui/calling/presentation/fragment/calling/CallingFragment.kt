@@ -23,6 +23,7 @@ import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivityViewModel
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsInfoView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderView
@@ -36,6 +37,8 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay.ConnectingOverlayView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.captions.CaptionsLanguageSelectionListView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.captions.CaptionsListView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.menu.ParticipantMenuView
@@ -55,6 +58,7 @@ internal class CallingFragment :
     private val videoViewManager get() = activityViewModel.container.videoViewManager
     private val avatarViewManager get() = activityViewModel.container.avatarViewManager
     private val viewModel get() = activityViewModel.callingViewModel
+    private val captionsViewManager get() = activityViewModel.container.captionsDataManager
 
     private val closeToUser = 0f
     private lateinit var controlBarView: ControlBarView
@@ -79,6 +83,9 @@ internal class CallingFragment :
     private lateinit var moreCallOptionsListView: MoreCallOptionsListView
     private lateinit var lobbyHeaderView: LobbyHeaderView
     private lateinit var lobbyErrorHeaderView: LobbyErrorHeaderView
+    private lateinit var captionsListView: CaptionsListView
+    private lateinit var captionsLanguageSelectionListView: CaptionsLanguageSelectionListView
+    private lateinit var captionsInfoView: CaptionsInfoView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -200,6 +207,22 @@ internal class CallingFragment :
         moreCallOptionsListView.layoutDirection =
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         moreCallOptionsListView.start(viewLifecycleOwner)
+
+        captionsListView = CaptionsListView(
+            context = this.requireContext(),
+            viewModel = viewModel.captionsListViewModel
+        )
+        captionsListView.start(viewLifecycleOwner)
+
+        captionsLanguageSelectionListView = CaptionsLanguageSelectionListView(
+            context = this.requireContext(),
+            viewModel = viewModel.captionsLanguageSelectionListViewModel
+        )
+        captionsLanguageSelectionListView.start(viewLifecycleOwner)
+
+        captionsInfoView = view.findViewById(R.id.azure_communication_ui_calling_captions_info_view)
+        viewModel.captionsInfoViewModel.setCaptionsDataManager(captionsViewManager)
+        captionsInfoView.start(viewLifecycleOwner, viewModel.captionsInfoViewModel)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -273,6 +296,7 @@ internal class CallingFragment :
         if (this::moreCallOptionsListView.isInitialized) moreCallOptionsListView.stop()
         if (this::upperMessageBarNotificationLayoutView.isInitialized) upperMessageBarNotificationLayoutView.stop()
         if (this::toastNotificationView.isInitialized) toastNotificationView.stop()
+        if (this::captionsListView.isInitialized) captionsListView.stop()
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}

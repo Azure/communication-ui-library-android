@@ -184,4 +184,13 @@
 
     <!-- Participant menu view -->
     <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">disabled item.</string>
+
+    <!--    Drawer-->
+    <string name="azure_communication_ui_calling_drawer_next_content_description">Next</string>
+
+    <!--    Captions-->
+    <string name="azure_communication_ui_calling_live_captions_title">Live captions</string>
+    <string name="azure_communication_ui_calling_captions_spoken_language_title">Spoken language</string>
+    <string name="azure_communication_ui_calling_captions_caption_language_title">Caption language</string>
+    <string name="azure_communication_ui_calling_captions_no_display_name">Unknown</string>
 </resources>
