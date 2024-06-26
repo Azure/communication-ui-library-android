@@ -13,10 +13,10 @@ internal class CaptionsReducerImpl : CaptionsReducer {
     override fun reduce(state: CaptionsState, action: Action): CaptionsState {
         return when (action) {
             is CaptionsAction.Started -> {
-                state.copy(isStarted = true)
+                state.copy(isCaptionsStarted = true)
             }
             is CaptionsAction.Stopped -> {
-                state.copy(isStarted = false)
+                state.copy(isCaptionsStarted = false)
             }
             is CaptionsAction.SpokenLanguageChanged -> {
                 state.copy(activeSpokenLanguage = action.language)

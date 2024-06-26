@@ -11,6 +11,7 @@ import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
+import android.util.DisplayMetrics
 import android.util.LayoutDirection
 import android.view.View
 import android.view.accessibility.AccessibilityManager
@@ -23,7 +24,7 @@ import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivityViewModel
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerView
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsInfoView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsLinearLayout
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderView
@@ -50,6 +51,7 @@ internal class CallingFragment :
         private const val LEAVE_CONFIRM_VIEW_KEY = "LeaveConfirmView"
         private const val AUDIO_DEVICE_LIST_VIEW_KEY = "AudioDeviceListView"
         private const val PARTICIPANT_LIST_VIEW_KEY = "ParticipantListView"
+        const val MAX_CAPTIONS_DATA_SIZE = 50
     }
 
     // Get the DI Container, which gives us what we need for this fragment (dependencies)
@@ -58,7 +60,7 @@ internal class CallingFragment :
     private val videoViewManager get() = activityViewModel.container.videoViewManager
     private val avatarViewManager get() = activityViewModel.container.avatarViewManager
     private val viewModel get() = activityViewModel.callingViewModel
-    private val captionsViewManager get() = activityViewModel.container.captionsDataManager
+    private val captionsDataManager get() = activityViewModel.container.captionsDataManager
 
     private val closeToUser = 0f
     private lateinit var controlBarView: ControlBarView
@@ -85,7 +87,7 @@ internal class CallingFragment :
     private lateinit var lobbyErrorHeaderView: LobbyErrorHeaderView
     private lateinit var captionsListView: CaptionsListView
     private lateinit var captionsLanguageSelectionListView: CaptionsLanguageSelectionListView
-    private lateinit var captionsInfoView: CaptionsInfoView
+    private lateinit var captionsLinearLayout: CaptionsLinearLayout
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -212,17 +214,23 @@ internal class CallingFragment :
             context = this.requireContext(),
             viewModel = viewModel.captionsListViewModel
         )
+        captionsListView.layoutDirection =
+            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         captionsListView.start(viewLifecycleOwner)
 
         captionsLanguageSelectionListView = CaptionsLanguageSelectionListView(
             context = this.requireContext(),
             viewModel = viewModel.captionsLanguageSelectionListViewModel
         )
-        captionsLanguageSelectionListView.start(viewLifecycleOwner)
+        captionsLanguageSelectionListView.layoutDirection =
+            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
+        val displayMetrics = DisplayMetrics()
+        requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
+        val halfScreenHeight = displayMetrics.heightPixels / 2
+        captionsLanguageSelectionListView.start(viewLifecycleOwner, halfScreenHeight)
 
-        captionsInfoView = view.findViewById(R.id.azure_communication_ui_calling_captions_info_view)
-        viewModel.captionsInfoViewModel.setCaptionsDataManager(captionsViewManager)
-        captionsInfoView.start(viewLifecycleOwner, viewModel.captionsInfoViewModel)
+        captionsLinearLayout = view.findViewById(R.id.azure_communication_ui_calling_captions_linear_layout)
+        captionsLinearLayout.start(viewLifecycleOwner, viewModel.captionsLayoutViewModel, captionsDataManager, avatarViewManager)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -297,6 +305,8 @@ internal class CallingFragment :
         if (this::upperMessageBarNotificationLayoutView.isInitialized) upperMessageBarNotificationLayoutView.stop()
         if (this::toastNotificationView.isInitialized) toastNotificationView.stop()
         if (this::captionsListView.isInitialized) captionsListView.stop()
+        if (this::captionsLanguageSelectionListView.isInitialized) captionsLanguageSelectionListView.stop()
+        if (this::captionsLinearLayout.isInitialized) captionsLinearLayout.stop()
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}

@@ -57,9 +57,12 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var telecomManagerAdapterLayout: TextInputLayout
     private lateinit var useDeprecatedLaunchCheckbox: CheckBox
     private lateinit var disableInternalPushForIncomingCallCheckbox: CheckBox
+    private lateinit var autoStartCaptionsCheckbox: CheckBox
+    private lateinit var hideCaptionsUiCheckbox: CheckBox
 
     private lateinit var setupScreenOptionsCameraEnabledCheckbox: CheckBox
     private lateinit var setupScreenOptionsMicEnabledCheckbox: CheckBox
+    private lateinit var defaultSpokenLanguageEditText: TextView
 
     private val sharedPreference by lazy {
         getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
@@ -131,6 +134,10 @@ class SettingsActivity : AppCompatActivity() {
         updateDeprecatedLaunchCheckbox()
 
         updateDisableInternalPushForIncomingCallCheckbox()
+
+        updateAutoStartCaptionsCheckbox()
+
+        updateHideCaptionsUiCheckbox()
 
         updateMicOnByDefaultCheckbox()
 
@@ -287,6 +294,18 @@ class SettingsActivity : AppCompatActivity() {
                         view.isChecked
                     ).apply()
                 }
+                R.id.auto_start_captions_checkbox -> {
+                    sharedPreference.edit().putBoolean(
+                        AUTO_START_CAPTIONS,
+                        view.isChecked
+                    ).apply()
+                }
+                R.id.hide_captions_checkbox -> {
+                    sharedPreference.edit().putBoolean(
+                        HIDE_CAPTIONS_UI,
+                        view.isChecked
+                    ).apply()
+                }
             }
         }
     }
@@ -323,9 +342,12 @@ class SettingsActivity : AppCompatActivity() {
         telecomManagerAdapterLayout = findViewById(R.id.telecom_manager_selection_adapter_layout)
         useDeprecatedLaunchCheckbox = findViewById(R.id.deprecated_launch_checkbox)
         disableInternalPushForIncomingCallCheckbox = findViewById(R.id.disable_internal_push_checkbox)
+        autoStartCaptionsCheckbox = findViewById(R.id.auto_start_captions_checkbox)
+        hideCaptionsUiCheckbox = findViewById(R.id.hide_captions_checkbox)
 
         setupScreenOptionsCameraEnabledCheckbox = findViewById(R.id.setup_screen_camera_check_box)
         setupScreenOptionsMicEnabledCheckbox = findViewById(R.id.setup_screen_mic_check_box)
+        defaultSpokenLanguageEditText = findViewById(R.id.default_spoken_language_edit_text)
 
         renderDisplayNameTextView.addTextChangedListener {
             saveRenderedDisplayName()
@@ -335,6 +357,13 @@ class SettingsActivity : AppCompatActivity() {
         }
         subtitleTextView.addTextChangedListener {
             saveSubtitle()
+        }
+
+        defaultSpokenLanguageEditText.addTextChangedListener {
+            sharedPreference.edit().putString(
+                DEFAULT_SPOKEN_LANGUAGE_KEY,
+                defaultSpokenLanguageEditText.text.toString()
+            ).apply()
         }
     }
 
@@ -473,6 +502,20 @@ class SettingsActivity : AppCompatActivity() {
         )
     }
 
+    private fun updateAutoStartCaptionsCheckbox() {
+        autoStartCaptionsCheckbox.isChecked = sharedPreference.getBoolean(
+            AUTO_START_CAPTIONS,
+            DEFAULT_AUTO_START_CAPTIONS
+        )
+    }
+
+    private fun updateHideCaptionsUiCheckbox() {
+        hideCaptionsUiCheckbox.isChecked = sharedPreference.getBoolean(
+            HIDE_CAPTIONS_UI,
+            DEFAULT_HIDE_CAPTIONS_UI
+        )
+    }
+
     private fun updateMicOnByDefaultCheckbox() {
         micOnByDefaultCheckBox.isChecked = sharedPreference.getBoolean(
             MIC_ON_BY_DEFAULT_KEY,
@@ -607,3 +650,12 @@ const val DEFAULT_SETUP_SCREEN_CAMERA_ENABLED_VALUE = true
 
 const val SETUP_SCREEN_MIC_ENABLED = "SETUP_SCREEN_MIC_ENABLED"
 const val DEFAULT_SETUP_SCREEN_MIC_ENABLED_VALUE = true
+
+const val AUTO_START_CAPTIONS = "AUTO_START_CAPTIONS"
+const val DEFAULT_AUTO_START_CAPTIONS = false
+
+const val HIDE_CAPTIONS_UI = "HIDE_CAPTIONS_UI"
+const val DEFAULT_HIDE_CAPTIONS_UI = false
+
+const val DEFAULT_SPOKEN_LANGUAGE_KEY = "DEFAULT_SPOKEN_LANGUAGE"
+const val DEFAULT_SPOKEN_LANGUAGE = ""

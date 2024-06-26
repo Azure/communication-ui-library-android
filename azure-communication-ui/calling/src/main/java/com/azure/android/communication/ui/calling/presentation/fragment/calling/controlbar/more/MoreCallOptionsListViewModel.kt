@@ -28,12 +28,12 @@ internal class MoreCallOptionsListViewModel(
     val displayStateFlow = MutableStateFlow(false)
 
     val listEntries = mutableListOf<Entries>().apply {
+        if (isCaptionsEnabled) {
+            add(Entries.CAPTIONS)
+        }
         add(Entries.SHARE_DIAGNOSTICS)
         if (showSupportFormOption) {
             add(Entries.REPORT_ISSUE)
-        }
-        if (isCaptionsEnabled) {
-            add(Entries.CAPTIONS)
         }
     }
 

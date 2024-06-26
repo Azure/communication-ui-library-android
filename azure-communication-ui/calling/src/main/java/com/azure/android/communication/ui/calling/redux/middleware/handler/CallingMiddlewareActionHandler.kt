@@ -13,6 +13,7 @@ import com.azure.android.communication.ui.calling.error.FatalError
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionMode
 import com.azure.android.communication.ui.calling.models.CallCompositeCapabilitiesChangedNotificationMode
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
 import com.azure.android.communication.ui.calling.models.CallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
@@ -105,6 +106,7 @@ internal class CallingMiddlewareActionHandlerImpl(
     coroutineContextProvider: CoroutineContextProvider,
     private val configuration: CallCompositeConfiguration,
     private val capabilitiesManager: CapabilitiesManager,
+    private val localOptions: CallCompositeLocalOptions? = null
 ) :
     CallingMiddlewareActionHandler {
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
@@ -854,6 +856,12 @@ internal class CallingMiddlewareActionHandlerImpl(
                         else -> null
                     }
                     action?.let { store.dispatch(it) }
+
+                    if (localOptions?.captionsViewData?.captionsOn == true &&
+                        callInfoModel.callingStatus == CallingStatus.CONNECTED
+                    ) {
+                        store.dispatch(CaptionsAction.StartRequested(localOptions.captionsViewData?.spokenLanguage ?: ""))
+                    }
                 }
             }
         }

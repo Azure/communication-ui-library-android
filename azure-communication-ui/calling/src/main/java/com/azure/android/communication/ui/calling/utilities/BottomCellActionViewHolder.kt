@@ -27,6 +27,19 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
         super.setCellData(bottomCellItem)
         itemView.isEnabled = bottomCellItem.isEnabled
         itemView.alpha = if (bottomCellItem.isEnabled) 1.0f else 0.5f
+
+        if (bottomCellItem.itemType == BottomCellItemType.BottomMenuActionNoIcon) {
+            accessoryImageView.contentDescription = bottomCellItem.accessoryImageDescription
+            accessoryImageView.visibility =
+                if (bottomCellItem.isChecked == true) View.VISIBLE else View.INVISIBLE
+            avatarView.visibility = View.GONE
+            imageView.visibility = View.GONE
+            showMoreImageView.visibility = View.GONE
+            additionalText.visibility = View.GONE
+            switchCompat.visibility = View.GONE
+            return
+        }
+
         if (bottomCellItem.itemType == BottomCellItemType.BottomMenuTitle) {
             // Exit with early return because setting the title is the only thing we need to do
             return

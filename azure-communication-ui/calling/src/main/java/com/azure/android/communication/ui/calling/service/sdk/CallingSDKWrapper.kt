@@ -31,6 +31,7 @@ import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.logger.Logger
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
@@ -53,6 +54,7 @@ internal class CallingSDKWrapper(
     private val callConfigInjected: CallConfiguration?,
     private val logger: Logger? = null,
     private val callingSDKInitializer: CallingSDKInitializer,
+    private val captionsViewData: CallCompositeCaptionsOptions? = null
 ) : CallingSDK {
     private var nullableCall: Call? = null
     private var callClient: CallClient? = null
@@ -482,6 +484,8 @@ internal class CallingSDKWrapper(
                 val captionsOptions = StartCaptionsOptions()
                 if (spokenLanguage.isNotEmpty()) {
                     captionsOptions.spokenLanguage = spokenLanguage
+                } else if (captionsViewData?.spokenLanguage != null) {
+                    captionsOptions.spokenLanguage = captionsViewData.spokenLanguage
                 }
                 callCaptions.startCaptions(captionsOptions)
                     .whenComplete { _, error: Throwable? ->

@@ -14,6 +14,7 @@ import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
 import com.azure.android.communication.ui.calling.utilities.BottomCellItemType
+import com.azure.android.communication.ui.calling.utilities.LocaleHelper.Companion.getLocaleDisplayName
 import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -33,10 +34,17 @@ internal class CaptionsLanguageSelectionListView(
         this.setBackgroundResource(R.color.azure_communication_ui_calling_color_bottom_drawer_background)
     }
 
-    fun start(viewLifecycleOwner: LifecycleOwner) {
+    fun start(viewLifecycleOwner: LifecycleOwner, halfScreenHeight: Int) {
+        // To make sure when languages are displayed on the bottom drawer, the height of the bottom drawer is half of the screen height.
+        val layoutParams = recyclerView.layoutParams
+        layoutParams.height = halfScreenHeight
+        recyclerView.layoutParams = layoutParams
+        recyclerView.layoutParams.height = halfScreenHeight
+        recyclerView.requestLayout()
+
         initializeDrawer()
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.displayStateFlow.collect {
+            viewModel.displayLanguageListStateFlow.collect {
                 if (it) {
                     menuDrawer.show()
                 } else {
@@ -47,6 +55,12 @@ internal class CaptionsLanguageSelectionListView(
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.languagesListStateFlow.collect {
+                redrawCaptionsListView()
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.updateActiveLanguageStateFlow.collect {
                 redrawCaptionsListView()
             }
         }
@@ -89,15 +103,15 @@ internal class CaptionsLanguageSelectionListView(
             items.add(
                 BottomCellItem(
                     icon = null,
-                    title = language,
+                    title = getLocaleDisplayName(language),
                     "",
                     null,
                     null,
                     null,
-                    language == viewModel.captionsActiveLanguage,
+                    language == viewModel.updateActiveLanguageStateFlow.value,
                     null,
                     null,
-                    BottomCellItemType.BottomMenuAction,
+                    BottomCellItemType.BottomMenuActionNoIcon,
                     onClickAction = {
                         viewModel.setActiveLanguage(language)
                     }
@@ -121,7 +135,7 @@ internal class CaptionsLanguageSelectionListView(
                     null,
                     null,
                     isOnHold = null,
-                    BottomCellItemType.BottomMenuTitle,
+                    BottomCellItemType.BottomMenuCenteredTitle,
                     onClickAction = null
                 )
             )

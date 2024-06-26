@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
 import com.azure.android.communication.ui.calling.utilities.BottomCellItemType
+import com.azure.android.communication.ui.calling.utilities.LocaleHelper
 import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -162,7 +163,7 @@ internal class CaptionsListView(
                 isOnHold = null,
                 BottomCellItemType.BottomMenuAction,
                 showRightArrow = true,
-                subtitle = activeSpokenLanguage,
+                subtitle = LocaleHelper.getLocaleDisplayName(activeSpokenLanguage),
                 onClickAction = {
                     viewModel.openSpokenLanguageSelection()
                 },
@@ -186,7 +187,7 @@ internal class CaptionsListView(
                     isOnHold = null,
                     BottomCellItemType.BottomMenuAction,
                     showRightArrow = true,
-                    subtitle = activeCaptionLanguage,
+                    subtitle = LocaleHelper.getLocaleDisplayName(activeCaptionLanguage),
                     onClickAction = {
                         viewModel.openCaptionLanguageSelection()
                     },

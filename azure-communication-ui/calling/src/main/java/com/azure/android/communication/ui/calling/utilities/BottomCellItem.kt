@@ -9,6 +9,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeParticipan
 
 internal enum class BottomCellItemType {
     BottomMenuAction,
+    BottomMenuActionNoIcon,
     BottomMenuTitle,
     BottomMenuCenteredTitle
 }

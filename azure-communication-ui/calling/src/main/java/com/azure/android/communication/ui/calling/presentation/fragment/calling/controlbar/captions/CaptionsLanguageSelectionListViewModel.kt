@@ -7,6 +7,8 @@ import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import com.azure.android.communication.ui.calling.redux.state.VisibilityState
+import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 
 internal enum class LanguageSelectionType {
@@ -16,32 +18,32 @@ internal enum class LanguageSelectionType {
 
 internal class CaptionsLanguageSelectionListViewModel(private val store: Store<ReduxState>) {
 
-    val displayStateFlow = MutableStateFlow(false)
+    val displayLanguageListStateFlow = MutableStateFlow(false)
+    val updateActiveLanguageStateFlow = MutableStateFlow("")
     val languagesListStateFlow = MutableStateFlow(emptyList<String>())
     var languageSelectionTypeStateFlow: LanguageSelectionType? = null
-    var captionsActiveLanguage: String = ""
 
     fun init(captionsState: CaptionsState) {
-        updateListView(captionsState)
+        updateListView(captionsState, store.getCurrentState().visibilityState.status)
     }
 
-    fun update(captionsState: CaptionsState) {
-        updateListView(captionsState)
+    fun update(captionsState: CaptionsState, visibilityState: VisibilityState) {
+        updateListView(captionsState, visibilityState.status)
     }
 
-    private fun updateListView(captionsState: CaptionsState) {
+    private fun updateListView(captionsState: CaptionsState, status: VisibilityStatus) {
         if (captionsState.showSupportedCaptionLanguages) {
             languageSelectionTypeStateFlow = LanguageSelectionType.CAPTION
+            updateActiveLanguageStateFlow.value = captionsState.activeCaptionLanguage
             languagesListStateFlow.value = captionsState.supportedCaptionLanguages
-            captionsActiveLanguage = captionsState.activeCaptionLanguage
         } else if (captionsState.showSupportedSpokenLanguages) {
             languageSelectionTypeStateFlow = LanguageSelectionType.SPOKEN
+            updateActiveLanguageStateFlow.value = captionsState.activeSpokenLanguage
             languagesListStateFlow.value = captionsState.supportedSpokenLanguages
-            captionsActiveLanguage = captionsState.activeSpokenLanguage
         } else {
             languageSelectionTypeStateFlow = null
         }
-        displayStateFlow.value = languageSelectionTypeStateFlow != null
+        displayLanguageListStateFlow.value = languageSelectionTypeStateFlow != null && status == VisibilityStatus.VISIBLE
     }
 
     fun close() {

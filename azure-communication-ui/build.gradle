@@ -46,7 +46,7 @@ buildscript {
             // and enable the beta features
 
             // Latest GA version of the SDK
-            azure_calling_sdk_version_ga = '2.9.0'
+            azure_calling_sdk_version_ga = '2.9.0-beta.2'
 
             // Newest version of the SDK, can be beta
             azure_calling_sdk_version_beta = '2.9.0-beta.2'

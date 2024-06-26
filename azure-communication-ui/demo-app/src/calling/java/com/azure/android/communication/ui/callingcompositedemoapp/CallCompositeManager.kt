@@ -27,6 +27,8 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallScreen
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsVisibilityMode
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallCancelledEvent
@@ -230,6 +232,27 @@ class CallCompositeManager(private val context: Context) {
         }
         SettingsFeatures.getMicOnByDefaultOption()?.let {
             localOptions.setMicrophoneOn(it)
+            isAnythingChanged = true
+        }
+
+        val autoStartCaptions = SettingsFeatures.getAutoStartCaptionsEnabled()
+        val defaultSpokenLanguage = SettingsFeatures.getCaptionsDefaultSpokenLanguage()
+
+        if (autoStartCaptions != null || defaultSpokenLanguage?.isNotEmpty() == true) {
+            val captionsViewData =
+                CallCompositeCaptionsOptions()
+
+            autoStartCaptions.let {
+                if (it == true) {
+                    captionsViewData.setCaptionsOn(true)
+                }
+            }
+
+            defaultSpokenLanguage.let {
+                captionsViewData.setSpokenLanguage(it)
+            }
+
+            localOptions.captionsViewData = captionsViewData
             isAnythingChanged = true
         }
 
@@ -500,21 +523,35 @@ class CallCompositeManager(private val context: Context) {
     }
 
     private fun callScreenOptions(): CallCompositeCallScreenOptions? {
-        return if (SettingsFeatures.getDisplayLeaveCallConfirmationValue() != null) {
-            if (SettingsFeatures.getDisplayLeaveCallConfirmationValue() == true) {
-                CallCompositeCallScreenOptions().setControlBarOptions(
-                    CallCompositeCallScreenControlBarOptions()
-                        .setLeaveCallConfirmation(CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED)
-                )
+        val callScreenOptions = CallCompositeCallScreenOptions()
+        val controlBarOptions = CallCompositeCallScreenControlBarOptions()
+        var isUpdated = false
+
+        val hideCaptionsUi = SettingsFeatures.getHideCaptionsUiEnabled()
+        if (hideCaptionsUi != null) {
+            if (hideCaptionsUi) {
+                controlBarOptions.captionsVisibilityMode = CallCompositeCaptionsVisibilityMode.HIDE
             } else {
-                CallCompositeCallScreenOptions().setControlBarOptions(
-                    CallCompositeCallScreenControlBarOptions()
-                        .setLeaveCallConfirmation(CallCompositeLeaveCallConfirmationMode.ALWAYS_DISABLED)
-                )
+                controlBarOptions.captionsVisibilityMode = CallCompositeCaptionsVisibilityMode.SHOW
             }
-        } else {
-            null
+            isUpdated = true
         }
+
+        if (SettingsFeatures.getDisplayLeaveCallConfirmationValue() != null) {
+            if (SettingsFeatures.getDisplayLeaveCallConfirmationValue() == true) {
+                controlBarOptions.setLeaveCallConfirmation(CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED)
+            } else {
+                controlBarOptions.setLeaveCallConfirmation(CallCompositeLeaveCallConfirmationMode.ALWAYS_DISABLED)
+            }
+            isUpdated = true
+        }
+
+        if (isUpdated) {
+            callScreenOptions.setControlBarOptions(controlBarOptions)
+            return callScreenOptions
+        }
+
+        return null
     }
 
     private fun setupScreenOptions(): CallCompositeSetupScreenOptions? {
