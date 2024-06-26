@@ -462,14 +462,14 @@ internal class CallingSDKEventHandler(
             CallState.CONNECTED -> {
                 addParticipants(call!!.remoteParticipants)
                 onRemoteParticipantUpdated()
-                call?.feature(Features.CAPTIONS)?.addOnActiveCaptionsTypeChangedListener(onCaptionsTypeChanged)
+                subscribeFeatures()
             }
             CallState.NONE, CallState.DISCONNECTED -> {
                 callEndStatus = call?.callEndReason?.let { callEndReason ->
                     Pair(callEndReason.code, callEndReason.subcode)
                 } ?: Pair(0, 0)
                 call?.removeOnStateChangedListener(onCallStateChanged)
-                call?.feature(Features.CAPTIONS)?.removeOnActiveCaptionsTypeChangedListener(onCaptionsTypeChanged)
+                unsubscribeFeatures()
             }
             else -> {}
         }
@@ -493,6 +493,21 @@ internal class CallingSDKEventHandler(
                 }
             }
         }
+    }
+
+    private fun subscribeFeatures() {
+        val captions = call?.feature(Features.CAPTIONS)
+        captions?.addOnActiveCaptionsTypeChangedListener(onCaptionsTypeChanged)
+        captions?.captions?.whenComplete { callCaptions, throwable ->
+            if (throwable == null) {
+                this.callCaptions = callCaptions
+                setCaptionsType(callCaptions)
+            }
+        }
+    }
+
+    private fun unsubscribeFeatures() {
+        call?.feature(Features.CAPTIONS)?.removeOnActiveCaptionsTypeChangedListener(onCaptionsTypeChanged)
     }
 
     private fun onRecordingChanged() {
@@ -804,6 +819,24 @@ internal class CallingSDKEventHandler(
                 coroutineScope.launch {
                     captionsEnabledChangedSharedFlow.emit(callCaptions.isEnabled)
                 }
+            }
+        }
+    }
+
+    private fun setCaptionsType(captions: CallCaptions) {
+        if (captions is TeamsCaptions) {
+            coroutineScope.launch {
+                captionsTypeChangedSharedFlow.emit(CallCompositeCaptionsType.TEAMS)
+                captionsSupportedSpokenLanguagesSharedFlow.emit(captions.supportedSpokenLanguages)
+                captionsSupportedCaptionLanguagesSharedFlow.emit(captions.supportedCaptionLanguages)
+                isCaptionsTranslationSupportedSharedFlow.emit(true)
+            }
+        } else {
+            coroutineScope.launch {
+                captionsTypeChangedSharedFlow.emit(CallCompositeCaptionsType.COMMUNICATION)
+                captionsSupportedSpokenLanguagesSharedFlow.emit(captions.supportedSpokenLanguages)
+                captionsSupportedCaptionLanguagesSharedFlow.emit(listOf())
+                isCaptionsTranslationSupportedSharedFlow.emit(false)
             }
         }
     }
