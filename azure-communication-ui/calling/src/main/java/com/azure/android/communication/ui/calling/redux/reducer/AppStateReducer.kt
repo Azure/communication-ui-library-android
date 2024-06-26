@@ -10,7 +10,7 @@ import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 internal class AppStateReducer(
     private val callStateReducer: CallStateReducer,
     private val participantStateReducer: ParticipantStateReducer,
-    private val deviceStateReducer: LocalParticipantStateReducer,
+    private val localParticipantReducer: LocalParticipantStateReducer,
     private val permissionStateReducer: PermissionStateReducer,
     private val lifecycleReducer: LifecycleReducer,
     private val errorReducer: ErrorReducer,
@@ -41,7 +41,7 @@ internal class AppStateReducer(
             action
         )
 
-        appState.localParticipantState = deviceStateReducer.reduce(
+        appState.localParticipantState = localParticipantReducer.reduce(
             state.localParticipantState,
             action
         )
