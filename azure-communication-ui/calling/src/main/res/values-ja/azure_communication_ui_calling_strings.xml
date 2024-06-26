@@ -110,7 +110,7 @@
 
     <!--    Participant list-->
     <string name="azure_communication_ui_calling_participant_list_in_call_n_people">通話中 (%1$d)</string>
-    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d more</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d 件以上</string>
     <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">ロビーで待機中 (%1$d)</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">ダブルタップして参加者を許可/拒否します</string>
 
@@ -169,13 +169,13 @@
     <string name="azure_communication_ui_calling_call_view_calling">呼び出し中。。。</string>
 
     <!-- Participant menu actions -->
-    <string name="azure_communication_ui_calling_view_participant_menu_mute">Mute</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Mute participant menu</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove">Remove from call</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Remove participant from call menu</string>
-    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">Call settings updated. Some features may not be available to you.</string>
-    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">Call settings updated. Some additional actions may now be available to you.</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">ミュート</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">参加者メニューをミュートにします。</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">通話から削除</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">通話メニューから参加者を削除します</string>
+    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">通話の設定が更新されました。一部の機能は利用できない可能性があります。</string>
+    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">通話の設定が更新されました。一部の追加アクションが利用できる可能性があります。</string>
 
     <!-- Participant menu view -->
-    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">disabled item.</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">無効なアイテム。</string>
 </resources>
