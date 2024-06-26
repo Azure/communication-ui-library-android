@@ -83,4 +83,5 @@ internal data class LocalUserState(
     val localParticipantRole: ParticipantRole?,
     val audioVideoMode: CallCompositeAudioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
     val capabilities: Set<ParticipantCapabilityType> = emptySet(),
+    val currentCapabilitiesAreDefault: Boolean = true,
 )

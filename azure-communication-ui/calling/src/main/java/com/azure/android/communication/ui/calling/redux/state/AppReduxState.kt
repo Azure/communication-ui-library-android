@@ -53,6 +53,7 @@ internal class AppReduxState(
                 ParticipantCapabilityType.TURN_VIDEO_ON,
                 ParticipantCapabilityType.UNMUTE_MICROPHONE
             ),
+            currentCapabilitiesAreDefault = true,
         )
 
     override var permissionState: PermissionState =
