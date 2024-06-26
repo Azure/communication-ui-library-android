@@ -11,6 +11,8 @@ import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.PropertyChangedListener
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsData
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsType
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
@@ -418,6 +420,10 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         return participantRoleSharedFlow
     }
 
+    override fun getTotalRemoteParticipantCountSharedFlow(): SharedFlow<Int> {
+        TODO("Not yet implemented")
+    }
+
     override fun getCapabilitiesChangedEventSharedFlow(): SharedFlow<CapabilitiesChangedEvent> {
         return participantCapabilityTypeSharedFlow
     }
@@ -443,6 +449,54 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     }
 
     override fun setTelecomManagerAudioRoute(audioRoute: Int) {
+    }
+
+    override fun startCaptions(spokenLanguage: String): CompletableFuture<Void> {
+        TODO("Not yet implemented")
+    }
+
+    override fun stopCaptions(): CompletableFuture<Void> {
+        TODO("Not yet implemented")
+    }
+
+    override fun setCaptionsSpokenLanguage(language: String): CompletableFuture<Void> {
+        TODO("Not yet implemented")
+    }
+
+    override fun setCaptionsCaptionLanguage(language: String): CompletableFuture<Void> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getCaptionsSupportedSpokenLanguagesSharedFlow(): SharedFlow<List<String>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getCaptionsSupportedCaptionLanguagesSharedFlow(): SharedFlow<List<String>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getIsCaptionsTranslationSupportedSharedFlow(): SharedFlow<Boolean> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getCaptionsReceivedSharedFlow(): SharedFlow<CallCompositeCaptionsData> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getActiveSpokenLanguageChangedSharedFlow(): SharedFlow<String> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getActiveCaptionLanguageChangedSharedFlow(): SharedFlow<String> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getCaptionsEnabledChangedSharedFlow(): SharedFlow<Boolean> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getCaptionsTypeChangedSharedFlow(): SharedFlow<CallCompositeCaptionsType> {
+        TODO("Not yet implemented")
     }
 
     private fun RemoteVideoStream.asVideoStreamModel(): VideoStreamModel {
