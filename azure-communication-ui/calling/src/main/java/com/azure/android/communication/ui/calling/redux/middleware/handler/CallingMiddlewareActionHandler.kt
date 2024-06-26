@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.redux.middleware.handler
 
 import android.telecom.CallAudioState
+import com.azure.android.communication.calling.CallingCommunicationException
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.error.CallCompositeError
@@ -22,6 +23,7 @@ import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticMo
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.buildCallCompositeAudioSelectionChangedEvent
+import com.azure.android.communication.ui.calling.models.into
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
@@ -33,6 +35,7 @@ import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
 import com.azure.android.communication.ui.calling.redux.action.CallDiagnosticsAction
+import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.action.ToastNotificationAction
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
@@ -91,6 +94,10 @@ internal interface CallingMiddlewareActionHandler {
         store: Store<ReduxState>
     )
     fun dismissNotification(store: Store<ReduxState>)
+    fun startCaptions(language: String, store: Store<ReduxState>)
+    fun stopCaptions(store: Store<ReduxState>)
+    fun setCaptionsSpokenLanguage(language: String, store: Store<ReduxState>)
+    fun setCaptionsCaptionLanguage(language: String, store: Store<ReduxState>)
 }
 
 internal class CallingMiddlewareActionHandlerImpl(
@@ -317,6 +324,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         subscribeOnLocalParticipantRoleChanged(store)
         subscribeOnTotalRemoteParticipantCountChanged(store)
         subscribeOnCapabilitiesChanged(store)
+        subscribeToCaptionsUpdates(store)
 
         callingService.startCall(
             store.getCurrentState().localParticipantState.cameraState,
@@ -615,6 +623,62 @@ internal class CallingMiddlewareActionHandlerImpl(
         }
     }
 
+    override fun startCaptions(language: String, store: Store<ReduxState>) {
+        callingService.startCaptions(language)
+            .handle { _, error: Throwable? ->
+                if (error != null) {
+                    (error as CallingCommunicationException).let {
+                        store.dispatch(
+                            CaptionsAction.Error(it.errorCode.into())
+                        )
+                    }
+                } else {
+                    store.dispatch(CaptionsAction.Started())
+                }
+            }
+    }
+
+    override fun stopCaptions(store: Store<ReduxState>) {
+        callingService.stopCaptions()
+            .handle { _, error: Throwable? ->
+                if (error != null) {
+                    (error as CallingCommunicationException).let {
+                        store.dispatch(
+                            CaptionsAction.Error(it.errorCode.into())
+                        )
+                    }
+                } else {
+                    store.dispatch(CaptionsAction.Stopped())
+                }
+            }
+    }
+
+    override fun setCaptionsSpokenLanguage(language: String, store: Store<ReduxState>) {
+        callingService.setCaptionsSpokenLanguage(language)
+            .handle { _, error: Throwable? ->
+                if (error != null) {
+                    (error as CallingCommunicationException).let {
+                        store.dispatch(
+                            CaptionsAction.Error(it.errorCode.into())
+                        )
+                    }
+                }
+            }
+    }
+
+    override fun setCaptionsCaptionLanguage(language: String, store: Store<ReduxState>) {
+        callingService.setCaptionsCaptionLanguage(language)
+            .handle { _, error: Throwable? ->
+                if (error != null) {
+                    (error as CallingCommunicationException).let {
+                        store.dispatch(
+                            CaptionsAction.Error(it.errorCode.into())
+                        )
+                    }
+                }
+            }
+    }
+
     private fun subscribeCamerasCountUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
             callingService.getCamerasCountStateFlow().collect {
@@ -822,6 +886,44 @@ internal class CallingMiddlewareActionHandlerImpl(
                 }
             } else {
                 store.dispatch(LocalParticipantAction.CameraPreviewOnTriggered())
+            }
+        }
+    }
+
+    private fun subscribeToCaptionsUpdates(store: Store<ReduxState>) {
+        coroutineScope.launch {
+            callingService.getActiveCaptionLanguageChangedSharedFlow().collect {
+                store.dispatch(CaptionsAction.CaptionLanguageChanged(it))
+            }
+        }
+
+        coroutineScope.launch {
+            callingService.getActiveSpokenLanguageChangedSharedFlow().collect {
+                store.dispatch(CaptionsAction.SpokenLanguageChanged(it))
+            }
+        }
+
+        coroutineScope.launch {
+            callingService.getCaptionsTypeChangedSharedFlow().collect {
+                store.dispatch(CaptionsAction.TypeChanged(it))
+            }
+        }
+
+        coroutineScope.launch {
+            callingService.getIsCaptionsTranslationSupportedSharedFlow().collect {
+                store.dispatch(CaptionsAction.IsTranslationSupportedChanged(it))
+            }
+        }
+
+        coroutineScope.launch {
+            callingService.getCaptionsSupportedCaptionLanguagesSharedFlow().collect {
+                store.dispatch(CaptionsAction.SupportedCaptionLanguagesChanged(it))
+            }
+        }
+
+        coroutineScope.launch {
+            callingService.getCaptionsSupportedSpokenLanguagesSharedFlow().collect {
+                store.dispatch(CaptionsAction.SupportedSpokenLanguagesChanged(it))
             }
         }
     }
