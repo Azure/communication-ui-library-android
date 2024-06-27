@@ -1,6 +1,6 @@
 # Azure Communication UI Calling Release History
 
-## 1.9.0 (2024-06-26)
+## 1.9.0 (2024-06-27)
 ### Features
 - Rooms call
 
