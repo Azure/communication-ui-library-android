@@ -143,7 +143,7 @@ internal fun CaptionsDataViewModel.into(avatarViewManager: AvatarViewManager): C
         bitMap = remoteParticipantViewData.avatarBitmap
     }
     val localParticipantViewData = avatarViewManager.callCompositeLocalOptions?.participantViewData
-    if (localParticipantViewData != null && localParticipantViewData.identifier.rawId == this.speakerRawIdentifierId) {
+    if (localParticipantViewData != null && localParticipantViewData.identifier?.rawId == this.speakerRawIdentifierId) {
         speakerName = localParticipantViewData.displayName
         bitMap = localParticipantViewData.avatarBitmap
     }
