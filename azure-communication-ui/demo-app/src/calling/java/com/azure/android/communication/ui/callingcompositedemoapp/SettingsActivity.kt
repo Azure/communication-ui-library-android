@@ -158,6 +158,8 @@ class SettingsActivity : AppCompatActivity() {
 
         updateDisplayLeaveCallConfirmationCheckbox()
 
+        defaultSpokenLanguageEditText.text = sharedPreference.getString(DEFAULT_SPOKEN_LANGUAGE_KEY, DEFAULT_SPOKEN_LANGUAGE)
+
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
             val selectedItem: String = supportedLanguages[position]
             setLanguageValueInSharedPref(selectedItem)

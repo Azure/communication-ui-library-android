@@ -629,11 +629,12 @@ internal class CallingMiddlewareActionHandlerImpl(
         callingService.startCaptions(language)
             .handle { _, error: Throwable? ->
                 if (error != null) {
-                    (error as CallingCommunicationException).let {
+                    (error.cause as CallingCommunicationException).let {
                         store.dispatch(
                             CaptionsAction.Error(it.errorCode.into())
                         )
                     }
+                    store.dispatch(CaptionsAction.Stopped())
                 } else {
                     store.dispatch(CaptionsAction.Started())
                 }
@@ -644,7 +645,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         callingService.stopCaptions()
             .handle { _, error: Throwable? ->
                 if (error != null) {
-                    (error as CallingCommunicationException).let {
+                    (error.cause as CallingCommunicationException).let {
                         store.dispatch(
                             CaptionsAction.Error(it.errorCode.into())
                         )
@@ -659,7 +660,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         callingService.setCaptionsSpokenLanguage(language)
             .handle { _, error: Throwable? ->
                 if (error != null) {
-                    (error as CallingCommunicationException).let {
+                    (error.cause as CallingCommunicationException).let {
                         store.dispatch(
                             CaptionsAction.Error(it.errorCode.into())
                         )
@@ -672,7 +673,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         callingService.setCaptionsCaptionLanguage(language)
             .handle { _, error: Throwable? ->
                 if (error != null) {
-                    (error as CallingCommunicationException).let {
+                    (error.cause as CallingCommunicationException).let {
                         store.dispatch(
                             CaptionsAction.Error(it.errorCode.into())
                         )

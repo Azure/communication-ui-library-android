@@ -15,7 +15,8 @@ internal enum class CallCompositeCaptionsErrors {
     CAPTIONS_DISABLED_BY_CONFIGURATIONS,
     CAPTIONS_SET_SPOKEN_LANGUAGE_DISABLED,
     SET_CAPTION_LANGUAGE_DISABLED,
-    SET_CAPTION_LANGUAGE_TEAMS_PREMIUM_LICENSE_NEEDED
+    SET_CAPTION_LANGUAGE_TEAMS_PREMIUM_LICENSE_NEEDED,
+    CAPTIONS_REQUESTED_LANGUAGE_NOT_SUPPORTED
 }
 
 internal fun com.azure.android.communication.calling.CallingCommunicationErrors.into(): CallCompositeCaptionsErrors {
@@ -31,6 +32,7 @@ internal fun com.azure.android.communication.calling.CallingCommunicationErrors.
         com.azure.android.communication.calling.CallingCommunicationErrors.CAPTIONS_SET_SPOKEN_LANGUAGE_DISABLED -> CallCompositeCaptionsErrors.CAPTIONS_SET_SPOKEN_LANGUAGE_DISABLED
         com.azure.android.communication.calling.CallingCommunicationErrors.SET_CAPTION_LANGUAGE_DISABLED -> CallCompositeCaptionsErrors.SET_CAPTION_LANGUAGE_DISABLED
         com.azure.android.communication.calling.CallingCommunicationErrors.SET_CAPTION_LANGUAGE_TEAMS_PREMIUM_LICENSE_NEEDED -> CallCompositeCaptionsErrors.SET_CAPTION_LANGUAGE_TEAMS_PREMIUM_LICENSE_NEEDED
+        com.azure.android.communication.calling.CallingCommunicationErrors.CAPTIONS_REQUESTED_LANGUAGE_NOT_SUPPORTED -> CallCompositeCaptionsErrors.CAPTIONS_REQUESTED_LANGUAGE_NOT_SUPPORTED
         else -> CallCompositeCaptionsErrors.NONE
     }
 }

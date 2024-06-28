@@ -206,4 +206,5 @@
     <string name="azure_communication_ui_calling_error_captions_set_spoken_language_disabled">Setting spoken language for captions is disabled</string>
     <string name="azure_communication_ui_calling_error_set_caption_language_disabled">Setting caption language is disabled</string>
     <string name="azure_communication_ui_calling_error_set_caption_language_teams_premium_license_needed">Teams Premium license needed to set caption language</string>
+    <string name="azure_communication_ui_calling_error_captions_requested_language_not_supported">Requested language not supported</string>
 </resources>

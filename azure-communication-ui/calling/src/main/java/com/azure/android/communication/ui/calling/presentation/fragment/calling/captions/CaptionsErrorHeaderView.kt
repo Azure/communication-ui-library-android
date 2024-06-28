@@ -80,6 +80,7 @@ internal class CaptionsErrorHeaderView : ConstraintLayout {
             CallCompositeCaptionsErrors.CAPTIONS_SET_SPOKEN_LANGUAGE_DISABLED -> context.getString(R.string.azure_communication_ui_calling_error_captions_set_spoken_language_disabled)
             CallCompositeCaptionsErrors.SET_CAPTION_LANGUAGE_DISABLED -> context.getString(R.string.azure_communication_ui_calling_error_set_caption_language_disabled)
             CallCompositeCaptionsErrors.SET_CAPTION_LANGUAGE_TEAMS_PREMIUM_LICENSE_NEEDED -> context.getString(R.string.azure_communication_ui_calling_error_set_caption_language_teams_premium_license_needed)
+            CallCompositeCaptionsErrors.CAPTIONS_REQUESTED_LANGUAGE_NOT_SUPPORTED -> context.getString(R.string.azure_communication_ui_calling_error_captions_requested_language_not_supported)
             else -> context.getString(R.string.azure_communication_ui_calling_error_captions_unknown)
         }
     }
