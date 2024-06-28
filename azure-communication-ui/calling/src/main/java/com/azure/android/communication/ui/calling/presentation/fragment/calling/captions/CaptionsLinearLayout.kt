@@ -62,7 +62,9 @@ internal class CaptionsLinearLayout : LinearLayout {
             recyclerViewAdapter.notifyDataSetChanged()
         }
 
-        recyclerView.scrollToPosition(recyclerViewAdapter.itemCount - 1)
+        recyclerView.post {
+            recyclerView.scrollToPosition(recyclerViewAdapter.itemCount - 1)
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getDisplayCaptionsInfoViewFlow().collect {
@@ -85,7 +87,9 @@ internal class CaptionsLinearLayout : LinearLayout {
                         captionsData[lastCaptionsDataIndex] = lastCaptionsData
                         recyclerViewAdapter.notifyItemChanged(lastCaptionsDataIndex)
                         if (shouldScrollToBottom) {
-                            recyclerView.scrollToPosition(recyclerViewAdapter.itemCount - 1)
+                            recyclerView.post {
+                                recyclerView.scrollToPosition(recyclerViewAdapter.itemCount - 1)
+                            }
                         }
                     }
                 }
@@ -109,7 +113,9 @@ internal class CaptionsLinearLayout : LinearLayout {
                     captionsData.add(it.into(avatarViewManager))
                     recyclerViewAdapter.notifyItemInserted(captionsData.size - 1)
                     if (shouldScrollToBottom) {
-                        recyclerView.scrollToPosition(recyclerViewAdapter.itemCount - 1)
+                        recyclerView.post {
+                            recyclerView.scrollToPosition(recyclerViewAdapter.itemCount - 1)
+                        }
                     }
                 }
             }
