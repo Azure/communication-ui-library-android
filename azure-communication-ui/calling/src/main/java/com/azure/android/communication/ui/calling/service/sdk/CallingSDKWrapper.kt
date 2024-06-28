@@ -484,7 +484,7 @@ internal class CallingSDKWrapper(
                 val captionsOptions = StartCaptionsOptions()
                 if (spokenLanguage.isNotEmpty()) {
                     captionsOptions.spokenLanguage = spokenLanguage
-                } else if (captionsViewData?.spokenLanguage != null) {
+                } else if (captionsViewData?.spokenLanguage?.isNotEmpty() == true) {
                     captionsOptions.spokenLanguage = captionsViewData.spokenLanguage
                 }
                 callCaptions.startCaptions(captionsOptions)
