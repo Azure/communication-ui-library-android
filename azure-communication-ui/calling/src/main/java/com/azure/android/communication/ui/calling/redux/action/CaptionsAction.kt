@@ -25,4 +25,5 @@ internal sealed class CaptionsAction : Action {
     class ShowSupportedSpokenLanguagesOptions : CaptionsAction()
     class ShowSupportedCaptionLanguagesOptions : CaptionsAction()
     class HideSupportedLanguagesOptions : CaptionsAction()
+    class ClearError : CaptionsAction()
 }

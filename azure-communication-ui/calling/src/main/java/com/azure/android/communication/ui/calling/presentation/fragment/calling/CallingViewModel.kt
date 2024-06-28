@@ -57,6 +57,7 @@ internal class CallingViewModel(
     val captionsListViewModel = callingViewModelProvider.captionsListViewModel
     val captionsLanguageSelectionListViewModel = callingViewModelProvider.captionsLanguageSelectionListViewModel
     val captionsLayoutViewModel = callingViewModelProvider.captionsLinearLayoutViewModel
+    val captionsErrorHeaderViewModel = callingViewModelProvider.captionsErrorHeaderViewModel
 
     fun switchFloatingHeader() {
         floatingHeaderViewModel.switchFloatingHeader()
@@ -171,6 +172,11 @@ internal class CallingViewModel(
         captionsListViewModel.init(state.captionsState, state.callState.callingStatus)
         captionsLanguageSelectionListViewModel.init(state.captionsState)
         captionsLayoutViewModel.init(state.captionsState.isCaptionsStarted)
+        captionsErrorHeaderViewModel.init(
+            state.callState.callingStatus,
+            state.captionsState.lastCaptionsError,
+            state.visibilityState
+        )
 
         super.init(coroutineScope)
     }
@@ -330,6 +336,11 @@ internal class CallingViewModel(
         captionsListViewModel.update(state.captionsState, state.callState.callingStatus, state.visibilityState)
         captionsLanguageSelectionListViewModel.update(state.captionsState, state.visibilityState)
         captionsLayoutViewModel.update(state.captionsState, state.visibilityState)
+        captionsErrorHeaderViewModel.update(
+            state.callState.callingStatus,
+            state.captionsState.lastCaptionsError,
+            state.visibilityState
+        )
     }
 
     private fun getLobbyParticipantsForHeader(state: ReduxState) =

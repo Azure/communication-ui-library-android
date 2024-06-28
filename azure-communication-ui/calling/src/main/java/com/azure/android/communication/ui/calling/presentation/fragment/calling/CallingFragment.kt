@@ -24,6 +24,7 @@ import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivityViewModel
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsErrorHeaderView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsLinearLayout
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmView
@@ -88,6 +89,7 @@ internal class CallingFragment :
     private lateinit var captionsListView: CaptionsListView
     private lateinit var captionsLanguageSelectionListView: CaptionsLanguageSelectionListView
     private lateinit var captionsLinearLayout: CaptionsLinearLayout
+    private lateinit var captionsErrorHeaderView: CaptionsErrorHeaderView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -151,6 +153,12 @@ internal class CallingFragment :
         lobbyErrorHeaderView.start(
             viewLifecycleOwner,
             viewModel.lobbyErrorHeaderViewModel
+        )
+
+        captionsErrorHeaderView = view.findViewById(R.id.azure_communication_ui_calling_captions_error_header)
+        captionsErrorHeaderView.start(
+            viewLifecycleOwner,
+            viewModel.captionsErrorHeaderViewModel
         )
 
         upperMessageBarNotificationLayoutView = view.findViewById(R.id.azure_communication_ui_calling_upper_message_bar_notifications_layout)

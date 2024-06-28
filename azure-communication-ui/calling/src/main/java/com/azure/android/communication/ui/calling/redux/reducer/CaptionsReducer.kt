@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.redux.reducer
 
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsErrors
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
@@ -28,7 +29,7 @@ internal class CaptionsReducerImpl : CaptionsReducer {
                 state.copy(isTranslationSupported = action.isSupported)
             }
             is CaptionsAction.Error -> {
-                state.copy(errors = action.errors)
+                state.copy(lastCaptionsError = action.errors)
             }
             is CaptionsAction.SupportedSpokenLanguagesChanged -> {
                 state.copy(supportedSpokenLanguages = action.languages)
@@ -39,7 +40,6 @@ internal class CaptionsReducerImpl : CaptionsReducer {
             is CaptionsAction.TypeChanged -> {
                 state.copy(activeType = action.type)
             }
-
             is CaptionsAction.ShowCaptionsOptions -> {
                 state.copy(showCaptionsOptions = true)
             }
@@ -54,6 +54,9 @@ internal class CaptionsReducerImpl : CaptionsReducer {
             }
             is CaptionsAction.HideSupportedLanguagesOptions -> {
                 state.copy(showSupportedSpokenLanguages = false, showSupportedCaptionLanguages = false)
+            }
+            is CaptionsAction.ClearError -> {
+                state.copy(lastCaptionsError = CallCompositeCaptionsErrors.NONE)
             }
             else -> {
                 state

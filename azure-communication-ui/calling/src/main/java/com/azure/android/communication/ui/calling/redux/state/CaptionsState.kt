@@ -15,7 +15,7 @@ internal data class CaptionsState(
     val activeCaptionLanguage: String = "",
     val isTranslationSupported: Boolean = false,
     val activeType: CallCompositeCaptionsType = CallCompositeCaptionsType.NONE,
-    val errors: CallCompositeCaptionsErrors = CallCompositeCaptionsErrors.NONE,
+    val lastCaptionsError: CallCompositeCaptionsErrors = CallCompositeCaptionsErrors.NONE,
     val showCaptionsOptions: Boolean = false,
     val showSupportedSpokenLanguages: Boolean = false,
     val showSupportedCaptionLanguages: Boolean = false,

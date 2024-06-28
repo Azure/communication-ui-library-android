@@ -192,5 +192,18 @@
     <string name="azure_communication_ui_calling_live_captions_title">Live captions</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Spoken language</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Caption language</string>
-    <string name="azure_communication_ui_calling_captions_no_display_name">Unknown</string>
+    <string name="azure_communication_ui_calling_error_captions_unknown">Captions action error</string>
+    <string name="azure_communication_ui_calling_captions_error_content_description">Captions error</string>
+    <string name="azure_communication_ui_calling_captions_header_error_close_description">Close captions error</string>
+    <string name="azure_communication_ui_calling_error_captions_not_active">Captions are not active</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_call_state_not_connected">Failed to get captions: call state not connected</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">Failed to start captions</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Failed to stop captions</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Failed to set spoken language for captions</string>
+    <string name="azure_communication_ui_calling_error_failed_to_set_caption_language">Failed to set caption language</string>
+    <string name="azure_communication_ui_calling_error_captions_policy_disabled">Captions policy is disabled</string>
+    <string name="azure_communication_ui_calling_error_captions_disabled_by_configurations">Captions are disabled</string>
+    <string name="azure_communication_ui_calling_error_captions_set_spoken_language_disabled">Setting spoken language for captions is disabled</string>
+    <string name="azure_communication_ui_calling_error_set_caption_language_disabled">Setting caption language is disabled</string>
+    <string name="azure_communication_ui_calling_error_set_caption_language_teams_premium_license_needed">Teams Premium license needed to set caption language</string>
 </resources>
