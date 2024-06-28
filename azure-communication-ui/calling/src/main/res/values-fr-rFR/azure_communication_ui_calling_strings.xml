@@ -110,6 +110,7 @@
 
     <!--    Participant list-->
     <string name="azure_communication_ui_calling_participant_list_in_call_n_people">Pendant l’appel (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d de plus</string>
     <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">Dans la salle d’attente (%1$d)</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Appuyez deux fois pour accepter/refuser un participant</string>
 
@@ -166,4 +167,15 @@
     <string name="azure_communication_ui_calling_setup_view_start_call">Débuter l’appel</string>
     <string name="azure_communication_ui_calling_setup_view_button_starting_call">Début de l’appel…</string>
     <string name="azure_communication_ui_calling_call_view_calling">Appel en cours...</string>
+
+    <!-- Participant menu actions -->
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">Désactiver le micro / muet</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Désactivez le son du participant</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">Supprimer de l’appel</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Supprimez le participant du menu de l’appel</string>
+    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">Paramètres d’appel mis à jour. Certaines fonctionnalités peuvent ne pas être disponibles pour vous.</string>
+    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">Paramètres d’appel mis à jour. Certaines actions supplémentaires peuvent maintenant être disponibles.</string>
+
+    <!-- Participant menu view -->
+    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">élément désactivé.</string>
 </resources>

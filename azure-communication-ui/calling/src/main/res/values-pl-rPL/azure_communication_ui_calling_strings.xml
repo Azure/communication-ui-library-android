@@ -110,6 +110,7 @@
 
     <!--    Participant list-->
     <string name="azure_communication_ui_calling_participant_list_in_call_n_people">W trakcie rozmowy (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d więcej</string>
     <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">W poczekalni (%1$d)</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Naciśnij dwukrotnie, aby wpuścić/odrzucić uczestnika</string>
 
@@ -166,4 +167,15 @@
     <string name="azure_communication_ui_calling_setup_view_start_call">Zadzwoń</string>
     <string name="azure_communication_ui_calling_setup_view_button_starting_call">Rozpoczynanie połączenia…</string>
     <string name="azure_communication_ui_calling_call_view_calling">Trwa łączenie...</string>
+
+    <!-- Participant menu actions -->
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">Wycisz</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Menu wyciszania uczestnika</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">Usuń z rozmowy</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Menu usuwania uczestnika z rozmowy</string>
+    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">Zaktualizowano ustawienia połączeń. Niektóre funkcje mogą być niedostępne dla Ciebie.</string>
+    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">Zaktualizowano ustawienia połączeń. Niektóre dodatkowe akcje mogą być teraz dostępne dla Ciebie.</string>
+
+    <!-- Participant menu view -->
+    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">wyłączony element.</string>
 </resources>

@@ -10,14 +10,15 @@ import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 internal class AppStateReducer(
     private val callStateReducer: CallStateReducer,
     private val participantStateReducer: ParticipantStateReducer,
-    private val deviceStateReducer: LocalParticipantStateReducer,
+    private val localParticipantReducer: LocalParticipantStateReducer,
     private val permissionStateReducer: PermissionStateReducer,
     private val lifecycleReducer: LifecycleReducer,
     private val errorReducer: ErrorReducer,
     private val navigationReducer: NavigationReducer,
     private val audioSessionReducer: AudioSessionReducer,
     private val pipReducer: PipReducer,
-    private val callDiagnosticsReducer: CallDiagnosticsReducer
+    private val callDiagnosticsReducer: CallDiagnosticsReducer,
+    private val toastNotificationReducer: ToastNotificationReducer,
 ) :
     Reducer<AppReduxState> {
     override fun reduce(state: AppReduxState, action: Action): AppReduxState {
@@ -40,7 +41,7 @@ internal class AppStateReducer(
             action
         )
 
-        appState.localParticipantState = deviceStateReducer.reduce(
+        appState.localParticipantState = localParticipantReducer.reduce(
             state.localParticipantState,
             action
         )
@@ -52,6 +53,7 @@ internal class AppStateReducer(
         appState.audioSessionState = audioSessionReducer.reduce(state.audioSessionState, action)
         appState.visibilityState = pipReducer.reduce(state.visibilityState, action)
         appState.callDiagnosticsState = callDiagnosticsReducer.reduce(state.callDiagnosticsState, action)
+        appState.toastNotificationState = toastNotificationReducer.reduce(state.toastNotificationState, action)
         return appState
     }
 }

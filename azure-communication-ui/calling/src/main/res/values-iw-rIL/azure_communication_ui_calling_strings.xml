@@ -110,6 +110,7 @@
 
     <!--    Participant list-->
     <string name="azure_communication_ui_calling_participant_list_in_call_n_people">בשיחה (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">%1$d עוד +</string>
     <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">בחדר הכניסה (%1$d)</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">הקש פעמיים כדי להכניס/לדחות משתתף</string>
 
@@ -166,4 +167,15 @@
     <string name="azure_communication_ui_calling_setup_view_start_call">התחל שיחה</string>
     <string name="azure_communication_ui_calling_setup_view_button_starting_call">מתחיל התקשרות…</string>
     <string name="azure_communication_ui_calling_call_view_calling">מתקשר...</string>
+
+    <!-- Participant menu actions -->
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">השתק</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">תפריט השתקת משתתף.</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">הסר משיחה</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">הסר משתתף דרך תפריט ’שיחה’</string>
+    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">הגדרות השיחה עודכנו. ייתכן שתכונות מסוימות לא יהיו זמינות עבורך.</string>
+    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">הגדרות השיחה עודכנו. ייתכן שפעולות נוספות מסוימות יהיו זמינות כעת עבורך.</string>
+
+    <!-- Participant menu view -->
+    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">disabled item.</string>
 </resources>

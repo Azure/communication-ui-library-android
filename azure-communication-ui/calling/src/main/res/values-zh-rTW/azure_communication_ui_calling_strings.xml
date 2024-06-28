@@ -110,6 +110,7 @@
 
     <!--    Participant list-->
     <string name="azure_communication_ui_calling_participant_list_in_call_n_people">通話中 (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d 更多</string>
     <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">在大廳 (%1$d)</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">點兩下以准許/拒絕參與者</string>
 
@@ -166,4 +167,15 @@
     <string name="azure_communication_ui_calling_setup_view_start_call">開始通話</string>
     <string name="azure_communication_ui_calling_setup_view_button_starting_call">開始通話…</string>
     <string name="azure_communication_ui_calling_call_view_calling">通話中...</string>
+
+    <!-- Participant menu actions -->
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">靜音</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">將參與者靜音功能表</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">從通話移除</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">將參與者從通話移除功能表</string>
+    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">通話設定已更新。某些功能可能無法供您使用。</string>
+    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">通話設定已更新。您現在可以使用一些其他動作。</string>
+
+    <!-- Participant menu view -->
+    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">禁用的項目。</string>
 </resources>

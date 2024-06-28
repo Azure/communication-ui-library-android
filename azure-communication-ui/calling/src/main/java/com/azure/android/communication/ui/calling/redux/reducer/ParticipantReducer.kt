@@ -28,6 +28,9 @@ internal class ParticipantStateReducerImpl :
             is ParticipantAction.ClearLobbyError -> {
                 state.copy(lobbyErrorCode = null)
             }
+            is ParticipantAction.SetTotalParticipantCount -> {
+                state.copy(totalParticipantCount = action.totalParticipantCount)
+            }
             else -> state
         }
     }

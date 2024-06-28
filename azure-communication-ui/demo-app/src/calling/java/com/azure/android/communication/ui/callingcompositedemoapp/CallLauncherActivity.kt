@@ -27,9 +27,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.common.CommunicationTokenCredential
-/* <ROOMS_SUPPORT:0>
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
-</ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.FeatureFlags
@@ -123,21 +120,17 @@ class CallLauncherActivity : AppCompatActivity() {
                 groupIdOrTeamsMeetingLinkText.setText(deeplinkGroupId)
                 groupCallRadioButton.isChecked = true
                 teamsMeetingRadioButton.isChecked = false
-                /* <ROOMS_SUPPORT:4>
                 roomsMeetingRadioButton.isChecked = false
-                </ROOMS_SUPPORT:1> */
             } else if (!deeplinkTeamsUrl.isNullOrEmpty()) {
                 groupIdOrTeamsMeetingLinkText.setText(deeplinkTeamsUrl)
                 groupCallRadioButton.isChecked = false
                 teamsMeetingRadioButton.isChecked = true
-                /* <ROOMS_SUPPORT:4>
                 roomsMeetingRadioButton.isChecked = false
             } else if (!deepLinkRoomsId.isNullOrEmpty()) {
                 groupIdOrTeamsMeetingLinkText.setText(deepLinkRoomsId)
                 groupCallRadioButton.isChecked = false
                 teamsMeetingRadioButton.isChecked = false
                 roomsMeetingRadioButton.isChecked = true
-                </ROOMS_SUPPORT:1> */
             } else if (!participantMRIs.isNullOrEmpty()) {
                 groupIdOrTeamsMeetingLinkText.setText(participantMRIs)
             } else {
@@ -177,12 +170,8 @@ class CallLauncherActivity : AppCompatActivity() {
                     oneToNCallRadioButton.isChecked = false
                     teamsMeetingPasscode.visibility = View.GONE
                     teamsMeetingId.visibility = View.GONE
-                    /* <ROOMS_SUPPORT:4>
                     roomsMeetingRadioButton.isChecked = false
                     oneToNCallRadioButton.isChecked = false
-                    attendeeRoleRadioButton.visibility = View.GONE
-                    presenterRoleRadioButton.visibility = View.GONE
-                    </ROOMS_SUPPORT:1> */
                 }
             }
             teamsMeetingRadioButton.setOnClickListener {
@@ -192,43 +181,20 @@ class CallLauncherActivity : AppCompatActivity() {
                     oneToNCallRadioButton.isChecked = false
                     teamsMeetingPasscode.visibility = View.VISIBLE
                     teamsMeetingId.visibility = View.VISIBLE
-                    /* <ROOMS_SUPPORT:4>
                     roomsMeetingRadioButton.isChecked = false
-                    attendeeRoleRadioButton.visibility = View.GONE
-                    presenterRoleRadioButton.visibility = View.GONE
-                    </ROOMS_SUPPORT:1> */
                 }
             }
-            /* <ROOMS_SUPPORT:0>
             roomsMeetingRadioButton.setOnClickListener {
                 if (roomsMeetingRadioButton.isChecked) {
-                    groupIdOrTeamsMeetingLinkText.setText(BuildConfig.ROOMS_ID)
-                    presenterRoleRadioButton.visibility = View.VISIBLE
-                    attendeeRoleRadioButton.visibility = View.VISIBLE
-                    attendeeRoleRadioButton.isChecked = true
+                    groupIdOrTeamsMeetingLinkText.setText(BuildConfig.ROOM_ID)
                     groupCallRadioButton.isChecked = false
                     oneToNCallRadioButton.isChecked = false
                     teamsMeetingRadioButton.isChecked = false
                     teamsMeetingPasscode.visibility = View.GONE
                     teamsMeetingId.visibility = View.GONE
-                } else {
-                    presenterRoleRadioButton.visibility = View.GONE
-                    attendeeRoleRadioButton.visibility = View.GONE
+                    /* </MEETING_ID_LOCATOR> */
                 }
             }
-
-            presenterRoleRadioButton.setOnClickListener {
-                if (presenterRoleRadioButton.isChecked) {
-                    attendeeRoleRadioButton.isChecked = false
-                }
-            }
-
-            attendeeRoleRadioButton.setOnClickListener {
-                if (attendeeRoleRadioButton.isChecked) {
-                    presenterRoleRadioButton.isChecked = false
-                }
-            }
-            </ROOMS_SUPPORT:0> */
 
             oneToNCallRadioButton.setOnClickListener {
                 if (oneToNCallRadioButton.isChecked) {
@@ -237,11 +203,7 @@ class CallLauncherActivity : AppCompatActivity() {
                     teamsMeetingRadioButton.isChecked = false
                     teamsMeetingPasscode.visibility = View.GONE
                     teamsMeetingId.visibility = View.GONE
-                    /* <ROOMS_SUPPORT:4>
                     roomsMeetingRadioButton.isChecked = false
-                    attendeeRoleRadioButton.visibility = View.GONE
-                    presenterRoleRadioButton.visibility = View.GONE
-                    </ROOMS_SUPPORT:1> */
                 }
             }
 
@@ -350,16 +312,7 @@ class CallLauncherActivity : AppCompatActivity() {
         sharedPreference.edit().putString(CACHED_TOKEN, acsToken).apply()
         sharedPreference.edit().putString(CACHED_USER_NAME, userName).apply()
 
-        /* <ROOMS_SUPPORT:0>
         val roomId = binding.groupIdOrTeamsMeetingLinkText.text.toString()
-        val roomRole =
-            if (binding.attendeeRoleRadioButton.isChecked) CallCompositeParticipantRole.ATTENDEE
-            else if (binding.presenterRoleRadioButton.isChecked) CallCompositeParticipantRole.PRESENTER
-            else null
-        val roomRole = if (binding.attendeeRoleRadioButton.isChecked) CallCompositeParticipantRole.ATTENDEE
-        else if (binding.presenterRoleRadioButton.isChecked) CallCompositeParticipantRole.PRESENTER
-        else null
-        </ROOMS_SUPPORT:0> */
 
         var groupId: UUID? = null
         if (binding.groupCallRadioButton.isChecked) {
@@ -408,10 +361,7 @@ class CallLauncherActivity : AppCompatActivity() {
             acsToken,
             userName,
             groupId,
-            /* <ROOMS_SUPPORT:5>
             roomId,
-            roomRole,
-            </ROOMS_SUPPORT:2> */
             meetingLink,
             meetingId,
             meetingPasscode,

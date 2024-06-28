@@ -110,6 +110,7 @@
 
     <!--    Participant list-->
     <string name="azure_communication_ui_calling_participant_list_in_call_n_people">Aramada (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d tane daha</string>
     <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">Lobide (%1$d)</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Katılımcıyı kabul etmek/reddetmek için iki kez dokunun</string>
 
@@ -166,4 +167,15 @@
     <string name="azure_communication_ui_calling_setup_view_start_call">Aramayı başlat</string>
     <string name="azure_communication_ui_calling_setup_view_button_starting_call">Arama başlatılıyor…</string>
     <string name="azure_communication_ui_calling_call_view_calling">Aranıyor...</string>
+
+    <!-- Participant menu actions -->
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">Bildirimleri kapat</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Katılımcı menüsünü sessize alın.</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">Aramadan kaldır</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Katılımcıyı arama menüsünden kaldırın</string>
+    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">Arama ayarları güncelleştirildi. Bazı özellikler kullanılamıyor olabilir.</string>
+    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">Arama ayarları güncelleştirildi. Bazı ek eylemleri artık siz de kullanılabileceksiniz.</string>
+
+    <!-- Participant menu view -->
+    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">devre dışı bırakılmış öğe.</string>
 </resources>

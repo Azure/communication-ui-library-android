@@ -3,11 +3,10 @@
 
 package com.azure.android.communication.ui.calling.models
 
-internal enum class CallCompositeInternalParticipantRole {
+internal enum class ParticipantRole {
     UNINITIALIZED,
     ATTENDEE,
     CONSUMER,
     PRESENTER,
     ORGANIZER,
-    COORGANIZER;
 }

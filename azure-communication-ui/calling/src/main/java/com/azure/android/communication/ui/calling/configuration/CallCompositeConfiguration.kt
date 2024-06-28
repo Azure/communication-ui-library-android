@@ -6,12 +6,14 @@ package com.azure.android.communication.ui.calling.configuration
 import android.content.Context
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.calling.configuration.events.CallCompositeEventsHandler
+import com.azure.android.communication.ui.calling.models.CallCompositeCapabilitiesChangedNotificationMode
 /*  <DEFAULT_AUDIO_MODE:0>
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionMode
 </DEFAULT_AUDIO_MODE:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions
 
@@ -22,7 +24,7 @@ internal class CallCompositeConfiguration {
     var themeConfig: Int? = null
     var localizationConfig: CallCompositeLocalizationOptions? = null
     var callCompositeEventsHandler = CallCompositeEventsHandler()
-    var callConfig: CallConfiguration? = null
+    lateinit var callConfig: CallConfiguration
     var callCompositeLocalOptions: CallCompositeLocalOptions? = null
     val remoteParticipantsConfiguration: RemoteParticipantsConfiguration = RemoteParticipantsConfiguration()
     var enableMultitasking: Boolean = false
@@ -35,4 +37,6 @@ internal class CallCompositeConfiguration {
     var displayName: String? = null
     var credential: CommunicationTokenCredential? = null
     var disableInternalPushForIncomingCall: Boolean = false
+    var capabilitiesChangedNotificationMode: CallCompositeCapabilitiesChangedNotificationMode? = null
+    var setupScreenOptions: CallCompositeSetupScreenOptions? = null
 }

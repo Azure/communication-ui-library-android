@@ -110,6 +110,7 @@
 
     <!--    Participant list-->
     <string name="azure_communication_ui_calling_participant_list_in_call_n_people">In het gesprek (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ nog %1$d</string>
     <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">In de lobby (%1$d)</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Dubbeltik om deelnemer toe te laten/weigeren</string>
 
@@ -166,4 +167,15 @@
     <string name="azure_communication_ui_calling_setup_view_start_call">Gesprek starten</string>
     <string name="azure_communication_ui_calling_setup_view_button_starting_call">Oproep starten…</string>
     <string name="azure_communication_ui_calling_call_view_calling">Bellen...</string>
+
+    <!-- Participant menu actions -->
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">Dempen</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Deelnemersmenu dempen</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">Uit gesprek verwijderen</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Verwijder de deelnemer uit het menu Bellen</string>
+    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">Oproepinstellingen bijgewerkt. Sommige functies zijn mogelijk niet beschikbaar voor u.</string>
+    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">Oproepinstellingen bijgewerkt. Sommige aanvullende acties zijn mogelijk nu beschikbaar voor u.</string>
+
+    <!-- Participant menu view -->
+    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">uitgeschakeld artikel.</string>
 </resources>

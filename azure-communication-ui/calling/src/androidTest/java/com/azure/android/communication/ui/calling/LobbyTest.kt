@@ -15,20 +15,33 @@ import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.tapOnScreen
 import com.azure.android.communication.tapWhenDisplayed
 import com.azure.android.communication.tapWithTextWhenDisplayed
-import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
-import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.ui.calling.service.sdk.CommunicationIdentifier
 import com.azure.android.communication.waitUntilDisplayed
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
-import java.util.UUID
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
+import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import java9.util.concurrent.CompletableFuture
 
 internal class LobbyTest : BaseUiTest() {
+
+    private val presenterCapabilities = setOf(
+        ParticipantCapabilityType.TURN_VIDEO_ON,
+        ParticipantCapabilityType.UNMUTE_MICROPHONE,
+        ParticipantCapabilityType.MANAGE_LOBBY,
+        ParticipantCapabilityType.SHARE_SCREEN,
+        ParticipantCapabilityType.REMOVE_PARTICIPANT
+    )
+
+    private val attendeeCapabilities = setOf(
+        ParticipantCapabilityType.TURN_VIDEO_ON,
+        ParticipantCapabilityType.UNMUTE_MICROPHONE
+    )
+
+    private val consumerCapabilities = emptySet<ParticipantCapabilityType>()
 
     @Test
     fun testOnGridViewLobbyParticipantAreNotVisible() = runTest {
@@ -67,7 +80,7 @@ internal class LobbyTest : BaseUiTest() {
         // Launch the UI.
         joinTeamsCall()
 
-        callingSDK.setParticipantRoleSharedFlow(CallCompositeInternalParticipantRole.ATTENDEE)
+        callingSDK.setParticipantCapability(attendeeCapabilities)
 
         callingSDK.addRemoteParticipant(
             CommunicationIdentifier.CommunicationUserIdentifier("ACS User 2"),
@@ -88,7 +101,7 @@ internal class LobbyTest : BaseUiTest() {
         // Launch the UI.
         val appContext = joinTeamsCall()
 
-        callingSDK.setParticipantRoleSharedFlow(CallCompositeInternalParticipantRole.PRESENTER)
+        callingSDK.setParticipantCapability(presenterCapabilities)
 
         callingSDK.addRemoteParticipant(
             CommunicationIdentifier.CommunicationUserIdentifier("ACS User 2"),
@@ -131,7 +144,7 @@ internal class LobbyTest : BaseUiTest() {
         // launch the UI.
         joinTeamsCall()
 
-        callingSDK.setParticipantRoleSharedFlow(CallCompositeInternalParticipantRole.PRESENTER)
+        callingSDK.setParticipantCapability(presenterCapabilities)
 
         callingSDK.addRemoteParticipant(
             CommunicationIdentifier.CommunicationUserIdentifier("ACS User 2"),
@@ -177,7 +190,7 @@ internal class LobbyTest : BaseUiTest() {
         // Launch the UI.
         val appContext = joinTeamsCall()
 
-        callingSDK.setParticipantRoleSharedFlow(CallCompositeInternalParticipantRole.PRESENTER)
+        callingSDK.setParticipantCapability(presenterCapabilities)
 
         callingSDK.addRemoteParticipant(
             CommunicationIdentifier.CommunicationUserIdentifier("ACS User 2"),
@@ -225,7 +238,7 @@ internal class LobbyTest : BaseUiTest() {
         // Launch the UI.
         joinTeamsCall()
 
-        callingSDK.setParticipantRoleSharedFlow(CallCompositeInternalParticipantRole.PRESENTER)
+        callingSDK.setParticipantCapability(presenterCapabilities)
 
         callingSDK.addRemoteParticipant(
             CommunicationIdentifier.CommunicationUserIdentifier("ACS User 2"),
@@ -352,7 +365,7 @@ internal class LobbyTest : BaseUiTest() {
         errorUIId: Int = R.string.azure_communication_ui_calling_error_lobby_meeting_role_not_allowded
 
     ) {
-        callingSDK.setParticipantRoleSharedFlow(CallCompositeInternalParticipantRole.PRESENTER)
+        callingSDK.setParticipantCapability(presenterCapabilities)
 
         callingSDK.addRemoteParticipant(
             CommunicationIdentifier.CommunicationUserIdentifier("ACS User 2"),
@@ -422,24 +435,7 @@ internal class LobbyTest : BaseUiTest() {
         expectedParticipantCountOnParticipantList: Int,
         addLobbyUser: Boolean = true
     ) {
-        // Launch the UI.
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        val callComposite = CallCompositeBuilder().build()
-        val communicationTokenRefreshOptions =
-            CommunicationTokenRefreshOptions({ "token" }, true)
-        val communicationTokenCredential =
-            CommunicationTokenCredential(communicationTokenRefreshOptions)
-        val remoteOptions =
-            CallCompositeRemoteOptions(
-                CallCompositeGroupCallLocator(UUID.fromString("74fce2c1-520f-11ec-97de-71411a9a8e14")),
-                communicationTokenCredential,
-                "test"
-            )
-
-        callComposite.launchTest(appContext, remoteOptions, null)
-
-        tapWhenDisplayed(joinCallId)
-        waitUntilDisplayed(endCallId)
+        joinTeamsCall()
 
         callingSDK.addRemoteParticipant(
             CommunicationIdentifier.CommunicationUserIdentifier("ACS User 1"),

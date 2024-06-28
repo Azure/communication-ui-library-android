@@ -12,13 +12,18 @@ import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.PropertyChangedListener
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
-import com.azure.android.communication.ui.calling.models.CallCompositeInternalParticipantRole
+import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
+import com.azure.android.communication.ui.calling.models.CapabilitiesChangedEvent
+import com.azure.android.communication.ui.calling.models.CapabilitiesChangedReason
+import com.azure.android.communication.ui.calling.models.CapabilityResolutionReason
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnostic
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.ParticipantCapability
+import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.models.VideoStreamModel
@@ -85,10 +90,11 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     private var dominantSpeakersSharedFlow = MutableSharedFlow<DominantSpeakersInfo>()
     private var isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
     private var getCameraCountStateFlow = MutableStateFlow(2)
-    private val participantRoleSharedFlow = MutableSharedFlow<CallCompositeInternalParticipantRole?>()
+    private val participantRoleSharedFlow = MutableSharedFlow<ParticipantRole?>()
     private var networkQualityCallDiagnosticSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
     private var networkCallDiagnosticSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
     private var mediaCallDiagnosticSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+    private val participantCapabilityTypeSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
 
     @GuardedBy("this")
     private val remoteParticipantsMap: MutableMap<String, RemoteParticipant> = mutableMapOf()
@@ -97,6 +103,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     private var localCameraFacing = CameraFacing.FRONT
     private val localVideoStream = LocalVideoStreamTest(callEvents, localCameraFacing, coroutineScope)
     private var lobbyResultCompletableFuture: CompletableFuture<CallCompositeLobbyErrorCode?> = CompletableFuture()
+    private var capabilities = setOf(ParticipantCapabilityType.UNMUTE_MICROPHONE, ParticipantCapabilityType.TURN_VIDEO_ON)
 
     suspend fun addRemoteParticipant(
         id: CommunicationIdentifier,
@@ -149,17 +156,35 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         this.lobbyResultCompletableFuture = lobbyResultCompletableFuture
     }
 
-    fun setParticipantRoleSharedFlow(participantRole: CallCompositeInternalParticipantRole?) {
+    fun setParticipantRoleSharedFlow(participantRole: ParticipantRole?) {
         coroutineScope.launch {
             participantRoleSharedFlow.emit(participantRole)
         }
     }
 
-    suspend fun removeParticipant(id: String) {
-        synchronized(this) {
-            remoteParticipantsMap.remove(id)
+    fun setParticipantCapability(newCapabilities: Set<ParticipantCapabilityType>) {
+        coroutineScope.launch {
+
+            val added = newCapabilities.filter { newCapability ->
+                !capabilities.any { it.name == newCapability.name }
+            }
+                .map { ParticipantCapability(it, isAllowed = true, CapabilityResolutionReason.CAPABLE) }
+
+            val event = CapabilitiesChangedEvent(added, CapabilitiesChangedReason.ROLE_CHANGED)
+
+            capabilities = newCapabilities
+            participantCapabilityTypeSharedFlow.emit(event)
         }
-        emitRemoteParticipantFlow()
+    }
+
+    override fun removeParticipant(userIdentifier: String): CompletableFuture<Void> {
+        return completedNullFuture(coroutineScope) {
+            synchronized(this) {
+                remoteParticipantsMap.remove(userIdentifier)
+            }
+            isMutedSharedFlow.emit(true)
+            emitRemoteParticipantFlow()
+        }
     }
 
     suspend fun changeParticipant(
@@ -385,12 +410,20 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         return lobbyResultCompletableFuture
     }
 
-    override fun decline(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
+    override fun reject(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
         return lobbyResultCompletableFuture
     }
 
-    override fun getLocalParticipantRoleSharedFlow(): SharedFlow<CallCompositeInternalParticipantRole?> {
+    override fun getLocalParticipantRoleSharedFlow(): SharedFlow<ParticipantRole?> {
         return participantRoleSharedFlow
+    }
+
+    override fun getCapabilitiesChangedEventSharedFlow(): SharedFlow<CapabilitiesChangedEvent> {
+        return participantCapabilityTypeSharedFlow
+    }
+
+    override fun getCapabilities(): Set<ParticipantCapabilityType> {
+        return capabilities
     }
 
     override fun getNetworkQualityCallDiagnosticSharedFlow(): SharedFlow<NetworkQualityCallDiagnosticModel> {

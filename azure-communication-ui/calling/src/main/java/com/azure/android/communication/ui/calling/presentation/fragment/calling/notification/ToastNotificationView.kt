@@ -22,7 +22,6 @@ internal class ToastNotificationView : ConstraintLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
-    private lateinit var toastNotificationLayout: ConstraintLayout
     private lateinit var toastNotificationView: View
     private lateinit var toastNotificationIconImageView: ImageView
     private lateinit var toastNotificationMessageTextView: TextView
@@ -30,7 +29,6 @@ internal class ToastNotificationView : ConstraintLayout {
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        toastNotificationLayout = this
         toastNotificationView = findViewById(R.id.azure_communication_ui_calling_toast_notification)
         toastNotificationMessageTextView =
             findViewById(R.id.azure_communication_ui_calling_toast_notification_message)
@@ -44,21 +42,18 @@ internal class ToastNotificationView : ConstraintLayout {
         accessibilityEnabled: Boolean
     ) {
         this.toastNotificationViewModel = toastNotificationViewModel
-        viewLifecycleOwner.lifecycleScope.launch {
-            toastNotificationViewModel.getDisplayToastNotificationFlow().collect {
-                toastNotificationLayout.visibility = if (it) View.VISIBLE else View.GONE
-
-                if (accessibilityEnabled && it) {
-                    toastNotificationLayout.performAccessibilityAction(AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS, null)
-                    toastNotificationLayout.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED)
-                    toastNotificationLayout.sendAccessibilityEvent(AccessibilityEvent.WINDOWS_CHANGE_ACCESSIBILITY_FOCUSED)
-                }
-            }
-        }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            toastNotificationViewModel.getToastNotificationModelFlow().collect {
-                if (!it.isEmpty()) {
+            toastNotificationViewModel.toastNotificationModelFlow.collect {
+                if (it != null) {
+                    visibility = View.VISIBLE
+
+                    if (accessibilityEnabled) {
+                        performAccessibilityAction(AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS, null)
+                        sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED)
+                        sendAccessibilityEvent(AccessibilityEvent.WINDOWS_CHANGE_ACCESSIBILITY_FOCUSED)
+                    }
+
                     toastNotificationIconImageView.setImageDrawable(
                         ContextCompat.getDrawable(
                             context,
@@ -66,6 +61,8 @@ internal class ToastNotificationView : ConstraintLayout {
                         )
                     )
                     toastNotificationMessageTextView.text = context.getString(it.notificationMessageId)
+                } else {
+                    visibility = View.GONE
                 }
             }
         }

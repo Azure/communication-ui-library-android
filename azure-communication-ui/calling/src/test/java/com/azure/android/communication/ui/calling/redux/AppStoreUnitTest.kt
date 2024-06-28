@@ -48,7 +48,7 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
                     null,
                     0,
                 )
-            stateTest.remoteParticipantState = RemoteParticipantsState(participantMap, 0, listOf(), 0, null)
+            stateTest.remoteParticipantState = RemoteParticipantsState(participantMap, 0, listOf(), 0, null, participantMap.size)
 
             val store = AppStore(
                 mockAppState,

@@ -13,7 +13,7 @@ import java.lang.Integer.min
 
 internal class ParticipantGridViewModel(
     private val participantGridCellViewModelFactory: ParticipantGridCellViewModelFactory,
-    private val maxRemoteParticipantSize: Int
+    private val maxRemoteParticipantSize: Int,
 ) {
 
     private var remoteParticipantsUpdatedStateFlow: MutableStateFlow<List<ParticipantGridCellViewModel>> =

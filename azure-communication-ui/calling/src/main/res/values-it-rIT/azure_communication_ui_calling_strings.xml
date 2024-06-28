@@ -110,6 +110,7 @@
 
     <!--    Participant list-->
     <string name="azure_communication_ui_calling_participant_list_in_call_n_people">Nella chiamata (%1$d)</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d in più</string>
     <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">In sala di attesa (%1$d)</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Tocca due volte per ammettere/rifiutare il partecipante</string>
 
@@ -166,4 +167,15 @@
     <string name="azure_communication_ui_calling_setup_view_start_call">Avvia chiamata</string>
     <string name="azure_communication_ui_calling_setup_view_button_starting_call">Avvio chiamata in corso…</string>
     <string name="azure_communication_ui_calling_call_view_calling">Chiamata in corso...</string>
+
+    <!-- Participant menu actions -->
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">Disattiva audio</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Menu Disattiva l’audio del partecipante</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">Rimuovi dalla chiamata</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Menu Rimuovi partecipante dalla chiamata</string>
+    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">Impostazioni di chiamata aggiornate. Alcune funzionalità potrebbero non essere disponibili.</string>
+    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">Impostazioni di chiamata aggiornate. Alcune azioni aggiuntive potrebbero essere ora disponibili per te.</string>
+
+    <!-- Participant menu view -->
+    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">elemento disabilitato.</string>
 </resources>

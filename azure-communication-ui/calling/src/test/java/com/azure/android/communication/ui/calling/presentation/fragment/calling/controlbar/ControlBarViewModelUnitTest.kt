@@ -4,6 +4,10 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar
 
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.configuration.CallType
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
+import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
+import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
@@ -62,7 +66,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             on { dispatch(any()) } doAnswer { }
         }
 
-        val callingViewModel = ControlBarViewModel(mockAppStore::dispatch)
+        val callingViewModel = ControlBarViewModel(mockAppStore::dispatch, CapabilitiesManager(CallType.GROUP_CALL))
         callingViewModel.turnMicOn()
 
         verify(mockAppStore, times(1)).dispatch(
@@ -95,7 +99,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             on { dispatch(any()) } doAnswer { }
         }
 
-        val callingViewModel = ControlBarViewModel(mockAppStore::dispatch)
+        val callingViewModel = ControlBarViewModel(mockAppStore::dispatch, CapabilitiesManager(CallType.GROUP_CALL))
         callingViewModel.turnMicOff()
 
         verify(mockAppStore, times(1)).dispatch(
@@ -116,10 +120,12 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 CameraTransmissionStatus.REMOTE
             )
             val audioDeviceState = AudioDeviceSelectionStatus.RECEIVER_SELECTED
-            val pipState = VisibilityState(status = VisibilityStatus.VISIBLE)
+            val visibilityState = VisibilityState(status = VisibilityStatus.VISIBLE)
+            val avMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+            val capabilities = setOf(ParticipantCapabilityType.UNMUTE_MICROPHONE)
 
             val appStore = mock<AppStore<ReduxState>> { }
-            val callingViewModel = ControlBarViewModel(appStore::dispatch)
+            val callingViewModel = ControlBarViewModel(appStore::dispatch, CapabilitiesManager(CallType.GROUP_CALL))
             callingViewModel.init(
                 permissionState,
                 cameraState,
@@ -134,7 +140,9 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 {},
                 {},
                 {},
-                pipState,
+                visibilityState,
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                capabilities = capabilities
             )
 
             val expectedAudioOperationalStatus1 = AudioOperationalStatus.ON
@@ -151,7 +159,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val resultListFromAudioStateFlow = mutableListOf<AudioOperationalStatus>()
             val flowJob = launch {
-                callingViewModel.getAudioOperationalStatusStateFlow()
+                callingViewModel.audioOperationalStatus
                     .toList(resultListFromAudioStateFlow)
             }
 
@@ -161,14 +169,18 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 cameraState,
                 audioState1,
                 CallingStatus.CONNECTED,
-                pipState,
+                visibilityState,
+                avMode,
+                capabilities,
             )
             callingViewModel.update(
                 permissionState,
                 cameraState,
                 audioState2,
                 CallingStatus.CONNECTED,
-                pipState,
+                visibilityState,
+                avMode,
+                capabilities,
             )
 
             // assert
@@ -183,33 +195,30 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
     @Test
     fun controlBarViewModel_update_then_cameraPermissionStateFlowReflectsUpdate() {
         runScopedTest {
-
-            val expectedCameraPermissionState1 = PermissionStatus.DENIED
-            val expectedCameraPermissionState2 = PermissionStatus.GRANTED
-
             val permissionState1 = PermissionState(
-                PermissionStatus.DENIED,
-                expectedCameraPermissionState1
+                audioPermissionState = PermissionStatus.DENIED,
+                cameraPermissionState = PermissionStatus.DENIED
             )
 
             val permissionState2 = PermissionState(
-                PermissionStatus.DENIED,
-                expectedCameraPermissionState2
+                audioPermissionState = PermissionStatus.DENIED,
+                cameraPermissionState = PermissionStatus.GRANTED
             )
 
             val cameraState = CameraState(
-                CameraOperationalStatus.OFF,
-                CameraDeviceSelectionStatus.FRONT,
-                CameraTransmissionStatus.REMOTE
+                operation = CameraOperationalStatus.OFF,
+                device = CameraDeviceSelectionStatus.FRONT,
+                transmission = CameraTransmissionStatus.REMOTE
             )
             val audioDeviceState = AudioDeviceSelectionStatus.RECEIVER_SELECTED
 
-            val resultListFromCameraPermissionStateFlow =
-                mutableListOf<ControlBarViewModel.CameraModel>()
-            val pipState = VisibilityState(status = VisibilityStatus.VISIBLE)
+            val resultListFromIsCameraButtonEnabledStateFlow = mutableListOf<Boolean>()
+            val visibilityState = VisibilityState(status = VisibilityStatus.VISIBLE)
+            val avMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+            val capabilities = emptySet<ParticipantCapabilityType>()
 
             val appStore = mock<AppStore<ReduxState>>()
-            val callingViewModel = ControlBarViewModel(appStore::dispatch)
+            val callingViewModel = ControlBarViewModel(appStore::dispatch, CapabilitiesManager(CallType.GROUP_CALL))
             val initialPermissionState = PermissionState(
                 PermissionStatus.UNKNOWN, PermissionStatus.UNKNOWN
             )
@@ -228,12 +237,14 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 {},
                 {},
                 {},
-                pipState,
+                visibilityState,
+                avMode,
+                capabilities,
             )
 
             val flowJob = launch {
-                callingViewModel.getCameraStateFlow()
-                    .toList(resultListFromCameraPermissionStateFlow)
+                callingViewModel.isCameraButtonEnabled
+                    .toList(resultListFromIsCameraButtonEnabledStateFlow)
             }
 
             // act
@@ -246,7 +257,9 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 CallingStatus.CONNECTED,
-                pipState,
+                visibilityState,
+                avMode,
+                capabilities,
             )
             callingViewModel.update(
                 permissionState2,
@@ -257,18 +270,20 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 CallingStatus.CONNECTED,
-                pipState,
+                visibilityState,
+                avMode,
+                capabilities,
             )
 
             // assert
             Assert.assertEquals(
-                expectedCameraPermissionState1,
-                resultListFromCameraPermissionStateFlow[1].cameraPermissionState
+                false,
+                resultListFromIsCameraButtonEnabledStateFlow[1]
             )
 
             Assert.assertEquals(
-                expectedCameraPermissionState2,
-                resultListFromCameraPermissionStateFlow[2].cameraPermissionState
+                true,
+                resultListFromIsCameraButtonEnabledStateFlow[2]
             )
 
             flowJob.cancel()
@@ -280,11 +295,11 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val appStore = mock<AppStore<ReduxState>>()
-            val callingViewModel = ControlBarViewModel(appStore::dispatch)
+            val callingViewModel = ControlBarViewModel(appStore::dispatch, CapabilitiesManager(CallType.GROUP_CALL))
 
             val permissionState = PermissionState(
-                PermissionStatus.GRANTED,
-                PermissionStatus.GRANTED
+                audioPermissionState = PermissionStatus.GRANTED,
+                cameraPermissionState = PermissionStatus.GRANTED
             )
 
             val audioDeviceState = AudioDeviceSelectionStatus.RECEIVER_SELECTED
@@ -311,7 +326,9 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 cameraDeviceSelectionStatus,
                 cameraTransmissionStatus
             )
-            val pipState = VisibilityState(status = VisibilityStatus.VISIBLE)
+            val visibilityState = VisibilityState(status = VisibilityStatus.VISIBLE)
+            val avMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+            val capabilities = emptySet<ParticipantCapabilityType>()
 
             callingViewModel.init(
                 permissionState,
@@ -327,12 +344,14 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 {},
                 {},
                 {},
-                pipState,
+                visibilityState,
+                avMode,
+                capabilities,
             )
 
-            val resultListFromCameraStateFlow = mutableListOf<ControlBarViewModel.CameraModel>()
+            val resultListFromCameraStateFlow = mutableListOf<CameraOperationalStatus>()
             val flowJob = launch {
-                callingViewModel.getCameraStateFlow().toList(resultListFromCameraStateFlow)
+                callingViewModel.cameraStatus.toList(resultListFromCameraStateFlow)
             }
 
             // act
@@ -345,7 +364,9 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 CallingStatus.CONNECTED,
-                pipState,
+                visibilityState,
+                avMode,
+                capabilities,
             )
             callingViewModel.update(
                 permissionState,
@@ -356,18 +377,20 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 CallingStatus.CONNECTED,
-                pipState,
+                visibilityState,
+                avMode,
+                capabilities,
             )
 
             // assert
             Assert.assertEquals(
                 expectedCameraState1,
-                resultListFromCameraStateFlow[1].cameraState.operation
+                resultListFromCameraStateFlow[1]
             )
 
             Assert.assertEquals(
                 expectedCameraState2,
-                resultListFromCameraStateFlow[2].cameraState.operation
+                resultListFromCameraStateFlow[2]
             )
 
             flowJob.cancel()
@@ -379,7 +402,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val appStore = mock<AppStore<ReduxState>>()
-            val callingViewModel = ControlBarViewModel(appStore::dispatch)
+            val callingViewModel = ControlBarViewModel(appStore::dispatch, CapabilitiesManager(CallType.GROUP_CALL))
 
             val permissionState = PermissionState(
                 PermissionStatus.GRANTED,
@@ -403,7 +426,9 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 cameraDeviceSelectionStatus,
                 cameraTransmissionStatus
             )
-            val pipState = VisibilityState(status = VisibilityStatus.VISIBLE)
+            val visibilityState = VisibilityState(status = VisibilityStatus.VISIBLE)
+            val avMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+            val capabilities = setOf(ParticipantCapabilityType.TURN_VIDEO_ON, ParticipantCapabilityType.UNMUTE_MICROPHONE)
 
             callingViewModel.init(
                 permissionState,
@@ -419,12 +444,22 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 {},
                 {},
                 {},
-                pipState,
+                visibilityState,
+                avMode,
+                capabilities,
             )
 
-            val resultListFromOnHoldCallStatusStateFlow = mutableListOf<Boolean>()
-            val flowJob = launch {
-                callingViewModel.getOnHoldCallStatusStateFlowStateFlow().toList(resultListFromOnHoldCallStatusStateFlow)
+            val resultListFromIsCameraButtonEnabledStateFlow = mutableListOf<Boolean>()
+            val resultListFromIsMicButtonEnabledStateFlow = mutableListOf<Boolean>()
+            val resultListFromIsAudioDeviceButtonEnabledStateFlow = mutableListOf<Boolean>()
+            val flowJob1 = launch {
+                callingViewModel.isCameraButtonEnabled.toList(resultListFromIsCameraButtonEnabledStateFlow)
+            }
+            val flowJob2 = launch {
+                callingViewModel.isMicButtonEnabled.toList(resultListFromIsMicButtonEnabledStateFlow)
+            }
+            val flowJob3 = launch {
+                callingViewModel.isAudioDeviceButtonEnabled.toList(resultListFromIsAudioDeviceButtonEnabledStateFlow)
             }
 
             // act
@@ -437,7 +472,9 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 CallingStatus.CONNECTED,
-                pipState,
+                visibilityState,
+                avMode,
+                capabilities,
             )
             callingViewModel.update(
                 permissionState,
@@ -448,21 +485,43 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                     BluetoothState(available = false, deviceName = "bluetooth")
                 ),
                 CallingStatus.LOCAL_HOLD,
-                pipState,
+                visibilityState,
+                avMode,
+                capabilities,
             )
 
             // assert
             Assert.assertEquals(
-                false,
-                resultListFromOnHoldCallStatusStateFlow[0]
+                true,
+                resultListFromIsCameraButtonEnabledStateFlow[0]
             )
 
             Assert.assertEquals(
+                false,
+                resultListFromIsCameraButtonEnabledStateFlow[1]
+            )
+            Assert.assertEquals(
                 true,
-                resultListFromOnHoldCallStatusStateFlow[1]
+                resultListFromIsMicButtonEnabledStateFlow[0]
             )
 
-            flowJob.cancel()
+            Assert.assertEquals(
+                false,
+                resultListFromIsMicButtonEnabledStateFlow[1]
+            )
+            Assert.assertEquals(
+                true,
+                resultListFromIsAudioDeviceButtonEnabledStateFlow[0]
+            )
+
+            Assert.assertEquals(
+                false,
+                resultListFromIsAudioDeviceButtonEnabledStateFlow[1]
+            )
+
+            flowJob1.cancel()
+            flowJob2.cancel()
+            flowJob3.cancel()
         }
     }
 }

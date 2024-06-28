@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.models;
 import com.azure.android.communication.ui.calling.CallComposite;
 
 /**
- * Localization configuration to provide for {@link CallComposite}.
+ * Multitasking configuration to provide for {@link CallComposite}.
  *
  * <pre>
  *

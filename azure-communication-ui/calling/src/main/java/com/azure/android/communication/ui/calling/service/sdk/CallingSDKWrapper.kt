@@ -10,6 +10,7 @@ import com.azure.android.communication.calling.CallAgent
 import com.azure.android.communication.calling.CallClient
 import com.azure.android.communication.calling.CallingCommunicationException
 import com.azure.android.communication.calling.CameraFacing
+import com.azure.android.communication.calling.CapabilitiesCallFeature
 import com.azure.android.communication.calling.DeviceManager
 import com.azure.android.communication.calling.GroupCallLocator
 import com.azure.android.communication.calling.HangUpOptions
@@ -18,9 +19,7 @@ import com.azure.android.communication.calling.JoinCallOptions
 import com.azure.android.communication.calling.JoinMeetingLocator
 import com.azure.android.communication.calling.OutgoingAudioOptions
 import com.azure.android.communication.calling.OutgoingVideoOptions
-/* <ROOMS_SUPPORT:0>
 import com.azure.android.communication.calling.RoomCallLocator
-</ROOMS_SUPPORT:0> */
 import com.azure.android.communication.calling.StartCallOptions
 import com.azure.android.communication.calling.TeamsMeetingIdLocator
 import com.azure.android.communication.calling.TeamsMeetingLinkLocator
@@ -30,6 +29,7 @@ import com.azure.android.communication.ui.calling.configuration.CallConfiguratio
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
+import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
@@ -96,6 +96,11 @@ internal class CallingSDKWrapper(
 
     override fun getLocalParticipantRoleSharedFlow() =
         callingSDKEventHandler.getCallParticipantRoleSharedFlow()
+
+    override fun getTotalRemoteParticipantCountSharedFlow() = callingSDKEventHandler.getTotalRemoteParticipantCountSharedFlow()
+
+    override fun getCapabilitiesChangedEventSharedFlow() =
+        callingSDKEventHandler.getCallCapabilitiesEventSharedFlow()
 
     override fun getIsMutedSharedFlow() = callingSDKEventHandler.getIsMutedSharedFlow()
 
@@ -225,7 +230,7 @@ internal class CallingSDKWrapper(
         return false
     }
 
-    override fun decline(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
+    override fun reject(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?> {
         val future = CompletableFuture<CallCompositeLobbyErrorCode?>()
         if (lobbyNullCheck(future)) return future
         val participant = nullableCall?.remoteParticipants?.find { it.identifier.rawId.equals(userIdentifier) }
@@ -243,6 +248,26 @@ internal class CallingSDKWrapper(
                     }
                 }
         }
+        return future
+    }
+
+    override fun removeParticipant(userIdentifier: String): CompletableFuture<Void> {
+        val future = CompletableFuture<Void>()
+        val participantToRemove = call.remoteParticipants
+            .find {
+                it.identifier.rawId == userIdentifier
+            }
+
+        participantToRemove?.let {
+            call.removeParticipant(it).whenComplete { _, error ->
+                if (error != null) {
+                    future.completeExceptionally(error)
+                } else {
+                    future.complete(null)
+                }
+            }
+        }
+
         return future
     }
 
@@ -264,6 +289,20 @@ internal class CallingSDKWrapper(
             createCallAgent()
         }
         return setupCallCompletableFuture
+    }
+
+    override fun getCapabilities(): Set<ParticipantCapabilityType> {
+        val capabilitiesFeature = nullableCall?.feature { CapabilitiesCallFeature::class.java }
+        capabilitiesFeature?.capabilities?.let { capabilities ->
+            val filtered = capabilities
+                .mapNotNull { it.into() }
+                .filter { it.isAllowed }
+                .map { it.type }
+
+            return filtered.toSet()
+        }
+
+        return emptySet()
     }
 
     override fun startCall(
@@ -457,9 +496,7 @@ internal class CallingSDKWrapper(
                         )
                     }
                 }
-                /* <ROOMS_SUPPORT:3>
                 CallType.ROOMS_CALL -> RoomCallLocator(callConfig.roomId)
-                </ROOMS_SUPPORT:1> */
                 else -> {
                     throw CallCompositeException(
                         "Unsupported call type",

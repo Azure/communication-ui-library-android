@@ -31,7 +31,9 @@ internal class SetupViewModelFactory(
     }
 
     val setupControlBarViewModel by lazy {
-        SetupControlBarViewModel(store::dispatch)
+        SetupControlBarViewModel(
+            store::dispatch,
+        )
     }
 
     val setupGradientViewModel by lazy {

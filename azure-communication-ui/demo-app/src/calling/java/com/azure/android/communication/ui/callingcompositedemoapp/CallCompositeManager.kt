@@ -36,15 +36,11 @@ import com.azure.android.communication.ui.calling.models.CallCompositeLeaveCallC
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions
-/* <ROOMS_SUPPORT:0>
-import com.azure.android.communication.ui.calling.models.CallCompositeParticipantRole
-</ROOMS_SUPPORT:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotification
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions
-/* <ROOMS_SUPPORT:0>
 import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator
-</ROOMS_SUPPORT:0> */
+import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingIdLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
@@ -67,10 +63,8 @@ class CallCompositeManager(private val context: Context) {
         acsToken: String,
         displayName: String,
         groupId: UUID?,
-        /* <ROOMS_SUPPORT:5>
         roomId: String?,
-        roomRoleHint: CallCompositeParticipantRole?,
-        </ROOMS_SUPPORT:2> */
+        /* <MEETING_ID_LOCATOR> */
         meetingLink: String?,
         meetingId: String?,
         meetingPasscode: String?,
@@ -105,10 +99,7 @@ class CallCompositeManager(private val context: Context) {
                 meetingLink,
                 meetingId,
                 meetingPasscode,
-                /* <ROOMS_SUPPORT:5>
                 roomId,
-                roomRoleHint,
-                </ROOMS_SUPPORT:2> */
                 displayName,
             )
             val locator = getLocator(
@@ -116,10 +107,7 @@ class CallCompositeManager(private val context: Context) {
                 meetingLink,
                 meetingId,
                 meetingPasscode,
-                /* <ROOMS_SUPPORT:5>
                 roomId,
-                roomRoleHint,
-                </ROOMS_SUPPORT:2> */
             )
 
             if (localOptions == null) {
@@ -144,10 +132,7 @@ class CallCompositeManager(private val context: Context) {
         meetingLink: String?,
         meetingId: String?,
         meetingPasscode: String?,
-        /* <ROOMS_SUPPORT:5>
         roomId: String?,
-        roomRoleHint: CallCompositeParticipantRole?,
-        </ROOMS_SUPPORT:2> */
         displayName: String,
     ): CallCompositeRemoteOptions {
         val communicationTokenRefreshOptions =
@@ -161,9 +146,8 @@ class CallCompositeManager(private val context: Context) {
 
                 !meetingLink.isNullOrEmpty() -> CallCompositeTeamsMeetingLinkLocator(meetingLink)
                 !meetingId.isNullOrEmpty() -> CallCompositeTeamsMeetingIdLocator(meetingId, meetingPasscode)
-                /* <ROOMS_SUPPORT:0>
-                roomId != null && roomRoleHint != null -> CallCompositeRoomLocator(roomId)
-                </ROOMS_SUPPORT:0> */
+                /* </MEETING_ID_LOCATOR> */
+                roomId != null -> CallCompositeRoomLocator(roomId)
                 else -> throw IllegalArgumentException("Cannot launch call composite with provided arguments.")
             }
 
@@ -175,19 +159,15 @@ class CallCompositeManager(private val context: Context) {
         meetingLink: String?,
         meetingId: String?,
         meetingPasscode: String?,
-        /* <ROOMS_SUPPORT:4>
         roomId: String?,
-        roomRoleHint: CallCompositeParticipantRole?,
-        </ROOMS_SUPPORT:1> */
     ): CallCompositeJoinLocator {
         val locator: CallCompositeJoinLocator =
             when {
                 groupId != null -> CallCompositeGroupCallLocator(groupId)
                 !meetingLink.isNullOrEmpty() -> CallCompositeTeamsMeetingLinkLocator(meetingLink)
                 !meetingId.isNullOrEmpty() -> CallCompositeTeamsMeetingIdLocator(meetingId, meetingPasscode)
-                /* <ROOMS_SUPPORT:0>
-                roomId != null && roomRoleHint != null -> CallCompositeRoomLocator(roomId)
-                </ROOMS_SUPPORT:0> */
+                /* </MEETING_ID_LOCATOR> */
+                roomId != null -> CallCompositeRoomLocator(roomId)
                 else -> throw IllegalArgumentException("Cannot launch call composite with provided arguments.")
             }
 
@@ -492,7 +472,9 @@ class CallCompositeManager(private val context: Context) {
             }
         }
 
-        callCompositeBuilder.callScreenOptions(callScreenOptions())
+        callScreenOptions().let { callCompositeBuilder.callScreenOptions(it) }
+
+        setupScreenOptions()?.let { callCompositeBuilder.setupScreenOptions(it) }
 
         if (AdditionalFeatures.secondaryThemeFeature.active) {
             callCompositeBuilder.theme(R.style.MyCompany_Theme_Calling)
@@ -517,18 +499,41 @@ class CallCompositeManager(private val context: Context) {
         return callCompositeBuilder.build()
     }
 
-    private fun callScreenOptions(): CallCompositeCallScreenOptions {
-        return if (SettingsFeatures.getDisplayLeaveCallConfirmationValue()) {
-            CallCompositeCallScreenOptions().setControlBarOptions(
-                CallCompositeCallScreenControlBarOptions()
-                    .setLeaveCallConfirmation(CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED)
-            )
+    private fun callScreenOptions(): CallCompositeCallScreenOptions? {
+        return if (SettingsFeatures.getDisplayLeaveCallConfirmationValue() != null) {
+            if (SettingsFeatures.getDisplayLeaveCallConfirmationValue() == true) {
+                CallCompositeCallScreenOptions().setControlBarOptions(
+                    CallCompositeCallScreenControlBarOptions()
+                        .setLeaveCallConfirmation(CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED)
+                )
+            } else {
+                CallCompositeCallScreenOptions().setControlBarOptions(
+                    CallCompositeCallScreenControlBarOptions()
+                        .setLeaveCallConfirmation(CallCompositeLeaveCallConfirmationMode.ALWAYS_DISABLED)
+                )
+            }
         } else {
-            CallCompositeCallScreenOptions().setControlBarOptions(
-                CallCompositeCallScreenControlBarOptions()
-                    .setLeaveCallConfirmation(CallCompositeLeaveCallConfirmationMode.ALWAYS_DISABLED)
-            )
+            null
         }
+    }
+
+    private fun setupScreenOptions(): CallCompositeSetupScreenOptions? {
+
+        var setupScreenOptions: CallCompositeSetupScreenOptions? = null
+
+        if (SettingsFeatures.getSetupScreenCameraEnabledValue() != null) {
+            setupScreenOptions = CallCompositeSetupScreenOptions()
+            setupScreenOptions.setCameraButtonEnabled(SettingsFeatures.getSetupScreenCameraEnabledValue())
+        }
+
+        if (SettingsFeatures.getSetupScreenMicEnabledValue() != null) {
+            if (setupScreenOptions == null) {
+                setupScreenOptions = CallCompositeSetupScreenOptions()
+            }
+            setupScreenOptions.setMicrophoneButtonEnabled(SettingsFeatures.getSetupScreenMicEnabledValue())
+        }
+
+        return setupScreenOptions
     }
 
     private fun toast(
