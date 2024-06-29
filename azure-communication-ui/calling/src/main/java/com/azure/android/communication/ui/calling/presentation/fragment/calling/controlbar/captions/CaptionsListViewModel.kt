@@ -41,11 +41,11 @@ internal class CaptionsListViewModel(private val store: Store<ReduxState>) {
     ) {
         activeCaptionLanguageStateFlow.value = captionsState.activeCaptionLanguage
         activeSpokenLanguageStateFlow.value = captionsState.activeSpokenLanguage
-        isCaptionsEnabledStateFlow.value = captionsState.isCaptionsEnabled
+        isCaptionsEnabledStateFlow.value = captionsState.isCaptionsUIEnabled
         isTranscriptionEnabledStateFlow.value = captionsState.isTranslationSupported
         isCaptionsActiveStateFlow.value = captionsState.isCaptionsStarted
         canTurnOnCaptionsStateFlow.value = callingStatus == CallingStatus.CONNECTED
-        displayStateFlow.value = captionsState.showCaptionsOptions && visibilityStatus == VisibilityStatus.VISIBLE
+        displayStateFlow.value = captionsState.showCaptionsToggleUI && visibilityStatus == VisibilityStatus.VISIBLE
     }
 
     fun close() {

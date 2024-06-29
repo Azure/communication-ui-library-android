@@ -3,10 +3,10 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.captions
 
-import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsErrors
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CaptionsError
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,18 +14,18 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class CaptionsErrorHeaderViewModel(private val dispatch: (Action) -> Unit) {
     private lateinit var displayCaptionsErrorHeaderFlow: MutableStateFlow<Boolean>
-    private lateinit var captionsErrorFlow: MutableStateFlow<CallCompositeCaptionsErrors?>
+    private lateinit var captionsErrorFlow: MutableStateFlow<CaptionsError?>
 
     fun getDisplayCaptionsErrorHeaderFlow(): StateFlow<Boolean> = displayCaptionsErrorHeaderFlow
 
-    fun getCaptionsErrorFlow(): StateFlow<CallCompositeCaptionsErrors?> = captionsErrorFlow
+    fun getCaptionsErrorFlow(): StateFlow<CaptionsError?> = captionsErrorFlow
 
     fun update(
         callingStatus: CallingStatus,
-        error: CallCompositeCaptionsErrors?,
+        error: CaptionsError?,
         visibilityStatus: VisibilityState
     ) {
-        displayCaptionsErrorHeaderFlow.value = error != CallCompositeCaptionsErrors.NONE &&
+        displayCaptionsErrorHeaderFlow.value = error != null &&
             callingStatus == CallingStatus.CONNECTED &&
             visibilityStatus.status == VisibilityStatus.VISIBLE
         captionsErrorFlow.value = error
@@ -33,11 +33,11 @@ internal class CaptionsErrorHeaderViewModel(private val dispatch: (Action) -> Un
 
     fun init(
         callingStatus: CallingStatus,
-        error: CallCompositeCaptionsErrors?,
+        error: CaptionsError?,
         visibilityStatus: VisibilityState
     ) {
         displayCaptionsErrorHeaderFlow = MutableStateFlow(
-            error != CallCompositeCaptionsErrors.NONE &&
+            error != null &&
                 callingStatus == CallingStatus.CONNECTED &&
                 visibilityStatus.status == VisibilityStatus.VISIBLE
         )

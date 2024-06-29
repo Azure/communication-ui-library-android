@@ -14,6 +14,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsErrors
+import com.azure.android.communication.ui.calling.redux.state.CaptionsError
+import com.azure.android.communication.ui.calling.redux.state.CaptionsErrorType
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -62,13 +64,15 @@ internal class CaptionsErrorHeaderView : ConstraintLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             this@CaptionsErrorHeaderView.captionsErrorHeaderViewModel.getCaptionsErrorFlow().collect {
-                errorTextView.text = getLobbyErrorMessage(it)
+                it?.let {
+                    errorTextView.text = getLobbyErrorMessage(it)
+                }
             }
         }
     }
 
-    private fun getLobbyErrorMessage(it: CallCompositeCaptionsErrors?): String {
-        return when (it) {
+    private fun getLobbyErrorMessage(it: CaptionsError): String {
+        return when (it.error) {
             CallCompositeCaptionsErrors.CAPTIONS_NOT_ACTIVE -> context.getString(R.string.azure_communication_ui_calling_error_captions_not_active)
             CallCompositeCaptionsErrors.GET_CAPTIONS_FAILED_CALL_STATE_NOT_CONNECTED -> context.getString(R.string.azure_communication_ui_calling_error_captions_failed_call_state_not_connected)
             CallCompositeCaptionsErrors.CAPTIONS_FAILED_TO_START -> context.getString(R.string.azure_communication_ui_calling_error_captions_failed_to_start)
@@ -80,7 +84,15 @@ internal class CaptionsErrorHeaderView : ConstraintLayout {
             CallCompositeCaptionsErrors.CAPTIONS_SET_SPOKEN_LANGUAGE_DISABLED -> context.getString(R.string.azure_communication_ui_calling_error_captions_set_spoken_language_disabled)
             CallCompositeCaptionsErrors.SET_CAPTION_LANGUAGE_DISABLED -> context.getString(R.string.azure_communication_ui_calling_error_set_caption_language_disabled)
             CallCompositeCaptionsErrors.SET_CAPTION_LANGUAGE_TEAMS_PREMIUM_LICENSE_NEEDED -> context.getString(R.string.azure_communication_ui_calling_error_set_caption_language_teams_premium_license_needed)
-            CallCompositeCaptionsErrors.CAPTIONS_REQUESTED_LANGUAGE_NOT_SUPPORTED -> context.getString(R.string.azure_communication_ui_calling_error_captions_requested_language_not_supported)
+            CallCompositeCaptionsErrors.CAPTIONS_REQUESTED_LANGUAGE_NOT_SUPPORTED ->
+                {
+                    return when (it.errorType) {
+                        CaptionsErrorType.CAPTIONS_SPOKEN_LANGUAGE_UPDATE_ERROR -> context.getString(R.string.azure_communication_ui_calling_error_captions_set_spoken_requested_language_not_supported)
+                        CaptionsErrorType.CAPTIONS_CAPTION_LANGUAGE_UPDATE_ERROR -> context.getString(R.string.azure_communication_ui_calling_error_captions_set_caption_requested_language_not_supported)
+                        CaptionsErrorType.CAPTIONS_STOP_ERROR -> context.getString(R.string.azure_communication_ui_calling_error_captions_unknown)
+                        CaptionsErrorType.CAPTIONS_START_ERROR -> context.getString(R.string.azure_communication_ui_calling_error_captions_start_requested_language_not_supported)
+                    }
+                }
             else -> context.getString(R.string.azure_communication_ui_calling_error_captions_unknown)
         }
     }

@@ -32,11 +32,11 @@ internal class CaptionsLanguageSelectionListViewModel(private val store: Store<R
     }
 
     private fun updateListView(captionsState: CaptionsState, status: VisibilityStatus) {
-        if (captionsState.showSupportedCaptionLanguages) {
+        if (captionsState.showSupportedCaptionLanguagesSelections) {
             languageSelectionTypeStateFlow = LanguageSelectionType.CAPTION
             updateActiveLanguageStateFlow.value = captionsState.activeCaptionLanguage
             languagesListStateFlow.value = captionsState.supportedCaptionLanguages
-        } else if (captionsState.showSupportedSpokenLanguages) {
+        } else if (captionsState.showSupportedSpokenLanguagesSelection) {
             languageSelectionTypeStateFlow = LanguageSelectionType.SPOKEN
             updateActiveLanguageStateFlow.value = captionsState.activeSpokenLanguage
             languagesListStateFlow.value = captionsState.supportedSpokenLanguages

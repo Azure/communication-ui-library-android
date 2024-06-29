@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.redux.reducer
 
-import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsErrors
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
@@ -29,7 +28,7 @@ internal class CaptionsReducerImpl : CaptionsReducer {
                 state.copy(isTranslationSupported = action.isSupported)
             }
             is CaptionsAction.Error -> {
-                state.copy(lastCaptionsError = action.errors)
+                state.copy(lastCaptionsError = action.error)
             }
             is CaptionsAction.SupportedSpokenLanguagesChanged -> {
                 state.copy(supportedSpokenLanguages = action.languages)
@@ -41,22 +40,22 @@ internal class CaptionsReducerImpl : CaptionsReducer {
                 state.copy(activeType = action.type)
             }
             is CaptionsAction.ShowCaptionsOptions -> {
-                state.copy(showCaptionsOptions = true)
+                state.copy(showCaptionsToggleUI = true)
             }
             is CaptionsAction.CloseCaptionsOptions -> {
-                state.copy(showCaptionsOptions = false)
+                state.copy(showCaptionsToggleUI = false)
             }
             is CaptionsAction.ShowSupportedSpokenLanguagesOptions -> {
-                state.copy(showSupportedSpokenLanguages = true)
+                state.copy(showSupportedSpokenLanguagesSelection = true)
             }
             is CaptionsAction.ShowSupportedCaptionLanguagesOptions -> {
-                state.copy(showSupportedCaptionLanguages = true)
+                state.copy(showSupportedCaptionLanguagesSelections = true)
             }
             is CaptionsAction.HideSupportedLanguagesOptions -> {
-                state.copy(showSupportedSpokenLanguages = false, showSupportedCaptionLanguages = false)
+                state.copy(showSupportedSpokenLanguagesSelection = false, showSupportedCaptionLanguagesSelections = false)
             }
             is CaptionsAction.ClearError -> {
-                state.copy(lastCaptionsError = CallCompositeCaptionsErrors.NONE)
+                state.copy(lastCaptionsError = null)
             }
             else -> {
                 state

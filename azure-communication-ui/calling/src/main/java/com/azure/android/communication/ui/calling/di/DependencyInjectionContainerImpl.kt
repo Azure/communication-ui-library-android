@@ -308,7 +308,7 @@ internal class DependencyInjectionContainerImpl(
                 configuration.callConfig,
                 logger,
                 callingSDKInitializer,
-                captionsViewData = localOptions?.captionsViewData
+                compositeCaptionsOptions = localOptions?.captionsViewData
             )
     }
 

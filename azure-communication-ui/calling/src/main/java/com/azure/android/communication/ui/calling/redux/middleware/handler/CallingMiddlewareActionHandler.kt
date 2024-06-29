@@ -43,6 +43,8 @@ import com.azure.android.communication.ui.calling.redux.state.AudioOperationalSt
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
+import com.azure.android.communication.ui.calling.redux.state.CaptionsError
+import com.azure.android.communication.ui.calling.redux.state.CaptionsErrorType
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.ToastNotificationKind
@@ -631,7 +633,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                 if (error != null) {
                     (error.cause as CallingCommunicationException).let {
                         store.dispatch(
-                            CaptionsAction.Error(it.errorCode.into())
+                            CaptionsAction.Error(CaptionsError(it.errorCode.into(), CaptionsErrorType.CAPTIONS_START_ERROR))
                         )
                     }
                     store.dispatch(CaptionsAction.Stopped())
@@ -647,7 +649,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                 if (error != null) {
                     (error.cause as CallingCommunicationException).let {
                         store.dispatch(
-                            CaptionsAction.Error(it.errorCode.into())
+                            CaptionsAction.Error(CaptionsError(it.errorCode.into(), CaptionsErrorType.CAPTIONS_STOP_ERROR))
                         )
                     }
                 } else {
@@ -662,7 +664,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                 if (error != null) {
                     (error.cause as CallingCommunicationException).let {
                         store.dispatch(
-                            CaptionsAction.Error(it.errorCode.into())
+                            CaptionsAction.Error(CaptionsError(it.errorCode.into(), CaptionsErrorType.CAPTIONS_SPOKEN_LANGUAGE_UPDATE_ERROR))
                         )
                     }
                 }
@@ -675,7 +677,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                 if (error != null) {
                     (error.cause as CallingCommunicationException).let {
                         store.dispatch(
-                            CaptionsAction.Error(it.errorCode.into())
+                            CaptionsAction.Error(CaptionsError(it.errorCode.into(), CaptionsErrorType.CAPTIONS_CAPTION_LANGUAGE_UPDATE_ERROR))
                         )
                     }
                 }
@@ -851,7 +853,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                         CallingStatus.DISCONNECTED -> NavigationAction.Exit()
                         CallingStatus.CONNECTED -> NavigationAction.CallLaunched()
                         CallingStatus.CONNECTING -> {
-                            if (configuration.callConfig?.callType == CallType.ONE_TO_N_OUTGOING) NavigationAction.CallLaunched() else null
+                            if (configuration.callConfig.callType == CallType.ONE_TO_N_OUTGOING) NavigationAction.CallLaunched() else null
                         }
                         CallingStatus.IN_LOBBY -> NavigationAction.CallLaunched()
                         else -> null

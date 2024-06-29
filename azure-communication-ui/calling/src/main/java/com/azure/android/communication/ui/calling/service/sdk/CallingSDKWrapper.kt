@@ -54,7 +54,7 @@ internal class CallingSDKWrapper(
     private val callConfigInjected: CallConfiguration?,
     private val logger: Logger? = null,
     private val callingSDKInitializer: CallingSDKInitializer,
-    private val captionsViewData: CallCompositeCaptionsOptions? = null
+    private val compositeCaptionsOptions: CallCompositeCaptionsOptions? = null
 ) : CallingSDK {
     private var nullableCall: Call? = null
     private var callClient: CallClient? = null
@@ -484,8 +484,8 @@ internal class CallingSDKWrapper(
                 val captionsOptions = StartCaptionsOptions()
                 if (spokenLanguage.isNotEmpty()) {
                     captionsOptions.spokenLanguage = spokenLanguage
-                } else if (captionsViewData?.spokenLanguage?.isNotEmpty() == true) {
-                    captionsOptions.spokenLanguage = captionsViewData.spokenLanguage
+                } else if (this.compositeCaptionsOptions?.spokenLanguage?.isNotEmpty() == true) {
+                    captionsOptions.spokenLanguage = this.compositeCaptionsOptions.spokenLanguage
                 }
                 callCaptions.startCaptions(captionsOptions)
                     .whenComplete { _, error: Throwable? ->

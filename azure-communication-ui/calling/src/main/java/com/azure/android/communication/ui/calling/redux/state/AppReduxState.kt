@@ -73,5 +73,5 @@ internal class AppReduxState(
 
     override var toastNotificationState: ToastNotificationState = ToastNotificationState(null)
 
-    override var captionsState: CaptionsState = CaptionsState(isCaptionsEnabled = showCaptionsUI)
+    override var captionsState: CaptionsState = CaptionsState(isCaptionsUIEnabled = showCaptionsUI)
 }

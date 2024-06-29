@@ -79,7 +79,7 @@ internal class CallCompositeActivityViewModel(
                 container.configuration.enableMultitasking,
                 isTelecomManagerEnabled = container.configuration.telecomManagerOptions != null,
                 container.configuration.callConfig.callType,
-                isCaptionsEnabled = container.appStore.getCurrentState().captionsState.isCaptionsEnabled,
+                isCaptionsEnabled = container.appStore.getCurrentState().captionsState.isCaptionsUIEnabled,
             ),
             container.networkManager,
             container.configuration.callScreenOptions,
