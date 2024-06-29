@@ -15,9 +15,12 @@ internal class CaptionsRecyclerViewAdapter(
     private val captionsData: List<CaptionsRecyclerViewDataModel>
 ) : RecyclerView.Adapter<CaptionsRecyclerViewAdapter.CaptionsViewHolder>() {
     class CaptionsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val messageTextView: TextView = view.findViewById(R.id.azure_communication_ui_calling_caption_info_text)
-        val avatarView: AvatarView = view.findViewById(R.id.azure_communication_ui_calling_caption_avatar_view)
-        val displayNameTextView: TextView = view.findViewById(R.id.azure_communication_ui_calling_caption_display_name)
+        val messageTextView: TextView =
+            view.findViewById(R.id.azure_communication_ui_calling_caption_info_text)
+        val avatarView: AvatarView =
+            view.findViewById(R.id.azure_communication_ui_calling_caption_avatar_view)
+        val displayNameTextView: TextView =
+            view.findViewById(R.id.azure_communication_ui_calling_caption_display_name)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CaptionsViewHolder {
@@ -32,7 +35,8 @@ internal class CaptionsRecyclerViewAdapter(
         holder.messageTextView.text = captionsData[position].displayText
         var speakerName = captionsData[position].displayName
         if (speakerName.isEmpty()) {
-            speakerName = holder.messageTextView.context.getString(R.string.azure_communication_ui_calling_view_participant_drawer_unnamed)
+            speakerName =
+                holder.messageTextView.context.getString(R.string.azure_communication_ui_calling_view_participant_drawer_unnamed)
         }
         if (holder.displayNameTextView.text != speakerName) {
             holder.displayNameTextView.text = speakerName
@@ -41,8 +45,11 @@ internal class CaptionsRecyclerViewAdapter(
             holder.avatarView.name = speakerName
         }
         if (captionsData[position].avatarBitmap != holder.avatarView.avatarImageBitmap) {
-            captionsData[position].avatarBitmap?.let {
-                holder.avatarView.avatarImageBitmap = it
+            val bitMap = captionsData[position].avatarBitmap
+            if (bitMap != null) {
+                holder.avatarView.avatarImageBitmap = bitMap
+            } else {
+                holder.avatarView.avatarImageBitmap = null
             }
         }
     }
