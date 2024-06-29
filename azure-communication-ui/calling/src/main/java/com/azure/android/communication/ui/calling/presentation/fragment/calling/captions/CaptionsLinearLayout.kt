@@ -8,7 +8,10 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.util.AttributeSet
 import android.view.View
+import android.view.accessibility.AccessibilityEvent
+import android.view.accessibility.AccessibilityManager
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -128,10 +131,22 @@ internal class CaptionsLinearLayout : LinearLayout {
 
     private fun updateRecyclerViewItem(position: Int) {
         recyclerViewAdapter.notifyItemChanged(position)
+        requestAccessibilityFocus(position)
     }
 
     private fun insertRecyclerViewItem(position: Int) {
         recyclerViewAdapter.notifyItemInserted(position)
+        requestAccessibilityFocus(position)
+    }
+
+    private fun requestAccessibilityFocus(position: Int) {
+        val accessibilityManager = this.context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
+        if (accessibilityManager.isEnabled) {
+            recyclerView.post {
+                val viewHolder = recyclerView.findViewHolderForAdapterPosition(position)
+                viewHolder?.itemView?.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+            }
+        }
     }
 
     private fun scrollToBottom() {
