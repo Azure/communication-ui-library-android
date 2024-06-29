@@ -875,14 +875,14 @@ internal class CallingSDKEventHandler(
 
     fun onCaptionsStop(callCaptions: CallCaptions) {
         if (callCaptions is TeamsCaptions) {
-            callCaptions.addOnActiveCaptionLanguageChangedListener(onCaptionLanguageChanged)
-            callCaptions.addOnActiveSpokenLanguageChangedListener(onSpokenLanguageChanged)
-            callCaptions.addOnCaptionsEnabledChangedListener(onCaptionsEnableChanged)
-            callCaptions.addOnCaptionsReceivedListener(onTeamsCaptionsReceived)
+            callCaptions.removeOnActiveCaptionLanguageChangedListener(onCaptionLanguageChanged)
+            callCaptions.removeOnActiveSpokenLanguageChangedListener(onSpokenLanguageChanged)
+            callCaptions.removeOnCaptionsEnabledChangedListener(onCaptionsEnableChanged)
+            callCaptions.removeOnCaptionsReceivedListener(onTeamsCaptionsReceived)
         } else if (callCaptions is CommunicationCaptions) {
-            callCaptions.addOnActiveSpokenLanguageChangedListener(onSpokenLanguageChanged)
-            callCaptions.addOnCaptionsEnabledChangedListener(onCaptionsEnableChanged)
-            callCaptions.addOnCaptionsReceivedListener(onCommunicationCaptionsReceived)
+            callCaptions.removeOnActiveSpokenLanguageChangedListener(onSpokenLanguageChanged)
+            callCaptions.removeOnCaptionsEnabledChangedListener(onCaptionsEnableChanged)
+            callCaptions.removeOnCaptionsReceivedListener(onCommunicationCaptionsReceived)
         }
         this.callCaptions = null
     }
