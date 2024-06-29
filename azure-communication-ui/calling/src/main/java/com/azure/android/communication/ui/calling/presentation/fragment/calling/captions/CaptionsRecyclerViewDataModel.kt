@@ -8,5 +8,6 @@ import android.graphics.Bitmap
 internal data class CaptionsRecyclerViewDataModel(
     val displayName: String,
     val displayText: String,
-    val avatarBitmap: Bitmap?
+    val avatarBitmap: Bitmap?,
+    val speakerRawIdentifierId: String,
 )

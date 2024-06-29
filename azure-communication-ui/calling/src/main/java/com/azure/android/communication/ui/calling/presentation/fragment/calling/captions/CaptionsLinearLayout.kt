@@ -13,6 +13,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
@@ -36,6 +37,7 @@ internal class CaptionsLinearLayout : LinearLayout {
         super.onFinishInflate()
         captionsLinearLayout = findViewById(R.id.azure_communication_ui_calling_captions_linear_layout)
         recyclerView = findViewById(R.id.azure_communication_ui_calling_captions_recycler_view)
+        (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -77,49 +79,63 @@ internal class CaptionsLinearLayout : LinearLayout {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            captionsDataManager.getOnLastCaptionsDataUpdatedStateFlow().collect {
-                it?.let {
-                    applyLayoutDirection(it)
+            captionsDataManager.getOnLastCaptionsDataUpdatedStateFlow().collect { data ->
+                data?.let {
                     val lastCaptionsData = it.into(avatarViewManager)
-                    val lastCaptionsDataIndex = captionsData.lastIndex
-                    if (lastCaptionsDataIndex != -1) {
-                        val shouldScrollToBottom = isAtBottom
-                        captionsData[lastCaptionsDataIndex] = lastCaptionsData
-                        recyclerViewAdapter.notifyItemChanged(lastCaptionsDataIndex)
-                        if (shouldScrollToBottom) {
-                            recyclerView.post {
-                                recyclerView.scrollToPosition(recyclerViewAdapter.itemCount - 1)
-                            }
-                        }
-                    }
+                    updateLastCaptionsData(lastCaptionsData)
                 }
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            captionsDataManager.getOnNewCaptionsDataAddedStateFlow().collect {
-                it?.let {
+            captionsDataManager.getOnNewCaptionsDataAddedStateFlow().collect { data ->
+                data?.let {
                     applyLayoutDirection(it)
-                    if (captionsData.size >= CallingFragment.MAX_CAPTIONS_DATA_SIZE) {
-                        captionsData.removeAt(0)
-                        recyclerViewAdapter.notifyItemRemoved(0)
-                    }
-
-                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                    val totalItemCount = layoutManager.itemCount
-                    val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
-
-                    val shouldScrollToBottom = isAtBottom || lastVisibleItemPosition == totalItemCount - 1
-                    captionsData.add(it.into(avatarViewManager))
-                    recyclerViewAdapter.notifyItemInserted(captionsData.size - 1)
-                    if (shouldScrollToBottom) {
-                        recyclerView.post {
-                            recyclerView.scrollToPosition(recyclerViewAdapter.itemCount - 1)
-                        }
-                    }
+                    addNewCaptionsData(it.into(avatarViewManager))
                 }
             }
         }
+    }
+
+    private fun updateLastCaptionsData(lastCaptionsData: CaptionsRecyclerViewDataModel) {
+        val lastDataForSpeaker = captionsData.findLast { it.speakerRawIdentifierId == lastCaptionsData.speakerRawIdentifierId }
+        if (lastDataForSpeaker != null) {
+            val shouldScrollToBottom = isAtBottom
+            val index = captionsData.indexOf(lastDataForSpeaker)
+            captionsData[index] = lastCaptionsData
+            updateRecyclerViewItem(index)
+            if (shouldScrollToBottom) {
+                scrollToBottom()
+            }
+        }
+    }
+
+    private fun addNewCaptionsData(newCaptionsData: CaptionsRecyclerViewDataModel) {
+        if (captionsData.size >= CallingFragment.MAX_CAPTIONS_DATA_SIZE) {
+            captionsData.removeAt(0)
+            recyclerViewAdapter.notifyItemRemoved(0)
+        }
+
+        val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+        val shouldScrollToBottom = isAtBottom || layoutManager.findLastVisibleItemPosition() == layoutManager.itemCount - 1
+
+        captionsData.add(newCaptionsData)
+        insertRecyclerViewItem(captionsData.size - 1)
+        if (shouldScrollToBottom) {
+            scrollToBottom()
+        }
+    }
+
+    private fun updateRecyclerViewItem(position: Int) {
+        recyclerViewAdapter.notifyItemChanged(position)
+    }
+
+    private fun insertRecyclerViewItem(position: Int) {
+        recyclerViewAdapter.notifyItemInserted(position)
+    }
+
+    private fun scrollToBottom() {
+        recyclerView.scrollToPosition(recyclerViewAdapter.itemCount - 1)
     }
 
     private fun applyLayoutDirection(it: CaptionsDataViewModel) {
@@ -156,6 +172,7 @@ internal fun CaptionsDataViewModel.into(avatarViewManager: AvatarViewManager): C
     return CaptionsRecyclerViewDataModel(
         displayName = speakerName,
         displayText = this.displayText,
-        avatarBitmap = bitMap
+        avatarBitmap = bitMap,
+        speakerRawIdentifierId = this.speakerRawIdentifierId,
     )
 }

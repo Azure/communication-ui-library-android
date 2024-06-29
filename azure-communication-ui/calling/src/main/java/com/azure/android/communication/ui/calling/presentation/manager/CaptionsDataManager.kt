@@ -28,55 +28,59 @@ internal class CaptionsDataManager(
     // cache to get last captions on screen rotation
     val captionsDataCache = mutableListOf<CaptionsDataViewModel>()
 
-    private var lastReceivedCaptionsData: CallCompositeCaptionsData? = null
-
     fun start(coroutineScope: CoroutineScope) {
         coroutineScope.launch {
-            callingService.getCaptionsReceivedSharedFlow().collect {
-                // If the active caption language is not empty and the received caption language is empty, then return
-                // as only data with the active caption language should be displayed.
-                if (appStore.getCurrentState().captionsState.activeCaptionLanguage.isNotEmpty() &&
-                    it.captionLanguage?.isEmpty() == true
-                ) {
-                    return@collect
-                }
+            callingService.getCaptionsReceivedSharedFlow().collect { captionData ->
+                if (shouldSkipCaption(captionData)) return@collect
 
-                if (captionsDataCache.size >= CallingFragment.MAX_CAPTIONS_DATA_SIZE) {
-                    captionsDataCache.removeAt(0)
-                }
-                var languageCode = ""
-                val captionText = if (it.captionText?.isEmpty() == false) {
-                    languageCode = it.captionLanguage ?: ""
-                    it.captionText
-                } else {
-                    languageCode = it.spokenLanguage
-                    it.spokenText
-                }
+                updateCaptionsDataCache()
 
-                if (lastReceivedCaptionsData != null && lastReceivedCaptionsData?.speakerRawId == it.speakerRawId &&
-                    lastReceivedCaptionsData?.resultType != CaptionsResultType.FINAL
-                ) {
-                    lastReceivedCaptionsData = it
-                    val data = CaptionsDataViewModel(
-                        it.speakerName,
-                        captionText,
-                        it.speakerRawId,
-                        languageCode
-                    )
-                    captionsLastDataUpdatedStateFlow.value = data
-                    captionsDataCache[captionsDataCache.size - 1] = data
-                } else {
-                    lastReceivedCaptionsData = it
-                    val data = CaptionsDataViewModel(
-                        it.speakerName,
-                        captionText,
-                        it.speakerRawId,
-                        languageCode
-                    )
-                    captionsNewDataStateFlow.value = data
-                    captionsDataCache.add(data)
-                }
+                val (captionText, languageCode) = extractCaptionTextAndLanguage(captionData)
+
+                val data = CaptionsDataViewModel(
+                    captionData.speakerName,
+                    captionText,
+                    captionData.speakerRawId,
+                    languageCode,
+                    captionData.resultType == CaptionsResultType.FINAL
+                )
+
+                handleCaptionData(captionData, data)
             }
+        }
+    }
+
+    private fun shouldSkipCaption(captionData: CallCompositeCaptionsData): Boolean {
+        val activeCaptionLanguage = appStore.getCurrentState().captionsState.activeCaptionLanguage
+        return activeCaptionLanguage.isNotEmpty() && captionData.captionLanguage.isNullOrEmpty()
+    }
+
+    private fun updateCaptionsDataCache() {
+        if (captionsDataCache.size >= CallingFragment.MAX_CAPTIONS_DATA_SIZE) {
+            captionsDataCache.removeAt(0)
+        }
+    }
+
+    private fun extractCaptionTextAndLanguage(captionData: CallCompositeCaptionsData): Pair<String, String> {
+        return if (!captionData.captionText.isNullOrEmpty()) {
+            captionData.captionText to (captionData.captionLanguage ?: "")
+        } else {
+            captionData.spokenText to captionData.spokenLanguage
+        }
+    }
+
+    private fun handleCaptionData(captionData: CallCompositeCaptionsData, data: CaptionsDataViewModel) {
+        val lastData = captionsDataCache.findLast {
+            it.speakerRawIdentifierId == captionData.speakerRawId &&
+                !it.isFinal
+        }
+
+        if (lastData != null) {
+            captionsLastDataUpdatedStateFlow.value = data
+            captionsDataCache[captionsDataCache.indexOf(lastData)] = data
+        } else {
+            captionsNewDataStateFlow.value = data
+            captionsDataCache.add(data)
         }
     }
 }

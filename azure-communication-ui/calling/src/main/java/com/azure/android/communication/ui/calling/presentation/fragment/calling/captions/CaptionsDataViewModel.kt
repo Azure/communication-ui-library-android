@@ -7,5 +7,6 @@ internal data class CaptionsDataViewModel(
     val displayName: String,
     val displayText: String,
     val speakerRawIdentifierId: String,
-    val languageCode: String
+    val languageCode: String,
+    val isFinal: Boolean
 )
