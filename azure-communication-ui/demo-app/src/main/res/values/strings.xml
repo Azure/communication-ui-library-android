@@ -24,6 +24,7 @@
     <string name="open_full_screen_ui_button_text">Open Full Screen UI</string>
     <string name="close_composite_button_text">Stop Composite</string>
     <string name="acs_token_hint">ACS Token</string>
+    <string name="acs_identity_hint">ACS Identity</string>
     <string name="acs_user_id_hint">Communication User Id</string>
     <string name="launch_type_text">Launch In:</string>
     <string name="token_function_radio_button_text">Token Function</string>
