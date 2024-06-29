@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.calling.models;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
-import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.ui.calling.CallComposite;
 
 /**
@@ -34,7 +33,6 @@ public final class CallCompositeParticipantViewData {
     private Bitmap avatarBitmap;
     private String displayName;
     private ImageView.ScaleType scaleType = ImageView.ScaleType.FIT_XY;
-    private CommunicationIdentifier identifier;
 
     /**
      * Set scaleType.
@@ -96,27 +94,6 @@ public final class CallCompositeParticipantViewData {
      */
     public CallCompositeParticipantViewData setAvatarBitmap(final Bitmap avatarBitmap) {
         this.avatarBitmap = avatarBitmap;
-        return this;
-    }
-
-    /**
-     * Get the {@link CommunicationIdentifier}.
-     *
-     * @return The {@link CommunicationIdentifier}.
-     */
-    public CommunicationIdentifier getIdentifier() {
-        return identifier;
-    }
-
-    /**
-     * Set the {@link CommunicationIdentifier}.
-     *
-     * Will not take affect if called after {@link CallCompositeParticipantViewData} passed to {@link CallComposite}.
-     *
-     * @return The {@link CallCompositeParticipantViewData}.
-     */
-    public CallCompositeParticipantViewData setIdentifier(final CommunicationIdentifier identifier) {
-        this.identifier = identifier;
         return this;
     }
 }

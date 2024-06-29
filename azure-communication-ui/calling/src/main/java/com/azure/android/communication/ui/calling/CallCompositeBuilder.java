@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling;
 
+import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.ui.calling.models.CallCompositeCapabilitiesChangedNotificationMode;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
 import android.content.Context;
@@ -40,6 +41,7 @@ public final class CallCompositeBuilder {
     private String displayName = null;
     private CommunicationTokenCredential credential = null;
     private Boolean disableInternalPushForIncomingCall = false;
+    private CommunicationIdentifier identifier;
     /*  <DEFAULT_AUDIO_MODE:0>
     private CallCompositeAudioSelectionMode audioSelectionMode = null;
     </DEFAULT_AUDIO_MODE:0> */
@@ -206,6 +208,17 @@ public final class CallCompositeBuilder {
     </DEFAULT_AUDIO_MODE:0> */
 
     /**
+     * Sets the communication identifier.
+     *
+     * @param identifier communication identifier.
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    public CallCompositeBuilder identifier(final CommunicationIdentifier identifier) {
+        this.identifier = identifier;
+        return this;
+    }
+
+    /**
      * Builds the CallCompositeClass {@link CallComposite}.
      *
      * @return {@link CallComposite}
@@ -229,6 +242,7 @@ public final class CallCompositeBuilder {
         /*  <DEFAULT_AUDIO_MODE:0>
         config.setAudioSelectionMode(audioSelectionMode);
         </DEFAULT_AUDIO_MODE:0> */
+        config.setIdentifier(identifier);
         return new CallComposite(config);
     }
 }

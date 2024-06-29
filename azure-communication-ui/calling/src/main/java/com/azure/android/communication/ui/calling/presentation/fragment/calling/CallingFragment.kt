@@ -62,6 +62,7 @@ internal class CallingFragment :
     private val avatarViewManager get() = activityViewModel.container.avatarViewManager
     private val viewModel get() = activityViewModel.callingViewModel
     private val captionsDataManager get() = activityViewModel.container.captionsDataManager
+    private val configuration get() = activityViewModel.container.configuration
 
     private val closeToUser = 0f
     private lateinit var controlBarView: ControlBarView
@@ -238,7 +239,7 @@ internal class CallingFragment :
         captionsLanguageSelectionListView.start(viewLifecycleOwner, halfScreenHeight)
 
         captionsLinearLayout = view.findViewById(R.id.azure_communication_ui_calling_captions_linear_layout)
-        captionsLinearLayout.start(viewLifecycleOwner, viewModel.captionsLayoutViewModel, captionsDataManager, avatarViewManager)
+        captionsLinearLayout.start(viewLifecycleOwner, viewModel.captionsLayoutViewModel, captionsDataManager, avatarViewManager, configuration.identifier)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

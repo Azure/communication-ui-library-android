@@ -11,12 +11,12 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityManager
 import android.widget.LinearLayout
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
@@ -33,6 +33,7 @@ internal class CaptionsLinearLayout : LinearLayout {
     private lateinit var viewModel: CaptionsLinearLayoutViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerViewAdapter: CaptionsRecyclerViewAdapter
+    private var localParticipantIdentifier: CommunicationIdentifier? = null
     private val captionsData = mutableListOf<CaptionsRecyclerViewDataModel>()
     private var isAtBottom = true
 
@@ -48,8 +49,10 @@ internal class CaptionsLinearLayout : LinearLayout {
         viewLifecycleOwner: LifecycleOwner,
         viewModel: CaptionsLinearLayoutViewModel,
         captionsDataManager: CaptionsDataManager,
-        avatarViewManager: AvatarViewManager
+        avatarViewManager: AvatarViewManager,
+        identifier: CommunicationIdentifier?
     ) {
+        this.localParticipantIdentifier = identifier
         this.viewModel = viewModel
         recyclerViewAdapter = CaptionsRecyclerViewAdapter(captionsData)
         recyclerView.adapter = recyclerViewAdapter
@@ -63,7 +66,7 @@ internal class CaptionsLinearLayout : LinearLayout {
         })
 
         captionsDataManager.captionsDataCache.let { data ->
-            captionsData.addAll(data.map { it.into(avatarViewManager) })
+            captionsData.addAll(data.map { it.into(avatarViewManager, identifier) })
             recyclerViewAdapter.notifyDataSetChanged()
         }
 
@@ -84,7 +87,7 @@ internal class CaptionsLinearLayout : LinearLayout {
         viewLifecycleOwner.lifecycleScope.launch {
             captionsDataManager.getOnLastCaptionsDataUpdatedStateFlow().collect { data ->
                 data?.let {
-                    val lastCaptionsData = it.into(avatarViewManager)
+                    val lastCaptionsData = it.into(avatarViewManager, identifier)
                     updateLastCaptionsData(lastCaptionsData)
                 }
             }
@@ -94,7 +97,7 @@ internal class CaptionsLinearLayout : LinearLayout {
             captionsDataManager.getOnNewCaptionsDataAddedStateFlow().collect { data ->
                 data?.let {
                     applyLayoutDirection(it)
-                    addNewCaptionsData(it.into(avatarViewManager))
+                    addNewCaptionsData(it.into(avatarViewManager, identifier))
                 }
             }
         }
@@ -170,7 +173,7 @@ internal class CaptionsLinearLayout : LinearLayout {
     }
 }
 
-internal fun CaptionsDataViewModel.into(avatarViewManager: AvatarViewManager): CaptionsRecyclerViewDataModel {
+internal fun CaptionsDataViewModel.into(avatarViewManager: AvatarViewManager, identifier: CommunicationIdentifier?): CaptionsRecyclerViewDataModel {
     var speakerName = this.displayName
     var bitMap: Bitmap? = null
 
@@ -180,7 +183,7 @@ internal fun CaptionsDataViewModel.into(avatarViewManager: AvatarViewManager): C
         bitMap = remoteParticipantViewData.avatarBitmap
     }
     val localParticipantViewData = avatarViewManager.callCompositeLocalOptions?.participantViewData
-    if (localParticipantViewData != null && localParticipantViewData.identifier?.rawId == this.speakerRawIdentifierId) {
+    if (localParticipantViewData != null && identifier?.rawId == this.speakerRawIdentifierId) {
         speakerName = localParticipantViewData.displayName
         bitMap = localParticipantViewData.avatarBitmap
     }
