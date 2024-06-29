@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/azure_communication_ui_calling_captions_linear_layout"
+    android:layout_width="480dp"
+    android:layout_height="115dp"
+    android:background="@color/azure_communication_ui_calling_color_background"
+    android:focusable="true"
+    android:importantForAccessibility="yes"
+    android:padding="6dp"
+    android:visibility="gone">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/azure_communication_ui_calling_captions_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical" />
+
+</com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsLinearLayout>
