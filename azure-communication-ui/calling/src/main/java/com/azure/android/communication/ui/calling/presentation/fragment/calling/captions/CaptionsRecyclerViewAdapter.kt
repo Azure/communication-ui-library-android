@@ -44,13 +44,12 @@ internal class CaptionsRecyclerViewAdapter(
         if (holder.avatarView.name != speakerName) {
             holder.avatarView.name = speakerName
         }
-        if (captionsData[position].avatarBitmap != holder.avatarView.avatarImageBitmap) {
-            val bitMap = captionsData[position].avatarBitmap
-            if (bitMap != null) {
-                holder.avatarView.avatarImageBitmap = bitMap
-            } else {
-                holder.avatarView.avatarImageBitmap = null
-            }
+        val bitMap = captionsData[position].avatarBitmap
+
+        if (bitMap == null) {
+            holder.avatarView.avatarImageBitmap = null
+        } else if (captionsData[position].avatarBitmap != holder.avatarView.avatarImageBitmap) {
+            holder.avatarView.avatarImageBitmap = bitMap
         }
     }
 }

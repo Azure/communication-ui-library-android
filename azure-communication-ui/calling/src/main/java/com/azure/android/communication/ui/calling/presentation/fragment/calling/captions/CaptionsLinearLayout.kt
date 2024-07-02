@@ -156,6 +156,7 @@ internal class CaptionsLinearLayout : LinearLayout {
         recyclerView.scrollToPosition(recyclerViewAdapter.itemCount - 1)
     }
 
+    // required when RTL language is selected for captions text
     private fun applyLayoutDirection(it: CaptionsDataViewModel) {
         if (LocaleHelper.isRTL(it.languageCode) && layoutDirection != LAYOUT_DIRECTION_RTL) {
             captionsLinearLayout.layoutDirection = LAYOUT_DIRECTION_RTL
