@@ -254,7 +254,7 @@ class CallCompositeManager(private val context: Context) {
                 captionsViewData.setSpokenLanguage(it)
             }
 
-            localOptions.captionsViewData = captionsViewData
+            localOptions.setCaptionsOptions(captionsViewData)
             isAnythingChanged = true
         }
 

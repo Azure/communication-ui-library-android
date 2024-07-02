@@ -4,6 +4,8 @@
 package com.azure.android.communication.ui.calling.redux.middleware.handler
 
 import android.telecom.CallAudioState
+import com.azure.android.communication.calling.CallingCommunicationErrors
+import com.azure.android.communication.calling.CallingCommunicationException
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration
@@ -29,7 +31,10 @@ import com.azure.android.communication.ui.calling.redux.action.PermissionAction
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.helper.UnconfinedTestContextProvider
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsData
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsErrors
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsType
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions
 import com.azure.android.communication.ui.calling.models.CapabilitiesChangedEvent
@@ -38,6 +43,7 @@ import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticMo
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
+import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
@@ -50,6 +56,7 @@ import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelect
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
+import com.azure.android.communication.ui.calling.redux.state.CaptionsErrorType
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
 import com.azure.android.communication.ui.calling.redux.state.NavigationState
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
@@ -69,6 +76,7 @@ import org.mockito.kotlin.argThat
 import org.mockito.kotlin.doAnswer
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.never
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
@@ -3253,6 +3261,480 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 argThat { action ->
                     action is LocalParticipantAction.RoleChanged &&
                         action.participantRole == ParticipantRole.PRESENTER
+                }
+            )
+        }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun callingMiddlewareActionHandler_startCaptions_success_then_dispatchCaptionsStarted() = runScopedTest {
+        // arrange
+        val mockCallingService: CallingService = mock {
+            on { startCaptions(any()) } doReturn CompletableFuture.completedFuture(null)
+        }
+        val mockAppStore = mock<AppStore<ReduxState>> {
+            on { dispatch(any()) } doAnswer { }
+        }
+
+        val handler = CallingMiddlewareActionHandlerImpl(
+            mockCallingService,
+            UnconfinedTestContextProvider(),
+            CallCompositeConfiguration(),
+            CapabilitiesManager(CallType.GROUP_CALL)
+        )
+
+        // act
+        handler.startCaptions("en-US", mockAppStore)
+
+        // assert
+        verify(mockAppStore, times(1)).dispatch(
+            argThat { action -> action is CaptionsAction.Started }
+        )
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun callingMiddlewareActionHandler_startCaptions_failure_then_dispatchCaptionsErrorAndStopped() = runScopedTest {
+        // arrange
+        val exception = CallingCommunicationException(CallingCommunicationErrors.CAPTIONS_FAILED_TO_START)
+        val error = Error(exception)
+        val mockCallingService: CallingService = mock {
+            on { startCaptions(any()) } doReturn CompletableFuture.failedFuture(error)
+        }
+        val mockAppStore = mock<AppStore<ReduxState>> {
+            on { dispatch(any()) } doAnswer { }
+        }
+
+        val handler = CallingMiddlewareActionHandlerImpl(
+            mockCallingService,
+            UnconfinedTestContextProvider(),
+            CallCompositeConfiguration(),
+            CapabilitiesManager(CallType.GROUP_CALL)
+        )
+
+        // act
+        handler.startCaptions("en-US", mockAppStore)
+
+        // assert
+        verify(mockAppStore, times(1)).dispatch(
+            argThat { action -> action is CaptionsAction.Error && action.error.error == CallCompositeCaptionsErrors.CAPTIONS_FAILED_TO_START }
+        )
+        verify(mockAppStore, times(1)).dispatch(
+            argThat { action -> action is CaptionsAction.Error && action.error.errorType == CaptionsErrorType.CAPTIONS_START_ERROR }
+        )
+        verify(mockAppStore, times(1)).dispatch(
+            argThat { action -> action is CaptionsAction.Stopped }
+        )
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun callingMiddlewareActionHandler_stopCaptions_success_then_dispatchCaptionsStopped() = runScopedTest {
+        // arrange
+        val mockCallingService: CallingService = mock {
+            on { stopCaptions() } doReturn CompletableFuture.completedFuture(null)
+        }
+        val mockAppStore = mock<AppStore<ReduxState>> {
+            on { dispatch(any()) } doAnswer { }
+        }
+
+        val handler = CallingMiddlewareActionHandlerImpl(
+            mockCallingService,
+            UnconfinedTestContextProvider(),
+            CallCompositeConfiguration(),
+            CapabilitiesManager(CallType.GROUP_CALL)
+        )
+
+        // act
+        handler.stopCaptions(mockAppStore)
+
+        // assert
+        verify(mockAppStore, times(1)).dispatch(
+            argThat { action -> action is CaptionsAction.Stopped }
+        )
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun callingMiddlewareActionHandler_stopCaptions_failure_then_dispatchCaptionsError() = runScopedTest {
+        // arrange
+        val exception = CallingCommunicationException(CallingCommunicationErrors.CAPTIONS_FAILED_TO_STOP)
+        val error = Error(exception)
+        val mockCallingService: CallingService = mock {
+            on { stopCaptions() } doReturn CompletableFuture.failedFuture(error)
+        }
+        val mockAppStore = mock<AppStore<ReduxState>> {
+            on { dispatch(any()) } doAnswer { }
+        }
+
+        val handler = CallingMiddlewareActionHandlerImpl(
+            mockCallingService,
+            UnconfinedTestContextProvider(),
+            CallCompositeConfiguration(),
+            CapabilitiesManager(CallType.GROUP_CALL)
+        )
+
+        // act
+        handler.stopCaptions(mockAppStore)
+
+        // assert
+        verify(mockAppStore, times(1)).dispatch(
+            argThat { action -> action is CaptionsAction.Error && action.error.error == CallCompositeCaptionsErrors.CAPTIONS_FAILED_TO_STOP }
+        )
+        verify(mockAppStore, times(1)).dispatch(
+            argThat { action -> action is CaptionsAction.Error && action.error.errorType == CaptionsErrorType.CAPTIONS_STOP_ERROR }
+        )
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun callingMiddlewareActionHandler_setCaptionsSpokenLanguage_success() = runScopedTest {
+        // arrange
+        val mockCallingService: CallingService = mock {
+            on { setCaptionsSpokenLanguage(any()) } doReturn CompletableFuture.completedFuture(null)
+        }
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+
+        val handler = CallingMiddlewareActionHandlerImpl(
+            mockCallingService,
+            UnconfinedTestContextProvider(),
+            CallCompositeConfiguration(),
+            CapabilitiesManager(CallType.GROUP_CALL)
+        )
+
+        // act
+        handler.setCaptionsSpokenLanguage("fr", mockAppStore)
+
+        // assert
+        verify(mockAppStore, never()).dispatch(any())
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun callingMiddlewareActionHandler_setCaptionsSpokenLanguage_failure_then_dispatchCaptionsError() = runScopedTest {
+        // arrange
+        val exception = CallingCommunicationException(CallingCommunicationErrors.CAPTIONS_FAILED_TO_SET_SPOKEN_LANGUAGE)
+        val error = Error(exception)
+        val mockCallingService: CallingService = mock {
+            on { setCaptionsSpokenLanguage(any()) } doReturn CompletableFuture.failedFuture(error)
+        }
+        val mockAppStore = mock<AppStore<ReduxState>> {
+            on { dispatch(any()) } doAnswer { }
+        }
+
+        val handler = CallingMiddlewareActionHandlerImpl(
+            mockCallingService,
+            UnconfinedTestContextProvider(),
+            CallCompositeConfiguration(),
+            CapabilitiesManager(CallType.GROUP_CALL)
+        )
+
+        // act
+        handler.setCaptionsSpokenLanguage("fr", mockAppStore)
+
+        // assert
+        verify(mockAppStore, times(1)).dispatch(
+            argThat { action -> action is CaptionsAction.Error && action.error.error == CallCompositeCaptionsErrors.CAPTIONS_FAILED_TO_SET_SPOKEN_LANGUAGE }
+        )
+        verify(mockAppStore, times(1)).dispatch(
+            argThat { action -> action is CaptionsAction.Error && action.error.errorType == CaptionsErrorType.CAPTIONS_SPOKEN_LANGUAGE_UPDATE_ERROR }
+        )
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun callingMiddlewareActionHandler_setCaptionsCaptionLanguage_success() = runScopedTest {
+        // arrange
+        val mockCallingService: CallingService = mock {
+            on { setCaptionsCaptionLanguage(any()) } doReturn CompletableFuture.completedFuture(null)
+        }
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+
+        val handler = CallingMiddlewareActionHandlerImpl(
+            mockCallingService,
+            UnconfinedTestContextProvider(),
+            CallCompositeConfiguration(),
+            CapabilitiesManager(CallType.GROUP_CALL)
+        )
+
+        // act
+        handler.setCaptionsCaptionLanguage("es", mockAppStore)
+
+        // assert
+        verify(mockAppStore, never()).dispatch(any())
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun callingMiddlewareActionHandler_setCaptionsCaptionLanguage_failure_then_dispatchCaptionsError() = runScopedTest {
+        // arrange
+        val exception = CallingCommunicationException(CallingCommunicationErrors.FAILED_TO_SET_CAPTION_LANGUAGE)
+        val error = Error(exception)
+        val mockCallingService: CallingService = mock {
+            on { setCaptionsCaptionLanguage(any()) } doReturn CompletableFuture.failedFuture(error)
+        }
+        val mockAppStore = mock<AppStore<ReduxState>> {
+            on { dispatch(any()) } doAnswer { }
+        }
+
+        val handler = CallingMiddlewareActionHandlerImpl(
+            mockCallingService,
+            UnconfinedTestContextProvider(),
+            CallCompositeConfiguration(),
+            CapabilitiesManager(CallType.GROUP_CALL)
+        )
+
+        // act
+        handler.setCaptionsCaptionLanguage("es", mockAppStore)
+
+        // assert
+        verify(mockAppStore, times(1)).dispatch(
+            argThat { action -> action is CaptionsAction.Error && action.error.error == CallCompositeCaptionsErrors.FAILED_TO_SET_CAPTION_LANGUAGE }
+        )
+        verify(mockAppStore, times(1)).dispatch(
+            argThat { action -> action is CaptionsAction.Error && action.error.errorType == CaptionsErrorType.CAPTIONS_CAPTION_LANGUAGE_UPDATE_ERROR }
+        )
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun callingMiddlewareActionHandler_startCall_then_dispatchCaptionsStartRequested() =
+        runScopedTest {
+            // arrange
+            val appState = AppReduxState("", false, false)
+            appState.callState = CallingState(CallingStatus.CONNECTED,)
+            appState.localParticipantState =
+                LocalUserState(
+                    CameraState(
+                        CameraOperationalStatus.OFF,
+                        CameraDeviceSelectionStatus.FRONT,
+                        CameraTransmissionStatus.REMOTE
+                    ),
+                    AudioState(
+                        AudioOperationalStatus.OFF,
+                        AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                        BluetoothState(available = false, deviceName = "bluetooth")
+                    ),
+                    "",
+                    "",
+                    localParticipantRole = null
+                )
+            val callingServiceParticipantsSharedFlow: MutableSharedFlow<MutableMap<String, ParticipantInfoModel>> =
+                MutableSharedFlow()
+
+            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callIdFlow = MutableStateFlow<String?>(null)
+            val isMutedSharedFlow = MutableSharedFlow<Boolean>()
+            val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
+            val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
+            val camerasCountUpdatedStateFlow = MutableStateFlow(2)
+            val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
+            val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
+            val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
+            val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+            val capabilitiesChangedEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
+            val totalRemoteParticipantCountSharedFlow = MutableSharedFlow<Int>()
+            val captionsSupportedSpokenLanguagesSharedFlow = MutableSharedFlow<List<String>>()
+            val captionsSupportedCaptionLanguagesSharedFlow = MutableSharedFlow<List<String>>()
+            val isCaptionsTranslationSupportedSharedFlow = MutableSharedFlow<Boolean>()
+            val activeSpokenLanguageChangedSharedFlow = MutableSharedFlow<String>()
+            val activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
+            val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+
+            val mockCallingService: CallingService = mock {
+                on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
+                on { startCall(any(), any()) } doReturn CompletableFuture<Void>()
+                on { getCallIdStateFlow() } doReturn callIdFlow
+                on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
+                on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
+                on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
+                on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
+                on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
+                on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
+                on { getLocalParticipantRoleSharedFlow() } doReturn MutableSharedFlow()
+                on { getNetworkQualityCallDiagnosticsFlow() } doReturn networkQualityCallDiagnosticsSharedFlow
+                on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
+                on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
+                on { getCapabilitiesChangedEventSharedFlow() } doReturn capabilitiesChangedEventSharedFlow
+                on { getTotalRemoteParticipantCountSharedFlow() } doReturn totalRemoteParticipantCountSharedFlow
+                on { getCaptionsSupportedSpokenLanguagesSharedFlow() } doReturn captionsSupportedSpokenLanguagesSharedFlow
+                on { getCaptionsSupportedCaptionLanguagesSharedFlow() } doReturn captionsSupportedCaptionLanguagesSharedFlow
+                on { getIsCaptionsTranslationSupportedSharedFlow() } doReturn isCaptionsTranslationSupportedSharedFlow
+                on { getActiveSpokenLanguageChangedSharedFlow() } doReturn activeSpokenLanguageChangedSharedFlow
+                on { getActiveCaptionLanguageChangedSharedFlow() } doReturn activeCaptionLanguageChangedSharedFlow
+                on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
+            }
+
+            val configuration = CallCompositeConfiguration()
+            val localOptions = CallCompositeLocalOptions()
+            localOptions.captionsOptions = CallCompositeCaptionsOptions().setCaptionsOn(true)
+            val handler = CallingMiddlewareActionHandlerImpl(
+                mockCallingService,
+                UnconfinedTestContextProvider(),
+                configuration,
+                CapabilitiesManager(CallType.GROUP_CALL),
+                localOptions
+            )
+
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { dispatch(any()) } doAnswer { }
+                on { getCurrentState() } doAnswer { appState }
+            }
+
+            // act
+            handler.startCall(mockAppStore)
+            callInfoModelStateFlow.emit(CallInfoModel(CallingStatus.CONNECTED, null, callEndReasonSubCode = 123, callEndReasonCode = 456))
+
+            // assert
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is CaptionsAction.StartRequested
+                }
+            )
+        }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun callingMiddlewareActionHandler_startCall_then_dispatchCaptionsUpdatedActionToStore() =
+        runScopedTest {
+            // arrange
+            val appState = AppReduxState("", false, false)
+            appState.callState = CallingState(CallingStatus.CONNECTED,)
+            appState.localParticipantState =
+                LocalUserState(
+                    CameraState(
+                        CameraOperationalStatus.OFF,
+                        CameraDeviceSelectionStatus.FRONT,
+                        CameraTransmissionStatus.REMOTE,
+                        0
+                    ),
+                    AudioState(
+                        AudioOperationalStatus.OFF,
+                        AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                        BluetoothState(available = false, deviceName = "bluetooth")
+                    ),
+                    "",
+                    "",
+                    localParticipantRole = null
+                )
+            val callingServiceParticipantsSharedFlow =
+                MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
+            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callIdFlow = MutableStateFlow<String?>(null)
+            val isMutedSharedFlow = MutableSharedFlow<Boolean>()
+            val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
+            val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
+            val camerasCountUpdatedStateFlow = MutableStateFlow(2)
+            val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
+            val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
+            val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
+            val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+            val capabilitiesChangedEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
+            val totalRemoteParticipantCountSharedFlow = MutableSharedFlow<Int>()
+            val captionsSupportedSpokenLanguagesSharedFlow = MutableSharedFlow<List<String>>()
+            val captionsSupportedCaptionLanguagesSharedFlow = MutableSharedFlow<List<String>>()
+            val isCaptionsTranslationSupportedSharedFlow = MutableSharedFlow<Boolean>()
+            val activeSpokenLanguageChangedSharedFlow = MutableSharedFlow<String>()
+            val activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
+            val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+
+            val languages = listOf("abc")
+
+            val mockCallingService: CallingService = mock {
+                on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
+                on { startCall(any(), any()) } doReturn CompletableFuture<Void>()
+                on { getCallIdStateFlow() } doReturn callIdFlow
+                on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
+                on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
+                on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
+                on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
+                on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
+                on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
+                on { getLocalParticipantRoleSharedFlow() } doReturn MutableSharedFlow()
+                on { getNetworkQualityCallDiagnosticsFlow() } doReturn networkQualityCallDiagnosticsSharedFlow
+                on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
+                on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
+                on { getCapabilitiesChangedEventSharedFlow() } doReturn capabilitiesChangedEventSharedFlow
+                on { getTotalRemoteParticipantCountSharedFlow() } doReturn totalRemoteParticipantCountSharedFlow
+                on { getCaptionsSupportedSpokenLanguagesSharedFlow() } doReturn captionsSupportedSpokenLanguagesSharedFlow
+                on { getCaptionsSupportedCaptionLanguagesSharedFlow() } doReturn captionsSupportedCaptionLanguagesSharedFlow
+                on { getIsCaptionsTranslationSupportedSharedFlow() } doReturn isCaptionsTranslationSupportedSharedFlow
+                on { getActiveSpokenLanguageChangedSharedFlow() } doReturn activeSpokenLanguageChangedSharedFlow
+                on { getActiveCaptionLanguageChangedSharedFlow() } doReturn activeCaptionLanguageChangedSharedFlow
+                on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
+            }
+
+            val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
+
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { dispatch(any()) } doAnswer { }
+                on { getCurrentState() } doAnswer { appState }
+            }
+
+            // act
+            handler.startCall(mockAppStore)
+            captionsSupportedSpokenLanguagesSharedFlow.emit(languages)
+
+            // assert
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is CaptionsAction.SupportedSpokenLanguagesChanged &&
+                        action.languages == languages
+                }
+            )
+
+            // act
+            captionsSupportedCaptionLanguagesSharedFlow.emit(languages)
+
+            // assert
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is CaptionsAction.SupportedCaptionLanguagesChanged &&
+                        action.languages == languages
+                }
+            )
+
+            // act
+            isCaptionsTranslationSupportedSharedFlow.emit(true)
+
+            // assert
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is CaptionsAction.IsTranslationSupportedChanged &&
+                        action.isSupported
+                }
+            )
+
+            // act
+            activeSpokenLanguageChangedSharedFlow.emit("abc")
+
+            // assert
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is CaptionsAction.SpokenLanguageChanged &&
+                        action.language == "abc"
+                }
+            )
+
+            // act
+            activeCaptionLanguageChangedSharedFlow.emit("abc")
+
+            // assert
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is CaptionsAction.CaptionLanguageChanged &&
+                        action.language == "abc"
+                }
+            )
+
+            // act
+            captionsTypeChangedSharedFlow.emit(CallCompositeCaptionsType.COMMUNICATION)
+
+            // assert
+            verify(mockAppStore, times(1)).dispatch(
+                argThat { action ->
+                    action is CaptionsAction.TypeChanged &&
+                        action.type == CallCompositeCaptionsType.COMMUNICATION
                 }
             )
         }

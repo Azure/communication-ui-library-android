@@ -142,7 +142,6 @@
         android:layout_marginStart="72dp"
         android:layout_marginTop="47.5dp"
         android:layout_marginEnd="10dp"
-        android:background="@color/azure_communication_ui_calling_color_surface"
         android:importantForAccessibility="no"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

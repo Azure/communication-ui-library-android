@@ -860,10 +860,10 @@ internal class CallingMiddlewareActionHandlerImpl(
                     }
                     action?.let { store.dispatch(it) }
 
-                    if (localOptions?.captionsViewData?.captionsOn == true &&
+                    if (localOptions?.captionsOptions?.captionsOn == true &&
                         callInfoModel.callingStatus == CallingStatus.CONNECTED
                     ) {
-                        store.dispatch(CaptionsAction.StartRequested(localOptions.captionsViewData?.spokenLanguage ?: ""))
+                        store.dispatch(CaptionsAction.StartRequested(localOptions.captionsOptions?.spokenLanguage ?: ""))
                     }
                 }
             }
