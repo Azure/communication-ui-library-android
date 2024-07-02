@@ -24,6 +24,7 @@ import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
 import com.azure.android.communication.ui.calling.redux.state.CallDiagnosticsState
+import com.azure.android.communication.ui.calling.redux.state.CaptionsState
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -115,6 +116,12 @@ internal class AppReduxStateReducerUnitTest {
         state.audioSessionState = AudioSessionState(AudioFocusStatus.REJECTED)
 
         state.callDiagnosticsState = CallDiagnosticsState(null, null, null)
+        state.captionsState = CaptionsState(
+            isTranslationSupported = false,
+            lastCaptionsError = null,
+            supportedSpokenLanguages = emptyList(),
+            supportedCaptionLanguages = emptyList()
+        )
 
         Mockito.`when`(mockCallStateReducerImplementation.reduce(state.callState, action))
             .thenReturn(state.callState)
@@ -199,5 +206,7 @@ internal class AppReduxStateReducerUnitTest {
             .reduce(state.callState, action)
         verify(mockParticipantStateReducerImplementation, Mockito.times(1))
             .reduce(state.remoteParticipantState, action)
+        verify(mockCaptionsReducer, Mockito.times(1))
+            .reduce(state.captionsState, action)
     }
 }
