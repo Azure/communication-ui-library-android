@@ -53,6 +53,7 @@ internal class CallingFragment :
         private const val AUDIO_DEVICE_LIST_VIEW_KEY = "AudioDeviceListView"
         private const val PARTICIPANT_LIST_VIEW_KEY = "ParticipantListView"
         const val MAX_CAPTIONS_DATA_SIZE = 50
+        const val MAX_CAPTIONS_PARTIAL_DATA_TIME_LIMIT = 5000
     }
 
     // Get the DI Container, which gives us what we need for this fragment (dependencies)

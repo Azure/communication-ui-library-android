@@ -14,6 +14,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.time.Duration
+import java.time.Instant
+import java.util.Date
 
 internal class CaptionsDataManager(
     private val callingService: CallingService,
@@ -71,17 +74,43 @@ internal class CaptionsDataManager(
     }
 
     private fun handleCaptionData(captionData: CallCompositeCaptionsData, data: CaptionsDataViewModel) {
-        val lastData = captionsDataCache.findLast {
-            it.speakerRawIdentifierId == captionData.speakerRawId &&
-                !it.isFinal
-        }
+        val lastCaption = captionsDataCache.lastOrNull()
 
-        if (lastData != null) {
-            captionsLastDataUpdatedStateFlow.value = data
-            captionsDataCache[captionsDataCache.indexOf(lastData)] = data
-        } else {
-            captionsNewDataStateFlow.value = data
-            captionsDataCache.add(data)
+        when {
+            shouldAddNewCaption(lastCaption) -> addNewCaption(data)
+            shouldUpdateLastCaption(lastCaption, captionData) -> updateLastCaption(data)
+            shouldFinalizeLastCaption(lastCaption, captionData) -> finalizeLastCaptionAndAddNew(data, lastCaption!!)
         }
+    }
+
+    private fun shouldAddNewCaption(lastCaption: CaptionsDataViewModel?): Boolean {
+        return lastCaption == null || lastCaption.isFinal
+    }
+
+    private fun shouldUpdateLastCaption(lastCaption: CaptionsDataViewModel?, captionData: CallCompositeCaptionsData): Boolean {
+        return lastCaption != null && lastCaption.speakerRawIdentifierId == captionData.speakerRawId
+    }
+
+    private fun shouldFinalizeLastCaption(lastCaption: CaptionsDataViewModel?, captionData: CallCompositeCaptionsData): Boolean {
+        if (lastCaption == null) return false
+        val duration = Duration.between(Instant.ofEpochMilli(captionData.timestamp.time), Instant.ofEpochMilli(Date().time))
+        return duration.toMillis() > CallingFragment.MAX_CAPTIONS_PARTIAL_DATA_TIME_LIMIT
+    }
+
+    private fun addNewCaption(data: CaptionsDataViewModel) {
+        captionsNewDataStateFlow.value = data
+        captionsDataCache.add(data)
+    }
+
+    private fun updateLastCaption(data: CaptionsDataViewModel) {
+        captionsDataCache[captionsDataCache.size - 1] = data
+        captionsLastDataUpdatedStateFlow.value = data
+    }
+
+    private fun finalizeLastCaptionAndAddNew(data: CaptionsDataViewModel, lastCaption: CaptionsDataViewModel) {
+        val updatedLastCaption = lastCaption.copy(isFinal = true)
+        captionsDataCache[captionsDataCache.size - 1] = updatedLastCaption
+        captionsLastDataUpdatedStateFlow.value = updatedLastCaption
+        addNewCaption(data)
     }
 }
