@@ -10,6 +10,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
+import com.azure.android.communication.ui.calling.redux.state.CaptionsState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -193,6 +194,14 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             // Arrange
             val sharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
             val currentState = AppReduxState(displayName = "")
+            currentState.captionsState = CaptionsState(
+                activeCaptionLanguage = "en",
+                activeSpokenLanguage = "en",
+                isCaptionsUIEnabled = true,
+                isTranslationSupported = true,
+                isCaptionsStarted = true,
+                showCaptionsToggleUI = true
+            )
             `when`(callingService.getCaptionsReceivedSharedFlow()).thenReturn(sharedFlow)
             `when`(appStore.getCurrentState()).thenReturn(currentState)
             val timestamp = Date()
