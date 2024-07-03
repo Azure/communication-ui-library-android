@@ -41,7 +41,7 @@ public final class CallCompositeBuilder {
     private String displayName = null;
     private CommunicationTokenCredential credential = null;
     private Boolean disableInternalPushForIncomingCall = false;
-    private CommunicationIdentifier identifier;
+    private CommunicationIdentifier userId;
     /*  <DEFAULT_AUDIO_MODE:0>
     private CallCompositeAudioSelectionMode audioSelectionMode = null;
     </DEFAULT_AUDIO_MODE:0> */
@@ -210,11 +210,11 @@ public final class CallCompositeBuilder {
     /**
      * Sets the communication identifier.
      *
-     * @param identifier communication identifier.
+     * @param userId communication identifier.
      * @return {@link CallCompositeBuilder} for chaining options.
      */
-    public CallCompositeBuilder identifier(final CommunicationIdentifier identifier) {
-        this.identifier = identifier;
+    public CallCompositeBuilder userId(final CommunicationIdentifier userId) {
+        this.userId = userId;
         return this;
     }
 
@@ -242,7 +242,7 @@ public final class CallCompositeBuilder {
         /*  <DEFAULT_AUDIO_MODE:0>
         config.setAudioSelectionMode(audioSelectionMode);
         </DEFAULT_AUDIO_MODE:0> */
-        config.setIdentifier(identifier);
+        config.setIdentifier(userId);
         return new CallComposite(config);
     }
 }

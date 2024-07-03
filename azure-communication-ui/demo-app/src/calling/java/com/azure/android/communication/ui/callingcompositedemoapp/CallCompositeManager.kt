@@ -456,7 +456,7 @@ class CallCompositeManager(private val context: Context) {
         val callCompositeBuilder = CallCompositeBuilder()
 
         if (identity.isNotEmpty()) {
-            callCompositeBuilder.identifier(CommunicationIdentifier.fromRawId(identity))
+            callCompositeBuilder.userId(CommunicationIdentifier.fromRawId(identity))
         }
 
         if (setupScreenOrientation != null) {

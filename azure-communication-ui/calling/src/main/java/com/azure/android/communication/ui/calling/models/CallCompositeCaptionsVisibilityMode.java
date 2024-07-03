@@ -13,10 +13,14 @@ import java.util.Collection;
 public final class CallCompositeCaptionsVisibilityMode
         extends ExpandableStringEnum<CallCompositeCaptionsVisibilityMode> {
 
-    // To show the captions UI for turning on/off captions.
+    /**
+     * Show captions option.
+     */
     public static final CallCompositeCaptionsVisibilityMode SHOW = fromString("show");
 
-    // To hide the captions UI for turning on/off captions.
+    /**
+     * Hide captions option.
+     */
     public static final CallCompositeCaptionsVisibilityMode HIDE = fromString("hide");
 
     public static CallCompositeCaptionsVisibilityMode fromString(final String name) {
