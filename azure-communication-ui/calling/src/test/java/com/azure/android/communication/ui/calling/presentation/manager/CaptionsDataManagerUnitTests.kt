@@ -280,6 +280,8 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             assertEquals("xyz", addedData[2]?.displayText)
             assertEquals("xyz890", updatedData[2]?.displayText)
 
+            assertEquals(2, captionsDataManager.captionsDataCache.size)
+
             addedDataJob.cancel()
             updatedDataJob.cancel()
             jobList.forEach {
