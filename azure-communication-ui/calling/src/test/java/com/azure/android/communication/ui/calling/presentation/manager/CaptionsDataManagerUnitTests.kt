@@ -290,6 +290,165 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun captionsDataManagerUnitTest_when_stateFlowUpdated_multipleUpdatesOnlyForLastSpeaker() {
+        runScopedTest {
+            // Arrange
+            val sharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
+            `when`(callingService.getCaptionsReceivedSharedFlow()).thenReturn(sharedFlow)
+            `when`(appStore.getCurrentState()).thenReturn(AppReduxState(displayName = ""))
+
+            val timestamp = Date()
+            val captionDataAdd1 = createCaptionData("123", "abc", "def", CaptionsResultType.PARTIAL, timestamp)
+            val captionDataUpdate1 = createCaptionData("123", "abc234", "def", CaptionsResultType.PARTIAL, Date())
+            val captionDataAdd2 = createCaptionData("456", "xyz", "uvw", CaptionsResultType.PARTIAL, Date())
+            val captionDataUpdate2 = createCaptionData("456", "xyz890", "uvw", CaptionsResultType.PARTIAL, Date())
+
+            val addedData = mutableListOf<CaptionsManagerData?>()
+            val updatedData = mutableListOf<CaptionsManagerData?>()
+
+            // Act
+            val addedDataJob = collectStateFlow(captionsDataManager.getOnNewCaptionsDataAddedStateFlow(), addedData)
+            val updatedDataJob = collectStateFlow(captionsDataManager.getOnLastCaptionsDataUpdatedStateFlow(), updatedData)
+
+            captionsDataManager.start(TestScope(UnconfinedTestDispatcher()))
+
+            val jobList = mutableListOf<Job>()
+            val data = listOf(captionDataAdd1, captionDataUpdate1, captionDataAdd2, captionDataUpdate2)
+            data.forEach {
+                val job = launch {
+                    sharedFlow.emit(it)
+                }
+                jobList.add(job)
+                job.join()
+            }
+
+            // Assert
+            assertEquals(2, addedData.size)
+            assertEquals(2, updatedData.size)
+
+            assertNull(addedData[0])
+            assertNull(updatedData[0])
+
+            assertEquals("abc", addedData[1]?.displayText)
+            assertEquals("abc234", updatedData[1]?.displayText)
+
+            assertEquals(1, captionsDataManager.captionsDataCache.size)
+
+            addedDataJob.cancel()
+            updatedDataJob.cancel()
+            jobList.forEach {
+                it.cancel()
+            }
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun captionsDataManagerUnitTest_when_stateFlowAddedUpdated_maxSize() {
+        runScopedTest {
+            // Arrange
+            val sharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
+            `when`(callingService.getCaptionsReceivedSharedFlow()).thenReturn(sharedFlow)
+            `when`(appStore.getCurrentState()).thenReturn(AppReduxState(displayName = ""))
+
+            val timestamp = Date()
+            val captionsDataList = mutableListOf<CallCompositeCaptionsData>()
+            for (i in 0 until 60) {
+                captionsDataList.add(createCaptionData(i.toString(), "abc", "def", CaptionsResultType.FINAL, timestamp))
+            }
+
+            val addedData = mutableListOf<CaptionsManagerData?>()
+            val updatedData = mutableListOf<CaptionsManagerData?>()
+
+            // Act
+            val addedDataJob = collectStateFlow(captionsDataManager.getOnNewCaptionsDataAddedStateFlow(), addedData)
+            val updatedDataJob = collectStateFlow(captionsDataManager.getOnLastCaptionsDataUpdatedStateFlow(), updatedData)
+
+            captionsDataManager.start(TestScope(UnconfinedTestDispatcher()))
+
+            val jobList = mutableListOf<Job>()
+            captionsDataList.forEach {
+                val job = launch {
+                    sharedFlow.emit(it)
+                }
+                jobList.add(job)
+                job.join()
+            }
+
+            // Assert
+            assertEquals(61, addedData.size)
+            assertEquals(1, updatedData.size)
+
+            assertNull(addedData[0])
+            assertNull(updatedData[0])
+            assertEquals(50, captionsDataManager.captionsDataCache.size)
+
+            addedDataJob.cancel()
+            updatedDataJob.cancel()
+            jobList.forEach {
+                it.cancel()
+            }
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun captionsDataManagerUnitTest_when_stateFlowUpdated_bothAddAndUpdate_ifDelayIsGreaterThanFewMs() {
+        runScopedTest {
+            // Arrange
+            val sharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
+            `when`(callingService.getCaptionsReceivedSharedFlow()).thenReturn(sharedFlow)
+            `when`(appStore.getCurrentState()).thenReturn(AppReduxState(displayName = ""))
+
+            val timestamp = Date()
+            val timestampUpdated = Date().apply {
+                time += 6000
+            }
+            val captionDataAdd1 = createCaptionData("123", "abc", "def", CaptionsResultType.PARTIAL, timestamp)
+            val captionDataUpdate1 = createCaptionData("234", "abc234", "def", CaptionsResultType.PARTIAL, timestampUpdated)
+
+            val addedData = mutableListOf<CaptionsManagerData?>()
+            val updatedData = mutableListOf<CaptionsManagerData?>()
+
+            // Act
+            val addedDataJob = collectStateFlow(captionsDataManager.getOnNewCaptionsDataAddedStateFlow(), addedData)
+            val updatedDataJob = collectStateFlow(captionsDataManager.getOnLastCaptionsDataUpdatedStateFlow(), updatedData)
+
+            captionsDataManager.start(TestScope(UnconfinedTestDispatcher()))
+
+            val jobList = mutableListOf<Job>()
+            val data = listOf(captionDataAdd1, captionDataUpdate1)
+            data.forEach {
+                val job = launch {
+                    sharedFlow.emit(it)
+                }
+                jobList.add(job)
+                job.join()
+            }
+
+            // Assert
+            assertEquals(3, addedData.size)
+            assertEquals(2, updatedData.size)
+
+            assertNull(addedData[0])
+            assertNull(updatedData[0])
+
+            assertEquals("abc", addedData[1]?.displayText)
+            assertEquals("abc", updatedData[1]?.displayText)
+            assertEquals("abc234", addedData[2]?.displayText)
+
+            assertEquals(2, captionsDataManager.captionsDataCache.size)
+
+            addedDataJob.cancel()
+            updatedDataJob.cancel()
+            jobList.forEach {
+                it.cancel()
+            }
+        }
+    }
+
     private fun createCaptionData(
         speakerRawId: String,
         spokenText: String,

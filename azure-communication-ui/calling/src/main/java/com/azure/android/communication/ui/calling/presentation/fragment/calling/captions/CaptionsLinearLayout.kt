@@ -104,10 +104,9 @@ internal class CaptionsLinearLayout : LinearLayout {
     }
 
     private fun updateLastCaptionsData(lastCaptionsData: CaptionsRecyclerViewData) {
-        val lastDataForSpeaker = captionsData.findLast { it.speakerRawId == lastCaptionsData.speakerRawId }
-        if (lastDataForSpeaker != null) {
+        val index = captionsData.size - 1
+        if (index >= 0 && captionsData[index].speakerRawId == lastCaptionsData.speakerRawId) {
             val shouldScrollToBottom = isAtBottom
-            val index = captionsData.indexOf(lastDataForSpeaker)
             captionsData[index] = lastCaptionsData
             updateRecyclerViewItem(index)
             if (shouldScrollToBottom) {

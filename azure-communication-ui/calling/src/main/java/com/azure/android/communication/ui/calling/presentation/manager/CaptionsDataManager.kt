@@ -93,8 +93,9 @@ internal class CaptionsDataManager(
 
     private fun shouldFinalizeLastCaption(lastCaption: CaptionsManagerData?, captionData: CallCompositeCaptionsData): Boolean {
         if (lastCaption == null) return false
-        val duration = Duration.between(Instant.ofEpochMilli(captionData.timestamp.time), Instant.ofEpochMilli(lastCaption.timestamp.time))
-        return duration.toMillis() > CallingFragment.MAX_CAPTIONS_PARTIAL_DATA_TIME_LIMIT
+        val duration = Duration.between(Instant.ofEpochMilli(lastCaption.timestamp.time), Instant.ofEpochMilli(captionData.timestamp.time))
+        val result = duration.toMillis() > CallingFragment.MAX_CAPTIONS_PARTIAL_DATA_TIME_LIMIT
+        return result
     }
 
     private fun addNewCaption(data: CaptionsManagerData) {
