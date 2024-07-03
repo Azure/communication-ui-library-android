@@ -21,6 +21,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.any
 import org.mockito.kotlin.argThat
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
@@ -270,7 +271,7 @@ internal class CaptionsErrorHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
     fun captionsErrorHeaderViewModelUnitTest_close_then_dispatchCaptionsAction() {
         // arrange
         val mockAppStore = mock<AppStore<ReduxState>> {}
-        Mockito.`when`(mockAppStore.dispatch(CaptionsAction.ClearError())).then { }
+        Mockito.`when`(mockAppStore.dispatch(any())).then { }
         val captionsErrorHeaderViewModel = CaptionsErrorHeaderViewModel(mockAppStore::dispatch)
 
         // act
