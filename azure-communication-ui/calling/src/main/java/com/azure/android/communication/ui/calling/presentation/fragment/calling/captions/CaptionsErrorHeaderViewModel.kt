@@ -47,8 +47,4 @@ internal class CaptionsErrorHeaderViewModel(private val dispatch: (Action) -> Un
     fun close() {
         dispatch(CaptionsAction.ClearError())
     }
-
-    fun dismiss() {
-        displayCaptionsErrorHeaderFlow.value = false
-    }
 }
