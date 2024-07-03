@@ -831,6 +831,8 @@ internal class CallingMiddlewareActionHandlerImpl(
                         if (state.localParticipantState.initialCallJoinState.skipSetupScreen) {
                             store.dispatch(NavigationAction.Exit())
                         } else {
+                            store.dispatch(CaptionsAction.Stopped())
+                            store.dispatch(CaptionsAction.ClearError())
                             store.dispatch(NavigationAction.SetupLaunched())
                         }
                     } else if (it.errorCode == ErrorCode.CALL_END_FAILED ||
@@ -840,6 +842,8 @@ internal class CallingMiddlewareActionHandlerImpl(
                         store.dispatch(CallingAction.IsRecordingUpdated(false))
                         store.dispatch(ParticipantAction.ListUpdated(HashMap()))
                         store.dispatch(CallingAction.StateUpdated(CallingStatus.NONE))
+                        store.dispatch(CaptionsAction.Stopped())
+                        store.dispatch(CaptionsAction.ClearError())
                         if (store.getCurrentState().localParticipantState.initialCallJoinState.skipSetupScreen) {
                             store.dispatch(NavigationAction.Exit())
                         } else {

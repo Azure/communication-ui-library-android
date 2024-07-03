@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.time.Duration
 import java.time.Instant
-import java.util.Date
 
 internal class CaptionsDataManager(
     private val callingService: CallingService,
@@ -45,7 +44,8 @@ internal class CaptionsDataManager(
                     captionText,
                     captionData.speakerRawId,
                     languageCode,
-                    captionData.resultType == CaptionsResultType.FINAL
+                    captionData.resultType == CaptionsResultType.FINAL,
+                    captionData.timestamp
                 )
 
                 handleCaptionData(captionData, data)
@@ -93,7 +93,7 @@ internal class CaptionsDataManager(
 
     private fun shouldFinalizeLastCaption(lastCaption: CaptionsDataViewModel?, captionData: CallCompositeCaptionsData): Boolean {
         if (lastCaption == null) return false
-        val duration = Duration.between(Instant.ofEpochMilli(captionData.timestamp.time), Instant.ofEpochMilli(Date().time))
+        val duration = Duration.between(Instant.ofEpochMilli(captionData.timestamp.time), Instant.ofEpochMilli(lastCaption.timestamp.time))
         return duration.toMillis() > CallingFragment.MAX_CAPTIONS_PARTIAL_DATA_TIME_LIMIT
     }
 
