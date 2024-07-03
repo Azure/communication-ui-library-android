@@ -110,7 +110,7 @@
 
     <!--    Participant list-->
     <string name="azure_communication_ui_calling_participant_list_in_call_n_people">في المكالمة (%1$d)</string>
-    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d more</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d أكثر</string>
     <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">في ساحة الانتظار (%1$d)</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">اضغط ضغطا مزدوجا برفق لقبول/رفض المشارك</string>
 
@@ -169,13 +169,13 @@
     <string name="azure_communication_ui_calling_call_view_calling">يتم الآن الاتصال...</string>
 
     <!-- Participant menu actions -->
-    <string name="azure_communication_ui_calling_view_participant_menu_mute">Mute</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Mute participant menu</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove">Remove from call</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Remove participant from call menu</string>
-    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">Call settings updated. Some features may not be available to you.</string>
-    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">Call settings updated. Some additional actions may now be available to you.</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">صامت</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">قائمة كتم صوت المشارك.</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">إزالة من المكالمة</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">إزالة مشارك من قائمة المكالمات.</string>
+    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">تم تحديث إعدادات المكالمة. قد لا تتوفر بعض الميزات لك.</string>
+    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">تم تحديث إعدادات المكالمة. قد تتوفر الآن بعض الإجراءات الإضافية لك.</string>
 
     <!-- Participant menu view -->
-    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">disabled item.</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">العنصر المعطل.</string>
 </resources>

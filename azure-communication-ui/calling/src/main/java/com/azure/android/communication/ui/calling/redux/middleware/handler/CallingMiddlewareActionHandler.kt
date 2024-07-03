@@ -773,11 +773,12 @@ internal class CallingMiddlewareActionHandlerImpl(
                             (it.type == ParticipantCapabilityType.MANAGE_LOBBY && !it.isAllowed)
                     }
 
-                    store.dispatch(
-                        ToastNotificationAction.ShowNotification(
-                            if (anyLostCapability) ToastNotificationKind.SOME_FEATURES_LOST else ToastNotificationKind.SOME_FEATURES_GAINED
+                    if (anyLostCapability || !store.getCurrentState().localParticipantState.currentCapabilitiesAreDefault)
+                        store.dispatch(
+                            ToastNotificationAction.ShowNotification(
+                                if (anyLostCapability) ToastNotificationKind.SOME_FEATURES_LOST else ToastNotificationKind.SOME_FEATURES_GAINED
+                            )
                         )
-                    )
                 }
             }
         }

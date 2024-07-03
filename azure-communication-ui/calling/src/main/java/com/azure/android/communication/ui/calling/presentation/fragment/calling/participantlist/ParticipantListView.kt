@@ -208,7 +208,7 @@ internal class ParticipantListView(
                 icon = null,
                 title = context.getString(
                     R.string.azure_communication_ui_calling_participant_list_in_call_n_people,
-                    bottomCellItemsInCallParticipants.size
+                    totalActiveParticipantCount + 1 // add one for local participant
                 ),
                 contentDescription = "",
                 accessoryImage = null,

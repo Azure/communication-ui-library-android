@@ -110,7 +110,7 @@
 
     <!--    Participant list-->
     <string name="azure_communication_ui_calling_participant_list_in_call_n_people">Во время звонка (%1$d)</string>
-    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d more</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ еще %1$d</string>
     <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">В зале ожидания (%1$d)</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Коснитесь дважды, чтобы допустить или отклонить участника</string>
 
@@ -169,13 +169,13 @@
     <string name="azure_communication_ui_calling_call_view_calling">Выполняется вызов…</string>
 
     <!-- Participant menu actions -->
-    <string name="azure_communication_ui_calling_view_participant_menu_mute">Mute</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Mute participant menu</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove">Remove from call</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Remove participant from call menu</string>
-    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">Call settings updated. Some features may not be available to you.</string>
-    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">Call settings updated. Some additional actions may now be available to you.</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">Отключить звук</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Меню отключения звука участника</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">Удалить из звонка</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Меню удаления участника из звонка</string>
+    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">Параметры звонка обновлены. Некоторые функции могут быть недоступны вам.</string>
+    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">Параметры звонка обновлены. Некоторые дополнительные действия теперь могут быть доступны вам.</string>
 
     <!-- Participant menu view -->
-    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">disabled item.</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">отключенный элемент.</string>
 </resources>
