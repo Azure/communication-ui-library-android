@@ -3,11 +3,13 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.captions
 
-import android.graphics.Bitmap
+import java.util.Date
 
-internal data class CaptionsRecyclerViewDataModel(
+internal data class CaptionsManagerData(
     val displayName: String,
     val displayText: String,
-    val avatarBitmap: Bitmap?,
-    val speakerRawIdentifierId: String,
+    val speakerRawId: String,
+    val languageCode: String,
+    val isFinal: Boolean,
+    val timestamp: Date
 )

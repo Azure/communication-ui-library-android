@@ -34,7 +34,7 @@ internal class CaptionsLinearLayout : LinearLayout {
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerViewAdapter: CaptionsRecyclerViewAdapter
     private var localParticipantIdentifier: CommunicationIdentifier? = null
-    private val captionsData = mutableListOf<CaptionsRecyclerViewDataModel>()
+    private val captionsData = mutableListOf<CaptionsRecyclerViewData>()
     private var isAtBottom = true
 
     override fun onFinishInflate() {
@@ -103,8 +103,8 @@ internal class CaptionsLinearLayout : LinearLayout {
         }
     }
 
-    private fun updateLastCaptionsData(lastCaptionsData: CaptionsRecyclerViewDataModel) {
-        val lastDataForSpeaker = captionsData.findLast { it.speakerRawIdentifierId == lastCaptionsData.speakerRawIdentifierId }
+    private fun updateLastCaptionsData(lastCaptionsData: CaptionsRecyclerViewData) {
+        val lastDataForSpeaker = captionsData.findLast { it.speakerRawId == lastCaptionsData.speakerRawId }
         if (lastDataForSpeaker != null) {
             val shouldScrollToBottom = isAtBottom
             val index = captionsData.indexOf(lastDataForSpeaker)
@@ -116,7 +116,7 @@ internal class CaptionsLinearLayout : LinearLayout {
         }
     }
 
-    private fun addNewCaptionsData(newCaptionsData: CaptionsRecyclerViewDataModel) {
+    private fun addNewCaptionsData(newCaptionsData: CaptionsRecyclerViewData) {
         if (captionsData.size >= CallingFragment.MAX_CAPTIONS_DATA_SIZE) {
             captionsData.removeAt(0)
             recyclerViewAdapter.notifyItemRemoved(0)
@@ -157,7 +157,7 @@ internal class CaptionsLinearLayout : LinearLayout {
     }
 
     // required when RTL language is selected for captions text
-    private fun applyLayoutDirection(it: CaptionsDataViewModel) {
+    private fun applyLayoutDirection(it: CaptionsManagerData) {
         if (LocaleHelper.isRTL(it.languageCode) && layoutDirection != LAYOUT_DIRECTION_RTL) {
             captionsLinearLayout.layoutDirection = LAYOUT_DIRECTION_RTL
         } else if (!LocaleHelper.isRTL(it.languageCode) && layoutDirection != LAYOUT_DIRECTION_LTR) {
@@ -174,24 +174,24 @@ internal class CaptionsLinearLayout : LinearLayout {
     }
 }
 
-internal fun CaptionsDataViewModel.into(avatarViewManager: AvatarViewManager, identifier: CommunicationIdentifier?): CaptionsRecyclerViewDataModel {
+internal fun CaptionsManagerData.into(avatarViewManager: AvatarViewManager, identifier: CommunicationIdentifier?): CaptionsRecyclerViewData {
     var speakerName = this.displayName
     var bitMap: Bitmap? = null
 
-    val remoteParticipantViewData = avatarViewManager.getRemoteParticipantViewData(this.speakerRawIdentifierId)
+    val remoteParticipantViewData = avatarViewManager.getRemoteParticipantViewData(this.speakerRawId)
     if (remoteParticipantViewData != null) {
         speakerName = remoteParticipantViewData.displayName
         bitMap = remoteParticipantViewData.avatarBitmap
     }
     val localParticipantViewData = avatarViewManager.callCompositeLocalOptions?.participantViewData
-    if (localParticipantViewData != null && identifier?.rawId == this.speakerRawIdentifierId) {
+    if (localParticipantViewData != null && identifier?.rawId == this.speakerRawId) {
         speakerName = localParticipantViewData.displayName
         bitMap = localParticipantViewData.avatarBitmap
     }
-    return CaptionsRecyclerViewDataModel(
+    return CaptionsRecyclerViewData(
         displayName = speakerName,
         displayText = this.displayText,
         avatarBitmap = bitMap,
-        speakerRawIdentifierId = this.speakerRawIdentifierId,
+        speakerRawId = this.speakerRawId,
     )
 }
