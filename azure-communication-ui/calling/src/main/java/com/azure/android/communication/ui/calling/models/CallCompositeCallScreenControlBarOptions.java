@@ -3,10 +3,15 @@
 
 package com.azure.android.communication.ui.calling.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Options for the CallCompositeCallScreenControlBarOptions.
  */
 public final class CallCompositeCallScreenControlBarOptions {
+    final List<CallCompositeButtonOptions> customButtons = new ArrayList<>();
+
     private CallCompositeLeaveCallConfirmationMode leaveCallConfirmation =
             CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED;
 
@@ -36,4 +41,19 @@ public final class CallCompositeCallScreenControlBarOptions {
     public CallCompositeLeaveCallConfirmationMode getLeaveCallConfirmation() {
         return leaveCallConfirmation;
     }
+
+    public CallCompositeCallScreenControlBarOptions addCustomButton(
+            final CallCompositeButtonOptions buttonOptions) {
+        customButtons.add(buttonOptions);
+        return this;
+    }
+
+    public CallCompositeButtonOptions getCameraButton() {
+        return null;
+    }
+
+    public CallCompositeButtonOptions getMicButton() {
+        return null;
+    }
+
 }

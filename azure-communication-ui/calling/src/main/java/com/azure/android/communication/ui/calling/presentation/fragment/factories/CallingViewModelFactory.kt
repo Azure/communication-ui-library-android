@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.factories
 
 import com.azure.android.communication.ui.calling.configuration.CallType
+import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmViewModel
@@ -35,14 +36,16 @@ internal class CallingViewModelFactory(
     private val showSupportFormOption: Boolean = false,
     private val enableMultitasking: Boolean,
     private val isTelecomManagerEnabled: Boolean = false,
-    private val callType: CallType? = null
+    private val callType: CallType? = null,
+    private val customButtons: Iterable<CallCompositeButtonOptions>?,
 ) : BaseViewModelFactory(store) {
 
     val moreCallOptionsListViewModel by lazy {
         MoreCallOptionsListViewModel(
-            debugInfoManager,
+            debugInfoManager = debugInfoManager,
             showSupportFormOption = showSupportFormOption,
-            store::dispatch
+            dispatch = store::dispatch,
+            customButtons = customButtons
         )
     }
 

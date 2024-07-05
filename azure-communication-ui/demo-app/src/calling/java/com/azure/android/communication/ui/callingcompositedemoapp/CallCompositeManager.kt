@@ -22,6 +22,7 @@ import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
+import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
@@ -70,6 +71,39 @@ class CallCompositeManager(private val context: Context) {
         meetingPasscode: String?,
         participantMris: String?,
     ) {
+//        val locator = getLocator()
+//
+//        val controlBarOptions = CallCompositeCallScreenControlBarOptions()
+//        controlBarOptions.cameraButton
+//            .setDrawableId(R.drawable.image_koala)
+//            .setTitle("My Camera title")
+//            .setOnClickListener {
+//                print("camera button is clicked")
+//            }
+//
+//        controlBarOptions.addCustomButton(
+//                CallCompositeButtonOptions()
+//                    .setDrawableId(R.drawable.image_cat)
+//                    .setTitle("Troubleshooting tips")
+//                    .setOrder(3)
+//                    .setOnClickListener {
+//                        // open Troubleshooting tips
+//                    }
+//            )
+//
+//        val callScreenOptions = CallCompositeCallScreenOptions()
+//            .setControlBarOptions(controlBarOptions)
+//
+//        val localOptions = CallCompositeLocalOptions()
+//            .setCallScreenOptions(callScreenOptions)
+//
+//        val callComposite = CallCompositeBuilder()
+//            // Should we deprecate this or keep as alternative?
+//            .callScreenOptions(callScreenOptions)
+//            .build()
+//
+//        callComposite.launch(context, locator, localOptions)
+
         if (SettingsFeatures.getDisplayDismissButtonOption()) {
             DismissCompositeButtonView.get(applicationContext).show(this)
         } else {
@@ -232,7 +266,7 @@ class CallCompositeManager(private val context: Context) {
             localOptions.setMicrophoneOn(it)
             isAnythingChanged = true
         }
-
+        
         return if (isAnythingChanged) localOptions else null
     }
 
@@ -500,21 +534,45 @@ class CallCompositeManager(private val context: Context) {
     }
 
     private fun callScreenOptions(): CallCompositeCallScreenOptions? {
-        return if (SettingsFeatures.getDisplayLeaveCallConfirmationValue() != null) {
-            if (SettingsFeatures.getDisplayLeaveCallConfirmationValue() == true) {
-                CallCompositeCallScreenOptions().setControlBarOptions(
-                    CallCompositeCallScreenControlBarOptions()
-                        .setLeaveCallConfirmation(CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED)
-                )
-            } else {
-                CallCompositeCallScreenOptions().setControlBarOptions(
-                    CallCompositeCallScreenControlBarOptions()
-                        .setLeaveCallConfirmation(CallCompositeLeaveCallConfirmationMode.ALWAYS_DISABLED)
-                )
-            }
-        } else {
-            null
+        var callScreenOptions: CallCompositeCallScreenOptions? = null
+        if (SettingsFeatures.getDisplayLeaveCallConfirmationValue() != null) {
+            callScreenOptions = CallCompositeCallScreenOptions()
+
+            val controlBarOptions = CallCompositeCallScreenControlBarOptions()
+            callScreenOptions.setControlBarOptions(controlBarOptions)
+
+            controlBarOptions.setLeaveCallConfirmation(
+                if (SettingsFeatures.getDisplayLeaveCallConfirmationValue() == true) CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED
+                else CallCompositeLeaveCallConfirmationMode.ALWAYS_DISABLED
+            )
         }
+
+        if (/*inject custom buttons*/true) {
+            callScreenOptions = callScreenOptions ?: CallCompositeCallScreenOptions()
+
+            if (callScreenOptions.controlBarOptions == null)
+                callScreenOptions.controlBarOptions = CallCompositeCallScreenControlBarOptions()
+
+            callScreenOptions.controlBarOptions.addCustomButton(
+                CallCompositeButtonOptions()
+                    .setDrawableId(R.drawable.image_cat)
+                    .setTitle("Open TestActivity")
+                    .setOnClickListener {
+                        val intent = Intent(context, TestActivity::class.java)
+                        context.startActivity(intent)
+                    }
+            )
+
+            callScreenOptions.controlBarOptions.addCustomButton(
+                CallCompositeButtonOptions()
+                    .setDrawableId(R.drawable.image_koala)
+                    .setTitle("Hide call")
+                    .setOnClickListener {
+                        callComposite?.sendToBackground()
+                    }
+            )
+        }
+        return callScreenOptions
     }
 
     private fun setupScreenOptions(): CallCompositeSetupScreenOptions? {

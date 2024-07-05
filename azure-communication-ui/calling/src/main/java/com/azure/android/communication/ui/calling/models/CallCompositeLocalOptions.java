@@ -38,6 +38,9 @@ public final class CallCompositeLocalOptions {
     private boolean skipSetupScreen = false;
     private CallCompositeAudioVideoMode audioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO;
 
+    private CallCompositeSetupScreenOptions setupScreenOptions = null;
+    private CallCompositeCallScreenOptions callScreenOptions = null;
+
     /**
      * Create LocalSettings.
      *
@@ -178,5 +181,23 @@ public final class CallCompositeLocalOptions {
      */
     public CallCompositeAudioVideoMode getAudioVideoMode() {
         return audioVideoMode;
+    }
+
+    public CallCompositeLocalOptions setSetupScreenOptions(final CallCompositeSetupScreenOptions setupScreenOptions) {
+        this.setupScreenOptions = setupScreenOptions;
+        return this;
+    }
+
+    public CallCompositeSetupScreenOptions getSetupScreenOptions() {
+        return setupScreenOptions;
+    }
+
+    public CallCompositeLocalOptions setCallScreenOptions(final CallCompositeCallScreenOptions callScreenOptions) {
+        this.callScreenOptions = callScreenOptions;
+        return this;
+    }
+
+    public CallCompositeCallScreenOptions getCallScreenOptions() {
+        return callScreenOptions;
     }
 }

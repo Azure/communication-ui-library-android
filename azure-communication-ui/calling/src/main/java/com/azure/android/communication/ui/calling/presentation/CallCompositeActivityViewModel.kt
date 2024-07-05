@@ -11,6 +11,7 @@ import com.azure.android.communication.ui.calling.di.DependencyInjectionContaine
 import com.azure.android.communication.ui.calling.getDiContainer
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
+import com.azure.android.communication.ui.calling.models.getCustomButtons
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.ParticipantGridCellViewModelFactory
@@ -68,25 +69,26 @@ internal class CallCompositeActivityViewModel(
     }
     val callingViewModel by lazy {
         CallingViewModel(
-            container.appStore,
-            CallingViewModelFactory(
-                container.appStore,
-                ParticipantGridCellViewModelFactory(),
-                application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants),
-                container.debugInfoManager,
-                container.capabilitiesManager,
-                container.configuration.callCompositeEventsHandler.getOnUserReportedHandlers().toList().isNotEmpty(),
-                container.configuration.enableMultitasking,
+            store = container.appStore,
+            callingViewModelProvider = CallingViewModelFactory(
+                store = container.appStore,
+                participantGridCellViewModelFactory = ParticipantGridCellViewModelFactory(),
+                maxRemoteParticipants = application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants),
+                debugInfoManager = container.debugInfoManager,
+                capabilitiesManager = container.capabilitiesManager,
+                showSupportFormOption = container.configuration.callCompositeEventsHandler.getOnUserReportedHandlers().any(),
+                enableMultitasking = container.configuration.enableMultitasking,
                 isTelecomManagerEnabled = container.configuration.telecomManagerOptions != null,
-                container.configuration.callConfig.callType
+                callType = container.configuration.callConfig.callType,
+                customButtons = container.configuration.callScreenOptions?.controlBarOptions?.getCustomButtons()
             ),
-            container.networkManager,
-            container.configuration.callScreenOptions,
-            container.configuration.enableMultitasking,
-            container.configuration.callCompositeLocalOptions?.audioVideoMode
+            networkManager = container.networkManager,
+            callScreenOptions = container.configuration.callScreenOptions,
+            multitaskingEnabled = container.configuration.enableMultitasking,
+            avMode = container.configuration.callCompositeLocalOptions?.audioVideoMode
                 ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
-            container.configuration.callConfig.callType,
-            container.capabilitiesManager
+            callType = container.configuration.callConfig.callType,
+            capabilitiesManager = container.capabilitiesManager
         )
     }
 }
