@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.calling.presentation.fragment.factori
 
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsErrorHeaderViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsLinearLayoutViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmViewModel
@@ -121,8 +120,6 @@ internal class CallingViewModelFactory(
     }
 
     val lobbyErrorHeaderViewModel by lazy { LobbyErrorHeaderViewModel(store::dispatch) }
-
-    val captionsErrorHeaderViewModel by lazy { CaptionsErrorHeaderViewModel(store::dispatch) }
 
     val captionsListViewModel by lazy { CaptionsListViewModel(store) }
     val captionsLanguageSelectionListViewModel by lazy { CaptionsLanguageSelectionListViewModel(store) }

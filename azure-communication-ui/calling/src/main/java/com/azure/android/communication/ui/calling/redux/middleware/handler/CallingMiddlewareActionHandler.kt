@@ -637,6 +637,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                         )
                     }
                     store.dispatch(CaptionsAction.Stopped())
+                    store.dispatch(ToastNotificationAction.ShowNotification(ToastNotificationKind.CAPTIONS_FAILED_TO_START))
                 } else {
                     store.dispatch(CaptionsAction.Started())
                 }
@@ -652,6 +653,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                             CaptionsAction.Error(CaptionsError(it.errorCode.into(), CaptionsErrorType.CAPTIONS_STOP_ERROR))
                         )
                     }
+                    store.dispatch(ToastNotificationAction.ShowNotification(ToastNotificationKind.CAPTIONS_FAILED_TO_STOP))
                 } else {
                     store.dispatch(CaptionsAction.Stopped())
                 }
@@ -667,6 +669,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                             CaptionsAction.Error(CaptionsError(it.errorCode.into(), CaptionsErrorType.CAPTIONS_SPOKEN_LANGUAGE_UPDATE_ERROR))
                         )
                     }
+                    store.dispatch(ToastNotificationAction.ShowNotification(ToastNotificationKind.CAPTIONS_FAILED_TO_SET_SPOKEN_LANGUAGE))
                 }
             }
     }
@@ -680,6 +683,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                             CaptionsAction.Error(CaptionsError(it.errorCode.into(), CaptionsErrorType.CAPTIONS_CAPTION_LANGUAGE_UPDATE_ERROR))
                         )
                     }
+                    store.dispatch(ToastNotificationAction.ShowNotification(ToastNotificationKind.CAPTIONS_FAILED_TO_SET_CAPTION_LANGUAGE))
                 }
             }
     }

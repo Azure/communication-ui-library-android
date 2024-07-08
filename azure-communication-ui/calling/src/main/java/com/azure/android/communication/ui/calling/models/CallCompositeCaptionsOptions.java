@@ -7,7 +7,7 @@ package com.azure.android.communication.ui.calling.models;
  * The options for the composite call captions.
  */
 public final class CallCompositeCaptionsOptions {
-    private Boolean captionsOn = false;
+    private Boolean captionsOn;
     private String spokenLanguage;
 
     /**

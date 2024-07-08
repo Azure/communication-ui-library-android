@@ -9,8 +9,7 @@ package com.azure.android.communication.ui.calling.models;
 public final class CallCompositeCallScreenControlBarOptions {
     private CallCompositeLeaveCallConfirmationMode leaveCallConfirmation =
             CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED;
-    private CallCompositeCaptionsVisibilityMode captionsVisibilityMode =
-            CallCompositeCaptionsVisibilityMode.HIDE;
+    private CallCompositeCaptionsVisibilityMode captionsVisibilityMode;
 
     /**
      * Create a CallCompositeCallScreenControlBarOptions object.

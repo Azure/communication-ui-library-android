@@ -24,22 +24,22 @@ internal class CaptionsLinearLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
 
             // arrange
-            val captionsErrorHeaderViewModel = CaptionsLinearLayoutViewModel()
+            val viewModel = CaptionsLinearLayoutViewModel()
 
             val resultDisplayErrorHeaderStateFlow =
                 mutableListOf<Boolean?>()
 
-            captionsErrorHeaderViewModel.init(
+            viewModel.init(
                 false
             )
 
             val displayErrorJob = launch {
-                captionsErrorHeaderViewModel.getDisplayCaptionsInfoViewFlow()
+                viewModel.getDisplayCaptionsInfoViewFlow()
                     .toList(resultDisplayErrorHeaderStateFlow)
             }
 
             // act
-            captionsErrorHeaderViewModel.update(
+            viewModel.update(
                 CaptionsState(isCaptionsUIEnabled = false, isCaptionsStarted = false),
                 VisibilityState(VisibilityStatus.VISIBLE)
             )
@@ -65,22 +65,22 @@ internal class CaptionsLinearLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
 
             // arrange
-            val captionsErrorHeaderViewModel = CaptionsLinearLayoutViewModel()
+            val viewModel = CaptionsLinearLayoutViewModel()
 
             val resultDisplayErrorHeaderStateFlow =
                 mutableListOf<Boolean?>()
 
-            captionsErrorHeaderViewModel.init(
+            viewModel.init(
                 false
             )
 
             val displayErrorJob = launch {
-                captionsErrorHeaderViewModel.getDisplayCaptionsInfoViewFlow()
+                viewModel.getDisplayCaptionsInfoViewFlow()
                     .toList(resultDisplayErrorHeaderStateFlow)
             }
 
             // act
-            captionsErrorHeaderViewModel.update(
+            viewModel.update(
                 CaptionsState(isCaptionsUIEnabled = false, isCaptionsStarted = true),
                 VisibilityState(VisibilityStatus.PIP_MODE_ENTERED)
             )
@@ -106,22 +106,22 @@ internal class CaptionsLinearLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
 
             // arrange
-            val captionsErrorHeaderViewModel = CaptionsLinearLayoutViewModel()
+            val viewModel = CaptionsLinearLayoutViewModel()
 
             val resultDisplayErrorHeaderStateFlow =
                 mutableListOf<Boolean?>()
 
-            captionsErrorHeaderViewModel.init(
+            viewModel.init(
                 false
             )
 
             val displayErrorJob = launch {
-                captionsErrorHeaderViewModel.getDisplayCaptionsInfoViewFlow()
+                viewModel.getDisplayCaptionsInfoViewFlow()
                     .toList(resultDisplayErrorHeaderStateFlow)
             }
 
             // act
-            captionsErrorHeaderViewModel.update(
+            viewModel.update(
                 CaptionsState(isCaptionsUIEnabled = false, isCaptionsStarted = true),
                 VisibilityState(VisibilityStatus.VISIBLE)
             )
