@@ -84,6 +84,8 @@ internal class CaptionsLinearLayout : LinearLayout {
             }
         }
 
+        captionsDataManager.resetFlows()
+
         viewLifecycleOwner.lifecycleScope.launch {
             captionsDataManager.getOnLastCaptionsDataUpdatedStateFlow().collect { data ->
                 data?.let {

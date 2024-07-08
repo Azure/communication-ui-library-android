@@ -7,7 +7,7 @@
     android:id="@+id/azure_communication_ui_calling_captions_linear_layout"
     android:layout_width="480dp"
     android:layout_height="115dp"
-    android:background="@color/azure_communication_ui_calling_color_background"
+    android:background="@color/azure_communication_ui_calling_color_bottom_drawer_background"
     android:focusable="true"
     android:importantForAccessibility="yes"
     android:padding="6dp"

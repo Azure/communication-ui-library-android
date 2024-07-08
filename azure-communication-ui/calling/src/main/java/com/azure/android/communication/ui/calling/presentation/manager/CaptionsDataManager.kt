@@ -30,6 +30,11 @@ internal class CaptionsDataManager(
     // cache to get last captions on screen rotation
     val captionsDataCache = mutableListOf<CaptionsManagerData>()
 
+    fun resetFlows() {
+        captionsNewDataStateFlow.value = null
+        captionsLastDataUpdatedStateFlow.value = null
+    }
+
     fun start(coroutineScope: CoroutineScope) {
         coroutineScope.launch {
             callingService.getCaptionsReceivedSharedFlow().collect { captionData ->

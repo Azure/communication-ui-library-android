@@ -55,10 +55,10 @@ internal class CaptionsListViewModel(private val store: Store<ReduxState>) {
     fun toggleCaptions(isChecked: Boolean) {
         if (!isChecked) {
             store.dispatch(CaptionsAction.StopRequested())
+            close()
         } else {
             store.dispatch(CaptionsAction.StartRequested(activeSpokenLanguageStateFlow.value))
         }
-        close()
     }
 
     fun openCaptionLanguageSelection() {

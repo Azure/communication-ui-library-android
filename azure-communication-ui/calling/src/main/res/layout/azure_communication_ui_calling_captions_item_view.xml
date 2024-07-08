@@ -39,6 +39,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:textColor="@color/azure_communication_ui_calling_color_text_primary"
+        android:textColor="@color/azure_communication_ui_calling_color_on_background"
         android:textSize="13sp" />
 </LinearLayout>
