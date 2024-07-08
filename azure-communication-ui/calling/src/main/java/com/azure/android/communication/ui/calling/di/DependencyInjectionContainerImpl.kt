@@ -13,7 +13,6 @@ import com.azure.android.communication.ui.calling.handlers.CallStateHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
-import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsVisibilityMode
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactory
 import com.azure.android.communication.ui.calling.presentation.VideoStreamRendererFactoryImpl
@@ -239,17 +238,13 @@ internal class DependencyInjectionContainerImpl(
     //region Redux
     // Initial State
     private val initialState by lazy {
-        var isCaptionsEnabled = true
-        configuration.callScreenOptions?.controlBarOptions?.captionsVisibilityMode?.let {
-            isCaptionsEnabled = it == CallCompositeCaptionsVisibilityMode.SHOW
-        }
         AppReduxState(
             displayName = configuration.displayName,
             cameraOnByDefault = localOptions?.isCameraOn ?: false,
             microphoneOnByDefault = localOptions?.isMicrophoneOn ?: false,
             avMode = localOptions?.audioVideoMode ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             skipSetupScreen = localOptions?.isSkipSetupScreen ?: false,
-            showCaptionsUI = isCaptionsEnabled
+            showCaptionsUI = true
         )
     }
 
