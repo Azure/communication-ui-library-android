@@ -170,7 +170,7 @@ internal class CallingViewModel(
 
         captionsListViewModel.init(state.captionsState, state.callState.callingStatus)
         captionsLanguageSelectionListViewModel.init(state.captionsState)
-        captionsLayoutViewModel.init(state.captionsState.isCaptionsStarted)
+        captionsLayoutViewModel.init(state.captionsState, state.visibilityState)
 
         super.init(coroutineScope)
     }

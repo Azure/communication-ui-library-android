@@ -50,7 +50,7 @@ internal class CaptionsListViewModelUnitTest : ACSBaseTestCoroutine() {
             activeSpokenLanguage = "en",
             isCaptionsUIEnabled = true,
             isTranslationSupported = true,
-            isCaptionsStarted = true,
+            status = true,
             showCaptionsToggleUI = true
         )
         val callingStatus = CallingStatus.CONNECTED
@@ -77,7 +77,7 @@ internal class CaptionsListViewModelUnitTest : ACSBaseTestCoroutine() {
             activeSpokenLanguage = "en",
             isCaptionsUIEnabled = true,
             isTranslationSupported = true,
-            isCaptionsStarted = true,
+            status = true,
             showCaptionsToggleUI = true
         )
         val initialCallingStatus = CallingStatus.CONNECTED
@@ -88,7 +88,7 @@ internal class CaptionsListViewModelUnitTest : ACSBaseTestCoroutine() {
             activeSpokenLanguage = "fr",
             isCaptionsUIEnabled = false,
             isTranslationSupported = false,
-            isCaptionsStarted = false,
+            status = false,
             showCaptionsToggleUI = false
         )
         val updatedCallingStatus = CallingStatus.DISCONNECTED
@@ -115,7 +115,7 @@ internal class CaptionsListViewModelUnitTest : ACSBaseTestCoroutine() {
             activeSpokenLanguage = "en",
             isCaptionsUIEnabled = true,
             isTranslationSupported = true,
-            isCaptionsStarted = true,
+            status = true,
             showCaptionsToggleUI = true
         )
         val callingStatus = CallingStatus.CONNECTED

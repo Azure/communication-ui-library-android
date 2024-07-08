@@ -21,6 +21,7 @@ import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.CaptionsDataManager
+import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 import com.azure.android.communication.ui.calling.utilities.LocaleHelper
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -32,6 +33,7 @@ internal class CaptionsLinearLayout : LinearLayout {
     private lateinit var captionsLinearLayout: LinearLayout
     private lateinit var viewModel: CaptionsLinearLayoutViewModel
     private lateinit var recyclerView: RecyclerView
+    private lateinit var captionsStartProgressLayout: LinearLayout
     private lateinit var recyclerViewAdapter: CaptionsRecyclerViewAdapter
     private var localParticipantIdentifier: CommunicationIdentifier? = null
     private val captionsData = mutableListOf<CaptionsRecyclerViewData>()
@@ -41,6 +43,7 @@ internal class CaptionsLinearLayout : LinearLayout {
         super.onFinishInflate()
         captionsLinearLayout = findViewById(R.id.azure_communication_ui_calling_captions_linear_layout)
         recyclerView = findViewById(R.id.azure_communication_ui_calling_captions_recycler_view)
+        captionsStartProgressLayout = findViewById(R.id.azure_communication_ui_calling_captions_starting_layout)
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
     }
 
@@ -100,6 +103,21 @@ internal class CaptionsLinearLayout : LinearLayout {
                 data?.let {
                     applyLayoutDirection(it)
                     addNewCaptionsData(it.into(avatarViewManager, identifier))
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getCaptionsStatusStateFlow().collect {
+                when (it) {
+                    CaptionsStatus.START_REQUESTED -> {
+                        captionsStartProgressLayout.visibility = View.VISIBLE
+                    }
+                    CaptionsStatus.STARTED -> {
+                        captionsStartProgressLayout.visibility = View.GONE
+                    }
+                    else -> {
+                    }
                 }
             }
         }

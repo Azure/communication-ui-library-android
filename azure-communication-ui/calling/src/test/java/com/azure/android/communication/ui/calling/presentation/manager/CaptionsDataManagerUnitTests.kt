@@ -202,7 +202,7 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
                 activeSpokenLanguage = "en",
                 isCaptionsUIEnabled = true,
                 isTranslationSupported = true,
-                isCaptionsStarted = true,
+                status = true,
                 showCaptionsToggleUI = true
             )
             `when`(callingService.getCaptionsReceivedSharedFlow()).thenReturn(sharedFlow)

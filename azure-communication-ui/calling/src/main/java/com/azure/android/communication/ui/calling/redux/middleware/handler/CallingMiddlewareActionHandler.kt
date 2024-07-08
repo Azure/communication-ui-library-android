@@ -45,6 +45,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioOperationalSt
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
+import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.ToastNotificationKind
@@ -651,10 +652,10 @@ internal class CallingMiddlewareActionHandlerImpl(
                             )
                         }
                     }
-                    store.dispatch(CaptionsAction.Stopped())
+                    store.dispatch(CaptionsAction.StatusUpdate(CaptionsStatus.STOPPED))
                     store.dispatch(ToastNotificationAction.ShowNotification(ToastNotificationKind.CAPTIONS_FAILED_TO_START))
                 } else {
-                    store.dispatch(CaptionsAction.Started())
+                    store.dispatch(CaptionsAction.StatusUpdate(CaptionsStatus.STARTED))
                 }
             }
     }
@@ -666,7 +667,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                     captionsNotActiveError(error, store)
                     store.dispatch(ToastNotificationAction.ShowNotification(ToastNotificationKind.CAPTIONS_FAILED_TO_STOP))
                 } else {
-                    store.dispatch(CaptionsAction.Stopped())
+                    store.dispatch(CaptionsAction.StatusUpdate(CaptionsStatus.STOPPED))
                 }
             }
     }
@@ -857,7 +858,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                         if (state.localParticipantState.initialCallJoinState.skipSetupScreen) {
                             store.dispatch(NavigationAction.Exit())
                         } else {
-                            store.dispatch(CaptionsAction.Stopped())
+                            store.dispatch(CaptionsAction.StatusUpdate(CaptionsStatus.STOPPED))
                             store.dispatch(NavigationAction.SetupLaunched())
                         }
                     } else if (it.errorCode == ErrorCode.CALL_END_FAILED ||
@@ -867,7 +868,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                         store.dispatch(CallingAction.IsRecordingUpdated(false))
                         store.dispatch(ParticipantAction.ListUpdated(HashMap()))
                         store.dispatch(CallingAction.StateUpdated(CallingStatus.NONE))
-                        store.dispatch(CaptionsAction.Stopped())
+                        store.dispatch(CaptionsAction.StatusUpdate(CaptionsStatus.STOPPED))
                         if (store.getCurrentState().localParticipantState.initialCallJoinState.skipSetupScreen) {
                             store.dispatch(NavigationAction.Exit())
                         } else {

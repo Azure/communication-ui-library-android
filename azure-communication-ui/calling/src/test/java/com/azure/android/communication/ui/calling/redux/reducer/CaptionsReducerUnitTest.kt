@@ -18,28 +18,28 @@ internal class CaptionsReducerUnitTest {
 
         // arrange
         val reducer = CaptionsReducerImpl()
-        val oldState = CaptionsState(isCaptionsUIEnabled = false, isCaptionsStarted = false)
+        val oldState = CaptionsState(isCaptionsUIEnabled = false, status = false)
         val action = CaptionsAction.Started()
 
         // act
         val newState = reducer.reduce(oldState, action)
 
         // assert
-        Assert.assertEquals(true, newState.isCaptionsStarted)
+        Assert.assertEquals(true, newState.status)
     }
 
     @Test
     fun captionsReducer_reduce_when_actionStopped_then_changeStateToStopped() {
         // arrange
         val reducer = CaptionsReducerImpl()
-        val oldState = CaptionsState(isCaptionsStarted = true)
+        val oldState = CaptionsState(status = true)
         val action = CaptionsAction.Stopped()
 
         // act
         val newState = reducer.reduce(oldState, action)
 
         // assert
-        Assert.assertEquals(false, newState.isCaptionsStarted)
+        Assert.assertEquals(false, newState.status)
     }
 
     @Test

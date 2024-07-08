@@ -7,6 +7,7 @@ import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
+import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
@@ -43,7 +44,7 @@ internal class CaptionsListViewModel(private val store: Store<ReduxState>) {
         activeSpokenLanguageStateFlow.value = captionsState.activeSpokenLanguage
         isCaptionsEnabledStateFlow.value = captionsState.isCaptionsUIEnabled
         isTranscriptionEnabledStateFlow.value = captionsState.isTranslationSupported
-        isCaptionsActiveStateFlow.value = captionsState.isCaptionsStarted
+        isCaptionsActiveStateFlow.value = captionsState.status == CaptionsStatus.STARTED
         canTurnOnCaptionsStateFlow.value = callingStatus == CallingStatus.CONNECTED
         displayStateFlow.value = captionsState.showCaptionsToggleUI && visibilityStatus == VisibilityStatus.VISIBLE
     }

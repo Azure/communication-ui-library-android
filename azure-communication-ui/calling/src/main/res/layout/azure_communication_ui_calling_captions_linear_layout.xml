@@ -13,8 +13,41 @@
     android:padding="6dp"
     android:visibility="gone">
 
+    <LinearLayout
+        android:id="@+id/azure_communication_ui_calling_captions_starting_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/azure_communication_ui_calling_starting_captions"
+            android:indeterminateTint="@color/azure_communication_ui_calling_color_primary" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/AzureCommunicationUICalling.ButtonText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/azure_communication_ui_calling_starting_captions"
+            android:drawablePadding="4dp"
+            android:focusable="true"
+            android:gravity="center"
+            android:importantForAccessibility="yes"
+            android:stateListAnimator="@null"
+            android:text="@string/azure_communication_ui_calling_starting_captions"
+            android:textColor="@color/azure_communication_ui_calling_color_action_bar_subtext"
+            android:textSize="@dimen/azure_communication_ui_calling_connecting_textsize" />
+    </LinearLayout>
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/azure_communication_ui_calling_captions_recycler_view"
+        android:background="@color/azure_communication_ui_calling_color_bottom_drawer_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical" />

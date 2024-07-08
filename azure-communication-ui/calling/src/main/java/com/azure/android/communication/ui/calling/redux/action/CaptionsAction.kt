@@ -4,12 +4,12 @@
 package com.azure.android.communication.ui.calling.redux.action
 
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsType
+import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 
 internal sealed class CaptionsAction : Action {
     class StartRequested(val language: String) : CaptionsAction()
-    class Started : CaptionsAction()
     class StopRequested : CaptionsAction()
-    class Stopped : CaptionsAction()
+    class StatusUpdate(val status: CaptionsStatus) : CaptionsAction()
     class SetSpokenLanguageRequested(val language: String) : CaptionsAction()
     class SpokenLanguageChanged(val language: String) : CaptionsAction()
     class SetCaptionLanguageRequested(val language: String) : CaptionsAction()

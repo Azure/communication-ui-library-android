@@ -30,7 +30,8 @@ internal class CaptionsLinearLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
                 mutableListOf<Boolean?>()
 
             viewModel.init(
-                false
+                false,
+                state.visibilityState
             )
 
             val displayErrorJob = launch {
@@ -40,7 +41,7 @@ internal class CaptionsLinearLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
 
             // act
             viewModel.update(
-                CaptionsState(isCaptionsUIEnabled = false, isCaptionsStarted = false),
+                CaptionsState(isCaptionsUIEnabled = false, status = false),
                 VisibilityState(VisibilityStatus.VISIBLE)
             )
 
@@ -71,7 +72,8 @@ internal class CaptionsLinearLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
                 mutableListOf<Boolean?>()
 
             viewModel.init(
-                false
+                false,
+                state.visibilityState
             )
 
             val displayErrorJob = launch {
@@ -81,7 +83,7 @@ internal class CaptionsLinearLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
 
             // act
             viewModel.update(
-                CaptionsState(isCaptionsUIEnabled = false, isCaptionsStarted = true),
+                CaptionsState(isCaptionsUIEnabled = false, status = true),
                 VisibilityState(VisibilityStatus.PIP_MODE_ENTERED)
             )
 
@@ -112,7 +114,8 @@ internal class CaptionsLinearLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
                 mutableListOf<Boolean?>()
 
             viewModel.init(
-                false
+                false,
+                state.visibilityState
             )
 
             val displayErrorJob = launch {
@@ -122,7 +125,7 @@ internal class CaptionsLinearLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
 
             // act
             viewModel.update(
-                CaptionsState(isCaptionsUIEnabled = false, isCaptionsStarted = true),
+                CaptionsState(isCaptionsUIEnabled = false, status = true),
                 VisibilityState(VisibilityStatus.VISIBLE)
             )
 
