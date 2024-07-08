@@ -41,7 +41,7 @@ public final class CallCompositeSetupScreenOptions {
     }
 
     /**
-     * @deprecated Use {@link #getMicButton()} instead.
+     * @deprecated Use {@link #setMicButton()} instead.
      * Set microphone button enabled to user. Enabled by default.
      * @param enabled Sets microphone button enable/disabled on the setup screen.
      * @return {@link CallCompositeSetupScreenOptions}.
@@ -53,7 +53,7 @@ public final class CallCompositeSetupScreenOptions {
     }
 
     /**
-     * @deprecated Use {@link #getMicButton()} instead.
+     * @deprecated Use {@link #setMicButton()} instead.
      * Is microphone button enabled to user.
      */
     @Deprecated
@@ -61,11 +61,11 @@ public final class CallCompositeSetupScreenOptions {
         return this.micButtonEnabled;
     }
 
-    public CallCompositeButtonOptions getCameraButton() {
+    public CallCompositeSetupScreenOptions setCameraButton(final CallCompositeButtonOptions buttonOptions) {
         return null;
     }
 
-    public CallCompositeButtonOptions getMicButton() {
+    public CallCompositeSetupScreenOptions setMicButton(final CallCompositeButtonOptions buttonOptions) {
         return null;
     }
 }

@@ -48,11 +48,11 @@ public final class CallCompositeCallScreenControlBarOptions {
         return this;
     }
 
-    public CallCompositeButtonOptions getCameraButton() {
+    public CallCompositeCallScreenControlBarOptions setCameraButton(final CallCompositeButtonOptions buttonOptions) {
         return null;
     }
 
-    public CallCompositeButtonOptions getMicButton() {
+    public CallCompositeCallScreenControlBarOptions setMicButton(final CallCompositeButtonOptions buttonOptions) {
         return null;
     }
 

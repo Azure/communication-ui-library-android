@@ -73,13 +73,15 @@ class CallCompositeManager(private val context: Context) {
     ) {
 //        val locator = getLocator()
 //
-//        val controlBarOptions = CallCompositeCallScreenControlBarOptions()
-//        controlBarOptions.cameraButton
+//        val cameraButton = CallCompositeButtonOptions()
 //            .setDrawableId(R.drawable.image_koala)
 //            .setTitle("My Camera title")
 //            .setOnClickListener {
 //                print("camera button is clicked")
 //            }
+//
+//        val controlBarOptions = CallCompositeCallScreenControlBarOptions()
+//        controlBarOptions.setCameraButton(cameraButton)
 //
 //        controlBarOptions.addCustomButton(
 //                CallCompositeButtonOptions()
@@ -103,6 +105,12 @@ class CallCompositeManager(private val context: Context) {
 //            .build()
 //
 //        callComposite.launch(context, locator, localOptions)
+//
+//
+//        cameraButton.title = "new value"
+//        cameraButton.setVisibility(false)
+//
+//        cameraButton.order = 2
 
         if (SettingsFeatures.getDisplayDismissButtonOption()) {
             DismissCompositeButtonView.get(applicationContext).show(this)
@@ -266,7 +274,7 @@ class CallCompositeManager(private val context: Context) {
             localOptions.setMicrophoneOn(it)
             isAnythingChanged = true
         }
-        
+
         return if (isAnythingChanged) localOptions else null
     }
 
