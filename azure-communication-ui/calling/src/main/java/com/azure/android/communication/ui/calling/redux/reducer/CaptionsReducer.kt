@@ -27,9 +27,6 @@ internal class CaptionsReducerImpl : CaptionsReducer {
             is CaptionsAction.IsTranslationSupportedChanged -> {
                 state.copy(isTranslationSupported = action.isSupported)
             }
-            is CaptionsAction.Error -> {
-                state.copy(lastCaptionsError = action.error)
-            }
             is CaptionsAction.SupportedSpokenLanguagesChanged -> {
                 state.copy(supportedSpokenLanguages = action.languages)
             }
@@ -53,9 +50,6 @@ internal class CaptionsReducerImpl : CaptionsReducer {
             }
             is CaptionsAction.HideSupportedLanguagesOptions -> {
                 state.copy(showSupportedSpokenLanguagesSelection = false, showSupportedCaptionLanguagesSelections = false)
-            }
-            is CaptionsAction.ClearError -> {
-                state.copy(lastCaptionsError = null)
             }
             else -> {
                 state

@@ -8,10 +8,12 @@ import com.azure.android.communication.calling.CallingCommunicationException
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.error.CallCompositeError
+import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.FatalError
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionMode
 import com.azure.android.communication.ui.calling.models.CallCompositeCapabilitiesChangedNotificationMode
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsErrors
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
@@ -43,8 +45,6 @@ import com.azure.android.communication.ui.calling.redux.state.AudioOperationalSt
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
-import com.azure.android.communication.ui.calling.redux.state.CaptionsError
-import com.azure.android.communication.ui.calling.redux.state.CaptionsErrorType
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.ToastNotificationKind
@@ -632,9 +632,24 @@ internal class CallingMiddlewareActionHandlerImpl(
             .handle { _, error: Throwable? ->
                 if (error != null) {
                     (error.cause as CallingCommunicationException).let {
-                        store.dispatch(
-                            CaptionsAction.Error(CaptionsError(it.errorCode.into(), CaptionsErrorType.CAPTIONS_START_ERROR))
-                        )
+                        val captionsError = it.errorCode.into()
+                        if (captionsError == CallCompositeCaptionsErrors.CAPTIONS_REQUESTED_LANGUAGE_NOT_SUPPORTED) {
+                            store.dispatch(
+                                ErrorAction.CallStateErrorOccurred(
+                                    CallStateError(
+                                        ErrorCode.CAPTIONS_START_FAILED_SPOKEN_LANGUAGE_NOT_SUPPORTED
+                                    )
+                                )
+                            )
+                        } else if (captionsError == CallCompositeCaptionsErrors.GET_CAPTIONS_FAILED_CALL_STATE_NOT_CONNECTED) {
+                            store.dispatch(
+                                ErrorAction.CallStateErrorOccurred(
+                                    CallStateError(
+                                        ErrorCode.CALL_NOT_CONNECTED
+                                    )
+                                )
+                            )
+                        }
                     }
                     store.dispatch(CaptionsAction.Stopped())
                     store.dispatch(ToastNotificationAction.ShowNotification(ToastNotificationKind.CAPTIONS_FAILED_TO_START))
@@ -648,11 +663,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         callingService.stopCaptions()
             .handle { _, error: Throwable? ->
                 if (error != null) {
-                    (error.cause as CallingCommunicationException).let {
-                        store.dispatch(
-                            CaptionsAction.Error(CaptionsError(it.errorCode.into(), CaptionsErrorType.CAPTIONS_STOP_ERROR))
-                        )
-                    }
+                    captionsNotActiveError(error, store)
                     store.dispatch(ToastNotificationAction.ShowNotification(ToastNotificationKind.CAPTIONS_FAILED_TO_STOP))
                 } else {
                     store.dispatch(CaptionsAction.Stopped())
@@ -664,11 +675,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         callingService.setCaptionsSpokenLanguage(language)
             .handle { _, error: Throwable? ->
                 if (error != null) {
-                    (error.cause as CallingCommunicationException).let {
-                        store.dispatch(
-                            CaptionsAction.Error(CaptionsError(it.errorCode.into(), CaptionsErrorType.CAPTIONS_SPOKEN_LANGUAGE_UPDATE_ERROR))
-                        )
-                    }
+                    captionsNotActiveError(error, store)
                     store.dispatch(ToastNotificationAction.ShowNotification(ToastNotificationKind.CAPTIONS_FAILED_TO_SET_SPOKEN_LANGUAGE))
                 }
             }
@@ -678,14 +685,28 @@ internal class CallingMiddlewareActionHandlerImpl(
         callingService.setCaptionsCaptionLanguage(language)
             .handle { _, error: Throwable? ->
                 if (error != null) {
-                    (error.cause as CallingCommunicationException).let {
-                        store.dispatch(
-                            CaptionsAction.Error(CaptionsError(it.errorCode.into(), CaptionsErrorType.CAPTIONS_CAPTION_LANGUAGE_UPDATE_ERROR))
-                        )
-                    }
+                    captionsNotActiveError(error, store)
                     store.dispatch(ToastNotificationAction.ShowNotification(ToastNotificationKind.CAPTIONS_FAILED_TO_SET_CAPTION_LANGUAGE))
                 }
             }
+    }
+
+    private fun captionsNotActiveError(
+        error: Throwable,
+        store: Store<ReduxState>
+    ) {
+        (error.cause as CallingCommunicationException).let {
+            val captionsError = it.errorCode.into()
+            if (captionsError == CallCompositeCaptionsErrors.CAPTIONS_NOT_ACTIVE) {
+                store.dispatch(
+                    ErrorAction.CallStateErrorOccurred(
+                        CallStateError(
+                            ErrorCode.CAPTIONS_NOT_ACTIVE
+                        )
+                    )
+                )
+            }
+        }
     }
 
     private fun subscribeCamerasCountUpdate(store: Store<ReduxState>) {
@@ -837,7 +858,6 @@ internal class CallingMiddlewareActionHandlerImpl(
                             store.dispatch(NavigationAction.Exit())
                         } else {
                             store.dispatch(CaptionsAction.Stopped())
-                            store.dispatch(CaptionsAction.ClearError())
                             store.dispatch(NavigationAction.SetupLaunched())
                         }
                     } else if (it.errorCode == ErrorCode.CALL_END_FAILED ||
@@ -848,7 +868,6 @@ internal class CallingMiddlewareActionHandlerImpl(
                         store.dispatch(ParticipantAction.ListUpdated(HashMap()))
                         store.dispatch(CallingAction.StateUpdated(CallingStatus.NONE))
                         store.dispatch(CaptionsAction.Stopped())
-                        store.dispatch(CaptionsAction.ClearError())
                         if (store.getCurrentState().localParticipantState.initialCallJoinState.skipSetupScreen) {
                             store.dispatch(NavigationAction.Exit())
                         } else {

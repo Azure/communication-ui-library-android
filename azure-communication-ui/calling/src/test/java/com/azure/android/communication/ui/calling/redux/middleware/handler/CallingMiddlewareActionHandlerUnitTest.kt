@@ -31,7 +31,6 @@ import com.azure.android.communication.ui.calling.redux.action.PermissionAction
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.helper.UnconfinedTestContextProvider
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsData
-import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsErrors
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsType
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
@@ -44,6 +43,7 @@ import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagn
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
+import com.azure.android.communication.ui.calling.redux.action.ToastNotificationAction
 
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
@@ -56,13 +56,13 @@ import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelect
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
-import com.azure.android.communication.ui.calling.redux.state.CaptionsErrorType
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
 import com.azure.android.communication.ui.calling.redux.state.NavigationState
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import com.azure.android.communication.ui.calling.redux.state.ToastNotificationKind
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -3296,7 +3296,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
     @Test
     fun callingMiddlewareActionHandler_startCaptions_failure_then_dispatchCaptionsErrorAndStopped() = runScopedTest {
         // arrange
-        val exception = CallingCommunicationException(CallingCommunicationErrors.CAPTIONS_FAILED_TO_START)
+        val exception = CallingCommunicationException(CallingCommunicationErrors.CAPTIONS_REQUESTED_LANGUAGE_NOT_SUPPORTED)
         val error = Error(exception)
         val mockCallingService: CallingService = mock {
             on { startCaptions(any()) } doReturn CompletableFuture.failedFuture(error)
@@ -3317,10 +3317,10 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
         // assert
         verify(mockAppStore, times(1)).dispatch(
-            argThat { action -> action is CaptionsAction.Error && action.error.error == CallCompositeCaptionsErrors.CAPTIONS_FAILED_TO_START }
+            argThat { action -> action is ErrorAction.CallStateErrorOccurred && action.callStateError.errorCode == ErrorCode.CAPTIONS_START_FAILED_SPOKEN_LANGUAGE_NOT_SUPPORTED }
         )
         verify(mockAppStore, times(1)).dispatch(
-            argThat { action -> action is CaptionsAction.Error && action.error.errorType == CaptionsErrorType.CAPTIONS_START_ERROR }
+            argThat { action -> action is ToastNotificationAction.ShowNotification && action.kind == ToastNotificationKind.CAPTIONS_FAILED_TO_START }
         )
         verify(mockAppStore, times(1)).dispatch(
             argThat { action -> action is CaptionsAction.Stopped }
@@ -3358,7 +3358,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
     @Test
     fun callingMiddlewareActionHandler_stopCaptions_failure_then_dispatchCaptionsError() = runScopedTest {
         // arrange
-        val exception = CallingCommunicationException(CallingCommunicationErrors.CAPTIONS_FAILED_TO_STOP)
+        val exception = CallingCommunicationException(CallingCommunicationErrors.CAPTIONS_NOT_ACTIVE)
         val error = Error(exception)
         val mockCallingService: CallingService = mock {
             on { stopCaptions() } doReturn CompletableFuture.failedFuture(error)
@@ -3379,10 +3379,10 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
         // assert
         verify(mockAppStore, times(1)).dispatch(
-            argThat { action -> action is CaptionsAction.Error && action.error.error == CallCompositeCaptionsErrors.CAPTIONS_FAILED_TO_STOP }
+            argThat { action -> action is ToastNotificationAction.ShowNotification && action.kind == ToastNotificationKind.CAPTIONS_FAILED_TO_STOP }
         )
         verify(mockAppStore, times(1)).dispatch(
-            argThat { action -> action is CaptionsAction.Error && action.error.errorType == CaptionsErrorType.CAPTIONS_STOP_ERROR }
+            argThat { action -> action is ErrorAction.CallStateErrorOccurred && action.callStateError.errorCode == ErrorCode.CAPTIONS_NOT_ACTIVE }
         )
     }
 
@@ -3413,7 +3413,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
     @Test
     fun callingMiddlewareActionHandler_setCaptionsSpokenLanguage_failure_then_dispatchCaptionsError() = runScopedTest {
         // arrange
-        val exception = CallingCommunicationException(CallingCommunicationErrors.CAPTIONS_FAILED_TO_SET_SPOKEN_LANGUAGE)
+        val exception = CallingCommunicationException(CallingCommunicationErrors.CAPTIONS_NOT_ACTIVE)
         val error = Error(exception)
         val mockCallingService: CallingService = mock {
             on { setCaptionsSpokenLanguage(any()) } doReturn CompletableFuture.failedFuture(error)
@@ -3434,10 +3434,10 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
         // assert
         verify(mockAppStore, times(1)).dispatch(
-            argThat { action -> action is CaptionsAction.Error && action.error.error == CallCompositeCaptionsErrors.CAPTIONS_FAILED_TO_SET_SPOKEN_LANGUAGE }
+            argThat { action -> action is ToastNotificationAction.ShowNotification && action.kind == ToastNotificationKind.CAPTIONS_FAILED_TO_SET_SPOKEN_LANGUAGE }
         )
         verify(mockAppStore, times(1)).dispatch(
-            argThat { action -> action is CaptionsAction.Error && action.error.errorType == CaptionsErrorType.CAPTIONS_SPOKEN_LANGUAGE_UPDATE_ERROR }
+            argThat { action -> action is ErrorAction.CallStateErrorOccurred && action.callStateError.errorCode == ErrorCode.CAPTIONS_NOT_ACTIVE }
         )
     }
 
@@ -3468,7 +3468,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
     @Test
     fun callingMiddlewareActionHandler_setCaptionsCaptionLanguage_failure_then_dispatchCaptionsError() = runScopedTest {
         // arrange
-        val exception = CallingCommunicationException(CallingCommunicationErrors.FAILED_TO_SET_CAPTION_LANGUAGE)
+        val exception = CallingCommunicationException(CallingCommunicationErrors.CAPTIONS_NOT_ACTIVE)
         val error = Error(exception)
         val mockCallingService: CallingService = mock {
             on { setCaptionsCaptionLanguage(any()) } doReturn CompletableFuture.failedFuture(error)
@@ -3489,10 +3489,10 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
         // assert
         verify(mockAppStore, times(1)).dispatch(
-            argThat { action -> action is CaptionsAction.Error && action.error.error == CallCompositeCaptionsErrors.FAILED_TO_SET_CAPTION_LANGUAGE }
+            argThat { action -> action is ToastNotificationAction.ShowNotification && action.kind == ToastNotificationKind.CAPTIONS_FAILED_TO_SET_CAPTION_LANGUAGE }
         )
         verify(mockAppStore, times(1)).dispatch(
-            argThat { action -> action is CaptionsAction.Error && action.error.errorType == CaptionsErrorType.CAPTIONS_CAPTION_LANGUAGE_UPDATE_ERROR }
+            argThat { action -> action is ErrorAction.CallStateErrorOccurred && action.callStateError.errorCode == ErrorCode.CAPTIONS_NOT_ACTIVE }
         )
     }
 

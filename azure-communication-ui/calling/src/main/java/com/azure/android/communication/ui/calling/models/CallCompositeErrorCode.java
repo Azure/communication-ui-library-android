@@ -49,6 +49,22 @@ public final class CallCompositeErrorCode extends ExpandableStringEnum<CallCompo
      */
     public static final CallCompositeErrorCode MICROPHONE_NOT_AVAILABLE = fromString("microphoneNotAvailable");
 
+    /***
+     * Captions not active. To change spoken, caption language, captions must be active.
+     */
+    public static final CallCompositeErrorCode CAPTIONS_NOT_ACTIVE = fromString("captionsNotActive");
+
+    /***
+     * Call is not connected.
+     */
+    public static final CallCompositeErrorCode CALL_NOT_CONNECTED = fromString("callNotConnected");
+
+    /***
+     * Captions start failed because spoken language is not supported.
+     */
+    public static final CallCompositeErrorCode CAPTIONS_START_FAILED_SPOKEN_LANGUAGE_NOT_SUPPORTED
+            = fromString("captionsStartFailedSpokenLanguageNotSupported");
+
     /**
      * Creates or finds a {@link CallCompositeErrorCode} from its string representation.
      *

@@ -3,11 +3,8 @@
 
 package com.azure.android.communication.ui.calling.redux.reducer
 
-import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsErrors
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsType
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
-import com.azure.android.communication.ui.calling.redux.state.CaptionsError
-import com.azure.android.communication.ui.calling.redux.state.CaptionsErrorType
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
 import org.junit.Assert
 import org.junit.Test
@@ -85,21 +82,6 @@ internal class CaptionsReducerUnitTest {
 
         // assert
         Assert.assertEquals(true, newState.isTranslationSupported)
-    }
-
-    @Test
-    fun captionsReducer_reduce_when_actionError_then_changeStateToNewError() {
-        // arrange
-        val reducer = CaptionsReducerImpl()
-        val oldState = CaptionsState(lastCaptionsError = null)
-        val error = CaptionsError(CallCompositeCaptionsErrors.CAPTIONS_DISABLED_BY_CONFIGURATIONS, CaptionsErrorType.CAPTIONS_STOP_ERROR)
-        val action = CaptionsAction.Error(error = error)
-
-        // act
-        val newState = reducer.reduce(oldState, action)
-
-        // assert
-        Assert.assertEquals(error, newState.lastCaptionsError)
     }
 
     @Test
@@ -213,19 +195,5 @@ internal class CaptionsReducerUnitTest {
         // assert
         Assert.assertEquals(false, newState.showSupportedSpokenLanguagesSelection)
         Assert.assertEquals(false, newState.showSupportedCaptionLanguagesSelections)
-    }
-
-    @Test
-    fun captionsReducer_reduce_when_actionClearError_then_changeStateToClearError() {
-        // arrange
-        val reducer = CaptionsReducerImpl()
-        val oldState = CaptionsState(lastCaptionsError = CaptionsError(CallCompositeCaptionsErrors.CAPTIONS_DISABLED_BY_CONFIGURATIONS, CaptionsErrorType.CAPTIONS_STOP_ERROR))
-        val action = CaptionsAction.ClearError()
-
-        // act
-        val newState = reducer.reduce(oldState, action)
-
-        // assert
-        Assert.assertEquals(null, newState.lastCaptionsError)
     }
 }

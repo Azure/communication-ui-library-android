@@ -118,7 +118,6 @@ internal class AppReduxStateReducerUnitTest {
         state.callDiagnosticsState = CallDiagnosticsState(null, null, null)
         state.captionsState = CaptionsState(
             isTranslationSupported = false,
-            lastCaptionsError = null,
             supportedSpokenLanguages = emptyList(),
             supportedCaptionLanguages = emptyList()
         )

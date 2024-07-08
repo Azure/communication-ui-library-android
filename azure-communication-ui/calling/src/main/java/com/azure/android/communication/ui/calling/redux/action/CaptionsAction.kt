@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.calling.redux.action
 
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsType
-import com.azure.android.communication.ui.calling.redux.state.CaptionsError
 
 internal sealed class CaptionsAction : Action {
     class StartRequested(val language: String) : CaptionsAction()
@@ -17,7 +16,6 @@ internal sealed class CaptionsAction : Action {
     class CaptionLanguageChanged(val language: String) : CaptionsAction()
     class TypeChanged(val type: CallCompositeCaptionsType) : CaptionsAction()
     class IsTranslationSupportedChanged(val isSupported: Boolean) : CaptionsAction()
-    class Error(val error: CaptionsError) : CaptionsAction()
     class SupportedSpokenLanguagesChanged(val languages: List<String>) : CaptionsAction()
     class SupportedCaptionLanguagesChanged(val languages: List<String>) : CaptionsAction()
     class ShowCaptionsOptions : CaptionsAction()
@@ -25,5 +23,4 @@ internal sealed class CaptionsAction : Action {
     class ShowSupportedSpokenLanguagesOptions : CaptionsAction()
     class ShowSupportedCaptionLanguagesOptions : CaptionsAction()
     class HideSupportedLanguagesOptions : CaptionsAction()
-    class ClearError : CaptionsAction()
 }
