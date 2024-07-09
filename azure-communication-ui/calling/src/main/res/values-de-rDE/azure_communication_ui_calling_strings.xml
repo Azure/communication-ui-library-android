@@ -169,14 +169,27 @@
     <string name="azure_communication_ui_calling_call_view_calling">Anrufen...</string>
 
     <!-- Participant menu actions -->
-    <string name="azure_communication_ui_calling_view_participant_menu_mute">Stummschalten</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Schalten Sie das Teilnehmermenü stumm.</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove">Aus Anruf entfernen</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Entfernen Sie den Teilnehmer aus dem Anrufmenü.</string>
-
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">Mute</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Schalten Sie das Teilnehmermenü stumm</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">Remove from call</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Entfernen Sie den Teilnehmer aus dem Anrufmenü</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">Anrufeinstellungen aktualisiert. Einige Features stehen Ihnen möglicherweise nicht zur Verfügung.</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">Anrufeinstellungen aktualisiert. Einige zusätzliche Aktionen stehen Ihnen jetzt möglicherweise zur Verfügung.</string>
 
     <!-- Participant menu view -->
     <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">deaktiviertes Element.</string>
+
+    <!--    Drawer-->
+    <string name="azure_communication_ui_calling_drawer_next_content_description">Weiter</string>
+
+    <!--    Captions-->
+    <string name="azure_communication_ui_calling_live_captions_title">Liveuntertitel</string>
+    <string name="azure_communication_ui_calling_captions_spoken_language_title">Gesprochene Sprache</string>
+    <string name="azure_communication_ui_calling_captions_caption_language_title">Sprache für Untertitel</string>
+    <string name="azure_communication_ui_calling_starting_captions">Starting captions...</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">Untertitel können nicht gestartet werden</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Untertitel können nicht beendet werden</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Die gesprochene Sprache für Beschriftungen kann nicht festgelegt werden</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Unable to change caption language</string>
+
 </resources>

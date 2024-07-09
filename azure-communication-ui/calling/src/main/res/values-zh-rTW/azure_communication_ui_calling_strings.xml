@@ -110,7 +110,7 @@
 
     <!--    Participant list-->
     <string name="azure_communication_ui_calling_participant_list_in_call_n_people">通話中 (%1$d)</string>
-    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d 更多</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ 其他 %1$d 個</string>
     <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">在大廳 (%1$d)</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">點兩下以准許/拒絕參與者</string>
 
@@ -169,13 +169,27 @@
     <string name="azure_communication_ui_calling_call_view_calling">通話中...</string>
 
     <!-- Participant menu actions -->
-    <string name="azure_communication_ui_calling_view_participant_menu_mute">靜音</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">將參與者靜音功能表</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove">從通話移除</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">將參與者從通話移除功能表</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">Mute</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">將參與者選單設為靜音</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">Remove from call</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">從通話選單移除參與者</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">通話設定已更新。某些功能可能無法供您使用。</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">通話設定已更新。您現在可以使用一些其他動作。</string>
 
     <!-- Participant menu view -->
-    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">禁用的項目。</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">已停用的項目。</string>
+
+    <!--    Drawer-->
+    <string name="azure_communication_ui_calling_drawer_next_content_description">下一步</string>
+
+    <!--    Captions-->
+    <string name="azure_communication_ui_calling_live_captions_title">即時輔助字幕</string>
+    <string name="azure_communication_ui_calling_captions_spoken_language_title">口語語言</string>
+    <string name="azure_communication_ui_calling_captions_caption_language_title">輔助字幕語言</string>
+    <string name="azure_communication_ui_calling_starting_captions">Starting captions...</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">無法啟動輔助字幕</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">無法停止輔助字幕</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">無法設定輔助字幕的口語語言</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Unable to change caption language</string>
+
 </resources>

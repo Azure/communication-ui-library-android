@@ -110,7 +110,7 @@ dando consentimento para que esta reunião seja transcrita.
 
     <!--    Participant list-->
     <string name="azure_communication_ui_calling_participant_list_in_call_n_people">Na chamada (%1$d)</string>
-    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ mais %1$d</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">mais %1$d</string>
     <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">No lobby (%1$d)</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Clique duas vezes para admitir ou recusar um participante</string>
 
@@ -169,13 +169,27 @@ dando consentimento para que esta reunião seja transcrita.
     <string name="azure_communication_ui_calling_call_view_calling">Chamando...</string>
 
     <!-- Participant menu actions -->
-   <string name="azure_communication_ui_calling_view_participant_menu_mute">Ativar mudo</string>
-   <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Ative o mudo do menu do participante</string>
-   <string name="azure_communication_ui_calling_view_participant_menu_remove">Remover da chamada</string>
-   <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Remova o participante do menu de chamada</string>
-   <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">Configurações de chamada atualizadas. Alguns recursos podem não estar disponíveis para você.</string>
-   <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">Configurações de chamada atualizadas. Algumas ações adicionais agora podem estar disponíveis para você.</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">Mute</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Ative o mudo do menu do participante</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">Remove from call</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Remova o participante do menu de chamada</string>
+    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">Configurações de chamada atualizadas. Alguns recursos podem não estar disponíveis para você.</string>
+    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">Configurações de chamada atualizadas. Algumas ações adicionais agora podem estar disponíveis para você.</string>
 
-   <!-- Participant menu view -->
-   <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">item desabilitado.</string>
+    <!-- Participant menu view -->
+    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">item desabilitado.</string>
+
+    <!--    Drawer-->
+    <string name="azure_communication_ui_calling_drawer_next_content_description">Avançar</string>
+
+    <!--    Captions-->
+    <string name="azure_communication_ui_calling_live_captions_title">Legendas ao vivo</string>
+    <string name="azure_communication_ui_calling_captions_spoken_language_title">Idioma falado</string>
+    <string name="azure_communication_ui_calling_captions_caption_language_title">Idioma da legenda</string>
+    <string name="azure_communication_ui_calling_starting_captions">Starting captions...</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">Não consigo começar a mostrar legendas</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Não consigo parar de mostrar legendas</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Não consigo configurar o idioma falado para as legendas</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Unable to change caption language</string>
+
 </resources>

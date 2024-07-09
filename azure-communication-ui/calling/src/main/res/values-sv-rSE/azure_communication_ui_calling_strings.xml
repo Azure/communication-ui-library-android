@@ -169,13 +169,27 @@
     <string name="azure_communication_ui_calling_call_view_calling">Ringer...</string>
 
     <!-- Participant menu actions -->
-    <string name="azure_communication_ui_calling_view_participant_menu_mute">Stäng av ljudet</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">Mute</string>
     <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Stäng av deltagarmenyn</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove">Ta bort från samtal</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">Remove from call</string>
     <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Ta bort deltagare från samtalsmenyn</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">Samtalsinställningarna har uppdaterats. Vissa funktioner kanske inte är tillgängliga för dig.</string>
-    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">amtalsinställningarna har uppdaterats. Några ytterligare åtgärder kan nu vara tillgängliga för dig.</string>
+    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">Samtalsinställningarna har uppdaterats. Några ytterligare åtgärder kan nu vara tillgängliga för dig.</string>
 
     <!-- Participant menu view -->
     <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">inaktiverat objekt.</string>
+
+    <!--    Drawer-->
+    <string name="azure_communication_ui_calling_drawer_next_content_description">Nästa</string>
+
+    <!--    Captions-->
+    <string name="azure_communication_ui_calling_live_captions_title">Liveundertexter</string>
+    <string name="azure_communication_ui_calling_captions_spoken_language_title">Talat språk</string>
+    <string name="azure_communication_ui_calling_captions_caption_language_title">Språk för undertext</string>
+    <string name="azure_communication_ui_calling_starting_captions">Starting captions...</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">Det går inte att starta beskrivningar</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Det går inte att stoppa undertexter</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Det går inte att ange talat språk för undertexter</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Unable to change caption language</string>
+
 </resources>
