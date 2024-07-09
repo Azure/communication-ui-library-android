@@ -421,7 +421,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     }
 
     override fun getTotalRemoteParticipantCountSharedFlow(): SharedFlow<Int> {
-        TODO("Not yet implemented")
+        return MutableSharedFlow()
     }
 
     override fun getCapabilitiesChangedEventSharedFlow(): SharedFlow<CapabilitiesChangedEvent> {
@@ -451,52 +451,65 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     override fun setTelecomManagerAudioRoute(audioRoute: Int) {
     }
 
+    val startCaptionsCompletableFuture = CompletableFuture<Void>()
+    val stopCaptionsCompletableFuture = CompletableFuture<Void>()
+    val setCaptionLanguageCompletableFuture = CompletableFuture<Void>()
+    val setSpokenLanguageCompletableFuture = CompletableFuture<Void>()
+    val getCaptionsSupportedSpokenLanguagesSharedFlow = MutableSharedFlow<List<String>>()
+    val getCaptionsSupportedCaptionLanguagesSharedFlow = MutableSharedFlow<List<String>>()
+    val getIsCaptionsTranslationSupportedSharedFlow = MutableSharedFlow<Boolean>()
+    val getCaptionsReceivedSharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
+    val getActiveSpokenLanguageChangedSharedFlow = MutableSharedFlow<String>()
+    val getActiveCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
+    val getCaptionsEnabledChangedSharedFlow = MutableSharedFlow<Boolean>()
+    val getCaptionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+
     override fun startCaptions(spokenLanguage: String): CompletableFuture<Void> {
-        TODO("Not yet implemented")
+        return startCaptionsCompletableFuture
     }
 
     override fun stopCaptions(): CompletableFuture<Void> {
-        TODO("Not yet implemented")
+        return stopCaptionsCompletableFuture
     }
 
     override fun setCaptionsSpokenLanguage(language: String): CompletableFuture<Void> {
-        TODO("Not yet implemented")
+        return setSpokenLanguageCompletableFuture
     }
 
     override fun setCaptionsCaptionLanguage(language: String): CompletableFuture<Void> {
-        TODO("Not yet implemented")
+        return setCaptionLanguageCompletableFuture
     }
 
     override fun getCaptionsSupportedSpokenLanguagesSharedFlow(): SharedFlow<List<String>> {
-        TODO("Not yet implemented")
+        return getCaptionsSupportedSpokenLanguagesSharedFlow
     }
 
     override fun getCaptionsSupportedCaptionLanguagesSharedFlow(): SharedFlow<List<String>> {
-        TODO("Not yet implemented")
+        return getCaptionsSupportedCaptionLanguagesSharedFlow
     }
 
     override fun getIsCaptionsTranslationSupportedSharedFlow(): SharedFlow<Boolean> {
-        TODO("Not yet implemented")
+        return getIsCaptionsTranslationSupportedSharedFlow
     }
 
     override fun getCaptionsReceivedSharedFlow(): SharedFlow<CallCompositeCaptionsData> {
-        TODO("Not yet implemented")
+        return getCaptionsReceivedSharedFlow
     }
 
     override fun getActiveSpokenLanguageChangedSharedFlow(): SharedFlow<String> {
-        TODO("Not yet implemented")
+        return getActiveSpokenLanguageChangedSharedFlow
     }
 
     override fun getActiveCaptionLanguageChangedSharedFlow(): SharedFlow<String> {
-        TODO("Not yet implemented")
+        return getActiveCaptionLanguageChangedSharedFlow
     }
 
     override fun getCaptionsEnabledChangedSharedFlow(): SharedFlow<Boolean> {
-        TODO("Not yet implemented")
+        return getCaptionsEnabledChangedSharedFlow
     }
 
     override fun getCaptionsTypeChangedSharedFlow(): SharedFlow<CallCompositeCaptionsType> {
-        TODO("Not yet implemented")
+        return getCaptionsTypeChangedSharedFlow
     }
 
     private fun RemoteVideoStream.asVideoStreamModel(): VideoStreamModel {
