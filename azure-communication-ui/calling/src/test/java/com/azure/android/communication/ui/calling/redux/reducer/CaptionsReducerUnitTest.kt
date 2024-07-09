@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.calling.redux.reducer
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsType
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
+import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -18,28 +19,28 @@ internal class CaptionsReducerUnitTest {
 
         // arrange
         val reducer = CaptionsReducerImpl()
-        val oldState = CaptionsState(isCaptionsUIEnabled = false, status = false)
-        val action = CaptionsAction.Started()
+        val oldState = CaptionsState(isCaptionsUIEnabled = false, status = CaptionsStatus.NONE)
+        val action = CaptionsAction.StatusUpdate(CaptionsStatus.STARTED)
 
         // act
         val newState = reducer.reduce(oldState, action)
 
         // assert
-        Assert.assertEquals(true, newState.status)
+        Assert.assertEquals(CaptionsStatus.STARTED, newState.status)
     }
 
     @Test
     fun captionsReducer_reduce_when_actionStopped_then_changeStateToStopped() {
         // arrange
         val reducer = CaptionsReducerImpl()
-        val oldState = CaptionsState(status = true)
-        val action = CaptionsAction.Stopped()
+        val oldState = CaptionsState(isCaptionsUIEnabled = true, status = CaptionsStatus.NONE)
+        val action = CaptionsAction.StatusUpdate(CaptionsStatus.STOPPED)
 
         // act
         val newState = reducer.reduce(oldState, action)
 
         // assert
-        Assert.assertEquals(false, newState.status)
+        Assert.assertEquals(CaptionsStatus.STOPPED, newState.status)
     }
 
     @Test

@@ -11,6 +11,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
+import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
 import kotlinx.coroutines.CoroutineScope
@@ -202,7 +203,7 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
                 activeSpokenLanguage = "en",
                 isCaptionsUIEnabled = true,
                 isTranslationSupported = true,
-                status = true,
+                status = CaptionsStatus.STARTED,
                 showCaptionsToggleUI = true
             )
             `when`(callingService.getCaptionsReceivedSharedFlow()).thenReturn(sharedFlow)

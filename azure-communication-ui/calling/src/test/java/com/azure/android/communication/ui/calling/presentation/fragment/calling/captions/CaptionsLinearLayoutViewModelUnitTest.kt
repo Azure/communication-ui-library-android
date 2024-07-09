@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
+import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -30,8 +31,8 @@ internal class CaptionsLinearLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
                 mutableListOf<Boolean?>()
 
             viewModel.init(
-                false,
-                state.visibilityState
+                CaptionsState(isCaptionsUIEnabled = false, status = CaptionsStatus.NONE),
+                VisibilityState(VisibilityStatus.VISIBLE)
             )
 
             val displayErrorJob = launch {
@@ -41,7 +42,7 @@ internal class CaptionsLinearLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
 
             // act
             viewModel.update(
-                CaptionsState(isCaptionsUIEnabled = false, status = false),
+                CaptionsState(isCaptionsUIEnabled = false, status = CaptionsStatus.NONE),
                 VisibilityState(VisibilityStatus.VISIBLE)
             )
 
@@ -72,8 +73,8 @@ internal class CaptionsLinearLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
                 mutableListOf<Boolean?>()
 
             viewModel.init(
-                false,
-                state.visibilityState
+                CaptionsState(isCaptionsUIEnabled = false, status = CaptionsStatus.NONE),
+                VisibilityState(VisibilityStatus.VISIBLE)
             )
 
             val displayErrorJob = launch {
@@ -83,7 +84,7 @@ internal class CaptionsLinearLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
 
             // act
             viewModel.update(
-                CaptionsState(isCaptionsUIEnabled = false, status = true),
+                CaptionsState(isCaptionsUIEnabled = false, status = CaptionsStatus.STARTED),
                 VisibilityState(VisibilityStatus.PIP_MODE_ENTERED)
             )
 
@@ -114,8 +115,8 @@ internal class CaptionsLinearLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
                 mutableListOf<Boolean?>()
 
             viewModel.init(
-                false,
-                state.visibilityState
+                CaptionsState(isCaptionsUIEnabled = false, status = CaptionsStatus.NONE),
+                VisibilityState(VisibilityStatus.VISIBLE)
             )
 
             val displayErrorJob = launch {
@@ -125,7 +126,7 @@ internal class CaptionsLinearLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
 
             // act
             viewModel.update(
-                CaptionsState(isCaptionsUIEnabled = false, status = true),
+                CaptionsState(isCaptionsUIEnabled = false, status = CaptionsStatus.START_REQUESTED),
                 VisibilityState(VisibilityStatus.VISIBLE)
             )
 

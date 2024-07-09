@@ -56,6 +56,7 @@ import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelect
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
+import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
 import com.azure.android.communication.ui.calling.redux.state.NavigationState
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
@@ -3288,7 +3289,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
         // assert
         verify(mockAppStore, times(1)).dispatch(
-            argThat { action -> action is CaptionsAction.Started }
+            argThat { action -> action is CaptionsAction.StatusUpdate && action.status == CaptionsStatus.STARTED }
         )
     }
 
@@ -3323,7 +3324,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             argThat { action -> action is ToastNotificationAction.ShowNotification && action.kind == ToastNotificationKind.CAPTIONS_FAILED_TO_START }
         )
         verify(mockAppStore, times(1)).dispatch(
-            argThat { action -> action is CaptionsAction.Stopped }
+            argThat { action -> action is CaptionsAction.StatusUpdate && action.status == CaptionsStatus.STOPPED }
         )
     }
 
@@ -3350,7 +3351,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
         // assert
         verify(mockAppStore, times(1)).dispatch(
-            argThat { action -> action is CaptionsAction.Stopped }
+            argThat { action -> action is CaptionsAction.StatusUpdate && action.status == CaptionsStatus.STOPPED }
         )
     }
 

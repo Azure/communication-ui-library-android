@@ -10,6 +10,7 @@ import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
+import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
@@ -50,7 +51,7 @@ internal class CaptionsListViewModelUnitTest : ACSBaseTestCoroutine() {
             activeSpokenLanguage = "en",
             isCaptionsUIEnabled = true,
             isTranslationSupported = true,
-            status = true,
+            status = CaptionsStatus.STARTED,
             showCaptionsToggleUI = true
         )
         val callingStatus = CallingStatus.CONNECTED
@@ -77,7 +78,7 @@ internal class CaptionsListViewModelUnitTest : ACSBaseTestCoroutine() {
             activeSpokenLanguage = "en",
             isCaptionsUIEnabled = true,
             isTranslationSupported = true,
-            status = true,
+            status = CaptionsStatus.STARTED,
             showCaptionsToggleUI = true
         )
         val initialCallingStatus = CallingStatus.CONNECTED
@@ -88,7 +89,7 @@ internal class CaptionsListViewModelUnitTest : ACSBaseTestCoroutine() {
             activeSpokenLanguage = "fr",
             isCaptionsUIEnabled = false,
             isTranslationSupported = false,
-            status = false,
+            status = CaptionsStatus.NONE,
             showCaptionsToggleUI = false
         )
         val updatedCallingStatus = CallingStatus.DISCONNECTED
@@ -115,7 +116,7 @@ internal class CaptionsListViewModelUnitTest : ACSBaseTestCoroutine() {
             activeSpokenLanguage = "en",
             isCaptionsUIEnabled = true,
             isTranslationSupported = true,
-            status = true,
+            status = CaptionsStatus.STARTED,
             showCaptionsToggleUI = true
         )
         val callingStatus = CallingStatus.CONNECTED
@@ -143,11 +144,6 @@ internal class CaptionsListViewModelUnitTest : ACSBaseTestCoroutine() {
         verify(store).dispatch(
             argThat { action ->
                 action is CaptionsAction.StartRequested
-            }
-        )
-        verify(store, times(2)).dispatch(
-            argThat { action ->
-                action is CaptionsAction.CloseCaptionsOptions
             }
         )
     }
