@@ -32,7 +32,7 @@ public final class CallCompositeCaptionsOptions {
      * Get the captions on.
      * @return The captions on.
      */
-    public Boolean getCaptionsOn() {
+    public Boolean isCaptionsOn() {
         return captionsOn;
     }
 

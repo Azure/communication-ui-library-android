@@ -55,9 +55,10 @@ public final class CallCompositeErrorCode extends ExpandableStringEnum<CallCompo
     public static final CallCompositeErrorCode CAPTIONS_NOT_ACTIVE = fromString("captionsNotActive");
 
     /***
-     * Call is not connected.
+     * Failed to start captions. Call state is not connected.
      */
-    public static final CallCompositeErrorCode CALL_NOT_CONNECTED = fromString("callNotConnected");
+    public static final CallCompositeErrorCode CAPTIONS_START_FAILED_CALL_NOT_CONNECTED
+            = fromString("captionsStartFailedCallNotConnected");
 
     /***
      * Captions start failed because spoken language is not supported.

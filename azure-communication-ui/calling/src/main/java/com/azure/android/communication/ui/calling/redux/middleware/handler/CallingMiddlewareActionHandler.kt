@@ -889,7 +889,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                     }
                     action?.let { store.dispatch(it) }
 
-                    if (localOptions?.captionsOptions?.captionsOn == true &&
+                    if (localOptions?.captionsOptions?.isCaptionsOn == true &&
                         callInfoModel.callingStatus == CallingStatus.CONNECTED
                     ) {
                         store.dispatch(CaptionsAction.StartRequested(localOptions.captionsOptions?.spokenLanguage ?: ""))

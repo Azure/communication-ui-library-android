@@ -54,7 +54,7 @@ internal class ErrorCode : ExpandableStringEnum<ErrorCode?>() {
                     return CallCompositeErrorCode.MICROPHONE_NOT_AVAILABLE
                 }
                 CALL_NOT_CONNECTED -> {
-                    return CallCompositeErrorCode.CALL_NOT_CONNECTED
+                    return CallCompositeErrorCode.CAPTIONS_START_FAILED_CALL_NOT_CONNECTED
                 }
                 CAPTIONS_NOT_ACTIVE -> {
                     return CallCompositeErrorCode.CAPTIONS_NOT_ACTIVE
