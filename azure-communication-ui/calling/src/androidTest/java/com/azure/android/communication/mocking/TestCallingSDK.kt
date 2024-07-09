@@ -107,6 +107,19 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     private var lobbyResultCompletableFuture: CompletableFuture<CallCompositeLobbyErrorCode?> = CompletableFuture()
     private var capabilities = setOf(ParticipantCapabilityType.UNMUTE_MICROPHONE, ParticipantCapabilityType.TURN_VIDEO_ON)
 
+    val startCaptionsCompletableFuture = CompletableFuture<Void>()
+    val stopCaptionsCompletableFuture = CompletableFuture<Void>()
+    val setCaptionLanguageCompletableFuture = CompletableFuture<Void>()
+    val setSpokenLanguageCompletableFuture = CompletableFuture<Void>()
+    val captionsSupportedSpokenLanguagesSharedFlow = MutableSharedFlow<List<String>>()
+    val captionsSupportedCaptionLanguagesSharedFlow = MutableSharedFlow<List<String>>()
+    val isCaptionsTranslationSupportedSharedFlow = MutableSharedFlow<Boolean>()
+    val captionsReceivedSharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
+    val activeSpokenLanguageChangedSharedFlow = MutableSharedFlow<String>()
+    val activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
+    val captionsEnabledChangedSharedFlow = MutableSharedFlow<Boolean>()
+    val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+
     suspend fun addRemoteParticipant(
         id: CommunicationIdentifier,
         displayName: String,
@@ -134,6 +147,40 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         }
 
         emitRemoteParticipantFlow()
+    }
+
+    suspend fun addSpokenLanguages() {
+        val spokenLanguages = listOf("en-US", "en-GB", "fr-FR")
+        captionsSupportedSpokenLanguagesSharedFlow.emit(spokenLanguages)
+    }
+
+    suspend fun addCaptionLanguages() {
+        val captionLanguages = listOf("en-US", "en-GB", "fr-FR")
+        captionsSupportedCaptionLanguagesSharedFlow.emit(captionLanguages)
+    }
+
+    suspend fun setCaptionsTranslationSupported(isSupported: Boolean) {
+        isCaptionsTranslationSupportedSharedFlow.emit(isSupported)
+    }
+
+    suspend fun setCaptionsReceived(captionsData: CallCompositeCaptionsData) {
+        captionsReceivedSharedFlow.emit(captionsData)
+    }
+
+    suspend fun setActiveSpokenLanguage(language: String) {
+        activeSpokenLanguageChangedSharedFlow.emit(language)
+    }
+
+    suspend fun setActiveCaptionLanguage(language: String) {
+        activeCaptionLanguageChangedSharedFlow.emit(language)
+    }
+
+    suspend fun setCaptionsEnabled(isEnabled: Boolean) {
+        captionsEnabledChangedSharedFlow.emit(isEnabled)
+    }
+
+    suspend fun setCaptionsType(type: CallCompositeCaptionsType) {
+        captionsTypeChangedSharedFlow.emit(type)
     }
 
     suspend fun changeParticipantState(id: String, state: ParticipantState) {
@@ -451,19 +498,6 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     override fun setTelecomManagerAudioRoute(audioRoute: Int) {
     }
 
-    val startCaptionsCompletableFuture = CompletableFuture<Void>()
-    val stopCaptionsCompletableFuture = CompletableFuture<Void>()
-    val setCaptionLanguageCompletableFuture = CompletableFuture<Void>()
-    val setSpokenLanguageCompletableFuture = CompletableFuture<Void>()
-    val getCaptionsSupportedSpokenLanguagesSharedFlow = MutableSharedFlow<List<String>>()
-    val getCaptionsSupportedCaptionLanguagesSharedFlow = MutableSharedFlow<List<String>>()
-    val getIsCaptionsTranslationSupportedSharedFlow = MutableSharedFlow<Boolean>()
-    val getCaptionsReceivedSharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
-    val getActiveSpokenLanguageChangedSharedFlow = MutableSharedFlow<String>()
-    val getActiveCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
-    val getCaptionsEnabledChangedSharedFlow = MutableSharedFlow<Boolean>()
-    val getCaptionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
-
     override fun startCaptions(spokenLanguage: String): CompletableFuture<Void> {
         return startCaptionsCompletableFuture
     }
@@ -481,35 +515,35 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     }
 
     override fun getCaptionsSupportedSpokenLanguagesSharedFlow(): SharedFlow<List<String>> {
-        return getCaptionsSupportedSpokenLanguagesSharedFlow
+        return captionsSupportedSpokenLanguagesSharedFlow
     }
 
     override fun getCaptionsSupportedCaptionLanguagesSharedFlow(): SharedFlow<List<String>> {
-        return getCaptionsSupportedCaptionLanguagesSharedFlow
+        return captionsSupportedCaptionLanguagesSharedFlow
     }
 
     override fun getIsCaptionsTranslationSupportedSharedFlow(): SharedFlow<Boolean> {
-        return getIsCaptionsTranslationSupportedSharedFlow
+        return isCaptionsTranslationSupportedSharedFlow
     }
 
     override fun getCaptionsReceivedSharedFlow(): SharedFlow<CallCompositeCaptionsData> {
-        return getCaptionsReceivedSharedFlow
+        return captionsReceivedSharedFlow
     }
 
     override fun getActiveSpokenLanguageChangedSharedFlow(): SharedFlow<String> {
-        return getActiveSpokenLanguageChangedSharedFlow
+        return activeSpokenLanguageChangedSharedFlow
     }
 
     override fun getActiveCaptionLanguageChangedSharedFlow(): SharedFlow<String> {
-        return getActiveCaptionLanguageChangedSharedFlow
+        return activeCaptionLanguageChangedSharedFlow
     }
 
     override fun getCaptionsEnabledChangedSharedFlow(): SharedFlow<Boolean> {
-        return getCaptionsEnabledChangedSharedFlow
+        return captionsEnabledChangedSharedFlow
     }
 
     override fun getCaptionsTypeChangedSharedFlow(): SharedFlow<CallCompositeCaptionsType> {
-        return getCaptionsTypeChangedSharedFlow
+        return captionsTypeChangedSharedFlow
     }
 
     private fun RemoteVideoStream.asVideoStreamModel(): VideoStreamModel {
