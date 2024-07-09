@@ -191,8 +191,8 @@ public final class CallCompositeLocalOptions {
 
     /**
      * Set a {@link CallCompositeCaptionsOptions} to be used.
-     * @param captionsOptions The captions view data object to be used.
-     * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
+     * @param captionsOptions The captions options object to be used.
+     * @return The current {@link CallCompositeLocalOptions}.
      */
     public CallCompositeLocalOptions setCaptionsOptions(
             final CallCompositeCaptionsOptions captionsOptions) {
