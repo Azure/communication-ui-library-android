@@ -4,8 +4,8 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions
 
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.captions.CaptionsLanguageSelectionListViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.captions.LanguageSelectionType
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.CaptionsLanguageSelectionListViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.LanguageSelectionType
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
@@ -45,10 +45,10 @@ internal class CaptionsLanguageSelectionListViewModelUnitTest : ACSBaseTestCorou
         // Arrange
         val captionsState = CaptionsState(
             showSupportedCaptionLanguagesSelections = true,
-            activeCaptionLanguage = "en",
+            captionLanguage = "en",
             supportedCaptionLanguages = listOf("en", "fr"),
             showSupportedSpokenLanguagesSelection = false,
-            activeSpokenLanguage = "",
+            spokenLanguage = "",
             supportedSpokenLanguages = emptyList()
         )
 
@@ -68,20 +68,20 @@ internal class CaptionsLanguageSelectionListViewModelUnitTest : ACSBaseTestCorou
         // Arrange
         val initialCaptionsState = CaptionsState(
             showSupportedCaptionLanguagesSelections = true,
-            activeCaptionLanguage = "en",
+            captionLanguage = "en",
             supportedCaptionLanguages = listOf("en", "fr"),
             showSupportedSpokenLanguagesSelection = false,
-            activeSpokenLanguage = "",
+            spokenLanguage = "",
             supportedSpokenLanguages = emptyList()
         )
         viewModel.init(initialCaptionsState)
 
         val updatedCaptionsState = CaptionsState(
             showSupportedCaptionLanguagesSelections = false,
-            activeCaptionLanguage = "",
+            captionLanguage = "",
             supportedCaptionLanguages = emptyList(),
             showSupportedSpokenLanguagesSelection = true,
-            activeSpokenLanguage = "es",
+            spokenLanguage = "es",
             supportedSpokenLanguages = listOf("es", "de")
         )
         val updatedVisibilityState = VisibilityState(VisibilityStatus.VISIBLE)
@@ -113,10 +113,10 @@ internal class CaptionsLanguageSelectionListViewModelUnitTest : ACSBaseTestCorou
         // Arrange
         val captionsState = CaptionsState(
             showSupportedCaptionLanguagesSelections = true,
-            activeCaptionLanguage = "en",
+            captionLanguage = "en",
             supportedCaptionLanguages = listOf("en", "fr"),
             showSupportedSpokenLanguagesSelection = false,
-            activeSpokenLanguage = "",
+            spokenLanguage = "",
             supportedSpokenLanguages = emptyList()
         )
         viewModel.init(captionsState)
@@ -136,10 +136,10 @@ internal class CaptionsLanguageSelectionListViewModelUnitTest : ACSBaseTestCorou
         // Arrange
         val captionsState = CaptionsState(
             showSupportedCaptionLanguagesSelections = false,
-            activeCaptionLanguage = "",
+            captionLanguage = "",
             supportedCaptionLanguages = emptyList(),
             showSupportedSpokenLanguagesSelection = true,
-            activeSpokenLanguage = "en",
+            spokenLanguage = "en",
             supportedSpokenLanguages = listOf("en", "fr")
         )
         viewModel.init(captionsState)

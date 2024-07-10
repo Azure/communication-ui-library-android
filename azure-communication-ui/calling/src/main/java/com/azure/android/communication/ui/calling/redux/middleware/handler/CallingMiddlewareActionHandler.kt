@@ -98,7 +98,7 @@ internal interface CallingMiddlewareActionHandler {
         store: Store<ReduxState>
     )
     fun dismissNotification(store: Store<ReduxState>)
-    fun startCaptions(language: String, store: Store<ReduxState>)
+    fun startCaptions(language: String?, store: Store<ReduxState>)
     fun stopCaptions(store: Store<ReduxState>)
     fun setCaptionsSpokenLanguage(language: String, store: Store<ReduxState>)
     fun setCaptionsCaptionLanguage(language: String, store: Store<ReduxState>)
@@ -628,7 +628,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         }
     }
 
-    override fun startCaptions(language: String, store: Store<ReduxState>) {
+    override fun startCaptions(language: String?, store: Store<ReduxState>) {
         callingService.startCaptions(language)
             .handle { _, error: Throwable? ->
                 if (error != null) {

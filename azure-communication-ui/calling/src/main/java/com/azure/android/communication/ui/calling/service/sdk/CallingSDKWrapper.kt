@@ -474,7 +474,7 @@ internal class CallingSDKWrapper(
     override fun getCaptionsTypeChangedSharedFlow() =
         callingSDKEventHandler.getCaptionsTypeChangedSharedFlow()
 
-    override fun startCaptions(spokenLanguage: String): CompletableFuture<Void> {
+    override fun startCaptions(spokenLanguage: String?): CompletableFuture<Void> {
         val resultFuture = CompletableFuture<Void>()
         val captionsFeature = call.feature(Features.CAPTIONS)
         captionsFeature.captions.whenComplete { callCaptions, throwable ->
@@ -482,7 +482,7 @@ internal class CallingSDKWrapper(
                 resultFuture.completeExceptionally(throwable)
             } else {
                 val captionsOptions = StartCaptionsOptions()
-                if (spokenLanguage.isNotEmpty()) {
+                if (!spokenLanguage.isNullOrEmpty()) {
                     captionsOptions.spokenLanguage = spokenLanguage
                 } else if (this.compositeCaptionsOptions?.spokenLanguage?.isNotEmpty() == true) {
                     captionsOptions.spokenLanguage = this.compositeCaptionsOptions.spokenLanguage

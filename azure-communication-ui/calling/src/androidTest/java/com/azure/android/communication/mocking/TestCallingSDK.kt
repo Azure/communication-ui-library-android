@@ -498,7 +498,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     override fun setTelecomManagerAudioRoute(audioRoute: Int) {
     }
 
-    override fun startCaptions(spokenLanguage: String): CompletableFuture<Void> {
+    override fun startCaptions(spokenLanguage: String?): CompletableFuture<Void> {
         return startCaptionsCompletableFuture
     }
 

@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallScreen
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions;
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation;
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions;
@@ -209,6 +210,7 @@ public final class CallCompositeBuilder {
 
     /**
      * Sets the communication identifier.
+     * The identifier is used to identify the local user for {@link CallCompositeParticipantViewData}.
      *
      * @param userId communication identifier.
      * @return {@link CallCompositeBuilder} for chaining options.

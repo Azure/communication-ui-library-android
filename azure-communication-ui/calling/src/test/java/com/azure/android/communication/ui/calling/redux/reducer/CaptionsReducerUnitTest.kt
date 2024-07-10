@@ -47,28 +47,28 @@ internal class CaptionsReducerUnitTest {
     fun captionsReducer_reduce_when_actionSpokenLanguageChanged_then_changeStateToNewLanguage() {
         // arrange
         val reducer = CaptionsReducerImpl()
-        val oldState = CaptionsState(activeSpokenLanguage = "en")
+        val oldState = CaptionsState(spokenLanguage = "en")
         val action = CaptionsAction.SpokenLanguageChanged(language = "fr")
 
         // act
         val newState = reducer.reduce(oldState, action)
 
         // assert
-        Assert.assertEquals("fr", newState.activeSpokenLanguage)
+        Assert.assertEquals("fr", newState.spokenLanguage)
     }
 
     @Test
     fun captionsReducer_reduce_when_actionCaptionLanguageChanged_then_changeStateToNewLanguage() {
         // arrange
         val reducer = CaptionsReducerImpl()
-        val oldState = CaptionsState(activeCaptionLanguage = "en")
+        val oldState = CaptionsState(captionLanguage = "en")
         val action = CaptionsAction.CaptionLanguageChanged(language = "es")
 
         // act
         val newState = reducer.reduce(oldState, action)
 
         // assert
-        Assert.assertEquals("es", newState.activeCaptionLanguage)
+        Assert.assertEquals("es", newState.captionLanguage)
     }
 
     @Test
@@ -117,14 +117,14 @@ internal class CaptionsReducerUnitTest {
     fun captionsReducer_reduce_when_actionTypeChanged_then_changeStateToNewType() {
         // arrange
         val reducer = CaptionsReducerImpl()
-        val oldState = CaptionsState(activeType = CallCompositeCaptionsType.TEAMS)
+        val oldState = CaptionsState(captionsType = CallCompositeCaptionsType.TEAMS)
         val action = CaptionsAction.TypeChanged(type = CallCompositeCaptionsType.COMMUNICATION)
 
         // act
         val newState = reducer.reduce(oldState, action)
 
         // assert
-        Assert.assertEquals(CallCompositeCaptionsType.COMMUNICATION, newState.activeType)
+        Assert.assertEquals(CallCompositeCaptionsType.COMMUNICATION, newState.captionsType)
     }
 
     @Test

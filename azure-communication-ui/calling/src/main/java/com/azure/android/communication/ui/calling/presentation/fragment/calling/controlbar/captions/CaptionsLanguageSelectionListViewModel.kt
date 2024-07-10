@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.captions
+package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions
 
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
@@ -19,7 +19,7 @@ internal enum class LanguageSelectionType {
 internal class CaptionsLanguageSelectionListViewModel(private val store: Store<ReduxState>) {
 
     val displayLanguageListStateFlow = MutableStateFlow(false)
-    val updateActiveLanguageStateFlow = MutableStateFlow("")
+    val updateActiveLanguageStateFlow = MutableStateFlow<String?>(null)
     val languagesListStateFlow = MutableStateFlow(emptyList<String>())
     var languageSelectionTypeStateFlow: LanguageSelectionType? = null
 
@@ -34,11 +34,11 @@ internal class CaptionsLanguageSelectionListViewModel(private val store: Store<R
     private fun updateListView(captionsState: CaptionsState, status: VisibilityStatus) {
         if (captionsState.showSupportedCaptionLanguagesSelections) {
             languageSelectionTypeStateFlow = LanguageSelectionType.CAPTION
-            updateActiveLanguageStateFlow.value = captionsState.activeCaptionLanguage
+            updateActiveLanguageStateFlow.value = captionsState.captionLanguage
             languagesListStateFlow.value = captionsState.supportedCaptionLanguages
         } else if (captionsState.showSupportedSpokenLanguagesSelection) {
             languageSelectionTypeStateFlow = LanguageSelectionType.SPOKEN
-            updateActiveLanguageStateFlow.value = captionsState.activeSpokenLanguage
+            updateActiveLanguageStateFlow.value = captionsState.spokenLanguage
             languagesListStateFlow.value = captionsState.supportedSpokenLanguages
         } else {
             languageSelectionTypeStateFlow = null

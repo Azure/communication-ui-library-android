@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.captions
+package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions
 
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
@@ -16,8 +16,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 internal class CaptionsListViewModel(private val store: Store<ReduxState>) {
 
     val displayStateFlow = MutableStateFlow(false)
-    val activeSpokenLanguageStateFlow = MutableStateFlow("")
-    val activeCaptionLanguageStateFlow = MutableStateFlow("")
+    val activeSpokenLanguageStateFlow = MutableStateFlow<String?>(null)
+    val activeCaptionLanguageStateFlow = MutableStateFlow<String?>(null)
     val isCaptionsEnabledStateFlow = MutableStateFlow(false)
     val isTranscriptionEnabledStateFlow = MutableStateFlow(false)
     val isCaptionsActiveStateFlow = MutableStateFlow(false)
@@ -40,8 +40,8 @@ internal class CaptionsListViewModel(private val store: Store<ReduxState>) {
         callingStatus: CallingStatus,
         visibilityStatus: VisibilityStatus
     ) {
-        activeCaptionLanguageStateFlow.value = captionsState.activeCaptionLanguage
-        activeSpokenLanguageStateFlow.value = captionsState.activeSpokenLanguage
+        activeCaptionLanguageStateFlow.value = captionsState.captionLanguage
+        activeSpokenLanguageStateFlow.value = captionsState.spokenLanguage
         isCaptionsEnabledStateFlow.value = captionsState.isCaptionsUIEnabled
         isTranscriptionEnabledStateFlow.value = captionsState.isTranslationSupported
         isCaptionsActiveStateFlow.value = captionsState.status == CaptionsStatus.STARTED

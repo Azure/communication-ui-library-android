@@ -9,7 +9,10 @@ import java.util.Locale
 
 internal class LocaleHelper {
     companion object {
-        fun getLocaleDisplayName(localeCode: String): String {
+        fun getLocaleDisplayName(localeCode: String?): String? {
+            if (localeCode == null) {
+                return null
+            }
             val parts = localeCode.split("-")
             val locale = if (parts.size == 2) {
                 Locale(parts[0], parts[1])
@@ -19,7 +22,10 @@ internal class LocaleHelper {
             return locale.getDisplayName(locale)
         }
 
-        fun isRTL(localeCode: String): Boolean {
+        fun isRTL(localeCode: String?): Boolean {
+            if (localeCode == null) {
+                return false
+            }
             val parts = localeCode.split("-")
             val locale = if (parts.size == 2) {
                 Locale(parts[0], parts[1])

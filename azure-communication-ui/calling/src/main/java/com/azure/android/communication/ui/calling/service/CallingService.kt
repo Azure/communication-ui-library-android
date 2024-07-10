@@ -192,7 +192,7 @@ internal class CallingService(
     fun getCallCapabilities(): Set<ParticipantCapabilityType> = callingSdk.getCapabilities()
 
     //region Captions
-    fun startCaptions(spokenLanguage: String): CompletableFuture<Void> {
+    fun startCaptions(spokenLanguage: String?): CompletableFuture<Void> {
         return callingSdk.startCaptions(spokenLanguage)
     }
 

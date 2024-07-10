@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.captions
+package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions
 
 import android.annotation.SuppressLint
 import android.content.Context

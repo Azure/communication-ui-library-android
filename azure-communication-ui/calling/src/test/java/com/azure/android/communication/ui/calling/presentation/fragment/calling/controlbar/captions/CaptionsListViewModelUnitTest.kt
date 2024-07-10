@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions
 
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.captions.CaptionsListViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.CaptionsListViewModel
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
@@ -27,7 +27,6 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.any
 import org.mockito.kotlin.argThat
 import org.mockito.kotlin.mock
-import org.mockito.kotlin.times
 
 @RunWith(MockitoJUnitRunner::class)
 internal class CaptionsListViewModelUnitTest : ACSBaseTestCoroutine() {
@@ -47,8 +46,8 @@ internal class CaptionsListViewModelUnitTest : ACSBaseTestCoroutine() {
     fun captionsListViewModelUnitTest_when_init_shouldSetInitialState() = runScopedTest {
         // Arrange
         val captionsState = CaptionsState(
-            activeCaptionLanguage = "en",
-            activeSpokenLanguage = "en",
+            captionLanguage = "en",
+            spokenLanguage = "en",
             isCaptionsUIEnabled = true,
             isTranslationSupported = true,
             status = CaptionsStatus.STARTED,
@@ -74,8 +73,8 @@ internal class CaptionsListViewModelUnitTest : ACSBaseTestCoroutine() {
     fun captionsListViewModelUnitTest_when_update_shouldUpdateState() = runScopedTest {
         // Arrange
         val initialCaptionsState = CaptionsState(
-            activeCaptionLanguage = "en",
-            activeSpokenLanguage = "en",
+            captionLanguage = "en",
+            spokenLanguage = "en",
             isCaptionsUIEnabled = true,
             isTranslationSupported = true,
             status = CaptionsStatus.STARTED,
@@ -85,8 +84,8 @@ internal class CaptionsListViewModelUnitTest : ACSBaseTestCoroutine() {
         viewModel.init(initialCaptionsState, initialCallingStatus)
 
         val updatedCaptionsState = CaptionsState(
-            activeCaptionLanguage = "fr",
-            activeSpokenLanguage = "fr",
+            captionLanguage = "fr",
+            spokenLanguage = "fr",
             isCaptionsUIEnabled = false,
             isTranslationSupported = false,
             status = CaptionsStatus.NONE,
@@ -112,8 +111,8 @@ internal class CaptionsListViewModelUnitTest : ACSBaseTestCoroutine() {
     fun captionsListViewModelUnitTest_when_toggleCaptions_shouldDispatchCorrectAction() {
         // Arrange
         val captionsState = CaptionsState(
-            activeCaptionLanguage = "en",
-            activeSpokenLanguage = "en",
+            captionLanguage = "en",
+            spokenLanguage = "en",
             isCaptionsUIEnabled = true,
             isTranslationSupported = true,
             status = CaptionsStatus.STARTED,

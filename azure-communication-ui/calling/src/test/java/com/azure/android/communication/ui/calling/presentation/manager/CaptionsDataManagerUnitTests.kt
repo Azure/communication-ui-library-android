@@ -101,9 +101,9 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             val timestamp = Date()
             val captionData = CallCompositeCaptionsData(
                 speakerName = "Speaker",
-                captionText = "",
+                captionText = null,
                 speakerRawId = "123",
-                captionLanguage = "",
+                captionLanguage = null,
                 spokenText = "abc",
                 spokenLanguage = "def",
                 resultType = CaptionsResultType.PARTIAL,
@@ -142,7 +142,7 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             val timestamp = Date()
             val captionDataAdd = CallCompositeCaptionsData(
                 speakerName = "Speaker",
-                captionText = "",
+                captionText = null,
                 speakerRawId = "123",
                 captionLanguage = "",
                 spokenText = "abc",
@@ -152,7 +152,7 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             )
             val captionDataUpdate = CallCompositeCaptionsData(
                 speakerName = "Speaker",
-                captionText = "",
+                captionText = null,
                 speakerRawId = "123",
                 captionLanguage = "",
                 spokenText = "abc234",
@@ -199,8 +199,8 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             val sharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
             val currentState = AppReduxState(displayName = "")
             currentState.captionsState = CaptionsState(
-                activeCaptionLanguage = "en",
-                activeSpokenLanguage = "en",
+                captionLanguage = "en",
+                spokenLanguage = "en",
                 isCaptionsUIEnabled = true,
                 isTranslationSupported = true,
                 status = CaptionsStatus.STARTED,

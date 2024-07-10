@@ -23,10 +23,10 @@ internal class CaptionsReducerImpl : CaptionsReducer {
                 state.copy(status = CaptionsStatus.STOP_REQUESTED)
             }
             is CaptionsAction.SpokenLanguageChanged -> {
-                state.copy(activeSpokenLanguage = action.language)
+                state.copy(spokenLanguage = action.language)
             }
             is CaptionsAction.CaptionLanguageChanged -> {
-                state.copy(activeCaptionLanguage = action.language)
+                state.copy(captionLanguage = action.language)
             }
             is CaptionsAction.IsTranslationSupportedChanged -> {
                 state.copy(isTranslationSupported = action.isSupported)
@@ -38,7 +38,7 @@ internal class CaptionsReducerImpl : CaptionsReducer {
                 state.copy(supportedCaptionLanguages = action.languages)
             }
             is CaptionsAction.TypeChanged -> {
-                state.copy(activeType = action.type)
+                state.copy(captionsType = action.type)
             }
             is CaptionsAction.ShowCaptionsOptions -> {
                 state.copy(showCaptionsToggleUI = true)

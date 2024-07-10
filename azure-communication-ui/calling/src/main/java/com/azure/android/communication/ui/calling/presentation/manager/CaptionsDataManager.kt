@@ -60,8 +60,8 @@ internal class CaptionsDataManager(
 
     private fun shouldSkipCaption(captionData: CallCompositeCaptionsData): Boolean {
         // if translation is enabled and translation language is not set, skip the caption
-        val activeCaptionLanguage = appStore.getCurrentState().captionsState.activeCaptionLanguage
-        return activeCaptionLanguage.isNotEmpty() && captionData.captionLanguage.isNullOrEmpty()
+        val activeCaptionLanguage = appStore.getCurrentState().captionsState.captionLanguage
+        return !activeCaptionLanguage.isNullOrEmpty() && captionData.captionLanguage.isNullOrEmpty()
     }
 
     private fun updateCaptionsDataCache() {

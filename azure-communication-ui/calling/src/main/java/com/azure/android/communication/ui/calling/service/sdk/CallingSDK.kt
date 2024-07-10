@@ -81,7 +81,7 @@ internal interface CallingSDK {
     fun setTelecomManagerAudioRoute(audioRoute: Int)
 
     //region Captions
-    fun startCaptions(spokenLanguage: String): CompletableFuture<Void>
+    fun startCaptions(spokenLanguage: String?): CompletableFuture<Void>
     fun stopCaptions(): CompletableFuture<Void>
     fun setCaptionsSpokenLanguage(language: String): CompletableFuture<Void>
     fun setCaptionsCaptionLanguage(language: String): CompletableFuture<Void>
