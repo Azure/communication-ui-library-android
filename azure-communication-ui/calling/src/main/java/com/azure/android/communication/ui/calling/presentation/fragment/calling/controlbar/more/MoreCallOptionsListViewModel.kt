@@ -5,8 +5,8 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.content.Context
 import com.azure.android.communication.ui.calling.implementation.R
-import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
-import com.azure.android.communication.ui.calling.models.createButtonClickEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonOptions
+import com.azure.android.communication.ui.calling.models.createCustomButtonClickEvent
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.redux.Dispatch
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
@@ -18,7 +18,7 @@ internal class MoreCallOptionsListViewModel(
     private val debugInfoManager: DebugInfoManager,
     private val showSupportFormOption: Boolean,
     private val dispatch: Dispatch,
-    customButtons: Iterable<CallCompositeButtonOptions>?,
+    customButtons: Iterable<CallCompositeCustomButtonOptions>?,
 ) {
     private val unknown = "UNKNOWN"
     val callId: String
@@ -58,7 +58,7 @@ internal class MoreCallOptionsListViewModel(
                     titleText = customButton.title,
                     onClickListener = {
                         try {
-                            customButton.onClickHandler?.handle(createButtonClickEvent(it, customButton))
+                            customButton.onClickHandler?.handle(createCustomButtonClickEvent(it, customButton))
                         } catch (_: Exception) {}
                     }
                 )

@@ -12,10 +12,6 @@ public class CallCompositeButtonOptions {
     private Boolean isVisible = true;
     private Boolean isEnabled = true;
 
-    interface OnValueChangedListener<T> {
-        void onValueChanged(T newValue);
-    }
-
     public int getDrawableId() {
         return drawableId;
     }

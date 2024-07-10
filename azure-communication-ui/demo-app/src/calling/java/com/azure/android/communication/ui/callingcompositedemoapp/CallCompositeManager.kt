@@ -22,7 +22,6 @@ import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
-import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions

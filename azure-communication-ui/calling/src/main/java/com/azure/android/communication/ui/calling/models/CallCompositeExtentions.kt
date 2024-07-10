@@ -5,9 +5,7 @@ package com.azure.android.communication.ui.calling.models
 
 import android.content.Context
 
-internal class CallCompositeExtentions
-
-internal fun CallCompositeCallScreenControlBarOptions.getCustomButtons(): List<CallCompositeButtonOptions>? {
+internal fun CallCompositeCallScreenControlBarOptions.getCustomButtons(): List<CallCompositeCustomButtonOptions>? {
     return this.customButtons
 }
 
@@ -16,4 +14,11 @@ internal fun createButtonClickEvent(
     buttonOptions: CallCompositeButtonOptions,
 ): CallCompositeButtonClickEvent {
     return CallCompositeButtonClickEvent(context, buttonOptions)
+}
+
+internal fun createCustomButtonClickEvent(
+    context: Context,
+    buttonOptions: CallCompositeCustomButtonOptions,
+): CallCompositeCustomButtonClickEvent {
+    return CallCompositeCustomButtonClickEvent(context, buttonOptions)
 }

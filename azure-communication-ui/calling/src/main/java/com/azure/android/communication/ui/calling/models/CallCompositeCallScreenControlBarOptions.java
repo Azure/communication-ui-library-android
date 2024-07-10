@@ -10,7 +10,7 @@ import java.util.List;
  * Options for the CallCompositeCallScreenControlBarOptions.
  */
 public final class CallCompositeCallScreenControlBarOptions {
-    final List<CallCompositeButtonOptions> customButtons = new ArrayList<>();
+    final List<CallCompositeCustomButtonOptions> customButtons = new ArrayList<>();
 
     private CallCompositeLeaveCallConfirmationMode leaveCallConfirmation =
             CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED;
@@ -43,13 +43,13 @@ public final class CallCompositeCallScreenControlBarOptions {
     }
 
     public CallCompositeCallScreenControlBarOptions addCustomButton(
-            final CallCompositeButtonOptions buttonOptions) {
+            final CallCompositeCustomButtonOptions buttonOptions) {
         customButtons.add(buttonOptions);
         return this;
     }
 
     public CallCompositeCallScreenControlBarOptions setCameraButton(final CallCompositeButtonOptions buttonOptions) {
-        return null;
+        return this;
     }
 
     public CallCompositeCallScreenControlBarOptions setMicButton(final CallCompositeButtonOptions buttonOptions) {

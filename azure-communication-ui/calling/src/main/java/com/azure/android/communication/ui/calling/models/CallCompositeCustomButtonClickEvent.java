@@ -5,11 +5,11 @@ package com.azure.android.communication.ui.calling.models;
 
 import android.content.Context;
 
-public final class CallCompositeButtonClickEvent {
+public final class CallCompositeCustomButtonClickEvent {
     private final Context context;
-    private final CallCompositeButtonOptions buttonOptions;
+    private final CallCompositeCustomButtonOptions buttonOptions;
 
-    CallCompositeButtonClickEvent(final Context context, final CallCompositeButtonOptions buttonOptions) {
+    CallCompositeCustomButtonClickEvent(final Context context, final CallCompositeCustomButtonOptions buttonOptions) {
         this.context = context;
         this.buttonOptions = buttonOptions;
     }
@@ -18,7 +18,7 @@ public final class CallCompositeButtonClickEvent {
         return context;
     }
 
-    public CallCompositeButtonOptions getButtonOptions() {
+    public CallCompositeCustomButtonOptions getButtonOptions() {
         return buttonOptions;
     }
 }
