@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.presentation.manager
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsData
 import com.azure.android.communication.ui.calling.models.CaptionsResultType
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsManagerData
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsRecord
 
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
@@ -160,8 +160,8 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
                 resultType = CaptionsResultType.PARTIAL,
                 timestamp = Date()
             )
-            val addedData = mutableListOf<CaptionsManagerData?>()
-            val updatedData = mutableListOf<CaptionsManagerData?>()
+            val addedData = mutableListOf<CaptionsRecord?>()
+            val updatedData = mutableListOf<CaptionsRecord?>()
 
             // Act
             val addedDataJob = launch {
@@ -249,8 +249,8 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             val captionDataAdd2 = createCaptionData("456", "xyz", "uvw", CaptionsResultType.PARTIAL, Date())
             val captionDataUpdate2 = createCaptionData("456", "xyz890", "uvw", CaptionsResultType.PARTIAL, Date())
 
-            val addedData = mutableListOf<CaptionsManagerData?>()
-            val updatedData = mutableListOf<CaptionsManagerData?>()
+            val addedData = mutableListOf<CaptionsRecord?>()
+            val updatedData = mutableListOf<CaptionsRecord?>()
 
             // Act
             val addedDataJob = collectStateFlow(captionsDataManager.getOnNewCaptionsDataAddedStateFlow(), addedData)
@@ -306,8 +306,8 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             val captionDataAdd2 = createCaptionData("456", "xyz", "uvw", CaptionsResultType.PARTIAL, Date())
             val captionDataUpdate2 = createCaptionData("456", "xyz890", "uvw", CaptionsResultType.PARTIAL, Date())
 
-            val addedData = mutableListOf<CaptionsManagerData?>()
-            val updatedData = mutableListOf<CaptionsManagerData?>()
+            val addedData = mutableListOf<CaptionsRecord?>()
+            val updatedData = mutableListOf<CaptionsRecord?>()
 
             // Act
             val addedDataJob = collectStateFlow(captionsDataManager.getOnNewCaptionsDataAddedStateFlow(), addedData)
@@ -360,8 +360,8 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
                 captionsDataList.add(createCaptionData(i.toString(), "abc", "def", CaptionsResultType.FINAL, timestamp))
             }
 
-            val addedData = mutableListOf<CaptionsManagerData?>()
-            val updatedData = mutableListOf<CaptionsManagerData?>()
+            val addedData = mutableListOf<CaptionsRecord?>()
+            val updatedData = mutableListOf<CaptionsRecord?>()
 
             // Act
             val addedDataJob = collectStateFlow(captionsDataManager.getOnNewCaptionsDataAddedStateFlow(), addedData)
@@ -410,8 +410,8 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             val captionDataAdd1 = createCaptionData("123", "abc", "def", CaptionsResultType.PARTIAL, timestamp)
             val captionDataUpdate1 = createCaptionData("234", "abc234", "def", CaptionsResultType.PARTIAL, timestampUpdated)
 
-            val addedData = mutableListOf<CaptionsManagerData?>()
-            val updatedData = mutableListOf<CaptionsManagerData?>()
+            val addedData = mutableListOf<CaptionsRecord?>()
+            val updatedData = mutableListOf<CaptionsRecord?>()
 
             // Act
             val addedDataJob = collectStateFlow(captionsDataManager.getOnNewCaptionsDataAddedStateFlow(), addedData)
@@ -470,8 +470,8 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
     }
 
     private fun CoroutineScope.collectStateFlow(
-        stateFlow: StateFlow<CaptionsManagerData?>,
-        collector: MutableList<CaptionsManagerData?>
+        stateFlow: StateFlow<CaptionsRecord?>,
+        collector: MutableList<CaptionsRecord?>
     ) = launch {
         stateFlow.toList(collector)
     }

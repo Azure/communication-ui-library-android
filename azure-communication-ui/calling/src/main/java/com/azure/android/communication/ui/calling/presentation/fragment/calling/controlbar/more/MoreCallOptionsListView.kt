@@ -81,7 +81,7 @@ internal class MoreCallOptionsListView(
             isChecked = false,
             participantViewData = null,
             isOnHold = false,
-            showRightArrow = showRightArrow(entry),
+            showRightArrow = entry.showRightArrow,
             onClickAction =
             {
                 when (entry) {
@@ -92,10 +92,6 @@ internal class MoreCallOptionsListView(
                 menuDrawer.dismissDialog()
             }
         )
-    }
-
-    private fun showRightArrow(entry: MoreCallOptionsListViewModel.Companion.Entries): Boolean {
-        return entry == MoreCallOptionsListViewModel.Companion.Entries.CAPTIONS
     }
 
     private fun shareDiagnostics(context: Context) {

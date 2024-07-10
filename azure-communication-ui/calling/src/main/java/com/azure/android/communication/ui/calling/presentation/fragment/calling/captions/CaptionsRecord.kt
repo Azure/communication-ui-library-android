@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import java.util.Date
 
-internal data class CaptionsManagerData(
+internal data class CaptionsRecord(
     val displayName: String,
     val displayText: String,
     val speakerRawId: String,

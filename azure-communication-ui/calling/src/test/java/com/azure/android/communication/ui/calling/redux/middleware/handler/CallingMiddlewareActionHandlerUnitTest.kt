@@ -3289,7 +3289,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
         // assert
         verify(mockAppStore, times(1)).dispatch(
-            argThat { action -> action is CaptionsAction.StatusUpdate && action.status == CaptionsStatus.STARTED }
+            argThat { action -> action is CaptionsAction.UpdateStatus && action.status == CaptionsStatus.STARTED }
         )
     }
 
@@ -3324,7 +3324,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             argThat { action -> action is ToastNotificationAction.ShowNotification && action.kind == ToastNotificationKind.CAPTIONS_FAILED_TO_START }
         )
         verify(mockAppStore, times(1)).dispatch(
-            argThat { action -> action is CaptionsAction.StatusUpdate && action.status == CaptionsStatus.STOPPED }
+            argThat { action -> action is CaptionsAction.UpdateStatus && action.status == CaptionsStatus.STOPPED }
         )
     }
 
@@ -3351,7 +3351,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
 
         // assert
         verify(mockAppStore, times(1)).dispatch(
-            argThat { action -> action is CaptionsAction.StatusUpdate && action.status == CaptionsStatus.STOPPED }
+            argThat { action -> action is CaptionsAction.UpdateStatus && action.status == CaptionsStatus.STOPPED }
         )
     }
 

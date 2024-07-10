@@ -21,7 +21,6 @@ import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.CaptionsDataManager
-import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 import com.azure.android.communication.ui.calling.utilities.LocaleHelper
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -108,16 +107,11 @@ internal class CaptionsLinearLayout : LinearLayout {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getCaptionsStatusStateFlow().collect {
-                when (it) {
-                    CaptionsStatus.START_REQUESTED -> {
-                        captionsStartProgressLayout.visibility = View.VISIBLE
-                    }
-                    CaptionsStatus.STARTED -> {
-                        captionsStartProgressLayout.visibility = View.GONE
-                    }
-                    else -> {
-                    }
+            viewModel.getCaptionsStartProgressStateFlow().collect {
+                if (it) {
+                    captionsStartProgressLayout.visibility = View.VISIBLE
+                } else {
+                    captionsStartProgressLayout.visibility = View.GONE
                 }
             }
         }
@@ -176,7 +170,7 @@ internal class CaptionsLinearLayout : LinearLayout {
     }
 
     // required when RTL language is selected for captions text
-    private fun applyLayoutDirection(it: CaptionsManagerData) {
+    private fun applyLayoutDirection(it: CaptionsRecord) {
         if (LocaleHelper.isRTL(it.languageCode) && layoutDirection != LAYOUT_DIRECTION_RTL) {
             captionsLinearLayout.layoutDirection = LAYOUT_DIRECTION_RTL
         } else if (!LocaleHelper.isRTL(it.languageCode) && layoutDirection != LAYOUT_DIRECTION_LTR) {
@@ -193,7 +187,7 @@ internal class CaptionsLinearLayout : LinearLayout {
     }
 }
 
-internal fun CaptionsManagerData.into(avatarViewManager: AvatarViewManager, identifier: CommunicationIdentifier?): CaptionsRecyclerViewData {
+internal fun CaptionsRecord.into(avatarViewManager: AvatarViewManager, identifier: CommunicationIdentifier?): CaptionsRecyclerViewData {
     var speakerName = this.displayName
     var bitMap: Bitmap? = null
 

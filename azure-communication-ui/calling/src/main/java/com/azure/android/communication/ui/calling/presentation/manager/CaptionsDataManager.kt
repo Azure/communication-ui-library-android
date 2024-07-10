@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.presentation.manager
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsData
 import com.azure.android.communication.ui.calling.models.CaptionsResultType
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsManagerData
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsRecord
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
@@ -21,14 +21,14 @@ internal class CaptionsDataManager(
     private val callingService: CallingService,
     private val appStore: AppStore<ReduxState>
 ) {
-    private val captionsNewDataStateFlow = MutableStateFlow<CaptionsManagerData?>(null)
+    private val captionsNewDataStateFlow = MutableStateFlow<CaptionsRecord?>(null)
     fun getOnNewCaptionsDataAddedStateFlow() = captionsNewDataStateFlow
 
-    private val captionsLastDataUpdatedStateFlow = MutableStateFlow<CaptionsManagerData?>(null)
+    private val captionsLastDataUpdatedStateFlow = MutableStateFlow<CaptionsRecord?>(null)
     fun getOnLastCaptionsDataUpdatedStateFlow() = captionsLastDataUpdatedStateFlow
 
     // cache to get last captions on screen rotation
-    val captionsDataCache = mutableListOf<CaptionsManagerData>()
+    val captionsDataCache = mutableListOf<CaptionsRecord>()
 
     fun resetFlows() {
         captionsNewDataStateFlow.value = null
@@ -44,7 +44,7 @@ internal class CaptionsDataManager(
 
                 val (captionText, languageCode) = extractCaptionTextAndLanguage(captionData)
 
-                val data = CaptionsManagerData(
+                val data = CaptionsRecord(
                     captionData.speakerName,
                     captionText,
                     captionData.speakerRawId,
@@ -78,7 +78,7 @@ internal class CaptionsDataManager(
         }
     }
 
-    private fun handleCaptionData(captionData: CallCompositeCaptionsData, data: CaptionsManagerData) {
+    private fun handleCaptionData(captionData: CallCompositeCaptionsData, data: CaptionsRecord) {
         val lastCaption = captionsDataCache.lastOrNull()
 
         when {
@@ -88,32 +88,32 @@ internal class CaptionsDataManager(
         }
     }
 
-    private fun shouldAddNewCaption(lastCaption: CaptionsManagerData?): Boolean {
+    private fun shouldAddNewCaption(lastCaption: CaptionsRecord?): Boolean {
         return lastCaption == null || lastCaption.isFinal
     }
 
-    private fun shouldUpdateLastCaption(lastCaption: CaptionsManagerData?, captionData: CallCompositeCaptionsData): Boolean {
+    private fun shouldUpdateLastCaption(lastCaption: CaptionsRecord?, captionData: CallCompositeCaptionsData): Boolean {
         return lastCaption != null && lastCaption.speakerRawId == captionData.speakerRawId
     }
 
-    private fun shouldFinalizeLastCaption(lastCaption: CaptionsManagerData?, captionData: CallCompositeCaptionsData): Boolean {
+    private fun shouldFinalizeLastCaption(lastCaption: CaptionsRecord?, captionData: CallCompositeCaptionsData): Boolean {
         if (lastCaption == null) return false
         val duration = Duration.between(Instant.ofEpochMilli(lastCaption.timestamp.time), Instant.ofEpochMilli(captionData.timestamp.time))
         val result = duration.toMillis() > CallingFragment.MAX_CAPTIONS_PARTIAL_DATA_TIME_LIMIT
         return result
     }
 
-    private fun addNewCaption(data: CaptionsManagerData) {
+    private fun addNewCaption(data: CaptionsRecord) {
         captionsNewDataStateFlow.value = data
         captionsDataCache.add(data)
     }
 
-    private fun updateLastCaption(data: CaptionsManagerData) {
+    private fun updateLastCaption(data: CaptionsRecord) {
         captionsDataCache[captionsDataCache.size - 1] = data
         captionsLastDataUpdatedStateFlow.value = data
     }
 
-    private fun finalizeLastCaptionAndAddNew(data: CaptionsManagerData, lastCaption: CaptionsManagerData) {
+    private fun finalizeLastCaptionAndAddNew(data: CaptionsRecord, lastCaption: CaptionsRecord) {
         val updatedLastCaption = lastCaption.copy(isFinal = true)
         captionsDataCache[captionsDataCache.size - 1] = updatedLastCaption
         captionsLastDataUpdatedStateFlow.value = updatedLastCaption

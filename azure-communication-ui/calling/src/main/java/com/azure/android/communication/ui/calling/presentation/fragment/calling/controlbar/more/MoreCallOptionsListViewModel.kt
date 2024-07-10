@@ -59,14 +59,15 @@ internal class MoreCallOptionsListViewModel(
     }
 
     companion object {
-        enum class Entries(val title: Int, val icon: Int?,) {
+        enum class Entries(val title: Int, val icon: Int?, val showRightArrow: Boolean = false) {
             SHARE_DIAGNOSTICS(
                 R.string.azure_communication_ui_calling_view_share_diagnostics,
                 R.drawable.azure_communication_ui_calling_ic_fluent_share_android_24_regular
             ),
             CAPTIONS(
                 R.string.azure_communication_ui_calling_live_captions_title,
-                R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_selector
+                R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_selector,
+                true
             ),
             REPORT_ISSUE(
                 R.string.azure_communication_ui_calling_report_issue_title,

@@ -13,7 +13,7 @@ internal interface CaptionsReducer : Reducer<CaptionsState>
 internal class CaptionsReducerImpl : CaptionsReducer {
     override fun reduce(state: CaptionsState, action: Action): CaptionsState {
         return when (action) {
-            is CaptionsAction.StatusUpdate -> {
+            is CaptionsAction.UpdateStatus -> {
                 state.copy(status = action.status)
             }
             is CaptionsAction.StartRequested -> {

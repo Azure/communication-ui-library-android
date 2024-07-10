@@ -12,16 +12,16 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class CaptionsLinearLayoutViewModel {
     private lateinit var displayCaptionsInfoViewFlow: MutableStateFlow<Boolean>
-    private lateinit var captionsStatusStateFlow: MutableStateFlow<CaptionsStatus>
+    private lateinit var captionsStartInProgressStateFlow: MutableStateFlow<Boolean>
     fun getDisplayCaptionsInfoViewFlow(): StateFlow<Boolean> = displayCaptionsInfoViewFlow
-    fun getCaptionsStatusStateFlow(): StateFlow<CaptionsStatus> = captionsStatusStateFlow
+    fun getCaptionsStartProgressStateFlow(): StateFlow<Boolean> = captionsStartInProgressStateFlow
 
     fun update(
         captionsState: CaptionsState,
         visibilityState: VisibilityState
     ) {
         displayCaptionsInfoViewFlow.value = canShowCaptionsUI(visibilityState, captionsState)
-        captionsStatusStateFlow.value = captionsState.status
+        captionsStartInProgressStateFlow.value = canShowCaptionsStartInProgressUI(captionsState)
     }
 
     fun init(
@@ -29,8 +29,12 @@ internal class CaptionsLinearLayoutViewModel {
         visibilityState: VisibilityState
     ) {
         displayCaptionsInfoViewFlow = MutableStateFlow(canShowCaptionsUI(visibilityState, captionsState))
-        captionsStatusStateFlow = MutableStateFlow(captionsState.status)
+        captionsStartInProgressStateFlow = MutableStateFlow(canShowCaptionsStartInProgressUI(captionsState))
     }
+
+    private fun canShowCaptionsStartInProgressUI(
+        captionsState: CaptionsState
+    ) = captionsState.status == CaptionsStatus.START_REQUESTED
 
     private fun canShowCaptionsUI(
         visibilityState: VisibilityState,

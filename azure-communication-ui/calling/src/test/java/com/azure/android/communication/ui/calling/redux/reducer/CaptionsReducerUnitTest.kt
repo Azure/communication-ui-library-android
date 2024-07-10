@@ -20,7 +20,7 @@ internal class CaptionsReducerUnitTest {
         // arrange
         val reducer = CaptionsReducerImpl()
         val oldState = CaptionsState(isCaptionsUIEnabled = false, status = CaptionsStatus.NONE)
-        val action = CaptionsAction.StatusUpdate(CaptionsStatus.STARTED)
+        val action = CaptionsAction.UpdateStatus(CaptionsStatus.STARTED)
 
         // act
         val newState = reducer.reduce(oldState, action)
@@ -34,7 +34,7 @@ internal class CaptionsReducerUnitTest {
         // arrange
         val reducer = CaptionsReducerImpl()
         val oldState = CaptionsState(isCaptionsUIEnabled = true, status = CaptionsStatus.NONE)
-        val action = CaptionsAction.StatusUpdate(CaptionsStatus.STOPPED)
+        val action = CaptionsAction.UpdateStatus(CaptionsStatus.STOPPED)
 
         // act
         val newState = reducer.reduce(oldState, action)
