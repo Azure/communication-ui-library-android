@@ -28,6 +28,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallScreen
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
+import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonPlacement
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
@@ -563,10 +564,10 @@ class CallCompositeManager(private val context: Context) {
                 callScreenOptions.controlBarOptions = CallCompositeCallScreenControlBarOptions()
 
             callScreenOptions.controlBarOptions.addCustomButton(
-                CallCompositeButtonOptions()
+                CallCompositeCustomButtonOptions()
+                    .setPlacement(CallCompositeCustomButtonPlacement.PRIMARY)
                     .setDrawableId(R.drawable.image_cat)
                     .setTitle("Troubleshooting tips")
-                    .setPlacement(CallCompositeCustomButtonPlacement.PRIMARY)
                     .setOnClickHandler {
                         val intent = Intent(it.context, TestActivity::class.java)
                         context.startActivity(intent)
@@ -574,10 +575,10 @@ class CallCompositeManager(private val context: Context) {
             )
 
             callScreenOptions.controlBarOptions.addCustomButton(
-                CallCompositeButtonOptions()
+                CallCompositeCustomButtonOptions()
+                    .setPlacement(CallCompositeCustomButtonPlacement.OVERFLOW)
                     .setDrawableId(R.drawable.image_koala)
                     .setTitle("Hide call")
-                    .setPlacement(CallCompositeCustomButtonPlacement.OVERFLOW)
                     .setOnClickHandler {
                         callComposite?.sendToBackground()
                     }
