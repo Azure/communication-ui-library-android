@@ -7,10 +7,8 @@ import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import com.azure.android.communication.BaseUiTest
 import com.azure.android.communication.assertDisplayed
-import com.azure.android.communication.assertNotDisplayed
 import com.azure.android.communication.assertNotExist
 import com.azure.android.communication.assertTextDisplayed
-import com.azure.android.communication.assertTextNotDisplayed
 import com.azure.android.communication.assertViewGone
 import com.azure.android.communication.calling.CallingCommunicationErrors
 import com.azure.android.communication.calling.CallingCommunicationException

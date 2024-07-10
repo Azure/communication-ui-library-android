@@ -80,6 +80,7 @@ internal class CaptionsLinearLayout : LinearLayout {
             viewModel.getDisplayCaptionsInfoViewFlow().collect {
                 if (it) {
                     captionsLinearLayout.visibility = View.VISIBLE
+                    captionsLinearLayout.post { scrollToBottom() }
                 } else {
                     captionsLinearLayout.visibility = View.GONE
                 }
