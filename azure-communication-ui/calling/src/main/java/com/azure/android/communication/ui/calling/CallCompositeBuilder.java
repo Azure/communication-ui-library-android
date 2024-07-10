@@ -116,9 +116,11 @@ public final class CallCompositeBuilder {
     }
 
     /**
+     * @deprecated Use {@link CallCompositeLocalOptions#setSetupScreenOptions(CallCompositeSetupScreenOptions)} instead.
      * Sets call screen options.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
+    @Deprecated
     public CallCompositeBuilder setupScreenOptions(
             final CallCompositeSetupScreenOptions options) {
         this.setupScreenOptions = options;
@@ -126,11 +128,13 @@ public final class CallCompositeBuilder {
     }
 
     /**
+     * @deprecated Use {@link CallCompositeLocalOptions#setCallScreenOptions(CallCompositeCallScreenOptions)} instead.
      * Sets the call screen options.
      *
      * @param callScreenOptions call screen options.
      * @return {@link CallCompositeBuilder} for chaining options.
      */
+    @Deprecated
     public CallCompositeBuilder callScreenOptions(final CallCompositeCallScreenOptions callScreenOptions) {
         this.callScreenOptions = callScreenOptions;
         return this;

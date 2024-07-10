@@ -3,8 +3,10 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more
 
+import android.content.Context
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
+import com.azure.android.communication.ui.calling.models.createButtonClickEvent
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.redux.Dispatch
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
@@ -56,7 +58,7 @@ internal class MoreCallOptionsListViewModel(
                     titleText = customButton.title,
                     onClickListener = {
                         try {
-                            customButton.onClickListener?.onClick(customButton)
+                            customButton.onClickHandler?.handle(createButtonClickEvent(it, customButton))
                         } catch (_: Exception) {}
                     }
                 )
@@ -85,7 +87,7 @@ internal class MoreCallOptionsListViewModel(
         val titleResourceId: Int? = null,
         val titleText: String? = null,
         val icon: Int? = null,
-        val onClickListener: () -> Unit
+        val onClickListener: (context: Context) -> Unit
     )
 
 //    class Entries(val title: Int, val icon: Int?,) {

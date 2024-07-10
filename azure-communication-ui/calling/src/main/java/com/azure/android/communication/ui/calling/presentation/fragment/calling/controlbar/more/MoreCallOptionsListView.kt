@@ -89,7 +89,7 @@ internal class MoreCallOptionsListView(
             isOnHold = false,
             onClickAction =
             {
-                entry.onClickListener()
+                entry.onClickListener(this.context)
                 menuDrawer.dismissDialog()
             }
         )

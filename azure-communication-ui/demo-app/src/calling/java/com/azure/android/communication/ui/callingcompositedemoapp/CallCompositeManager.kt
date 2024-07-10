@@ -28,6 +28,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallScreen
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
+import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonPlacement
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallCancelledEvent
@@ -564,9 +565,10 @@ class CallCompositeManager(private val context: Context) {
             callScreenOptions.controlBarOptions.addCustomButton(
                 CallCompositeButtonOptions()
                     .setDrawableId(R.drawable.image_cat)
-                    .setTitle("Open TestActivity")
-                    .setOnClickListener {
-                        val intent = Intent(context, TestActivity::class.java)
+                    .setTitle("Troubleshooting tips")
+                    .setPlacement(CallCompositeCustomButtonPlacement.PRIMARY)
+                    .setOnClickHandler {
+                        val intent = Intent(it.context, TestActivity::class.java)
                         context.startActivity(intent)
                     }
             )
@@ -575,7 +577,8 @@ class CallCompositeManager(private val context: Context) {
                 CallCompositeButtonOptions()
                     .setDrawableId(R.drawable.image_koala)
                     .setTitle("Hide call")
-                    .setOnClickListener {
+                    .setPlacement(CallCompositeCustomButtonPlacement.OVERFLOW)
+                    .setOnClickHandler {
                         callComposite?.sendToBackground()
                     }
             )

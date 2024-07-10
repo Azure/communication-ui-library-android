@@ -3,6 +3,8 @@
 
 package com.azure.android.communication.ui.calling.models;
 
+import com.azure.android.communication.ui.calling.CallCompositeEventHandler;
+
 public class CallCompositeButtonOptions {
     OnValueChangedListener<Integer> onDrawableIdChangedListener;
     OnValueChangedListener<String> onTitleChangedListener;
@@ -11,21 +13,14 @@ public class CallCompositeButtonOptions {
 
     private int drawableId;
     private String title;
-    private OnClickListener onClickListener;
+    private CallCompositeEventHandler<CallCompositeButtonClickEvent> onClickHandler;
     private Boolean isVisible = true;
     private Boolean isEnabled = true;
 
-    private int order = 0;
+    private CallCompositeCustomButtonPlacement placement = CallCompositeCustomButtonPlacement.OVERFLOW;
 
     interface OnValueChangedListener<T> {
         void onValueChanged(T newValue);
-    }
-
-    public interface OnClickListener {
-        /**
-         * Called when a button has been clicked.
-         */
-        void onClick(CallCompositeButtonOptions buttonOptions);
     }
 
     public int getDrawableId() {
@@ -52,13 +47,23 @@ public class CallCompositeButtonOptions {
         return this;
     }
 
-    public OnClickListener getOnClickListener() {
-        return onClickListener;
+    public CallCompositeEventHandler<CallCompositeButtonClickEvent> getOnClickHandler() {
+        return onClickHandler;
     }
 
-    public CallCompositeButtonOptions setOnClickListener(final OnClickListener listener) {
-        this.onClickListener = listener;
+    public CallCompositeButtonOptions setOnClickHandler(
+            final CallCompositeEventHandler<CallCompositeButtonClickEvent> handler) {
+        this.onClickHandler = handler;
         return this;
+    }
+
+    public CallCompositeButtonOptions setPlacement(final CallCompositeCustomButtonPlacement placement) {
+        this.placement = placement;
+        return this;
+    }
+
+    public CallCompositeCustomButtonPlacement getPlacement() {
+        return this.placement;
     }
 
     public boolean isVisible() {
@@ -82,15 +87,6 @@ public class CallCompositeButtonOptions {
         if (onEnabledChangedListener != null) {
             onEnabledChangedListener.onValueChanged(isVisible);
         }
-        return this;
-    }
-
-    public int getOrder() {
-        return order;
-    }
-
-    public CallCompositeButtonOptions setOrder(final int order) {
-        this.order = order;
         return this;
     }
 }

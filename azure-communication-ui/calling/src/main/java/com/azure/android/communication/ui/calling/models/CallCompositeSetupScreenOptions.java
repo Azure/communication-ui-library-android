@@ -20,7 +20,7 @@ public final class CallCompositeSetupScreenOptions {
     }
 
     /**
-     * @deprecated Use {@link #getCameraButton()} instead.
+     * @deprecated Use {@link #setCameraButton(CallCompositeButtonOptions)} instead.
      * Set camera button enabled to user. Enabled by default.
      * @param enabled Sets camera button enable/disabled on the setup screen.
      * @return {@link CallCompositeSetupScreenOptions}.
@@ -32,7 +32,7 @@ public final class CallCompositeSetupScreenOptions {
     }
 
     /**
-     * @deprecated Use {@link #getCameraButton()} instead.
+     * @deprecated Use {@link #setCameraButton(CallCompositeButtonOptions)} instead.
      * Is camera button enabled to user.
      */
     @Deprecated
@@ -41,7 +41,7 @@ public final class CallCompositeSetupScreenOptions {
     }
 
     /**
-     * @deprecated Use {@link #setMicButton()} instead.
+     * @deprecated Use {@link #setMicButton(CallCompositeButtonOptions)} instead.
      * Set microphone button enabled to user. Enabled by default.
      * @param enabled Sets microphone button enable/disabled on the setup screen.
      * @return {@link CallCompositeSetupScreenOptions}.
@@ -53,7 +53,7 @@ public final class CallCompositeSetupScreenOptions {
     }
 
     /**
-     * @deprecated Use {@link #setMicButton()} instead.
+     * @deprecated Use {@link #setMicButton(CallCompositeButtonOptions)} instead.
      * Is microphone button enabled to user.
      */
     @Deprecated
