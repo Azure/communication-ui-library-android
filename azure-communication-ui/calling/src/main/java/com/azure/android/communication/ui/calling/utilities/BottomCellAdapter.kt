@@ -17,7 +17,7 @@ internal class BottomCellAdapter : RecyclerView.Adapter<BottomCellViewHolder>() 
         val inflater = LayoutInflater.from(parent.context)
 
         return when (bottomCellType) {
-            BottomCellItemType.BottomMenuAction -> {
+            BottomCellItemType.BottomMenuAction, BottomCellItemType.BottomMenuActionNoIcon -> {
                 val view = inflater.inflate(R.layout.azure_communication_ui_calling_bottom_drawer_cell, parent, false)
                 if (isAndroidTV(parent.context)) {
                     view.setOnFocusChangeListener { v, hasFocus ->

@@ -15,6 +15,11 @@ internal open class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHold
 
     open fun setCellData(bottomCellItem: BottomCellItem) {
         title.text = bottomCellItem.title
+        if (bottomCellItem.subtitle?.isNotEmpty() == true) {
+            val subtitleTextView: TextView = itemView.findViewById(R.id.azure_communication_ui_calling_bottom_drawer_sub_title)
+            subtitleTextView.visibility = View.VISIBLE
+            subtitleTextView.text = bottomCellItem.subtitle
+        }
         title.isEnabled = bottomCellItem.isEnabled
         itemView.contentDescription = bottomCellItem.contentDescription
         if (bottomCellItem.contentDescription != null)

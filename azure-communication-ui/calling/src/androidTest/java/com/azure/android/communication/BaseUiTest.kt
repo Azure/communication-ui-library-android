@@ -56,6 +56,19 @@ internal open class BaseUiTest {
     internal val showSupportFormTextId = R.string.azure_communication_ui_calling_report_issue_title
     internal val groupCallTestGUID = "9d3ee939-cd87-4ec1-b076-94b2b7382523"
 
+    // Captions
+    internal val captionsStartToggleId = R.id.azure_communication_ui_calling_bottom_drawer_toggle_button
+    internal val liveCaptionsStringId = R.string.azure_communication_ui_calling_live_captions_title
+    internal val captionsTextViewId = R.id.azure_communication_ui_calling_captions_linear_layout
+    internal val captionsStartInProgressUI = R.id.azure_communication_ui_calling_captions_starting_layout
+    internal val captionsStartInProgressUIText = R.string.azure_communication_ui_calling_starting_captions
+    internal val captionsFailedToStartId = R.string.azure_communication_ui_calling_error_captions_failed_to_start
+    internal val captionsFailedToStopId = R.string.azure_communication_ui_calling_error_captions_failed_to_stop
+    internal val captionsFailedToSetSpokenLanguageId = R.string.azure_communication_ui_calling_error_captions_failed_to_set_spoken_language
+    internal val captionsFailedToSetCaptionLanguageId = R.string.azure_communication_ui_calling_error_captions_failed_to_set_caption_language
+    internal val captionsSpokenLanguageId = R.string.azure_communication_ui_calling_captions_spoken_language_title
+    internal val captionsCaptionLanguageId = R.string.azure_communication_ui_calling_captions_caption_language_title
+
     @Rule
     @JvmField
     var grantPermissionRule: GrantPermissionRule

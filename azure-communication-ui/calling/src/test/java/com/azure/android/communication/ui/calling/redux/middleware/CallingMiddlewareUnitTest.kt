@@ -7,6 +7,7 @@ import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.action.LifecycleAction
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
@@ -414,5 +415,113 @@ internal class CallingMiddlewareUnitTest {
 
         // assert
         verify(mockCallingMiddlewareActionHandler, times(1)).onAudioFocusRequesting(mockAppStore)
+    }
+
+    @Test
+    fun callingMiddleware_invoke_when_invokedWithCaptionsStartRequested_then_invokeStartCaptions() {
+        // arrange
+        val actionToDispatch = CaptionsAction.StartRequested("en-US")
+
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+
+        val mockCallingMiddlewareActionHandler = mock<CallingMiddlewareActionHandler> {
+            on { startCaptions("en-US", mockAppStore) } doAnswer {}
+        }
+
+        val callingMiddlewareImplementation =
+            CallingMiddlewareImpl(
+                mockCallingMiddlewareActionHandler,
+                mockLogger
+            )
+
+        // act
+        callingMiddlewareImplementation.invoke(mockAppStore)(
+            fun(_) {
+            }
+        )(actionToDispatch)
+
+        // assert
+        verify(mockCallingMiddlewareActionHandler, times(1)).startCaptions("en-US", mockAppStore)
+    }
+
+    @Test
+    fun callingMiddleware_invoke_when_invokedWithCaptionsStopRequested_then_invokeStopCaptions() {
+        // arrange
+        val actionToDispatch = CaptionsAction.StopRequested()
+
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+
+        val mockCallingMiddlewareActionHandler = mock<CallingMiddlewareActionHandler> {
+            on { stopCaptions(mockAppStore) } doAnswer {}
+        }
+
+        val callingMiddlewareImplementation =
+            CallingMiddlewareImpl(
+                mockCallingMiddlewareActionHandler,
+                mockLogger
+            )
+
+        // act
+        callingMiddlewareImplementation.invoke(mockAppStore)(
+            fun(_) {
+            }
+        )(actionToDispatch)
+
+        // assert
+        verify(mockCallingMiddlewareActionHandler, times(1)).stopCaptions(mockAppStore)
+    }
+
+    @Test
+    fun callingMiddleware_invoke_when_invokedWithSetSpokenLanguageRequested_then_invokeSetSpokenLanguage() {
+        // arrange
+        val actionToDispatch = CaptionsAction.SetSpokenLanguageRequested("fr")
+
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+
+        val mockCallingMiddlewareActionHandler = mock<CallingMiddlewareActionHandler> {
+            on { setCaptionsSpokenLanguage("fr", mockAppStore) } doAnswer {}
+        }
+
+        val callingMiddlewareImplementation =
+            CallingMiddlewareImpl(
+                mockCallingMiddlewareActionHandler,
+                mockLogger
+            )
+
+        // act
+        callingMiddlewareImplementation.invoke(mockAppStore)(
+            fun(_) {
+            }
+        )(actionToDispatch)
+
+        // assert
+        verify(mockCallingMiddlewareActionHandler, times(1)).setCaptionsSpokenLanguage("fr", mockAppStore)
+    }
+
+    @Test
+    fun callingMiddleware_invoke_when_invokedWithSetCaptionLanguageRequested_then_invokeSetCaptionLanguage() {
+        // arrange
+        val actionToDispatch = CaptionsAction.SetCaptionLanguageRequested("es")
+
+        val mockAppStore = mock<AppStore<ReduxState>> {}
+
+        val mockCallingMiddlewareActionHandler = mock<CallingMiddlewareActionHandler> {
+            on { setCaptionsCaptionLanguage("es", mockAppStore) } doAnswer {}
+        }
+
+        val callingMiddlewareImplementation =
+            CallingMiddlewareImpl(
+                mockCallingMiddlewareActionHandler,
+                mockLogger
+            )
+
+        // act
+        callingMiddlewareImplementation.invoke(mockAppStore)(
+            fun(_) {
+            }
+        )(actionToDispatch)
+
+        // assert
+        verify(mockCallingMiddlewareActionHandler, times(1)).setCaptionsCaptionLanguage("es", mockAppStore)
     }
 }

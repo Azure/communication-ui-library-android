@@ -110,7 +110,7 @@
 
     <!--    Participant list-->
     <string name="azure_communication_ui_calling_participant_list_in_call_n_people">Puhelussa (%1$d)</string>
-    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d lisää</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d muuta</string>
     <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">Odotustilassa (%1$d)</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Hyväksy tai hylkää osallistuja kaksoisnapauttamalla</string>
 
@@ -170,12 +170,26 @@
 
     <!-- Participant menu actions -->
     <string name="azure_communication_ui_calling_view_participant_menu_mute">Mykistä</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Mykistä osallistujavalikko</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Mykistä osallistuja -valikko.</string>
     <string name="azure_communication_ui_calling_view_participant_menu_remove">Poista puhelusta</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Poista osallistuja puheluvalikosta</string>
-    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">Puheluasetukset päivitetty. Jotkut ominaisuudet eivät ehkä ole käytettävissäsi.</string>
-    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">Puheluasetukset päivitetty. Jotkut lisätoiminnot voivat nyt olla käytettävissäsi.</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Poista osallistuja puheluvalikosta.</string>
+    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">Puheluasetukset päivitettiin. Jotkin ominaisuudet eivät ehkä ole käytettävissäsi.</string>
+    <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">Puheluasetukset päivitettiin. Jotkin lisätoiminnot saattavat olla nyt käytettävissäsi.</string>
 
     <!-- Participant menu view -->
-    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">poistettu käytöstä.</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">käytöstä poistettu kohde.</string>
+
+    <!--    Drawer-->
+    <string name="azure_communication_ui_calling_drawer_next_content_description">Seuraava</string>
+
+    <!--    Captions-->
+    <string name="azure_communication_ui_calling_live_captions_title">Live-tekstitys</string>
+    <string name="azure_communication_ui_calling_captions_spoken_language_title">Puhuttu kieli</string>
+    <string name="azure_communication_ui_calling_captions_caption_language_title">Tekstityksen kieli</string>
+    <string name="azure_communication_ui_calling_starting_captions">Starting captions...</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">Tekstityksen aloittaminen ei onnistu</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Tekstityksen lopettaminen ei onnistu</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Tekstityksen puhutun kielen määrittäminen ei onnistu</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Unable to change caption language</string>
+
 </resources>
