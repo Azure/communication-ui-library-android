@@ -186,10 +186,10 @@
     <string name="azure_communication_ui_calling_live_captions_title">Live-ondertitels</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Gesproken taal</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Taal van ondertiteling</string>
-    <string name="azure_communication_ui_calling_starting_captions">Starting captions...</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_start">Kan geen ondertitels starten</string>
+    <string name="azure_communication_ui_calling_starting_captions">Ondertitels starten...</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">Kan ondertitels niet starten</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Kan ondertitels niet stoppen</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Kan de gesproken taal voor ondertitels niet instellen</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Unable to change caption language</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Kan de gesproken talen niet wijzigen</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Kan de taal van de ondertiteling niet wijzigen</string>
 
 </resources>

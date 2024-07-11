@@ -186,10 +186,10 @@
     <string name="azure_communication_ui_calling_live_captions_title">Liveundertexter</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Talat språk</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Språk för undertext</string>
-    <string name="azure_communication_ui_calling_starting_captions">Starting captions...</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_start">Det går inte att starta beskrivningar</string>
+    <string name="azure_communication_ui_calling_starting_captions">Startar undertexter ...</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">Det går inte att starta undertexter</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Det går inte att stoppa undertexter</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Det går inte att ange talat språk för undertexter</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Unable to change caption language</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Det gör inte att ändra talat språk</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Det går inte att ändra språket för undertexter</string>
 
 </resources>

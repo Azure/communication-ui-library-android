@@ -186,10 +186,10 @@
     <string name="azure_communication_ui_calling_live_captions_title">Sous-titres en direct</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Langue parlée</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Langue des sous-titres</string>
-    <string name="azure_communication_ui_calling_starting_captions">Starting captions...</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_start">Impossible de démarrer les sous-titres</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Impossible d’arrêter les sous-titres</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Impossible de définir la langue parlée pour les sous-titres</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Unable to change caption language</string>
+    <string name="azure_communication_ui_calling_starting_captions">Démarrage des légendes...</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">Impossible de démarrer les légendes</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Il est impossible d’arrêter les légendes</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Il est impossible de modifier la langue parlée</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Il est impossible de modifier la langue des légendes</string>
 
 </resources>
