@@ -186,10 +186,10 @@
     <string name="azure_communication_ui_calling_live_captions_title">Napisy na żywo</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Język mówiony</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Język napisów</string>
-    <string name="azure_communication_ui_calling_starting_captions">Starting captions...</string>
+    <string name="azure_communication_ui_calling_starting_captions">Trwa uruchamianie napisów...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">Nie można uruchomić napisów</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Nie można zatrzymać napisów</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Nie można ustawić języka mówionego dla napisów</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Unable to change caption language</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Nie można zmienić języka mówionego</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Nie można zmienić języka napisów</string>
 
 </resources>

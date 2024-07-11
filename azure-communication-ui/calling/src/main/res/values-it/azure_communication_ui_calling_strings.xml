@@ -186,10 +186,10 @@
     <string name="azure_communication_ui_calling_live_captions_title">Sottotitoli in tempo reale</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Lingua parlata</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Lingua sottotitoli</string>
-    <string name="azure_communication_ui_calling_starting_captions">Starting captions...</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_start">Non è possibile avviare i sottotitoli</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Non è possibile interrompere i sottotitoli</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Non è possibile impostare la lingua parlata per i sottotitoli</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Unable to change caption language</string>
+    <string name="azure_communication_ui_calling_starting_captions">Avvio dei sottotitoli in corso...</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">Impossibile avviare i sottotitoli</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Impossibile arrestare i sottotitoli</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Impossibile cambiare la lingua parlata</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Impossibile cambiare la lingua dei sottotitoli</string>
 
 </resources>

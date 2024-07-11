@@ -187,9 +187,9 @@
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Spoken language</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Caption language</string>
     <string name="azure_communication_ui_calling_starting_captions">Starting captions...</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_start">Cannot start captions</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Cannot stop captions</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Cannot set spoken language for captions</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">Unable to start captions</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Unable to stop captions</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Unable to change spoken language</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Unable to change caption language</string>
 
 </resources>
