@@ -54,6 +54,9 @@ internal class CallingViewModel(
     val lobbyHeaderViewModel = callingViewModelProvider.lobbyHeaderViewModel
     val lobbyErrorHeaderViewModel = callingViewModelProvider.lobbyErrorHeaderViewModel
     val participantMenuViewModel = callingViewModelProvider.participantMenuViewModel
+    // This is a flag to ensure that the call is started only once
+    // This is to avoid a lag between updating isDefaultParametersCallStarted
+    private var callStartRequested = false
 
     fun switchFloatingHeader() {
         floatingHeaderViewModel.switchFloatingHeader()
@@ -171,8 +174,10 @@ internal class CallingViewModel(
     override suspend fun onStateChange(state: ReduxState) {
         if (!state.callState.isDefaultParametersCallStarted &&
             state.localParticipantState.initialCallJoinState.skipSetupScreen &&
-            state.permissionState.audioPermissionState == PermissionStatus.GRANTED
+            state.permissionState.audioPermissionState == PermissionStatus.GRANTED &&
+            !callStartRequested
         ) {
+            callStartRequested = true
             store.dispatch(action = CallingAction.CallRequestedWithoutSetup())
         }
 
