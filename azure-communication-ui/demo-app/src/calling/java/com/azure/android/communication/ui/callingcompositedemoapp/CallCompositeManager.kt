@@ -256,7 +256,8 @@ class CallCompositeManager(private val context: Context) {
             localOptions.setCaptionsOptions(captionsViewData)
             isAnythingChanged = true
         }
-
+        isAnythingChanged = true
+        localOptions.isEndCallForEveryone = true
         return if (isAnythingChanged) localOptions else null
     }
 

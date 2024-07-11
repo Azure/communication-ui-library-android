@@ -36,6 +36,7 @@ public final class CallCompositeLocalOptions {
     private boolean cameraOn = false;
     private boolean microphoneOn = false;
     private boolean skipSetupScreen = false;
+    private boolean isEndCallForEveryone = false;
     private CallCompositeAudioVideoMode audioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO;
     private CallCompositeCaptionsOptions captionsOptions = null;
 
@@ -197,6 +198,25 @@ public final class CallCompositeLocalOptions {
     public CallCompositeLocalOptions setCaptionsOptions(
             final CallCompositeCaptionsOptions captionsOptions) {
         this.captionsOptions = captionsOptions;
+        return this;
+    }
+
+    /**
+     * Get the boolean value for end call for everyone.
+     * @return The boolean that is currently set.
+     */
+    public boolean isEndCallForEveryone() {
+        return this.isEndCallForEveryone;
+    }
+
+    /**
+     * Set a boolean to be used.
+     * @param isEndCallForEveryone The boolean value to be used for end call for everyone.
+     * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
+     */
+    public CallCompositeLocalOptions setEndCallForEveryone(
+            final boolean isEndCallForEveryone) {
+        this.isEndCallForEveryone = isEndCallForEveryone;
         return this;
     }
 }

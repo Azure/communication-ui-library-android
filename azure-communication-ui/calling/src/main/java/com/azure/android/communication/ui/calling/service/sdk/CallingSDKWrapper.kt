@@ -54,7 +54,8 @@ internal class CallingSDKWrapper(
     private val callConfigInjected: CallConfiguration?,
     private val logger: Logger? = null,
     private val callingSDKInitializer: CallingSDKInitializer,
-    private val compositeCaptionsOptions: CallCompositeCaptionsOptions? = null
+    private val compositeCaptionsOptions: CallCompositeCaptionsOptions? = null,
+    private val isEndCallForEveryone: Boolean? = null
 ) : CallingSDK {
     private var nullableCall: Call? = null
     private var callClient: CallClient? = null
@@ -186,7 +187,11 @@ internal class CallingSDKWrapper(
         }
 
         callingSDKEventHandler.onEndCall()
-        endCallCompletableFuture = call.hangUp(HangUpOptions())
+        val option = HangUpOptions()
+        if (isEndCallForEveryone == true) {
+            option.isForEveryone = true
+        }
+        endCallCompletableFuture = call.hangUp(option)
         return endCallCompletableFuture!!
     }
 
