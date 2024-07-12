@@ -14,33 +14,25 @@ public final class CallCompositeCustomButtonOptions {
     private Boolean isEnabled = true;
     private CallCompositeCustomButtonPlacement placement = CallCompositeCustomButtonPlacement.OVERFLOW;
 
+    public CallCompositeCustomButtonOptions(
+            final int drawableId,
+            final String title,
+            final CallCompositeEventHandler<CallCompositeCustomButtonClickEvent> onClickHandler) {
+        this.drawableId = drawableId;
+        this.title = title;
+        this.onClickHandler = onClickHandler;
+    }
 
     public int getDrawableId() {
         return drawableId;
-    }
-
-    public CallCompositeCustomButtonOptions setDrawableId(final int drawableId) {
-        this.drawableId = drawableId;
-        return this;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public CallCompositeCustomButtonOptions setTitle(final String title) {
-        this.title = title;
-        return this;
-    }
-
     public CallCompositeEventHandler<CallCompositeCustomButtonClickEvent> getOnClickHandler() {
         return onClickHandler;
-    }
-
-    public CallCompositeCustomButtonOptions setOnClickHandler(
-            final CallCompositeEventHandler<CallCompositeCustomButtonClickEvent> handler) {
-        this.onClickHandler = handler;
-        return this;
     }
 
     public boolean isVisible() {

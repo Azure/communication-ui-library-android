@@ -27,6 +27,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallScreen
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
+import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonClickEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonPlacement
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
@@ -563,24 +564,22 @@ class CallCompositeManager(private val context: Context) {
                 callScreenOptions.controlBarOptions = CallCompositeCallScreenControlBarOptions()
 
             callScreenOptions.controlBarOptions.addCustomButton(
-                CallCompositeCustomButtonOptions()
-                    .setPlacement(CallCompositeCustomButtonPlacement.PRIMARY)
-                    .setDrawableId(R.drawable.image_cat)
-                    .setTitle("Troubleshooting tips")
-                    .setOnClickHandler {
+                CallCompositeCustomButtonOptions(R.drawable.image_cat, "Troubleshooting tips",
+                    fun(it: CallCompositeCustomButtonClickEvent) {
                         val intent = Intent(it.context, TestActivity::class.java)
                         context.startActivity(intent)
                     }
+                )
+                    .setPlacement(CallCompositeCustomButtonPlacement.PRIMARY)
             )
 
             callScreenOptions.controlBarOptions.addCustomButton(
-                CallCompositeCustomButtonOptions()
-                    .setPlacement(CallCompositeCustomButtonPlacement.OVERFLOW)
-                    .setDrawableId(R.drawable.image_koala)
-                    .setTitle("Hide call")
-                    .setOnClickHandler {
+                CallCompositeCustomButtonOptions(R.drawable.image_koala, "Hide call",
+                    fun(it: CallCompositeCustomButtonClickEvent) {
                         callComposite?.sendToBackground()
-                    }
+                    })
+                    .setPlacement(CallCompositeCustomButtonPlacement.OVERFLOW)
+
             )
         }
         return callScreenOptions
