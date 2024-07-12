@@ -564,7 +564,8 @@ class CallCompositeManager(private val context: Context) {
                 callScreenOptions.controlBarOptions = CallCompositeCallScreenControlBarOptions()
 
             callScreenOptions.controlBarOptions.addCustomButton(
-                CallCompositeCustomButtonOptions(R.drawable.image_cat, "Troubleshooting tips",
+                CallCompositeCustomButtonOptions(
+                    R.drawable.image_cat, "Troubleshooting tips",
                     fun(it: CallCompositeCustomButtonClickEvent) {
                         val intent = Intent(it.context, TestActivity::class.java)
                         context.startActivity(intent)
@@ -574,10 +575,12 @@ class CallCompositeManager(private val context: Context) {
             )
 
             callScreenOptions.controlBarOptions.addCustomButton(
-                CallCompositeCustomButtonOptions(R.drawable.image_koala, "Hide call",
+                CallCompositeCustomButtonOptions(
+                    R.drawable.image_koala, "Hide call",
                     fun(it: CallCompositeCustomButtonClickEvent) {
                         callComposite?.sendToBackground()
-                    })
+                    }
+                )
                     .setPlacement(CallCompositeCustomButtonPlacement.OVERFLOW)
 
             )
