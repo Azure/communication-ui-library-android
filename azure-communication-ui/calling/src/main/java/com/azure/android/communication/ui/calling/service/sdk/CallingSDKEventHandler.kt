@@ -533,6 +533,12 @@ internal class CallingSDKEventHandler(
             val id = addedParticipant.identifier.rawId
             if (!remoteParticipantsCacheMap.containsKey(id)) {
                 onParticipantAdded(id, addedParticipant)
+            } else {
+                // Update the participant status
+                // Noticed a race condition where the participant status update is in progress and UI subscription is in progress
+                remoteParticipantsInfoModelMap[id]?.participantStatus =
+                    remoteParticipantsCacheMap[id]!!.state.into()
+                onRemoteParticipantPropertyChange(id)
             }
         }
     }
