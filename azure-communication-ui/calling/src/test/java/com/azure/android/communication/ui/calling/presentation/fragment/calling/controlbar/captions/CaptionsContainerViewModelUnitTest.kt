@@ -28,7 +28,7 @@ import org.mockito.kotlin.argThat
 import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
-internal class CaptionsListViewModelUnitTest : ACSBaseTestCoroutine() {
+internal class CaptionsContainerViewModelUnitTest : ACSBaseTestCoroutine() {
     private lateinit var store: AppStore<ReduxState>
     private lateinit var viewModel: CaptionsListViewModel
 

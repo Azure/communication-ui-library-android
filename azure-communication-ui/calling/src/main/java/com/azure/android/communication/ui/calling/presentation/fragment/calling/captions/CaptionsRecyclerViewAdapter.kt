@@ -12,7 +12,7 @@ import com.azure.android.communication.ui.calling.implementation.R
 import com.microsoft.fluentui.persona.AvatarView
 
 internal class CaptionsRecyclerViewAdapter(
-    private val captionsData: List<CaptionsRecyclerViewData>
+    private val captionsData: List<CaptionsEntryModel>
 ) : RecyclerView.Adapter<CaptionsRecyclerViewAdapter.CaptionsViewHolder>() {
     class CaptionsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val messageTextView: TextView =

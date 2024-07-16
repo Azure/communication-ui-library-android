@@ -56,7 +56,7 @@ internal class CallingViewModel(
     val participantMenuViewModel = callingViewModelProvider.participantMenuViewModel
     val captionsListViewModel = callingViewModelProvider.captionsListViewModel
     val captionsLanguageSelectionListViewModel = callingViewModelProvider.captionsLanguageSelectionListViewModel
-    val captionsLayoutViewModel = callingViewModelProvider.captionsLinearLayoutViewModel
+    val captionsLayoutViewModel = callingViewModelProvider.captionsViewModel
     // This is a flag to ensure that the call is started only once
     // This is to avoid a lag between updating isDefaultParametersCallStarted
     private var callStartRequested = false

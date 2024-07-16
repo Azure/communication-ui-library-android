@@ -25,17 +25,17 @@ import com.azure.android.communication.ui.calling.utilities.LocaleHelper
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-internal class CaptionsLinearLayout : LinearLayout {
+internal class CaptionsLayout : LinearLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     private lateinit var captionsLinearLayout: LinearLayout
-    private lateinit var viewModel: CaptionsLinearLayoutViewModel
+    private lateinit var viewModel: CaptionsViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var captionsStartProgressLayout: LinearLayout
     private lateinit var recyclerViewAdapter: CaptionsRecyclerViewAdapter
     private var localParticipantIdentifier: CommunicationIdentifier? = null
-    private val captionsData = mutableListOf<CaptionsRecyclerViewData>()
+    private val captionsData = mutableListOf<CaptionsEntryModel>()
     private var isAtBottom = true
 
     override fun onFinishInflate() {
@@ -49,7 +49,7 @@ internal class CaptionsLinearLayout : LinearLayout {
     @SuppressLint("NotifyDataSetChanged")
     fun start(
         viewLifecycleOwner: LifecycleOwner,
-        viewModel: CaptionsLinearLayoutViewModel,
+        viewModel: CaptionsViewModel,
         captionsDataManager: CaptionsDataManager,
         avatarViewManager: AvatarViewManager,
         identifier: CommunicationIdentifier?
@@ -118,7 +118,7 @@ internal class CaptionsLinearLayout : LinearLayout {
         }
     }
 
-    private fun updateLastCaptionsData(lastCaptionsData: CaptionsRecyclerViewData) {
+    private fun updateLastCaptionsData(lastCaptionsData: CaptionsEntryModel) {
         val index = captionsData.size - 1
         if (index >= 0 && captionsData[index].speakerRawId == lastCaptionsData.speakerRawId) {
             val shouldScrollToBottom = isAtBottom
@@ -130,7 +130,7 @@ internal class CaptionsLinearLayout : LinearLayout {
         }
     }
 
-    private fun addNewCaptionsData(newCaptionsData: CaptionsRecyclerViewData) {
+    private fun addNewCaptionsData(newCaptionsData: CaptionsEntryModel) {
         if (captionsData.size >= CallingFragment.MAX_CAPTIONS_DATA_SIZE) {
             captionsData.removeAt(0)
             recyclerViewAdapter.notifyItemRemoved(0)
@@ -188,7 +188,7 @@ internal class CaptionsLinearLayout : LinearLayout {
     }
 }
 
-internal fun CaptionsRecord.into(avatarViewManager: AvatarViewManager, identifier: CommunicationIdentifier?): CaptionsRecyclerViewData {
+internal fun CaptionsRecord.into(avatarViewManager: AvatarViewManager, identifier: CommunicationIdentifier?): CaptionsEntryModel {
     var speakerName = this.displayName
     var bitMap: Bitmap? = null
 
@@ -202,7 +202,7 @@ internal fun CaptionsRecord.into(avatarViewManager: AvatarViewManager, identifie
         speakerName = localParticipantViewData.displayName
         bitMap = localParticipantViewData.avatarBitmap
     }
-    return CaptionsRecyclerViewData(
+    return CaptionsEntryModel(
         displayName = speakerName,
         displayText = this.displayText,
         avatarBitmap = bitMap,

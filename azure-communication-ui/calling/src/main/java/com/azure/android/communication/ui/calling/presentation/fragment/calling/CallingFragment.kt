@@ -24,7 +24,7 @@ import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivityViewModel
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerView
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsLinearLayout
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsLayout
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderView
@@ -39,7 +39,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.common.a
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay.ConnectingOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.CaptionsLanguageSelectionListView
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.CaptionsListView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.CaptionsContainerView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.menu.ParticipantMenuView
@@ -87,9 +87,9 @@ internal class CallingFragment :
     private lateinit var moreCallOptionsListView: MoreCallOptionsListView
     private lateinit var lobbyHeaderView: LobbyHeaderView
     private lateinit var lobbyErrorHeaderView: LobbyErrorHeaderView
-    private lateinit var captionsListView: CaptionsListView
+    private lateinit var captionsContainerView: CaptionsContainerView
     private lateinit var captionsLanguageSelectionListView: CaptionsLanguageSelectionListView
-    private lateinit var captionsLinearLayout: CaptionsLinearLayout
+    private lateinit var captionsLayout: CaptionsLayout
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -212,13 +212,13 @@ internal class CallingFragment :
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         moreCallOptionsListView.start(viewLifecycleOwner)
 
-        captionsListView = CaptionsListView(
+        captionsContainerView = CaptionsContainerView(
             context = this.requireContext(),
             viewModel = viewModel.captionsListViewModel
         )
-        captionsListView.layoutDirection =
+        captionsContainerView.layoutDirection =
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
-        captionsListView.start(viewLifecycleOwner)
+        captionsContainerView.start(viewLifecycleOwner)
 
         captionsLanguageSelectionListView = CaptionsLanguageSelectionListView(
             context = this.requireContext(),
@@ -231,8 +231,8 @@ internal class CallingFragment :
         val halfScreenHeight = displayMetrics.heightPixels / 2
         captionsLanguageSelectionListView.start(viewLifecycleOwner, halfScreenHeight)
 
-        captionsLinearLayout = view.findViewById(R.id.azure_communication_ui_calling_captions_linear_layout)
-        captionsLinearLayout.start(viewLifecycleOwner, viewModel.captionsLayoutViewModel, captionsDataManager, avatarViewManager, configuration.identifier)
+        captionsLayout = view.findViewById(R.id.azure_communication_ui_calling_captions_linear_layout)
+        captionsLayout.start(viewLifecycleOwner, viewModel.captionsLayoutViewModel, captionsDataManager, avatarViewManager, configuration.identifier)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -306,9 +306,9 @@ internal class CallingFragment :
         if (this::moreCallOptionsListView.isInitialized) moreCallOptionsListView.stop()
         if (this::upperMessageBarNotificationLayoutView.isInitialized) upperMessageBarNotificationLayoutView.stop()
         if (this::toastNotificationView.isInitialized) toastNotificationView.stop()
-        if (this::captionsListView.isInitialized) captionsListView.stop()
+        if (this::captionsContainerView.isInitialized) captionsContainerView.stop()
         if (this::captionsLanguageSelectionListView.isInitialized) captionsLanguageSelectionListView.stop()
-        if (this::captionsLinearLayout.isInitialized) captionsLinearLayout.stop()
+        if (this::captionsLayout.isInitialized) captionsLayout.stop()
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}

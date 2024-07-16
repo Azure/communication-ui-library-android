@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.graphics.Bitmap
 
-internal data class CaptionsRecyclerViewData(
+internal data class CaptionsEntryModel(
     val displayName: String,
     val displayText: String,
     val avatarBitmap: Bitmap?,

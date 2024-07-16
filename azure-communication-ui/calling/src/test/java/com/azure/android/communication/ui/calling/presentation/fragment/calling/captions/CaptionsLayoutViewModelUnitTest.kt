@@ -17,7 +17,7 @@ import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class CaptionsLinearLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
+internal class CaptionsLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
@@ -25,7 +25,7 @@ internal class CaptionsLinearLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
 
             // arrange
-            val viewModel = CaptionsLinearLayoutViewModel()
+            val viewModel = CaptionsViewModel()
 
             val resultDisplayErrorHeaderStateFlow =
                 mutableListOf<Boolean?>()
@@ -67,7 +67,7 @@ internal class CaptionsLinearLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
 
             // arrange
-            val viewModel = CaptionsLinearLayoutViewModel()
+            val viewModel = CaptionsViewModel()
 
             val resultDisplayErrorHeaderStateFlow =
                 mutableListOf<Boolean?>()
@@ -109,7 +109,7 @@ internal class CaptionsLinearLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
 
             // arrange
-            val viewModel = CaptionsLinearLayoutViewModel()
+            val viewModel = CaptionsViewModel()
 
             val resultDisplayErrorHeaderStateFlow =
                 mutableListOf<Boolean?>()

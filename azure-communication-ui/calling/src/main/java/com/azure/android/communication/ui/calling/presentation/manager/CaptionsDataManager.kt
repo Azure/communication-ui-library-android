@@ -109,12 +109,18 @@ internal class CaptionsDataManager(
     }
 
     private fun updateLastCaption(data: CaptionsRecord) {
+        if (captionsDataCache.size < 1) {
+            return
+        }
         captionsDataCache[captionsDataCache.size - 1] = data
         captionsLastDataUpdatedStateFlow.value = data
     }
 
     private fun finalizeLastCaptionAndAddNew(data: CaptionsRecord, lastCaption: CaptionsRecord) {
         val updatedLastCaption = lastCaption.copy(isFinal = true)
+        if (captionsDataCache.size < 1) {
+            return
+        }
         captionsDataCache[captionsDataCache.size - 1] = updatedLastCaption
         captionsLastDataUpdatedStateFlow.value = updatedLastCaption
         addNewCaption(data)

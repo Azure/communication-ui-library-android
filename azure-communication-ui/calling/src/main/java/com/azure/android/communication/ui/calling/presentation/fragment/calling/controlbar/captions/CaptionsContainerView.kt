@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @SuppressLint("ViewConstructor")
-internal class CaptionsListView(
+internal class CaptionsContainerView(
     context: Context,
     private val viewModel: CaptionsListViewModel
 ) : RelativeLayout(context) {

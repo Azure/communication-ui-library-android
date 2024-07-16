@@ -10,7 +10,7 @@ import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class CaptionsLinearLayoutViewModel {
+internal class CaptionsViewModel {
     private lateinit var displayCaptionsInfoViewFlow: MutableStateFlow<Boolean>
     private lateinit var captionsStartInProgressStateFlow: MutableStateFlow<Boolean>
     fun getDisplayCaptionsInfoViewFlow(): StateFlow<Boolean> = displayCaptionsInfoViewFlow
