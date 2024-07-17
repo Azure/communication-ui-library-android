@@ -15,5 +15,7 @@ internal interface ReduxState {
     val visibilityState: VisibilityState
     var callDiagnosticsState: CallDiagnosticsState
     var toastNotificationState: ToastNotificationState
+    /* <RTT_POC>
     var rttState: RttState
+    </RTT_POC> */
 }

@@ -40,7 +40,6 @@ import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.io.File
 import java.util.Collections
