@@ -42,6 +42,10 @@ internal class CallingService(
         MutableSharedFlow<Map<String, ParticipantInfoModel>>()
     private val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
     private var callInfoModelSharedFlow = MutableSharedFlow<CallInfoModel>()
+    /* <RTT_POC> */
+    private val rttStateSharedFlow = MutableSharedFlow<String>()
+    /* </RTT_POC> */
+
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
     private var callingStatus: CallingStatus = CallingStatus.NONE
 
@@ -131,21 +135,17 @@ internal class CallingService(
 
     fun getCamerasCountStateFlow() = callingSdk.getCamerasCountStateFlow()
 
-    fun endCall(): CompletableFuture<Void> {
-        return callingSdk.endCall()
-    }
+    /* <RTT_POC> */
+    fun getRttStateFlow(): SharedFlow<String> = rttStateSharedFlow
+    /* </RTT_POC> */
 
-    fun hold(): CompletableFuture<Void> {
-        return callingSdk.hold()
-    }
+    fun endCall() = callingSdk.endCall()
 
-    fun resume(): CompletableFuture<Void> {
-        return callingSdk.resume()
-    }
+    fun hold() = callingSdk.hold()
 
-    fun setupCall(): CompletableFuture<Void> {
-        return callingSdk.setupCall()
-    }
+    fun resume() = callingSdk.resume()
+
+    fun setupCall() = callingSdk.setupCall()
 
     fun dispose() {
         coroutineScope.cancel()
@@ -178,6 +178,13 @@ internal class CallingService(
             }
         }
 
+        /* <RTT_POC> */
+        coroutineScope.launch {
+            callingSdk.getRttSharedFlow().collect {
+                rttStateSharedFlow.emit(it)
+            }
+        }
+        /* </RTT_POC> */
         return callingSdk.startCall(cameraState, audioState)
     }
 

@@ -54,6 +54,10 @@ internal class CallingViewModel(
     val lobbyHeaderViewModel = callingViewModelProvider.lobbyHeaderViewModel
     val lobbyErrorHeaderViewModel = callingViewModelProvider.lobbyErrorHeaderViewModel
     val participantMenuViewModel = callingViewModelProvider.participantMenuViewModel
+    /* <RTT_POC> */
+    val rttViewModel = callingViewModelProvider.rttViewModel
+    /* </RTT_POC> */
+
     // This is a flag to ensure that the call is started only once
     // This is to avoid a lag between updating isDefaultParametersCallStarted
     private var callStartRequested = false
@@ -167,6 +171,12 @@ internal class CallingViewModel(
                 state.visibilityState,
             )
         )
+        /* <RTT_POC> */
+        rttViewModel.init(
+            state.rttState.messages.firstOrNull() ?: "Empty",
+            state.rttState.isRttActive
+        )
+        /* </RTT_POC> */
 
         super.init(coroutineScope)
     }
@@ -314,6 +324,13 @@ internal class CallingViewModel(
                 state.callState,
                 state.visibilityState,
             )
+
+            /* <RTT_POC> */
+            rttViewModel.update(
+                state.rttState.messages.firstOrNull() ?: "Empty",
+                state.rttState.isRttActive
+            )
+            /* </RTT_POC> */
         }
 
         confirmLeaveOverlayViewModel.update(state.visibilityState)

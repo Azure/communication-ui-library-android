@@ -40,6 +40,7 @@ import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.io.File
 import java.util.Collections
@@ -122,6 +123,12 @@ internal class CallingSDKWrapper(
     override fun getLogFiles(): List<File> {
         return callClient?.debugInfo?.supportFiles ?: Collections.emptyList()
     }
+
+    /* <RTT_POC> */
+    override fun getRttSharedFlow(): SharedFlow<String> {
+        return callingSDKEventHandler.getRttTextSharedFlow()
+    }
+    /* </RTT_POC> */
 
     //endregion
     override fun getDominantSpeakersSharedFlow() =

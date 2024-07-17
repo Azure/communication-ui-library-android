@@ -33,6 +33,7 @@ import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
 import com.azure.android.communication.ui.calling.redux.action.CallDiagnosticsAction
+import com.azure.android.communication.ui.calling.redux.action.RttAction
 import com.azure.android.communication.ui.calling.redux.action.ToastNotificationAction
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
@@ -317,6 +318,9 @@ internal class CallingMiddlewareActionHandlerImpl(
         subscribeOnLocalParticipantRoleChanged(store)
         subscribeOnTotalRemoteParticipantCountChanged(store)
         subscribeOnCapabilitiesChanged(store)
+        /* <RTT_POC> */
+        subscribeRttStateUpdate(store)
+        /* </RTT_POC> */
 
         callingService.startCall(
             store.getCurrentState().localParticipantState.cameraState,
@@ -803,6 +807,16 @@ internal class CallingMiddlewareActionHandlerImpl(
             }
         }
     }
+
+    /* <RTT_POC> */
+    private fun subscribeRttStateUpdate(store: Store<ReduxState>) {
+        coroutineScope.launch {
+            callingService.getRttStateFlow().collect {
+                store.dispatch(RttAction.IncomingMessageReceived(it))
+            }
+        }
+    }
+    /* </RTT_POC> */
 
     private fun tryCameraOn(store: Store<ReduxState>) {
         val state = store.getCurrentState()

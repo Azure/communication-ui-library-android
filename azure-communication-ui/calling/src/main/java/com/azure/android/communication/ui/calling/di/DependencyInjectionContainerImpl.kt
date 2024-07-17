@@ -56,6 +56,7 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.presentation.manager.MultitaskingManager
 import com.azure.android.communication.ui.calling.redux.reducer.PipReducerImpl
+import com.azure.android.communication.ui.calling.redux.reducer.RttReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.ToastNotificationReducerImpl
 import com.azure.android.communication.ui.calling.service.CallHistoryService
 import com.azure.android.communication.ui.calling.service.CallHistoryServiceImpl
@@ -252,7 +253,9 @@ internal class DependencyInjectionContainerImpl(
     private val pipReducer get() = PipReducerImpl()
     private val callDiagnosticsReducer get() = CallDiagnosticsReducerImpl()
     private val toastNotificationReducer get() = ToastNotificationReducerImpl()
-
+    /* <RTT_POC> */
+    private val rttReducer get() = RttReducerImpl()
+    /* </RTT_POC> */
     // Middleware
     private val appMiddleware get() = mutableListOf(callingMiddleware)
 
@@ -276,6 +279,9 @@ internal class DependencyInjectionContainerImpl(
             pipReducer,
             callDiagnosticsReducer,
             toastNotificationReducer,
+            /* <RTT_POC> */
+            rttReducer,
+            /* </RTT_POC> */
         ) as Reducer<ReduxState>
     }
     //endregion
