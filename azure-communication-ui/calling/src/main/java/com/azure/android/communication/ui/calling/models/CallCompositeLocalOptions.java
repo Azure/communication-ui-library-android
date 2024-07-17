@@ -37,6 +37,7 @@ public final class CallCompositeLocalOptions {
     private boolean microphoneOn = false;
     private boolean skipSetupScreen = false;
     private CallCompositeAudioVideoMode audioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO;
+    private CallCompositeCaptionsOptions captionsOptions = null;
 
     /**
      * Create LocalSettings.
@@ -178,5 +179,24 @@ public final class CallCompositeLocalOptions {
      */
     public CallCompositeAudioVideoMode getAudioVideoMode() {
         return audioVideoMode;
+    }
+
+    /**
+     * Get the {@link CallCompositeCaptionsOptions}.
+     * @return The {@link CallCompositeCaptionsOptions} that is currently set.
+     */
+    public CallCompositeCaptionsOptions getCaptionsOptions() {
+        return captionsOptions;
+    }
+
+    /**
+     * Set a {@link CallCompositeCaptionsOptions} to be used.
+     * @param captionsOptions The captions options object to be used.
+     * @return The current {@link CallCompositeLocalOptions}.
+     */
+    public CallCompositeLocalOptions setCaptionsOptions(
+            final CallCompositeCaptionsOptions captionsOptions) {
+        this.captionsOptions = captionsOptions;
+        return this;
     }
 }

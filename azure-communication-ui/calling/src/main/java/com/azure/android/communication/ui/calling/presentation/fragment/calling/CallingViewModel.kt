@@ -54,6 +54,9 @@ internal class CallingViewModel(
     val lobbyHeaderViewModel = callingViewModelProvider.lobbyHeaderViewModel
     val lobbyErrorHeaderViewModel = callingViewModelProvider.lobbyErrorHeaderViewModel
     val participantMenuViewModel = callingViewModelProvider.participantMenuViewModel
+    val captionsListViewModel = callingViewModelProvider.captionsListViewModel
+    val captionsLanguageSelectionListViewModel = callingViewModelProvider.captionsLanguageSelectionListViewModel
+    val captionsLayoutViewModel = callingViewModelProvider.captionsViewModel
     // This is a flag to ensure that the call is started only once
     // This is to avoid a lag between updating isDefaultParametersCallStarted
     private var callStartRequested = false
@@ -167,6 +170,10 @@ internal class CallingViewModel(
                 state.visibilityState,
             )
         )
+
+        captionsListViewModel.init(state.captionsState, state.callState.callingStatus)
+        captionsLanguageSelectionListViewModel.init(state.captionsState)
+        captionsLayoutViewModel.init(state.captionsState, state.visibilityState)
 
         super.init(coroutineScope)
     }
@@ -324,6 +331,10 @@ internal class CallingViewModel(
         }
 
         updateOverlayDisplayedState(state.callState.callingStatus)
+
+        captionsListViewModel.update(state.captionsState, state.callState.callingStatus, state.visibilityState)
+        captionsLanguageSelectionListViewModel.update(state.captionsState, state.visibilityState)
+        captionsLayoutViewModel.update(state.captionsState, state.visibilityState)
     }
 
     private fun getLobbyParticipantsForHeader(state: ReduxState) =

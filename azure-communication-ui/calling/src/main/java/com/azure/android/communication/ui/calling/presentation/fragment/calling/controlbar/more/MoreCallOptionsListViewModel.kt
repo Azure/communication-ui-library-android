@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.redux.Dispatch
+import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 internal class MoreCallOptionsListViewModel(
     private val debugInfoManager: DebugInfoManager,
     private val showSupportFormOption: Boolean,
+    private val isCaptionsEnabled: Boolean,
     private val dispatch: Dispatch
 ) {
     private val unknown = "UNKNOWN"
@@ -26,6 +28,9 @@ internal class MoreCallOptionsListViewModel(
     val displayStateFlow = MutableStateFlow(false)
 
     val listEntries = mutableListOf<Entries>().apply {
+        if (isCaptionsEnabled) {
+            add(Entries.CAPTIONS)
+        }
         add(Entries.SHARE_DIAGNOSTICS)
         if (showSupportFormOption) {
             add(Entries.REPORT_ISSUE)
@@ -49,11 +54,20 @@ internal class MoreCallOptionsListViewModel(
             close()
     }
 
+    fun toggleCaptionsOptions() {
+        dispatch(CaptionsAction.ShowCaptionsOptions())
+    }
+
     companion object {
-        enum class Entries(val title: Int, val icon: Int?,) {
+        enum class Entries(val title: Int, val icon: Int?, val showRightArrow: Boolean = false) {
             SHARE_DIAGNOSTICS(
                 R.string.azure_communication_ui_calling_view_share_diagnostics,
                 R.drawable.azure_communication_ui_calling_ic_fluent_share_android_24_regular
+            ),
+            CAPTIONS(
+                R.string.azure_communication_ui_calling_live_captions_title,
+                R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_selector,
+                true
             ),
             REPORT_ISSUE(
                 R.string.azure_communication_ui_calling_report_issue_title,

@@ -110,7 +110,7 @@
 
     <!--    Participant list-->
     <string name="azure_communication_ui_calling_participant_list_in_call_n_people">בשיחה (%1$d)</string>
-    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">%1$d עוד +</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d נוספות</string>
     <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">בחדר הכניסה (%1$d)</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">הקש פעמיים כדי להכניס/לדחות משתתף</string>
 
@@ -169,13 +169,27 @@
     <string name="azure_communication_ui_calling_call_view_calling">מתקשר...</string>
 
     <!-- Participant menu actions -->
-    <string name="azure_communication_ui_calling_view_participant_menu_mute">השתק</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">תפריט השתקת משתתף.</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove">הסר משיחה</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">הסר משתתף דרך תפריט ’שיחה’</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">Mute</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">תפריט השתקת משתתף</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">Remove from call</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">תפריט הסרת משתתף משיחה</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">הגדרות השיחה עודכנו. ייתכן שתכונות מסוימות לא יהיו זמינות עבורך.</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">הגדרות השיחה עודכנו. ייתכן שפעולות נוספות מסוימות יהיו זמינות כעת עבורך.</string>
 
     <!-- Participant menu view -->
-    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">disabled item.</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">פריט לא זמין.</string>
+
+    <!--    Drawer-->
+    <string name="azure_communication_ui_calling_drawer_next_content_description">הבא</string>
+
+    <!--    Captions-->
+    <string name="azure_communication_ui_calling_live_captions_title">כתוביות בשידור חי</string>
+    <string name="azure_communication_ui_calling_captions_spoken_language_title">שפה מדוברת</string>
+    <string name="azure_communication_ui_calling_captions_caption_language_title">שפת כתוביות</string>
+    <string name="azure_communication_ui_calling_starting_captions">Starting captions...</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">לא ניתן להתחיל כתוביות</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">לא ניתן להפסיק כתוביות</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">לא ניתן להגדיר שפה מדוברת עבור כתוביות</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Unable to change caption language</string>
+
 </resources>

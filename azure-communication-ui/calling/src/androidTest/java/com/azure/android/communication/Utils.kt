@@ -89,6 +89,15 @@ internal fun tapWithTextWhenDisplayed(text: String) {
     ).perform(ViewActions.click())
 }
 
+internal fun assertTextDisplayed(text: String) {
+    // wait until text is displayed
+    waitUntilViewIsDisplayed {
+        Espresso.onView(
+            Matchers.allOf(ViewMatchers.withText(text), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
+        ).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
+}
+
 internal fun assertViewText(id: Int, textId: Int) {
     Espresso.onView(
         Matchers.allOf(
@@ -178,4 +187,17 @@ internal fun waitUntilTextDisplayed(stringId: Int) {
 internal fun confirmTextDisplayed(id: Int, text: String) {
     Espresso.onView(allOf(ViewMatchers.withId(id), ViewMatchers.withText(text)))
         .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+}
+
+internal fun tapWithTextWhenDisplayedById(id: Int) {
+    // wait until text is displayed
+    waitUntilViewIsDisplayed {
+        Espresso.onView(
+            Matchers.allOf(ViewMatchers.withId(id), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
+        ).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
+    tapDelay()
+    Espresso.onView(
+        Matchers.allOf(ViewMatchers.withId(id), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
+    ).perform(ViewActions.click())
 }

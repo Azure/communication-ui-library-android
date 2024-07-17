@@ -101,6 +101,7 @@ class CallLauncherActivity : AppCompatActivity() {
         val deepLinkRoomsId = data?.getQueryParameter("roomsid")
         /* </ROOMS_SUPPORT:0> */
         val participantMRIs = data?.getQueryParameter("participantmris")
+        val identity = data?.getQueryParameter("identity")
 
         binding.run {
             if (!deeplinkAcsToken.isNullOrEmpty()) {
@@ -108,6 +109,12 @@ class CallLauncherActivity : AppCompatActivity() {
             } else {
                 acsTokenText.setText(BuildConfig.ACS_TOKEN)
                 launchButton.isEnabled = BuildConfig.ACS_TOKEN.isNotEmpty()
+            }
+
+            if (!identity.isNullOrEmpty()) {
+                acsIdentityText.setText(deeplinkAcsToken)
+            } else {
+                acsIdentityText.setText(BuildConfig.ACS_IDENTITY)
             }
 
             if (!deeplinkName.isNullOrEmpty()) {
@@ -358,6 +365,7 @@ class CallLauncherActivity : AppCompatActivity() {
 
         callCompositeManager.launch(
             this@CallLauncherActivity,
+            identity = binding.acsIdentityText.text.toString(),
             acsToken,
             userName,
             groupId,
