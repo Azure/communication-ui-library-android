@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-/* <RTT_POC> */
+/* <RTT_POC>
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt
 
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,4 +30,4 @@ internal class RttViewModel {
         this.isDisplayed.value = isDisplayed
     }
 }
-/* </RTT_POC> */
+</RTT_POC> */

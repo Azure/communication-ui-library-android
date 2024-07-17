@@ -318,9 +318,9 @@ internal class CallingMiddlewareActionHandlerImpl(
         subscribeOnLocalParticipantRoleChanged(store)
         subscribeOnTotalRemoteParticipantCountChanged(store)
         subscribeOnCapabilitiesChanged(store)
-        /* <RTT_POC> */
+        /* <RTT_POC>
         subscribeRttStateUpdate(store)
-        /* </RTT_POC> */
+        </RTT_POC> */
 
         callingService.startCall(
             store.getCurrentState().localParticipantState.cameraState,
@@ -808,7 +808,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         }
     }
 
-    /* <RTT_POC> */
+    /* <RTT_POC>
     private fun subscribeRttStateUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
             callingService.getRttStateFlow().collect {
@@ -816,7 +816,7 @@ internal class CallingMiddlewareActionHandlerImpl(
             }
         }
     }
-    /* </RTT_POC> */
+    </RTT_POC> */
 
     private fun tryCameraOn(store: Store<ReduxState>) {
         val state = store.getCurrentState()

@@ -253,9 +253,9 @@ internal class DependencyInjectionContainerImpl(
     private val pipReducer get() = PipReducerImpl()
     private val callDiagnosticsReducer get() = CallDiagnosticsReducerImpl()
     private val toastNotificationReducer get() = ToastNotificationReducerImpl()
-    /* <RTT_POC> */
+    /* <RTT_POC>
     private val rttReducer get() = RttReducerImpl()
-    /* </RTT_POC> */
+    </RTT_POC> */
     // Middleware
     private val appMiddleware get() = mutableListOf(callingMiddleware)
 
@@ -279,9 +279,9 @@ internal class DependencyInjectionContainerImpl(
             pipReducer,
             callDiagnosticsReducer,
             toastNotificationReducer,
-            /* <RTT_POC> */
+            /* <RTT_POC>
             rttReducer,
-            /* </RTT_POC> */
+            </RTT_POC> */
         ) as Reducer<ReduxState>
     }
     //endregion

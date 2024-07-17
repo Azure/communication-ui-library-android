@@ -77,7 +77,7 @@ internal class AppReduxState(
 
     override var toastNotificationState = ToastNotificationState(null)
 
-    /* <RTT_POC> */
+    /* <RTT_POC>
     override var rttState = RttState()
-    /* </RTT_POC> */
+    </RTT_POC> */
 }

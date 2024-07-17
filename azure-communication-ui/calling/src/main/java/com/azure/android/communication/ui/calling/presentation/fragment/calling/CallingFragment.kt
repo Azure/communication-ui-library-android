@@ -39,9 +39,9 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.menu.ParticipantMenuView
-/* <RTT_POC> */
+/* <RTT_POC>
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttView
-/* </RTT_POC> */
+</RTT_POC> */
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
 
 internal class CallingFragment :
@@ -82,18 +82,18 @@ internal class CallingFragment :
     private lateinit var moreCallOptionsListView: MoreCallOptionsListView
     private lateinit var lobbyHeaderView: LobbyHeaderView
     private lateinit var lobbyErrorHeaderView: LobbyErrorHeaderView
-    /* <RTT_POC> */
+    /* <RTT_POC>
     private lateinit var rttView: RttView
-    /* </RTT_POC> */
+    </RTT_POC> */
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.init(viewLifecycleOwner.lifecycleScope)
 
-        /* <RTT_POC> */
+        /* <RTT_POC>
         rttView = view.findViewById(R.id.azure_communication_ui_call_rtt_view)
         rttView.start(viewLifecycleOwner, viewModel.rttViewModel)
-        /* <RTT_POC> */
+        </RTT_POC> */
 
         confirmLeaveOverlayView =
             LeaveConfirmView(viewModel.confirmLeaveOverlayViewModel, this.requireContext())

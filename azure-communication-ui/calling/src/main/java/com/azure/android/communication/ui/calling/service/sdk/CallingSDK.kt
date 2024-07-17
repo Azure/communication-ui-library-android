@@ -76,9 +76,9 @@ internal interface CallingSDK {
 
     //endregion
 
-    /* <RTT_POC> */
+    /* <RTT_POC>
     fun getRttSharedFlow(): SharedFlow<String>
-    /* </RTT_POC> */
+    </RTT_POC> */
     fun setTelecomManagerAudioRoute(audioRoute: Int)
 }
 

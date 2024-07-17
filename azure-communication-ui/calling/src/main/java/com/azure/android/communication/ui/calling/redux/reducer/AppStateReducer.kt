@@ -19,9 +19,9 @@ internal class AppStateReducer(
     private val pipReducer: PipReducer,
     private val callDiagnosticsReducer: CallDiagnosticsReducer,
     private val toastNotificationReducer: ToastNotificationReducer,
-    /* <RTT_POC> */
+    /* <RTT_POC>
     private val rttReducer: RttReducer
-    /* </RTT_POC> */
+    </RTT_POC> */
 ) :
     Reducer<AppReduxState> {
     override fun reduce(state: AppReduxState, action: Action): AppReduxState {
@@ -57,9 +57,9 @@ internal class AppStateReducer(
         appState.visibilityState = pipReducer.reduce(state.visibilityState, action)
         appState.callDiagnosticsState = callDiagnosticsReducer.reduce(state.callDiagnosticsState, action)
         appState.toastNotificationState = toastNotificationReducer.reduce(state.toastNotificationState, action)
-        /* <RTT_POC> */
+        /* <RTT_POC>
         appState.rttState = rttReducer.reduce(state.rttState, action)
-        /* </RTT_POC> */
+        </RTT_POC> */
         return appState
     }
 }
