@@ -60,19 +60,27 @@ internal class AppReduxState(
     override var permissionState: PermissionState =
         PermissionState(PermissionStatus.UNKNOWN, PermissionStatus.UNKNOWN)
 
-    override var lifecycleState: LifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
+    override var lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
 
-    override var errorState: ErrorState = ErrorState(fatalError = null, callStateError = null)
+    override var errorState = ErrorState(fatalError = null, callStateError = null)
 
-    override var navigationState: NavigationState = NavigationState(NavigationStatus.NONE)
+    override var navigationState = NavigationState(NavigationStatus.NONE)
 
-    override var audioSessionState: AudioSessionState = AudioSessionState(audioFocusStatus = null)
+    override var audioSessionState = AudioSessionState(audioFocusStatus = null)
 
-    override var visibilityState: VisibilityState = VisibilityState(status = VisibilityStatus.VISIBLE)
+    override var visibilityState = VisibilityState(status = VisibilityStatus.VISIBLE)
 
-    override var callDiagnosticsState: CallDiagnosticsState = CallDiagnosticsState(networkQualityCallDiagnostic = null, networkCallDiagnostic = null, mediaCallDiagnostic = null)
+    override var callDiagnosticsState = CallDiagnosticsState(
+        networkQualityCallDiagnostic = null,
+        networkCallDiagnostic = null,
+        mediaCallDiagnostic = null
+    )
 
     override var toastNotificationState: ToastNotificationState = ToastNotificationState(null)
 
     override var captionsState: CaptionsState = CaptionsState(isCaptionsUIEnabled = showCaptionsUI)
+
+    /* <RTT_POC>
+    override var rttState = RttState()
+    </RTT_POC> */
 }

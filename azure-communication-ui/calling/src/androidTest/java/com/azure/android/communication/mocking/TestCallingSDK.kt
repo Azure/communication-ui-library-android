@@ -93,6 +93,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     private var isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
     private var getCameraCountStateFlow = MutableStateFlow(2)
     private val participantRoleSharedFlow = MutableSharedFlow<ParticipantRole?>()
+    private val totalParticipantCountSharedFlow = MutableSharedFlow<Int>()
     private var networkQualityCallDiagnosticSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
     private var networkCallDiagnosticSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
     private var mediaCallDiagnosticSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
@@ -468,7 +469,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     }
 
     override fun getTotalRemoteParticipantCountSharedFlow(): SharedFlow<Int> {
-        return MutableSharedFlow()
+        return totalParticipantCountSharedFlow
     }
 
     override fun getCapabilitiesChangedEventSharedFlow(): SharedFlow<CapabilitiesChangedEvent> {

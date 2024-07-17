@@ -38,6 +38,9 @@ import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
 import com.azure.android.communication.ui.calling.redux.action.CallDiagnosticsAction
+/* <RTT_POC>
+import com.azure.android.communication.ui.calling.redux.action.RttAction
+</RTT_POC> */
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.action.ToastNotificationAction
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
@@ -331,6 +334,10 @@ internal class CallingMiddlewareActionHandlerImpl(
         subscribeOnCapabilitiesChanged(store)
         subscribeToCaptionsUpdates(store)
 
+        /* <RTT_POC>
+        subscribeRttStateUpdate(store)
+        </RTT_POC> */
+
         callingService.startCall(
             store.getCurrentState().localParticipantState.cameraState,
             store.getCurrentState().localParticipantState.audioState
@@ -563,7 +570,7 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun dismissNotification(store: Store<ReduxState>) {
-        store.getCurrentState().toastNotificationState.kind?.let { kind ->
+        store.getCurrentState().toastNotificationState.kind?.let { kind: ToastNotificationKind ->
 
             if (kind == ToastNotificationKind.NETWORK_UNAVAILABLE) {
                 val model = NetworkCallDiagnosticModel(
@@ -906,6 +913,16 @@ internal class CallingMiddlewareActionHandlerImpl(
             }
         }
     }
+
+    /* <RTT_POC>
+    private fun subscribeRttStateUpdate(store: Store<ReduxState>) {
+        coroutineScope.launch {
+            callingService.getRttStateFlow().collect {
+                store.dispatch(RttAction.IncomingMessageReceived(it))
+            }
+        }
+    }
+    </RTT_POC> */
 
     private fun tryCameraOn(store: Store<ReduxState>) {
         val state = store.getCurrentState()
