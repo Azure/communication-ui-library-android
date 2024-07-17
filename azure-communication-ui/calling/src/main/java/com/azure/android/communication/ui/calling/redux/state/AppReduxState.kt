@@ -83,5 +83,4 @@ internal class AppReduxState(
     /* <RTT_POC>
     override var rttState = RttState()
     </RTT_POC> */
-
 }

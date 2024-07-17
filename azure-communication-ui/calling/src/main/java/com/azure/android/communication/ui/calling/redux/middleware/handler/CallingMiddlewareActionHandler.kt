@@ -52,7 +52,6 @@ import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.ToastNotificationKind
-import com.azure.android.communication.ui.calling.redux.state.ToastNotificationState
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import kotlinx.coroutines.CoroutineScope
