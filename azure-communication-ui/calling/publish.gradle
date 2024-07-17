@@ -84,11 +84,11 @@ publishing {
                 }
             }
 
-            groupId 'com.azure.android'
-            artifactId 'azure-communication-calling'
-            version '2.10.0'
+            //groupId 'com.azure.android'
+            //artifactId 'azure-communication-calling'
+            //version '2.10.0'
 
-            artifact("C:\\Skype2\\SpoolCallingStack\\native\\staging.d\\release\\BETA\\sdk\\arm64-v8a\\azure-communication-calling-1.0.0-beta.1.aar")
+            //artifact("C:\\Skype2\\SpoolCallingStack\\native\\staging.d\\release\\BETA\\sdk\\arm64-v8a\\azure-communication-calling-1.0.0-beta.1.aar")
 
             //groupId 'com.microsoft'
             //artifactId 'trouter-client-android'

@@ -27,21 +27,34 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/*'
+        }
+    }
 }
 
 dependencies {
 
     api project(path: ':calling')
-    api(project(path: ':chat')) {
+    api project(path: ':chat')
+    
+    //implementation platform('com.azure.android:azure-communication-calling-chat-bom:0.0.1-beta.98')
+    implementation ('com.azure.android:azure-communication-calling:0.0.1-beta.98') {
         exclude group: 'com.microsoft', module: 'trouter-client-android'
     }
 
-    implementation ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version") {
+    implementation ('com.azure.android:azure-communication-chat:2.0.3') {
         exclude group: 'com.microsoft', module: 'trouter-client-android'
     }
 
-    implementation files("C:\\Skype2\\SpoolCallingStack\\native\\staging.d\\release\\BETA\\sdk\\arm64-v8a\\trouter-client-android.aar")
+    implementation 'com.microsoft:trouter-client-android:0.0.98'
+    //implementation ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version") {
+    //    exclude group: 'com.microsoft', module: 'trouter-client-android'
+    //}
 
+    //implementation files("C:\\Skype2\\SpoolCallingStack\\native\\staging.d\\release\\BETA\\sdk\\arm64-v8a\\trouter-client-android.aar")
+    //implementation files("C:\\Users\\sanathr\\Documents\\sources\\Trouter\\private_branch\\trouter-client-android.aar")
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

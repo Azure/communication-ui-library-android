@@ -78,7 +78,9 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$androidx_navigation_fragment_ktx_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_viewmodel_ktx_version"
 
-    api("com.azure.android:azure-communication-chat:$azure_chat_sdk_version")
+    implementation("com.azure.android:azure-communication-chat:2.0.3") {
+        exclude group: 'com.microsoft', module: 'trouter-client-android'
+    }
     api("com.azure.android:azure-communication-common:$azure_common_sdk_version")
     //api 'com.microsoft:trouter-client-android:2.0.0'
 
@@ -107,8 +109,8 @@ dependencies {
     debugImplementation "androidx.customview:customview:1.2.0-alpha01"
     debugImplementation "androidx.customview:customview-poolingcontainer:1.0.0-alpha01"
 
-    api("com.azure.android:azure-communication-chat:$azure_chat_sdk_version")
-    api("com.azure.android:azure-communication-common:$azure_common_sdk_version")
+    //api("com.azure.android:azure-communication-chat:$azure_chat_sdk_version")
+    //api("com.azure.android:azure-communication-common:$azure_common_sdk_version")
 
     testImplementation "junit:junit:$junit_version"
     testImplementation "org.mockito:mockito-inline:$mockito_inline_version"

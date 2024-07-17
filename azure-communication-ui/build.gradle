@@ -66,7 +66,25 @@ buildscript {
 
     repositories {
         google()
+
+        maven {
+            name 'vsoMavenSkype'
+            url 'https://skype.pkgs.visualstudio.com/_packaging/csc/maven/v1/'
+
+            credentials {
+                // Property systemProp.gradle.wrapperUser and systemProp.gradle.wrapperPassword are defined on orient build machines
+                // So for builds non-orient agents, we'll be passing the credentials as command line arguments
+                if (project.hasProperty("orientBuild") && project.getProperties().get("orientBuild") == "true") {
+                    username property('systemProp.gradle.wrapperUser')
+                    password property('systemProp.gradle.wrapperPassword')
+                } else {
+                    username property('gradle.wrapperUser')
+                    password property('gradle.wrapperPassword')
+                }
+            }
+        }
     }
+
     dependencies {
         classpath 'com.android.tools.build:gradle:7.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -100,6 +118,21 @@ allprojects {
         mavenLocal()
         maven {
             url "https://pkgs.dev.azure.com/MicrosoftDeviceSDK/DuoSDK-Public/_packaging/Duo-SDK-Feed/maven/v1"
+        }
+        maven {
+            url 'https://skype.pkgs.visualstudio.com/_packaging/csc/maven/v1/'
+
+            credentials {
+                // Property systemProp.gradle.wrapperUser and systemProp.gradle.wrapperPassword are defined on orient build machines
+                // So for builds non-orient agents, we'll be passing the credentials as command line arguments
+                if (project.hasProperty("orientBuild") && project.getProperties().get("orientBuild") == "true") {
+                    username property('systemProp.gradle.wrapperUser')
+                    password property('systemProp.gradle.wrapperPassword')
+                } else {
+                    username property('gradle.wrapperUser')
+                    password property('gradle.wrapperPassword')
+                }
+            }
         }
         if (localProps.containsKey('GITHUB_MAVEN_REPO_URL')) {
             maven {
