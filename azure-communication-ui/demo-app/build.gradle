@@ -37,6 +37,7 @@ android {
         buildConfigField 'String', 'SUPPORT_END_POINT_URL', properties.getProperty('SUPPORT_END_POINT_URL', '""')
         buildConfigField 'String', 'PARTICIPANT_MRIS', properties.getProperty('PARTICIPANT_MRIS', '""')
         buildConfigField "String", 'AAD_TOKEN', properties.getProperty('AAD_TOKEN', '""')
+        buildConfigField "String", 'ACS_IDENTITY', properties.getProperty('ACS_IDENTITY', '""')
         /* <ROOMS_SUPPORT:0> */
         buildConfigField 'String', 'ROOM_ID', properties.getProperty('ROOM_ID', '""')
         /* </ROOMS_SUPPORT:0> */

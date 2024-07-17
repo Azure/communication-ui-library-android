@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+   Copyright (c) Microsoft Corporation. All rights reserved.
+   Licensed under the MIT License.
+  -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/azure_communication_ui_calling_ic_fluent_caption_language_24_filled" android:state_activated="true" />
+    <item android:drawable="@drawable/azure_communication_ui_calling_ic_fluent_caption_language_24_filled" android:state_checked="true" />
+    <item android:drawable="@drawable/azure_communication_ui_calling_ic_fluent_caption_language_24_filled" android:state_selected="true" />
+    <item android:drawable="@drawable/azure_communication_ui_calling_ic_fluent_caption_language_24_regular" />
+</selector>

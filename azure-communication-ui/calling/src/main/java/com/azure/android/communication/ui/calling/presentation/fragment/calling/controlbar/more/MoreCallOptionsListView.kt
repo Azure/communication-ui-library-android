@@ -81,11 +81,13 @@ internal class MoreCallOptionsListView(
             isChecked = false,
             participantViewData = null,
             isOnHold = false,
+            showRightArrow = entry.showRightArrow,
             onClickAction =
             {
                 when (entry) {
                     MoreCallOptionsListViewModel.Companion.Entries.SHARE_DIAGNOSTICS -> shareDiagnostics(context)
                     MoreCallOptionsListViewModel.Companion.Entries.REPORT_ISSUE -> viewModel.requestReportIssueScreen()
+                    MoreCallOptionsListViewModel.Companion.Entries.CAPTIONS -> { viewModel.toggleCaptionsOptions() }
                 }
                 menuDrawer.dismissDialog()
             }

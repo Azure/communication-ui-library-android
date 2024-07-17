@@ -4,14 +4,18 @@
 package com.azure.android.communication.ui.calling.redux.middleware.handler
 
 import android.telecom.CallAudioState
+import com.azure.android.communication.calling.CallingCommunicationException
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.error.CallCompositeError
+import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.FatalError
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionMode
 import com.azure.android.communication.ui.calling.models.CallCompositeCapabilitiesChangedNotificationMode
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsErrors
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
 import com.azure.android.communication.ui.calling.models.CallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
@@ -22,6 +26,7 @@ import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticMo
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.buildCallCompositeAudioSelectionChangedEvent
+import com.azure.android.communication.ui.calling.models.into
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
@@ -36,15 +41,18 @@ import com.azure.android.communication.ui.calling.redux.action.CallDiagnosticsAc
 /* <RTT_POC>
 import com.azure.android.communication.ui.calling.redux.action.RttAction
 </RTT_POC> */
+import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.action.ToastNotificationAction
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
+import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.ToastNotificationKind
+import com.azure.android.communication.ui.calling.redux.state.ToastNotificationState
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import kotlinx.coroutines.CoroutineScope
@@ -94,6 +102,10 @@ internal interface CallingMiddlewareActionHandler {
         store: Store<ReduxState>
     )
     fun dismissNotification(store: Store<ReduxState>)
+    fun startCaptions(language: String?, store: Store<ReduxState>)
+    fun stopCaptions(store: Store<ReduxState>)
+    fun setCaptionsSpokenLanguage(language: String, store: Store<ReduxState>)
+    fun setCaptionsCaptionLanguage(language: String, store: Store<ReduxState>)
 }
 
 internal class CallingMiddlewareActionHandlerImpl(
@@ -101,6 +113,7 @@ internal class CallingMiddlewareActionHandlerImpl(
     coroutineContextProvider: CoroutineContextProvider,
     private val configuration: CallCompositeConfiguration,
     private val capabilitiesManager: CapabilitiesManager,
+    private val localOptions: CallCompositeLocalOptions? = null
 ) :
     CallingMiddlewareActionHandler {
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
@@ -320,6 +333,8 @@ internal class CallingMiddlewareActionHandlerImpl(
         subscribeOnLocalParticipantRoleChanged(store)
         subscribeOnTotalRemoteParticipantCountChanged(store)
         subscribeOnCapabilitiesChanged(store)
+        subscribeToCaptionsUpdates(store)
+
         /* <RTT_POC>
         subscribeRttStateUpdate(store)
         </RTT_POC> */
@@ -556,7 +571,7 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun dismissNotification(store: Store<ReduxState>) {
-        store.getCurrentState().toastNotificationState.kind?.let { kind ->
+        store.getCurrentState().toastNotificationState.kind?.let { kind: ToastNotificationKind ->
 
             if (kind == ToastNotificationKind.NETWORK_UNAVAILABLE) {
                 val model = NetworkCallDiagnosticModel(
@@ -618,6 +633,88 @@ internal class CallingMiddlewareActionHandlerImpl(
     override fun onAudioFocusRequesting(store: Store<ReduxState>) {
         if (configuration.telecomManagerOptions != null) {
             store.dispatch(AudioSessionAction.AudioFocusApproved())
+        }
+    }
+
+    override fun startCaptions(language: String?, store: Store<ReduxState>) {
+        callingService.startCaptions(language)
+            .handle { _, error: Throwable? ->
+                if (error != null) {
+                    (error.cause as CallingCommunicationException).let {
+                        val captionsError = it.errorCode.into()
+                        if (captionsError == CallCompositeCaptionsErrors.CAPTIONS_REQUESTED_LANGUAGE_NOT_SUPPORTED) {
+                            store.dispatch(
+                                ErrorAction.CallStateErrorOccurred(
+                                    CallStateError(
+                                        ErrorCode.CAPTIONS_START_FAILED_SPOKEN_LANGUAGE_NOT_SUPPORTED
+                                    )
+                                )
+                            )
+                        } else if (captionsError == CallCompositeCaptionsErrors.GET_CAPTIONS_FAILED_CALL_STATE_NOT_CONNECTED) {
+                            store.dispatch(
+                                ErrorAction.CallStateErrorOccurred(
+                                    CallStateError(
+                                        ErrorCode.CALL_NOT_CONNECTED
+                                    )
+                                )
+                            )
+                        }
+                    }
+                    store.dispatch(CaptionsAction.UpdateStatus(CaptionsStatus.STOPPED))
+                    store.dispatch(ToastNotificationAction.ShowNotification(ToastNotificationKind.CAPTIONS_FAILED_TO_START))
+                } else {
+                    store.dispatch(CaptionsAction.UpdateStatus(CaptionsStatus.STARTED))
+                }
+            }
+    }
+
+    override fun stopCaptions(store: Store<ReduxState>) {
+        callingService.stopCaptions()
+            .handle { _, error: Throwable? ->
+                if (error != null) {
+                    captionsNotActiveError(error, store)
+                    store.dispatch(ToastNotificationAction.ShowNotification(ToastNotificationKind.CAPTIONS_FAILED_TO_STOP))
+                } else {
+                    store.dispatch(CaptionsAction.UpdateStatus(CaptionsStatus.STOPPED))
+                }
+            }
+    }
+
+    override fun setCaptionsSpokenLanguage(language: String, store: Store<ReduxState>) {
+        callingService.setCaptionsSpokenLanguage(language)
+            .handle { _, error: Throwable? ->
+                if (error != null) {
+                    captionsNotActiveError(error, store)
+                    store.dispatch(ToastNotificationAction.ShowNotification(ToastNotificationKind.CAPTIONS_FAILED_TO_SET_SPOKEN_LANGUAGE))
+                }
+            }
+    }
+
+    override fun setCaptionsCaptionLanguage(language: String, store: Store<ReduxState>) {
+        callingService.setCaptionsCaptionLanguage(language)
+            .handle { _, error: Throwable? ->
+                if (error != null) {
+                    captionsNotActiveError(error, store)
+                    store.dispatch(ToastNotificationAction.ShowNotification(ToastNotificationKind.CAPTIONS_FAILED_TO_SET_CAPTION_LANGUAGE))
+                }
+            }
+    }
+
+    private fun captionsNotActiveError(
+        error: Throwable,
+        store: Store<ReduxState>
+    ) {
+        (error.cause as CallingCommunicationException).let {
+            val captionsError = it.errorCode.into()
+            if (captionsError == CallCompositeCaptionsErrors.CAPTIONS_NOT_ACTIVE) {
+                store.dispatch(
+                    ErrorAction.CallStateErrorOccurred(
+                        CallStateError(
+                            ErrorCode.CAPTIONS_NOT_ACTIVE
+                        )
+                    )
+                )
+            }
         }
     }
 
@@ -769,6 +866,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                         if (state.localParticipantState.initialCallJoinState.skipSetupScreen) {
                             store.dispatch(NavigationAction.Exit())
                         } else {
+                            store.dispatch(CaptionsAction.UpdateStatus(CaptionsStatus.STOPPED))
                             store.dispatch(NavigationAction.SetupLaunched())
                         }
                     } else if (it.errorCode == ErrorCode.CALL_END_FAILED ||
@@ -778,6 +876,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                         store.dispatch(CallingAction.IsRecordingUpdated(false))
                         store.dispatch(ParticipantAction.ListUpdated(HashMap()))
                         store.dispatch(CallingAction.StateUpdated(CallingStatus.NONE))
+                        store.dispatch(CaptionsAction.UpdateStatus(CaptionsStatus.STOPPED))
                         if (store.getCurrentState().localParticipantState.initialCallJoinState.skipSetupScreen) {
                             store.dispatch(NavigationAction.Exit())
                         } else {
@@ -791,12 +890,18 @@ internal class CallingMiddlewareActionHandlerImpl(
                         CallingStatus.DISCONNECTED -> NavigationAction.Exit()
                         CallingStatus.CONNECTED -> NavigationAction.CallLaunched()
                         CallingStatus.CONNECTING -> {
-                            if (configuration.callConfig?.callType == CallType.ONE_TO_N_OUTGOING) NavigationAction.CallLaunched() else null
+                            if (configuration.callConfig.callType == CallType.ONE_TO_N_OUTGOING) NavigationAction.CallLaunched() else null
                         }
                         CallingStatus.IN_LOBBY -> NavigationAction.CallLaunched()
                         else -> null
                     }
                     action?.let { store.dispatch(it) }
+
+                    if (localOptions?.captionsOptions?.isCaptionsOn == true &&
+                        callInfoModel.callingStatus == CallingStatus.CONNECTED
+                    ) {
+                        store.dispatch(CaptionsAction.StartRequested(localOptions.captionsOptions?.spokenLanguage ?: ""))
+                    }
                 }
             }
         }
@@ -839,6 +944,44 @@ internal class CallingMiddlewareActionHandlerImpl(
                 }
             } else {
                 store.dispatch(LocalParticipantAction.CameraPreviewOnTriggered())
+            }
+        }
+    }
+
+    private fun subscribeToCaptionsUpdates(store: Store<ReduxState>) {
+        coroutineScope.launch {
+            callingService.getActiveCaptionLanguageChangedSharedFlow().collect {
+                store.dispatch(CaptionsAction.CaptionLanguageChanged(it))
+            }
+        }
+
+        coroutineScope.launch {
+            callingService.getActiveSpokenLanguageChangedSharedFlow().collect {
+                store.dispatch(CaptionsAction.SpokenLanguageChanged(it))
+            }
+        }
+
+        coroutineScope.launch {
+            callingService.getCaptionsTypeChangedSharedFlow().collect {
+                store.dispatch(CaptionsAction.TypeChanged(it))
+            }
+        }
+
+        coroutineScope.launch {
+            callingService.getIsCaptionsTranslationSupportedSharedFlow().collect {
+                store.dispatch(CaptionsAction.IsTranslationSupportedChanged(it))
+            }
+        }
+
+        coroutineScope.launch {
+            callingService.getCaptionsSupportedCaptionLanguagesSharedFlow().collect {
+                store.dispatch(CaptionsAction.SupportedCaptionLanguagesChanged(it))
+            }
+        }
+
+        coroutineScope.launch {
+            callingService.getCaptionsSupportedSpokenLanguagesSharedFlow().collect {
+                store.dispatch(CaptionsAction.SupportedSpokenLanguagesChanged(it))
             }
         }
     }

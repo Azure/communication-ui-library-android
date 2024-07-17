@@ -20,6 +20,9 @@ internal class ErrorCode : ExpandableStringEnum<ErrorCode?>() {
         val MIC_PERMISSION_DENIED = fromString("micPermissionDenied")
         val INTERNET_NOT_AVAILABLE = fromString("internetNotAvailable")
         val MICROPHONE_NOT_AVAILABLE = fromString("microphoneNotAvailable")
+        val CAPTIONS_NOT_ACTIVE = fromString("captionsNotActive")
+        val CALL_NOT_CONNECTED = fromString("callNotConnected")
+        val CAPTIONS_START_FAILED_SPOKEN_LANGUAGE_NOT_SUPPORTED = fromString("captionsStartFailedSpokenLanguageNotSupported")
 
         private fun fromString(name: String): ErrorCode {
             return fromString(name, ErrorCode::class.java)
@@ -49,6 +52,15 @@ internal class ErrorCode : ExpandableStringEnum<ErrorCode?>() {
                 }
                 MICROPHONE_NOT_AVAILABLE -> {
                     return CallCompositeErrorCode.MICROPHONE_NOT_AVAILABLE
+                }
+                CALL_NOT_CONNECTED -> {
+                    return CallCompositeErrorCode.CAPTIONS_START_FAILED_CALL_NOT_CONNECTED
+                }
+                CAPTIONS_NOT_ACTIVE -> {
+                    return CallCompositeErrorCode.CAPTIONS_NOT_ACTIVE
+                }
+                CAPTIONS_START_FAILED_SPOKEN_LANGUAGE_NOT_SUPPORTED -> {
+                    return CallCompositeErrorCode.CAPTIONS_START_FAILED_SPOKEN_LANGUAGE_NOT_SUPPORTED
                 }
                 else -> {
                     return null

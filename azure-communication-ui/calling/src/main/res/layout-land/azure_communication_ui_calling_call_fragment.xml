@@ -22,6 +22,7 @@
         app:layout_constraintEnd_toStartOf="@id/azure_communication_ui_calling_control_bar_view_lands_wrapper"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_calling_captions_view_wrapper"
         >
 
         <com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridView
@@ -42,6 +43,7 @@
         <include layout="@layout/azure_communication_ui_calling_lobby_error_header" />
 
         <include layout="@layout/azure_communication_ui_calling_lobby_header" />
+
         <include layout="@layout/azure_communication_ui_calling_upper_message_bar_notification_layout" />
 
         <include layout="@layout/azure_communication_ui_calling_call_banner" />
@@ -56,6 +58,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/azure_communication_ui_calling_control_bar_view_lands_wrapper"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_calling_captions_view_wrapper"
         />
 
    <include
@@ -66,6 +69,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/azure_communication_ui_calling_control_bar_view_lands_wrapper"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_calling_captions_view_wrapper"
         />
 
     <include
@@ -75,7 +79,9 @@
         android:layout_margin="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/azure_communication_ui_calling_control_bar_view_lands_wrapper"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_calling_captions_view_wrapper"
+        />
 
     <include
         layout="@layout/azure_communication_ui_calling_call_hold_overlay"
@@ -85,7 +91,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/azure_communication_ui_calling_control_bar_view_lands_wrapper"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_calling_captions_view_wrapper"
         />
+
+    <LinearLayout
+        android:id="@+id/azure_communication_ui_calling_captions_view_wrapper"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/azure_communication_ui_calling_color_background"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/azure_communication_ui_calling_control_bar_view_lands_wrapper">
+
+        <include
+            layout="@layout/azure_communication_ui_calling_captions_linear_layout"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/azure_communication_ui_calling_control_bar_view_lands_wrapper"

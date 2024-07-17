@@ -12,6 +12,7 @@ internal class AppReduxState(
     microphoneOnByDefault: Boolean = false,
     skipSetupScreen: Boolean = false,
     avMode: CallCompositeAudioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+    showCaptionsUI: Boolean = true
 ) : ReduxState {
 
     override var callState: CallingState = CallingState()
@@ -75,9 +76,12 @@ internal class AppReduxState(
         mediaCallDiagnostic = null
     )
 
-    override var toastNotificationState = ToastNotificationState(null)
+    override var toastNotificationState: ToastNotificationState = ToastNotificationState(null)
+
+    override var captionsState: CaptionsState = CaptionsState(isCaptionsUIEnabled = showCaptionsUI)
 
     /* <RTT_POC>
     override var rttState = RttState()
     </RTT_POC> */
+
 }

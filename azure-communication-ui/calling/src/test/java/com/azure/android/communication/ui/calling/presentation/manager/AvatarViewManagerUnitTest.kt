@@ -21,6 +21,7 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
 import com.azure.android.communication.ui.calling.service.sdk.CommunicationIdentifier
 import com.azure.android.communication.ui.calling.helper.StandardTestContextProvider
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import org.junit.Assert
@@ -157,6 +158,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
         )
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun avatarViewManager_onSetRemoteParticipantPersonaData_returnSuccess_ifCalledWithValidParticipantID() {
         runScopedTest {

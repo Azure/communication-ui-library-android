@@ -12,6 +12,8 @@ import com.azure.android.communication.calling.PropertyChangedListener
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.calling.VideoDeviceType
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsData
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsType
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.CapabilitiesChangedEvent
 import com.azure.android.communication.ui.calling.models.ParticipantRole
@@ -80,6 +82,21 @@ internal interface CallingSDK {
     fun getRttSharedFlow(): SharedFlow<String>
     </RTT_POC> */
     fun setTelecomManagerAudioRoute(audioRoute: Int)
+
+    //region Captions
+    fun startCaptions(spokenLanguage: String?): CompletableFuture<Void>
+    fun stopCaptions(): CompletableFuture<Void>
+    fun setCaptionsSpokenLanguage(language: String): CompletableFuture<Void>
+    fun setCaptionsCaptionLanguage(language: String): CompletableFuture<Void>
+    fun getCaptionsSupportedSpokenLanguagesSharedFlow(): SharedFlow<List<String>>
+    fun getCaptionsSupportedCaptionLanguagesSharedFlow(): SharedFlow<List<String>>
+    fun getIsCaptionsTranslationSupportedSharedFlow(): SharedFlow<Boolean>
+    fun getCaptionsReceivedSharedFlow(): SharedFlow<CallCompositeCaptionsData>
+    fun getActiveSpokenLanguageChangedSharedFlow(): SharedFlow<String>
+    fun getActiveCaptionLanguageChangedSharedFlow(): SharedFlow<String>
+    fun getCaptionsEnabledChangedSharedFlow(): SharedFlow<Boolean>
+    fun getCaptionsTypeChangedSharedFlow(): SharedFlow<CallCompositeCaptionsType>
+    //endregion
 }
 
 internal interface RemoteParticipant {

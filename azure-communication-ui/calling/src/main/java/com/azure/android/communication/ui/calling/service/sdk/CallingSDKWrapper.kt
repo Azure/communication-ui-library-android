@@ -12,6 +12,7 @@ import com.azure.android.communication.calling.CallingCommunicationException
 import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.CapabilitiesCallFeature
 import com.azure.android.communication.calling.DeviceManager
+import com.azure.android.communication.calling.Features
 import com.azure.android.communication.calling.GroupCallLocator
 import com.azure.android.communication.calling.HangUpOptions
 import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVideoStream
@@ -21,6 +22,8 @@ import com.azure.android.communication.calling.OutgoingAudioOptions
 import com.azure.android.communication.calling.OutgoingVideoOptions
 import com.azure.android.communication.calling.RoomCallLocator
 import com.azure.android.communication.calling.StartCallOptions
+import com.azure.android.communication.calling.StartCaptionsOptions
+import com.azure.android.communication.calling.TeamsCaptions
 import com.azure.android.communication.calling.TeamsMeetingIdLocator
 import com.azure.android.communication.calling.TeamsMeetingLinkLocator
 import com.azure.android.communication.calling.VideoDevicesUpdatedListener
@@ -28,6 +31,7 @@ import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.configuration.CallConfiguration
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.logger.Logger
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
@@ -50,6 +54,7 @@ internal class CallingSDKWrapper(
     private val callConfigInjected: CallConfiguration?,
     private val logger: Logger? = null,
     private val callingSDKInitializer: CallingSDKInitializer,
+    private val compositeCaptionsOptions: CallCompositeCaptionsOptions? = null
 ) : CallingSDK {
     private var nullableCall: Call? = null
     private var callClient: CallClient? = null
@@ -450,6 +455,123 @@ internal class CallingSDKWrapper(
         }
     }
 
+    //region Captions
+    override fun getCaptionsSupportedSpokenLanguagesSharedFlow() =
+        callingSDKEventHandler.getCaptionsSupportedSpokenLanguagesSharedFlow()
+
+    override fun getCaptionsSupportedCaptionLanguagesSharedFlow() =
+        callingSDKEventHandler.getCaptionsSupportedCaptionLanguagesSharedFlow()
+
+    override fun getIsCaptionsTranslationSupportedSharedFlow() =
+        callingSDKEventHandler.getIsCaptionsTranslationSupportedSharedFlow()
+
+    override fun getCaptionsReceivedSharedFlow() =
+        callingSDKEventHandler.getCaptionsReceivedSharedFlow()
+
+    override fun getActiveSpokenLanguageChangedSharedFlow() =
+        callingSDKEventHandler.getActiveSpokenLanguageChangedSharedFlow()
+
+    override fun getActiveCaptionLanguageChangedSharedFlow() =
+        callingSDKEventHandler.getActiveCaptionLanguageChangedSharedFlow()
+
+    override fun getCaptionsEnabledChangedSharedFlow() =
+        callingSDKEventHandler.getCaptionsEnabledChangedSharedFlow()
+
+    override fun getCaptionsTypeChangedSharedFlow() =
+        callingSDKEventHandler.getCaptionsTypeChangedSharedFlow()
+
+    override fun startCaptions(spokenLanguage: String?): CompletableFuture<Void> {
+        val resultFuture = CompletableFuture<Void>()
+        val captionsFeature = call.feature(Features.CAPTIONS)
+        captionsFeature.captions.whenComplete { callCaptions, throwable ->
+            if (throwable != null) {
+                resultFuture.completeExceptionally(throwable)
+            } else {
+                val captionsOptions = StartCaptionsOptions()
+                if (!spokenLanguage.isNullOrEmpty()) {
+                    captionsOptions.spokenLanguage = spokenLanguage
+                } else if (this.compositeCaptionsOptions?.spokenLanguage?.isNotEmpty() == true) {
+                    captionsOptions.spokenLanguage = this.compositeCaptionsOptions.spokenLanguage
+                }
+                callCaptions.startCaptions(captionsOptions)
+                    .whenComplete { _, error: Throwable? ->
+                        if (error != null) {
+                            resultFuture.completeExceptionally(error)
+                        } else {
+                            callingSDKEventHandler.onCaptionsStart(callCaptions)
+                            resultFuture.complete(null)
+                        }
+                    }
+            }
+        }
+        return resultFuture
+    }
+
+    override fun stopCaptions(): CompletableFuture<Void> {
+        val resultFuture = CompletableFuture<Void>()
+        val captionsFeature = call.feature(Features.CAPTIONS)
+        captionsFeature.captions.whenComplete { callCaptions, throwable ->
+            if (throwable != null) {
+                resultFuture.completeExceptionally(throwable)
+            } else {
+                callCaptions.stopCaptions()
+                    .whenComplete { _, error: Throwable? ->
+                        if (error != null) {
+                            resultFuture.completeExceptionally(error)
+                        } else {
+                            callingSDKEventHandler.onCaptionsStop(callCaptions)
+                            resultFuture.complete(null)
+                        }
+                    }
+            }
+        }
+        return resultFuture
+    }
+
+    override fun setCaptionsSpokenLanguage(language: String): CompletableFuture<Void> {
+        val resultFuture = CompletableFuture<Void>()
+        val captionsFeature = call.feature(Features.CAPTIONS)
+        captionsFeature.captions.whenComplete { callCaptions, throwable ->
+            if (throwable != null) {
+                resultFuture.completeExceptionally(throwable)
+            } else {
+                callCaptions.setSpokenLanguage(language)
+                    .whenComplete { _, error: Throwable? ->
+                        if (error != null) {
+                            resultFuture.completeExceptionally(error)
+                        } else {
+                            resultFuture.complete(null)
+                        }
+                    }
+            }
+        }
+        return resultFuture
+    }
+
+    override fun setCaptionsCaptionLanguage(language: String): CompletableFuture<Void> {
+        val resultFuture = CompletableFuture<Void>()
+        val captionsFeature = call.feature(Features.CAPTIONS)
+        captionsFeature.captions.whenComplete { callCaptions, throwable ->
+            if (throwable != null) {
+                resultFuture.completeExceptionally(throwable)
+            } else {
+                if (callCaptions !is TeamsCaptions) {
+                    resultFuture.complete(null)
+                }
+                (callCaptions as TeamsCaptions).setCaptionLanguage(language)
+                    .whenComplete { _, error: Throwable? ->
+                        if (error != null) {
+                            resultFuture.completeExceptionally(error)
+                        } else {
+                            resultFuture.complete(null)
+                        }
+                    }
+            }
+        }
+        return resultFuture
+    }
+    //endregion
+
     private fun createCallAgent(): java.util.concurrent.CompletableFuture<CallAgent> {
         return callingSDKInitializer.createCallAgent()
     }
@@ -488,7 +610,7 @@ internal class CallingSDKWrapper(
             val joinCallOptions = JoinCallOptions()
             joinCallOptions.outgoingAudioOptions = audioOptions
             videoOptions?.let { joinCallOptions.outgoingVideoOptions = videoOptions }
-            val callLocator: JoinMeetingLocator? = when (callConfig.callType) {
+            val callLocator: JoinMeetingLocator = when (callConfig.callType) {
                 CallType.GROUP_CALL -> GroupCallLocator(callConfig.groupId)
                 CallType.TEAMS_MEETING -> {
                     if (!callConfig.meetingLink.isNullOrEmpty()) {

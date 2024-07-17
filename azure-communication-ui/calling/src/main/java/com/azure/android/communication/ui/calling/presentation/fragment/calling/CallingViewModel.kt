@@ -54,6 +54,9 @@ internal class CallingViewModel(
     val lobbyHeaderViewModel = callingViewModelProvider.lobbyHeaderViewModel
     val lobbyErrorHeaderViewModel = callingViewModelProvider.lobbyErrorHeaderViewModel
     val participantMenuViewModel = callingViewModelProvider.participantMenuViewModel
+    val captionsListViewModel = callingViewModelProvider.captionsListViewModel
+    val captionsLanguageSelectionListViewModel = callingViewModelProvider.captionsLanguageSelectionListViewModel
+    val captionsLayoutViewModel = callingViewModelProvider.captionsViewModel
     /* <RTT_POC>
     val rttViewModel = callingViewModelProvider.rttViewModel
     </RTT_POC> */
@@ -177,6 +180,10 @@ internal class CallingViewModel(
             state.rttState.isRttActive
         )
         </RTT_POC> */
+
+        captionsListViewModel.init(state.captionsState, state.callState.callingStatus)
+        captionsLanguageSelectionListViewModel.init(state.captionsState)
+        captionsLayoutViewModel.init(state.captionsState, state.visibilityState)
 
         super.init(coroutineScope)
     }
@@ -341,6 +348,10 @@ internal class CallingViewModel(
         }
 
         updateOverlayDisplayedState(state.callState.callingStatus)
+
+        captionsListViewModel.update(state.captionsState, state.callState.callingStatus, state.visibilityState)
+        captionsLanguageSelectionListViewModel.update(state.captionsState, state.visibilityState)
+        captionsLayoutViewModel.update(state.captionsState, state.visibilityState)
     }
 
     private fun getLobbyParticipantsForHeader(state: ReduxState) =
