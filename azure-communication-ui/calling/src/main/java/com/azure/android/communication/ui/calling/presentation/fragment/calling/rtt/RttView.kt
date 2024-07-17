@@ -34,6 +34,5 @@ internal class RttView : androidx.appcompat.widget.AppCompatTextView {
             }
         }
     }
-
 }
 /* </RTT_POC> */

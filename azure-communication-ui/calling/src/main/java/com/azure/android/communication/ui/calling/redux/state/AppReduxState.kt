@@ -72,7 +72,8 @@ internal class AppReduxState(
     override var callDiagnosticsState = CallDiagnosticsState(
         networkQualityCallDiagnostic = null,
         networkCallDiagnostic = null,
-        mediaCallDiagnostic = null)
+        mediaCallDiagnostic = null
+    )
 
     override var toastNotificationState = ToastNotificationState(null)
 

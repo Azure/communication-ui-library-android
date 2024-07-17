@@ -16,14 +16,16 @@ internal class RttViewModel {
 
     fun update(
         content: String,
-        isDisplayed: Boolean) {
+        isDisplayed: Boolean
+    ) {
         this.content.value = content
         this.isDisplayed.value = isDisplayed
     }
 
     fun init(
         content: String,
-        isDisplayed: Boolean) {
+        isDisplayed: Boolean
+    ) {
         this.content.value = content
         this.isDisplayed.value = isDisplayed
     }

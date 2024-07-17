@@ -4,9 +4,6 @@
 
 package com.azure.android.communication.ui.calling.redux.action
 
-import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
-import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
-
 internal sealed class RttAction : Action {
     class IncomingMessageReceived(val message: String) : RttAction()
     class SendRtt(val message: String) : RttAction()

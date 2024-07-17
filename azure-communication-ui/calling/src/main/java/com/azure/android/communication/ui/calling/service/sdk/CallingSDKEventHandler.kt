@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.service.sdk
 
-
 import com.azure.android.communication.calling.Call
 import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.CapabilitiesCallFeature
@@ -53,7 +52,6 @@ import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.launch
 
 import com.azure.android.communication.calling.CapabilitiesChangedEvent as SdkCapabilitiesChangedEvent
-
 
 internal class CallingSDKEventHandler(
     coroutineContextProvider: CoroutineContextProvider,
@@ -192,7 +190,6 @@ internal class CallingSDKEventHandler(
                     rttTextSharedFlow.emit(messageText)
                 }
             }
-
         }
     }
     /* </RTT_POC> */
