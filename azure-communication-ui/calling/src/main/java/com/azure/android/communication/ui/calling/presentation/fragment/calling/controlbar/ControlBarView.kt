@@ -16,6 +16,7 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.calling.implementation.R
+import com.azure.android.communication.ui.calling.models.createCustomButtonClickEvent
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
@@ -32,6 +33,7 @@ internal class ControlBarView : ConstraintLayout {
     private lateinit var micToggle: ImageButton
     private lateinit var callAudioDeviceButton: ImageButton
     private lateinit var moreButton: ImageButton
+    private lateinit var customButton: ImageButton
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -40,6 +42,7 @@ internal class ControlBarView : ConstraintLayout {
         micToggle = findViewById(R.id.azure_communication_ui_call_call_audio)
         callAudioDeviceButton = findViewById(R.id.azure_communication_ui_call_audio_device_button)
         moreButton = findViewById(R.id.azure_communication_ui_call_control_bar_more)
+        customButton = findViewById(R.id.azure_communication_ui_call_custom_button)
 
         subscribeClickListener()
     }
@@ -112,6 +115,24 @@ internal class ControlBarView : ConstraintLayout {
                 }
             },
         )
+
+        viewModel.customButton?.let { buttonOptions ->
+            customButton.visibility = if (buttonOptions.isVisible) VISIBLE else GONE
+            customButton.isEnabled = buttonOptions.isEnabled
+            customButton.contentDescription = buttonOptions.title
+            customButton.setImageResource(buttonOptions.drawableId)
+            customButton.setOnClickListener {
+                try {
+                    buttonOptions.onClickHandler?.handle(
+                        createCustomButtonClickEvent(
+                            context,
+                            buttonOptions
+                        )
+                    )
+                } catch (_: Exception) {
+                }
+            }
+        }
     }
 
     private fun accessibilityNonSelectableViews() = setOf(micToggle, cameraToggle)

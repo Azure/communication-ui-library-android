@@ -142,7 +142,8 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 {},
                 visibilityState,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
-                capabilities = capabilities
+                capabilities = capabilities,
+                callScreenOptions?.controlBarOptions?.getCustomButtons()
             )
 
             val expectedAudioOperationalStatus1 = AudioOperationalStatus.ON
@@ -240,6 +241,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 visibilityState,
                 avMode,
                 capabilities,
+                callScreenOptions?.controlBarOptions?.getCustomButtons(),
             )
 
             val flowJob = launch {
@@ -347,6 +349,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 visibilityState,
                 avMode,
                 capabilities,
+                callScreenOptions?.controlBarOptions?.getCustomButtons(),
             )
 
             val resultListFromCameraStateFlow = mutableListOf<CameraOperationalStatus>()
@@ -447,6 +450,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 visibilityState,
                 avMode,
                 capabilities,
+                callScreenOptions?.controlBarOptions?.getCustomButtons(),
             )
 
             val resultListFromIsCameraButtonEnabledStateFlow = mutableListOf<Boolean>()

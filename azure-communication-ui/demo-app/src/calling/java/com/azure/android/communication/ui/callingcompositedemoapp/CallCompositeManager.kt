@@ -609,7 +609,8 @@ class CallCompositeManager(private val context: Context) {
                         context.startActivity(intent)
                     }
                 )
-                    .setPlacement(CallCompositeCustomButtonPlacement.PRIMARY)
+                    .setEnable(false)
+                    .setPlacement(CallCompositeCustomButtonPlacement.OVERFLOW)
             )
 
             callScreenOptions.controlBarOptions.addCustomButton(
@@ -619,6 +620,7 @@ class CallCompositeManager(private val context: Context) {
                         callComposite?.sendToBackground()
                     }
                 )
+                    .setEnable(false)
                     .setPlacement(CallCompositeCustomButtonPlacement.OVERFLOW)
 
             )

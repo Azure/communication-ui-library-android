@@ -44,6 +44,11 @@ public final class CallCompositeCallScreenControlBarOptions {
 
     public CallCompositeCallScreenControlBarOptions addCustomButton(
             final CallCompositeCustomButtonOptions buttonOptions) {
+        if (buttonOptions.getPlacement() == CallCompositeCustomButtonPlacement.PRIMARY
+            && customButtons.stream()
+                .anyMatch(item -> item.getPlacement() == CallCompositeCustomButtonPlacement.PRIMARY)) {
+            buttonOptions.setPlacement(CallCompositeCustomButtonPlacement.OVERFLOW);
+        }
         customButtons.add(buttonOptions);
         return this;
     }
