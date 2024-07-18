@@ -603,19 +603,20 @@ class CallCompositeManager(private val context: Context) {
 
             callScreenOptions.controlBarOptions.addCustomButton(
                 CallCompositeCustomButtonOptions(
-                    R.drawable.image_cat, "Troubleshooting tips",
+                    R.drawable.ic_fluent_arrow_next_24_regular,
+                    "Troubleshooting tips",
                     fun(it: CallCompositeCustomButtonClickEvent) {
                         val intent = Intent(it.context, TestActivity::class.java)
                         context.startActivity(intent)
                     }
                 )
-                    .setEnable(false)
                     .setPlacement(CallCompositeCustomButtonPlacement.PRIMARY)
             )
 
             callScreenOptions.controlBarOptions.addCustomButton(
                 CallCompositeCustomButtonOptions(
-                    R.drawable.image_koala, "Hide call",
+                    R.drawable.image_koala,
+                    "Hide call",
                     fun(it: CallCompositeCustomButtonClickEvent) {
                         callComposite?.sendToBackground()
                     }
@@ -653,7 +654,7 @@ class CallCompositeManager(private val context: Context) {
     ) {
         Log.i("ACSCallingUI", message)
         Handler(Looper.getMainLooper()).post {
-            Toast.makeText(context.applicationContext, "Debug: $message", Toast.LENGTH_LONG).show()
+            Toast.makeText(context.applicationContext, "Debug: $message", Toast.LENGTH_SHORT).show()
         }
     }
 
