@@ -11,6 +11,7 @@ import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
 import com.azure.android.communication.ui.calling.redux.action.CallDiagnosticsAction
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.action.LifecycleAction
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
@@ -131,6 +132,18 @@ internal class CallingMiddlewareImpl(
                 }
                 is AudioSessionAction.AudioFocusRequesting -> {
                     callingMiddlewareActionHandler.onAudioFocusRequesting(store)
+                }
+                is CaptionsAction.StartRequested -> {
+                    callingMiddlewareActionHandler.startCaptions(action.language, store)
+                }
+                is CaptionsAction.StopRequested -> {
+                    callingMiddlewareActionHandler.stopCaptions(store)
+                }
+                is CaptionsAction.SetSpokenLanguageRequested -> {
+                    callingMiddlewareActionHandler.setCaptionsSpokenLanguage(action.language, store)
+                }
+                is CaptionsAction.SetCaptionLanguageRequested -> {
+                    callingMiddlewareActionHandler.setCaptionsCaptionLanguage(action.language, store)
                 }
             }
             next(action)

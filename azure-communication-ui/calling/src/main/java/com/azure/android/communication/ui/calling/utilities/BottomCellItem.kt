@@ -9,6 +9,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeParticipan
 
 internal enum class BottomCellItemType {
     BottomMenuAction,
+    BottomMenuActionNoIcon,
     BottomMenuTitle,
     BottomMenuCenteredTitle
 }
@@ -27,5 +28,11 @@ internal data class BottomCellItem(
     var onClickAction: ((View) -> Unit)?,
     val isEnabled: Boolean = true,
     var showAdmitAllButton: Boolean = false,
+    var showRightArrow: Boolean = false,
+    var showToggleButton: Boolean = false,
+    var enableToggleButton: Boolean = false,
+    var isToggleButtonOn: Boolean = false,
+    var subtitle: String? = null,
+    var toggleButtonAction: ((View, Boolean) -> Unit)? = null,
     var admitAllButtonAction: ((View) -> Unit)? = null
 )

@@ -110,7 +110,7 @@
 
     <!--    Participant list-->
     <string name="azure_communication_ui_calling_participant_list_in_call_n_people">在通话中 (%1$d)</string>
-    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d 更多</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">另外 %1$d 个</string>
     <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">在大厅中 (%1$d)</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">双击以允许/拒绝参与者</string>
 
@@ -169,13 +169,27 @@
     <string name="azure_communication_ui_calling_call_view_calling">正在呼叫...</string>
 
     <!-- Participant menu actions -->
-    <string name="azure_communication_ui_calling_view_participant_menu_mute">静音</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">Mute</string>
     <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">将参与者菜单静音</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove">从通话中移除</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">Remove from call</string>
     <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">从呼叫菜单中删除参与者</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">已更新呼叫设置。某些功能可能无法使用。</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">已更新呼叫设置。你现在可以执行一些其他操作。</string>
 
     <!-- Participant menu view -->
-    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">已禁用的项目。</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">已禁用的项。</string>
+
+    <!--    Drawer-->
+    <string name="azure_communication_ui_calling_drawer_next_content_description">下一步</string>
+
+    <!--    Captions-->
+    <string name="azure_communication_ui_calling_live_captions_title">实时辅助字幕</string>
+    <string name="azure_communication_ui_calling_captions_spoken_language_title">口语</string>
+    <string name="azure_communication_ui_calling_captions_caption_language_title">辅助字幕语言</string>
+    <string name="azure_communication_ui_calling_starting_captions">Starting captions...</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">无法启动辅助字幕</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">无法停止辅助字幕</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">无法设置辅助字幕的口语</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Unable to change caption language</string>
+
 </resources>

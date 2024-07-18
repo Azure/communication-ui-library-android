@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.configuration
 
 import android.content.Context
+import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.calling.configuration.events.CallCompositeEventsHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeCapabilitiesChangedNotificationMode
@@ -39,4 +40,5 @@ internal class CallCompositeConfiguration {
     var disableInternalPushForIncomingCall: Boolean = false
     var capabilitiesChangedNotificationMode: CallCompositeCapabilitiesChangedNotificationMode? = null
     var setupScreenOptions: CallCompositeSetupScreenOptions? = null
+    var identifier: CommunicationIdentifier? = null
 }

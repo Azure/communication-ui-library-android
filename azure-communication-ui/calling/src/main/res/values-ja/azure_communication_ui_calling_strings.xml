@@ -110,7 +110,7 @@
 
     <!--    Participant list-->
     <string name="azure_communication_ui_calling_participant_list_in_call_n_people">通話中 (%1$d)</string>
-    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d 件以上</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">その他 %1$d 件</string>
     <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">ロビーで待機中 (%1$d)</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">ダブルタップして参加者を許可/拒否します</string>
 
@@ -170,12 +170,26 @@
 
     <!-- Participant menu actions -->
     <string name="azure_communication_ui_calling_view_participant_menu_mute">ミュート</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">参加者メニューをミュートにします。</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">参加者メニューをミュートにします</string>
     <string name="azure_communication_ui_calling_view_participant_menu_remove">通話から削除</string>
     <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">通話メニューから参加者を削除します</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">通話の設定が更新されました。一部の機能は利用できない可能性があります。</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">通話の設定が更新されました。一部の追加アクションが利用できる可能性があります。</string>
 
     <!-- Participant menu view -->
-    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">無効なアイテム。</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">使用不可の項目です。</string>
+
+    <!--    Drawer-->
+    <string name="azure_communication_ui_calling_drawer_next_content_description">次へ</string>
+
+    <!--    Captions-->
+    <string name="azure_communication_ui_calling_live_captions_title">ライブ キャプション</string>
+    <string name="azure_communication_ui_calling_captions_spoken_language_title">音声言語</string>
+    <string name="azure_communication_ui_calling_captions_caption_language_title">字幕言語</string>
+    <string name="azure_communication_ui_calling_starting_captions">Starting captions...</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">キャプションを開始できません</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">キャプションを停止できません</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">キャプションの音声言語を設定できません</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Unable to change caption language</string>
+
 </resources>

@@ -4,13 +4,23 @@
 package com.azure.android.communication.ui.calling.service.sdk
 
 import com.azure.android.communication.calling.Call
+import com.azure.android.communication.calling.CallCaptions
 import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.CapabilitiesCallFeature
-import com.azure.android.communication.calling.CapabilitiesChangedEvent as SdkCapabilitiesChangedEvent
 import com.azure.android.communication.calling.CapabilitiesChangedListener
+
+/* <RTT_POC>
+import com.azure.android.communication.calling.DataChannelCallFeature
+import com.azure.android.communication.calling.DataChannelMessage
+import com.azure.android.communication.calling.DataChannelReceiver
+import java.nio.charset.StandardCharsets
+</RTT_POC> */
+import com.azure.android.communication.calling.CommunicationCaptions
+import com.azure.android.communication.calling.CommunicationCaptionsListener
 import com.azure.android.communication.calling.DiagnosticFlagChangedListener
 import com.azure.android.communication.calling.DiagnosticQualityChangedListener
 import com.azure.android.communication.calling.DominantSpeakersCallFeature
+import com.azure.android.communication.calling.Features
 import com.azure.android.communication.calling.LocalUserDiagnosticsCallFeature
 import com.azure.android.communication.calling.MediaDiagnostics
 import com.azure.android.communication.calling.MediaStreamType
@@ -21,9 +31,13 @@ import com.azure.android.communication.calling.PropertyChangedListener
 import com.azure.android.communication.calling.RecordingCallFeature
 import com.azure.android.communication.calling.RemoteParticipant
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
+import com.azure.android.communication.calling.TeamsCaptions
+import com.azure.android.communication.calling.TeamsCaptionsListener
 import com.azure.android.communication.calling.TranscriptionCallFeature
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsData
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsType
 import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.CallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
@@ -34,6 +48,7 @@ import com.azure.android.communication.ui.calling.models.NetworkCallDiagnostic
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.into
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview
@@ -45,6 +60,9 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.launch
+import java.util.concurrent.CompletableFuture
+
+import com.azure.android.communication.calling.CapabilitiesChangedEvent as SdkCapabilitiesChangedEvent
 
 internal class CallingSDKEventHandler(
     coroutineContextProvider: CoroutineContextProvider,
@@ -87,10 +105,37 @@ internal class CallingSDKEventHandler(
     private lateinit var transcriptionFeature: TranscriptionCallFeature
     private lateinit var dominantSpeakersCallFeature: DominantSpeakersCallFeature
     private lateinit var capabilitiesFeature: CapabilitiesCallFeature
-
+    /* <RTT_POC>
+    private var rttTextSharedFlow = MutableSharedFlow<String>()
+    private lateinit var dataChannelCallFeature: DataChannelCallFeature
+    private var receiver: DataChannelReceiver? = null
+    </RTT_POC> */
     private var networkDiagnostics: NetworkDiagnostics? = null
     private var mediaDiagnostics: MediaDiagnostics? = null
     private var callType: CallType? = null
+
+    // captions
+    private var captionsSupportedSpokenLanguagesSharedFlow = MutableSharedFlow<List<String>>()
+    private var captionsSupportedCaptionLanguagesSharedFlow = MutableSharedFlow<List<String>>()
+    private var isCaptionsTranslationSupportedSharedFlow = MutableSharedFlow<Boolean>()
+    private var captionsReceivedSharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
+    private var activeSpokenLanguageChangedSharedFlow = MutableSharedFlow<String>()
+    private var activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
+    private var captionsEnabledChangedSharedFlow = MutableSharedFlow<Boolean>()
+    private var captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+    private var callCaptions: CallCaptions? = null
+    //endregion
+
+    //region Captions
+    fun getCaptionsSupportedSpokenLanguagesSharedFlow(): SharedFlow<List<String>> = captionsSupportedSpokenLanguagesSharedFlow
+    fun getCaptionsSupportedCaptionLanguagesSharedFlow(): SharedFlow<List<String>> = captionsSupportedCaptionLanguagesSharedFlow
+    fun getIsCaptionsTranslationSupportedSharedFlow(): SharedFlow<Boolean> = isCaptionsTranslationSupportedSharedFlow
+    fun getCaptionsReceivedSharedFlow(): SharedFlow<CallCompositeCaptionsData> = captionsReceivedSharedFlow
+    fun getActiveSpokenLanguageChangedSharedFlow(): SharedFlow<String> = activeSpokenLanguageChangedSharedFlow
+    fun getActiveCaptionLanguageChangedSharedFlow(): SharedFlow<String> = activeCaptionLanguageChangedSharedFlow
+    fun getCaptionsEnabledChangedSharedFlow(): SharedFlow<Boolean> = captionsEnabledChangedSharedFlow
+    fun getCaptionsTypeChangedSharedFlow(): SharedFlow<CallCompositeCaptionsType> = captionsTypeChangedSharedFlow
+    // endregion
 
     fun getRemoteParticipantsMap(): Map<String, RemoteParticipant> = remoteParticipantsCacheMap
 
@@ -120,6 +165,37 @@ internal class CallingSDKEventHandler(
     //endregion
     fun getDominantSpeakersSharedFlow(): SharedFlow<DominantSpeakersInfo> = dominantSpeakersSharedFlow
 
+    /* <RTT_POC>
+    fun getRttTextSharedFlow(): SharedFlow<String> = rttTextSharedFlow
+    </RTT_POC> */
+
+    //region Captions
+    private val onCaptionsTypeChanged =
+        PropertyChangedListener {
+            onCaptionsTypeChange()
+        }
+
+    private val onCaptionLanguageChanged = PropertyChangedListener {
+        onCaptionLanguageChange()
+    }
+
+    private val onSpokenLanguageChanged = PropertyChangedListener {
+        onSpokenLanguageChange()
+    }
+
+    private val onCaptionsEnableChanged = PropertyChangedListener {
+        onCaptionsEnableChange()
+    }
+
+    private val onTeamsCaptionsReceived = TeamsCaptionsListener {
+        onCaptionsReceived(it.into())
+    }
+
+    private val onCommunicationCaptionsReceived = CommunicationCaptionsListener {
+        onCaptionsReceived(it.into())
+    }
+    // endregion
+
     @OptIn(FlowPreview::class)
     fun getRemoteParticipantInfoModelFlow(): Flow<Map<String, ParticipantInfoModel>> =
         remoteParticipantsInfoModelSharedFlow.sample(SAMPLING_PERIOD_MILLIS)
@@ -142,6 +218,7 @@ internal class CallingSDKEventHandler(
                 }
             }
         }
+
         call.addOnStateChangedListener(onCallStateChanged)
         call.addOnIsMutedChangedListener(onIsMutedChanged)
         call.addOnRemoteParticipantsUpdatedListener(onParticipantsUpdated)
@@ -153,12 +230,30 @@ internal class CallingSDKEventHandler(
         transcriptionFeature.addOnIsTranscriptionActiveChangedListener(onTranscriptionChanged)
         dominantSpeakersCallFeature = call.feature { DominantSpeakersCallFeature::class.java }
         dominantSpeakersCallFeature.addOnDominantSpeakersChangedListener(onDominantSpeakersChanged)
+        /* <RTT_POC>
+        dataChannelCallFeature = call.feature { DataChannelCallFeature::class.java }
+        subscribeToRttEvents()
+        </RTT_POC> */
 
         capabilitiesFeature = call.feature { CapabilitiesCallFeature::class.java }
         capabilitiesFeature.addOnCapabilitiesChangedListener(onCapabilitiesChanged)
-
         subscribeToUserFacingDiagnosticsEvents()
     }
+
+    /* <RTT_POC>
+    private fun subscribeToRttEvents() {
+        dataChannelCallFeature.addOnReceiverCreatedListener { evt ->
+            this.receiver = evt.receiver
+            evt.receiver.addOnMessageReceivedListener {
+                val message: DataChannelMessage = evt.receiver.receiveMessage()
+                val messageText = String(message.data, StandardCharsets.UTF_8)
+                coroutineScope.launch {
+                    rttTextSharedFlow.emit(messageText)
+                }
+            }
+        }
+    }
+    </RTT_POC> */
 
     fun onEndCall() {
         if (call == null) return
@@ -395,15 +490,21 @@ internal class CallingSDKEventHandler(
         val callState = call?.state
         var callEndStatus = Pair(0, 0)
         when (callState) {
-            CallState.CONNECTING, CallState.CONNECTED -> {
+            CallState.CONNECTING -> {
                 addParticipants(call!!.remoteParticipants)
                 onRemoteParticipantUpdated()
+            }
+            CallState.CONNECTED -> {
+                addParticipants(call!!.remoteParticipants)
+                onRemoteParticipantUpdated()
+                subscribeFeatures()
             }
             CallState.NONE, CallState.DISCONNECTED -> {
                 callEndStatus = call?.callEndReason?.let { callEndReason ->
                     Pair(callEndReason.code, callEndReason.subcode)
                 } ?: Pair(0, 0)
                 call?.removeOnStateChangedListener(onCallStateChanged)
+                unsubscribeFeatures()
             }
             else -> {}
         }
@@ -429,6 +530,21 @@ internal class CallingSDKEventHandler(
         }
     }
 
+    private fun subscribeFeatures() {
+        val captions = call?.feature(Features.CAPTIONS)
+        captions?.addOnActiveCaptionsTypeChangedListener(onCaptionsTypeChanged)
+        captions?.captions?.whenComplete { callCaptions, throwable ->
+            if (throwable == null) {
+                this.callCaptions = callCaptions
+                setCaptionsType(callCaptions)
+            }
+        }
+    }
+
+    private fun unsubscribeFeatures() {
+        call?.feature(Features.CAPTIONS)?.removeOnActiveCaptionsTypeChangedListener(onCaptionsTypeChanged)
+    }
+
     private fun onRecordingChanged() {
         coroutineScope.launch {
             isRecordingSharedFlow.emit(recordingFeature.isRecordingActive)
@@ -452,6 +568,12 @@ internal class CallingSDKEventHandler(
             val id = addedParticipant.identifier.rawId
             if (!remoteParticipantsCacheMap.containsKey(id)) {
                 onParticipantAdded(id, addedParticipant)
+            } else {
+                // Update the participant status
+                // Noticed a race condition where the participant status update is in progress and UI subscription is in progress
+                remoteParticipantsInfoModelMap[id]?.participantStatus =
+                    remoteParticipantsCacheMap[id]!!.state.into()
+                onRemoteParticipantPropertyChange(id)
             }
         }
     }
@@ -671,5 +793,138 @@ internal class CallingSDKEventHandler(
         mediaDiagnostics?.removeOnIsCameraStartFailedChangedListener(onIsCameraStartFailedChanged)
         mediaDiagnostics?.removeOnIsCameraStartTimedOutChangedListener(onIsCameraStartTimedOutChanged)
         mediaDiagnostics?.removeOnIsCameraPermissionDeniedChangedListener(onIsCameraPermissionDeniedChanged)
+    }
+
+    private fun getCaptions(): CompletableFuture<CallCaptions> {
+        val resultFuture = CompletableFuture<CallCaptions>()
+
+        if (callCaptions != null) {
+            resultFuture.complete(callCaptions)
+            return resultFuture
+        }
+
+        call?.feature(Features.CAPTIONS).let { captionsCallFeature ->
+            captionsCallFeature?.captions?.whenComplete { callCaptions, throwable ->
+                if (throwable == null) {
+                    resultFuture.complete(callCaptions)
+                } else {
+                    resultFuture.completeExceptionally(throwable)
+                }
+            }
+        }
+        return resultFuture
+    }
+
+    private fun onCaptionsTypeChange() {
+        call?.feature(Features.CAPTIONS).let { captionsCallFeature ->
+            captionsCallFeature?.captions?.whenComplete { callCaptions, throwable ->
+                if (throwable == null) {
+                    this.callCaptions = callCaptions
+                    captionsTypeChanged(callCaptions)
+                }
+            }
+        }
+    }
+
+    private fun onCaptionsReceived(data: CallCompositeCaptionsData) {
+        coroutineScope.launch {
+            captionsReceivedSharedFlow.emit(data)
+        }
+    }
+
+    private fun onCaptionLanguageChange() {
+        getCaptions().whenComplete { callCaptions, throwable ->
+            if (throwable == null) {
+                if (callCaptions is TeamsCaptions) {
+                    coroutineScope.launch {
+                        activeCaptionLanguageChangedSharedFlow.emit(callCaptions.activeCaptionLanguage)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun onSpokenLanguageChange() {
+        getCaptions().whenComplete { callCaptions, throwable ->
+            if (throwable == null) {
+                coroutineScope.launch {
+                    activeSpokenLanguageChangedSharedFlow.emit(callCaptions.activeSpokenLanguage)
+                }
+            }
+        }
+    }
+
+    private fun onCaptionsEnableChange() {
+        getCaptions().whenComplete { callCaptions, throwable ->
+            if (throwable == null) {
+                coroutineScope.launch {
+                    captionsEnabledChangedSharedFlow.emit(callCaptions.isEnabled)
+                }
+            }
+        }
+    }
+
+    private fun setCaptionsType(captions: CallCaptions) {
+        if (captions is TeamsCaptions) {
+            coroutineScope.launch {
+                captionsTypeChangedSharedFlow.emit(CallCompositeCaptionsType.TEAMS)
+                captionsSupportedSpokenLanguagesSharedFlow.emit(captions.supportedSpokenLanguages)
+                captionsSupportedCaptionLanguagesSharedFlow.emit(captions.supportedCaptionLanguages)
+                isCaptionsTranslationSupportedSharedFlow.emit(true)
+            }
+        } else {
+            coroutineScope.launch {
+                captionsTypeChangedSharedFlow.emit(CallCompositeCaptionsType.COMMUNICATION)
+                captionsSupportedSpokenLanguagesSharedFlow.emit(captions.supportedSpokenLanguages)
+                captionsSupportedCaptionLanguagesSharedFlow.emit(listOf())
+                isCaptionsTranslationSupportedSharedFlow.emit(false)
+            }
+        }
+    }
+
+    private fun captionsTypeChanged(captions: CallCaptions) {
+        if (captions is TeamsCaptions) {
+            coroutineScope.launch {
+                captionsTypeChangedSharedFlow.emit(CallCompositeCaptionsType.TEAMS)
+                captionsSupportedSpokenLanguagesSharedFlow.emit(captions.supportedSpokenLanguages)
+                captionsSupportedCaptionLanguagesSharedFlow.emit(captions.supportedCaptionLanguages)
+                isCaptionsTranslationSupportedSharedFlow.emit(true)
+            }
+        } else {
+            coroutineScope.launch {
+                captionsTypeChangedSharedFlow.emit(CallCompositeCaptionsType.COMMUNICATION)
+                captionsSupportedSpokenLanguagesSharedFlow.emit(captions.supportedSpokenLanguages)
+                captionsSupportedCaptionLanguagesSharedFlow.emit(listOf())
+                isCaptionsTranslationSupportedSharedFlow.emit(false)
+            }
+        }
+    }
+
+    fun onCaptionsStart(callCaptions: CallCaptions) {
+        this.callCaptions = callCaptions
+        if (callCaptions is TeamsCaptions) {
+            callCaptions.addOnActiveCaptionLanguageChangedListener(onCaptionLanguageChanged)
+            callCaptions.addOnActiveSpokenLanguageChangedListener(onSpokenLanguageChanged)
+            callCaptions.addOnCaptionsEnabledChangedListener(onCaptionsEnableChanged)
+            callCaptions.addOnCaptionsReceivedListener(onTeamsCaptionsReceived)
+        } else if (callCaptions is CommunicationCaptions) {
+            callCaptions.addOnActiveSpokenLanguageChangedListener(onSpokenLanguageChanged)
+            callCaptions.addOnCaptionsEnabledChangedListener(onCaptionsEnableChanged)
+            callCaptions.addOnCaptionsReceivedListener(onCommunicationCaptionsReceived)
+        }
+    }
+
+    fun onCaptionsStop(callCaptions: CallCaptions) {
+        if (callCaptions is TeamsCaptions) {
+            callCaptions.removeOnActiveCaptionLanguageChangedListener(onCaptionLanguageChanged)
+            callCaptions.removeOnActiveSpokenLanguageChangedListener(onSpokenLanguageChanged)
+            callCaptions.removeOnCaptionsEnabledChangedListener(onCaptionsEnableChanged)
+            callCaptions.removeOnCaptionsReceivedListener(onTeamsCaptionsReceived)
+        } else if (callCaptions is CommunicationCaptions) {
+            callCaptions.removeOnActiveSpokenLanguageChangedListener(onSpokenLanguageChanged)
+            callCaptions.removeOnCaptionsEnabledChangedListener(onCaptionsEnableChanged)
+            callCaptions.removeOnCaptionsReceivedListener(onCommunicationCaptionsReceived)
+        }
+        this.callCaptions = null
     }
 }

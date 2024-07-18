@@ -25,6 +25,7 @@ import com.azure.android.communication.ui.calling.presentation.manager.AvatarVie
 import com.azure.android.communication.ui.calling.presentation.manager.CompositeExitManager
 import com.azure.android.communication.ui.calling.presentation.manager.CameraStatusHook
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
+import com.azure.android.communication.ui.calling.presentation.manager.CaptionsDataManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManagerImpl
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManagerImpl
@@ -55,7 +56,11 @@ import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.presentation.manager.MultitaskingManager
+import com.azure.android.communication.ui.calling.redux.reducer.CaptionsReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.PipReducerImpl
+/* <RTT_POC>
+import com.azure.android.communication.ui.calling.redux.reducer.RttReducerImpl
+</RTT_POC> */
 import com.azure.android.communication.ui.calling.redux.reducer.ToastNotificationReducerImpl
 import com.azure.android.communication.ui.calling.service.CallHistoryService
 import com.azure.android.communication.ui.calling.service.CallHistoryServiceImpl
@@ -85,6 +90,10 @@ internal class DependencyInjectionContainerImpl(
         callComposite.getConfig()
     }
 
+    override val captionsDataManager by lazy {
+        CaptionsDataManager(callingService, appStore)
+    }
+
     override val navigationRouter by lazy {
         NavigationRouterImpl(appStore)
     }
@@ -95,6 +104,7 @@ internal class DependencyInjectionContainerImpl(
             coroutineContextProvider,
             configuration,
             capabilitiesManager,
+            localOptions = configuration.callCompositeLocalOptions
         )
     }
 
@@ -237,6 +247,7 @@ internal class DependencyInjectionContainerImpl(
             microphoneOnByDefault = localOptions?.isMicrophoneOn ?: false,
             avMode = localOptions?.audioVideoMode ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             skipSetupScreen = localOptions?.isSkipSetupScreen ?: false,
+            showCaptionsUI = true
         )
     }
 
@@ -252,6 +263,11 @@ internal class DependencyInjectionContainerImpl(
     private val pipReducer get() = PipReducerImpl()
     private val callDiagnosticsReducer get() = CallDiagnosticsReducerImpl()
     private val toastNotificationReducer get() = ToastNotificationReducerImpl()
+    private val captionsReducer get() = CaptionsReducerImpl()
+
+    /* <RTT_POC>
+    private val rttReducer get() = RttReducerImpl()
+    </RTT_POC> */
 
     // Middleware
     private val appMiddleware get() = mutableListOf(callingMiddleware)
@@ -276,6 +292,10 @@ internal class DependencyInjectionContainerImpl(
             pipReducer,
             callDiagnosticsReducer,
             toastNotificationReducer,
+            captionsReducer,
+            /* <RTT_POC>
+            rttReducer,
+            </RTT_POC> */
         ) as Reducer<ReduxState>
     }
     //endregion
@@ -292,7 +312,8 @@ internal class DependencyInjectionContainerImpl(
                 callingSDKEventHandler,
                 configuration.callConfig,
                 logger,
-                callingSDKInitializer
+                callingSDKInitializer,
+                compositeCaptionsOptions = localOptions?.captionsOptions
             )
     }
 

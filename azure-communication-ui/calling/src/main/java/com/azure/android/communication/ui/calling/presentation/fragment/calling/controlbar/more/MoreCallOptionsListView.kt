@@ -87,6 +87,7 @@ internal class MoreCallOptionsListView(
             isChecked = false,
             participantViewData = null,
             isOnHold = false,
+            showRightArrow = entry.showRightArrow,
             onClickAction =
             {
                 menuDrawer.dismissDialog()

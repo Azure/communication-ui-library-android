@@ -27,6 +27,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallScreen
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonClickEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonPlacement
@@ -63,6 +64,7 @@ class CallCompositeManager(private val context: Context) {
 
     fun launch(
         applicationContext: Context,
+        identity: String,
         acsToken: String,
         displayName: String,
         groupId: UUID?,
@@ -123,7 +125,8 @@ class CallCompositeManager(private val context: Context) {
         createCallCompositeAndSubscribeToEvents(
             applicationContext,
             acsToken,
-            displayName
+            displayName,
+            identity,
         )
 
         val localOptions = getLocalOptions(applicationContext)
@@ -277,6 +280,27 @@ class CallCompositeManager(private val context: Context) {
             isAnythingChanged = true
         }
 
+        val autoStartCaptions = SettingsFeatures.getAutoStartCaptionsEnabled()
+        val defaultSpokenLanguage = SettingsFeatures.getCaptionsDefaultSpokenLanguage()
+
+        if (autoStartCaptions != null || defaultSpokenLanguage?.isNotEmpty() == true) {
+            val captionsViewData =
+                CallCompositeCaptionsOptions()
+
+            autoStartCaptions.let {
+                if (it == true) {
+                    captionsViewData.setCaptionsOn(true)
+                }
+            }
+
+            defaultSpokenLanguage.let {
+                captionsViewData.setSpokenLanguage(it)
+            }
+
+            localOptions.setCaptionsOptions(captionsViewData)
+            isAnythingChanged = true
+        }
+
         return if (isAnythingChanged) localOptions else null
     }
 
@@ -381,7 +405,11 @@ class CallCompositeManager(private val context: Context) {
         displayName: String,
         applicationContext: Context
     ) {
-        createCallCompositeAndSubscribeToEvents(applicationContext, acsIdentityToken, displayName)
+        createCallCompositeAndSubscribeToEvents(
+            applicationContext,
+            acsIdentityToken,
+            displayName
+        )
         if (callComposite?.callState == CallCompositeCallStateCode.CONNECTED) {
             toast(applicationContext, "Incoming call ignored as there is already an active call.")
             return
@@ -433,11 +461,12 @@ class CallCompositeManager(private val context: Context) {
         context: Context,
         acsToken: String,
         displayName: String,
+        identity: String = "",
     ) {
         if (this.callComposite != null) {
             return
         }
-        val callComposite = createCallComposite(acsToken, displayName, context)
+        val callComposite = createCallComposite(acsToken, displayName, context, identity)
         subscribeToEvents(context, callComposite)
         this.callComposite = callComposite
     }
@@ -452,7 +481,12 @@ class CallCompositeManager(private val context: Context) {
         hideIncomingCallNotification()
     }
 
-    private fun createCallComposite(acsToken: String, displayName: String, context: Context): CallComposite {
+    private fun createCallComposite(
+        acsToken: String,
+        displayName: String,
+        context: Context,
+        identity: String
+    ): CallComposite {
         val communicationTokenRefreshOptions =
             CommunicationTokenRefreshOptions({ acsToken }, true)
         val communicationTokenCredential =
@@ -463,6 +497,10 @@ class CallCompositeManager(private val context: Context) {
             SettingsFeatures.orientation(SettingsFeatures.setupScreenOrientation())
 
         val callCompositeBuilder = CallCompositeBuilder()
+
+        if (identity.isNotEmpty()) {
+            callCompositeBuilder.userId(CommunicationIdentifier.fromRawId(identity))
+        }
 
         if (setupScreenOrientation != null) {
             callCompositeBuilder.setupScreenOrientation(setupScreenOrientation)

@@ -9,6 +9,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCustomButt
 import com.azure.android.communication.ui.calling.models.createCustomButtonClickEvent
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.redux.Dispatch
+import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
@@ -19,6 +20,7 @@ internal class MoreCallOptionsListViewModel(
     private val showSupportFormOption: Boolean,
     private val dispatch: Dispatch,
     customButtons: Iterable<CallCompositeCustomButtonOptions>?,
+    private val isCaptionsEnabled: Boolean,
 ) {
     private val unknown = "UNKNOWN"
     val callId: String
@@ -32,6 +34,17 @@ internal class MoreCallOptionsListViewModel(
     var shareDiagnostics: (() -> Unit)? = null
 
     val listEntries = mutableListOf<Entry>().apply {
+        if (isCaptionsEnabled) {
+            add(
+                Entry(
+                    titleResourceId = R.string.azure_communication_ui_calling_live_captions_title,
+                    icon = R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_selector,
+                    showRightArrow = true,
+                ) {
+                    dispatch(CaptionsAction.ShowCaptionsOptions())
+                }
+            )
+        }
         add(
             Entry(
                 titleResourceId = R.string.azure_communication_ui_calling_view_share_diagnostics,
@@ -56,7 +69,7 @@ internal class MoreCallOptionsListViewModel(
                 Entry(
                     icon = customButton.drawableId,
                     titleText = customButton.title,
-                    onClickListener = {context ->
+                    onClickListener = { context ->
                         try {
                             customButton.onClickHandler?.handle(createCustomButtonClickEvent(context, customButton))
                         } catch (_: Exception) {}
@@ -87,6 +100,7 @@ internal class MoreCallOptionsListViewModel(
         val titleResourceId: Int? = null,
         val titleText: String? = null,
         val icon: Int? = null,
+        val showRightArrow: Boolean = false,
         val onClickListener: (context: Context) -> Unit
     )
 }

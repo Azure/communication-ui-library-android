@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.factori
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonOptions
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderViewModel
@@ -19,9 +20,14 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay.ConnectingOverlayViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.CaptionsLanguageSelectionListViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.CaptionsListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.menu.ParticipantMenuViewModel
+/* <RTT_POC>
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttViewModel
+</RTT_POC> */
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.redux.Store
@@ -38,14 +44,22 @@ internal class CallingViewModelFactory(
     private val isTelecomManagerEnabled: Boolean = false,
     private val callType: CallType? = null,
     private val customButtons: Iterable<CallCompositeCustomButtonOptions>?,
+    private val isCaptionsEnabled: Boolean = false,
 ) : BaseViewModelFactory(store) {
+
+    /* <RTT_POC>
+    val rttViewModel by lazy {
+        RttViewModel()
+    }
+    </RTT_POC> */
 
     val moreCallOptionsListViewModel by lazy {
         MoreCallOptionsListViewModel(
             debugInfoManager = debugInfoManager,
             showSupportFormOption = showSupportFormOption,
             dispatch = store::dispatch,
-            customButtons = customButtons
+            customButtons = customButtons,
+            isCaptionsEnabled = isCaptionsEnabled,
         )
     }
 
@@ -118,4 +132,8 @@ internal class CallingViewModelFactory(
     }
 
     val lobbyErrorHeaderViewModel by lazy { LobbyErrorHeaderViewModel(store::dispatch) }
+
+    val captionsListViewModel by lazy { CaptionsListViewModel(store) }
+    val captionsLanguageSelectionListViewModel by lazy { CaptionsLanguageSelectionListViewModel(store) }
+    val captionsViewModel by lazy { CaptionsViewModel() }
 }

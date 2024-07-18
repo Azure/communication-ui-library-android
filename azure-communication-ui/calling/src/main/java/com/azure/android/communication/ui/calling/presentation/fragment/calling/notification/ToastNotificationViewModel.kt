@@ -73,6 +73,30 @@ internal class ToastNotificationViewModel(private val dispatch: (Action) -> Unit
                     notificationMessageId = R.string.azure_communication_ui_calling_view_capabilities_changed_toast_features_gained,
                     isPersistent = false,
                 )
+            ToastNotificationKind.CAPTIONS_FAILED_TO_START ->
+                displayToastNotification(
+                    notificationIconId = R.drawable.azure_communication_ui_calling_ic_fluent_info_24_regular,
+                    notificationMessageId = R.string.azure_communication_ui_calling_error_captions_failed_to_start,
+                    isPersistent = false,
+                )
+            ToastNotificationKind.CAPTIONS_FAILED_TO_STOP ->
+                displayToastNotification(
+                    notificationIconId = R.drawable.azure_communication_ui_calling_ic_fluent_info_24_regular,
+                    notificationMessageId = R.string.azure_communication_ui_calling_error_captions_failed_to_stop,
+                    isPersistent = false,
+                )
+            ToastNotificationKind.CAPTIONS_FAILED_TO_SET_SPOKEN_LANGUAGE ->
+                displayToastNotification(
+                    notificationIconId = R.drawable.azure_communication_ui_calling_ic_fluent_info_24_regular,
+                    notificationMessageId = R.string.azure_communication_ui_calling_error_captions_failed_to_set_spoken_language,
+                    isPersistent = false,
+                )
+            ToastNotificationKind.CAPTIONS_FAILED_TO_SET_CAPTION_LANGUAGE ->
+                displayToastNotification(
+                    notificationIconId = R.drawable.azure_communication_ui_calling_ic_fluent_info_24_regular,
+                    notificationMessageId = R.string.azure_communication_ui_calling_error_captions_failed_to_set_caption_language,
+                    isPersistent = false,
+                )
             null -> {
                 dismiss()
             }
