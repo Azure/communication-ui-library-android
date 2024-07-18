@@ -47,7 +47,7 @@
         app:layout_constraintTop_toBottomOf="@+id/azure_communication_ui_call_end_call_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="visible"
+        android:visibility="gone"
         tools:visibility="visible"
         />
 
