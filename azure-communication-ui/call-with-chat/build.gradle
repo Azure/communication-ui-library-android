@@ -39,16 +39,14 @@ dependencies {
     api project(path: ':calling')
     api project(path: ':chat')
     
-    //implementation platform('com.azure.android:azure-communication-calling-chat-bom:0.0.1-beta.98')
-    implementation ('com.azure.android:azure-communication-calling:0.0.1-beta.98') {
+    implementation platform('com.azure.android:azure-communication-calling-chat-bom:0.0.1-beta.98')
+    implementation ('com.azure.android:azure-communication-calling')
+
+    implementation ('com.azure.android:azure-communication-chat') {
         exclude group: 'com.microsoft', module: 'trouter-client-android'
     }
 
-    implementation ('com.azure.android:azure-communication-chat:2.0.3') {
-        exclude group: 'com.microsoft', module: 'trouter-client-android'
-    }
-
-    implementation 'com.microsoft:trouter-client-android:0.0.98'
+    //implementation 'com.microsoft:trouter-client-android'
     //implementation ("com.azure.android:azure-communication-calling:$azure_calling_sdk_version") {
     //    exclude group: 'com.microsoft', module: 'trouter-client-android'
     //}
