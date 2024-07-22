@@ -80,7 +80,7 @@ class CallCompositeManager(private val context: Context) {
 //        val cameraButton = CallCompositeButtonOptions()
 //            .setDrawableId(R.drawable.image_koala)
 //            .setTitle("My Camera title")
-//            .setOnClickListener {
+//            .setOnClickHandler {
 //                print("camera button is clicked")
 //            }
 //
@@ -88,11 +88,9 @@ class CallCompositeManager(private val context: Context) {
 //        controlBarOptions.setCameraButton(cameraButton)
 //
 //        controlBarOptions.addCustomButton(
-//                CallCompositeButtonOptions()
-//                    .setDrawableId(R.drawable.image_cat)
-//                    .setTitle("Troubleshooting tips")
-//                    .setOrder(3)
-//                    .setOnClickListener {
+//                CallCompositeCustomButtonOptions(R.drawable.image_cat,
+//                    "Troubleshooting tips")
+//                    {
 //                        // open Troubleshooting tips
 //                    }
 //            )
@@ -109,12 +107,6 @@ class CallCompositeManager(private val context: Context) {
 //            .build()
 //
 //        callComposite.launch(context, locator, localOptions)
-//
-//
-//        cameraButton.title = "new value"
-//        cameraButton.setVisibility(false)
-//
-//        cameraButton.order = 2
 
         if (SettingsFeatures.getDisplayDismissButtonOption()) {
             DismissCompositeButtonView.get(applicationContext).show(this)
@@ -621,9 +613,7 @@ class CallCompositeManager(private val context: Context) {
                         callComposite?.sendToBackground()
                     }
                 )
-                    .setEnable(false)
                     .setPlacement(CallCompositeCustomButtonPlacement.OVERFLOW)
-
             )
         }
         return callScreenOptions

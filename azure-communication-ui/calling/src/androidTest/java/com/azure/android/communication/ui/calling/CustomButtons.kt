@@ -155,7 +155,7 @@ internal class CustomButtons : BaseUiTest() {
                     R.drawable.azure_communication_ui_calling_ic_fluent_speaker_bluetooth_24_regular_primary,
                     "Custom button 1",
                 ) {}
-                    .setVisibility(false)
+                    .setVisible(false)
             )
 
         val callScreenOptions =

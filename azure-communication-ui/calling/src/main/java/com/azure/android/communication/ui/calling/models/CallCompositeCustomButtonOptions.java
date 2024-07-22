@@ -39,7 +39,7 @@ public final class CallCompositeCustomButtonOptions {
         return this.isVisible;
     }
 
-    public CallCompositeCustomButtonOptions setVisibility(final boolean isVisible) {
+    public CallCompositeCustomButtonOptions setVisible(final boolean isVisible) {
         this.isVisible = isVisible;
         return this;
     }
