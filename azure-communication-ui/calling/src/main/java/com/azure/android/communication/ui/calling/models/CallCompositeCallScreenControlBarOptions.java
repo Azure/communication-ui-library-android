@@ -11,6 +11,15 @@ import java.util.List;
  */
 public final class CallCompositeCallScreenControlBarOptions {
     final List<CallCompositeCustomButtonOptions> customButtons = new ArrayList<>();
+    CallCompositeButtonOptions cameraButtonOptions;
+    CallCompositeButtonOptions micOptions;
+    CallCompositeButtonOptions audioDeviceOptions;
+    CallCompositeButtonOptions liveCaptionsButtonOptions;
+    CallCompositeButtonOptions liveCaptionsToggleButtonOptions;
+    CallCompositeButtonOptions spokenLanguageButtonOptions;
+    CallCompositeButtonOptions captionsLanguageButtonOptions;
+    CallCompositeButtonOptions shareDiagnosticsButtonOptions;
+    CallCompositeButtonOptions reportIssueButtonOptions;
 
     private CallCompositeLeaveCallConfirmationMode leaveCallConfirmation =
             CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED;
@@ -54,11 +63,92 @@ public final class CallCompositeCallScreenControlBarOptions {
     }
 
     public CallCompositeCallScreenControlBarOptions setCameraButton(final CallCompositeButtonOptions buttonOptions) {
+        this.cameraButtonOptions = buttonOptions;
         return this;
     }
 
-    public CallCompositeCallScreenControlBarOptions setMicButton(final CallCompositeButtonOptions buttonOptions) {
-        return null;
+    public CallCompositeButtonOptions getCameraButton() {
+        return this.cameraButtonOptions;
+    }
+
+    public CallCompositeCallScreenControlBarOptions setMicrophoneButton(
+            final CallCompositeButtonOptions buttonOptions) {
+        micOptions = buttonOptions;
+        return this;
+    }
+
+    public CallCompositeButtonOptions getMicrophoneButton() {
+        return micOptions;
+    }
+
+    public CallCompositeCallScreenControlBarOptions setAudioDeviceButton(
+            final CallCompositeButtonOptions buttonOptions) {
+        audioDeviceOptions = buttonOptions;
+        return this;
+    }
+
+    public CallCompositeButtonOptions getAudioDeviceButton() {
+        return audioDeviceOptions;
+    }
+
+    public CallCompositeCallScreenControlBarOptions setLiveCaptionsButton(
+            final CallCompositeButtonOptions buttonOptions) {
+        liveCaptionsButtonOptions = buttonOptions;
+        return this;
+    }
+
+    public CallCompositeButtonOptions getLiveCaptionsButton() {
+        return liveCaptionsButtonOptions;
+    }
+
+    public CallCompositeCallScreenControlBarOptions setLiveCaptionsToggleButton(
+            final CallCompositeButtonOptions buttonOptions) {
+        liveCaptionsToggleButtonOptions = buttonOptions;
+        return this;
+    }
+
+    public CallCompositeButtonOptions getLiveCaptionsToggleButton() {
+        return liveCaptionsToggleButtonOptions;
+    }
+
+    public CallCompositeCallScreenControlBarOptions setSpokenLanguageButton(
+            final CallCompositeButtonOptions buttonOptions) {
+        this.spokenLanguageButtonOptions = buttonOptions;
+        return this;
+    }
+
+    public CallCompositeButtonOptions getSpokenLanguageButton() {
+        return spokenLanguageButtonOptions;
+    }
+
+    public CallCompositeCallScreenControlBarOptions setCaptionsLanguageButton(
+            final CallCompositeButtonOptions buttonOptions) {
+        captionsLanguageButtonOptions = buttonOptions;
+        return this;
+    }
+
+    public CallCompositeButtonOptions getCaptionsLanguageButton() {
+        return captionsLanguageButtonOptions;
+    }
+
+    public CallCompositeCallScreenControlBarOptions setShareDiagnosticsButton(
+            final CallCompositeButtonOptions buttonOptions) {
+        shareDiagnosticsButtonOptions = buttonOptions;
+        return this;
+    }
+
+    public CallCompositeButtonOptions getShareDiagnosticsButton() {
+        return shareDiagnosticsButtonOptions;
+    }
+
+    public CallCompositeCallScreenControlBarOptions setReportIssueButton(
+            final CallCompositeButtonOptions buttonOptions) {
+        reportIssueButtonOptions = buttonOptions;
+        return this;
+    }
+
+    public CallCompositeButtonOptions getReportIssueButton() {
+        return reportIssueButtonOptions;
     }
 
 }

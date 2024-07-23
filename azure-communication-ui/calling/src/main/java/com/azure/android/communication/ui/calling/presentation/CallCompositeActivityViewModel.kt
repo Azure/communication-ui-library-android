@@ -11,7 +11,6 @@ import com.azure.android.communication.ui.calling.di.DependencyInjectionContaine
 import com.azure.android.communication.ui.calling.getDiContainer
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
-import com.azure.android.communication.ui.calling.models.getCustomButtons
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.ParticipantGridCellViewModelFactory
@@ -80,7 +79,7 @@ internal class CallCompositeActivityViewModel(
                 enableMultitasking = container.configuration.enableMultitasking,
                 isTelecomManagerEnabled = container.configuration.telecomManagerOptions != null,
                 callType = container.configuration.callConfig.callType,
-                customButtons = container.configuration.callScreenOptions?.controlBarOptions?.getCustomButtons(),
+                callScreenControlBarOptions = container.configuration.callScreenOptions?.controlBarOptions,
                 isCaptionsEnabled = container.appStore.getCurrentState().captionsState.isCaptionsUIEnabled,
             ),
             networkManager = container.networkManager,

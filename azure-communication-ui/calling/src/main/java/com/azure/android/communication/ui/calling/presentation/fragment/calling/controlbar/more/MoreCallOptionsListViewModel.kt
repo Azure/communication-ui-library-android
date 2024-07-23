@@ -5,8 +5,10 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.content.Context
 import com.azure.android.communication.ui.calling.implementation.R
+import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonPlacement
+import com.azure.android.communication.ui.calling.models.createButtonClickEvent
 import com.azure.android.communication.ui.calling.models.createCustomButtonClickEvent
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.redux.Dispatch
@@ -22,6 +24,12 @@ internal class MoreCallOptionsListViewModel(
     private val dispatch: Dispatch,
     private val customButtons: Iterable<CallCompositeCustomButtonOptions>?,
     private val isCaptionsEnabled: Boolean,
+    val captionsButtonOptions: CallCompositeButtonOptions?,
+    val liveCaptionsToggleButton: CallCompositeButtonOptions?,
+    val spokenLanguageButtonOptions: CallCompositeButtonOptions?,
+    val captionsLanguageButtonOptions: CallCompositeButtonOptions?,
+    val shareDiagnosticsButtonOptions: CallCompositeButtonOptions?,
+    val reportIssueButtonOptions: CallCompositeButtonOptions?
 ) {
     private val unknown = "UNKNOWN"
     val callId: String
@@ -39,9 +47,19 @@ internal class MoreCallOptionsListViewModel(
             add(
                 Entry(
                     titleResourceId = R.string.azure_communication_ui_calling_live_captions_title,
-                    icon = R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_selector,
+                    titleText = captionsButtonOptions?.title,
+                    icon = captionsButtonOptions?.drawableId
+                        ?: R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_selector,
+                    isVisible = captionsButtonOptions?.isVisible ?: true && isAnyCaptionsSubMenuButtonsVisible(),
+                    isEnabled = captionsButtonOptions?.isEnabled ?: true,
                     showRightArrow = true,
-                ) {
+                ) { context ->
+                    try {
+                        captionsButtonOptions?.onClickHandler?.handle(
+                            createButtonClickEvent(context, captionsButtonOptions)
+                        )
+                    } catch (_: Exception) {
+                    }
                     dispatch(CaptionsAction.ShowCaptionsOptions())
                 }
             )
@@ -49,8 +67,17 @@ internal class MoreCallOptionsListViewModel(
         add(
             Entry(
                 titleResourceId = R.string.azure_communication_ui_calling_view_share_diagnostics,
-                icon = R.drawable.azure_communication_ui_calling_ic_fluent_share_android_24_regular
-            ) {
+                titleText = shareDiagnosticsButtonOptions?.title,
+                icon = shareDiagnosticsButtonOptions?.drawableId ?: R.drawable.azure_communication_ui_calling_ic_fluent_share_android_24_regular,
+                isVisible = shareDiagnosticsButtonOptions?.isVisible ?: true,
+                isEnabled = shareDiagnosticsButtonOptions?.isEnabled ?: true,
+                ) { context ->
+                try {
+                    shareDiagnosticsButtonOptions?.onClickHandler?.handle(
+                        createButtonClickEvent(context, shareDiagnosticsButtonOptions)
+                    )
+                } catch (_: Exception) {
+                }
                 shareDiagnostics?.let { it() }
             }
         )
@@ -58,8 +85,17 @@ internal class MoreCallOptionsListViewModel(
             add(
                 Entry(
                     titleResourceId = R.string.azure_communication_ui_calling_report_issue_title,
-                    icon = R.drawable.azure_communication_ui_calling_ic_fluent_person_feedback_24_regular
-                ) {
+                    titleText = reportIssueButtonOptions?.title,
+                    icon = reportIssueButtonOptions?.drawableId ?: R.drawable.azure_communication_ui_calling_ic_fluent_person_feedback_24_regular,
+                    isVisible = reportIssueButtonOptions?.isVisible ?: true,
+                    isEnabled = reportIssueButtonOptions?.isEnabled ?: true,
+                ) { context ->
+                    try {
+                        reportIssueButtonOptions?.onClickHandler?.handle(
+                            createButtonClickEvent(context, reportIssueButtonOptions)
+                        )
+                    } catch (_: Exception) {
+                    }
                     requestReportIssueScreen()
                 }
             )
@@ -106,11 +142,18 @@ internal class MoreCallOptionsListViewModel(
             close()
     }
 
+    private fun isAnyCaptionsSubMenuButtonsVisible(): Boolean {
+        return liveCaptionsToggleButton?.isVisible ?: true
+                || spokenLanguageButtonOptions?.isVisible ?: true
+                || captionsLanguageButtonOptions?.isVisible ?: true
+    }
+
     data class Entry(
         val titleResourceId: Int? = null,
         val titleText: String? = null,
         val icon: Int? = null,
         val showRightArrow: Boolean = false,
+        val isVisible: Boolean = true,
         val isEnabled: Boolean = true,
         val onClickListener: (context: Context) -> Unit
     )

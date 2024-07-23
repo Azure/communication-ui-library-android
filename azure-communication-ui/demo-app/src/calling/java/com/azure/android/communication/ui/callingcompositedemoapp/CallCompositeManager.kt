@@ -22,6 +22,7 @@ import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
+import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
@@ -615,6 +616,30 @@ class CallCompositeManager(private val context: Context) {
                 )
                     .setPlacement(CallCompositeCustomButtonPlacement.OVERFLOW)
             )
+
+            callScreenOptions.controlBarOptions.cameraButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "cameraButton") }
+
+            callScreenOptions.controlBarOptions.microphoneButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "microphoneButton") }
+
+            callScreenOptions.controlBarOptions.audioDeviceButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "audioDeviceButton") }
+
+            callScreenOptions.controlBarOptions.liveCaptionsButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "liveCaptionsButton") }
+
+            callScreenOptions.controlBarOptions.liveCaptionsToggleButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "liveCaptionsToggleButton") }
+
+            callScreenOptions.controlBarOptions.spokenLanguageButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "spokenLanguageButton") }
+
+            callScreenOptions.controlBarOptions.captionsLanguageButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "captionsLanguageButton") }
+
+            callScreenOptions.controlBarOptions.shareDiagnosticsButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "shareDiagnosticsButton") }
         }
         return callScreenOptions
     }

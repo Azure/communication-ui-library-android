@@ -39,7 +39,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.common.a
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay.ConnectingOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.CaptionsLanguageSelectionListView
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.CaptionsContainerView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.CaptionsListView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.menu.ParticipantMenuView
@@ -90,7 +90,7 @@ internal class CallingFragment :
     private lateinit var moreCallOptionsListView: MoreCallOptionsListView
     private lateinit var lobbyHeaderView: LobbyHeaderView
     private lateinit var lobbyErrorHeaderView: LobbyErrorHeaderView
-    private lateinit var captionsContainerView: CaptionsContainerView
+    private lateinit var captionsListView: CaptionsListView
     private lateinit var captionsLanguageSelectionListView: CaptionsLanguageSelectionListView
     private lateinit var captionsLayout: CaptionsLayout
     /* <RTT_POC>
@@ -223,13 +223,13 @@ internal class CallingFragment :
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         moreCallOptionsListView.start(viewLifecycleOwner)
 
-        captionsContainerView = CaptionsContainerView(
+        captionsListView = CaptionsListView(
             context = this.requireContext(),
             viewModel = viewModel.captionsListViewModel
         )
-        captionsContainerView.layoutDirection =
+        captionsListView.layoutDirection =
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
-        captionsContainerView.start(viewLifecycleOwner)
+        captionsListView.start(viewLifecycleOwner)
 
         captionsLanguageSelectionListView = CaptionsLanguageSelectionListView(
             context = this.requireContext(),
@@ -317,7 +317,7 @@ internal class CallingFragment :
         if (this::moreCallOptionsListView.isInitialized) moreCallOptionsListView.stop()
         if (this::upperMessageBarNotificationLayoutView.isInitialized) upperMessageBarNotificationLayoutView.stop()
         if (this::toastNotificationView.isInitialized) toastNotificationView.stop()
-        if (this::captionsContainerView.isInitialized) captionsContainerView.stop()
+        if (this::captionsListView.isInitialized) captionsListView.stop()
         if (this::captionsLanguageSelectionListView.isInitialized) captionsLanguageSelectionListView.stop()
         if (this::captionsLayout.isInitialized) captionsLayout.stop()
     }

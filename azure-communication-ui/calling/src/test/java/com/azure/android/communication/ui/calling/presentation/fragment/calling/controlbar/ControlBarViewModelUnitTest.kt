@@ -22,11 +22,11 @@ import com.azure.android.communication.ui.calling.redux.state.CameraOperationalS
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
-import com.azure.android.communication.ui.calling.redux.state.VisibilityState
-import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import com.azure.android.communication.ui.calling.redux.state.VisibilityState
+import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import org.junit.Assert
@@ -143,7 +143,15 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 visibilityState,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
                 capabilities = capabilities,
-                callScreenOptions?.controlBarOptions?.getCustomButtons()
+                customButtons = null,
+                cameraButtonOptions = null,
+                micButtonOptions = null,
+                audioDeviceButtonOptions = null,
+                liveCaptionsToggleButton = null,
+                spokenLanguageButtonOptions = null,
+                captionsLanguageButtonOptions = null,
+                shareDiagnosticsButtonOptions = null,
+                reportIssueButtonOptions = null
             )
 
             val expectedAudioOperationalStatus1 = AudioOperationalStatus.ON
@@ -241,7 +249,15 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 visibilityState,
                 avMode,
                 capabilities,
-                callScreenOptions?.controlBarOptions?.getCustomButtons(),
+                customButtons = null,
+                cameraButtonOptions = null,
+                micButtonOptions = null,
+                audioDeviceButtonOptions = null,
+                liveCaptionsToggleButton = null,
+                spokenLanguageButtonOptions = null,
+                captionsLanguageButtonOptions = null,
+                shareDiagnosticsButtonOptions = null,
+                reportIssueButtonOptions = null
             )
 
             val flowJob = launch {
@@ -349,7 +365,15 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 visibilityState,
                 avMode,
                 capabilities,
-                callScreenOptions?.controlBarOptions?.getCustomButtons(),
+                customButtons = null,
+                cameraButtonOptions = null,
+                micButtonOptions = null,
+                audioDeviceButtonOptions = null,
+                liveCaptionsToggleButton = null,
+                spokenLanguageButtonOptions = null,
+                captionsLanguageButtonOptions = null,
+                shareDiagnosticsButtonOptions = null,
+                reportIssueButtonOptions = null
             )
 
             val resultListFromCameraStateFlow = mutableListOf<CameraOperationalStatus>()
@@ -450,7 +474,15 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 visibilityState,
                 avMode,
                 capabilities,
-                callScreenOptions?.controlBarOptions?.getCustomButtons(),
+                customButtons = null,
+                cameraButtonOptions = null,
+                micButtonOptions = null,
+                audioDeviceButtonOptions = null,
+                liveCaptionsToggleButton = null,
+                spokenLanguageButtonOptions = null,
+                captionsLanguageButtonOptions = null,
+                shareDiagnosticsButtonOptions = null,
+                reportIssueButtonOptions = null
             )
 
             val resultListFromIsCameraButtonEnabledStateFlow = mutableListOf<Boolean>()

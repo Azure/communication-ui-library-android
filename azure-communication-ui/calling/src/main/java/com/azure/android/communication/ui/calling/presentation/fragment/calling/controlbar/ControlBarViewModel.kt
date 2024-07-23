@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar
 
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
+import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonPlacement
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
@@ -50,6 +51,10 @@ internal class ControlBarViewModel(
     lateinit var requestCallEnd: () -> Unit
     lateinit var openAudioDeviceSelectionMenu: () -> Unit
     lateinit var openMoreMenu: () -> Unit
+    var isMoreButtonVisible: Boolean = false
+
+    // Button customizations
+
 
     fun init(
         permissionState: PermissionState,
@@ -63,6 +68,14 @@ internal class ControlBarViewModel(
         audioVideoMode: CallCompositeAudioVideoMode,
         capabilities: Set<ParticipantCapabilityType>,
         customButtons: List<CallCompositeCustomButtonOptions>?,
+        cameraButtonOptions: CallCompositeButtonOptions?,
+        micButtonOptions: CallCompositeButtonOptions?,
+        audioDeviceButtonOptions: CallCompositeButtonOptions?,
+        liveCaptionsToggleButton: CallCompositeButtonOptions?,
+        spokenLanguageButtonOptions: CallCompositeButtonOptions?,
+        captionsLanguageButtonOptions: CallCompositeButtonOptions?,
+        shareDiagnosticsButtonOptions: CallCompositeButtonOptions?,
+        reportIssueButtonOptions: CallCompositeButtonOptions?
     ) {
         isVisibleStateFlow = MutableStateFlow(shouldBeVisible(visibilityState))
 
@@ -94,13 +107,26 @@ internal class ControlBarViewModel(
             )
         )
 
-        isAudioDeviceButtonEnabledFlow = MutableStateFlow(shouldAudioDeviceButtonBeEnable(callState.callingStatus))
+        isAudioDeviceButtonEnabledFlow =
+            MutableStateFlow(shouldAudioDeviceButtonBeEnable(callState.callingStatus))
+
+        isMoreButtonVisible = (liveCaptionsToggleButton?.isVisible ?: true
+                || spokenLanguageButtonOptions?.isVisible ?: true
+                || captionsLanguageButtonOptions?.isVisible ?: true
+                || shareDiagnosticsButtonOptions?.isVisible ?: true
+                || reportIssueButtonOptions?.isVisible ?: true)
+                || customButtons?.any { it.placement == CallCompositeCustomButtonPlacement.OVERFLOW } ?: true
+
         isMoreButtonEnabledFlow = MutableStateFlow(shouldMoreButtonBeEnabled(callState.callingStatus))
 
         requestCallEnd = requestCallEndCallback
         openAudioDeviceSelectionMenu = openAudioDeviceSelectionMenuCallback
         openMoreMenu = openMoreMenuCallback
         customButton = customButtons?.firstOrNull { it.placement == CallCompositeCustomButtonPlacement.PRIMARY }
+
+        this.cameraButtonOptions = cameraButtonOptions
+        this.micButtonOptions = micButtonOptions
+        this.audioDeviceButtonOptions = audioDeviceButtonOptions
     }
 
     fun update(
@@ -154,6 +180,15 @@ internal class ControlBarViewModel(
     val isMoreButtonEnabled: StateFlow<Boolean> get() = isMoreButtonEnabledFlow
 
     var customButton: CallCompositeCustomButtonOptions? = null
+        private set
+
+    var cameraButtonOptions: CallCompositeButtonOptions? = null
+        private set
+
+    var micButtonOptions: CallCompositeButtonOptions? = null
+        private set
+
+    var audioDeviceButtonOptions: CallCompositeButtonOptions? = null
         private set
 
     fun turnMicOff() {

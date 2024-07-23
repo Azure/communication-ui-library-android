@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.calling.implementation.R
+import com.azure.android.communication.ui.calling.models.createButtonClickEvent
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
 import com.azure.android.communication.ui.calling.utilities.BottomCellItemType
@@ -21,7 +22,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @SuppressLint("ViewConstructor")
-internal class CaptionsContainerView(
+internal class CaptionsListView(
     context: Context,
     private val viewModel: CaptionsListViewModel
 ) : RelativeLayout(context) {
@@ -123,61 +124,82 @@ internal class CaptionsContainerView(
         val canTurnOnCaptions = viewModel.canTurnOnCaptionsStateFlow.value
 
         val items = mutableListOf<BottomCellItem>()
-        items.add(
-            BottomCellItem(
-                icon = ContextCompat.getDrawable(
-                    context,
-                    R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_selector
-                ),
-                title = context.getString(R.string.azure_communication_ui_calling_live_captions_title),
-                "",
-                null,
-                null,
-                null,
-                null,
-                null,
-                isOnHold = null,
-                BottomCellItemType.BottomMenuAction,
-                onClickAction = null,
-                showToggleButton = true,
-                enableToggleButton = canTurnOnCaptions,
-                isToggleButtonOn = isCaptionsActive,
-                toggleButtonAction = { _, isChecked ->
-                    viewModel.toggleCaptions(isChecked)
-                }
-            )
-        )
-        items.add(
-            BottomCellItem(
-                icon = ContextCompat.getDrawable(
-                    context,
-                    R.drawable.azure_communication_ui_calling_ic_fluent_spoken_language_24_selector
-                ),
-                title = context.getString(R.string.azure_communication_ui_calling_captions_spoken_language_title),
-                "",
-                null,
-                null,
-                null,
-                null,
-                null,
-                isOnHold = null,
-                BottomCellItemType.BottomMenuAction,
-                showRightArrow = true,
-                subtitle = LocaleHelper.getLocaleDisplayName(activeSpokenLanguage),
-                onClickAction = {
-                    viewModel.openSpokenLanguageSelection()
-                },
-                isEnabled = isCaptionsActive
-            )
-        )
-        if (isTranscriptionEnabled) {
+        if (viewModel.liveCaptionsToggleButton?.isVisible != false) {
             items.add(
                 BottomCellItem(
                     icon = ContextCompat.getDrawable(
                         context,
-                        R.drawable.azure_communication_ui_calling_ic_fluent_caption_language_24_selector
+                        viewModel.liveCaptionsToggleButton?.drawableId
+                            ?: R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_selector
                     ),
-                    title = context.getString(R.string.azure_communication_ui_calling_captions_caption_language_title),
+                    title = viewModel.liveCaptionsToggleButton?.title
+                        ?: context.getString(R.string.azure_communication_ui_calling_live_captions_title),
+                    contentDescription = viewModel.liveCaptionsToggleButton?.title ?: "",
+                    accessoryImage = null,
+                    accessoryColor = null,
+                    accessoryImageDescription = null,
+                    isChecked = null,
+                    participantViewData = null,
+                    isOnHold = null,
+                    itemType = BottomCellItemType.BottomMenuAction,
+                    onClickAction = null,
+                    showToggleButton = true,
+                    enableToggleButton = canTurnOnCaptions,
+                    isToggleButtonOn = isCaptionsActive,
+                    isEnabled = viewModel.liveCaptionsToggleButton?.isEnabled ?: true,
+                    toggleButtonAction = { _, isChecked ->
+                        try {
+                            viewModel.liveCaptionsToggleButton?.onClickHandler?.handle(
+                                createButtonClickEvent(context, viewModel.liveCaptionsToggleButton))
+                        } catch (_: Exception) {
+                        }
+                        viewModel.toggleCaptions(isChecked)
+                    }
+                )
+            )
+        }
+        if (viewModel.spokenLanguageButtonOptions?.isVisible != false) {
+            items.add(
+                BottomCellItem(
+                    icon = ContextCompat.getDrawable(
+                        context,
+                        viewModel.spokenLanguageButtonOptions?.drawableId
+                            ?: R.drawable.azure_communication_ui_calling_ic_fluent_spoken_language_24_selector
+                    ),
+                    title = viewModel.liveCaptionsToggleButton?.title
+                        ?: context.getString(R.string.azure_communication_ui_calling_captions_spoken_language_title),
+                    "",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    isOnHold = null,
+                    BottomCellItemType.BottomMenuAction,
+                    showRightArrow = true,
+                    subtitle = LocaleHelper.getLocaleDisplayName(activeSpokenLanguage),
+                    onClickAction = {
+                        try {
+                            viewModel.spokenLanguageButtonOptions?.onClickHandler?.handle(
+                                createButtonClickEvent(context, viewModel.spokenLanguageButtonOptions))
+                        } catch (_: Exception) {
+                        }
+                        viewModel.openSpokenLanguageSelection()
+                    },
+                    isEnabled = isCaptionsActive && viewModel.spokenLanguageButtonOptions?.isEnabled != false
+                )
+            )
+        }
+        if (isTranscriptionEnabled && viewModel.captionsLanguageButtonOptions?.isVisible != false) {
+            items.add(
+                BottomCellItem(
+                    icon = ContextCompat.getDrawable(
+                        context,
+                        viewModel.captionsLanguageButtonOptions?.drawableId
+                            ?: R.drawable.azure_communication_ui_calling_ic_fluent_caption_language_24_selector
+                    ),
+                    title = viewModel.captionsLanguageButtonOptions?.title
+                        ?: context.getString(R.string.azure_communication_ui_calling_captions_caption_language_title),
                     "",
                     null,
                     null,
@@ -189,9 +211,14 @@ internal class CaptionsContainerView(
                     showRightArrow = true,
                     subtitle = LocaleHelper.getLocaleDisplayName(activeCaptionLanguage),
                     onClickAction = {
+                        try {
+                            viewModel.captionsLanguageButtonOptions?.onClickHandler?.handle(
+                                createButtonClickEvent(context, viewModel.captionsLanguageButtonOptions))
+                        } catch (_: Exception) {
+                        }
                         viewModel.openCaptionLanguageSelection()
                     },
-                    isEnabled = isCaptionsActive
+                    isEnabled = isCaptionsActive && viewModel.captionsLanguageButtonOptions?.isEnabled != false
                 )
             )
         }

@@ -91,17 +91,25 @@ internal class CallingViewModel(
         val remoteParticipantsForGridView = remoteParticipantsForGridView(state.remoteParticipantState.participantMap)
 
         controlBarViewModel.init(
-            state.permissionState,
-            state.localParticipantState.cameraState,
-            state.localParticipantState.audioState,
-            state.callState,
-            this::requestCallEnd,
-            audioDeviceListViewModel::displayAudioDeviceSelectionMenu,
-            moreCallOptionsListViewModel::display,
-            state.visibilityState,
-            state.localParticipantState.audioVideoMode,
-            state.localParticipantState.capabilities,
-            callScreenOptions?.controlBarOptions?.getCustomButtons(),
+            permissionState = state.permissionState,
+            cameraState = state.localParticipantState.cameraState,
+            audioState = state.localParticipantState.audioState,
+            callState = state.callState,
+            requestCallEndCallback = this::requestCallEnd,
+            openAudioDeviceSelectionMenuCallback = audioDeviceListViewModel::displayAudioDeviceSelectionMenu,
+            openMoreMenuCallback = moreCallOptionsListViewModel::display,
+            visibilityState = state.visibilityState,
+            audioVideoMode = state.localParticipantState.audioVideoMode,
+            capabilities = state.localParticipantState.capabilities,
+            customButtons = callScreenOptions?.controlBarOptions?.getCustomButtons(),
+            cameraButtonOptions = callScreenOptions?.controlBarOptions?.cameraButton,
+            micButtonOptions = callScreenOptions?.controlBarOptions?.microphoneButton,
+            audioDeviceButtonOptions = callScreenOptions?.controlBarOptions?.audioDeviceButton,
+            liveCaptionsToggleButton = callScreenOptions?.controlBarOptions?.liveCaptionsButton,
+            spokenLanguageButtonOptions = callScreenOptions?.controlBarOptions?.spokenLanguageButton,
+            captionsLanguageButtonOptions = callScreenOptions?.controlBarOptions?.captionsLanguageButton,
+            shareDiagnosticsButtonOptions = callScreenOptions?.controlBarOptions?.shareDiagnosticsButton,
+            reportIssueButtonOptions = callScreenOptions?.controlBarOptions?.reportIssueButton,
         )
 
         localParticipantViewModel.init(
