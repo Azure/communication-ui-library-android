@@ -5,8 +5,6 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonPlacement
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.action.Action
@@ -67,7 +65,6 @@ internal class ControlBarViewModel(
         visibilityState: VisibilityState,
         audioVideoMode: CallCompositeAudioVideoMode,
         capabilities: Set<ParticipantCapabilityType>,
-        customButtons: List<CallCompositeCustomButtonOptions>?,
         cameraButtonOptions: CallCompositeButtonOptions?,
         micButtonOptions: CallCompositeButtonOptions?,
         audioDeviceButtonOptions: CallCompositeButtonOptions?,
@@ -115,14 +112,12 @@ internal class ControlBarViewModel(
                 || captionsLanguageButtonOptions?.isVisible ?: true
                 || shareDiagnosticsButtonOptions?.isVisible ?: true
                 || reportIssueButtonOptions?.isVisible ?: true)
-                || customButtons?.any { it.placement == CallCompositeCustomButtonPlacement.OVERFLOW } ?: true
 
         isMoreButtonEnabledFlow = MutableStateFlow(shouldMoreButtonBeEnabled(callState.callingStatus))
 
         requestCallEnd = requestCallEndCallback
         openAudioDeviceSelectionMenu = openAudioDeviceSelectionMenuCallback
         openMoreMenu = openMoreMenuCallback
-        customButton = customButtons?.firstOrNull { it.placement == CallCompositeCustomButtonPlacement.PRIMARY }
 
         this.cameraButtonOptions = cameraButtonOptions
         this.micButtonOptions = micButtonOptions
@@ -178,9 +173,6 @@ internal class ControlBarViewModel(
     val audioDeviceSelection: StateFlow<AudioDeviceSelectionStatus> get() = audioDeviceSelectionStatusStateFlow
 
     val isMoreButtonEnabled: StateFlow<Boolean> get() = isMoreButtonEnabledFlow
-
-    var customButton: CallCompositeCustomButtonOptions? = null
-        private set
 
     var cameraButtonOptions: CallCompositeButtonOptions? = null
         private set

@@ -44,7 +44,7 @@ public class CallCompositeButtonOptions {
         return this.isVisible;
     }
 
-    public CallCompositeButtonOptions setVisibility(final boolean isVisible) {
+    public CallCompositeButtonOptions setVisible(final boolean isVisible) {
         this.isVisible = isVisible;
         return this;
     }
@@ -53,7 +53,7 @@ public class CallCompositeButtonOptions {
         return this.isEnabled;
     }
 
-    public CallCompositeButtonOptions setEnable(final boolean isEnabled) {
+    public CallCompositeButtonOptions setEnabled(final boolean isEnabled) {
         this.isEnabled = isEnabled;
         return this;
     }

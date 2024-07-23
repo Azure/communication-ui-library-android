@@ -7,12 +7,11 @@ import com.azure.android.communication.ui.calling.CallCompositeEventHandler;
 
 public final class CallCompositeCustomButtonOptions {
 
-    private int drawableId;
-    private String title;
-    private CallCompositeEventHandler<CallCompositeCustomButtonClickEvent> onClickHandler;
+    private final int drawableId;
+    private final String title;
+    private final CallCompositeEventHandler<CallCompositeCustomButtonClickEvent> onClickHandler;
     private Boolean isVisible = true;
     private Boolean isEnabled = true;
-    private CallCompositeCustomButtonPlacement placement = CallCompositeCustomButtonPlacement.OVERFLOW;
 
     public CallCompositeCustomButtonOptions(
             final int drawableId,
@@ -51,14 +50,5 @@ public final class CallCompositeCustomButtonOptions {
     public CallCompositeCustomButtonOptions setEnable(final boolean isEnabled) {
         this.isEnabled = isEnabled;
         return this;
-    }
-
-    public CallCompositeCustomButtonOptions setPlacement(final CallCompositeCustomButtonPlacement placement) {
-        this.placement = placement;
-        return this;
-    }
-
-    public CallCompositeCustomButtonPlacement getPlacement() {
-        return this.placement;
     }
 }

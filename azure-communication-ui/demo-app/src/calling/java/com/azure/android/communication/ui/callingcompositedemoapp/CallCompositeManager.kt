@@ -31,7 +31,6 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallStateC
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonClickEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonPlacement
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallCancelledEvent
@@ -603,7 +602,6 @@ class CallCompositeManager(private val context: Context) {
                         context.startActivity(intent)
                     }
                 )
-                    .setPlacement(CallCompositeCustomButtonPlacement.PRIMARY)
             )
 
             callScreenOptions.controlBarOptions.addCustomButton(
@@ -614,7 +612,6 @@ class CallCompositeManager(private val context: Context) {
                         callComposite?.sendToBackground()
                     }
                 )
-                    .setPlacement(CallCompositeCustomButtonPlacement.OVERFLOW)
             )
 
             callScreenOptions.controlBarOptions.cameraButton = CallCompositeButtonOptions()
@@ -654,10 +651,16 @@ class CallCompositeManager(private val context: Context) {
         }
 
         if (SettingsFeatures.getSetupScreenMicEnabledValue() != null) {
-            if (setupScreenOptions == null) {
-                setupScreenOptions = CallCompositeSetupScreenOptions()
-            }
+            setupScreenOptions = setupScreenOptions ?: CallCompositeSetupScreenOptions()
             setupScreenOptions.setMicrophoneButtonEnabled(SettingsFeatures.getSetupScreenMicEnabledValue())
+        }
+
+        if (/*add custom buttons*/ true) {
+            setupScreenOptions = setupScreenOptions ?: CallCompositeSetupScreenOptions()
+            setupScreenOptions.setCameraButton(
+                CallCompositeButtonOptions()
+                    .setVisible(false)
+            )
         }
 
         return setupScreenOptions

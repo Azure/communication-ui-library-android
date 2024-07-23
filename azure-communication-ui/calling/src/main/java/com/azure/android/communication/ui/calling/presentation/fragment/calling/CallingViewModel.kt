@@ -10,7 +10,6 @@ import com.azure.android.communication.ui.calling.models.CallCompositeLeaveCallC
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
-import com.azure.android.communication.ui.calling.models.getCustomButtons
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
@@ -101,7 +100,6 @@ internal class CallingViewModel(
             visibilityState = state.visibilityState,
             audioVideoMode = state.localParticipantState.audioVideoMode,
             capabilities = state.localParticipantState.capabilities,
-            customButtons = callScreenOptions?.controlBarOptions?.getCustomButtons(),
             cameraButtonOptions = callScreenOptions?.controlBarOptions?.cameraButton,
             micButtonOptions = callScreenOptions?.controlBarOptions?.microphoneButton,
             audioDeviceButtonOptions = callScreenOptions?.controlBarOptions?.audioDeviceButton,

@@ -7,7 +7,6 @@ import android.content.Context
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonPlacement
 import com.azure.android.communication.ui.calling.models.createButtonClickEvent
 import com.azure.android.communication.ui.calling.models.createCustomButtonClickEvent
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
@@ -102,7 +101,6 @@ internal class MoreCallOptionsListViewModel(
         }
 
         customButtons
-            ?.filter { it.isVisible && it.placement == CallCompositeCustomButtonPlacement.OVERFLOW }
             ?.forEach { customButton ->
                 add(
                     Entry(

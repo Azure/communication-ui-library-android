@@ -13,6 +13,10 @@ public final class CallCompositeSetupScreenOptions {
     private Boolean cameraButtonEnabled = null;
     private Boolean micButtonEnabled = null;
 
+    private CallCompositeButtonOptions cameraButtonOptions;
+    private CallCompositeButtonOptions micOptions;
+    private CallCompositeButtonOptions audioDeviceOptions;
+
     /**
      * Creates {@link CallCompositeSetupScreenOptions}.
      */
@@ -41,7 +45,7 @@ public final class CallCompositeSetupScreenOptions {
     }
 
     /**
-     * @deprecated Use {@link #setMicButton(CallCompositeButtonOptions)} instead.
+     * @deprecated Use {@link #setMicrophoneButton(CallCompositeButtonOptions)} instead.
      * Set microphone button enabled to user. Enabled by default.
      * @param enabled Sets microphone button enable/disabled on the setup screen.
      * @return {@link CallCompositeSetupScreenOptions}.
@@ -53,7 +57,7 @@ public final class CallCompositeSetupScreenOptions {
     }
 
     /**
-     * @deprecated Use {@link #setMicButton(CallCompositeButtonOptions)} instead.
+     * @deprecated Use {@link #setMicrophoneButton(CallCompositeButtonOptions)} instead.
      * Is microphone button enabled to user.
      */
     @Deprecated
@@ -62,10 +66,31 @@ public final class CallCompositeSetupScreenOptions {
     }
 
     public CallCompositeSetupScreenOptions setCameraButton(final CallCompositeButtonOptions buttonOptions) {
-        return null;
+        this.cameraButtonOptions = buttonOptions;
+        return this;
     }
 
-    public CallCompositeSetupScreenOptions setMicButton(final CallCompositeButtonOptions buttonOptions) {
-        return null;
+    public CallCompositeButtonOptions getCameraButton() {
+        return this.cameraButtonOptions;
+    }
+
+    public CallCompositeSetupScreenOptions setMicrophoneButton(
+            final CallCompositeButtonOptions buttonOptions) {
+        micOptions = buttonOptions;
+        return this;
+    }
+
+    public CallCompositeButtonOptions getMicrophoneButton() {
+        return micOptions;
+    }
+
+    public CallCompositeSetupScreenOptions setAudioDeviceButton(
+            final CallCompositeButtonOptions buttonOptions) {
+        audioDeviceOptions = buttonOptions;
+        return this;
+    }
+
+    public CallCompositeButtonOptions getAudioDeviceButton() {
+        return audioDeviceOptions;
     }
 }

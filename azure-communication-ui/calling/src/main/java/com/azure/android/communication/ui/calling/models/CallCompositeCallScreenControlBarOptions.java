@@ -11,15 +11,15 @@ import java.util.List;
  */
 public final class CallCompositeCallScreenControlBarOptions {
     final List<CallCompositeCustomButtonOptions> customButtons = new ArrayList<>();
-    CallCompositeButtonOptions cameraButtonOptions;
-    CallCompositeButtonOptions micOptions;
-    CallCompositeButtonOptions audioDeviceOptions;
-    CallCompositeButtonOptions liveCaptionsButtonOptions;
-    CallCompositeButtonOptions liveCaptionsToggleButtonOptions;
-    CallCompositeButtonOptions spokenLanguageButtonOptions;
-    CallCompositeButtonOptions captionsLanguageButtonOptions;
-    CallCompositeButtonOptions shareDiagnosticsButtonOptions;
-    CallCompositeButtonOptions reportIssueButtonOptions;
+    private CallCompositeButtonOptions cameraButtonOptions;
+    private CallCompositeButtonOptions micOptions;
+    private CallCompositeButtonOptions audioDeviceOptions;
+    private CallCompositeButtonOptions liveCaptionsButtonOptions;
+    private CallCompositeButtonOptions liveCaptionsToggleButtonOptions;
+    private CallCompositeButtonOptions spokenLanguageButtonOptions;
+    private CallCompositeButtonOptions captionsLanguageButtonOptions;
+    private CallCompositeButtonOptions shareDiagnosticsButtonOptions;
+    private CallCompositeButtonOptions reportIssueButtonOptions;
 
     private CallCompositeLeaveCallConfirmationMode leaveCallConfirmation =
             CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED;
@@ -53,11 +53,6 @@ public final class CallCompositeCallScreenControlBarOptions {
 
     public CallCompositeCallScreenControlBarOptions addCustomButton(
             final CallCompositeCustomButtonOptions buttonOptions) {
-        if (buttonOptions.getPlacement() == CallCompositeCustomButtonPlacement.PRIMARY
-            && customButtons.stream()
-                .anyMatch(item -> item.getPlacement() == CallCompositeCustomButtonPlacement.PRIMARY)) {
-            buttonOptions.setPlacement(CallCompositeCustomButtonPlacement.OVERFLOW);
-        }
         customButtons.add(buttonOptions);
         return this;
     }

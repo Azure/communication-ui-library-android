@@ -17,7 +17,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
-import com.azure.android.communication.ui.calling.models.createCustomButtonClickEvent
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
@@ -118,24 +117,6 @@ internal class ControlBarView : ConstraintLayout {
         )
 
         moreButton.visibility = if (viewModel.isMoreButtonVisible) VISIBLE else GONE
-
-        viewModel.customButton?.let { buttonOptions ->
-            customButton.visibility = if (buttonOptions.isVisible) VISIBLE else GONE
-            customButton.isEnabled = buttonOptions.isEnabled
-            customButton.contentDescription = buttonOptions.title
-            customButton.setImageResource(buttonOptions.drawableId)
-            customButton.setOnClickListener {
-                try {
-                    buttonOptions.onClickHandler?.handle(
-                        createCustomButtonClickEvent(
-                            context,
-                            buttonOptions
-                        )
-                    )
-                } catch (_: Exception) {
-                }
-            }
-        }
 
         customizeDefaultButton(cameraToggle, viewModel.cameraButtonOptions)
         customizeDefaultButton(micToggle, viewModel.micButtonOptions)
