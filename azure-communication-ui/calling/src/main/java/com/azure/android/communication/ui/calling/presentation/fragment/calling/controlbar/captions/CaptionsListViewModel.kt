@@ -19,7 +19,7 @@ internal class CaptionsListViewModel(
     val liveCaptionsToggleButton: CallCompositeButtonOptions?,
     val spokenLanguageButtonOptions: CallCompositeButtonOptions?,
     val captionsLanguageButtonOptions: CallCompositeButtonOptions?,
-    ) {
+) {
 
     val displayStateFlow = MutableStateFlow(false)
     val activeSpokenLanguageStateFlow = MutableStateFlow<String?>(null)

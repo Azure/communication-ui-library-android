@@ -4,13 +4,9 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.setup.components
 
 import android.content.Context
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
-import android.os.Build
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatButton
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.calling.implementation.R
@@ -42,7 +38,7 @@ internal class SetupControlBarView : LinearLayout {
             toggleVideo()
         }
         audioDeviceButton.setOnClickListener {
-            viewModel.openAudioDeviceSelectionMenu()
+            viewModel.audioDeviceClicked(context)
         }
     }
 
@@ -97,10 +93,13 @@ internal class SetupControlBarView : LinearLayout {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.deviceIsEnabled.collect {
+            viewModel.audioDeviceButtonEnabled.collect {
                 audioDeviceButton.isEnabled = it
             }
         }
+
+        micButton.visibility = if (viewModel.isMicButtonVisible) VISIBLE else GONE
+        audioDeviceButton.visibility = if (viewModel.isAudioDeviceButtonVisible) VISIBLE else GONE
     }
 
     private fun setMicButtonState(audioOperationalStatus: AudioOperationalStatus) {
@@ -141,23 +140,6 @@ internal class SetupControlBarView : LinearLayout {
         cameraButton.refreshDrawableState()
         micButton.refreshDrawableState()
         audioDeviceButton.refreshDrawableState()
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            setOldAPIButtonColor(cameraButton)
-            setOldAPIButtonColor(micButton)
-            setOldAPIButtonColor(audioDeviceButton)
-        }
-    }
-
-    private fun setOldAPIButtonColor(button: SetupButton) {
-        val color = if (!button.isEnabled) R.color.azure_communication_ui_calling_color_on_surface_disabled
-        else if (button.isCameraON) R.color.azure_communication_ui_calling_color_on_surface_camera_active
-        else R.color.azure_communication_ui_calling_color_on_surface
-
-        button.compoundDrawables[1].colorFilter = PorterDuffColorFilter(
-            ContextCompat.getColor(context, color),
-            PorterDuff.Mode.SRC_IN
-        )
     }
 
     private fun setAudioDeviceButtonState(audioState: AudioState) {
@@ -201,17 +183,17 @@ internal class SetupControlBarView : LinearLayout {
 
     private fun toggleAudio() {
         if (micButton.isON) {
-            viewModel.turnMicOff()
+            viewModel.turnMicOff(context)
         } else {
-            viewModel.turnMicOn()
+            viewModel.turnMicOn(context)
         }
     }
 
     private fun toggleVideo() {
         if (cameraButton.isON) {
-            viewModel.turnCameraOff()
+            viewModel.turnCameraOff(context)
         } else {
-            viewModel.turnCameraOn()
+            viewModel.turnCameraOn(context)
         }
     }
 }

@@ -48,7 +48,7 @@
         android:background="@color/azure_communication_ui_calling_color_button_background_transparent"
         android:contentDescription="@string/azure_communication_ui_calling_view_button_device_options_accessibility_label"
         android:src="@drawable/azure_communication_ui_calling_ic_fluent_speaker_2_24_regular_composite_button_filled"
-        app:layout_constraintEnd_toStartOf="@+id/azure_communication_ui_call_custom_button"
+        app:layout_constraintEnd_toStartOf="@+id/azure_communication_ui_call_control_bar_more"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/azure_communication_ui_call_call_audio"
         app:layout_constraintTop_toTopOf="parent"
@@ -56,34 +56,17 @@
         />
 
     <ImageButton
-        android:id="@+id/azure_communication_ui_call_custom_button"
+        android:id="@+id/azure_communication_ui_call_control_bar_more"
         style="@style/Widget.FluentUI.Button"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:accessibilityTraversalAfter="@id/azure_communication_ui_call_audio_device_button"
         android:background="@color/azure_communication_ui_calling_color_button_background_transparent"
-        android:src="@drawable/azure_communication_ui_calling_ic_fluent_dot_button_22_composite_button_filled"
-        app:layout_constraintEnd_toStartOf="@+id/azure_communication_ui_call_control_bar_more"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/azure_communication_ui_call_audio_device_button"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:visibility="gone"
-        tools:visibility="visible"
-        />
-
-    <ImageButton
-        android:id="@+id/azure_communication_ui_call_control_bar_more"
-        style="@style/Widget.FluentUI.Button"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:accessibilityTraversalAfter="@id/azure_communication_ui_call_custom_button"
-        android:background="@color/azure_communication_ui_calling_color_button_background_transparent"
         android:contentDescription="@string/azure_communication_ui_calling_view_more_menu_accessibility_label"
         android:src="@drawable/azure_communication_ui_calling_ic_fluent_dot_button_22_composite_button_filled"
         app:layout_constraintEnd_toStartOf="@+id/azure_communication_ui_call_end_call_button"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/azure_communication_ui_call_custom_button"
+        app:layout_constraintStart_toEndOf="@+id/azure_communication_ui_call_audio_device_button"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         />

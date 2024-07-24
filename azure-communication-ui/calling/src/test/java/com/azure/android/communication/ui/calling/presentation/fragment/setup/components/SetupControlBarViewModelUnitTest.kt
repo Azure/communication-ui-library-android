@@ -305,7 +305,7 @@ internal class SetupControlBarViewModelUnitTest {
 
         Assert.assertTrue(setupControlBarViewModel.cameraIsEnabled.value)
         Assert.assertTrue(setupControlBarViewModel.micIsEnabled.value)
-        Assert.assertTrue(setupControlBarViewModel.deviceIsEnabled.value)
+        Assert.assertTrue(setupControlBarViewModel.audioDeviceButtonEnabled.value)
 
         setupControlBarViewModel.update(
             PermissionState(
@@ -329,7 +329,7 @@ internal class SetupControlBarViewModelUnitTest {
 
         Assert.assertFalse(setupControlBarViewModel.cameraIsEnabled.value)
         Assert.assertFalse(setupControlBarViewModel.micIsEnabled.value)
-        Assert.assertFalse(setupControlBarViewModel.deviceIsEnabled.value)
+        Assert.assertFalse(setupControlBarViewModel.audioDeviceButtonEnabled.value)
     }
 
     private fun initViewModel(

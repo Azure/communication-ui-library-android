@@ -47,7 +47,7 @@ internal class CustomButtons : BaseUiTest() {
                 CallCompositeCustomButtonOptions(
                     R.drawable.azure_communication_ui_calling_ic_fluent_speaker_bluetooth_24_regular_primary,
                     "Custom button 1"
-                ){
+                ) {
                     button1Clicked = true
                 }
             )
@@ -55,7 +55,7 @@ internal class CustomButtons : BaseUiTest() {
                 CallCompositeCustomButtonOptions(
                     R.drawable.azure_communication_ui_calling_ic_fluent_speaker_bluetooth_24_regular_primary,
                     "Custom button 2"
-                ){
+                ) {
                     button2Clicked = true
                 }
             )

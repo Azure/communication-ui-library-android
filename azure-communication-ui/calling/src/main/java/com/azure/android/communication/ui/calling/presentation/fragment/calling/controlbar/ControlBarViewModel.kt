@@ -3,9 +3,13 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar
 
+import android.content.Context
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
+import com.azure.android.communication.ui.calling.models.createButtonClickEvent
+import com.azure.android.communication.ui.calling.models.getCustomButtons
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
@@ -35,11 +39,13 @@ internal class ControlBarViewModel(
     private lateinit var cameraStatusFlow: MutableStateFlow<CameraOperationalStatus>
 
     // Mic button
+    var isMicButtonVisible: Boolean = true
     private lateinit var isMicButtonEnabledFlow: MutableStateFlow<Boolean>
     private lateinit var audioOperationalStatusStateFlow: MutableStateFlow<AudioOperationalStatus>
     private lateinit var audioDeviceSelectionStatusStateFlow: MutableStateFlow<AudioDeviceSelectionStatus>
 
     // Audio device button
+    var isAudioDeviceButtonVisible: Boolean = true
     private lateinit var isAudioDeviceButtonEnabledFlow: MutableStateFlow<Boolean>
 
     // More button
@@ -49,10 +55,8 @@ internal class ControlBarViewModel(
     lateinit var requestCallEnd: () -> Unit
     lateinit var openAudioDeviceSelectionMenu: () -> Unit
     lateinit var openMoreMenu: () -> Unit
-    var isMoreButtonVisible: Boolean = false
 
-    // Button customizations
-
+    var isMoreButtonVisible: Boolean = true
 
     fun init(
         permissionState: PermissionState,
@@ -65,14 +69,7 @@ internal class ControlBarViewModel(
         visibilityState: VisibilityState,
         audioVideoMode: CallCompositeAudioVideoMode,
         capabilities: Set<ParticipantCapabilityType>,
-        cameraButtonOptions: CallCompositeButtonOptions?,
-        micButtonOptions: CallCompositeButtonOptions?,
-        audioDeviceButtonOptions: CallCompositeButtonOptions?,
-        liveCaptionsToggleButton: CallCompositeButtonOptions?,
-        spokenLanguageButtonOptions: CallCompositeButtonOptions?,
-        captionsLanguageButtonOptions: CallCompositeButtonOptions?,
-        shareDiagnosticsButtonOptions: CallCompositeButtonOptions?,
-        reportIssueButtonOptions: CallCompositeButtonOptions?
+        controlBarOptions: CallCompositeCallScreenControlBarOptions?
     ) {
         isVisibleStateFlow = MutableStateFlow(shouldBeVisible(visibilityState))
 
@@ -107,11 +104,17 @@ internal class ControlBarViewModel(
         isAudioDeviceButtonEnabledFlow =
             MutableStateFlow(shouldAudioDeviceButtonBeEnable(callState.callingStatus))
 
-        isMoreButtonVisible = (liveCaptionsToggleButton?.isVisible ?: true
-                || spokenLanguageButtonOptions?.isVisible ?: true
-                || captionsLanguageButtonOptions?.isVisible ?: true
-                || shareDiagnosticsButtonOptions?.isVisible ?: true
-                || reportIssueButtonOptions?.isVisible ?: true)
+        isMicButtonVisible = controlBarOptions?.microphoneButton?.isVisible ?: true
+        isAudioDeviceButtonVisible = controlBarOptions?.audioDeviceButton?.isVisible ?: true
+
+        isMoreButtonVisible = (
+            controlBarOptions?.getCustomButtons()?.any { it.isVisible } == true ||
+                controlBarOptions?.liveCaptionsToggleButton?.isVisible ?: true ||
+                controlBarOptions?.spokenLanguageButton?.isVisible ?: true ||
+                controlBarOptions?.captionsLanguageButton?.isVisible ?: true ||
+                controlBarOptions?.shareDiagnosticsButton?.isVisible ?: true ||
+                controlBarOptions?.reportIssueButton?.isVisible ?: true
+            )
 
         isMoreButtonEnabledFlow = MutableStateFlow(shouldMoreButtonBeEnabled(callState.callingStatus))
 
@@ -119,9 +122,9 @@ internal class ControlBarViewModel(
         openAudioDeviceSelectionMenu = openAudioDeviceSelectionMenuCallback
         openMoreMenu = openMoreMenuCallback
 
-        this.cameraButtonOptions = cameraButtonOptions
-        this.micButtonOptions = micButtonOptions
-        this.audioDeviceButtonOptions = audioDeviceButtonOptions
+        this.cameraButtonOptions = controlBarOptions?.cameraButton
+        this.micButtonOptions = controlBarOptions?.microphoneButton
+        this.audioDeviceButtonOptions = controlBarOptions?.audioDeviceButton
     }
 
     fun update(
@@ -199,6 +202,18 @@ internal class ControlBarViewModel(
         dispatchAction(action = LocalParticipantAction.CameraOffTriggered())
     }
 
+    fun cameraButtonClicked(context: Context) {
+        callOnClickHandler(context, cameraButtonOptions)
+    }
+
+    fun micButtonClicked(context: Context) {
+        callOnClickHandler(context, micButtonOptions)
+    }
+
+    fun onAudioDeviceClick(context: Context) {
+        callOnClickHandler(context, audioDeviceButtonOptions)
+    }
+
     private fun shouldBeVisible(
         visibilityState: VisibilityState,
     ): Boolean {
@@ -208,7 +223,8 @@ internal class ControlBarViewModel(
     private fun shouldCameraBeVisibility(
         audioVideoMode: CallCompositeAudioVideoMode,
     ): Boolean {
-        return audioVideoMode != CallCompositeAudioVideoMode.AUDIO_ONLY
+        return cameraButtonOptions?.isVisible ?: true &&
+            audioVideoMode != CallCompositeAudioVideoMode.AUDIO_ONLY
     }
 
     private fun shouldCameraBeEnabled(
@@ -217,7 +233,8 @@ internal class ControlBarViewModel(
         operation: CameraOperationalStatus,
         capabilities: Set<ParticipantCapabilityType>,
     ): Boolean {
-        return permissionState.cameraPermissionState != PermissionStatus.DENIED &&
+        return cameraButtonOptions?.isEnabled ?: true &&
+            permissionState.cameraPermissionState != PermissionStatus.DENIED &&
             callingStatus == CallingStatus.CONNECTED &&
             operation != CameraOperationalStatus.PENDING &&
             capabilitiesManager.hasCapability(
@@ -231,7 +248,8 @@ internal class ControlBarViewModel(
         callingStatus: CallingStatus,
         capabilities: Set<ParticipantCapabilityType>,
     ): Boolean {
-        return audioState.operation != AudioOperationalStatus.PENDING &&
+        return micButtonOptions?.isEnabled ?: true &&
+            audioState.operation != AudioOperationalStatus.PENDING &&
             callingStatus == CallingStatus.CONNECTED &&
             capabilitiesManager.hasCapability(
                 capabilities,
@@ -240,7 +258,8 @@ internal class ControlBarViewModel(
     }
 
     private fun shouldAudioDeviceButtonBeEnable(callingStatus: CallingStatus): Boolean {
-        return callingStatus == CallingStatus.CONNECTED
+        return audioDeviceButtonOptions?.isEnabled ?: true &&
+            callingStatus == CallingStatus.CONNECTED
     }
 
     private fun shouldMoreButtonBeEnabled(callingStatus: CallingStatus): Boolean {
@@ -249,5 +268,17 @@ internal class ControlBarViewModel(
 
     private fun dispatchAction(action: Action) {
         dispatch(action)
+    }
+
+    private fun callOnClickHandler(
+        context: Context,
+        buttonOptions: CallCompositeButtonOptions?,
+    ) {
+        try {
+            buttonOptions?.onClickHandler?.handle(
+                createButtonClickEvent(context, buttonOptions)
+            )
+        } catch (_: Exception) {
+        }
     }
 }

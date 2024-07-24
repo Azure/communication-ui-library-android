@@ -6,29 +6,29 @@ package com.azure.android.communication.ui.calling.models;
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler;
 
 public class CallCompositeButtonOptions {
-    private Integer drawableId = null;
-    private String title;
+//    private Integer drawableId = null;
+//    private String title;
     private CallCompositeEventHandler<CallCompositeButtonClickEvent> onClickHandler;
     private Boolean isVisible = true;
     private Boolean isEnabled = true;
 
-    public Integer getDrawableId() {
-        return drawableId;
-    }
-
-    public CallCompositeButtonOptions setDrawableId(final Integer drawableId) {
-        this.drawableId = drawableId;
-        return this;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public CallCompositeButtonOptions setTitle(final String title) {
-        this.title = title;
-        return this;
-    }
+//    public Integer getDrawableId() {
+//        return drawableId;
+//    }
+//
+//    public CallCompositeButtonOptions setDrawableId(final Integer drawableId) {
+//        this.drawableId = drawableId;
+//        return this;
+//    }
+//
+//    public String getTitle() {
+//        return title;
+//    }
+//
+//    public CallCompositeButtonOptions setTitle(final String title) {
+//        this.title = title;
+//        return this;
+//    }
 
     public CallCompositeEventHandler<CallCompositeButtonClickEvent> getOnClickHandler() {
         return onClickHandler;

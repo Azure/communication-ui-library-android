@@ -128,13 +128,10 @@ internal class CaptionsListView(
             items.add(
                 BottomCellItem(
                     icon = ContextCompat.getDrawable(
-                        context,
-                        viewModel.liveCaptionsToggleButton?.drawableId
-                            ?: R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_selector
+                        context, R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_selector
                     ),
-                    title = viewModel.liveCaptionsToggleButton?.title
-                        ?: context.getString(R.string.azure_communication_ui_calling_live_captions_title),
-                    contentDescription = viewModel.liveCaptionsToggleButton?.title ?: "",
+                    title = context.getString(R.string.azure_communication_ui_calling_live_captions_title),
+                    contentDescription = "",
                     accessoryImage = null,
                     accessoryColor = null,
                     accessoryImageDescription = null,
@@ -144,13 +141,13 @@ internal class CaptionsListView(
                     itemType = BottomCellItemType.BottomMenuAction,
                     onClickAction = null,
                     showToggleButton = true,
-                    enableToggleButton = canTurnOnCaptions,
                     isToggleButtonOn = isCaptionsActive,
-                    isEnabled = viewModel.liveCaptionsToggleButton?.isEnabled ?: true,
+                    isEnabled = canTurnOnCaptions && viewModel.liveCaptionsToggleButton?.isEnabled ?: true,
                     toggleButtonAction = { _, isChecked ->
                         try {
                             viewModel.liveCaptionsToggleButton?.onClickHandler?.handle(
-                                createButtonClickEvent(context, viewModel.liveCaptionsToggleButton))
+                                createButtonClickEvent(context, viewModel.liveCaptionsToggleButton)
+                            )
                         } catch (_: Exception) {
                         }
                         viewModel.toggleCaptions(isChecked)
@@ -163,11 +160,9 @@ internal class CaptionsListView(
                 BottomCellItem(
                     icon = ContextCompat.getDrawable(
                         context,
-                        viewModel.spokenLanguageButtonOptions?.drawableId
-                            ?: R.drawable.azure_communication_ui_calling_ic_fluent_spoken_language_24_selector
+                        R.drawable.azure_communication_ui_calling_ic_fluent_spoken_language_24_selector
                     ),
-                    title = viewModel.liveCaptionsToggleButton?.title
-                        ?: context.getString(R.string.azure_communication_ui_calling_captions_spoken_language_title),
+                    title = context.getString(R.string.azure_communication_ui_calling_captions_spoken_language_title),
                     "",
                     null,
                     null,
@@ -181,12 +176,13 @@ internal class CaptionsListView(
                     onClickAction = {
                         try {
                             viewModel.spokenLanguageButtonOptions?.onClickHandler?.handle(
-                                createButtonClickEvent(context, viewModel.spokenLanguageButtonOptions))
+                                createButtonClickEvent(context, viewModel.spokenLanguageButtonOptions)
+                            )
                         } catch (_: Exception) {
                         }
                         viewModel.openSpokenLanguageSelection()
                     },
-                    isEnabled = isCaptionsActive && viewModel.spokenLanguageButtonOptions?.isEnabled != false
+                    isEnabled = isCaptionsActive && viewModel.spokenLanguageButtonOptions?.isEnabled ?: true
                 )
             )
         }
@@ -195,11 +191,9 @@ internal class CaptionsListView(
                 BottomCellItem(
                     icon = ContextCompat.getDrawable(
                         context,
-                        viewModel.captionsLanguageButtonOptions?.drawableId
-                            ?: R.drawable.azure_communication_ui_calling_ic_fluent_caption_language_24_selector
+                        R.drawable.azure_communication_ui_calling_ic_fluent_caption_language_24_selector
                     ),
-                    title = viewModel.captionsLanguageButtonOptions?.title
-                        ?: context.getString(R.string.azure_communication_ui_calling_captions_caption_language_title),
+                    title = context.getString(R.string.azure_communication_ui_calling_captions_caption_language_title),
                     "",
                     null,
                     null,
@@ -213,7 +207,8 @@ internal class CaptionsListView(
                     onClickAction = {
                         try {
                             viewModel.captionsLanguageButtonOptions?.onClickHandler?.handle(
-                                createButtonClickEvent(context, viewModel.captionsLanguageButtonOptions))
+                                createButtonClickEvent(context, viewModel.captionsLanguageButtonOptions)
+                            )
                         } catch (_: Exception) {
                         }
                         viewModel.openCaptionLanguageSelection()

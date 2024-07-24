@@ -16,7 +16,6 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.calling.implementation.R
-import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
@@ -33,7 +32,6 @@ internal class ControlBarView : ConstraintLayout {
     private lateinit var micToggle: ImageButton
     private lateinit var audioDeviceButton: ImageButton
     private lateinit var moreButton: ImageButton
-    private lateinit var customButton: ImageButton
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -42,7 +40,6 @@ internal class ControlBarView : ConstraintLayout {
         micToggle = findViewById(R.id.azure_communication_ui_call_call_audio)
         audioDeviceButton = findViewById(R.id.azure_communication_ui_call_audio_device_button)
         moreButton = findViewById(R.id.azure_communication_ui_call_control_bar_more)
-        customButton = findViewById(R.id.azure_communication_ui_call_custom_button)
 
         subscribeClickListener()
     }
@@ -116,25 +113,9 @@ internal class ControlBarView : ConstraintLayout {
             },
         )
 
+        micToggle.visibility = if (viewModel.isMicButtonVisible) VISIBLE else GONE
+        audioDeviceButton.visibility = if (viewModel.isAudioDeviceButtonVisible) VISIBLE else GONE
         moreButton.visibility = if (viewModel.isMoreButtonVisible) VISIBLE else GONE
-
-        customizeDefaultButton(cameraToggle, viewModel.cameraButtonOptions)
-        customizeDefaultButton(micToggle, viewModel.micButtonOptions)
-        customizeDefaultButton(audioDeviceButton, viewModel.audioDeviceButtonOptions)
-    }
-
-    private fun customizeDefaultButton(
-        button: ImageButton,
-        buttonOptions: CallCompositeButtonOptions?
-    ) {
-        if (buttonOptions == null) {
-            return
-        }
-        button.visibility = if (buttonOptions.isVisible) VISIBLE else GONE
-        button.isEnabled = buttonOptions.isEnabled
-        buttonOptions.title?.let { button.contentDescription = it }
-        buttonOptions.drawableId?.let { button.setImageResource(it) }
-//        button.setOnClickListener {  }
     }
 
     private fun accessibilityNonSelectableViews() = setOf(micToggle, cameraToggle)
@@ -222,6 +203,7 @@ internal class ControlBarView : ConstraintLayout {
             viewModel.requestCallEnd()
         }
         micToggle.setOnClickListener {
+            viewModel.micButtonClicked(context)
             if (micToggle.isSelected) {
                 viewModel.turnMicOff()
             } else {
@@ -230,6 +212,7 @@ internal class ControlBarView : ConstraintLayout {
             postDelayed({ micToggle.requestFocus() }, 33)
         }
         cameraToggle.setOnClickListener {
+            viewModel.cameraButtonClicked(context)
             if (cameraToggle.isSelected) {
                 viewModel.turnCameraOff()
             } else {
@@ -238,6 +221,7 @@ internal class ControlBarView : ConstraintLayout {
             postDelayed({ cameraToggle.requestFocus() }, 33)
         }
         audioDeviceButton.setOnClickListener {
+            viewModel.onAudioDeviceClick(context)
             viewModel.openAudioDeviceSelectionMenu()
         }
         moreButton.setOnClickListener {

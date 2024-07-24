@@ -615,28 +615,31 @@ class CallCompositeManager(private val context: Context) {
             )
 
             callScreenOptions.controlBarOptions.cameraButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "cameraButton") }
+                .setOnClickHandler { toast(it.context, "cameraButton clicked") }
 
             callScreenOptions.controlBarOptions.microphoneButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "microphoneButton") }
+                .setOnClickHandler { toast(it.context, "microphoneButton clicked") }
 
             callScreenOptions.controlBarOptions.audioDeviceButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "audioDeviceButton") }
+                .setOnClickHandler { toast(it.context, "audioDeviceButton clicked") }
 
             callScreenOptions.controlBarOptions.liveCaptionsButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "liveCaptionsButton") }
+                .setOnClickHandler { toast(it.context, "liveCaptionsButton clicked") }
 
             callScreenOptions.controlBarOptions.liveCaptionsToggleButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "liveCaptionsToggleButton") }
+                .setOnClickHandler { toast(it.context, "liveCaptionsToggleButton clicked") }
 
             callScreenOptions.controlBarOptions.spokenLanguageButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "spokenLanguageButton") }
+                .setOnClickHandler { toast(it.context, "spokenLanguageButton clicked") }
 
             callScreenOptions.controlBarOptions.captionsLanguageButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "captionsLanguageButton") }
+                .setOnClickHandler { toast(it.context, "captionsLanguageButton clicked") }
+
+            callScreenOptions.controlBarOptions.reportIssueButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "reportIssueButton clicked") }
 
             callScreenOptions.controlBarOptions.shareDiagnosticsButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "shareDiagnosticsButton") }
+                .setOnClickHandler { toast(it.context, "shareDiagnosticsButton clicked") }
         }
         return callScreenOptions
     }
@@ -659,7 +662,17 @@ class CallCompositeManager(private val context: Context) {
             setupScreenOptions = setupScreenOptions ?: CallCompositeSetupScreenOptions()
             setupScreenOptions.setCameraButton(
                 CallCompositeButtonOptions()
-                    .setVisible(false)
+                    .setOnClickHandler { toast(it.context, "CameraButton clicked") }
+            )
+
+            setupScreenOptions.setMicrophoneButton(
+                CallCompositeButtonOptions()
+                    .setOnClickHandler { toast(it.context, "MicrophoneButton clicked") }
+            )
+
+            setupScreenOptions.setAudioDeviceButton(
+                CallCompositeButtonOptions()
+                    .setOnClickHandler { toast(it.context, "AudioDeviceButton clicked") }
             )
         }
 

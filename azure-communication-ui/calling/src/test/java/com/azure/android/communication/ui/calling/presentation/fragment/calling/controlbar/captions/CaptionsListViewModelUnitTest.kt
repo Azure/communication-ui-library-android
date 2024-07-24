@@ -42,7 +42,7 @@ internal class CaptionsListViewModelUnitTest : ACSBaseTestCoroutine() {
             liveCaptionsToggleButton = null,
             spokenLanguageButtonOptions = null,
             captionsLanguageButtonOptions = null,
-            )
+        )
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

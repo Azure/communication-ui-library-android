@@ -46,19 +46,12 @@ internal class MoreCallOptionsListViewModel(
             add(
                 Entry(
                     titleResourceId = R.string.azure_communication_ui_calling_live_captions_title,
-                    titleText = captionsButtonOptions?.title,
-                    icon = captionsButtonOptions?.drawableId
-                        ?: R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_selector,
+                    icon = R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_selector,
                     isVisible = captionsButtonOptions?.isVisible ?: true && isAnyCaptionsSubMenuButtonsVisible(),
                     isEnabled = captionsButtonOptions?.isEnabled ?: true,
                     showRightArrow = true,
                 ) { context ->
-                    try {
-                        captionsButtonOptions?.onClickHandler?.handle(
-                            createButtonClickEvent(context, captionsButtonOptions)
-                        )
-                    } catch (_: Exception) {
-                    }
+                    callOnClickHandler(context, captionsButtonOptions)
                     dispatch(CaptionsAction.ShowCaptionsOptions())
                 }
             )
@@ -66,17 +59,11 @@ internal class MoreCallOptionsListViewModel(
         add(
             Entry(
                 titleResourceId = R.string.azure_communication_ui_calling_view_share_diagnostics,
-                titleText = shareDiagnosticsButtonOptions?.title,
-                icon = shareDiagnosticsButtonOptions?.drawableId ?: R.drawable.azure_communication_ui_calling_ic_fluent_share_android_24_regular,
+                icon = R.drawable.azure_communication_ui_calling_ic_fluent_share_android_24_regular,
                 isVisible = shareDiagnosticsButtonOptions?.isVisible ?: true,
                 isEnabled = shareDiagnosticsButtonOptions?.isEnabled ?: true,
-                ) { context ->
-                try {
-                    shareDiagnosticsButtonOptions?.onClickHandler?.handle(
-                        createButtonClickEvent(context, shareDiagnosticsButtonOptions)
-                    )
-                } catch (_: Exception) {
-                }
+            ) { context ->
+                callOnClickHandler(context, shareDiagnosticsButtonOptions)
                 shareDiagnostics?.let { it() }
             }
         )
@@ -84,17 +71,11 @@ internal class MoreCallOptionsListViewModel(
             add(
                 Entry(
                     titleResourceId = R.string.azure_communication_ui_calling_report_issue_title,
-                    titleText = reportIssueButtonOptions?.title,
-                    icon = reportIssueButtonOptions?.drawableId ?: R.drawable.azure_communication_ui_calling_ic_fluent_person_feedback_24_regular,
+                    icon = R.drawable.azure_communication_ui_calling_ic_fluent_person_feedback_24_regular,
                     isVisible = reportIssueButtonOptions?.isVisible ?: true,
                     isEnabled = reportIssueButtonOptions?.isEnabled ?: true,
                 ) { context ->
-                    try {
-                        reportIssueButtonOptions?.onClickHandler?.handle(
-                            createButtonClickEvent(context, reportIssueButtonOptions)
-                        )
-                    } catch (_: Exception) {
-                    }
+                    callOnClickHandler(context, reportIssueButtonOptions)
                     requestReportIssueScreen()
                 }
             )
@@ -141,9 +122,21 @@ internal class MoreCallOptionsListViewModel(
     }
 
     private fun isAnyCaptionsSubMenuButtonsVisible(): Boolean {
-        return liveCaptionsToggleButton?.isVisible ?: true
-                || spokenLanguageButtonOptions?.isVisible ?: true
-                || captionsLanguageButtonOptions?.isVisible ?: true
+        return liveCaptionsToggleButton?.isVisible ?: true ||
+            spokenLanguageButtonOptions?.isVisible ?: true ||
+            captionsLanguageButtonOptions?.isVisible ?: true
+    }
+
+    private fun callOnClickHandler(
+        context: Context,
+        buttonOptions: CallCompositeButtonOptions?,
+    ) {
+        try {
+            buttonOptions?.onClickHandler?.handle(
+                createButtonClickEvent(context, buttonOptions)
+            )
+        } catch (_: Exception) {
+        }
     }
 
     data class Entry(

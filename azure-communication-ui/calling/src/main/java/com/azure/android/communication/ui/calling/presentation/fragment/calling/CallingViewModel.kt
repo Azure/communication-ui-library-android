@@ -100,14 +100,7 @@ internal class CallingViewModel(
             visibilityState = state.visibilityState,
             audioVideoMode = state.localParticipantState.audioVideoMode,
             capabilities = state.localParticipantState.capabilities,
-            cameraButtonOptions = callScreenOptions?.controlBarOptions?.cameraButton,
-            micButtonOptions = callScreenOptions?.controlBarOptions?.microphoneButton,
-            audioDeviceButtonOptions = callScreenOptions?.controlBarOptions?.audioDeviceButton,
-            liveCaptionsToggleButton = callScreenOptions?.controlBarOptions?.liveCaptionsButton,
-            spokenLanguageButtonOptions = callScreenOptions?.controlBarOptions?.spokenLanguageButton,
-            captionsLanguageButtonOptions = callScreenOptions?.controlBarOptions?.captionsLanguageButton,
-            shareDiagnosticsButtonOptions = callScreenOptions?.controlBarOptions?.shareDiagnosticsButton,
-            reportIssueButtonOptions = callScreenOptions?.controlBarOptions?.reportIssueButton,
+            callScreenOptions?.controlBarOptions,
         )
 
         localParticipantViewModel.init(
