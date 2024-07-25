@@ -9,12 +9,12 @@ import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.CapabilitiesCallFeature
 import com.azure.android.communication.calling.CapabilitiesChangedListener
 
-/* <RTT_POC> */
+/* <RTT_POC>
 import com.azure.android.communication.calling.DataChannelCallFeature
 import com.azure.android.communication.calling.DataChannelMessage
 import com.azure.android.communication.calling.DataChannelReceiver
 import java.nio.charset.StandardCharsets
-/* </RTT_POC> */
+</RTT_POC> */
 import com.azure.android.communication.calling.CommunicationCaptions
 import com.azure.android.communication.calling.CommunicationCaptionsListener
 import com.azure.android.communication.calling.DiagnosticFlagChangedListener
@@ -107,11 +107,11 @@ internal class CallingSDKEventHandler(
     private lateinit var transcriptionFeature: TranscriptionCallFeature
     private lateinit var dominantSpeakersCallFeature: DominantSpeakersCallFeature
     private lateinit var capabilitiesFeature: CapabilitiesCallFeature
-    /* <RTT_POC> */
+    /* <RTT_POC>
     private var rttTextSharedFlow = MutableSharedFlow<Pair<String, String>>()
     private lateinit var dataChannelCallFeature: DataChannelCallFeature
     private var receiver: DataChannelReceiver? = null
-    /* </RTT_POC> */
+    </RTT_POC> */
     private var networkDiagnostics: NetworkDiagnostics? = null
     private var mediaDiagnostics: MediaDiagnostics? = null
     private var callType: CallType? = null
@@ -167,9 +167,9 @@ internal class CallingSDKEventHandler(
     //endregion
     fun getDominantSpeakersSharedFlow(): SharedFlow<DominantSpeakersInfo> = dominantSpeakersSharedFlow
 
-    /* <RTT_POC> */
+    /* <RTT_POC>
     fun getRttTextSharedFlow(): SharedFlow<Pair<String, String>> = rttTextSharedFlow
-    /* </RTT_POC> */
+    </RTT_POC> */
 
     //region Captions
     private val onCaptionsTypeChanged =
@@ -232,17 +232,17 @@ internal class CallingSDKEventHandler(
         transcriptionFeature.addOnIsTranscriptionActiveChangedListener(onTranscriptionChanged)
         dominantSpeakersCallFeature = call.feature { DominantSpeakersCallFeature::class.java }
         dominantSpeakersCallFeature.addOnDominantSpeakersChangedListener(onDominantSpeakersChanged)
-        /* <RTT_POC> */
+        /* <RTT_POC>
         dataChannelCallFeature = call.feature { DataChannelCallFeature::class.java }
         subscribeToRttEvents()
-        /* </RTT_POC> */
+        </RTT_POC> */
 
         capabilitiesFeature = call.feature { CapabilitiesCallFeature::class.java }
         capabilitiesFeature.addOnCapabilitiesChangedListener(onCapabilitiesChanged)
         subscribeToUserFacingDiagnosticsEvents()
     }
 
-    /* <RTT_POC> */
+    /* <RTT_POC>
     private fun subscribeToRttEvents() {
         dataChannelCallFeature.addOnReceiverCreatedListener { evt ->
             this.receiver = evt.receiver
@@ -264,7 +264,7 @@ internal class CallingSDKEventHandler(
             }
         }
     }
-    /* </RTT_POC> */
+    </RTT_POC> */
 
     fun onEndCall() {
         if (call == null) return

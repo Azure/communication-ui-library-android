@@ -24,9 +24,9 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.menu.ParticipantMenuViewModel
-/* <RTT_POC> */
+/* <RTT_POC>
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttViewModel
-/* </RTT_POC> */
+</RTT_POC> */
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.redux.Store
@@ -45,11 +45,11 @@ internal class CallingViewModelFactory(
     private val isCaptionsEnabled: Boolean = false,
 ) : BaseViewModelFactory(store) {
 
-    /* <RTT_POC> */
+    /* <RTT_POC>
     val rttViewModel by lazy {
         RttViewModel()
     }
-    /* </RTT_POC> */
+    </RTT_POC> */
 
     val moreCallOptionsListViewModel by lazy {
         MoreCallOptionsListViewModel(

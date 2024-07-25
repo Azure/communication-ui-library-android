@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-/* <RTT_POC> */
+/* <RTT_POC>
 package com.azure.android.communication.ui.calling.redux.state
 
 
@@ -33,4 +33,4 @@ internal data class RttMessage(
         builder.toString()
     }
 }
-/* </RTT_POC> */
+</RTT_POC> */

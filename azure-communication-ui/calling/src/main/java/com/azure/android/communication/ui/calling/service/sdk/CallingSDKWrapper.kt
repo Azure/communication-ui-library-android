@@ -128,10 +128,10 @@ internal class CallingSDKWrapper(
         return callClient?.debugInfo?.supportFiles ?: Collections.emptyList()
     }
 
-    /* <RTT_POC> */
+    /* <RTT_POC>
     override fun getRttSharedFlow() = callingSDKEventHandler.getRttTextSharedFlow()
 
-    /* </RTT_POC> */
+    </RTT_POC> */
 
     //endregion
     override fun getDominantSpeakersSharedFlow() =

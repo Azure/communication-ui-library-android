@@ -57,9 +57,9 @@ internal class CallingViewModel(
     val captionsListViewModel = callingViewModelProvider.captionsListViewModel
     val captionsLanguageSelectionListViewModel = callingViewModelProvider.captionsLanguageSelectionListViewModel
     val captionsLayoutViewModel = callingViewModelProvider.captionsViewModel
-    /* <RTT_POC> */
+    /* <RTT_POC>
     val rttViewModel = callingViewModelProvider.rttViewModel
-    /* </RTT_POC> */
+    </RTT_POC> */
 
     // This is a flag to ensure that the call is started only once
     // This is to avoid a lag between updating isDefaultParametersCallStarted
@@ -174,12 +174,12 @@ internal class CallingViewModel(
                 state.visibilityState,
             )
         )
-        /* <RTT_POC> */
+        /* <RTT_POC>
         rttViewModel.init(
             state.rttState.messages,
             state.rttState.isRttActive
         )
-        /* </RTT_POC> */
+        </RTT_POC> */
 
         captionsListViewModel.init(state.captionsState, state.callState.callingStatus)
         captionsLanguageSelectionListViewModel.init(state.captionsState)
@@ -332,12 +332,12 @@ internal class CallingViewModel(
                 state.visibilityState,
             )
 
-            /* <RTT_POC> */
+            /* <RTT_POC>
             rttViewModel.update(
                 state.rttState.messages,
                 state.rttState.isRttActive
             )
-            /* </RTT_POC> */
+            </RTT_POC> */
         }
 
         confirmLeaveOverlayViewModel.update(state.visibilityState)
