@@ -8,11 +8,9 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.calling.implementation.R
-import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.microsoft.fluentui.widget.Button
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -54,16 +52,6 @@ internal class LobbyHeaderView : ConstraintLayout {
         viewLifecycleOwner.lifecycleScope.launch {
             lobbyHeaderViewModel.getDisplayLobbyHeaderFlow().collect {
                 lobbyHeaderView.visibility = if (it) View.VISIBLE else View.GONE
-                // If we are on television, set the focus to the participants button
-                if (it && isAndroidTV(context)) {
-                    headerLayout.requestFocus()
-                }
-
-                if (it) {
-                    ViewCompat.setImportantForAccessibility(headerLayout, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS)
-                } else {
-                    ViewCompat.setImportantForAccessibility(headerLayout, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES)
-                }
             }
         }
     }
