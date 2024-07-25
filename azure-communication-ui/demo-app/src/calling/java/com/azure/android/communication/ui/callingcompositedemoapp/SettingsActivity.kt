@@ -159,7 +159,6 @@ class SettingsActivity : AppCompatActivity() {
 
         updateDisplayLeaveCallConfirmationCheckbox()
 
-
         updateCustomButtonsCheckbox()
 
         defaultSpokenLanguageEditText.text = sharedPreference.getString(DEFAULT_SPOKEN_LANGUAGE_KEY, DEFAULT_SPOKEN_LANGUAGE)
