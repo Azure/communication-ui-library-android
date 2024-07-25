@@ -133,8 +133,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@drawable/azure_communication_ui_calling_corner_radius_rectangle_4dp_background"
+        android:padding="4dp"
+        />
     <!-- </RTT_POC> -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
