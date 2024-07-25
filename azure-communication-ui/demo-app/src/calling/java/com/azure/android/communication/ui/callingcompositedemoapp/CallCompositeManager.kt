@@ -75,39 +75,6 @@ class CallCompositeManager(private val context: Context) {
         meetingPasscode: String?,
         participantMris: String?,
     ) {
-//        val locator = getLocator()
-//
-//        val cameraButton = CallCompositeButtonOptions()
-//            .setDrawableId(R.drawable.image_koala)
-//            .setTitle("My Camera title")
-//            .setOnClickHandler {
-//                print("camera button is clicked")
-//            }
-//
-//        val controlBarOptions = CallCompositeCallScreenControlBarOptions()
-//        controlBarOptions.setCameraButton(cameraButton)
-//
-//        controlBarOptions.addCustomButton(
-//                CallCompositeCustomButtonOptions(R.drawable.image_cat,
-//                    "Troubleshooting tips")
-//                    {
-//                        // open Troubleshooting tips
-//                    }
-//            )
-//
-//        val callScreenOptions = CallCompositeCallScreenOptions()
-//            .setControlBarOptions(controlBarOptions)
-//
-//        val localOptions = CallCompositeLocalOptions()
-//            .setCallScreenOptions(callScreenOptions)
-//
-//        val callComposite = CallCompositeBuilder()
-//            // Should we deprecate this or keep as alternative?
-//            .callScreenOptions(callScreenOptions)
-//            .build()
-//
-//        callComposite.launch(context, locator, localOptions)
-
         if (SettingsFeatures.getDisplayDismissButtonOption()) {
             DismissCompositeButtonView.get(applicationContext).show(this)
         } else {
@@ -587,7 +554,7 @@ class CallCompositeManager(private val context: Context) {
             )
         }
 
-        if (/*inject custom buttons*/true) {
+        if (SettingsFeatures.getAddCustomButtons() == true) {
             callScreenOptions = callScreenOptions ?: CallCompositeCallScreenOptions()
 
             if (callScreenOptions.controlBarOptions == null)
@@ -658,7 +625,7 @@ class CallCompositeManager(private val context: Context) {
             setupScreenOptions.setMicrophoneButtonEnabled(SettingsFeatures.getSetupScreenMicEnabledValue())
         }
 
-        if (/*add custom buttons*/ true) {
+        if (SettingsFeatures.getAddCustomButtons() == true) {
             setupScreenOptions = setupScreenOptions ?: CallCompositeSetupScreenOptions()
             setupScreenOptions.setCameraButton(
                 CallCompositeButtonOptions()

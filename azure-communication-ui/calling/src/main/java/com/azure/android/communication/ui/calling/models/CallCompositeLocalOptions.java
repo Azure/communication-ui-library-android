@@ -184,20 +184,34 @@ public final class CallCompositeLocalOptions {
         return audioVideoMode;
     }
 
+    /**
+     * Set setup screen options.
+     * @param setupScreenOptions {@link CallCompositeSetupScreenOptions}
+     */
     public CallCompositeLocalOptions setSetupScreenOptions(final CallCompositeSetupScreenOptions setupScreenOptions) {
         this.setupScreenOptions = setupScreenOptions;
         return this;
     }
 
+    /**
+     * Get setup screen options.
+     */
     public CallCompositeSetupScreenOptions getSetupScreenOptions() {
         return setupScreenOptions;
     }
 
+    /**
+     * Set call screen options.
+     * @param callScreenOptions {@link CallCompositeCallScreenOptions}
+     */
     public CallCompositeLocalOptions setCallScreenOptions(final CallCompositeCallScreenOptions callScreenOptions) {
         this.callScreenOptions = callScreenOptions;
         return this;
     }
 
+    /**
+     * Get call screen options.
+     */
     public CallCompositeCallScreenOptions getCallScreenOptions() {
         return callScreenOptions;
     }

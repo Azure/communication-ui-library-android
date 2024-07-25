@@ -65,31 +65,52 @@ public final class CallCompositeSetupScreenOptions {
         return this.micButtonEnabled;
     }
 
+    /**
+     * Set customization to the camera button.
+     * @param buttonOptions {@link CallCompositeButtonOptions}
+     */
     public CallCompositeSetupScreenOptions setCameraButton(final CallCompositeButtonOptions buttonOptions) {
         this.cameraButtonOptions = buttonOptions;
         return this;
     }
 
+    /**
+     * Get customization to the camera button.
+     */
     public CallCompositeButtonOptions getCameraButton() {
         return this.cameraButtonOptions;
     }
 
+    /**
+     * Set customization to the microphone button.
+     * @param buttonOptions {@link CallCompositeButtonOptions}
+     */
     public CallCompositeSetupScreenOptions setMicrophoneButton(
             final CallCompositeButtonOptions buttonOptions) {
         micOptions = buttonOptions;
         return this;
     }
 
+    /**
+     * Get customization of the microphone button.
+     */
     public CallCompositeButtonOptions getMicrophoneButton() {
         return micOptions;
     }
 
+    /**
+     * Set customization to the audio device button.
+     * @param buttonOptions {@link CallCompositeButtonOptions}
+     */
     public CallCompositeSetupScreenOptions setAudioDeviceButton(
             final CallCompositeButtonOptions buttonOptions) {
         audioDeviceOptions = buttonOptions;
         return this;
     }
 
+    /**
+     * Get customization of the audio device button.
+     */
     public CallCompositeButtonOptions getAudioDeviceButton() {
         return audioDeviceOptions;
     }

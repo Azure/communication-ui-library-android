@@ -5,6 +5,9 @@ package com.azure.android.communication.ui.calling.models;
 
 import android.content.Context;
 
+/**
+ * Call composite button on click event.
+ */
 public final class CallCompositeButtonClickEvent {
     private final Context context;
     private final CallCompositeButtonOptions buttonOptions;
@@ -14,10 +17,18 @@ public final class CallCompositeButtonClickEvent {
         this.buttonOptions = buttonOptions;
     }
 
+    /**
+     * Get context.
+     * @return {@link Context}
+     */
     public Context getContext() {
         return context;
     }
 
+    /**
+     * Get button options.
+     * @return {@link CallCompositeButtonOptions}
+     */
     public CallCompositeButtonOptions getButtonOptions() {
         return buttonOptions;
     }
