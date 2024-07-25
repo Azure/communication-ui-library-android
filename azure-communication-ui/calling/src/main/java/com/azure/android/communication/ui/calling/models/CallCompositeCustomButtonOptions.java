@@ -13,7 +13,6 @@ public final class CallCompositeCustomButtonOptions {
     private final int drawableId;
     private final String title;
     private final CallCompositeEventHandler<CallCompositeCustomButtonClickEvent> onClickHandler;
-    private Boolean isVisible = true;
     private Boolean isEnabled = true;
 
     /**
@@ -50,21 +49,6 @@ public final class CallCompositeCustomButtonOptions {
      */
     public CallCompositeEventHandler<CallCompositeCustomButtonClickEvent> getOnClickHandler() {
         return onClickHandler;
-    }
-
-    /**
-     * Get isVisible property.
-     */
-    public boolean isVisible() {
-        return this.isVisible;
-    }
-
-    /**
-     * Set isVisible property.
-     */
-    public CallCompositeCustomButtonOptions setVisible(final boolean isVisible) {
-        this.isVisible = isVisible;
-        return this;
     }
 
     /**

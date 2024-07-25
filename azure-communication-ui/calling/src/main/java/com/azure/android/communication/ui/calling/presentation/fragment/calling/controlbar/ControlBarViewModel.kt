@@ -108,7 +108,7 @@ internal class ControlBarViewModel(
         isAudioDeviceButtonVisible = controlBarOptions?.audioDeviceButton?.isVisible ?: true
 
         isMoreButtonVisible = (
-            controlBarOptions?.getCustomButtons()?.any { it.isVisible } == true ||
+            controlBarOptions?.getCustomButtons()?.any() == true ||
                 controlBarOptions?.liveCaptionsToggleButton?.isVisible ?: true ||
                 controlBarOptions?.spokenLanguageButton?.isVisible ?: true ||
                 controlBarOptions?.captionsLanguageButton?.isVisible ?: true ||
