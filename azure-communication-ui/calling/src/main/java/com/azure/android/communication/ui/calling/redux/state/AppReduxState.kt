@@ -80,7 +80,7 @@ internal class AppReduxState(
 
     override var captionsState: CaptionsState = CaptionsState(isCaptionsUIEnabled = showCaptionsUI)
 
-    /* <RTT_POC>
+    /* <RTT_POC> */
     override var rttState = RttState()
-    </RTT_POC> */
+    /* </RTT_POC> */
 }

@@ -9,12 +9,12 @@ import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.CapabilitiesCallFeature
 import com.azure.android.communication.calling.CapabilitiesChangedListener
 
-/* <RTT_POC>
+/* <RTT_POC> */
 import com.azure.android.communication.calling.DataChannelCallFeature
 import com.azure.android.communication.calling.DataChannelMessage
 import com.azure.android.communication.calling.DataChannelReceiver
 import java.nio.charset.StandardCharsets
-</RTT_POC> */
+/* </RTT_POC> */
 import com.azure.android.communication.calling.CommunicationCaptions
 import com.azure.android.communication.calling.CommunicationCaptionsListener
 import com.azure.android.communication.calling.DiagnosticFlagChangedListener
@@ -35,6 +35,7 @@ import com.azure.android.communication.calling.TeamsCaptions
 import com.azure.android.communication.calling.TeamsCaptionsListener
 import com.azure.android.communication.calling.TranscriptionCallFeature
 import com.azure.android.communication.ui.calling.configuration.CallType
+import com.azure.android.communication.ui.calling.data.model.RawRttPayload
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsData
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsType
@@ -50,6 +51,7 @@ import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagn
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.into
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.cancel
@@ -105,11 +107,11 @@ internal class CallingSDKEventHandler(
     private lateinit var transcriptionFeature: TranscriptionCallFeature
     private lateinit var dominantSpeakersCallFeature: DominantSpeakersCallFeature
     private lateinit var capabilitiesFeature: CapabilitiesCallFeature
-    /* <RTT_POC>
-    private var rttTextSharedFlow = MutableSharedFlow<String>()
+    /* <RTT_POC> */
+    private var rttTextSharedFlow = MutableSharedFlow<Pair<String, String>>()
     private lateinit var dataChannelCallFeature: DataChannelCallFeature
     private var receiver: DataChannelReceiver? = null
-    </RTT_POC> */
+    /* </RTT_POC> */
     private var networkDiagnostics: NetworkDiagnostics? = null
     private var mediaDiagnostics: MediaDiagnostics? = null
     private var callType: CallType? = null
@@ -165,9 +167,9 @@ internal class CallingSDKEventHandler(
     //endregion
     fun getDominantSpeakersSharedFlow(): SharedFlow<DominantSpeakersInfo> = dominantSpeakersSharedFlow
 
-    /* <RTT_POC>
-    fun getRttTextSharedFlow(): SharedFlow<String> = rttTextSharedFlow
-    </RTT_POC> */
+    /* <RTT_POC> */
+    fun getRttTextSharedFlow(): SharedFlow<Pair<String, String>> = rttTextSharedFlow
+    /* </RTT_POC> */
 
     //region Captions
     private val onCaptionsTypeChanged =
@@ -230,30 +232,39 @@ internal class CallingSDKEventHandler(
         transcriptionFeature.addOnIsTranscriptionActiveChangedListener(onTranscriptionChanged)
         dominantSpeakersCallFeature = call.feature { DominantSpeakersCallFeature::class.java }
         dominantSpeakersCallFeature.addOnDominantSpeakersChangedListener(onDominantSpeakersChanged)
-        /* <RTT_POC>
+        /* <RTT_POC> */
         dataChannelCallFeature = call.feature { DataChannelCallFeature::class.java }
         subscribeToRttEvents()
-        </RTT_POC> */
+        /* </RTT_POC> */
 
         capabilitiesFeature = call.feature { CapabilitiesCallFeature::class.java }
         capabilitiesFeature.addOnCapabilitiesChangedListener(onCapabilitiesChanged)
         subscribeToUserFacingDiagnosticsEvents()
     }
 
-    /* <RTT_POC>
+    /* <RTT_POC> */
     private fun subscribeToRttEvents() {
         dataChannelCallFeature.addOnReceiverCreatedListener { evt ->
             this.receiver = evt.receiver
             evt.receiver.addOnMessageReceivedListener {
                 val message: DataChannelMessage = evt.receiver.receiveMessage()
-                val messageText = String(message.data, StandardCharsets.UTF_8)
-                coroutineScope.launch {
-                    rttTextSharedFlow.emit(messageText)
+                val channel = evt.receiver.channelId
+                var participant = evt.receiver.senderIdentifier
+
+                if (channel == 24) {
+                    val jsonString = String(message.data, StandardCharsets.UTF_8)
+                    // {s:"asd"} is the format, I want messageText to be "asd" by
+                    // parsing the JSON to map and grabbing the S field
+                    // Use GSON and RawRttPayload to parse the JSON
+                    val parsedMessage = Gson().fromJson(jsonString, RawRttPayload::class.java).s
+                    coroutineScope.launch {
+                         rttTextSharedFlow.emit(Pair(parsedMessage, participant.rawId))
+                    }
                 }
             }
         }
     }
-    </RTT_POC> */
+    /* </RTT_POC> */
 
     fun onEndCall() {
         if (call == null) return

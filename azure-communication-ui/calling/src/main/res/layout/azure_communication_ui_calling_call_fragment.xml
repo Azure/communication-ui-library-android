@@ -127,7 +127,7 @@
             />
     </LinearLayout>
 
-    <!-- <RTT_POC>
+    <!-- <RTT_POC> -->
     <com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttView
         android:id="@+id/azure_communication_ui_call_rtt_view"
         app:layout_constraintStart_toStartOf="parent"
@@ -135,7 +135,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-    </RTT_POC> -->
+    <!-- </RTT_POC> -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
