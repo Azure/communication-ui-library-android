@@ -45,7 +45,7 @@ internal class CallingService(
     private val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
     private var callInfoModelSharedFlow = MutableSharedFlow<CallInfoModel>()
     /* <RTT_POC>
-    private val rttStateSharedFlow = MutableSharedFlow<String>()
+    private val rttStateSharedFlow = MutableSharedFlow<Pair<String, String>>()
     </RTT_POC> */
 
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
@@ -138,7 +138,7 @@ internal class CallingService(
     fun getCamerasCountStateFlow() = callingSdk.getCamerasCountStateFlow()
 
     /* <RTT_POC>
-    fun getRttStateFlow(): SharedFlow<String> = rttStateSharedFlow
+    fun getRttStateFlow(): SharedFlow<Pair<String, String>> = rttStateSharedFlow
     </RTT_POC> */
 
     fun endCall() = callingSdk.endCall()

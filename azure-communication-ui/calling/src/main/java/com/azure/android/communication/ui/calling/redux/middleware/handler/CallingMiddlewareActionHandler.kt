@@ -918,7 +918,7 @@ internal class CallingMiddlewareActionHandlerImpl(
     private fun subscribeRttStateUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
             callingService.getRttStateFlow().collect {
-                store.dispatch(RttAction.IncomingMessageReceived(it))
+                store.dispatch(RttAction.IncomingMessageReceived(it.first, it.second))
             }
         }
     }

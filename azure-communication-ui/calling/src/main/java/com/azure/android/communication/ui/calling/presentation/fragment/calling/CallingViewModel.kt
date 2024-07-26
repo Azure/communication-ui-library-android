@@ -176,7 +176,7 @@ internal class CallingViewModel(
         )
         /* <RTT_POC>
         rttViewModel.init(
-            state.rttState.messages.firstOrNull() ?: "Empty",
+            state.rttState.messages,
             state.rttState.isRttActive
         )
         </RTT_POC> */
@@ -334,7 +334,7 @@ internal class CallingViewModel(
 
             /* <RTT_POC>
             rttViewModel.update(
-                state.rttState.messages.firstOrNull() ?: "Empty",
+                state.rttState.messages,
                 state.rttState.isRttActive
             )
             </RTT_POC> */
