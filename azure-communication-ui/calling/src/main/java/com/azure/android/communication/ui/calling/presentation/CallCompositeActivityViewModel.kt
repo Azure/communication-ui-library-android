@@ -61,6 +61,7 @@ internal class CallCompositeActivityViewModel(
                 container.appStore, application,
                 container.configuration.callConfig?.callType,
                 isTelecomManagerEnabled = container.configuration.telecomManagerOptions != null,
+                logger = container.logger,
             ),
             container.networkManager,
             container.configuration.setupScreenOptions
@@ -81,6 +82,7 @@ internal class CallCompositeActivityViewModel(
                 callType = container.configuration.callConfig.callType,
                 callScreenControlBarOptions = container.configuration.callScreenOptions?.controlBarOptions,
                 isCaptionsEnabled = container.appStore.getCurrentState().captionsState.isCaptionsUIEnabled,
+                logger = container.logger,
             ),
             networkManager = container.networkManager,
             callScreenOptions = container.configuration.callScreenOptions,

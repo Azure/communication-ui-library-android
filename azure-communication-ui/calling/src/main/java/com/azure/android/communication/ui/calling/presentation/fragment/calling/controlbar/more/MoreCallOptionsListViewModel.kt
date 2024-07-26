@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.content.Context
 import com.azure.android.communication.ui.calling.implementation.R
+import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonOptions
 import com.azure.android.communication.ui.calling.models.createButtonClickEvent
@@ -28,7 +29,8 @@ internal class MoreCallOptionsListViewModel(
     val spokenLanguageButtonOptions: CallCompositeButtonOptions?,
     val captionsLanguageButtonOptions: CallCompositeButtonOptions?,
     val shareDiagnosticsButtonOptions: CallCompositeButtonOptions?,
-    val reportIssueButtonOptions: CallCompositeButtonOptions?
+    val reportIssueButtonOptions: CallCompositeButtonOptions?,
+    private val logger: Logger,
 ) {
     private val unknown = "UNKNOWN"
     val callId: String
@@ -96,7 +98,8 @@ internal class MoreCallOptionsListViewModel(
                                         customButton
                                     )
                                 )
-                            } catch (_: Exception) {
+                            } catch (e: Exception) {
+                                logger.error("Call screen control bar custom button onClick exception.", e)
                             }
                         }
                     )
@@ -135,7 +138,8 @@ internal class MoreCallOptionsListViewModel(
             buttonOptions?.onClickHandler?.handle(
                 createButtonClickEvent(context, buttonOptions)
             )
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            logger.error("Call screen control bar custom button onClick exception.", e)
         }
     }
 

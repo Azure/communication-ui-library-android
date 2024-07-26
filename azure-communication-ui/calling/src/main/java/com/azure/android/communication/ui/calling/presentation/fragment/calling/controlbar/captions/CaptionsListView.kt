@@ -12,6 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.calling.implementation.R
+import com.azure.android.communication.ui.calling.logger.Logger
+import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
 import com.azure.android.communication.ui.calling.models.createButtonClickEvent
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
@@ -24,7 +26,8 @@ import kotlinx.coroutines.launch
 @SuppressLint("ViewConstructor")
 internal class CaptionsListView(
     context: Context,
-    private val viewModel: CaptionsListViewModel
+    private val viewModel: CaptionsListViewModel,
+    private val logger: Logger,
 ) : RelativeLayout(context) {
     private var recyclerView: RecyclerView
     private lateinit var menuDrawer: DrawerDialog
@@ -144,12 +147,7 @@ internal class CaptionsListView(
                     isToggleButtonOn = isCaptionsActive,
                     isEnabled = canTurnOnCaptions && viewModel.liveCaptionsToggleButton?.isEnabled ?: true,
                     toggleButtonAction = { _, isChecked ->
-                        try {
-                            viewModel.liveCaptionsToggleButton?.onClickHandler?.handle(
-                                createButtonClickEvent(context, viewModel.liveCaptionsToggleButton)
-                            )
-                        } catch (_: Exception) {
-                        }
+                        callButtonCustomOnClick(viewModel.liveCaptionsToggleButton)
                         viewModel.toggleCaptions(isChecked)
                     }
                 )
@@ -174,12 +172,7 @@ internal class CaptionsListView(
                     showRightArrow = true,
                     subtitle = LocaleHelper.getLocaleDisplayName(activeSpokenLanguage),
                     onClickAction = {
-                        try {
-                            viewModel.spokenLanguageButtonOptions?.onClickHandler?.handle(
-                                createButtonClickEvent(context, viewModel.spokenLanguageButtonOptions)
-                            )
-                        } catch (_: Exception) {
-                        }
+                        callButtonCustomOnClick(viewModel.spokenLanguageButtonOptions)
                         viewModel.openSpokenLanguageSelection()
                     },
                     isEnabled = isCaptionsActive && viewModel.spokenLanguageButtonOptions?.isEnabled ?: true
@@ -205,12 +198,7 @@ internal class CaptionsListView(
                     showRightArrow = true,
                     subtitle = LocaleHelper.getLocaleDisplayName(activeCaptionLanguage),
                     onClickAction = {
-                        try {
-                            viewModel.captionsLanguageButtonOptions?.onClickHandler?.handle(
-                                createButtonClickEvent(context, viewModel.captionsLanguageButtonOptions)
-                            )
-                        } catch (_: Exception) {
-                        }
+                        callButtonCustomOnClick(viewModel.captionsLanguageButtonOptions)
                         viewModel.openCaptionLanguageSelection()
                     },
                     isEnabled = isCaptionsActive && viewModel.captionsLanguageButtonOptions?.isEnabled != false
@@ -219,5 +207,15 @@ internal class CaptionsListView(
         }
 
         return items
+    }
+
+    private fun callButtonCustomOnClick(button: CallCompositeButtonOptions?) {
+        try {
+            button?.onClickHandler?.handle(
+                createButtonClickEvent(context, button)
+            )
+        } catch (e: Exception) {
+            logger.error("Call screen control bar button custom onClick exception.", e)
+        }
     }
 }

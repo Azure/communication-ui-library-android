@@ -7,6 +7,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.factori
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttViewModel
 </RTT_POC> */
 import com.azure.android.communication.ui.calling.configuration.CallType
+import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
 import com.azure.android.communication.ui.calling.models.getCustomButtons
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerViewModel
@@ -46,6 +47,7 @@ internal class CallingViewModelFactory(
     private val callType: CallType? = null,
     private val callScreenControlBarOptions: CallCompositeCallScreenControlBarOptions?,
     private val isCaptionsEnabled: Boolean = false,
+    private val logger: Logger,
 ) : BaseViewModelFactory(store) {
 
     /* <RTT_POC>
@@ -67,6 +69,7 @@ internal class CallingViewModelFactory(
             captionsLanguageButtonOptions = callScreenControlBarOptions?.captionsLanguageButton,
             shareDiagnosticsButtonOptions = callScreenControlBarOptions?.shareDiagnosticsButton,
             reportIssueButtonOptions = callScreenControlBarOptions?.reportIssueButton,
+            logger = logger,
         )
     }
 
@@ -78,6 +81,7 @@ internal class CallingViewModelFactory(
         ControlBarViewModel(
             store::dispatch,
             capabilitiesManager,
+            logger,
         )
     }
 

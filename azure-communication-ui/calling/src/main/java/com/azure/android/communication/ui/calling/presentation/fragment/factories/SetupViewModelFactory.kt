@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.factori
 import android.content.Context
 import android.media.AudioManager
 import com.azure.android.communication.ui.calling.configuration.CallType
+import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.JoinCallButtonHolderViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.PreviewAreaViewModel
@@ -20,6 +21,7 @@ internal class SetupViewModelFactory(
     private val context: Context,
     private val callType: CallType? = null,
     private val isTelecomManagerEnabled: Boolean = false,
+    private val logger: Logger,
 ) : BaseViewModelFactory(store) {
 
     val audioDeviceListViewModel by lazy {
@@ -33,6 +35,7 @@ internal class SetupViewModelFactory(
     val setupControlBarViewModel by lazy {
         SetupControlBarViewModel(
             store::dispatch,
+            logger,
         )
     }
 

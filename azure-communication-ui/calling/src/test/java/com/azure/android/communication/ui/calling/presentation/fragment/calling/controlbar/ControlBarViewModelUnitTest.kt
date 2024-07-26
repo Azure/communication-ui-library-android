@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.configuration.CallType
+import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
@@ -32,6 +33,7 @@ import kotlinx.coroutines.launch
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.any
 import org.mockito.kotlin.argThat
@@ -42,6 +44,9 @@ import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
 internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
+
+    @Mock
+    private lateinit var mockLogger: DefaultLogger
 
     @Test
     fun controlBarViewModel_turnMicOn_then_dispatchTurnMicOn() {
@@ -66,7 +71,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             on { dispatch(any()) } doAnswer { }
         }
 
-        val callingViewModel = ControlBarViewModel(mockAppStore::dispatch, CapabilitiesManager(CallType.GROUP_CALL))
+        val callingViewModel = ControlBarViewModel(mockAppStore::dispatch, CapabilitiesManager(CallType.GROUP_CALL), mockLogger)
         callingViewModel.turnMicOn()
 
         verify(mockAppStore, times(1)).dispatch(
@@ -99,7 +104,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             on { dispatch(any()) } doAnswer { }
         }
 
-        val callingViewModel = ControlBarViewModel(mockAppStore::dispatch, CapabilitiesManager(CallType.GROUP_CALL))
+        val callingViewModel = ControlBarViewModel(mockAppStore::dispatch, CapabilitiesManager(CallType.GROUP_CALL), mockLogger)
         callingViewModel.turnMicOff()
 
         verify(mockAppStore, times(1)).dispatch(
@@ -125,7 +130,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             val capabilities = setOf(ParticipantCapabilityType.UNMUTE_MICROPHONE)
 
             val appStore = mock<AppStore<ReduxState>> { }
-            val callingViewModel = ControlBarViewModel(appStore::dispatch, CapabilitiesManager(CallType.GROUP_CALL))
+            val callingViewModel = ControlBarViewModel(appStore::dispatch, CapabilitiesManager(CallType.GROUP_CALL), mockLogger)
             callingViewModel.init(
                 permissionState,
                 cameraState,
@@ -219,7 +224,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             val capabilities = emptySet<ParticipantCapabilityType>()
 
             val appStore = mock<AppStore<ReduxState>>()
-            val callingViewModel = ControlBarViewModel(appStore::dispatch, CapabilitiesManager(CallType.GROUP_CALL))
+            val callingViewModel = ControlBarViewModel(appStore::dispatch, CapabilitiesManager(CallType.GROUP_CALL), mockLogger)
             val initialPermissionState = PermissionState(
                 PermissionStatus.UNKNOWN, PermissionStatus.UNKNOWN
             )
@@ -297,7 +302,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val appStore = mock<AppStore<ReduxState>>()
-            val callingViewModel = ControlBarViewModel(appStore::dispatch, CapabilitiesManager(CallType.GROUP_CALL))
+            val callingViewModel = ControlBarViewModel(appStore::dispatch, CapabilitiesManager(CallType.GROUP_CALL), mockLogger)
 
             val permissionState = PermissionState(
                 audioPermissionState = PermissionStatus.GRANTED,
@@ -405,7 +410,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val appStore = mock<AppStore<ReduxState>>()
-            val callingViewModel = ControlBarViewModel(appStore::dispatch, CapabilitiesManager(CallType.GROUP_CALL))
+            val callingViewModel = ControlBarViewModel(appStore::dispatch, CapabilitiesManager(CallType.GROUP_CALL), mockLogger)
 
             val permissionState = PermissionState(
                 PermissionStatus.GRANTED,

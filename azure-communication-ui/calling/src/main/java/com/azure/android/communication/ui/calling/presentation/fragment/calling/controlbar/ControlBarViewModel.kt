@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar
 
 import android.content.Context
+import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
@@ -30,6 +31,7 @@ import kotlinx.coroutines.flow.StateFlow
 internal class ControlBarViewModel(
     private val dispatch: (Action) -> Unit,
     private val capabilitiesManager: CapabilitiesManager,
+    private val logger: Logger,
 ) {
     private lateinit var isVisibleStateFlow: MutableStateFlow<Boolean>
 
@@ -278,7 +280,8 @@ internal class ControlBarViewModel(
             buttonOptions?.onClickHandler?.handle(
                 createButtonClickEvent(context, buttonOptions)
             )
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            logger.error("Call screen control bar button custom onClick exception.", e)
         }
     }
 }

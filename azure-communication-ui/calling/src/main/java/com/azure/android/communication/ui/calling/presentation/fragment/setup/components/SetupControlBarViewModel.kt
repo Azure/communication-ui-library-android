@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.setup.components
 
 import android.content.Context
+import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenOptions
@@ -25,6 +26,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class SetupControlBarViewModel(
     private val dispatch: (Action) -> Unit,
+    private val logger: Logger,
 ) {
     private lateinit var isCameraButtonEnabledStateFlow: MutableStateFlow<Boolean>
     private lateinit var isCameraButtonVisibleStateFlow: MutableStateFlow<Boolean>
@@ -204,7 +206,8 @@ internal class SetupControlBarViewModel(
             buttonOptions?.onClickHandler?.handle(
                 createButtonClickEvent(context, buttonOptions)
             )
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            logger.error("Call screen control bar button custom onClick exception.", e)
         }
     }
 }
