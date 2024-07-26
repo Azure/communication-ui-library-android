@@ -10,7 +10,7 @@ import java.util.List;
  * Options for the CallCompositeCallScreenControlBarOptions.
  */
 public final class CallCompositeCallScreenControlBarOptions {
-    final List<CallCompositeCustomButtonOptions> customButtons = new ArrayList<>();
+    private List<CallCompositeCustomButtonOptions> customButtons = new ArrayList<>();
     private CallCompositeButtonOptions cameraButtonOptions;
     private CallCompositeButtonOptions micOptions;
     private CallCompositeButtonOptions audioDeviceOptions;
@@ -52,13 +52,20 @@ public final class CallCompositeCallScreenControlBarOptions {
     }
 
     /**
-     * Add a custom button to the call composite.
+     * Set a custom button to the call composite.
      * @param buttonOptions {@link CallCompositeCallScreenControlBarOptions}
      */
-    public CallCompositeCallScreenControlBarOptions addCustomButton(
-            final CallCompositeCustomButtonOptions buttonOptions) {
-        customButtons.add(buttonOptions);
+    public CallCompositeCallScreenControlBarOptions setCustomButtons(
+            final List<CallCompositeCustomButtonOptions> buttonOptions) {
+        customButtons = buttonOptions;
         return this;
+    }
+
+    /**
+     * Get a custom button to the call composite.
+     */
+    public List<CallCompositeCustomButtonOptions> getCustomButtons() {
+        return customButtons;
     }
 
     /**

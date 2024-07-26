@@ -10,7 +10,6 @@ import com.azure.android.communication.ui.calling.models.CallCompositeButtonOpti
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.createButtonClickEvent
-import com.azure.android.communication.ui.calling.models.getCustomButtons
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction

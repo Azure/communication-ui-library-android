@@ -5,10 +5,6 @@ package com.azure.android.communication.ui.calling.models
 
 import android.content.Context
 
-internal fun CallCompositeCallScreenControlBarOptions.getCustomButtons(): List<CallCompositeCustomButtonOptions>? {
-    return this.customButtons
-}
-
 internal fun createButtonClickEvent(
     context: Context,
     buttonOptions: CallCompositeButtonOptions,

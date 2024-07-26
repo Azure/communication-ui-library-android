@@ -9,7 +9,6 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
-import com.azure.android.communication.ui.calling.models.getCustomButtons
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay.ConnectingOverlayViewModel
