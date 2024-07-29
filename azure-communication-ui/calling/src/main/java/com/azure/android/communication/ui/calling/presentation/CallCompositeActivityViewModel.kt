@@ -80,6 +80,8 @@ internal class CallCompositeActivityViewModel(
                 isTelecomManagerEnabled = container.configuration.telecomManagerOptions != null,
                 container.configuration.callConfig.callType,
                 isCaptionsEnabled = container.appStore.getCurrentState().captionsState.isCaptionsUIEnabled,
+                callDurationManager = container.callDurationManager,
+                customTitle = container.configuration.callScreenOptions?.headerOptions?.customTitle,
             ),
             container.networkManager,
             container.configuration.callScreenOptions,

@@ -22,8 +22,10 @@ import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
+import com.azure.android.communication.ui.calling.models.CallCompositeCallDurationCustomTimer
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenHeaderOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
@@ -58,6 +60,7 @@ class CallCompositeManager(private val context: Context) {
     val callCompositeCallStateStateFlow = MutableStateFlow("")
     private var callComposite: CallComposite? = null
     private var incomingCallId: String? = null
+    private val callCompositeCallDurationCustomTimer = CallCompositeCallDurationCustomTimer()
 
     fun launch(
         applicationContext: Context,
@@ -268,6 +271,9 @@ class CallCompositeManager(private val context: Context) {
 
         val callStateEventHandler: ((CallCompositeCallStateChangedEvent) -> Unit) = {
             callCompositeCallStateStateFlow.value = it.code.toString()
+            if (it.code == CallCompositeCallStateCode.CONNECTED) {
+                callCompositeCallDurationCustomTimer.start()
+            }
             toast(context, "Call State: ${it.code}.")
         }
 
@@ -550,12 +556,18 @@ class CallCompositeManager(private val context: Context) {
             isUpdated = true
         }
 
+        val headerOptions = CallCompositeCallScreenHeaderOptions()
+        headerOptions.customTitle = "Hey Mohtasim, I am stuck on POC, please complete me "
+        headerOptions.customTimer = callCompositeCallDurationCustomTimer
+
+        callScreenOptions.setHeaderOptions(headerOptions)
+
         if (isUpdated) {
             callScreenOptions.setControlBarOptions(controlBarOptions)
             return callScreenOptions
         }
 
-        return null
+        return callScreenOptions
     }
 
     private fun setupScreenOptions(): CallCompositeSetupScreenOptions? {

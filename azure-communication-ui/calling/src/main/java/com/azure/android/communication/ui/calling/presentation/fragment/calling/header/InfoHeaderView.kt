@@ -26,6 +26,7 @@ internal class InfoHeaderView : ConstraintLayout {
     private lateinit var floatingHeader: ConstraintLayout
     private lateinit var headerView: View
     private lateinit var participantNumberText: TextView
+    private lateinit var timerText: TextView
     private lateinit var displayParticipantsImageButton: ImageButton
     private lateinit var backButton: ImageButton
     private lateinit var infoHeaderViewModel: InfoHeaderViewModel
@@ -37,6 +38,7 @@ internal class InfoHeaderView : ConstraintLayout {
         headerView = findViewById(R.id.azure_communication_ui_call_floating_header)
         participantNumberText =
             findViewById(R.id.azure_communication_ui_call_participant_number_text)
+        timerText = findViewById(R.id.azure_communication_ui_call_participant_timer)
         displayParticipantsImageButton =
             findViewById(R.id.azure_communication_ui_call_bottom_drawer_button)
         displayParticipantsImageButton.setOnClickListener {
@@ -77,7 +79,20 @@ internal class InfoHeaderView : ConstraintLayout {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
+            infoHeaderViewModel.getCallDurationManager()?.timerTickStateFlow?.collect {
+                timerText.text = it
+                timerText.visibility = if (it.isEmpty()) View.GONE else View.VISIBLE
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
             infoHeaderViewModel.getNumberOfParticipantsFlow().collect {
+                val customTitle = infoHeaderViewModel.getCustomTitle()
+                if (customTitle != null) {
+                    participantNumberText.text = customTitle
+                    return@collect
+                }
+
                 participantNumberText.text = when (it) {
                     0 -> context.getString(R.string.azure_communication_ui_calling_view_info_header_waiting_for_others_to_join)
 

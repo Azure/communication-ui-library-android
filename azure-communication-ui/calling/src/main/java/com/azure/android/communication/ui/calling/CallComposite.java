@@ -43,6 +43,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeUserReport
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.PiPCallCompositeActivity;
+import com.azure.android.communication.ui.calling.presentation.manager.CallDurationManager;
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
 import com.azure.android.communication.ui.calling.redux.action.PipAction;
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKInitializer;
@@ -733,6 +734,8 @@ public final class CallComposite {
         configuration.setApplicationContext(context.getApplicationContext());
         configuration.setCredential(remoteOptions.getCredential());
         configuration.setDisplayName(remoteOptions.getDisplayName());
+        final CallDurationManager durationManager = new CallDurationManager();
+        configuration.setTimerConfig(durationManager);
 
         initializeCallingSDK();
 
@@ -743,7 +746,8 @@ public final class CallComposite {
                 TestHelper.INSTANCE.getCallingSDK(),
                 TestHelper.INSTANCE.getVideoStreamRendererFactory(),
                 TestHelper.INSTANCE.getCoroutineContextProvider(),
-                logger
+                logger,
+                durationManager
         );
 
         showUI(context, isTest);
@@ -804,6 +808,9 @@ public final class CallComposite {
                 participants,
                 incomingCallId));
 
+        final CallDurationManager durationManager = new CallDurationManager();
+        configuration.setTimerConfig(durationManager);
+
         diContainer = new DependencyInjectionContainerImpl(
                 instanceId,
                 context.getApplicationContext(),
@@ -811,7 +818,8 @@ public final class CallComposite {
                 TestHelper.INSTANCE.getCallingSDK(),
                 TestHelper.INSTANCE.getVideoStreamRendererFactory(),
                 TestHelper.INSTANCE.getCoroutineContextProvider(),
-                logger
+                logger,
+                durationManager
         );
 
         showUI(context, isTest);
