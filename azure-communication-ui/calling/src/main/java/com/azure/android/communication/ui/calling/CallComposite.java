@@ -34,6 +34,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositePictureInP
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotification;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
+import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantRemovedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
@@ -569,6 +570,34 @@ public final class CallComposite {
     public void removeOnRemoteParticipantJoinedEventHandler(
             final CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().removeOnRemoteParticipantJoinedEventHandler(eventHandler);
+    }
+
+    /**
+     * Add {@link CallCompositeEventHandler}.
+     *
+     * <pre>
+     *
+     * &#47;&#47; add remote participant removed handler
+     * callComposite.addOnRemoteParticipantRemovedEventHandler&#40;event -> {
+     *     &#47;&#47; Use call composite to set configurations for remote participant
+     * }&#41;;
+     *
+     * </pre>
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void addOnRemoteParticipantRemovedEventHandler(
+            final CallCompositeEventHandler<CallCompositeRemoteParticipantRemovedEvent> eventHandler) {
+
+    }
+
+    /**
+     * Remove {@link CallCompositeEventHandler}.
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnRemoteParticipantRemovedEventHandler(
+            final CallCompositeEventHandler<CallCompositeRemoteParticipantRemovedEvent> eventHandler) {
     }
 
     /**
