@@ -54,14 +54,14 @@ public final class CallCompositeCustomButtonOptions {
     /**
      * Get isEnabled property.
      */
-    public boolean isEnabled() {
+    public Boolean isEnabled() {
         return this.isEnabled;
     }
 
     /**
      * Set isEnabled property.
      */
-    public CallCompositeCustomButtonOptions setEnable(final boolean isEnabled) {
+    public CallCompositeCustomButtonOptions setEnabled(final Boolean isEnabled) {
         this.isEnabled = isEnabled;
         return this;
     }

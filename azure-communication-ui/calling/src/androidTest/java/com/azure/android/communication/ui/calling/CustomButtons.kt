@@ -110,7 +110,7 @@ internal class CustomButtons : BaseUiTest() {
                 ) {
                     button1Clicked = true
                 }
-                    .setEnable(false)
+                    .setEnabled(false)
             )
 
         val callScreenOptions =

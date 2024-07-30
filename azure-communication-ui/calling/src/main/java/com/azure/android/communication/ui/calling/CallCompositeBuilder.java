@@ -120,6 +120,8 @@ public final class CallCompositeBuilder {
 
     /**
      * @deprecated Use {@link CallCompositeLocalOptions#setSetupScreenOptions(CallCompositeSetupScreenOptions)} instead.
+     * If {@link CallCompositeSetupScreenOptions} provided here and in the
+     * {@link CallCompositeLocalOptions}, the one provided in {@link CallCompositeLocalOptions} will be used.
      * Sets call screen options.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      */
@@ -132,6 +134,8 @@ public final class CallCompositeBuilder {
 
     /**
      * @deprecated Use {@link CallCompositeLocalOptions#setCallScreenOptions(CallCompositeCallScreenOptions)} instead.
+     * If {@link CallCompositeCallScreenOptions} provided here and in the
+     * {@link CallCompositeLocalOptions}, the one provided in {@link CallCompositeLocalOptions} will be used.
      * Sets the call screen options.
      *
      * @param callScreenOptions call screen options.

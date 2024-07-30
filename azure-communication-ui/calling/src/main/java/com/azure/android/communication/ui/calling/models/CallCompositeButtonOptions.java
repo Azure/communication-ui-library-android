@@ -33,14 +33,14 @@ public class CallCompositeButtonOptions {
     /**
      * Get is visible.
      */
-    public boolean isVisible() {
+    public Boolean isVisible() {
         return this.isVisible;
     }
 
     /**
      * Set is visible.
      */
-    public CallCompositeButtonOptions setVisible(final boolean isVisible) {
+    public CallCompositeButtonOptions setVisible(final Boolean isVisible) {
         this.isVisible = isVisible;
         return this;
     }
@@ -48,14 +48,14 @@ public class CallCompositeButtonOptions {
     /**
      * Get is enabled.
      */
-    public boolean isEnabled() {
+    public Boolean isEnabled() {
         return this.isEnabled;
     }
 
     /**
      * Set is enabled.
      */
-    public CallCompositeButtonOptions setEnabled(final boolean isEnabled) {
+    public CallCompositeButtonOptions setEnabled(final Boolean isEnabled) {
         this.isEnabled = isEnabled;
         return this;
     }
