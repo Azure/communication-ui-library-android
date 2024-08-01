@@ -195,10 +195,11 @@ dependencies {
     chatImplementation project(path: ':chat')
     callwithchatImplementation project(path: ':call-with-chat')
 
-    implementation ("com.azure.android:azure-communication-calling:0.0.1-beta.98") {
+    implementation ("com.azure.android:azure-communication-calling:0.0.1-beta.96")
+    implementation ("com.azure.android:azure-communication-chat:2.0.3") {
         exclude group: 'com.microsoft', module: 'trouter-client-android'
     }
-
+    //implementation("com.microsoft:trouter-client-android:0.0.1-beta.96")
     //implementation files("C:\\Skype2\\SpoolCallingStack\\native\\staging.d\\release\\BETA\\sdk\\arm64-v8a\\trouter-client-android.aar")
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

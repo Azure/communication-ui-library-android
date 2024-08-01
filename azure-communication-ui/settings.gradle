@@ -1,3 +1,25 @@
+
+pluginManagement {
+    repositories {
+        maven {
+            url 'https://skype.pkgs.visualstudio.com/_packaging/csc/maven/v1/'
+
+            credentials {
+                username = getProperty('gradle.wrapperUser')
+                password = getProperty('gradle.wrapperPassword')
+            }
+        }
+
+        // not compliant for use on build machines (internet disabled there)
+        if (System.getenv('BUILD_BUILDID') == null) {
+            gradlePluginPortal()
+            mavenCentral()
+            google()
+            jcenter()
+        }
+    }
+}
+
 include ':calling'
 include ':chat'
 include ':call-with-chat'

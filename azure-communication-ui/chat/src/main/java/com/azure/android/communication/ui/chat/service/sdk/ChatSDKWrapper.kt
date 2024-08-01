@@ -119,7 +119,39 @@ internal class ChatSDKWrapper(
                     eventReceivedOffsetDateTime = null
                 )
             )
+            onChatEventReceived(
+                infoModel = ChatEventModel(
+                    eventType = ChatEventType.CHAT_MESSAGE_RECEIVED,
+                    ChatThreadInfoModel(
+                        topic = threadClient.properties.topic,
+                        receivedOn = threadClient.properties.createdOn
+                    ),
+                    eventReceivedOffsetDateTime = null
+                )
+            )
             Log.d("Sanath testing", "initialization 3")
+
+            onChatEventReceived(
+                infoModel = ChatEventModel(
+                    eventType = ChatEventType.PARTICIPANTS_ADDED,
+                    ChatThreadInfoModel(
+                        topic = threadClient.properties.topic,
+                        receivedOn = threadClient.properties.createdOn
+                    ),
+                    eventReceivedOffsetDateTime = null
+                )
+            )
+
+            onChatEventReceived(
+                infoModel = ChatEventModel(
+                    eventType = ChatEventType.PARTICIPANTS_REMOVED,
+                    ChatThreadInfoModel(
+                        topic = threadClient.properties.topic,
+                        receivedOn = threadClient.properties.createdOn
+                    ),
+                    eventReceivedOffsetDateTime = null
+                )
+            )
 
             adminUserId = threadClient.properties.createdByCommunicationIdentifier.into().id
             chatStatusStateFlow.value = ChatStatus.INITIALIZED

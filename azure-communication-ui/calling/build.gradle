@@ -92,9 +92,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$androidx_constraint_layout_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$androidx_navigation_fragment_ktx_version"
 
-    implementation ("com.azure.android:azure-communication-calling:0.0.1-beta.98") {
-        exclude group: 'com.microsoft', module: 'trouter-client-android'
-    }
+    implementation ("com.azure.android:azure-communication-calling:0.0.1-beta.96")
 
     //implementation files("C:\\Skype2\\SpoolCallingStack\\native\\staging.d\\release\\BETA\\sdk\\arm64-v8a\\trouter-client-android.aar")
 
