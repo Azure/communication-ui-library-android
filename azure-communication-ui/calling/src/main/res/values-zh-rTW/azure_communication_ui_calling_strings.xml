@@ -181,6 +181,8 @@
 
     <!--    Drawer-->
     <string name="azure_communication_ui_calling_drawer_next_content_description">下一步</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_leave_button">Leave, Button</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_cancel_button">Cancel, Button</string>
 
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">即時輔助字幕</string>
