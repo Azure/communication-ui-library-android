@@ -181,15 +181,17 @@
 
     <!--    Drawer-->
     <string name="azure_communication_ui_calling_drawer_next_content_description">次へ</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_leave_button">Leave, Button</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_cancel_button">Cancel, Button</string>
 
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">ライブ キャプション</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">音声言語</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">字幕言語</string>
-    <string name="azure_communication_ui_calling_starting_captions">Starting captions...</string>
+    <string name="azure_communication_ui_calling_starting_captions">キャプションを開始しています...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">キャプションを開始できません</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">キャプションを停止できません</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">キャプションの音声言語を設定できません</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Unable to change caption language</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">話し言葉を変更できません</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">キャプションの言語を変更できません</string>
 
 </resources>
