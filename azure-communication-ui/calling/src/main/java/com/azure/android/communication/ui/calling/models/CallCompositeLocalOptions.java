@@ -39,6 +39,9 @@ public final class CallCompositeLocalOptions {
     private CallCompositeAudioVideoMode audioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO;
     private CallCompositeCaptionsOptions captionsOptions = null;
 
+    private CallCompositeSetupScreenOptions setupScreenOptions = null;
+    private CallCompositeCallScreenOptions callScreenOptions = null;
+
     /**
      * Create LocalSettings.
      *
@@ -179,6 +182,38 @@ public final class CallCompositeLocalOptions {
      */
     public CallCompositeAudioVideoMode getAudioVideoMode() {
         return audioVideoMode;
+    }
+
+    /**
+     * Set setup screen options.
+     * @param setupScreenOptions {@link CallCompositeSetupScreenOptions}
+     */
+    public CallCompositeLocalOptions setSetupScreenOptions(final CallCompositeSetupScreenOptions setupScreenOptions) {
+        this.setupScreenOptions = setupScreenOptions;
+        return this;
+    }
+
+    /**
+     * Get setup screen options.
+     */
+    public CallCompositeSetupScreenOptions getSetupScreenOptions() {
+        return setupScreenOptions;
+    }
+
+    /**
+     * Set call screen options.
+     * @param callScreenOptions {@link CallCompositeCallScreenOptions}
+     */
+    public CallCompositeLocalOptions setCallScreenOptions(final CallCompositeCallScreenOptions callScreenOptions) {
+        this.callScreenOptions = callScreenOptions;
+        return this;
+    }
+
+    /**
+     * Get call screen options.
+     */
+    public CallCompositeCallScreenOptions getCallScreenOptions() {
+        return callScreenOptions;
     }
 
     /**

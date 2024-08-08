@@ -97,7 +97,7 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
         additionalText.visibility = if (bottomCellItem.isOnHold == true) View.VISIBLE else View.INVISIBLE
         showMoreImageView.visibility = if (bottomCellItem.showRightArrow) View.VISIBLE else View.INVISIBLE
         switchCompat.visibility = if (bottomCellItem.showToggleButton) View.VISIBLE else View.GONE
-        switchCompat.isEnabled = bottomCellItem.enableToggleButton
+        switchCompat.isEnabled = bottomCellItem.isEnabled
         switchCompat.isChecked = bottomCellItem.isToggleButtonOn
         switchCompat.setOnCheckedChangeListener { buttonView, isChecked ->
             bottomCellItem.toggleButtonAction?.invoke(buttonView, isChecked)

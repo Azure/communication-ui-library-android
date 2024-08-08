@@ -5,9 +5,9 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
-import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLeaveCallConfirmationMode
+import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
@@ -90,16 +90,17 @@ internal class CallingViewModel(
         val remoteParticipantsForGridView = remoteParticipantsForGridView(state.remoteParticipantState.participantMap)
 
         controlBarViewModel.init(
-            state.permissionState,
-            state.localParticipantState.cameraState,
-            state.localParticipantState.audioState,
-            state.callState,
-            this::requestCallEnd,
-            audioDeviceListViewModel::displayAudioDeviceSelectionMenu,
-            moreCallOptionsListViewModel::display,
-            state.visibilityState,
-            state.localParticipantState.audioVideoMode,
-            state.localParticipantState.capabilities,
+            permissionState = state.permissionState,
+            cameraState = state.localParticipantState.cameraState,
+            audioState = state.localParticipantState.audioState,
+            callState = state.callState,
+            requestCallEndCallback = this::requestCallEnd,
+            openAudioDeviceSelectionMenuCallback = audioDeviceListViewModel::displayAudioDeviceSelectionMenu,
+            openMoreMenuCallback = moreCallOptionsListViewModel::display,
+            visibilityState = state.visibilityState,
+            audioVideoMode = state.localParticipantState.audioVideoMode,
+            capabilities = state.localParticipantState.capabilities,
+            callScreenOptions?.controlBarOptions,
         )
 
         localParticipantViewModel.init(

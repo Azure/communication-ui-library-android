@@ -3,7 +3,13 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more
 
+import android.content.Context
 import com.azure.android.communication.ui.calling.implementation.R
+import com.azure.android.communication.ui.calling.logger.Logger
+import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonOptions
+import com.azure.android.communication.ui.calling.models.createButtonClickEvent
+import com.azure.android.communication.ui.calling.models.createCustomButtonClickEvent
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.redux.Dispatch
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
@@ -15,8 +21,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 internal class MoreCallOptionsListViewModel(
     private val debugInfoManager: DebugInfoManager,
     private val showSupportFormOption: Boolean,
+    private val dispatch: Dispatch,
+    private val customButtons: Iterable<CallCompositeCustomButtonOptions>?,
     private val isCaptionsEnabled: Boolean,
-    private val dispatch: Dispatch
+    val captionsButtonOptions: CallCompositeButtonOptions?,
+    val liveCaptionsToggleButton: CallCompositeButtonOptions?,
+    val spokenLanguageButtonOptions: CallCompositeButtonOptions?,
+    val captionsLanguageButtonOptions: CallCompositeButtonOptions?,
+    val shareDiagnosticsButtonOptions: CallCompositeButtonOptions?,
+    val reportIssueButtonOptions: CallCompositeButtonOptions?,
+    private val logger: Logger,
 ) {
     private val unknown = "UNKNOWN"
     val callId: String
@@ -27,14 +41,70 @@ internal class MoreCallOptionsListViewModel(
 
     val displayStateFlow = MutableStateFlow(false)
 
-    val listEntries = mutableListOf<Entries>().apply {
+    var shareDiagnostics: (() -> Unit)? = null
+
+    val listEntries = mutableListOf<Entry>().apply {
         if (isCaptionsEnabled) {
-            add(Entries.CAPTIONS)
+            add(
+                Entry(
+                    titleResourceId = R.string.azure_communication_ui_calling_live_captions_title,
+                    icon = R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_selector,
+                    isVisible = captionsButtonOptions?.isVisible ?: true && isAnyCaptionsSubMenuButtonsVisible(),
+                    isEnabled = captionsButtonOptions?.isEnabled ?: true,
+                    showRightArrow = true,
+                ) { context ->
+                    callOnClickHandler(context, captionsButtonOptions)
+                    dispatch(CaptionsAction.ShowCaptionsOptions())
+                }
+            )
         }
-        add(Entries.SHARE_DIAGNOSTICS)
+        add(
+            Entry(
+                titleResourceId = R.string.azure_communication_ui_calling_view_share_diagnostics,
+                icon = R.drawable.azure_communication_ui_calling_ic_fluent_share_android_24_regular,
+                isVisible = shareDiagnosticsButtonOptions?.isVisible ?: true,
+                isEnabled = shareDiagnosticsButtonOptions?.isEnabled ?: true,
+            ) { context ->
+                callOnClickHandler(context, shareDiagnosticsButtonOptions)
+                shareDiagnostics?.let { it() }
+            }
+        )
         if (showSupportFormOption) {
-            add(Entries.REPORT_ISSUE)
+            add(
+                Entry(
+                    titleResourceId = R.string.azure_communication_ui_calling_report_issue_title,
+                    icon = R.drawable.azure_communication_ui_calling_ic_fluent_person_feedback_24_regular,
+                    isVisible = reportIssueButtonOptions?.isVisible ?: true,
+                    isEnabled = reportIssueButtonOptions?.isEnabled ?: true,
+                ) { context ->
+                    callOnClickHandler(context, reportIssueButtonOptions)
+                    requestReportIssueScreen()
+                }
+            )
         }
+
+        customButtons
+            ?.forEach { customButton ->
+                add(
+                    Entry(
+                        icon = customButton.drawableId,
+                        titleText = customButton.title,
+                        isEnabled = customButton.isEnabled,
+                        onClickListener = { context ->
+                            try {
+                                customButton.onClickHandler?.handle(
+                                    createCustomButtonClickEvent(
+                                        context,
+                                        customButton
+                                    )
+                                )
+                            } catch (e: Exception) {
+                                logger.error("Call screen control bar custom button onClick exception.", e)
+                            }
+                        }
+                    )
+                )
+            }
     }
 
     fun display() {
@@ -54,25 +124,32 @@ internal class MoreCallOptionsListViewModel(
             close()
     }
 
-    fun toggleCaptionsOptions() {
-        dispatch(CaptionsAction.ShowCaptionsOptions())
+    private fun isAnyCaptionsSubMenuButtonsVisible(): Boolean {
+        return liveCaptionsToggleButton?.isVisible ?: true ||
+            spokenLanguageButtonOptions?.isVisible ?: true ||
+            captionsLanguageButtonOptions?.isVisible ?: true
     }
 
-    companion object {
-        enum class Entries(val title: Int, val icon: Int?, val showRightArrow: Boolean = false) {
-            SHARE_DIAGNOSTICS(
-                R.string.azure_communication_ui_calling_view_share_diagnostics,
-                R.drawable.azure_communication_ui_calling_ic_fluent_share_android_24_regular
-            ),
-            CAPTIONS(
-                R.string.azure_communication_ui_calling_live_captions_title,
-                R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_selector,
-                true
-            ),
-            REPORT_ISSUE(
-                R.string.azure_communication_ui_calling_report_issue_title,
-                R.drawable.azure_communication_ui_calling_ic_fluent_person_feedback_24_regular
-            ),
+    private fun callOnClickHandler(
+        context: Context,
+        buttonOptions: CallCompositeButtonOptions?,
+    ) {
+        try {
+            buttonOptions?.onClickHandler?.handle(
+                createButtonClickEvent(context, buttonOptions)
+            )
+        } catch (e: Exception) {
+            logger.error("Call screen control bar custom button onClick exception.", e)
         }
     }
+
+    data class Entry(
+        val titleResourceId: Int? = null,
+        val titleText: String? = null,
+        val icon: Int? = null,
+        val showRightArrow: Boolean = false,
+        val isVisible: Boolean = true,
+        val isEnabled: Boolean = true,
+        val onClickListener: (context: Context) -> Unit
+    )
 }

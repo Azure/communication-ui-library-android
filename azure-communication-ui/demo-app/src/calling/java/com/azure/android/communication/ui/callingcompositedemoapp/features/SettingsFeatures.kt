@@ -8,6 +8,7 @@ import android.content.SharedPreferences
 import android.util.LayoutDirection
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
+import com.azure.android.communication.ui.callingcompositedemoapp.ADD_CUSTOM_BUTTONS_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.AUDIO_ONLY_MODE_ON
 import com.azure.android.communication.ui.callingcompositedemoapp.AUTO_START_CAPTIONS
 import com.azure.android.communication.ui.callingcompositedemoapp.AVATAR_IMAGE
@@ -15,6 +16,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SCREEN_OR
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SUBTITLE
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_TITLE
 import com.azure.android.communication.ui.callingcompositedemoapp.CAMERA_ON_BY_DEFAULT_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_ADD_CUSTOM_BUTTONS
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_AUDIO_ONLY_MODE_ON
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_AUTO_START_CAPTIONS
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE
@@ -275,6 +277,17 @@ class SettingsFeatures {
                 sharedPrefs.getBoolean(
                     HIDE_CAPTIONS_UI,
                     DEFAULT_HIDE_CAPTIONS_UI
+                )
+            } else {
+                null
+            }
+        }
+
+        fun getAddCustomButtons(): Boolean? {
+            return if (sharedPrefs.contains(ADD_CUSTOM_BUTTONS_KEY)) {
+                sharedPrefs.getBoolean(
+                    ADD_CUSTOM_BUTTONS_KEY,
+                    DEFAULT_ADD_CUSTOM_BUTTONS
                 )
             } else {
                 null

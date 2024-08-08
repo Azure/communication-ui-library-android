@@ -3,15 +3,20 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar
 
+import android.content.Context
+import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
+import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
+import com.azure.android.communication.ui.calling.models.createButtonClickEvent
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
-import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
+import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
@@ -25,6 +30,7 @@ import kotlinx.coroutines.flow.StateFlow
 internal class ControlBarViewModel(
     private val dispatch: (Action) -> Unit,
     private val capabilitiesManager: CapabilitiesManager,
+    private val logger: Logger,
 ) {
     private lateinit var isVisibleStateFlow: MutableStateFlow<Boolean>
 
@@ -34,11 +40,13 @@ internal class ControlBarViewModel(
     private lateinit var cameraStatusFlow: MutableStateFlow<CameraOperationalStatus>
 
     // Mic button
+    var isMicButtonVisible: Boolean = true
     private lateinit var isMicButtonEnabledFlow: MutableStateFlow<Boolean>
     private lateinit var audioOperationalStatusStateFlow: MutableStateFlow<AudioOperationalStatus>
     private lateinit var audioDeviceSelectionStatusStateFlow: MutableStateFlow<AudioDeviceSelectionStatus>
 
     // Audio device button
+    var isAudioDeviceButtonVisible: Boolean = true
     private lateinit var isAudioDeviceButtonEnabledFlow: MutableStateFlow<Boolean>
 
     // More button
@@ -48,6 +56,8 @@ internal class ControlBarViewModel(
     lateinit var requestCallEnd: () -> Unit
     lateinit var openAudioDeviceSelectionMenu: () -> Unit
     lateinit var openMoreMenu: () -> Unit
+
+    var isMoreButtonVisible: Boolean = true
 
     fun init(
         permissionState: PermissionState,
@@ -60,6 +70,7 @@ internal class ControlBarViewModel(
         visibilityState: VisibilityState,
         audioVideoMode: CallCompositeAudioVideoMode,
         capabilities: Set<ParticipantCapabilityType>,
+        controlBarOptions: CallCompositeCallScreenControlBarOptions?
     ) {
         isVisibleStateFlow = MutableStateFlow(shouldBeVisible(visibilityState))
 
@@ -91,12 +102,30 @@ internal class ControlBarViewModel(
             )
         )
 
-        isAudioDeviceButtonEnabledFlow = MutableStateFlow(shouldAudioDeviceButtonBeEnable(callState.callingStatus))
+        isAudioDeviceButtonEnabledFlow =
+            MutableStateFlow(shouldAudioDeviceButtonBeEnable(callState.callingStatus))
+
+        isMicButtonVisible = controlBarOptions?.microphoneButton?.isVisible ?: true
+        isAudioDeviceButtonVisible = controlBarOptions?.audioDeviceButton?.isVisible ?: true
+
+        isMoreButtonVisible = (
+            controlBarOptions?.getCustomButtons()?.any() == true ||
+                controlBarOptions?.liveCaptionsToggleButton?.isVisible ?: true ||
+                controlBarOptions?.spokenLanguageButton?.isVisible ?: true ||
+                controlBarOptions?.captionsLanguageButton?.isVisible ?: true ||
+                controlBarOptions?.shareDiagnosticsButton?.isVisible ?: true ||
+                controlBarOptions?.reportIssueButton?.isVisible ?: true
+            )
+
         isMoreButtonEnabledFlow = MutableStateFlow(shouldMoreButtonBeEnabled(callState.callingStatus))
 
         requestCallEnd = requestCallEndCallback
         openAudioDeviceSelectionMenu = openAudioDeviceSelectionMenuCallback
         openMoreMenu = openMoreMenuCallback
+
+        this.cameraButtonOptions = controlBarOptions?.cameraButton
+        this.micButtonOptions = controlBarOptions?.microphoneButton
+        this.audioDeviceButtonOptions = controlBarOptions?.audioDeviceButton
     }
 
     fun update(
@@ -149,6 +178,15 @@ internal class ControlBarViewModel(
 
     val isMoreButtonEnabled: StateFlow<Boolean> get() = isMoreButtonEnabledFlow
 
+    var cameraButtonOptions: CallCompositeButtonOptions? = null
+        private set
+
+    var micButtonOptions: CallCompositeButtonOptions? = null
+        private set
+
+    var audioDeviceButtonOptions: CallCompositeButtonOptions? = null
+        private set
+
     fun turnMicOff() {
         dispatchAction(action = LocalParticipantAction.MicOffTriggered())
     }
@@ -165,6 +203,18 @@ internal class ControlBarViewModel(
         dispatchAction(action = LocalParticipantAction.CameraOffTriggered())
     }
 
+    fun cameraButtonClicked(context: Context) {
+        callOnClickHandler(context, cameraButtonOptions)
+    }
+
+    fun micButtonClicked(context: Context) {
+        callOnClickHandler(context, micButtonOptions)
+    }
+
+    fun onAudioDeviceClick(context: Context) {
+        callOnClickHandler(context, audioDeviceButtonOptions)
+    }
+
     private fun shouldBeVisible(
         visibilityState: VisibilityState,
     ): Boolean {
@@ -174,7 +224,8 @@ internal class ControlBarViewModel(
     private fun shouldCameraBeVisibility(
         audioVideoMode: CallCompositeAudioVideoMode,
     ): Boolean {
-        return audioVideoMode != CallCompositeAudioVideoMode.AUDIO_ONLY
+        return cameraButtonOptions?.isVisible ?: true &&
+            audioVideoMode != CallCompositeAudioVideoMode.AUDIO_ONLY
     }
 
     private fun shouldCameraBeEnabled(
@@ -183,7 +234,8 @@ internal class ControlBarViewModel(
         operation: CameraOperationalStatus,
         capabilities: Set<ParticipantCapabilityType>,
     ): Boolean {
-        return permissionState.cameraPermissionState != PermissionStatus.DENIED &&
+        return cameraButtonOptions?.isEnabled ?: true &&
+            permissionState.cameraPermissionState != PermissionStatus.DENIED &&
             callingStatus == CallingStatus.CONNECTED &&
             operation != CameraOperationalStatus.PENDING &&
             capabilitiesManager.hasCapability(
@@ -197,7 +249,8 @@ internal class ControlBarViewModel(
         callingStatus: CallingStatus,
         capabilities: Set<ParticipantCapabilityType>,
     ): Boolean {
-        return audioState.operation != AudioOperationalStatus.PENDING &&
+        return micButtonOptions?.isEnabled ?: true &&
+            audioState.operation != AudioOperationalStatus.PENDING &&
             callingStatus == CallingStatus.CONNECTED &&
             capabilitiesManager.hasCapability(
                 capabilities,
@@ -206,7 +259,8 @@ internal class ControlBarViewModel(
     }
 
     private fun shouldAudioDeviceButtonBeEnable(callingStatus: CallingStatus): Boolean {
-        return callingStatus == CallingStatus.CONNECTED
+        return audioDeviceButtonOptions?.isEnabled ?: true &&
+            callingStatus == CallingStatus.CONNECTED
     }
 
     private fun shouldMoreButtonBeEnabled(callingStatus: CallingStatus): Boolean {
@@ -215,5 +269,18 @@ internal class ControlBarViewModel(
 
     private fun dispatchAction(action: Action) {
         dispatch(action)
+    }
+
+    private fun callOnClickHandler(
+        context: Context,
+        buttonOptions: CallCompositeButtonOptions?,
+    ) {
+        try {
+            buttonOptions?.onClickHandler?.handle(
+                createButtonClickEvent(context, buttonOptions)
+            )
+        } catch (e: Exception) {
+            logger.error("Call screen control bar button custom onClick exception.", e)
+        }
     }
 }

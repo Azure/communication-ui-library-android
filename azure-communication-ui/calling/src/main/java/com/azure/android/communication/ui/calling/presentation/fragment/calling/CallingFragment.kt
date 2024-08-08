@@ -3,6 +3,9 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
+/* <RTT_POC>
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttView
+</RTT_POC> */
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -19,13 +22,17 @@ import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
+import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivityViewModel
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsLayout
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay.ConnectingOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.CaptionsLanguageSelectionListView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.CaptionsListView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.OnHoldOverlayView
@@ -33,19 +40,12 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyHeaderView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.WaitingLobbyOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser.LocalParticipantView
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridView
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListView
-import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListView
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay.ConnectingOverlayView
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.CaptionsLanguageSelectionListView
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.CaptionsContainerView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.menu.ParticipantMenuView
-/* <RTT_POC>
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttView
-</RTT_POC> */
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListView
+import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
 
 internal class CallingFragment :
@@ -90,7 +90,7 @@ internal class CallingFragment :
     private lateinit var moreCallOptionsListView: MoreCallOptionsListView
     private lateinit var lobbyHeaderView: LobbyHeaderView
     private lateinit var lobbyErrorHeaderView: LobbyErrorHeaderView
-    private lateinit var captionsContainerView: CaptionsContainerView
+    private lateinit var captionsListView: CaptionsListView
     private lateinit var captionsLanguageSelectionListView: CaptionsLanguageSelectionListView
     private lateinit var captionsLayout: CaptionsLayout
     /* <RTT_POC>
@@ -223,13 +223,14 @@ internal class CallingFragment :
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
         moreCallOptionsListView.start(viewLifecycleOwner)
 
-        captionsContainerView = CaptionsContainerView(
+        captionsListView = CaptionsListView(
             context = this.requireContext(),
-            viewModel = viewModel.captionsListViewModel
+            viewModel = viewModel.captionsListViewModel,
+            logger = activityViewModel.container.logger,
         )
-        captionsContainerView.layoutDirection =
+        captionsListView.layoutDirection =
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
-        captionsContainerView.start(viewLifecycleOwner)
+        captionsListView.start(viewLifecycleOwner)
 
         captionsLanguageSelectionListView = CaptionsLanguageSelectionListView(
             context = this.requireContext(),
@@ -317,7 +318,7 @@ internal class CallingFragment :
         if (this::moreCallOptionsListView.isInitialized) moreCallOptionsListView.stop()
         if (this::upperMessageBarNotificationLayoutView.isInitialized) upperMessageBarNotificationLayoutView.stop()
         if (this::toastNotificationView.isInitialized) toastNotificationView.stop()
-        if (this::captionsContainerView.isInitialized) captionsContainerView.stop()
+        if (this::captionsListView.isInitialized) captionsListView.stop()
         if (this::captionsLanguageSelectionListView.isInitialized) captionsLanguageSelectionListView.stop()
         if (this::captionsLayout.isInitialized) captionsLayout.stop()
     }

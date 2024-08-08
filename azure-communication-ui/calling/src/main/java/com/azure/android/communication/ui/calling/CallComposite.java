@@ -790,6 +790,13 @@ public final class CallComposite {
 
         if (localOptions != null) {
             configuration.setCallCompositeLocalOptions(localOptions);
+            // override builder provided options if they are provided in the localOptions
+            if (localOptions.getSetupScreenOptions() != null) {
+                configuration.setSetupScreenOptions(localOptions.getSetupScreenOptions());
+            }
+            if (localOptions.getCallScreenOptions() != null) {
+                configuration.setCallScreenOptions(localOptions.getCallScreenOptions());
+            }
         }
         initializeCallingSDK();
 

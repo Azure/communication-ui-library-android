@@ -28,7 +28,7 @@ import org.mockito.kotlin.argThat
 import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
-internal class CaptionsContainerViewModelUnitTest : ACSBaseTestCoroutine() {
+internal class CaptionsListViewModelUnitTest : ACSBaseTestCoroutine() {
     private lateinit var store: AppStore<ReduxState>
     private lateinit var viewModel: CaptionsListViewModel
 
@@ -37,7 +37,12 @@ internal class CaptionsContainerViewModelUnitTest : ACSBaseTestCoroutine() {
         store = mock<AppStore<ReduxState>> {}
         `when`(store.getCurrentState()).thenReturn(AppReduxState(displayName = "hello"))
         `when`(store.dispatch(any())).then { }
-        viewModel = CaptionsListViewModel(store)
+        viewModel = CaptionsListViewModel(
+            store,
+            liveCaptionsToggleButton = null,
+            spokenLanguageButtonOptions = null,
+            captionsLanguageButtonOptions = null,
+        )
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
