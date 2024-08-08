@@ -188,10 +188,10 @@
     <string name="azure_communication_ui_calling_live_captions_title">实时辅助字幕</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">口语</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">辅助字幕语言</string>
-    <string name="azure_communication_ui_calling_starting_captions">Starting captions...</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_start">无法启动辅助字幕</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">无法停止辅助字幕</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">无法设置辅助字幕的口语</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Unable to change caption language</string>
+    <string name="azure_communication_ui_calling_starting_captions">正在启动字幕...</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">无法启动字幕</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">无法停止字幕</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">无法更改口语</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">无法更改标题语言</string>
 
 </resources>

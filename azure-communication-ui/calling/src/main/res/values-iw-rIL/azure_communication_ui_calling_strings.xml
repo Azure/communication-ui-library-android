@@ -188,10 +188,10 @@
     <string name="azure_communication_ui_calling_live_captions_title">כתוביות בשידור חי</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">שפה מדוברת</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">שפת כתוביות</string>
-    <string name="azure_communication_ui_calling_starting_captions">Starting captions...</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_start">לא ניתן להתחיל כתוביות</string>
+    <string name="azure_communication_ui_calling_starting_captions">מאתחל כתוביות...</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">לא ניתן להפעיל כתוביות</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">לא ניתן להפסיק כתוביות</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">לא ניתן להגדיר שפה מדוברת עבור כתוביות</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Unable to change caption language</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">לא ניתן לשנות את השפה המדוברת</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">לא ניתן לשנות את שפת הכתוביות</string>
 
 </resources>

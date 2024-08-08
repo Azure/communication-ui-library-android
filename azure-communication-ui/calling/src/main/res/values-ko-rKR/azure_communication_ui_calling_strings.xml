@@ -188,10 +188,10 @@
     <string name="azure_communication_ui_calling_live_captions_title">라이브 캡션</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">음성 언어</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">캡션 언어</string>
-    <string name="azure_communication_ui_calling_starting_captions">Starting captions...</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_start">캡션을 시작할 수 없습니다.</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">캡션을 중지할 수 없습니다.</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">캡션에 대한 음성 언어를 설정할 수 없습니다.</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Unable to change caption language</string>
+    <string name="azure_communication_ui_calling_starting_captions">캡션 시작 중...</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">캡션을 시작할 수 없음</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">캡션을 중지할 수 없음</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">음성 언어를 변경할 수 없음</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">캡션 언어를 변경할 수 없음</string>
 
 </resources>
