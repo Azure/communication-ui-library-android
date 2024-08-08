@@ -108,7 +108,7 @@ internal class LeaveConfirmView(
                         R.drawable.azure_communication_ui_calling_leave_confirm_telephone_24
                     ),
                     context.getString(R.string.azure_communication_ui_calling_view_leave_call_button_text),
-                    null,
+                    context.getString(R.string.azure_communication_ui_calling_leave_confirm_drawer_leave_button),
                     null,
                     null,
                     null,
@@ -127,7 +127,7 @@ internal class LeaveConfirmView(
                         R.drawable.azure_communication_ui_calling_leave_confirm_dismiss_24
                     ),
                     context.getString(R.string.azure_communication_ui_calling_view_leave_call_cancel),
-                    null,
+                    context.getString(R.string.azure_communication_ui_calling_leave_confirm_drawer_cancel_button),
                     null,
                     null,
                     null,
