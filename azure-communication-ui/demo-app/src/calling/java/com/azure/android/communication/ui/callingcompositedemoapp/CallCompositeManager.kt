@@ -289,6 +289,10 @@ class CallCompositeManager(private val context: Context) {
         }
         callComposite.addOnDismissedEventHandler(onDismissedEventHandler)
 
+        callComposite.addOnRemoteParticipantRemovedEventHandler { event ->
+            toast(context, "Remote participant removed: ${event.identifiers.count()}")
+        }
+
         callComposite.addOnPictureInPictureChangedEventHandler {
             toast(context, "isInPictureInPicture: " + it.isInPictureInPicture)
         }

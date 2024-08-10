@@ -588,7 +588,7 @@ public final class CallComposite {
      */
     public void addOnRemoteParticipantRemovedEventHandler(
             final CallCompositeEventHandler<CallCompositeRemoteParticipantRemovedEvent> eventHandler) {
-
+        configuration.getCallCompositeEventsHandler().addOnRemoteParticipantRemovedEventHandler(eventHandler);
     }
 
     /**
@@ -598,6 +598,7 @@ public final class CallComposite {
      */
     public void removeOnRemoteParticipantRemovedEventHandler(
             final CallCompositeEventHandler<CallCompositeRemoteParticipantRemovedEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().removeOnRemoteParticipantRemovedEventHandler(eventHandler);
     }
 
     /**

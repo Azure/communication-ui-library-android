@@ -5,10 +5,12 @@ package com.azure.android.communication.ui.calling.handlers
 
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantRemovedEvent
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
+import com.azure.android.communication.ui.calling.service.sdk.CommunicationIdentifier
 import com.azure.android.communication.ui.calling.service.sdk.into
 import kotlinx.coroutines.flow.collect
 
@@ -42,8 +44,28 @@ internal class RemoteParticipantHandler(
             leftParticipants?.forEach {
                 configuration.remoteParticipantsConfiguration.removeParticipantViewData(it)
             }
+            leftParticipants?.let {
+                sendRemoteParticipantLeftEvent(it)
+            }
 
             lastRemoteParticipantsState = remoteParticipantsState
+        }
+    }
+
+    private fun sendRemoteParticipantLeftEvent(leftParticipants: List<String>) {
+        if (configuration.callCompositeEventsHandler.getOnRemoteParticipantRemovedHandlers().any()) {
+            try {
+                if (leftParticipants.isNotEmpty()) {
+                    val identifiers = leftParticipants.map {
+                        com.azure.android.communication.common.CommunicationIdentifier.fromRawId(it)
+                    }
+                    val eventArgs = CallCompositeRemoteParticipantRemovedEvent(identifiers)
+                    configuration.callCompositeEventsHandler.getOnRemoteParticipantRemovedHandlers()
+                        .forEach { it.handle(eventArgs) }
+                }
+            } catch (error: Throwable) {
+                // suppress any possible application errors
+            }
         }
     }
 
