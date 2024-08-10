@@ -271,9 +271,6 @@ class CallCompositeManager(private val context: Context) {
 
         val callStateEventHandler: ((CallCompositeCallStateChangedEvent) -> Unit) = {
             callCompositeCallStateStateFlow.value = it.code.toString()
-            if (it.code == CallCompositeCallStateCode.CONNECTED) {
-                callCompositeCallDurationCustomTimer.start()
-            }
             toast(context, "Call State: ${it.code}.")
         }
 
@@ -291,6 +288,11 @@ class CallCompositeManager(private val context: Context) {
 
         callComposite.addOnRemoteParticipantRemovedEventHandler { event ->
             toast(context, "Remote participant removed: ${event.identifiers.count()}")
+            SettingsFeatures.getStopTimerMRI()?.let { mri ->
+                if (event.identifiers.contains(CommunicationIdentifier.fromRawId(mri))) {
+                    callCompositeCallDurationCustomTimer.stop()
+                }
+            }
         }
 
         callComposite.addOnPictureInPictureChangedEventHandler {
@@ -299,6 +301,12 @@ class CallCompositeManager(private val context: Context) {
 
         callComposite.addOnRemoteParticipantJoinedEventHandler {
             toast(context, message = "Joined ${it.identifiers.count()} remote participants")
+
+            SettingsFeatures.getStartTimerMRI()?.let { mri ->
+                if (it.identifiers.contains(CommunicationIdentifier.fromRawId(mri))) {
+                    callCompositeCallDurationCustomTimer.start()
+                }
+            }
         }
 
         callComposite.addOnAudioSelectionChangedEventHandler { event ->
@@ -549,29 +557,35 @@ class CallCompositeManager(private val context: Context) {
 
     private fun callScreenOptions(): CallCompositeCallScreenOptions? {
         val callScreenOptions = CallCompositeCallScreenOptions()
-        val controlBarOptions = CallCompositeCallScreenControlBarOptions()
         var isUpdated = false
         if (SettingsFeatures.getDisplayLeaveCallConfirmationValue() != null) {
+            val controlBarOptions = CallCompositeCallScreenControlBarOptions()
             if (SettingsFeatures.getDisplayLeaveCallConfirmationValue() == true) {
                 controlBarOptions.setLeaveCallConfirmation(CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED)
             } else {
                 controlBarOptions.setLeaveCallConfirmation(CallCompositeLeaveCallConfirmationMode.ALWAYS_DISABLED)
             }
+            callScreenOptions.setControlBarOptions(controlBarOptions)
             isUpdated = true
         }
 
-        val headerOptions = CallCompositeCallScreenHeaderOptions()
-        headerOptions.customTitle = "Hey Mohtasim, I am stuck on POC, please complete me "
-        headerOptions.customTimer = callCompositeCallDurationCustomTimer
-
-        callScreenOptions.setHeaderOptions(headerOptions)
+        if (!SettingsFeatures.callScreenCustomTitle().isNullOrEmpty() || !SettingsFeatures.getStartTimerMRI().isNullOrEmpty()) {
+            val headerOptions = CallCompositeCallScreenHeaderOptions()
+            SettingsFeatures.callScreenCustomTitle()?.let {
+                headerOptions.customTitle = it
+            }
+            SettingsFeatures.getStartTimerMRI()?.let {
+                headerOptions.customTimer = callCompositeCallDurationCustomTimer
+            }
+            callScreenOptions.setHeaderOptions(headerOptions)
+            isUpdated = true
+        }
 
         if (isUpdated) {
-            callScreenOptions.setControlBarOptions(controlBarOptions)
             return callScreenOptions
         }
 
-        return callScreenOptions
+        return null
     }
 
     private fun setupScreenOptions(): CallCompositeSetupScreenOptions? {
