@@ -169,13 +169,29 @@
     <string name="azure_communication_ui_calling_call_view_calling">Ringer …</string>
 
     <!-- Participant menu actions -->
-    <string name="azure_communication_ui_calling_view_participant_menu_mute">Demp</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">Mute</string>
     <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Meny for demping av lyd for deltaker</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove">Fjern fra samtalen</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">Remove from call</string>
     <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Fjern deltaker fra samtalemenyen</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">Anropsinnstillingene er oppdatert. Enkelte funksjoner er kanskje ikke tilgjengelige for deg.</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">Anropsinnstillingene er oppdatert. Noen flere handlinger kan nå være tilgjengelige for deg.</string>
 
     <!-- Participant menu view -->
     <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">deaktivert element.</string>
+
+    <!--    Drawer-->
+    <string name="azure_communication_ui_calling_drawer_next_content_description">Neste</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_leave_button">Avslutt, knapp</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_cancel_button">Avbryt, knapp</string>
+
+    <!--    Captions-->
+    <string name="azure_communication_ui_calling_live_captions_title">Underteksting</string>
+    <string name="azure_communication_ui_calling_captions_spoken_language_title">Talespråk</string>
+    <string name="azure_communication_ui_calling_captions_caption_language_title">Språk for undertekst</string>
+    <string name="azure_communication_ui_calling_starting_captions">Starter teksting ...</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">Kan ikke starte teksting</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Kan ikke stoppe teksting</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Kan ikke endre talespråk</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Kan ikke endre språk for teksting</string>
+
 </resources>

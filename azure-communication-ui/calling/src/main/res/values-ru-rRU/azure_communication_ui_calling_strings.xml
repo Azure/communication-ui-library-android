@@ -169,13 +169,29 @@
     <string name="azure_communication_ui_calling_call_view_calling">Выполняется вызов…</string>
 
     <!-- Participant menu actions -->
-    <string name="azure_communication_ui_calling_view_participant_menu_mute">Отключить звук</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">Mute</string>
     <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Меню отключения звука участника</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove">Удалить из звонка</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">Remove from call</string>
     <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Меню удаления участника из звонка</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">Параметры звонка обновлены. Некоторые функции могут быть недоступны вам.</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">Параметры звонка обновлены. Некоторые дополнительные действия теперь могут быть доступны вам.</string>
 
     <!-- Participant menu view -->
     <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">отключенный элемент.</string>
+
+    <!--    Drawer-->
+    <string name="azure_communication_ui_calling_drawer_next_content_description">Далее</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_leave_button">Кнопка "Выйти"</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_cancel_button">Кнопка "Отменить"</string>
+
+    <!--    Captions-->
+    <string name="azure_communication_ui_calling_live_captions_title">Субтитры</string>
+    <string name="azure_communication_ui_calling_captions_spoken_language_title">Язык речи</string>
+    <string name="azure_communication_ui_calling_captions_caption_language_title">Язык субтитров</string>
+    <string name="azure_communication_ui_calling_starting_captions">Запуск субтитров...</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">Не удается запустить субтитры</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Не удалось остановить субтитры</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Не удалось изменить язык речи</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Не удалось изменить язык субтитров</string>
+
 </resources>

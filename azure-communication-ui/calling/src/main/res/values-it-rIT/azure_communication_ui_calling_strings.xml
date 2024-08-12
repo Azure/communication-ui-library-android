@@ -110,7 +110,7 @@
 
     <!--    Participant list-->
     <string name="azure_communication_ui_calling_participant_list_in_call_n_people">Nella chiamata (%1$d)</string>
-    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d in più</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ altri %1$d</string>
     <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">In sala di attesa (%1$d)</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Tocca due volte per ammettere/rifiutare il partecipante</string>
 
@@ -169,13 +169,29 @@
     <string name="azure_communication_ui_calling_call_view_calling">Chiamata in corso...</string>
 
     <!-- Participant menu actions -->
-    <string name="azure_communication_ui_calling_view_participant_menu_mute">Disattiva audio</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Menu Disattiva l’audio del partecipante</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove">Rimuovi dalla chiamata</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">Mute</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Menu Disattiva l\'audio del partecipante</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">Remove from call</string>
     <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Menu Rimuovi partecipante dalla chiamata</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">Impostazioni di chiamata aggiornate. Alcune funzionalità potrebbero non essere disponibili.</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">Impostazioni di chiamata aggiornate. Alcune azioni aggiuntive potrebbero essere ora disponibili per te.</string>
 
     <!-- Participant menu view -->
-    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">elemento disabilitato.</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">elemento disattivato.</string>
+
+    <!--    Drawer-->
+    <string name="azure_communication_ui_calling_drawer_next_content_description">Avanti</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_leave_button">Esci, pulsante</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_cancel_button">Annulla, pulsante</string>
+
+    <!--    Captions-->
+    <string name="azure_communication_ui_calling_live_captions_title">Sottotitoli in tempo reale</string>
+    <string name="azure_communication_ui_calling_captions_spoken_language_title">Lingua parlata</string>
+    <string name="azure_communication_ui_calling_captions_caption_language_title">Lingua sottotitoli</string>
+    <string name="azure_communication_ui_calling_starting_captions">Avvio dei sottotitoli in corso...</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">Impossibile avviare i sottotitoli</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Impossibile arrestare i sottotitoli</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Impossibile cambiare la lingua parlata</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Impossibile cambiare la lingua dei sottotitoli</string>
+
 </resources>

@@ -22,6 +22,14 @@
             android:inputType="textUri" />
 
         <EditText
+            android:id="@+id/acsIdentityText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/acs_identity_hint"
+            android:inputType="textUri" />
+
+        <EditText
             android:id="@+id/userNameText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

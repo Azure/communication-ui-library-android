@@ -9,20 +9,25 @@ import android.util.LayoutDirection
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
 import com.azure.android.communication.ui.callingcompositedemoapp.AUDIO_ONLY_MODE_ON
+import com.azure.android.communication.ui.callingcompositedemoapp.AUTO_START_CAPTIONS
 import com.azure.android.communication.ui.callingcompositedemoapp.AVATAR_IMAGE
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SUBTITLE
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_TITLE
 import com.azure.android.communication.ui.callingcompositedemoapp.CAMERA_ON_BY_DEFAULT_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_AUDIO_ONLY_MODE_ON
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_AUTO_START_CAPTIONS
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_HIDE_CAPTIONS_UI
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_LANGUAGE_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_MIC_ON_BY_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_RTL_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SETUP_SCREEN_CAMERA_ENABLED_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SETUP_SCREEN_MIC_ENABLED_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SKIP_SETUP_SCREEN_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SPOKEN_LANGUAGE
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SPOKEN_LANGUAGE_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.DISABLE_INTERNAL_PUSH_NOTIFICATIONS
 import com.azure.android.communication.ui.callingcompositedemoapp.DISPLAY_DISMISS_BUTTON_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.DISPLAY_DISMISS_BUTTON_KEY_DEFAULT_VALUE
@@ -31,6 +36,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.ENABLE_MULTITA
 import com.azure.android.communication.ui.callingcompositedemoapp.ENABLE_MULTITASKING_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.ENABLE_PIP_WHEN_MULTITASKING
 import com.azure.android.communication.ui.callingcompositedemoapp.ENABLE_PIP_WHEN_MULTITASKING_DEFAULT_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.HIDE_CAPTIONS_UI
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.MIC_ON_BY_DEFAULT_KEY
@@ -62,6 +68,13 @@ class SettingsFeatures {
             return sharedPrefs.getString(
                 LANGUAGE_ADAPTER_VALUE_SHARED_PREF_KEY,
                 null,
+            )
+        }
+
+        fun getCaptionsDefaultSpokenLanguage(): String? {
+            return sharedPrefs.getString(
+                DEFAULT_SPOKEN_LANGUAGE_KEY,
+                DEFAULT_SPOKEN_LANGUAGE,
             )
         }
 
@@ -240,6 +253,28 @@ class SettingsFeatures {
                 sharedPrefs.getBoolean(
                     SETUP_SCREEN_MIC_ENABLED,
                     DEFAULT_SETUP_SCREEN_MIC_ENABLED_VALUE
+                )
+            } else {
+                null
+            }
+        }
+
+        fun getAutoStartCaptionsEnabled(): Boolean? {
+            return if (sharedPrefs.contains(AUTO_START_CAPTIONS)) {
+                sharedPrefs.getBoolean(
+                    AUTO_START_CAPTIONS,
+                    DEFAULT_AUTO_START_CAPTIONS
+                )
+            } else {
+                null
+            }
+        }
+
+        fun getHideCaptionsUiEnabled(): Boolean? {
+            return if (sharedPrefs.contains(HIDE_CAPTIONS_UI)) {
+                sharedPrefs.getBoolean(
+                    HIDE_CAPTIONS_UI,
+                    DEFAULT_HIDE_CAPTIONS_UI
                 )
             } else {
                 null

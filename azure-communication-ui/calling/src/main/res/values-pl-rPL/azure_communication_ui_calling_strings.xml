@@ -169,13 +169,29 @@
     <string name="azure_communication_ui_calling_call_view_calling">Trwa łączenie...</string>
 
     <!-- Participant menu actions -->
-    <string name="azure_communication_ui_calling_view_participant_menu_mute">Wycisz</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Menu wyciszania uczestnika</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove">Usuń z rozmowy</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Menu usuwania uczestnika z rozmowy</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">Mute</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Wycisz menu uczestników</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">Remove from call</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Usuń uczestnika z menu rozmowy</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">Zaktualizowano ustawienia połączeń. Niektóre funkcje mogą być niedostępne dla Ciebie.</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">Zaktualizowano ustawienia połączeń. Niektóre dodatkowe akcje mogą być teraz dostępne dla Ciebie.</string>
 
     <!-- Participant menu view -->
-    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">wyłączony element.</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">element wyłączony.</string>
+
+    <!--    Drawer-->
+    <string name="azure_communication_ui_calling_drawer_next_content_description">Następny</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_leave_button">Opuść, Przycisk</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_cancel_button">Anuluj, Przycisk</string>
+
+    <!--    Captions-->
+    <string name="azure_communication_ui_calling_live_captions_title">Napisy na żywo</string>
+    <string name="azure_communication_ui_calling_captions_spoken_language_title">Język mówiony</string>
+    <string name="azure_communication_ui_calling_captions_caption_language_title">Język napisów</string>
+    <string name="azure_communication_ui_calling_starting_captions">Trwa uruchamianie napisów...</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">Nie można uruchomić napisów</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Nie można zatrzymać napisów</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Nie można zmienić języka mówionego</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Nie można zmienić języka napisów</string>
+
 </resources>

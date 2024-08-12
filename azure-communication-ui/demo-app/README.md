@@ -27,6 +27,7 @@ library. Showcases use of both Java and Kotlin to run library.
    Create `local.properties` file in the `/azure-communication-ui` directory:
     - `TOKEN_FUNCTION_URL`="..."  # the URL to request Azure Communication Services token
     - `ACS_TOKEN`="..."           # Azure Communication Services token
+    - `ACS_IDENTITY`="..."  # Azure Communication Services identity
     - `USER_NAME`="..."           # your preferred display name
     - `GROUP_CALL_ID`="..."       # this a type of UUID used to start and join a meeting
     - `TEAMS_MEETING_LINK`="..."  # the URL to a Teams meeting

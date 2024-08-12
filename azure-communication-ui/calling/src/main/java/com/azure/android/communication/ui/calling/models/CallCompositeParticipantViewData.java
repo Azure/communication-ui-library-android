@@ -96,5 +96,4 @@ public final class CallCompositeParticipantViewData {
         this.avatarBitmap = avatarBitmap;
         return this;
     }
-
 }

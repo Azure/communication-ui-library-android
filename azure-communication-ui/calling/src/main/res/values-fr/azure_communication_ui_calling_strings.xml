@@ -110,7 +110,7 @@
 
     <!--    Participant list-->
     <string name="azure_communication_ui_calling_participant_list_in_call_n_people">Pendant l’appel (%1$d)</string>
-    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d de plus</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d autres</string>
     <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">Dans la salle d’attente (%1$d)</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Appuyez deux fois pour accepter/refuser un participant</string>
 
@@ -169,13 +169,29 @@
     <string name="azure_communication_ui_calling_call_view_calling">Appel en cours...</string>
 
     <!-- Participant menu actions -->
-    <string name="azure_communication_ui_calling_view_participant_menu_mute">Désactiver le micro / muet</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">Mute</string>
     <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Désactivez le son du participant</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove">Supprimer de l’appel</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">Remove from call</string>
     <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Supprimez le participant du menu de l’appel</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">Paramètres d’appel mis à jour. Certaines fonctionnalités peuvent ne pas être disponibles pour vous.</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">Paramètres d’appel mis à jour. Certaines actions supplémentaires peuvent maintenant être disponibles.</string>
 
     <!-- Participant menu view -->
     <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">élément désactivé.</string>
+
+    <!--    Drawer-->
+    <string name="azure_communication_ui_calling_drawer_next_content_description">Prochain</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_leave_button">Bouton Quitter</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_cancel_button">Bouton Annuler</string>
+
+    <!--    Captions-->
+    <string name="azure_communication_ui_calling_live_captions_title">Sous-titres en direct</string>
+    <string name="azure_communication_ui_calling_captions_spoken_language_title">Langue parlée</string>
+    <string name="azure_communication_ui_calling_captions_caption_language_title">Langue des sous-titres</string>
+    <string name="azure_communication_ui_calling_starting_captions">Démarrage des légendes...</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">Impossible de démarrer les légendes</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Il est impossible d’arrêter les légendes</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Il est impossible de modifier la langue parlée</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Il est impossible de modifier la langue des légendes</string>
+
 </resources>

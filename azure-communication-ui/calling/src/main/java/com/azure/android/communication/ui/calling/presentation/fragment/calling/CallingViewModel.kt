@@ -54,6 +54,16 @@ internal class CallingViewModel(
     val lobbyHeaderViewModel = callingViewModelProvider.lobbyHeaderViewModel
     val lobbyErrorHeaderViewModel = callingViewModelProvider.lobbyErrorHeaderViewModel
     val participantMenuViewModel = callingViewModelProvider.participantMenuViewModel
+    val captionsListViewModel = callingViewModelProvider.captionsListViewModel
+    val captionsLanguageSelectionListViewModel = callingViewModelProvider.captionsLanguageSelectionListViewModel
+    val captionsLayoutViewModel = callingViewModelProvider.captionsViewModel
+    /* <RTT_POC>
+    val rttViewModel = callingViewModelProvider.rttViewModel
+    </RTT_POC> */
+
+    // This is a flag to ensure that the call is started only once
+    // This is to avoid a lag between updating isDefaultParametersCallStarted
+    private var callStartRequested = false
 
     fun switchFloatingHeader() {
         floatingHeaderViewModel.switchFloatingHeader()
@@ -164,6 +174,16 @@ internal class CallingViewModel(
                 state.visibilityState,
             )
         )
+        /* <RTT_POC>
+        rttViewModel.init(
+            state.rttState.messages.firstOrNull() ?: "Empty",
+            state.rttState.isRttActive
+        )
+        </RTT_POC> */
+
+        captionsListViewModel.init(state.captionsState, state.callState.callingStatus)
+        captionsLanguageSelectionListViewModel.init(state.captionsState)
+        captionsLayoutViewModel.init(state.captionsState, state.visibilityState)
 
         super.init(coroutineScope)
     }
@@ -171,8 +191,10 @@ internal class CallingViewModel(
     override suspend fun onStateChange(state: ReduxState) {
         if (!state.callState.isDefaultParametersCallStarted &&
             state.localParticipantState.initialCallJoinState.skipSetupScreen &&
-            state.permissionState.audioPermissionState == PermissionStatus.GRANTED
+            state.permissionState.audioPermissionState == PermissionStatus.GRANTED &&
+            !callStartRequested
         ) {
+            callStartRequested = true
             store.dispatch(action = CallingAction.CallRequestedWithoutSetup())
         }
 
@@ -309,6 +331,13 @@ internal class CallingViewModel(
                 state.callState,
                 state.visibilityState,
             )
+
+            /* <RTT_POC>
+            rttViewModel.update(
+                state.rttState.messages.firstOrNull() ?: "Empty",
+                state.rttState.isRttActive
+            )
+            </RTT_POC> */
         }
 
         confirmLeaveOverlayViewModel.update(state.visibilityState)
@@ -319,6 +348,10 @@ internal class CallingViewModel(
         }
 
         updateOverlayDisplayedState(state.callState.callingStatus)
+
+        captionsListViewModel.update(state.captionsState, state.callState.callingStatus, state.visibilityState)
+        captionsLanguageSelectionListViewModel.update(state.captionsState, state.visibilityState)
+        captionsLayoutViewModel.update(state.captionsState, state.visibilityState)
     }
 
     private fun getLobbyParticipantsForHeader(state: ReduxState) =

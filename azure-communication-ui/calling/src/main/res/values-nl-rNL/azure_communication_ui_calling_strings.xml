@@ -110,7 +110,7 @@
 
     <!--    Participant list-->
     <string name="azure_communication_ui_calling_participant_list_in_call_n_people">In het gesprek (%1$d)</string>
-    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ nog %1$d</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d meer</string>
     <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">In de lobby (%1$d)</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">Dubbeltik om deelnemer toe te laten/weigeren</string>
 
@@ -169,13 +169,29 @@
     <string name="azure_communication_ui_calling_call_view_calling">Bellen...</string>
 
     <!-- Participant menu actions -->
-    <string name="azure_communication_ui_calling_view_participant_menu_mute">Dempen</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">Mute</string>
     <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">Deelnemersmenu dempen</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove">Uit gesprek verwijderen</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Verwijder de deelnemer uit het menu Bellen</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">Remove from call</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">Deelnemer verwijderen uit het menu Bellen</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">Oproepinstellingen bijgewerkt. Sommige functies zijn mogelijk niet beschikbaar voor u.</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">Oproepinstellingen bijgewerkt. Sommige aanvullende acties zijn mogelijk nu beschikbaar voor u.</string>
 
     <!-- Participant menu view -->
-    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">uitgeschakeld artikel.</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">uitgeschakeld item.</string>
+
+    <!--    Drawer-->
+    <string name="azure_communication_ui_calling_drawer_next_content_description">Volgende</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_leave_button">Verlaten, knop</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_cancel_button">Annuleren, knop</string>
+
+    <!--    Captions-->
+    <string name="azure_communication_ui_calling_live_captions_title">Live-ondertitels</string>
+    <string name="azure_communication_ui_calling_captions_spoken_language_title">Gesproken taal</string>
+    <string name="azure_communication_ui_calling_captions_caption_language_title">Taal van ondertiteling</string>
+    <string name="azure_communication_ui_calling_starting_captions">Ondertitels starten...</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">Kan ondertitels niet starten</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Kan ondertitels niet stoppen</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Kan de gesproken talen niet wijzigen</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Kan de taal van de ondertiteling niet wijzigen</string>
+
 </resources>

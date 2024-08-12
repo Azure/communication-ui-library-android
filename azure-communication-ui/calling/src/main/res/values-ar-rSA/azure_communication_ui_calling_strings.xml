@@ -110,7 +110,7 @@
 
     <!--    Participant list-->
     <string name="azure_communication_ui_calling_participant_list_in_call_n_people">في المكالمة (%1$d)</string>
-    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d أكثر</string>
+    <string name="azure_communication_ui_calling_participant_list_in_call_plus_more_people">+ %1$d إضافي</string>
     <string name="azure_communication_ui_calling_participant_list_in_lobby_n_people">في ساحة الانتظار (%1$d)</string>
     <string name="azure_communication_ui_calling_view_participant_list_dismiss_lobby_list">اضغط ضغطا مزدوجا برفق لقبول/رفض المشارك</string>
 
@@ -169,13 +169,29 @@
     <string name="azure_communication_ui_calling_call_view_calling">يتم الآن الاتصال...</string>
 
     <!-- Participant menu actions -->
-    <string name="azure_communication_ui_calling_view_participant_menu_mute">صامت</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">قائمة كتم صوت المشارك.</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove">إزالة من المكالمة</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">إزالة مشارك من قائمة المكالمات.</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">Mute</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">قائمة كتم صوت المشاركين</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">Remove from call</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">قائمة إزالة مشارك من المكالمة</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">تم تحديث إعدادات المكالمة. قد لا تتوفر بعض الميزات لك.</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">تم تحديث إعدادات المكالمة. قد تتوفر الآن بعض الإجراءات الإضافية لك.</string>
 
     <!-- Participant menu view -->
-    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">العنصر المعطل.</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_item_disabled">تم تعطيل العنصر.</string>
+
+    <!--    Drawer-->
+    <string name="azure_communication_ui_calling_drawer_next_content_description">التالي</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_leave_button">مغادرة، زر</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_cancel_button">إلغاء الأمر، الزر</string>
+
+    <!--    Captions-->
+    <string name="azure_communication_ui_calling_live_captions_title">نص الكلام المباشر</string>
+    <string name="azure_communication_ui_calling_captions_spoken_language_title">اللغة المنطوقة</string>
+    <string name="azure_communication_ui_calling_captions_caption_language_title">لغة التسمية التوضيحية</string>
+    <string name="azure_communication_ui_calling_starting_captions">يتم الآن بدء التسميات التوضيحية...</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">يتعذّر بدء تشغيل التسميات التوضيحية</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">يتعذّر إيقاف التسميات التوضيحية</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">يتعذّر تغيير اللغة المنطوقة</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">يتعذّر تغيير لغة التسمية التوضيحية</string>
+
 </resources>

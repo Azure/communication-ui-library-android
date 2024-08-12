@@ -4,6 +4,8 @@
 package com.azure.android.communication.ui.calling.service
 
 import com.azure.android.communication.ui.calling.logger.Logger
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsData
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsType
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.CallInfoModel
@@ -42,6 +44,10 @@ internal class CallingService(
         MutableSharedFlow<Map<String, ParticipantInfoModel>>()
     private val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
     private var callInfoModelSharedFlow = MutableSharedFlow<CallInfoModel>()
+    /* <RTT_POC>
+    private val rttStateSharedFlow = MutableSharedFlow<String>()
+    </RTT_POC> */
+
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
     private var callingStatus: CallingStatus = CallingStatus.NONE
 
@@ -131,21 +137,17 @@ internal class CallingService(
 
     fun getCamerasCountStateFlow() = callingSdk.getCamerasCountStateFlow()
 
-    fun endCall(): CompletableFuture<Void> {
-        return callingSdk.endCall()
-    }
+    /* <RTT_POC>
+    fun getRttStateFlow(): SharedFlow<String> = rttStateSharedFlow
+    </RTT_POC> */
 
-    fun hold(): CompletableFuture<Void> {
-        return callingSdk.hold()
-    }
+    fun endCall() = callingSdk.endCall()
 
-    fun resume(): CompletableFuture<Void> {
-        return callingSdk.resume()
-    }
+    fun hold() = callingSdk.hold()
 
-    fun setupCall(): CompletableFuture<Void> {
-        return callingSdk.setupCall()
-    }
+    fun resume() = callingSdk.resume()
+
+    fun setupCall() = callingSdk.setupCall()
 
     fun dispose() {
         coroutineScope.cancel()
@@ -178,6 +180,13 @@ internal class CallingService(
             }
         }
 
+        /* <RTT_POC>
+        coroutineScope.launch {
+            callingSdk.getRttSharedFlow().collect {
+                rttStateSharedFlow.emit(it)
+            }
+        }
+        </RTT_POC> */
         return callingSdk.startCall(cameraState, audioState)
     }
 
@@ -188,4 +197,52 @@ internal class CallingService(
     }
 
     fun getCallCapabilities(): Set<ParticipantCapabilityType> = callingSdk.getCapabilities()
+
+    //region Captions
+    fun startCaptions(spokenLanguage: String?) = callingSdk.startCaptions(spokenLanguage)
+
+    fun stopCaptions(): CompletableFuture<Void> {
+        return callingSdk.stopCaptions()
+    }
+
+    fun setCaptionsSpokenLanguage(language: String): CompletableFuture<Void> {
+        return callingSdk.setCaptionsSpokenLanguage(language)
+    }
+
+    fun setCaptionsCaptionLanguage(language: String): CompletableFuture<Void> {
+        return callingSdk.setCaptionsCaptionLanguage(language)
+    }
+
+    fun getCaptionsSupportedSpokenLanguagesSharedFlow(): SharedFlow<List<String>> {
+        return callingSdk.getCaptionsSupportedSpokenLanguagesSharedFlow()
+    }
+
+    fun getCaptionsSupportedCaptionLanguagesSharedFlow(): SharedFlow<List<String>> {
+        return callingSdk.getCaptionsSupportedCaptionLanguagesSharedFlow()
+    }
+
+    fun getIsCaptionsTranslationSupportedSharedFlow(): SharedFlow<Boolean> {
+        return callingSdk.getIsCaptionsTranslationSupportedSharedFlow()
+    }
+
+    fun getCaptionsReceivedSharedFlow(): SharedFlow<CallCompositeCaptionsData> {
+        return callingSdk.getCaptionsReceivedSharedFlow()
+    }
+
+    fun getActiveSpokenLanguageChangedSharedFlow(): SharedFlow<String> {
+        return callingSdk.getActiveSpokenLanguageChangedSharedFlow()
+    }
+
+    fun getActiveCaptionLanguageChangedSharedFlow(): SharedFlow<String> {
+        return callingSdk.getActiveCaptionLanguageChangedSharedFlow()
+    }
+
+    fun getCaptionsEnabledChangedSharedFlow(): SharedFlow<Boolean> {
+        return callingSdk.getCaptionsEnabledChangedSharedFlow()
+    }
+
+    fun getCaptionsTypeChangedSharedFlow(): SharedFlow<CallCompositeCaptionsType> {
+        return callingSdk.getCaptionsTypeChangedSharedFlow()
+    }
+    //endregion
 }

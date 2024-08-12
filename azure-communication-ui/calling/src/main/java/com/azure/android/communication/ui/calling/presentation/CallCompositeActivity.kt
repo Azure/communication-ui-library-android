@@ -85,6 +85,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     private val callHistoryService get() = container.callHistoryService
     private val logger get() = container.logger
     private val compositeManager get() = container.compositeExitManager
+    private val compositeDataModel get() = container.captionsDataManager
 
     private lateinit var visibilityStatusFlow: MutableStateFlow<VisibilityStatus>
 
@@ -157,6 +158,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         notificationService.start(lifecycleScope, instanceId)
         callHistoryService.start(lifecycleScope)
         callStateHandler.start(lifecycleScope)
+        compositeDataModel.start(lifecycleScope)
 
         listeningPair.collect {
             supportViewModel.update(it.navigationState)

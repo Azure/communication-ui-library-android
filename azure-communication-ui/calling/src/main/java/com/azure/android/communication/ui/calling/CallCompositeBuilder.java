@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling;
 
+import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.ui.calling.models.CallCompositeCapabilitiesChangedNotificationMode;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
 import android.content.Context;
@@ -14,6 +15,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallScreen
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
 import com.azure.android.communication.ui.calling.models.CallCompositeMultitaskingOptions;
+import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation;
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions;
@@ -40,6 +42,7 @@ public final class CallCompositeBuilder {
     private String displayName = null;
     private CommunicationTokenCredential credential = null;
     private Boolean disableInternalPushForIncomingCall = false;
+    private CommunicationIdentifier userId;
     /*  <DEFAULT_AUDIO_MODE:0>
     private CallCompositeAudioSelectionMode audioSelectionMode = null;
     </DEFAULT_AUDIO_MODE:0> */
@@ -206,6 +209,18 @@ public final class CallCompositeBuilder {
     </DEFAULT_AUDIO_MODE:0> */
 
     /**
+     * Sets the communication identifier.
+     * The identifier is used to identify the local user for {@link CallCompositeParticipantViewData}.
+     *
+     * @param userId communication identifier.
+     * @return {@link CallCompositeBuilder} for chaining options.
+     */
+    public CallCompositeBuilder userId(final CommunicationIdentifier userId) {
+        this.userId = userId;
+        return this;
+    }
+
+    /**
      * Builds the CallCompositeClass {@link CallComposite}.
      *
      * @return {@link CallComposite}
@@ -229,6 +244,7 @@ public final class CallCompositeBuilder {
         /*  <DEFAULT_AUDIO_MODE:0>
         config.setAudioSelectionMode(audioSelectionMode);
         </DEFAULT_AUDIO_MODE:0> */
+        config.setIdentifier(userId);
         return new CallComposite(config);
     }
 }

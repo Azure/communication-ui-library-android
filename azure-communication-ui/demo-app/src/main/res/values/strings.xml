@@ -24,6 +24,7 @@
     <string name="open_full_screen_ui_button_text">Open Full Screen UI</string>
     <string name="close_composite_button_text">Stop Composite</string>
     <string name="acs_token_hint">ACS Token</string>
+    <string name="acs_identity_hint">ACS Identity</string>
     <string name="acs_user_id_hint">Communication User Id</string>
     <string name="launch_type_text">Launch In:</string>
     <string name="token_function_radio_button_text">Token Function</string>
@@ -81,4 +82,8 @@
     <string name="push_notification_text">Push notification</string>
     <string name="disable_internal_push_text">Disable internal push for incoming call</string>
     <string name="teams_meeting_link_empty_alert">Teams meeting Id and meeting link are invalid or empty.</string>
+    <string name="captions_text">Captions Settings</string>
+    <string name="auto_start_captions_text">Auto start captions.</string>
+    <string name="hide_captions_text">Hide captions start/stop UI.</string>
+    <string name="default_spoken_language">Default spoken language.</string>
 </resources>
