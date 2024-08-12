@@ -181,8 +181,8 @@
 
     <!--    Drawer-->
     <string name="azure_communication_ui_calling_drawer_next_content_description">Prochain</string>
-    <string name="azure_communication_ui_calling_leave_confirm_drawer_leave_button">Leave, Button</string>
-    <string name="azure_communication_ui_calling_leave_confirm_drawer_cancel_button">Cancel, Button</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_leave_button">Bouton Quitter</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_cancel_button">Bouton Annuler</string>
 
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">Sous-titres en direct</string>
