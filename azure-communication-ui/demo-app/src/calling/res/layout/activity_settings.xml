@@ -465,11 +465,11 @@
             />
 
         <EditText
-            android:id="@+id/call_information_custom_title_edit_text"
+            android:id="@+id/call_information_title_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:hint="@string/custom_title_text"
+            android:hint="@string/call_information_title"
             />
 
 
@@ -488,6 +488,15 @@
             android:layout_height="2dp"
             android:background="@color/azure_communication_ui_calling_color_on_surface"
             android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding"
+            />
+
+        <EditText
+            android:id="@+id/timer_start_seconds_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:inputType="number"
+            android:hint="@string/call_timer_start_seconds_text"
             />
 
         <EditText

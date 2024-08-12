@@ -65,7 +65,8 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var defaultSpokenLanguageEditText: TextView
     private lateinit var timerStartEditText: TextView
     private lateinit var timerStopEditText: TextView
-    private lateinit var callInformationCustomTitleEditText: TextView
+    private lateinit var callInformationTitleEditText: TextView
+    private lateinit var callTimerStartDurationEditText: TextView
 
     private val sharedPreference by lazy {
         getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
@@ -164,7 +165,8 @@ class SettingsActivity : AppCompatActivity() {
         defaultSpokenLanguageEditText.text = sharedPreference.getString(DEFAULT_SPOKEN_LANGUAGE_KEY, DEFAULT_SPOKEN_LANGUAGE)
         timerStartEditText.text = sharedPreference.getString(TIMER_START_MRI_KEY, DEFAULT_TIMER_MRI_VALUE)
         timerStopEditText.text = sharedPreference.getString(TIMER_STOP_MRI_KEY, DEFAULT_TIMER_MRI_VALUE)
-        callInformationCustomTitleEditText.text = sharedPreference.getString(CALL_INFORMATION_CUSTOM_TITLE, DEFAULT_CALL_INFORMATION_CUSTOM_TITLE)
+        callInformationTitleEditText.text = sharedPreference.getString(CALL_INFORMATION_TITLE, DEFAULT_CALL_INFORMATION_TITLE)
+        callTimerStartDurationEditText.text = sharedPreference.getLong(TIMER_START_SECONDS_KEY, DEFAULT_TIMER_START_SECONDS).toString()
 
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
             val selectedItem: String = supportedLanguages[position]
@@ -358,7 +360,8 @@ class SettingsActivity : AppCompatActivity() {
         defaultSpokenLanguageEditText = findViewById(R.id.default_spoken_language_edit_text)
         timerStartEditText = findViewById(R.id.timer_start_edit_text)
         timerStopEditText = findViewById(R.id.timer_stop_edit_text)
-        callInformationCustomTitleEditText = findViewById(R.id.call_information_custom_title_edit_text)
+        callInformationTitleEditText = findViewById(R.id.call_information_title_edit_text)
+        callTimerStartDurationEditText = findViewById(R.id.timer_start_seconds_edit_text)
 
         renderDisplayNameTextView.addTextChangedListener {
             saveRenderedDisplayName()
@@ -391,10 +394,17 @@ class SettingsActivity : AppCompatActivity() {
             ).apply()
         }
 
-        callInformationCustomTitleEditText.addTextChangedListener {
+        callInformationTitleEditText.addTextChangedListener {
             sharedPreference.edit().putString(
-                CALL_INFORMATION_CUSTOM_TITLE,
-                callInformationCustomTitleEditText.text.toString()
+                CALL_INFORMATION_TITLE,
+                callInformationTitleEditText.text.toString()
+            ).apply()
+        }
+
+        callTimerStartDurationEditText.addTextChangedListener {
+            sharedPreference.edit().putString(
+                TIMER_START_SECONDS_KEY,
+                callTimerStartDurationEditText.text.toString()
             ).apply()
         }
     }
@@ -696,5 +706,8 @@ const val TIMER_START_MRI_KEY = "TIMER_START_MRI"
 const val TIMER_STOP_MRI_KEY = "TIMER_STOP_MRI"
 const val DEFAULT_TIMER_MRI_VALUE = ""
 
-const val CALL_INFORMATION_CUSTOM_TITLE = "CALL_INFORMATION_CUSTOM_TITLE"
-const val DEFAULT_CALL_INFORMATION_CUSTOM_TITLE = ""
+const val CALL_INFORMATION_TITLE = "CALL_INFORMATION_TITLE"
+const val DEFAULT_CALL_INFORMATION_TITLE = ""
+
+const val TIMER_START_SECONDS_KEY = "TIMER_START_SECONDS"
+const val DEFAULT_TIMER_START_SECONDS = 0L

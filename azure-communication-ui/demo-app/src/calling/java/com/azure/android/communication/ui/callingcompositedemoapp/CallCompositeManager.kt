@@ -22,7 +22,7 @@ import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
-import com.azure.android.communication.ui.calling.models.CallCompositeCallDurationCustomTimer
+import com.azure.android.communication.ui.calling.models.CallCompositeCallDurationTimer
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenHeaderOptions
@@ -60,7 +60,7 @@ class CallCompositeManager(private val context: Context) {
     val callCompositeCallStateStateFlow = MutableStateFlow("")
     private var callComposite: CallComposite? = null
     private var incomingCallId: String? = null
-    private val callCompositeCallDurationCustomTimer = CallCompositeCallDurationCustomTimer()
+    private var callCompositeCallDurationTimer: CallCompositeCallDurationTimer? = null
 
     fun launch(
         applicationContext: Context,
@@ -283,6 +283,7 @@ class CallCompositeManager(private val context: Context) {
 
         val onDismissedEventHandler: ((CallCompositeDismissedEvent) -> Unit) = {
             toast(context, "onDismissed: errorCode: ${it.errorCode}, cause: ${it.cause?.message}.")
+            callCompositeCallDurationTimer?.reset()
         }
         callComposite.addOnDismissedEventHandler(onDismissedEventHandler)
 
@@ -290,7 +291,7 @@ class CallCompositeManager(private val context: Context) {
             toast(context, "Remote participant removed: ${event.identifiers.count()}")
             SettingsFeatures.getStopTimerMRI()?.let { mri ->
                 if (event.identifiers.contains(CommunicationIdentifier.fromRawId(mri))) {
-                    callCompositeCallDurationCustomTimer.stop()
+                    callCompositeCallDurationTimer?.stop()
                 }
             }
         }
@@ -304,7 +305,7 @@ class CallCompositeManager(private val context: Context) {
 
             SettingsFeatures.getStartTimerMRI()?.let { mri ->
                 if (it.identifiers.contains(CommunicationIdentifier.fromRawId(mri))) {
-                    callCompositeCallDurationCustomTimer.start()
+                    callCompositeCallDurationTimer?.start()
                 }
             }
         }
@@ -569,13 +570,17 @@ class CallCompositeManager(private val context: Context) {
             isUpdated = true
         }
 
-        if (!SettingsFeatures.callScreenCustomTitle().isNullOrEmpty() || !SettingsFeatures.getStartTimerMRI().isNullOrEmpty()) {
+        if (!SettingsFeatures.callScreenInformationTitle().isNullOrEmpty() || !SettingsFeatures.getStartTimerMRI().isNullOrEmpty()) {
             val headerOptions = CallCompositeCallScreenHeaderOptions()
-            SettingsFeatures.callScreenCustomTitle()?.let {
-                headerOptions.customTitle = it
+            SettingsFeatures.callScreenInformationTitle()?.let {
+                headerOptions.title = it
             }
             SettingsFeatures.getStartTimerMRI()?.let {
-                headerOptions.customTimer = callCompositeCallDurationCustomTimer
+                callCompositeCallDurationTimer = CallCompositeCallDurationTimer()
+                SettingsFeatures.getDefaultTimerStartDuration().let { startDuration ->
+                    callCompositeCallDurationTimer?.startDuration = startDuration
+                }
+                headerOptions.timer = callCompositeCallDurationTimer
             }
             callScreenOptions.setHeaderOptions(headerOptions)
             isUpdated = true

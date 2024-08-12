@@ -6,20 +6,22 @@ package com.azure.android.communication.ui.calling.models;
 import com.azure.android.communication.ui.calling.presentation.manager.CallTimerAPI;
 
 /**
- * Custom timer for the CallCompositeCallScreenInformationHeader.
+ * Call duration timer for the CallCompositeCallScreenInformationHeader.
  */
-public class CallCompositeCallDurationCustomTimer {
+public class CallCompositeCallDurationTimer {
 
     CallTimerAPI callTimerAPI;
+    Long startDuration;
 
     /**
-     * Create a CallCompositeCallDurationCustomTimer object.
+     * Create a CallCompositeCallDurationTimer object.
      */
-    public CallCompositeCallDurationCustomTimer() {
+    public CallCompositeCallDurationTimer() {
     }
 
     /**
      * Start the timer.
+     * By default, the timer will start with a duration of previous stop.
      */
     public void start() {
         if (callTimerAPI == null) {
@@ -46,5 +48,19 @@ public class CallCompositeCallDurationCustomTimer {
             return;
         }
         callTimerAPI.onReset();
+    }
+
+    /**
+     * Get the start duration of the timer.
+     */
+    public long getStartDuration() {
+        return startDuration;
+    }
+
+    /**
+     * Set the start duration of the timer in seconds.
+     */
+    public void setStartDuration(final long startDuration) {
+        this.startDuration = startDuration;
     }
 }

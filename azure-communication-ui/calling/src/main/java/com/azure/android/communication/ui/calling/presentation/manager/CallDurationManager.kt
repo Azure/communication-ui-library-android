@@ -8,6 +8,7 @@ import android.os.CountDownTimer
 import kotlinx.coroutines.flow.MutableStateFlow
 
 internal interface CallTimerAPI {
+    fun startDuration(duration: Long = 0L)
     fun onStart()
     fun onStop()
     fun onReset()
@@ -15,12 +16,13 @@ internal interface CallTimerAPI {
 
 internal class CallDurationManager : CallTimerAPI {
     private var countDownTimer: CountDownTimer
-    private var timeRemaining: Long = 60000 // 1 minute in milliseconds
+    private var timeRemaining: Long = 60000
+    private var timeStart: Long = 0
 
-    val timerTickStateFlow = MutableStateFlow<String>("")
+    val timerTickStateFlow = MutableStateFlow("")
 
     init {
-        countDownTimer = object : CountDownTimer(60000, 1000) { // 1 minute timer with 1 second intervals
+        countDownTimer = object : CountDownTimer(timeStart * 1000, 1000) {
             @SuppressLint("DefaultLocale")
             override fun onTick(millisUntilFinished: Long) {
                 timeRemaining = millisUntilFinished
@@ -31,6 +33,10 @@ internal class CallDurationManager : CallTimerAPI {
             override fun onFinish() {
             }
         }
+    }
+
+    override fun startDuration(duration: Long) {
+        timeStart = duration
     }
 
     override fun onStart() {

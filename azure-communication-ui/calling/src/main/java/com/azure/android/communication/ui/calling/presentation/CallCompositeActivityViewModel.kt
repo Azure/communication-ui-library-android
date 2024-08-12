@@ -81,7 +81,7 @@ internal class CallCompositeActivityViewModel(
                 container.configuration.callConfig.callType,
                 isCaptionsEnabled = container.appStore.getCurrentState().captionsState.isCaptionsUIEnabled,
                 callDurationManager = container.callDurationManager,
-                customTitle = container.configuration.callScreenOptions?.headerOptions?.customTitle,
+                customTitle = container.configuration.callScreenOptions?.headerOptions?.title,
             ),
             container.networkManager,
             container.configuration.callScreenOptions,

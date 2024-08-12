@@ -5,6 +5,6 @@ package com.azure.android.communication.ui.calling.models
 
 import com.azure.android.communication.ui.calling.presentation.manager.CallTimerAPI
 
-internal fun CallCompositeCallDurationCustomTimer.setManager(callTimerAPI: CallTimerAPI) {
+internal fun CallCompositeCallDurationTimer.setManager(callTimerAPI: CallTimerAPI) {
     this.callTimerAPI = callTimerAPI
 }

@@ -7,8 +7,8 @@ package com.azure.android.communication.ui.calling.models;
  * Options for the CallCompositeCallScreenHeaderOptions.
  */
 public class CallCompositeCallScreenHeaderOptions {
-    private CallCompositeCallDurationCustomTimer customTimer;
-    private String customTitle;
+    private CallCompositeCallDurationTimer timer;
+    private String title;
 
     /**
      * Create a CallCompositeCallScreenHeaderOptions object.
@@ -17,44 +17,44 @@ public class CallCompositeCallScreenHeaderOptions {
     }
 
     /**
-     * Set the custom timer.
+     * Set the call duration timer.
      *
-     * @param customTimer The custom timer.
+     * @param timer The {@link CallCompositeCallDurationTimer}.
      * @return The {@link CallCompositeCallScreenHeaderOptions} object itself.
      */
-    public CallCompositeCallScreenHeaderOptions setCustomTimer(
-            final CallCompositeCallDurationCustomTimer customTimer) {
-        this.customTimer = customTimer;
+    public CallCompositeCallScreenHeaderOptions setTimer(
+            final CallCompositeCallDurationTimer timer) {
+        this.timer = timer;
         return this;
     }
 
     /**
-     * Get the custom timer.
+     * Get the timer.
      *
-     * @return {@link CallCompositeCallDurationCustomTimer} The custom timer.
+     * @return {@link CallCompositeCallDurationTimer} The timer.
      */
-    public CallCompositeCallDurationCustomTimer getCustomTimer() {
-        return customTimer;
+    public CallCompositeCallDurationTimer getTimer() {
+        return timer;
     }
 
     /**
-     * Set the custom title.
+     * Set the title.
      *
-     * @param customTitle The custom title.
+     * @param title The title.
      * @return The {@link CallCompositeCallScreenHeaderOptions} object itself.
      */
-    public CallCompositeCallScreenHeaderOptions setCustomTitle(
-            final String customTitle) {
-        this.customTitle = customTitle;
+    public CallCompositeCallScreenHeaderOptions setTitle(
+            final String title) {
+        this.title = title;
         return this;
     }
 
     /**
      * Get the custom title.
      *
-     * @return {@link String} The custom title.
+     * @return {@link String} The title.
      */
-    public String getCustomTitle() {
-        return customTitle;
+    public String getTitle() {
+        return title;
     }
 }

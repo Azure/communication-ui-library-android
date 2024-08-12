@@ -11,14 +11,14 @@ import com.azure.android.communication.ui.calling.models.CallCompositeTelecomMan
 import com.azure.android.communication.ui.callingcompositedemoapp.AUDIO_ONLY_MODE_ON
 import com.azure.android.communication.ui.callingcompositedemoapp.AUTO_START_CAPTIONS
 import com.azure.android.communication.ui.callingcompositedemoapp.AVATAR_IMAGE
-import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_CUSTOM_TITLE
+import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_TITLE
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SUBTITLE
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_TITLE
 import com.azure.android.communication.ui.callingcompositedemoapp.CAMERA_ON_BY_DEFAULT_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_AUDIO_ONLY_MODE_ON
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_AUTO_START_CAPTIONS
-import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CALL_INFORMATION_CUSTOM_TITLE
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CALL_INFORMATION_TITLE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_HIDE_CAPTIONS_UI
@@ -31,6 +31,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SKIP_S
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SPOKEN_LANGUAGE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SPOKEN_LANGUAGE_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_TIMER_MRI_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_TIMER_START_SECONDS
 import com.azure.android.communication.ui.callingcompositedemoapp.DISABLE_INTERNAL_PUSH_NOTIFICATIONS
 import com.azure.android.communication.ui.callingcompositedemoapp.DISPLAY_DISMISS_BUTTON_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.DISPLAY_DISMISS_BUTTON_KEY_DEFAULT_VALUE
@@ -53,6 +54,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.SETUP_SCREEN_O
 import com.azure.android.communication.ui.callingcompositedemoapp.SKIP_SETUP_SCREEN_VALUE_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.TELECOM_MANAGER_INTEGRATION_OPTION_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.TIMER_START_MRI_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.TIMER_START_SECONDS_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.TIMER_STOP_MRI_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.USE_DEPRECATED_LAUNCH_KEY
 import com.google.gson.Gson
@@ -97,10 +99,17 @@ class SettingsFeatures {
             )
         }
 
-        fun callScreenCustomTitle(): String? {
+        fun getDefaultTimerStartDuration(): Long {
+            return sharedPrefs.getLong(
+                TIMER_START_SECONDS_KEY,
+                DEFAULT_TIMER_START_SECONDS,
+            )
+        }
+
+        fun callScreenInformationTitle(): String? {
             return sharedPrefs.getString(
-                CALL_INFORMATION_CUSTOM_TITLE,
-                DEFAULT_CALL_INFORMATION_CUSTOM_TITLE,
+                CALL_INFORMATION_TITLE,
+                DEFAULT_CALL_INFORMATION_TITLE,
             )
         }
 
