@@ -36,20 +36,32 @@
         app:tint="@color/azure_communication_ui_calling_color_white"
         />
 
-    <TextView
-        android:id="@+id/azure_communication_ui_call_participant_number_text"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
-        android:fontFamily="sans-serif-medium"
-        android:textColor="@color/azure_communication_ui_calling_color_white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/azure_communication_ui_call_header_back_button"
         app:layout_constraintTop_toTopOf="parent"
-        />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/azure_communication_ui_call_participant_number_text"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/azure_communication_ui_calling_color_white"/>
+
+        <TextView
+            android:id="@+id/azure_communication_ui_call_participant_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/azure_communication_ui_calling_color_white" />
+    </LinearLayout>
 
     <ImageButton
         android:id="@+id/azure_communication_ui_call_bottom_drawer_button"

@@ -402,9 +402,9 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         callTimerStartDurationEditText.addTextChangedListener {
-            sharedPreference.edit().putString(
+            sharedPreference.edit().putLong(
                 TIMER_START_SECONDS_KEY,
-                callTimerStartDurationEditText.text.toString()
+                callTimerStartDurationEditText.text.toString().toLong()
             ).apply()
         }
     }

@@ -289,8 +289,11 @@ class CallCompositeManager(private val context: Context) {
 
         callComposite.addOnRemoteParticipantRemovedEventHandler { event ->
             toast(context, "Remote participant removed: ${event.identifiers.count()}")
+            event.identifiers.forEach {
+                Log.d(CallLauncherActivity.TAG, "Remote participant removed: ${it.rawId}")
+            }
             SettingsFeatures.getStopTimerMRI()?.let { mri ->
-                if (event.identifiers.contains(CommunicationIdentifier.fromRawId(mri))) {
+                if (event.identifiers.any { it.rawId == mri }) {
                     callCompositeCallDurationTimer?.stop()
                 }
             }
@@ -300,11 +303,13 @@ class CallCompositeManager(private val context: Context) {
             toast(context, "isInPictureInPicture: " + it.isInPictureInPicture)
         }
 
-        callComposite.addOnRemoteParticipantJoinedEventHandler {
-            toast(context, message = "Joined ${it.identifiers.count()} remote participants")
-
+        callComposite.addOnRemoteParticipantJoinedEventHandler { event ->
+            toast(context, message = "Joined ${event.identifiers.count()} remote participants")
+            event.identifiers.forEach {
+                Log.d(CallLauncherActivity.TAG, "Remote participant joined: ${it.rawId}")
+            }
             SettingsFeatures.getStartTimerMRI()?.let { mri ->
-                if (it.identifiers.contains(CommunicationIdentifier.fromRawId(mri))) {
+                if (event.identifiers.any { it.rawId == mri }) {
                     callCompositeCallDurationTimer?.start()
                 }
             }
@@ -573,14 +578,18 @@ class CallCompositeManager(private val context: Context) {
         if (!SettingsFeatures.callScreenInformationTitle().isNullOrEmpty() || !SettingsFeatures.getStartTimerMRI().isNullOrEmpty()) {
             val headerOptions = CallCompositeCallScreenHeaderOptions()
             SettingsFeatures.callScreenInformationTitle()?.let {
-                headerOptions.title = it
+                if (it.isNotEmpty()) {
+                    headerOptions.title = it
+                }
             }
             SettingsFeatures.getStartTimerMRI()?.let {
-                callCompositeCallDurationTimer = CallCompositeCallDurationTimer()
-                SettingsFeatures.getDefaultTimerStartDuration().let { startDuration ->
-                    callCompositeCallDurationTimer?.startDuration = startDuration
+                if (it.isNotEmpty()) {
+                    callCompositeCallDurationTimer = CallCompositeCallDurationTimer()
+                    SettingsFeatures.getDefaultTimerStartDuration().let { elapsedDuration ->
+                        callCompositeCallDurationTimer?.elapsedDuration = elapsedDuration
+                    }
+                    headerOptions.timer = callCompositeCallDurationTimer
                 }
-                headerOptions.timer = callCompositeCallDurationTimer
             }
             callScreenOptions.setHeaderOptions(headerOptions)
             isUpdated = true

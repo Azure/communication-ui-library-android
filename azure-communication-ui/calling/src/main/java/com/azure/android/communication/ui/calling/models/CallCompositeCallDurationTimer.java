@@ -11,7 +11,7 @@ import com.azure.android.communication.ui.calling.presentation.manager.CallTimer
 public class CallCompositeCallDurationTimer {
 
     CallTimerAPI callTimerAPI;
-    Long startDuration;
+    Long elapsedDuration;
 
     /**
      * Create a CallCompositeCallDurationTimer object.
@@ -51,16 +51,16 @@ public class CallCompositeCallDurationTimer {
     }
 
     /**
-     * Get the start duration of the timer.
+     * Get the elapsed duration of the timer.
      */
-    public long getStartDuration() {
-        return startDuration;
+    public long getElapsedDuration() {
+        return elapsedDuration;
     }
 
     /**
-     * Set the start duration of the timer in seconds.
+     * Set the elapsed duration of the timer in seconds.
      */
-    public void setStartDuration(final long startDuration) {
-        this.startDuration = startDuration;
+    public void setElapsedDuration(final long elapsedDuration) {
+        this.elapsedDuration = elapsedDuration;
     }
 }

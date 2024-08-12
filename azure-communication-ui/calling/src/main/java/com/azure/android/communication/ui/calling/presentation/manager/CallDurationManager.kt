@@ -16,18 +16,25 @@ internal interface CallTimerAPI {
 
 internal class CallDurationManager : CallTimerAPI {
     private var countDownTimer: CountDownTimer
-    private var timeRemaining: Long = 60000
-    private var timeStart: Long = 0
+    private var initialDurationInMillis: Long = 0
+    private var elapsedTime: Long = 0
 
     val timerTickStateFlow = MutableStateFlow("")
 
     init {
-        countDownTimer = object : CountDownTimer(timeStart * 1000, 1000) {
+        countDownTimer = object : CountDownTimer(Long.MAX_VALUE, 1000L) {
             @SuppressLint("DefaultLocale")
             override fun onTick(millisUntilFinished: Long) {
-                timeRemaining = millisUntilFinished
-                val secondsElapsed = (60000 - millisUntilFinished) / 1000
-                timerTickStateFlow.value = String.format("%02d:%02d", secondsElapsed / 60, secondsElapsed % 60)
+                val secondsElapsed = ((Long.MAX_VALUE - millisUntilFinished) + initialDurationInMillis) / 1000
+                val hours = secondsElapsed / 3600
+                val minutes = (secondsElapsed % 3600) / 60
+                val seconds = secondsElapsed % 60
+                val formattedTime = if (hours > 0) {
+                    String.format("%02d:%02d:%02d", hours, minutes, seconds)
+                } else {
+                    String.format("%02d:%02d", minutes, seconds)
+                }
+                timerTickStateFlow.value = formattedTime
             }
 
             override fun onFinish() {
@@ -36,7 +43,10 @@ internal class CallDurationManager : CallTimerAPI {
     }
 
     override fun startDuration(duration: Long) {
-        timeStart = duration
+        if (duration == 0L) {
+            return
+        }
+        initialDurationInMillis = duration * 1000
     }
 
     override fun onStart() {
@@ -49,7 +59,7 @@ internal class CallDurationManager : CallTimerAPI {
 
     override fun onReset() {
         countDownTimer.cancel()
-        timeRemaining = 60000
+        elapsedTime = 0
         timerTickStateFlow.value = "00:00"
     }
 }
