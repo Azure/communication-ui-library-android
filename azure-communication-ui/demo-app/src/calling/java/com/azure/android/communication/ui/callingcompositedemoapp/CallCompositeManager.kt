@@ -287,7 +287,7 @@ class CallCompositeManager(private val context: Context) {
         }
         callComposite.addOnDismissedEventHandler(onDismissedEventHandler)
 
-        callComposite.addOnRemoteParticipantRemovedEventHandler { event ->
+        callComposite.addOnRemoteParticipantLeaveEventHandler { event ->
             toast(context, "Remote participant removed: ${event.identifiers.count()}")
             event.identifiers.forEach {
                 Log.d(CallLauncherActivity.TAG, "Remote participant removed: ${it.rawId}")

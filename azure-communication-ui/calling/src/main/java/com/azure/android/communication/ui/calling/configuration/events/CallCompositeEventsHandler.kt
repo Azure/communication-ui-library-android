@@ -13,7 +13,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeUserReport
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallCancelledEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent
-import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantRemovedEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantLeaveEvent
 
 internal class CallCompositeEventsHandler {
     // mutableSet does preserve element iteration order
@@ -21,7 +21,7 @@ internal class CallCompositeEventsHandler {
     private val remoteParticipantJoinedHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
     private val remoteParticipantRemovedHandlers =
-        mutableSetOf<CallCompositeEventHandler<CallCompositeRemoteParticipantRemovedEvent>>()
+        mutableSetOf<CallCompositeEventHandler<CallCompositeRemoteParticipantLeaveEvent>>()
 
     private val callStateHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
@@ -59,10 +59,10 @@ internal class CallCompositeEventsHandler {
 
     fun getOnRemoteParticipantRemovedHandlers() = remoteParticipantRemovedHandlers.asIterable()
 
-    fun addOnRemoteParticipantRemovedEventHandler(handler: CallCompositeEventHandler<CallCompositeRemoteParticipantRemovedEvent>) =
+    fun addOnRemoteParticipantLeaveEventHandler(handler: CallCompositeEventHandler<CallCompositeRemoteParticipantLeaveEvent>) =
         remoteParticipantRemovedHandlers.add(handler)
 
-    fun removeOnRemoteParticipantRemovedEventHandler(handler: CallCompositeEventHandler<CallCompositeRemoteParticipantRemovedEvent>) =
+    fun removeOnRemoteParticipantLeaveEventHandler(handler: CallCompositeEventHandler<CallCompositeRemoteParticipantLeaveEvent>) =
         remoteParticipantRemovedHandlers.remove(handler)
 
     fun getOnAudioSelectionChangedEventHandlers() = audioSelectionChangedEventHandlers.asIterable()
