@@ -167,7 +167,7 @@ class SettingsActivity : AppCompatActivity() {
         timerStopEditText.text = sharedPreference.getString(TIMER_STOP_MRI_KEY, DEFAULT_TIMER_MRI_VALUE)
         callInformationTitleEditText.text = sharedPreference.getString(CALL_INFORMATION_TITLE, DEFAULT_CALL_INFORMATION_TITLE)
         sharedPreference.getLong(TIMER_START_SECONDS_KEY, DEFAULT_TIMER_START_SECONDS).toString()?.let {
-            if (it.isNotEmpty()) {
+            if (it.isNotEmpty() && it != "0") {
                 callTimerStartDurationEditText.text = it
             }
         }
@@ -406,10 +406,17 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         callTimerStartDurationEditText.addTextChangedListener {
-            sharedPreference.edit().putLong(
-                TIMER_START_SECONDS_KEY,
-                callTimerStartDurationEditText.text.toString().toLong()
-            ).apply()
+            if (callTimerStartDurationEditText.text.toString().isNotEmpty()) {
+                sharedPreference.edit().putLong(
+                    TIMER_START_SECONDS_KEY,
+                    callTimerStartDurationEditText.text.toString().toLong()
+                ).apply()
+            } else {
+                sharedPreference.edit().putLong(
+                    TIMER_START_SECONDS_KEY,
+                    DEFAULT_TIMER_START_SECONDS
+                ).apply()
+            }
         }
     }
 
