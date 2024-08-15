@@ -19,6 +19,8 @@ internal class CallDurationManager : CallTimerAPI {
     private var countDownTimer: CountDownTimer
     private var initialDurationInMillis: Long = 0
     private var elapsedTime: Long = 0
+    private var stoppedDuration: Long = 0
+    private var millisUntilFinishedLocal: Long = 0
 
     val timerTickStateFlow = MutableStateFlow("")
 
@@ -26,7 +28,8 @@ internal class CallDurationManager : CallTimerAPI {
         countDownTimer = object : CountDownTimer(Long.MAX_VALUE, 1000L) {
             @SuppressLint("DefaultLocale")
             override fun onTick(millisUntilFinished: Long) {
-                val msElapsed = ((Long.MAX_VALUE - millisUntilFinished) + initialDurationInMillis)
+                millisUntilFinishedLocal = millisUntilFinished
+                val msElapsed = ((Long.MAX_VALUE - millisUntilFinished) + initialDurationInMillis + stoppedDuration)
                 elapsedTime = msElapsed
                 val secondsElapsed = msElapsed / 1000
                 val hours = secondsElapsed / 3600
@@ -59,11 +62,13 @@ internal class CallDurationManager : CallTimerAPI {
 
     override fun onStop() {
         countDownTimer.cancel()
+        stoppedDuration += Long.MAX_VALUE - millisUntilFinishedLocal
     }
 
     override fun onReset() {
         countDownTimer.cancel()
         elapsedTime = 0
+        stoppedDuration = 0
         timerTickStateFlow.value = "00:00"
     }
 

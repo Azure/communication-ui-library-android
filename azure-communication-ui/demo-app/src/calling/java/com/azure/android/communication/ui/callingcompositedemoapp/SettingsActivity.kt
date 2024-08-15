@@ -166,7 +166,11 @@ class SettingsActivity : AppCompatActivity() {
         timerStartEditText.text = sharedPreference.getString(TIMER_START_MRI_KEY, DEFAULT_TIMER_MRI_VALUE)
         timerStopEditText.text = sharedPreference.getString(TIMER_STOP_MRI_KEY, DEFAULT_TIMER_MRI_VALUE)
         callInformationTitleEditText.text = sharedPreference.getString(CALL_INFORMATION_TITLE, DEFAULT_CALL_INFORMATION_TITLE)
-        callTimerStartDurationEditText.text = sharedPreference.getLong(TIMER_START_SECONDS_KEY, DEFAULT_TIMER_START_SECONDS).toString()
+        sharedPreference.getLong(TIMER_START_SECONDS_KEY, DEFAULT_TIMER_START_SECONDS).toString()?.let {
+            if (it.isNotEmpty()) {
+                callTimerStartDurationEditText.text = it
+            }
+        }
 
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
             val selectedItem: String = supportedLanguages[position]

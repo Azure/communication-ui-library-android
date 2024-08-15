@@ -45,9 +45,9 @@ internal class CallCompositeConfiguration {
     var identifier: CommunicationIdentifier? = null
 
     fun setTimerConfig(timerConfig: CallDurationManager) {
-        callScreenOptions?.headerOptions?.timer?.setManager(timerConfig)
         callScreenOptions?.headerOptions?.timer?.let {
             timerConfig.startDuration(it.elapsedDuration)
         }
+        callScreenOptions?.headerOptions?.timer?.setManager(timerConfig)
     }
 }
