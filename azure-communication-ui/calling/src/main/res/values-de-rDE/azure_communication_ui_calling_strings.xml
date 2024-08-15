@@ -181,15 +181,17 @@
 
     <!--    Drawer-->
     <string name="azure_communication_ui_calling_drawer_next_content_description">Weiter</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_leave_button">Schaltfläche „Verlassen“</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_cancel_button">Schaltfläche „Abbrechen“</string>
 
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">Liveuntertitel</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Gesprochene Sprache</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Sprache für Untertitel</string>
-    <string name="azure_communication_ui_calling_starting_captions">Starting captions...</string>
+    <string name="azure_communication_ui_calling_starting_captions">Untertitel werden gestartet...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">Untertitel können nicht gestartet werden</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Untertitel können nicht beendet werden</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Die gesprochene Sprache für Beschriftungen kann nicht festgelegt werden</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Unable to change caption language</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Die gesprochene Sprache kann nicht geändert werden</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Die Sprache der Untertitel kann nicht geändert werden</string>
 
 </resources>

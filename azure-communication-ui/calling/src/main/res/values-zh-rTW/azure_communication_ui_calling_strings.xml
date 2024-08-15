@@ -181,15 +181,17 @@
 
     <!--    Drawer-->
     <string name="azure_communication_ui_calling_drawer_next_content_description">下一步</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_leave_button">離開，按鈕</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_cancel_button">取消，按鈕</string>
 
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">即時輔助字幕</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">口語語言</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">輔助字幕語言</string>
-    <string name="azure_communication_ui_calling_starting_captions">Starting captions...</string>
+    <string name="azure_communication_ui_calling_starting_captions">正在啟動輔助字幕...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">無法啟動輔助字幕</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">無法停止輔助字幕</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">無法設定輔助字幕的口語語言</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Unable to change caption language</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">無法變更口說語言</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">無法變更輔助字幕語言</string>
 
 </resources>

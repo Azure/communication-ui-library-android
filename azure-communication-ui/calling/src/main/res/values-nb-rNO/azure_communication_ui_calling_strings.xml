@@ -181,15 +181,17 @@
 
     <!--    Drawer-->
     <string name="azure_communication_ui_calling_drawer_next_content_description">Neste</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_leave_button">Avslutt, knapp</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_cancel_button">Avbryt, knapp</string>
 
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">Underteksting</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Talespråk</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Språk for undertekst</string>
-    <string name="azure_communication_ui_calling_starting_captions">Starting captions...</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_start">Kan ikke starte undertekst</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Kan ikke stoppe undertekst</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Kan ikke angi talespråk for undertekst</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Unable to change caption language</string>
+    <string name="azure_communication_ui_calling_starting_captions">Starter teksting ...</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">Kan ikke starte teksting</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Kan ikke stoppe teksting</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Kan ikke endre talespråk</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Kan ikke endre språk for teksting</string>
 
 </resources>

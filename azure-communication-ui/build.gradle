@@ -5,7 +5,7 @@ buildscript {
     }
 
     ext {
-        call_library_version_name = '1.10.0-beta.1'
+        call_library_version_name = '1.10.0'
         chat_library_version_name = '1.0.0-beta.3'
 
         ui_library_version_code = getVersionCode()
@@ -46,7 +46,7 @@ buildscript {
             // and enable the beta features
 
             // Latest GA version of the SDK
-            azure_calling_sdk_version_ga = '2.10.0-beta.1'
+            azure_calling_sdk_version_ga = '2.10.0'
 
             // Newest version of the SDK, can be beta
             azure_calling_sdk_version_beta = '2.10.0-beta.1'
