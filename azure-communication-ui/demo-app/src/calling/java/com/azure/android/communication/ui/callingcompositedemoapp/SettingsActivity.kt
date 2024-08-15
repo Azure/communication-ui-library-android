@@ -63,6 +63,10 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var setupScreenOptionsCameraEnabledCheckbox: CheckBox
     private lateinit var setupScreenOptionsMicEnabledCheckbox: CheckBox
     private lateinit var defaultSpokenLanguageEditText: TextView
+    private lateinit var timerStartEditText: TextView
+    private lateinit var timerStopEditText: TextView
+    private lateinit var callInformationTitleEditText: TextView
+    private lateinit var callTimerStartDurationEditText: TextView
 
     private val sharedPreference by lazy {
         getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
@@ -159,6 +163,14 @@ class SettingsActivity : AppCompatActivity() {
         updateDisplayLeaveCallConfirmationCheckbox()
 
         defaultSpokenLanguageEditText.text = sharedPreference.getString(DEFAULT_SPOKEN_LANGUAGE_KEY, DEFAULT_SPOKEN_LANGUAGE)
+        timerStartEditText.text = sharedPreference.getString(TIMER_START_MRI_KEY, DEFAULT_TIMER_MRI_VALUE)
+        timerStopEditText.text = sharedPreference.getString(TIMER_STOP_MRI_KEY, DEFAULT_TIMER_MRI_VALUE)
+        callInformationTitleEditText.text = sharedPreference.getString(CALL_INFORMATION_TITLE, DEFAULT_CALL_INFORMATION_TITLE)
+        sharedPreference.getLong(TIMER_START_SECONDS_KEY, DEFAULT_TIMER_START_SECONDS).toString()?.let {
+            if (it.isNotEmpty() && it != "0") {
+                callTimerStartDurationEditText.text = it
+            }
+        }
 
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
             val selectedItem: String = supportedLanguages[position]
@@ -350,6 +362,10 @@ class SettingsActivity : AppCompatActivity() {
         setupScreenOptionsCameraEnabledCheckbox = findViewById(R.id.setup_screen_camera_check_box)
         setupScreenOptionsMicEnabledCheckbox = findViewById(R.id.setup_screen_mic_check_box)
         defaultSpokenLanguageEditText = findViewById(R.id.default_spoken_language_edit_text)
+        timerStartEditText = findViewById(R.id.timer_start_edit_text)
+        timerStopEditText = findViewById(R.id.timer_stop_edit_text)
+        callInformationTitleEditText = findViewById(R.id.call_information_title_edit_text)
+        callTimerStartDurationEditText = findViewById(R.id.timer_start_duration_edit_text)
 
         renderDisplayNameTextView.addTextChangedListener {
             saveRenderedDisplayName()
@@ -366,6 +382,41 @@ class SettingsActivity : AppCompatActivity() {
                 DEFAULT_SPOKEN_LANGUAGE_KEY,
                 defaultSpokenLanguageEditText.text.toString()
             ).apply()
+        }
+
+        timerStartEditText.addTextChangedListener {
+            sharedPreference.edit().putString(
+                TIMER_START_MRI_KEY,
+                timerStartEditText.text.toString()
+            ).apply()
+        }
+
+        timerStopEditText.addTextChangedListener {
+            sharedPreference.edit().putString(
+                TIMER_STOP_MRI_KEY,
+                timerStopEditText.text.toString()
+            ).apply()
+        }
+
+        callInformationTitleEditText.addTextChangedListener {
+            sharedPreference.edit().putString(
+                CALL_INFORMATION_TITLE,
+                callInformationTitleEditText.text.toString()
+            ).apply()
+        }
+
+        callTimerStartDurationEditText.addTextChangedListener {
+            if (callTimerStartDurationEditText.text.toString().isNotEmpty()) {
+                sharedPreference.edit().putLong(
+                    TIMER_START_SECONDS_KEY,
+                    callTimerStartDurationEditText.text.toString().toLong()
+                ).apply()
+            } else {
+                sharedPreference.edit().putLong(
+                    TIMER_START_SECONDS_KEY,
+                    DEFAULT_TIMER_START_SECONDS
+                ).apply()
+            }
         }
     }
 
@@ -661,3 +712,13 @@ const val DEFAULT_HIDE_CAPTIONS_UI = false
 
 const val DEFAULT_SPOKEN_LANGUAGE_KEY = "DEFAULT_SPOKEN_LANGUAGE"
 const val DEFAULT_SPOKEN_LANGUAGE = ""
+
+const val TIMER_START_MRI_KEY = "TIMER_START_MRI"
+const val TIMER_STOP_MRI_KEY = "TIMER_STOP_MRI"
+const val DEFAULT_TIMER_MRI_VALUE = ""
+
+const val CALL_INFORMATION_TITLE = "CALL_INFORMATION_TITLE"
+const val DEFAULT_CALL_INFORMATION_TITLE = ""
+
+const val TIMER_START_SECONDS_KEY = "TIMER_START_SECONDS"
+const val DEFAULT_TIMER_START_SECONDS = 0L

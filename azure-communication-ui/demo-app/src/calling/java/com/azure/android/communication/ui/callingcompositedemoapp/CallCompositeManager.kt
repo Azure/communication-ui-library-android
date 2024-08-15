@@ -22,8 +22,10 @@ import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
+import com.azure.android.communication.ui.calling.models.CallCompositeCallDurationTimer
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenHeaderOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
@@ -58,6 +60,7 @@ class CallCompositeManager(private val context: Context) {
     val callCompositeCallStateStateFlow = MutableStateFlow("")
     private var callComposite: CallComposite? = null
     private var incomingCallId: String? = null
+    private var callCompositeCallDurationTimer: CallCompositeCallDurationTimer? = null
 
     fun launch(
         applicationContext: Context,
@@ -280,15 +283,36 @@ class CallCompositeManager(private val context: Context) {
 
         val onDismissedEventHandler: ((CallCompositeDismissedEvent) -> Unit) = {
             toast(context, "onDismissed: errorCode: ${it.errorCode}, cause: ${it.cause?.message}.")
+            callCompositeCallDurationTimer?.reset()
         }
         callComposite.addOnDismissedEventHandler(onDismissedEventHandler)
+
+        callComposite.addOnRemoteParticipantLeaveEventHandler { event ->
+            toast(context, "Remote participant removed: ${event.identifiers.count()}")
+            event.identifiers.forEach {
+                Log.d(CallLauncherActivity.TAG, "Remote participant removed: ${it.rawId}")
+            }
+            SettingsFeatures.getStopTimerMRI()?.let { mri ->
+                if (event.identifiers.any { it.rawId == mri }) {
+                    callCompositeCallDurationTimer?.stop()
+                }
+            }
+        }
 
         callComposite.addOnPictureInPictureChangedEventHandler {
             toast(context, "isInPictureInPicture: " + it.isInPictureInPicture)
         }
 
-        callComposite.addOnRemoteParticipantJoinedEventHandler {
-            toast(context, message = "Joined ${it.identifiers.count()} remote participants")
+        callComposite.addOnRemoteParticipantJoinedEventHandler { event ->
+            toast(context, message = "Joined ${event.identifiers.count()} remote participants")
+            event.identifiers.forEach {
+                Log.d(CallLauncherActivity.TAG, "Remote participant joined: ${it.rawId}")
+            }
+            SettingsFeatures.getStartTimerMRI()?.let { mri ->
+                if (event.identifiers.any { it.rawId == mri }) {
+                    callCompositeCallDurationTimer?.start()
+                }
+            }
         }
 
         callComposite.addOnAudioSelectionChangedEventHandler { event ->
@@ -539,19 +563,39 @@ class CallCompositeManager(private val context: Context) {
 
     private fun callScreenOptions(): CallCompositeCallScreenOptions? {
         val callScreenOptions = CallCompositeCallScreenOptions()
-        val controlBarOptions = CallCompositeCallScreenControlBarOptions()
         var isUpdated = false
         if (SettingsFeatures.getDisplayLeaveCallConfirmationValue() != null) {
+            val controlBarOptions = CallCompositeCallScreenControlBarOptions()
             if (SettingsFeatures.getDisplayLeaveCallConfirmationValue() == true) {
                 controlBarOptions.setLeaveCallConfirmation(CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED)
             } else {
                 controlBarOptions.setLeaveCallConfirmation(CallCompositeLeaveCallConfirmationMode.ALWAYS_DISABLED)
             }
+            callScreenOptions.setControlBarOptions(controlBarOptions)
+            isUpdated = true
+        }
+
+        if (!SettingsFeatures.callScreenInformationTitle().isNullOrEmpty() || !SettingsFeatures.getStartTimerMRI().isNullOrEmpty()) {
+            val headerOptions = CallCompositeCallScreenHeaderOptions()
+            SettingsFeatures.callScreenInformationTitle()?.let {
+                if (it.isNotEmpty()) {
+                    headerOptions.title = it
+                }
+            }
+            SettingsFeatures.getStartTimerMRI()?.let {
+                if (it.isNotEmpty()) {
+                    callCompositeCallDurationTimer = CallCompositeCallDurationTimer()
+                    SettingsFeatures.getDefaultTimerStartDuration().let { elapsedDuration ->
+                        callCompositeCallDurationTimer?.elapsedDuration = elapsedDuration
+                    }
+                    headerOptions.timer = callCompositeCallDurationTimer
+                }
+            }
+            callScreenOptions.setHeaderOptions(headerOptions)
             isUpdated = true
         }
 
         if (isUpdated) {
-            callScreenOptions.setControlBarOptions(controlBarOptions)
             return callScreenOptions
         }
 

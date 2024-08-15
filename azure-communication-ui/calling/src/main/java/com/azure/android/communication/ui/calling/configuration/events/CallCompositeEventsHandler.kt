@@ -13,12 +13,16 @@ import com.azure.android.communication.ui.calling.models.CallCompositeUserReport
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallCancelledEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantLeaveEvent
 
 internal class CallCompositeEventsHandler {
     // mutableSet does preserve element iteration order
     private val errorHandlers = mutableSetOf<CallCompositeEventHandler<CallCompositeErrorEvent>>()
     private val remoteParticipantJoinedHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
+    private val remoteParticipantRemovedHandlers =
+        mutableSetOf<CallCompositeEventHandler<CallCompositeRemoteParticipantLeaveEvent>>()
+
     private val callStateHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
     private val exitEventHandlers =
@@ -52,6 +56,14 @@ internal class CallCompositeEventsHandler {
 
     fun removeOnRemoteParticipantJoinedEventHandler(handler: CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>) =
         remoteParticipantJoinedHandlers.remove(handler)
+
+    fun getOnRemoteParticipantRemovedHandlers() = remoteParticipantRemovedHandlers.asIterable()
+
+    fun addOnRemoteParticipantLeaveEventHandler(handler: CallCompositeEventHandler<CallCompositeRemoteParticipantLeaveEvent>) =
+        remoteParticipantRemovedHandlers.add(handler)
+
+    fun removeOnRemoteParticipantLeaveEventHandler(handler: CallCompositeEventHandler<CallCompositeRemoteParticipantLeaveEvent>) =
+        remoteParticipantRemovedHandlers.remove(handler)
 
     fun getOnAudioSelectionChangedEventHandlers() = audioSelectionChangedEventHandlers.asIterable()
 

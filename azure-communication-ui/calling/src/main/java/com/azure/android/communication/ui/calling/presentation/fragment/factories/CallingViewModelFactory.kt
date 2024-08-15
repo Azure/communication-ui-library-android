@@ -24,6 +24,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.menu.ParticipantMenuViewModel
+import com.azure.android.communication.ui.calling.presentation.manager.CallDurationManager
 /* <RTT_POC>
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttViewModel
 </RTT_POC> */
@@ -43,6 +44,8 @@ internal class CallingViewModelFactory(
     private val isTelecomManagerEnabled: Boolean = false,
     private val callType: CallType? = null,
     private val isCaptionsEnabled: Boolean = false,
+    private val callDurationManager: CallDurationManager? = null,
+    private val customTitle: String? = null,
 ) : BaseViewModelFactory(store) {
 
     /* <RTT_POC>
@@ -72,7 +75,7 @@ internal class CallingViewModelFactory(
     }
 
     val floatingHeaderViewModel by lazy {
-        InfoHeaderViewModel(enableMultitasking)
+        InfoHeaderViewModel(enableMultitasking, callDurationManager, customTitle)
     }
 
     val lobbyHeaderViewModel by lazy {

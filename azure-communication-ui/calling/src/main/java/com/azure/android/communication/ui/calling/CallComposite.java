@@ -34,6 +34,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositePictureInP
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotification;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
+import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantLeaveEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
@@ -43,6 +44,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeUserReport
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.PiPCallCompositeActivity;
+import com.azure.android.communication.ui.calling.presentation.manager.CallDurationManager;
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
 import com.azure.android.communication.ui.calling.redux.action.PipAction;
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKInitializer;
@@ -571,6 +573,35 @@ public final class CallComposite {
     }
 
     /**
+     * Add {@link CallCompositeEventHandler}.
+     *
+     * <pre>
+     *
+     * &#47;&#47; add remote participant leave handler
+     * callComposite.addOnRemoteParticipantLeaveEventHandler&#40;event -> {
+     *     &#47;&#47; Use call composite to set configurations for remote participant
+     * }&#41;;
+     *
+     * </pre>
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void addOnRemoteParticipantLeaveEventHandler(
+            final CallCompositeEventHandler<CallCompositeRemoteParticipantLeaveEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().addOnRemoteParticipantLeaveEventHandler(eventHandler);
+    }
+
+    /**
+     * Remove {@link CallCompositeEventHandler}.
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnRemoteParticipantLeaveEventHandler(
+            final CallCompositeEventHandler<CallCompositeRemoteParticipantLeaveEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().removeOnRemoteParticipantLeaveEventHandler(eventHandler);
+    }
+
+    /**
      * Add {@link CallCompositeEventHandler}
      *
      * @param eventHandler
@@ -733,6 +764,8 @@ public final class CallComposite {
         configuration.setApplicationContext(context.getApplicationContext());
         configuration.setCredential(remoteOptions.getCredential());
         configuration.setDisplayName(remoteOptions.getDisplayName());
+        final CallDurationManager durationManager = new CallDurationManager();
+        configuration.setTimerConfig(durationManager);
 
         initializeCallingSDK();
 
@@ -743,7 +776,8 @@ public final class CallComposite {
                 TestHelper.INSTANCE.getCallingSDK(),
                 TestHelper.INSTANCE.getVideoStreamRendererFactory(),
                 TestHelper.INSTANCE.getCoroutineContextProvider(),
-                logger
+                logger,
+                durationManager
         );
 
         showUI(context, isTest);
@@ -804,6 +838,9 @@ public final class CallComposite {
                 participants,
                 incomingCallId));
 
+        final CallDurationManager durationManager = new CallDurationManager();
+        configuration.setTimerConfig(durationManager);
+
         diContainer = new DependencyInjectionContainerImpl(
                 instanceId,
                 context.getApplicationContext(),
@@ -811,7 +848,8 @@ public final class CallComposite {
                 TestHelper.INSTANCE.getCallingSDK(),
                 TestHelper.INSTANCE.getVideoStreamRendererFactory(),
                 TestHelper.INSTANCE.getCoroutineContextProvider(),
-                logger
+                logger,
+                durationManager
         );
 
         showUI(context, isTest);

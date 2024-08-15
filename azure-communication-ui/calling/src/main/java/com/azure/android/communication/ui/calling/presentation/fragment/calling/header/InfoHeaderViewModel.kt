@@ -3,13 +3,18 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.header
 
+import com.azure.android.communication.ui.calling.presentation.manager.CallDurationManager
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.util.Timer
 import java.util.TimerTask
 
-internal class InfoHeaderViewModel(val multitaskingEnabled: Boolean) {
+internal class InfoHeaderViewModel(
+    val multitaskingEnabled: Boolean,
+    private val callDurationManager: CallDurationManager? = null,
+    private val customTitle: String? = null
+) {
     private lateinit var displayFloatingHeaderFlow: MutableStateFlow<Boolean>
     private lateinit var isOverlayDisplayedFlow: MutableStateFlow<Boolean>
     private lateinit var numberOfParticipantsFlow: MutableStateFlow<Int>
@@ -18,6 +23,14 @@ internal class InfoHeaderViewModel(val multitaskingEnabled: Boolean) {
     private lateinit var requestCallEndCallback: () -> Unit
 
     private var displayedOnLaunch = false
+
+    fun getCustomTitle(): String? {
+        return customTitle
+    }
+
+    fun getCallDurationManager(): CallDurationManager? {
+        return callDurationManager
+    }
 
     fun getIsOverlayDisplayedFlow(): StateFlow<Boolean> = isOverlayDisplayedFlow
 
