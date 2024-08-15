@@ -50,7 +50,7 @@ public class CallCompositeCallScreenHeaderOptions {
     }
 
     /**
-     * Get the custom title.
+     * Get the title.
      *
      * @return {@link String} The title.
      */

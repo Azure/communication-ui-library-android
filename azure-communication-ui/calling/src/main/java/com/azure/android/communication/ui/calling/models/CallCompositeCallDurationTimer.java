@@ -54,11 +54,14 @@ public class CallCompositeCallDurationTimer {
      * Get the elapsed duration of the timer.
      */
     public long getElapsedDuration() {
-        return elapsedDuration;
+        if (callTimerAPI == null) {
+            return elapsedDuration;
+        }
+        return callTimerAPI.getElapsedDuration();
     }
 
     /**
-     * Set the elapsed duration of the timer in seconds.
+     * Set the elapsed duration of the timer in ms.
      */
     public void setElapsedDuration(final long elapsedDuration) {
         this.elapsedDuration = elapsedDuration;

@@ -12,6 +12,7 @@ internal interface CallTimerAPI {
     fun onStart()
     fun onStop()
     fun onReset()
+    fun getElapsedDuration(): Long
 }
 
 internal class CallDurationManager : CallTimerAPI {
@@ -25,7 +26,9 @@ internal class CallDurationManager : CallTimerAPI {
         countDownTimer = object : CountDownTimer(Long.MAX_VALUE, 1000L) {
             @SuppressLint("DefaultLocale")
             override fun onTick(millisUntilFinished: Long) {
-                val secondsElapsed = ((Long.MAX_VALUE - millisUntilFinished) + initialDurationInMillis) / 1000
+                val msElapsed = ((Long.MAX_VALUE - millisUntilFinished) + initialDurationInMillis)
+                elapsedTime = msElapsed
+                val secondsElapsed = msElapsed / 1000
                 val hours = secondsElapsed / 3600
                 val minutes = (secondsElapsed % 3600) / 60
                 val seconds = secondsElapsed % 60
@@ -46,7 +49,8 @@ internal class CallDurationManager : CallTimerAPI {
         if (duration == 0L) {
             return
         }
-        initialDurationInMillis = duration * 1000
+        initialDurationInMillis = duration
+        elapsedTime = duration
     }
 
     override fun onStart() {
@@ -61,5 +65,9 @@ internal class CallDurationManager : CallTimerAPI {
         countDownTimer.cancel()
         elapsedTime = 0
         timerTickStateFlow.value = "00:00"
+    }
+
+    override fun getElapsedDuration(): Long {
+        return elapsedTime
     }
 }

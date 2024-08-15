@@ -361,7 +361,7 @@ class SettingsActivity : AppCompatActivity() {
         timerStartEditText = findViewById(R.id.timer_start_edit_text)
         timerStopEditText = findViewById(R.id.timer_stop_edit_text)
         callInformationTitleEditText = findViewById(R.id.call_information_title_edit_text)
-        callTimerStartDurationEditText = findViewById(R.id.timer_start_seconds_edit_text)
+        callTimerStartDurationEditText = findViewById(R.id.timer_start_duration_edit_text)
 
         renderDisplayNameTextView.addTextChangedListener {
             saveRenderedDisplayName()
