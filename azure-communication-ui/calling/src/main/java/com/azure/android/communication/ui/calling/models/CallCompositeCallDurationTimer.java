@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.models;
 import com.azure.android.communication.ui.calling.presentation.manager.CallTimerAPI;
 
 /**
- * Call duration timer for the CallCompositeCallScreenInformationHeader.
+ * Call duration timer for the CallCompositeCallScreenHeaderOptions.
  */
 public class CallCompositeCallDurationTimer {
 
@@ -61,9 +61,13 @@ public class CallCompositeCallDurationTimer {
     }
 
     /**
-     * Set the elapsed duration of the timer in ms.
+     * Set the elapsed duration of the timer.
+     *
+     * @param elapsedDuration The elapsed duration.
+     * @return The {@link CallCompositeCallDurationTimer} object itself.
      */
-    public void setElapsedDuration(final long elapsedDuration) {
+    public CallCompositeCallDurationTimer setElapsedDuration(final long elapsedDuration) {
         this.elapsedDuration = elapsedDuration;
+        return this;
     }
 }

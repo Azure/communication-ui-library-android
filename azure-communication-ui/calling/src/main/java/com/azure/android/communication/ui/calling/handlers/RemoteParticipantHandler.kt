@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.calling.handlers
 
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
-import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantLeaveEvent
+import com.azure.android.communication.ui.calling.models.buildCallCompositeRemoteParticipantLeaveEvent
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
@@ -59,7 +59,7 @@ internal class RemoteParticipantHandler(
                         com.azure.android.communication.common.CommunicationIdentifier.fromRawId(it)
                     }
                     val eventArgs =
-                        CallCompositeRemoteParticipantLeaveEvent(
+                        buildCallCompositeRemoteParticipantLeaveEvent(
                             identifiers
                         )
                     configuration.callCompositeEventsHandler.getOnRemoteParticipantRemovedHandlers()

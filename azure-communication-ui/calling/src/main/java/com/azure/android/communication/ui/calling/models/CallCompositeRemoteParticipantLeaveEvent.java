@@ -19,7 +19,7 @@ public final class CallCompositeRemoteParticipantLeaveEvent {
      *
      * @param identifiers {@link CommunicationIdentifier}.
      */
-    public CallCompositeRemoteParticipantLeaveEvent(final Collection<CommunicationIdentifier> identifiers) {
+    CallCompositeRemoteParticipantLeaveEvent(final Collection<CommunicationIdentifier> identifiers) {
         this.identifiers = identifiers;
     }
 
