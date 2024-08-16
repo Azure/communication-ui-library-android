@@ -67,6 +67,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var timerStopEditText: TextView
     private lateinit var callInformationTitleEditText: TextView
     private lateinit var callTimerStartDurationEditText: TextView
+    private lateinit var addCustomButtonsCheckbox: CheckBox
 
     private val sharedPreference by lazy {
         getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
@@ -161,6 +162,8 @@ class SettingsActivity : AppCompatActivity() {
         updateSubtitle()
 
         updateDisplayLeaveCallConfirmationCheckbox()
+
+        updateCustomButtonsCheckbox()
 
         defaultSpokenLanguageEditText.text = sharedPreference.getString(DEFAULT_SPOKEN_LANGUAGE_KEY, DEFAULT_SPOKEN_LANGUAGE)
         timerStartEditText.text = sharedPreference.getString(TIMER_START_MRI_KEY, DEFAULT_TIMER_MRI_VALUE)
@@ -320,6 +323,12 @@ class SettingsActivity : AppCompatActivity() {
                         view.isChecked
                     ).apply()
                 }
+                R.id.add_custom_buttons_option_checkbox -> {
+                    sharedPreference.edit().putBoolean(
+                        ADD_CUSTOM_BUTTONS_KEY,
+                        view.isChecked
+                    ).apply()
+                }
             }
         }
     }
@@ -366,6 +375,8 @@ class SettingsActivity : AppCompatActivity() {
         timerStopEditText = findViewById(R.id.timer_stop_edit_text)
         callInformationTitleEditText = findViewById(R.id.call_information_title_edit_text)
         callTimerStartDurationEditText = findViewById(R.id.timer_start_duration_edit_text)
+
+        addCustomButtonsCheckbox = findViewById(R.id.add_custom_buttons_option_checkbox)
 
         renderDisplayNameTextView.addTextChangedListener {
             saveRenderedDisplayName()
@@ -632,6 +643,13 @@ class SettingsActivity : AppCompatActivity() {
         )
         displayLeaveCallConfirmationCheckBox.isChecked = isChecked
     }
+
+    private fun updateCustomButtonsCheckbox() {
+        addCustomButtonsCheckbox.isChecked = sharedPreference.getBoolean(
+            ADD_CUSTOM_BUTTONS_KEY,
+            DEFAULT_ADD_CUSTOM_BUTTONS
+        )
+    }
 }
 
 // Shared pref Keys for language & rtl settings
@@ -722,3 +740,5 @@ const val DEFAULT_CALL_INFORMATION_TITLE = ""
 
 const val TIMER_START_SECONDS_KEY = "TIMER_START_SECONDS"
 const val DEFAULT_TIMER_START_SECONDS = 0L
+const val ADD_CUSTOM_BUTTONS_KEY = "ADD_CUSTOM_BUTTONS"
+const val DEFAULT_ADD_CUSTOM_BUTTONS = false
