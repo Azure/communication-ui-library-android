@@ -22,8 +22,8 @@ import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
-import com.azure.android.communication.ui.calling.models.CallCompositeCallDurationTimer
 import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeCallDurationTimer
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenHeaderOptions
@@ -598,24 +598,7 @@ class CallCompositeManager(private val context: Context) {
             isUpdated = true
         }
 
-        if (isUpdated) {
-            return callScreenOptions
-        var callScreenOptions: CallCompositeCallScreenOptions? = null
-        if (SettingsFeatures.getDisplayLeaveCallConfirmationValue() != null) {
-            callScreenOptions = CallCompositeCallScreenOptions()
-
-            val controlBarOptions = CallCompositeCallScreenControlBarOptions()
-            callScreenOptions.setControlBarOptions(controlBarOptions)
-
-            controlBarOptions.setLeaveCallConfirmation(
-                if (SettingsFeatures.getDisplayLeaveCallConfirmationValue() == true) CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED
-                else CallCompositeLeaveCallConfirmationMode.ALWAYS_DISABLED
-            )
-        }
-
         if (SettingsFeatures.getAddCustomButtons() == true) {
-            callScreenOptions = callScreenOptions ?: CallCompositeCallScreenOptions()
-
             if (callScreenOptions.controlBarOptions == null)
                 callScreenOptions.controlBarOptions = CallCompositeCallScreenControlBarOptions()
 
@@ -666,7 +649,11 @@ class CallCompositeManager(private val context: Context) {
             callScreenOptions.controlBarOptions.shareDiagnosticsButton = CallCompositeButtonOptions()
                 .setOnClickHandler { toast(it.context, "shareDiagnosticsButton clicked") }
         }
-        return callScreenOptions
+
+        if (isUpdated) {
+            return callScreenOptions
+        }
+        return null
     }
 
     private fun setupScreenOptions(): CallCompositeSetupScreenOptions? {
