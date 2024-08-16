@@ -8,7 +8,7 @@ import com.azure.android.communication.ui.calling.presentation.manager.CallTimer
 /**
  * Call duration timer for the CallCompositeCallScreenHeaderOptions.
  */
-public class CallCompositeCallDurationTimer {
+public final class CallCompositeCallDurationTimer {
 
     CallTimerAPI callTimerAPI;
     Long elapsedDuration;
