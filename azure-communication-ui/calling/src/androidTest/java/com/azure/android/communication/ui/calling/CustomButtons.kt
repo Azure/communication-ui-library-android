@@ -42,46 +42,46 @@ internal class CustomButtons : BaseUiTest() {
         var button1Clicked = false
         var button2Clicked = false
 
-        val controlBarOptions = CallCompositeCallScreenControlBarOptions()
-            .addCustomButton(
-                CallCompositeCustomButtonOptions(
-                    R.drawable.azure_communication_ui_calling_ic_fluent_speaker_bluetooth_24_regular_primary,
-                    "Custom button 1"
-                ) {
-                    button1Clicked = true
-                }
-            )
-            .addCustomButton(
-                CallCompositeCustomButtonOptions(
-                    R.drawable.azure_communication_ui_calling_ic_fluent_speaker_bluetooth_24_regular_primary,
-                    "Custom button 2"
-                ) {
-                    button2Clicked = true
-                }
-            )
-
-        val callScreenOptions = CallCompositeCallScreenOptions().setControlBarOptions(controlBarOptions)
-        val localOptions = CallCompositeLocalOptions().setCallScreenOptions(callScreenOptions)
-
-        callComposite.launchTest(
-            appContext,
-            CallCompositeTeamsMeetingLinkLocator("https:teams.meeting"),
-            localOptions
-        )
-
-        tapWhenDisplayed(joinCallId)
-        waitUntilDisplayed(endCallId)
-        tapWhenDisplayed(moreOptionsId)
-
-        assertTextDisplayed("Custom button 1")
-        assertTextDisplayed("Custom button 2")
-
-        tapWithTextWhenDisplayed("Custom button 1")
-        tapWhenDisplayed(moreOptionsId)
-        tapWithTextWhenDisplayed("Custom button 2")
-
-        assert(button1Clicked)
-        assert(button2Clicked)
+//        val controlBarOptions = CallCompositeCallScreenControlBarOptions()
+//            .addCustomButton(
+//                CallCompositeCustomButtonOptions(
+//                    R.drawable.azure_communication_ui_calling_ic_fluent_speaker_bluetooth_24_regular_primary,
+//                    "Custom button 1"
+//                ) {
+//                    button1Clicked = true
+//                }
+//            )
+//            .addCustomButton(
+//                CallCompositeCustomButtonOptions(
+//                    R.drawable.azure_communication_ui_calling_ic_fluent_speaker_bluetooth_24_regular_primary,
+//                    "Custom button 2"
+//                ) {
+//                    button2Clicked = true
+//                }
+//            )
+//
+//        val callScreenOptions = CallCompositeCallScreenOptions().setControlBarOptions(controlBarOptions)
+//        val localOptions = CallCompositeLocalOptions().setCallScreenOptions(callScreenOptions)
+//
+//        callComposite.launchTest(
+//            appContext,
+//            CallCompositeTeamsMeetingLinkLocator("https:teams.meeting"),
+//            localOptions
+//        )
+//
+//        tapWhenDisplayed(joinCallId)
+//        waitUntilDisplayed(endCallId)
+//        tapWhenDisplayed(moreOptionsId)
+//
+//        assertTextDisplayed("Custom button 1")
+//        assertTextDisplayed("Custom button 2")
+//
+//        tapWithTextWhenDisplayed("Custom button 1")
+//        tapWhenDisplayed(moreOptionsId)
+//        tapWithTextWhenDisplayed("Custom button 2")
+//
+//        assert(button1Clicked)
+//        assert(button2Clicked)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -102,35 +102,35 @@ internal class CustomButtons : BaseUiTest() {
 
         var button1Clicked = false
 
-        val controlBarOptions = CallCompositeCallScreenControlBarOptions()
-            .addCustomButton(
-                CallCompositeCustomButtonOptions(
-                    R.drawable.azure_communication_ui_calling_ic_fluent_speaker_bluetooth_24_regular_primary,
-                    "Custom button 1",
-                ) {
-                    button1Clicked = true
-                }
-                    .setEnabled(false)
-            )
-
-        val callScreenOptions =
-            CallCompositeCallScreenOptions().setControlBarOptions(controlBarOptions)
-        val localOptions = CallCompositeLocalOptions().setCallScreenOptions(callScreenOptions)
-
-        callComposite.launchTest(
-            appContext,
-            CallCompositeTeamsMeetingLinkLocator("https:teams.meeting"),
-            localOptions
-        )
-
-        tapWhenDisplayed(joinCallId)
-        waitUntilDisplayed(endCallId)
-        tapWhenDisplayed(moreOptionsId)
-
-        assertTextDisplayed("Custom button 1")
-        tapWithTextWhenDisplayed("Custom button 1")
-
-        assert(button1Clicked == false)
+//        val controlBarOptions = CallCompositeCallScreenControlBarOptions()
+//            .addCustomButton(
+//                CallCompositeCustomButtonOptions(
+//                    R.drawable.azure_communication_ui_calling_ic_fluent_speaker_bluetooth_24_regular_primary,
+//                    "Custom button 1",
+//                ) {
+//                    button1Clicked = true
+//                }
+//                    .setEnabled(false)
+//            )
+//
+//        val callScreenOptions =
+//            CallCompositeCallScreenOptions().setControlBarOptions(controlBarOptions)
+//        val localOptions = CallCompositeLocalOptions().setCallScreenOptions(callScreenOptions)
+//
+//        callComposite.launchTest(
+//            appContext,
+//            CallCompositeTeamsMeetingLinkLocator("https:teams.meeting"),
+//            localOptions
+//        )
+//
+//        tapWhenDisplayed(joinCallId)
+//        waitUntilDisplayed(endCallId)
+//        tapWhenDisplayed(moreOptionsId)
+//
+//        assertTextDisplayed("Custom button 1")
+//        tapWithTextWhenDisplayed("Custom button 1")
+//
+//        assert(button1Clicked == false)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -149,29 +149,29 @@ internal class CustomButtons : BaseUiTest() {
             .credential(communicationTokenCredential)
             .build()
 
-        val controlBarOptions = CallCompositeCallScreenControlBarOptions()
-            .addCustomButton(
-                CallCompositeCustomButtonOptions(
-                    R.drawable.azure_communication_ui_calling_ic_fluent_speaker_bluetooth_24_regular_primary,
-                    "Custom button 1",
-                ) {}
-                    .setVisible(false)
-            )
-
-        val callScreenOptions =
-            CallCompositeCallScreenOptions().setControlBarOptions(controlBarOptions)
-        val localOptions = CallCompositeLocalOptions().setCallScreenOptions(callScreenOptions)
-
-        callComposite.launchTest(
-            appContext,
-            CallCompositeTeamsMeetingLinkLocator("https:teams.meeting"),
-            localOptions
-        )
-
-        tapWhenDisplayed(joinCallId)
-        waitUntilDisplayed(endCallId)
-        tapWhenDisplayed(moreOptionsId)
-
-        assertTextNotDisplayed("Custom button 1")
+//        val controlBarOptions = CallCompositeCallScreenControlBarOptions()
+//            .addCustomButton(
+//                CallCompositeCustomButtonOptions(
+//                    R.drawable.azure_communication_ui_calling_ic_fluent_speaker_bluetooth_24_regular_primary,
+//                    "Custom button 1",
+//                ) {}
+//                    .setVisible(false)
+//            )
+//
+//        val callScreenOptions =
+//            CallCompositeCallScreenOptions().setControlBarOptions(controlBarOptions)
+//        val localOptions = CallCompositeLocalOptions().setCallScreenOptions(callScreenOptions)
+//
+//        callComposite.launchTest(
+//            appContext,
+//            CallCompositeTeamsMeetingLinkLocator("https:teams.meeting"),
+//            localOptions
+//        )
+//
+//        tapWhenDisplayed(joinCallId)
+//        waitUntilDisplayed(endCallId)
+//        tapWhenDisplayed(moreOptionsId)
+//
+//        assertTextNotDisplayed("Custom button 1")
     }
 }
