@@ -22,6 +22,7 @@ import com.azure.android.communication.ui.calling.presentation.manager.AudioFocu
 import com.azure.android.communication.ui.calling.presentation.manager.AudioModeManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
+import com.azure.android.communication.ui.calling.presentation.manager.CallDurationManager
 import com.azure.android.communication.ui.calling.presentation.manager.CompositeExitManager
 import com.azure.android.communication.ui.calling.presentation.manager.CameraStatusHook
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
@@ -78,7 +79,8 @@ internal class DependencyInjectionContainerImpl(
     private val customCallingSDK: CallingSDK?,
     private val customVideoStreamRendererFactory: VideoStreamRendererFactory?,
     private val customCoroutineContextProvider: CoroutineContextProvider?,
-    private val defaultLogger: Logger
+    private val defaultLogger: Logger,
+    private val durationManager: CallDurationManager? = null
 ) : DependencyInjectionContainer {
     private val callingSDKInitializer by lazy {
         callComposite.getCallingSDKInitializer()
@@ -114,6 +116,10 @@ internal class DependencyInjectionContainerImpl(
 
     override val errorHandler by lazy {
         ErrorHandler(configuration, appStore)
+    }
+
+    override val callDurationManager by lazy {
+        durationManager
     }
 
     override val videoViewManager by lazy {
