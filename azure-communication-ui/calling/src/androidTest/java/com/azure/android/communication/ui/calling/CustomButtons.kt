@@ -5,19 +5,8 @@ package com.azure.android.communication.ui.calling
 
 import androidx.test.platform.app.InstrumentationRegistry
 import com.azure.android.communication.BaseUiTest
-import com.azure.android.communication.assertTextDisplayed
-import com.azure.android.communication.assertTextNotDisplayed
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
-import com.azure.android.communication.tapWhenDisplayed
-import com.azure.android.communication.tapWithTextWhenDisplayed
-import com.azure.android.communication.ui.calling.implementation.R
-import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
-import com.azure.android.communication.waitUntilDisplayed
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
