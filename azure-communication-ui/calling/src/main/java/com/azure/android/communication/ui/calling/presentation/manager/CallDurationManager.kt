@@ -7,20 +7,18 @@ import android.annotation.SuppressLint
 import android.os.CountDownTimer
 import kotlinx.coroutines.flow.MutableStateFlow
 
-internal interface CallTimerAPI {
-    fun startDuration(duration: Long = 0L)
+internal interface CallTimer {
     fun onStart()
     fun onStop()
     fun onReset()
     fun getElapsedDuration(): Long
 }
 
-internal class CallDurationManager : CallTimerAPI {
+internal class CallDurationManager(private var initialElapsedDurationInMillis: Long = 0) : CallTimer {
     private var countDownTimer: CountDownTimer
-    private var initialDurationInMillis: Long = 0
-    private var elapsedTime: Long = 0
-    private var stoppedDuration: Long = 0
-    private var millisUntilFinishedLocal: Long = 0
+    private var elapsedTime: Long = initialElapsedDurationInMillis
+    private var msStopped: Long = 0
+    private var msUntilFinished: Long = 0
 
     val timerTickStateFlow = MutableStateFlow("")
 
@@ -28,8 +26,8 @@ internal class CallDurationManager : CallTimerAPI {
         countDownTimer = object : CountDownTimer(Long.MAX_VALUE, 1000L) {
             @SuppressLint("DefaultLocale")
             override fun onTick(millisUntilFinished: Long) {
-                millisUntilFinishedLocal = millisUntilFinished
-                val msElapsed = ((Long.MAX_VALUE - millisUntilFinished) + initialDurationInMillis + stoppedDuration)
+                msUntilFinished = millisUntilFinished
+                val msElapsed = ((Long.MAX_VALUE - millisUntilFinished) + initialElapsedDurationInMillis + msStopped)
                 elapsedTime = msElapsed
                 val secondsElapsed = msElapsed / 1000
                 val hours = secondsElapsed / 3600
@@ -48,27 +46,19 @@ internal class CallDurationManager : CallTimerAPI {
         }
     }
 
-    override fun startDuration(duration: Long) {
-        if (duration == 0L) {
-            return
-        }
-        initialDurationInMillis = duration
-        elapsedTime = duration
-    }
-
     override fun onStart() {
         countDownTimer.start()
     }
 
     override fun onStop() {
         countDownTimer.cancel()
-        stoppedDuration += Long.MAX_VALUE - millisUntilFinishedLocal
+        msStopped += Long.MAX_VALUE - msUntilFinished
     }
 
     override fun onReset() {
         countDownTimer.cancel()
         elapsedTime = 0
-        stoppedDuration = 0
+        msStopped = 0
         timerTickStateFlow.value = "00:00"
     }
 

@@ -17,8 +17,6 @@ import com.azure.android.communication.ui.calling.models.CallCompositeLocalizati
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions
-import com.azure.android.communication.ui.calling.models.setManager
-import com.azure.android.communication.ui.calling.presentation.manager.CallDurationManager
 
 internal class CallCompositeConfiguration {
     /*  <DEFAULT_AUDIO_MODE:0>
@@ -43,11 +41,4 @@ internal class CallCompositeConfiguration {
     var capabilitiesChangedNotificationMode: CallCompositeCapabilitiesChangedNotificationMode? = null
     var setupScreenOptions: CallCompositeSetupScreenOptions? = null
     var identifier: CommunicationIdentifier? = null
-
-    fun setTimerConfig(timerConfig: CallDurationManager) {
-        callScreenOptions?.headerOptions?.timer?.let {
-            timerConfig.startDuration(it.elapsedDuration)
-        }
-        callScreenOptions?.headerOptions?.timer?.setManager(timerConfig)
-    }
 }

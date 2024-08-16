@@ -30,6 +30,7 @@ import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
 import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent
+import com.azure.android.communication.ui.calling.models.setCallTimer
 import com.azure.android.communication.ui.calling.onExit
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.support.SupportView
@@ -86,6 +87,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     private val logger get() = container.logger
     private val compositeManager get() = container.compositeExitManager
     private val compositeDataModel get() = container.captionsDataManager
+    private val callDurationManager get() = container.callDurationManager
 
     private lateinit var visibilityStatusFlow: MutableStateFlow<VisibilityStatus>
 
@@ -117,6 +119,8 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         configuration.themeConfig?.let {
             theme.applyStyle(it, true)
         }
+
+        configuration.callScreenOptions?.headerOptions?.timer?.setCallTimer(callDurationManager)
 
         setContentView(R.layout.azure_communication_ui_calling_activity_call_composite)
 
@@ -214,6 +218,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
             if (isFinishing && store.getCurrentState().navigationState.navigationState == NavigationStatus.EXIT) {
                 store.dispatch(CallingAction.CallEndRequested())
+                callDurationManager.onReset()
                 compositeManager.onCompositeDestroy()
                 CallCompositeInstanceManager.removeCallComposite(instanceId)
             }

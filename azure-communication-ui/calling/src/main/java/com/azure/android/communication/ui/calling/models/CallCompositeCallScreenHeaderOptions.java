@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.models;
 /**
  * Options for the CallCompositeCallScreenHeaderOptions.
  */
-public class CallCompositeCallScreenHeaderOptions {
+public final class CallCompositeCallScreenHeaderOptions {
     private CallCompositeCallDurationTimer timer;
     private String title;
 

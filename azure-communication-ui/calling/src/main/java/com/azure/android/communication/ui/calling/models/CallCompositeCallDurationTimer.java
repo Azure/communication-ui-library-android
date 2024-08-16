@@ -3,14 +3,13 @@
 
 package com.azure.android.communication.ui.calling.models;
 
-import com.azure.android.communication.ui.calling.presentation.manager.CallTimerAPI;
+import com.azure.android.communication.ui.calling.presentation.manager.CallTimer;
 
 /**
  * Call duration timer for the CallCompositeCallScreenHeaderOptions.
  */
-public class CallCompositeCallDurationTimer {
-
-    CallTimerAPI callTimerAPI;
+public final class CallCompositeCallDurationTimer {
+    CallTimer callTimer;
     Long elapsedDuration;
 
     /**
@@ -24,40 +23,40 @@ public class CallCompositeCallDurationTimer {
      * By default, the timer will start with a duration of previous stop.
      */
     public void start() {
-        if (callTimerAPI == null) {
+        if (callTimer == null) {
             return;
         }
-        callTimerAPI.onStart();
+        callTimer.onStart();
     }
 
     /**
      * Stop the timer.
      */
     public void stop() {
-        if (callTimerAPI == null) {
+        if (callTimer == null) {
             return;
         }
-        callTimerAPI.onStop();
+        callTimer.onStop();
     }
 
     /**
      * Reset the timer.
      */
     public void reset() {
-        if (callTimerAPI == null) {
+        if (callTimer == null) {
             return;
         }
-        callTimerAPI.onReset();
+        callTimer.onReset();
     }
 
     /**
      * Get the elapsed duration of the timer.
      */
     public long getElapsedDuration() {
-        if (callTimerAPI == null) {
+        if (callTimer == null) {
             return elapsedDuration;
         }
-        return callTimerAPI.getElapsedDuration();
+        return callTimer.getElapsedDuration();
     }
 
     /**

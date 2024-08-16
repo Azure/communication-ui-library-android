@@ -79,8 +79,7 @@ internal class DependencyInjectionContainerImpl(
     private val customCallingSDK: CallingSDK?,
     private val customVideoStreamRendererFactory: VideoStreamRendererFactory?,
     private val customCoroutineContextProvider: CoroutineContextProvider?,
-    private val defaultLogger: Logger,
-    private val durationManager: CallDurationManager? = null
+    private val defaultLogger: Logger
 ) : DependencyInjectionContainer {
     private val callingSDKInitializer by lazy {
         callComposite.getCallingSDKInitializer()
@@ -119,7 +118,7 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val callDurationManager by lazy {
-        durationManager
+        CallDurationManager(configuration.callScreenOptions?.headerOptions?.timer?.elapsedDuration ?: 0)
     }
 
     override val videoViewManager by lazy {
