@@ -181,8 +181,8 @@ dando consentimento para que esta reunião seja transcrita.
 
     <!--    Drawer-->
     <string name="azure_communication_ui_calling_drawer_next_content_description">Avançar</string>
-    <string name="azure_communication_ui_calling_leave_confirm_drawer_leave_button">Leave, Button</string>
-    <string name="azure_communication_ui_calling_leave_confirm_drawer_cancel_button">Cancel, Button</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_leave_button">Sair, Botão</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_cancel_button">Cancelar, Botão</string>
 
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">Legendas ao vivo</string>

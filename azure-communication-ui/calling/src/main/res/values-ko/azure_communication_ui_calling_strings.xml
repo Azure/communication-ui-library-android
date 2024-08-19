@@ -181,8 +181,8 @@
 
     <!--    Drawer-->
     <string name="azure_communication_ui_calling_drawer_next_content_description">다음</string>
-    <string name="azure_communication_ui_calling_leave_confirm_drawer_leave_button">Leave, Button</string>
-    <string name="azure_communication_ui_calling_leave_confirm_drawer_cancel_button">Cancel, Button</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_leave_button">나가기, 버튼</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_cancel_button">취소, 버튼</string>
 
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">라이브 캡션</string>
