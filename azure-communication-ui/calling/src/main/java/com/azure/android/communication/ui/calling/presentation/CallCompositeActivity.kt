@@ -86,6 +86,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     private val logger get() = container.logger
     private val compositeManager get() = container.compositeExitManager
     private val compositeDataModel get() = container.captionsDataManager
+    private val callDurationManager get() = container.callDurationManager
 
     private lateinit var visibilityStatusFlow: MutableStateFlow<VisibilityStatus>
 
@@ -214,6 +215,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
             if (isFinishing && store.getCurrentState().navigationState.navigationState == NavigationStatus.EXIT) {
                 store.dispatch(CallingAction.CallEndRequested())
+                callDurationManager.onReset()
                 compositeManager.onCompositeDestroy()
                 CallCompositeInstanceManager.removeCallComposite(instanceId)
             }

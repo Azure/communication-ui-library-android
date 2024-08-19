@@ -80,7 +80,7 @@ internal class DependencyInjectionContainerImpl(
     private val customVideoStreamRendererFactory: VideoStreamRendererFactory?,
     private val customCoroutineContextProvider: CoroutineContextProvider?,
     private val defaultLogger: Logger,
-    private val durationManager: CallDurationManager? = null
+    private val durationManager: CallDurationManager
 ) : DependencyInjectionContainer {
     private val callingSDKInitializer by lazy {
         callComposite.getCallingSDKInitializer()

@@ -87,5 +87,5 @@ internal interface DependencyInjectionContainer {
     val capabilitiesManager: CapabilitiesManager
     val captionsDataManager: CaptionsDataManager
 
-    val callDurationManager: CallDurationManager?
+    val callDurationManager: CallDurationManager
 }
