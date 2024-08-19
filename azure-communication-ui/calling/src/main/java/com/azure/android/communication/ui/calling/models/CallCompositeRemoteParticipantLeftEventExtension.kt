@@ -5,8 +5,10 @@ package com.azure.android.communication.ui.calling.models
 
 import com.azure.android.communication.common.CommunicationIdentifier
 
-internal fun buildCallCompositeRemoteParticipantLeaveEvent(
+internal fun buildCallCompositeRemoteParticipantLeftEvent(
     identifiers: List<CommunicationIdentifier>,
-): CallCompositeRemoteParticipantLeaveEvent {
-    return CallCompositeRemoteParticipantLeaveEvent(identifiers)
+): CallCompositeRemoteParticipantLeftEvent {
+    return CallCompositeRemoteParticipantLeftEvent(
+        identifiers
+    )
 }
