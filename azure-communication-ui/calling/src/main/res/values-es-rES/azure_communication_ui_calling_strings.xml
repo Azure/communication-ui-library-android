@@ -181,15 +181,17 @@
 
     <!--    Drawer-->
     <string name="azure_communication_ui_calling_drawer_next_content_description">Siguiente</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_leave_button">Salir, botón</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_cancel_button">Cancelar, botón</string>
 
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">Subtítulos en directo</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Idioma hablado</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Idioma de subtítulos</string>
-    <string name="azure_communication_ui_calling_starting_captions">Starting captions...</string>
+    <string name="azure_communication_ui_calling_starting_captions">Iniciando subtítulos...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">No se pueden iniciar los subtítulos</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">No se pueden detener los subtítulos</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">No se puede establecer el idioma hablado para los subtítulos</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Unable to change caption language</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">No se puede cambiar el idioma hablado</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">No se puede cambiar el idioma de los subtítulos</string>
 
 </resources>

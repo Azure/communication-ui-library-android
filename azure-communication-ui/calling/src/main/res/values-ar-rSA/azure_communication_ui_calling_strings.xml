@@ -181,15 +181,17 @@
 
     <!--    Drawer-->
     <string name="azure_communication_ui_calling_drawer_next_content_description">التالي</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_leave_button">مغادرة، زر</string>
+    <string name="azure_communication_ui_calling_leave_confirm_drawer_cancel_button">إلغاء الأمر، الزر</string>
 
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">نص الكلام المباشر</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">اللغة المنطوقة</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">لغة التسمية التوضيحية</string>
-    <string name="azure_communication_ui_calling_starting_captions">Starting captions...</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_start">يتعذر بدء تشغيل التسميات التوضيحية</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">يتعذر إيقاف التسميات التوضيحية</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">يتعذر تعيين اللغة المنطوقة للتسميات التوضيحية</string>
-    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Unable to change caption language</string>
+    <string name="azure_communication_ui_calling_starting_captions">يتم الآن بدء التسميات التوضيحية...</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_start">يتعذّر بدء تشغيل التسميات التوضيحية</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_stop">يتعذّر إيقاف التسميات التوضيحية</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">يتعذّر تغيير اللغة المنطوقة</string>
+    <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">يتعذّر تغيير لغة التسمية التوضيحية</string>
 
 </resources>

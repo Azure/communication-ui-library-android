@@ -3,26 +3,27 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.setup.components
 
+import com.azure.android.communication.ui.calling.logger.DefaultLogger
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
-import com.azure.android.communication.ui.calling.redux.state.ReduxState
-import com.azure.android.communication.ui.calling.redux.state.PermissionState
-import com.azure.android.communication.ui.calling.redux.state.CameraState
-import com.azure.android.communication.ui.calling.redux.state.AudioState
-import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
-import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
-import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
-import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
-import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
+import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
+import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.BluetoothState
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingState
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraState
+import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
+import com.azure.android.communication.ui.calling.redux.state.PermissionState
+import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
+import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import org.junit.Assert
-
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.any
 import org.mockito.kotlin.argThat
@@ -34,6 +35,9 @@ import org.mockito.kotlin.verify
 @RunWith(MockitoJUnitRunner::class)
 internal class SetupControlBarViewModelUnitTest {
 
+    @Mock
+    private lateinit var mockLogger: DefaultLogger
+
     @Test
     fun setupControlBarViewModel_init_audioPermission_notAsked_then_dispatchAudioPermissionRequested() {
         // Arrange
@@ -41,7 +45,7 @@ internal class SetupControlBarViewModelUnitTest {
             on { dispatch(any()) } doAnswer { }
         }
         val setupControlBarViewModel =
-            SetupControlBarViewModel(mockAppStore::dispatch)
+            SetupControlBarViewModel(mockAppStore::dispatch, mockLogger)
 
         // Act
         setupControlBarViewModel.init(
@@ -80,7 +84,7 @@ internal class SetupControlBarViewModelUnitTest {
         }
 
         val setupControlBarViewModel =
-            SetupControlBarViewModel(mockAppStore::dispatch)
+            SetupControlBarViewModel(mockAppStore::dispatch, mockLogger)
 
         // Act
         setupControlBarViewModel.init(
@@ -117,7 +121,7 @@ internal class SetupControlBarViewModelUnitTest {
         // Arrange
         val mockAppStore = mock<AppStore<ReduxState>> { }
         val setupControlBarViewModel =
-            SetupControlBarViewModel(mockAppStore::dispatch)
+            SetupControlBarViewModel(mockAppStore::dispatch, mockLogger)
 
         // Act
         setupControlBarViewModel.init(
@@ -171,7 +175,7 @@ internal class SetupControlBarViewModelUnitTest {
         // Arrange
         val mockAppStore = mock<AppStore<ReduxState>> { }
         val setupControlBarViewModel =
-            SetupControlBarViewModel(mockAppStore::dispatch)
+            SetupControlBarViewModel(mockAppStore::dispatch, mockLogger)
 
         // Act
         setupControlBarViewModel.init(
@@ -225,7 +229,7 @@ internal class SetupControlBarViewModelUnitTest {
         // Arrange
         val mockAppStore = mock<AppStore<ReduxState>> { }
         val setupControlBarViewModel =
-            SetupControlBarViewModel(mockAppStore::dispatch)
+            SetupControlBarViewModel(mockAppStore::dispatch, mockLogger)
 
         // Act
         setupControlBarViewModel.init(
@@ -279,7 +283,7 @@ internal class SetupControlBarViewModelUnitTest {
         // Arrange
         val mockAppStore = mock<AppStore<ReduxState>> { }
         val setupControlBarViewModel =
-            SetupControlBarViewModel(mockAppStore::dispatch)
+            SetupControlBarViewModel(mockAppStore::dispatch, mockLogger)
 
         // Act
         setupControlBarViewModel.init(
@@ -305,7 +309,7 @@ internal class SetupControlBarViewModelUnitTest {
 
         Assert.assertTrue(setupControlBarViewModel.cameraIsEnabled.value)
         Assert.assertTrue(setupControlBarViewModel.micIsEnabled.value)
-        Assert.assertTrue(setupControlBarViewModel.deviceIsEnabled.value)
+        Assert.assertTrue(setupControlBarViewModel.audioDeviceButtonEnabled.value)
 
         setupControlBarViewModel.update(
             PermissionState(
@@ -329,7 +333,7 @@ internal class SetupControlBarViewModelUnitTest {
 
         Assert.assertFalse(setupControlBarViewModel.cameraIsEnabled.value)
         Assert.assertFalse(setupControlBarViewModel.micIsEnabled.value)
-        Assert.assertFalse(setupControlBarViewModel.deviceIsEnabled.value)
+        Assert.assertFalse(setupControlBarViewModel.audioDeviceButtonEnabled.value)
     }
 
     private fun initViewModel(

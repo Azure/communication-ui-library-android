@@ -1,6 +1,6 @@
 # Azure Communication UI Calling Release History
 
-## 1.10.0-beta.1 (*)
+## 1.10.0 (2024-08-12)
 
 ### Features
 - Captions support

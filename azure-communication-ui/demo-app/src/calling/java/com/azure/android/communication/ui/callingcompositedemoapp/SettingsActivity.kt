@@ -63,6 +63,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var setupScreenOptionsCameraEnabledCheckbox: CheckBox
     private lateinit var setupScreenOptionsMicEnabledCheckbox: CheckBox
     private lateinit var defaultSpokenLanguageEditText: TextView
+    private lateinit var addCustomButtonsCheckbox: CheckBox
 
     private val sharedPreference by lazy {
         getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
@@ -157,6 +158,8 @@ class SettingsActivity : AppCompatActivity() {
         updateSubtitle()
 
         updateDisplayLeaveCallConfirmationCheckbox()
+
+        updateCustomButtonsCheckbox()
 
         defaultSpokenLanguageEditText.text = sharedPreference.getString(DEFAULT_SPOKEN_LANGUAGE_KEY, DEFAULT_SPOKEN_LANGUAGE)
 
@@ -308,6 +311,12 @@ class SettingsActivity : AppCompatActivity() {
                         view.isChecked
                     ).apply()
                 }
+                R.id.add_custom_buttons_option_checkbox -> {
+                    sharedPreference.edit().putBoolean(
+                        ADD_CUSTOM_BUTTONS_KEY,
+                        view.isChecked
+                    ).apply()
+                }
             }
         }
     }
@@ -350,6 +359,8 @@ class SettingsActivity : AppCompatActivity() {
         setupScreenOptionsCameraEnabledCheckbox = findViewById(R.id.setup_screen_camera_check_box)
         setupScreenOptionsMicEnabledCheckbox = findViewById(R.id.setup_screen_mic_check_box)
         defaultSpokenLanguageEditText = findViewById(R.id.default_spoken_language_edit_text)
+
+        addCustomButtonsCheckbox = findViewById(R.id.add_custom_buttons_option_checkbox)
 
         renderDisplayNameTextView.addTextChangedListener {
             saveRenderedDisplayName()
@@ -581,6 +592,13 @@ class SettingsActivity : AppCompatActivity() {
         )
         displayLeaveCallConfirmationCheckBox.isChecked = isChecked
     }
+
+    private fun updateCustomButtonsCheckbox() {
+        addCustomButtonsCheckbox.isChecked = sharedPreference.getBoolean(
+            ADD_CUSTOM_BUTTONS_KEY,
+            DEFAULT_ADD_CUSTOM_BUTTONS
+        )
+    }
 }
 
 // Shared pref Keys for language & rtl settings
@@ -661,3 +679,6 @@ const val DEFAULT_HIDE_CAPTIONS_UI = false
 
 const val DEFAULT_SPOKEN_LANGUAGE_KEY = "DEFAULT_SPOKEN_LANGUAGE"
 const val DEFAULT_SPOKEN_LANGUAGE = ""
+
+const val ADD_CUSTOM_BUTTONS_KEY = "ADD_CUSTOM_BUTTONS"
+const val DEFAULT_ADD_CUSTOM_BUTTONS = false
