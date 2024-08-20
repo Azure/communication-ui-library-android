@@ -9,12 +9,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/azure_communication_ui_calling_color_background"
-    android:layout_margin="15dp"
+    android:layout_marginEnd="15dp"
+    android:layout_marginVertical="15dp"
+    android:layout_marginStart="15dp"
     >
 
         <ImageButton
             android:id="@+id/azure_communication_ui_call_cameraToggle"
-            android:layout_width="60dp"
+            android:layout_width="50dp"
             android:layout_height="60dp"
             android:background="@color/azure_communication_ui_calling_color_button_background_transparent"
             android:contentDescription="@string/azure_communication_ui_calling_view_button_toggle_video_accessibility_label"
@@ -31,7 +33,7 @@
 
         <ImageButton
             android:id="@+id/azure_communication_ui_call_call_audio"
-            android:layout_width="60dp"
+            android:layout_width="50dp"
             android:layout_height="60dp"
             android:accessibilityTraversalAfter="@id/azure_communication_ui_call_cameraToggle"
             android:background="@color/azure_communication_ui_calling_color_button_background_transparent"
@@ -49,7 +51,7 @@
         <ImageButton
             android:id="@+id/azure_communication_ui_call_audio_device_button"
             style="@style/Widget.FluentUI.Button"
-            android:layout_width="60dp"
+            android:layout_width="50dp"
             android:layout_height="60dp"
             android:accessibilityTraversalAfter="@id/azure_communication_ui_call_call_audio"
             android:background="@color/azure_communication_ui_calling_color_button_background_transparent"
@@ -67,7 +69,7 @@
         <ImageButton
             android:id="@+id/azure_communication_ui_call_control_bar_more"
             style="@style/Widget.FluentUI.Button"
-            android:layout_width="60dp"
+            android:layout_width="50dp"
             android:layout_height="60dp"
             android:accessibilityTraversalAfter="@id/azure_communication_ui_call_audio_device_button"
             android:background="@color/azure_communication_ui_calling_color_button_background_transparent"

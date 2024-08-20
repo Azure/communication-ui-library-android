@@ -12,6 +12,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.calling.implementation.R
+import com.azure.android.communication.ui.calling.logger.Logger
+import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
+import com.azure.android.communication.ui.calling.models.createButtonClickEvent
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
 import com.azure.android.communication.ui.calling.utilities.BottomCellItemType
@@ -21,9 +24,10 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @SuppressLint("ViewConstructor")
-internal class CaptionsContainerView(
+internal class CaptionsListView(
     context: Context,
-    private val viewModel: CaptionsListViewModel
+    private val viewModel: CaptionsListViewModel,
+    private val logger: Logger,
 ) : RelativeLayout(context) {
     private var recyclerView: RecyclerView
     private lateinit var menuDrawer: DrawerDialog
@@ -123,54 +127,59 @@ internal class CaptionsContainerView(
         val canTurnOnCaptions = viewModel.canTurnOnCaptionsStateFlow.value
 
         val items = mutableListOf<BottomCellItem>()
-        items.add(
-            BottomCellItem(
-                icon = ContextCompat.getDrawable(
-                    context,
-                    R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_selector
-                ),
-                title = context.getString(R.string.azure_communication_ui_calling_live_captions_title),
-                "",
-                null,
-                null,
-                null,
-                null,
-                null,
-                isOnHold = null,
-                BottomCellItemType.BottomMenuAction,
-                onClickAction = null,
-                showToggleButton = true,
-                enableToggleButton = canTurnOnCaptions,
-                isToggleButtonOn = isCaptionsActive,
-                toggleButtonAction = { _, isChecked ->
-                    viewModel.toggleCaptions(isChecked)
-                }
+        if (viewModel.liveCaptionsToggleButton?.isVisible != false) {
+            items.add(
+                BottomCellItem(
+                    icon = ContextCompat.getDrawable(
+                        context, R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_selector
+                    ),
+                    title = context.getString(R.string.azure_communication_ui_calling_live_captions_title),
+                    contentDescription = "",
+                    accessoryImage = null,
+                    accessoryColor = null,
+                    accessoryImageDescription = null,
+                    isChecked = null,
+                    participantViewData = null,
+                    isOnHold = null,
+                    itemType = BottomCellItemType.BottomMenuAction,
+                    onClickAction = null,
+                    showToggleButton = true,
+                    isToggleButtonOn = isCaptionsActive,
+                    isEnabled = canTurnOnCaptions && viewModel.liveCaptionsToggleButton?.isEnabled ?: true,
+                    toggleButtonAction = { _, isChecked ->
+                        callButtonCustomOnClick(viewModel.liveCaptionsToggleButton)
+                        viewModel.toggleCaptions(isChecked)
+                    }
+                )
             )
-        )
-        items.add(
-            BottomCellItem(
-                icon = ContextCompat.getDrawable(
-                    context,
-                    R.drawable.azure_communication_ui_calling_ic_fluent_spoken_language_24_selector
-                ),
-                title = context.getString(R.string.azure_communication_ui_calling_captions_spoken_language_title),
-                "",
-                null,
-                null,
-                null,
-                null,
-                null,
-                isOnHold = null,
-                BottomCellItemType.BottomMenuAction,
-                showRightArrow = true,
-                subtitle = LocaleHelper.getLocaleDisplayName(activeSpokenLanguage),
-                onClickAction = {
-                    viewModel.openSpokenLanguageSelection()
-                },
-                isEnabled = isCaptionsActive
+        }
+        if (viewModel.spokenLanguageButtonOptions?.isVisible != false) {
+            items.add(
+                BottomCellItem(
+                    icon = ContextCompat.getDrawable(
+                        context,
+                        R.drawable.azure_communication_ui_calling_ic_fluent_spoken_language_24_selector
+                    ),
+                    title = context.getString(R.string.azure_communication_ui_calling_captions_spoken_language_title),
+                    "",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    isOnHold = null,
+                    BottomCellItemType.BottomMenuAction,
+                    showRightArrow = true,
+                    subtitle = LocaleHelper.getLocaleDisplayName(activeSpokenLanguage),
+                    onClickAction = {
+                        callButtonCustomOnClick(viewModel.spokenLanguageButtonOptions)
+                        viewModel.openSpokenLanguageSelection()
+                    },
+                    isEnabled = isCaptionsActive && viewModel.spokenLanguageButtonOptions?.isEnabled ?: true
+                )
             )
-        )
-        if (isTranscriptionEnabled) {
+        }
+        if (isTranscriptionEnabled && viewModel.captionsLanguageButtonOptions?.isVisible != false) {
             items.add(
                 BottomCellItem(
                     icon = ContextCompat.getDrawable(
@@ -189,13 +198,24 @@ internal class CaptionsContainerView(
                     showRightArrow = true,
                     subtitle = LocaleHelper.getLocaleDisplayName(activeCaptionLanguage),
                     onClickAction = {
+                        callButtonCustomOnClick(viewModel.captionsLanguageButtonOptions)
                         viewModel.openCaptionLanguageSelection()
                     },
-                    isEnabled = isCaptionsActive
+                    isEnabled = isCaptionsActive && viewModel.captionsLanguageButtonOptions?.isEnabled != false
                 )
             )
         }
 
         return items
+    }
+
+    private fun callButtonCustomOnClick(button: CallCompositeButtonOptions?) {
+        try {
+            button?.onClickHandler?.handle(
+                createButtonClickEvent(context, button)
+            )
+        } catch (e: Exception) {
+            logger.error("Call screen control bar button custom onClick exception.", e)
+        }
     }
 }
