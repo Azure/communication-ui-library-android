@@ -18,6 +18,7 @@ internal class RttReducerImpl : RttReducer {
                 // Do nothing? I think middleware should handle this
                 return state
             }
+            // TODO: Will become RttAction.RttMessagesUpdated (plural, pull list from sdk)
             is RttAction.IncomingMessageReceived -> {
                 val text = action.rttContent
                 val participantId = action.participantId

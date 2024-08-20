@@ -53,6 +53,7 @@ import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagn
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.into
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.cancel

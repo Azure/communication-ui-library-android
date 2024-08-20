@@ -45,6 +45,7 @@ import com.azure.android.communication.ui.calling.presentation.MultitaskingCallC
 import com.azure.android.communication.ui.calling.presentation.PiPCallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
 import com.azure.android.communication.ui.calling.redux.action.PipAction;
+import com.azure.android.communication.ui.calling.redux.action.RttAction;
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKInitializer;
 import com.azure.android.communication.ui.calling.utilities.TestHelper;
 import com.jakewharton.threetenabp.AndroidThreeTen;
@@ -53,6 +54,8 @@ import java.util.Collection;
 import java.util.Collections;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -819,6 +822,20 @@ public final class CallComposite {
 
     private void showUI(final Context context,
                         final boolean isTest) {
+
+        /* <RTT_POC>
+        // Simulates incoming RTT Message data for UI Dev
+        new Timer().scheduleAtFixedRate(
+                new TimerTask() {
+                    @Override
+                    public void run() {
+                        if (Math.random() < 0.01) {
+                            diContainer.getAppStore().dispatch(new RttAction.IncomingMessageReceived("Hello", "abc"));
+                        }
+
+                    }
+                }, 0, 10);
+        </RTT_POC> */
 
         Class activityClass = CallCompositeActivity.class;
 
