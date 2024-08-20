@@ -45,7 +45,9 @@ import com.azure.android.communication.ui.calling.presentation.MultitaskingCallC
 import com.azure.android.communication.ui.calling.presentation.PiPCallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
 import com.azure.android.communication.ui.calling.redux.action.PipAction;
+/* <RTT_POC>
 import com.azure.android.communication.ui.calling.redux.action.RttAction;
+</RTT_POC> */
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKInitializer;
 import com.azure.android.communication.ui.calling.utilities.TestHelper;
 import com.jakewharton.threetenabp.AndroidThreeTen;
@@ -54,8 +56,11 @@ import java.util.Collection;
 import java.util.Collections;
 
 import java.util.List;
+/* <RTT_POC>
 import java.util.Timer;
 import java.util.TimerTask;
+<RTT_POC> */
+
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
