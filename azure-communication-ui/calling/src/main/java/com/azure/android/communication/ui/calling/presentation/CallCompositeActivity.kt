@@ -218,7 +218,6 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
             if (isFinishing && store.getCurrentState().navigationState.navigationState == NavigationStatus.EXIT) {
                 store.dispatch(CallingAction.CallEndRequested())
-                callDurationManager.onReset()
                 compositeManager.onCompositeDestroy()
                 CallCompositeInstanceManager.removeCallComposite(instanceId)
             }
