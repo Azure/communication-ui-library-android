@@ -34,7 +34,9 @@ import com.azure.android.communication.ui.calling.models.CallCompositePictureInP
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotification;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
+/* <CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantLeftEvent;
+/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
@@ -570,7 +572,7 @@ public final class CallComposite {
             final CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().removeOnRemoteParticipantJoinedEventHandler(eventHandler);
     }
-
+    /* <CUSTOM_CALL_HEADER> */
     /**
      * Add {@link CallCompositeEventHandler}.
      *
@@ -599,7 +601,7 @@ public final class CallComposite {
             final CallCompositeEventHandler<CallCompositeRemoteParticipantLeftEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().removeOnRemoteParticipantLeftEventHandler(eventHandler);
     }
-
+    /* </CUSTOM_CALL_HEADER> */
     /**
      * Add {@link CallCompositeEventHandler}
      *

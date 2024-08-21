@@ -12,7 +12,9 @@ import com.azure.android.communication.ui.callingcompositedemoapp.ADD_CUSTOM_BUT
 import com.azure.android.communication.ui.callingcompositedemoapp.AUDIO_ONLY_MODE_ON
 import com.azure.android.communication.ui.callingcompositedemoapp.AUTO_START_CAPTIONS
 import com.azure.android.communication.ui.callingcompositedemoapp.AVATAR_IMAGE
+/* <CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_TITLE
+/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SUBTITLE
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_TITLE
@@ -20,7 +22,9 @@ import com.azure.android.communication.ui.callingcompositedemoapp.CAMERA_ON_BY_D
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_ADD_CUSTOM_BUTTONS
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_AUDIO_ONLY_MODE_ON
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_AUTO_START_CAPTIONS
+/* <CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CALL_INFORMATION_TITLE
+/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_HIDE_CAPTIONS_UI
@@ -32,8 +36,10 @@ import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SETUP_
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SKIP_SETUP_SCREEN_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SPOKEN_LANGUAGE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SPOKEN_LANGUAGE_KEY
+/* <CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_TIMER_MRI_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_TIMER_START_SECONDS
+/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.callingcompositedemoapp.DISABLE_INTERNAL_PUSH_NOTIFICATIONS
 import com.azure.android.communication.ui.callingcompositedemoapp.DISPLAY_DISMISS_BUTTON_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.DISPLAY_DISMISS_BUTTON_KEY_DEFAULT_VALUE
@@ -55,9 +61,11 @@ import com.azure.android.communication.ui.callingcompositedemoapp.SETUP_SCREEN_M
 import com.azure.android.communication.ui.callingcompositedemoapp.SETUP_SCREEN_ORIENTATION_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.SKIP_SETUP_SCREEN_VALUE_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.TELECOM_MANAGER_INTEGRATION_OPTION_KEY
+/* <CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.callingcompositedemoapp.TIMER_START_MRI_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.TIMER_START_SECONDS_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.TIMER_STOP_MRI_KEY
+/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.callingcompositedemoapp.USE_DEPRECATED_LAUNCH_KEY
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -86,7 +94,7 @@ class SettingsFeatures {
                 DEFAULT_SPOKEN_LANGUAGE,
             )
         }
-
+        /* <CUSTOM_CALL_HEADER> */
         fun getStartTimerMRI(): String? {
             return sharedPrefs.getString(
                 TIMER_START_MRI_KEY,
@@ -114,7 +122,7 @@ class SettingsFeatures {
                 DEFAULT_CALL_INFORMATION_TITLE,
             )
         }
-
+        /* </CUSTOM_CALL_HEADER> */
         fun getLayoutDirection(): Int? {
             val isRTLKey =
                 LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY +
