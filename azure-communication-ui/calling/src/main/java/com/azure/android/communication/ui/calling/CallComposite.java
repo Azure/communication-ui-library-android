@@ -34,6 +34,9 @@ import com.azure.android.communication.ui.calling.models.CallCompositePictureInP
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotification;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
+/* <CUSTOM_CALL_HEADER> */
+import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantLeftEvent;
+/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
@@ -577,7 +580,36 @@ public final class CallComposite {
             final CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().removeOnRemoteParticipantJoinedEventHandler(eventHandler);
     }
+    /* <CUSTOM_CALL_HEADER> */
+    /**
+     * Add {@link CallCompositeEventHandler}.
+     *
+     * <pre>
+     *
+     * &#47;&#47; add remote participant left handler
+     * callComposite.addOnRemoteParticipantLeftEventHandler&#40;event -> {
+     *     &#47;&#47; Use call composite to set configurations for remote participant
+     * }&#41;;
+     *
+     * </pre>
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void addOnRemoteParticipantLeftEventHandler(
+            final CallCompositeEventHandler<CallCompositeRemoteParticipantLeftEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().addOnRemoteParticipantLeftEventHandler(eventHandler);
+    }
 
+    /**
+     * Remove {@link CallCompositeEventHandler}.
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnRemoteParticipantLeftEventHandler(
+            final CallCompositeEventHandler<CallCompositeRemoteParticipantLeftEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().removeOnRemoteParticipantLeftEventHandler(eventHandler);
+    }
+    /* </CUSTOM_CALL_HEADER> */
     /**
      * Add {@link CallCompositeEventHandler}
      *
