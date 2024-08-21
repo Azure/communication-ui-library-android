@@ -23,6 +23,7 @@ import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.CallCompositeCallDurationTimer
+import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenHeaderOptions
@@ -30,6 +31,8 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCallScreen
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonClickEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallCancelledEvent
@@ -85,7 +88,7 @@ class CallCompositeManager(private val context: Context) {
             applicationContext,
             acsToken,
             displayName,
-            identity
+            identity,
         )
 
         val localOptions = getLocalOptions(applicationContext)
@@ -597,9 +600,73 @@ class CallCompositeManager(private val context: Context) {
 
         if (isUpdated) {
             return callScreenOptions
+        var callScreenOptions: CallCompositeCallScreenOptions? = null
+        if (SettingsFeatures.getDisplayLeaveCallConfirmationValue() != null) {
+            callScreenOptions = CallCompositeCallScreenOptions()
+
+            val controlBarOptions = CallCompositeCallScreenControlBarOptions()
+            callScreenOptions.setControlBarOptions(controlBarOptions)
+
+            controlBarOptions.setLeaveCallConfirmation(
+                if (SettingsFeatures.getDisplayLeaveCallConfirmationValue() == true) CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED
+                else CallCompositeLeaveCallConfirmationMode.ALWAYS_DISABLED
+            )
         }
 
-        return null
+        if (SettingsFeatures.getAddCustomButtons() == true) {
+            callScreenOptions = callScreenOptions ?: CallCompositeCallScreenOptions()
+
+            if (callScreenOptions.controlBarOptions == null)
+                callScreenOptions.controlBarOptions = CallCompositeCallScreenControlBarOptions()
+
+            callScreenOptions.controlBarOptions.setCustomButtons(
+                listOf(
+                    CallCompositeCustomButtonOptions(
+                        R.drawable.ic_fluent_arrow_next_24_regular,
+                        "Troubleshooting tips",
+                        fun(it: CallCompositeCustomButtonClickEvent) {
+                            val intent = Intent(it.context, TestActivity::class.java)
+                            context.startActivity(intent)
+                        }
+                    ),
+                    CallCompositeCustomButtonOptions(
+                        R.drawable.image_koala,
+                        "Hide call",
+                        fun(it: CallCompositeCustomButtonClickEvent) {
+                            callComposite?.sendToBackground()
+                        }
+                    )
+                )
+            )
+
+            callScreenOptions.controlBarOptions.cameraButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "cameraButton clicked") }
+
+            callScreenOptions.controlBarOptions.microphoneButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "microphoneButton clicked") }
+
+            callScreenOptions.controlBarOptions.audioDeviceButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "audioDeviceButton clicked") }
+
+            callScreenOptions.controlBarOptions.liveCaptionsButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "liveCaptionsButton clicked") }
+
+            callScreenOptions.controlBarOptions.liveCaptionsToggleButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "liveCaptionsToggleButton clicked") }
+
+            callScreenOptions.controlBarOptions.spokenLanguageButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "spokenLanguageButton clicked") }
+
+            callScreenOptions.controlBarOptions.captionsLanguageButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "captionsLanguageButton clicked") }
+
+            callScreenOptions.controlBarOptions.reportIssueButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "reportIssueButton clicked") }
+
+            callScreenOptions.controlBarOptions.shareDiagnosticsButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "shareDiagnosticsButton clicked") }
+        }
+        return callScreenOptions
     }
 
     private fun setupScreenOptions(): CallCompositeSetupScreenOptions? {
@@ -612,10 +679,26 @@ class CallCompositeManager(private val context: Context) {
         }
 
         if (SettingsFeatures.getSetupScreenMicEnabledValue() != null) {
-            if (setupScreenOptions == null) {
-                setupScreenOptions = CallCompositeSetupScreenOptions()
-            }
+            setupScreenOptions = setupScreenOptions ?: CallCompositeSetupScreenOptions()
             setupScreenOptions.setMicrophoneButtonEnabled(SettingsFeatures.getSetupScreenMicEnabledValue())
+        }
+
+        if (SettingsFeatures.getAddCustomButtons() == true) {
+            setupScreenOptions = setupScreenOptions ?: CallCompositeSetupScreenOptions()
+            setupScreenOptions.setCameraButton(
+                CallCompositeButtonOptions()
+                    .setOnClickHandler { toast(it.context, "CameraButton clicked") }
+            )
+
+            setupScreenOptions.setMicrophoneButton(
+                CallCompositeButtonOptions()
+                    .setOnClickHandler { toast(it.context, "MicrophoneButton clicked") }
+            )
+
+            setupScreenOptions.setAudioDeviceButton(
+                CallCompositeButtonOptions()
+                    .setOnClickHandler { toast(it.context, "AudioDeviceButton clicked") }
+            )
         }
 
         return setupScreenOptions
@@ -627,7 +710,7 @@ class CallCompositeManager(private val context: Context) {
     ) {
         Log.i("ACSCallingUI", message)
         Handler(Looper.getMainLooper()).post {
-            Toast.makeText(context.applicationContext, "Debug: $message", Toast.LENGTH_LONG).show()
+            Toast.makeText(context.applicationContext, "Debug: $message", Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!--
-   Copyright (c) Microsoft Corporation. All rights reserved.
-   Licensed under the MIT License.
-  -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.azure.android.communication.ui.callingcompositedemoapp"
-    >
+    package="com.azure.android.communication.ui.callingcompositedemoapp">
 
     <uses-sdk tools:overrideLibrary="com.microsoft.office.outlook.magnifierlib" />
+
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
@@ -20,24 +15,25 @@
         android:enableOnBackInvokedCallback="true"
         android:theme="@style/Theme.AppCompat">
         <activity
+            android:name=".TestActivity"
+            android:exported="false" />
+        <activity
             android:name=".IncomingCallActivity"
             android:exported="false"
-            android:turnScreenOn="true"
-            android:showOnLockScreen="true"/>
-
+            android:showOnLockScreen="true"
+            android:turnScreenOn="true" />
         <activity
-            android:name="com.azure.android.communication.ui.callingcompositedemoapp.SettingsActivity"
+            android:name=".SettingsActivity"
             android:exported="false"
-            android:theme="@style/Launcher.Theme"
-            />
+            android:theme="@style/Launcher.Theme" />
         <activity
-            android:name="com.azure.android.communication.ui.callingcompositedemoapp.CallLauncherActivity"
+            android:name=".CallLauncherActivity"
             android:exported="true"
             android:label="@string/azure_communication_ui_calling_demo_app_title"
-            android:theme="@style/Launcher.Theme"
-            >
+            android:theme="@style/Launcher.Theme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
@@ -48,8 +44,7 @@
 
                 <data
                     android:host="calling"
-                    android:scheme="acsui"
-                    />
+                    android:scheme="acsui" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -60,21 +55,21 @@
                 <data
                     android:host="https://test"
                     android:pathPrefix="/calling"
-                    android:scheme="https"
-                    />
+                    android:scheme="https" />
                 <data
                     android:host="https://test"
                     android:pathPrefix="/calling"
-                    android:scheme="http"
-                    />
+                    android:scheme="http" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="acs"/>
+            android:value="acs" />
+
         <service
             android:name=".FirebaseMessagingService"
             android:exported="false">
