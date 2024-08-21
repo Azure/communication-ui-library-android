@@ -7,7 +7,6 @@ import android.os.SystemClock
 import androidx.test.platform.app.InstrumentationRegistry
 import com.azure.android.communication.BaseUiTest
 import com.azure.android.communication.assertDisplayed
-import com.azure.android.communication.assertNotDisplayed
 import com.azure.android.communication.assertTextDisplayed
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
