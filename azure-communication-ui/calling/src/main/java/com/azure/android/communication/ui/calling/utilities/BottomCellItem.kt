@@ -30,7 +30,6 @@ internal data class BottomCellItem(
     var showAdmitAllButton: Boolean = false,
     var showRightArrow: Boolean = false,
     var showToggleButton: Boolean = false,
-    var enableToggleButton: Boolean = false,
     var isToggleButtonOn: Boolean = false,
     var subtitle: String? = null,
     var toggleButtonAction: ((View, Boolean) -> Unit)? = null,

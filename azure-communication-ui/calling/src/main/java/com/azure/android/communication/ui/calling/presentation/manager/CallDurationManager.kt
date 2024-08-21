@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
+/* <CUSTOM_CALL_HEADER> */
 package com.azure.android.communication.ui.calling.presentation.manager
 
 import android.annotation.SuppressLint
@@ -66,3 +66,4 @@ internal class CallDurationManager(private var initialElapsedDurationInMillis: L
         return elapsedTime
     }
 }
+/* </CUSTOM_CALL_HEADER> */

@@ -78,6 +78,16 @@ internal class InfoHeaderView : ConstraintLayout {
             }
         }
 
+        /* <CUSTOM_CALL_HEADER> */
+        viewLifecycleOwner.lifecycleScope.launch {
+            infoHeaderViewModel.getCallDurationManager()?.timerTickStateFlow?.collect {
+                timerText.text = it
+                val formattedTime = infoHeaderViewModel.getFormattedElapsedDuration()
+                timerText.contentDescription = "$formattedTime"
+                timerText.visibility = if (it.isEmpty()) View.GONE else View.VISIBLE
+            }
+        }
+        /* </CUSTOM_CALL_HEADER> */
         viewLifecycleOwner.lifecycleScope.launch {
             infoHeaderViewModel.getCallDurationManager()?.timerTickStateFlow?.collect {
                 val formattedTime = infoHeaderViewModel.getFormattedElapsedDuration()
@@ -89,12 +99,12 @@ internal class InfoHeaderView : ConstraintLayout {
 
         viewLifecycleOwner.lifecycleScope.launch {
             infoHeaderViewModel.getNumberOfParticipantsFlow().collect {
+                /* <CUSTOM_CALL_HEADER> */
                 val customTitle = infoHeaderViewModel.getCustomTitle()
                 if (customTitle != null) {
                     participantNumberText.text = customTitle
                     return@collect
                 }
-
                 participantNumberText.text = when (it) {
                     0 -> context.getString(R.string.azure_communication_ui_calling_view_info_header_waiting_for_others_to_join)
 

@@ -23,6 +23,10 @@ internal class InfoHeaderViewModel(
     private lateinit var requestCallEndCallback: () -> Unit
 
     private var displayedOnLaunch = false
+    /* <CUSTOM_CALL_HEADER> */
+    fun getCustomTitle(): String? {
+        return customTitle
+    }
 
     fun getCustomTitle(): String? {
         return customTitle
@@ -32,6 +36,7 @@ internal class InfoHeaderViewModel(
         return callDurationManager
     }
 
+    /* </CUSTOM_CALL_HEADER> */
     fun getIsOverlayDisplayedFlow(): StateFlow<Boolean> = isOverlayDisplayedFlow
 
     fun getDisplayFloatingHeaderFlow(): StateFlow<Boolean> = displayFloatingHeaderFlow

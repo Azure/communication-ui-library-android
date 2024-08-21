@@ -23,6 +23,11 @@ internal class CallCompositeEventsHandler {
     private val remoteParticipantRemovedHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeRemoteParticipantLeftEvent>>()
 
+    /* <CUSTOM_CALL_HEADER> */
+    private val remoteParticipantRemovedHandlers =
+        mutableSetOf<CallCompositeEventHandler<CallCompositeRemoteParticipantLeftEvent>>()
+    /* </CUSTOM_CALL_HEADER> */
+
     private val callStateHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
     private val exitEventHandlers =
@@ -56,6 +61,8 @@ internal class CallCompositeEventsHandler {
 
     fun removeOnRemoteParticipantJoinedEventHandler(handler: CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>) =
         remoteParticipantJoinedHandlers.remove(handler)
+    /* <CUSTOM_CALL_HEADER> */
+    fun getOnRemoteParticipantRemovedHandlers() = remoteParticipantRemovedHandlers.asIterable()
 
     fun getOnRemoteParticipantRemovedHandlers() = remoteParticipantRemovedHandlers.asIterable()
 
@@ -65,6 +72,7 @@ internal class CallCompositeEventsHandler {
     fun removeOnRemoteParticipantLeftEventHandler(handler: CallCompositeEventHandler<CallCompositeRemoteParticipantLeftEvent>) =
         remoteParticipantRemovedHandlers.remove(handler)
 
+    /* </CUSTOM_CALL_HEADER> */
     fun getOnAudioSelectionChangedEventHandlers() = audioSelectionChangedEventHandlers.asIterable()
 
     fun getOnMultitaskingStateChangedEventHandlers() = multitaskingStateChangedEvent.asIterable()

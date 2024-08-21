@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
+/* <CUSTOM_CALL_HEADER> */
 package com.azure.android.communication.ui.calling.models;
 
 /**
@@ -58,3 +58,4 @@ public final class CallCompositeCallScreenHeaderOptions {
         return title;
     }
 }
+/* </CUSTOM_CALL_HEADER> */

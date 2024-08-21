@@ -116,7 +116,7 @@ internal class DependencyInjectionContainerImpl(
     override val errorHandler by lazy {
         ErrorHandler(configuration, appStore)
     }
-
+    
     override val callDurationManager by lazy {
         CallDurationManager(configuration.callScreenOptions?.headerOptions?.timer?.elapsedDuration ?: 0)
     }
