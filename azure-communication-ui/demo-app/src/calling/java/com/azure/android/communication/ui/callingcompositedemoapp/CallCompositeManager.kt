@@ -22,8 +22,8 @@ import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
-import com.azure.android.communication.ui.calling.models.CallCompositeCallDurationTimer
 import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeCallDurationTimer
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenHeaderOptions
@@ -565,41 +565,6 @@ class CallCompositeManager(private val context: Context) {
     }
 
     private fun callScreenOptions(): CallCompositeCallScreenOptions? {
-        val callScreenOptions = CallCompositeCallScreenOptions()
-        var isUpdated = false
-        if (SettingsFeatures.getDisplayLeaveCallConfirmationValue() != null) {
-            val controlBarOptions = CallCompositeCallScreenControlBarOptions()
-            if (SettingsFeatures.getDisplayLeaveCallConfirmationValue() == true) {
-                controlBarOptions.setLeaveCallConfirmation(CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED)
-            } else {
-                controlBarOptions.setLeaveCallConfirmation(CallCompositeLeaveCallConfirmationMode.ALWAYS_DISABLED)
-            }
-            callScreenOptions.setControlBarOptions(controlBarOptions)
-            isUpdated = true
-        }
-
-        if (!SettingsFeatures.callScreenInformationTitle().isNullOrEmpty() || !SettingsFeatures.getStartTimerMRI().isNullOrEmpty()) {
-            val headerOptions = CallCompositeCallScreenHeaderOptions()
-            SettingsFeatures.callScreenInformationTitle()?.let {
-                if (it.isNotEmpty()) {
-                    headerOptions.title = it
-                }
-            }
-            SettingsFeatures.getStartTimerMRI()?.let {
-                if (it.isNotEmpty()) {
-                    callCompositeCallDurationTimer = CallCompositeCallDurationTimer()
-                    SettingsFeatures.getDefaultTimerStartDuration().let { elapsedDuration ->
-                        callCompositeCallDurationTimer?.elapsedDuration = elapsedDuration
-                    }
-                    headerOptions.timer = callCompositeCallDurationTimer
-                }
-            }
-            callScreenOptions.setHeaderOptions(headerOptions)
-            isUpdated = true
-        }
-
-        if (isUpdated) {
-            return callScreenOptions
         var callScreenOptions: CallCompositeCallScreenOptions? = null
         if (SettingsFeatures.getDisplayLeaveCallConfirmationValue() != null) {
             callScreenOptions = CallCompositeCallScreenOptions()
@@ -666,6 +631,28 @@ class CallCompositeManager(private val context: Context) {
             callScreenOptions.controlBarOptions.shareDiagnosticsButton = CallCompositeButtonOptions()
                 .setOnClickHandler { toast(it.context, "shareDiagnosticsButton clicked") }
         }
+
+        if (!SettingsFeatures.callScreenInformationTitle().isNullOrEmpty() || !SettingsFeatures.getStartTimerMRI().isNullOrEmpty()) {
+            callScreenOptions = callScreenOptions ?: CallCompositeCallScreenOptions()
+
+            val headerOptions = CallCompositeCallScreenHeaderOptions()
+            SettingsFeatures.callScreenInformationTitle()?.let {
+                if (it.isNotEmpty()) {
+                    headerOptions.title = it
+                }
+            }
+            SettingsFeatures.getStartTimerMRI()?.let {
+                if (it.isNotEmpty()) {
+                    callCompositeCallDurationTimer = CallCompositeCallDurationTimer()
+                    SettingsFeatures.getDefaultTimerStartDuration().let { elapsedDuration ->
+                        callCompositeCallDurationTimer?.elapsedDuration = elapsedDuration
+                    }
+                    headerOptions.timer = callCompositeCallDurationTimer
+                }
+            }
+            callScreenOptions?.setHeaderOptions(headerOptions)
+        }
+
         return callScreenOptions
     }
 
