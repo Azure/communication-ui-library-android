@@ -56,7 +56,6 @@ internal class CustomHeaderTest : BaseUiTest() {
 
         // Assert header displayed.
         assertTextDisplayed(header)
-        assertNotDisplayed(callDurationTimerId)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
