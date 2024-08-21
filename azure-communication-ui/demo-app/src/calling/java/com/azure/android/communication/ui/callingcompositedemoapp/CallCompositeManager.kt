@@ -298,19 +298,19 @@ class CallCompositeManager(private val context: Context) {
         }
         callComposite.addOnDismissedEventHandler(onDismissedEventHandler)
 
+        /* <CUSTOM_CALL_HEADER> */
         callComposite.addOnRemoteParticipantLeftEventHandler { event ->
             toast(context, "Remote participant removed: ${event.identifiers.count()}")
             event.identifiers.forEach {
                 Log.d(CallLauncherActivity.TAG, "Remote participant removed: ${it.rawId}")
             }
-            /* <CUSTOM_CALL_HEADER> */
             SettingsFeatures.getStopTimerMRI()?.let { mri ->
                 if (event.identifiers.any { it.rawId == mri }) {
                     callCompositeCallDurationTimer?.stop()
                 }
             }
-            /* </CUSTOM_CALL_HEADER> */
         }
+        /* </CUSTOM_CALL_HEADER> */
 
         callComposite.addOnPictureInPictureChangedEventHandler {
             toast(context, "isInPictureInPicture: " + it.isInPictureInPicture)

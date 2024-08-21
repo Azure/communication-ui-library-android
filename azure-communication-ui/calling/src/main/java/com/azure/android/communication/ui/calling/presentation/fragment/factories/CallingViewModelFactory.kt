@@ -51,9 +51,11 @@ internal class CallingViewModelFactory(
     private val isTelecomManagerEnabled: Boolean = false,
     private val callType: CallType? = null,
     private val callScreenControlBarOptions: CallCompositeCallScreenControlBarOptions?,
-    private val isCaptionsEnabled: Boolean = false,/* <CUSTOM_CALL_HEADER> */
+    private val isCaptionsEnabled: Boolean = false,
+    /* <CUSTOM_CALL_HEADER> */
     private val callDurationManager: CallDurationManager? = null,
-    private val customTitle: String? = null,/* </CUSTOM_CALL_HEADER> */
+    private val customTitle: String? = null,
+    /* </CUSTOM_CALL_HEADER> */
     private val logger: Logger,
 ) : BaseViewModelFactory(store) {
 
@@ -93,7 +95,13 @@ internal class CallingViewModelFactory(
     }
 
     val floatingHeaderViewModel by lazy {
-        InfoHeaderViewModel(enableMultitasking/* <CUSTOM_CALL_HEADER> */, callDurationManager, customTitle/* </CUSTOM_CALL_HEADER> */)
+        InfoHeaderViewModel(
+            enableMultitasking,
+            /* <CUSTOM_CALL_HEADER> */
+            callDurationManager,
+            customTitle,
+            /* </CUSTOM_CALL_HEADER>*/
+        )
     }
 
     val lobbyHeaderViewModel by lazy {

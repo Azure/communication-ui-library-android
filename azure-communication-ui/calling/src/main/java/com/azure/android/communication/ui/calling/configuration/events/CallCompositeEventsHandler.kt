@@ -22,8 +22,11 @@ internal class CallCompositeEventsHandler {
     private val errorHandlers = mutableSetOf<CallCompositeEventHandler<CallCompositeErrorEvent>>()
     private val remoteParticipantJoinedHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
+
+    /* <CUSTOM_CALL_HEADER> */
     private val remoteParticipantRemovedHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeRemoteParticipantLeftEvent>>()
+    /* </CUSTOM_CALL_HEADER> */
 
     private val callStateHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
