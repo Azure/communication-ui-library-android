@@ -27,6 +27,12 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.menu.ParticipantMenuViewModel
+/* <CUSTOM_CALL_HEADER> */
+import com.azure.android.communication.ui.calling.presentation.manager.CallDurationManager
+/* </CUSTOM_CALL_HEADER> */
+/* <RTT_POC>
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttViewModel
+</RTT_POC> */
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
@@ -46,6 +52,10 @@ internal class CallingViewModelFactory(
     private val callType: CallType? = null,
     private val callScreenControlBarOptions: CallCompositeCallScreenControlBarOptions?,
     private val isCaptionsEnabled: Boolean = false,
+    /* <CUSTOM_CALL_HEADER> */
+    private val callDurationManager: CallDurationManager? = null,
+    private val customTitle: String? = null,
+    /* </CUSTOM_CALL_HEADER> */
     private val logger: Logger,
 ) : BaseViewModelFactory(store) {
 
@@ -85,7 +95,13 @@ internal class CallingViewModelFactory(
     }
 
     val floatingHeaderViewModel by lazy {
-        InfoHeaderViewModel(enableMultitasking)
+        InfoHeaderViewModel(
+            enableMultitasking,
+            /* <CUSTOM_CALL_HEADER> */
+            callDurationManager,
+            customTitle,
+            /* </CUSTOM_CALL_HEADER>*/
+        )
     }
 
     val lobbyHeaderViewModel by lazy {
