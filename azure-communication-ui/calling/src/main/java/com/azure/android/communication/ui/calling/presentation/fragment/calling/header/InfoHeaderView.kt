@@ -100,7 +100,7 @@ internal class InfoHeaderView : ConstraintLayout {
                     participantNumberText.text = customTitle
                     return@collect
                 }
-                /* <CUSTOM_CALL_HEADER> */
+                /* </CUSTOM_CALL_HEADER> */
 
                 participantNumberText.text = when (it) {
                     0 -> context.getString(R.string.azure_communication_ui_calling_view_info_header_waiting_for_others_to_join)
