@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.header
-
+/* <CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.presentation.manager.CallDurationManager
 /* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
@@ -13,8 +13,10 @@ import java.util.TimerTask
 
 internal class InfoHeaderViewModel(
     val multitaskingEnabled: Boolean,
+    /* <CUSTOM_CALL_HEADER> */
     private val callDurationManager: CallDurationManager? = null,
     private val customTitle: String? = null
+    /* </CUSTOM_CALL_HEADER> */
 ) {
     private lateinit var displayFloatingHeaderFlow: MutableStateFlow<Boolean>
     private lateinit var isOverlayDisplayedFlow: MutableStateFlow<Boolean>
