@@ -35,6 +35,9 @@ import com.azure.android.communication.calling.TeamsCaptions
 import com.azure.android.communication.calling.TeamsCaptionsListener
 import com.azure.android.communication.calling.TranscriptionCallFeature
 import com.azure.android.communication.ui.calling.configuration.CallType
+/* <RTT_POC>
+import com.azure.android.communication.ui.calling.data.model.RawRttPayload
+ </RTT_POC> */
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsData
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsType
@@ -106,7 +109,7 @@ internal class CallingSDKEventHandler(
     private lateinit var dominantSpeakersCallFeature: DominantSpeakersCallFeature
     private lateinit var capabilitiesFeature: CapabilitiesCallFeature
     /* <RTT_POC>
-    private var rttTextSharedFlow = MutableSharedFlow<String>()
+    private var rttTextSharedFlow = MutableSharedFlow<Pair<String, String>>()
     private lateinit var dataChannelCallFeature: DataChannelCallFeature
     private var receiver: DataChannelReceiver? = null
     </RTT_POC> */
@@ -166,7 +169,7 @@ internal class CallingSDKEventHandler(
     fun getDominantSpeakersSharedFlow(): SharedFlow<DominantSpeakersInfo> = dominantSpeakersSharedFlow
 
     /* <RTT_POC>
-    fun getRttTextSharedFlow(): SharedFlow<String> = rttTextSharedFlow
+    fun getRttTextSharedFlow(): SharedFlow<Pair<String, String>> = rttTextSharedFlow
     </RTT_POC> */
 
     //region Captions
@@ -246,9 +249,18 @@ internal class CallingSDKEventHandler(
             this.receiver = evt.receiver
             evt.receiver.addOnMessageReceivedListener {
                 val message: DataChannelMessage = evt.receiver.receiveMessage()
-                val messageText = String(message.data, StandardCharsets.UTF_8)
-                coroutineScope.launch {
-                    rttTextSharedFlow.emit(messageText)
+                val channel = evt.receiver.channelId
+                var participant = evt.receiver.senderIdentifier
+
+                if (channel == 24) {
+                    val jsonString = String(message.data, StandardCharsets.UTF_8)
+                    // {s:"asd"} is the format, I want messageText to be "asd" by
+                    // parsing the JSON to map and grabbing the S field
+                    // Use GSON and RawRttPayload to parse the JSON
+                    val parsedMessage = Gson().fromJson(jsonString, RawRttPayload::class.java).s
+                    coroutineScope.launch {
+                         rttTextSharedFlow.emit(Pair(parsedMessage, participant.rawId))
+                    }
                 }
             }
         }
