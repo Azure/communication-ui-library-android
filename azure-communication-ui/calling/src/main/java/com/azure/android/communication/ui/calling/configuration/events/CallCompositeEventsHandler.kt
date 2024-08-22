@@ -16,11 +16,13 @@ import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCa
 /* <CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantLeftEvent
 /* </CUSTOM_CALL_HEADER> */
+
 internal class CallCompositeEventsHandler {
     // mutableSet does preserve element iteration order
     private val errorHandlers = mutableSetOf<CallCompositeEventHandler<CallCompositeErrorEvent>>()
     private val remoteParticipantJoinedHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
+
     /* <CUSTOM_CALL_HEADER> */
     private val remoteParticipantRemovedHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeRemoteParticipantLeftEvent>>()
@@ -67,7 +69,6 @@ internal class CallCompositeEventsHandler {
 
     fun removeOnRemoteParticipantLeftEventHandler(handler: CallCompositeEventHandler<CallCompositeRemoteParticipantLeftEvent>) =
         remoteParticipantRemovedHandlers.remove(handler)
-
     /* </CUSTOM_CALL_HEADER> */
     fun getOnAudioSelectionChangedEventHandlers() = audioSelectionChangedEventHandlers.asIterable()
 
