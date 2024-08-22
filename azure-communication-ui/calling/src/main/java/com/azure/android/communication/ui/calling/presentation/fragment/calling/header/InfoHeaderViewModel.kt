@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.header
+
 /* <CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.presentation.manager.CallDurationManager
 /* </CUSTOM_CALL_HEADER> */
@@ -34,7 +35,6 @@ internal class InfoHeaderViewModel(
     fun getCallDurationManager(): CallDurationManager? {
         return callDurationManager
     }
-
     /* </CUSTOM_CALL_HEADER> */
     fun getIsOverlayDisplayedFlow(): StateFlow<Boolean> = isOverlayDisplayedFlow
 
@@ -53,20 +53,21 @@ internal class InfoHeaderViewModel(
             switchFloatingHeader()
         }
     }
+
     /* <CUSTOM_CALL_HEADER> */
-   fun getFormattedElapsedDuration(): String {
-      val elapsedDuration = callDurationManager?.getElapsedDuration() ?: 0L
-      val seconds = (elapsedDuration / 1000) % 60
-      val minutes = (elapsedDuration / (1000 * 60)) % 60
-      val hours = (elapsedDuration / (1000 * 60 * 60)) % 24
+    fun getFormattedElapsedDuration(): String {
+        val elapsedDuration = callDurationManager?.getElapsedDuration() ?: 0L
+        val seconds = (elapsedDuration / 1000) % 60
+        val minutes = (elapsedDuration / (1000 * 60)) % 60
+        val hours = (elapsedDuration / (1000 * 60 * 60)) % 24
 
-      return when {
-        hours > 0 -> String.format("%02d:%02d:%02d", hours, minutes, seconds)
-        minutes > 0 -> String.format("%02d:%02d", minutes, seconds)
-        else -> String.format("%02d", seconds)
-      }
+        return when {
+            hours > 0 -> String.format("%02d:%02d:%02d", hours, minutes, seconds)
+            minutes > 0 -> String.format("%02d:%02d", minutes, seconds)
+            else -> String.format("%02d", seconds)
+        }
     }
-
+    /* </CUSTOM_CALL_HEADER> */
 
     fun updateIsOverlayDisplayed(callingStatus: CallingStatus) {
         isOverlayDisplayedFlow.value = isOverlayDisplayed(callingStatus)
