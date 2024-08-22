@@ -55,16 +55,16 @@ internal class InfoHeaderViewModel(
     }
 
     /* <CUSTOM_CALL_HEADER> */
-    fun getFormattedElapsedDuration(): String {
+    fun getFormattedElapsedDuration(formatString: String): String {
         val elapsedDuration = callDurationManager?.getElapsedDuration() ?: 0L
         val seconds = (elapsedDuration / 1000) % 60
         val minutes = (elapsedDuration / (1000 * 60)) % 60
         val hours = (elapsedDuration / (1000 * 60 * 60)) % 24
 
         return when {
-            hours > 0 -> String.format("%02d:%02d:%02d", hours, minutes, seconds)
-            minutes > 0 -> String.format("%02d:%02d", minutes, seconds)
-            else -> String.format("%02d", seconds)
+            hours > 0 -> String.format(formatString, hours, minutes, seconds)
+            minutes > 0 -> String.format(formatString, minutes, seconds)
+            else -> String.format(formatString, seconds)
         }
     }
     /* </CUSTOM_CALL_HEADER> */
