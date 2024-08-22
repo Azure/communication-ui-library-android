@@ -291,7 +291,10 @@ class CallCompositeManager(private val context: Context) {
         callComposite.addOnUserReportedEventHandler(UserReportedIssueHandler(context.applicationContext as Application))
 
         val onDismissedEventHandler: ((CallCompositeDismissedEvent) -> Unit) = {
-            toast(context, "onDismissed: errorCode: ${it.errorCode}, cause: ${it.cause?.message}.")
+            toast(
+                context,
+                "onDismissed: errorCode: ${it.errorCode}, cause: ${it.cause?.message}, duration : ${callCompositeCallDurationTimer?.elapsedDuration?.let { it / 60000 } ?: "N/A"} minutes"
+            )
             /* <CUSTOM_CALL_HEADER> */
             callCompositeCallDurationTimer?.reset()
             /* </CUSTOM_CALL_HEADER> */
