@@ -86,7 +86,7 @@ internal class InfoHeaderView : ConstraintLayout {
         viewLifecycleOwner.lifecycleScope.launch {
             infoHeaderViewModel.getCallDurationManager()?.timerTickStateFlow?.collect {
                 timerText.text = it
-                timerText.contentDescription = infoHeaderViewModel.getFormattedElapsedDuration()
+                timerText.contentDescription = infoHeaderViewModel.getFormattedElapsedDuration(context)
                 timerText.visibility = if (it.isEmpty()) View.GONE else View.VISIBLE
             }
         }
