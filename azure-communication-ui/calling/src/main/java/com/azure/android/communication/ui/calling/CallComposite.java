@@ -734,11 +734,6 @@ public final class CallComposite {
         String roomId = null;
         final CallType callType;
 
-
-        if (localOptions != null) {
-            configuration.setCallCompositeLocalOptions(localOptions);
-        }
-
         final CallCompositeJoinLocator locator = remoteOptions.getLocator();
         if (locator instanceof CallCompositeGroupCallLocator) {
             callType = CallType.GROUP_CALL;
@@ -760,7 +755,10 @@ public final class CallComposite {
             throw new CallCompositeException("Not supported Call Locator type");
         }
 
-        configuration.setCallConfig(new CallConfiguration(
+        launchComposite(context,
+                remoteOptions,
+                localOptions,
+                isTest,
                 groupId,
                 meetingLink,
                 meetingId,
@@ -768,25 +766,8 @@ public final class CallComposite {
                 roomId,
                 callType,
                 null,
-                null));
-
-        configuration.setApplicationContext(context.getApplicationContext());
-        configuration.setCredential(remoteOptions.getCredential());
-        configuration.setDisplayName(remoteOptions.getDisplayName());
-
-        initializeCallingSDK();
-
-        diContainer = new DependencyInjectionContainerImpl(
-                instanceId,
-                context.getApplicationContext(),
-                this,
-                TestHelper.INSTANCE.getCallingSDK(),
-                TestHelper.INSTANCE.getVideoStreamRendererFactory(),
-                TestHelper.INSTANCE.getCoroutineContextProvider(),
-                logger
+                null
         );
-
-        showUI(context, isTest);
     }
 
     private void launchComposite(final Context context,
@@ -828,6 +809,49 @@ public final class CallComposite {
             throw new CallCompositeException("Not supported Call type");
         }
 
+        launchComposite(context,
+                null,
+                localOptions,
+                isTest,
+                groupId,
+                meetingLink,
+                meetingId,
+                meetingPasscode,
+                roomId,
+                callType,
+                participants,
+                incomingCallId
+        );
+    }
+
+    private void launchComposite(final Context context,
+                                 final CallCompositeRemoteOptions remoteOptions,
+                                 final CallCompositeLocalOptions localOptions,
+                                 final boolean isTest,
+                                 final UUID groupId,
+                                 final String meetingLink,
+                                 final String meetingId,
+                                 final String meetingPasscode,
+                                 final String roomId,
+                                 final CallType callType,
+                                 final Collection<CommunicationIdentifier> participants,
+                                 final String incomingCallId) {
+        configuration.setCallConfig(new CallConfiguration(
+                groupId,
+                meetingLink,
+                meetingId,
+                meetingPasscode,
+                roomId,
+                callType,
+                participants,
+                incomingCallId));
+
+        configuration.setApplicationContext(context.getApplicationContext());
+        if (remoteOptions != null) {
+            configuration.setCredential(remoteOptions.getCredential());
+            configuration.setDisplayName(remoteOptions.getDisplayName());
+        }
+
         if (localOptions != null) {
             configuration.setCallCompositeLocalOptions(localOptions);
             // override builder provided options if they are provided in the localOptions
@@ -838,18 +862,8 @@ public final class CallComposite {
                 configuration.setCallScreenOptions(localOptions.getCallScreenOptions());
             }
         }
-        initializeCallingSDK();
 
-        // initializeCallingSDK validated Credential and Context
-        configuration.setCallConfig(new CallConfiguration(
-                groupId,
-                meetingLink,
-                meetingId,
-                meetingPasscode,
-                roomId,
-                callType,
-                participants,
-                incomingCallId));
+        initializeCallingSDK();
 
         diContainer = new DependencyInjectionContainerImpl(
                 instanceId,

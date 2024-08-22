@@ -54,6 +54,9 @@ public final class CallCompositeCallDurationTimer {
      */
     public long getElapsedDuration() {
         if (callTimer == null) {
+            if (elapsedDuration == null) {
+                return 0;
+            }
             return elapsedDuration;
         }
         return callTimer.getElapsedDuration();
