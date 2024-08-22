@@ -53,7 +53,7 @@ internal class InfoHeaderViewModel(
             switchFloatingHeader()
         }
     }
-
+    /* <CUSTOM_CALL_HEADER> */
    fun getFormattedElapsedDuration(): String {
       val elapsedDuration = callDurationManager?.getElapsedDuration() ?: 0L
       val seconds = (elapsedDuration / 1000) % 60
