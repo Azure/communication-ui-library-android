@@ -129,9 +129,8 @@ internal class CallingSDKWrapper(
     }
 
     /* <RTT_POC>
-    override fun getRttSharedFlow(): SharedFlow<String> {
-        return callingSDKEventHandler.getRttTextSharedFlow()
-    }
+    override fun getRttSharedFlow() = callingSDKEventHandler.getRttTextSharedFlow()
+
     </RTT_POC> */
 
     //endregion
