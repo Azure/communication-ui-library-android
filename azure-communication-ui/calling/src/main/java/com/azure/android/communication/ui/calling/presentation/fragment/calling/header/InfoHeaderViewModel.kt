@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.header
 
 import com.azure.android.communication.ui.calling.presentation.manager.CallDurationManager
+/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,10 +25,6 @@ internal class InfoHeaderViewModel(
 
     private var displayedOnLaunch = false
     /* <CUSTOM_CALL_HEADER> */
-    fun getCustomTitle(): String? {
-        return customTitle
-    }
-
     fun getCustomTitle(): String? {
         return customTitle
     }
