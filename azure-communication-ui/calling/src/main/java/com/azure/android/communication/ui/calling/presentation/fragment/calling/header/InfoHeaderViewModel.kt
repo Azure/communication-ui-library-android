@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.header
 
 /* <CUSTOM_CALL_HEADER> */
+import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.presentation.manager.CallDurationManager
 /* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
@@ -55,18 +56,29 @@ internal class InfoHeaderViewModel(
     }
 
     /* <CUSTOM_CALL_HEADER> */
-    fun getFormattedElapsedDuration(formatString: String): String {
+    fun getFormattedElapsedDuration(): String {
         val elapsedDuration = callDurationManager?.getElapsedDuration() ?: 0L
+
+        // Calculate elapsed time components
         val seconds = (elapsedDuration / 1000) % 60
         val minutes = (elapsedDuration / (1000 * 60)) % 60
         val hours = (elapsedDuration / (1000 * 60 * 60)) % 24
 
+        // Determine format string based on the highest non-zero time component
+        val formatString = when {
+            hours > 0 -> resources.getString(R.string.azure_communication_ui_calling_view_info_header_call_timer_format_with_hours)
+            minutes > 0 -> resources.getString(R.string.azure_communication_ui_calling_view_info_header_call_timer_format_with_minutes)
+            else -> resources.getString(R.string.azure_communication_ui_calling_view_info_header_call_timer_format_with_seconds)
+        }
+
+        // Format the duration based on the calculated components
         return when {
             hours > 0 -> String.format(formatString, hours, minutes, seconds)
             minutes > 0 -> String.format(formatString, minutes, seconds)
             else -> String.format(formatString, seconds)
         }
     }
+
     /* </CUSTOM_CALL_HEADER> */
 
     fun updateIsOverlayDisplayed(callingStatus: CallingStatus) {
