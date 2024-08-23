@@ -57,7 +57,7 @@ internal class CallDurationManager(private var initialElapsedDurationInMillis: L
 
     override fun onReset() {
         countDownTimer.cancel()
-        elapsedTime = 0
+        elapsedTime = initialElapsedDurationInMillis
         msStopped = 0
         timerTickStateFlow.value = "00:00"
     }
