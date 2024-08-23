@@ -463,7 +463,58 @@
             android:text="@string/display_leave_call_confirmation"
             tools:ignore="UsingOnClickInXml"
             />
+        <!-- <CUSTOM_CALL_HEADER> -->
+        <EditText
+            android:id="@+id/call_information_title_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:hint="@string/call_information_title"
+            />
 
+
+        <TextView
+            android:id="@+id/call_timer_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/azure_communication_ui_calling_fab_margin"
+            android:text="@string/call_timer_text"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/azure_communication_ui_calling_color_on_surface"
+            android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding"
+            />
+
+        <EditText
+            android:id="@+id/timer_start_duration_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:inputType="number|text"
+            android:hint="@string/call_timer_start_duration_text"
+            />
+
+        <EditText
+            android:id="@+id/timer_start_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:hint="@string/timer_start_mri_text"
+            />
+
+        <EditText
+            android:id="@+id/timer_stop_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:hint="@string/timer_stop_mri_text"
+            />
+        <!-- </CUSTOM_CALL_HEADER> -->
         <TextView
             android:id="@+id/telecom_manager_options"
             android:layout_width="match_parent"
@@ -595,6 +646,32 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:hint="@string/default_spoken_language"
+            />
+
+        <TextView
+            android:id="@+id/custom_buttons_option"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/azure_communication_ui_calling_fab_margin"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:text="@string/call_custom_buttons_text"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/azure_communication_ui_calling_color_on_surface"
+            android:paddingTop="@dimen/azure_communication_ui_calling_inner_space_padding"
+            />
+
+        <CheckBox
+            android:id="@+id/add_custom_buttons_option_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onCheckBoxTap"
+            android:text="@string/call_custom_buttons"
+            tools:ignore="UsingOnClickInXml"
             />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </ScrollView>

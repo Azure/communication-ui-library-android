@@ -61,6 +61,7 @@ internal class CallCompositeActivityViewModel(
                 container.appStore, application,
                 container.configuration.callConfig?.callType,
                 isTelecomManagerEnabled = container.configuration.telecomManagerOptions != null,
+                logger = container.logger,
             ),
             container.networkManager,
             container.configuration.setupScreenOptions
@@ -68,26 +69,32 @@ internal class CallCompositeActivityViewModel(
     }
     val callingViewModel by lazy {
         CallingViewModel(
-            container.appStore,
-            CallingViewModelFactory(
-                container.appStore,
-                ParticipantGridCellViewModelFactory(),
-                application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants),
-                container.debugInfoManager,
-                container.capabilitiesManager,
-                container.configuration.callCompositeEventsHandler.getOnUserReportedHandlers().toList().isNotEmpty(),
-                container.configuration.enableMultitasking,
+            store = container.appStore,
+            callingViewModelProvider = CallingViewModelFactory(
+                store = container.appStore,
+                participantGridCellViewModelFactory = ParticipantGridCellViewModelFactory(),
+                maxRemoteParticipants = application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants),
+                debugInfoManager = container.debugInfoManager,
+                capabilitiesManager = container.capabilitiesManager,
+                showSupportFormOption = container.configuration.callCompositeEventsHandler.getOnUserReportedHandlers().any(),
+                enableMultitasking = container.configuration.enableMultitasking,
                 isTelecomManagerEnabled = container.configuration.telecomManagerOptions != null,
-                container.configuration.callConfig.callType,
+                callType = container.configuration.callConfig.callType,
+                callScreenControlBarOptions = container.configuration.callScreenOptions?.controlBarOptions,
                 isCaptionsEnabled = container.appStore.getCurrentState().captionsState.isCaptionsUIEnabled,
+                /* <CUSTOM_CALL_HEADER> */
+                callDurationManager = container.callDurationManager,
+                customTitle = container.configuration.callScreenOptions?.headerOptions?.title,
+                /* </CUSTOM_CALL_HEADER> */
+                logger = container.logger,
             ),
-            container.networkManager,
-            container.configuration.callScreenOptions,
-            container.configuration.enableMultitasking,
-            container.configuration.callCompositeLocalOptions?.audioVideoMode
+            networkManager = container.networkManager,
+            callScreenOptions = container.configuration.callScreenOptions,
+            multitaskingEnabled = container.configuration.enableMultitasking,
+            avMode = container.configuration.callCompositeLocalOptions?.audioVideoMode
                 ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
-            container.configuration.callConfig.callType,
-            container.capabilitiesManager
+            callType = container.configuration.callConfig.callType,
+            capabilitiesManager = container.capabilitiesManager
         )
     }
 }

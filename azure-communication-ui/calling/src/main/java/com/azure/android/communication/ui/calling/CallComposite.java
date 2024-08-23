@@ -34,6 +34,9 @@ import com.azure.android.communication.ui.calling.models.CallCompositePictureInP
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotification;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
+/* <CUSTOM_CALL_HEADER> */
+import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantLeftEvent;
+/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
@@ -45,6 +48,9 @@ import com.azure.android.communication.ui.calling.presentation.MultitaskingCallC
 import com.azure.android.communication.ui.calling.presentation.PiPCallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
 import com.azure.android.communication.ui.calling.redux.action.PipAction;
+/* <RTT_POC>
+import com.azure.android.communication.ui.calling.redux.action.RttAction;
+</RTT_POC> */
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKInitializer;
 import com.azure.android.communication.ui.calling.utilities.TestHelper;
 import com.jakewharton.threetenabp.AndroidThreeTen;
@@ -53,6 +59,11 @@ import java.util.Collection;
 import java.util.Collections;
 
 import java.util.List;
+/* <RTT_POC>
+import java.util.Timer;
+import java.util.TimerTask;
+<RTT_POC> */
+
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -569,7 +580,36 @@ public final class CallComposite {
             final CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().removeOnRemoteParticipantJoinedEventHandler(eventHandler);
     }
+    /* <CUSTOM_CALL_HEADER> */
+    /**
+     * Add {@link CallCompositeEventHandler}.
+     *
+     * <pre>
+     *
+     * &#47;&#47; add remote participant left handler
+     * callComposite.addOnRemoteParticipantLeftEventHandler&#40;event -> {
+     *     &#47;&#47; Use call composite to set configurations for remote participant
+     * }&#41;;
+     *
+     * </pre>
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void addOnRemoteParticipantLeftEventHandler(
+            final CallCompositeEventHandler<CallCompositeRemoteParticipantLeftEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().addOnRemoteParticipantLeftEventHandler(eventHandler);
+    }
 
+    /**
+     * Remove {@link CallCompositeEventHandler}.
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnRemoteParticipantLeftEventHandler(
+            final CallCompositeEventHandler<CallCompositeRemoteParticipantLeftEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().removeOnRemoteParticipantLeftEventHandler(eventHandler);
+    }
+    /* </CUSTOM_CALL_HEADER> */
     /**
      * Add {@link CallCompositeEventHandler}
      *
@@ -694,11 +734,6 @@ public final class CallComposite {
         String roomId = null;
         final CallType callType;
 
-
-        if (localOptions != null) {
-            configuration.setCallCompositeLocalOptions(localOptions);
-        }
-
         final CallCompositeJoinLocator locator = remoteOptions.getLocator();
         if (locator instanceof CallCompositeGroupCallLocator) {
             callType = CallType.GROUP_CALL;
@@ -720,7 +755,10 @@ public final class CallComposite {
             throw new CallCompositeException("Not supported Call Locator type");
         }
 
-        configuration.setCallConfig(new CallConfiguration(
+        launchComposite(context,
+                remoteOptions,
+                localOptions,
+                isTest,
                 groupId,
                 meetingLink,
                 meetingId,
@@ -728,25 +766,8 @@ public final class CallComposite {
                 roomId,
                 callType,
                 null,
-                null));
-
-        configuration.setApplicationContext(context.getApplicationContext());
-        configuration.setCredential(remoteOptions.getCredential());
-        configuration.setDisplayName(remoteOptions.getDisplayName());
-
-        initializeCallingSDK();
-
-        diContainer = new DependencyInjectionContainerImpl(
-                instanceId,
-                context.getApplicationContext(),
-                this,
-                TestHelper.INSTANCE.getCallingSDK(),
-                TestHelper.INSTANCE.getVideoStreamRendererFactory(),
-                TestHelper.INSTANCE.getCoroutineContextProvider(),
-                logger
+                null
         );
-
-        showUI(context, isTest);
     }
 
     private void launchComposite(final Context context,
@@ -788,12 +809,33 @@ public final class CallComposite {
             throw new CallCompositeException("Not supported Call type");
         }
 
-        if (localOptions != null) {
-            configuration.setCallCompositeLocalOptions(localOptions);
-        }
-        initializeCallingSDK();
+        launchComposite(context,
+                null,
+                localOptions,
+                isTest,
+                groupId,
+                meetingLink,
+                meetingId,
+                meetingPasscode,
+                roomId,
+                callType,
+                participants,
+                incomingCallId
+        );
+    }
 
-        // initializeCallingSDK validated Credential and Context
+    private void launchComposite(final Context context,
+                                 final CallCompositeRemoteOptions remoteOptions,
+                                 final CallCompositeLocalOptions localOptions,
+                                 final boolean isTest,
+                                 final UUID groupId,
+                                 final String meetingLink,
+                                 final String meetingId,
+                                 final String meetingPasscode,
+                                 final String roomId,
+                                 final CallType callType,
+                                 final Collection<CommunicationIdentifier> participants,
+                                 final String incomingCallId) {
         configuration.setCallConfig(new CallConfiguration(
                 groupId,
                 meetingLink,
@@ -803,6 +845,25 @@ public final class CallComposite {
                 callType,
                 participants,
                 incomingCallId));
+
+        configuration.setApplicationContext(context.getApplicationContext());
+        if (remoteOptions != null) {
+            configuration.setCredential(remoteOptions.getCredential());
+            configuration.setDisplayName(remoteOptions.getDisplayName());
+        }
+
+        if (localOptions != null) {
+            configuration.setCallCompositeLocalOptions(localOptions);
+            // override builder provided options if they are provided in the localOptions
+            if (localOptions.getSetupScreenOptions() != null) {
+                configuration.setSetupScreenOptions(localOptions.getSetupScreenOptions());
+            }
+            if (localOptions.getCallScreenOptions() != null) {
+                configuration.setCallScreenOptions(localOptions.getCallScreenOptions());
+            }
+        }
+
+        initializeCallingSDK();
 
         diContainer = new DependencyInjectionContainerImpl(
                 instanceId,
@@ -819,6 +880,20 @@ public final class CallComposite {
 
     private void showUI(final Context context,
                         final boolean isTest) {
+
+        /* <RTT_POC>
+        // Simulates incoming RTT Message data for UI Dev
+        new Timer().scheduleAtFixedRate(
+                new TimerTask() {
+                    @Override
+                    public void run() {
+                        if (Math.random() < 0.01) {
+                            diContainer.getAppStore().dispatch(new RttAction.IncomingMessageReceived("Hello", "abc"));
+                        }
+
+                    }
+                }, 0, 10);
+        </RTT_POC> */
 
         Class activityClass = CallCompositeActivity.class;
 

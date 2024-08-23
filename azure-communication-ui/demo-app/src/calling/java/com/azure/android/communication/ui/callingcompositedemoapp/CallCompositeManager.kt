@@ -22,12 +22,21 @@ import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
+import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
+/* <CUSTOM_CALL_HEADER> */
+import com.azure.android.communication.ui.calling.models.CallCompositeCallDurationTimer
+/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
+/* <CUSTOM_CALL_HEADER> */
+import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenHeaderOptions
+/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonClickEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallCancelledEvent
@@ -58,6 +67,9 @@ class CallCompositeManager(private val context: Context) {
     val callCompositeCallStateStateFlow = MutableStateFlow("")
     private var callComposite: CallComposite? = null
     private var incomingCallId: String? = null
+    /* <CUSTOM_CALL_HEADER> */
+    private var callCompositeCallDurationTimer: CallCompositeCallDurationTimer? = null
+    /* </CUSTOM_CALL_HEADER> */
 
     fun launch(
         applicationContext: Context,
@@ -82,7 +94,7 @@ class CallCompositeManager(private val context: Context) {
             applicationContext,
             acsToken,
             displayName,
-            identity
+            identity,
         )
 
         val localOptions = getLocalOptions(applicationContext)
@@ -279,16 +291,50 @@ class CallCompositeManager(private val context: Context) {
         callComposite.addOnUserReportedEventHandler(UserReportedIssueHandler(context.applicationContext as Application))
 
         val onDismissedEventHandler: ((CallCompositeDismissedEvent) -> Unit) = {
-            toast(context, "onDismissed: errorCode: ${it.errorCode}, cause: ${it.cause?.message}.")
+            var duration: Long? = null
+            /* <CUSTOM_CALL_HEADER> */
+            duration = callCompositeCallDurationTimer?.elapsedDuration?.let { it / 60000 }
+            /* </CUSTOM_CALL_HEADER> */
+            toast(
+                context,
+                "onDismissed: errorCode: ${it.errorCode}, cause: ${it.cause?.message}, duration : ${ duration ?: "N/A"} minutes"
+            )
+            /* <CUSTOM_CALL_HEADER> */
+            callCompositeCallDurationTimer?.reset()
+            /* </CUSTOM_CALL_HEADER> */
         }
         callComposite.addOnDismissedEventHandler(onDismissedEventHandler)
+
+        /* <CUSTOM_CALL_HEADER> */
+        callComposite.addOnRemoteParticipantLeftEventHandler { event ->
+            toast(context, "Remote participant removed: ${event.identifiers.count()}")
+            event.identifiers.forEach {
+                Log.d(CallLauncherActivity.TAG, "Remote participant removed: ${it.rawId}")
+            }
+            SettingsFeatures.getStopTimerMRI()?.let { mri ->
+                if (event.identifiers.any { it.rawId == mri }) {
+                    callCompositeCallDurationTimer?.stop()
+                }
+            }
+        }
+        /* </CUSTOM_CALL_HEADER> */
 
         callComposite.addOnPictureInPictureChangedEventHandler {
             toast(context, "isInPictureInPicture: " + it.isInPictureInPicture)
         }
 
-        callComposite.addOnRemoteParticipantJoinedEventHandler {
-            toast(context, message = "Joined ${it.identifiers.count()} remote participants")
+        callComposite.addOnRemoteParticipantJoinedEventHandler { event ->
+            toast(context, message = "Joined ${event.identifiers.count()} remote participants")
+            event.identifiers.forEach {
+                Log.d(CallLauncherActivity.TAG, "Remote participant joined: ${it.rawId}")
+            }
+            /* <CUSTOM_CALL_HEADER> */
+            SettingsFeatures.getStartTimerMRI()?.let { mri ->
+                if (event.identifiers.any { it.rawId == mri }) {
+                    callCompositeCallDurationTimer?.start()
+                }
+            }
+            /* </CUSTOM_CALL_HEADER> */
         }
 
         callComposite.addOnAudioSelectionChangedEventHandler { event ->
@@ -538,24 +584,95 @@ class CallCompositeManager(private val context: Context) {
     }
 
     private fun callScreenOptions(): CallCompositeCallScreenOptions? {
-        val callScreenOptions = CallCompositeCallScreenOptions()
-        val controlBarOptions = CallCompositeCallScreenControlBarOptions()
-        var isUpdated = false
+        var callScreenOptions: CallCompositeCallScreenOptions? = null
         if (SettingsFeatures.getDisplayLeaveCallConfirmationValue() != null) {
-            if (SettingsFeatures.getDisplayLeaveCallConfirmationValue() == true) {
-                controlBarOptions.setLeaveCallConfirmation(CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED)
-            } else {
-                controlBarOptions.setLeaveCallConfirmation(CallCompositeLeaveCallConfirmationMode.ALWAYS_DISABLED)
-            }
-            isUpdated = true
-        }
+            callScreenOptions = CallCompositeCallScreenOptions()
 
-        if (isUpdated) {
+            val controlBarOptions = CallCompositeCallScreenControlBarOptions()
             callScreenOptions.setControlBarOptions(controlBarOptions)
-            return callScreenOptions
+
+            controlBarOptions.setLeaveCallConfirmation(
+                if (SettingsFeatures.getDisplayLeaveCallConfirmationValue() == true) CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED
+                else CallCompositeLeaveCallConfirmationMode.ALWAYS_DISABLED
+            )
         }
 
-        return null
+        if (SettingsFeatures.getAddCustomButtons() == true) {
+            callScreenOptions = callScreenOptions ?: CallCompositeCallScreenOptions()
+
+            if (callScreenOptions.controlBarOptions == null)
+                callScreenOptions.controlBarOptions = CallCompositeCallScreenControlBarOptions()
+
+            callScreenOptions.controlBarOptions.setCustomButtons(
+                listOf(
+                    CallCompositeCustomButtonOptions(
+                        R.drawable.ic_fluent_arrow_next_24_regular,
+                        "Troubleshooting tips",
+                        fun(it: CallCompositeCustomButtonClickEvent) {
+                            val intent = Intent(it.context, TestActivity::class.java)
+                            context.startActivity(intent)
+                        }
+                    ),
+                    CallCompositeCustomButtonOptions(
+                        R.drawable.image_koala,
+                        "Hide call",
+                        fun(it: CallCompositeCustomButtonClickEvent) {
+                            callComposite?.sendToBackground()
+                        }
+                    )
+                )
+            )
+
+            callScreenOptions.controlBarOptions.cameraButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "cameraButton clicked") }
+
+            callScreenOptions.controlBarOptions.microphoneButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "microphoneButton clicked") }
+
+            callScreenOptions.controlBarOptions.audioDeviceButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "audioDeviceButton clicked") }
+
+            callScreenOptions.controlBarOptions.liveCaptionsButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "liveCaptionsButton clicked") }
+
+            callScreenOptions.controlBarOptions.liveCaptionsToggleButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "liveCaptionsToggleButton clicked") }
+
+            callScreenOptions.controlBarOptions.spokenLanguageButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "spokenLanguageButton clicked") }
+
+            callScreenOptions.controlBarOptions.captionsLanguageButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "captionsLanguageButton clicked") }
+
+            callScreenOptions.controlBarOptions.reportIssueButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "reportIssueButton clicked") }
+
+            callScreenOptions.controlBarOptions.shareDiagnosticsButton = CallCompositeButtonOptions()
+                .setOnClickHandler { toast(it.context, "shareDiagnosticsButton clicked") }
+        }
+        /* <CUSTOM_CALL_HEADER> */
+        if (!SettingsFeatures.callScreenInformationTitle().isNullOrEmpty() || !SettingsFeatures.getStartTimerMRI().isNullOrEmpty()) {
+            callScreenOptions = callScreenOptions ?: CallCompositeCallScreenOptions()
+
+            val headerOptions = CallCompositeCallScreenHeaderOptions()
+            SettingsFeatures.callScreenInformationTitle()?.let {
+                if (it.isNotEmpty()) {
+                    headerOptions.title = it
+                }
+            }
+            SettingsFeatures.getStartTimerMRI()?.let {
+                if (it.isNotEmpty()) {
+                    callCompositeCallDurationTimer = CallCompositeCallDurationTimer()
+                    SettingsFeatures.getDefaultTimerStartDuration().let { elapsedDuration ->
+                        callCompositeCallDurationTimer?.elapsedDuration = elapsedDuration
+                    }
+                    headerOptions.timer = callCompositeCallDurationTimer
+                }
+            }
+            callScreenOptions?.setHeaderOptions(headerOptions)
+        }
+        /* </CUSTOM_CALL_HEADER> */
+        return callScreenOptions
     }
 
     private fun setupScreenOptions(): CallCompositeSetupScreenOptions? {
@@ -568,10 +685,26 @@ class CallCompositeManager(private val context: Context) {
         }
 
         if (SettingsFeatures.getSetupScreenMicEnabledValue() != null) {
-            if (setupScreenOptions == null) {
-                setupScreenOptions = CallCompositeSetupScreenOptions()
-            }
+            setupScreenOptions = setupScreenOptions ?: CallCompositeSetupScreenOptions()
             setupScreenOptions.setMicrophoneButtonEnabled(SettingsFeatures.getSetupScreenMicEnabledValue())
+        }
+
+        if (SettingsFeatures.getAddCustomButtons() == true) {
+            setupScreenOptions = setupScreenOptions ?: CallCompositeSetupScreenOptions()
+            setupScreenOptions.setCameraButton(
+                CallCompositeButtonOptions()
+                    .setOnClickHandler { toast(it.context, "CameraButton clicked") }
+            )
+
+            setupScreenOptions.setMicrophoneButton(
+                CallCompositeButtonOptions()
+                    .setOnClickHandler { toast(it.context, "MicrophoneButton clicked") }
+            )
+
+            setupScreenOptions.setAudioDeviceButton(
+                CallCompositeButtonOptions()
+                    .setOnClickHandler { toast(it.context, "AudioDeviceButton clicked") }
+            )
         }
 
         return setupScreenOptions
@@ -583,7 +716,7 @@ class CallCompositeManager(private val context: Context) {
     ) {
         Log.i("ACSCallingUI", message)
         Handler(Looper.getMainLooper()).post {
-            Toast.makeText(context.applicationContext, "Debug: $message", Toast.LENGTH_LONG).show()
+            Toast.makeText(context.applicationContext, "Debug: $message", Toast.LENGTH_SHORT).show()
         }
     }
 
