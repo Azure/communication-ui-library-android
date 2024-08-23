@@ -10,6 +10,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeButtonOpti
 import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonOptions
 import com.azure.android.communication.ui.calling.models.createButtonClickEvent
 import com.azure.android.communication.ui.calling.models.createCustomButtonClickEvent
+import com.azure.android.communication.ui.calling.models.setEnabledChangedEventHandler
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.redux.Dispatch
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
@@ -92,6 +93,10 @@ internal class MoreCallOptionsListViewModel(
 
             customButtons
                 ?.forEach { customButton ->
+                    customButton.setEnabledChangedEventHandler {
+                        listEntriesMutableStateFlow.value = createButtons()
+                    }
+
                     add(
                         Entry(
                             icon = customButton.drawableId,

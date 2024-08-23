@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.calling.models
 import android.content.Context
 import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.ui.calling.presentation.manager.CallScreenInfoHeader
+import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 
 internal fun buildCallCompositeRemoteParticipantLeftEvent(
     identifiers: List<CommunicationIdentifier>,
@@ -32,4 +33,8 @@ internal fun createCustomButtonClickEvent(
     buttonOptions: CallCompositeCustomButtonOptions,
 ): CallCompositeCustomButtonClickEvent {
     return CallCompositeCustomButtonClickEvent(context, buttonOptions)
+}
+
+internal fun CallCompositeCustomButtonOptions.setEnabledChangedEventHandler(handler: CallCompositeEventHandler<Boolean>) {
+    this.enabledChangedEventHandler = handler
 }

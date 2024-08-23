@@ -267,6 +267,10 @@ class CallCompositeManager(private val context: Context) {
             isAnythingChanged = true
         }
 
+        callScreenOptions().let { localOptions.callScreenOptions = it }
+
+        setupScreenOptions()?.let { localOptions.setupScreenOptions = it }
+
         return if (isAnythingChanged) localOptions else null
     }
 
@@ -598,24 +602,25 @@ class CallCompositeManager(private val context: Context) {
             if (callScreenOptions.controlBarOptions == null)
                 callScreenOptions.controlBarOptions = CallCompositeCallScreenControlBarOptions()
 
+            val customButton1 = CallCompositeCustomButtonOptions(
+                R.drawable.ic_fluent_arrow_next_24_regular,
+                "Troubleshooting tips",
+                fun(it: CallCompositeCustomButtonClickEvent) {
+                    val intent = Intent(it.context, TestActivity::class.java)
+                    context.startActivity(intent)
+                }
+            )
+
+            val customButton2 = CallCompositeCustomButtonOptions(
+                R.drawable.image_koala,
+                "Invert enable on Troubleshooting tips",
+                fun(_: CallCompositeCustomButtonClickEvent) {
+                    customButton1.isEnabled = !customButton1.isEnabled
+                }
+            )
+
             callScreenOptions.controlBarOptions.setCustomButtons(
-                listOf(
-                    CallCompositeCustomButtonOptions(
-                        R.drawable.ic_fluent_arrow_next_24_regular,
-                        "Troubleshooting tips",
-                        fun(it: CallCompositeCustomButtonClickEvent) {
-                            val intent = Intent(it.context, TestActivity::class.java)
-                            context.startActivity(intent)
-                        }
-                    ),
-                    CallCompositeCustomButtonOptions(
-                        R.drawable.image_koala,
-                        "Hide call",
-                        fun(it: CallCompositeCustomButtonClickEvent) {
-                            callComposite?.sendToBackground()
-                        }
-                    )
-                )
+                listOf(customButton1, customButton2)
             )
 
             callScreenOptions.controlBarOptions.cameraButton = CallCompositeButtonOptions()

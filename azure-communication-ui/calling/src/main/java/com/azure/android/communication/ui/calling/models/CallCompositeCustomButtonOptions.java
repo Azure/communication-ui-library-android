@@ -68,6 +68,4 @@ public final class CallCompositeCustomButtonOptions {
         }
         return this;
     }
-
-
 }

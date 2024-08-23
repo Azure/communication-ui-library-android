@@ -38,6 +38,7 @@ internal class MoreCallOptionsListView(
     }
 
     fun start(viewLifecycleOwner: LifecycleOwner) {
+        initializeDrawer()
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.displayStateFlow.collect {
@@ -49,7 +50,8 @@ internal class MoreCallOptionsListView(
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.listEntriesStateFlow.collect {
-                initializeDrawer(it)
+                bottomCellAdapter.setBottomCellItems(convertToBottomCells(it))
+                bottomCellAdapter.notifyDataSetChanged()
             }
         }
     }
@@ -62,7 +64,7 @@ internal class MoreCallOptionsListView(
         this.removeAllViews()
     }
 
-    private fun initializeDrawer(entries: List<MoreCallOptionsListViewModel.Entry>) {
+    private fun initializeDrawer() {
         menuDrawer = DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM)
         menuDrawer.setContentView(this)
         menuDrawer.setOnDismissListener {
@@ -70,7 +72,6 @@ internal class MoreCallOptionsListView(
         }
 
         bottomCellAdapter = BottomCellAdapter()
-        bottomCellAdapter.setBottomCellItems(convertToBottomCells(entries))
         recyclerView.adapter = bottomCellAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
     }
