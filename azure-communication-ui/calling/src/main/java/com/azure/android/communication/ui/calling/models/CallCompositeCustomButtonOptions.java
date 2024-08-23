@@ -9,7 +9,7 @@ import com.azure.android.communication.ui.calling.CallCompositeEventHandler;
  * Call composite custom button options.
  */
 public final class CallCompositeCustomButtonOptions {
-
+    CallCompositeEventHandler<Boolean> enabledChangedEventHandler;
     private final int drawableId;
     private final String title;
     private final CallCompositeEventHandler<CallCompositeCustomButtonClickEvent> onClickHandler;
@@ -63,6 +63,11 @@ public final class CallCompositeCustomButtonOptions {
      */
     public CallCompositeCustomButtonOptions setEnabled(final Boolean isEnabled) {
         this.isEnabled = isEnabled;
+        if (enabledChangedEventHandler != null) {
+            enabledChangedEventHandler.handle(isEnabled);
+        }
         return this;
     }
+
+
 }

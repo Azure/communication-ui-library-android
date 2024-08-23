@@ -189,6 +189,7 @@ internal class CallingViewModel(
         captionsLanguageSelectionListViewModel.init(state.captionsState)
         captionsLayoutViewModel.init(state.captionsState, state.visibilityState)
 
+        moreCallOptionsListViewModel.init(state.visibilityState)
         super.init(coroutineScope)
     }
 
