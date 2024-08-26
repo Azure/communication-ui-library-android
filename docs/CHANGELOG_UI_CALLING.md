@@ -1,10 +1,9 @@
 # Azure Communication UI Calling Release History
 
-## 1.11.0-beta.1 (*)
+## 1.11.0-beta.1 (2024-08-27)
 
 ### Features
 - Call screen information header title customization and call duration timer
-- Call screen control bar custom button support
 
 ## 1.10.0 (2024-08-12)
 
