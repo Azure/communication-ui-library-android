@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.calling.models
 
 import android.content.Context
 import com.azure.android.communication.common.CommunicationIdentifier
-import com.azure.android.communication.ui.calling.presentation.manager.CallScreenInfoHeader
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 
 internal fun buildCallCompositeRemoteParticipantLeftEvent(
@@ -16,8 +15,11 @@ internal fun buildCallCompositeRemoteParticipantLeftEvent(
     )
 }
 
-internal fun CallCompositeCallScreenHeaderOptions.setManager(manager: CallScreenInfoHeader) {
-    this.callScreenInfoHeader = manager
+internal fun CallCompositeCallScreenHeaderOptions.setSubtitleChangedEventHandler(handler: CallCompositeEventHandler<String?>) {
+    this.subtitleChangedEventHandler = handler
+}
+internal fun CallCompositeCallScreenHeaderOptions.setTitleChangedEventHandler(handler: CallCompositeEventHandler<String?>) {
+    this.titleChangedEventHandler = handler
 }
 /* </CUSTOM_CALL_HEADER> */
 
@@ -37,4 +39,16 @@ internal fun createCustomButtonClickEvent(
 
 internal fun CallCompositeCustomButtonOptions.setEnabledChangedEventHandler(handler: CallCompositeEventHandler<Boolean>) {
     this.enabledChangedEventHandler = handler
+}
+
+internal fun CallCompositeCustomButtonOptions.setVisibleChangedEventHandler(handler: CallCompositeEventHandler<Boolean>) {
+    this.visibleChangedEventHandler = handler
+}
+
+internal fun CallCompositeButtonOptions.setEnabledChangedEventHandler(handler: CallCompositeEventHandler<Boolean>) {
+    this.enabledChangedEventHandler = handler
+}
+
+internal fun CallCompositeButtonOptions.setVisibleChangedEventHandler(handler: CallCompositeEventHandler<Boolean>) {
+    this.visibleChangedEventHandler = handler
 }

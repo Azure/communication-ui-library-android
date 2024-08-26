@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.redux.state
 
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 
 internal class AppReduxState(
@@ -13,10 +14,20 @@ internal class AppReduxState(
     skipSetupScreen: Boolean = false,
     avMode: CallCompositeAudioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
     showCaptionsUI: Boolean = true,
-    /* <CUSTOM_CALL_HEADER> */
-    callScreenInfoHeaderState: CallScreenInfoHeaderState? = null
-    /* </CUSTOM_CALL_HEADER> */
+    private val localOptions: CallCompositeLocalOptions?
 ) : ReduxState {
+
+    fun copy(): AppReduxState {
+        return AppReduxState(
+            displayName = localParticipantState.displayName,
+            cameraOnByDefault = localParticipantState.initialCallJoinState.startWithCameraOn,
+            microphoneOnByDefault = localParticipantState.initialCallJoinState.startWithMicrophoneOn,
+            skipSetupScreen = localParticipantState.initialCallJoinState.skipSetupScreen,
+            avMode = localParticipantState.audioVideoMode,
+            showCaptionsUI = captionsState.isCaptionsUIEnabled,
+            localOptions = localOptions
+        )
+    }
 
     override var callState: CallingState = CallingState()
 
@@ -85,12 +96,19 @@ internal class AppReduxState(
 
     /* <CUSTOM_CALL_HEADER> */
     override var callScreenInfoHeaderState: CallScreenInfoHeaderState = CallScreenInfoHeaderState(
-        title = callScreenInfoHeaderState?.title,
-        subtitle = callScreenInfoHeaderState?.subtitle
+        title = localOptions?.callScreenOptions?.headerOptions?.title,
+        subtitle = localOptions?.callScreenOptions?.headerOptions?.subtitle,
     )
     /* </CUSTOM_CALL_HEADER> */
 
     /* <RTT_POC>
     override var rttState = RttState()
     </RTT_POC> */
+
+    override var buttonOptionsState: ButtonOptionsState = ButtonOptionsState(
+        cameraButtonState = DefaultButtonState(
+            isEnabled = localOptions?.callScreenOptions?.controlBarOptions?.cameraButton?.isEnabled,
+            isVisible = localOptions?.callScreenOptions?.controlBarOptions?.cameraButton?.isVisible,
+        )
+    )
 }

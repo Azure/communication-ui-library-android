@@ -57,6 +57,11 @@ internal class ControlBarViewModel(
     lateinit var openAudioDeviceSelectionMenu: () -> Unit
     lateinit var openMoreMenu: () -> Unit
 
+    // Button options
+    private var cameraButtonOptions: CallCompositeButtonOptions? = null
+    private var micButtonOptions: CallCompositeButtonOptions? = null
+    private var audioDeviceButtonOptions: CallCompositeButtonOptions? = null
+
     var isMoreButtonVisible: Boolean = true
 
     fun init(
@@ -72,6 +77,10 @@ internal class ControlBarViewModel(
         capabilities: Set<ParticipantCapabilityType>,
         controlBarOptions: CallCompositeCallScreenControlBarOptions?
     ) {
+        this.cameraButtonOptions = controlBarOptions?.cameraButton
+        this.micButtonOptions = controlBarOptions?.microphoneButton
+        this.audioDeviceButtonOptions = controlBarOptions?.audioDeviceButton
+
         isVisibleStateFlow = MutableStateFlow(shouldBeVisible(visibilityState))
 
         isCameraButtonVisibleFlow = MutableStateFlow(
@@ -122,10 +131,6 @@ internal class ControlBarViewModel(
         requestCallEnd = requestCallEndCallback
         openAudioDeviceSelectionMenu = openAudioDeviceSelectionMenuCallback
         openMoreMenu = openMoreMenuCallback
-
-        this.cameraButtonOptions = controlBarOptions?.cameraButton
-        this.micButtonOptions = controlBarOptions?.microphoneButton
-        this.audioDeviceButtonOptions = controlBarOptions?.audioDeviceButton
     }
 
     fun update(
@@ -177,15 +182,6 @@ internal class ControlBarViewModel(
     val audioDeviceSelection: StateFlow<AudioDeviceSelectionStatus> get() = audioDeviceSelectionStatusStateFlow
 
     val isMoreButtonEnabled: StateFlow<Boolean> get() = isMoreButtonEnabledFlow
-
-    var cameraButtonOptions: CallCompositeButtonOptions? = null
-        private set
-
-    var micButtonOptions: CallCompositeButtonOptions? = null
-        private set
-
-    var audioDeviceButtonOptions: CallCompositeButtonOptions? = null
-        private set
 
     fun turnMicOff() {
         dispatchAction(action = LocalParticipantAction.MicOffTriggered())

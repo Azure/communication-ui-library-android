@@ -6,6 +6,11 @@ package com.azure.android.communication.ui.calling.presentation.fragment.factori
 /* <RTT_POC>
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttViewModel
 </RTT_POC> */
+/* <CUSTOM_CALL_HEADER> */
+/* </CUSTOM_CALL_HEADER> */
+/* <RTT_POC>
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttViewModel
+</RTT_POC> */
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
@@ -27,12 +32,6 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.menu.ParticipantMenuViewModel
-/* <CUSTOM_CALL_HEADER> */
-import com.azure.android.communication.ui.calling.presentation.manager.CallScreenInfoHeaderManager
-/* </CUSTOM_CALL_HEADER> */
-/* <RTT_POC>
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttViewModel
-</RTT_POC> */
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
@@ -52,10 +51,6 @@ internal class CallingViewModelFactory(
     private val callType: CallType? = null,
     private val callScreenControlBarOptions: CallCompositeCallScreenControlBarOptions?,
     private val isCaptionsEnabled: Boolean = false,
-    /* <CUSTOM_CALL_HEADER> */
-    private val callScreenInfoHeaderManager: CallScreenInfoHeaderManager? = null,
-    private val customTitle: String? = null,
-    /* </CUSTOM_CALL_HEADER> */
     private val logger: Logger,
 ) : BaseViewModelFactory(store) {
 

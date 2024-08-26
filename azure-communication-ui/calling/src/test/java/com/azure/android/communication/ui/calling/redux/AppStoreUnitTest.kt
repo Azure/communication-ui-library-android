@@ -34,7 +34,7 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val action = CallingAction.CallStartRequested()
-            val stateTest = AppReduxState("", false, false)
+            val stateTest = AppReduxState("", false, false, localOptions = localOptions)
             val participantMap: MutableMap<String, ParticipantInfoModel> = HashMap()
             participantMap["user"] =
                 ParticipantInfoModel(
@@ -105,7 +105,7 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
             )
 
             Mockito.`when`(mockAppStateReducer.reduce(mockAppState, action))
-                .thenReturn(AppReduxState("", false, false))
+                .thenReturn(AppReduxState("", false, false, localOptions = localOptions))
 
             // act
             store.dispatch(action)
@@ -119,7 +119,7 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val action = CallingAction.CallStartRequested()
-            val testState = AppReduxState("", false, false)
+            val testState = AppReduxState("", false, false, localOptions = localOptions)
 
             val store = AppStore(
                 mockAppState,

@@ -9,6 +9,8 @@ import com.azure.android.communication.ui.calling.CallCompositeEventHandler;
  * Call composite provided button options.
  */
 public class CallCompositeButtonOptions {
+    CallCompositeEventHandler<Boolean> enabledChangedEventHandler;
+    CallCompositeEventHandler<Boolean> visibleChangedEventHandler;
     private CallCompositeEventHandler<CallCompositeButtonClickEvent> onClickHandler;
     private Boolean isVisible = true;
     private Boolean isEnabled = true;
@@ -42,6 +44,9 @@ public class CallCompositeButtonOptions {
      */
     public CallCompositeButtonOptions setVisible(final Boolean isVisible) {
         this.isVisible = isVisible;
+        if (visibleChangedEventHandler != null) {
+            visibleChangedEventHandler.handle(isVisible);
+        }
         return this;
     }
 
@@ -57,6 +62,9 @@ public class CallCompositeButtonOptions {
      */
     public CallCompositeButtonOptions setEnabled(final Boolean isEnabled) {
         this.isEnabled = isEnabled;
+        if (enabledChangedEventHandler != null) {
+            enabledChangedEventHandler.handle(isEnabled);
+        }
         return this;
     }
 }

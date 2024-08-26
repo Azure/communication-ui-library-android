@@ -11,6 +11,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCustomButt
 import com.azure.android.communication.ui.calling.models.createButtonClickEvent
 import com.azure.android.communication.ui.calling.models.createCustomButtonClickEvent
 import com.azure.android.communication.ui.calling.models.setEnabledChangedEventHandler
+import com.azure.android.communication.ui.calling.models.setVisibleChangedEventHandler
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.redux.Dispatch
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
@@ -51,8 +52,13 @@ internal class MoreCallOptionsListViewModel(
     val listEntriesStateFlow: StateFlow<List<Entry>> get() = listEntriesMutableStateFlow
 
     private fun createButtons(): List<Entry> {
+        val buttonsUpdated = {
+            listEntriesMutableStateFlow.value = createButtons()
+        }
         return mutableListOf<Entry>().apply {
             if (isCaptionsEnabled) {
+                captionsButtonOptions?.setEnabledChangedEventHandler { buttonsUpdated() }
+                captionsButtonOptions?.setVisibleChangedEventHandler { buttonsUpdated() }
                 add(
                     Entry(
                         titleResourceId = R.string.azure_communication_ui_calling_live_captions_title,
@@ -66,6 +72,8 @@ internal class MoreCallOptionsListViewModel(
                     }
                 )
             }
+            shareDiagnosticsButtonOptions?.setEnabledChangedEventHandler { buttonsUpdated() }
+            shareDiagnosticsButtonOptions?.setVisibleChangedEventHandler { buttonsUpdated() }
             add(
                 Entry(
                     titleResourceId = R.string.azure_communication_ui_calling_view_share_diagnostics,
@@ -78,6 +86,8 @@ internal class MoreCallOptionsListViewModel(
                 }
             )
             if (showSupportFormOption) {
+                reportIssueButtonOptions?.setEnabledChangedEventHandler { buttonsUpdated() }
+                reportIssueButtonOptions?.setVisibleChangedEventHandler { buttonsUpdated() }
                 add(
                     Entry(
                         titleResourceId = R.string.azure_communication_ui_calling_report_issue_title,
@@ -93,15 +103,14 @@ internal class MoreCallOptionsListViewModel(
 
             customButtons
                 ?.forEach { customButton ->
-                    customButton.setEnabledChangedEventHandler {
-                        listEntriesMutableStateFlow.value = createButtons()
-                    }
-
+                    customButton.setEnabledChangedEventHandler { buttonsUpdated() }
+                    customButton.setVisibleChangedEventHandler { buttonsUpdated() }
                     add(
                         Entry(
                             icon = customButton.drawableId,
                             titleText = customButton.title,
                             isEnabled = customButton.isEnabled,
+                            isVisible = customButton.isVisible,
                             onClickListener = { context ->
                                 try {
                                     customButton.onClickHandler?.handle(

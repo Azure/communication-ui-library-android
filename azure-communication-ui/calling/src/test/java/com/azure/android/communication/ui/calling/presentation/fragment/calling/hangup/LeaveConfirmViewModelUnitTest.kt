@@ -38,7 +38,7 @@ internal class LeaveConfirmViewModelUnitTest {
     @Test
     fun leaveConfirmViewModel_confirm_then_dispatchEndCall() {
 
-        val appState = AppReduxState("", false, false, false)
+        val appState = AppReduxState("", false, false, false, localOptions = localOptions)
         appState.callState = CallingState(CallingStatus.CONNECTED)
 
         val mockAppStore = mock<AppStore<ReduxState>> {
@@ -60,7 +60,7 @@ internal class LeaveConfirmViewModelUnitTest {
     @Test
     fun leaveConfirmViewModel_confirm_onRinging_then_dispatchEndCall() {
 
-        val appState = AppReduxState("", false, false, false)
+        val appState = AppReduxState("", false, false, false, localOptions = localOptions)
         appState.callState = CallingState(CallingStatus.RINGING)
 
         val mockAppStore = mock<AppStore<ReduxState>> {
@@ -82,7 +82,7 @@ internal class LeaveConfirmViewModelUnitTest {
     @Test
     fun leaveConfirmViewModel_confirm_onConnecting_then_dispatchEndCall() {
 
-        val appState = AppReduxState("", false, false, false)
+        val appState = AppReduxState("", false, false, false, localOptions = localOptions)
         appState.callState = CallingState(CallingStatus.RINGING)
 
         val mockAppStore = mock<AppStore<ReduxState>> {
@@ -104,7 +104,7 @@ internal class LeaveConfirmViewModelUnitTest {
     @Test
     fun leaveConfirmViewModel_confirm_then_dispatchNavigationExit() {
 
-        val appState = AppReduxState("", false, false)
+        val appState = AppReduxState("", false, false, localOptions = localOptions)
         appState.callState = CallingState(CallingStatus.DISCONNECTED)
         appState.localParticipantState = LocalUserState(
             CameraState(

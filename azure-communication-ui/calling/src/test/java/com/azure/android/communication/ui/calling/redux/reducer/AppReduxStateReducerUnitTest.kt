@@ -100,7 +100,7 @@ internal class AppReduxStateReducerUnitTest {
                 /* </CUSTOM_CALL_HEADER> */
             )
         val action = NavigationAction.CallLaunched()
-        val state = AppReduxState("", false, false)
+        val state = AppReduxState("", false, false, localOptions = localOptions)
         state.callState = CallingState(CallingStatus.CONNECTED)
         state.remoteParticipantState = RemoteParticipantsState(HashMap(), 0, listOf(), 0, null, 0)
         state.localParticipantState = LocalUserState(

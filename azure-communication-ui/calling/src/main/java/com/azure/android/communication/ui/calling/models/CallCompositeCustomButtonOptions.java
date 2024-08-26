@@ -10,10 +10,12 @@ import com.azure.android.communication.ui.calling.CallCompositeEventHandler;
  */
 public final class CallCompositeCustomButtonOptions {
     CallCompositeEventHandler<Boolean> enabledChangedEventHandler;
+    CallCompositeEventHandler<Boolean> visibleChangedEventHandler;
     private final int drawableId;
     private final String title;
     private final CallCompositeEventHandler<CallCompositeCustomButtonClickEvent> onClickHandler;
     private Boolean isEnabled = true;
+    private Boolean isVisible = true;
 
     /**
      * Create call composite custom button options.
@@ -65,6 +67,24 @@ public final class CallCompositeCustomButtonOptions {
         this.isEnabled = isEnabled;
         if (enabledChangedEventHandler != null) {
             enabledChangedEventHandler.handle(isEnabled);
+        }
+        return this;
+    }
+
+    /**
+     * Get isVisible property.
+     */
+    public Boolean isVisible() {
+        return this.isVisible;
+    }
+
+    /**
+     * Set isVisible property.
+     */
+    public CallCompositeCustomButtonOptions setVisible(final Boolean isVisible) {
+        this.isVisible = isVisible;
+        if (visibleChangedEventHandler != null) {
+            visibleChangedEventHandler.handle(isVisible);
         }
         return this;
     }

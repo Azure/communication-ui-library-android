@@ -25,7 +25,7 @@ internal class ErrorInfoViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val expectedPermissionState = CallStateError(ErrorCode.CALL_END_FAILED, null)
-            val appState = AppReduxState("", false, false)
+            val appState = AppReduxState("", false, false, localOptions = localOptions)
             appState.errorState = ErrorState(null, expectedPermissionState)
 
             val snackBarViewModel = ErrorInfoViewModel()
@@ -60,7 +60,7 @@ internal class ErrorInfoViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val expectedPermissionState = CallStateError(ErrorCode.NETWORK_NOT_AVAILABLE, null)
-            val appState = AppReduxState("", false, false)
+            val appState = AppReduxState("", false, false, localOptions = localOptions)
 
             appState.errorState = ErrorState(null, expectedPermissionState)
 

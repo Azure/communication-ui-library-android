@@ -3,6 +3,10 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
+/* <CUSTOM_CALL_HEADER> */
+/* </CUSTOM_CALL_HEADER> */
+/* <CUSTOM_CALL_HEADER> */
+/* </CUSTOM_CALL_HEADER> */
 import android.app.Application
 import android.app.PendingIntent
 import android.content.Context
@@ -25,9 +29,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideo
 import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
-/* <CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenHeaderOptions
-/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
@@ -598,57 +600,83 @@ class CallCompositeManager(private val context: Context) {
 
         if (SettingsFeatures.getAddCustomButtons() == true) {
             callScreenOptions = callScreenOptions ?: CallCompositeCallScreenOptions()
-
             if (callScreenOptions.controlBarOptions == null)
                 callScreenOptions.controlBarOptions = CallCompositeCallScreenControlBarOptions()
 
-            val customButton1 = CallCompositeCustomButtonOptions(
-                R.drawable.ic_fluent_arrow_next_24_regular,
-                "Troubleshooting tips",
-                fun(it: CallCompositeCustomButtonClickEvent) {
-                    val intent = Intent(it.context, TestActivity::class.java)
-                    context.startActivity(intent)
-                }
-            )
+            with(callScreenOptions) {
+                controlBarOptions.cameraButton = CallCompositeButtonOptions()
+                    .setOnClickHandler { toast(it.context, "cameraButton clicked") }
 
-            val customButton2 = CallCompositeCustomButtonOptions(
-                R.drawable.image_koala,
-                "Invert enable on Troubleshooting tips",
-                fun(_: CallCompositeCustomButtonClickEvent) {
-                    customButton1.isEnabled = !customButton1.isEnabled
-                }
-            )
+                controlBarOptions.microphoneButton = CallCompositeButtonOptions()
+                    .setOnClickHandler { toast(it.context, "microphoneButton clicked") }
 
-            callScreenOptions.controlBarOptions.setCustomButtons(
-                listOf(customButton1, customButton2)
-            )
+                controlBarOptions.audioDeviceButton = CallCompositeButtonOptions()
+                    .setOnClickHandler { toast(it.context, "audioDeviceButton clicked") }
 
-            callScreenOptions.controlBarOptions.cameraButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "cameraButton clicked") }
+                controlBarOptions.liveCaptionsButton = CallCompositeButtonOptions()
+                        .setOnClickHandler { toast(it.context, "liveCaptionsButton clicked") }
 
-            callScreenOptions.controlBarOptions.microphoneButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "microphoneButton clicked") }
+                controlBarOptions.liveCaptionsToggleButton = CallCompositeButtonOptions()
+                        .setOnClickHandler { toast(it.context, "liveCaptionsToggleButton clicked") }
 
-            callScreenOptions.controlBarOptions.audioDeviceButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "audioDeviceButton clicked") }
+                controlBarOptions.spokenLanguageButton = CallCompositeButtonOptions()
+                        .setOnClickHandler { toast(it.context, "spokenLanguageButton clicked") }
 
-            callScreenOptions.controlBarOptions.liveCaptionsButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "liveCaptionsButton clicked") }
+                controlBarOptions.captionsLanguageButton = CallCompositeButtonOptions()
+                        .setOnClickHandler { toast(it.context, "captionsLanguageButton clicked") }
 
-            callScreenOptions.controlBarOptions.liveCaptionsToggleButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "liveCaptionsToggleButton clicked") }
+                controlBarOptions.reportIssueButton = CallCompositeButtonOptions()
+                    .setOnClickHandler { toast(it.context, "reportIssueButton clicked") }
 
-            callScreenOptions.controlBarOptions.spokenLanguageButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "spokenLanguageButton clicked") }
+                controlBarOptions.shareDiagnosticsButton = CallCompositeButtonOptions()
+                        .setOnClickHandler { toast(it.context, "shareDiagnosticsButton clicked") }
 
-            callScreenOptions.controlBarOptions.captionsLanguageButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "captionsLanguageButton clicked") }
+                if (controlBarOptions == null)
+                    controlBarOptions = CallCompositeCallScreenControlBarOptions()
 
-            callScreenOptions.controlBarOptions.reportIssueButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "reportIssueButton clicked") }
+                val customButton1 = CallCompositeCustomButtonOptions(
+                    R.drawable.ic_fluent_arrow_next_24_regular,
+                    "Troubleshooting tips",
+                    fun(it: CallCompositeCustomButtonClickEvent) {
+                        val intent = Intent(it.context, TestActivity::class.java)
+                        context.startActivity(intent)
+                    }
+                )
 
-            callScreenOptions.controlBarOptions.shareDiagnosticsButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "shareDiagnosticsButton clicked") }
+                val disableButtonsCustomButton = CallCompositeCustomButtonOptions(
+                    R.drawable.image_koala,
+                    "Enable/disable buttons",
+                    fun(_: CallCompositeCustomButtonClickEvent) {
+                        customButton1.isEnabled = !customButton1.isEnabled
+
+                        controlBarOptions.cameraButton.isEnabled = !controlBarOptions.cameraButton.isEnabled
+                        controlBarOptions.microphoneButton.isEnabled = !controlBarOptions.microphoneButton.isEnabled
+                        controlBarOptions.audioDeviceButton.isEnabled = !controlBarOptions.audioDeviceButton.isEnabled
+                        controlBarOptions.liveCaptionsButton.isEnabled = !controlBarOptions.liveCaptionsButton.isEnabled
+                        controlBarOptions.shareDiagnosticsButton.isEnabled = !controlBarOptions.shareDiagnosticsButton.isEnabled
+                        controlBarOptions.reportIssueButton.isEnabled = !controlBarOptions.reportIssueButton.isEnabled
+                    }
+                )
+
+                val hideCustomButton = CallCompositeCustomButtonOptions(
+                    R.drawable.image_koala,
+                    "Hide/show buttons",
+                    fun(_: CallCompositeCustomButtonClickEvent) {
+                        customButton1.isVisible = !customButton1.isVisible
+
+                        controlBarOptions.cameraButton.isVisible = !controlBarOptions.cameraButton.isVisible
+                        controlBarOptions.microphoneButton.isVisible = !controlBarOptions.microphoneButton.isVisible
+                        controlBarOptions.audioDeviceButton.isVisible = !controlBarOptions.audioDeviceButton.isVisible
+                        controlBarOptions.liveCaptionsButton.isVisible = !controlBarOptions.liveCaptionsButton.isVisible
+                        controlBarOptions.shareDiagnosticsButton.isVisible = !controlBarOptions.shareDiagnosticsButton.isVisible
+                        controlBarOptions.reportIssueButton.isVisible = !controlBarOptions.reportIssueButton.isVisible
+                    }
+                )
+
+                controlBarOptions.setCustomButtons(
+                    listOf(customButton1, disableButtonsCustomButton, hideCustomButton)
+                )
+            }
         }
         /* <CUSTOM_CALL_HEADER> */
         if (!SettingsFeatures.getCallScreenInformationTitle().isNullOrEmpty() ||
