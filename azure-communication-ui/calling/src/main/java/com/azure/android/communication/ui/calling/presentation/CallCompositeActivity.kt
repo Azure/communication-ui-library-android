@@ -30,9 +30,9 @@ import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
 import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent
-/* <CUSTOM_CALL_HEADER> */
+/* <CUSTOM_CALL_HEADER>
 import com.azure.android.communication.ui.calling.models.setCallTimer
-/* </CUSTOM_CALL_HEADER> */
+</CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.onExit
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.support.SupportView
@@ -89,9 +89,9 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     private val logger get() = container.logger
     private val compositeManager get() = container.compositeExitManager
     private val compositeDataModel get() = container.captionsDataManager
-    /* <CUSTOM_CALL_HEADER> */
+    /* <CUSTOM_CALL_HEADER>
     private val callDurationManager get() = container.callDurationManager
-    /* </CUSTOM_CALL_HEADER> */
+    </CUSTOM_CALL_HEADER> */
     private lateinit var visibilityStatusFlow: MutableStateFlow<VisibilityStatus>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -122,9 +122,9 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         configuration.themeConfig?.let {
             theme.applyStyle(it, true)
         }
-        /* <CUSTOM_CALL_HEADER> */
+        /* <CUSTOM_CALL_HEADER>
         configuration.callScreenOptions?.headerOptions?.timer?.setCallTimer(callDurationManager)
-        /* </CUSTOM_CALL_HEADER> */
+        </CUSTOM_CALL_HEADER> */
         setContentView(R.layout.azure_communication_ui_calling_activity_call_composite)
 
         permissionManager.start(

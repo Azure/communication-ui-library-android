@@ -3,11 +3,11 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.header
 
-/* <CUSTOM_CALL_HEADER> */
+/* <CUSTOM_CALL_HEADER>
 import android.content.Context
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.presentation.manager.CallDurationManager
-/* </CUSTOM_CALL_HEADER> */
+</CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,10 +16,10 @@ import java.util.TimerTask
 
 internal class InfoHeaderViewModel(
     val multitaskingEnabled: Boolean,
-    /* <CUSTOM_CALL_HEADER> */
+    /* <CUSTOM_CALL_HEADER>
     private val callDurationManager: CallDurationManager? = null,
     private val customTitle: String? = null
-    /* </CUSTOM_CALL_HEADER> */
+    </CUSTOM_CALL_HEADER> */
 ) {
     private lateinit var displayFloatingHeaderFlow: MutableStateFlow<Boolean>
     private lateinit var isOverlayDisplayedFlow: MutableStateFlow<Boolean>
@@ -29,7 +29,7 @@ internal class InfoHeaderViewModel(
     private lateinit var requestCallEndCallback: () -> Unit
 
     private var displayedOnLaunch = false
-    /* <CUSTOM_CALL_HEADER> */
+    /* <CUSTOM_CALL_HEADER>
     fun getCustomTitle(): String? {
         return customTitle
     }
@@ -37,7 +37,7 @@ internal class InfoHeaderViewModel(
     fun getCallDurationManager(): CallDurationManager? {
         return callDurationManager
     }
-    /* </CUSTOM_CALL_HEADER> */
+    </CUSTOM_CALL_HEADER> */
     fun getIsOverlayDisplayedFlow(): StateFlow<Boolean> = isOverlayDisplayedFlow
 
     fun getDisplayFloatingHeaderFlow(): StateFlow<Boolean> = displayFloatingHeaderFlow
@@ -56,7 +56,7 @@ internal class InfoHeaderViewModel(
         }
     }
 
-    /* <CUSTOM_CALL_HEADER> */
+    /* <CUSTOM_CALL_HEADER>
     fun getFormattedElapsedDuration(context: Context): String {
         val elapsedDuration = callDurationManager?.getElapsedDuration() ?: 0L
 
@@ -80,7 +80,7 @@ internal class InfoHeaderViewModel(
         }
     }
 
-    /* </CUSTOM_CALL_HEADER> */
+    </CUSTOM_CALL_HEADER> */
 
     fun updateIsOverlayDisplayed(callingStatus: CallingStatus) {
         isOverlayDisplayedFlow.value = isOverlayDisplayed(callingStatus)

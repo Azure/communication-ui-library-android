@@ -22,9 +22,9 @@ import com.azure.android.communication.ui.calling.presentation.manager.AudioFocu
 import com.azure.android.communication.ui.calling.presentation.manager.AudioModeManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
-/* <CUSTOM_CALL_HEADER> */
+/* <CUSTOM_CALL_HEADER>
 import com.azure.android.communication.ui.calling.presentation.manager.CallDurationManager
-/* </CUSTOM_CALL_HEADER> */
+</CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.presentation.manager.CompositeExitManager
 import com.azure.android.communication.ui.calling.presentation.manager.CameraStatusHook
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
@@ -118,11 +118,11 @@ internal class DependencyInjectionContainerImpl(
     override val errorHandler by lazy {
         ErrorHandler(configuration, appStore)
     }
-    /* <CUSTOM_CALL_HEADER> */
+    /* <CUSTOM_CALL_HEADER>
     override val callDurationManager by lazy {
         CallDurationManager(configuration.callScreenOptions?.headerOptions?.timer?.elapsedDuration ?: 0)
     }
-    /* </CUSTOM_CALL_HEADER> */
+    </CUSTOM_CALL_HEADER> */
     override val videoViewManager by lazy {
         VideoViewManager(
             callingSDKWrapper,

@@ -5,9 +5,9 @@ package com.azure.android.communication.ui.calling.handlers
 
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
-/* <CUSTOM_CALL_HEADER> */
+/* <CUSTOM_CALL_HEADER>
 import com.azure.android.communication.ui.calling.models.buildCallCompositeRemoteParticipantLeftEvent
-/* </CUSTOM_CALL_HEADER> */
+</CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
@@ -54,7 +54,7 @@ internal class RemoteParticipantHandler(
     }
 
     private fun sendRemoteParticipantLeftEvent(leftParticipants: List<String>) {
-        /* <CUSTOM_CALL_HEADER> */
+        /* <CUSTOM_CALL_HEADER>
         if (configuration.callCompositeEventsHandler.getOnRemoteParticipantRemovedHandlers().any()) {
             try {
                 if (leftParticipants.isNotEmpty()) {
@@ -72,7 +72,7 @@ internal class RemoteParticipantHandler(
                 // suppress any possible application errors
             }
         }
-        /* </CUSTOM_CALL_HEADER> */
+        </CUSTOM_CALL_HEADER> */
     }
 
     private fun sendRemoteParticipantJoinedEvent(joinedParticipant: List<String>) {

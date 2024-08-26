@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-/* <CUSTOM_CALL_HEADER> */
+/* <CUSTOM_CALL_HEADER>
 package com.azure.android.communication.ui.calling
 
 import android.os.SystemClock
@@ -104,4 +104,4 @@ internal class CustomHeaderTest : BaseUiTest() {
         assertTextDisplayed("00:00")
     }
 }
-/* </CUSTOM_CALL_HEADER> */
+</CUSTOM_CALL_HEADER> */

@@ -26,9 +26,9 @@ internal class InfoHeaderView : ConstraintLayout {
     private lateinit var floatingHeader: ConstraintLayout
     private lateinit var headerView: View
     private lateinit var participantNumberText: TextView
-    /* <CUSTOM_CALL_HEADER> */
+    /* <CUSTOM_CALL_HEADER>
     private lateinit var timerText: TextView
-    /* </CUSTOM_CALL_HEADER> */
+    </CUSTOM_CALL_HEADER> */
     private lateinit var displayParticipantsImageButton: ImageButton
     private lateinit var backButton: ImageButton
     private lateinit var infoHeaderViewModel: InfoHeaderViewModel
@@ -40,9 +40,9 @@ internal class InfoHeaderView : ConstraintLayout {
         headerView = findViewById(R.id.azure_communication_ui_call_floating_header)
         participantNumberText =
             findViewById(R.id.azure_communication_ui_call_participant_number_text)
-        /* <CUSTOM_CALL_HEADER> */
+        /* <CUSTOM_CALL_HEADER>
         timerText = findViewById(R.id.azure_communication_ui_call_participant_timer)
-        /* </CUSTOM_CALL_HEADER> */
+        </CUSTOM_CALL_HEADER> */
         displayParticipantsImageButton =
             findViewById(R.id.azure_communication_ui_call_bottom_drawer_button)
         displayParticipantsImageButton.setOnClickListener {
@@ -82,7 +82,7 @@ internal class InfoHeaderView : ConstraintLayout {
             }
         }
 
-        /* <CUSTOM_CALL_HEADER> */
+        /* <CUSTOM_CALL_HEADER>
         viewLifecycleOwner.lifecycleScope.launch {
             infoHeaderViewModel.getCallDurationManager()?.timerTickStateFlow?.collect {
                 timerText.text = it
@@ -90,17 +90,17 @@ internal class InfoHeaderView : ConstraintLayout {
                 timerText.visibility = if (it.isEmpty()) View.GONE else View.VISIBLE
             }
         }
-        /* </CUSTOM_CALL_HEADER> */
+        </CUSTOM_CALL_HEADER> */
 
         viewLifecycleOwner.lifecycleScope.launch {
             infoHeaderViewModel.getNumberOfParticipantsFlow().collect {
-                /* <CUSTOM_CALL_HEADER> */
+                /* <CUSTOM_CALL_HEADER>
                 val customTitle = infoHeaderViewModel.getCustomTitle()
                 if (customTitle != null) {
                     participantNumberText.text = customTitle
                     return@collect
                 }
-                /* </CUSTOM_CALL_HEADER> */
+                </CUSTOM_CALL_HEADER> */
 
                 participantNumberText.text = when (it) {
                     0 -> context.getString(R.string.azure_communication_ui_calling_view_info_header_waiting_for_others_to_join)
