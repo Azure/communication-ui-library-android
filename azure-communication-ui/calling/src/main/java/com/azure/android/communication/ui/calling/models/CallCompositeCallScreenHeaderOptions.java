@@ -3,12 +3,15 @@
 /* <CUSTOM_CALL_HEADER> */
 package com.azure.android.communication.ui.calling.models;
 
+import com.azure.android.communication.ui.calling.presentation.manager.CallScreenInformationHeaderManager;
+
 /**
  * Options for the CallCompositeCallScreenHeaderOptions.
  */
 public final class CallCompositeCallScreenHeaderOptions {
-    private CallCompositeCallDurationTimer timer;
+    CallScreenInformationHeaderManager callScreenInformationHeaderManager;
     private String title;
+    private String subtitle;
 
     /**
      * Create a CallCompositeCallScreenHeaderOptions object.
@@ -17,24 +20,27 @@ public final class CallCompositeCallScreenHeaderOptions {
     }
 
     /**
-     * Set the call duration timer.
+     * Set the subtitle.
      *
-     * @param timer The {@link CallCompositeCallDurationTimer}.
+     * @param subtitle The subtitle.
      * @return The {@link CallCompositeCallScreenHeaderOptions} object itself.
      */
-    public CallCompositeCallScreenHeaderOptions setTimer(
-            final CallCompositeCallDurationTimer timer) {
-        this.timer = timer;
+    public CallCompositeCallScreenHeaderOptions setSubtitle(
+            final String subtitle) {
+        this.subtitle = subtitle;
+        if (callScreenInformationHeaderManager != null) {
+            callScreenInformationHeaderManager.updateSubtitle(subtitle);
+        }
         return this;
     }
 
     /**
-     * Get the timer.
+     * Get the subtitle.
      *
-     * @return {@link CallCompositeCallDurationTimer} The timer.
+     * @return {@link String} The subtitle.
      */
-    public CallCompositeCallDurationTimer getTimer() {
-        return timer;
+    public String getSubtitle() {
+        return subtitle;
     }
 
     /**
@@ -46,6 +52,9 @@ public final class CallCompositeCallScreenHeaderOptions {
     public CallCompositeCallScreenHeaderOptions setTitle(
             final String title) {
         this.title = title;
+        if (callScreenInformationHeaderManager != null) {
+            callScreenInformationHeaderManager.updateTitle(title);
+        }
         return this;
     }
 

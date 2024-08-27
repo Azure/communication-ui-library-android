@@ -4,9 +4,8 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.header
 
 /* <CUSTOM_CALL_HEADER> */
-import android.content.Context
-import com.azure.android.communication.ui.calling.implementation.R
-import com.azure.android.communication.ui.calling.presentation.manager.CallDurationManager
+import com.azure.android.communication.ui.calling.presentation.manager.CallScreenInformationHeaderManager
+import com.azure.android.communication.ui.calling.redux.state.CallScreenInformationHeaderState
 /* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +16,7 @@ import java.util.TimerTask
 internal class InfoHeaderViewModel(
     val multitaskingEnabled: Boolean,
     /* <CUSTOM_CALL_HEADER> */
-    private val callDurationManager: CallDurationManager? = null,
+    private val callScreenInformationHeaderManager: CallScreenInformationHeaderManager? = null,
     private val customTitle: String? = null
     /* </CUSTOM_CALL_HEADER> */
 ) {
@@ -30,14 +29,13 @@ internal class InfoHeaderViewModel(
 
     private var displayedOnLaunch = false
     /* <CUSTOM_CALL_HEADER> */
-    fun getCustomTitle(): String? {
-        return customTitle
-    }
+    private lateinit var titleStateFlow: MutableStateFlow<String?>
+    private lateinit var subtitleStateFlow: MutableStateFlow<String?>
 
-    fun getCallDurationManager(): CallDurationManager? {
-        return callDurationManager
-    }
+    fun getTitleStateFlow(): StateFlow<String?> = titleStateFlow
+    fun getSubtitleStateFlow(): StateFlow<String?> = subtitleStateFlow
     /* </CUSTOM_CALL_HEADER> */
+
     fun getIsOverlayDisplayedFlow(): StateFlow<Boolean> = isOverlayDisplayedFlow
 
     fun getDisplayFloatingHeaderFlow(): StateFlow<Boolean> = displayFloatingHeaderFlow
@@ -48,39 +46,20 @@ internal class InfoHeaderViewModel(
 
     fun update(
         numberOfRemoteParticipants: Int,
+        /* <CUSTOM_CALL_HEADER> */
+        callScreenInformationHeaderState: CallScreenInformationHeaderState,
+        /* </CUSTOM_CALL_HEADER> */
     ) {
+        /* <CUSTOM_CALL_HEADER> */
+        titleStateFlow.value = callScreenInformationHeaderState.title
+        subtitleStateFlow.value = callScreenInformationHeaderState.subtitle
+        /* </CUSTOM_CALL_HEADER> */
         numberOfParticipantsFlow.value = numberOfRemoteParticipants
         if (!displayedOnLaunch) {
             displayedOnLaunch = true
             switchFloatingHeader()
         }
     }
-
-    /* <CUSTOM_CALL_HEADER> */
-    fun getFormattedElapsedDuration(context: Context): String {
-        val elapsedDuration = callDurationManager?.getElapsedDuration() ?: 0L
-
-        // Calculate elapsed time components
-        val seconds = (elapsedDuration / 1000) % 60
-        val minutes = (elapsedDuration / (1000 * 60)) % 60
-        val hours = (elapsedDuration / (1000 * 60 * 60)) % 24
-
-        // Determine format string based on the highest non-zero time component
-        val formatString = when {
-            hours > 0 -> context.getString(R.string.azure_communication_ui_calling_view_info_header_call_timer_format_with_hours)
-            minutes > 0 -> context.getString(R.string.azure_communication_ui_calling_view_info_header_call_timer_format_with_minutes)
-            else -> context.getString(R.string.azure_communication_ui_calling_view_info_header_call_timer_format_with_seconds)
-        }
-
-        // Format the duration based on the calculated components
-        return when {
-            hours > 0 -> String.format(formatString, hours, minutes, seconds)
-            minutes > 0 -> String.format(formatString, minutes, seconds)
-            else -> String.format(formatString, seconds)
-        }
-    }
-
-    /* </CUSTOM_CALL_HEADER> */
 
     fun updateIsOverlayDisplayed(callingStatus: CallingStatus) {
         isOverlayDisplayedFlow.value = isOverlayDisplayed(callingStatus)
@@ -89,9 +68,16 @@ internal class InfoHeaderViewModel(
     fun init(
         callingStatus: CallingStatus,
         numberOfRemoteParticipants: Int,
+        /* <CUSTOM_CALL_HEADER> */
+        callScreenInformationHeaderState: CallScreenInformationHeaderState,
+        /* </CUSTOM_CALL_HEADER> */
         requestCallEndCallback: () -> Unit,
     ) {
         timer = Timer()
+        /* <CUSTOM_CALL_HEADER> */
+        titleStateFlow = MutableStateFlow(callScreenInformationHeaderState.title)
+        subtitleStateFlow = MutableStateFlow(callScreenInformationHeaderState.subtitle)
+        /* </CUSTOM_CALL_HEADER> */
         displayFloatingHeaderFlow = MutableStateFlow(false)
         numberOfParticipantsFlow = MutableStateFlow(numberOfRemoteParticipants)
         isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayed(callingStatus))

@@ -23,9 +23,6 @@ import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
-/* <CUSTOM_CALL_HEADER> */
-import com.azure.android.communication.ui.calling.models.CallCompositeCallDurationTimer
-/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
 /* <CUSTOM_CALL_HEADER> */
@@ -68,7 +65,7 @@ class CallCompositeManager(private val context: Context) {
     private var callComposite: CallComposite? = null
     private var incomingCallId: String? = null
     /* <CUSTOM_CALL_HEADER> */
-    private var callCompositeCallDurationTimer: CallCompositeCallDurationTimer? = null
+    private var callScreenHeaderOptions: CallCompositeCallScreenHeaderOptions? = null
     /* </CUSTOM_CALL_HEADER> */
 
     fun launch(
@@ -291,17 +288,10 @@ class CallCompositeManager(private val context: Context) {
         callComposite.addOnUserReportedEventHandler(UserReportedIssueHandler(context.applicationContext as Application))
 
         val onDismissedEventHandler: ((CallCompositeDismissedEvent) -> Unit) = {
-            var duration: Long? = null
-            /* <CUSTOM_CALL_HEADER> */
-            duration = callCompositeCallDurationTimer?.elapsedDuration?.let { it / 60000 }
-            /* </CUSTOM_CALL_HEADER> */
             toast(
                 context,
-                "onDismissed: errorCode: ${it.errorCode}, cause: ${it.cause?.message}, duration : ${ duration ?: "N/A"} minutes"
+                "onDismissed: errorCode: ${it.errorCode}, cause: ${it.cause?.message}"
             )
-            /* <CUSTOM_CALL_HEADER> */
-            callCompositeCallDurationTimer?.reset()
-            /* </CUSTOM_CALL_HEADER> */
         }
         callComposite.addOnDismissedEventHandler(onDismissedEventHandler)
 
@@ -311,27 +301,28 @@ class CallCompositeManager(private val context: Context) {
             event.identifiers.forEach {
                 Log.d(CallLauncherActivity.TAG, "Remote participant removed: ${it.rawId}")
             }
-            SettingsFeatures.getStopTimerMRI()?.let { mri ->
-                if (event.identifiers.any { it.rawId == mri }) {
-                    callCompositeCallDurationTimer?.stop()
-                }
-            }
         }
         /* </CUSTOM_CALL_HEADER> */
 
         callComposite.addOnPictureInPictureChangedEventHandler {
             toast(context, "isInPictureInPicture: " + it.isInPictureInPicture)
         }
-
+        var remoteParticipantCount = 0
         callComposite.addOnRemoteParticipantJoinedEventHandler { event ->
             toast(context, message = "Joined ${event.identifiers.count()} remote participants")
             event.identifiers.forEach {
                 Log.d(CallLauncherActivity.TAG, "Remote participant joined: ${it.rawId}")
             }
+            remoteParticipantCount += event.identifiers.count()
             /* <CUSTOM_CALL_HEADER> */
-            SettingsFeatures.getStartTimerMRI()?.let { mri ->
-                if (event.identifiers.any { it.rawId == mri }) {
-                    callCompositeCallDurationTimer?.start()
+            if (SettingsFeatures.getCallScreenInformationTitleUpdateParticipantCount() >= remoteParticipantCount) {
+                callScreenHeaderOptions?.let {
+                    it.title = "Custom Call Screen Header: $remoteParticipantCount participants"
+                }
+            }
+            if (SettingsFeatures.getCallScreenInformationSubtitleUpdateParticipantCount() >= remoteParticipantCount) {
+                callScreenHeaderOptions?.let {
+                    it.subtitle = "Custom Call Screen Header: $remoteParticipantCount participants"
                 }
             }
             /* </CUSTOM_CALL_HEADER> */
@@ -651,25 +642,25 @@ class CallCompositeManager(private val context: Context) {
                 .setOnClickHandler { toast(it.context, "shareDiagnosticsButton clicked") }
         }
         /* <CUSTOM_CALL_HEADER> */
-        if (!SettingsFeatures.callScreenInformationTitle().isNullOrEmpty() || !SettingsFeatures.getStartTimerMRI().isNullOrEmpty()) {
+        if (!SettingsFeatures.getCallScreenInformationTitle().isNullOrEmpty() ||
+            !SettingsFeatures.getCallScreenInformationSubtitle().isNullOrEmpty() ||
+            SettingsFeatures.getCallScreenInformationTitleUpdateParticipantCount() != 0 ||
+            SettingsFeatures.getCallScreenInformationSubtitleUpdateParticipantCount() != 0
+        ) {
             callScreenOptions = callScreenOptions ?: CallCompositeCallScreenOptions()
 
-            val headerOptions = CallCompositeCallScreenHeaderOptions()
-            SettingsFeatures.callScreenInformationTitle()?.let {
+            callScreenHeaderOptions = CallCompositeCallScreenHeaderOptions()
+            SettingsFeatures.getCallScreenInformationTitle()?.let {
                 if (it.isNotEmpty()) {
-                    headerOptions.title = it
+                    callScreenHeaderOptions?.title = it
                 }
             }
-            SettingsFeatures.getStartTimerMRI()?.let {
+            SettingsFeatures.getCallScreenInformationSubtitle()?.let {
                 if (it.isNotEmpty()) {
-                    callCompositeCallDurationTimer = CallCompositeCallDurationTimer()
-                    SettingsFeatures.getDefaultTimerStartDuration().let { elapsedDuration ->
-                        callCompositeCallDurationTimer?.elapsedDuration = elapsedDuration
-                    }
-                    headerOptions.timer = callCompositeCallDurationTimer
+                    callScreenHeaderOptions?.subtitle = it
                 }
             }
-            callScreenOptions?.setHeaderOptions(headerOptions)
+            callScreenOptions.setHeaderOptions(callScreenHeaderOptions)
         }
         /* </CUSTOM_CALL_HEADER> */
         return callScreenOptions

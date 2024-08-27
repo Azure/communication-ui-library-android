@@ -57,8 +57,8 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             floatingHeaderViewModel.init(
                 appState.callState.callingStatus,
                 expectedParticipantMap.count(),
-                { }
-            )
+                state.callScreenInformationHeaderState
+            ) { }
 
             val resultListFromNumberOfParticipantsFlow =
                 mutableListOf<Int>()
@@ -69,7 +69,10 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             // act
-            floatingHeaderViewModel.update(expectedParticipantMap.count())
+            floatingHeaderViewModel.update(
+                expectedParticipantMap.count(),
+                state.callScreenInformationHeaderState
+            )
 
             // assert
             Assert.assertEquals(
@@ -117,8 +120,8 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             floatingHeaderViewModel.init(
                 appState.callState.callingStatus,
                 expectedParticipantMap.count(),
-                {}
-            )
+                state.callScreenInformationHeaderState
+            ) {}
 
             val resultListFromIsLobbyOverlayDisplayedFlow =
                 mutableListOf<Boolean>()

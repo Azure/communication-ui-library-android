@@ -13,7 +13,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.AUDIO_ONLY_MOD
 import com.azure.android.communication.ui.callingcompositedemoapp.AUTO_START_CAPTIONS
 import com.azure.android.communication.ui.callingcompositedemoapp.AVATAR_IMAGE
 /* <CUSTOM_CALL_HEADER> */
-import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_TITLE
+import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_TITLE_KEY
 /* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SUBTITLE
@@ -37,8 +37,8 @@ import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SKIP_S
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SPOKEN_LANGUAGE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SPOKEN_LANGUAGE_KEY
 /* <CUSTOM_CALL_HEADER> */
-import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_TIMER_MRI_VALUE
-import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_TIMER_START_SECONDS
+import com.azure.android.communication.ui.callingcompositedemoapp.SUBTITLE_UPDATE_PARTICIPANT_COUNT_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CALL_INFORMATION_SUBTITLE
 /* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.callingcompositedemoapp.DISABLE_INTERNAL_PUSH_NOTIFICATIONS
 import com.azure.android.communication.ui.callingcompositedemoapp.DISPLAY_DISMISS_BUTTON_KEY
@@ -62,9 +62,9 @@ import com.azure.android.communication.ui.callingcompositedemoapp.SETUP_SCREEN_O
 import com.azure.android.communication.ui.callingcompositedemoapp.SKIP_SETUP_SCREEN_VALUE_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.TELECOM_MANAGER_INTEGRATION_OPTION_KEY
 /* <CUSTOM_CALL_HEADER> */
-import com.azure.android.communication.ui.callingcompositedemoapp.TIMER_START_MRI_KEY
-import com.azure.android.communication.ui.callingcompositedemoapp.TIMER_START_SECONDS_KEY
-import com.azure.android.communication.ui.callingcompositedemoapp.TIMER_STOP_MRI_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.TITLE_UPDATE_PARTICIPANT_COUNT_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_SUBTITLE_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.SUBTITLE_UPDATE_PARTICIPANT_COUNT_KEY
 /* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.callingcompositedemoapp.USE_DEPRECATED_LAUNCH_KEY
 import com.google.gson.Gson
@@ -95,30 +95,30 @@ class SettingsFeatures {
             )
         }
         /* <CUSTOM_CALL_HEADER> */
-        fun getStartTimerMRI(): String? {
-            return sharedPrefs.getString(
-                TIMER_START_MRI_KEY,
-                DEFAULT_TIMER_MRI_VALUE,
+        fun getCallScreenInformationTitleUpdateParticipantCount(): Int {
+            return sharedPrefs.getInt(
+                TITLE_UPDATE_PARTICIPANT_COUNT_KEY,
+                SUBTITLE_UPDATE_PARTICIPANT_COUNT_VALUE,
             )
         }
 
-        fun getStopTimerMRI(): String? {
-            return sharedPrefs.getString(
-                TIMER_STOP_MRI_KEY,
-                DEFAULT_TIMER_MRI_VALUE,
+        fun getCallScreenInformationSubtitleUpdateParticipantCount(): Int {
+            return sharedPrefs.getInt(
+                SUBTITLE_UPDATE_PARTICIPANT_COUNT_KEY,
+                SUBTITLE_UPDATE_PARTICIPANT_COUNT_VALUE,
             )
         }
 
-        fun getDefaultTimerStartDuration(): Long {
-            return sharedPrefs.getLong(
-                TIMER_START_SECONDS_KEY,
-                DEFAULT_TIMER_START_SECONDS,
+        fun getCallScreenInformationSubtitle(): String? {
+            return sharedPrefs.getString(
+                CALL_INFORMATION_SUBTITLE_KEY,
+                DEFAULT_CALL_INFORMATION_SUBTITLE,
             )
         }
 
-        fun callScreenInformationTitle(): String? {
+        fun getCallScreenInformationTitle(): String? {
             return sharedPrefs.getString(
-                CALL_INFORMATION_TITLE,
+                CALL_INFORMATION_TITLE_KEY,
                 DEFAULT_CALL_INFORMATION_TITLE,
             )
         }

@@ -27,7 +27,7 @@ internal class InfoHeaderView : ConstraintLayout {
     private lateinit var headerView: View
     private lateinit var participantNumberText: TextView
     /* <CUSTOM_CALL_HEADER> */
-    private lateinit var timerText: TextView
+    private lateinit var subtitleText: TextView
     /* </CUSTOM_CALL_HEADER> */
     private lateinit var displayParticipantsImageButton: ImageButton
     private lateinit var backButton: ImageButton
@@ -41,7 +41,7 @@ internal class InfoHeaderView : ConstraintLayout {
         participantNumberText =
             findViewById(R.id.azure_communication_ui_call_participant_number_text)
         /* <CUSTOM_CALL_HEADER> */
-        timerText = findViewById(R.id.azure_communication_ui_call_participant_timer)
+        subtitleText = findViewById(R.id.azure_communication_ui_call_header_subtitle)
         /* </CUSTOM_CALL_HEADER> */
         displayParticipantsImageButton =
             findViewById(R.id.azure_communication_ui_call_bottom_drawer_button)
@@ -84,10 +84,22 @@ internal class InfoHeaderView : ConstraintLayout {
 
         /* <CUSTOM_CALL_HEADER> */
         viewLifecycleOwner.lifecycleScope.launch {
-            infoHeaderViewModel.getCallDurationManager()?.timerTickStateFlow?.collect {
-                timerText.text = it
-                timerText.contentDescription = infoHeaderViewModel.getFormattedElapsedDuration(context)
-                timerText.visibility = if (it.isEmpty()) View.GONE else View.VISIBLE
+            infoHeaderViewModel.getTitleStateFlow().collect {
+                if (it.isNullOrEmpty()) {
+                    return@collect
+                }
+                participantNumberText.text = it
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            infoHeaderViewModel.getSubtitleStateFlow().collect {
+                if (it.isNullOrEmpty()) {
+                    subtitleText.visibility = View.GONE
+                    return@collect
+                }
+                subtitleText.text = it
+                subtitleText.visibility = View.VISIBLE
             }
         }
         /* </CUSTOM_CALL_HEADER> */
@@ -95,9 +107,7 @@ internal class InfoHeaderView : ConstraintLayout {
         viewLifecycleOwner.lifecycleScope.launch {
             infoHeaderViewModel.getNumberOfParticipantsFlow().collect {
                 /* <CUSTOM_CALL_HEADER> */
-                val customTitle = infoHeaderViewModel.getCustomTitle()
-                if (customTitle != null) {
-                    participantNumberText.text = customTitle
+                if (!infoHeaderViewModel.getTitleStateFlow().value.isNullOrEmpty()) {
                     return@collect
                 }
                 /* </CUSTOM_CALL_HEADER> */

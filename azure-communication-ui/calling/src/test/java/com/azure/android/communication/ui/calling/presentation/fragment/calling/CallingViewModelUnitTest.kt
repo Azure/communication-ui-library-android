@@ -431,7 +431,10 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
             stateFlow.emit(storeState)
             verify(mockParticipantGridViewModel, times(1)).update(any(), any(), any(), any(), any())
-            verify(mockFloatingHeaderViewModel, times(1)).update(any())
+            verify(mockFloatingHeaderViewModel, times(1)).update(
+                any(),
+                state.callScreenInformationHeaderState
+            )
             verify(mockParticipantListViewModel, times(1)).update(any(), any(), any(), any(), any())
             verify(mockBannerViewModel, times(1)).update(any(), any())
             verify(mockControlBarViewModel, times(2)).update(
@@ -554,7 +557,10 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
             // assert
             verify(mockParticipantGridViewModel, times(1)).update(any(), any(), any(), any(), any())
-            verify(mockFloatingHeaderViewModel, times(1)).update(any())
+            verify(mockFloatingHeaderViewModel, times(1)).update(
+                any(),
+                state.callScreenInformationHeaderState
+            )
             verify(mockParticipantListViewModel, times(1)).update(any(), any(), any(), any(), any())
             verify(mockBannerViewModel, times(1)).update(any(), any())
             verify(mockControlBarViewModel, times(2)).update(
@@ -671,7 +677,10 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
             // assert
             verify(mockParticipantGridViewModel, times(0)).update(any(), any(), any(), any(), any())
-            verify(mockFloatingHeaderViewModel, times(0)).update(any())
+            verify(mockFloatingHeaderViewModel, times(0)).update(
+                any(),
+                state.callScreenInformationHeaderState
+            )
             verify(mockParticipantListViewModel, times(0)).update(any(), any(), any(), any(), any())
             verify(mockBannerViewModel, times(0)).update(any(), any())
             verify(mockControlBarViewModel, times(2)).update(
@@ -1330,7 +1339,8 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             any(),
         )
         verify(mockFloatingHeaderViewModel, times(1)).update(
-            expectedParticipantCountOnFloatingHeader
+            expectedParticipantCountOnFloatingHeader,
+            state.callScreenInformationHeaderState
         )
         verify(
             mockParticipantListViewModel,

@@ -68,7 +68,7 @@ internal open class BaseUiTest {
     internal val captionsFailedToSetCaptionLanguageId = R.string.azure_communication_ui_calling_error_captions_failed_to_set_caption_language
     internal val captionsSpokenLanguageId = R.string.azure_communication_ui_calling_captions_spoken_language_title
     internal val captionsCaptionLanguageId = R.string.azure_communication_ui_calling_captions_caption_language_title
-    internal val callDurationTimerId = R.id.azure_communication_ui_call_participant_timer
+    internal val callDurationTimerId = R.id.azure_communication_ui_call_header_subtitle
 
     @Rule
     @JvmField
