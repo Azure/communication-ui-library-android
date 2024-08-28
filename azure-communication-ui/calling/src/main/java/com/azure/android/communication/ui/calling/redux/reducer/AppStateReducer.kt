@@ -63,7 +63,7 @@ internal class AppStateReducer(
         appState.toastNotificationState = toastNotificationReducer.reduce(state.toastNotificationState, action)
         appState.captionsState = captionsReducer.reduce(state.captionsState, action)
         /* <CUSTOM_CALL_HEADER> */
-        appState.callScreenInformationHeaderState = callScreenInformationHeaderReducer.reduce(state.callScreenInformationHeaderState, action)
+        appState.callScreenInfoHeaderState = callScreenInformationHeaderReducer.reduce(state.callScreenInfoHeaderState, action)
         /* </CUSTOM_CALL_HEADER> */
         /* <RTT_POC>
         appState.rttState = rttReducer.reduce(state.rttState, action)

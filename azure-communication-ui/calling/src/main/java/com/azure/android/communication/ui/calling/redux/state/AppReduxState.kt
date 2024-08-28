@@ -14,7 +14,7 @@ internal class AppReduxState(
     avMode: CallCompositeAudioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
     showCaptionsUI: Boolean = true,
     /* <CUSTOM_CALL_HEADER> */
-    callScreenInformationHeaderState: CallScreenInformationHeaderState? = null
+    callScreenInfoHeaderState: CallScreenInfoHeaderState? = null
     /* </CUSTOM_CALL_HEADER> */
 ) : ReduxState {
 
@@ -84,9 +84,9 @@ internal class AppReduxState(
     override var captionsState: CaptionsState = CaptionsState(isCaptionsUIEnabled = showCaptionsUI)
 
     /* <CUSTOM_CALL_HEADER> */
-    override var callScreenInformationHeaderState: CallScreenInformationHeaderState = CallScreenInformationHeaderState(
-        title = callScreenInformationHeaderState?.title,
-        subtitle = callScreenInformationHeaderState?.subtitle
+    override var callScreenInfoHeaderState: CallScreenInfoHeaderState = CallScreenInfoHeaderState(
+        title = callScreenInfoHeaderState?.title,
+        subtitle = callScreenInfoHeaderState?.subtitle
     )
     /* </CUSTOM_CALL_HEADER> */
 

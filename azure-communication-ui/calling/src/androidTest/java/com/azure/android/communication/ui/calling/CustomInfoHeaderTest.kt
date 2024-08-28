@@ -19,7 +19,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
-internal class CustomHeaderTest : BaseUiTest() {
+internal class CustomInfoHeaderTest : BaseUiTest() {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test

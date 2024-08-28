@@ -7,7 +7,7 @@ import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 /* <CUSTOM_CALL_HEADER> */
-import com.azure.android.communication.ui.calling.redux.state.CallScreenInformationHeaderState
+import com.azure.android.communication.ui.calling.redux.state.CallScreenInfoHeaderState
 /* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
@@ -61,7 +61,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 appState.callState.callingStatus,
                 expectedParticipantMap.count(),
                 /* <CUSTOM_CALL_HEADER> */
-                CallScreenInformationHeaderState(null, null)
+                CallScreenInfoHeaderState(null, null)
                 /* </CUSTOM_CALL_HEADER> */
             ) { }
 
@@ -77,7 +77,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             floatingHeaderViewModel.update(
                 expectedParticipantMap.count(),
                 /* <CUSTOM_CALL_HEADER> */
-                CallScreenInformationHeaderState(null, null)
+                CallScreenInfoHeaderState(null, null)
                 /* </CUSTOM_CALL_HEADER> */
             )
 
@@ -128,7 +128,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 appState.callState.callingStatus,
                 expectedParticipantMap.count(),
                 /* <CUSTOM_CALL_HEADER> */
-                CallScreenInformationHeaderState(null, null)
+                CallScreenInfoHeaderState(null, null)
                 /* </CUSTOM_CALL_HEADER> */
             ) {}
 
@@ -200,7 +200,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 appState.callState.callingStatus,
                 expectedParticipantMap.count(),
                 /* <CUSTOM_CALL_HEADER> */
-                CallScreenInformationHeaderState(title, subtitle)
+                CallScreenInfoHeaderState(title, subtitle)
                 /* </CUSTOM_CALL_HEADER> */
             ) { }
 
@@ -234,7 +234,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             floatingHeaderViewModel.update(
                 expectedParticipantMap.count(),
                 /* <CUSTOM_CALL_HEADER> */
-                CallScreenInformationHeaderState(null, null)
+                CallScreenInfoHeaderState(null, null)
                 /* </CUSTOM_CALL_HEADER> */
             )
 

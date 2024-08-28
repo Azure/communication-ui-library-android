@@ -4,22 +4,22 @@
 
 package com.azure.android.communication.ui.calling.redux.reducer
 
-import com.azure.android.communication.ui.calling.redux.action.CallScreenInformationHeaderAction
-import com.azure.android.communication.ui.calling.redux.state.CallScreenInformationHeaderState
+import com.azure.android.communication.ui.calling.redux.action.CallScreenInfoHeaderAction
+import com.azure.android.communication.ui.calling.redux.state.CallScreenInfoHeaderState
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-internal class CallScreenInformationHeaderReducerUnitTest {
+internal class CallScreenInfoHeaderReducerUnitTest {
     @Test
     fun callScreenInformationHeaderReducer_reduce_on_updateTitleAction() {
         // arrange
         val reducer = CallScreenInformationHeaderReducerImpl()
-        val oldState = CallScreenInformationHeaderState(null, null)
+        val oldState = CallScreenInfoHeaderState(null, null)
         val title = "title"
-        val action = CallScreenInformationHeaderAction.UpdateTitle(title)
+        val action = CallScreenInfoHeaderAction.UpdateTitle(title)
 
         // act
         val updatedState = reducer.reduce(oldState, action)
@@ -32,9 +32,9 @@ internal class CallScreenInformationHeaderReducerUnitTest {
     fun callScreenInformationHeaderReducer_reduce_on_updateSubtitleAction() {
         // arrange
         val reducer = CallScreenInformationHeaderReducerImpl()
-        val oldState = CallScreenInformationHeaderState(null, null)
+        val oldState = CallScreenInfoHeaderState(null, null)
         val subtitle = "subtitle"
-        val action = CallScreenInformationHeaderAction.UpdateSubtitle(subtitle)
+        val action = CallScreenInfoHeaderAction.UpdateSubtitle(subtitle)
 
         // act
         val updatedState = reducer.reduce(oldState, action)

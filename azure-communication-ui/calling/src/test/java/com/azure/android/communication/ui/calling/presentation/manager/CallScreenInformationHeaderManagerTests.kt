@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.calling.presentation.manager
 
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.redux.AppStore
-import com.azure.android.communication.ui.calling.redux.action.CallScreenInformationHeaderAction
+import com.azure.android.communication.ui.calling.redux.action.CallScreenInfoHeaderAction
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,7 +34,7 @@ internal class CallScreenInformationHeaderManagerTests : ACSBaseTestCoroutine() 
         // Assert
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
-                action is CallScreenInformationHeaderAction.UpdateTitle &&
+                action is CallScreenInfoHeaderAction.UpdateTitle &&
                     action.title == title
             }
         )
@@ -55,7 +55,7 @@ internal class CallScreenInformationHeaderManagerTests : ACSBaseTestCoroutine() 
         // Assert
         verify(mockAppStore, times(1)).dispatch(
             argThat { action ->
-                action is CallScreenInformationHeaderAction.UpdateSubtitle &&
+                action is CallScreenInfoHeaderAction.UpdateSubtitle &&
                     action.subtitle == subtitle
             }
         )

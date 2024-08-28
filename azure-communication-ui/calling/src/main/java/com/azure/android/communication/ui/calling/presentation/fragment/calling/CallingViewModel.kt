@@ -119,7 +119,7 @@ internal class CallingViewModel(
             state.callState.callingStatus,
             remoteParticipantsForGridView.count(),
             /* <CUSTOM_CALL_HEADER> */
-            state.callScreenInformationHeaderState,
+            state.callScreenInfoHeaderState,
             /* </CUSTOM_CALL_HEADER> */
             this::requestCallEndOnBackPressed,
         )
@@ -289,7 +289,7 @@ internal class CallingViewModel(
             floatingHeaderViewModel.update(
                 totalParticipantCountExceptHidden,
                 /* <CUSTOM_CALL_HEADER> */
-                state.callScreenInformationHeaderState
+                state.callScreenInfoHeaderState
                 /* </CUSTOM_CALL_HEADER> */
             )
 

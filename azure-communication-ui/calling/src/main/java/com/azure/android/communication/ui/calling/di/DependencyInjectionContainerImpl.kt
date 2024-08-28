@@ -66,7 +66,7 @@ import com.azure.android.communication.ui.calling.redux.reducer.PipReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.RttReducerImpl
 </RTT_POC> */
 import com.azure.android.communication.ui.calling.redux.reducer.ToastNotificationReducerImpl
-import com.azure.android.communication.ui.calling.redux.state.CallScreenInformationHeaderState
+import com.azure.android.communication.ui.calling.redux.state.CallScreenInfoHeaderState
 import com.azure.android.communication.ui.calling.service.CallHistoryService
 import com.azure.android.communication.ui.calling.service.CallHistoryServiceImpl
 import com.azure.android.communication.ui.calling.service.NotificationService
@@ -263,7 +263,7 @@ internal class DependencyInjectionContainerImpl(
             skipSetupScreen = localOptions?.isSkipSetupScreen ?: false,
             showCaptionsUI = true,
             /* <CUSTOM_CALL_HEADER> */
-            callScreenInformationHeaderState = CallScreenInformationHeaderState(
+            callScreenInfoHeaderState = CallScreenInfoHeaderState(
                 title = title,
                 subtitle = subtitle
             )

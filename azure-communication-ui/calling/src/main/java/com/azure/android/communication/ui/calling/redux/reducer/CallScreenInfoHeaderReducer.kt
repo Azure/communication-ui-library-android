@@ -4,18 +4,18 @@
 package com.azure.android.communication.ui.calling.redux.reducer
 
 import com.azure.android.communication.ui.calling.redux.action.Action
-import com.azure.android.communication.ui.calling.redux.action.CallScreenInformationHeaderAction
-import com.azure.android.communication.ui.calling.redux.state.CallScreenInformationHeaderState
+import com.azure.android.communication.ui.calling.redux.action.CallScreenInfoHeaderAction
+import com.azure.android.communication.ui.calling.redux.state.CallScreenInfoHeaderState
 
-internal interface CallScreenInformationHeaderReducer : Reducer<CallScreenInformationHeaderState>
+internal interface CallScreenInformationHeaderReducer : Reducer<CallScreenInfoHeaderState>
 
 internal class CallScreenInformationHeaderReducerImpl : CallScreenInformationHeaderReducer {
-    override fun reduce(state: CallScreenInformationHeaderState, action: Action): CallScreenInformationHeaderState {
+    override fun reduce(state: CallScreenInfoHeaderState, action: Action): CallScreenInfoHeaderState {
         return when (action) {
-            is CallScreenInformationHeaderAction.UpdateTitle -> {
+            is CallScreenInfoHeaderAction.UpdateTitle -> {
                 state.copy(title = action.title)
             }
-            is CallScreenInformationHeaderAction.UpdateSubtitle -> {
+            is CallScreenInfoHeaderAction.UpdateSubtitle -> {
                 state.copy(subtitle = action.subtitle)
             }
             else -> state

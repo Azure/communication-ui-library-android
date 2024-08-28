@@ -206,8 +206,8 @@ internal class AppReduxStateReducerUnitTest {
             .thenReturn(state.captionsState)
 
         /* <CUSTOM_CALL_HEADER> */
-        Mockito.`when`(mockCallScreenInformationHeaderReducer.reduce(state.callScreenInformationHeaderState, action)).thenReturn(
-            state.callScreenInformationHeaderState
+        Mockito.`when`(mockCallScreenInformationHeaderReducer.reduce(state.callScreenInfoHeaderState, action)).thenReturn(
+            state.callScreenInfoHeaderState
         )
         /* </CUSTOM_CALL_HEADER> */
 

@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.header
 
 /* <CUSTOM_CALL_HEADER> */
-import com.azure.android.communication.ui.calling.redux.state.CallScreenInformationHeaderState
+import com.azure.android.communication.ui.calling.redux.state.CallScreenInfoHeaderState
 /* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -42,12 +42,12 @@ internal class InfoHeaderViewModel(
     fun update(
         numberOfRemoteParticipants: Int,
         /* <CUSTOM_CALL_HEADER> */
-        callScreenInformationHeaderState: CallScreenInformationHeaderState,
+        callScreenInfoHeaderState: CallScreenInfoHeaderState,
         /* </CUSTOM_CALL_HEADER> */
     ) {
         /* <CUSTOM_CALL_HEADER> */
-        titleStateFlow.value = callScreenInformationHeaderState.title
-        subtitleStateFlow.value = callScreenInformationHeaderState.subtitle
+        titleStateFlow.value = callScreenInfoHeaderState.title
+        subtitleStateFlow.value = callScreenInfoHeaderState.subtitle
         /* </CUSTOM_CALL_HEADER> */
         numberOfParticipantsFlow.value = numberOfRemoteParticipants
         if (!displayedOnLaunch) {
@@ -64,14 +64,14 @@ internal class InfoHeaderViewModel(
         callingStatus: CallingStatus,
         numberOfRemoteParticipants: Int,
         /* <CUSTOM_CALL_HEADER> */
-        callScreenInformationHeaderState: CallScreenInformationHeaderState,
+        callScreenInfoHeaderState: CallScreenInfoHeaderState,
         /* </CUSTOM_CALL_HEADER> */
         requestCallEndCallback: () -> Unit,
     ) {
         timer = Timer()
         /* <CUSTOM_CALL_HEADER> */
-        titleStateFlow = MutableStateFlow(callScreenInformationHeaderState.title)
-        subtitleStateFlow = MutableStateFlow(callScreenInformationHeaderState.subtitle)
+        titleStateFlow = MutableStateFlow(callScreenInfoHeaderState.title)
+        subtitleStateFlow = MutableStateFlow(callScreenInfoHeaderState.subtitle)
         /* </CUSTOM_CALL_HEADER> */
         displayFloatingHeaderFlow = MutableStateFlow(false)
         numberOfParticipantsFlow = MutableStateFlow(numberOfRemoteParticipants)

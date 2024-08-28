@@ -4,16 +4,16 @@
 package com.azure.android.communication.ui.calling.presentation.manager
 
 import com.azure.android.communication.ui.calling.redux.Store
-import com.azure.android.communication.ui.calling.redux.action.CallScreenInformationHeaderAction
+import com.azure.android.communication.ui.calling.redux.action.CallScreenInfoHeaderAction
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 
 internal class CallScreenInformationHeaderManager(private val store: Store<ReduxState>) {
     fun updateTitle(title: String) {
-        store.dispatch(CallScreenInformationHeaderAction.UpdateTitle(title))
+        store.dispatch(CallScreenInfoHeaderAction.UpdateTitle(title))
     }
 
     fun updateSubtitle(subtitle: String) {
-        store.dispatch(CallScreenInformationHeaderAction.UpdateSubtitle(subtitle))
+        store.dispatch(CallScreenInfoHeaderAction.UpdateSubtitle(subtitle))
     }
 }
 /* </CUSTOM_CALL_HEADER> */

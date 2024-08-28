@@ -17,7 +17,7 @@ internal interface ReduxState {
     var toastNotificationState: ToastNotificationState
     val captionsState: CaptionsState
     /* <CUSTOM_CALL_HEADER> */
-    val callScreenInformationHeaderState: CallScreenInformationHeaderState
+    val callScreenInfoHeaderState: CallScreenInfoHeaderState
     /* </CUSTOM_CALL_HEADER> */
     /* <RTT_POC>
     var rttState: RttState
