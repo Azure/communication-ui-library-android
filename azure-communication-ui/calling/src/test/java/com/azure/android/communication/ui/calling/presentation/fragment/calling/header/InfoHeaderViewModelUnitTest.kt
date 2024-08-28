@@ -6,6 +6,9 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
+/* <CUSTOM_CALL_HEADER> */
+import com.azure.android.communication.ui.calling.redux.state.CallScreenInfoHeaderState
+/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
@@ -57,8 +60,10 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             floatingHeaderViewModel.init(
                 appState.callState.callingStatus,
                 expectedParticipantMap.count(),
-                { }
-            )
+                /* <CUSTOM_CALL_HEADER> */
+                CallScreenInfoHeaderState(null, null)
+                /* </CUSTOM_CALL_HEADER> */
+            ) { }
 
             val resultListFromNumberOfParticipantsFlow =
                 mutableListOf<Int>()
@@ -69,7 +74,12 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             // act
-            floatingHeaderViewModel.update(expectedParticipantMap.count())
+            floatingHeaderViewModel.update(
+                expectedParticipantMap.count(),
+                /* <CUSTOM_CALL_HEADER> */
+                CallScreenInfoHeaderState(null, null)
+                /* </CUSTOM_CALL_HEADER> */
+            )
 
             // assert
             Assert.assertEquals(
@@ -117,8 +127,10 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             floatingHeaderViewModel.init(
                 appState.callState.callingStatus,
                 expectedParticipantMap.count(),
-                {}
-            )
+                /* <CUSTOM_CALL_HEADER> */
+                CallScreenInfoHeaderState(null, null)
+                /* </CUSTOM_CALL_HEADER> */
+            ) {}
 
             val resultListFromIsLobbyOverlayDisplayedFlow =
                 mutableListOf<Boolean>()
@@ -146,4 +158,110 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             flowJob.cancel()
         }
     }
+
+    /* <CUSTOM_CALL_HEADER> */
+    @ExperimentalCoroutinesApi
+    @Test
+    fun floatingHeaderViewModel_update_then_displayTitleAndSubtitle() {
+        runScopedTest {
+            val appState = AppReduxState("", false, false)
+
+            val participantInfoModel1 = mock<ParticipantInfoModel> {}
+            val participantInfoModel2 = mock<ParticipantInfoModel> {}
+            val participantInfoModel3 = mock<ParticipantInfoModel> {}
+            val expectedParticipantMap: Map<String, ParticipantInfoModel> = mapOf(
+                "p1" to participantInfoModel1,
+                "p2" to participantInfoModel2,
+                "p3" to participantInfoModel3
+            )
+            val timestamp: Number = System.currentTimeMillis()
+
+            appState.remoteParticipantState = RemoteParticipantsState(
+                expectedParticipantMap,
+                timestamp,
+                listOf(),
+                0,
+                lobbyErrorCode = null,
+                totalParticipantCount = 0,
+            )
+            appState.callState = CallingState(
+                CallingStatus.CONNECTED,
+                joinCallIsRequested = false,
+                isRecording = false,
+                isTranscribing = false
+            )
+            /* <CUSTOM_CALL_HEADER> */
+            val title = "title"
+            val subtitle = "subtitle"
+            /* </CUSTOM_CALL_HEADER> */
+
+            val floatingHeaderViewModel = InfoHeaderViewModel(false)
+            floatingHeaderViewModel.init(
+                appState.callState.callingStatus,
+                expectedParticipantMap.count(),
+                /* <CUSTOM_CALL_HEADER> */
+                CallScreenInfoHeaderState(title, subtitle)
+                /* </CUSTOM_CALL_HEADER> */
+            ) { }
+
+            val resultListFromNumberOfParticipantsFlow =
+                mutableListOf<Int>()
+            /* <CUSTOM_CALL_HEADER> */
+            val resultListFromTitleStateFlow =
+                mutableListOf<String?>()
+            val resultListFromSubtitleStateFlow =
+                mutableListOf<String?>()
+            /* </CUSTOM_CALL_HEADER> */
+
+            val flowJobParticipant = launch {
+                floatingHeaderViewModel.getNumberOfParticipantsFlow()
+                    .toList(resultListFromNumberOfParticipantsFlow)
+            }
+
+            /* <CUSTOM_CALL_HEADER> */
+            val flowJobTitle = launch {
+                floatingHeaderViewModel.getTitleStateFlow()
+                    .toList(resultListFromTitleStateFlow)
+            }
+
+            val flowJobSubtitle = launch {
+                floatingHeaderViewModel.getSubtitleStateFlow()
+                    .toList(resultListFromSubtitleStateFlow)
+            }
+            /* </CUSTOM_CALL_HEADER> */
+
+            // act
+            floatingHeaderViewModel.update(
+                expectedParticipantMap.count(),
+                /* <CUSTOM_CALL_HEADER> */
+                CallScreenInfoHeaderState(null, null)
+                /* </CUSTOM_CALL_HEADER> */
+            )
+
+            // assert
+            Assert.assertEquals(
+                expectedParticipantMap.size,
+                resultListFromNumberOfParticipantsFlow[0]
+            )
+
+            /* <CUSTOM_CALL_HEADER> */
+            Assert.assertEquals(
+                title,
+                resultListFromTitleStateFlow[0]
+            )
+
+            Assert.assertEquals(
+                subtitle,
+                resultListFromSubtitleStateFlow[0]
+            )
+            /* </CUSTOM_CALL_HEADER> */
+
+            flowJobParticipant.cancel()
+            /* <CUSTOM_CALL_HEADER> */
+            flowJobTitle.cancel()
+            flowJobSubtitle.cancel()
+            /* </CUSTOM_CALL_HEADER> */
+        }
+    }
+    /* </CUSTOM_CALL_HEADER> */
 }

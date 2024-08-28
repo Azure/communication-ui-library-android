@@ -23,7 +23,7 @@ import com.azure.android.communication.ui.calling.presentation.manager.AudioMode
 import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 /* <CUSTOM_CALL_HEADER> */
-import com.azure.android.communication.ui.calling.presentation.manager.CallDurationManager
+import com.azure.android.communication.ui.calling.presentation.manager.CallScreenInfoHeaderManager
 /* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.presentation.manager.CompositeExitManager
 import com.azure.android.communication.ui.calling.presentation.manager.CameraStatusHook
@@ -59,12 +59,18 @@ import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.presentation.manager.MultitaskingManager
+/* <CUSTOM_CALL_HEADER> */
+import com.azure.android.communication.ui.calling.redux.reducer.CallScreenInformationHeaderReducerImpl
+/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.redux.reducer.CaptionsReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.PipReducerImpl
 /* <RTT_POC>
 import com.azure.android.communication.ui.calling.redux.reducer.RttReducerImpl
 </RTT_POC> */
 import com.azure.android.communication.ui.calling.redux.reducer.ToastNotificationReducerImpl
+/* <CUSTOM_CALL_HEADER> */
+import com.azure.android.communication.ui.calling.redux.state.CallScreenInfoHeaderState
+/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.service.CallHistoryService
 import com.azure.android.communication.ui.calling.service.CallHistoryServiceImpl
 import com.azure.android.communication.ui.calling.service.NotificationService
@@ -119,8 +125,8 @@ internal class DependencyInjectionContainerImpl(
         ErrorHandler(configuration, appStore)
     }
     /* <CUSTOM_CALL_HEADER> */
-    override val callDurationManager by lazy {
-        CallDurationManager(configuration.callScreenOptions?.headerOptions?.timer?.elapsedDuration ?: 0)
+    override val callScreenInfoHeaderManager by lazy {
+        CallScreenInfoHeaderManager(appStore)
     }
     /* </CUSTOM_CALL_HEADER> */
     override val videoViewManager by lazy {
@@ -248,13 +254,24 @@ internal class DependencyInjectionContainerImpl(
     //region Redux
     // Initial State
     private val initialState by lazy {
+        /* <CUSTOM_CALL_HEADER> */
+        val title: String? = localOptions?.callScreenOptions?.headerOptions?.title ?: configuration.callScreenOptions?.headerOptions?.title
+        val subtitle: String? = localOptions?.callScreenOptions?.headerOptions?.subtitle ?: configuration.callScreenOptions?.headerOptions?.subtitle
+        /* </CUSTOM_CALL_HEADER> */
+
         AppReduxState(
             displayName = configuration.displayName,
             cameraOnByDefault = localOptions?.isCameraOn ?: false,
             microphoneOnByDefault = localOptions?.isMicrophoneOn ?: false,
             avMode = localOptions?.audioVideoMode ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             skipSetupScreen = localOptions?.isSkipSetupScreen ?: false,
-            showCaptionsUI = true
+            showCaptionsUI = true,
+            /* <CUSTOM_CALL_HEADER> */
+            callScreenInfoHeaderState = CallScreenInfoHeaderState(
+                title = title,
+                subtitle = subtitle
+            )
+            /* </CUSTOM_CALL_HEADER> */
         )
     }
 
@@ -271,6 +288,9 @@ internal class DependencyInjectionContainerImpl(
     private val callDiagnosticsReducer get() = CallDiagnosticsReducerImpl()
     private val toastNotificationReducer get() = ToastNotificationReducerImpl()
     private val captionsReducer get() = CaptionsReducerImpl()
+    /* <CUSTOM_CALL_HEADER> */
+    private val callScreenInformationHeaderReducer get() = CallScreenInformationHeaderReducerImpl()
+    /* </CUSTOM_CALL_HEADER> */
 
     /* <RTT_POC>
     private val rttReducer get() = RttReducerImpl()
@@ -300,6 +320,9 @@ internal class DependencyInjectionContainerImpl(
             callDiagnosticsReducer,
             toastNotificationReducer,
             captionsReducer,
+            /* CUSTOM_CALL_HEADER */
+            callScreenInformationHeaderReducer,
+            /* CUSTOM_CALL_HEADER */
             /* <RTT_POC>
             rttReducer,
             </RTT_POC> */
