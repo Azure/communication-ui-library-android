@@ -406,7 +406,12 @@ class SettingsActivity : AppCompatActivity() {
         }
         /* <CUSTOM_CALL_HEADER> */
         updateTitleRemotePartiicpantCountEditBox.addTextChangedListener {
-            updateTitleRemotePartiicpantCountEditBox.text.isNotEmpty().let {
+            if (updateTitleRemotePartiicpantCountEditBox.text.isNullOrEmpty()) {
+                sharedPreference.edit().putInt(
+                    CALL_INFORMATION_TITLE_UPDATE_PARTICIPANT_COUNT_KEY,
+                    CALL_INFORMATION_TITLE_UPDATE_PARTICIPANT_COUNT_VALUE
+                ).apply()
+            } else {
                 sharedPreference.edit().putInt(
                     CALL_INFORMATION_TITLE_UPDATE_PARTICIPANT_COUNT_KEY,
                     updateTitleRemotePartiicpantCountEditBox.text.toString().toInt()
@@ -415,7 +420,12 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         updateSubtitleRemotePartiicpantCountEditBox.addTextChangedListener {
-            updateSubtitleRemotePartiicpantCountEditBox.text.isNotEmpty().let {
+            if (updateSubtitleRemotePartiicpantCountEditBox.text.isNullOrEmpty()) {
+                sharedPreference.edit().putInt(
+                    CALL_INFORMATION_SUBTITLE_UPDATE_PARTICIPANT_COUNT_KEY,
+                    CALL_INFORMATION_SUBTITLE_UPDATE_PARTICIPANT_COUNT_VALUE
+                ).apply()
+            } else {
                 sharedPreference.edit().putInt(
                     CALL_INFORMATION_SUBTITLE_UPDATE_PARTICIPANT_COUNT_KEY,
                     updateSubtitleRemotePartiicpantCountEditBox.text.toString().toInt()
