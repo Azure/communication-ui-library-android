@@ -30,7 +30,9 @@ import com.azure.android.communication.ui.calling.CallCompositeInstanceManager
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedLocale
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
 import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent
+/* <CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.models.setManager
+/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.onExit
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.support.SupportView
