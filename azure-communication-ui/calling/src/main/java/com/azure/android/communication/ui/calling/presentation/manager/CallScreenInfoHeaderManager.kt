@@ -7,7 +7,7 @@ import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallScreenInfoHeaderAction
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 
-internal class CallScreenInformationHeaderManager(private val store: Store<ReduxState>) {
+internal class CallScreenInfoHeaderManager(private val store: Store<ReduxState>) {
     fun updateTitle(title: String) {
         store.dispatch(CallScreenInfoHeaderAction.UpdateTitle(title))
     }

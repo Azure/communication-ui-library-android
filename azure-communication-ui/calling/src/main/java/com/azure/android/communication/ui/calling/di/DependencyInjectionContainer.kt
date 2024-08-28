@@ -18,7 +18,7 @@ import com.azure.android.communication.ui.calling.presentation.manager.AudioMode
 import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 /* <CUSTOM_CALL_HEADER> */
-import com.azure.android.communication.ui.calling.presentation.manager.CallScreenInformationHeaderManager
+import com.azure.android.communication.ui.calling.presentation.manager.CallScreenInfoHeaderManager
 /* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.presentation.manager.CaptionsDataManager
@@ -90,6 +90,6 @@ internal interface DependencyInjectionContainer {
     val captionsDataManager: CaptionsDataManager
 
     /* <CUSTOM_CALL_HEADER> */
-    val callScreenInformationHeaderManager: CallScreenInformationHeaderManager
+    val callScreenInfoHeaderManager: CallScreenInfoHeaderManager
     /* </CUSTOM_CALL_HEADER> */
 }

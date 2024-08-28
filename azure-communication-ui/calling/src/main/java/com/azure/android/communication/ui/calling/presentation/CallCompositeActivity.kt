@@ -88,7 +88,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     private val compositeManager get() = container.compositeExitManager
     private val compositeDataModel get() = container.captionsDataManager
     /* <CUSTOM_CALL_HEADER> */
-    private val callScreenInformationHeaderManager get() = container.callScreenInformationHeaderManager
+    private val callScreenInformationHeaderManager get() = container.callScreenInfoHeaderManager
     /* </CUSTOM_CALL_HEADER> */
     private lateinit var visibilityStatusFlow: MutableStateFlow<VisibilityStatus>
 

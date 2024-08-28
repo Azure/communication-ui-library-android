@@ -18,14 +18,14 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
-internal class CallScreenInformationHeaderManagerTests : ACSBaseTestCoroutine() {
+internal class CallScreenInfoHeaderManagerTests : ACSBaseTestCoroutine() {
     @Test
     fun callScreenInformationHeaderManager_updateTitle_action() {
         // Arrange
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { dispatch(any()) } doAnswer { }
         }
-        val manager = CallScreenInformationHeaderManager(mockAppStore)
+        val manager = CallScreenInfoHeaderManager(mockAppStore)
         val title = "title"
 
         // Act
@@ -46,7 +46,7 @@ internal class CallScreenInformationHeaderManagerTests : ACSBaseTestCoroutine() 
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { dispatch(any()) } doAnswer { }
         }
-        val manager = CallScreenInformationHeaderManager(mockAppStore)
+        val manager = CallScreenInfoHeaderManager(mockAppStore)
         val subtitle = "subtitle"
 
         // Act
