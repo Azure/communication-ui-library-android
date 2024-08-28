@@ -317,12 +317,14 @@ class CallCompositeManager(private val context: Context) {
             }
             remoteParticipantsCount += event.identifiers.count()
             /* <CUSTOM_CALL_HEADER> */
-            if (SettingsFeatures.getCallScreenInformationTitleUpdateParticipantCount() <= remoteParticipantsCount) {
+            val titleUpdateCount = SettingsFeatures.getCallScreenInformationTitleUpdateParticipantCount()
+            if (titleUpdateCount != 0 && titleUpdateCount <= remoteParticipantsCount) {
                 callScreenHeaderOptions?.let {
                     it.title = "Custom Call Screen Header: $remoteParticipantsCount participants"
                 }
             }
-            if (SettingsFeatures.getCallScreenInformationSubtitleUpdateParticipantCount() <= remoteParticipantsCount) {
+            val subtitleUpdateCount = SettingsFeatures.getCallScreenInformationSubtitleUpdateParticipantCount()
+            if (subtitleUpdateCount != 0 && subtitleUpdateCount <= remoteParticipantsCount) {
                 callScreenHeaderOptions?.let {
                     it.subtitle = "Custom Call Screen Header: $remoteParticipantsCount participants"
                 }

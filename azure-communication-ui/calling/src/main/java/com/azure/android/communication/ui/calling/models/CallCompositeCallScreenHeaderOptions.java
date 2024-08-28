@@ -3,13 +3,13 @@
 /* <CUSTOM_CALL_HEADER> */
 package com.azure.android.communication.ui.calling.models;
 
-import com.azure.android.communication.ui.calling.presentation.manager.CallScreenInfoHeaderManager;
+import com.azure.android.communication.ui.calling.presentation.manager.CallScreenInfoHeader;
 
 /**
  * Options for the CallCompositeCallScreenHeaderOptions.
  */
 public final class CallCompositeCallScreenHeaderOptions {
-    CallScreenInfoHeaderManager callScreenInfoHeaderManager;
+    CallScreenInfoHeader callScreenInfoHeader;
     private String title;
     private String subtitle;
 
@@ -28,8 +28,8 @@ public final class CallCompositeCallScreenHeaderOptions {
     public CallCompositeCallScreenHeaderOptions setSubtitle(
             final String subtitle) {
         this.subtitle = subtitle;
-        if (callScreenInfoHeaderManager != null) {
-            callScreenInfoHeaderManager.updateSubtitle(subtitle);
+        if (callScreenInfoHeader != null) {
+            callScreenInfoHeader.updateSubtitle(subtitle);
         }
         return this;
     }
@@ -52,8 +52,8 @@ public final class CallCompositeCallScreenHeaderOptions {
     public CallCompositeCallScreenHeaderOptions setTitle(
             final String title) {
         this.title = title;
-        if (callScreenInfoHeaderManager != null) {
-            callScreenInfoHeaderManager.updateTitle(title);
+        if (callScreenInfoHeader != null) {
+            callScreenInfoHeader.updateTitle(title);
         }
         return this;
     }
