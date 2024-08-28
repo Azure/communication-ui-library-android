@@ -67,6 +67,7 @@ class CallCompositeManager(private val context: Context) {
     /* <CUSTOM_CALL_HEADER> */
     private var callScreenHeaderOptions: CallCompositeCallScreenHeaderOptions? = null
     /* </CUSTOM_CALL_HEADER> */
+    private var remoteParticipantsCount = 0
 
     fun launch(
         applicationContext: Context,
@@ -288,6 +289,7 @@ class CallCompositeManager(private val context: Context) {
         callComposite.addOnUserReportedEventHandler(UserReportedIssueHandler(context.applicationContext as Application))
 
         val onDismissedEventHandler: ((CallCompositeDismissedEvent) -> Unit) = {
+            remoteParticipantsCount = 0
             toast(
                 context,
                 "onDismissed: errorCode: ${it.errorCode}, cause: ${it.cause?.message}"
@@ -307,22 +309,22 @@ class CallCompositeManager(private val context: Context) {
         callComposite.addOnPictureInPictureChangedEventHandler {
             toast(context, "isInPictureInPicture: " + it.isInPictureInPicture)
         }
-        var remoteParticipantCount = 0
+
         callComposite.addOnRemoteParticipantJoinedEventHandler { event ->
             toast(context, message = "Joined ${event.identifiers.count()} remote participants")
             event.identifiers.forEach {
                 Log.d(CallLauncherActivity.TAG, "Remote participant joined: ${it.rawId}")
             }
-            remoteParticipantCount += event.identifiers.count()
+            remoteParticipantsCount += event.identifiers.count()
             /* <CUSTOM_CALL_HEADER> */
-            if (SettingsFeatures.getCallScreenInformationTitleUpdateParticipantCount() >= remoteParticipantCount) {
+            if (SettingsFeatures.getCallScreenInformationTitleUpdateParticipantCount() <= remoteParticipantsCount) {
                 callScreenHeaderOptions?.let {
-                    it.title = "Custom Call Screen Header: $remoteParticipantCount participants"
+                    it.title = "Custom Call Screen Header: $remoteParticipantsCount participants"
                 }
             }
-            if (SettingsFeatures.getCallScreenInformationSubtitleUpdateParticipantCount() >= remoteParticipantCount) {
+            if (SettingsFeatures.getCallScreenInformationSubtitleUpdateParticipantCount() <= remoteParticipantsCount) {
                 callScreenHeaderOptions?.let {
-                    it.subtitle = "Custom Call Screen Header: $remoteParticipantCount participants"
+                    it.subtitle = "Custom Call Screen Header: $remoteParticipantsCount participants"
                 }
             }
             /* </CUSTOM_CALL_HEADER> */
