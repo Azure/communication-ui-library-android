@@ -96,11 +96,7 @@ internal class CallingViewModelFactory(
 
     val floatingHeaderViewModel by lazy {
         InfoHeaderViewModel(
-            enableMultitasking,
-            /* <CUSTOM_CALL_HEADER> */
-            callScreenInformationHeaderManager,
-            customTitle,
-            /* </CUSTOM_CALL_HEADER>*/
+            enableMultitasking
         )
     }
 
