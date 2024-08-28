@@ -433,7 +433,9 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             verify(mockParticipantGridViewModel, times(1)).update(any(), any(), any(), any(), any())
             verify(mockFloatingHeaderViewModel, times(1)).update(
                 any(),
-                state.callScreenInformationHeaderState
+                /* <CUSTOM_CALL_HEADER> */
+                any()
+                /* </CUSTOM_CALL_HEADER> */
             )
             verify(mockParticipantListViewModel, times(1)).update(any(), any(), any(), any(), any())
             verify(mockBannerViewModel, times(1)).update(any(), any())
@@ -559,7 +561,9 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             verify(mockParticipantGridViewModel, times(1)).update(any(), any(), any(), any(), any())
             verify(mockFloatingHeaderViewModel, times(1)).update(
                 any(),
-                state.callScreenInformationHeaderState
+                /* <CUSTOM_CALL_HEADER> */
+                any()
+                /* </CUSTOM_CALL_HEADER> */
             )
             verify(mockParticipantListViewModel, times(1)).update(any(), any(), any(), any(), any())
             verify(mockBannerViewModel, times(1)).update(any(), any())
@@ -679,7 +683,9 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             verify(mockParticipantGridViewModel, times(0)).update(any(), any(), any(), any(), any())
             verify(mockFloatingHeaderViewModel, times(0)).update(
                 any(),
-                state.callScreenInformationHeaderState
+                /* <CUSTOM_CALL_HEADER> */
+                any()
+                /* </CUSTOM_CALL_HEADER> */
             )
             verify(mockParticipantListViewModel, times(0)).update(any(), any(), any(), any(), any())
             verify(mockBannerViewModel, times(0)).update(any(), any())
@@ -1339,8 +1345,10 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             any(),
         )
         verify(mockFloatingHeaderViewModel, times(1)).update(
-            expectedParticipantCountOnFloatingHeader,
-            state.callScreenInformationHeaderState
+            argThat { count -> count == expectedParticipantCountOnFloatingHeader },
+            /* <CUSTOM_CALL_HEADER> */
+            any()
+            /* </CUSTOM_CALL_HEADER> */
         )
         verify(
             mockParticipantListViewModel,

@@ -72,6 +72,11 @@ internal class AppReduxStateReducerUnitTest {
     @Mock
     private lateinit var mockCaptionsReducer: CaptionsReducerImpl
 
+    /* <CUSTOM_CALL_HEADER> */
+    @Mock
+    private lateinit var mockCallScreenInformationHeaderReducer: CallScreenInformationHeaderReducerImpl
+    /* </CUSTOM_CALL_HEADER> */
+
     @Test
     fun appStateReducer_reduce_when_invoked_then_callAllReducers() {
 
@@ -89,7 +94,10 @@ internal class AppReduxStateReducerUnitTest {
                 pipReducer,
                 mockCallDiagnosticsReducerImpl,
                 toastNotificationReducerImpl,
-                mockCaptionsReducer
+                mockCaptionsReducer,
+                /* <CUSTOM_CALL_HEADER> */
+                mockCallScreenInformationHeaderReducer
+                /* </CUSTOM_CALL_HEADER> */
             )
         val action = NavigationAction.CallLaunched()
         val state = AppReduxState("", false, false)
@@ -196,6 +204,12 @@ internal class AppReduxStateReducerUnitTest {
 
         Mockito.`when`(mockCaptionsReducer.reduce(state.captionsState, action))
             .thenReturn(state.captionsState)
+
+        /* <CUSTOM_CALL_HEADER> */
+        Mockito.`when`(mockCallScreenInformationHeaderReducer.reduce(state.callScreenInformationHeaderState, action)).thenReturn(
+            state.callScreenInformationHeaderState
+        )
+        /* </CUSTOM_CALL_HEADER> */
 
         // act
         reducer.reduce(state, action)

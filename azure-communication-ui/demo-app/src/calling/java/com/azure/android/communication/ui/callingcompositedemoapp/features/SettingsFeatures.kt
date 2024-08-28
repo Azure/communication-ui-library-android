@@ -13,7 +13,14 @@ import com.azure.android.communication.ui.callingcompositedemoapp.AUDIO_ONLY_MOD
 import com.azure.android.communication.ui.callingcompositedemoapp.AUTO_START_CAPTIONS
 import com.azure.android.communication.ui.callingcompositedemoapp.AVATAR_IMAGE
 /* <CUSTOM_CALL_HEADER> */
+import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_DEFAULT_TITLE
+import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_SUBTITLE_DEFAULT
+import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_SUBTITLE_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_SUBTITLE_UPDATE_PARTICIPANT_COUNT_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_SUBTITLE_UPDATE_PARTICIPANT_COUNT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_TITLE_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_TITLE_UPDATE_PARTICIPANT_COUNT_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_TITLE_UPDATE_PARTICIPANT_COUNT_VALUE
 /* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SUBTITLE
@@ -22,9 +29,6 @@ import com.azure.android.communication.ui.callingcompositedemoapp.CAMERA_ON_BY_D
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_ADD_CUSTOM_BUTTONS
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_AUDIO_ONLY_MODE_ON
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_AUTO_START_CAPTIONS
-/* <CUSTOM_CALL_HEADER> */
-import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CALL_INFORMATION_TITLE
-/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_DISPLAY_LEAVE_CALL_CONFIRMATION_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_HIDE_CAPTIONS_UI
@@ -36,10 +40,6 @@ import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SETUP_
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SKIP_SETUP_SCREEN_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SPOKEN_LANGUAGE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SPOKEN_LANGUAGE_KEY
-/* <CUSTOM_CALL_HEADER> */
-import com.azure.android.communication.ui.callingcompositedemoapp.SUBTITLE_UPDATE_PARTICIPANT_COUNT_VALUE
-import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CALL_INFORMATION_SUBTITLE
-/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.callingcompositedemoapp.DISABLE_INTERNAL_PUSH_NOTIFICATIONS
 import com.azure.android.communication.ui.callingcompositedemoapp.DISPLAY_DISMISS_BUTTON_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.DISPLAY_DISMISS_BUTTON_KEY_DEFAULT_VALUE
@@ -61,11 +61,6 @@ import com.azure.android.communication.ui.callingcompositedemoapp.SETUP_SCREEN_M
 import com.azure.android.communication.ui.callingcompositedemoapp.SETUP_SCREEN_ORIENTATION_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.SKIP_SETUP_SCREEN_VALUE_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.TELECOM_MANAGER_INTEGRATION_OPTION_KEY
-/* <CUSTOM_CALL_HEADER> */
-import com.azure.android.communication.ui.callingcompositedemoapp.TITLE_UPDATE_PARTICIPANT_COUNT_KEY
-import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_SUBTITLE_KEY
-import com.azure.android.communication.ui.callingcompositedemoapp.SUBTITLE_UPDATE_PARTICIPANT_COUNT_KEY
-/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.callingcompositedemoapp.USE_DEPRECATED_LAUNCH_KEY
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -97,29 +92,29 @@ class SettingsFeatures {
         /* <CUSTOM_CALL_HEADER> */
         fun getCallScreenInformationTitleUpdateParticipantCount(): Int {
             return sharedPrefs.getInt(
-                TITLE_UPDATE_PARTICIPANT_COUNT_KEY,
-                SUBTITLE_UPDATE_PARTICIPANT_COUNT_VALUE,
+                CALL_INFORMATION_TITLE_UPDATE_PARTICIPANT_COUNT_KEY,
+                CALL_INFORMATION_TITLE_UPDATE_PARTICIPANT_COUNT_VALUE,
             )
         }
 
         fun getCallScreenInformationSubtitleUpdateParticipantCount(): Int {
             return sharedPrefs.getInt(
-                SUBTITLE_UPDATE_PARTICIPANT_COUNT_KEY,
-                SUBTITLE_UPDATE_PARTICIPANT_COUNT_VALUE,
+                CALL_INFORMATION_SUBTITLE_UPDATE_PARTICIPANT_COUNT_KEY,
+                CALL_INFORMATION_SUBTITLE_UPDATE_PARTICIPANT_COUNT_VALUE,
             )
         }
 
         fun getCallScreenInformationSubtitle(): String? {
             return sharedPrefs.getString(
                 CALL_INFORMATION_SUBTITLE_KEY,
-                DEFAULT_CALL_INFORMATION_SUBTITLE,
+                CALL_INFORMATION_SUBTITLE_DEFAULT,
             )
         }
 
         fun getCallScreenInformationTitle(): String? {
             return sharedPrefs.getString(
                 CALL_INFORMATION_TITLE_KEY,
-                DEFAULT_CALL_INFORMATION_TITLE,
+                CALL_INFORMATION_DEFAULT_TITLE,
             )
         }
         /* </CUSTOM_CALL_HEADER> */

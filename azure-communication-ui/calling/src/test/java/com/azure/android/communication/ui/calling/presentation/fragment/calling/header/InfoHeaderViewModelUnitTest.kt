@@ -6,6 +6,9 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
+/* <CUSTOM_CALL_HEADER> */
+import com.azure.android.communication.ui.calling.redux.state.CallScreenInformationHeaderState
+/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
@@ -57,7 +60,9 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             floatingHeaderViewModel.init(
                 appState.callState.callingStatus,
                 expectedParticipantMap.count(),
-                state.callScreenInformationHeaderState
+                /* <CUSTOM_CALL_HEADER> */
+                CallScreenInformationHeaderState(null, null)
+                /* </CUSTOM_CALL_HEADER> */
             ) { }
 
             val resultListFromNumberOfParticipantsFlow =
@@ -71,7 +76,9 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             // act
             floatingHeaderViewModel.update(
                 expectedParticipantMap.count(),
-                state.callScreenInformationHeaderState
+                /* <CUSTOM_CALL_HEADER> */
+                CallScreenInformationHeaderState(null, null)
+                /* </CUSTOM_CALL_HEADER> */
             )
 
             // assert
@@ -120,7 +127,9 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             floatingHeaderViewModel.init(
                 appState.callState.callingStatus,
                 expectedParticipantMap.count(),
-                state.callScreenInformationHeaderState
+                /* <CUSTOM_CALL_HEADER> */
+                CallScreenInformationHeaderState(null, null)
+                /* </CUSTOM_CALL_HEADER> */
             ) {}
 
             val resultListFromIsLobbyOverlayDisplayedFlow =
