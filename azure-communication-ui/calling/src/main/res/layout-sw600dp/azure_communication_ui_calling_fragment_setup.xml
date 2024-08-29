@@ -229,6 +229,7 @@
                     android:text="@string/azure_communication_ui_calling_audio_device_drawer_speaker"
                     android:textAllCaps="false"
                     android:textColor="@color/azure_communication_ui_calling_toggle_selector"
+                    android:textSize="13sp"
                     />
             </com.azure.android.communication.ui.calling.presentation.fragment.setup.components.SetupControlBarView>
 
