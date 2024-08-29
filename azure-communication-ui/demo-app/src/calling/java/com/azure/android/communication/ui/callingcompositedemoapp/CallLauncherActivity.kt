@@ -418,6 +418,7 @@ class CallLauncherActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         toggleDismissCompositeButton()
+        callCompositeManager.bringCallCompositeToForeground(this)
     }
 
     override fun onStop() {
