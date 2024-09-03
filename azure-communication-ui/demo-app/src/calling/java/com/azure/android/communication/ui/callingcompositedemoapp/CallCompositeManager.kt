@@ -29,7 +29,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideo
 import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenHeaderOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenHeaderViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
@@ -67,7 +67,7 @@ class CallCompositeManager(private val context: Context) {
     private var callComposite: CallComposite? = null
     private var incomingCallId: String? = null
     /* <CUSTOM_CALL_HEADER> */
-    private var callScreenHeaderOptions: CallCompositeCallScreenHeaderOptions? = null
+    private var callScreenHeaderOptions: CallCompositeCallScreenHeaderViewData? = null
     /* </CUSTOM_CALL_HEADER> */
     private var remoteParticipantsCount = 0
 
@@ -614,22 +614,22 @@ class CallCompositeManager(private val context: Context) {
                     .setOnClickHandler { toast(it.context, "audioDeviceButton clicked") }
 
                 controlBarOptions.liveCaptionsButton = CallCompositeButtonOptions()
-                        .setOnClickHandler { toast(it.context, "liveCaptionsButton clicked") }
+                    .setOnClickHandler { toast(it.context, "liveCaptionsButton clicked") }
 
                 controlBarOptions.liveCaptionsToggleButton = CallCompositeButtonOptions()
-                        .setOnClickHandler { toast(it.context, "liveCaptionsToggleButton clicked") }
+                    .setOnClickHandler { toast(it.context, "liveCaptionsToggleButton clicked") }
 
                 controlBarOptions.spokenLanguageButton = CallCompositeButtonOptions()
-                        .setOnClickHandler { toast(it.context, "spokenLanguageButton clicked") }
+                    .setOnClickHandler { toast(it.context, "spokenLanguageButton clicked") }
 
                 controlBarOptions.captionsLanguageButton = CallCompositeButtonOptions()
-                        .setOnClickHandler { toast(it.context, "captionsLanguageButton clicked") }
+                    .setOnClickHandler { toast(it.context, "captionsLanguageButton clicked") }
 
                 controlBarOptions.reportIssueButton = CallCompositeButtonOptions()
                     .setOnClickHandler { toast(it.context, "reportIssueButton clicked") }
 
                 controlBarOptions.shareDiagnosticsButton = CallCompositeButtonOptions()
-                        .setOnClickHandler { toast(it.context, "shareDiagnosticsButton clicked") }
+                    .setOnClickHandler { toast(it.context, "shareDiagnosticsButton clicked") }
 
                 if (controlBarOptions == null)
                     controlBarOptions = CallCompositeCallScreenControlBarOptions()
@@ -686,7 +686,8 @@ class CallCompositeManager(private val context: Context) {
         ) {
             callScreenOptions = callScreenOptions ?: CallCompositeCallScreenOptions()
 
-            callScreenHeaderOptions = CallCompositeCallScreenHeaderOptions()
+            callScreenHeaderOptions =
+                CallCompositeCallScreenHeaderViewData()
             SettingsFeatures.getCallScreenInformationTitle()?.let {
                 if (it.isNotEmpty()) {
                     callScreenHeaderOptions?.title = it

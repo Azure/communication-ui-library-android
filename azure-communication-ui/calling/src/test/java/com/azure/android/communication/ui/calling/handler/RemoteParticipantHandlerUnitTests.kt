@@ -42,12 +42,14 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
     fun remoteParticipantHandler_start_onStateChangeWithNoRemoteParticipant_then_eventIsNotFiredToContoso() {
         runScopedTest {
             // arrange
-            val storeStateFlow = MutableStateFlow<ReduxState>(AppReduxState(
-                "",
-                false,
-                false,
-                localOptions = localOptions
-            ))
+            val storeStateFlow = MutableStateFlow<ReduxState>(
+                AppReduxState(
+                    "",
+                    false,
+                    false,
+                    localOptions = localOptions
+                )
+            )
             val mockAppStore = mock<AppStore<ReduxState>> {
                 on { getStateFlow() } doReturn storeStateFlow
             }

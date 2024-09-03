@@ -5,7 +5,7 @@ import com.azure.android.communication.ui.calling.redux.action.ButtonOptionsActi
 import com.azure.android.communication.ui.calling.redux.state.ButtonOptionsState
 
 internal interface ButtonOptionsReducer : Reducer<ButtonOptionsState>
-internal class ButtonOptionsReducerImpl : ButtonOptionsReducer{
+internal class ButtonOptionsReducerImpl : ButtonOptionsReducer {
     override fun reduce(state: ButtonOptionsState, action: Action): ButtonOptionsState {
         return when (action) {
             is ButtonOptionsAction.CallScreenCameraButtonIsVisibleUpdated -> {

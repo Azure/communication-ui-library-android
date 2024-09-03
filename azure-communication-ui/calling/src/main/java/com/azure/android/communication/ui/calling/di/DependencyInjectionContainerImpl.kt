@@ -132,7 +132,7 @@ internal class DependencyInjectionContainerImpl(
         UpdatableOptionsManager(
             configuration,
             appStore,
-            )
+        )
     }
 
     override val videoViewManager by lazy {
@@ -270,7 +270,7 @@ internal class DependencyInjectionContainerImpl(
             skipSetupScreen = localOptions?.isSkipSetupScreen ?: false,
             showCaptionsUI = true,
             localOptions = configuration.callCompositeLocalOptions
-            )
+        )
     }
 
     // Reducers

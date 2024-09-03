@@ -35,13 +35,15 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
     fun callStateEventHandler_start_onCallStateChange_then_eventIsFiredToContoso() {
         runScopedTest {
             // arrange
-            val storeStateFlow = MutableStateFlow<ReduxState>(AppReduxState(
-                "",
-                false,
-                false,
-                false,
-                localOptions = localOptions
-            ))
+            val storeStateFlow = MutableStateFlow<ReduxState>(
+                AppReduxState(
+                    "",
+                    false,
+                    false,
+                    false,
+                    localOptions = localOptions
+                )
+            )
             storeStateFlow.value.callState = CallingState(
                 callingStatus = CallingStatus.NONE,
                 callId = "callId",
@@ -86,13 +88,15 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
     fun callStateEventHandler_onCompositeExit_eventIsFiredToContoso() {
         runScopedTest {
             // arrange
-            val storeStateFlow = MutableStateFlow<ReduxState>(AppReduxState(
-                "",
-                false,
-                false,
-                false,
-                localOptions = localOptions
-            ))
+            val storeStateFlow = MutableStateFlow<ReduxState>(
+                AppReduxState(
+                    "",
+                    false,
+                    false,
+                    false,
+                    localOptions = localOptions
+                )
+            )
             storeStateFlow.value.callState = CallingState(
                 callingStatus = CallingStatus.NONE,
                 callId = "callId",

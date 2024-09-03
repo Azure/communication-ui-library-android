@@ -35,10 +35,12 @@ internal class CaptionsListViewModelUnitTest : ACSBaseTestCoroutine() {
     @Before
     fun setUp() {
         store = mock<AppStore<ReduxState>> {}
-        `when`(store.getCurrentState()).thenReturn(AppReduxState(
-            displayName = "hello",
-            localOptions = localOptions
-        ))
+        `when`(store.getCurrentState()).thenReturn(
+            AppReduxState(
+                displayName = "hello",
+                localOptions = localOptions
+            )
+        )
         `when`(store.dispatch(any())).then { }
         viewModel = CaptionsListViewModel(
             store,

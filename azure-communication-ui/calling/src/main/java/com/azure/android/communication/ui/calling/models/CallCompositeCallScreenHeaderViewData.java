@@ -6,9 +6,9 @@ package com.azure.android.communication.ui.calling.models;
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler;
 
 /**
- * Options for the CallCompositeCallScreenHeaderOptions.
+ * Options for the {@link CallCompositeCallScreenHeaderViewData}.
  */
-public final class CallCompositeCallScreenHeaderOptions {
+public final class CallCompositeCallScreenHeaderViewData {
     CallCompositeEventHandler<String> titleChangedEventHandler;
     CallCompositeEventHandler<String> subtitleChangedEventHandler;
 
@@ -16,18 +16,18 @@ public final class CallCompositeCallScreenHeaderOptions {
     private String subtitle;
 
     /**
-     * Create a CallCompositeCallScreenHeaderOptions object.
+     * Create a {@link CallCompositeCallScreenHeaderViewData} object.
      */
-    public CallCompositeCallScreenHeaderOptions() {
+    public CallCompositeCallScreenHeaderViewData() {
     }
 
     /**
      * Set the subtitle.
      *
      * @param subtitle The subtitle.
-     * @return The {@link CallCompositeCallScreenHeaderOptions} object itself.
+     * @return The {@link CallCompositeCallScreenHeaderViewData} object itself.
      */
-    public CallCompositeCallScreenHeaderOptions setSubtitle(
+    public CallCompositeCallScreenHeaderViewData setSubtitle(
             final String subtitle) {
         this.subtitle = subtitle;
         if (subtitleChangedEventHandler != null) {
@@ -49,9 +49,9 @@ public final class CallCompositeCallScreenHeaderOptions {
      * Set the title.
      *
      * @param title The title.
-     * @return The {@link CallCompositeCallScreenHeaderOptions} object itself.
+     * @return The {@link CallCompositeCallScreenHeaderViewData} object itself.
      */
-    public CallCompositeCallScreenHeaderOptions setTitle(
+    public CallCompositeCallScreenHeaderViewData setTitle(
             final String title) {
         this.title = title;
         if (titleChangedEventHandler != null) {

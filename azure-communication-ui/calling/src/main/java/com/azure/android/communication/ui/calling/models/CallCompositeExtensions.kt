@@ -15,10 +15,10 @@ internal fun buildCallCompositeRemoteParticipantLeftEvent(
     )
 }
 
-internal fun CallCompositeCallScreenHeaderOptions.setSubtitleChangedEventHandler(handler: CallCompositeEventHandler<String?>) {
+internal fun CallCompositeCallScreenHeaderViewData.setSubtitleChangedEventHandler(handler: CallCompositeEventHandler<String?>) {
     this.subtitleChangedEventHandler = handler
 }
-internal fun CallCompositeCallScreenHeaderOptions.setTitleChangedEventHandler(handler: CallCompositeEventHandler<String?>) {
+internal fun CallCompositeCallScreenHeaderViewData.setTitleChangedEventHandler(handler: CallCompositeEventHandler<String?>) {
     this.titleChangedEventHandler = handler
 }
 /* </CUSTOM_CALL_HEADER> */

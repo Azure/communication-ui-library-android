@@ -10,7 +10,7 @@ import com.azure.android.communication.ui.calling.redux.action.ButtonOptionsActi
 import com.azure.android.communication.ui.calling.redux.action.CallScreenInfoHeaderAction
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 
-internal class UpdatableOptionsManager (
+internal class UpdatableOptionsManager(
     private val configuration: CallCompositeConfiguration,
     private val store: Store<ReduxState>,
 ) {
