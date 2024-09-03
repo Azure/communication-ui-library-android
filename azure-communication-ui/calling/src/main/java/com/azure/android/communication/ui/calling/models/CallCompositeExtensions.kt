@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling.models
 
 import com.azure.android.communication.common.CommunicationIdentifier
-import com.azure.android.communication.ui.calling.presentation.manager.CallTimer
+import com.azure.android.communication.ui.calling.presentation.manager.CallScreenInfoHeader
 
 internal fun buildCallCompositeRemoteParticipantLeftEvent(
     identifiers: List<CommunicationIdentifier>,
@@ -14,7 +14,7 @@ internal fun buildCallCompositeRemoteParticipantLeftEvent(
     )
 }
 
-internal fun CallCompositeCallDurationTimer.setCallTimer(callTimer: CallTimer) {
-    this.callTimer = callTimer
+internal fun CallCompositeCallScreenHeaderOptions.setManager(manager: CallScreenInfoHeader) {
+    this.callScreenInfoHeader = manager
 }
 /* </CUSTOM_CALL_HEADER> */

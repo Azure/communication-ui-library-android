@@ -28,7 +28,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.menu.ParticipantMenuViewModel
 /* <CUSTOM_CALL_HEADER> */
-import com.azure.android.communication.ui.calling.presentation.manager.CallDurationManager
+import com.azure.android.communication.ui.calling.presentation.manager.CallScreenInfoHeaderManager
 /* </CUSTOM_CALL_HEADER> */
 /* <RTT_POC>
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttViewModel
@@ -53,7 +53,7 @@ internal class CallingViewModelFactory(
     private val callScreenControlBarOptions: CallCompositeCallScreenControlBarOptions?,
     private val isCaptionsEnabled: Boolean = false,
     /* <CUSTOM_CALL_HEADER> */
-    private val callDurationManager: CallDurationManager? = null,
+    private val callScreenInfoHeaderManager: CallScreenInfoHeaderManager? = null,
     private val customTitle: String? = null,
     /* </CUSTOM_CALL_HEADER> */
     private val logger: Logger,
@@ -96,11 +96,7 @@ internal class CallingViewModelFactory(
 
     val floatingHeaderViewModel by lazy {
         InfoHeaderViewModel(
-            enableMultitasking,
-            /* <CUSTOM_CALL_HEADER> */
-            callDurationManager,
-            customTitle,
-            /* </CUSTOM_CALL_HEADER>*/
+            enableMultitasking
         )
     }
 
