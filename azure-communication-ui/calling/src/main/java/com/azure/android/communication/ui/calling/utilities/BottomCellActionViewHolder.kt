@@ -63,7 +63,6 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
                 }
             )
 
-
             if (bottomCellItem.title == itemView.context.getString(R.string.azure_communication_ui_calling_view_participant_drawer_unnamed)) {
                 avatarView.name = ""
             } else {
