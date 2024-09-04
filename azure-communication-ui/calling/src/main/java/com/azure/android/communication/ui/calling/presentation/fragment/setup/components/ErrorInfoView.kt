@@ -133,7 +133,7 @@ internal class ErrorInfoView(private val rootView: View) {
                 contentDescription =
                     rootView.context.getText(R.string.azure_communication_ui_calling_snack_bar_button_dismiss)
             }
-            snackBarTextView.maxLines = Integer.MAX_VALUE
+            snackBarTextView.maxLines = 3
             ViewCompat.setImportantForAccessibility(
                 view,
                 ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES
