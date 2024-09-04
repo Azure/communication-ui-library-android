@@ -59,7 +59,6 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             `when`(appStore.getCurrentState()).thenReturn(
                 AppReduxState(
                     displayName = "",
-                    localOptions = localOptions
                 )
             )
             val timestamp = Date()
@@ -105,7 +104,6 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             `when`(appStore.getCurrentState()).thenReturn(
                 AppReduxState(
                     displayName = "",
-                    localOptions = localOptions
                 )
             )
             val timestamp = Date()
@@ -151,7 +149,6 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             `when`(appStore.getCurrentState()).thenReturn(
                 AppReduxState(
                     displayName = "",
-                    localOptions = localOptions
                 )
             )
             val timestamp = Date()
@@ -212,7 +209,7 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
         runScopedTest {
             // Arrange
             val sharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
-            val currentState = AppReduxState(displayName = "", localOptions = localOptions)
+            val currentState = AppReduxState(displayName = "")
             currentState.captionsState = CaptionsState(
                 captionLanguage = "en",
                 spokenLanguage = "en",
@@ -259,7 +256,6 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             `when`(appStore.getCurrentState()).thenReturn(
                 AppReduxState(
                     displayName = "",
-                    localOptions = localOptions
                 )
             )
 
@@ -321,7 +317,6 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             `when`(appStore.getCurrentState()).thenReturn(
                 AppReduxState(
                     displayName = "",
-                    localOptions = localOptions
                 )
             )
 
@@ -380,7 +375,6 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             `when`(appStore.getCurrentState()).thenReturn(
                 AppReduxState(
                     displayName = "",
-                    localOptions = localOptions
                 )
             )
 
@@ -434,7 +428,6 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             `when`(appStore.getCurrentState()).thenReturn(
                 AppReduxState(
                     displayName = "",
-                    localOptions = localOptions
                 )
             )
 

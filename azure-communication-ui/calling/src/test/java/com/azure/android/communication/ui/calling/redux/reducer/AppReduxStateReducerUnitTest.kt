@@ -11,21 +11,20 @@ import com.azure.android.communication.ui.calling.redux.state.AudioOperationalSt
 import com.azure.android.communication.ui.calling.redux.state.AudioSessionState
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.BluetoothState
+import com.azure.android.communication.ui.calling.redux.state.CallDiagnosticsState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
+import com.azure.android.communication.ui.calling.redux.state.CaptionsState
 import com.azure.android.communication.ui.calling.redux.state.LifecycleState
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
-import com.azure.android.communication.ui.calling.redux.state.CallDiagnosticsState
-import com.azure.android.communication.ui.calling.redux.state.CaptionsState
-
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -77,6 +76,9 @@ internal class AppReduxStateReducerUnitTest {
     private lateinit var mockCallScreenInformationHeaderReducer: CallScreenInformationHeaderReducerImpl
     /* </CUSTOM_CALL_HEADER> */
 
+    @Mock
+    private lateinit var buttonOptionsReducer: ButtonOptionsReducerImpl
+
     @Test
     fun appStateReducer_reduce_when_invoked_then_callAllReducers() {
 
@@ -96,11 +98,12 @@ internal class AppReduxStateReducerUnitTest {
                 toastNotificationReducerImpl,
                 mockCaptionsReducer,
                 /* <CUSTOM_CALL_HEADER> */
-                mockCallScreenInformationHeaderReducer
+                mockCallScreenInformationHeaderReducer,
                 /* </CUSTOM_CALL_HEADER> */
+                buttonOptionsReducer,
             )
         val action = NavigationAction.CallLaunched()
-        val state = AppReduxState("", false, false, localOptions = localOptions)
+        val state = AppReduxState("", false, false)
         state.callState = CallingState(CallingStatus.CONNECTED)
         state.remoteParticipantState = RemoteParticipantsState(HashMap(), 0, listOf(), 0, null, 0)
         state.localParticipantState = LocalUserState(
@@ -210,6 +213,10 @@ internal class AppReduxStateReducerUnitTest {
             state.callScreenInfoHeaderState
         )
         /* </CUSTOM_CALL_HEADER> */
+
+        Mockito.`when`(buttonOptionsReducer.reduce(state.buttonOptionsState, action)).thenReturn(
+            state.buttonOptionsState
+        )
 
         // act
         reducer.reduce(state, action)

@@ -34,7 +34,6 @@ internal class CompositeExitManagerUnitTests : ACSBaseTestCoroutine() {
                 displayName = "",
                 cameraOnByDefault = false,
                 microphoneOnByDefault = false,
-                localOptions = localOptions
             )
             state.callState = CallingState(CallingStatus.CONNECTED)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -64,7 +63,6 @@ internal class CompositeExitManagerUnitTests : ACSBaseTestCoroutine() {
                 displayName = "",
                 cameraOnByDefault = false,
                 microphoneOnByDefault = false,
-                localOptions = localOptions
             )
             state.callState = CallingState(CallingStatus.NONE)
             val mockAppStore = mock<AppStore<ReduxState>> {

@@ -33,7 +33,7 @@ internal class CallHistoryServiceTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val appState1 = AppReduxState("", false, false, localOptions = localOptions)
+            val appState1 = AppReduxState("", false, false)
             appState1.callState = CallingState(CallingStatus.NONE)
 
             val stateFlow = MutableStateFlow<ReduxState>(appState1)
@@ -52,7 +52,7 @@ internal class CallHistoryServiceTest : ACSBaseTestCoroutine() {
             }
 
             // update state
-            val appState2 = AppReduxState("", false, false, localOptions = localOptions)
+            val appState2 = AppReduxState("", false, false)
             val callID = "callID"
             appState2.callState = CallingState(
                 CallingStatus.CONNECTING,

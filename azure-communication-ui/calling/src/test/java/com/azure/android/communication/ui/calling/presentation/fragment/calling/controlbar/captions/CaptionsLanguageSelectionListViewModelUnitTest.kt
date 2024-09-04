@@ -35,7 +35,6 @@ internal class CaptionsLanguageSelectionListViewModelUnitTest : ACSBaseTestCorou
         `when`(store.getCurrentState()).thenReturn(
             AppReduxState(
                 displayName = "hello",
-                localOptions = localOptions
             )
         )
         `when`(store.dispatch(any())).then { }

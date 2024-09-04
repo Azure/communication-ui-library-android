@@ -14,7 +14,7 @@ internal class AppReduxState(
     skipSetupScreen: Boolean = false,
     avMode: CallCompositeAudioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
     showCaptionsUI: Boolean = true,
-    private val localOptions: CallCompositeLocalOptions?
+    private val localOptions: CallCompositeLocalOptions? = null
 ) : ReduxState {
 
     fun copy(): AppReduxState {
@@ -96,8 +96,8 @@ internal class AppReduxState(
 
     /* <CUSTOM_CALL_HEADER> */
     override var callScreenInfoHeaderState: CallScreenInfoHeaderState = CallScreenInfoHeaderState(
-        title = localOptions?.callScreenOptions?.headerOptions?.title,
-        subtitle = localOptions?.callScreenOptions?.headerOptions?.subtitle,
+        title = localOptions?.callScreenOptions?.headerViewData?.title,
+        subtitle = localOptions?.callScreenOptions?.headerViewData?.subtitle,
     )
     /* </CUSTOM_CALL_HEADER> */
 

@@ -6,42 +6,41 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
-import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLeaveCallConfirmationMode
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.models.VideoStreamModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay.ConnectingOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.CaptionsLanguageSelectionListViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.CaptionsListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.OnHoldOverlayViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay.ConnectingOverlayViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.CaptionsLanguageSelectionListViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.CaptionsListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyErrorHeaderViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyHeaderViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.WaitingLobbyOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser.LocalParticipantViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.menu.ParticipantMenuViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
-
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.menu.ParticipantMenuViewModel
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
+import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
-import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
@@ -83,7 +82,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val appState = AppReduxState("", false, false, false, localOptions = localOptions)
+            val appState = AppReduxState("", false, false, false)
             appState.localParticipantState = getLocalUserState()
             val stateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -170,7 +169,6 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 false,
                 false,
                 false,
-                localOptions = localOptions
             )
             newBackgroundState.lifecycleState = LifecycleState(LifecycleStatus.BACKGROUND)
             newBackgroundState.localParticipantState = getLocalUserState()
@@ -206,7 +204,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val appState = AppReduxState("", false, false, false, localOptions = localOptions)
+            val appState = AppReduxState("", false, false, false)
             appState.localParticipantState = getLocalUserState()
             val stateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -291,7 +289,6 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 false,
                 false,
                 false,
-                localOptions = localOptions
             )
             newForegroundState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
             newForegroundState.localParticipantState = getLocalUserState()
@@ -346,7 +343,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
     @OptIn(ExperimentalCoroutinesApi::class)
     private suspend fun gridUpdateTestWithCallState(callState: CallingStatus) {
         coroutineScope {
-            val appState = AppReduxState("", false, false, false, localOptions = localOptions)
+            val appState = AppReduxState("", false, false, false)
             appState.localParticipantState = getLocalUserState()
             val stateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -430,7 +427,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallType.ONE_TO_N_OUTGOING,
                 capabilitiesManager = CapabilitiesManager(CallType.GROUP_CALL)
             )
-            val storeState = AppReduxState("", false, false, false, localOptions = localOptions)
+            val storeState = AppReduxState("", false, false, false)
             storeState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
             storeState.localParticipantState = getLocalUserState()
             storeState.callState = CallingState(
@@ -473,7 +470,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val appState = AppReduxState("", false, false, false, localOptions = localOptions)
+            val appState = AppReduxState("", false, false, false)
             appState.localParticipantState = getLocalUserState()
             val stateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -554,7 +551,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 capabilitiesManager = CapabilitiesManager(CallType.GROUP_CALL)
             )
 
-            val storeState = AppReduxState("", false, false, false, localOptions = localOptions)
+            val storeState = AppReduxState("", false, false, false)
             storeState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
             storeState.localParticipantState = getLocalUserState()
             storeState.callState = CallingState(
@@ -602,7 +599,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val appState = AppReduxState("", false, false, false, localOptions = localOptions)
+            val appState = AppReduxState("", false, false, false)
             appState.localParticipantState = getLocalUserState()
             val stateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -686,7 +683,6 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 false,
                 false,
                 false,
-                localOptions = localOptions
             )
             newForegroundState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
             newForegroundState.localParticipantState = getLocalUserState()
@@ -873,7 +869,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 "p3" to participantInfoModel3
             )
 
-            val appState = AppReduxState("", false, false, false, localOptions = localOptions)
+            val appState = AppReduxState("", false, false, false)
             appState.localParticipantState = getLocalUserState()
 
             val timestamp: Number = System.currentTimeMillis()
@@ -940,7 +936,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 capabilitiesManager = CapabilitiesManager(CallType.GROUP_CALL)
             )
 
-            val newState = AppReduxState("", false, false, false, localOptions = localOptions)
+            val newState = AppReduxState("", false, false, false)
             newState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
             newState.localParticipantState = getLocalUserState()
             newState.callState = CallingState(
@@ -1090,7 +1086,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             "p3" to participantInfoModel3
         )
 
-        val appState = AppReduxState("", false, false, false, localOptions = localOptions)
+        val appState = AppReduxState("", false, false, false)
         appState.localParticipantState = getLocalUserState(capabilities = capabilities)
 
         val timestamp: Number = System.currentTimeMillis()
@@ -1161,7 +1157,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             capabilitiesManager = CapabilitiesManager(CallType.TEAMS_MEETING)
         )
 
-        val newState = AppReduxState("", false, false, false, localOptions = localOptions)
+        val newState = AppReduxState("", false, false, false)
         newState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
         newState.localParticipantState = getLocalUserState(capabilities = capabilities)
         newState.callState = CallingState(
@@ -1251,7 +1247,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         expectedParticipantCountOnParticipantList: Int
     ) {
         // arrange
-        val appState = AppReduxState("", false, false, false, localOptions = localOptions)
+        val appState = AppReduxState("", false, false, false)
         appState.localParticipantState = getLocalUserState()
 
         val timestamp: Number = System.currentTimeMillis()
@@ -1331,7 +1327,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             capabilitiesManager = CapabilitiesManager(CallType.GROUP_CALL)
         )
 
-        val newState = AppReduxState("", false, false, false, localOptions = localOptions)
+        val newState = AppReduxState("", false, false, false)
         newState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
         newState.localParticipantState = getLocalUserState()
         newState.callState = CallingState(
@@ -1445,7 +1441,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val appState = AppReduxState("", false, false, false, localOptions = localOptions)
+            val appState = AppReduxState("", false, false, false)
             appState.localParticipantState = getLocalUserState()
             val stateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -1550,7 +1546,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
         runScopedTest {
             // arrange
-            val appState = AppReduxState("", false, false, false, localOptions = localOptions)
+            val appState = AppReduxState("", false, false, false)
             appState.localParticipantState = getLocalUserState()
             val stateFlow = MutableStateFlow<ReduxState>(appState)
             val mockAppStore = mock<AppStore<ReduxState>> {

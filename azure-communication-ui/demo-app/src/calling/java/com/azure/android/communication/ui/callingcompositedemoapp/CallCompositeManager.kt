@@ -698,7 +698,7 @@ class CallCompositeManager(private val context: Context) {
                     callScreenHeaderOptions?.subtitle = it
                 }
             }
-            callScreenOptions.setHeaderOptions(callScreenHeaderOptions)
+            callScreenOptions.setHeaderViewData(callScreenHeaderOptions)
         }
         /* </CUSTOM_CALL_HEADER> */
         return callScreenOptions

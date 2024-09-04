@@ -16,7 +16,7 @@ internal class UpdatableOptionsManager(
 ) {
     fun start() {
         /* <CUSTOM_CALL_HEADER> */
-        configuration.callScreenOptions?.headerOptions?.run {
+        configuration.callScreenOptions?.headerViewData?.run {
             setTitleChangedEventHandler {
                 store.dispatch(CallScreenInfoHeaderAction.UpdateTitle(it))
             }

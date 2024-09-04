@@ -38,7 +38,6 @@ internal class CaptionsListViewModelUnitTest : ACSBaseTestCoroutine() {
         `when`(store.getCurrentState()).thenReturn(
             AppReduxState(
                 displayName = "hello",
-                localOptions = localOptions
             )
         )
         `when`(store.dispatch(any())).then { }
