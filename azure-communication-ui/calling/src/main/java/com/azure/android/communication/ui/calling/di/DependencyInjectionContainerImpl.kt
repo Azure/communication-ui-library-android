@@ -62,7 +62,7 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.presentation.manager.MultitaskingManager
 import com.azure.android.communication.ui.calling.presentation.manager.UpdatableOptionsManager
-import com.azure.android.communication.ui.calling.redux.reducer.ButtonOptionsReducerImpl
+import com.azure.android.communication.ui.calling.redux.reducer.ButtonViewDataReducerImpl
 /* <CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.redux.reducer.CallScreenInformationHeaderReducerImpl
 /* </CUSTOM_CALL_HEADER> */
@@ -289,7 +289,7 @@ internal class DependencyInjectionContainerImpl(
     /* <CUSTOM_CALL_HEADER> */
     private val callScreenInformationHeaderReducer get() = CallScreenInformationHeaderReducerImpl()
     /* </CUSTOM_CALL_HEADER> */
-    private val buttonOptionsReducer get() = ButtonOptionsReducerImpl()
+    private val buttonOptionsReducer get() = ButtonViewDataReducerImpl()
 
     /* <RTT_POC>
     private val rttReducer get() = RttReducerImpl()

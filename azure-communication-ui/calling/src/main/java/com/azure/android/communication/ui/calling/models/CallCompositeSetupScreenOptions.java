@@ -13,9 +13,9 @@ public final class CallCompositeSetupScreenOptions {
     private Boolean cameraButtonEnabled = null;
     private Boolean micButtonEnabled = null;
 
-    private CallCompositeButtonViewData cameraButtonOptions;
-    private CallCompositeButtonViewData micOptions;
-    private CallCompositeButtonViewData audioDeviceOptions;
+    private CallCompositeButtonViewData cameraButton;
+    private CallCompositeButtonViewData micButton;
+    private CallCompositeButtonViewData audioDeviceButton;
 
     /**
      * Creates {@link CallCompositeSetupScreenOptions}.
@@ -70,7 +70,7 @@ public final class CallCompositeSetupScreenOptions {
      * @param buttonOptions {@link CallCompositeButtonViewData}
      */
     public CallCompositeSetupScreenOptions setCameraButton(final CallCompositeButtonViewData buttonOptions) {
-        this.cameraButtonOptions = buttonOptions;
+        this.cameraButton = buttonOptions;
         return this;
     }
 
@@ -78,7 +78,7 @@ public final class CallCompositeSetupScreenOptions {
      * Get customization to the camera button.
      */
     public CallCompositeButtonViewData getCameraButton() {
-        return this.cameraButtonOptions;
+        return this.cameraButton;
     }
 
     /**
@@ -87,7 +87,7 @@ public final class CallCompositeSetupScreenOptions {
      */
     public CallCompositeSetupScreenOptions setMicrophoneButton(
             final CallCompositeButtonViewData buttonOptions) {
-        micOptions = buttonOptions;
+        micButton = buttonOptions;
         return this;
     }
 
@@ -95,7 +95,7 @@ public final class CallCompositeSetupScreenOptions {
      * Get customization of the microphone button.
      */
     public CallCompositeButtonViewData getMicrophoneButton() {
-        return micOptions;
+        return micButton;
     }
 
     /**
@@ -104,7 +104,7 @@ public final class CallCompositeSetupScreenOptions {
      */
     public CallCompositeSetupScreenOptions setAudioDeviceButton(
             final CallCompositeButtonViewData buttonOptions) {
-        audioDeviceOptions = buttonOptions;
+        audioDeviceButton = buttonOptions;
         return this;
     }
 
@@ -112,6 +112,6 @@ public final class CallCompositeSetupScreenOptions {
      * Get customization of the audio device button.
      */
     public CallCompositeButtonViewData getAudioDeviceButton() {
-        return audioDeviceOptions;
+        return audioDeviceButton;
     }
 }

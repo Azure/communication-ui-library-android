@@ -5,6 +5,6 @@ internal data class DefaultButtonState(
     val isVisible: Boolean? = null,
 )
 
-internal data class ButtonOptionsState(
+internal data class ButtonState(
     val cameraButtonState: DefaultButtonState? = null,
 )

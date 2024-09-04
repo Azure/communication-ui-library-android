@@ -153,7 +153,7 @@ internal class CaptionsListView(
                 )
             )
         }
-        if (viewModel.spokenLanguageButtonOptions?.isVisible != false) {
+        if (viewModel.spokenLanguageButton?.isVisible != false) {
             items.add(
                 BottomCellItem(
                     icon = ContextCompat.getDrawable(
@@ -172,14 +172,14 @@ internal class CaptionsListView(
                     showRightArrow = true,
                     subtitle = LocaleHelper.getLocaleDisplayName(activeSpokenLanguage),
                     onClickAction = {
-                        callButtonCustomOnClick(viewModel.spokenLanguageButtonOptions)
+                        callButtonCustomOnClick(viewModel.spokenLanguageButton)
                         viewModel.openSpokenLanguageSelection()
                     },
-                    isEnabled = isCaptionsActive && viewModel.spokenLanguageButtonOptions?.isEnabled ?: true
+                    isEnabled = isCaptionsActive && viewModel.spokenLanguageButton?.isEnabled ?: true
                 )
             )
         }
-        if (isTranscriptionEnabled && viewModel.captionsLanguageButtonOptions?.isVisible != false) {
+        if (isTranscriptionEnabled && viewModel.captionsLanguageButton?.isVisible != false) {
             items.add(
                 BottomCellItem(
                     icon = ContextCompat.getDrawable(
@@ -198,10 +198,10 @@ internal class CaptionsListView(
                     showRightArrow = true,
                     subtitle = LocaleHelper.getLocaleDisplayName(activeCaptionLanguage),
                     onClickAction = {
-                        callButtonCustomOnClick(viewModel.captionsLanguageButtonOptions)
+                        callButtonCustomOnClick(viewModel.captionsLanguageButton)
                         viewModel.openCaptionLanguageSelection()
                     },
-                    isEnabled = isCaptionsActive && viewModel.captionsLanguageButtonOptions?.isEnabled != false
+                    isEnabled = isCaptionsActive && viewModel.captionsLanguageButton?.isEnabled != false
                 )
             )
         }

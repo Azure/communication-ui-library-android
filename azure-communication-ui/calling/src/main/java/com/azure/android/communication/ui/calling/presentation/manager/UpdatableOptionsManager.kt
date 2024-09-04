@@ -6,7 +6,7 @@ import com.azure.android.communication.ui.calling.models.setSubtitleChangedEvent
 import com.azure.android.communication.ui.calling.models.setTitleChangedEventHandler
 import com.azure.android.communication.ui.calling.models.setVisibleChangedEventHandler
 import com.azure.android.communication.ui.calling.redux.Store
-import com.azure.android.communication.ui.calling.redux.action.ButtonOptionsAction
+import com.azure.android.communication.ui.calling.redux.action.ButtonViewDataAction
 import com.azure.android.communication.ui.calling.redux.action.CallScreenInfoHeaderAction
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 
@@ -27,10 +27,10 @@ internal class UpdatableOptionsManager(
         /* </CUSTOM_CALL_HEADER> */
         configuration.callScreenOptions?.controlBarOptions?.run {
             cameraButton?.setEnabledChangedEventHandler {
-                store.dispatch(ButtonOptionsAction.CallScreenCameraButtonIsEnabledUpdated(it))
+                store.dispatch(ButtonViewDataAction.CallScreenCameraButtonIsEnabledUpdated(it))
             }
             cameraButton?.setVisibleChangedEventHandler {
-                store.dispatch(ButtonOptionsAction.CallScreenCameraButtonIsVisibleUpdated(it))
+                store.dispatch(ButtonViewDataAction.CallScreenCameraButtonIsVisibleUpdated(it))
             }
         }
     }

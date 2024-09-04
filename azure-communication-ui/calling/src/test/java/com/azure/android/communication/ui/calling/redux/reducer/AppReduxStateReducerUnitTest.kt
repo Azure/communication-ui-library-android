@@ -77,7 +77,7 @@ internal class AppReduxStateReducerUnitTest {
     /* </CUSTOM_CALL_HEADER> */
 
     @Mock
-    private lateinit var buttonOptionsReducer: ButtonOptionsReducerImpl
+    private lateinit var buttonOptionsReducer: ButtonViewDataReducerImpl
 
     @Test
     fun appStateReducer_reduce_when_invoked_then_callAllReducers() {
@@ -214,8 +214,8 @@ internal class AppReduxStateReducerUnitTest {
         )
         /* </CUSTOM_CALL_HEADER> */
 
-        Mockito.`when`(buttonOptionsReducer.reduce(state.buttonOptionsState, action)).thenReturn(
-            state.buttonOptionsState
+        Mockito.`when`(buttonOptionsReducer.reduce(state.buttonState, action)).thenReturn(
+            state.buttonState
         )
 
         // act

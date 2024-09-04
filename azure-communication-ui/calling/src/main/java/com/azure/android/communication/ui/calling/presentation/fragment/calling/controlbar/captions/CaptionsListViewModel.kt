@@ -17,8 +17,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 internal class CaptionsListViewModel(
     private val store: Store<ReduxState>,
     val liveCaptionsToggleButton: CallCompositeButtonViewData?,
-    val spokenLanguageButtonOptions: CallCompositeButtonViewData?,
-    val captionsLanguageButtonOptions: CallCompositeButtonViewData?,
+    val spokenLanguageButton: CallCompositeButtonViewData?,
+    val captionsLanguageButton: CallCompositeButtonViewData?,
 ) {
 
     val displayStateFlow = MutableStateFlow(false)

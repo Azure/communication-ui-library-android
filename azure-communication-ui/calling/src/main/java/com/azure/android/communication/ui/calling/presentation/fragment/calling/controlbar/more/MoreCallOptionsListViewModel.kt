@@ -27,12 +27,12 @@ internal class MoreCallOptionsListViewModel(
     private val dispatch: Dispatch,
     private val customButtons: Iterable<CallCompositeCustomButtonViewData>?,
     private val isCaptionsEnabled: Boolean,
-    val captionsButtonOptions: CallCompositeButtonViewData?,
+    val captionsButton: CallCompositeButtonViewData?,
     val liveCaptionsToggleButton: CallCompositeButtonViewData?,
-    val spokenLanguageButtonOptions: CallCompositeButtonViewData?,
-    val captionsLanguageButtonOptions: CallCompositeButtonViewData?,
-    val shareDiagnosticsButtonOptions: CallCompositeButtonViewData?,
-    val reportIssueButtonOptions: CallCompositeButtonViewData?,
+    val spokenLanguageButton: CallCompositeButtonViewData?,
+    val captionsLanguageButton: CallCompositeButtonViewData?,
+    val shareDiagnosticsButton: CallCompositeButtonViewData?,
+    val reportIssueButton: CallCompositeButtonViewData?,
     private val logger: Logger,
 ) {
     private val unknown = "UNKNOWN"
@@ -57,45 +57,45 @@ internal class MoreCallOptionsListViewModel(
         }
         return mutableListOf<Entry>().apply {
             if (isCaptionsEnabled) {
-                captionsButtonOptions?.setEnabledChangedEventHandler { buttonsUpdated() }
-                captionsButtonOptions?.setVisibleChangedEventHandler { buttonsUpdated() }
+                captionsButton?.setEnabledChangedEventHandler { buttonsUpdated() }
+                captionsButton?.setVisibleChangedEventHandler { buttonsUpdated() }
                 add(
                     Entry(
                         titleResourceId = R.string.azure_communication_ui_calling_live_captions_title,
                         icon = R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_selector,
-                        isVisible = captionsButtonOptions?.isVisible ?: true && isAnyCaptionsSubMenuButtonsVisible(),
-                        isEnabled = captionsButtonOptions?.isEnabled ?: true,
+                        isVisible = captionsButton?.isVisible ?: true && isAnyCaptionsSubMenuButtonsVisible(),
+                        isEnabled = captionsButton?.isEnabled ?: true,
                         showRightArrow = true,
                     ) { context ->
-                        callOnClickHandler(context, captionsButtonOptions)
+                        callOnClickHandler(context, captionsButton)
                         dispatch(CaptionsAction.ShowCaptionsOptions())
                     }
                 )
             }
-            shareDiagnosticsButtonOptions?.setEnabledChangedEventHandler { buttonsUpdated() }
-            shareDiagnosticsButtonOptions?.setVisibleChangedEventHandler { buttonsUpdated() }
+            shareDiagnosticsButton?.setEnabledChangedEventHandler { buttonsUpdated() }
+            shareDiagnosticsButton?.setVisibleChangedEventHandler { buttonsUpdated() }
             add(
                 Entry(
                     titleResourceId = R.string.azure_communication_ui_calling_view_share_diagnostics,
                     icon = R.drawable.azure_communication_ui_calling_ic_fluent_share_android_24_regular,
-                    isVisible = shareDiagnosticsButtonOptions?.isVisible ?: true,
-                    isEnabled = shareDiagnosticsButtonOptions?.isEnabled ?: true,
+                    isVisible = shareDiagnosticsButton?.isVisible ?: true,
+                    isEnabled = shareDiagnosticsButton?.isEnabled ?: true,
                 ) { context ->
-                    callOnClickHandler(context, shareDiagnosticsButtonOptions)
+                    callOnClickHandler(context, shareDiagnosticsButton)
                     shareDiagnostics?.let { it() }
                 }
             )
             if (showSupportFormOption) {
-                reportIssueButtonOptions?.setEnabledChangedEventHandler { buttonsUpdated() }
-                reportIssueButtonOptions?.setVisibleChangedEventHandler { buttonsUpdated() }
+                reportIssueButton?.setEnabledChangedEventHandler { buttonsUpdated() }
+                reportIssueButton?.setVisibleChangedEventHandler { buttonsUpdated() }
                 add(
                     Entry(
                         titleResourceId = R.string.azure_communication_ui_calling_report_issue_title,
                         icon = R.drawable.azure_communication_ui_calling_ic_fluent_person_feedback_24_regular,
-                        isVisible = reportIssueButtonOptions?.isVisible ?: true,
-                        isEnabled = reportIssueButtonOptions?.isEnabled ?: true,
+                        isVisible = reportIssueButton?.isVisible ?: true,
+                        isEnabled = reportIssueButton?.isEnabled ?: true,
                     ) { context ->
-                        callOnClickHandler(context, reportIssueButtonOptions)
+                        callOnClickHandler(context, reportIssueButton)
                         requestReportIssueScreen()
                     }
                 )
@@ -156,8 +156,8 @@ internal class MoreCallOptionsListViewModel(
 
     private fun isAnyCaptionsSubMenuButtonsVisible(): Boolean {
         return liveCaptionsToggleButton?.isVisible ?: true ||
-            spokenLanguageButtonOptions?.isVisible ?: true ||
-            captionsLanguageButtonOptions?.isVisible ?: true
+            spokenLanguageButton?.isVisible ?: true ||
+            captionsLanguageButton?.isVisible ?: true
     }
 
     private fun callOnClickHandler(

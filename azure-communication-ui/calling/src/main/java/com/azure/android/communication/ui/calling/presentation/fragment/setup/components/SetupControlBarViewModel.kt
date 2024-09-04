@@ -44,8 +44,8 @@ internal class SetupControlBarViewModel(
 
     private lateinit var openAudioDeviceSelectionMenu: () -> Unit
 
-    private var cameraButtonOptions: CallCompositeButtonViewData? = null
-    private var micButtonOptions: CallCompositeButtonViewData? = null
+    private var cameraButton: CallCompositeButtonViewData? = null
+    private var micButton: CallCompositeButtonViewData? = null
     private var audioDeviceButton: CallCompositeButtonViewData? = null
 
     fun init(
@@ -57,15 +57,15 @@ internal class SetupControlBarViewModel(
         openAudioDeviceSelectionMenuCallback: () -> Unit,
         setupScreenOptions: CallCompositeSetupScreenOptions?,
     ) {
-        cameraButtonOptions = setupScreenOptions?.cameraButton
-        micButtonOptions = setupScreenOptions?.microphoneButton
+        cameraButton = setupScreenOptions?.cameraButton
+        micButton = setupScreenOptions?.microphoneButton
         audioDeviceButton = setupScreenOptions?.audioDeviceButton
 
         visibleStateFlow = MutableStateFlow(isVisible(permissionState.audioPermissionState))
         isCameraButtonEnabledStateFlow = MutableStateFlow(shouldCameraButtonBeEnabled(callingState, permissionState.cameraPermissionState, setupScreenOptions))
         isCameraButtonVisibleStateFlow = MutableStateFlow(shouldCameraButtonBeVisible(audioVideoMode, setupScreenOptions))
 
-        isMicButtonVisible = micButtonOptions?.isVisible ?: true
+        isMicButtonVisible = micButton?.isVisible ?: true
         isMicButtonEnabledStateFlow = MutableStateFlow(shouldMicButtonBeEnabled(callingState, audioState.operation, setupScreenOptions))
         audioDeviceButtonIsEnabledStateFlow = MutableStateFlow(shouldAudioDeviceButtonBeEnabled(callingState, setupScreenOptions))
 
@@ -116,28 +116,28 @@ internal class SetupControlBarViewModel(
     val audioDeviceSelectionStatusState: StateFlow<AudioState> get() = audioDeviceSelectionStatusStateFlow
 
     fun turnCameraOn(context: Context) {
-        callOnClickHandler(context, cameraButtonOptions)
+        callOnClickHandler(context, cameraButton)
         dispatchAction(
             action = LocalParticipantAction.CameraPreviewOnRequested()
         )
     }
 
     fun turnCameraOff(context: Context) {
-        callOnClickHandler(context, cameraButtonOptions)
+        callOnClickHandler(context, cameraButton)
         dispatchAction(
             action = LocalParticipantAction.CameraPreviewOffTriggered()
         )
     }
 
     fun turnMicOn(context: Context) {
-        callOnClickHandler(context, micButtonOptions)
+        callOnClickHandler(context, micButton)
         dispatchAction(
             action = LocalParticipantAction.MicPreviewOnTriggered()
         )
     }
 
     fun turnMicOff(context: Context) {
-        callOnClickHandler(context, micButtonOptions)
+        callOnClickHandler(context, micButton)
         dispatchAction(
             action = LocalParticipantAction.MicPreviewOffTriggered()
         )

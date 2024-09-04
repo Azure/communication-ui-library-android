@@ -44,8 +44,8 @@ internal class CaptionsListViewModelUnitTest : ACSBaseTestCoroutine() {
         viewModel = CaptionsListViewModel(
             store,
             liveCaptionsToggleButton = null,
-            spokenLanguageButtonOptions = null,
-            captionsLanguageButtonOptions = null,
+            spokenLanguageButton = null,
+            captionsLanguageButton = null,
         )
     }
 

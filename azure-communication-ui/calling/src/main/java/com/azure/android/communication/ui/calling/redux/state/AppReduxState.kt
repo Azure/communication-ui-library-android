@@ -105,7 +105,7 @@ internal class AppReduxState(
     override var rttState = RttState()
     </RTT_POC> */
 
-    override var buttonOptionsState: ButtonOptionsState = ButtonOptionsState(
+    override var buttonState: ButtonState = ButtonState(
         cameraButtonState = DefaultButtonState(
             isEnabled = localOptions?.callScreenOptions?.controlBarOptions?.cameraButton?.isEnabled,
             isVisible = localOptions?.callScreenOptions?.controlBarOptions?.cameraButton?.isVisible,

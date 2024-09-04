@@ -22,5 +22,5 @@ internal interface ReduxState {
     /* <RTT_POC>
     var rttState: RttState
     </RTT_POC> */
-    val buttonOptionsState: ButtonOptionsState
+    val buttonState: ButtonState
 }

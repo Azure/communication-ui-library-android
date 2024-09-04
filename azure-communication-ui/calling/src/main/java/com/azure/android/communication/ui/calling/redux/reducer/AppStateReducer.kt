@@ -22,7 +22,7 @@ internal class AppStateReducer(
     /* <CUSTOM_CALL_HEADER> */
     private val callScreenInformationHeaderReducer: CallScreenInformationHeaderReducer,
     /* </CUSTOM_CALL_HEADER> */
-    private val buttonOptionsReducer: ButtonOptionsReducer,
+    private val buttonViewDataReducer: ButtonViewDataReducer,
     /* <RTT_POC>
     private val rttReducer: RttReducer,
     </RTT_POC> */
@@ -59,7 +59,7 @@ internal class AppStateReducer(
         /* <CUSTOM_CALL_HEADER> */
         appState.callScreenInfoHeaderState = callScreenInformationHeaderReducer.reduce(state.callScreenInfoHeaderState, action)
         /* </CUSTOM_CALL_HEADER> */
-        appState.buttonOptionsState = buttonOptionsReducer.reduce(state.buttonOptionsState, action)
+        appState.buttonState = buttonViewDataReducer.reduce(state.buttonState, action)
         /* <RTT_POC>
         appState.rttState = rttReducer.reduce(state.rttState, action)
         </RTT_POC> */

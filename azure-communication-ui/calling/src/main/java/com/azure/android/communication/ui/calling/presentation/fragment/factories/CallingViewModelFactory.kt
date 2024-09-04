@@ -67,12 +67,12 @@ internal class CallingViewModelFactory(
             dispatch = store::dispatch,
             customButtons = callScreenControlBarOptions?.getCustomButtons(),
             isCaptionsEnabled = isCaptionsEnabled,
-            captionsButtonOptions = callScreenControlBarOptions?.liveCaptionsButton,
+            captionsButton = callScreenControlBarOptions?.liveCaptionsButton,
             liveCaptionsToggleButton = callScreenControlBarOptions?.liveCaptionsToggleButton,
-            spokenLanguageButtonOptions = callScreenControlBarOptions?.spokenLanguageButton,
-            captionsLanguageButtonOptions = callScreenControlBarOptions?.captionsLanguageButton,
-            shareDiagnosticsButtonOptions = callScreenControlBarOptions?.shareDiagnosticsButton,
-            reportIssueButtonOptions = callScreenControlBarOptions?.reportIssueButton,
+            spokenLanguageButton = callScreenControlBarOptions?.spokenLanguageButton,
+            captionsLanguageButton = callScreenControlBarOptions?.captionsLanguageButton,
+            shareDiagnosticsButton = callScreenControlBarOptions?.shareDiagnosticsButton,
+            reportIssueButton = callScreenControlBarOptions?.reportIssueButton,
             logger = logger,
         )
     }
@@ -154,8 +154,8 @@ internal class CallingViewModelFactory(
         CaptionsListViewModel(
             store = store,
             liveCaptionsToggleButton = callScreenControlBarOptions?.liveCaptionsToggleButton,
-            spokenLanguageButtonOptions = callScreenControlBarOptions?.spokenLanguageButton,
-            captionsLanguageButtonOptions = callScreenControlBarOptions?.captionsLanguageButton,
+            spokenLanguageButton = callScreenControlBarOptions?.spokenLanguageButton,
+            captionsLanguageButton = callScreenControlBarOptions?.captionsLanguageButton,
         )
     }
     val captionsLanguageSelectionListViewModel by lazy { CaptionsLanguageSelectionListViewModel(store) }
