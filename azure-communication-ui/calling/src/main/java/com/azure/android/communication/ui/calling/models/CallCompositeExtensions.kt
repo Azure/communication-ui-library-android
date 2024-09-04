@@ -25,30 +25,30 @@ internal fun CallCompositeCallScreenHeaderViewData.setTitleChangedEventHandler(h
 
 internal fun createButtonClickEvent(
     context: Context,
-    buttonOptions: CallCompositeButtonOptions,
+    buttonOptions: CallCompositeButtonViewData,
 ): CallCompositeButtonClickEvent {
     return CallCompositeButtonClickEvent(context, buttonOptions)
 }
 
 internal fun createCustomButtonClickEvent(
     context: Context,
-    buttonOptions: CallCompositeCustomButtonOptions,
+    buttonOptions: CallCompositeCustomButtonViewData,
 ): CallCompositeCustomButtonClickEvent {
     return CallCompositeCustomButtonClickEvent(context, buttonOptions)
 }
 
-internal fun CallCompositeCustomButtonOptions.setEnabledChangedEventHandler(handler: CallCompositeEventHandler<Boolean>) {
+internal fun CallCompositeCustomButtonViewData.setEnabledChangedEventHandler(handler: CallCompositeEventHandler<Boolean>) {
     this.enabledChangedEventHandler = handler
 }
 
-internal fun CallCompositeCustomButtonOptions.setVisibleChangedEventHandler(handler: CallCompositeEventHandler<Boolean>) {
+internal fun CallCompositeCustomButtonViewData.setVisibleChangedEventHandler(handler: CallCompositeEventHandler<Boolean>) {
     this.visibleChangedEventHandler = handler
 }
 
-internal fun CallCompositeButtonOptions.setEnabledChangedEventHandler(handler: CallCompositeEventHandler<Boolean>) {
+internal fun CallCompositeButtonViewData.setEnabledChangedEventHandler(handler: CallCompositeEventHandler<Boolean>) {
     this.enabledChangedEventHandler = handler
 }
 
-internal fun CallCompositeButtonOptions.setVisibleChangedEventHandler(handler: CallCompositeEventHandler<Boolean>) {
+internal fun CallCompositeButtonViewData.setVisibleChangedEventHandler(handler: CallCompositeEventHandler<Boolean>) {
     this.visibleChangedEventHandler = handler
 }

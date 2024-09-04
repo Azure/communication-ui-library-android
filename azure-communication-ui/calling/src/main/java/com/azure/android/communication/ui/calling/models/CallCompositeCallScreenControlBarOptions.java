@@ -10,16 +10,16 @@ import java.util.List;
  * Options for the CallCompositeCallScreenControlBarOptions.
  */
 public final class CallCompositeCallScreenControlBarOptions {
-    private List<CallCompositeCustomButtonOptions> customButtons = new ArrayList<>();
-    private CallCompositeButtonOptions cameraButtonOptions;
-    private CallCompositeButtonOptions micOptions;
-    private CallCompositeButtonOptions audioDeviceOptions;
-    private CallCompositeButtonOptions liveCaptionsButtonOptions;
-    private CallCompositeButtonOptions liveCaptionsToggleButtonOptions;
-    private CallCompositeButtonOptions spokenLanguageButtonOptions;
-    private CallCompositeButtonOptions captionsLanguageButtonOptions;
-    private CallCompositeButtonOptions shareDiagnosticsButtonOptions;
-    private CallCompositeButtonOptions reportIssueButtonOptions;
+    private List<CallCompositeCustomButtonViewData> customButtons = new ArrayList<>();
+    private CallCompositeButtonViewData cameraButtonOptions;
+    private CallCompositeButtonViewData micOptions;
+    private CallCompositeButtonViewData audioDeviceOptions;
+    private CallCompositeButtonViewData liveCaptionsButtonOptions;
+    private CallCompositeButtonViewData liveCaptionsToggleButtonOptions;
+    private CallCompositeButtonViewData spokenLanguageButtonOptions;
+    private CallCompositeButtonViewData captionsLanguageButtonOptions;
+    private CallCompositeButtonViewData shareDiagnosticsButtonOptions;
+    private CallCompositeButtonViewData reportIssueButtonOptions;
 
     private CallCompositeLeaveCallConfirmationMode leaveCallConfirmation =
             CallCompositeLeaveCallConfirmationMode.ALWAYS_ENABLED;
@@ -56,7 +56,7 @@ public final class CallCompositeCallScreenControlBarOptions {
      * @param buttonOptions {@link CallCompositeCallScreenControlBarOptions}
      */
     public CallCompositeCallScreenControlBarOptions setCustomButtons(
-            final List<CallCompositeCustomButtonOptions> buttonOptions) {
+            final List<CallCompositeCustomButtonViewData> buttonOptions) {
         customButtons = buttonOptions;
         return this;
     }
@@ -64,15 +64,15 @@ public final class CallCompositeCallScreenControlBarOptions {
     /**
      * Get a custom button to the call composite.
      */
-    public List<CallCompositeCustomButtonOptions> getCustomButtons() {
+    public List<CallCompositeCustomButtonViewData> getCustomButtons() {
         return customButtons;
     }
 
     /**
      * Set customization to the camera button.
-     * @param buttonOptions {@link CallCompositeButtonOptions}
+     * @param buttonOptions {@link CallCompositeButtonViewData}
      */
-    public CallCompositeCallScreenControlBarOptions setCameraButton(final CallCompositeButtonOptions buttonOptions) {
+    public CallCompositeCallScreenControlBarOptions setCameraButton(final CallCompositeButtonViewData buttonOptions) {
         this.cameraButtonOptions = buttonOptions;
         return this;
     }
@@ -80,16 +80,16 @@ public final class CallCompositeCallScreenControlBarOptions {
     /**
      * Get customization of the camera button.
      */
-    public CallCompositeButtonOptions getCameraButton() {
+    public CallCompositeButtonViewData getCameraButton() {
         return this.cameraButtonOptions;
     }
 
     /**
      * Set customization to the microphone button.
-     * @param buttonOptions {@link CallCompositeButtonOptions}
+     * @param buttonOptions {@link CallCompositeButtonViewData}
      */
     public CallCompositeCallScreenControlBarOptions setMicrophoneButton(
-            final CallCompositeButtonOptions buttonOptions) {
+            final CallCompositeButtonViewData buttonOptions) {
         micOptions = buttonOptions;
         return this;
     }
@@ -97,16 +97,16 @@ public final class CallCompositeCallScreenControlBarOptions {
     /**
      * Get customization of the microphone button.
      */
-    public CallCompositeButtonOptions getMicrophoneButton() {
+    public CallCompositeButtonViewData getMicrophoneButton() {
         return micOptions;
     }
 
     /**
      * Set customization to the audio device button.
-     * @param buttonOptions {@link CallCompositeButtonOptions}
+     * @param buttonOptions {@link CallCompositeButtonViewData}
      */
     public CallCompositeCallScreenControlBarOptions setAudioDeviceButton(
-            final CallCompositeButtonOptions buttonOptions) {
+            final CallCompositeButtonViewData buttonOptions) {
         audioDeviceOptions = buttonOptions;
         return this;
     }
@@ -114,16 +114,16 @@ public final class CallCompositeCallScreenControlBarOptions {
     /**
      * Get customization of the audio device button.
      */
-    public CallCompositeButtonOptions getAudioDeviceButton() {
+    public CallCompositeButtonViewData getAudioDeviceButton() {
         return audioDeviceOptions;
     }
 
     /**
      * Set customization to the live captions button.
-     * @param buttonOptions {@link CallCompositeButtonOptions}
+     * @param buttonOptions {@link CallCompositeButtonViewData}
      */
     public CallCompositeCallScreenControlBarOptions setLiveCaptionsButton(
-            final CallCompositeButtonOptions buttonOptions) {
+            final CallCompositeButtonViewData buttonOptions) {
         liveCaptionsButtonOptions = buttonOptions;
         return this;
     }
@@ -131,16 +131,16 @@ public final class CallCompositeCallScreenControlBarOptions {
     /**
      * Get customization of the live captions button.
      */
-    public CallCompositeButtonOptions getLiveCaptionsButton() {
+    public CallCompositeButtonViewData getLiveCaptionsButton() {
         return liveCaptionsButtonOptions;
     }
 
     /**
      * Set customization to the live captions toggle button.
-     * @param buttonOptions {@link CallCompositeButtonOptions}
+     * @param buttonOptions {@link CallCompositeButtonViewData}
      */
     public CallCompositeCallScreenControlBarOptions setLiveCaptionsToggleButton(
-            final CallCompositeButtonOptions buttonOptions) {
+            final CallCompositeButtonViewData buttonOptions) {
         liveCaptionsToggleButtonOptions = buttonOptions;
         return this;
     }
@@ -148,16 +148,16 @@ public final class CallCompositeCallScreenControlBarOptions {
     /**
      * Get customization of the live captions toggle button.
      */
-    public CallCompositeButtonOptions getLiveCaptionsToggleButton() {
+    public CallCompositeButtonViewData getLiveCaptionsToggleButton() {
         return liveCaptionsToggleButtonOptions;
     }
 
     /**
      * Set customization to the live cations spoken language button.
-     * @param buttonOptions {@link CallCompositeButtonOptions}
+     * @param buttonOptions {@link CallCompositeButtonViewData}
      */
     public CallCompositeCallScreenControlBarOptions setSpokenLanguageButton(
-            final CallCompositeButtonOptions buttonOptions) {
+            final CallCompositeButtonViewData buttonOptions) {
         this.spokenLanguageButtonOptions = buttonOptions;
         return this;
     }
@@ -165,16 +165,16 @@ public final class CallCompositeCallScreenControlBarOptions {
     /**
      * Get customization of the live cations spoken language button.
      */
-    public CallCompositeButtonOptions getSpokenLanguageButton() {
+    public CallCompositeButtonViewData getSpokenLanguageButton() {
         return spokenLanguageButtonOptions;
     }
 
     /**
      * Set customization to the live cations language button.
-     * @param buttonOptions {@link CallCompositeButtonOptions}
+     * @param buttonOptions {@link CallCompositeButtonViewData}
      */
     public CallCompositeCallScreenControlBarOptions setCaptionsLanguageButton(
-            final CallCompositeButtonOptions buttonOptions) {
+            final CallCompositeButtonViewData buttonOptions) {
         captionsLanguageButtonOptions = buttonOptions;
         return this;
     }
@@ -182,16 +182,16 @@ public final class CallCompositeCallScreenControlBarOptions {
     /**
      * Get customization of the live cations language button.
      */
-    public CallCompositeButtonOptions getCaptionsLanguageButton() {
+    public CallCompositeButtonViewData getCaptionsLanguageButton() {
         return captionsLanguageButtonOptions;
     }
 
     /**
      * Set customization to the share diagnostics button.
-     * @param buttonOptions {@link CallCompositeButtonOptions}
+     * @param buttonOptions {@link CallCompositeButtonViewData}
      */
     public CallCompositeCallScreenControlBarOptions setShareDiagnosticsButton(
-            final CallCompositeButtonOptions buttonOptions) {
+            final CallCompositeButtonViewData buttonOptions) {
         shareDiagnosticsButtonOptions = buttonOptions;
         return this;
     }
@@ -199,16 +199,16 @@ public final class CallCompositeCallScreenControlBarOptions {
     /**
      * Get customization to the share diagnostics button.
      */
-    public CallCompositeButtonOptions getShareDiagnosticsButton() {
+    public CallCompositeButtonViewData getShareDiagnosticsButton() {
         return shareDiagnosticsButtonOptions;
     }
 
     /**
      * Set customization to the report issue button.
-     * @param buttonOptions {@link CallCompositeButtonOptions}
+     * @param buttonOptions {@link CallCompositeButtonViewData}
      */
     public CallCompositeCallScreenControlBarOptions setReportIssueButton(
-            final CallCompositeButtonOptions buttonOptions) {
+            final CallCompositeButtonViewData buttonOptions) {
         reportIssueButtonOptions = buttonOptions;
         return this;
     }
@@ -216,7 +216,7 @@ public final class CallCompositeCallScreenControlBarOptions {
     /**
      * Get customization of the report issue button.
      */
-    public CallCompositeButtonOptions getReportIssueButton() {
+    public CallCompositeButtonViewData getReportIssueButton() {
         return reportIssueButtonOptions;
     }
 }

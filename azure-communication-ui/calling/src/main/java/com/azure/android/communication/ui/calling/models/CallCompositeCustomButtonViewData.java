@@ -6,9 +6,9 @@ package com.azure.android.communication.ui.calling.models;
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler;
 
 /**
- * Call composite custom button options.
+ * Call composite custom button view data.
  */
-public final class CallCompositeCustomButtonOptions {
+public final class CallCompositeCustomButtonViewData {
     CallCompositeEventHandler<Boolean> enabledChangedEventHandler;
     CallCompositeEventHandler<Boolean> visibleChangedEventHandler;
     private final int drawableId;
@@ -18,12 +18,12 @@ public final class CallCompositeCustomButtonOptions {
     private Boolean isVisible = true;
 
     /**
-     * Create call composite custom button options.
+     * Create call composite custom button view data.
      * @param drawableId an icon for the button.
      * @param title a text to be displayed on the button.
      * @param onClickHandler button on click handler.
      */
-    public CallCompositeCustomButtonOptions(
+    public CallCompositeCustomButtonViewData(
             final int drawableId,
             final String title,
             final CallCompositeEventHandler<CallCompositeCustomButtonClickEvent> onClickHandler) {
@@ -63,7 +63,7 @@ public final class CallCompositeCustomButtonOptions {
     /**
      * Set isEnabled property.
      */
-    public CallCompositeCustomButtonOptions setEnabled(final Boolean isEnabled) {
+    public CallCompositeCustomButtonViewData setEnabled(final Boolean isEnabled) {
         this.isEnabled = isEnabled;
         if (enabledChangedEventHandler != null) {
             enabledChangedEventHandler.handle(isEnabled);
@@ -81,7 +81,7 @@ public final class CallCompositeCustomButtonOptions {
     /**
      * Set isVisible property.
      */
-    public CallCompositeCustomButtonOptions setVisible(final Boolean isVisible) {
+    public CallCompositeCustomButtonViewData setVisible(final Boolean isVisible) {
         this.isVisible = isVisible;
         if (visibleChangedEventHandler != null) {
             visibleChangedEventHandler.handle(isVisible);

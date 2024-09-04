@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions
 
-import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeButtonViewData
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
@@ -16,9 +16,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 internal class CaptionsListViewModel(
     private val store: Store<ReduxState>,
-    val liveCaptionsToggleButton: CallCompositeButtonOptions?,
-    val spokenLanguageButtonOptions: CallCompositeButtonOptions?,
-    val captionsLanguageButtonOptions: CallCompositeButtonOptions?,
+    val liveCaptionsToggleButton: CallCompositeButtonViewData?,
+    val spokenLanguageButtonOptions: CallCompositeButtonViewData?,
+    val captionsLanguageButtonOptions: CallCompositeButtonViewData?,
 ) {
 
     val displayStateFlow = MutableStateFlow(false)

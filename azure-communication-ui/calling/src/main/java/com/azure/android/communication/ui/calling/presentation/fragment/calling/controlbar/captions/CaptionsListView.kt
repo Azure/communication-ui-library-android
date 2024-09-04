@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.logger.Logger
-import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeButtonViewData
 import com.azure.android.communication.ui.calling.models.createButtonClickEvent
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
@@ -209,7 +209,7 @@ internal class CaptionsListView(
         return items
     }
 
-    private fun callButtonCustomOnClick(button: CallCompositeButtonOptions?) {
+    private fun callButtonCustomOnClick(button: CallCompositeButtonViewData?) {
         try {
             button?.onClickHandler?.handle(
                 createButtonClickEvent(context, button)

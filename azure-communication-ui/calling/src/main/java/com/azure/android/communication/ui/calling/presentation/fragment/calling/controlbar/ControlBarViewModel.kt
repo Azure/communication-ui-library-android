@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import android.content.Context
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
-import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeButtonViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.createButtonClickEvent
@@ -58,9 +58,9 @@ internal class ControlBarViewModel(
     lateinit var openMoreMenu: () -> Unit
 
     // Button options
-    private var cameraButtonOptions: CallCompositeButtonOptions? = null
-    private var micButtonOptions: CallCompositeButtonOptions? = null
-    private var audioDeviceButtonOptions: CallCompositeButtonOptions? = null
+    private var cameraButtonOptions: CallCompositeButtonViewData? = null
+    private var micButtonOptions: CallCompositeButtonViewData? = null
+    private var audioDeviceButtonOptions: CallCompositeButtonViewData? = null
 
     var isMoreButtonVisible: Boolean = true
 
@@ -269,7 +269,7 @@ internal class ControlBarViewModel(
 
     private fun callOnClickHandler(
         context: Context,
-        buttonOptions: CallCompositeButtonOptions?,
+        buttonOptions: CallCompositeButtonViewData?,
     ) {
         try {
             buttonOptions?.onClickHandler?.handle(

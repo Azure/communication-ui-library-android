@@ -6,8 +6,8 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import android.content.Context
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.logger.Logger
-import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeButtonViewData
+import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonViewData
 import com.azure.android.communication.ui.calling.models.createButtonClickEvent
 import com.azure.android.communication.ui.calling.models.createCustomButtonClickEvent
 import com.azure.android.communication.ui.calling.models.setEnabledChangedEventHandler
@@ -25,14 +25,14 @@ internal class MoreCallOptionsListViewModel(
     private val debugInfoManager: DebugInfoManager,
     private val showSupportFormOption: Boolean,
     private val dispatch: Dispatch,
-    private val customButtons: Iterable<CallCompositeCustomButtonOptions>?,
+    private val customButtons: Iterable<CallCompositeCustomButtonViewData>?,
     private val isCaptionsEnabled: Boolean,
-    val captionsButtonOptions: CallCompositeButtonOptions?,
-    val liveCaptionsToggleButton: CallCompositeButtonOptions?,
-    val spokenLanguageButtonOptions: CallCompositeButtonOptions?,
-    val captionsLanguageButtonOptions: CallCompositeButtonOptions?,
-    val shareDiagnosticsButtonOptions: CallCompositeButtonOptions?,
-    val reportIssueButtonOptions: CallCompositeButtonOptions?,
+    val captionsButtonOptions: CallCompositeButtonViewData?,
+    val liveCaptionsToggleButton: CallCompositeButtonViewData?,
+    val spokenLanguageButtonOptions: CallCompositeButtonViewData?,
+    val captionsLanguageButtonOptions: CallCompositeButtonViewData?,
+    val shareDiagnosticsButtonOptions: CallCompositeButtonViewData?,
+    val reportIssueButtonOptions: CallCompositeButtonViewData?,
     private val logger: Logger,
 ) {
     private val unknown = "UNKNOWN"
@@ -162,7 +162,7 @@ internal class MoreCallOptionsListViewModel(
 
     private fun callOnClickHandler(
         context: Context,
-        buttonOptions: CallCompositeButtonOptions?,
+        buttonOptions: CallCompositeButtonViewData?,
     ) {
         try {
             buttonOptions?.onClickHandler?.handle(

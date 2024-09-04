@@ -10,9 +10,9 @@ import android.content.Context;
  */
 public final class CallCompositeCustomButtonClickEvent {
     private final Context context;
-    private final CallCompositeCustomButtonOptions buttonOptions;
+    private final CallCompositeCustomButtonViewData buttonOptions;
 
-    CallCompositeCustomButtonClickEvent(final Context context, final CallCompositeCustomButtonOptions buttonOptions) {
+    CallCompositeCustomButtonClickEvent(final Context context, final CallCompositeCustomButtonViewData buttonOptions) {
         this.context = context;
         this.buttonOptions = buttonOptions;
     }
@@ -27,9 +27,9 @@ public final class CallCompositeCustomButtonClickEvent {
 
     /**
      * Get button options.
-     * @return {@link CallCompositeCustomButtonOptions}
+     * @return {@link CallCompositeCustomButtonViewData}
      */
-    public CallCompositeCustomButtonOptions getButtonOptions() {
+    public CallCompositeCustomButtonViewData getButtonOptions() {
         return buttonOptions;
     }
 }
