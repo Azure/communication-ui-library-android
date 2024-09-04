@@ -76,6 +76,7 @@ internal class CallCompositeActivityViewModel(
                 maxRemoteParticipants = application.resources.getInteger(R.integer.azure_communication_ui_calling_max_remote_participants),
                 debugInfoManager = container.debugInfoManager,
                 capabilitiesManager = container.capabilitiesManager,
+                updatableOptionsManager = container.updatableOptionsManager,
                 showSupportFormOption = container.configuration.callCompositeEventsHandler.getOnUserReportedHandlers().any(),
                 enableMultitasking = container.configuration.enableMultitasking,
                 isTelecomManagerEnabled = container.configuration.telecomManagerOptions != null,

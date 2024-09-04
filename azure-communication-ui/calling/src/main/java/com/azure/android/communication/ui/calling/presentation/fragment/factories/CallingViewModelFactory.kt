@@ -36,6 +36,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
+import com.azure.android.communication.ui.calling.presentation.manager.UpdatableOptionsManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 
@@ -45,6 +46,7 @@ internal class CallingViewModelFactory(
     private val maxRemoteParticipants: Int,
     private val debugInfoManager: DebugInfoManager,
     private val capabilitiesManager: CapabilitiesManager,
+    private val updatableOptionsManager: UpdatableOptionsManager,
     private val showSupportFormOption: Boolean = false,
     private val enableMultitasking: Boolean,
     private val isTelecomManagerEnabled: Boolean = false,
@@ -63,11 +65,11 @@ internal class CallingViewModelFactory(
     val moreCallOptionsListViewModel by lazy {
         MoreCallOptionsListViewModel(
             debugInfoManager = debugInfoManager,
+            updatableOptionsManager = updatableOptionsManager,
             showSupportFormOption = showSupportFormOption,
             dispatch = store::dispatch,
-            customButtons = callScreenControlBarOptions?.getCustomButtons(),
             isCaptionsEnabled = isCaptionsEnabled,
-            captionsButton = callScreenControlBarOptions?.liveCaptionsButton,
+            liveCaptionsButton = callScreenControlBarOptions?.liveCaptionsButton,
             liveCaptionsToggleButton = callScreenControlBarOptions?.liveCaptionsToggleButton,
             spokenLanguageButton = callScreenControlBarOptions?.spokenLanguageButton,
             captionsLanguageButton = callScreenControlBarOptions?.captionsLanguageButton,

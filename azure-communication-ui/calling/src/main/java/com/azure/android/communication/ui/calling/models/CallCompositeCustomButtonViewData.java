@@ -5,14 +5,19 @@ package com.azure.android.communication.ui.calling.models;
 
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler;
 
+import java.util.UUID;
+
 /**
  * Call composite custom button view data.
  */
 public final class CallCompositeCustomButtonViewData {
+    CallCompositeEventHandler<String> titleChangedEventHandler;
+    CallCompositeEventHandler<Integer> drawableIdChangedEventHandler;
     CallCompositeEventHandler<Boolean> enabledChangedEventHandler;
     CallCompositeEventHandler<Boolean> visibleChangedEventHandler;
-    private final int drawableId;
-    private final String title;
+    private final UUID id;
+    private int drawableId;
+    private String title;
     private final CallCompositeEventHandler<CallCompositeCustomButtonClickEvent> onClickHandler;
     private Boolean isEnabled = true;
     private Boolean isVisible = true;
@@ -24,12 +29,21 @@ public final class CallCompositeCustomButtonViewData {
      * @param onClickHandler button on click handler.
      */
     public CallCompositeCustomButtonViewData(
+            final UUID id,
             final int drawableId,
             final String title,
             final CallCompositeEventHandler<CallCompositeCustomButtonClickEvent> onClickHandler) {
+        this.id = id;
         this.drawableId = drawableId;
         this.title = title;
         this.onClickHandler = onClickHandler;
+    }
+
+    /**
+     * Get button id.
+     */
+    public UUID getId() {
+        return id;
     }
 
     /**
@@ -40,10 +54,32 @@ public final class CallCompositeCustomButtonViewData {
     }
 
     /**
+     * Set drawableId property.
+     */
+    public CallCompositeCustomButtonViewData setDrawableId(final int drawableId) {
+        this.drawableId = drawableId;
+        if (drawableIdChangedEventHandler != null) {
+            drawableIdChangedEventHandler.handle(drawableId);
+        }
+        return this;
+    }
+
+    /**
      * Get an title for the button.
      */
     public String getTitle() {
         return title;
+    }
+
+    /**
+     * Set title property.
+     */
+    public CallCompositeCustomButtonViewData setTitle(final String title) {
+        this.title = title;
+        if (titleChangedEventHandler != null) {
+            titleChangedEventHandler.handle(title);
+        }
+        return this;
     }
 
     /**

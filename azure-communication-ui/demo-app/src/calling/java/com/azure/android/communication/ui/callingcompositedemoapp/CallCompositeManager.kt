@@ -636,6 +636,7 @@ class CallCompositeManager(private val context: Context) {
 
                 val customButton1 =
                     CallCompositeCustomButtonViewData(
+                        UUID.randomUUID(),
                         R.drawable.ic_fluent_arrow_next_24_regular,
                         "Troubleshooting tips",
                         fun(it: CallCompositeCustomButtonClickEvent) {
@@ -646,6 +647,7 @@ class CallCompositeManager(private val context: Context) {
 
                 val disableButtonsCustomButton =
                     CallCompositeCustomButtonViewData(
+                        UUID.randomUUID(),
                         R.drawable.image_koala,
                         "Enable/disable buttons",
                         fun(_: CallCompositeCustomButtonClickEvent) {
@@ -668,6 +670,7 @@ class CallCompositeManager(private val context: Context) {
 
                 val hideCustomButton =
                     CallCompositeCustomButtonViewData(
+                        UUID.randomUUID(),
                         R.drawable.image_koala,
                         "Hide/show buttons",
                         fun(_: CallCompositeCustomButtonClickEvent) {

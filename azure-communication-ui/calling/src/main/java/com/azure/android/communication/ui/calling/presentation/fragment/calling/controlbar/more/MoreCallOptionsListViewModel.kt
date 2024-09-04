@@ -7,15 +7,14 @@ import android.content.Context
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeButtonViewData
-import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonViewData
 import com.azure.android.communication.ui.calling.models.createButtonClickEvent
 import com.azure.android.communication.ui.calling.models.createCustomButtonClickEvent
-import com.azure.android.communication.ui.calling.models.setEnabledChangedEventHandler
-import com.azure.android.communication.ui.calling.models.setVisibleChangedEventHandler
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
+import com.azure.android.communication.ui.calling.presentation.manager.UpdatableOptionsManager
 import com.azure.android.communication.ui.calling.redux.Dispatch
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
+import com.azure.android.communication.ui.calling.redux.state.ButtonState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,16 +22,16 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class MoreCallOptionsListViewModel(
     private val debugInfoManager: DebugInfoManager,
+    private val updatableOptionsManager: UpdatableOptionsManager,
     private val showSupportFormOption: Boolean,
     private val dispatch: Dispatch,
-    private val customButtons: Iterable<CallCompositeCustomButtonViewData>?,
     private val isCaptionsEnabled: Boolean,
-    val captionsButton: CallCompositeButtonViewData?,
-    val liveCaptionsToggleButton: CallCompositeButtonViewData?,
-    val spokenLanguageButton: CallCompositeButtonViewData?,
-    val captionsLanguageButton: CallCompositeButtonViewData?,
-    val shareDiagnosticsButton: CallCompositeButtonViewData?,
-    val reportIssueButton: CallCompositeButtonViewData?,
+    private val liveCaptionsButton: CallCompositeButtonViewData?,
+    private val liveCaptionsToggleButton: CallCompositeButtonViewData?,
+    private val spokenLanguageButton: CallCompositeButtonViewData?,
+    private val captionsLanguageButton: CallCompositeButtonViewData?,
+    private val shareDiagnosticsButton: CallCompositeButtonViewData?,
+    private val reportIssueButton: CallCompositeButtonViewData?,
     private val logger: Logger,
 ) {
     private val unknown = "UNKNOWN"
@@ -51,49 +50,40 @@ internal class MoreCallOptionsListViewModel(
 
     val listEntriesStateFlow: StateFlow<List<Entry>> get() = listEntriesMutableStateFlow
 
-    private fun createButtons(): List<Entry> {
-        val buttonsUpdated = {
-            listEntriesMutableStateFlow.value = createButtons()
-        }
+    private fun createButtons(buttonViewDataState: ButtonState): List<Entry> {
         return mutableListOf<Entry>().apply {
             if (isCaptionsEnabled) {
-                captionsButton?.setEnabledChangedEventHandler { buttonsUpdated() }
-                captionsButton?.setVisibleChangedEventHandler { buttonsUpdated() }
                 add(
                     Entry(
                         titleResourceId = R.string.azure_communication_ui_calling_live_captions_title,
                         icon = R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_selector,
-                        isVisible = captionsButton?.isVisible ?: true && isAnyCaptionsSubMenuButtonsVisible(),
-                        isEnabled = captionsButton?.isEnabled ?: true,
+                        isVisible = buttonViewDataState.captionsLanguageButton?.isVisible ?: true && isAnyCaptionsSubMenuButtonsVisible(),
+                        isEnabled = buttonViewDataState.captionsLanguageButton?.isEnabled ?: true,
                         showRightArrow = true,
                     ) { context ->
-                        callOnClickHandler(context, captionsButton)
+                        callOnClickHandler(context, liveCaptionsButton)
                         dispatch(CaptionsAction.ShowCaptionsOptions())
                     }
                 )
             }
-            shareDiagnosticsButton?.setEnabledChangedEventHandler { buttonsUpdated() }
-            shareDiagnosticsButton?.setVisibleChangedEventHandler { buttonsUpdated() }
             add(
                 Entry(
                     titleResourceId = R.string.azure_communication_ui_calling_view_share_diagnostics,
                     icon = R.drawable.azure_communication_ui_calling_ic_fluent_share_android_24_regular,
-                    isVisible = shareDiagnosticsButton?.isVisible ?: true,
-                    isEnabled = shareDiagnosticsButton?.isEnabled ?: true,
+                    isVisible = buttonViewDataState.shareDiagnosticsButton?.isVisible ?: true,
+                    isEnabled = buttonViewDataState.shareDiagnosticsButton?.isEnabled ?: true,
                 ) { context ->
                     callOnClickHandler(context, shareDiagnosticsButton)
                     shareDiagnostics?.let { it() }
                 }
             )
             if (showSupportFormOption) {
-                reportIssueButton?.setEnabledChangedEventHandler { buttonsUpdated() }
-                reportIssueButton?.setVisibleChangedEventHandler { buttonsUpdated() }
                 add(
                     Entry(
                         titleResourceId = R.string.azure_communication_ui_calling_report_issue_title,
                         icon = R.drawable.azure_communication_ui_calling_ic_fluent_person_feedback_24_regular,
-                        isVisible = reportIssueButton?.isVisible ?: true,
-                        isEnabled = reportIssueButton?.isEnabled ?: true,
+                        isVisible = buttonViewDataState.reportIssueButton?.isVisible ?: true,
+                        isEnabled = buttonViewDataState.reportIssueButton?.isEnabled ?: true,
                     ) { context ->
                         callOnClickHandler(context, reportIssueButton)
                         requestReportIssueScreen()
@@ -101,10 +91,8 @@ internal class MoreCallOptionsListViewModel(
                 )
             }
 
-            customButtons
-                ?.forEach { customButton ->
-                    customButton.setEnabledChangedEventHandler { buttonsUpdated() }
-                    customButton.setVisibleChangedEventHandler { buttonsUpdated() }
+            buttonViewDataState.callScreenCustomButtonsState
+                .forEach { customButton ->
                     add(
                         Entry(
                             icon = customButton.drawableId,
@@ -113,10 +101,11 @@ internal class MoreCallOptionsListViewModel(
                             isVisible = customButton.isVisible,
                             onClickListener = { context ->
                                 try {
-                                    customButton.onClickHandler?.handle(
+                                    val buttonViewData = updatableOptionsManager.getButton(customButton.id)
+                                    buttonViewData.onClickHandler.handle(
                                         createCustomButtonClickEvent(
                                             context,
-                                            customButton
+                                            buttonViewData
                                         )
                                     )
                                 } catch (e: Exception) {
@@ -144,14 +133,22 @@ internal class MoreCallOptionsListViewModel(
         dispatch(NavigationAction.ShowSupportForm())
     }
 
-    fun init(visibilityState: VisibilityState) {
-        listEntriesMutableStateFlow = MutableStateFlow(createButtons())
-        update(visibilityState)
+    fun init(
+        visibilityState: VisibilityState,
+        buttonViewDataState: ButtonState,
+    ) {
+        listEntriesMutableStateFlow = MutableStateFlow(createButtons(buttonViewDataState))
+        update(visibilityState, buttonViewDataState)
     }
 
-    fun update(visibilityState: VisibilityState) {
+    fun update(
+        visibilityState: VisibilityState,
+        buttonViewDataState: ButtonState,
+    ) {
         if (visibilityState.status != VisibilityStatus.VISIBLE)
             close()
+
+        listEntriesMutableStateFlow.value = createButtons(buttonViewDataState)
     }
 
     private fun isAnyCaptionsSubMenuButtonsVisible(): Boolean {

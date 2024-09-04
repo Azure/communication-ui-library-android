@@ -106,9 +106,50 @@ internal class AppReduxState(
     </RTT_POC> */
 
     override var buttonState: ButtonState = ButtonState(
-        cameraButtonState = DefaultButtonState(
+        callScreenCameraButtonState = DefaultButtonState(
             isEnabled = localOptions?.callScreenOptions?.controlBarOptions?.cameraButton?.isEnabled,
             isVisible = localOptions?.callScreenOptions?.controlBarOptions?.cameraButton?.isVisible,
-        )
+        ),
+        callScreenMicButtonState = DefaultButtonState(
+            isEnabled = localOptions?.callScreenOptions?.controlBarOptions?.microphoneButton?.isEnabled,
+            isVisible = localOptions?.callScreenOptions?.controlBarOptions?.microphoneButton?.isVisible,
+        ),
+        callScreenAudioDeviceButtonState = DefaultButtonState(
+            isEnabled = localOptions?.callScreenOptions?.controlBarOptions?.audioDeviceButton?.isEnabled,
+            isVisible = localOptions?.callScreenOptions?.controlBarOptions?.audioDeviceButton?.isVisible,
+        ),
+        liveCaptionsButton = DefaultButtonState(
+            isEnabled = localOptions?.callScreenOptions?.controlBarOptions?.liveCaptionsButton?.isEnabled,
+            isVisible = localOptions?.callScreenOptions?.controlBarOptions?.liveCaptionsButton?.isVisible,
+        ),
+        liveCaptionsToggleButton = DefaultButtonState(
+            isEnabled = localOptions?.callScreenOptions?.controlBarOptions?.liveCaptionsButton?.isEnabled,
+            isVisible = localOptions?.callScreenOptions?.controlBarOptions?.liveCaptionsToggleButton?.isVisible,
+        ),
+        spokenLanguageButton = DefaultButtonState(
+            isEnabled = localOptions?.callScreenOptions?.controlBarOptions?.spokenLanguageButton?.isEnabled,
+            isVisible = localOptions?.callScreenOptions?.controlBarOptions?.spokenLanguageButton?.isVisible,
+        ),
+        captionsLanguageButton = DefaultButtonState(
+            isEnabled = localOptions?.callScreenOptions?.controlBarOptions?.captionsLanguageButton?.isEnabled,
+            isVisible = localOptions?.callScreenOptions?.controlBarOptions?.captionsLanguageButton?.isVisible,
+        ),
+        shareDiagnosticsButton = DefaultButtonState(
+            isEnabled = localOptions?.callScreenOptions?.controlBarOptions?.shareDiagnosticsButton?.isEnabled,
+            isVisible = localOptions?.callScreenOptions?.controlBarOptions?.shareDiagnosticsButton?.isVisible,
+        ),
+        reportIssueButton = DefaultButtonState(
+            isEnabled = localOptions?.callScreenOptions?.controlBarOptions?.reportIssueButton?.isEnabled,
+            isVisible = localOptions?.callScreenOptions?.controlBarOptions?.reportIssueButton?.isVisible,
+        ),
+        callScreenCustomButtonsState = localOptions?.callScreenOptions?.controlBarOptions?.customButtons?.map {
+            CustomButtonState(
+                id = it.id,
+                isEnabled = it.isEnabled,
+                isVisible = it.isVisible,
+                title = it.title,
+                drawableId = it.drawableId,
+            )
+        } ?: emptyList()
     )
 }
