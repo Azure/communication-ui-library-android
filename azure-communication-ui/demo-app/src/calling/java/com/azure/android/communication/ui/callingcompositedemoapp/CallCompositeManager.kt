@@ -269,9 +269,15 @@ class CallCompositeManager(private val context: Context) {
             isAnythingChanged = true
         }
 
-        callScreenOptions().let { localOptions.callScreenOptions = it }
+        callScreenOptions().let {
+            localOptions.callScreenOptions = it
+            isAnythingChanged = true
+        }
 
-        setupScreenOptions()?.let { localOptions.setupScreenOptions = it }
+        setupScreenOptions()?.let {
+            localOptions.setupScreenOptions = it
+            isAnythingChanged = true
+        }
 
         return if (isAnythingChanged) localOptions else null
     }
@@ -634,7 +640,7 @@ class CallCompositeManager(private val context: Context) {
                 if (controlBarOptions == null)
                     controlBarOptions = CallCompositeCallScreenControlBarOptions()
 
-                val customButton1 =
+                val troubleshootingTipsButton =
                     CallCompositeCustomButtonViewData(
                         UUID.randomUUID(),
                         R.drawable.ic_fluent_arrow_next_24_regular,
@@ -651,7 +657,7 @@ class CallCompositeManager(private val context: Context) {
                         R.drawable.image_koala,
                         "Enable/disable buttons",
                         fun(_: CallCompositeCustomButtonClickEvent) {
-                            customButton1.isEnabled = !customButton1.isEnabled
+                            troubleshootingTipsButton.isEnabled = !troubleshootingTipsButton.isEnabled
 
                             controlBarOptions.cameraButton.isEnabled =
                                 !controlBarOptions.cameraButton.isEnabled
@@ -674,7 +680,7 @@ class CallCompositeManager(private val context: Context) {
                         R.drawable.image_koala,
                         "Hide/show buttons",
                         fun(_: CallCompositeCustomButtonClickEvent) {
-                            customButton1.isVisible = !customButton1.isVisible
+                            troubleshootingTipsButton.isVisible = !troubleshootingTipsButton.isVisible
 
                             controlBarOptions.cameraButton.isVisible =
                                 !controlBarOptions.cameraButton.isVisible
@@ -692,7 +698,7 @@ class CallCompositeManager(private val context: Context) {
                     )
 
                 controlBarOptions.setCustomButtons(
-                    listOf(customButton1, disableButtonsCustomButton, hideCustomButton)
+                    listOf(troubleshootingTipsButton, disableButtonsCustomButton, hideCustomButton)
                 )
             }
         }

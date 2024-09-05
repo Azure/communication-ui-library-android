@@ -57,8 +57,8 @@ internal class MoreCallOptionsListViewModel(
                     Entry(
                         titleResourceId = R.string.azure_communication_ui_calling_live_captions_title,
                         icon = R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_selector,
-                        isVisible = buttonViewDataState.captionsLanguageButton?.isVisible ?: true && isAnyCaptionsSubMenuButtonsVisible(),
-                        isEnabled = buttonViewDataState.captionsLanguageButton?.isEnabled ?: true,
+                        isVisible = buttonViewDataState.liveCaptionsButton?.isVisible ?: true && isAnyCaptionsSubMenuButtonsVisible(),
+                        isEnabled = buttonViewDataState.liveCaptionsButton?.isEnabled ?: true,
                         showRightArrow = true,
                     ) { context ->
                         callOnClickHandler(context, liveCaptionsButton)
