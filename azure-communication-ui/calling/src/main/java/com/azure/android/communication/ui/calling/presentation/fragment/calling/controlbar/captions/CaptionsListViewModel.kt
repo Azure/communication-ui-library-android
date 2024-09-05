@@ -32,7 +32,7 @@ internal class CaptionsListViewModel(
         captionsState: CaptionsState,
         callingStatus: CallingStatus,
         visibilityState: VisibilityState,
-        ) {
+    ) {
         updateListView(captionsState, callingStatus, visibilityState.status)
     }
 

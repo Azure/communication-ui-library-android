@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
-import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
 import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
@@ -35,14 +34,9 @@ internal class CaptionsListViewModelUnitTest : ACSBaseTestCoroutine() {
     @Before
     fun setUp() {
         store = mock<AppStore<ReduxState>> {}
-        `when`(store.getCurrentState()).thenReturn(
-            AppReduxState(
-                displayName = "hello",
-            )
-        )
         `when`(store.dispatch(any())).then { }
         viewModel = CaptionsListViewModel(
-            store,
+            store::dispatch,
             liveCaptionsToggleButton = null,
             spokenLanguageButton = null,
             captionsLanguageButton = null,
@@ -62,9 +56,10 @@ internal class CaptionsListViewModelUnitTest : ACSBaseTestCoroutine() {
             showCaptionsToggleUI = true
         )
         val callingStatus = CallingStatus.CONNECTED
+        val visibilityState = VisibilityState(VisibilityStatus.VISIBLE)
 
         // Act
-        viewModel.init(captionsState, callingStatus)
+        viewModel.init(captionsState, callingStatus, visibilityState)
 
         // Assert
         assertEquals("en", viewModel.activeCaptionLanguageStateFlow.value)
@@ -89,7 +84,9 @@ internal class CaptionsListViewModelUnitTest : ACSBaseTestCoroutine() {
             showCaptionsToggleUI = true
         )
         val initialCallingStatus = CallingStatus.CONNECTED
-        viewModel.init(initialCaptionsState, initialCallingStatus)
+        val visibilityState = VisibilityState(VisibilityStatus.VISIBLE)
+
+        viewModel.init(initialCaptionsState, initialCallingStatus, visibilityState)
 
         val updatedCaptionsState = CaptionsState(
             captionLanguage = "fr",
@@ -127,7 +124,9 @@ internal class CaptionsListViewModelUnitTest : ACSBaseTestCoroutine() {
             showCaptionsToggleUI = true
         )
         val callingStatus = CallingStatus.CONNECTED
-        viewModel.init(captionsState, callingStatus)
+        val visibilityState = VisibilityState(VisibilityStatus.VISIBLE)
+
+        viewModel.init(captionsState, callingStatus, visibilityState)
 
         // Act
         viewModel.toggleCaptions(false)
