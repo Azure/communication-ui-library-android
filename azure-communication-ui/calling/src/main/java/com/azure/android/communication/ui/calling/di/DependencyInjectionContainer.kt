@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.calling.di
 
-/* <CUSTOM_CALL_HEADER> */
-/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.data.CallHistoryRepository

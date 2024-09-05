@@ -3,10 +3,6 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
-/* <CUSTOM_CALL_HEADER> */
-/* </CUSTOM_CALL_HEADER> */
-/* <CUSTOM_CALL_HEADER> */
-/* </CUSTOM_CALL_HEADER> */
 import android.app.Application
 import android.app.PendingIntent
 import android.content.Context

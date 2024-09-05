@@ -6,8 +6,6 @@ package com.azure.android.communication.ui.calling.presentation.fragment.factori
 /* <RTT_POC>
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttViewModel
 </RTT_POC> */
-/* <CUSTOM_CALL_HEADER> */
-/* </CUSTOM_CALL_HEADER> */
 /* <RTT_POC>
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttViewModel
 </RTT_POC> */

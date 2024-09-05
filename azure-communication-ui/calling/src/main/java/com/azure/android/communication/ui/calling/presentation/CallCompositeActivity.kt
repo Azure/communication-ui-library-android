@@ -3,8 +3,6 @@
 
 package com.azure.android.communication.ui.calling.presentation
 
-/* <CUSTOM_CALL_HEADER> */
-/* </CUSTOM_CALL_HEADER> */
 import android.annotation.SuppressLint
 import android.app.PictureInPictureParams
 import android.content.pm.ActivityInfo
