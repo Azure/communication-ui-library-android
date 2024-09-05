@@ -31,5 +31,4 @@ internal sealed class ButtonViewDataAction : Action {
 
     class CallScreenCustomButtonIsEnabledUpdated(val id: UUID, val isEnabled: Boolean) : ButtonViewDataAction()
     class CallScreenCustomButtonIsVisibleUpdated(val id: UUID, val isVisible: Boolean) : ButtonViewDataAction()
-
 }

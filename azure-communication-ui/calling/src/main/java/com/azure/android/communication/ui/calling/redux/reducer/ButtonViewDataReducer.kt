@@ -63,22 +63,26 @@ internal class ButtonViewDataReducerImpl : ButtonViewDataReducer {
                 state.copy(reportIssueButton = state.reportIssueButton?.copy(isEnabled = action.isEnabled))
             }
             is ButtonViewDataAction.CallScreenCustomButtonIsVisibleUpdated -> {
-                state.copy(callScreenCustomButtonsState = state.callScreenCustomButtonsState.map {
-                    if (it.id == action.id) {
-                        it.copy(isVisible = action.isVisible)
-                    } else {
-                        it
+                state.copy(
+                    callScreenCustomButtonsState = state.callScreenCustomButtonsState.map {
+                        if (it.id == action.id) {
+                            it.copy(isVisible = action.isVisible)
+                        } else {
+                            it
+                        }
                     }
-                })
+                )
             }
             is ButtonViewDataAction.CallScreenCustomButtonIsEnabledUpdated -> {
-                state.copy(callScreenCustomButtonsState = state.callScreenCustomButtonsState.map {
-                    if (it.id == action.id) {
-                        it.copy(isEnabled = action.isEnabled)
-                    } else {
-                        it
+                state.copy(
+                    callScreenCustomButtonsState = state.callScreenCustomButtonsState.map {
+                        if (it.id == action.id) {
+                            it.copy(isEnabled = action.isEnabled)
+                        } else {
+                            it
+                        }
                     }
-                })
+                )
             }
             else -> state
         }

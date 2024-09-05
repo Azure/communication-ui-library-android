@@ -93,7 +93,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -189,6 +189,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 any(),
                 any(),
                 any(),
+                any(),
             )
             verify(mockLocalParticipantViewModel, times(1)).update(
                 any(), any(), any(), any(), any(), any(), any(), any(), any()
@@ -215,7 +216,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -309,6 +310,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 any(),
                 any(),
                 any(),
+                any(),
             )
             verify(mockLocalParticipantViewModel, times(2)).update(
                 any(), any(), any(), any(), any(), any(), any(), any(), any()
@@ -354,7 +356,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 on { update(any(), any(), any(), any(), any()) } doAnswer { }
             }
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
             }
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
             val mockLocalParticipantViewModel = mock<LocalParticipantViewModel> {
@@ -456,6 +458,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 any(),
                 any(),
                 any(),
+                any(),
             )
             verify(mockLocalParticipantViewModel, times(2)).update(
                 any(), any(), any(), any(), any(), any(), any(), any(), any()
@@ -482,7 +485,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -584,6 +587,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 any(),
                 any(),
                 any(),
+                any(),
             )
             verify(mockLocalParticipantViewModel, times(2)).update(
                 any(), any(), any(), any(), any(), any(), any(), any(), any()
@@ -610,7 +614,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -704,6 +708,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             verify(mockParticipantListViewModel, times(0)).update(any(), any(), any(), any(), any())
             verify(mockBannerViewModel, times(0)).update(any(), any())
             verify(mockControlBarViewModel, times(2)).update(
+                any(),
                 any(),
                 any(),
                 any(),
@@ -1264,7 +1269,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         val mockParticipantGridViewModel = mock<ParticipantGridViewModel> {}
 
         val mockControlBarViewModel = mock<ControlBarViewModel> {
-            on { update(any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
+            on { update(any(), any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
         }
         val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
         val mockLocalParticipantViewModel = mock<LocalParticipantViewModel> {
@@ -1382,6 +1387,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             any(),
             any(),
             any(),
+            any(),
         )
         verify(mockLocalParticipantViewModel, times(2)).update(
             any(), any(), any(), any(), any(), any(), any(), any(), any()
@@ -1452,7 +1458,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -1557,7 +1563,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}

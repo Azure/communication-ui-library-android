@@ -120,7 +120,6 @@ internal class ControlBarViewModel(
         isMicButtonVisibleFlow = MutableStateFlow(shouldMicBeVisible(buttonViewDataState.callScreenMicButtonState))
         isAudioDeviceButtonVisibleFlow = MutableStateFlow(shouldAudioDeviceBeVisible(buttonViewDataState.callScreenMicButtonState))
 
-
         isMoreButtonVisibleFlow = MutableStateFlow(shouldMoreButtonBeVisible(buttonViewDataState))
 
         isMoreButtonEnabledFlow = MutableStateFlow(shouldMoreButtonBeEnabled(callState.callingStatus))
@@ -197,7 +196,6 @@ internal class ControlBarViewModel(
     val isAudioDeviceButtonVisible: StateFlow<Boolean> get() = isAudioDeviceButtonVisibleFlow
 
     val isMoreButtonVisible: StateFlow<Boolean> get() = isMoreButtonVisibleFlow
-
 
     fun turnMicOff() {
         dispatchAction(action = LocalParticipantAction.MicOffTriggered())

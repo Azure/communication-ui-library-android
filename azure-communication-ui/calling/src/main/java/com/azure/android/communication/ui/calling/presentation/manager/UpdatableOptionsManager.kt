@@ -90,10 +90,8 @@ internal class UpdatableOptionsManager(
                 it.setVisibleChangedEventHandler { isVisible ->
                     store.dispatch(ButtonViewDataAction.CallScreenCustomButtonIsVisibleUpdated(it.id, isVisible))
                 }
-
             }
         }
-
     }
 
     fun getButton(id: UUID): CallCompositeCustomButtonViewData {
