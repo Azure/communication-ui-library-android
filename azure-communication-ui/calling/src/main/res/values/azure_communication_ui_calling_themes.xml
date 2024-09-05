@@ -39,6 +39,9 @@
         <item name="windowNoTitle">
             true
         </item>
+        <item name="android:windowBackground">
+            @color/azure_communication_ui_calling_color_background
+        </item>
     </style>
 
     <style name="AzureCommunicationUICalling.FluentUI.Button.Borderless" parent="@style/Widget.FluentUI.Button.Borderless">
