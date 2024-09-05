@@ -10,7 +10,6 @@ import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.ButtonViewDataAction
 import com.azure.android.communication.ui.calling.redux.action.CallScreenInfoHeaderAction
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
-import java.util.UUID
 
 internal class UpdatableOptionsManager(
     private val configuration: CallCompositeConfiguration,
@@ -94,7 +93,7 @@ internal class UpdatableOptionsManager(
         }
     }
 
-    fun getButton(id: UUID): CallCompositeCustomButtonViewData {
+    fun getButton(id: String): CallCompositeCustomButtonViewData {
         configuration.callScreenOptions?.controlBarOptions?.customButtons
             ?.find { it.id == id }
             ?.let {

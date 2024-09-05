@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.calling.models;
 
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler;
 
-import java.util.UUID;
 
 /**
  * Call composite custom button view data.
@@ -15,7 +14,7 @@ public final class CallCompositeCustomButtonViewData {
     CallCompositeEventHandler<Integer> drawableIdChangedEventHandler;
     CallCompositeEventHandler<Boolean> enabledChangedEventHandler;
     CallCompositeEventHandler<Boolean> visibleChangedEventHandler;
-    private final UUID id;
+    private final String id;
     private int drawableId;
     private String title;
     private final CallCompositeEventHandler<CallCompositeCustomButtonClickEvent> onClickHandler;
@@ -30,7 +29,7 @@ public final class CallCompositeCustomButtonViewData {
      * @param onClickHandler button on click handler.
      */
     public CallCompositeCustomButtonViewData(
-            final UUID id,
+            final String id,
             final int drawableId,
             final String title,
             final CallCompositeEventHandler<CallCompositeCustomButtonClickEvent> onClickHandler) {
@@ -43,7 +42,7 @@ public final class CallCompositeCustomButtonViewData {
     /**
      * Get button id.
      */
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 

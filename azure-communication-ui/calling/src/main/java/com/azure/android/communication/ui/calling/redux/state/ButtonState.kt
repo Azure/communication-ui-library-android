@@ -1,14 +1,12 @@
 package com.azure.android.communication.ui.calling.redux.state
 
-import java.util.UUID
-
 internal data class DefaultButtonState(
     val isEnabled: Boolean? = null,
     val isVisible: Boolean? = null,
 )
 
 internal data class CustomButtonState(
-    val id: UUID,
+    val id: String,
     val isEnabled: Boolean,
     val isVisible: Boolean,
     val title: String? = null,

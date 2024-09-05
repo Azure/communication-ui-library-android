@@ -1,7 +1,5 @@
 package com.azure.android.communication.ui.calling.redux.action
 
-import java.util.UUID
-
 internal sealed class ButtonViewDataAction : Action {
     class CallScreenCameraButtonIsEnabledUpdated(val isEnabled: Boolean) : ButtonViewDataAction()
     class CallScreenCameraButtonIsVisibleUpdated(val isVisible: Boolean) : ButtonViewDataAction()
@@ -29,6 +27,6 @@ internal sealed class ButtonViewDataAction : Action {
     class CallScreenReportIssueButtonIsEnabledUpdated(val isEnabled: Boolean) : ButtonViewDataAction()
     class CallScreenReportIssueButtonIsVisibleUpdated(val isVisible: Boolean) : ButtonViewDataAction()
 
-    class CallScreenCustomButtonIsEnabledUpdated(val id: UUID, val isEnabled: Boolean) : ButtonViewDataAction()
-    class CallScreenCustomButtonIsVisibleUpdated(val id: UUID, val isVisible: Boolean) : ButtonViewDataAction()
+    class CallScreenCustomButtonIsEnabledUpdated(val id: String, val isEnabled: Boolean) : ButtonViewDataAction()
+    class CallScreenCustomButtonIsVisibleUpdated(val id: String, val isVisible: Boolean) : ButtonViewDataAction()
 }
