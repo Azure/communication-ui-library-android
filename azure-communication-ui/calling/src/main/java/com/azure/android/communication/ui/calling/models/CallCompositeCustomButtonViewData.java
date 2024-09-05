@@ -24,6 +24,7 @@ public final class CallCompositeCustomButtonViewData {
 
     /**
      * Create call composite custom button view data.
+     * @param id button id. Each should have a unique id.
      * @param drawableId an icon for the button.
      * @param title a text to be displayed on the button.
      * @param onClickHandler button on click handler.
