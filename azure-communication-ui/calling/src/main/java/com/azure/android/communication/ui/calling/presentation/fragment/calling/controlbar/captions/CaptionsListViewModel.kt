@@ -4,18 +4,17 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions
 
 import com.azure.android.communication.ui.calling.models.CallCompositeButtonViewData
-import com.azure.android.communication.ui.calling.redux.Store
+import com.azure.android.communication.ui.calling.redux.Dispatch
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
 import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
-import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 
 internal class CaptionsListViewModel(
-    private val store: Store<ReduxState>,
+    private val dispatch: Dispatch,
     val liveCaptionsToggleButton: CallCompositeButtonViewData?,
     val spokenLanguageButton: CallCompositeButtonViewData?,
     val captionsLanguageButton: CallCompositeButtonViewData?,
@@ -29,8 +28,12 @@ internal class CaptionsListViewModel(
     val isCaptionsActiveStateFlow = MutableStateFlow(false)
     val canTurnOnCaptionsStateFlow = MutableStateFlow(false)
 
-    fun init(captionsState: CaptionsState, callingStatus: CallingStatus) {
-        updateListView(captionsState, callingStatus, store.getCurrentState().visibilityState.status)
+    fun init(
+        captionsState: CaptionsState,
+        callingStatus: CallingStatus,
+        visibilityState: VisibilityState,
+        ) {
+        updateListView(captionsState, callingStatus, visibilityState.status)
     }
 
     fun update(
@@ -56,25 +59,25 @@ internal class CaptionsListViewModel(
     }
 
     fun close() {
-        store.dispatch(CaptionsAction.CloseCaptionsOptions())
+        dispatch(CaptionsAction.CloseCaptionsOptions())
     }
 
     fun toggleCaptions(isChecked: Boolean) {
         if (!isChecked) {
-            store.dispatch(CaptionsAction.StopRequested())
+            dispatch(CaptionsAction.StopRequested())
             close()
         } else {
-            store.dispatch(CaptionsAction.StartRequested(activeSpokenLanguageStateFlow.value))
+            dispatch(CaptionsAction.StartRequested(activeSpokenLanguageStateFlow.value))
         }
     }
 
     fun openCaptionLanguageSelection() {
-        store.dispatch(CaptionsAction.ShowSupportedCaptionLanguagesOptions())
+        dispatch(CaptionsAction.ShowSupportedCaptionLanguagesOptions())
         close()
     }
 
     fun openSpokenLanguageSelection() {
-        store.dispatch(CaptionsAction.ShowSupportedSpokenLanguagesOptions())
+        dispatch(CaptionsAction.ShowSupportedSpokenLanguagesOptions())
         close()
     }
 }

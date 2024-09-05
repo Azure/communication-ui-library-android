@@ -154,7 +154,7 @@ internal class CallingViewModelFactory(
 
     val captionsListViewModel by lazy {
         CaptionsListViewModel(
-            store = store,
+            dispatch = store::dispatch,
             liveCaptionsToggleButton = callScreenControlBarOptions?.liveCaptionsToggleButton,
             spokenLanguageButton = callScreenControlBarOptions?.spokenLanguageButton,
             captionsLanguageButton = callScreenControlBarOptions?.captionsLanguageButton,

@@ -186,8 +186,8 @@ internal class CallingViewModel(
         )
         </RTT_POC> */
 
-        captionsListViewModel.init(state.captionsState, state.callState.callingStatus)
-        captionsLanguageSelectionListViewModel.init(state.captionsState)
+        captionsListViewModel.init(state.captionsState, state.callState.callingStatus, state.visibilityState)
+        captionsLanguageSelectionListViewModel.init(state.captionsState, state.visibilityState)
         captionsLayoutViewModel.init(state.captionsState, state.visibilityState)
 
         moreCallOptionsListViewModel.init(state.visibilityState, state.buttonState)
