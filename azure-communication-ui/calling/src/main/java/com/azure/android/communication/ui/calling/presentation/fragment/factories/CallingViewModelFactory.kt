@@ -156,6 +156,7 @@ internal class CallingViewModelFactory(
             liveCaptionsToggleButton = callScreenControlBarOptions?.liveCaptionsToggleButton,
             spokenLanguageButton = callScreenControlBarOptions?.spokenLanguageButton,
             captionsLanguageButton = callScreenControlBarOptions?.captionsLanguageButton,
+            logger = logger,
         )
     }
     val captionsLanguageSelectionListViewModel by lazy { CaptionsLanguageSelectionListViewModel(store) }

@@ -186,7 +186,10 @@ internal class CallingViewModel(
         )
         </RTT_POC> */
 
-        captionsListViewModel.init(state.captionsState, state.callState.callingStatus, state.visibilityState)
+        captionsListViewModel.init(
+            state.captionsState, state.callState.callingStatus,
+            state.visibilityState, state.buttonState
+        )
         captionsLanguageSelectionListViewModel.init(state.captionsState, state.visibilityState)
         captionsLayoutViewModel.init(state.captionsState, state.visibilityState)
 
@@ -359,7 +362,10 @@ internal class CallingViewModel(
 
         updateOverlayDisplayedState(state.callState.callingStatus)
 
-        captionsListViewModel.update(state.captionsState, state.callState.callingStatus, state.visibilityState)
+        captionsListViewModel.update(
+            state.captionsState, state.callState.callingStatus,
+            state.visibilityState, state.buttonState
+        )
         captionsLanguageSelectionListViewModel.update(state.captionsState, state.visibilityState)
         captionsLayoutViewModel.update(state.captionsState, state.visibilityState)
     }

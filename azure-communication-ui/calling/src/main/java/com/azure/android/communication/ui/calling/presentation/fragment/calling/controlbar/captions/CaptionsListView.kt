@@ -12,22 +12,18 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.calling.implementation.R
-import com.azure.android.communication.ui.calling.logger.Logger
-import com.azure.android.communication.ui.calling.models.CallCompositeButtonViewData
-import com.azure.android.communication.ui.calling.models.createButtonClickEvent
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
 import com.azure.android.communication.ui.calling.utilities.BottomCellItemType
 import com.azure.android.communication.ui.calling.utilities.LocaleHelper
+import com.azure.android.communication.ui.calling.utilities.launchAll
 import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 @SuppressLint("ViewConstructor")
 internal class CaptionsListView(
     context: Context,
     private val viewModel: CaptionsListViewModel,
-    private val logger: Logger,
 ) : RelativeLayout(context) {
     private var recyclerView: RecyclerView
     private lateinit var menuDrawer: DrawerDialog
@@ -41,51 +37,63 @@ internal class CaptionsListView(
 
     fun start(viewLifecycleOwner: LifecycleOwner) {
         initializeDrawer()
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.displayStateFlow.collect {
-                if (it) {
-                    menuDrawer.show()
-                } else {
-                    menuDrawer.dismiss()
+
+        viewLifecycleOwner.lifecycleScope.launchAll(
+            {
+                viewModel.displayStateFlow.collect {
+                    if (it) {
+                        menuDrawer.show()
+                    } else {
+                        menuDrawer.dismiss()
+                    }
                 }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.activeCaptionLanguageStateFlow.collect {
-                redrawCaptionsListView()
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.activeSpokenLanguageStateFlow.collect {
-                redrawCaptionsListView()
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.isTranscriptionEnabledStateFlow.collect {
-                redrawCaptionsListView()
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.isCaptionsActiveStateFlow.collect {
-                redrawCaptionsListView()
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.canTurnOnCaptionsStateFlow.collect {
-                redrawCaptionsListView()
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.isCaptionsEnabledStateFlow.collect {
-                redrawCaptionsListView()
-            }
-        }
+            },
+            {
+                viewModel.activeCaptionLanguageStateFlow.collect {
+                    redrawCaptionsListView()
+                }
+            },
+            {
+                viewModel.activeSpokenLanguageStateFlow.collect {
+                    redrawCaptionsListView()
+                }
+            },
+            {
+                viewModel.isCaptionsLangButtonVisibleStateFlow.collect {
+                    redrawCaptionsListView()
+                }
+            },
+            {
+                viewModel.isCaptionsActiveStateFlow.collect {
+                    redrawCaptionsListView()
+                }
+            },
+            {
+                viewModel.isCaptionsToggleVisibleStateFlow.collect {
+                    redrawCaptionsListView()
+                }
+            },
+            {
+                viewModel.isCaptionsToggleEnabledStateFlow.collect {
+                    redrawCaptionsListView()
+                }
+            },
+            {
+                viewModel.isCaptionsEnabledStateFlow.collect {
+                    redrawCaptionsListView()
+                }
+            },
+            {
+                viewModel.isSpokenLanguageButtonVisibleStateFlow.collect {
+                    redrawCaptionsListView()
+                }
+            },
+            {
+                viewModel.isSpokenLanguageButtonEnabledStateFlow.collect {
+                    redrawCaptionsListView()
+                }
+            },
+        )
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -120,14 +128,18 @@ internal class CaptionsListView(
     }
 
     private fun getBottomCellItems(): List<BottomCellItem> {
-        val isTranscriptionEnabled = viewModel.isTranscriptionEnabledStateFlow.value
+        val isCaptionsLangButtonVisible = viewModel.isCaptionsLangButtonVisibleStateFlow.value
+        val isCaptionsLangButtonEnabled = viewModel.isCaptionsLangButtonEnabledStateFlow.value
         val activeSpokenLanguage = viewModel.activeSpokenLanguageStateFlow.value
         val activeCaptionLanguage = viewModel.activeCaptionLanguageStateFlow.value
         val isCaptionsActive = viewModel.isCaptionsActiveStateFlow.value
-        val canTurnOnCaptions = viewModel.canTurnOnCaptionsStateFlow.value
+        val isToggleEnabled = viewModel.isCaptionsToggleEnabledStateFlow.value
+        val isToggleVisible = viewModel.isCaptionsToggleVisibleStateFlow.value
+        val isSpokenLanguageButtonVisible = viewModel.isSpokenLanguageButtonVisibleStateFlow.value
+        val isSpokenLanguageButtonEnabled = viewModel.isSpokenLanguageButtonEnabledStateFlow.value
 
         val items = mutableListOf<BottomCellItem>()
-        if (viewModel.liveCaptionsToggleButton?.isVisible != false) {
+        if (isToggleVisible) {
             items.add(
                 BottomCellItem(
                     icon = ContextCompat.getDrawable(
@@ -145,15 +157,14 @@ internal class CaptionsListView(
                     onClickAction = null,
                     showToggleButton = true,
                     isToggleButtonOn = isCaptionsActive,
-                    isEnabled = canTurnOnCaptions && viewModel.liveCaptionsToggleButton?.isEnabled ?: true,
+                    isEnabled = isToggleEnabled,
                     toggleButtonAction = { _, isChecked ->
-                        callButtonCustomOnClick(viewModel.liveCaptionsToggleButton)
-                        viewModel.toggleCaptions(isChecked)
+                        viewModel.toggleCaptions(context, isChecked)
                     }
                 )
             )
         }
-        if (viewModel.spokenLanguageButton?.isVisible != false) {
+        if (isSpokenLanguageButtonVisible) {
             items.add(
                 BottomCellItem(
                     icon = ContextCompat.getDrawable(
@@ -172,14 +183,13 @@ internal class CaptionsListView(
                     showRightArrow = true,
                     subtitle = LocaleHelper.getLocaleDisplayName(activeSpokenLanguage),
                     onClickAction = {
-                        callButtonCustomOnClick(viewModel.spokenLanguageButton)
-                        viewModel.openSpokenLanguageSelection()
+                        viewModel.openSpokenLanguageSelection(context)
                     },
-                    isEnabled = isCaptionsActive && viewModel.spokenLanguageButton?.isEnabled ?: true
+                    isEnabled = isSpokenLanguageButtonEnabled
                 )
             )
         }
-        if (isTranscriptionEnabled && viewModel.captionsLanguageButton?.isVisible != false) {
+        if (isCaptionsLangButtonVisible) {
             items.add(
                 BottomCellItem(
                     icon = ContextCompat.getDrawable(
@@ -198,24 +208,13 @@ internal class CaptionsListView(
                     showRightArrow = true,
                     subtitle = LocaleHelper.getLocaleDisplayName(activeCaptionLanguage),
                     onClickAction = {
-                        callButtonCustomOnClick(viewModel.captionsLanguageButton)
-                        viewModel.openCaptionLanguageSelection()
+                        viewModel.openCaptionLanguageSelection(context)
                     },
-                    isEnabled = isCaptionsActive && viewModel.captionsLanguageButton?.isEnabled != false
+                    isEnabled = isCaptionsLangButtonEnabled
                 )
             )
         }
 
         return items
-    }
-
-    private fun callButtonCustomOnClick(button: CallCompositeButtonViewData?) {
-        try {
-            button?.onClickHandler?.handle(
-                createButtonClickEvent(context, button)
-            )
-        } catch (e: Exception) {
-            logger.error("Call screen control bar button custom onClick exception.", e)
-        }
     }
 }

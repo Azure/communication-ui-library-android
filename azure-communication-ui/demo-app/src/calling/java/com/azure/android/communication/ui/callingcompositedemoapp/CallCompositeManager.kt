@@ -661,8 +661,15 @@ class CallCompositeManager(private val context: Context) {
                                 !controlBarOptions.microphoneButton.isEnabled
                             controlBarOptions.audioDeviceButton.isEnabled =
                                 !controlBarOptions.audioDeviceButton.isEnabled
-                            controlBarOptions.liveCaptionsButton.isEnabled =
-                                !controlBarOptions.liveCaptionsButton.isEnabled
+//                            controlBarOptions.liveCaptionsButton.isEnabled =
+//                                !controlBarOptions.liveCaptionsButton.isEnabled
+
+                            controlBarOptions.liveCaptionsToggleButton.isEnabled =
+                                !controlBarOptions.liveCaptionsToggleButton.isEnabled
+                            controlBarOptions.spokenLanguageButton.isEnabled =
+                                !controlBarOptions.spokenLanguageButton.isEnabled
+                            controlBarOptions.captionsLanguageButton.isEnabled =
+                                !controlBarOptions.captionsLanguageButton.isEnabled
                             controlBarOptions.shareDiagnosticsButton.isEnabled =
                                 !controlBarOptions.shareDiagnosticsButton.isEnabled
                             controlBarOptions.reportIssueButton.isEnabled =
@@ -684,8 +691,14 @@ class CallCompositeManager(private val context: Context) {
                                 !controlBarOptions.microphoneButton.isVisible
                             controlBarOptions.audioDeviceButton.isVisible =
                                 !controlBarOptions.audioDeviceButton.isVisible
-                            controlBarOptions.liveCaptionsButton.isVisible =
-                                !controlBarOptions.liveCaptionsButton.isVisible
+//                            controlBarOptions.liveCaptionsButton.isVisible =
+//                                !controlBarOptions.liveCaptionsButton.isVisible
+//                            controlBarOptions.liveCaptionsToggleButton.isVisible =
+//                                !controlBarOptions.liveCaptionsToggleButton.isVisible
+                            controlBarOptions.spokenLanguageButton.isVisible =
+                                !controlBarOptions.spokenLanguageButton.isVisible
+                            controlBarOptions.captionsLanguageButton.isVisible =
+                                !controlBarOptions.captionsLanguageButton.isVisible
                             controlBarOptions.shareDiagnosticsButton.isVisible =
                                 !controlBarOptions.shareDiagnosticsButton.isVisible
                             controlBarOptions.reportIssueButton.isVisible =
