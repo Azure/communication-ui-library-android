@@ -142,6 +142,18 @@ internal class AppReduxState(
             isEnabled = localOptions?.callScreenOptions?.controlBarOptions?.reportIssueButton?.isEnabled,
             isVisible = localOptions?.callScreenOptions?.controlBarOptions?.reportIssueButton?.isVisible,
         ),
+        setupScreenAudioDeviceButtonState = DefaultButtonState(
+            isEnabled = localOptions?.setupScreenOptions?.audioDeviceButton?.isEnabled,
+            isVisible = localOptions?.setupScreenOptions?.audioDeviceButton?.isVisible,
+        ),
+        setupScreenCameraButtonState = DefaultButtonState(
+            isEnabled = localOptions?.setupScreenOptions?.cameraButton?.isEnabled,
+            isVisible = localOptions?.setupScreenOptions?.cameraButton?.isVisible,
+        ),
+        setupScreenMicButtonState = DefaultButtonState(
+            isEnabled = localOptions?.setupScreenOptions?.microphoneButton?.isEnabled,
+            isVisible = localOptions?.setupScreenOptions?.microphoneButton?.isVisible,
+        ),
         callScreenCustomButtonsState = localOptions?.callScreenOptions?.controlBarOptions?.customButtons?.map {
             CustomButtonState(
                 id = it.id,

@@ -91,6 +91,27 @@ internal class UpdatableOptionsManager(
                 }
             }
         }
+
+        configuration.setupScreenOptions?.run {
+            cameraButton?.setEnabledChangedEventHandler {
+                store.dispatch(ButtonViewDataAction.SetupScreenCameraButtonIsEnabledUpdated(it))
+            }
+            cameraButton?.setVisibleChangedEventHandler {
+                store.dispatch(ButtonViewDataAction.SetupScreenCameraButtonIsVisibleUpdated(it))
+            }
+            microphoneButton?.setEnabledChangedEventHandler {
+                store.dispatch(ButtonViewDataAction.SetupScreenMicButtonIsEnabledUpdated(it))
+            }
+            microphoneButton?.setVisibleChangedEventHandler {
+                store.dispatch(ButtonViewDataAction.SetupScreenMicButtonIsVisibleUpdated(it))
+            }
+            audioDeviceButton?.setEnabledChangedEventHandler {
+                store.dispatch(ButtonViewDataAction.SetupScreenAudioDeviceButtonIsEnabledUpdated(it))
+            }
+            audioDeviceButton?.setVisibleChangedEventHandler {
+                store.dispatch(ButtonViewDataAction.SetupScreenAudioDeviceButtonIsVisibleUpdated(it))
+            }
+        }
     }
 
     fun getButton(id: String): CallCompositeCustomButtonViewData {

@@ -62,16 +62,23 @@ internal class ButtonViewDataReducerImpl : ButtonViewDataReducer {
             is ButtonViewDataAction.CallScreenReportIssueButtonIsEnabledUpdated -> {
                 state.copy(reportIssueButton = state.reportIssueButton?.copy(isEnabled = action.isEnabled))
             }
-            is ButtonViewDataAction.CallScreenCustomButtonIsVisibleUpdated -> {
-                state.copy(
-                    callScreenCustomButtonsState = state.callScreenCustomButtonsState.map {
-                        if (it.id == action.id) {
-                            it.copy(isVisible = action.isVisible)
-                        } else {
-                            it
-                        }
-                    }
-                )
+            is ButtonViewDataAction.SetupScreenCameraButtonIsEnabledUpdated -> {
+                state.copy(setupScreenCameraButtonState = state.setupScreenCameraButtonState?.copy(isEnabled = action.isEnabled))
+            }
+            is ButtonViewDataAction.SetupScreenCameraButtonIsVisibleUpdated -> {
+                state.copy(setupScreenCameraButtonState = state.setupScreenCameraButtonState?.copy(isVisible = action.isVisible))
+            }
+            is ButtonViewDataAction.SetupScreenMicButtonIsEnabledUpdated -> {
+                state.copy(setupScreenMicButtonState = state.setupScreenMicButtonState?.copy(isEnabled = action.isEnabled))
+            }
+            is ButtonViewDataAction.SetupScreenMicButtonIsVisibleUpdated -> {
+                state.copy(setupScreenMicButtonState = state.setupScreenMicButtonState?.copy(isVisible = action.isVisible))
+            }
+            is ButtonViewDataAction.SetupScreenAudioDeviceButtonIsEnabledUpdated -> {
+                state.copy(setupScreenAudioDeviceButtonState = state.setupScreenAudioDeviceButtonState?.copy(isEnabled = action.isEnabled))
+            }
+            is ButtonViewDataAction.SetupScreenAudioDeviceButtonIsVisibleUpdated -> {
+                state.copy(setupScreenAudioDeviceButtonState = state.setupScreenAudioDeviceButtonState?.copy(isVisible = action.isVisible))
             }
             is ButtonViewDataAction.CallScreenCustomButtonIsEnabledUpdated -> {
                 state.copy(

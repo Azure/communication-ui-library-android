@@ -29,4 +29,10 @@ internal sealed class ButtonViewDataAction : Action {
 
     class CallScreenCustomButtonIsEnabledUpdated(val id: String, val isEnabled: Boolean) : ButtonViewDataAction()
     class CallScreenCustomButtonIsVisibleUpdated(val id: String, val isVisible: Boolean) : ButtonViewDataAction()
+    class SetupScreenCameraButtonIsEnabledUpdated(val isEnabled: Boolean?) : ButtonViewDataAction()
+    class SetupScreenCameraButtonIsVisibleUpdated(val isVisible: Boolean?) : ButtonViewDataAction()
+    class SetupScreenMicButtonIsEnabledUpdated(val isEnabled: Boolean?) : ButtonViewDataAction()
+    class SetupScreenMicButtonIsVisibleUpdated(val isVisible: Boolean?) : ButtonViewDataAction()
+    class SetupScreenAudioDeviceButtonIsEnabledUpdated(val isEnabled: Boolean?) : ButtonViewDataAction()
+    class SetupScreenAudioDeviceButtonIsVisibleUpdated(val isVisible: Boolean?) : ButtonViewDataAction()
 }
