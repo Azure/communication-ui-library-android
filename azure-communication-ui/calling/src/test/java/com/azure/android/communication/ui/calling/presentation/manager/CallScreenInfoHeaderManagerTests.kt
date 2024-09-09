@@ -4,6 +4,9 @@
 package com.azure.android.communication.ui.calling.presentation.manager
 
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
+import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenHeaderViewData
+import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.CallScreenInfoHeaderAction
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
@@ -25,11 +28,19 @@ internal class CallScreenInfoHeaderManagerTests : ACSBaseTestCoroutine() {
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { dispatch(any()) } doAnswer { }
         }
-        val manager = CallScreenInfoHeaderManager(mockAppStore)
+
+        val callScreenHeaderViewData = CallCompositeCallScreenHeaderViewData().setTitle("initial title")
+        val config = CallCompositeConfiguration()
+        config.callScreenOptions = CallCompositeCallScreenOptions()
+        config.callScreenOptions?.headerViewData = callScreenHeaderViewData
+
+        val manager = UpdatableOptionsManager(config, mockAppStore)
+        manager.start()
+
         val title = "title"
 
         // Act
-        manager.updateTitle(title)
+        callScreenHeaderViewData.setTitle(title)
 
         // Assert
         verify(mockAppStore, times(1)).dispatch(
@@ -46,11 +57,19 @@ internal class CallScreenInfoHeaderManagerTests : ACSBaseTestCoroutine() {
         val mockAppStore = mock<AppStore<ReduxState>> {
             on { dispatch(any()) } doAnswer { }
         }
-        val manager = CallScreenInfoHeaderManager(mockAppStore)
+
+        val callScreenHeaderViewData = CallCompositeCallScreenHeaderViewData().setSubtitle("initial subtitle")
+        val config = CallCompositeConfiguration()
+        config.callScreenOptions = CallCompositeCallScreenOptions()
+        config.callScreenOptions?.headerViewData = callScreenHeaderViewData
+
+        val manager = UpdatableOptionsManager(config, mockAppStore)
+        manager.start()
+
         val subtitle = "subtitle"
 
         // Act
-        manager.updateSubtitle(subtitle)
+        callScreenHeaderViewData.setSubtitle(subtitle)
 
         // Assert
         verify(mockAppStore, times(1)).dispatch(

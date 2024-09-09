@@ -6,42 +6,41 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
-import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLeaveCallConfirmationMode
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.models.VideoStreamModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay.ConnectingOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.CaptionsLanguageSelectionListViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.CaptionsListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.more.MoreCallOptionsListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hangup.LeaveConfirmViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.header.InfoHeaderViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.hold.OnHoldOverlayViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay.ConnectingOverlayViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.CaptionsLanguageSelectionListViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.CaptionsListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyErrorHeaderViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.LobbyHeaderViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby.WaitingLobbyOverlayViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser.LocalParticipantViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.menu.ParticipantMenuViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
-
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutViewModel
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.menu.ParticipantMenuViewModel
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
+import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
-import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
@@ -94,7 +93,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -165,7 +164,12 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 capabilitiesManager = CapabilitiesManager(CallType.GROUP_CALL)
             )
 
-            val newBackgroundState = AppReduxState("", false, false, false)
+            val newBackgroundState = AppReduxState(
+                "",
+                false,
+                false,
+                false,
+            )
             newBackgroundState.lifecycleState = LifecycleState(LifecycleStatus.BACKGROUND)
             newBackgroundState.localParticipantState = getLocalUserState()
 
@@ -178,6 +182,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             // assert
             verify(mockParticipantGridViewModel, times(0)).update(any(), any(), any(), any(), any())
             verify(mockControlBarViewModel, times(1)).update(
+                any(),
                 any(),
                 any(),
                 any(),
@@ -211,7 +216,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -280,7 +285,12 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 capabilitiesManager = CapabilitiesManager(CallType.GROUP_CALL)
             )
 
-            val newForegroundState = AppReduxState("", false, false, false)
+            val newForegroundState = AppReduxState(
+                "",
+                false,
+                false,
+                false,
+            )
             newForegroundState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
             newForegroundState.localParticipantState = getLocalUserState()
 
@@ -293,6 +303,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             // assert
             verify(mockParticipantGridViewModel, times(0)).update(any(), any(), any(), any(), any())
             verify(mockControlBarViewModel, times(2)).update(
+                any(),
                 any(),
                 any(),
                 any(),
@@ -345,7 +356,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 on { update(any(), any(), any(), any(), any()) } doAnswer { }
             }
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
             }
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
             val mockLocalParticipantViewModel = mock<LocalParticipantViewModel> {
@@ -447,6 +458,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 any(),
                 any(),
                 any(),
+                any(),
             )
             verify(mockLocalParticipantViewModel, times(2)).update(
                 any(), any(), any(), any(), any(), any(), any(), any(), any()
@@ -473,7 +485,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -575,6 +587,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 any(),
                 any(),
                 any(),
+                any(),
             )
             verify(mockLocalParticipantViewModel, times(2)).update(
                 any(), any(), any(), any(), any(), any(), any(), any(), any()
@@ -601,7 +614,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -669,7 +682,12 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 capabilitiesManager = CapabilitiesManager(CallType.GROUP_CALL)
             )
 
-            val newForegroundState = AppReduxState("", false, false, false)
+            val newForegroundState = AppReduxState(
+                "",
+                false,
+                false,
+                false,
+            )
             newForegroundState.lifecycleState = LifecycleState(LifecycleStatus.FOREGROUND)
             newForegroundState.localParticipantState = getLocalUserState()
 
@@ -690,6 +708,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             verify(mockParticipantListViewModel, times(0)).update(any(), any(), any(), any(), any())
             verify(mockBannerViewModel, times(0)).update(any(), any())
             verify(mockControlBarViewModel, times(2)).update(
+                any(),
                 any(),
                 any(),
                 any(),
@@ -1250,7 +1269,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         val mockParticipantGridViewModel = mock<ParticipantGridViewModel> {}
 
         val mockControlBarViewModel = mock<ControlBarViewModel> {
-            on { update(any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
+            on { update(any(), any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
         }
         val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
         val mockLocalParticipantViewModel = mock<LocalParticipantViewModel> {
@@ -1368,6 +1387,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             any(),
             any(),
             any(),
+            any(),
         )
         verify(mockLocalParticipantViewModel, times(2)).update(
             any(), any(), any(), any(), any(), any(), any(), any(), any()
@@ -1438,7 +1458,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}
@@ -1543,7 +1563,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             val mockControlBarViewModel = mock<ControlBarViewModel> {
-                on { update(any(), any(), any(), any(), any(), any(), any()) } doAnswer { }
+                on { update(any(), any(), any(), any(), any(), any(), any(), any(),) } doAnswer { }
             }
 
             val mockConfirmLeaveOverlayViewModel = mock<LeaveConfirmViewModel> {}

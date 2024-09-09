@@ -59,7 +59,7 @@ internal class NavigationRouterUnitTest : ACSBaseTestCoroutine() {
                 AppReduxState(
                     "",
                     false,
-                    false
+                    false,
                 )
             )
             val (navigationRouter, receivedUpdates) = createNavigationRouter(stateFlow)

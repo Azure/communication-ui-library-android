@@ -48,7 +48,14 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         )
 
         // Act
-        val message = cameraStatusHook.message(AppReduxState("", false, false), reduxState, mockContext)
+        val message = cameraStatusHook.message(
+            AppReduxState(
+                "",
+                false,
+                false,
+            ),
+            reduxState, mockContext
+        )
 
         // Assert
         Assert.assertEquals(message, "Video on")
@@ -74,7 +81,14 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         )
 
         // Act
-        val message = cameraStatusHook.message(AppReduxState("", false, false), reduxState, mockContext)
+        val message = cameraStatusHook.message(
+            AppReduxState(
+                "",
+                false,
+                false,
+            ),
+            reduxState, mockContext
+        )
 
         // Assert
         Assert.assertEquals(message, "Video off")
@@ -99,7 +113,14 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
             )
 
         // Act
-        val message = cameraStatusHook.message(AppReduxState("", false, false), reduxState, mockContext)
+        val message = cameraStatusHook.message(
+            AppReduxState(
+                "",
+                false,
+                false,
+            ),
+            reduxState, mockContext
+        )
 
         // Assert
         Assert.assertEquals(message, "")
@@ -123,7 +144,14 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         val cameraStatusHook = CameraStatusHook()
 
         // Act
-        val result = cameraStatusHook.shouldTrigger(AppReduxState("", false, false), reduxState)
+        val result = cameraStatusHook.shouldTrigger(
+            AppReduxState(
+                "",
+                false,
+                false,
+            ),
+            reduxState
+        )
 
         // Assert
         Assert.assertEquals(result, true)
@@ -260,7 +288,14 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         )
 
         // Act
-        val result = micStatusHook.shouldTrigger(AppReduxState("", false, false), reduxState)
+        val result = micStatusHook.shouldTrigger(
+            AppReduxState(
+                "",
+                false,
+                false,
+            ),
+            reduxState
+        )
 
         // Assert
         Assert.assertEquals(result, true)
@@ -366,7 +401,14 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         )
 
         // Act
-        val message = switchCameraStatusHook.message(AppReduxState("", false, false), reduxState, mockContext)
+        val message = switchCameraStatusHook.message(
+            AppReduxState(
+                "",
+                false,
+                false,
+            ),
+            reduxState, mockContext
+        )
 
         // Assert
         Assert.assertEquals(message, "")
@@ -412,7 +454,14 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         )
 
         // Act
-        val result = switchCameraStatusHook.shouldTrigger(AppReduxState("", false, false), reduxState)
+        val result = switchCameraStatusHook.shouldTrigger(
+            AppReduxState(
+                "",
+                false,
+                false,
+            ),
+            reduxState
+        )
 
         // Assert
         Assert.assertEquals(result, true)
@@ -426,7 +475,14 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         reduxState.callState = CallingState(CallingStatus.CONNECTED)
 
         // Act
-        val result = meetingJoinedHook.shouldTrigger(AppReduxState("", false, false), reduxState)
+        val result = meetingJoinedHook.shouldTrigger(
+            AppReduxState(
+                "",
+                false,
+                false,
+            ),
+            reduxState
+        )
 
         // Assert
         Assert.assertEquals(result, true)
@@ -472,7 +528,14 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
         reduxState.remoteParticipantState =
             RemoteParticipantsState(mapOf(Pair("a", mock { })), 5000, listOf(), 0, lobbyErrorCode = null, totalParticipantCount = 1)
         // Act
-        val result = meetingJoinedHook.shouldTrigger(AppReduxState("", false, false), reduxState)
+        val result = meetingJoinedHook.shouldTrigger(
+            AppReduxState(
+                "",
+                false,
+                false,
+            ),
+            reduxState
+        )
 
         // Assert
         Assert.assertEquals(result, true)
@@ -525,7 +588,14 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
 
         // Act
         val message =
-            participantAddedOrRemovedHook.message(AppReduxState("", false, false), reduxState, mockContext)
+            participantAddedOrRemovedHook.message(
+                AppReduxState(
+                    "",
+                    false,
+                    false,
+                ),
+                reduxState, mockContext
+            )
 
         // Assert
         Assert.assertEquals(message, "user has joined the meeting")
@@ -563,7 +633,15 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
 
         // Act
         val message =
-            participantAddedOrRemovedHook.message(reduxState, AppReduxState("", false, false), mockContext)
+            participantAddedOrRemovedHook.message(
+                reduxState,
+                AppReduxState(
+                    "",
+                    false,
+                    false,
+                ),
+                mockContext
+            )
 
         // Assert
         Assert.assertEquals(message, "user has left the meeting")

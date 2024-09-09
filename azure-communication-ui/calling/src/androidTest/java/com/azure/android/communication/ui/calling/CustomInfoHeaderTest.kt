@@ -10,7 +10,7 @@ import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.tapOnScreen
 import com.azure.android.communication.tapWhenDisplayed
-import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenHeaderOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenHeaderViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
@@ -29,8 +29,9 @@ internal class CustomInfoHeaderTest : BaseUiTest() {
         val header = "custom header"
 
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        val options = CallCompositeCallScreenOptions().setHeaderOptions(
-            CallCompositeCallScreenHeaderOptions().setTitle(header)
+        val options = CallCompositeCallScreenOptions().setHeaderViewData(
+            CallCompositeCallScreenHeaderViewData()
+                .setTitle(header)
         )
         val communicationTokenRefreshOptions =
             CommunicationTokenRefreshOptions({ "token" }, true)
@@ -62,8 +63,9 @@ internal class CustomInfoHeaderTest : BaseUiTest() {
         val subtitle = "custom subtitle"
 
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        val options = CallCompositeCallScreenOptions().setHeaderOptions(
-            CallCompositeCallScreenHeaderOptions().setSubtitle(subtitle)
+        val options = CallCompositeCallScreenOptions().setHeaderViewData(
+            CallCompositeCallScreenHeaderViewData()
+                .setSubtitle(subtitle)
         )
         val communicationTokenRefreshOptions =
             CommunicationTokenRefreshOptions({ "token" }, true)
@@ -97,8 +99,9 @@ internal class CustomInfoHeaderTest : BaseUiTest() {
         val subtitle = "custom subtitle"
 
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        val options = CallCompositeCallScreenOptions().setHeaderOptions(
-            CallCompositeCallScreenHeaderOptions().setTitle(header).setSubtitle(subtitle)
+        val options = CallCompositeCallScreenOptions().setHeaderViewData(
+            CallCompositeCallScreenHeaderViewData()
+                .setTitle(header).setSubtitle(subtitle)
         )
         val communicationTokenRefreshOptions =
             CommunicationTokenRefreshOptions({ "token" }, true)
@@ -129,10 +132,11 @@ internal class CustomInfoHeaderTest : BaseUiTest() {
         injectDependencies(testScheduler)
 
         val header = "custom header"
-        val headerOptions = CallCompositeCallScreenHeaderOptions()
+        val headerOptions =
+            CallCompositeCallScreenHeaderViewData()
 
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        val options = CallCompositeCallScreenOptions().setHeaderOptions(headerOptions)
+        val options = CallCompositeCallScreenOptions().setHeaderViewData(headerOptions)
         val communicationTokenRefreshOptions =
             CommunicationTokenRefreshOptions({ "token" }, true)
         val communicationTokenCredential =
@@ -169,10 +173,11 @@ internal class CustomInfoHeaderTest : BaseUiTest() {
         injectDependencies(testScheduler)
 
         val subtitle = "custom subtitle"
-        val headerOptions = CallCompositeCallScreenHeaderOptions()
+        val headerOptions =
+            CallCompositeCallScreenHeaderViewData()
 
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        val options = CallCompositeCallScreenOptions().setHeaderOptions(headerOptions)
+        val options = CallCompositeCallScreenOptions().setHeaderViewData(headerOptions)
         val communicationTokenRefreshOptions =
             CommunicationTokenRefreshOptions({ "token" }, true)
         val communicationTokenCredential =
@@ -209,10 +214,11 @@ internal class CustomInfoHeaderTest : BaseUiTest() {
         injectDependencies(testScheduler)
 
         val initialTitle = "initial title"
-        val headerOptions = CallCompositeCallScreenHeaderOptions().setTitle(initialTitle)
+        val headerOptions = CallCompositeCallScreenHeaderViewData()
+            .setTitle(initialTitle)
 
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        val options = CallCompositeCallScreenOptions().setHeaderOptions(headerOptions)
+        val options = CallCompositeCallScreenOptions().setHeaderViewData(headerOptions)
         val communicationTokenRefreshOptions =
             CommunicationTokenRefreshOptions({ "token" }, true)
         val communicationTokenCredential =
@@ -250,10 +256,11 @@ internal class CustomInfoHeaderTest : BaseUiTest() {
         injectDependencies(testScheduler)
 
         val initialSubtitle = "initial subtitle"
-        val headerOptions = CallCompositeCallScreenHeaderOptions().setSubtitle(initialSubtitle)
+        val headerOptions = CallCompositeCallScreenHeaderViewData()
+            .setSubtitle(initialSubtitle)
 
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        val options = CallCompositeCallScreenOptions().setHeaderOptions(headerOptions)
+        val options = CallCompositeCallScreenOptions().setHeaderViewData(headerOptions)
         val communicationTokenRefreshOptions =
             CommunicationTokenRefreshOptions({ "token" }, true)
         val communicationTokenCredential =

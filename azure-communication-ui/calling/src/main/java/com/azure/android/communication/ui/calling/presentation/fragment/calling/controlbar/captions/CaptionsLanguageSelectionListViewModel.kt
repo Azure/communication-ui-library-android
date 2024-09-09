@@ -23,11 +23,17 @@ internal class CaptionsLanguageSelectionListViewModel(private val store: Store<R
     val languagesListStateFlow = MutableStateFlow(emptyList<String>())
     var languageSelectionTypeStateFlow: LanguageSelectionType? = null
 
-    fun init(captionsState: CaptionsState) {
-        updateListView(captionsState, store.getCurrentState().visibilityState.status)
+    fun init(
+        captionsState: CaptionsState,
+        visibilityState: VisibilityState,
+    ) {
+        updateListView(captionsState, visibilityState.status)
     }
 
-    fun update(captionsState: CaptionsState, visibilityState: VisibilityState) {
+    fun update(
+        captionsState: CaptionsState,
+        visibilityState: VisibilityState,
+    ) {
         updateListView(captionsState, visibilityState.status)
     }
 
