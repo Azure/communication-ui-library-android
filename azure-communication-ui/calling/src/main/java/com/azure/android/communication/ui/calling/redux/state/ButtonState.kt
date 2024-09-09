@@ -6,9 +6,9 @@ internal data class DefaultButtonState(
 )
 
 internal data class CustomButtonState(
-    val id: String,
-    val isEnabled: Boolean,
-    val isVisible: Boolean,
+    val id: String?,
+    val isEnabled: Boolean?,
+    val isVisible: Boolean?,
     val title: String? = null,
     val drawableId: Int,
 )

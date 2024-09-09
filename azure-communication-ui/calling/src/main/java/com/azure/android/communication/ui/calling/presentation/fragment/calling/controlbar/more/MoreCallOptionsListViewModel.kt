@@ -97,17 +97,19 @@ internal class MoreCallOptionsListViewModel(
                         Entry(
                             icon = customButton.drawableId,
                             titleText = customButton.title,
-                            isEnabled = customButton.isEnabled,
-                            isVisible = customButton.isVisible,
+                            isEnabled = customButton.isEnabled ?: true,
+                            isVisible = customButton.isVisible ?: true,
                             onClickListener = { context ->
                                 try {
-                                    val buttonViewData = updatableOptionsManager.getButton(customButton.id)
-                                    buttonViewData.onClickHandler.handle(
-                                        createCustomButtonClickEvent(
-                                            context,
-                                            buttonViewData
+                                    customButton.id?.let { id ->
+                                        val buttonViewData = updatableOptionsManager.getButton(id)
+                                        buttonViewData.onClickHandler.handle(
+                                            createCustomButtonClickEvent(
+                                                context,
+                                                buttonViewData
+                                            )
                                         )
-                                    )
+                                    }
                                 } catch (e: Exception) {
                                     logger.error(
                                         "Call screen control bar custom button onClick exception.",
