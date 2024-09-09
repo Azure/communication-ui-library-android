@@ -13,38 +13,36 @@ import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_END_FAILED
+import com.azure.android.communication.ui.calling.helper.UnconfinedTestContextProvider
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsData
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsType
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_DECLINED
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_EVICTED
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
-import com.azure.android.communication.ui.calling.models.ParticipantRole
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions
 import com.azure.android.communication.ui.calling.models.CallInfoModel
+import com.azure.android.communication.ui.calling.models.CapabilitiesChangedEvent
+import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
+import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.AppStore
+import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.action.LifecycleAction
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
-import com.azure.android.communication.ui.calling.service.CallingService
-import com.azure.android.communication.ui.calling.helper.UnconfinedTestContextProvider
-import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsData
-import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsType
-import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
-import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions
-import com.azure.android.communication.ui.calling.models.CapabilitiesChangedEvent
-import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
-import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
-import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
-import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
-import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
-import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.action.ToastNotificationAction
-
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
@@ -64,6 +62,7 @@ import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.ToastNotificationKind
+import com.azure.android.communication.ui.calling.service.CallingService
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -3749,7 +3748,11 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         )
 
     private fun provideAppStore(): AppStore<ReduxState> {
-        val appState = AppReduxState("CallingMiddleWareActionHandlerUnitTest", false, false)
+        val appState = AppReduxState(
+            "CallingMiddleWareActionHandlerUnitTest",
+            false,
+            false,
+        )
         return mock {
             on { dispatch(any()) } doAnswer { }
             on { getCurrentState() } doAnswer { appState }

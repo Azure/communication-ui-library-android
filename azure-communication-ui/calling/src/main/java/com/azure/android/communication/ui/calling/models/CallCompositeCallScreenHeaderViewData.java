@@ -3,33 +3,35 @@
 /* <CUSTOM_CALL_HEADER> */
 package com.azure.android.communication.ui.calling.models;
 
-import com.azure.android.communication.ui.calling.presentation.manager.CallScreenInfoHeader;
+import com.azure.android.communication.ui.calling.CallCompositeEventHandler;
 
 /**
- * Options for the CallCompositeCallScreenHeaderOptions.
+ * Options for the {@link CallCompositeCallScreenHeaderViewData}.
  */
-public final class CallCompositeCallScreenHeaderOptions {
-    CallScreenInfoHeader callScreenInfoHeader;
+public final class CallCompositeCallScreenHeaderViewData {
+    CallCompositeEventHandler<String> titleChangedEventHandler;
+    CallCompositeEventHandler<String> subtitleChangedEventHandler;
+
     private String title;
     private String subtitle;
 
     /**
-     * Create a CallCompositeCallScreenHeaderOptions object.
+     * Create a {@link CallCompositeCallScreenHeaderViewData} object.
      */
-    public CallCompositeCallScreenHeaderOptions() {
+    public CallCompositeCallScreenHeaderViewData() {
     }
 
     /**
      * Set the subtitle.
      *
      * @param subtitle The subtitle.
-     * @return The {@link CallCompositeCallScreenHeaderOptions} object itself.
+     * @return The {@link CallCompositeCallScreenHeaderViewData} object itself.
      */
-    public CallCompositeCallScreenHeaderOptions setSubtitle(
+    public CallCompositeCallScreenHeaderViewData setSubtitle(
             final String subtitle) {
         this.subtitle = subtitle;
-        if (callScreenInfoHeader != null) {
-            callScreenInfoHeader.updateSubtitle(subtitle);
+        if (subtitleChangedEventHandler != null) {
+            subtitleChangedEventHandler.handle(subtitle);
         }
         return this;
     }
@@ -47,13 +49,13 @@ public final class CallCompositeCallScreenHeaderOptions {
      * Set the title.
      *
      * @param title The title.
-     * @return The {@link CallCompositeCallScreenHeaderOptions} object itself.
+     * @return The {@link CallCompositeCallScreenHeaderViewData} object itself.
      */
-    public CallCompositeCallScreenHeaderOptions setTitle(
+    public CallCompositeCallScreenHeaderViewData setTitle(
             final String title) {
         this.title = title;
-        if (callScreenInfoHeader != null) {
-            callScreenInfoHeader.updateTitle(title);
+        if (titleChangedEventHandler != null) {
+            titleChangedEventHandler.handle(title);
         }
         return this;
     }

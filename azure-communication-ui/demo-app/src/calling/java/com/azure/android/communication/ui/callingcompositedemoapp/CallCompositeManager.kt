@@ -22,18 +22,16 @@ import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.CallCompositeBuilder
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
-import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeButtonViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeCallHistoryRecord
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
-/* <CUSTOM_CALL_HEADER> */
-import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenHeaderOptions
-/* </CUSTOM_CALL_HEADER> */
+import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenHeaderViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonClickEvent
-import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeGroupCallLocator
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallCancelledEvent
@@ -65,7 +63,7 @@ class CallCompositeManager(private val context: Context) {
     private var callComposite: CallComposite? = null
     private var incomingCallId: String? = null
     /* <CUSTOM_CALL_HEADER> */
-    private var callScreenHeaderOptions: CallCompositeCallScreenHeaderOptions? = null
+    private var callScreenHeaderOptions: CallCompositeCallScreenHeaderViewData? = null
     /* </CUSTOM_CALL_HEADER> */
     private var remoteParticipantsCount = 0
 
@@ -264,6 +262,16 @@ class CallCompositeManager(private val context: Context) {
             }
 
             localOptions.setCaptionsOptions(captionsViewData)
+            isAnythingChanged = true
+        }
+
+        callScreenOptions().let {
+            localOptions.callScreenOptions = it
+            isAnythingChanged = true
+        }
+
+        setupScreenOptions()?.let {
+            localOptions.setupScreenOptions = it
             isAnythingChanged = true
         }
 
@@ -594,56 +602,113 @@ class CallCompositeManager(private val context: Context) {
 
         if (SettingsFeatures.getAddCustomButtons() == true) {
             callScreenOptions = callScreenOptions ?: CallCompositeCallScreenOptions()
-
             if (callScreenOptions.controlBarOptions == null)
                 callScreenOptions.controlBarOptions = CallCompositeCallScreenControlBarOptions()
 
-            callScreenOptions.controlBarOptions.setCustomButtons(
-                listOf(
-                    CallCompositeCustomButtonOptions(
+            with(callScreenOptions) {
+                controlBarOptions.cameraButton = CallCompositeButtonViewData()
+                    .setOnClickHandler { toast(it.context, "cameraButton clicked") }
+
+                controlBarOptions.microphoneButton = CallCompositeButtonViewData()
+                    .setOnClickHandler { toast(it.context, "microphoneButton clicked") }
+
+                controlBarOptions.audioDeviceButton = CallCompositeButtonViewData()
+                    .setOnClickHandler { toast(it.context, "audioDeviceButton clicked") }
+
+                controlBarOptions.liveCaptionsButton = CallCompositeButtonViewData()
+                    .setOnClickHandler { toast(it.context, "liveCaptionsButton clicked") }
+
+                controlBarOptions.liveCaptionsToggleButton = CallCompositeButtonViewData()
+                    .setOnClickHandler { toast(it.context, "liveCaptionsToggleButton clicked") }
+
+                controlBarOptions.spokenLanguageButton = CallCompositeButtonViewData()
+                    .setOnClickHandler { toast(it.context, "spokenLanguageButton clicked") }
+
+                controlBarOptions.captionsLanguageButton = CallCompositeButtonViewData()
+                    .setOnClickHandler { toast(it.context, "captionsLanguageButton clicked") }
+
+                controlBarOptions.reportIssueButton = CallCompositeButtonViewData()
+                    .setOnClickHandler { toast(it.context, "reportIssueButton clicked") }
+
+                controlBarOptions.shareDiagnosticsButton = CallCompositeButtonViewData()
+                    .setOnClickHandler { toast(it.context, "shareDiagnosticsButton clicked") }
+
+                if (controlBarOptions == null)
+                    controlBarOptions = CallCompositeCallScreenControlBarOptions()
+
+                val troubleshootingTipsButton =
+                    CallCompositeCustomButtonViewData(
+                        UUID.randomUUID().toString(),
                         R.drawable.ic_fluent_arrow_next_24_regular,
                         "Troubleshooting tips",
                         fun(it: CallCompositeCustomButtonClickEvent) {
                             val intent = Intent(it.context, TestActivity::class.java)
                             context.startActivity(intent)
                         }
-                    ),
-                    CallCompositeCustomButtonOptions(
+                    )
+
+                val disableButtonsCustomButton =
+                    CallCompositeCustomButtonViewData(
+                        UUID.randomUUID().toString(),
                         R.drawable.image_koala,
-                        "Hide call",
-                        fun(it: CallCompositeCustomButtonClickEvent) {
-                            callComposite?.sendToBackground()
+                        "Enable/disable buttons",
+                        fun(_: CallCompositeCustomButtonClickEvent) {
+                            troubleshootingTipsButton.isEnabled = !troubleshootingTipsButton.isEnabled
+
+                            controlBarOptions.cameraButton.isEnabled =
+                                !controlBarOptions.cameraButton.isEnabled
+                            controlBarOptions.microphoneButton.isEnabled =
+                                !controlBarOptions.microphoneButton.isEnabled
+                            controlBarOptions.audioDeviceButton.isEnabled =
+                                !controlBarOptions.audioDeviceButton.isEnabled
+                            controlBarOptions.liveCaptionsButton.isEnabled =
+                                !controlBarOptions.liveCaptionsButton.isEnabled
+                            controlBarOptions.liveCaptionsToggleButton.isEnabled =
+                                !controlBarOptions.liveCaptionsToggleButton.isEnabled
+                            controlBarOptions.spokenLanguageButton.isEnabled =
+                                !controlBarOptions.spokenLanguageButton.isEnabled
+                            controlBarOptions.captionsLanguageButton.isEnabled =
+                                !controlBarOptions.captionsLanguageButton.isEnabled
+                            controlBarOptions.shareDiagnosticsButton.isEnabled =
+                                !controlBarOptions.shareDiagnosticsButton.isEnabled
+                            controlBarOptions.reportIssueButton.isEnabled =
+                                !controlBarOptions.reportIssueButton.isEnabled
                         }
                     )
+
+                val hideCustomButton =
+                    CallCompositeCustomButtonViewData(
+                        UUID.randomUUID().toString(),
+                        R.drawable.image_koala,
+                        "Hide/show buttons",
+                        fun(_: CallCompositeCustomButtonClickEvent) {
+                            troubleshootingTipsButton.isVisible = !troubleshootingTipsButton.isVisible
+
+                            controlBarOptions.cameraButton.isVisible =
+                                !controlBarOptions.cameraButton.isVisible
+                            controlBarOptions.microphoneButton.isVisible =
+                                !controlBarOptions.microphoneButton.isVisible
+                            controlBarOptions.audioDeviceButton.isVisible =
+                                !controlBarOptions.audioDeviceButton.isVisible
+                            controlBarOptions.liveCaptionsButton.isVisible =
+                                !controlBarOptions.liveCaptionsButton.isVisible
+                            controlBarOptions.liveCaptionsToggleButton.isVisible =
+                                !controlBarOptions.liveCaptionsToggleButton.isVisible
+                            controlBarOptions.spokenLanguageButton.isVisible =
+                                !controlBarOptions.spokenLanguageButton.isVisible
+                            controlBarOptions.captionsLanguageButton.isVisible =
+                                !controlBarOptions.captionsLanguageButton.isVisible
+                            controlBarOptions.shareDiagnosticsButton.isVisible =
+                                !controlBarOptions.shareDiagnosticsButton.isVisible
+                            controlBarOptions.reportIssueButton.isVisible =
+                                !controlBarOptions.reportIssueButton.isVisible
+                        }
+                    )
+
+                controlBarOptions.setCustomButtons(
+                    listOf(troubleshootingTipsButton, disableButtonsCustomButton, hideCustomButton)
                 )
-            )
-
-            callScreenOptions.controlBarOptions.cameraButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "cameraButton clicked") }
-
-            callScreenOptions.controlBarOptions.microphoneButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "microphoneButton clicked") }
-
-            callScreenOptions.controlBarOptions.audioDeviceButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "audioDeviceButton clicked") }
-
-            callScreenOptions.controlBarOptions.liveCaptionsButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "liveCaptionsButton clicked") }
-
-            callScreenOptions.controlBarOptions.liveCaptionsToggleButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "liveCaptionsToggleButton clicked") }
-
-            callScreenOptions.controlBarOptions.spokenLanguageButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "spokenLanguageButton clicked") }
-
-            callScreenOptions.controlBarOptions.captionsLanguageButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "captionsLanguageButton clicked") }
-
-            callScreenOptions.controlBarOptions.reportIssueButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "reportIssueButton clicked") }
-
-            callScreenOptions.controlBarOptions.shareDiagnosticsButton = CallCompositeButtonOptions()
-                .setOnClickHandler { toast(it.context, "shareDiagnosticsButton clicked") }
+            }
         }
         /* <CUSTOM_CALL_HEADER> */
         if (!SettingsFeatures.getCallScreenInformationTitle().isNullOrEmpty() ||
@@ -653,7 +718,8 @@ class CallCompositeManager(private val context: Context) {
         ) {
             callScreenOptions = callScreenOptions ?: CallCompositeCallScreenOptions()
 
-            callScreenHeaderOptions = CallCompositeCallScreenHeaderOptions()
+            callScreenHeaderOptions =
+                CallCompositeCallScreenHeaderViewData()
             SettingsFeatures.getCallScreenInformationTitle()?.let {
                 if (it.isNotEmpty()) {
                     callScreenHeaderOptions?.title = it
@@ -664,7 +730,7 @@ class CallCompositeManager(private val context: Context) {
                     callScreenHeaderOptions?.subtitle = it
                 }
             }
-            callScreenOptions.setHeaderOptions(callScreenHeaderOptions)
+            callScreenOptions.setHeaderViewData(callScreenHeaderOptions)
         }
         /* </CUSTOM_CALL_HEADER> */
         return callScreenOptions
@@ -687,17 +753,17 @@ class CallCompositeManager(private val context: Context) {
         if (SettingsFeatures.getAddCustomButtons() == true) {
             setupScreenOptions = setupScreenOptions ?: CallCompositeSetupScreenOptions()
             setupScreenOptions.setCameraButton(
-                CallCompositeButtonOptions()
+                CallCompositeButtonViewData()
                     .setOnClickHandler { toast(it.context, "CameraButton clicked") }
             )
 
             setupScreenOptions.setMicrophoneButton(
-                CallCompositeButtonOptions()
+                CallCompositeButtonViewData()
                     .setOnClickHandler { toast(it.context, "MicrophoneButton clicked") }
             )
 
             setupScreenOptions.setAudioDeviceButton(
-                CallCompositeButtonOptions()
+                CallCompositeButtonViewData()
                     .setOnClickHandler { toast(it.context, "AudioDeviceButton clicked") }
             )
         }

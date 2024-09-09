@@ -11,6 +11,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelecti
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.BluetoothState
+import com.azure.android.communication.ui.calling.redux.state.ButtonState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
@@ -66,7 +67,8 @@ internal class SetupControlBarViewModelUnitTest {
             ),
             callingState = CallingState(CallingStatus.NONE,),
             openAudioDeviceSelectionMenuCallback = { },
-            setupScreenOptions = null
+            setupScreenOptions = null,
+            buttonState = ButtonState(),
         )
 
         // Assert
@@ -105,7 +107,8 @@ internal class SetupControlBarViewModelUnitTest {
             ),
             CallingState(CallingStatus.NONE,),
             openAudioDeviceSelectionMenuCallback = { },
-            setupScreenOptions = null
+            setupScreenOptions = null,
+            buttonState = ButtonState(),
         )
 
         // Assert
@@ -142,7 +145,8 @@ internal class SetupControlBarViewModelUnitTest {
             ),
             CallingState(CallingStatus.NONE,),
             openAudioDeviceSelectionMenuCallback = { },
-            setupScreenOptions = null
+            setupScreenOptions = null,
+            buttonState = ButtonState(),
         )
 
         Assert.assertTrue(setupControlBarViewModel.isVisibleState.value)
@@ -164,7 +168,7 @@ internal class SetupControlBarViewModelUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             CallingState(CallingStatus.NONE,),
-            setupScreenOptions = null
+            buttonState = ButtonState(),
         )
 
         Assert.assertFalse(setupControlBarViewModel.isVisibleState.value)
@@ -196,7 +200,8 @@ internal class SetupControlBarViewModelUnitTest {
             ),
             CallingState(CallingStatus.NONE,),
             openAudioDeviceSelectionMenuCallback = { },
-            setupScreenOptions = null
+            setupScreenOptions = null,
+            buttonState = ButtonState(),
         )
 
         Assert.assertTrue(setupControlBarViewModel.cameraIsEnabled.value)
@@ -218,7 +223,7 @@ internal class SetupControlBarViewModelUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             CallingState(CallingStatus.NONE,),
-            setupScreenOptions = null
+            buttonState = ButtonState(),
         )
 
         Assert.assertTrue(setupControlBarViewModel.cameraIsEnabled.value)
@@ -250,7 +255,8 @@ internal class SetupControlBarViewModelUnitTest {
             ),
             CallingState(CallingStatus.NONE,),
             openAudioDeviceSelectionMenuCallback = { },
-            setupScreenOptions = null
+            setupScreenOptions = null,
+            buttonState = ButtonState(),
         )
 
         Assert.assertTrue(setupControlBarViewModel.cameraIsEnabled.value)
@@ -272,7 +278,7 @@ internal class SetupControlBarViewModelUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             CallingState(CallingStatus.NONE,),
-            setupScreenOptions = null
+            buttonState = ButtonState(),
         )
 
         Assert.assertFalse(setupControlBarViewModel.cameraIsEnabled.value)
@@ -304,7 +310,8 @@ internal class SetupControlBarViewModelUnitTest {
             ),
             CallingState(CallingStatus.NONE, joinCallIsRequested = false),
             openAudioDeviceSelectionMenuCallback = { },
-            setupScreenOptions = null
+            setupScreenOptions = null,
+            buttonState = ButtonState(),
         )
 
         Assert.assertTrue(setupControlBarViewModel.cameraIsEnabled.value)
@@ -328,7 +335,7 @@ internal class SetupControlBarViewModelUnitTest {
                 BluetoothState(available = false, deviceName = "bluetooth")
             ),
             CallingState(CallingStatus.NONE, joinCallIsRequested = true),
-            setupScreenOptions = null,
+            buttonState = ButtonState(),
         )
 
         Assert.assertFalse(setupControlBarViewModel.cameraIsEnabled.value)
@@ -357,7 +364,8 @@ internal class SetupControlBarViewModelUnitTest {
                 CallingStatus.CONNECTING,
             ),
             openAudioDeviceSelectionMenuCallback = { },
-            setupScreenOptions = null
+            setupScreenOptions = null,
+            buttonState = ButtonState(),
         )
     }
 
@@ -381,7 +389,7 @@ internal class SetupControlBarViewModelUnitTest {
             CallingState(
                 CallingStatus.CONNECTING,
             ),
-            setupScreenOptions = null
+            buttonState = ButtonState(),
         )
     }
 }

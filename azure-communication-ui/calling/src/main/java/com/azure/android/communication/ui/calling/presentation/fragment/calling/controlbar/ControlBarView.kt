@@ -97,8 +97,18 @@ internal class ControlBarView : ConstraintLayout {
                 }
             },
             {
+                viewModel.isMicButtonVisible.collect {
+                    micToggle.visibility = if (it) View.VISIBLE else View.GONE
+                }
+            },
+            {
                 viewModel.isAudioDeviceButtonEnabled.collect {
                     audioDeviceButton.isEnabled = it
+                }
+            },
+            {
+                viewModel.isAudioDeviceButtonVisible.collect {
+                    audioDeviceButton.visibility = if (it) View.VISIBLE else View.GONE
                 }
             },
             {
@@ -107,15 +117,16 @@ internal class ControlBarView : ConstraintLayout {
                 }
             },
             {
+                viewModel.isMoreButtonVisible.collect {
+                    moreButton.visibility = if (it) View.VISIBLE else View.GONE
+                }
+            },
+            {
                 viewModel.isVisible.collect {
                     visibility = if (it) View.VISIBLE else View.GONE
                 }
             },
         )
-
-        micToggle.visibility = if (viewModel.isMicButtonVisible) VISIBLE else GONE
-        audioDeviceButton.visibility = if (viewModel.isAudioDeviceButtonVisible) VISIBLE else GONE
-        moreButton.visibility = if (viewModel.isMoreButtonVisible) VISIBLE else GONE
     }
 
     private fun accessibilityNonSelectableViews() = setOf(micToggle, cameraToggle)

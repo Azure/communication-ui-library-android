@@ -5,7 +5,7 @@
 package com.azure.android.communication.ui.calling.redux.action
 
 internal sealed class CallScreenInfoHeaderAction : Action {
-    class UpdateTitle(var title: String) : CallScreenInfoHeaderAction()
-    class UpdateSubtitle(var subtitle: String) : CallScreenInfoHeaderAction()
+    class UpdateTitle(var title: String?) : CallScreenInfoHeaderAction()
+    class UpdateSubtitle(var subtitle: String?) : CallScreenInfoHeaderAction()
 }
 /* </CUSTOM_CALL_HEADER> */
