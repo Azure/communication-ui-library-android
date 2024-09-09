@@ -91,6 +91,39 @@ internal class ButtonViewDataReducerImpl : ButtonViewDataReducer {
                     }
                 )
             }
+            is ButtonViewDataAction.CallScreenCustomButtonIsVisibleUpdated -> {
+                state.copy(
+                    callScreenCustomButtonsState = state.callScreenCustomButtonsState.map {
+                        if (it.id == action.id) {
+                            it.copy(isVisible = action.isVisible)
+                        } else {
+                            it
+                        }
+                    }
+                )
+            }
+            is ButtonViewDataAction.CallScreenCustomButtonTitleUpdated -> {
+                state.copy(
+                    callScreenCustomButtonsState = state.callScreenCustomButtonsState.map {
+                        if (it.id == action.id) {
+                            it.copy(title = action.title)
+                        } else {
+                            it
+                        }
+                    }
+                )
+            }
+            is ButtonViewDataAction.CallScreenCustomButtonIconUpdated -> {
+                state.copy(
+                    callScreenCustomButtonsState = state.callScreenCustomButtonsState.map {
+                        if (it.id == action.id) {
+                            it.copy(drawableId = action.drawableId)
+                        } else {
+                            it
+                        }
+                    }
+                )
+            }
             else -> state
         }
     }
