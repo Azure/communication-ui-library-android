@@ -5,6 +5,7 @@
 <resources>
     <public name="AzureCommunicationUICalling.Theme" type="style" />
     <public name="azure_communication_ui_calling_primary_color" type="attr"  />
+    <public name="azure_communication_ui_calling_color_on_primary" type="attr" />
     <public name="azure_communication_ui_calling_primary_color_tint10" type="attr" />
     <public name="azure_communication_ui_calling_primary_color_tint20" type="attr" />
     <public name="azure_communication_ui_calling_primary_color_tint30" type="attr" />
