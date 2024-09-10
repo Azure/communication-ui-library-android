@@ -51,6 +51,7 @@ import com.azure.android.communication.ui.calling.redux.action.PipAction;
 /* <RTT_POC>
 import com.azure.android.communication.ui.calling.redux.action.RttAction;
 </RTT_POC> */
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus;
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKInitializer;
 import com.azure.android.communication.ui.calling.utilities.TestHelper;
 import com.jakewharton.threetenabp.AndroidThreeTen;
@@ -670,7 +671,18 @@ public final class CallComposite {
      * @param context
      */
     public void bringToForeground(final Context context) {
-        showUI(context, false);
+        final boolean hasCallComposite = CallCompositeInstanceManager.hasCallComposite(instanceId);
+        if (hasCallComposite) {
+            final DependencyInjectionContainer container = diContainer;
+            if (container != null) {
+                final CallingStatus currentStatus =
+                        container.getAppStore().getCurrentState().getCallState().getCallingStatus();
+                if (currentStatus != CallingStatus.DISCONNECTING
+                        && currentStatus != CallingStatus.DISCONNECTED) {
+                    showUI(context, false);
+                }
+            }
+        }
     }
 
     /**
