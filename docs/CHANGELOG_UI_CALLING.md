@@ -4,7 +4,7 @@
 
 ### Features
 - Call screen information header title/subtitle customization
-- Call screen control bar custom button support API change
+- Ability to hide or disable buttons and create custom buttons
 
 ### Bug Fixes
 - Bring to foreground crash in disconnecting state
