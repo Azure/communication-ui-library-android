@@ -8,9 +8,9 @@ import com.azure.android.communication.ui.calling.models.CallCompositeCapabiliti
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions;
 import android.content.Context;
 import com.azure.android.communication.common.CommunicationTokenCredential;
-/*  <DEFAULT_AUDIO_MODE:0>
+/*  <DEFAULT_AUDIO_MODE:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionMode;
-</DEFAULT_AUDIO_MODE:0> */
+/* </DEFAULT_AUDIO_MODE:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalizationOptions;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
@@ -43,9 +43,9 @@ public final class CallCompositeBuilder {
     private CommunicationTokenCredential credential = null;
     private Boolean disableInternalPushForIncomingCall = false;
     private CommunicationIdentifier userId;
-    /*  <DEFAULT_AUDIO_MODE:0>
+    /*  <DEFAULT_AUDIO_MODE:0> */
     private CallCompositeAudioSelectionMode audioSelectionMode = null;
-    </DEFAULT_AUDIO_MODE:0> */
+    /* </DEFAULT_AUDIO_MODE:0> */
 
     /**
      * Sets an optional theme for call-composite to use by {@link CallComposite}.
@@ -203,18 +203,18 @@ public final class CallCompositeBuilder {
         return this;
     }
 
-    /*  <DEFAULT_AUDIO_MODE:0>
-    \**
+    /*  <DEFAULT_AUDIO_MODE:0> */
+    /**
      * Sets the audio selection mode.
      *
      * @param audioSelectionMode audio selection mode.
      * @return {@link CallCompositeBuilder} for chaining options.
-     *\
+     */
     public CallCompositeBuilder audioSelectionMode(final CallCompositeAudioSelectionMode audioSelectionMode) {
         this.audioSelectionMode = audioSelectionMode;
         return this;
     }
-    </DEFAULT_AUDIO_MODE:0> */
+    /* </DEFAULT_AUDIO_MODE:0> */
 
     /**
      * Sets the communication identifier.
@@ -249,9 +249,9 @@ public final class CallCompositeBuilder {
         config.setDisableInternalPushForIncomingCall(disableInternalPushForIncomingCall);
         config.setCapabilitiesChangedNotificationMode(capabilitiesChangedNotificationMode);
         config.setSetupScreenOptions(setupScreenOptions);
-        /*  <DEFAULT_AUDIO_MODE:0>
+        /*  <DEFAULT_AUDIO_MODE:0> */
         config.setAudioSelectionMode(audioSelectionMode);
-        </DEFAULT_AUDIO_MODE:0> */
+        /* </DEFAULT_AUDIO_MODE:0> */
         config.setIdentifier(userId);
         return new CallComposite(config);
     }
