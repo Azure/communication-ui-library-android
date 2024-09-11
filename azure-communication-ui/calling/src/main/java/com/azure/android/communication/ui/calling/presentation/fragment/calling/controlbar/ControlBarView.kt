@@ -23,7 +23,6 @@ import com.azure.android.communication.ui.calling.redux.state.CameraOperationalS
 import com.azure.android.communication.ui.calling.utilities.launchAll
 import kotlinx.coroutines.flow.collect
 
-
 internal class ControlBarView : ConstraintLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
@@ -163,9 +162,13 @@ internal class ControlBarView : ConstraintLayout {
         (endCallButton.layoutParams as LayoutParams).verticalChainStyle = layout
     }
     private fun isTablet(): Boolean {
-        return ((context.resources.configuration.screenLayout
-                and Configuration.SCREENLAYOUT_SIZE_MASK)
-                >= Configuration.SCREENLAYOUT_SIZE_LARGE)
+        return (
+            (
+                context.resources.configuration.screenLayout
+                    and Configuration.SCREENLAYOUT_SIZE_MASK
+                )
+                >= Configuration.SCREENLAYOUT_SIZE_LARGE
+            )
     }
 
     private fun accessibilityNonSelectableViews() = setOf(micToggle, cameraToggle)
