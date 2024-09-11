@@ -1,6 +1,6 @@
 # Azure Communication UI Calling Release History
 
-## 1.11.0-beta.2 (*)
+## 1.11.0-beta.2 (2024-09-12)
 
 ### Features
 - Call screen information header title/subtitle customization
