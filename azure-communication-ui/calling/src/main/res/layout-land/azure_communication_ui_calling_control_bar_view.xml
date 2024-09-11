@@ -8,8 +8,10 @@
     android:id="@+id/azure_communication_ui_call_call_buttons"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:layout_marginVertical="5dp"
+    android:layout_marginVertical="15dp"
     android:layout_marginHorizontal="15dp"
+    android:layout_marginTop="15dp"
+    android:layout_marginBottom="15dp"
     android:background="@color/azure_communication_ui_calling_color_background"
     tools:targetApi="lollipop_mr1">
 
@@ -27,7 +29,6 @@
         android:src="@drawable/azure_communication_ui_calling_ic_fluent_call_end_28_filled_composite_button_filled"
         app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_call_control_bar_more"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
@@ -47,6 +48,7 @@
         app:layout_constraintTop_toBottomOf="@+id/azure_communication_ui_call_end_call_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
         />
 
 
@@ -65,6 +67,7 @@
         app:layout_constraintTop_toBottomOf="@+id/azure_communication_ui_call_control_bar_more"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
         />
 
     <ImageButton
@@ -81,6 +84,7 @@
         app:layout_constraintTop_toBottomOf="@+id/azure_communication_ui_call_audio_device_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
         />
 
     <ImageButton
@@ -96,6 +100,7 @@
         app:layout_constraintTop_toBottomOf="@+id/azure_communication_ui_call_call_audio"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
         />
 
 </com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarView>

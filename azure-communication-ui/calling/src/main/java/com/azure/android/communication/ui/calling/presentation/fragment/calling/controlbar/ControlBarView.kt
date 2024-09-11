@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar
 
 import android.content.Context
+import android.content.res.Configuration
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioOperationalSt
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.utilities.launchAll
 import kotlinx.coroutines.flow.collect
+
 
 internal class ControlBarView : ConstraintLayout {
     constructor(context: Context) : super(context)
@@ -60,6 +62,7 @@ internal class ControlBarView : ConstraintLayout {
             {
                 viewModel.isCameraButtonVisible.collect {
                     cameraToggle.visibility = if (it) View.VISIBLE else View.GONE
+                    updateChainStyle()
                 }
             },
             {
@@ -99,6 +102,7 @@ internal class ControlBarView : ConstraintLayout {
             {
                 viewModel.isMicButtonVisible.collect {
                     micToggle.visibility = if (it) View.VISIBLE else View.GONE
+                    updateChainStyle()
                 }
             },
             {
@@ -109,6 +113,7 @@ internal class ControlBarView : ConstraintLayout {
             {
                 viewModel.isAudioDeviceButtonVisible.collect {
                     audioDeviceButton.visibility = if (it) View.VISIBLE else View.GONE
+                    updateChainStyle()
                 }
             },
             {
@@ -119,6 +124,7 @@ internal class ControlBarView : ConstraintLayout {
             {
                 viewModel.isMoreButtonVisible.collect {
                     moreButton.visibility = if (it) View.VISIBLE else View.GONE
+                    updateChainStyle()
                 }
             },
             {
@@ -127,6 +133,39 @@ internal class ControlBarView : ConstraintLayout {
                 }
             },
         )
+    }
+
+    private fun updateChainStyle() {
+        if (isTablet())
+            return
+
+        val layout =
+            if (viewModel.isCameraButtonVisible.value &&
+                viewModel.isMicButtonVisible.value &&
+                viewModel.isAudioDeviceButtonVisible.value &&
+                viewModel.isMoreButtonVisible.value
+            )
+                LayoutParams.CHAIN_SPREAD_INSIDE
+            else
+                LayoutParams.CHAIN_PACKED
+
+        (cameraToggle.layoutParams as LayoutParams).horizontalChainStyle = layout
+        (cameraToggle.layoutParams as LayoutParams).verticalChainStyle = layout
+        (micToggle.layoutParams as LayoutParams).horizontalChainStyle = layout
+        (micToggle.layoutParams as LayoutParams).verticalChainStyle = layout
+        (cameraToggle.layoutParams as LayoutParams).horizontalChainStyle = layout
+        (cameraToggle.layoutParams as LayoutParams).verticalChainStyle = layout
+        (audioDeviceButton.layoutParams as LayoutParams).horizontalChainStyle = layout
+        (audioDeviceButton.layoutParams as LayoutParams).verticalChainStyle = layout
+        (moreButton.layoutParams as LayoutParams).horizontalChainStyle = layout
+        (moreButton.layoutParams as LayoutParams).verticalChainStyle = layout
+        (endCallButton.layoutParams as LayoutParams).horizontalChainStyle = layout
+        (endCallButton.layoutParams as LayoutParams).verticalChainStyle = layout
+    }
+    private fun isTablet(): Boolean {
+        return ((context.resources.configuration.screenLayout
+                and Configuration.SCREENLAYOUT_SIZE_MASK)
+                >= Configuration.SCREENLAYOUT_SIZE_LARGE)
     }
 
     private fun accessibilityNonSelectableViews() = setOf(micToggle, cameraToggle)
