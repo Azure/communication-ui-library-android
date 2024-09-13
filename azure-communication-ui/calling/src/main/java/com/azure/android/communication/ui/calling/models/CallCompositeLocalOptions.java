@@ -240,7 +240,7 @@ public final class CallCompositeLocalOptions {
 
     /* <END_CALL_FOR_ALL>
     \**
-     * Get the boolean value for on call end terminate for all.
+     * Get the value for if call should end for all participants when current user hangs up.
      * @return The boolean that is currently set.
      *\
     public boolean isOnCallEndTerminateForAll() {
@@ -248,8 +248,9 @@ public final class CallCompositeLocalOptions {
     }
 
     \**
-     * Set a boolean to be used.
+     * Configure if call should end for all participants when current user hangs up.
      * @param onCallEndTerminateForAll The boolean value to be used for on call end terminate for all.
+     * The default value is false.
      * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
      *\
     public CallCompositeLocalOptions setOnCallEndTerminateForAll(final boolean onCallEndTerminateForAll) {
