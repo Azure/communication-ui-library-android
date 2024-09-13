@@ -43,12 +43,13 @@ internal class BottomCellAdapter : RecyclerView.Adapter<BottomCellViewHolder>() 
     override fun onBindViewHolder(holder: BottomCellViewHolder, position: Int) {
         val item: BottomCellItem = bottomCellItems[position]
         // Handle title view separately
-        if (item.itemType == BottomCellItemType.BottomMenuCenteredTitle
-            || item.itemType == BottomCellItemType.BottomMenuTitle
-            || item.itemType == BottomCellItemType.BottomMenuActionNoIcon) {
+        if (item.itemType == BottomCellItemType.BottomMenuCenteredTitle ||
+            item.itemType == BottomCellItemType.BottomMenuTitle ||
+            item.itemType == BottomCellItemType.BottomMenuActionNoIcon
+        ) {
             removeAccessibilityPositionForTitle(holder.itemView)
         } else {
-            holder.itemView.accessibilityDelegate = null  // Allow default behavior for languages
+            holder.itemView.accessibilityDelegate = null // Allow default behavior for languages
         }
         holder.setCellData(item)
     }
@@ -65,7 +66,7 @@ internal class BottomCellAdapter : RecyclerView.Adapter<BottomCellViewHolder>() 
         }
         super.notifyDataSetChanged()
     }
-    
+
     /**
      * Remove the position announcement from TalkBack for title items.
      */
