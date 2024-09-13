@@ -275,10 +275,10 @@ class CallCompositeManager(private val context: Context) {
             isAnythingChanged = true
         }
 
-        /* <END_CALL_FOR_ALL>
+        /* <END_CALL_FOR_ALL> */
         localOptions.isOnCallEndTerminateForAll = true
         isAnythingChanged = true
-        </END_CALL_FOR_ALL> */
+        /* </END_CALL_FOR_ALL> */
 
         return if (isAnythingChanged) localOptions else null
     }
