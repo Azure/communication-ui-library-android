@@ -41,6 +41,9 @@ public final class CallCompositeLocalOptions {
 
     private CallCompositeSetupScreenOptions setupScreenOptions = null;
     private CallCompositeCallScreenOptions callScreenOptions = null;
+    /* <END_CALL_FOR_ALL>
+    private boolean onCallEndTerminateForAll = false;
+    </END_CALL_FOR_ALL> */
 
     /**
      * Create LocalSettings.
@@ -234,4 +237,24 @@ public final class CallCompositeLocalOptions {
         this.captionsOptions = captionsOptions;
         return this;
     }
+
+    /* <END_CALL_FOR_ALL>
+    \**
+     * Get the boolean value for on call end terminate for all.
+     * @return The boolean that is currently set.
+     *\
+    public boolean isOnCallEndTerminateForAll() {
+        return this.onCallEndTerminateForAll;
+    }
+
+    \**
+     * Set a boolean to be used.
+     * @param onCallEndTerminateForAll The boolean value to be used for on call end terminate for all.
+     * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
+     *\
+    public CallCompositeLocalOptions setOnCallEndTerminateForAll(final boolean onCallEndTerminateForAll) {
+        this.onCallEndTerminateForAll = onCallEndTerminateForAll;
+        return this;
+    }
+    </END_CALL_FOR_ALL> */
 }
