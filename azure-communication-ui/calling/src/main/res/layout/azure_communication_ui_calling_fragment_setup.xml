@@ -114,7 +114,7 @@
                 android:id="@+id/azure_communication_ui_setup_settings_button"
                 android:layout_width="142dp"
                 android:layout_height="48dp"
-                android:textColor="@color/azure_communication_ui_calling_color_primary"
+                android:textColor="?attr/azure_communication_ui_calling_primary_color"
                 android:background="@drawable/button_outlined"
                 android:text="@string/azure_communication_ui_calling_setup_view_go_to_settings" />
 
