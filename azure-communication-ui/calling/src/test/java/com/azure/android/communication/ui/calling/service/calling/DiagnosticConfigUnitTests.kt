@@ -21,7 +21,7 @@ internal class DiagnosticConfigUnitTests {
     @Test
     fun test_Tag_Is_Valid_Format() {
         val validationRegExPattern =
-            "$expectedPrefix[0-9][0-9]?.[0-9][0-9]?.[0-9][0-9]?((-(alpha|beta))?(.[0-9][0-9]?)?)?"
+            "$expectedPrefix[0-9][0-9]?.[0-9][0-9]?.[0-9][0-9]?((-(alpha|beta|private))?(.[0-9][0-9]?)?)?"
         val appIdTagFormatCheck = Regex(validationRegExPattern)
         val diagnosticConfig = DiagnosticConfig()
         val tags = diagnosticConfig.tags
