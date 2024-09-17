@@ -52,7 +52,7 @@
         android:focusable="true"
         android:textAlignment="center"
         android:textAllCaps="false"
-        android:textColor="@color/azure_communication_ui_calling_color_on_primary"
+        android:textColor="?attr/azure_communication_ui_calling_on_primary_color"
         app:backgroundTint="@color/azure_communication_ui_calling_primary_selector"
         />
 
