@@ -902,7 +902,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                         store.dispatch(CaptionsAction.StartRequested(localOptions.captionsOptions?.spokenLanguage ?: ""))
                     }
 
-                    // The call is initialized only once it has been joined or started, addressing the setup screen's audio selection issue.
+                    // The call is initialized only once it has been joined or started, addressing the setup screen's, skip setup audio selection issue.
                     // This ensures that the correct telecom manager options are applied when the call begins or is joined.
                     if (callInfoModel.callingStatus == CallingStatus.CONNECTED && configuration.telecomManagerOptions != null &&
                         configuration.telecomManagerOptions?.telecomManagerIntegrationMode == CallCompositeTelecomManagerIntegrationMode.SDK_PROVIDED_TELECOM_MANAGER
