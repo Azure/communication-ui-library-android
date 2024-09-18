@@ -3739,6 +3739,106 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             )
         }
 
+    @ExperimentalCoroutinesApi
+    @Test
+    fun callingMiddlewareActionHandler_startCall_then_callTelecomManagerAudioSelection() =
+        runScopedTest {
+            // arrange
+            val appState = AppReduxState("", false, false)
+            appState.callState = CallingState(CallingStatus.CONNECTING,)
+            appState.localParticipantState =
+                LocalUserState(
+                    CameraState(
+                        CameraOperationalStatus.OFF,
+                        CameraDeviceSelectionStatus.FRONT,
+                        CameraTransmissionStatus.REMOTE,
+                        0
+                    ),
+                    AudioState(
+                        AudioOperationalStatus.OFF,
+                        AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                        BluetoothState(available = false, deviceName = "bluetooth")
+                    ),
+                    "",
+                    "",
+                    localParticipantRole = null
+                )
+            val callingServiceParticipantsSharedFlow =
+                MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
+            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callIdFlow = MutableStateFlow<String?>(null)
+            val isMutedSharedFlow = MutableSharedFlow<Boolean>()
+            val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
+            val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
+            val camerasCountUpdatedStateFlow = MutableStateFlow(2)
+            val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
+            val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
+            val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
+            val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+            val capabilitiesChangedEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
+            val totalRemoteParticipantCountSharedFlow = MutableSharedFlow<Int>()
+            val captionsSupportedSpokenLanguagesSharedFlow = MutableSharedFlow<List<String>>()
+            val captionsSupportedCaptionLanguagesSharedFlow = MutableSharedFlow<List<String>>()
+            val isCaptionsTranslationSupportedSharedFlow = MutableSharedFlow<Boolean>()
+            val activeSpokenLanguageChangedSharedFlow = MutableSharedFlow<String>()
+            val activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
+            val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+
+            val mockCallingService: CallingService = mock {
+                on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
+                on { startCall(any(), any()) } doReturn CompletableFuture<Void>()
+                on { getCallIdStateFlow() } doReturn callIdFlow
+                on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
+                on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
+                on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
+                on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
+                on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
+                on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
+                on { getLocalParticipantRoleSharedFlow() } doReturn MutableSharedFlow()
+                on { getNetworkQualityCallDiagnosticsFlow() } doReturn networkQualityCallDiagnosticsSharedFlow
+                on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
+                on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
+                on { getCapabilitiesChangedEventSharedFlow() } doReturn capabilitiesChangedEventSharedFlow
+                on { getTotalRemoteParticipantCountSharedFlow() } doReturn totalRemoteParticipantCountSharedFlow
+                on { getCaptionsSupportedSpokenLanguagesSharedFlow() } doReturn captionsSupportedSpokenLanguagesSharedFlow
+                on { getCaptionsSupportedCaptionLanguagesSharedFlow() } doReturn captionsSupportedCaptionLanguagesSharedFlow
+                on { getIsCaptionsTranslationSupportedSharedFlow() } doReturn isCaptionsTranslationSupportedSharedFlow
+                on { getActiveSpokenLanguageChangedSharedFlow() } doReturn activeSpokenLanguageChangedSharedFlow
+                on { getActiveCaptionLanguageChangedSharedFlow() } doReturn activeCaptionLanguageChangedSharedFlow
+                on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
+                on { setTelecomManagerAudioRoute(any()) } doAnswer { }
+            }
+
+            val configuration = CallCompositeConfiguration()
+            configuration.telecomManagerOptions = CallCompositeTelecomManagerOptions(
+                CallCompositeTelecomManagerIntegrationMode.SDK_PROVIDED_TELECOM_MANAGER,
+                "com.example.telecom.TelecomManager",
+            )
+
+            val handler = CallingMiddlewareActionHandlerImpl(
+                mockCallingService,
+                UnconfinedTestContextProvider(),
+                configuration,
+                CapabilitiesManager(CallType.GROUP_CALL)
+            )
+
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { dispatch(any()) } doAnswer { }
+                on { getCurrentState() } doAnswer { appState }
+            }
+
+            // act
+            handler.startCall(mockAppStore)
+            callInfoModelStateFlow.emit(CallInfoModel(CallingStatus.CONNECTED, null))
+
+            // assert
+            verify(mockCallingService, times(1)).setTelecomManagerAudioRoute(
+                argThat { arg ->
+                    arg == CallAudioState.ROUTE_SPEAKER
+                }
+            )
+        }
+
     private fun callingMiddlewareActionHandlerImpl(mockCallingService: CallingService) =
         CallingMiddlewareActionHandlerImpl(
             mockCallingService,

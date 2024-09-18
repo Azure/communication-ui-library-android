@@ -901,6 +901,19 @@ internal class CallingMiddlewareActionHandlerImpl(
                     ) {
                         store.dispatch(CaptionsAction.StartRequested(localOptions.captionsOptions?.spokenLanguage ?: ""))
                     }
+
+                    // Call is only created once the call is connected (helps to fix bug on setup screen audio selection)
+                    // This helps to set correct telecom manager options on call start
+                    if (callInfoModel.callingStatus == CallingStatus.CONNECTED && configuration.telecomManagerOptions != null &&
+                        configuration.telecomManagerOptions?.telecomManagerIntegrationMode == CallCompositeTelecomManagerIntegrationMode.SDK_PROVIDED_TELECOM_MANAGER
+                    ) {
+                        val route = when (store.getCurrentState().localParticipantState.audioState.device) {
+                            AudioDeviceSelectionStatus.RECEIVER_SELECTED -> CallAudioState.ROUTE_EARPIECE
+                            AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> CallAudioState.ROUTE_BLUETOOTH
+                            else -> CallAudioState.ROUTE_SPEAKER
+                        }
+                        callingService.setTelecomManagerAudioRoute(route)
+                    }
                 }
             }
         }
