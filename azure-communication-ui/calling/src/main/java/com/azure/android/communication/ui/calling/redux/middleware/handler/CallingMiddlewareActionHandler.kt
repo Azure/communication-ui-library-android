@@ -902,8 +902,8 @@ internal class CallingMiddlewareActionHandlerImpl(
                         store.dispatch(CaptionsAction.StartRequested(localOptions.captionsOptions?.spokenLanguage ?: ""))
                     }
 
-                    // Call is only created once the call is connected (helps to fix bug on setup screen audio selection)
-                    // This helps to set correct telecom manager options on call start
+                    // The call is initialized only once it has been joined or started, addressing the setup screen's audio selection issue.
+                    // This ensures that the correct telecom manager options are applied when the call begins or is joined.
                     if (callInfoModel.callingStatus == CallingStatus.CONNECTED && configuration.telecomManagerOptions != null &&
                         configuration.telecomManagerOptions?.telecomManagerIntegrationMode == CallCompositeTelecomManagerIntegrationMode.SDK_PROVIDED_TELECOM_MANAGER
                     ) {
