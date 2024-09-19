@@ -39,6 +39,12 @@ public final class CallCompositeLocalOptions {
     private CallCompositeAudioVideoMode audioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO;
     private CallCompositeCaptionsOptions captionsOptions = null;
 
+    private CallCompositeSetupScreenOptions setupScreenOptions = null;
+    private CallCompositeCallScreenOptions callScreenOptions = null;
+    /* <END_CALL_FOR_ALL>
+    private boolean onCallEndTerminateForAll = false;
+    </END_CALL_FOR_ALL> */
+
     /**
      * Create LocalSettings.
      *
@@ -182,6 +188,38 @@ public final class CallCompositeLocalOptions {
     }
 
     /**
+     * Set setup screen options.
+     * @param setupScreenOptions {@link CallCompositeSetupScreenOptions}
+     */
+    public CallCompositeLocalOptions setSetupScreenOptions(final CallCompositeSetupScreenOptions setupScreenOptions) {
+        this.setupScreenOptions = setupScreenOptions;
+        return this;
+    }
+
+    /**
+     * Get setup screen options.
+     */
+    public CallCompositeSetupScreenOptions getSetupScreenOptions() {
+        return setupScreenOptions;
+    }
+
+    /**
+     * Set call screen options.
+     * @param callScreenOptions {@link CallCompositeCallScreenOptions}
+     */
+    public CallCompositeLocalOptions setCallScreenOptions(final CallCompositeCallScreenOptions callScreenOptions) {
+        this.callScreenOptions = callScreenOptions;
+        return this;
+    }
+
+    /**
+     * Get call screen options.
+     */
+    public CallCompositeCallScreenOptions getCallScreenOptions() {
+        return callScreenOptions;
+    }
+
+    /**
      * Get the {@link CallCompositeCaptionsOptions}.
      * @return The {@link CallCompositeCaptionsOptions} that is currently set.
      */
@@ -199,4 +237,25 @@ public final class CallCompositeLocalOptions {
         this.captionsOptions = captionsOptions;
         return this;
     }
+
+    /* <END_CALL_FOR_ALL>
+    \**
+     * Get the value for if call should end for all participants when current user hangs up.
+     * @return The boolean that is currently set.
+     *\
+    public boolean isOnCallEndTerminateForAll() {
+        return this.onCallEndTerminateForAll;
+    }
+
+    \**
+     * Configure if call should end for all participants when current user hangs up.
+     * @param onCallEndTerminateForAll The boolean value to be used for on call end terminate for all.
+     * The default value is false.
+     * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
+     *\
+    public CallCompositeLocalOptions setOnCallEndTerminateForAll(final boolean onCallEndTerminateForAll) {
+        this.onCallEndTerminateForAll = onCallEndTerminateForAll;
+        return this;
+    }
+    </END_CALL_FOR_ALL> */
 }

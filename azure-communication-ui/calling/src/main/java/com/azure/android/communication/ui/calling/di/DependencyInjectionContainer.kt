@@ -22,13 +22,14 @@ import com.azure.android.communication.ui.calling.presentation.manager.CaptionsD
 import com.azure.android.communication.ui.calling.presentation.manager.CompositeExitManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManager
+import com.azure.android.communication.ui.calling.presentation.manager.MultitaskingManager
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.presentation.manager.PermissionManager
+import com.azure.android.communication.ui.calling.presentation.manager.UpdatableOptionsManager
 import com.azure.android.communication.ui.calling.presentation.navigation.NavigationRouter
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandler
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
-import com.azure.android.communication.ui.calling.presentation.manager.MultitaskingManager
 import com.azure.android.communication.ui.calling.service.CallHistoryService
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.service.NotificationService
@@ -85,4 +86,8 @@ internal interface DependencyInjectionContainer {
 
     val capabilitiesManager: CapabilitiesManager
     val captionsDataManager: CaptionsDataManager
+
+    /* <CUSTOM_CALL_HEADER> */
+    val updatableOptionsManager: UpdatableOptionsManager
+    /* </CUSTOM_CALL_HEADER> */
 }

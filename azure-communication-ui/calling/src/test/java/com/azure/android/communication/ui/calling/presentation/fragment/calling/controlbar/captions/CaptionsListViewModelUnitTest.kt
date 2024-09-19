@@ -3,10 +3,11 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions
 
+import android.content.Context
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
-import com.azure.android.communication.ui.calling.redux.state.AppReduxState
+import com.azure.android.communication.ui.calling.redux.state.ButtonState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
 import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
@@ -28,16 +29,21 @@ import org.mockito.kotlin.argThat
 import org.mockito.kotlin.mock
 
 @RunWith(MockitoJUnitRunner::class)
-internal class CaptionsContainerViewModelUnitTest : ACSBaseTestCoroutine() {
+internal class CaptionsListViewModelUnitTest : ACSBaseTestCoroutine() {
     private lateinit var store: AppStore<ReduxState>
     private lateinit var viewModel: CaptionsListViewModel
 
     @Before
     fun setUp() {
         store = mock<AppStore<ReduxState>> {}
-        `when`(store.getCurrentState()).thenReturn(AppReduxState(displayName = "hello"))
         `when`(store.dispatch(any())).then { }
-        viewModel = CaptionsListViewModel(store)
+        viewModel = CaptionsListViewModel(
+            store::dispatch,
+            liveCaptionsToggleButton = null,
+            spokenLanguageButton = null,
+            captionsLanguageButton = null,
+            logger = mock(),
+        )
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -53,17 +59,19 @@ internal class CaptionsContainerViewModelUnitTest : ACSBaseTestCoroutine() {
             showCaptionsToggleUI = true
         )
         val callingStatus = CallingStatus.CONNECTED
+        val visibilityState = VisibilityState(VisibilityStatus.VISIBLE)
+        val buttonState = ButtonState()
 
         // Act
-        viewModel.init(captionsState, callingStatus)
+        viewModel.init(captionsState, callingStatus, visibilityState, buttonState = buttonState)
 
         // Assert
         assertEquals("en", viewModel.activeCaptionLanguageStateFlow.value)
         assertEquals("en", viewModel.activeSpokenLanguageStateFlow.value)
         assertTrue(viewModel.isCaptionsEnabledStateFlow.value)
-        assertTrue(viewModel.isTranscriptionEnabledStateFlow.value)
+        assertTrue(viewModel.isCaptionsLangButtonVisibleStateFlow.value)
         assertTrue(viewModel.isCaptionsActiveStateFlow.value)
-        assertTrue(viewModel.canTurnOnCaptionsStateFlow.value)
+        assertTrue(viewModel.isCaptionsToggleEnabledStateFlow.value)
         assertTrue(viewModel.displayStateFlow.value)
     }
 
@@ -80,7 +88,10 @@ internal class CaptionsContainerViewModelUnitTest : ACSBaseTestCoroutine() {
             showCaptionsToggleUI = true
         )
         val initialCallingStatus = CallingStatus.CONNECTED
-        viewModel.init(initialCaptionsState, initialCallingStatus)
+        val visibilityState = VisibilityState(VisibilityStatus.VISIBLE)
+        val buttonState = ButtonState()
+
+        viewModel.init(initialCaptionsState, initialCallingStatus, visibilityState, buttonState)
 
         val updatedCaptionsState = CaptionsState(
             captionLanguage = "fr",
@@ -94,15 +105,15 @@ internal class CaptionsContainerViewModelUnitTest : ACSBaseTestCoroutine() {
         val updatedVisibilityState = VisibilityState(VisibilityStatus.PIP_MODE_ENTERED)
 
         // Act
-        viewModel.update(updatedCaptionsState, updatedCallingStatus, updatedVisibilityState)
+        viewModel.update(updatedCaptionsState, updatedCallingStatus, updatedVisibilityState, buttonState)
 
         // Assert
         assertEquals("fr", viewModel.activeCaptionLanguageStateFlow.value)
         assertEquals("fr", viewModel.activeSpokenLanguageStateFlow.value)
         assertFalse(viewModel.isCaptionsEnabledStateFlow.value)
-        assertFalse(viewModel.isTranscriptionEnabledStateFlow.value)
+        assertFalse(viewModel.isCaptionsLangButtonVisibleStateFlow.value)
         assertFalse(viewModel.isCaptionsActiveStateFlow.value)
-        assertFalse(viewModel.canTurnOnCaptionsStateFlow.value)
+        assertFalse(viewModel.isCaptionsToggleEnabledStateFlow.value)
         assertFalse(viewModel.displayStateFlow.value)
     }
 
@@ -118,10 +129,13 @@ internal class CaptionsContainerViewModelUnitTest : ACSBaseTestCoroutine() {
             showCaptionsToggleUI = true
         )
         val callingStatus = CallingStatus.CONNECTED
-        viewModel.init(captionsState, callingStatus)
+        val visibilityState = VisibilityState(VisibilityStatus.VISIBLE)
+        val buttonState = ButtonState()
+
+        viewModel.init(captionsState, callingStatus, visibilityState, buttonState)
 
         // Act
-        viewModel.toggleCaptions(false)
+        viewModel.toggleCaptions(context = mock<Context>(), false)
 
         // Assert
         verify(store).dispatch(
@@ -136,7 +150,7 @@ internal class CaptionsContainerViewModelUnitTest : ACSBaseTestCoroutine() {
         )
 
         // Act
-        viewModel.toggleCaptions(true)
+        viewModel.toggleCaptions(context = mock<Context>(), true)
 
         // Assert
         verify(store).dispatch(
@@ -149,7 +163,7 @@ internal class CaptionsContainerViewModelUnitTest : ACSBaseTestCoroutine() {
     @Test
     fun captionsListViewModelUnitTest_when_openCaptionLanguageSelection_shouldDispatchCorrectAction() {
         // Act
-        viewModel.openCaptionLanguageSelection()
+        viewModel.openCaptionLanguageSelection(context = mock<Context>())
 
         // Assert
         verify(store).dispatch(
@@ -167,7 +181,7 @@ internal class CaptionsContainerViewModelUnitTest : ACSBaseTestCoroutine() {
     @Test
     fun captionsListViewModelUnitTest_when_openSpokenLanguageSelection_shouldDispatchCorrectAction() {
         // Act
-        viewModel.openSpokenLanguageSelection()
+        viewModel.openSpokenLanguageSelection(context = mock<Context>())
 
         // Assert
         verify(store).dispatch(

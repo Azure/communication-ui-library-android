@@ -168,6 +168,11 @@ internal fun assertTextNotDisplayed(stringId: Int) {
         .check(ViewAssertions.doesNotExist())
 }
 
+internal fun assertTextNotDisplayed(text: String) {
+    Espresso.onView(ViewMatchers.withText(text))
+        .check(ViewAssertions.doesNotExist())
+}
+
 internal fun tapOnText(stringId: Int) {
     val context = InstrumentationRegistry.getInstrumentation().targetContext
     val textToTap = context.getString(stringId)

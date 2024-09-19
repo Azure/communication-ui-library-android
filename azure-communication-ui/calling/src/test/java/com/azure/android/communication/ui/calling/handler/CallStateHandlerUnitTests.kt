@@ -7,8 +7,8 @@ import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.handlers.CallStateHandler
-import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
@@ -35,7 +35,14 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
     fun callStateEventHandler_start_onCallStateChange_then_eventIsFiredToContoso() {
         runScopedTest {
             // arrange
-            val storeStateFlow = MutableStateFlow<ReduxState>(AppReduxState("", false, false, false))
+            val storeStateFlow = MutableStateFlow<ReduxState>(
+                AppReduxState(
+                    "",
+                    false,
+                    false,
+                    false,
+                )
+            )
             storeStateFlow.value.callState = CallingState(
                 callingStatus = CallingStatus.NONE,
                 callId = "callId",
@@ -80,7 +87,14 @@ internal class CallStateHandlerUnitTests : ACSBaseTestCoroutine() {
     fun callStateEventHandler_onCompositeExit_eventIsFiredToContoso() {
         runScopedTest {
             // arrange
-            val storeStateFlow = MutableStateFlow<ReduxState>(AppReduxState("", false, false, false))
+            val storeStateFlow = MutableStateFlow<ReduxState>(
+                AppReduxState(
+                    "",
+                    false,
+                    false,
+                    false,
+                )
+            )
             storeStateFlow.value.callState = CallingState(
                 callingStatus = CallingStatus.NONE,
                 callId = "callId",
