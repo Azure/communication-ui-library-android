@@ -6,6 +6,9 @@ package com.azure.android.communication.ui.calling.presentation.fragment.factori
 /* <RTT_POC>
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttViewModel
 </RTT_POC> */
+/* <RTT_POC>
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttViewModel
+</RTT_POC> */
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
@@ -27,16 +30,11 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.UpperMessageBarNotificationLayoutViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.menu.ParticipantMenuViewModel
-/* <CUSTOM_CALL_HEADER> */
-import com.azure.android.communication.ui.calling.presentation.manager.CallScreenInfoHeaderManager
-/* </CUSTOM_CALL_HEADER> */
-/* <RTT_POC>
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttViewModel
-</RTT_POC> */
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
+import com.azure.android.communication.ui.calling.presentation.manager.UpdatableOptionsManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 
@@ -46,16 +44,13 @@ internal class CallingViewModelFactory(
     private val maxRemoteParticipants: Int,
     private val debugInfoManager: DebugInfoManager,
     private val capabilitiesManager: CapabilitiesManager,
+    private val updatableOptionsManager: UpdatableOptionsManager,
     private val showSupportFormOption: Boolean = false,
     private val enableMultitasking: Boolean,
     private val isTelecomManagerEnabled: Boolean = false,
     private val callType: CallType? = null,
     private val callScreenControlBarOptions: CallCompositeCallScreenControlBarOptions?,
     private val isCaptionsEnabled: Boolean = false,
-    /* <CUSTOM_CALL_HEADER> */
-    private val callScreenInfoHeaderManager: CallScreenInfoHeaderManager? = null,
-    private val customTitle: String? = null,
-    /* </CUSTOM_CALL_HEADER> */
     private val logger: Logger,
 ) : BaseViewModelFactory(store) {
 
@@ -68,16 +63,16 @@ internal class CallingViewModelFactory(
     val moreCallOptionsListViewModel by lazy {
         MoreCallOptionsListViewModel(
             debugInfoManager = debugInfoManager,
+            updatableOptionsManager = updatableOptionsManager,
             showSupportFormOption = showSupportFormOption,
             dispatch = store::dispatch,
-            customButtons = callScreenControlBarOptions?.getCustomButtons(),
             isCaptionsEnabled = isCaptionsEnabled,
-            captionsButtonOptions = callScreenControlBarOptions?.liveCaptionsButton,
+            liveCaptionsButton = callScreenControlBarOptions?.liveCaptionsButton,
             liveCaptionsToggleButton = callScreenControlBarOptions?.liveCaptionsToggleButton,
-            spokenLanguageButtonOptions = callScreenControlBarOptions?.spokenLanguageButton,
-            captionsLanguageButtonOptions = callScreenControlBarOptions?.captionsLanguageButton,
-            shareDiagnosticsButtonOptions = callScreenControlBarOptions?.shareDiagnosticsButton,
-            reportIssueButtonOptions = callScreenControlBarOptions?.reportIssueButton,
+            spokenLanguageButton = callScreenControlBarOptions?.spokenLanguageButton,
+            captionsLanguageButton = callScreenControlBarOptions?.captionsLanguageButton,
+            shareDiagnosticsButton = callScreenControlBarOptions?.shareDiagnosticsButton,
+            reportIssueButton = callScreenControlBarOptions?.reportIssueButton,
             logger = logger,
         )
     }
@@ -157,10 +152,11 @@ internal class CallingViewModelFactory(
 
     val captionsListViewModel by lazy {
         CaptionsListViewModel(
-            store = store,
+            dispatch = store::dispatch,
             liveCaptionsToggleButton = callScreenControlBarOptions?.liveCaptionsToggleButton,
-            spokenLanguageButtonOptions = callScreenControlBarOptions?.spokenLanguageButton,
-            captionsLanguageButtonOptions = callScreenControlBarOptions?.captionsLanguageButton,
+            spokenLanguageButton = callScreenControlBarOptions?.spokenLanguageButton,
+            captionsLanguageButton = callScreenControlBarOptions?.captionsLanguageButton,
+            logger = logger,
         )
     }
     val captionsLanguageSelectionListViewModel by lazy { CaptionsLanguageSelectionListViewModel(store) }

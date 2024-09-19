@@ -6,7 +6,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.setup.c
 import android.content.Context
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
-import com.azure.android.communication.ui.calling.models.CallCompositeButtonOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeButtonViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeSetupScreenOptions
 import com.azure.android.communication.ui.calling.models.createButtonClickEvent
 import com.azure.android.communication.ui.calling.redux.action.Action
@@ -14,6 +14,7 @@ import com.azure.android.communication.ui.calling.redux.action.LocalParticipantA
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
+import com.azure.android.communication.ui.calling.redux.state.ButtonState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
@@ -31,22 +32,22 @@ internal class SetupControlBarViewModel(
     private lateinit var isCameraButtonEnabledStateFlow: MutableStateFlow<Boolean>
     private lateinit var isCameraButtonVisibleStateFlow: MutableStateFlow<Boolean>
 
-    var isMicButtonVisible: Boolean = true
+    private lateinit var isMicButtonVisibleStateFlow: MutableStateFlow<Boolean>
     private lateinit var isMicButtonEnabledStateFlow: MutableStateFlow<Boolean>
-    private lateinit var audioDeviceButtonIsEnabledStateFlow: MutableStateFlow<Boolean>
+    private lateinit var isAudioDeviceButtonEnabledStateFlow: MutableStateFlow<Boolean>
 
     private lateinit var visibleStateFlow: MutableStateFlow<Boolean>
     private lateinit var cameraStateFlow: MutableStateFlow<CameraOperationalStatus>
 
-    var isAudioDeviceButtonVisible: Boolean = true
+    private lateinit var isAudioDeviceButtonVisibleFlow: MutableStateFlow<Boolean>
     private lateinit var audioOperationalStatusStateFlow: MutableStateFlow<AudioOperationalStatus>
     private lateinit var audioDeviceSelectionStatusStateFlow: MutableStateFlow<AudioState>
 
     private lateinit var openAudioDeviceSelectionMenu: () -> Unit
 
-    private var cameraButtonOptions: CallCompositeButtonOptions? = null
-    private var micButtonOptions: CallCompositeButtonOptions? = null
-    private var audioDeviceButton: CallCompositeButtonOptions? = null
+    private var cameraButton: CallCompositeButtonViewData? = null
+    private var micButton: CallCompositeButtonViewData? = null
+    private var audioDeviceButton: CallCompositeButtonViewData? = null
 
     fun init(
         permissionState: PermissionState,
@@ -56,22 +57,23 @@ internal class SetupControlBarViewModel(
         callingState: CallingState,
         openAudioDeviceSelectionMenuCallback: () -> Unit,
         setupScreenOptions: CallCompositeSetupScreenOptions?,
+        buttonState: ButtonState,
     ) {
-        cameraButtonOptions = setupScreenOptions?.cameraButton
-        micButtonOptions = setupScreenOptions?.microphoneButton
+        cameraButton = setupScreenOptions?.cameraButton
+        micButton = setupScreenOptions?.microphoneButton
         audioDeviceButton = setupScreenOptions?.audioDeviceButton
 
         visibleStateFlow = MutableStateFlow(isVisible(permissionState.audioPermissionState))
-        isCameraButtonEnabledStateFlow = MutableStateFlow(shouldCameraButtonBeEnabled(callingState, permissionState.cameraPermissionState, setupScreenOptions))
-        isCameraButtonVisibleStateFlow = MutableStateFlow(shouldCameraButtonBeVisible(audioVideoMode, setupScreenOptions))
+        isCameraButtonEnabledStateFlow = MutableStateFlow(shouldCameraButtonBeEnabled(callingState, permissionState.cameraPermissionState, buttonState))
+        isCameraButtonVisibleStateFlow = MutableStateFlow(shouldCameraButtonBeVisible(audioVideoMode, buttonState))
 
-        isMicButtonVisible = micButtonOptions?.isVisible ?: true
-        isMicButtonEnabledStateFlow = MutableStateFlow(shouldMicButtonBeEnabled(callingState, audioState.operation, setupScreenOptions))
-        audioDeviceButtonIsEnabledStateFlow = MutableStateFlow(shouldAudioDeviceButtonBeEnabled(callingState, setupScreenOptions))
+        isMicButtonVisibleStateFlow = MutableStateFlow(shouldMicButtonBeVisible(buttonState))
+        isMicButtonEnabledStateFlow = MutableStateFlow(shouldMicButtonBeEnabled(callingState, audioState.operation, buttonState))
+        isAudioDeviceButtonEnabledStateFlow = MutableStateFlow(shouldAudioDeviceButtonBeEnabled(callingState, buttonState))
+        isAudioDeviceButtonVisibleFlow = MutableStateFlow(shouldAudioDeviceButtonBeVisible(buttonState))
 
         cameraStateFlow = MutableStateFlow(cameraState.operation)
         audioOperationalStatusStateFlow = MutableStateFlow(audioState.operation)
-        isAudioDeviceButtonVisible = audioDeviceButton?.isVisible ?: true
         openAudioDeviceSelectionMenu = openAudioDeviceSelectionMenuCallback
         audioDeviceSelectionStatusStateFlow = MutableStateFlow(audioState)
 
@@ -86,14 +88,17 @@ internal class SetupControlBarViewModel(
         audioVideoMode: CallCompositeAudioVideoMode,
         audioState: AudioState,
         callingState: CallingState,
-        setupScreenOptions: CallCompositeSetupScreenOptions?,
+        buttonState: ButtonState,
     ) {
         visibleStateFlow.value = isVisible(permissionState.audioPermissionState)
-        isCameraButtonEnabledStateFlow.value = shouldCameraButtonBeEnabled(callingState, permissionState.cameraPermissionState, setupScreenOptions)
-        isCameraButtonVisibleStateFlow.value = shouldCameraButtonBeVisible(audioVideoMode, setupScreenOptions)
+        isCameraButtonEnabledStateFlow.value = shouldCameraButtonBeEnabled(callingState, permissionState.cameraPermissionState, buttonState)
+        isCameraButtonVisibleStateFlow.value = shouldCameraButtonBeVisible(audioVideoMode, buttonState)
 
-        isMicButtonEnabledStateFlow.value = shouldMicButtonBeEnabled(callingState, audioState.operation, setupScreenOptions)
-        audioDeviceButtonIsEnabledStateFlow.value = shouldAudioDeviceButtonBeEnabled(callingState, setupScreenOptions)
+        isMicButtonEnabledStateFlow.value = shouldMicButtonBeEnabled(callingState, audioState.operation, buttonState)
+        isMicButtonVisibleStateFlow.value = shouldMicButtonBeVisible(buttonState)
+
+        isAudioDeviceButtonVisibleFlow.value = shouldAudioDeviceButtonBeVisible(buttonState)
+        isAudioDeviceButtonEnabledStateFlow.value = shouldAudioDeviceButtonBeEnabled(callingState, buttonState)
 
         cameraStateFlow.value = cameraState.operation
         audioOperationalStatusStateFlow.value = audioState.operation
@@ -107,8 +112,10 @@ internal class SetupControlBarViewModel(
     val cameraIsEnabled: StateFlow<Boolean> get() = isCameraButtonEnabledStateFlow
     val cameraIsVisible: StateFlow<Boolean> get() = isCameraButtonVisibleStateFlow
     val micIsEnabled: StateFlow<Boolean> get() = isMicButtonEnabledStateFlow
+    val micVisible: StateFlow<Boolean> get() = isMicButtonVisibleStateFlow
 
-    val audioDeviceButtonEnabled: StateFlow<Boolean> get() = audioDeviceButtonIsEnabledStateFlow
+    val audioDeviceButtonVisible: StateFlow<Boolean> get() = isAudioDeviceButtonVisibleFlow
+    val audioDeviceButtonEnabled: StateFlow<Boolean> get() = isAudioDeviceButtonEnabledStateFlow
     val isVisibleState: StateFlow<Boolean> get() = visibleStateFlow
     val cameraState: StateFlow<CameraOperationalStatus> get() = cameraStateFlow
 
@@ -116,28 +123,28 @@ internal class SetupControlBarViewModel(
     val audioDeviceSelectionStatusState: StateFlow<AudioState> get() = audioDeviceSelectionStatusStateFlow
 
     fun turnCameraOn(context: Context) {
-        callOnClickHandler(context, cameraButtonOptions)
+        callOnClickHandler(context, cameraButton)
         dispatchAction(
             action = LocalParticipantAction.CameraPreviewOnRequested()
         )
     }
 
     fun turnCameraOff(context: Context) {
-        callOnClickHandler(context, cameraButtonOptions)
+        callOnClickHandler(context, cameraButton)
         dispatchAction(
             action = LocalParticipantAction.CameraPreviewOffTriggered()
         )
     }
 
     fun turnMicOn(context: Context) {
-        callOnClickHandler(context, micButtonOptions)
+        callOnClickHandler(context, micButton)
         dispatchAction(
             action = LocalParticipantAction.MicPreviewOnTriggered()
         )
     }
 
     fun turnMicOff(context: Context) {
-        callOnClickHandler(context, micButtonOptions)
+        callOnClickHandler(context, micButton)
         dispatchAction(
             action = LocalParticipantAction.MicPreviewOffTriggered()
         )
@@ -158,38 +165,46 @@ internal class SetupControlBarViewModel(
 
     private fun shouldCameraButtonBeVisible(
         audioVideoMode: CallCompositeAudioVideoMode,
-        setupScreenOptions: CallCompositeSetupScreenOptions?
+        buttonState: ButtonState,
     ): Boolean {
-        return setupScreenOptions?.cameraButton?.isVisible ?: true &&
+        return buttonState.setupScreenCameraButtonState?.isVisible ?: true &&
             audioVideoMode == CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
     }
 
     private fun shouldCameraButtonBeEnabled(
         callingState: CallingState,
         cameraPermissionState: PermissionStatus,
-        setupScreenOptions: CallCompositeSetupScreenOptions?,
+        buttonState: ButtonState,
     ): Boolean {
         return !shouldControlsBeDisabled(callingState) &&
             cameraPermissionState != PermissionStatus.DENIED &&
-            setupScreenOptions?.cameraButton?.isEnabled ?: true
+            buttonState.setupScreenCameraButtonState?.isEnabled ?: true
     }
 
     private fun shouldMicButtonBeEnabled(
         callingState: CallingState,
         audioStateOperation: AudioOperationalStatus,
-        setupScreenOptions: CallCompositeSetupScreenOptions?
+        buttonState: ButtonState
     ): Boolean {
         return !shouldControlsBeDisabled(callingState) &&
             audioStateOperation != AudioOperationalStatus.PENDING &&
-            setupScreenOptions?.microphoneButton?.isEnabled != false
+            buttonState.setupScreenMicButtonState?.isEnabled != false
+    }
+
+    private fun shouldAudioDeviceButtonBeVisible(buttonState: ButtonState): Boolean {
+        return buttonState.setupScreenAudioDeviceButtonState?.isVisible ?: true
     }
 
     private fun shouldAudioDeviceButtonBeEnabled(
         callingState: CallingState,
-        setupScreenOptions: CallCompositeSetupScreenOptions?
+        buttonState: ButtonState
     ): Boolean {
-        return setupScreenOptions?.audioDeviceButton?.isEnabled ?: true &&
+        return buttonState.setupScreenAudioDeviceButtonState?.isEnabled ?: true &&
             !shouldControlsBeDisabled(callingState)
+    }
+
+    private fun shouldMicButtonBeVisible(buttonState: ButtonState): Boolean {
+        return buttonState.setupScreenMicButtonState?.isVisible ?: true
     }
 
     private fun shouldControlsBeDisabled(callingState: CallingState): Boolean {
@@ -200,7 +215,7 @@ internal class SetupControlBarViewModel(
 
     private fun callOnClickHandler(
         context: Context,
-        buttonOptions: CallCompositeButtonOptions?,
+        buttonOptions: CallCompositeButtonViewData?,
     ) {
         try {
             buttonOptions?.onClickHandler?.handle(

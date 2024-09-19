@@ -13,7 +13,7 @@ import com.azure.android.communication.tapWithTextWhenDisplayed
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeTeamsMeetingLinkLocator
 import com.azure.android.communication.waitUntilDisplayed
@@ -44,13 +44,13 @@ internal class CustomButtons : BaseUiTest() {
         val controlBarOptions = CallCompositeCallScreenControlBarOptions()
             .setCustomButtons(
                 listOf(
-                    CallCompositeCustomButtonOptions(
+                    CallCompositeCustomButtonViewData(
                         R.drawable.azure_communication_ui_calling_ic_fluent_speaker_bluetooth_24_regular_primary,
                         "Custom button 1"
                     ) {
                         button1Clicked = true
                     },
-                    CallCompositeCustomButtonOptions(
+                    CallCompositeCustomButtonViewData(
                         R.drawable.azure_communication_ui_calling_ic_fluent_speaker_bluetooth_24_regular_primary,
                         "Custom button 2"
                     ) {
@@ -105,7 +105,7 @@ internal class CustomButtons : BaseUiTest() {
         val controlBarOptions = CallCompositeCallScreenControlBarOptions()
             .setCustomButtons(
                 listOf(
-                    CallCompositeCustomButtonOptions(
+                    CallCompositeCustomButtonViewData(
                         R.drawable.azure_communication_ui_calling_ic_fluent_speaker_bluetooth_24_regular_primary,
                         "Custom button 1",
                     ) {

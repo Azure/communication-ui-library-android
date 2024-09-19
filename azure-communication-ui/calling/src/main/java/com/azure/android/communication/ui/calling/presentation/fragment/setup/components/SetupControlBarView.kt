@@ -98,8 +98,17 @@ internal class SetupControlBarView : LinearLayout {
             }
         }
 
-        micButton.visibility = if (viewModel.isMicButtonVisible) VISIBLE else GONE
-        audioDeviceButton.visibility = if (viewModel.isAudioDeviceButtonVisible) VISIBLE else GONE
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.micVisible.collect {
+                micButton.visibility = if (it) VISIBLE else GONE
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.audioDeviceButtonVisible.collect {
+                audioDeviceButton.visibility = if (it) VISIBLE else GONE
+            }
+        }
     }
 
     private fun setMicButtonState(audioOperationalStatus: AudioOperationalStatus) {

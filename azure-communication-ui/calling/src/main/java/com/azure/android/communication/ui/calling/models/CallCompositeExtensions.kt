@@ -3,8 +3,9 @@
 /* <CUSTOM_CALL_HEADER> */
 package com.azure.android.communication.ui.calling.models
 
+import android.content.Context
 import com.azure.android.communication.common.CommunicationIdentifier
-import com.azure.android.communication.ui.calling.presentation.manager.CallScreenInfoHeader
+import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 
 internal fun buildCallCompositeRemoteParticipantLeftEvent(
     identifiers: List<CommunicationIdentifier>,
@@ -14,7 +15,40 @@ internal fun buildCallCompositeRemoteParticipantLeftEvent(
     )
 }
 
-internal fun CallCompositeCallScreenHeaderOptions.setManager(manager: CallScreenInfoHeader) {
-    this.callScreenInfoHeader = manager
+internal fun CallCompositeCallScreenHeaderViewData.setSubtitleChangedEventHandler(handler: CallCompositeEventHandler<String?>) {
+    this.subtitleChangedEventHandler = handler
+}
+internal fun CallCompositeCallScreenHeaderViewData.setTitleChangedEventHandler(handler: CallCompositeEventHandler<String?>) {
+    this.titleChangedEventHandler = handler
 }
 /* </CUSTOM_CALL_HEADER> */
+
+internal fun createButtonClickEvent(
+    context: Context,
+    buttonOptions: CallCompositeButtonViewData,
+): CallCompositeButtonClickEvent {
+    return CallCompositeButtonClickEvent(context, buttonOptions)
+}
+
+internal fun createCustomButtonClickEvent(
+    context: Context,
+    buttonOptions: CallCompositeCustomButtonViewData,
+): CallCompositeCustomButtonClickEvent {
+    return CallCompositeCustomButtonClickEvent(context, buttonOptions)
+}
+
+internal fun CallCompositeCustomButtonViewData.setEnabledChangedEventHandler(handler: CallCompositeEventHandler<Boolean>) {
+    this.enabledChangedEventHandler = handler
+}
+
+internal fun CallCompositeCustomButtonViewData.setVisibleChangedEventHandler(handler: CallCompositeEventHandler<Boolean>) {
+    this.visibleChangedEventHandler = handler
+}
+
+internal fun CallCompositeButtonViewData.setEnabledChangedEventHandler(handler: CallCompositeEventHandler<Boolean>) {
+    this.enabledChangedEventHandler = handler
+}
+
+internal fun CallCompositeButtonViewData.setVisibleChangedEventHandler(handler: CallCompositeEventHandler<Boolean>) {
+    this.visibleChangedEventHandler = handler
+}
