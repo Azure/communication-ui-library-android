@@ -555,7 +555,6 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
         }
     }
 
-
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun controlBarViewModel_update_buttonState_cameraDisabled() {
@@ -628,7 +627,6 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
         }
     }
 
-
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun controlBarViewModel_update_buttonState_micVisible() {
@@ -652,7 +650,6 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             flowJob.cancel()
         }
     }
-
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
@@ -702,7 +699,6 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
         }
     }
 
-
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun controlBarViewModel_update_buttonState_moreVisible() {
@@ -714,13 +710,15 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 reportIssueButton = DefaultButtonState(isEnabled = true, isVisible = true),
                 shareDiagnosticsButton = DefaultButtonState(isEnabled = true, isVisible = true),
                 spokenLanguageButton = DefaultButtonState(isEnabled = true, isVisible = true),
-                callScreenCustomButtonsState = listOf(CustomButtonState(
-                    id = "button1",
-                    isEnabled = true,
-                    isVisible = true,
-                    title = "button1",
-                    drawableId = 1
-                ))
+                callScreenCustomButtonsState = listOf(
+                    CustomButtonState(
+                        id = "button1",
+                        isEnabled = true,
+                        isVisible = true,
+                        title = "button1",
+                        drawableId = 1
+                    )
+                )
             )
             val buttonState2 = ButtonState(
                 captionsLanguageButton = DefaultButtonState(isEnabled = true, isVisible = false),
@@ -729,13 +727,15 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 reportIssueButton = DefaultButtonState(isEnabled = true, isVisible = false),
                 shareDiagnosticsButton = DefaultButtonState(isEnabled = true, isVisible = false),
                 spokenLanguageButton = DefaultButtonState(isEnabled = true, isVisible = false),
-                callScreenCustomButtonsState = listOf(CustomButtonState(
-                    id = "button1",
-                    isEnabled = true,
-                    isVisible = false,
-                    title = "button1",
-                    drawableId = 1
-                ))
+                callScreenCustomButtonsState = listOf(
+                    CustomButtonState(
+                        id = "button1",
+                        isEnabled = true,
+                        isVisible = false,
+                        title = "button1",
+                        drawableId = 1
+                    )
+                )
             )
 
             val (updatedFlow, flowJob) = buttonStateUpdate(buttonState1, buttonState2) {
@@ -818,5 +818,4 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
         )
         return Pair(updatedFlow, flowJob)
     }
-
 }
