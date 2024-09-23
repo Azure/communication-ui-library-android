@@ -15,9 +15,11 @@ import com.azure.android.communication.ui.calling.implementation.R
 import com.microsoft.fluentui.persona.AvatarView
 
 internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder(itemView) {
-    private val imageView: ImageView = itemView.findViewById(R.id.azure_communication_ui_cell_icon)
+    private val icon: ImageView = itemView.findViewById(R.id.azure_communication_ui_cell_icon)
     private val avatarView: AvatarView =
         itemView.findViewById(R.id.azure_communication_ui_participant_list_avatar)
+    private val avatarViewForImage: AvatarView =
+        itemView.findViewById(R.id.azure_communication_ui_participant_list_avatar_image)
     private val accessoryImageView: ImageView = itemView.findViewById(R.id.azure_communication_ui_cell_check_mark)
     private val additionalText: TextView = itemView.findViewById(R.id.azure_communication_ui_cell_additional_text)
     private val showMoreImageView: ImageView = itemView.findViewById(R.id.azure_communication_ui_calling_bottom_drawer_cell_arrow_next)
@@ -33,7 +35,7 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
             accessoryImageView.visibility =
                 if (bottomCellItem.isChecked == true) View.VISIBLE else View.INVISIBLE
             avatarView.visibility = View.GONE
-            imageView.visibility = View.GONE
+            icon.visibility = View.GONE
             showMoreImageView.visibility = View.GONE
             additionalText.visibility = View.GONE
             switchCompat.visibility = View.GONE
@@ -45,7 +47,7 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
             return
         }
         // force bitmap update be setting resource to 0
-        avatarView.setImageResource(0)
+//        avatarView.setImageResource(0)
         if (bottomCellItem.icon == null) {
             ViewCompat.setAccessibilityDelegate(
                 itemView,
@@ -60,8 +62,6 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
                     }
                 }
             )
-            imageView.visibility = View.GONE
-            avatarView.visibility = View.VISIBLE
 
             if (bottomCellItem.title == itemView.context.getString(R.string.azure_communication_ui_calling_view_participant_drawer_unnamed)) {
                 avatarView.name = ""
@@ -69,16 +69,26 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
                 avatarView.name = bottomCellItem.title ?: ""
             }
 
+            // Hide icon and avatarViewForImage. Show avatar for initials.
+            icon.visibility = View.GONE
+            avatarView.visibility = View.VISIBLE
+            avatarViewForImage.visibility = View.GONE
             bottomCellItem.participantViewData?.let { participantViewData ->
                 participantViewData.avatarBitmap?.let {
-                    avatarView.avatarImageBitmap = it
-                    avatarView.adjustViewBounds = true
-                    avatarView.scaleType = participantViewData.scaleType
+                    // Use avatarViewForImage to display image.
+                    // Due to avatarView.setImageResource(0) is not removing the previous image,
+                    // if ViewHolder is re-used for another item, the previous image will be shown.
+                    avatarViewForImage.setImageBitmap(it)
+                    avatarViewForImage.adjustViewBounds = true
+                    avatarViewForImage.scaleType = participantViewData.scaleType
+                    avatarViewForImage.visibility = View.VISIBLE
+                    avatarView.visibility = View.GONE
                 }
             }
         } else {
-            imageView.setImageDrawable(bottomCellItem.icon)
+            icon.setImageDrawable(bottomCellItem.icon)
             avatarView.visibility = View.GONE
+            avatarViewForImage.visibility = View.GONE
         }
         if (bottomCellItem.accessoryImage != null) {
             accessoryImageView.setImageDrawable(bottomCellItem.accessoryImage)

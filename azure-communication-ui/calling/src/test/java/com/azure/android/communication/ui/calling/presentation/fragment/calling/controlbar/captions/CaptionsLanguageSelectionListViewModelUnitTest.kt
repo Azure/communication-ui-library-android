@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
-import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
@@ -32,7 +31,6 @@ internal class CaptionsLanguageSelectionListViewModelUnitTest : ACSBaseTestCorou
     @Before
     fun setUp() {
         store = mock<AppStore<ReduxState>> {}
-        `when`(store.getCurrentState()).thenReturn(AppReduxState(displayName = "hello"))
         `when`(store.dispatch(any())).then { }
         viewModel = CaptionsLanguageSelectionListViewModel(store)
     }
@@ -49,9 +47,9 @@ internal class CaptionsLanguageSelectionListViewModelUnitTest : ACSBaseTestCorou
             spokenLanguage = "",
             supportedSpokenLanguages = emptyList()
         )
-
+        val visibilityState = VisibilityState(VisibilityStatus.VISIBLE)
         // Act
-        viewModel.init(captionsState)
+        viewModel.init(captionsState, visibilityState)
 
         // Assert
         assertEquals(LanguageSelectionType.CAPTION, viewModel.languageSelectionTypeStateFlow)
@@ -72,7 +70,9 @@ internal class CaptionsLanguageSelectionListViewModelUnitTest : ACSBaseTestCorou
             spokenLanguage = "",
             supportedSpokenLanguages = emptyList()
         )
-        viewModel.init(initialCaptionsState)
+        val visibilityState = VisibilityState(VisibilityStatus.VISIBLE)
+
+        viewModel.init(initialCaptionsState, visibilityState)
 
         val updatedCaptionsState = CaptionsState(
             showSupportedCaptionLanguagesSelections = false,
@@ -117,7 +117,9 @@ internal class CaptionsLanguageSelectionListViewModelUnitTest : ACSBaseTestCorou
             spokenLanguage = "",
             supportedSpokenLanguages = emptyList()
         )
-        viewModel.init(captionsState)
+        val visibilityState = VisibilityState(VisibilityStatus.VISIBLE)
+
+        viewModel.init(captionsState, visibilityState)
 
         // Act
         viewModel.setActiveLanguage("fr")
@@ -140,7 +142,9 @@ internal class CaptionsLanguageSelectionListViewModelUnitTest : ACSBaseTestCorou
             spokenLanguage = "en",
             supportedSpokenLanguages = listOf("en", "fr")
         )
-        viewModel.init(captionsState)
+        val visibilityState = VisibilityState(VisibilityStatus.VISIBLE)
+
+        viewModel.init(captionsState, visibilityState)
 
         // Act
         viewModel.setActiveLanguage("fr")

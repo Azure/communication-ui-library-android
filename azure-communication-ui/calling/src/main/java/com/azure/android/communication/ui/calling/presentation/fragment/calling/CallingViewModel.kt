@@ -100,7 +100,8 @@ internal class CallingViewModel(
             visibilityState = state.visibilityState,
             audioVideoMode = state.localParticipantState.audioVideoMode,
             capabilities = state.localParticipantState.capabilities,
-            callScreenOptions?.controlBarOptions,
+            buttonViewDataState = state.buttonState,
+            controlBarOptions = callScreenOptions?.controlBarOptions,
         )
 
         localParticipantViewModel.init(
@@ -185,10 +186,14 @@ internal class CallingViewModel(
         )
         </RTT_POC> */
 
-        captionsListViewModel.init(state.captionsState, state.callState.callingStatus)
-        captionsLanguageSelectionListViewModel.init(state.captionsState)
+        captionsListViewModel.init(
+            state.captionsState, state.callState.callingStatus,
+            state.visibilityState, state.buttonState
+        )
+        captionsLanguageSelectionListViewModel.init(state.captionsState, state.visibilityState)
         captionsLayoutViewModel.init(state.captionsState, state.visibilityState)
 
+        moreCallOptionsListViewModel.init(state.visibilityState, state.buttonState)
         super.init(coroutineScope)
     }
 
@@ -221,6 +226,7 @@ internal class CallingViewModel(
             state.visibilityState,
             state.localParticipantState.audioVideoMode,
             state.localParticipantState.capabilities,
+            state.buttonState,
         )
 
         localParticipantViewModel.update(
@@ -348,7 +354,7 @@ internal class CallingViewModel(
         }
 
         confirmLeaveOverlayViewModel.update(state.visibilityState)
-        moreCallOptionsListViewModel.update(state.visibilityState)
+        moreCallOptionsListViewModel.update(state.visibilityState, state.buttonState)
 
         state.localParticipantState.cameraState.error?.let {
             errorInfoViewModel.updateCallCompositeError(it)
@@ -356,7 +362,10 @@ internal class CallingViewModel(
 
         updateOverlayDisplayedState(state.callState.callingStatus)
 
-        captionsListViewModel.update(state.captionsState, state.callState.callingStatus, state.visibilityState)
+        captionsListViewModel.update(
+            state.captionsState, state.callState.callingStatus,
+            state.visibilityState, state.buttonState
+        )
         captionsLanguageSelectionListViewModel.update(state.captionsState, state.visibilityState)
         captionsLayoutViewModel.update(state.captionsState, state.visibilityState)
     }

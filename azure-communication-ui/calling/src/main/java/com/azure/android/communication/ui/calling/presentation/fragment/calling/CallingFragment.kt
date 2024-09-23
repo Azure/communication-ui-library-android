@@ -226,7 +226,6 @@ internal class CallingFragment :
         captionsListView = CaptionsListView(
             context = this.requireContext(),
             viewModel = viewModel.captionsListViewModel,
-            logger = activityViewModel.container.logger,
         )
         captionsListView.layoutDirection =
             activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE

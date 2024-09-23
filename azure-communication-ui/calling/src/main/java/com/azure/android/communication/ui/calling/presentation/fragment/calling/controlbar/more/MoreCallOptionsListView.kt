@@ -39,11 +39,19 @@ internal class MoreCallOptionsListView(
 
     fun start(viewLifecycleOwner: LifecycleOwner) {
         initializeDrawer()
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.displayStateFlow.collect {
                 if (it) {
                     menuDrawer.show()
                 }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.listEntriesStateFlow.collect {
+                bottomCellAdapter.setBottomCellItems(convertToBottomCells(it))
+                bottomCellAdapter.notifyDataSetChanged()
             }
         }
     }
@@ -64,40 +72,41 @@ internal class MoreCallOptionsListView(
         }
 
         bottomCellAdapter = BottomCellAdapter()
-        bottomCellAdapter.setBottomCellItems(bottomCellItems)
         recyclerView.adapter = bottomCellAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
     }
 
-    private val bottomCellItems get() = viewModel.listEntries
-        .filter { it.isVisible }
-        .map { entry ->
-            val title = entry.titleText
-                ?: entry.titleResourceId?.let { context.getString(entry.titleResourceId) }
-                ?: ""
+    private fun convertToBottomCells(entries: List<MoreCallOptionsListViewModel.Entry>): List<BottomCellItem> {
+        return entries
+            .filter { it.isVisible }
+            .map { entry ->
+                val title = entry.titleText
+                    ?: entry.titleResourceId?.let { context.getString(entry.titleResourceId) }
+                    ?: ""
 
-            BottomCellItem(
-                icon = ContextCompat.getDrawable(
-                    context,
-                    entry.icon ?: android.R.drawable.ic_dialog_alert
-                ),
-                title = title,
-                contentDescription = null,
-                accessoryImage = null,
-                accessoryColor = null,
-                accessoryImageDescription = null,
-                isChecked = false,
-                participantViewData = null,
-                isOnHold = false,
-                showRightArrow = entry.showRightArrow,
-                isEnabled = entry.isEnabled,
-                onClickAction =
-                {
-                    menuDrawer.dismissDialog()
-                    entry.onClickListener(this.context)
-                }
-            )
-        }
+                BottomCellItem(
+                    icon = ContextCompat.getDrawable(
+                        context,
+                        entry.icon ?: android.R.drawable.ic_dialog_alert
+                    ),
+                    title = title,
+                    contentDescription = null,
+                    accessoryImage = null,
+                    accessoryColor = null,
+                    accessoryImageDescription = null,
+                    isChecked = false,
+                    participantViewData = null,
+                    isOnHold = false,
+                    showRightArrow = entry.showRightArrow,
+                    isEnabled = entry.isEnabled,
+                    onClickAction =
+                    {
+                        menuDrawer.dismissDialog()
+                        entry.onClickListener(this.context)
+                    }
+                )
+            }
+    }
 
     private fun shareDiagnostics() {
         val share = Intent.createChooser(

@@ -16,6 +16,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelecti
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.BluetoothState
+import com.azure.android.communication.ui.calling.redux.state.ButtonState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
@@ -131,6 +132,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val appStore = mock<AppStore<ReduxState>> { }
             val callingViewModel = ControlBarViewModel(appStore::dispatch, CapabilitiesManager(CallType.GROUP_CALL), mockLogger)
+            val buttonState = ButtonState()
             callingViewModel.init(
                 permissionState,
                 cameraState,
@@ -148,6 +150,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 visibilityState,
                 CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
                 capabilities = capabilities,
+                buttonViewDataState = buttonState,
                 controlBarOptions = null,
             )
 
@@ -178,6 +181,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 visibilityState,
                 avMode,
                 capabilities,
+                buttonState,
             )
             callingViewModel.update(
                 permissionState,
@@ -187,6 +191,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 visibilityState,
                 avMode,
                 capabilities,
+                buttonState,
             )
 
             // assert
@@ -228,7 +233,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             val initialPermissionState = PermissionState(
                 PermissionStatus.UNKNOWN, PermissionStatus.UNKNOWN
             )
-
+            val buttonState = ButtonState()
             callingViewModel.init(
                 initialPermissionState,
                 cameraState,
@@ -246,6 +251,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 visibilityState,
                 avMode,
                 capabilities,
+                buttonState,
                 controlBarOptions = null,
             )
 
@@ -267,6 +273,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 visibilityState,
                 avMode,
                 capabilities,
+                buttonState,
             )
             callingViewModel.update(
                 permissionState2,
@@ -280,6 +287,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 visibilityState,
                 avMode,
                 capabilities,
+                buttonState,
             )
 
             // assert
@@ -336,6 +344,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             val visibilityState = VisibilityState(status = VisibilityStatus.VISIBLE)
             val avMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             val capabilities = emptySet<ParticipantCapabilityType>()
+            val buttonState = ButtonState()
 
             callingViewModel.init(
                 permissionState,
@@ -354,6 +363,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 visibilityState,
                 avMode,
                 capabilities,
+                buttonState,
                 controlBarOptions = null,
             )
 
@@ -375,6 +385,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 visibilityState,
                 avMode,
                 capabilities,
+                buttonState,
             )
             callingViewModel.update(
                 permissionState,
@@ -388,6 +399,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 visibilityState,
                 avMode,
                 capabilities,
+                buttonState,
             )
 
             // assert
@@ -437,6 +449,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             val visibilityState = VisibilityState(status = VisibilityStatus.VISIBLE)
             val avMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
             val capabilities = setOf(ParticipantCapabilityType.TURN_VIDEO_ON, ParticipantCapabilityType.UNMUTE_MICROPHONE)
+            val buttonState = ButtonState()
 
             callingViewModel.init(
                 permissionState,
@@ -455,6 +468,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 visibilityState,
                 avMode,
                 capabilities,
+                buttonState,
                 controlBarOptions = null,
             )
 
@@ -484,6 +498,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 visibilityState,
                 avMode,
                 capabilities,
+                buttonState,
             )
             callingViewModel.update(
                 permissionState,
@@ -497,6 +512,7 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
                 visibilityState,
                 avMode,
                 capabilities,
+                buttonState,
             )
 
             // assert

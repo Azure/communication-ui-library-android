@@ -56,7 +56,11 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             // Arrange
             val sharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
             `when`(callingService.getCaptionsReceivedSharedFlow()).thenReturn(sharedFlow)
-            `when`(appStore.getCurrentState()).thenReturn(AppReduxState(displayName = ""))
+            `when`(appStore.getCurrentState()).thenReturn(
+                AppReduxState(
+                    displayName = "",
+                )
+            )
             val timestamp = Date()
             val captionData = CallCompositeCaptionsData(
                 speakerName = "Speaker",
@@ -97,7 +101,11 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             // Arrange
             val sharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
             `when`(callingService.getCaptionsReceivedSharedFlow()).thenReturn(sharedFlow)
-            `when`(appStore.getCurrentState()).thenReturn(AppReduxState(displayName = ""))
+            `when`(appStore.getCurrentState()).thenReturn(
+                AppReduxState(
+                    displayName = "",
+                )
+            )
             val timestamp = Date()
             val captionData = CallCompositeCaptionsData(
                 speakerName = "Speaker",
@@ -138,7 +146,11 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             // Arrange
             val sharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
             `when`(callingService.getCaptionsReceivedSharedFlow()).thenReturn(sharedFlow)
-            `when`(appStore.getCurrentState()).thenReturn(AppReduxState(displayName = ""))
+            `when`(appStore.getCurrentState()).thenReturn(
+                AppReduxState(
+                    displayName = "",
+                )
+            )
             val timestamp = Date()
             val captionDataAdd = CallCompositeCaptionsData(
                 speakerName = "Speaker",
@@ -241,7 +253,11 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             // Arrange
             val sharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
             `when`(callingService.getCaptionsReceivedSharedFlow()).thenReturn(sharedFlow)
-            `when`(appStore.getCurrentState()).thenReturn(AppReduxState(displayName = ""))
+            `when`(appStore.getCurrentState()).thenReturn(
+                AppReduxState(
+                    displayName = "",
+                )
+            )
 
             val timestamp = Date()
             val captionDataAdd1 = createCaptionData("123", "abc", "def", CaptionsResultType.PARTIAL, timestamp)
@@ -298,7 +314,11 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             // Arrange
             val sharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
             `when`(callingService.getCaptionsReceivedSharedFlow()).thenReturn(sharedFlow)
-            `when`(appStore.getCurrentState()).thenReturn(AppReduxState(displayName = ""))
+            `when`(appStore.getCurrentState()).thenReturn(
+                AppReduxState(
+                    displayName = "",
+                )
+            )
 
             val timestamp = Date()
             val captionDataAdd1 = createCaptionData("123", "abc", "def", CaptionsResultType.PARTIAL, timestamp)
@@ -352,7 +372,11 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             // Arrange
             val sharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
             `when`(callingService.getCaptionsReceivedSharedFlow()).thenReturn(sharedFlow)
-            `when`(appStore.getCurrentState()).thenReturn(AppReduxState(displayName = ""))
+            `when`(appStore.getCurrentState()).thenReturn(
+                AppReduxState(
+                    displayName = "",
+                )
+            )
 
             val timestamp = Date()
             val captionsDataList = mutableListOf<CallCompositeCaptionsData>()
@@ -401,7 +425,11 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             // Arrange
             val sharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
             `when`(callingService.getCaptionsReceivedSharedFlow()).thenReturn(sharedFlow)
-            `when`(appStore.getCurrentState()).thenReturn(AppReduxState(displayName = ""))
+            `when`(appStore.getCurrentState()).thenReturn(
+                AppReduxState(
+                    displayName = "",
+                )
+            )
 
             val timestamp = Date()
             val timestampUpdated = Date().apply {

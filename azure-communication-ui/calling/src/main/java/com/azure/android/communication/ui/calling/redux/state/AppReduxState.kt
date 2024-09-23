@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.redux.state
 
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 
 internal class AppReduxState(
@@ -13,10 +14,20 @@ internal class AppReduxState(
     skipSetupScreen: Boolean = false,
     avMode: CallCompositeAudioVideoMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
     showCaptionsUI: Boolean = true,
-    /* <CUSTOM_CALL_HEADER> */
-    callScreenInfoHeaderState: CallScreenInfoHeaderState? = null
-    /* </CUSTOM_CALL_HEADER> */
+    private val localOptions: CallCompositeLocalOptions? = null
 ) : ReduxState {
+
+    fun copy(): AppReduxState {
+        return AppReduxState(
+            displayName = localParticipantState.displayName,
+            cameraOnByDefault = localParticipantState.initialCallJoinState.startWithCameraOn,
+            microphoneOnByDefault = localParticipantState.initialCallJoinState.startWithMicrophoneOn,
+            skipSetupScreen = localParticipantState.initialCallJoinState.skipSetupScreen,
+            avMode = localParticipantState.audioVideoMode,
+            showCaptionsUI = captionsState.isCaptionsUIEnabled,
+            localOptions = localOptions
+        )
+    }
 
     override var callState: CallingState = CallingState()
 
@@ -85,12 +96,72 @@ internal class AppReduxState(
 
     /* <CUSTOM_CALL_HEADER> */
     override var callScreenInfoHeaderState: CallScreenInfoHeaderState = CallScreenInfoHeaderState(
-        title = callScreenInfoHeaderState?.title,
-        subtitle = callScreenInfoHeaderState?.subtitle
+        title = localOptions?.callScreenOptions?.headerViewData?.title,
+        subtitle = localOptions?.callScreenOptions?.headerViewData?.subtitle,
     )
     /* </CUSTOM_CALL_HEADER> */
 
     /* <RTT_POC>
     override var rttState = RttState()
     </RTT_POC> */
+
+    override var buttonState: ButtonState = ButtonState(
+        callScreenCameraButtonState = DefaultButtonState(
+            isEnabled = localOptions?.callScreenOptions?.controlBarOptions?.cameraButton?.isEnabled,
+            isVisible = localOptions?.callScreenOptions?.controlBarOptions?.cameraButton?.isVisible,
+        ),
+        callScreenMicButtonState = DefaultButtonState(
+            isEnabled = localOptions?.callScreenOptions?.controlBarOptions?.microphoneButton?.isEnabled,
+            isVisible = localOptions?.callScreenOptions?.controlBarOptions?.microphoneButton?.isVisible,
+        ),
+        callScreenAudioDeviceButtonState = DefaultButtonState(
+            isEnabled = localOptions?.callScreenOptions?.controlBarOptions?.audioDeviceButton?.isEnabled,
+            isVisible = localOptions?.callScreenOptions?.controlBarOptions?.audioDeviceButton?.isVisible,
+        ),
+        liveCaptionsButton = DefaultButtonState(
+            isEnabled = localOptions?.callScreenOptions?.controlBarOptions?.liveCaptionsButton?.isEnabled,
+            isVisible = localOptions?.callScreenOptions?.controlBarOptions?.liveCaptionsButton?.isVisible,
+        ),
+        liveCaptionsToggleButton = DefaultButtonState(
+            isEnabled = localOptions?.callScreenOptions?.controlBarOptions?.liveCaptionsButton?.isEnabled,
+            isVisible = localOptions?.callScreenOptions?.controlBarOptions?.liveCaptionsToggleButton?.isVisible,
+        ),
+        spokenLanguageButton = DefaultButtonState(
+            isEnabled = localOptions?.callScreenOptions?.controlBarOptions?.spokenLanguageButton?.isEnabled,
+            isVisible = localOptions?.callScreenOptions?.controlBarOptions?.spokenLanguageButton?.isVisible,
+        ),
+        captionsLanguageButton = DefaultButtonState(
+            isEnabled = localOptions?.callScreenOptions?.controlBarOptions?.captionsLanguageButton?.isEnabled,
+            isVisible = localOptions?.callScreenOptions?.controlBarOptions?.captionsLanguageButton?.isVisible,
+        ),
+        shareDiagnosticsButton = DefaultButtonState(
+            isEnabled = localOptions?.callScreenOptions?.controlBarOptions?.shareDiagnosticsButton?.isEnabled,
+            isVisible = localOptions?.callScreenOptions?.controlBarOptions?.shareDiagnosticsButton?.isVisible,
+        ),
+        reportIssueButton = DefaultButtonState(
+            isEnabled = localOptions?.callScreenOptions?.controlBarOptions?.reportIssueButton?.isEnabled,
+            isVisible = localOptions?.callScreenOptions?.controlBarOptions?.reportIssueButton?.isVisible,
+        ),
+        setupScreenAudioDeviceButtonState = DefaultButtonState(
+            isEnabled = localOptions?.setupScreenOptions?.audioDeviceButton?.isEnabled,
+            isVisible = localOptions?.setupScreenOptions?.audioDeviceButton?.isVisible,
+        ),
+        setupScreenCameraButtonState = DefaultButtonState(
+            isEnabled = localOptions?.setupScreenOptions?.cameraButton?.isEnabled,
+            isVisible = localOptions?.setupScreenOptions?.cameraButton?.isVisible,
+        ),
+        setupScreenMicButtonState = DefaultButtonState(
+            isEnabled = localOptions?.setupScreenOptions?.microphoneButton?.isEnabled,
+            isVisible = localOptions?.setupScreenOptions?.microphoneButton?.isVisible,
+        ),
+        callScreenCustomButtonsState = localOptions?.callScreenOptions?.controlBarOptions?.customButtons?.map {
+            CustomButtonState(
+                id = it.id,
+                isEnabled = it.isEnabled,
+                isVisible = it.isVisible,
+                title = it.title,
+                drawableId = it.drawableId,
+            )
+        } ?: emptyList()
+    )
 }
