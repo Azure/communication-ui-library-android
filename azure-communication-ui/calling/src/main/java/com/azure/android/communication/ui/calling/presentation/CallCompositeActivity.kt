@@ -224,8 +224,8 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         try {
             // This code was added to avoid memory leak
             diContainerHolder.container.callCompositeActivityWeakReference = WeakReference(null)
-        } catch (e: Exception) {
-            // Ignore any CallCompositeException
+        } catch (e: CallCompositeException) {
+            // could not retrieve the container
         }
         super.onDestroy()
     }
