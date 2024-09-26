@@ -54,7 +54,10 @@ internal class CallingSDKWrapper(
     private val callConfigInjected: CallConfiguration?,
     private val logger: Logger? = null,
     private val callingSDKInitializer: CallingSDKInitializer,
-    private val compositeCaptionsOptions: CallCompositeCaptionsOptions? = null
+    private val compositeCaptionsOptions: CallCompositeCaptionsOptions? = null,
+    /* <END_CALL_FOR_ALL>
+    private val isOnCallEndTerminateForAll: Boolean = false,
+    </END_CALL_FOR_ALL> */
 ) : CallingSDK {
     private var nullableCall: Call? = null
     private var callClient: CallClient? = null
@@ -129,9 +132,8 @@ internal class CallingSDKWrapper(
     }
 
     /* <RTT_POC>
-    override fun getRttSharedFlow(): SharedFlow<String> {
-        return callingSDKEventHandler.getRttTextSharedFlow()
-    }
+    override fun getRttSharedFlow() = callingSDKEventHandler.getRttTextSharedFlow()
+
     </RTT_POC> */
 
     //endregion
@@ -192,7 +194,13 @@ internal class CallingSDKWrapper(
         }
 
         callingSDKEventHandler.onEndCall()
-        endCallCompletableFuture = call.hangUp(HangUpOptions())
+        val option = HangUpOptions()
+        /* <END_CALL_FOR_ALL>
+        if (isOnCallEndTerminateForAll) {
+            option.isForEveryone = true
+        }
+        </END_CALL_FOR_ALL> */
+        endCallCompletableFuture = call.hangUp(option)
         return endCallCompletableFuture!!
     }
 

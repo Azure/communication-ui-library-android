@@ -51,14 +51,14 @@ extends:
               versionSpec: '11'
               jdkArchitectureOption: 'x64'
               jdkSourceOption: 'PreInstalled'
-          - task: Gradle@2
+          - task: Gradle@3
             displayName: 'ktlintCheck'
             inputs:
               workingDirectory: 'azure-communication-ui'
               gradleWrapperFile: 'azure-communication-ui/gradlew'
               gradleOptions: '-Xmx3072m'
               tasks: 'ktlintCheck'
-          - task: Gradle@2
+          - task: Gradle@3
             displayName: 'calling compile, lint, test'
             inputs:
               workingDirectory: 'azure-communication-ui/calling'
@@ -66,7 +66,7 @@ extends:
               gradleOptions: '-Xmx3072m'
               publishJUnitResults: false
               tasks: ':calling:build --stacktrace'
-          - task: Gradle@2
+          - task: Gradle@3
             displayName: 'chat compile, lint, test'
             inputs:
               workingDirectory: 'azure-communication-ui'
@@ -75,7 +75,7 @@ extends:
               publishJUnitResults: true
               testResultsFiles: '**/TEST-*.xml'
               tasks: ':chat:build --stacktrace'
-          - task: Gradle@2
+          - task: Gradle@3
             displayName: 'build (compile, lint, test)'
             inputs:
               workingDirectory: 'azure-communication-ui'
@@ -83,7 +83,7 @@ extends:
               gradleOptions: '-Xmx3072m'
               publishJUnitResults: false
               tasks: 'build --stacktrace'
-          - task: Gradle@2
+          - task: Gradle@3
             displayName: 'Coverage report for all packages'
             inputs:
               workingDirectory: 'azure-communication-ui'

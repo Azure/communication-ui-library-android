@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.redux.reducer
 
-import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 
@@ -20,20 +19,18 @@ internal class AppStateReducer(
     private val callDiagnosticsReducer: CallDiagnosticsReducer,
     private val toastNotificationReducer: ToastNotificationReducer,
     private val captionsReducer: CaptionsReducer,
+    /* <CUSTOM_CALL_HEADER> */
+    private val callScreenInformationHeaderReducer: CallScreenInformationHeaderReducer,
+    /* </CUSTOM_CALL_HEADER> */
+    private val buttonViewDataReducer: ButtonViewDataReducer,
     /* <RTT_POC>
     private val rttReducer: RttReducer,
     </RTT_POC> */
-) :
-    Reducer<AppReduxState> {
+) : Reducer<AppReduxState> {
+
     override fun reduce(state: AppReduxState, action: Action): AppReduxState {
 
-        val appState = AppReduxState(
-            state.localParticipantState.displayName,
-            cameraOnByDefault = state.localParticipantState.initialCallJoinState.startWithCameraOn,
-            microphoneOnByDefault = state.localParticipantState.initialCallJoinState.startWithMicrophoneOn,
-            avMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
-            skipSetupScreen = state.localParticipantState.initialCallJoinState.skipSetupScreen,
-        )
+        val appState = state.copy()
 
         appState.callState = callStateReducer.reduce(
             state.callState,
@@ -59,6 +56,10 @@ internal class AppStateReducer(
         appState.callDiagnosticsState = callDiagnosticsReducer.reduce(state.callDiagnosticsState, action)
         appState.toastNotificationState = toastNotificationReducer.reduce(state.toastNotificationState, action)
         appState.captionsState = captionsReducer.reduce(state.captionsState, action)
+        /* <CUSTOM_CALL_HEADER> */
+        appState.callScreenInfoHeaderState = callScreenInformationHeaderReducer.reduce(state.callScreenInfoHeaderState, action)
+        /* </CUSTOM_CALL_HEADER> */
+        appState.buttonState = buttonViewDataReducer.reduce(state.buttonState, action)
         /* <RTT_POC>
         appState.rttState = rttReducer.reduce(state.rttState, action)
         </RTT_POC> */

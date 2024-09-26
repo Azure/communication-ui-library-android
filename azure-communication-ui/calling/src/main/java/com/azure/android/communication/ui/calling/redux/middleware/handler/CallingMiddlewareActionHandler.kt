@@ -19,6 +19,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptio
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
 import com.azure.android.communication.ui.calling.models.CallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
+import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnostic
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnostic
@@ -901,8 +902,28 @@ internal class CallingMiddlewareActionHandlerImpl(
                     ) {
                         store.dispatch(CaptionsAction.StartRequested(localOptions.captionsOptions?.spokenLanguage ?: ""))
                     }
+
+                    // The call is initialized only once it has been joined or started, addressing the setup screen's, skip setup audio selection issue.
+                    // This ensures that the correct telecom manager options are applied when the call begins or is joined.
+                    configTelecomManagerRoute(callInfoModel, store)
                 }
             }
+        }
+    }
+
+    private fun configTelecomManagerRoute(
+        callInfoModel: CallInfoModel,
+        store: Store<ReduxState>
+    ) {
+        if (callInfoModel.callingStatus == CallingStatus.CONNECTED && configuration.telecomManagerOptions != null &&
+            configuration.telecomManagerOptions?.telecomManagerIntegrationMode == CallCompositeTelecomManagerIntegrationMode.SDK_PROVIDED_TELECOM_MANAGER
+        ) {
+            val route = when (store.getCurrentState().localParticipantState.audioState.device) {
+                AudioDeviceSelectionStatus.RECEIVER_SELECTED -> CallAudioState.ROUTE_EARPIECE
+                AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> CallAudioState.ROUTE_BLUETOOTH
+                else -> CallAudioState.ROUTE_SPEAKER
+            }
+            callingService.setTelecomManagerAudioRoute(route)
         }
     }
 
@@ -918,7 +939,7 @@ internal class CallingMiddlewareActionHandlerImpl(
     private fun subscribeRttStateUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
             callingService.getRttStateFlow().collect {
-                store.dispatch(RttAction.IncomingMessageReceived(it))
+                store.dispatch(RttAction.IncomingMessageReceived(it.first, it.second))
             }
         }
     }

@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.redux.reducer
 
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.RttAction
+import com.azure.android.communication.ui.calling.redux.state.RttMessage
 import com.azure.android.communication.ui.calling.redux.state.RttState
 
 internal interface RttReducer : Reducer<RttState>
@@ -17,8 +18,34 @@ internal class RttReducerImpl : RttReducer {
                 // Do nothing? I think middleware should handle this
                 return state
             }
+            // TODO: Will become RttAction.RttMessagesUpdated (plural, pull list from sdk)
             is RttAction.IncomingMessageReceived -> {
-                state.copy(messages = listOf(action.message), isRttActive = true)
+                val text = action.rttContent
+                val participantId = action.participantId
+                val lastParticipantMessage = state.messages.findLast {
+                    it.participantID == participantId && !it.isFinalized
+                }
+
+                if (lastParticipantMessage != null) {
+                    // Update the current message with new characters
+                    val updatedMessages = state.messages.toMutableList()
+                    updatedMessages.replaceAll {
+                        if (it == lastParticipantMessage) {
+                            lastParticipantMessage.copy(
+                                message = lastParticipantMessage.message + text
+                            )
+                        } else {
+                            it
+                        }
+                    }
+                    return state.copy(messages = updatedMessages, isRttActive = true)
+                } else {
+                    var updatedMessages = state.messages + RttMessage(text, participantId)
+                    if (updatedMessages.size > 5) {
+                        updatedMessages = updatedMessages.subList(1, updatedMessages.size)
+                    }
+                    return state.copy(messages = updatedMessages)
+                }
             }
             is RttAction.DisableRttLocally -> {
                 state.copy(isRttActive = false)

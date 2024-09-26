@@ -56,7 +56,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
                 AppReduxState(
                     "",
                     false,
-                    false
+                    false,
                 )
             )
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -119,7 +119,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
                 AppReduxState(
                     "",
                     false,
-                    false
+                    false,
                 )
             )
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -224,7 +224,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
                 AppReduxState(
                     "",
                     false,
-                    false
+                    false,
                 )
             )
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -281,7 +281,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
                 AppReduxState(
                     "",
                     false,
-                    false
+                    false,
                 )
             )
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -330,7 +330,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
                 AppReduxState(
                     "",
                     false,
-                    false
+                    false,
                 )
             )
             val mockAppStore = mock<AppStore<ReduxState>> {
@@ -376,7 +376,7 @@ internal class ErrorHandlerUnitTest : ACSBaseTestCoroutine() {
                 AppReduxState(
                     "",
                     false,
-                    false
+                    false,
                 )
             )
             val mockAppStore = mock<AppStore<ReduxState>> {

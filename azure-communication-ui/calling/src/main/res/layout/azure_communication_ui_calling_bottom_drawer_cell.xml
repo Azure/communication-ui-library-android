@@ -31,12 +31,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
+    <com.microsoft.fluentui.persona.AvatarView
+        android:id="@+id/azure_communication_ui_participant_list_avatar_image"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="18dp"
+        android:visibility="visible"
+        app:fluentui_avatarSize="medium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/azure_communication_ui_barrier_start_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="end"
-        app:constraint_referenced_ids="azure_communication_ui_cell_icon, azure_communication_ui_participant_list_avatar"
+        app:constraint_referenced_ids="azure_communication_ui_cell_icon, azure_communication_ui_participant_list_avatar, azure_communication_ui_participant_list_avatar_image"
         />
 
     <LinearLayout

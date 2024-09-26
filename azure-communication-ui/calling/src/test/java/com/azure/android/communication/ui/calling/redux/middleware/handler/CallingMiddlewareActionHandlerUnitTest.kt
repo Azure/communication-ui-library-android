@@ -13,38 +13,36 @@ import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.error.CallStateError
 import com.azure.android.communication.ui.calling.error.ErrorCode
 import com.azure.android.communication.ui.calling.error.ErrorCode.Companion.CALL_END_FAILED
+import com.azure.android.communication.ui.calling.helper.UnconfinedTestContextProvider
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsData
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsType
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_DECLINED
 import com.azure.android.communication.ui.calling.models.CallCompositeEventCode.Companion.CALL_EVICTED
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
-import com.azure.android.communication.ui.calling.models.ParticipantRole
+import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
+import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions
 import com.azure.android.communication.ui.calling.models.CallInfoModel
+import com.azure.android.communication.ui.calling.models.CapabilitiesChangedEvent
+import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
+import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
+import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.AppStore
+import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.action.LifecycleAction
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
-import com.azure.android.communication.ui.calling.service.CallingService
-import com.azure.android.communication.ui.calling.helper.UnconfinedTestContextProvider
-import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsData
-import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsType
-import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
-import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
-import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions
-import com.azure.android.communication.ui.calling.models.CapabilitiesChangedEvent
-import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
-import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
-import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
-import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
-import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
-import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.action.ToastNotificationAction
-
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
@@ -64,6 +62,7 @@ import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.ToastNotificationKind
+import com.azure.android.communication.ui.calling.service.CallingService
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -3740,6 +3739,106 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             )
         }
 
+    @ExperimentalCoroutinesApi
+    @Test
+    fun callingMiddlewareActionHandler_startCall_then_callTelecomManagerAudioSelection() =
+        runScopedTest {
+            // arrange
+            val appState = AppReduxState("", false, false)
+            appState.callState = CallingState(CallingStatus.CONNECTING,)
+            appState.localParticipantState =
+                LocalUserState(
+                    CameraState(
+                        CameraOperationalStatus.OFF,
+                        CameraDeviceSelectionStatus.FRONT,
+                        CameraTransmissionStatus.REMOTE,
+                        0
+                    ),
+                    AudioState(
+                        AudioOperationalStatus.OFF,
+                        AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+                        BluetoothState(available = false, deviceName = "bluetooth")
+                    ),
+                    "",
+                    "",
+                    localParticipantRole = null
+                )
+            val callingServiceParticipantsSharedFlow =
+                MutableSharedFlow<MutableMap<String, ParticipantInfoModel>>()
+            val callInfoModelStateFlow = MutableStateFlow(CallInfoModel(CallingStatus.NONE, null))
+            val callIdFlow = MutableStateFlow<String?>(null)
+            val isMutedSharedFlow = MutableSharedFlow<Boolean>()
+            val isRecordingSharedFlow = MutableSharedFlow<Boolean>()
+            val isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
+            val camerasCountUpdatedStateFlow = MutableStateFlow(2)
+            val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
+            val networkQualityCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkQualityCallDiagnosticModel>()
+            val networkCallDiagnosticsSharedFlow = MutableSharedFlow<NetworkCallDiagnosticModel>()
+            val mediaCallDiagnosticsSharedFlow = MutableSharedFlow<MediaCallDiagnosticModel>()
+            val capabilitiesChangedEventSharedFlow = MutableSharedFlow<CapabilitiesChangedEvent>()
+            val totalRemoteParticipantCountSharedFlow = MutableSharedFlow<Int>()
+            val captionsSupportedSpokenLanguagesSharedFlow = MutableSharedFlow<List<String>>()
+            val captionsSupportedCaptionLanguagesSharedFlow = MutableSharedFlow<List<String>>()
+            val isCaptionsTranslationSupportedSharedFlow = MutableSharedFlow<Boolean>()
+            val activeSpokenLanguageChangedSharedFlow = MutableSharedFlow<String>()
+            val activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
+            val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+
+            val mockCallingService: CallingService = mock {
+                on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
+                on { startCall(any(), any()) } doReturn CompletableFuture<Void>()
+                on { getCallIdStateFlow() } doReturn callIdFlow
+                on { getIsMutedSharedFlow() } doReturn isMutedSharedFlow
+                on { getIsRecordingSharedFlow() } doReturn isRecordingSharedFlow
+                on { getIsTranscribingSharedFlow() } doReturn isTranscribingSharedFlow
+                on { getCallInfoModelEventSharedFlow() } doReturn callInfoModelStateFlow
+                on { getCamerasCountStateFlow() } doReturn camerasCountUpdatedStateFlow
+                on { getDominantSpeakersSharedFlow() } doReturn dominantSpeakersSharedFlow
+                on { getLocalParticipantRoleSharedFlow() } doReturn MutableSharedFlow()
+                on { getNetworkQualityCallDiagnosticsFlow() } doReturn networkQualityCallDiagnosticsSharedFlow
+                on { getNetworkCallDiagnosticsFlow() } doReturn networkCallDiagnosticsSharedFlow
+                on { getMediaCallDiagnosticsFlow() } doReturn mediaCallDiagnosticsSharedFlow
+                on { getCapabilitiesChangedEventSharedFlow() } doReturn capabilitiesChangedEventSharedFlow
+                on { getTotalRemoteParticipantCountSharedFlow() } doReturn totalRemoteParticipantCountSharedFlow
+                on { getCaptionsSupportedSpokenLanguagesSharedFlow() } doReturn captionsSupportedSpokenLanguagesSharedFlow
+                on { getCaptionsSupportedCaptionLanguagesSharedFlow() } doReturn captionsSupportedCaptionLanguagesSharedFlow
+                on { getIsCaptionsTranslationSupportedSharedFlow() } doReturn isCaptionsTranslationSupportedSharedFlow
+                on { getActiveSpokenLanguageChangedSharedFlow() } doReturn activeSpokenLanguageChangedSharedFlow
+                on { getActiveCaptionLanguageChangedSharedFlow() } doReturn activeCaptionLanguageChangedSharedFlow
+                on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
+                on { setTelecomManagerAudioRoute(any()) } doAnswer { }
+            }
+
+            val configuration = CallCompositeConfiguration()
+            configuration.telecomManagerOptions = CallCompositeTelecomManagerOptions(
+                CallCompositeTelecomManagerIntegrationMode.SDK_PROVIDED_TELECOM_MANAGER,
+                "com.example.telecom.TelecomManager",
+            )
+
+            val handler = CallingMiddlewareActionHandlerImpl(
+                mockCallingService,
+                UnconfinedTestContextProvider(),
+                configuration,
+                CapabilitiesManager(CallType.GROUP_CALL)
+            )
+
+            val mockAppStore = mock<AppStore<ReduxState>> {
+                on { dispatch(any()) } doAnswer { }
+                on { getCurrentState() } doAnswer { appState }
+            }
+
+            // act
+            handler.startCall(mockAppStore)
+            callInfoModelStateFlow.emit(CallInfoModel(CallingStatus.CONNECTED, null))
+
+            // assert
+            verify(mockCallingService, times(1)).setTelecomManagerAudioRoute(
+                argThat { arg ->
+                    arg == CallAudioState.ROUTE_SPEAKER
+                }
+            )
+        }
+
     private fun callingMiddlewareActionHandlerImpl(mockCallingService: CallingService) =
         CallingMiddlewareActionHandlerImpl(
             mockCallingService,
@@ -3749,7 +3848,11 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
         )
 
     private fun provideAppStore(): AppStore<ReduxState> {
-        val appState = AppReduxState("CallingMiddleWareActionHandlerUnitTest", false, false)
+        val appState = AppReduxState(
+            "CallingMiddleWareActionHandlerUnitTest",
+            false,
+            false,
+        )
         return mock {
             on { dispatch(any()) } doAnswer { }
             on { getCurrentState() } doAnswer { appState }

@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar
 
 import android.content.Context
+import android.content.res.Configuration
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +31,7 @@ internal class ControlBarView : ConstraintLayout {
     private lateinit var endCallButton: ImageButton
     private lateinit var cameraToggle: ImageButton
     private lateinit var micToggle: ImageButton
-    private lateinit var callAudioDeviceButton: ImageButton
+    private lateinit var audioDeviceButton: ImageButton
     private lateinit var moreButton: ImageButton
 
     override fun onFinishInflate() {
@@ -38,7 +39,7 @@ internal class ControlBarView : ConstraintLayout {
         endCallButton = findViewById(R.id.azure_communication_ui_call_end_call_button)
         cameraToggle = findViewById(R.id.azure_communication_ui_call_cameraToggle)
         micToggle = findViewById(R.id.azure_communication_ui_call_call_audio)
-        callAudioDeviceButton = findViewById(R.id.azure_communication_ui_call_audio_device_button)
+        audioDeviceButton = findViewById(R.id.azure_communication_ui_call_audio_device_button)
         moreButton = findViewById(R.id.azure_communication_ui_call_control_bar_more)
 
         subscribeClickListener()
@@ -60,6 +61,7 @@ internal class ControlBarView : ConstraintLayout {
             {
                 viewModel.isCameraButtonVisible.collect {
                     cameraToggle.visibility = if (it) View.VISIBLE else View.GONE
+                    updateChainStyle()
                 }
             },
             {
@@ -97,8 +99,20 @@ internal class ControlBarView : ConstraintLayout {
                 }
             },
             {
+                viewModel.isMicButtonVisible.collect {
+                    micToggle.visibility = if (it) View.VISIBLE else View.GONE
+                    updateChainStyle()
+                }
+            },
+            {
                 viewModel.isAudioDeviceButtonEnabled.collect {
-                    callAudioDeviceButton.isEnabled = it
+                    audioDeviceButton.isEnabled = it
+                }
+            },
+            {
+                viewModel.isAudioDeviceButtonVisible.collect {
+                    audioDeviceButton.visibility = if (it) View.VISIBLE else View.GONE
+                    updateChainStyle()
                 }
             },
             {
@@ -107,11 +121,54 @@ internal class ControlBarView : ConstraintLayout {
                 }
             },
             {
+                viewModel.isMoreButtonVisible.collect {
+                    moreButton.visibility = if (it) View.VISIBLE else View.GONE
+                    updateChainStyle()
+                }
+            },
+            {
                 viewModel.isVisible.collect {
                     visibility = if (it) View.VISIBLE else View.GONE
                 }
             },
         )
+    }
+
+    private fun updateChainStyle() {
+        if (isTablet())
+            return
+
+        val layout =
+            if (viewModel.isCameraButtonVisible.value &&
+                viewModel.isMicButtonVisible.value &&
+                viewModel.isAudioDeviceButtonVisible.value &&
+                viewModel.isMoreButtonVisible.value
+            )
+                LayoutParams.CHAIN_SPREAD_INSIDE
+            else
+                LayoutParams.CHAIN_PACKED
+
+        (cameraToggle.layoutParams as LayoutParams).horizontalChainStyle = layout
+        (cameraToggle.layoutParams as LayoutParams).verticalChainStyle = layout
+        (micToggle.layoutParams as LayoutParams).horizontalChainStyle = layout
+        (micToggle.layoutParams as LayoutParams).verticalChainStyle = layout
+        (cameraToggle.layoutParams as LayoutParams).horizontalChainStyle = layout
+        (cameraToggle.layoutParams as LayoutParams).verticalChainStyle = layout
+        (audioDeviceButton.layoutParams as LayoutParams).horizontalChainStyle = layout
+        (audioDeviceButton.layoutParams as LayoutParams).verticalChainStyle = layout
+        (moreButton.layoutParams as LayoutParams).horizontalChainStyle = layout
+        (moreButton.layoutParams as LayoutParams).verticalChainStyle = layout
+        (endCallButton.layoutParams as LayoutParams).horizontalChainStyle = layout
+        (endCallButton.layoutParams as LayoutParams).verticalChainStyle = layout
+    }
+    private fun isTablet(): Boolean {
+        return (
+            (
+                context.resources.configuration.screenLayout
+                    and Configuration.SCREENLAYOUT_SIZE_MASK
+                )
+                >= Configuration.SCREENLAYOUT_SIZE_LARGE
+            )
     }
 
     private fun accessibilityNonSelectableViews() = setOf(micToggle, cameraToggle)
@@ -153,7 +210,7 @@ internal class ControlBarView : ConstraintLayout {
 
         endCallButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_button_hang_up_accessibility_label)
 
-        callAudioDeviceButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_button_device_options_accessibility_label)
+        audioDeviceButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_button_device_options_accessibility_label)
     }
 
     private fun updateMic(audioOperationalStatus: AudioOperationalStatus) {
@@ -175,17 +232,17 @@ internal class ControlBarView : ConstraintLayout {
     private fun setAudioDeviceButtonState(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
         when (audioDeviceSelectionStatus) {
             AudioDeviceSelectionStatus.SPEAKER_SELECTED -> {
-                callAudioDeviceButton.setImageResource(
+                audioDeviceButton.setImageResource(
                     R.drawable.azure_communication_ui_calling_speaker_speakerphone_selector
                 )
             }
             AudioDeviceSelectionStatus.RECEIVER_SELECTED -> {
-                callAudioDeviceButton.setImageResource(
+                audioDeviceButton.setImageResource(
                     R.drawable.azure_communication_ui_calling_speaker_receiver_selector
                 )
             }
             AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> {
-                callAudioDeviceButton.setImageResource(
+                audioDeviceButton.setImageResource(
                     // Needs an icon
                     R.drawable.azure_communication_ui_calling_speaker_bluetooth_selector
                 )
@@ -199,6 +256,7 @@ internal class ControlBarView : ConstraintLayout {
             viewModel.requestCallEnd()
         }
         micToggle.setOnClickListener {
+            viewModel.micButtonClicked(context)
             if (micToggle.isSelected) {
                 viewModel.turnMicOff()
             } else {
@@ -207,6 +265,7 @@ internal class ControlBarView : ConstraintLayout {
             postDelayed({ micToggle.requestFocus() }, 33)
         }
         cameraToggle.setOnClickListener {
+            viewModel.cameraButtonClicked(context)
             if (cameraToggle.isSelected) {
                 viewModel.turnCameraOff()
             } else {
@@ -214,7 +273,8 @@ internal class ControlBarView : ConstraintLayout {
             }
             postDelayed({ cameraToggle.requestFocus() }, 33)
         }
-        callAudioDeviceButton.setOnClickListener {
+        audioDeviceButton.setOnClickListener {
+            viewModel.onAudioDeviceClick(context)
             viewModel.openAudioDeviceSelectionMenu()
         }
         moreButton.setOnClickListener {

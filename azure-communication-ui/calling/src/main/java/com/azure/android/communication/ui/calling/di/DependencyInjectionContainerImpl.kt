@@ -3,6 +3,12 @@
 
 package com.azure.android.communication.ui.calling.di
 
+/* <RTT_POC>
+import com.azure.android.communication.ui.calling.redux.reducer.RttReducerImpl
+</RTT_POC> */
+/* <RTT_POC>
+import com.azure.android.communication.ui.calling.redux.reducer.RttReducerImpl
+</RTT_POC> */
 import android.content.Context
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.data.CallHistoryRepositoryImpl
@@ -22,20 +28,21 @@ import com.azure.android.communication.ui.calling.presentation.manager.AudioFocu
 import com.azure.android.communication.ui.calling.presentation.manager.AudioModeManager
 import com.azure.android.communication.ui.calling.presentation.manager.AudioSessionManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
-import com.azure.android.communication.ui.calling.presentation.manager.CompositeExitManager
 import com.azure.android.communication.ui.calling.presentation.manager.CameraStatusHook
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.presentation.manager.CaptionsDataManager
+import com.azure.android.communication.ui.calling.presentation.manager.CompositeExitManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManagerImpl
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManagerImpl
 import com.azure.android.communication.ui.calling.presentation.manager.MeetingJoinedHook
 import com.azure.android.communication.ui.calling.presentation.manager.MicStatusHook
+import com.azure.android.communication.ui.calling.presentation.manager.MultitaskingManager
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.presentation.manager.ParticipantAddedOrRemovedHook
 import com.azure.android.communication.ui.calling.presentation.manager.PermissionManager
 import com.azure.android.communication.ui.calling.presentation.manager.SwitchCameraStatusHook
-
+import com.azure.android.communication.ui.calling.presentation.manager.UpdatableOptionsManager
 import com.azure.android.communication.ui.calling.presentation.navigation.NavigationRouterImpl
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.Middleware
@@ -43,27 +50,25 @@ import com.azure.android.communication.ui.calling.redux.middleware.CallingMiddle
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandlerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.AppStateReducer
 import com.azure.android.communication.ui.calling.redux.reducer.AudioSessionStateReducerImpl
+import com.azure.android.communication.ui.calling.redux.reducer.ButtonViewDataReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.CallDiagnosticsReducerImpl
+import com.azure.android.communication.ui.calling.redux.reducer.CallScreenInformationHeaderReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.CallStateReducerImpl
+import com.azure.android.communication.ui.calling.redux.reducer.CaptionsReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.ErrorReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.LifecycleReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.LocalParticipantStateReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.NavigationReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.ParticipantStateReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.PermissionStateReducerImpl
+import com.azure.android.communication.ui.calling.redux.reducer.PipReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.Reducer
+import com.azure.android.communication.ui.calling.redux.reducer.ToastNotificationReducerImpl
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
-import com.azure.android.communication.ui.calling.service.CallingService
-import com.azure.android.communication.ui.calling.presentation.manager.MultitaskingManager
-import com.azure.android.communication.ui.calling.redux.reducer.CaptionsReducerImpl
-import com.azure.android.communication.ui.calling.redux.reducer.PipReducerImpl
-/* <RTT_POC>
-import com.azure.android.communication.ui.calling.redux.reducer.RttReducerImpl
-</RTT_POC> */
-import com.azure.android.communication.ui.calling.redux.reducer.ToastNotificationReducerImpl
 import com.azure.android.communication.ui.calling.service.CallHistoryService
 import com.azure.android.communication.ui.calling.service.CallHistoryServiceImpl
+import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.service.NotificationService
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKEventHandler
@@ -114,6 +119,13 @@ internal class DependencyInjectionContainerImpl(
 
     override val errorHandler by lazy {
         ErrorHandler(configuration, appStore)
+    }
+
+    override val updatableOptionsManager by lazy {
+        UpdatableOptionsManager(
+            configuration,
+            appStore,
+        )
     }
 
     override val videoViewManager by lazy {
@@ -241,13 +253,16 @@ internal class DependencyInjectionContainerImpl(
     //region Redux
     // Initial State
     private val initialState by lazy {
+        configuration.callCompositeLocalOptions
+
         AppReduxState(
             displayName = configuration.displayName,
             cameraOnByDefault = localOptions?.isCameraOn ?: false,
             microphoneOnByDefault = localOptions?.isMicrophoneOn ?: false,
             avMode = localOptions?.audioVideoMode ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             skipSetupScreen = localOptions?.isSkipSetupScreen ?: false,
-            showCaptionsUI = true
+            showCaptionsUI = true,
+            localOptions = configuration.callCompositeLocalOptions
         )
     }
 
@@ -264,6 +279,10 @@ internal class DependencyInjectionContainerImpl(
     private val callDiagnosticsReducer get() = CallDiagnosticsReducerImpl()
     private val toastNotificationReducer get() = ToastNotificationReducerImpl()
     private val captionsReducer get() = CaptionsReducerImpl()
+    /* <CUSTOM_CALL_HEADER> */
+    private val callScreenInformationHeaderReducer get() = CallScreenInformationHeaderReducerImpl()
+    /* </CUSTOM_CALL_HEADER> */
+    private val buttonOptionsReducer get() = ButtonViewDataReducerImpl()
 
     /* <RTT_POC>
     private val rttReducer get() = RttReducerImpl()
@@ -293,6 +312,10 @@ internal class DependencyInjectionContainerImpl(
             callDiagnosticsReducer,
             toastNotificationReducer,
             captionsReducer,
+            /* CUSTOM_CALL_HEADER */
+            callScreenInformationHeaderReducer,
+            /* CUSTOM_CALL_HEADER */
+            buttonOptionsReducer
             /* <RTT_POC>
             rttReducer,
             </RTT_POC> */
@@ -313,7 +336,10 @@ internal class DependencyInjectionContainerImpl(
                 configuration.callConfig,
                 logger,
                 callingSDKInitializer,
-                compositeCaptionsOptions = localOptions?.captionsOptions
+                compositeCaptionsOptions = localOptions?.captionsOptions,
+                /* <END_CALL_FOR_ALL>
+                isOnCallEndTerminateForAll = localOptions?.isOnCallEndTerminateForAll ?: false
+                </END_CALL_FOR_ALL> */
             )
     }
 

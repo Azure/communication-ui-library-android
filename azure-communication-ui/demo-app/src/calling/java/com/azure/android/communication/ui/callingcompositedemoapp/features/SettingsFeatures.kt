@@ -8,13 +8,25 @@ import android.content.SharedPreferences
 import android.util.LayoutDirection
 import com.azure.android.communication.ui.calling.models.CallCompositeSupportedScreenOrientation
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerIntegrationMode
+import com.azure.android.communication.ui.callingcompositedemoapp.ADD_CUSTOM_BUTTONS_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.AUDIO_ONLY_MODE_ON
 import com.azure.android.communication.ui.callingcompositedemoapp.AUTO_START_CAPTIONS
 import com.azure.android.communication.ui.callingcompositedemoapp.AVATAR_IMAGE
+/* <CUSTOM_CALL_HEADER> */
+import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_DEFAULT_TITLE
+import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_SUBTITLE_DEFAULT
+import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_SUBTITLE_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_SUBTITLE_UPDATE_PARTICIPANT_COUNT_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_SUBTITLE_UPDATE_PARTICIPANT_COUNT_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_TITLE_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_TITLE_UPDATE_PARTICIPANT_COUNT_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_TITLE_UPDATE_PARTICIPANT_COUNT_VALUE
+/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SUBTITLE
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_TITLE
 import com.azure.android.communication.ui.callingcompositedemoapp.CAMERA_ON_BY_DEFAULT_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_ADD_CUSTOM_BUTTONS
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_AUDIO_ONLY_MODE_ON
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_AUTO_START_CAPTIONS
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_CAMERA_ON_BY_DEFAULT_VALUE
@@ -77,7 +89,35 @@ class SettingsFeatures {
                 DEFAULT_SPOKEN_LANGUAGE,
             )
         }
+        /* <CUSTOM_CALL_HEADER> */
+        fun getCallScreenInformationTitleUpdateParticipantCount(): Int {
+            return sharedPrefs.getInt(
+                CALL_INFORMATION_TITLE_UPDATE_PARTICIPANT_COUNT_KEY,
+                CALL_INFORMATION_TITLE_UPDATE_PARTICIPANT_COUNT_VALUE,
+            )
+        }
 
+        fun getCallScreenInformationSubtitleUpdateParticipantCount(): Int {
+            return sharedPrefs.getInt(
+                CALL_INFORMATION_SUBTITLE_UPDATE_PARTICIPANT_COUNT_KEY,
+                CALL_INFORMATION_SUBTITLE_UPDATE_PARTICIPANT_COUNT_VALUE,
+            )
+        }
+
+        fun getCallScreenInformationSubtitle(): String? {
+            return sharedPrefs.getString(
+                CALL_INFORMATION_SUBTITLE_KEY,
+                CALL_INFORMATION_SUBTITLE_DEFAULT,
+            )
+        }
+
+        fun getCallScreenInformationTitle(): String? {
+            return sharedPrefs.getString(
+                CALL_INFORMATION_TITLE_KEY,
+                CALL_INFORMATION_DEFAULT_TITLE,
+            )
+        }
+        /* </CUSTOM_CALL_HEADER> */
         fun getLayoutDirection(): Int? {
             val isRTLKey =
                 LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY +
@@ -275,6 +315,17 @@ class SettingsFeatures {
                 sharedPrefs.getBoolean(
                     HIDE_CAPTIONS_UI,
                     DEFAULT_HIDE_CAPTIONS_UI
+                )
+            } else {
+                null
+            }
+        }
+
+        fun getAddCustomButtons(): Boolean? {
+            return if (sharedPrefs.contains(ADD_CUSTOM_BUTTONS_KEY)) {
+                sharedPrefs.getBoolean(
+                    ADD_CUSTOM_BUTTONS_KEY,
+                    DEFAULT_ADD_CUSTOM_BUTTONS
                 )
             } else {
                 null
