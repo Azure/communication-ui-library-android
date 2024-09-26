@@ -159,7 +159,7 @@
                     android:layout_width="142dp"
                     android:layout_height="48dp"
                     android:textColor="?attr/azure_communication_ui_calling_primary_color"
-                    android:background="@drawable/button_outlined"
+                    android:background="@drawable/azure_communication_ui_calling_button_outline"
                     android:text="@string/azure_communication_ui_calling_setup_view_go_to_settings" />
 
             </com.azure.android.communication.ui.calling.presentation.fragment.setup.components.PermissionWarningView>
