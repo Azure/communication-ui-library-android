@@ -16,7 +16,7 @@
         <item name="azure_communication_ui_calling_primary_color_tint10">#882BD8</item>
         <item name="azure_communication_ui_calling_primary_color_tint20">#E0C7F4</item>
         <item name="azure_communication_ui_calling_primary_color_tint30">#ECDEF9</item>
-        <item name="azure_communication_ui_calling_foreground_on_primary_color">#141414</item>
+        <item name="azure_communication_ui_calling_foreground_on_primary_color">#00FF00</item>
     </style>
 
 </resources>
