@@ -296,7 +296,7 @@ internal class ControlBarViewModel(
     }
 
     private fun shouldMoreButtonBeVisible(buttonViewDataState: ButtonState): Boolean {
-        return buttonViewDataState.callScreenCustomButtonsState.any() ||
+        return buttonViewDataState.callScreenCustomButtonsState.any { it.isVisible != false } ||
             buttonViewDataState.liveCaptionsToggleButton?.isVisible ?: true ||
             buttonViewDataState.spokenLanguageButton?.isVisible ?: true ||
             buttonViewDataState.captionsLanguageButton?.isVisible ?: true ||
