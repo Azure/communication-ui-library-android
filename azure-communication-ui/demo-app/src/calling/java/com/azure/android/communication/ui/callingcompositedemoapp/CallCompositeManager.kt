@@ -756,21 +756,22 @@ class CallCompositeManager(private val context: Context) {
         }
 
         if (SettingsFeatures.getAddCustomButtons() == true) {
+            val micButton = CallCompositeButtonViewData()
+                .setOnClickHandler { toast(it.context, "MicrophoneButton clicked") }
+
+            val audioDeviceButton = CallCompositeButtonViewData()
+                .setOnClickHandler { toast(it.context, "AudioDeviceButton clicked") }
+
+            val cameraButton = CallCompositeButtonViewData()
+                .setOnClickHandler {
+                    micButton.isVisible = !micButton.isVisible
+                    audioDeviceButton.isEnabled = !audioDeviceButton.isEnabled
+                    toast(it.context, "CameraButton clicked")
+                }
             setupScreenOptions = setupScreenOptions ?: CallCompositeSetupScreenOptions()
-            setupScreenOptions.setCameraButton(
-                CallCompositeButtonViewData()
-                    .setOnClickHandler { toast(it.context, "CameraButton clicked") }
-            )
-
-            setupScreenOptions.setMicrophoneButton(
-                CallCompositeButtonViewData()
-                    .setOnClickHandler { toast(it.context, "MicrophoneButton clicked") }
-            )
-
-            setupScreenOptions.setAudioDeviceButton(
-                CallCompositeButtonViewData()
-                    .setOnClickHandler { toast(it.context, "AudioDeviceButton clicked") }
-            )
+            setupScreenOptions.setCameraButton(cameraButton)
+            setupScreenOptions.setMicrophoneButton(micButton)
+            setupScreenOptions.setAudioDeviceButton(audioDeviceButton)
         }
 
         return setupScreenOptions

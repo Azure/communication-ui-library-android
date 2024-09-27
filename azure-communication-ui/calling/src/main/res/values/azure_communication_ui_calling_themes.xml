@@ -19,6 +19,9 @@
         <item name="azure_communication_ui_calling_primary_color">
             @color/fluentui_communication_blue
         </item>
+        <item name="azure_communication_ui_calling_foreground_on_primary_color">
+            @color/azure_communication_ui_calling_color_on_primary
+        </item>
         <item name="azure_communication_ui_calling_primary_color_tint10">#2B88D8</item>
         <item name="azure_communication_ui_calling_primary_color_tint20">
             @color/fluentui_communication_tint_20

@@ -11,6 +11,6 @@
     android:viewportWidth="24"
     android:viewportHeight="24">
     <path
-        android:fillColor="@color/azure_communication_ui_calling_color_primary"
+        android:fillColor="?attr/azure_communication_ui_calling_primary_color"
         android:pathData="M8.293 4.293c-0.39 0.39-0.39 1.024 0 1.414L14.586 12l-6.293 6.293c-0.39 0.39-0.39 1.024 0 1.414 0.39 0.39 1.024 0.39 1.414 0l7-7c0.39-0.39 0.39-1.024 0-1.414l-7-7c-0.39-0.39-1.024-0.39-1.414 0z" />
 </vector>
