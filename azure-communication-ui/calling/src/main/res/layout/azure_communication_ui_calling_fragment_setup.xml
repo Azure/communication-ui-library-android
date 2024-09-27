@@ -114,8 +114,8 @@
                 android:id="@+id/azure_communication_ui_setup_settings_button"
                 android:layout_width="142dp"
                 android:layout_height="48dp"
-                android:textColor="@color/azure_communication_ui_calling_color_primary"
-                android:background="@drawable/button_outlined"
+                android:textColor="?attr/azure_communication_ui_calling_primary_color"
+                android:background="@drawable/azure_communication_ui_calling_button_outline"
                 android:text="@string/azure_communication_ui_calling_setup_view_go_to_settings" />
 
 
@@ -255,7 +255,7 @@
                 android:layout_width="24dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="8dp"
-                android:indeterminateTint="@color/azure_communication_ui_calling_color_primary"
+                android:indeterminateTint="?attr/azure_communication_ui_calling_primary_color"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/azure_communication_ui_setup_start_call_joining_text"
                 app:layout_constraintEnd_toStartOf="@+id/azure_communication_ui_setup_start_call_joining_text"
