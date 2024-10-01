@@ -63,12 +63,10 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var setupScreenOptionsCameraEnabledCheckbox: CheckBox
     private lateinit var setupScreenOptionsMicEnabledCheckbox: CheckBox
     private lateinit var defaultSpokenLanguageEditText: TextView
-    /* <CUSTOM_CALL_HEADER> */
     private lateinit var updateTitleRemotePartiicpantCountEditBox: TextView
     private lateinit var updateSubtitleRemotePartiicpantCountEditBox: TextView
     private lateinit var callInformationTitleEditText: TextView
     private lateinit var callInformationSubtitleEditText: TextView
-    /* </CUSTOM_CALL_HEADER> */
     private lateinit var addCustomButtonsCheckbox: CheckBox
 
     private val sharedPreference by lazy {
@@ -168,7 +166,6 @@ class SettingsActivity : AppCompatActivity() {
         updateCustomButtonsCheckbox()
 
         defaultSpokenLanguageEditText.text = sharedPreference.getString(DEFAULT_SPOKEN_LANGUAGE_KEY, DEFAULT_SPOKEN_LANGUAGE)
-        /* <CUSTOM_CALL_HEADER> */
         sharedPreference.getInt(CALL_INFORMATION_TITLE_UPDATE_PARTICIPANT_COUNT_KEY, CALL_INFORMATION_TITLE_UPDATE_PARTICIPANT_COUNT_VALUE).toString()
             .let {
                 if (it.isNotEmpty() && it != "0") {
@@ -182,7 +179,6 @@ class SettingsActivity : AppCompatActivity() {
         }
         callInformationTitleEditText.text = sharedPreference.getString(CALL_INFORMATION_TITLE_KEY, CALL_INFORMATION_DEFAULT_TITLE)
         callInformationSubtitleEditText.text = sharedPreference.getString(CALL_INFORMATION_SUBTITLE_KEY, CALL_INFORMATION_SUBTITLE_DEFAULT)
-        /* </CUSTOM_CALL_HEADER> */
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
             val selectedItem: String = supportedLanguages[position]
             setLanguageValueInSharedPref(selectedItem)
@@ -374,12 +370,10 @@ class SettingsActivity : AppCompatActivity() {
         setupScreenOptionsCameraEnabledCheckbox = findViewById(R.id.setup_screen_camera_check_box)
         setupScreenOptionsMicEnabledCheckbox = findViewById(R.id.setup_screen_mic_check_box)
         defaultSpokenLanguageEditText = findViewById(R.id.default_spoken_language_edit_text)
-        /* <CUSTOM_CALL_HEADER> */
         updateTitleRemotePartiicpantCountEditBox = findViewById(R.id.call_information_title_update_remote_participant_count)
         updateSubtitleRemotePartiicpantCountEditBox = findViewById(R.id.call_information_subtitle_update_remote_participant_count)
         callInformationTitleEditText = findViewById(R.id.call_information_title_edit_text)
         callInformationSubtitleEditText = findViewById(R.id.call_information_subtitle_edit_text)
-        /* </CUSTOM_CALL_HEADER> */
 
         addCustomButtonsCheckbox = findViewById(R.id.add_custom_buttons_option_checkbox)
 
@@ -399,7 +393,6 @@ class SettingsActivity : AppCompatActivity() {
                 defaultSpokenLanguageEditText.text.toString()
             ).apply()
         }
-        /* <CUSTOM_CALL_HEADER> */
         updateTitleRemotePartiicpantCountEditBox.addTextChangedListener {
             if (updateTitleRemotePartiicpantCountEditBox.text.isNullOrEmpty()) {
                 sharedPreference.edit().putInt(
@@ -441,7 +434,6 @@ class SettingsActivity : AppCompatActivity() {
                 callInformationSubtitleEditText.text.toString()
             ).apply()
         }
-        /* </CUSTOM_CALL_HEADER> */
     }
 
     private fun updateRTLCheckbox() {
@@ -743,7 +735,6 @@ const val DEFAULT_HIDE_CAPTIONS_UI = false
 
 const val DEFAULT_SPOKEN_LANGUAGE_KEY = "DEFAULT_SPOKEN_LANGUAGE"
 const val DEFAULT_SPOKEN_LANGUAGE = ""
-/* <CUSTOM_CALL_HEADER> */
 const val CALL_INFORMATION_TITLE_UPDATE_PARTICIPANT_COUNT_KEY = "TITLE_UPDATE_PARTICIPANT_COUNT"
 const val CALL_INFORMATION_SUBTITLE_UPDATE_PARTICIPANT_COUNT_KEY = "SUBTITLE_UPDATE_PARTICIPANT_COUNT"
 const val CALL_INFORMATION_SUBTITLE_UPDATE_PARTICIPANT_COUNT_VALUE = 0
@@ -754,6 +745,5 @@ const val CALL_INFORMATION_DEFAULT_TITLE = ""
 
 const val CALL_INFORMATION_SUBTITLE_KEY = "CALL_INFORMATION_SUBTITLE"
 const val CALL_INFORMATION_SUBTITLE_DEFAULT = ""
-/* </CUSTOM_CALL_HEADER> */
 const val ADD_CUSTOM_BUTTONS_KEY = "ADD_CUSTOM_BUTTONS"
 const val DEFAULT_ADD_CUSTOM_BUTTONS = false

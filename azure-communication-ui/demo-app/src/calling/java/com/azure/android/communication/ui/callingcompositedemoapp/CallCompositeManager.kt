@@ -62,9 +62,7 @@ class CallCompositeManager(private val context: Context) {
     val callCompositeCallStateStateFlow = MutableStateFlow("")
     private var callComposite: CallComposite? = null
     private var incomingCallId: String? = null
-    /* <CUSTOM_CALL_HEADER> */
     private var callScreenHeaderOptions: CallCompositeCallScreenHeaderViewData? = null
-    /* </CUSTOM_CALL_HEADER> */
     private var remoteParticipantsCount = 0
 
     fun launch(
@@ -310,14 +308,12 @@ class CallCompositeManager(private val context: Context) {
         }
         callComposite.addOnDismissedEventHandler(onDismissedEventHandler)
 
-        /* <CUSTOM_CALL_HEADER> */
         callComposite.addOnRemoteParticipantLeftEventHandler { event ->
             toast(context, "Remote participant removed: ${event.identifiers.count()}")
             event.identifiers.forEach {
                 Log.d(CallLauncherActivity.TAG, "Remote participant removed: ${it.rawId}")
             }
         }
-        /* </CUSTOM_CALL_HEADER> */
 
         callComposite.addOnPictureInPictureChangedEventHandler {
             toast(context, "isInPictureInPicture: " + it.isInPictureInPicture)
@@ -329,7 +325,6 @@ class CallCompositeManager(private val context: Context) {
                 Log.d(CallLauncherActivity.TAG, "Remote participant joined: ${it.rawId}")
             }
             remoteParticipantsCount += event.identifiers.count()
-            /* <CUSTOM_CALL_HEADER> */
             val titleUpdateCount = SettingsFeatures.getCallScreenInformationTitleUpdateParticipantCount()
             if (titleUpdateCount != 0 && titleUpdateCount <= remoteParticipantsCount) {
                 callScreenHeaderOptions?.let {
@@ -342,7 +337,6 @@ class CallCompositeManager(private val context: Context) {
                     it.subtitle = "Custom Call Screen Header: $remoteParticipantsCount participants"
                 }
             }
-            /* </CUSTOM_CALL_HEADER> */
         }
 
         callComposite.addOnAudioSelectionChangedEventHandler { event ->
@@ -715,7 +709,6 @@ class CallCompositeManager(private val context: Context) {
                 )
             }
         }
-        /* <CUSTOM_CALL_HEADER> */
         if (!SettingsFeatures.getCallScreenInformationTitle().isNullOrEmpty() ||
             !SettingsFeatures.getCallScreenInformationSubtitle().isNullOrEmpty() ||
             SettingsFeatures.getCallScreenInformationTitleUpdateParticipantCount() != 0 ||
@@ -737,7 +730,6 @@ class CallCompositeManager(private val context: Context) {
             }
             callScreenOptions.setHeaderViewData(callScreenHeaderOptions)
         }
-        /* </CUSTOM_CALL_HEADER> */
         return callScreenOptions
     }
 
@@ -756,21 +748,22 @@ class CallCompositeManager(private val context: Context) {
         }
 
         if (SettingsFeatures.getAddCustomButtons() == true) {
+            val micButton = CallCompositeButtonViewData()
+                .setOnClickHandler { toast(it.context, "MicrophoneButton clicked") }
+
+            val audioDeviceButton = CallCompositeButtonViewData()
+                .setOnClickHandler { toast(it.context, "AudioDeviceButton clicked") }
+
+            val cameraButton = CallCompositeButtonViewData()
+                .setOnClickHandler {
+                    micButton.isVisible = !micButton.isVisible
+                    audioDeviceButton.isEnabled = !audioDeviceButton.isEnabled
+                    toast(it.context, "CameraButton clicked")
+                }
             setupScreenOptions = setupScreenOptions ?: CallCompositeSetupScreenOptions()
-            setupScreenOptions.setCameraButton(
-                CallCompositeButtonViewData()
-                    .setOnClickHandler { toast(it.context, "CameraButton clicked") }
-            )
-
-            setupScreenOptions.setMicrophoneButton(
-                CallCompositeButtonViewData()
-                    .setOnClickHandler { toast(it.context, "MicrophoneButton clicked") }
-            )
-
-            setupScreenOptions.setAudioDeviceButton(
-                CallCompositeButtonViewData()
-                    .setOnClickHandler { toast(it.context, "AudioDeviceButton clicked") }
-            )
+            setupScreenOptions.setCameraButton(cameraButton)
+            setupScreenOptions.setMicrophoneButton(micButton)
+            setupScreenOptions.setAudioDeviceButton(audioDeviceButton)
         }
 
         return setupScreenOptions

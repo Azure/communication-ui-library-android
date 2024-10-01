@@ -25,7 +25,7 @@
         android:layout_height="32dp"
         android:layout_marginEnd="8dp"
         android:contentDescription="@string/azure_communication_ui_calling_setup_view_button_connecting_call"
-        android:indeterminateTint="@color/azure_communication_ui_calling_color_primary"
+        android:indeterminateTint="?attr/azure_communication_ui_calling_primary_color"
         />
 
     <androidx.appcompat.widget.AppCompatTextView
