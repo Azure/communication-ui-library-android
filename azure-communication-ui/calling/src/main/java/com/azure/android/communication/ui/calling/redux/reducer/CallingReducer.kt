@@ -34,6 +34,9 @@ internal class CallStateReducerImpl : CallStateReducer {
             is CallingAction.CallRequestedWithoutSetup -> {
                 callingState.copy(isDefaultParametersCallStarted = true)
             }
+            is CallingAction.CallStartTimeUpdated -> {
+                callingState.copy(callStartTime = action.callStartTime)
+            }
             else -> callingState
         }
     }

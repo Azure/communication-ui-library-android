@@ -19,6 +19,7 @@ import com.azure.android.communication.ui.calling.di.DependencyInjectionContaine
 import com.azure.android.communication.ui.calling.logger.DefaultLogger;
 import com.azure.android.communication.ui.calling.logger.Logger;
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent;
+import com.azure.android.communication.ui.calling.models.CallCompositeCallStartTimeEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
@@ -607,6 +608,36 @@ public final class CallComposite {
             final CallCompositeEventHandler<CallCompositeRemoteParticipantLeftEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().removeOnRemoteParticipantLeftEventHandler(eventHandler);
     }
+
+    /**
+     * Add {@link CallCompositeEventHandler}.
+     *
+     * <pre>
+     *
+     * &#47;&#47; add on call start time updated handler
+     * callComposite.addOnCallStartTimeUpdatedEventHandler&#40;event -> {
+     *     &#47;&#47; Use call composite to set configurations for call start time
+     * }&#41;;
+     *
+     * </pre>
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void addOnCallStartTimeUpdatedEventHandler(
+            final CallCompositeEventHandler<CallCompositeCallStartTimeEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().addOnCallStartTimeUpdatedEventHandler(eventHandler);
+    }
+
+    /**
+     * Remove {@link CallCompositeEventHandler}.
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnCallStartTimeUpdatedEventHandler(
+            final CallCompositeEventHandler<CallCompositeCallStartTimeEvent> eventHandler) {
+        configuration.getCallCompositeEventsHandler().removeOnCallStartTimeUpdatedEventHandler(eventHandler);
+    }
+
     /**
      * Add {@link CallCompositeEventHandler}
      *

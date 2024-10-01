@@ -27,6 +27,7 @@ import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticMo
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.buildCallCompositeAudioSelectionChangedEvent
+import com.azure.android.communication.ui.calling.models.createCallCompositeCallStartTimeEvent
 import com.azure.android.communication.ui.calling.models.into
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.Store
@@ -334,6 +335,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         subscribeOnTotalRemoteParticipantCountChanged(store)
         subscribeOnCapabilitiesChanged(store)
         subscribeToCaptionsUpdates(store)
+        subscribeToCallStartTimeUpdates(store)
 
         /* <RTT_POC>
         subscribeRttStateUpdate(store)
@@ -1002,6 +1004,22 @@ internal class CallingMiddlewareActionHandlerImpl(
         coroutineScope.launch {
             callingService.getCaptionsSupportedSpokenLanguagesSharedFlow().collect {
                 store.dispatch(CaptionsAction.SupportedSpokenLanguagesChanged(it))
+            }
+        }
+    }
+
+    private fun subscribeToCallStartTimeUpdates(store: Store<ReduxState>) {
+        coroutineScope.launch {
+            callingService.getCallStartTimeSharedFlow().collect { date ->
+                store.dispatch(CallingAction.CallStartTimeUpdated(date))
+                configuration.callCompositeEventsHandler.getOnCallStartTimeUpdatedHandlers().forEach {
+                    try {
+                        val event = createCallCompositeCallStartTimeEvent(date)
+                        it.handle(event)
+                    } catch (ex: Exception) {
+                        // catching and suppressing any client's exceptions
+                    }
+                }
             }
         }
     }

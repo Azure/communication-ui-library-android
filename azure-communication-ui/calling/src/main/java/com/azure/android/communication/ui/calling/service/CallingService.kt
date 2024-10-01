@@ -30,6 +30,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.io.File
+import java.util.Date
 
 internal class CallingService(
     private val callingSdk: CallingSDK,
@@ -99,6 +100,8 @@ internal class CallingService(
             LOCAL_VIDEO_STREAM_ID
         }
     }
+
+    fun getCallStartTimeSharedFlow(): SharedFlow<Date> = callingSdk.getCallStartTimeSharedFlow()
 
     fun getParticipantsInfoModelSharedFlow(): SharedFlow<Map<String, ParticipantInfoModel>> {
         return participantsInfoModelSharedFlow
