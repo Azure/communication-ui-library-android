@@ -30,6 +30,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.io.File
+import java.util.Date
 
 /**
  * An interface that describes our interactions with the underlying calling SDK.
@@ -60,6 +61,7 @@ internal interface CallingSDK {
     fun getCallingStateWrapperSharedFlow(): SharedFlow<CallingStateWrapper>
     fun getCallIdStateFlow(): StateFlow<String?>
     fun getRemoteParticipantInfoModelSharedFlow(): Flow<Map<String, ParticipantInfoModel>>
+    fun getCallStartTimeSharedFlow(): SharedFlow<Date>
     fun getCamerasCountStateFlow(): StateFlow<Int>
     fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?>
     fun admit(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?>

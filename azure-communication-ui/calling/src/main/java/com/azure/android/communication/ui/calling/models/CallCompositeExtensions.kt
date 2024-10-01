@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.models
 import android.content.Context
 import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
+import java.util.Date
 
 internal fun buildCallCompositeRemoteParticipantLeftEvent(
     identifiers: List<CommunicationIdentifier>,
@@ -12,6 +13,12 @@ internal fun buildCallCompositeRemoteParticipantLeftEvent(
     return CallCompositeRemoteParticipantLeftEvent(
         identifiers
     )
+}
+
+internal fun createCallCompositeCallStartTimeEvent(
+    startTime: Date,
+): CallCompositeCallStartTimeEvent {
+    return CallCompositeCallStartTimeEvent(startTime)
 }
 
 internal fun CallCompositeCallScreenHeaderViewData.setSubtitleChangedEventHandler(handler: CallCompositeEventHandler<String?>) {
