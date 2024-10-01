@@ -94,12 +94,10 @@ internal class AppReduxState(
 
     override var captionsState: CaptionsState = CaptionsState(isCaptionsUIEnabled = showCaptionsUI)
 
-    /* <CUSTOM_CALL_HEADER> */
     override var callScreenInfoHeaderState: CallScreenInfoHeaderState = CallScreenInfoHeaderState(
         title = localOptions?.callScreenOptions?.headerViewData?.title,
         subtitle = localOptions?.callScreenOptions?.headerViewData?.subtitle,
     )
-    /* </CUSTOM_CALL_HEADER> */
 
     /* <RTT_POC>
     override var rttState = RttState()

@@ -463,7 +463,6 @@
             android:text="@string/display_leave_call_confirmation"
             tools:ignore="UsingOnClickInXml"
             />
-        <!-- <CUSTOM_CALL_HEADER> -->
         <EditText
             android:id="@+id/call_information_title_edit_text"
             android:layout_width="match_parent"
@@ -497,7 +496,6 @@
             android:inputType="number|text"
             android:hint="@string/update_subtitle_remote_participant_count"
             />
-        <!-- </CUSTOM_CALL_HEADER> -->
         <TextView
             android:id="@+id/telecom_manager_options"
             android:layout_width="match_parent"

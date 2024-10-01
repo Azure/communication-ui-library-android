@@ -6,9 +6,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
-/* <CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.redux.state.CallScreenInfoHeaderState
-/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
@@ -60,9 +58,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             floatingHeaderViewModel.init(
                 appState.callState.callingStatus,
                 expectedParticipantMap.count(),
-                /* <CUSTOM_CALL_HEADER> */
                 CallScreenInfoHeaderState(null, null)
-                /* </CUSTOM_CALL_HEADER> */
             ) { }
 
             val resultListFromNumberOfParticipantsFlow =
@@ -76,9 +72,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             // act
             floatingHeaderViewModel.update(
                 expectedParticipantMap.count(),
-                /* <CUSTOM_CALL_HEADER> */
                 CallScreenInfoHeaderState(null, null)
-                /* </CUSTOM_CALL_HEADER> */
             )
 
             // assert
@@ -127,9 +121,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             floatingHeaderViewModel.init(
                 appState.callState.callingStatus,
                 expectedParticipantMap.count(),
-                /* <CUSTOM_CALL_HEADER> */
                 CallScreenInfoHeaderState(null, null)
-                /* </CUSTOM_CALL_HEADER> */
             ) {}
 
             val resultListFromIsLobbyOverlayDisplayedFlow =
@@ -159,7 +151,6 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
         }
     }
 
-    /* <CUSTOM_CALL_HEADER> */
     @ExperimentalCoroutinesApi
     @Test
     fun floatingHeaderViewModel_update_then_displayTitleAndSubtitle() {
@@ -190,35 +181,28 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 isRecording = false,
                 isTranscribing = false
             )
-            /* <CUSTOM_CALL_HEADER> */
             val title = "title"
             val subtitle = "subtitle"
-            /* </CUSTOM_CALL_HEADER> */
 
             val floatingHeaderViewModel = InfoHeaderViewModel(false)
             floatingHeaderViewModel.init(
                 appState.callState.callingStatus,
                 expectedParticipantMap.count(),
-                /* <CUSTOM_CALL_HEADER> */
                 CallScreenInfoHeaderState(title, subtitle)
-                /* </CUSTOM_CALL_HEADER> */
             ) { }
 
             val resultListFromNumberOfParticipantsFlow =
                 mutableListOf<Int>()
-            /* <CUSTOM_CALL_HEADER> */
             val resultListFromTitleStateFlow =
                 mutableListOf<String?>()
             val resultListFromSubtitleStateFlow =
                 mutableListOf<String?>()
-            /* </CUSTOM_CALL_HEADER> */
 
             val flowJobParticipant = launch {
                 floatingHeaderViewModel.getNumberOfParticipantsFlow()
                     .toList(resultListFromNumberOfParticipantsFlow)
             }
 
-            /* <CUSTOM_CALL_HEADER> */
             val flowJobTitle = launch {
                 floatingHeaderViewModel.getTitleStateFlow()
                     .toList(resultListFromTitleStateFlow)
@@ -228,14 +212,11 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 floatingHeaderViewModel.getSubtitleStateFlow()
                     .toList(resultListFromSubtitleStateFlow)
             }
-            /* </CUSTOM_CALL_HEADER> */
 
             // act
             floatingHeaderViewModel.update(
                 expectedParticipantMap.count(),
-                /* <CUSTOM_CALL_HEADER> */
                 CallScreenInfoHeaderState(null, null)
-                /* </CUSTOM_CALL_HEADER> */
             )
 
             // assert
@@ -244,7 +225,6 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 resultListFromNumberOfParticipantsFlow[0]
             )
 
-            /* <CUSTOM_CALL_HEADER> */
             Assert.assertEquals(
                 title,
                 resultListFromTitleStateFlow[0]
@@ -254,13 +234,10 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 subtitle,
                 resultListFromSubtitleStateFlow[0]
             )
-            /* </CUSTOM_CALL_HEADER> */
 
             flowJobParticipant.cancel()
-            /* <CUSTOM_CALL_HEADER> */
             flowJobTitle.cancel()
             flowJobSubtitle.cancel()
-            /* </CUSTOM_CALL_HEADER> */
         }
     }
     /* </CUSTOM_CALL_HEADER> */
