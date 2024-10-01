@@ -195,11 +195,6 @@ class SettingsActivity : AppCompatActivity() {
             saveSetupScreenOrientationInSharedPref(selectedItem)
         }
 
-        setupScreenOrientationAutoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
-            val selectedItem: String = telecomManagerIntegrationOptions[position]
-            saveTelecomManagerIntegrationOptionInSharedPref(selectedItem)
-        }
-
         telecomManagerAutoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
             val selectedItem: String = telecomManagerIntegrationOptions[position]
             saveTelecomManagerIntegrationOptionInSharedPref(selectedItem)
