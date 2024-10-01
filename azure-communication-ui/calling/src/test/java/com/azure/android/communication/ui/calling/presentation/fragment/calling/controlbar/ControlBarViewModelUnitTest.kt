@@ -23,14 +23,19 @@ import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelect
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
+import com.azure.android.communication.ui.calling.redux.state.CustomButtonState
+import com.azure.android.communication.ui.calling.redux.state.DefaultButtonState
 import com.azure.android.communication.ui.calling.redux.state.LocalUserState
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.TestScope
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -548,5 +553,269 @@ internal class ControlBarViewModelUnitTest : ACSBaseTestCoroutine() {
             flowJob2.cancel()
             flowJob3.cancel()
         }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun controlBarViewModel_update_buttonState_cameraDisabled() {
+        runScopedTest {
+            val buttonState1 = ButtonState(
+                callScreenCameraButtonState = DefaultButtonState(isEnabled = true, isVisible = true)
+            )
+            val buttonState2 = ButtonState(
+                callScreenCameraButtonState = DefaultButtonState(isEnabled = false, isVisible = true)
+            )
+
+            val (updatedFlow, flowJob) = buttonStateUpdate(buttonState1, buttonState2) {
+                isCameraButtonEnabled
+            }
+
+            // assert
+
+            Assert.assertEquals(true, updatedFlow[0])
+            Assert.assertEquals(false, updatedFlow[1])
+
+            flowJob.cancel()
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun controlBarViewModel_update_buttonState_cameraVisible() {
+        runScopedTest {
+            val buttonState1 = ButtonState(
+                callScreenCameraButtonState = DefaultButtonState(isEnabled = true, isVisible = true)
+            )
+            val buttonState2 = ButtonState(
+                callScreenCameraButtonState = DefaultButtonState(isEnabled = true, isVisible = false)
+            )
+
+            val (updatedFlow, flowJob) = buttonStateUpdate(buttonState1, buttonState2) {
+                isCameraButtonVisible
+            }
+
+            // assert
+
+            Assert.assertEquals(true, updatedFlow[0])
+            Assert.assertEquals(false, updatedFlow[1])
+
+            flowJob.cancel()
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun controlBarViewModel_update_buttonState_micEnabled() {
+        runScopedTest {
+            val buttonState1 = ButtonState(
+                callScreenMicButtonState = DefaultButtonState(isEnabled = true, isVisible = true)
+            )
+            val buttonState2 = ButtonState(
+                callScreenMicButtonState = DefaultButtonState(isEnabled = false, isVisible = true)
+            )
+
+            val (updatedFlow, flowJob) = buttonStateUpdate(buttonState1, buttonState2) {
+                isMicButtonEnabled
+            }
+
+            // assert
+
+            Assert.assertEquals(true, updatedFlow[0])
+            Assert.assertEquals(false, updatedFlow[1])
+
+            flowJob.cancel()
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun controlBarViewModel_update_buttonState_micVisible() {
+        runScopedTest {
+            val buttonState1 = ButtonState(
+                callScreenMicButtonState = DefaultButtonState(isEnabled = true, isVisible = true)
+            )
+            val buttonState2 = ButtonState(
+                callScreenMicButtonState = DefaultButtonState(isEnabled = true, isVisible = false)
+            )
+
+            val (updatedFlow, flowJob) = buttonStateUpdate(buttonState1, buttonState2) {
+                isMicButtonVisible
+            }
+
+            // assert
+
+            Assert.assertEquals(true, updatedFlow[0])
+            Assert.assertEquals(false, updatedFlow[1])
+
+            flowJob.cancel()
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun controlBarViewModel_update_buttonState_audioDeviceEnabled() {
+        runScopedTest {
+            val buttonState1 = ButtonState(
+                callScreenAudioDeviceButtonState = DefaultButtonState(isEnabled = true, isVisible = true)
+            )
+            val buttonState2 = ButtonState(
+                callScreenAudioDeviceButtonState = DefaultButtonState(isEnabled = false, isVisible = true)
+            )
+
+            val (updatedFlow, flowJob) = buttonStateUpdate(buttonState1, buttonState2) {
+                isAudioDeviceButtonEnabled
+            }
+
+            // assert
+
+            Assert.assertEquals(true, updatedFlow[0])
+            Assert.assertEquals(false, updatedFlow[1])
+
+            flowJob.cancel()
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun controlBarViewModel_update_buttonState_audioDeviceVisible() {
+        runScopedTest {
+            val buttonState1 = ButtonState(
+                callScreenAudioDeviceButtonState = DefaultButtonState(isEnabled = true, isVisible = true)
+            )
+            val buttonState2 = ButtonState(
+                callScreenAudioDeviceButtonState = DefaultButtonState(isEnabled = true, isVisible = false)
+            )
+
+            val (updatedFlow, flowJob) = buttonStateUpdate(buttonState1, buttonState2) {
+                isAudioDeviceButtonVisible
+            }
+
+            // assert
+
+            Assert.assertEquals(true, updatedFlow[0])
+            Assert.assertEquals(false, updatedFlow[1])
+
+            flowJob.cancel()
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun controlBarViewModel_update_buttonState_moreVisible() {
+        runScopedTest {
+            val buttonState1 = ButtonState(
+                captionsLanguageButton = DefaultButtonState(isEnabled = true, isVisible = true),
+                liveCaptionsToggleButton = DefaultButtonState(isEnabled = true, isVisible = true),
+                liveCaptionsButton = DefaultButtonState(isEnabled = true, isVisible = true),
+                reportIssueButton = DefaultButtonState(isEnabled = true, isVisible = true),
+                shareDiagnosticsButton = DefaultButtonState(isEnabled = true, isVisible = true),
+                spokenLanguageButton = DefaultButtonState(isEnabled = true, isVisible = true),
+                callScreenCustomButtonsState = listOf(
+                    CustomButtonState(
+                        id = "button1",
+                        isEnabled = true,
+                        isVisible = true,
+                        title = "button1",
+                        drawableId = 1
+                    )
+                )
+            )
+            val buttonState2 = ButtonState(
+                captionsLanguageButton = DefaultButtonState(isEnabled = true, isVisible = false),
+                liveCaptionsToggleButton = DefaultButtonState(isEnabled = true, isVisible = false),
+                liveCaptionsButton = DefaultButtonState(isEnabled = true, isVisible = false),
+                reportIssueButton = DefaultButtonState(isEnabled = true, isVisible = false),
+                shareDiagnosticsButton = DefaultButtonState(isEnabled = true, isVisible = false),
+                spokenLanguageButton = DefaultButtonState(isEnabled = true, isVisible = false),
+                callScreenCustomButtonsState = listOf(
+                    CustomButtonState(
+                        id = "button1",
+                        isEnabled = true,
+                        isVisible = false,
+                        title = "button1",
+                        drawableId = 1
+                    )
+                )
+            )
+
+            val (updatedFlow, flowJob) = buttonStateUpdate(buttonState1, buttonState2) {
+                isMoreButtonVisible
+            }
+
+            // assert
+
+            Assert.assertEquals(true, updatedFlow[0])
+            Assert.assertEquals(false, updatedFlow[1])
+
+            flowJob.cancel()
+        }
+    }
+
+    private fun TestScope.buttonStateUpdate(
+        buttonState1: ButtonState,
+        buttonState2: ButtonState,
+        getUpdatedModel: ControlBarViewModel.() -> kotlinx.coroutines.flow.Flow<Boolean>
+    ): Pair<MutableList<Boolean>, Job> {
+        val permissionState = PermissionState(PermissionStatus.GRANTED, PermissionStatus.GRANTED)
+        val cameraState = CameraState(
+            CameraOperationalStatus.OFF,
+            CameraDeviceSelectionStatus.FRONT,
+            CameraTransmissionStatus.REMOTE
+        )
+        val audioDeviceState = AudioDeviceSelectionStatus.RECEIVER_SELECTED
+        val visibilityState = VisibilityState(status = VisibilityStatus.VISIBLE)
+        val avMode = CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+        val capabilities = setOf(ParticipantCapabilityType.UNMUTE_MICROPHONE)
+
+        val appStore = mock<AppStore<ReduxState>> { }
+        val callingViewModel = ControlBarViewModel(
+            appStore::dispatch,
+            CapabilitiesManager(CallType.GROUP_CALL),
+            mockLogger
+        )
+
+        callingViewModel.init(
+            permissionState,
+            cameraState,
+            AudioState(
+                AudioOperationalStatus.OFF,
+                audioDeviceState,
+                BluetoothState(available = false, deviceName = "bluetooth")
+            ),
+            CallingState(
+                CallingStatus.CONNECTED,
+            ),
+            {},
+            {},
+            {},
+            visibilityState,
+            CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+            capabilities = capabilities,
+            buttonViewDataState = buttonState1,
+            controlBarOptions = null,
+        )
+
+        val audioState = AudioState(
+            AudioOperationalStatus.ON, audioDeviceState,
+            BluetoothState(available = false, deviceName = "bluetooth")
+        )
+
+        val updatedFlow = mutableListOf<Boolean>()
+        val flowJob = launch {
+            getUpdatedModel(callingViewModel).toList(updatedFlow)
+        }
+
+        // act
+        callingViewModel.update(
+            permissionState,
+            cameraState,
+            audioState,
+            CallingStatus.CONNECTED,
+            visibilityState,
+            avMode,
+            capabilities,
+            buttonState2,
+        )
+        return Pair(updatedFlow, flowJob)
     }
 }

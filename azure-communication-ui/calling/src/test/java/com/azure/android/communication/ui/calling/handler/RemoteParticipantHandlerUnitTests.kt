@@ -9,9 +9,7 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantsConfigurationHandler
 import com.azure.android.communication.ui.calling.handlers.RemoteParticipantHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
-/* <CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantLeftEvent
-/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.models.VideoStreamModel
@@ -738,7 +736,6 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
         }
     }
 
-    /* <CUSTOM_CALL_HEADER> */
     @Test
     fun remoteParticipantHandler_start_onStateChangeWithRemoteParticipantRemoved_then_eventIsFiredToOnce() {
         runScopedTest {
@@ -912,5 +909,4 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
             job.cancel()
         }
     }
-    /* </CUSTOM_CALL_HEADER> */
 }

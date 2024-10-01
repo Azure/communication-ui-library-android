@@ -16,7 +16,6 @@ internal class UpdatableOptionsManager(
     private val store: Store<ReduxState>,
 ) {
     fun start() {
-        /* <CUSTOM_CALL_HEADER> */
         configuration.callScreenOptions?.headerViewData?.run {
             setTitleChangedEventHandler {
                 store.dispatch(CallScreenInfoHeaderAction.UpdateTitle(it))
@@ -25,7 +24,6 @@ internal class UpdatableOptionsManager(
                 store.dispatch(CallScreenInfoHeaderAction.UpdateSubtitle(it))
             }
         }
-        /* </CUSTOM_CALL_HEADER> */
         configuration.callScreenOptions?.controlBarOptions?.run {
             cameraButton?.setEnabledChangedEventHandler {
                 store.dispatch(ButtonViewDataAction.CallScreenCameraButtonIsEnabledUpdated(it))
