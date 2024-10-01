@@ -19,9 +19,7 @@ internal class AppStateReducer(
     private val callDiagnosticsReducer: CallDiagnosticsReducer,
     private val toastNotificationReducer: ToastNotificationReducer,
     private val captionsReducer: CaptionsReducer,
-    /* <CUSTOM_CALL_HEADER> */
     private val callScreenInformationHeaderReducer: CallScreenInformationHeaderReducer,
-    /* </CUSTOM_CALL_HEADER> */
     private val buttonViewDataReducer: ButtonViewDataReducer,
     /* <RTT_POC>
     private val rttReducer: RttReducer,
@@ -56,9 +54,7 @@ internal class AppStateReducer(
         appState.callDiagnosticsState = callDiagnosticsReducer.reduce(state.callDiagnosticsState, action)
         appState.toastNotificationState = toastNotificationReducer.reduce(state.toastNotificationState, action)
         appState.captionsState = captionsReducer.reduce(state.captionsState, action)
-        /* <CUSTOM_CALL_HEADER> */
         appState.callScreenInfoHeaderState = callScreenInformationHeaderReducer.reduce(state.callScreenInfoHeaderState, action)
-        /* </CUSTOM_CALL_HEADER> */
         appState.buttonState = buttonViewDataReducer.reduce(state.buttonState, action)
         /* <RTT_POC>
         appState.rttState = rttReducer.reduce(state.rttState, action)

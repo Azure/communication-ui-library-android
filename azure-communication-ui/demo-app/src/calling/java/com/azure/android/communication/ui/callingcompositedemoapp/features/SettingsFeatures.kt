@@ -12,7 +12,6 @@ import com.azure.android.communication.ui.callingcompositedemoapp.ADD_CUSTOM_BUT
 import com.azure.android.communication.ui.callingcompositedemoapp.AUDIO_ONLY_MODE_ON
 import com.azure.android.communication.ui.callingcompositedemoapp.AUTO_START_CAPTIONS
 import com.azure.android.communication.ui.callingcompositedemoapp.AVATAR_IMAGE
-/* <CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_DEFAULT_TITLE
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_SUBTITLE_DEFAULT
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_SUBTITLE_KEY
@@ -21,7 +20,6 @@ import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATI
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_TITLE_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_TITLE_UPDATE_PARTICIPANT_COUNT_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_INFORMATION_TITLE_UPDATE_PARTICIPANT_COUNT_VALUE
-/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SCREEN_ORIENTATION_SHARED_PREF_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_SUBTITLE
 import com.azure.android.communication.ui.callingcompositedemoapp.CALL_TITLE
@@ -89,7 +87,6 @@ class SettingsFeatures {
                 DEFAULT_SPOKEN_LANGUAGE,
             )
         }
-        /* <CUSTOM_CALL_HEADER> */
         fun getCallScreenInformationTitleUpdateParticipantCount(): Int {
             return sharedPrefs.getInt(
                 CALL_INFORMATION_TITLE_UPDATE_PARTICIPANT_COUNT_KEY,
@@ -117,7 +114,6 @@ class SettingsFeatures {
                 CALL_INFORMATION_DEFAULT_TITLE,
             )
         }
-        /* </CUSTOM_CALL_HEADER> */
         fun getLayoutDirection(): Int? {
             val isRTLKey =
                 LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY +
