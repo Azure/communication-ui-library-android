@@ -27,7 +27,6 @@ import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticMo
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.buildCallCompositeAudioSelectionChangedEvent
-import com.azure.android.communication.ui.calling.models.createCallCompositeCallStartTimeEvent
 import com.azure.android.communication.ui.calling.models.into
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.Store
@@ -1014,8 +1013,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                 store.dispatch(CallingAction.CallStartTimeUpdated(date))
                 configuration.callCompositeEventsHandler.getOnCallStartTimeUpdatedHandlers().forEach {
                     try {
-                        val event = createCallCompositeCallStartTimeEvent(date)
-                        it.handle(event)
+                        it.handle(date)
                     } catch (ex: Exception) {
                         // catching and suppressing any client's exceptions
                     }

@@ -99,6 +99,8 @@ internal interface CallingSDK {
     fun getCaptionsEnabledChangedSharedFlow(): SharedFlow<Boolean>
     fun getCaptionsTypeChangedSharedFlow(): SharedFlow<CallCompositeCaptionsType>
     //endregion
+
+    fun getCallStartTime(): Date?
 }
 
 internal interface RemoteParticipant {

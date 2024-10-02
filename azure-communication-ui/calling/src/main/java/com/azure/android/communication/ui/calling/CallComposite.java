@@ -19,7 +19,6 @@ import com.azure.android.communication.ui.calling.di.DependencyInjectionContaine
 import com.azure.android.communication.ui.calling.logger.DefaultLogger;
 import com.azure.android.communication.ui.calling.logger.Logger;
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent;
-import com.azure.android.communication.ui.calling.models.CallCompositeCallStartTimeEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
@@ -58,6 +57,7 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 import java.util.Collection;
 import java.util.Collections;
 
+import java.util.Date;
 import java.util.List;
 /* <RTT_POC>
 import java.util.Timer;
@@ -624,9 +624,10 @@ public final class CallComposite {
      * @param eventHandler The {@link CallCompositeEventHandler}.
      */
     public void addOnCallStartTimeUpdatedEventHandler(
-            final CallCompositeEventHandler<CallCompositeCallStartTimeEvent> eventHandler) {
+            final CallCompositeEventHandler<Date> eventHandler) {
         configuration.getCallCompositeEventsHandler().addOnCallStartTimeUpdatedEventHandler(eventHandler);
     }
+
 
     /**
      * Remove {@link CallCompositeEventHandler}.
@@ -634,8 +635,21 @@ public final class CallComposite {
      * @param eventHandler The {@link CallCompositeEventHandler}.
      */
     public void removeOnCallStartTimeUpdatedEventHandler(
-            final CallCompositeEventHandler<CallCompositeCallStartTimeEvent> eventHandler) {
+            final CallCompositeEventHandler<Date> eventHandler) {
         configuration.getCallCompositeEventsHandler().removeOnCallStartTimeUpdatedEventHandler(eventHandler);
+    }
+
+    /**
+     * Get Call Start Time.
+     *
+     * @return {@link Date}
+     */
+    public Date getCallStartTime() {
+        final DependencyInjectionContainer container = diContainer;
+        if (container != null) {
+            return container.getCallingService().getCallStartTime();
+        }
+        return null;
     }
 
     /**

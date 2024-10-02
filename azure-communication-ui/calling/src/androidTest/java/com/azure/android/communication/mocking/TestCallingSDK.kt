@@ -52,6 +52,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.io.File
+import java.util.Date
 
 internal interface LocalStreamEventObserver {
     fun onSwitchSource(deviceInfo: VideoDeviceInfo)
@@ -451,6 +452,10 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         return remoteParticipantsInfoModelSharedFlow
     }
 
+    override fun getCallStartTimeSharedFlow(): SharedFlow<Date> {
+        TODO("Not yet implemented")
+    }
+
     override fun getCamerasCountStateFlow(): StateFlow<Int> = getCameraCountStateFlow
     override fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?> {
         return lobbyResultCompletableFuture
@@ -551,6 +556,10 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
 
     override fun getCaptionsTypeChangedSharedFlow(): SharedFlow<CallCompositeCaptionsType> {
         return captionsTypeChangedSharedFlow
+    }
+
+    override fun getCallStartTime(): Date? {
+        TODO("Not yet implemented")
     }
 
     private fun RemoteVideoStream.asVideoStreamModel(): VideoStreamModel {
