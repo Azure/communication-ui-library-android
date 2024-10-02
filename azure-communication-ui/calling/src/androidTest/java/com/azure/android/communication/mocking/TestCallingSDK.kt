@@ -54,7 +54,7 @@ import kotlinx.coroutines.flow.StateFlow
 import java.io.File
 /*  <CALL_START_TIME> */
 import java.util.Date
-/*  </CALL_START_TIME> */
+/* </CALL_START_TIME> */
 
 internal interface LocalStreamEventObserver {
     fun onSwitchSource(deviceInfo: VideoDeviceInfo)
@@ -462,7 +462,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     override fun getCallStartTime(): Date? {
         return null
     }
-    /*  </CALL_START_TIME> */
+    /* </CALL_START_TIME> */
 
     override fun getCamerasCountStateFlow(): StateFlow<Int> = getCameraCountStateFlow
     override fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?> {
