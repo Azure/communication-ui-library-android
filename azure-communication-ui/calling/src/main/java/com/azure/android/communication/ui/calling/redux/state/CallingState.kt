@@ -4,7 +4,9 @@
 package com.azure.android.communication.ui.calling.redux.state
 
 import org.threeten.bp.OffsetDateTime
+/*  <CALL_START_TIME> */
 import java.util.Date
+/* </CALL_START_TIME> */
 
 internal enum class CallingStatus {
     NONE,

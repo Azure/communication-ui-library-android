@@ -1777,7 +1777,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
             /*  <CALL_START_TIME> */
             val callStartTimeSharedFlow = MutableSharedFlow<Date>()
-            /*  </CALL_START_TIME> */
+            /* </CALL_START_TIME> */
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -1803,7 +1803,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
                 /*  <CALL_START_TIME> */
                 on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
-                /*  </CALL_START_TIME> */
+                /* </CALL_START_TIME> */
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -1860,7 +1860,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
             /*  <CALL_START_TIME> */
             val callStartTimeSharedFlow = MutableSharedFlow<Date>()
-            /*  </CALL_START_TIME> */
+            /* </CALL_START_TIME> */
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -1886,7 +1886,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
                 /*  <CALL_START_TIME> */
                 on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
-                /*  </CALL_START_TIME> */
+                /* </CALL_START_TIME> */
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -1958,7 +1958,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
             /*  <CALL_START_TIME> */
             val callStartTimeSharedFlow = MutableSharedFlow<Date>()
-            /*  </CALL_START_TIME> */
+            /* </CALL_START_TIME> */
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -1984,7 +1984,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
                 /*  <CALL_START_TIME> */
                 on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
-                /*  </CALL_START_TIME> */
+                /* </CALL_START_TIME> */
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -2052,7 +2052,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
             /*  <CALL_START_TIME> */
             val callStartTimeSharedFlow = MutableSharedFlow<Date>()
-            /*  </CALL_START_TIME> */
+            /* </CALL_START_TIME> */
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2078,7 +2078,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
                 /*  <CALL_START_TIME> */
                 on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
-                /*  </CALL_START_TIME> */
+                /* </CALL_START_TIME> */
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -2150,7 +2150,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
             /*  <CALL_START_TIME> */
             val callStartTimeSharedFlow = MutableSharedFlow<Date>()
-            /*  </CALL_START_TIME> */
+            /* </CALL_START_TIME> */
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2176,7 +2176,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
                 /*  <CALL_START_TIME> */
                 on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
-                /*  </CALL_START_TIME> */
+                /* </CALL_START_TIME> */
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -2246,7 +2246,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
             /*  <CALL_START_TIME> */
             val callStartTimeSharedFlow = MutableSharedFlow<Date>()
-            /*  </CALL_START_TIME> */
+            /* </CALL_START_TIME> */
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2272,7 +2272,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
                 /*  <CALL_START_TIME> */
                 on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
-                /*  </CALL_START_TIME> */
+                /* </CALL_START_TIME> */
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -2358,7 +2358,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
             /*  <CALL_START_TIME> */
             val callStartTimeSharedFlow = MutableSharedFlow<Date>()
-            /*  </CALL_START_TIME> */
+            /* </CALL_START_TIME> */
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2384,7 +2384,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
                 /*  <CALL_START_TIME> */
                 on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
-                /*  </CALL_START_TIME> */
+                /* </CALL_START_TIME> */
             }
 
             val configuration = CallCompositeConfiguration()
@@ -2456,7 +2456,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
             /*  <CALL_START_TIME> */
             val callStartTimeSharedFlow = MutableSharedFlow<Date>()
-            /*  </CALL_START_TIME> */
+            /* </CALL_START_TIME> */
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2482,7 +2482,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
                 /*  <CALL_START_TIME> */
                 on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
-                /*  </CALL_START_TIME> */
+                /* </CALL_START_TIME> */
             }
 
             val configuration = CallCompositeConfiguration()
@@ -2554,7 +2554,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
             /*  <CALL_START_TIME> */
             val callStartTimeSharedFlow = MutableSharedFlow<Date>()
-            /*  </CALL_START_TIME> */
+            /* </CALL_START_TIME> */
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2580,7 +2580,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
                 /*  <CALL_START_TIME> */
                 on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
-                /*  </CALL_START_TIME> */
+                /* </CALL_START_TIME> */
             }
 
             val configuration = CallCompositeConfiguration()
@@ -2652,7 +2652,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
             /*  <CALL_START_TIME> */
             val callStartTimeSharedFlow = MutableSharedFlow<Date>()
-            /*  </CALL_START_TIME> */
+            /* </CALL_START_TIME> */
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2678,7 +2678,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
                 /*  <CALL_START_TIME> */
                 on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
-                /*  </CALL_START_TIME> */
+                /* </CALL_START_TIME> */
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -2752,7 +2752,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
             /*  <CALL_START_TIME> */
             val callStartTimeSharedFlow = MutableSharedFlow<Date>()
-            /*  </CALL_START_TIME> */
+            /* </CALL_START_TIME> */
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2778,7 +2778,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
                 /*  <CALL_START_TIME> */
                 on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
-                /*  </CALL_START_TIME> */
+                /* </CALL_START_TIME> */
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -2878,7 +2878,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
             /*  <CALL_START_TIME> */
             val callStartTimeSharedFlow = MutableSharedFlow<Date>()
-            /*  </CALL_START_TIME> */
+            /* </CALL_START_TIME> */
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2905,7 +2905,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
                 /*  <CALL_START_TIME> */
                 on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
-                /*  </CALL_START_TIME> */
+                /* </CALL_START_TIME> */
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -3321,7 +3321,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
             /*  <CALL_START_TIME> */
             val callStartTimeSharedFlow = MutableSharedFlow<Date>()
-            /*  </CALL_START_TIME> */
+            /* </CALL_START_TIME> */
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -3347,7 +3347,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
                 /*  <CALL_START_TIME> */
                 on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
-                /*  </CALL_START_TIME> */
+                /* </CALL_START_TIME> */
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -3647,7 +3647,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
             /*  <CALL_START_TIME> */
             val callStartTimeSharedFlow = MutableSharedFlow<Date>()
-            /*  </CALL_START_TIME> */
+            /* </CALL_START_TIME> */
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -3673,7 +3673,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
                 /*  <CALL_START_TIME> */
                 on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
-                /*  </CALL_START_TIME> */
+                /* </CALL_START_TIME> */
             }
 
             val configuration = CallCompositeConfiguration()
@@ -3750,7 +3750,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
             /*  <CALL_START_TIME> */
             val callStartTimeSharedFlow = MutableSharedFlow<Date>()
-            /*  </CALL_START_TIME> */
+            /* </CALL_START_TIME> */
 
             val languages = listOf("abc")
 
@@ -3778,7 +3778,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
                 /*  <CALL_START_TIME> */
                 on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
-                /*  </CALL_START_TIME> */
+                /* </CALL_START_TIME> */
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -3902,7 +3902,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
             /*  <CALL_START_TIME> */
             val callStartTimeSharedFlow = MutableSharedFlow<Date>()
-            /*  </CALL_START_TIME> */
+            /* </CALL_START_TIME> */
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -3929,7 +3929,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { setTelecomManagerAudioRoute(any()) } doAnswer { }
                 /*  <CALL_START_TIME> */
                 on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
-                /*  </CALL_START_TIME> */
+                /* </CALL_START_TIME> */
             }
 
             val configuration = CallCompositeConfiguration()

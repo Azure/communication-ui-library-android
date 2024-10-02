@@ -14,7 +14,9 @@ import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelec
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallCancelledEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantLeftEvent
+/*  <CALL_START_TIME> */
 import java.util.Date
+/* </CALL_START_TIME> */
 
 internal class CallCompositeEventsHandler {
     // mutableSet does preserve element iteration order

@@ -63,7 +63,9 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.launch
+/*  <CALL_START_TIME> */
 import java.util.Date
+/* </CALL_START_TIME> */
 import java.util.concurrent.CompletableFuture
 
 import com.azure.android.communication.calling.CapabilitiesChangedEvent as SdkCapabilitiesChangedEvent
@@ -148,7 +150,7 @@ internal class CallingSDKEventHandler(
 
     /*  <CALL_START_TIME> */
     fun getCallStartTimeSharedFlow(): SharedFlow<Date> = callStartTimeSharedFlow
-    /*  </CALL_START_TIME> */
+    /* </CALL_START_TIME> */
 
     fun getCallingStateWrapperSharedFlow(): SharedFlow<CallingStateWrapper> =
         callingStateWrapperSharedFlow
@@ -243,7 +245,7 @@ internal class CallingSDKEventHandler(
         call.addOnTotalParticipantCountChangedListener(onTotalParticipantCountChanged)
         /*  <CALL_START_TIME> */
         call.addOnStartTimeUpdatedListener(onStartTimeUpdated)
-        /*  <CALL_START_TIME> */
+        /* </CALL_START_TIME> */
         recordingFeature = call.feature { RecordingCallFeature::class.java }
         recordingFeature.addOnIsRecordingActiveChangedListener(onRecordingChanged)
         transcriptionFeature = call.feature { TranscriptionCallFeature::class.java }
@@ -310,7 +312,7 @@ internal class CallingSDKEventHandler(
         call?.removeOnIsMutedChangedListener(onIsMutedChanged)
         /*  <CALL_START_TIME> */
         call?.removeOnStartTimeUpdatedListener(onStartTimeUpdated)
-        /*  <CALL_START_TIME> */
+        /* </CALL_START_TIME> */
         unsubscribeFromUserFacingDiagnosticsEvents()
     }
 
