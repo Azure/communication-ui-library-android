@@ -609,6 +609,7 @@ public final class CallComposite {
         configuration.getCallCompositeEventsHandler().removeOnRemoteParticipantLeftEventHandler(eventHandler);
     }
 
+    /*  <CALL_START_TIME> */
     /**
      * Add {@link CallCompositeEventHandler}.
      *
@@ -651,6 +652,7 @@ public final class CallComposite {
         }
         return null;
     }
+    /*  <CALL_START_TIME> */
 
     /**
      * Add {@link CallCompositeEventHandler}

@@ -52,7 +52,9 @@ import java.util.concurrent.atomic.AtomicBoolean
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.io.File
+/*  <CALL_START_TIME> */
 import java.util.Date
+/*  </CALL_START_TIME> */
 
 internal interface LocalStreamEventObserver {
     fun onSwitchSource(deviceInfo: VideoDeviceInfo)
@@ -452,9 +454,15 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         return remoteParticipantsInfoModelSharedFlow
     }
 
+    /*  <CALL_START_TIME> */
     override fun getCallStartTimeSharedFlow(): SharedFlow<Date> {
         return MutableSharedFlow()
     }
+
+    override fun getCallStartTime(): Date? {
+        return null
+    }
+    /*  </CALL_START_TIME> */
 
     override fun getCamerasCountStateFlow(): StateFlow<Int> = getCameraCountStateFlow
     override fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?> {
@@ -501,11 +509,11 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         return emptyList()
     }
 
-    /* <RTT_POC>
-    override fun getRttSharedFlow(): SharedFlow<Pair<String, String>> {
-        TODO("Not yet implemented")
-    }
-    </RTT_POC> */
+/* <RTT_POC>
+override fun getRttSharedFlow(): SharedFlow<Pair<String, String>> {
+    TODO("Not yet implemented")
+}
+</RTT_POC> */
 
     override fun setTelecomManagerAudioRoute(audioRoute: Int) {
     }
@@ -556,10 +564,6 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
 
     override fun getCaptionsTypeChangedSharedFlow(): SharedFlow<CallCompositeCaptionsType> {
         return captionsTypeChangedSharedFlow
-    }
-
-    override fun getCallStartTime(): Date? {
-        return null
     }
 
     private fun RemoteVideoStream.asVideoStreamModel(): VideoStreamModel {

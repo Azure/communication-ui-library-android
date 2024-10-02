@@ -61,7 +61,9 @@ internal interface CallingSDK {
     fun getCallingStateWrapperSharedFlow(): SharedFlow<CallingStateWrapper>
     fun getCallIdStateFlow(): StateFlow<String?>
     fun getRemoteParticipantInfoModelSharedFlow(): Flow<Map<String, ParticipantInfoModel>>
+    /*  <CALL_START_TIME> */
     fun getCallStartTimeSharedFlow(): SharedFlow<Date>
+    /* </CALL_START_TIME> */
     fun getCamerasCountStateFlow(): StateFlow<Int>
     fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?>
     fun admit(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?>
@@ -100,7 +102,9 @@ internal interface CallingSDK {
     fun getCaptionsTypeChangedSharedFlow(): SharedFlow<CallCompositeCaptionsType>
     //endregion
 
+    /*  <CALL_START_TIME> */
     fun getCallStartTime(): Date?
+    /* </CALL_START_TIME> */
 }
 
 internal interface RemoteParticipant {

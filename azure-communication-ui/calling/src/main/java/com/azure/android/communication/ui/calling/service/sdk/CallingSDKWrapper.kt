@@ -94,9 +94,11 @@ internal class CallingSDKWrapper(
             }
         }
 
+    /*  <CALL_START_TIME> */
     override fun getCallStartTimeSharedFlow(): SharedFlow<Date> {
         return callingSDKEventHandler.getCallStartTimeSharedFlow()
     }
+    /* </CALL_START_TIME> */
 
     override fun getRemoteParticipantsMap(): Map<String, RemoteParticipant> =
         callingSDKEventHandler.getRemoteParticipantsMap().mapValues { it.value.into() }
@@ -494,12 +496,14 @@ internal class CallingSDKWrapper(
     override fun getCaptionsTypeChangedSharedFlow() =
         callingSDKEventHandler.getCaptionsTypeChangedSharedFlow()
 
+    /*  <CALL_START_TIME> */
     override fun getCallStartTime(): Date? {
         if (nullableCall != null) {
             return call.startTime
         }
         return null
     }
+    /* </CALL_START_TIME> */
 
     override fun startCaptions(spokenLanguage: String?): CompletableFuture<Void> {
         val resultFuture = CompletableFuture<Void>()
