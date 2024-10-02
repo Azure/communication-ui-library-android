@@ -287,13 +287,13 @@ class CallCompositeManager(private val context: Context) {
     ) {
         callComposite.addOnErrorEventHandler(CallLauncherActivityErrorHandler(context, callComposite))
 
-        callComposite.addOnCallStartTimeUpdatedEventHandler { event ->
-            toast(context, "Call start time updated: ${event.startTime}")
+        callComposite.addOnCallStartTimeUpdatedEventHandler { startTime ->
+            toast(context, "Call start time updated: $startTime")
         }
 
         val callStateEventHandler: ((CallCompositeCallStateChangedEvent) -> Unit) = {
             callCompositeCallStateStateFlow.value = it.code.toString()
-            toast(context, "Call State: ${it.code}.")
+            toast(context, "Call State: ${it.code}. start time: ${callComposite.callStartTime} ")
         }
 
         callComposite.addOnCallStateChangedEventHandler(callStateEventHandler)

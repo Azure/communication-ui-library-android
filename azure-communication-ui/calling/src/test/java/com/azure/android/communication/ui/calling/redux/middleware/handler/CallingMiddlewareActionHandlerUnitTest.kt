@@ -79,6 +79,7 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.never
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
+import java.util.Date
 
 @RunWith(MockitoJUnitRunner::class)
 internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
@@ -386,6 +387,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
             val captionsEnabledChangedSharedFlow = MutableSharedFlow<Boolean>()
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+            val callStartTimeSharedFlow = MutableSharedFlow<Date>()
 
             val participantMap: MutableMap<String, ParticipantInfoModel> = HashMap()
             participantMap["user"] =
@@ -422,6 +424,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getActiveSpokenLanguageChangedSharedFlow() } doReturn activeSpokenLanguageChangedSharedFlow
                 on { getActiveCaptionLanguageChangedSharedFlow() } doReturn activeCaptionLanguageChangedSharedFlow
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
+                on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -579,6 +582,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
             val captionsEnabledChangedSharedFlow = MutableSharedFlow<Boolean>()
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+            val callStartTimeSharedFlow = MutableSharedFlow<Date>()
 
             val dominantSpeakers = listOf("userId")
 
@@ -604,6 +608,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getActiveSpokenLanguageChangedSharedFlow() } doReturn activeSpokenLanguageChangedSharedFlow
                 on { getActiveCaptionLanguageChangedSharedFlow() } doReturn activeCaptionLanguageChangedSharedFlow
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
+                on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -672,6 +677,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
             val captionsEnabledChangedSharedFlow = MutableSharedFlow<Boolean>()
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+            val callStartTimeSharedFlow = MutableSharedFlow<Date>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -695,6 +701,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getActiveSpokenLanguageChangedSharedFlow() } doReturn activeSpokenLanguageChangedSharedFlow
                 on { getActiveCaptionLanguageChangedSharedFlow() } doReturn activeCaptionLanguageChangedSharedFlow
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
+                on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -798,6 +805,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
             val captionsEnabledChangedSharedFlow = MutableSharedFlow<Boolean>()
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+            val callStartTimeSharedFlow = MutableSharedFlow<Date>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -821,6 +829,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getActiveSpokenLanguageChangedSharedFlow() } doReturn activeSpokenLanguageChangedSharedFlow
                 on { getActiveCaptionLanguageChangedSharedFlow() } doReturn activeCaptionLanguageChangedSharedFlow
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
+                on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -1748,6 +1757,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
             val captionsEnabledChangedSharedFlow = MutableSharedFlow<Boolean>()
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+            val callStartTimeSharedFlow = MutableSharedFlow<Date>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -1771,6 +1781,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getActiveSpokenLanguageChangedSharedFlow() } doReturn activeSpokenLanguageChangedSharedFlow
                 on { getActiveCaptionLanguageChangedSharedFlow() } doReturn activeCaptionLanguageChangedSharedFlow
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
+                on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -1825,6 +1836,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
             val captionsEnabledChangedSharedFlow = MutableSharedFlow<Boolean>()
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+            val callStartTimeSharedFlow = MutableSharedFlow<Date>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -1848,6 +1860,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getActiveSpokenLanguageChangedSharedFlow() } doReturn activeSpokenLanguageChangedSharedFlow
                 on { getActiveCaptionLanguageChangedSharedFlow() } doReturn activeCaptionLanguageChangedSharedFlow
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
+                on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -1917,6 +1930,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
             val captionsEnabledChangedSharedFlow = MutableSharedFlow<Boolean>()
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+            val callStartTimeSharedFlow = MutableSharedFlow<Date>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -1940,6 +1954,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getActiveSpokenLanguageChangedSharedFlow() } doReturn activeSpokenLanguageChangedSharedFlow
                 on { getActiveCaptionLanguageChangedSharedFlow() } doReturn activeCaptionLanguageChangedSharedFlow
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
+                on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -2005,6 +2020,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
             val captionsEnabledChangedSharedFlow = MutableSharedFlow<Boolean>()
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+            val callStartTimeSharedFlow = MutableSharedFlow<Date>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2028,6 +2044,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getActiveSpokenLanguageChangedSharedFlow() } doReturn activeSpokenLanguageChangedSharedFlow
                 on { getActiveCaptionLanguageChangedSharedFlow() } doReturn activeCaptionLanguageChangedSharedFlow
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
+                on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -2097,6 +2114,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
             val captionsEnabledChangedSharedFlow = MutableSharedFlow<Boolean>()
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+            val callStartTimeSharedFlow = MutableSharedFlow<Date>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2120,6 +2138,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getActiveSpokenLanguageChangedSharedFlow() } doReturn activeSpokenLanguageChangedSharedFlow
                 on { getActiveCaptionLanguageChangedSharedFlow() } doReturn activeCaptionLanguageChangedSharedFlow
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
+                on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -2187,6 +2206,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
             val captionsEnabledChangedSharedFlow = MutableSharedFlow<Boolean>()
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+            val callStartTimeSharedFlow = MutableSharedFlow<Date>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2210,6 +2230,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getActiveSpokenLanguageChangedSharedFlow() } doReturn activeSpokenLanguageChangedSharedFlow
                 on { getActiveCaptionLanguageChangedSharedFlow() } doReturn activeCaptionLanguageChangedSharedFlow
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
+                on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -2293,6 +2314,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
             val captionsEnabledChangedSharedFlow = MutableSharedFlow<Boolean>()
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+            val callStartTimeSharedFlow = MutableSharedFlow<Date>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2316,6 +2338,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getActiveSpokenLanguageChangedSharedFlow() } doReturn activeSpokenLanguageChangedSharedFlow
                 on { getActiveCaptionLanguageChangedSharedFlow() } doReturn activeCaptionLanguageChangedSharedFlow
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
+                on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
             }
 
             val configuration = CallCompositeConfiguration()
@@ -2385,6 +2408,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
             val captionsEnabledChangedSharedFlow = MutableSharedFlow<Boolean>()
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+            val callStartTimeSharedFlow = MutableSharedFlow<Date>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2408,6 +2432,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getActiveSpokenLanguageChangedSharedFlow() } doReturn activeSpokenLanguageChangedSharedFlow
                 on { getActiveCaptionLanguageChangedSharedFlow() } doReturn activeCaptionLanguageChangedSharedFlow
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
+                on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
             }
 
             val configuration = CallCompositeConfiguration()
@@ -2477,6 +2502,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
             val captionsEnabledChangedSharedFlow = MutableSharedFlow<Boolean>()
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+            val callStartTimeSharedFlow = MutableSharedFlow<Date>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2500,6 +2526,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getActiveSpokenLanguageChangedSharedFlow() } doReturn activeSpokenLanguageChangedSharedFlow
                 on { getActiveCaptionLanguageChangedSharedFlow() } doReturn activeCaptionLanguageChangedSharedFlow
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
+                on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
             }
 
             val configuration = CallCompositeConfiguration()
@@ -2569,6 +2596,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
             val captionsEnabledChangedSharedFlow = MutableSharedFlow<Boolean>()
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+            val callStartTimeSharedFlow = MutableSharedFlow<Date>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2592,6 +2620,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getActiveSpokenLanguageChangedSharedFlow() } doReturn activeSpokenLanguageChangedSharedFlow
                 on { getActiveCaptionLanguageChangedSharedFlow() } doReturn activeCaptionLanguageChangedSharedFlow
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
+                on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -2663,6 +2692,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
             val captionsEnabledChangedSharedFlow = MutableSharedFlow<Boolean>()
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+            val callStartTimeSharedFlow = MutableSharedFlow<Date>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2686,6 +2716,8 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getActiveSpokenLanguageChangedSharedFlow() } doReturn activeSpokenLanguageChangedSharedFlow
                 on { getActiveCaptionLanguageChangedSharedFlow() } doReturn activeCaptionLanguageChangedSharedFlow
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
+                on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
+                on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -2783,6 +2815,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
             val captionsEnabledChangedSharedFlow = MutableSharedFlow<Boolean>()
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+            val callStartTimeSharedFlow = MutableSharedFlow<Date>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -2807,6 +2840,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getActiveSpokenLanguageChangedSharedFlow() } doReturn activeSpokenLanguageChangedSharedFlow
                 on { getActiveCaptionLanguageChangedSharedFlow() } doReturn activeCaptionLanguageChangedSharedFlow
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
+                on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -3220,6 +3254,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
             val captionsEnabledChangedSharedFlow = MutableSharedFlow<Boolean>()
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+            val callStartTimeSharedFlow = MutableSharedFlow<Date>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -3243,6 +3278,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getActiveSpokenLanguageChangedSharedFlow() } doReturn activeSpokenLanguageChangedSharedFlow
                 on { getActiveCaptionLanguageChangedSharedFlow() } doReturn activeCaptionLanguageChangedSharedFlow
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
+                on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -3540,6 +3576,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val activeSpokenLanguageChangedSharedFlow = MutableSharedFlow<String>()
             val activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+            val callStartTimeSharedFlow = MutableSharedFlow<Date>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -3563,6 +3600,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getActiveSpokenLanguageChangedSharedFlow() } doReturn activeSpokenLanguageChangedSharedFlow
                 on { getActiveCaptionLanguageChangedSharedFlow() } doReturn activeCaptionLanguageChangedSharedFlow
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
+                on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
             }
 
             val configuration = CallCompositeConfiguration()
@@ -3637,6 +3675,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val activeSpokenLanguageChangedSharedFlow = MutableSharedFlow<String>()
             val activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+            val callStartTimeSharedFlow = MutableSharedFlow<Date>()
 
             val languages = listOf("abc")
 
@@ -3662,6 +3701,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getActiveSpokenLanguageChangedSharedFlow() } doReturn activeSpokenLanguageChangedSharedFlow
                 on { getActiveCaptionLanguageChangedSharedFlow() } doReturn activeCaptionLanguageChangedSharedFlow
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
+                on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
             }
 
             val handler = callingMiddlewareActionHandlerImpl(mockCallingService)
@@ -3783,6 +3823,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
             val activeSpokenLanguageChangedSharedFlow = MutableSharedFlow<String>()
             val activeCaptionLanguageChangedSharedFlow = MutableSharedFlow<String>()
             val captionsTypeChangedSharedFlow = MutableSharedFlow<CallCompositeCaptionsType>()
+            val callStartTimeSharedFlow = MutableSharedFlow<Date>()
 
             val mockCallingService: CallingService = mock {
                 on { getParticipantsInfoModelSharedFlow() } doReturn callingServiceParticipantsSharedFlow
@@ -3807,6 +3848,7 @@ internal class CallingMiddlewareActionHandlerUnitTest : ACSBaseTestCoroutine() {
                 on { getActiveCaptionLanguageChangedSharedFlow() } doReturn activeCaptionLanguageChangedSharedFlow
                 on { getCaptionsTypeChangedSharedFlow() } doReturn captionsTypeChangedSharedFlow
                 on { setTelecomManagerAudioRoute(any()) } doAnswer { }
+                on { getCallStartTimeSharedFlow() } doReturn callStartTimeSharedFlow
             }
 
             val configuration = CallCompositeConfiguration()

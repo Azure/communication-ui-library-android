@@ -11,10 +11,10 @@ import com.azure.android.communication.ui.calling.models.CallCompositeDismissedE
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent
-import com.azure.android.communication.ui.calling.models.CallCompositeCallStartTimeEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallCancelledEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantLeftEvent
+import java.util.Date
 
 internal class CallCompositeEventsHandler {
     // mutableSet does preserve element iteration order
@@ -44,7 +44,7 @@ internal class CallCompositeEventsHandler {
         mutableSetOf<CallCompositeEventHandler<CallCompositeIncomingCallCancelledEvent>>()
 
     private val callStartTimeUpdatedEventHandlers =
-        mutableSetOf<CallCompositeEventHandler<CallCompositeCallStartTimeEvent>>()
+        mutableSetOf<CallCompositeEventHandler<Date>>()
 
     fun getOnErrorHandlers() = errorHandlers.asIterable()
 
@@ -132,11 +132,11 @@ internal class CallCompositeEventsHandler {
 
     fun getOnCallStartTimeUpdatedHandlers() = callStartTimeUpdatedEventHandlers.asIterable()
 
-    fun addOnCallStartTimeUpdatedEventHandler(eventHandler: CallCompositeEventHandler<CallCompositeCallStartTimeEvent>) {
+    fun addOnCallStartTimeUpdatedEventHandler(eventHandler: CallCompositeEventHandler<Date>) {
         callStartTimeUpdatedEventHandlers.add(eventHandler)
     }
 
-    fun removeOnCallStartTimeUpdatedEventHandler(eventHandler: CallCompositeEventHandler<CallCompositeCallStartTimeEvent>) {
+    fun removeOnCallStartTimeUpdatedEventHandler(eventHandler: CallCompositeEventHandler<Date>) {
         callStartTimeUpdatedEventHandlers.remove(eventHandler)
     }
 }

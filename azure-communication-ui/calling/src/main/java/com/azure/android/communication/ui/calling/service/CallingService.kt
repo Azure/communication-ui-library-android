@@ -101,6 +101,7 @@ internal class CallingService(
         }
     }
 
+    fun getCallStartTime(): Date? = callingSdk.getCallStartTime()
     fun getCallStartTimeSharedFlow(): SharedFlow<Date> = callingSdk.getCallStartTimeSharedFlow()
 
     fun getParticipantsInfoModelSharedFlow(): SharedFlow<Map<String, ParticipantInfoModel>> {

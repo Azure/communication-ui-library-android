@@ -494,6 +494,13 @@ internal class CallingSDKWrapper(
     override fun getCaptionsTypeChangedSharedFlow() =
         callingSDKEventHandler.getCaptionsTypeChangedSharedFlow()
 
+    override fun getCallStartTime(): Date? {
+        if (nullableCall != null) {
+            return call.startTime
+        }
+        return null
+    }
+
     override fun startCaptions(spokenLanguage: String?): CompletableFuture<Void> {
         val resultFuture = CompletableFuture<Void>()
         val captionsFeature = call.feature(Features.CAPTIONS)
