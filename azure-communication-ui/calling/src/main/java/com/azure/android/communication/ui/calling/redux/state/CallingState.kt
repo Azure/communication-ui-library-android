@@ -37,7 +37,9 @@ internal data class CallingState(
     val isDefaultParametersCallStarted: Boolean = false,
     val callEndReasonCode: Int? = null,
     val callEndReasonSubCode: Int? = null,
+    /*  <CALL_START_TIME> */
     val callStartTime: Date? = null,
+    /* </CALL_START_TIME> */
 )
 
 internal fun CallingState.isDisconnected() =

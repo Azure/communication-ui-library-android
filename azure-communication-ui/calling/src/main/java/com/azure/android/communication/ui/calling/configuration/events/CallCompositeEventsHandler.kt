@@ -43,8 +43,10 @@ internal class CallCompositeEventsHandler {
     private val incomingCallCancelledEventHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeIncomingCallCancelledEvent>>()
 
+    /*  <CALL_START_TIME> */
     private val callStartTimeUpdatedEventHandlers =
         mutableSetOf<CallCompositeEventHandler<Date>>()
+    /* </CALL_START_TIME> */
 
     fun getOnErrorHandlers() = errorHandlers.asIterable()
 
@@ -130,6 +132,7 @@ internal class CallCompositeEventsHandler {
 
     fun getOnIncomingCallHandlers() = incomingCallEventHandlers.asIterable()
 
+    /*  <CALL_START_TIME> */
     fun getOnCallStartTimeUpdatedHandlers() = callStartTimeUpdatedEventHandlers.asIterable()
 
     fun addOnCallStartTimeUpdatedEventHandler(eventHandler: CallCompositeEventHandler<Date>) {
@@ -139,4 +142,5 @@ internal class CallCompositeEventsHandler {
     fun removeOnCallStartTimeUpdatedEventHandler(eventHandler: CallCompositeEventHandler<Date>) {
         callStartTimeUpdatedEventHandlers.remove(eventHandler)
     }
+    /* </CALL_START_TIME> */
 }
