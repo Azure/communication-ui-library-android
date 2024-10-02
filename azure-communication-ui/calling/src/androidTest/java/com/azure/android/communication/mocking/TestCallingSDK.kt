@@ -453,7 +453,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     }
 
     override fun getCallStartTimeSharedFlow(): SharedFlow<Date> {
-        TODO("Not yet implemented")
+        return MutableSharedFlow()
     }
 
     override fun getCamerasCountStateFlow(): StateFlow<Int> = getCameraCountStateFlow
@@ -559,7 +559,7 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     }
 
     override fun getCallStartTime(): Date? {
-        TODO("Not yet implemented")
+        return null
     }
 
     private fun RemoteVideoStream.asVideoStreamModel(): VideoStreamModel {
