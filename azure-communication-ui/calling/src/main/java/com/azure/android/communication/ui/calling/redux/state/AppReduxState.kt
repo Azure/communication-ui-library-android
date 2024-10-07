@@ -160,6 +160,16 @@ internal class AppReduxState(
                 title = it.title,
                 drawableId = it.drawableId,
             )
+        } ?: emptyList(),
+
+        callScreenHeaderCustomButtonsState = localOptions?.callScreenOptions?.headerViewData?.customButtons?.map {
+            CustomButtonState(
+                id = it.id,
+                isEnabled = it.isEnabled,
+                isVisible = it.isVisible,
+                title = it.title,
+                drawableId = it.drawableId,
+            )
         } ?: emptyList()
     )
 }

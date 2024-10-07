@@ -120,6 +120,7 @@ internal class CallingViewModel(
             state.callState.callingStatus,
             remoteParticipantsForGridView.count(),
             state.callScreenInfoHeaderState,
+            state.buttonState,
             this::requestCallEndOnBackPressed,
         )
 
@@ -292,7 +293,8 @@ internal class CallingViewModel(
 
             floatingHeaderViewModel.update(
                 totalParticipantCountExceptHidden,
-                state.callScreenInfoHeaderState
+                state.callScreenInfoHeaderState,
+                state.buttonState,
             )
 
             lobbyHeaderViewModel.update(
