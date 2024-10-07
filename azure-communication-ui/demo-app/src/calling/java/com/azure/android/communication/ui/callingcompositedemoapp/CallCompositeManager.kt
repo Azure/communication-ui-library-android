@@ -716,8 +716,8 @@ class CallCompositeManager(private val context: Context) {
         ) {
             callScreenOptions = callScreenOptions ?: CallCompositeCallScreenOptions()
 
-            callScreenHeaderOptions =
-                CallCompositeCallScreenHeaderViewData()
+            callScreenHeaderOptions = callScreenHeaderOptions
+                ?: CallCompositeCallScreenHeaderViewData()
             SettingsFeatures.getCallScreenInformationTitle()?.let {
                 if (it.isNotEmpty()) {
                     callScreenHeaderOptions?.title = it
@@ -728,8 +728,33 @@ class CallCompositeManager(private val context: Context) {
                     callScreenHeaderOptions?.subtitle = it
                 }
             }
-            callScreenOptions.setHeaderViewData(callScreenHeaderOptions)
         }
+
+        if (SettingsFeatures.getAddCustomButtons() == true) {
+            val headerButton1 =
+                CallCompositeCustomButtonViewData(
+                    UUID.randomUUID().toString(),
+                    R.drawable.ic_fluent_chat_24_regular,
+                    "Header Button 1",
+                    fun(it: CallCompositeCustomButtonClickEvent) {
+                        toast(it.context, "Header Button 1 clicked")
+                    }
+                )
+            val headerButton2 =
+                CallCompositeCustomButtonViewData(
+                    UUID.randomUUID().toString(),
+                    R.drawable.ic_fluent_arrow_next_24_regular,
+                    "Header Button 2",
+                    fun(it: CallCompositeCustomButtonClickEvent) {
+                        toast(it.context, "Header Button 2 clicked")
+                    }
+                )
+            callScreenHeaderOptions = callScreenHeaderOptions
+                ?: CallCompositeCallScreenHeaderViewData()
+            callScreenHeaderOptions?.customButtons = listOf(headerButton1, headerButton2)
+        }
+
+        callScreenOptions?.setHeaderViewData(callScreenHeaderOptions)
         return callScreenOptions
     }
 

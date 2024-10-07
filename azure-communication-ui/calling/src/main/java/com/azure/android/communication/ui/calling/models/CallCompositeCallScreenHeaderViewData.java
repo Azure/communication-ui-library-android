@@ -4,6 +4,9 @@ package com.azure.android.communication.ui.calling.models;
 
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Options for the {@link CallCompositeCallScreenHeaderViewData}.
  */
@@ -13,6 +16,7 @@ public final class CallCompositeCallScreenHeaderViewData {
 
     private String title;
     private String subtitle;
+    private List<CallCompositeCustomButtonViewData> customButtons = new ArrayList<>();
 
     /**
      * Create a {@link CallCompositeCallScreenHeaderViewData} object.
@@ -66,5 +70,22 @@ public final class CallCompositeCallScreenHeaderViewData {
      */
     public String getTitle() {
         return title;
+    }
+
+    /**
+     * Set a custom button to the call composite.
+     * @param button {@link CallCompositeCallScreenControlBarOptions}
+     */
+    public CallCompositeCallScreenHeaderViewData setCustomButtons(
+            final List<CallCompositeCustomButtonViewData> button) {
+        customButtons = button;
+        return this;
+    }
+
+    /**
+     * Get a custom button to the call composite.
+     */
+    public List<CallCompositeCustomButtonViewData> getCustomButtons() {
+        return customButtons;
     }
 }

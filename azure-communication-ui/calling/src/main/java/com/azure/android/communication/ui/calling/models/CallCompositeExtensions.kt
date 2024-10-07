@@ -43,6 +43,10 @@ internal fun CallCompositeCustomButtonViewData.setVisibleChangedEventHandler(han
     this.visibleChangedEventHandler = handler
 }
 
+internal fun CallCompositeCustomButtonViewData.setDrawableIdChangedEventHandler(handler: CallCompositeEventHandler<Int>) {
+    this.drawableIdChangedEventHandler = handler
+}
+
 internal fun CallCompositeButtonViewData.setEnabledChangedEventHandler(handler: CallCompositeEventHandler<Boolean>) {
     this.enabledChangedEventHandler = handler
 }
