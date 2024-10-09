@@ -3,11 +3,13 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.header
 
+/* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
 import android.content.Context
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.createCustomButtonClickEvent
 import com.azure.android.communication.ui.calling.presentation.manager.UpdatableOptionsManager
 import com.azure.android.communication.ui.calling.redux.state.ButtonState
+/* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
 import com.azure.android.communication.ui.calling.redux.state.CallScreenInfoHeaderState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,8 +17,10 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class InfoHeaderViewModel(
     val multitaskingEnabled: Boolean,
+    /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
     private val updatableOptionsManager: UpdatableOptionsManager,
     private val logger: Logger,
+    /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
 ) {
     private lateinit var displayFloatingHeaderFlow: MutableStateFlow<Boolean>
     private lateinit var isOverlayDisplayedFlow: MutableStateFlow<Boolean>
@@ -28,9 +32,11 @@ internal class InfoHeaderViewModel(
     private lateinit var titleStateFlow: MutableStateFlow<String?>
     private lateinit var subtitleStateFlow: MutableStateFlow<String?>
 
+    /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
     private var buttonState: ButtonState? = null
     private lateinit var customButton1MutableStateFlow: MutableStateFlow<CustomButtonEntry?>
     private lateinit var customButton2MutableStateFlow: MutableStateFlow<CustomButtonEntry?>
+    /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
 
     fun getTitleStateFlow(): StateFlow<String?> = titleStateFlow
     fun getSubtitleStateFlow(): StateFlow<String?> = subtitleStateFlow
@@ -41,14 +47,18 @@ internal class InfoHeaderViewModel(
 
     fun getNumberOfParticipantsFlow(): StateFlow<Int> = numberOfParticipantsFlow
 
+    /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
     fun getCustomButton1StateFlow(): StateFlow<CustomButtonEntry?> = customButton1MutableStateFlow
     fun getCustomButton2StateFlow(): StateFlow<CustomButtonEntry?> = customButton2MutableStateFlow
+    /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
 
     fun init(
         callingStatus: CallingStatus,
         numberOfRemoteParticipants: Int,
         callScreenInfoHeaderState: CallScreenInfoHeaderState,
+        /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
         buttonState: ButtonState,
+        /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
         requestCallEndCallback: () -> Unit,
     ) {
         titleStateFlow = MutableStateFlow(callScreenInfoHeaderState.title)
@@ -57,18 +67,24 @@ internal class InfoHeaderViewModel(
         numberOfParticipantsFlow = MutableStateFlow(numberOfRemoteParticipants)
         isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayed(callingStatus))
         this.requestCallEndCallback = requestCallEndCallback
+        /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
         this.buttonState = buttonState
-        customButton1MutableStateFlow = MutableStateFlow<CustomButtonEntry?>(null)
-        customButton2MutableStateFlow = MutableStateFlow<CustomButtonEntry?>(null)
+        customButton1MutableStateFlow = MutableStateFlow(null)
+        customButton2MutableStateFlow = MutableStateFlow(null)
         updateCustomButtonsState(buttonState)
+        /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
     }
 
     fun update(
         numberOfRemoteParticipants: Int,
         callScreenInfoHeaderState: CallScreenInfoHeaderState,
+        /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
         buttonState: ButtonState,
+        /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
     ) {
+        /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
         this.buttonState = buttonState
+        /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
         titleStateFlow.value = callScreenInfoHeaderState.title
         subtitleStateFlow.value = callScreenInfoHeaderState.subtitle
         numberOfParticipantsFlow.value = numberOfRemoteParticipants
@@ -76,9 +92,12 @@ internal class InfoHeaderViewModel(
             displayedOnLaunch = true
             switchFloatingHeader()
         }
+        /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
         updateCustomButtonsState(buttonState)
+        /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
     }
 
+    /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
     private fun updateCustomButtonsState(buttonState: ButtonState) {
         buttonState.callScreenHeaderCustomButtonsState.firstOrNull()?.let {
             val customButtonEntry = CustomButtonEntry(
@@ -104,6 +123,7 @@ internal class InfoHeaderViewModel(
             }
         }
     }
+    /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
 
     fun updateIsOverlayDisplayed(callingStatus: CallingStatus) {
         isOverlayDisplayedFlow.value = isOverlayDisplayed(callingStatus)
@@ -124,6 +144,7 @@ internal class InfoHeaderViewModel(
         requestCallEndCallback()
     }
 
+    /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
     fun onCustomButtonClicked(context: Context, id: String) {
         try {
             val buttonViewData = updatableOptionsManager.getButton(id)
@@ -142,4 +163,5 @@ internal class InfoHeaderViewModel(
         val isVisible: Boolean,
         val isEnabled: Boolean,
     )
+    /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
 }
