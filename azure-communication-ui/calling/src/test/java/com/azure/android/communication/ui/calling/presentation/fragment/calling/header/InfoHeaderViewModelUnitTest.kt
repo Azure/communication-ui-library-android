@@ -209,7 +209,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 false,
                 /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
                 mock(), mock()
-            /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+                /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             )
             floatingHeaderViewModel.init(
                 appState.callState.callingStatus,
