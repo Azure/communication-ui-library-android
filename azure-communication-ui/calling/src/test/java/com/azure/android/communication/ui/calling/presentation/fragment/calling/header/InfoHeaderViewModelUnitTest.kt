@@ -54,12 +54,19 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 isTranscribing = false
             )
 
-            val floatingHeaderViewModel = InfoHeaderViewModel(false, mock(), mock())
+            val floatingHeaderViewModel = InfoHeaderViewModel(
+                false,
+                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
+                mock(), mock()
+                /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+            )
             floatingHeaderViewModel.init(
                 appState.callState.callingStatus,
                 expectedParticipantMap.count(),
                 CallScreenInfoHeaderState(null, null),
+                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
                 appState.buttonState,
+                /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             ) { }
 
             val resultListFromNumberOfParticipantsFlow =
@@ -74,7 +81,9 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             floatingHeaderViewModel.update(
                 expectedParticipantMap.count(),
                 CallScreenInfoHeaderState(null, null),
+                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
                 appState.buttonState,
+                /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             )
 
             // assert
@@ -119,12 +128,19 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 isTranscribing = false
             )
 
-            val floatingHeaderViewModel = InfoHeaderViewModel(false, mock(), mock())
+            val floatingHeaderViewModel = InfoHeaderViewModel(
+                false,
+                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
+                mock(), mock()
+                /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+            )
             floatingHeaderViewModel.init(
                 appState.callState.callingStatus,
                 expectedParticipantMap.count(),
                 CallScreenInfoHeaderState(null, null),
+                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
                 appState.buttonState,
+                /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             ) {}
 
             val resultListFromIsLobbyOverlayDisplayedFlow =
@@ -187,12 +203,19 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             val title = "title"
             val subtitle = "subtitle"
 
-            val floatingHeaderViewModel = InfoHeaderViewModel(false, mock(), mock())
+            val floatingHeaderViewModel = InfoHeaderViewModel(
+                false,
+                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
+                mock(), mock()
+            /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+            )
             floatingHeaderViewModel.init(
                 appState.callState.callingStatus,
                 expectedParticipantMap.count(),
                 CallScreenInfoHeaderState(title, subtitle),
+                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
                 appState.buttonState,
+                /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             ) { }
 
             val resultListFromNumberOfParticipantsFlow =
@@ -221,7 +244,9 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             floatingHeaderViewModel.update(
                 expectedParticipantMap.count(),
                 CallScreenInfoHeaderState(null, null),
+                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
                 appState.buttonState,
+                /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             )
 
             // assert
