@@ -35,6 +35,7 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
             accessoryImageView.visibility =
                 if (bottomCellItem.isChecked == true) View.VISIBLE else View.INVISIBLE
             avatarView.visibility = View.GONE
+            avatarViewForImage.visibility = View.GONE
             icon.visibility = View.GONE
             showMoreImageView.visibility = View.GONE
             additionalText.visibility = View.GONE
