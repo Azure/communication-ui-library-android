@@ -334,6 +334,9 @@ internal class CallingMiddlewareActionHandlerImpl(
         subscribeOnTotalRemoteParticipantCountChanged(store)
         subscribeOnCapabilitiesChanged(store)
         subscribeToCaptionsUpdates(store)
+        /*  <CALL_START_TIME> */
+        subscribeToCallStartTimeUpdates(store)
+        /* </CALL_START_TIME> */
 
         /* <RTT_POC>
         subscribeRttStateUpdate(store)
@@ -1005,4 +1008,21 @@ internal class CallingMiddlewareActionHandlerImpl(
             }
         }
     }
+
+    /*  <CALL_START_TIME> */
+    private fun subscribeToCallStartTimeUpdates(store: Store<ReduxState>) {
+        coroutineScope.launch {
+            callingService.getCallStartTimeSharedFlow().collect { date ->
+                store.dispatch(CallingAction.CallStartTimeUpdated(date))
+                configuration.callCompositeEventsHandler.getOnCallStartTimeUpdatedHandlers().forEach {
+                    try {
+                        it.handle(date)
+                    } catch (ex: Exception) {
+                        // catching and suppressing any client's exceptions
+                    }
+                }
+            }
+        }
+    }
+    /* </CALL_START_TIME> */
 }
