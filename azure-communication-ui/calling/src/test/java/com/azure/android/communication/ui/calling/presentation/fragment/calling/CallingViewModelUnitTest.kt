@@ -444,7 +444,10 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             verify(mockParticipantGridViewModel, times(1)).update(any(), any(), any(), any(), any())
             verify(mockFloatingHeaderViewModel, times(1)).update(
                 any(),
-                any()
+                any(),
+                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
+                any(),
+                /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             )
             verify(mockParticipantListViewModel, times(1)).update(any(), any(), any(), any(), any())
             verify(mockBannerViewModel, times(1)).update(any(), any())
@@ -571,7 +574,10 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             verify(mockParticipantGridViewModel, times(1)).update(any(), any(), any(), any(), any())
             verify(mockFloatingHeaderViewModel, times(1)).update(
                 any(),
-                any()
+                any(),
+                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
+                any(),
+                /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             )
             verify(mockParticipantListViewModel, times(1)).update(any(), any(), any(), any(), any())
             verify(mockBannerViewModel, times(1)).update(any(), any())
@@ -697,7 +703,10 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             verify(mockParticipantGridViewModel, times(0)).update(any(), any(), any(), any(), any())
             verify(mockFloatingHeaderViewModel, times(0)).update(
                 any(),
-                any()
+                any(),
+                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
+                any(),
+                /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             )
             verify(mockParticipantListViewModel, times(0)).update(any(), any(), any(), any(), any())
             verify(mockBannerViewModel, times(0)).update(any(), any())
@@ -1359,7 +1368,10 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         )
         verify(mockFloatingHeaderViewModel, times(1)).update(
             argThat { count -> count == expectedParticipantCountOnFloatingHeader },
-            any()
+            any(),
+            /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
+            any(),
+            /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
         )
         verify(
             mockParticipantListViewModel,

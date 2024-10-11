@@ -15,9 +15,9 @@ import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
+import com.azure.android.communication.ui.calling.utilities.launchAll
 import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 internal class InfoHeaderView : ConstraintLayout {
     constructor(context: Context) : super(context)
@@ -29,6 +29,10 @@ internal class InfoHeaderView : ConstraintLayout {
     private lateinit var subtitleText: TextView
     private lateinit var displayParticipantsImageButton: ImageButton
     private lateinit var backButton: ImageButton
+    /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
+    private lateinit var customButton1: ImageButton
+    private lateinit var customButton2: ImageButton
+    /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
     private lateinit var infoHeaderViewModel: InfoHeaderViewModel
     private lateinit var displayParticipantListCallback: () -> Unit
 
@@ -53,6 +57,10 @@ internal class InfoHeaderView : ConstraintLayout {
                 infoHeaderViewModel.requestCallEnd()
             }
         }
+        /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
+        customButton1 = findViewById(R.id.azure_communication_ui_call_header_custom_button_1)
+        customButton2 = findViewById(R.id.azure_communication_ui_call_header_custom_button_2)
+        /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
     }
 
     fun start(
@@ -64,69 +72,98 @@ internal class InfoHeaderView : ConstraintLayout {
         this.infoHeaderViewModel = infoHeaderViewModel
         this.displayParticipantListCallback = displayParticipantList
         setupAccessibility()
-        viewLifecycleOwner.lifecycleScope.launch {
-            if (accessibilityEnabled) {
-                floatingHeader.visibility = View.VISIBLE
-            } else {
-                infoHeaderViewModel.getDisplayFloatingHeaderFlow().collect {
-                    floatingHeader.visibility = if (it) View.VISIBLE else View.GONE
-                    // If we are on television, set the focus to the participants button
-                    if (it && isAndroidTV(context)) {
-                        displayParticipantsImageButton.requestFocus()
+        viewLifecycleOwner.lifecycleScope.launchAll(
+            {
+                if (accessibilityEnabled) {
+                    floatingHeader.visibility = View.VISIBLE
+                } else {
+                    infoHeaderViewModel.getDisplayFloatingHeaderFlow().collect {
+                        floatingHeader.visibility = if (it) View.VISIBLE else View.GONE
+                        // If we are on television, set the focus to the participants button
+                        if (it && isAndroidTV(context)) {
+                            displayParticipantsImageButton.requestFocus()
+                        }
                     }
                 }
+            },
+            {
+                infoHeaderViewModel.getTitleStateFlow().collect {
+                    if (it.isNullOrEmpty()) {
+                        return@collect
+                    }
+                    participantNumberText.text = it
+                }
+            },
+            {
+                infoHeaderViewModel.getSubtitleStateFlow().collect {
+                    if (it.isNullOrEmpty()) {
+                        subtitleText.visibility = View.GONE
+                        return@collect
+                    }
+                    subtitleText.text = it
+                    subtitleText.visibility = View.VISIBLE
+                }
+            },
+            {
+                infoHeaderViewModel.getNumberOfParticipantsFlow().collect {
+                    if (!infoHeaderViewModel.getTitleStateFlow().value.isNullOrEmpty()) {
+                        return@collect
+                    }
+
+                    participantNumberText.text = when (it) {
+                        0 -> context.getString(R.string.azure_communication_ui_calling_view_info_header_waiting_for_others_to_join)
+
+                        1 -> context.getString(R.string.azure_communication_ui_calling_view_info_header_call_with_1_person)
+
+                        else -> resources.getString(
+                            R.string.azure_communication_ui_calling_view_info_header_call_with_n_people,
+                            it
+                        )
+                    }
+                }
+            },
+            {
+                infoHeaderViewModel.getIsOverlayDisplayedFlow().collect {
+                    if (it) {
+                        ViewCompat.setImportantForAccessibility(
+                            headerView,
+                            ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
+                        )
+                    } else {
+                        ViewCompat.setImportantForAccessibility(
+                            headerView,
+                            ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES
+                        )
+                    }
+                }
+            },
+            /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
+            {
+                infoHeaderViewModel.getCustomButton1StateFlow().collect { button ->
+                    updateCustomButton(button, customButton1)
+                }
+            },
+            {
+                infoHeaderViewModel.getCustomButton2StateFlow().collect { button ->
+                    updateCustomButton(button, customButton2)
+                }
             }
-        }
+            /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+        )
+    }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            infoHeaderViewModel.getTitleStateFlow().collect {
-                if (it.isNullOrEmpty()) {
-                    return@collect
-                }
-                participantNumberText.text = it
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            infoHeaderViewModel.getSubtitleStateFlow().collect {
-                if (it.isNullOrEmpty()) {
-                    subtitleText.visibility = View.GONE
-                    return@collect
-                }
-                subtitleText.text = it
-                subtitleText.visibility = View.VISIBLE
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            infoHeaderViewModel.getNumberOfParticipantsFlow().collect {
-                if (!infoHeaderViewModel.getTitleStateFlow().value.isNullOrEmpty()) {
-                    return@collect
-                }
-
-                participantNumberText.text = when (it) {
-                    0 -> context.getString(R.string.azure_communication_ui_calling_view_info_header_waiting_for_others_to_join)
-
-                    1 -> context.getString(R.string.azure_communication_ui_calling_view_info_header_call_with_1_person)
-
-                    else -> resources.getString(
-                        R.string.azure_communication_ui_calling_view_info_header_call_with_n_people,
-                        it
-                    )
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            infoHeaderViewModel.getIsOverlayDisplayedFlow().collect {
-                if (it) {
-                    ViewCompat.setImportantForAccessibility(headerView, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS)
-                } else {
-                    ViewCompat.setImportantForAccessibility(headerView, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES)
-                }
+    /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
+    private fun updateCustomButton(customButtonEntry: InfoHeaderViewModel.CustomButtonEntry?, customButton: ImageButton) {
+        customButton.visibility = if (customButtonEntry?.isVisible == true) View.VISIBLE else View.GONE
+        customButtonEntry?.let {
+            customButton.isEnabled = customButtonEntry.isEnabled
+            customButton.setImageResource(customButtonEntry.icon)
+            customButton.setOnClickListener {
+                infoHeaderViewModel.onCustomButtonClicked(context, customButtonEntry.id)
             }
         }
     }
+    /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
 
     private fun setupAccessibility() {
         displayParticipantsImageButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_participant_list_open_accessibility_label)
