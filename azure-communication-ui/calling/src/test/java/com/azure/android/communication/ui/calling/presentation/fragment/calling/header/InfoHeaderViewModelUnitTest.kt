@@ -272,8 +272,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             flowJobSubtitle.cancel()
         }
     }
-    /* </CUSTOM_CALL_HEADER> */
-
+    
     /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0>
     @ExperimentalCoroutinesApi
     @Test
@@ -304,17 +303,13 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val floatingHeaderViewModel = InfoHeaderViewModel(
                 false,
-                </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
                 mock(), mock()
-                /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             )
             floatingHeaderViewModel.init(
                 appState.callState.callingStatus,
                 expectedParticipantMap.count(),
                 CallScreenInfoHeaderState(title, subtitle),
-                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0>
                 appState.buttonState,
-                </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             ) { }
 
             val customButton1StateFlow =
@@ -351,9 +346,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             floatingHeaderViewModel.update(
                 expectedParticipantMap.count(),
                 CallScreenInfoHeaderState(null, null),
-                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0>
                 buttonState1,
-                </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             )
 
             Assert.assertEquals(2, customButton1StateFlow.size)
@@ -371,9 +364,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             floatingHeaderViewModel.update(
                 expectedParticipantMap.count(),
                 CallScreenInfoHeaderState(null, null),
-                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0>
                 buttonState2,
-                </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             )
 
             Assert.assertEquals(2, customButton1StateFlow.size)
@@ -389,5 +380,5 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             flowButton2.cancel()
         }
     }
-    /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
+    </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
 }
