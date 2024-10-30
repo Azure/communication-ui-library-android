@@ -30,7 +30,7 @@ internal data class ButtonState(
     val reportIssueButton: DefaultButtonState? = null,
 
     val callScreenCustomButtonsState: List<CustomButtonState> = emptyList(),
-    /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
+    /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0>
     val callScreenHeaderCustomButtonsState: List<CustomButtonState> = emptyList(),
-    /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+    </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
 )
