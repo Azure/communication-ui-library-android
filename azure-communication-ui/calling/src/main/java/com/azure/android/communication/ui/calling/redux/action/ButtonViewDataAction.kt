@@ -32,12 +32,12 @@ internal sealed class ButtonViewDataAction : Action {
     class CallScreenCustomButtonTitleUpdated(val id: String, val title: String?) : ButtonViewDataAction()
     class CallScreenCustomButtonIconUpdated(val id: String, val drawableId: Int) : ButtonViewDataAction()
 
-    /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
+    /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0>
     class CallScreenHeaderCustomButtonIsEnabledUpdated(val id: String, val isEnabled: Boolean?) : ButtonViewDataAction()
     class CallScreenHeaderCustomButtonIsVisibleUpdated(val id: String, val isVisible: Boolean?) : ButtonViewDataAction()
     class CallScreenHeaderCustomButtonTitleUpdated(val id: String, val title: String?) : ButtonViewDataAction()
     class CallScreenHeaderCustomButtonIconUpdated(val id: String, val drawableId: Int) : ButtonViewDataAction()
-    /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+    </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
 
     class SetupScreenCameraButtonIsEnabledUpdated(val isEnabled: Boolean?) : ButtonViewDataAction()
     class SetupScreenCameraButtonIsVisibleUpdated(val isVisible: Boolean?) : ButtonViewDataAction()
