@@ -8,9 +8,7 @@ package com.azure.android.communication.ui.calling.models;
  */
 public final class CallCompositeCallScreenOptions {
     private CallCompositeCallScreenControlBarOptions controlBarOptions;
-    /* <CUSTOM_CALL_HEADER> */
     private CallCompositeCallScreenHeaderViewData headerViewData;
-    /* </CUSTOM_CALL_HEADER> */
     /**
      * Creates a CallCompositeCallScreenOptions object.
      */
@@ -35,7 +33,6 @@ public final class CallCompositeCallScreenOptions {
     public CallCompositeCallScreenControlBarOptions getControlBarOptions() {
         return controlBarOptions;
     }
-    /* <CUSTOM_CALL_HEADER> */
     /**
      * Set the header options.
      * @param headerViewData The header options.
@@ -54,5 +51,4 @@ public final class CallCompositeCallScreenOptions {
     public CallCompositeCallScreenHeaderViewData getHeaderViewData() {
         return headerViewData;
     }
-    /* </CUSTOM_CALL_HEADER> */
 }

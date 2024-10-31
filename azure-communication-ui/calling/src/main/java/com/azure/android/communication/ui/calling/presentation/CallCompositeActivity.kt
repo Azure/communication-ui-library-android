@@ -86,9 +86,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     private val logger get() = container.logger
     private val compositeManager get() = container.compositeExitManager
     private val compositeDataModel get() = container.captionsDataManager
-    /* <CUSTOM_CALL_HEADER> */
     private val updatableOptionsManager get() = container.updatableOptionsManager
-    /* </CUSTOM_CALL_HEADER> */
     private lateinit var visibilityStatusFlow: MutableStateFlow<VisibilityStatus>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -223,7 +221,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
         try {
             // This code was added to avoid memory leak
-            diContainerHolder.container.callCompositeActivityWeakReference = WeakReference(null)
+            diContainerHolder.container.callCompositeActivityWeakReference.clear()
         } catch (e: CallCompositeException) {
             // could not retrieve the container
         }

@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-/* <CUSTOM_CALL_HEADER> */
 package com.azure.android.communication.ui.calling
 
 import androidx.test.platform.app.InstrumentationRegistry
@@ -292,4 +291,3 @@ internal class CustomInfoHeaderTest : BaseUiTest() {
         assertTextDisplayed(subtitle)
     }
 }
-/* </CUSTOM_CALL_HEADER> */

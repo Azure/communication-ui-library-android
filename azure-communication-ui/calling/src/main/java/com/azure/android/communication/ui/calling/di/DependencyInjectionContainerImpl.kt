@@ -279,9 +279,7 @@ internal class DependencyInjectionContainerImpl(
     private val callDiagnosticsReducer get() = CallDiagnosticsReducerImpl()
     private val toastNotificationReducer get() = ToastNotificationReducerImpl()
     private val captionsReducer get() = CaptionsReducerImpl()
-    /* <CUSTOM_CALL_HEADER> */
     private val callScreenInformationHeaderReducer get() = CallScreenInformationHeaderReducerImpl()
-    /* </CUSTOM_CALL_HEADER> */
     private val buttonOptionsReducer get() = ButtonViewDataReducerImpl()
 
     /* <RTT_POC>

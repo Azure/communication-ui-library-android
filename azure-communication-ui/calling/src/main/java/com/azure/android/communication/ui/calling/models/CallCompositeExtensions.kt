@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-/* <CUSTOM_CALL_HEADER> */
 package com.azure.android.communication.ui.calling.models
 
 import android.content.Context
@@ -21,7 +20,6 @@ internal fun CallCompositeCallScreenHeaderViewData.setSubtitleChangedEventHandle
 internal fun CallCompositeCallScreenHeaderViewData.setTitleChangedEventHandler(handler: CallCompositeEventHandler<String?>) {
     this.titleChangedEventHandler = handler
 }
-/* </CUSTOM_CALL_HEADER> */
 
 internal fun createButtonClickEvent(
     context: Context,
@@ -43,6 +41,10 @@ internal fun CallCompositeCustomButtonViewData.setEnabledChangedEventHandler(han
 
 internal fun CallCompositeCustomButtonViewData.setVisibleChangedEventHandler(handler: CallCompositeEventHandler<Boolean>) {
     this.visibleChangedEventHandler = handler
+}
+
+internal fun CallCompositeCustomButtonViewData.setDrawableIdChangedEventHandler(handler: CallCompositeEventHandler<Int>) {
+    this.drawableIdChangedEventHandler = handler
 }
 
 internal fun CallCompositeButtonViewData.setEnabledChangedEventHandler(handler: CallCompositeEventHandler<Boolean>) {

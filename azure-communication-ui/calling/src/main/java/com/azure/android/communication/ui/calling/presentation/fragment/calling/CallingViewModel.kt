@@ -119,9 +119,10 @@ internal class CallingViewModel(
         floatingHeaderViewModel.init(
             state.callState.callingStatus,
             remoteParticipantsForGridView.count(),
-            /* <CUSTOM_CALL_HEADER> */
             state.callScreenInfoHeaderState,
-            /* </CUSTOM_CALL_HEADER> */
+            /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0>
+            state.buttonState,
+            </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             this::requestCallEndOnBackPressed,
         )
 
@@ -294,9 +295,10 @@ internal class CallingViewModel(
 
             floatingHeaderViewModel.update(
                 totalParticipantCountExceptHidden,
-                /* <CUSTOM_CALL_HEADER> */
-                state.callScreenInfoHeaderState
-                /* </CUSTOM_CALL_HEADER> */
+                state.callScreenInfoHeaderState,
+                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0>
+                state.buttonState,
+                </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             )
 
             lobbyHeaderViewModel.update(

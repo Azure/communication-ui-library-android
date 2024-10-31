@@ -94,12 +94,10 @@ internal class AppReduxState(
 
     override var captionsState: CaptionsState = CaptionsState(isCaptionsUIEnabled = showCaptionsUI)
 
-    /* <CUSTOM_CALL_HEADER> */
     override var callScreenInfoHeaderState: CallScreenInfoHeaderState = CallScreenInfoHeaderState(
         title = localOptions?.callScreenOptions?.headerViewData?.title,
         subtitle = localOptions?.callScreenOptions?.headerViewData?.subtitle,
     )
-    /* </CUSTOM_CALL_HEADER> */
 
     /* <RTT_POC>
     override var rttState = RttState()
@@ -162,6 +160,17 @@ internal class AppReduxState(
                 title = it.title,
                 drawableId = it.drawableId,
             )
+        } ?: emptyList(),
+        /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0>
+        callScreenHeaderCustomButtonsState = localOptions?.callScreenOptions?.headerViewData?.customButtons?.map {
+            CustomButtonState(
+                id = it.id,
+                isEnabled = it.isEnabled,
+                isVisible = it.isVisible,
+                title = it.title,
+                drawableId = it.drawableId,
+            )
         } ?: emptyList()
+        </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
     )
 }

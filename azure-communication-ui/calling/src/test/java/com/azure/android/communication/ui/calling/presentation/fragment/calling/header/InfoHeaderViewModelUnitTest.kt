@@ -6,9 +6,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
-/* <CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.redux.state.CallScreenInfoHeaderState
-/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
@@ -56,13 +54,19 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 isTranscribing = false
             )
 
-            val floatingHeaderViewModel = InfoHeaderViewModel(false)
+            val floatingHeaderViewModel = InfoHeaderViewModel(
+                false,
+                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0>
+                mock(), mock()
+                </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+            )
             floatingHeaderViewModel.init(
                 appState.callState.callingStatus,
                 expectedParticipantMap.count(),
-                /* <CUSTOM_CALL_HEADER> */
-                CallScreenInfoHeaderState(null, null)
-                /* </CUSTOM_CALL_HEADER> */
+                CallScreenInfoHeaderState(null, null),
+                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0>
+                appState.buttonState,
+                </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             ) { }
 
             val resultListFromNumberOfParticipantsFlow =
@@ -76,9 +80,10 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             // act
             floatingHeaderViewModel.update(
                 expectedParticipantMap.count(),
-                /* <CUSTOM_CALL_HEADER> */
-                CallScreenInfoHeaderState(null, null)
-                /* </CUSTOM_CALL_HEADER> */
+                CallScreenInfoHeaderState(null, null),
+                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0>
+                appState.buttonState,
+                </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             )
 
             // assert
@@ -123,13 +128,19 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 isTranscribing = false
             )
 
-            val floatingHeaderViewModel = InfoHeaderViewModel(false)
+            val floatingHeaderViewModel = InfoHeaderViewModel(
+                false,
+                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0>
+                mock(), mock()
+                </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+            )
             floatingHeaderViewModel.init(
                 appState.callState.callingStatus,
                 expectedParticipantMap.count(),
-                /* <CUSTOM_CALL_HEADER> */
-                CallScreenInfoHeaderState(null, null)
-                /* </CUSTOM_CALL_HEADER> */
+                CallScreenInfoHeaderState(null, null),
+                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0>
+                appState.buttonState,
+                </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             ) {}
 
             val resultListFromIsLobbyOverlayDisplayedFlow =
@@ -159,7 +170,6 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
         }
     }
 
-    /* <CUSTOM_CALL_HEADER> */
     @ExperimentalCoroutinesApi
     @Test
     fun floatingHeaderViewModel_update_then_displayTitleAndSubtitle() {
@@ -190,35 +200,36 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 isRecording = false,
                 isTranscribing = false
             )
-            /* <CUSTOM_CALL_HEADER> */
             val title = "title"
             val subtitle = "subtitle"
-            /* </CUSTOM_CALL_HEADER> */
 
-            val floatingHeaderViewModel = InfoHeaderViewModel(false)
+            val floatingHeaderViewModel = InfoHeaderViewModel(
+                false,
+                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0>
+                mock(), mock()
+                </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+            )
             floatingHeaderViewModel.init(
                 appState.callState.callingStatus,
                 expectedParticipantMap.count(),
-                /* <CUSTOM_CALL_HEADER> */
-                CallScreenInfoHeaderState(title, subtitle)
-                /* </CUSTOM_CALL_HEADER> */
+                CallScreenInfoHeaderState(title, subtitle),
+                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0>
+                appState.buttonState,
+                </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             ) { }
 
             val resultListFromNumberOfParticipantsFlow =
                 mutableListOf<Int>()
-            /* <CUSTOM_CALL_HEADER> */
             val resultListFromTitleStateFlow =
                 mutableListOf<String?>()
             val resultListFromSubtitleStateFlow =
                 mutableListOf<String?>()
-            /* </CUSTOM_CALL_HEADER> */
 
             val flowJobParticipant = launch {
                 floatingHeaderViewModel.getNumberOfParticipantsFlow()
                     .toList(resultListFromNumberOfParticipantsFlow)
             }
 
-            /* <CUSTOM_CALL_HEADER> */
             val flowJobTitle = launch {
                 floatingHeaderViewModel.getTitleStateFlow()
                     .toList(resultListFromTitleStateFlow)
@@ -228,14 +239,14 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 floatingHeaderViewModel.getSubtitleStateFlow()
                     .toList(resultListFromSubtitleStateFlow)
             }
-            /* </CUSTOM_CALL_HEADER> */
 
             // act
             floatingHeaderViewModel.update(
                 expectedParticipantMap.count(),
-                /* <CUSTOM_CALL_HEADER> */
-                CallScreenInfoHeaderState(null, null)
-                /* </CUSTOM_CALL_HEADER> */
+                CallScreenInfoHeaderState(null, null),
+                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0>
+                appState.buttonState,
+                </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             )
 
             // assert
@@ -244,7 +255,6 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 resultListFromNumberOfParticipantsFlow[0]
             )
 
-            /* <CUSTOM_CALL_HEADER> */
             Assert.assertEquals(
                 title,
                 resultListFromTitleStateFlow[0]
@@ -254,14 +264,119 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 subtitle,
                 resultListFromSubtitleStateFlow[0]
             )
-            /* </CUSTOM_CALL_HEADER> */
 
             flowJobParticipant.cancel()
-            /* <CUSTOM_CALL_HEADER> */
             flowJobTitle.cancel()
             flowJobSubtitle.cancel()
-            /* </CUSTOM_CALL_HEADER> */
         }
     }
-    /* </CUSTOM_CALL_HEADER> */
+
+    /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0>
+    @ExperimentalCoroutinesApi
+    @Test
+    fun floatingHeaderViewModel_update_then_displayCustomButtons() {
+        runScopedTest {
+            val appState = AppReduxState("", false, false)
+
+            val expectedParticipantMap: Map<String, ParticipantInfoModel> = mapOf()
+            val timestamp: Number = System.currentTimeMillis()
+
+            appState.remoteParticipantState = RemoteParticipantsState(
+                expectedParticipantMap,
+                timestamp,
+                listOf(),
+                0,
+                lobbyErrorCode = null,
+                totalParticipantCount = 0,
+            )
+            appState.callState = CallingState(
+                CallingStatus.CONNECTED,
+                joinCallIsRequested = false,
+                isRecording = false,
+                isTranscribing = false
+            )
+            appState.buttonState = ButtonState(callScreenHeaderCustomButtonsState = listOf())
+            val title = "title"
+            val subtitle = "subtitle"
+
+            val floatingHeaderViewModel = InfoHeaderViewModel(
+                false,
+                mock(), mock()
+            )
+            floatingHeaderViewModel.init(
+                appState.callState.callingStatus,
+                expectedParticipantMap.count(),
+                CallScreenInfoHeaderState(title, subtitle),
+                appState.buttonState,
+            ) { }
+
+            val customButton1StateFlow =
+                mutableListOf<InfoHeaderViewModel.CustomButtonEntry?>()
+            val customButton2StateFlow =
+                mutableListOf<InfoHeaderViewModel.CustomButtonEntry?>()
+
+            val flowButton1 = launch {
+                floatingHeaderViewModel.getCustomButton1StateFlow()
+                    .toList(customButton1StateFlow)
+            }
+            val flowButton2 = launch {
+                floatingHeaderViewModel.getCustomButton2StateFlow()
+                    .toList(customButton2StateFlow)
+            }
+
+            // act
+            val button1 = CustomButtonState(
+                id = "id1",
+                isEnabled = true,
+                isVisible = true,
+                title = "title1",
+                drawableId = 1
+            )
+            val button2 = CustomButtonState(
+                id = "id2",
+                isEnabled = true,
+                isVisible = true,
+                title = "title2",
+                drawableId = 2
+            )
+
+            val buttonState1 = ButtonState(callScreenHeaderCustomButtonsState = listOf(button1))
+            floatingHeaderViewModel.update(
+                expectedParticipantMap.count(),
+                CallScreenInfoHeaderState(null, null),
+                buttonState1,
+            )
+
+            Assert.assertEquals(2, customButton1StateFlow.size)
+            Assert.assertEquals(1, customButton2StateFlow.size)
+
+            Assert.assertEquals(button1.id, customButton1StateFlow[1]?.id)
+            Assert.assertEquals(button1.title, customButton1StateFlow[1]?.titleText)
+            Assert.assertEquals(button1.drawableId, customButton1StateFlow[1]?.icon)
+            Assert.assertEquals(button1.isEnabled, customButton1StateFlow[1]?.isEnabled)
+            Assert.assertEquals(button1.isVisible, customButton1StateFlow[1]?.isVisible)
+
+            val buttonState2 = ButtonState(callScreenHeaderCustomButtonsState = listOf(button1, button2))
+
+            // act
+            floatingHeaderViewModel.update(
+                expectedParticipantMap.count(),
+                CallScreenInfoHeaderState(null, null),
+                buttonState2,
+            )
+
+            Assert.assertEquals(2, customButton1StateFlow.size)
+            Assert.assertEquals(2, customButton2StateFlow.size)
+
+            Assert.assertEquals(button2.id, customButton2StateFlow[1]?.id)
+            Assert.assertEquals(button2.title, customButton2StateFlow[1]?.titleText)
+            Assert.assertEquals(button2.drawableId, customButton2StateFlow[1]?.icon)
+            Assert.assertEquals(button2.isEnabled, customButton2StateFlow[1]?.isEnabled)
+            Assert.assertEquals(button2.isVisible, customButton2StateFlow[1]?.isVisible)
+
+            flowButton1.cancel()
+            flowButton2.cancel()
+        }
+    }
+    </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
 }
