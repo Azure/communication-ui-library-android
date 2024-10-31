@@ -6,11 +6,17 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
+import android.transition.TransitionManager
 import android.util.AttributeSet
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityManager
+import android.widget.EditText
+import android.widget.FrameLayout
+import android.widget.ImageButton
 import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,11 +31,15 @@ import com.azure.android.communication.ui.calling.utilities.LocaleHelper
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-internal class CaptionsLayout : LinearLayout {
+
+internal class CaptionsLayout : FrameLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
-    private lateinit var captionsLinearLayout: LinearLayout
+    private lateinit var captionsExpandingView: View
+    private lateinit var expandButton: ImageButton
+    private lateinit var rttInputText: EditText
+    private lateinit var captionsLinearLayout: FrameLayout
     private lateinit var viewModel: CaptionsViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var captionsStartProgressLayout: LinearLayout
@@ -37,13 +47,26 @@ internal class CaptionsLayout : LinearLayout {
     private var localParticipantIdentifier: CommunicationIdentifier? = null
     private val captionsData = mutableListOf<CaptionsEntryModel>()
     private var isAtBottom = true
+    private var expanded = false
 
     override fun onFinishInflate() {
+
         super.onFinishInflate()
+        captionsExpandingView = findViewById(R.id.azure_communication_ui_calling_captions_expanding_view)
+        expandButton = findViewById(R.id.azure_communication_ui_calling_captions_expand_button)
+        rttInputText = findViewById(R.id.rtt_input_text)
         captionsLinearLayout = findViewById(R.id.azure_communication_ui_calling_captions_linear_layout)
         recyclerView = findViewById(R.id.azure_communication_ui_calling_captions_recycler_view)
         captionsStartProgressLayout = findViewById(R.id.azure_communication_ui_calling_captions_starting_layout)
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+
+        expandButton.setOnClickListener {
+            if (expanded) {
+                collapseCaptionsLayout()
+            } else {
+                expandCaptionsLayout()
+            }
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -185,6 +208,56 @@ internal class CaptionsLayout : LinearLayout {
         recyclerView.layoutManager = null
         recyclerView.removeAllViews()
         this.removeAllViews()
+    }
+
+    private fun expandCaptionsLayout() {
+        rttInputText.visibility = View.VISIBLE
+        expandButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_minimize_24_regular)
+        val constraintLayout = captionsLinearLayout.parent.parent as ConstraintLayout
+        val nestedViewId: Int = R.id.azure_communication_ui_calling_captions_view_wrapper
+        updateConstraintTopToBottom(constraintLayout, nestedViewId, R.id.view3)
+
+        expanded = true
+    }
+
+    private fun collapseCaptionsLayout() {
+        rttInputText.visibility = View.GONE
+        expandButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_maximize_24_regular)
+        val constraintLayout = captionsLinearLayout.parent.parent as ConstraintLayout
+        val nestedViewId: Int = R.id.azure_communication_ui_calling_captions_view_wrapper
+        updateConstraintTopToTop(constraintLayout, nestedViewId, R.id.view4)
+        expanded = false
+    }
+
+    private fun updateConstraintTopToBottom(
+        constraintLayout: ConstraintLayout,
+        nestedViewId: Int,
+        targetViewId: Int
+    ) {
+        updateConstraintTopTo(constraintLayout, nestedViewId, targetViewId, ConstraintSet.BOTTOM)
+    }
+
+    private fun updateConstraintTopToTop(
+        constraintLayout: ConstraintLayout,
+        nestedViewId: Int,
+        targetViewId: Int
+    ) {
+        updateConstraintTopTo(constraintLayout, nestedViewId, targetViewId, ConstraintSet.TOP)
+    }
+
+    private fun updateConstraintTopTo(
+        constraintLayout: ConstraintLayout,
+        nestedViewId: Int,
+        targetViewId: Int,
+        constraint: Int,
+    ) {
+        TransitionManager.beginDelayedTransition(constraintLayout)
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(constraintLayout)
+        constraintSet.clear(nestedViewId, ConstraintSet.TOP)
+        constraintSet.connect(nestedViewId, ConstraintSet.TOP, targetViewId, constraint)
+
+        constraintSet.applyTo(constraintLayout)
     }
 }
 

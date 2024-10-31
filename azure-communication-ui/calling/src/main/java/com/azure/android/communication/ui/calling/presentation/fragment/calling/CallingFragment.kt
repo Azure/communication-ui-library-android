@@ -208,9 +208,9 @@ internal class CallingFragment :
             viewModel.bannerViewModel,
             viewLifecycleOwner,
         )
-        participantGridView.setOnClickListener {
-            switchFloatingHeader()
-        }
+//        participantGridView.setOnClickListener {
+//            switchFloatingHeader()
+//        }
 
         errorInfoView = ErrorInfoView(view)
         errorInfoView.start(viewLifecycleOwner, viewModel.errorInfoViewModel)

@@ -2,17 +2,17 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/azure_communication_ui_calling_captions_linear_layout"
     android:layout_width="match_parent"
-    android:layout_height="115dp"
-    android:background="@color/azure_communication_ui_calling_color_bottom_drawer_background"
+    android:layout_height="match_parent"
     android:focusable="true"
     android:importantForAccessibility="yes"
     android:padding="6dp"
-    android:visibility="gone">
+    android:visibility="gone"
+    tools:visibility="visible">
 
     <LinearLayout
         android:id="@+id/azure_communication_ui_calling_captions_starting_layout"
@@ -45,12 +45,58 @@
             android:textSize="@dimen/azure_communication_ui_calling_connecting_textsize" />
     </LinearLayout>
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/azure_communication_ui_calling_captions_recycler_view"
-        android:background="@color/azure_communication_ui_calling_color_bottom_drawer_background"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/azure_communication_ui_calling_captions_expanding_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical" />
+        android:orientation="vertical"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/azure_communication_ui_calling_captions_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+            <ImageButton
+                android:id="@+id/azure_communication_ui_calling_captions_expand_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/azure_communication_ui_calling_ic_fluent_arrow_maximize_24_regular"
+                android:background="@color/azure_communication_ui_calling_color_button_background_transparent"
+                android:contentDescription="Expand"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            app:layout_constraintTop_toBottomOf="@+id/azure_communication_ui_calling_captions_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/rtt_input_text"
+            android:id="@+id/azure_communication_ui_calling_captions_recycler_view"
+            android:background="@color/azure_communication_ui_calling_color_bottom_drawer_background"
+            android:layout_width="match_parent"
+            android:scrollbars="vertical"
+             android:layout_height="0dp"/>
+
+        <EditText
+            android:id="@+id/rtt_input_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:hint="Type message in real-time"
+            android:background="@drawable/azure_communication_ui_calling_outlined_edit_text"
+            android:padding="12dp"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsLayout>
