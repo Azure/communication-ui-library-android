@@ -1,4 +1,9 @@
 # Azure Communication UI Calling Release History
+## 1.12.0 (2024-10-31)
+
+### Features
+- Color theming support
+
 ## 1.12.0-beta.1 (2024-10-10)
 
 ### Features
