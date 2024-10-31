@@ -2,7 +2,7 @@
 ## 1.12.0 (2024-10-31)
 
 ### Features
-- Color theming support
+- Color theming support for button font color.
 
 ## 1.12.0-beta.1 (2024-10-10)
 
