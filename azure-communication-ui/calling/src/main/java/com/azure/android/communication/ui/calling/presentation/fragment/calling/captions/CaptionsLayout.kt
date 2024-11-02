@@ -104,7 +104,7 @@ internal class CaptionsLayout : FrameLayout {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getDisplayCaptionsInfoViewFlow().collect {
+            viewModel.displayCaptionsInfoViewFlow.collect {
                 if (it) {
                     captionsLinearLayout.visibility = View.VISIBLE
                     captionsLinearLayout.post { scrollToBottom() }
@@ -135,7 +135,7 @@ internal class CaptionsLayout : FrameLayout {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getCaptionsStartProgressStateFlow().collect {
+            viewModel.captionsStartProgressStateFlow.collect {
                 if (it) {
                     captionsStartProgressLayout.visibility = View.VISIBLE
                 } else {

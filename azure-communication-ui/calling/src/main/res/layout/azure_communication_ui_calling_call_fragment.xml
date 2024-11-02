@@ -10,13 +10,14 @@
     android:layout_height="match_parent"
     android:alpha="1"
     tools:context="com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment"
+    android:clipChildren="false"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/azure_communication_ui_call_main_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_captions_anchor"
+        app:layout_constraintBottom_toTopOf="@+id/captions_bottom_anchor"
         app:layout_constraintEnd_toEndOf="parent"
         android:focusable="false"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,7 +52,7 @@
         layout="@layout/azure_communication_ui_calling_call_lobby_overlay"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_captions_anchor"
+        app:layout_constraintBottom_toTopOf="@+id/captions_bottom_anchor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -61,7 +62,7 @@
         layout="@layout/azure_communication_ui_calling_connecting_lobby_overlay"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_captions_anchor"
+        app:layout_constraintBottom_toTopOf="@+id/captions_bottom_anchor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -73,21 +74,21 @@
         android:layout_margin="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_captions_anchor"
+        app:layout_constraintBottom_toTopOf="@+id/captions_bottom_anchor"
         />
 
     <include
         layout="@layout/azure_communication_ui_calling_call_hold_overlay"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_captions_anchor"
+        app:layout_constraintBottom_toTopOf="@+id/captions_bottom_anchor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
 
     <FrameLayout
-        android:id="@+id/top_captions_anchor"
+        android:id="@+id/captions_top_anchor"
         android:layout_width="0dp"
         android:layout_height="100dp"
         app:layout_constraintTop_toTopOf="@+id/azure_communication_ui_call_main_layout"
@@ -95,7 +96,7 @@
         />
 
     <FrameLayout
-        android:id="@+id/bottom_captions_anchor"
+        android:id="@+id/captions_bottom_anchor"
         android:layout_width="0dp"
         android:layout_height="115dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -107,7 +108,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="@+id/bottom_captions_anchor"
+        app:layout_constraintTop_toTopOf="@+id/captions_bottom_anchor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_calling_control_bar_view_wrapper"

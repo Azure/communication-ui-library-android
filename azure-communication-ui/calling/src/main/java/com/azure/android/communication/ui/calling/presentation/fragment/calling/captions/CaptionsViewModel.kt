@@ -11,25 +11,27 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 internal class CaptionsViewModel {
-    private lateinit var displayCaptionsInfoViewFlow: MutableStateFlow<Boolean>
-    private lateinit var captionsStartInProgressStateFlow: MutableStateFlow<Boolean>
-    fun getDisplayCaptionsInfoViewFlow(): StateFlow<Boolean> = displayCaptionsInfoViewFlow
-    fun getCaptionsStartProgressStateFlow(): StateFlow<Boolean> = captionsStartInProgressStateFlow
+    private lateinit var displayCaptionsInfoViewMutableFlow: MutableStateFlow<Boolean>
+    private lateinit var captionsStartInProgressStateMutableFlow: MutableStateFlow<Boolean>
+    val displayCaptionsInfoViewFlow: StateFlow<Boolean>
+        get() = displayCaptionsInfoViewMutableFlow
+    val captionsStartProgressStateFlow: StateFlow<Boolean>
+        get() = captionsStartInProgressStateMutableFlow
 
     fun update(
         captionsState: CaptionsState,
         visibilityState: VisibilityState
     ) {
-        displayCaptionsInfoViewFlow.value = canShowCaptionsUI(visibilityState, captionsState)
-        captionsStartInProgressStateFlow.value = canShowCaptionsStartInProgressUI(captionsState)
+        displayCaptionsInfoViewMutableFlow.value = canShowCaptionsUI(visibilityState, captionsState)
+        captionsStartInProgressStateMutableFlow.value = canShowCaptionsStartInProgressUI(captionsState)
     }
 
     fun init(
         captionsState: CaptionsState,
         visibilityState: VisibilityState
     ) {
-        displayCaptionsInfoViewFlow = MutableStateFlow(canShowCaptionsUI(visibilityState, captionsState))
-        captionsStartInProgressStateFlow = MutableStateFlow(canShowCaptionsStartInProgressUI(captionsState))
+        displayCaptionsInfoViewMutableFlow = MutableStateFlow(canShowCaptionsUI(visibilityState, captionsState))
+        captionsStartInProgressStateMutableFlow = MutableStateFlow(canShowCaptionsStartInProgressUI(captionsState))
     }
 
     private fun canShowCaptionsStartInProgressUI(

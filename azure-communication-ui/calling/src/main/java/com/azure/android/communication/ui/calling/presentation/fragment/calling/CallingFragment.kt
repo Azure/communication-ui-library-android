@@ -97,6 +97,7 @@ internal class CallingFragment :
     private lateinit var captionsListView: CaptionsListView
     private lateinit var captionsLanguageSelectionListView: CaptionsLanguageSelectionListView
     private lateinit var captionsLayout: CaptionsLayout
+    private lateinit var captionsBottomAnchor: View
     /* <RTT_POC>
     private lateinit var rttView: RttView
     </RTT_POC> */
@@ -248,6 +249,7 @@ internal class CallingFragment :
         val halfScreenHeight = displayMetrics.heightPixels / 2
         captionsLanguageSelectionListView.start(viewLifecycleOwner, halfScreenHeight)
 
+        captionsBottomAnchor = view.findViewById(R.id.captions_bottom_anchor)
         captionsLayout = view.findViewById(R.id.azure_communication_ui_calling_captions_linear_layout)
         captionsLayout.minimizeCallback = this::minimizeCaptions
         captionsLayout.maximizeCallback = this::maximizeCaptions
@@ -375,11 +377,11 @@ internal class CallingFragment :
     }
 
     private fun maximizeCaptions() {
-        updateConstraintTopTo(R.id.top_captions_anchor, ConstraintSet.BOTTOM)
+        updateConstraintTopTo(R.id.captions_top_anchor, ConstraintSet.BOTTOM)
     }
 
     private fun minimizeCaptions() {
-        updateConstraintTopTo(R.id.bottom_captions_anchor, ConstraintSet.TOP)
+        updateConstraintTopTo(R.id.captions_bottom_anchor, ConstraintSet.TOP)
     }
 
     private fun updateConstraintTopTo(
