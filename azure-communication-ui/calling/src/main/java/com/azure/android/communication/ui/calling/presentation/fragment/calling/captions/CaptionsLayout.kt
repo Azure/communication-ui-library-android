@@ -54,6 +54,9 @@ internal class CaptionsLayout : FrameLayout {
     var maximizeCallback: () -> Unit = {}
     var minimizeCallback: () -> Unit = {}
 
+    private val minHeight = (115 * resources.displayMetrics.density).toInt()
+    var maxHeight: Int = 0
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onFinishInflate() {
 
@@ -239,14 +242,18 @@ internal class CaptionsLayout : FrameLayout {
     inner class ResizableTouchListener : OnTouchListener {
         private var initialMarginTop = 0
         private var initialTouchY = 0f
+        private var maximizedHeight = 0
 
         @SuppressLint("ClickableViewAccessibility")
         override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
             return when (motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    // Record the initial width and touch position
                     initialMarginTop = view.marginTop
-                    initialTouchY = motionEvent.rawY;
+                    initialTouchY = motionEvent.rawY
+
+                    if (isMaximized) {
+                        maximizedHeight = view.height
+                    }
                     true
                 }
 
@@ -254,15 +261,21 @@ internal class CaptionsLayout : FrameLayout {
                     val deltaY = motionEvent.rawY - initialTouchY
 
                     var newMarginTop = (deltaY + initialMarginTop).toInt()
-                    newMarginTop = if (isMaximized) {
-                        max(0, newMarginTop)
+                    if (isMaximized) {
+                        if (minHeight > maximizedHeight - newMarginTop) {
+                            newMarginTop = maximizedHeight - minHeight
+                        }
+                        newMarginTop =  max(0, newMarginTop)
                     } else {
-                        min(0, newMarginTop)
+                        if (-newMarginTop + minHeight > maxHeight) {
+                             newMarginTop = -(maxHeight - minHeight)
+                        }
+                        newMarginTop =  min(0, newMarginTop)
                     }
 
-                    val params = view.layoutParams as MarginLayoutParams
-                    params.topMargin = newMarginTop
-                    view.layoutParams = params
+                    val layoutParams = view.layoutParams as MarginLayoutParams
+                    layoutParams.topMargin = newMarginTop
+                    view.layoutParams = layoutParams
                     true
                 }
                 MotionEvent.ACTION_UP -> {

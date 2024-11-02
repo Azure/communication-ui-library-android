@@ -97,6 +97,7 @@ internal class CallingFragment :
     private lateinit var captionsListView: CaptionsListView
     private lateinit var captionsLanguageSelectionListView: CaptionsLanguageSelectionListView
     private lateinit var captionsLayout: CaptionsLayout
+    private lateinit var captionsTopAnchor: View
     private lateinit var captionsBottomAnchor: View
     /* <RTT_POC>
     private lateinit var rttView: RttView
@@ -249,6 +250,7 @@ internal class CallingFragment :
         val halfScreenHeight = displayMetrics.heightPixels / 2
         captionsLanguageSelectionListView.start(viewLifecycleOwner, halfScreenHeight)
 
+        captionsTopAnchor = view.findViewById(R.id.captions_top_anchor)
         captionsBottomAnchor = view.findViewById(R.id.captions_bottom_anchor)
         captionsLayout = view.findViewById(R.id.azure_communication_ui_calling_captions_linear_layout)
         captionsLayout.minimizeCallback = this::minimizeCaptions
@@ -291,6 +293,11 @@ internal class CallingFragment :
             sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY),
             SensorManager.SENSOR_DELAY_NORMAL
         )
+
+        captionsTopAnchor.post {
+            calculateAndSetCaptionsLayoutMaxHeight()
+        }
+
     }
 
     override fun onPause() {
@@ -397,4 +404,16 @@ internal class CallingFragment :
 
         constraintSet.applyTo(callScreenLayout)
     }
+
+    private fun calculateAndSetCaptionsLayoutMaxHeight() {
+        val location = IntArray(2)
+        captionsTopAnchor.getLocationOnScreen(location)
+        val captionsTopAnchorBottomY = location[1] + captionsTopAnchor.height
+
+        captionsBottomAnchor.getLocationOnScreen(location)
+        val captionsBottomAnchorBottomY = location[1] + captionsBottomAnchor.height
+
+        captionsLayout.maxHeight = captionsBottomAnchorBottomY - captionsTopAnchorBottomY
+    }
+
 }
