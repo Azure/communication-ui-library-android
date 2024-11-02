@@ -39,7 +39,7 @@ internal class CaptionsLayout : FrameLayout {
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     private lateinit var captionsExpandingView: View
-    private lateinit var expandButton: ImageButton
+    private lateinit var resizeButton: ImageButton
     private lateinit var rttInputText: EditText
     private lateinit var captionsLinearLayout: FrameLayout
     private lateinit var viewModel: CaptionsViewModel
@@ -49,13 +49,17 @@ internal class CaptionsLayout : FrameLayout {
     private var localParticipantIdentifier: CommunicationIdentifier? = null
     private val captionsData = mutableListOf<CaptionsEntryModel>()
     private var isAtBottom = true
-    private var isExpanded = false
+    private var isMaximized = false
 
+    var maximizeCallback: () -> Unit = {}
+    var minimizeCallback: () -> Unit = {}
+
+    @SuppressLint("ClickableViewAccessibility")
     override fun onFinishInflate() {
 
         super.onFinishInflate()
         captionsExpandingView = findViewById(R.id.azure_communication_ui_calling_captions_expanding_view)
-        expandButton = findViewById(R.id.azure_communication_ui_calling_captions_expand_button)
+        resizeButton = findViewById(R.id.azure_communication_ui_calling_captions_resize_button)
         rttInputText = findViewById(R.id.rtt_input_text)
         captionsLinearLayout = findViewById(R.id.azure_communication_ui_calling_captions_linear_layout)
         recyclerView = findViewById(R.id.azure_communication_ui_calling_captions_recycler_view)
@@ -64,13 +68,7 @@ internal class CaptionsLayout : FrameLayout {
 
         captionsLinearLayout.setOnTouchListener(ResizableTouchListener())
 
-        expandButton.setOnClickListener {
-            if (isExpanded) {
-                collapseCaptionsLayout()
-            } else {
-                expandCaptionsLayout()
-            }
-        }
+        resizeButton.setOnClickListener { this.onResizeButtonClicked() }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -214,23 +212,29 @@ internal class CaptionsLayout : FrameLayout {
         this.removeAllViews()
     }
 
+    private fun onResizeButtonClicked() {
+        if (isMaximized) {
+            collapseCaptionsLayout()
+        } else {
+            expandCaptionsLayout()
+        }
+    }
+
     private fun expandCaptionsLayout() {
         rttInputText.visibility = View.VISIBLE
-        expandButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_minimize_24_regular)
-        isExpanded = true
+        resizeButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_minimize_24_regular)
+        resizeButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_minimize_captions_and_rtt)
+        isMaximized = true
         maximizeCallback()
     }
 
     private fun collapseCaptionsLayout() {
         rttInputText.visibility = View.GONE
-        expandButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_maximize_24_regular)
-        isExpanded = false
+        resizeButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_maximize_24_regular)
+        resizeButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_maximize_captions_and_rtt)
+        isMaximized = false
         minimizeCallback()
     }
-
-    var maximizeCallback: () -> Unit = {}
-    var minimizeCallback: () -> Unit = {}
-
 
     inner class ResizableTouchListener : OnTouchListener {
         private var initialMarginTop = 0
@@ -250,7 +254,7 @@ internal class CaptionsLayout : FrameLayout {
                     val deltaY = motionEvent.rawY - initialTouchY
 
                     var newMarginTop = (deltaY + initialMarginTop).toInt()
-                    newMarginTop = if (isExpanded) {
+                    newMarginTop = if (isMaximized) {
                         max(0, newMarginTop)
                     } else {
                         min(0, newMarginTop)
@@ -265,7 +269,7 @@ internal class CaptionsLayout : FrameLayout {
                     val params = view.layoutParams as MarginLayoutParams
 
                     if (abs(params.topMargin) > 150) {
-                        if (isExpanded) {
+                        if (isMaximized) {
                             collapseCaptionsLayout()
                         } else {
                             expandCaptionsLayout()

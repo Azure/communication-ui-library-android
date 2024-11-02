@@ -63,12 +63,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             >
             <ImageButton
-                android:id="@+id/azure_communication_ui_calling_captions_expand_button"
+                android:id="@+id/azure_communication_ui_calling_captions_resize_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/azure_communication_ui_calling_ic_fluent_arrow_maximize_24_regular"
                 android:background="@color/azure_communication_ui_calling_color_button_background_transparent"
-                android:contentDescription="Expand"
+                android:contentDescription="@string/azure_communication_ui_calling_maximize_captions_and_rtt"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 />
