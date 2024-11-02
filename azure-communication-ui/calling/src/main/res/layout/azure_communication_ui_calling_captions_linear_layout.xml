@@ -12,7 +12,8 @@
     android:importantForAccessibility="yes"
     android:padding="6dp"
     android:visibility="gone"
-    tools:visibility="visible">
+    tools:visibility="visible"
+    >
 
     <LinearLayout
         android:id="@+id/azure_communication_ui_calling_captions_starting_layout"
@@ -50,6 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="@color/azure_communication_ui_calling_color_background"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout

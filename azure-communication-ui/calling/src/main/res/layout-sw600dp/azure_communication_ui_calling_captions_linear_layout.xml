@@ -3,6 +3,7 @@
    Licensed under the MIT License.
   -->
 <com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsLayout
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/azure_communication_ui_calling_captions_linear_layout"
@@ -12,7 +13,9 @@
     android:focusable="true"
     android:importantForAccessibility="yes"
     android:padding="6dp"
-    android:visibility="gone">
+    android:visibility="gone"
+    tools:visibility="visible"
+    >
 
     <LinearLayout
         android:id="@+id/azure_communication_ui_calling_captions_starting_layout"

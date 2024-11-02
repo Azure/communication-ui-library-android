@@ -14,11 +14,14 @@ import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
+import android.transition.TransitionManager
 import android.util.DisplayMetrics
 import android.util.LayoutDirection
 import android.view.View
 import android.view.accessibility.AccessibilityManager
 import androidx.activity.addCallback
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -68,6 +71,7 @@ internal class CallingFragment :
     private val configuration get() = activityViewModel.container.configuration
 
     private val closeToUser = 0f
+    private lateinit var callScreenLayout: ConstraintLayout
     private lateinit var controlBarView: ControlBarView
     private lateinit var confirmLeaveOverlayView: LeaveConfirmView
     private lateinit var localParticipantView: LocalParticipantView
@@ -100,6 +104,8 @@ internal class CallingFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.init(viewLifecycleOwner.lifecycleScope)
+
+        callScreenLayout = view.findViewById(R.id.azure_communication_ui_calling_call_frame_layout)
 
         /* <RTT_POC>
         rttView = view.findViewById(R.id.azure_communication_ui_call_rtt_view)
@@ -208,9 +214,9 @@ internal class CallingFragment :
             viewModel.bannerViewModel,
             viewLifecycleOwner,
         )
-//        participantGridView.setOnClickListener {
-//            switchFloatingHeader()
-//        }
+        participantGridView.setOnClickListener {
+            switchFloatingHeader()
+        }
 
         errorInfoView = ErrorInfoView(view)
         errorInfoView.start(viewLifecycleOwner, viewModel.errorInfoViewModel)
@@ -243,6 +249,8 @@ internal class CallingFragment :
         captionsLanguageSelectionListView.start(viewLifecycleOwner, halfScreenHeight)
 
         captionsLayout = view.findViewById(R.id.azure_communication_ui_calling_captions_linear_layout)
+        captionsLayout.minimizeCallback = this::minimizeCaptions
+        captionsLayout.maximizeCallback = this::maximizeCaptions
         captionsLayout.start(viewLifecycleOwner, viewModel.captionsLayoutViewModel, captionsDataManager, avatarViewManager, configuration.identifier)
     }
 
@@ -364,5 +372,27 @@ internal class CallingFragment :
 
     private fun switchFloatingHeader() {
         viewModel.switchFloatingHeader()
+    }
+
+    private fun maximizeCaptions() {
+        updateConstraintTopTo(R.id.top_captions_anchor, ConstraintSet.BOTTOM)
+    }
+
+    private fun minimizeCaptions() {
+        updateConstraintTopTo(R.id.bottom_captions_anchor, ConstraintSet.TOP)
+    }
+
+    private fun updateConstraintTopTo(
+        targetViewId: Int,
+        constraint: Int,
+    ) {
+        val nestedViewId = R.id.azure_communication_ui_calling_captions_view_wrapper
+        TransitionManager.beginDelayedTransition(callScreenLayout)
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(callScreenLayout)
+        constraintSet.clear(nestedViewId, ConstraintSet.TOP)
+        constraintSet.connect(nestedViewId, ConstraintSet.TOP, targetViewId, constraint)
+
+        constraintSet.applyTo(callScreenLayout)
     }
 }

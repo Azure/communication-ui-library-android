@@ -6,8 +6,8 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
-import android.transition.TransitionManager
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityManager
@@ -15,8 +15,7 @@ import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.LinearLayout
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.marginTop
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,6 +29,9 @@ import com.azure.android.communication.ui.calling.presentation.manager.CaptionsD
 import com.azure.android.communication.ui.calling.utilities.LocaleHelper
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
 
 
 internal class CaptionsLayout : FrameLayout {
@@ -47,7 +49,7 @@ internal class CaptionsLayout : FrameLayout {
     private var localParticipantIdentifier: CommunicationIdentifier? = null
     private val captionsData = mutableListOf<CaptionsEntryModel>()
     private var isAtBottom = true
-    private var expanded = false
+    private var isExpanded = false
 
     override fun onFinishInflate() {
 
@@ -60,8 +62,10 @@ internal class CaptionsLayout : FrameLayout {
         captionsStartProgressLayout = findViewById(R.id.azure_communication_ui_calling_captions_starting_layout)
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
+        captionsLinearLayout.setOnTouchListener(ResizableTouchListener())
+
         expandButton.setOnClickListener {
-            if (expanded) {
+            if (isExpanded) {
                 collapseCaptionsLayout()
             } else {
                 expandCaptionsLayout()
@@ -213,52 +217,70 @@ internal class CaptionsLayout : FrameLayout {
     private fun expandCaptionsLayout() {
         rttInputText.visibility = View.VISIBLE
         expandButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_minimize_24_regular)
-        val constraintLayout = captionsLinearLayout.parent.parent as ConstraintLayout
-        val nestedViewId: Int = R.id.azure_communication_ui_calling_captions_view_wrapper
-        updateConstraintTopToBottom(constraintLayout, nestedViewId, R.id.view3)
-
-        expanded = true
+        isExpanded = true
+        maximizeCallback()
     }
 
     private fun collapseCaptionsLayout() {
         rttInputText.visibility = View.GONE
         expandButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_maximize_24_regular)
-        val constraintLayout = captionsLinearLayout.parent.parent as ConstraintLayout
-        val nestedViewId: Int = R.id.azure_communication_ui_calling_captions_view_wrapper
-        updateConstraintTopToTop(constraintLayout, nestedViewId, R.id.view4)
-        expanded = false
+        isExpanded = false
+        minimizeCallback()
     }
 
-    private fun updateConstraintTopToBottom(
-        constraintLayout: ConstraintLayout,
-        nestedViewId: Int,
-        targetViewId: Int
-    ) {
-        updateConstraintTopTo(constraintLayout, nestedViewId, targetViewId, ConstraintSet.BOTTOM)
+    var maximizeCallback: () -> Unit = {}
+    var minimizeCallback: () -> Unit = {}
+
+
+    inner class ResizableTouchListener : OnTouchListener {
+        private var initialMarginTop = 0
+        private var initialTouchY = 0f
+
+        @SuppressLint("ClickableViewAccessibility")
+        override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
+            return when (motionEvent.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    // Record the initial width and touch position
+                    initialMarginTop = view.marginTop
+                    initialTouchY = motionEvent.rawY;
+                    true
+                }
+
+                MotionEvent.ACTION_MOVE -> {
+                    val deltaY = motionEvent.rawY - initialTouchY
+
+                    var newMarginTop = (deltaY + initialMarginTop).toInt()
+                    newMarginTop = if (isExpanded) {
+                        max(0, newMarginTop)
+                    } else {
+                        min(0, newMarginTop)
+                    }
+
+                    val params = view.layoutParams as MarginLayoutParams
+                    params.topMargin = newMarginTop
+                    view.layoutParams = params
+                    true
+                }
+                MotionEvent.ACTION_UP -> {
+                    val params = view.layoutParams as MarginLayoutParams
+
+                    if (abs(params.topMargin) > 150) {
+                        if (isExpanded) {
+                            collapseCaptionsLayout()
+                        } else {
+                            expandCaptionsLayout()
+                        }
+                    }
+
+                    params.topMargin = 0
+                    view.layoutParams = params
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
-    private fun updateConstraintTopToTop(
-        constraintLayout: ConstraintLayout,
-        nestedViewId: Int,
-        targetViewId: Int
-    ) {
-        updateConstraintTopTo(constraintLayout, nestedViewId, targetViewId, ConstraintSet.TOP)
-    }
-
-    private fun updateConstraintTopTo(
-        constraintLayout: ConstraintLayout,
-        nestedViewId: Int,
-        targetViewId: Int,
-        constraint: Int,
-    ) {
-        TransitionManager.beginDelayedTransition(constraintLayout)
-        val constraintSet = ConstraintSet()
-        constraintSet.clone(constraintLayout)
-        constraintSet.clear(nestedViewId, ConstraintSet.TOP)
-        constraintSet.connect(nestedViewId, ConstraintSet.TOP, targetViewId, constraint)
-
-        constraintSet.applyTo(constraintLayout)
-    }
 }
 
 internal fun CaptionsRecord.into(avatarViewManager: AvatarViewManager, identifier: CommunicationIdentifier?): CaptionsEntryModel {
