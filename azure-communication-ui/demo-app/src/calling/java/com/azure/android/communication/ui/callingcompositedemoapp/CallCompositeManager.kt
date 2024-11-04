@@ -742,7 +742,7 @@ class CallCompositeManager(private val context: Context) {
                 }
             }
         }
-        /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0>
+        /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
         if (SettingsFeatures.getAddCustomButtons() == true) {
             val headerButton1 =
                 CallCompositeCustomButtonViewData(
@@ -766,7 +766,7 @@ class CallCompositeManager(private val context: Context) {
                 ?: CallCompositeCallScreenHeaderViewData()
             callScreenHeaderOptions?.customButtons = listOf(headerButton1, headerButton2)
         }
-        </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+        /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
         callScreenOptions?.setHeaderViewData(callScreenHeaderOptions)
         return callScreenOptions
     }
