@@ -17,12 +17,16 @@ import com.azure.android.communication.ui.calling.presentation.manager.NetworkMa
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CaptionsState
+import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 internal class CallingViewModel(
     store: Store<ReduxState>,
@@ -35,6 +39,12 @@ internal class CallingViewModel(
     private val capabilitiesManager: CapabilitiesManager,
 ) :
     BaseViewModel(store) {
+
+    private var isCaptionsVisibleMutableFlow = MutableStateFlow(false)
+    // This is a flag to ensure that the call is started only once
+    // This is to avoid a lag between updating isDefaultParametersCallStarted
+    private var callStartRequested = false
+
 
     val moreCallOptionsListViewModel = callingViewModelProvider.moreCallOptionsListViewModel
     val participantGridViewModel = callingViewModelProvider.participantGridViewModel
@@ -61,9 +71,7 @@ internal class CallingViewModel(
     val rttViewModel = callingViewModelProvider.rttViewModel
     </RTT_POC> */
 
-    // This is a flag to ensure that the call is started only once
-    // This is to avoid a lag between updating isDefaultParametersCallStarted
-    private var callStartRequested = false
+    val isCaptionsVisibleFlow: StateFlow<Boolean> = isCaptionsVisibleMutableFlow
 
     fun switchFloatingHeader() {
         floatingHeaderViewModel.switchFloatingHeader()
@@ -141,7 +149,7 @@ internal class CallingViewModel(
         participantListViewModel.init(
             state.remoteParticipantState.participantMap,
             state.localParticipantState,
-            canShowLobby(
+            shouldShowLobby(
                 state.localParticipantState.capabilities,
                 state.visibilityState
             ),
@@ -166,7 +174,7 @@ internal class CallingViewModel(
         lobbyHeaderViewModel.init(
             state.callState.callingStatus,
             getLobbyParticipantsForHeader(state),
-            canShowLobby(
+            shouldShowLobby(
                 state.localParticipantState.capabilities,
                 state.visibilityState
             )
@@ -175,7 +183,7 @@ internal class CallingViewModel(
         lobbyErrorHeaderViewModel.init(
             state.callState.callingStatus,
             state.remoteParticipantState.lobbyErrorCode,
-            canShowLobby(
+            shouldShowLobby(
                 state.localParticipantState.capabilities,
                 state.visibilityState,
             )
@@ -192,7 +200,8 @@ internal class CallingViewModel(
             state.visibilityState, state.buttonState
         )
         captionsLanguageSelectionListViewModel.init(state.captionsState, state.visibilityState)
-        captionsLayoutViewModel.init(state.captionsState, state.visibilityState)
+        isCaptionsVisibleMutableFlow.value = shouldShowCaptionsUI(state.visibilityState, state.captionsState)
+        captionsLayoutViewModel.init(state.captionsState, isCaptionsVisibleMutableFlow.value)
 
         moreCallOptionsListViewModel.init(state.visibilityState, state.buttonState)
         super.init(coroutineScope)
@@ -304,7 +313,7 @@ internal class CallingViewModel(
             lobbyHeaderViewModel.update(
                 state.callState.callingStatus,
                 getLobbyParticipantsForHeader(state),
-                canShowLobby(
+                shouldShowLobby(
                     state.localParticipantState.capabilities,
                     state.visibilityState
                 )
@@ -313,7 +322,7 @@ internal class CallingViewModel(
             lobbyErrorHeaderViewModel.update(
                 state.callState.callingStatus,
                 state.remoteParticipantState.lobbyErrorCode,
-                canShowLobby(
+                shouldShowLobby(
                     state.localParticipantState.capabilities,
                     state.visibilityState
                 )
@@ -335,7 +344,7 @@ internal class CallingViewModel(
                 state.remoteParticipantState.participantMap,
                 state.localParticipantState,
                 state.visibilityState,
-                canShowLobby(
+                shouldShowLobby(
                     state.localParticipantState.capabilities,
                     state.visibilityState
                 ),
@@ -369,15 +378,17 @@ internal class CallingViewModel(
             state.visibilityState, state.buttonState
         )
         captionsLanguageSelectionListViewModel.update(state.captionsState, state.visibilityState)
-        captionsLayoutViewModel.update(state.captionsState, state.visibilityState)
+
+        isCaptionsVisibleMutableFlow.value = shouldShowCaptionsUI(state.visibilityState, state.captionsState)
+        captionsLayoutViewModel.update(state.captionsState, isCaptionsVisibleMutableFlow.value)
     }
 
     private fun getLobbyParticipantsForHeader(state: ReduxState) =
-        if (canShowLobby(state.localParticipantState.capabilities, state.visibilityState))
+        if (shouldShowLobby(state.localParticipantState.capabilities, state.visibilityState))
             state.remoteParticipantState.participantMap.filter { it.value.participantStatus == ParticipantStatus.IN_LOBBY }
         else mapOf()
 
-    private fun canShowLobby(
+    private fun shouldShowLobby(
         capabilities: Set<ParticipantCapabilityType>,
         visibilityState: VisibilityState,
     ): Boolean {
@@ -414,4 +425,14 @@ internal class CallingViewModel(
     private fun leaveCallWithoutConfirmation() {
         confirmLeaveOverlayViewModel.confirm()
     }
+
+    private fun shouldShowCaptionsUI(
+        visibilityState: VisibilityState,
+        captionsState: CaptionsState
+    ) =
+        visibilityState.status == VisibilityStatus.VISIBLE && (
+                captionsState.status == CaptionsStatus.STARTED ||
+                        captionsState.status == CaptionsStatus.START_REQUESTED ||
+                        captionsState.status == CaptionsStatus.STOP_REQUESTED
+                )
 }

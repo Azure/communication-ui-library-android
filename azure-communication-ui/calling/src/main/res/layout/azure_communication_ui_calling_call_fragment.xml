@@ -98,7 +98,7 @@
     <FrameLayout
         android:id="@+id/captions_bottom_anchor"
         android:layout_width="0dp"
-        android:layout_height="115dp"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_calling_control_bar_view_wrapper"
         />

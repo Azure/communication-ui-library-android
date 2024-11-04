@@ -50,6 +50,9 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListView
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+
 
 internal class CallingFragment :
     Fragment(R.layout.azure_communication_ui_calling_call_fragment), SensorEventListener {
@@ -256,6 +259,8 @@ internal class CallingFragment :
         captionsLayout.minimizeCallback = this::minimizeCaptions
         captionsLayout.maximizeCallback = this::maximizeCaptions
         captionsLayout.start(viewLifecycleOwner, viewModel.captionsLayoutViewModel, captionsDataManager, avatarViewManager, configuration.identifier)
+
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -294,10 +299,17 @@ internal class CallingFragment :
             SensorManager.SENSOR_DELAY_NORMAL
         )
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.isCaptionsVisibleFlow.collect {
+                val height = if (it) 115 else 0
+                val layoutParams = captionsBottomAnchor.layoutParams
+                layoutParams.height = (height * resources.displayMetrics.density).toInt()
+                captionsBottomAnchor.layoutParams = layoutParams
+            }
+        }
         captionsTopAnchor.post {
             calculateAndSetCaptionsLayoutMaxHeight()
         }
-
     }
 
     override fun onPause() {

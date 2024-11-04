@@ -105,7 +105,7 @@ internal class CaptionsLayout : FrameLayout {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.displayCaptionsInfoViewFlow.collect {
+            viewModel.isVisibleFlow.collect {
                 if (it) {
                     captionsLinearLayout.visibility = View.VISIBLE
                     captionsLinearLayout.post { scrollToBottom() }
