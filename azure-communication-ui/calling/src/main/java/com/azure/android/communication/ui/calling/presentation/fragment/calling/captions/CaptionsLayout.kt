@@ -15,6 +15,7 @@ import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import androidx.core.view.isVisible
 import androidx.core.view.marginTop
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -27,6 +28,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.CaptionsDataManager
 import com.azure.android.communication.ui.calling.utilities.LocaleHelper
+import com.azure.android.communication.ui.calling.utilities.isTablet
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -69,9 +71,19 @@ internal class CaptionsLayout : FrameLayout {
         captionsStartProgressLayout = findViewById(R.id.azure_communication_ui_calling_captions_starting_layout)
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
-        captionsLinearLayout.setOnTouchListener(ResizableTouchListener())
+        if (isTablet(context)) {
+            // TODO: check if rtt is enabled via view model
+            rttInputText.isVisible = true
+        } else {
+            captionsLinearLayout.setOnTouchListener(ResizableTouchListener())
+            val captionsLinearLayoutParams = captionsLinearLayout.layoutParams as MarginLayoutParams
+            captionsLinearLayoutParams.marginStart = 0
+            captionsLinearLayout.layoutParams = captionsLinearLayoutParams
 
-        resizeButton.setOnClickListener { this.onResizeButtonClicked() }
+            resizeButton.setOnClickListener { this.onResizeButtonClicked() }
+        }
+
+        resizeButton.isVisible = !isTablet(context)
     }
 
     @SuppressLint("NotifyDataSetChanged")

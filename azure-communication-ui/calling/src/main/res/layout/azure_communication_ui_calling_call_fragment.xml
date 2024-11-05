@@ -22,6 +22,7 @@
         android:focusable="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="4dp"
         >
 
         <com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridView
@@ -125,6 +126,7 @@
         android:id="@+id/azure_communication_ui_calling_control_bar_view_wrapper"
         android:layout_width="0dp"
         android:elevation="4dp"
+        android:background="@color/azure_communication_ui_calling_color_background"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"

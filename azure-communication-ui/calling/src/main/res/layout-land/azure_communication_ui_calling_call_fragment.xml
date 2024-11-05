@@ -10,6 +10,7 @@
     android:layout_height="match_parent"
     android:alpha="1"
     tools:context="com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment"
+    android:clipChildren="false"
     >
 
 
@@ -114,7 +115,6 @@
         android:id="@+id/azure_communication_ui_calling_captions_view_wrapper"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/azure_communication_ui_calling_color_background"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="@+id/captions_bottom_anchor"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -128,6 +128,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:elevation="4dp"
         android:id="@+id/azure_communication_ui_calling_control_bar_view_lands_wrapper"
         android:layout_width="wrap_content"
         android:layout_height="0dp"

@@ -7,6 +7,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttView
 </RTT_POC> */
 import android.content.Context
+import android.content.res.Configuration
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -22,6 +23,7 @@ import android.view.accessibility.AccessibilityManager
 import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -50,6 +52,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListView
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
+import com.azure.android.communication.ui.calling.utilities.isTablet
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -99,6 +102,7 @@ internal class CallingFragment :
     private lateinit var lobbyErrorHeaderView: LobbyErrorHeaderView
     private lateinit var captionsListView: CaptionsListView
     private lateinit var captionsLanguageSelectionListView: CaptionsLanguageSelectionListView
+    private lateinit var captionsWrapper: View
     private lateinit var captionsLayout: CaptionsLayout
     private lateinit var captionsTopAnchor: View
     private lateinit var captionsBottomAnchor: View
@@ -255,12 +259,11 @@ internal class CallingFragment :
 
         captionsTopAnchor = view.findViewById(R.id.captions_top_anchor)
         captionsBottomAnchor = view.findViewById(R.id.captions_bottom_anchor)
+        captionsWrapper = view.findViewById(R.id.azure_communication_ui_calling_captions_view_wrapper)
         captionsLayout = view.findViewById(R.id.azure_communication_ui_calling_captions_linear_layout)
         captionsLayout.minimizeCallback = this::minimizeCaptions
         captionsLayout.maximizeCallback = this::maximizeCaptions
         captionsLayout.start(viewLifecycleOwner, viewModel.captionsLayoutViewModel, captionsDataManager, avatarViewManager, configuration.identifier)
-
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -299,12 +302,26 @@ internal class CallingFragment :
             SensorManager.SENSOR_DELAY_NORMAL
         )
 
+        context?.let {
+            if (isTablet(it)) {
+                val isLandScape =
+                    resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+                val captionsWrapperLayout =
+                    captionsWrapper.layoutParams as ConstraintLayout.LayoutParams
+                captionsWrapperLayout.matchConstraintPercentWidth =
+                    if (isLandScape) 0.33f else 0.45f
+                captionsWrapper.layoutParams = captionsWrapperLayout
+            }
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.isCaptionsVisibleFlow.collect {
                 val height = if (it) 115 else 0
                 val layoutParams = captionsBottomAnchor.layoutParams
                 layoutParams.height = (height * resources.displayMetrics.density).toInt()
                 captionsBottomAnchor.layoutParams = layoutParams
+
+                captionsWrapper.isVisible = it
             }
         }
         captionsTopAnchor.post {

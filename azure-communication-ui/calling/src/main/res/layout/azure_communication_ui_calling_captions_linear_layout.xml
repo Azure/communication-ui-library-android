@@ -13,6 +13,11 @@
     android:padding="6dp"
     android:visibility="gone"
     tools:visibility="visible"
+
+    android:background="@color/azure_communication_ui_calling_color_background"
+    android:elevation="4dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginStart="2dp"
     >
 
     <LinearLayout
