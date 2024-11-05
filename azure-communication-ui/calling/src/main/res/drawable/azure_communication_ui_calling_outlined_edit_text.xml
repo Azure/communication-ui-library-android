@@ -3,8 +3,8 @@
     <item>
         <!-- Outline color and width -->
         <shape android:shape="rectangle">
-            <solid android:color="@android:color/transparent"/>
-            <stroke android:width="2dp" android:color="#6200EE"/> <!-- Outline color -->
+            <solid android:color="@color/azure_communication_ui_calling_color_background"/>
+            <stroke android:width="2dp" android:color="@color/azure_communication_ui_calling_color_focus_tint"/>
             <corners android:radius="4dp"/>
         </shape>
     </item>
