@@ -40,6 +40,8 @@ internal class CaptionsLayout : FrameLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
+    private lateinit var headerDragHandle: View
+    private lateinit var captionsButton: ImageButton
     private lateinit var captionsExpandingView: View
     private lateinit var resizeButton: ImageButton
     private lateinit var rttInputText: EditText
@@ -63,6 +65,8 @@ internal class CaptionsLayout : FrameLayout {
     override fun onFinishInflate() {
 
         super.onFinishInflate()
+        headerDragHandle = findViewById(R.id.azure_communication_ui_calling_captions_header_drag_handle)
+        captionsButton = findViewById(R.id.azure_communication_ui_calling_captions_on_button)
         captionsExpandingView = findViewById(R.id.azure_communication_ui_calling_captions_expanding_view)
         resizeButton = findViewById(R.id.azure_communication_ui_calling_captions_resize_button)
         rttInputText = findViewById(R.id.rtt_input_text)
@@ -74,16 +78,16 @@ internal class CaptionsLayout : FrameLayout {
         if (isTablet(context)) {
             // TODO: check if rtt is enabled via view model
             rttInputText.isVisible = true
+            resizeButton.isVisible = false
+            headerDragHandle.isVisible = false
+
+            (captionsButton.layoutParams as MarginLayoutParams).marginEnd = 0
         } else {
             captionsLinearLayout.setOnTouchListener(ResizableTouchListener())
-            val captionsLinearLayoutParams = captionsLinearLayout.layoutParams as MarginLayoutParams
-            captionsLinearLayoutParams.marginStart = 0
-            captionsLinearLayout.layoutParams = captionsLinearLayoutParams
+            (captionsLinearLayout.layoutParams as MarginLayoutParams).marginStart = 0
 
             resizeButton.setOnClickListener { this.onResizeButtonClicked() }
         }
-
-        resizeButton.isVisible = !isTablet(context)
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -237,7 +241,7 @@ internal class CaptionsLayout : FrameLayout {
 
     private fun expandCaptionsLayout() {
         rttInputText.visibility = View.VISIBLE
-        resizeButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_minimize_24_regular)
+        resizeButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_minimize_20_regular)
         resizeButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_minimize_captions_and_rtt)
         isMaximized = true
         maximizeCallback()
@@ -245,9 +249,10 @@ internal class CaptionsLayout : FrameLayout {
 
     private fun collapseCaptionsLayout() {
         rttInputText.visibility = View.GONE
-        resizeButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_maximize_24_regular)
+        resizeButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_maximize_20_regular)
         resizeButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_maximize_captions_and_rtt)
         isMaximized = false
+        scrollToBottom()
         minimizeCallback()
     }
 

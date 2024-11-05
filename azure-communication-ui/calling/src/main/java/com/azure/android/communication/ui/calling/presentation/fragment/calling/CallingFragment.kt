@@ -316,7 +316,7 @@ internal class CallingFragment :
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.isCaptionsVisibleFlow.collect {
-                val height = if (it) 115 else 0
+                val height = if (it) 150 else 0
                 val layoutParams = captionsBottomAnchor.layoutParams
                 layoutParams.height = (height * resources.displayMetrics.density).toInt()
                 captionsBottomAnchor.layoutParams = layoutParams
