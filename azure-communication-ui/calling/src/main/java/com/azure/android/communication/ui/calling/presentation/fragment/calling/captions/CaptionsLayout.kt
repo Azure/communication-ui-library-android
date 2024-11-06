@@ -272,12 +272,19 @@ internal class CaptionsLayout : FrameLayout {
     }
 
     private fun collapseCaptionsLayout() {
+        hideKeyboard(rttInputText)
         rttInputText.visibility = View.GONE
         resizeButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_maximize_20_regular)
         resizeButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_maximize_captions_and_rtt)
         isMaximized = false
         scrollToBottom()
         minimizeCallback()
+    }
+
+    private fun hideKeyboard(editText: EditText) {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(editText.windowToken, 0)
+        editText.clearFocus()
     }
 
     inner class ResizableTouchListener : OnTouchListener {
@@ -338,7 +345,6 @@ internal class CaptionsLayout : FrameLayout {
             }
         }
     }
-
 }
 
 internal fun CaptionsRecord.into(avatarViewManager: AvatarViewManager, identifier: CommunicationIdentifier?): CaptionsEntryModel {
