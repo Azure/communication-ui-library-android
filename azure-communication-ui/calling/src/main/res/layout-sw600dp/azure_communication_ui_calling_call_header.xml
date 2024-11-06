@@ -14,7 +14,7 @@
     android:alpha="0.8"
     android:background="@drawable/azure_communication_ui_calling_corner_radius_rectangle_6dp_floating_header"
     android:importantForAccessibility="yes"
-    android:visibility="visible"
+    android:visibility="gone"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/azure_communication_ui_call_banner"
