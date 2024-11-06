@@ -14,7 +14,7 @@
     android:alpha="0.8"
     android:background="@drawable/azure_communication_ui_calling_corner_radius_rectangle_6dp_floating_header"
     android:importantForAccessibility="yes"
-    android:visibility="gone"
+    android:visibility="visible"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/azure_communication_ui_call_banner"
@@ -42,8 +42,8 @@
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toStartOf="@+id/azure_communication_ui_call_header_custom_button_1"
         app:layout_constraintStart_toEndOf="@id/azure_communication_ui_call_header_back_button"
         app:layout_constraintTop_toTopOf="parent"
         android:orientation="vertical">
@@ -63,6 +63,34 @@
             android:fontFamily="sans-serif-medium"
             android:textColor="@color/azure_communication_ui_calling_color_white" />
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/azure_communication_ui_call_header_custom_button_1"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:backgroundTint="@color/azure_communication_ui_calling_color_button_background_transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/azure_communication_ui_call_header_custom_button_2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/azure_communication_ui_calling_ic_fluent_people_24_selector"
+        android:visibility="gone"
+        />
+
+    <ImageButton
+        android:id="@+id/azure_communication_ui_call_header_custom_button_2"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:backgroundTint="@color/azure_communication_ui_calling_color_button_background_transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/azure_communication_ui_call_bottom_drawer_button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/azure_communication_ui_calling_ic_fluent_people_24_selector"
+        android:visibility="gone"
+        />
 
     <ImageButton
         android:id="@+id/azure_communication_ui_call_bottom_drawer_button"
