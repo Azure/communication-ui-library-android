@@ -15,6 +15,7 @@ import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
+import android.transition.ChangeBounds
 import android.transition.TransitionManager
 import android.util.DisplayMetrics
 import android.util.LayoutDirection
@@ -425,11 +426,15 @@ internal class CallingFragment :
         constraint: Int,
     ) {
         val nestedViewId = R.id.azure_communication_ui_calling_captions_view_wrapper
-        TransitionManager.beginDelayedTransition(callScreenLayout)
         val constraintSet = ConstraintSet()
         constraintSet.clone(callScreenLayout)
         constraintSet.clear(nestedViewId, ConstraintSet.TOP)
         constraintSet.connect(nestedViewId, ConstraintSet.TOP, targetViewId, constraint)
+
+        val animationDuration: Long = 100
+        val transition = ChangeBounds()
+        transition.duration = animationDuration
+        TransitionManager.beginDelayedTransition(callScreenLayout, transition)
 
         constraintSet.applyTo(callScreenLayout)
     }
