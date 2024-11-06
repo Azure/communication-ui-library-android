@@ -149,10 +149,11 @@
             android:inputType="text"
             android:visibility="gone"
             tools:visibility="visible"
-            android:hint="Type message in real-time"
+            android:hint="@string/azure_communication_ui_calling_rtt_edit_text_hint"
             android:background="@drawable/azure_communication_ui_calling_outlined_edit_text"
             android:padding="12dp"
-            />
+            android:autofillHints="none"
+            android:imeOptions="actionSend" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsLayout>

@@ -11,6 +11,8 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityManager
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageButton
@@ -87,6 +89,28 @@ internal class CaptionsLayout : FrameLayout {
             (captionsLinearLayout.layoutParams as MarginLayoutParams).marginStart = 0
 
             resizeButton.setOnClickListener { this.onResizeButtonClicked() }
+        }
+
+        rttInputText.setOnEditorActionListener { view, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEND) {
+                // Handle the "Send" action
+                val message = view.text.toString()
+                if (message.isNotBlank()) {
+//                    sendMessage(message)
+
+                    view.text = ""
+
+                    // Keep focus on the EditText to prevent the keyboard from hiding
+                    view.requestFocus()
+
+                    // Ensure the keyboard remains visible
+                    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+                }
+                true
+            } else {
+                false
+            }
         }
     }
 

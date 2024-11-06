@@ -116,7 +116,7 @@
         >
 
         <include
-            layout="@layout/azure_communication_ui_calling_captions_linear_layout"
+            layout="@layout/azure_communication_ui_calling_captions"
             android:accessibilityTraversalAfter="@id/azure_communication_ui_call_main_layout"
             />
 

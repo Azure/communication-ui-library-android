@@ -117,7 +117,7 @@
         app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_calling_control_bar_view_lands_wrapper"
         >
         <include
-            layout="@layout/azure_communication_ui_calling_captions_linear_layout"
+            layout="@layout/azure_communication_ui_calling_captions"
             android:accessibilityTraversalAfter="@id/azure_communication_ui_call_main_layout"
             />
 
