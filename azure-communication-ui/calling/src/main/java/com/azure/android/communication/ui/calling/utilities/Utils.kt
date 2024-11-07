@@ -20,6 +20,10 @@ internal fun Activity.getRootView(): View {
     return findViewById(android.R.id.content)
 }
 
+internal fun Context.convertDpToPx(dp: Int): Float {
+    return this.convertDpToPx(dp.toFloat())
+}
+
 internal fun Context.convertDpToPx(dp: Float): Float {
     return TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP,

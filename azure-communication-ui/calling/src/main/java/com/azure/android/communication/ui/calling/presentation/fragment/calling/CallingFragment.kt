@@ -53,6 +53,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListView
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
+import com.azure.android.communication.ui.calling.utilities.convertDpToPx
 import com.azure.android.communication.ui.calling.utilities.hideKeyboard
 import com.azure.android.communication.ui.calling.utilities.isKeyboardOpen
 import com.azure.android.communication.ui.calling.utilities.isTablet
@@ -109,6 +110,7 @@ internal class CallingFragment :
     private lateinit var captionsLayout: CaptionsLayout
     private lateinit var captionsTopAnchor: View
     private lateinit var captionsBottomAnchor: View
+    private lateinit var captionsOverlay: View
     /* <RTT_POC>
     private lateinit var rttView: RttView
     </RTT_POC> */
@@ -263,10 +265,13 @@ internal class CallingFragment :
         captionsTopAnchor = view.findViewById(R.id.captions_top_anchor)
         captionsBottomAnchor = view.findViewById(R.id.captions_bottom_anchor)
         captionsWrapper = view.findViewById(R.id.azure_communication_ui_calling_captions_view_wrapper)
+        captionsOverlay = view.findViewById(R.id.azure_communication_ui_calling_captions_overlay)
         captionsLayout = view.findViewById(R.id.azure_communication_ui_calling_captions_linear_layout)
         captionsLayout.minimizeCallback = this::minimizeCaptions
         captionsLayout.maximizeCallback = this::maximizeCaptions
         captionsLayout.start(viewLifecycleOwner, viewModel.captionsLayoutViewModel, captionsDataManager, avatarViewManager, configuration.identifier)
+
+        captionsOverlay.setOnClickListener { captionsLayout.minimizeCaptionsLayout() }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -311,8 +316,8 @@ internal class CallingFragment :
             SensorManager.SENSOR_DELAY_NORMAL
         )
 
-        context?.let {
-            if (isTablet(it)) {
+        context?.let { context ->
+            if (isTablet(context)) {
                 val isLandScape =
                     resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
                 val captionsWrapperLayout =
@@ -321,18 +326,19 @@ internal class CallingFragment :
                     if (isLandScape) 0.33f else 0.45f
                 captionsWrapper.layoutParams = captionsWrapperLayout
             }
-        }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.isCaptionsVisibleFlow.collect {
-                val height = if (it) 150 else 0
-                val layoutParams = captionsBottomAnchor.layoutParams
-                layoutParams.height = (height * resources.displayMetrics.density).toInt()
-                captionsBottomAnchor.layoutParams = layoutParams
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.isCaptionsVisibleFlow.collect {
+                    val height = if (it) 150 else 0
+                    val layoutParams = captionsBottomAnchor.layoutParams
+                    layoutParams.height = context.convertDpToPx(height).toInt()
+                    captionsBottomAnchor.layoutParams = layoutParams
 
-                captionsWrapper.isVisible = it
+                    captionsWrapper.isVisible = it
+                }
             }
         }
+
         captionsTopAnchor.post {
             calculateAndSetCaptionsLayoutMaxHeight()
         }
@@ -422,10 +428,12 @@ internal class CallingFragment :
     }
 
     private fun maximizeCaptions() {
+        captionsOverlay.isVisible = true
         updateConstraintTopTo(R.id.captions_top_anchor, ConstraintSet.BOTTOM)
     }
 
     private fun minimizeCaptions() {
+        captionsOverlay.isVisible = false
         updateConstraintTopTo(R.id.captions_bottom_anchor, ConstraintSet.TOP)
     }
 

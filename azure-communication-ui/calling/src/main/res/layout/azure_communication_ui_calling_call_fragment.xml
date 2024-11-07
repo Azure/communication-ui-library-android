@@ -104,6 +104,20 @@
         app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_calling_control_bar_view_wrapper"
         />
 
+    <View
+        android:id="@+id/azure_communication_ui_calling_captions_overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/fluentui_gray_800"
+        android:alpha="0.5"
+        app:layout_constraintStart_toStartOf="@+id/azure_communication_ui_call_main_layout"
+        app:layout_constraintEnd_toEndOf="@+id/azure_communication_ui_call_main_layout"
+        app:layout_constraintTop_toTopOf="@+id/azure_communication_ui_call_main_layout"
+        app:layout_constraintBottom_toBottomOf="@+id/azure_communication_ui_call_main_layout"
+        android:visibility="gone"
+        android:clickable="true"
+        />
+
     <LinearLayout
         android:id="@+id/azure_communication_ui_calling_captions_view_wrapper"
         android:layout_width="0dp"
@@ -114,12 +128,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_calling_control_bar_view_wrapper"
         >
-
         <include
             layout="@layout/azure_communication_ui_calling_captions"
             android:accessibilityTraversalAfter="@id/azure_communication_ui_call_main_layout"
             />
-
     </LinearLayout>
 
     <LinearLayout
@@ -134,7 +146,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         >
-
         <include
             layout="@layout/azure_communication_ui_calling_control_bar_view"
             android:accessibilityTraversalAfter="@id/azure_communication_ui_calling_captions_view_wrapper"

@@ -257,13 +257,13 @@ internal class CaptionsLayout : FrameLayout {
 
     private fun onResizeButtonClicked() {
         if (isMaximized) {
-            collapseCaptionsLayout()
+            minimizeCaptionsLayout()
         } else {
-            expandCaptionsLayout()
+            maximizeCaptionsLayout()
         }
     }
 
-    private fun expandCaptionsLayout() {
+    private fun maximizeCaptionsLayout() {
         rttInputText.visibility = View.VISIBLE
         resizeButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_minimize_20_regular)
         resizeButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_minimize_captions_and_rtt)
@@ -271,7 +271,7 @@ internal class CaptionsLayout : FrameLayout {
         maximizeCallback()
     }
 
-    private fun collapseCaptionsLayout() {
+    fun minimizeCaptionsLayout() {
         hideKeyboard(rttInputText)
         rttInputText.visibility = View.GONE
         resizeButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_maximize_20_regular)
@@ -331,9 +331,9 @@ internal class CaptionsLayout : FrameLayout {
 
                     if (abs(params.topMargin) > 150) {
                         if (isMaximized) {
-                            collapseCaptionsLayout()
+                            minimizeCaptionsLayout()
                         } else {
-                            expandCaptionsLayout()
+                            maximizeCaptionsLayout()
                         }
                     }
 
