@@ -53,6 +53,8 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListView
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
+import com.azure.android.communication.ui.calling.utilities.hideKeyboard
+import com.azure.android.communication.ui.calling.utilities.isKeyboardOpen
 import com.azure.android.communication.ui.calling.utilities.isTablet
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -280,6 +282,12 @@ internal class CallingFragment :
     }
 
     private fun onBackPressed() {
+        // On some devices the close keyboard button is triggering back button.
+        // If keyboard was open, we should just close it.
+        if (activity?.isKeyboardOpen() == true) {
+            activity?.hideKeyboard()
+            return
+        }
 
         if (viewModel.multitaskingEnabled) {
             (activity as? MultitaskingCallCompositeActivity)?.hide()
