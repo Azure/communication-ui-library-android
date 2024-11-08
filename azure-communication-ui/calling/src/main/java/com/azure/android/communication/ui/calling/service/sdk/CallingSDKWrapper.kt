@@ -44,15 +44,15 @@ import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-/*  <CALL_START_TIME> */
+/*  <CALL_START_TIME>
 import kotlinx.coroutines.flow.SharedFlow
-/* </CALL_START_TIME> */
+</CALL_START_TIME> */
 import kotlinx.coroutines.flow.StateFlow
 import java.io.File
 import java.util.Collections
-/*  <CALL_START_TIME> */
+/*  <CALL_START_TIME>
 import java.util.Date
-/* </CALL_START_TIME> */
+</CALL_START_TIME> */
 
 internal class CallingSDKWrapper(
     private val context: Context,
@@ -98,11 +98,11 @@ internal class CallingSDKWrapper(
             }
         }
 
-    /*  <CALL_START_TIME> */
+    /*  <CALL_START_TIME>
     override fun getCallStartTimeSharedFlow(): SharedFlow<Date> {
         return callingSDKEventHandler.getCallStartTimeSharedFlow()
     }
-    /* </CALL_START_TIME> */
+    </CALL_START_TIME> */
 
     override fun getRemoteParticipantsMap(): Map<String, RemoteParticipant> =
         callingSDKEventHandler.getRemoteParticipantsMap().mapValues { it.value.into() }
@@ -500,14 +500,14 @@ internal class CallingSDKWrapper(
     override fun getCaptionsTypeChangedSharedFlow() =
         callingSDKEventHandler.getCaptionsTypeChangedSharedFlow()
 
-    /*  <CALL_START_TIME> */
+    /*  <CALL_START_TIME>
     override fun getCallStartTime(): Date? {
         if (nullableCall != null) {
             return call.startTime
         }
         return null
     }
-    /* </CALL_START_TIME> */
+    </CALL_START_TIME> */
 
     override fun startCaptions(spokenLanguage: String?): CompletableFuture<Void> {
         val resultFuture = CompletableFuture<Void>()
