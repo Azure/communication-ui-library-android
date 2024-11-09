@@ -15,8 +15,6 @@
     tools:visibility="visible"
     android:background="@drawable/azure_communication_ui_calling_top_corner_radius_rectangle_8dp"
     android:elevation="4dp"
-    android:layout_marginTop="2dp"
-    android:layout_marginStart="2dp"
     >
 
     <LinearLayout
@@ -55,7 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/azure_communication_ui_calling_color_background"
+        android:background="@color/azure_communication_ui_calling_color_bottom_drawer_background"
         >
         <LinearLayout
             android:id="@+id/azure_communication_ui_calling_captions_header"
@@ -151,6 +149,7 @@
             tools:visibility="visible"
             android:hint="@string/azure_communication_ui_calling_rtt_edit_text_hint"
             android:background="@drawable/azure_communication_ui_calling_outlined_edit_text"
+            android:textColorHint="@color/azure_communication_ui_calling_color_on_background"
             android:padding="12dp"
             android:autofillHints="none"
             android:imeOptions="actionSend" />

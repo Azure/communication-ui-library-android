@@ -6,5 +6,5 @@
     android:shape="rectangle"
     >
     <corners android:radius="6dp" />
-    <solid android:color="@color/azure_communication_ui_calling_color_button_switch_camera" />
+    <solid android:color="@color/azure_communication_ui_calling_color_drag_handle" />
 </shape>

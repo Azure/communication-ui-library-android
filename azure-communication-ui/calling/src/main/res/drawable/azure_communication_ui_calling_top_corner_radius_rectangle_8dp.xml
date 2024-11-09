@@ -9,5 +9,5 @@
         android:topLeftRadius="10dp"
         android:topRightRadius="10dp"
         />
-    <solid android:color="@color/azure_communication_ui_calling_color_background" />
+    <solid android:color="@color/azure_communication_ui_calling_color_bottom_drawer_background" />
 </shape>
