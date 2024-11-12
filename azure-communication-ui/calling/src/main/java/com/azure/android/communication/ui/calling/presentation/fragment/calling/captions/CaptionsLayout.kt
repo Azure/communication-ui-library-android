@@ -37,7 +37,6 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
-
 internal class CaptionsLayout : FrameLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
@@ -313,12 +312,12 @@ internal class CaptionsLayout : FrameLayout {
                         if (minHeight > maximizedHeight - newMarginTop) {
                             newMarginTop = maximizedHeight - minHeight
                         }
-                        newMarginTop =  max(0, newMarginTop)
+                        newMarginTop = max(0, newMarginTop)
                     } else {
                         if (-newMarginTop + minHeight > maxHeight) {
-                             newMarginTop = -(maxHeight - minHeight)
+                            newMarginTop = -(maxHeight - minHeight)
                         }
-                        newMarginTop =  min(0, newMarginTop)
+                        newMarginTop = min(0, newMarginTop)
                     }
 
                     val layoutParams = view.layoutParams as MarginLayoutParams

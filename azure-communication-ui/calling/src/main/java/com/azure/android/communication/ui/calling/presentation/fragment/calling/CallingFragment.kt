@@ -60,7 +60,6 @@ import com.azure.android.communication.ui.calling.utilities.isTablet
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-
 internal class CallingFragment :
     Fragment(R.layout.azure_communication_ui_calling_call_fragment), SensorEventListener {
     companion object {
@@ -465,5 +464,4 @@ internal class CallingFragment :
 
         captionsLayout.maxHeight = captionsBottomAnchorBottomY - captionsTopAnchorBottomY
     }
-
 }

@@ -45,7 +45,6 @@ internal class CallingViewModel(
     // This is to avoid a lag between updating isDefaultParametersCallStarted
     private var callStartRequested = false
 
-
     val moreCallOptionsListViewModel = callingViewModelProvider.moreCallOptionsListViewModel
     val participantGridViewModel = callingViewModelProvider.participantGridViewModel
     val controlBarViewModel = callingViewModelProvider.controlBarViewModel
@@ -431,8 +430,8 @@ internal class CallingViewModel(
         captionsState: CaptionsState
     ) =
         visibilityState.status == VisibilityStatus.VISIBLE && (
-                captionsState.status == CaptionsStatus.STARTED ||
-                        captionsState.status == CaptionsStatus.START_REQUESTED ||
-                        captionsState.status == CaptionsStatus.STOP_REQUESTED
-                )
+            captionsState.status == CaptionsStatus.STARTED ||
+                captionsState.status == CaptionsStatus.START_REQUESTED ||
+                captionsState.status == CaptionsStatus.STOP_REQUESTED
+            )
 }
