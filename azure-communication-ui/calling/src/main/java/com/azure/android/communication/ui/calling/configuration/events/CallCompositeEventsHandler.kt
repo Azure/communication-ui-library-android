@@ -13,9 +13,10 @@ import com.azure.android.communication.ui.calling.models.CallCompositeUserReport
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallCancelledEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent
-/* <CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantLeftEvent
-/* </CUSTOM_CALL_HEADER> */
+/*  <CALL_START_TIME> */
+import java.util.Date
+/* </CALL_START_TIME> */
 
 internal class CallCompositeEventsHandler {
     // mutableSet does preserve element iteration order
@@ -23,10 +24,8 @@ internal class CallCompositeEventsHandler {
     private val remoteParticipantJoinedHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>>()
 
-    /* <CUSTOM_CALL_HEADER> */
     private val remoteParticipantRemovedHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeRemoteParticipantLeftEvent>>()
-    /* </CUSTOM_CALL_HEADER> */
 
     private val callStateHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeCallStateChangedEvent>>()
@@ -46,6 +45,11 @@ internal class CallCompositeEventsHandler {
     private val incomingCallCancelledEventHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeIncomingCallCancelledEvent>>()
 
+    /*  <CALL_START_TIME> */
+    private val callStartTimeUpdatedEventHandlers =
+        mutableSetOf<CallCompositeEventHandler<Date>>()
+    /* </CALL_START_TIME> */
+
     fun getOnErrorHandlers() = errorHandlers.asIterable()
 
     fun addOnErrorEventHandler(errorHandler: CallCompositeEventHandler<CallCompositeErrorEvent>) =
@@ -61,7 +65,6 @@ internal class CallCompositeEventsHandler {
 
     fun removeOnRemoteParticipantJoinedEventHandler(handler: CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent>) =
         remoteParticipantJoinedHandlers.remove(handler)
-    /* <CUSTOM_CALL_HEADER> */
     fun getOnRemoteParticipantRemovedHandlers() = remoteParticipantRemovedHandlers.asIterable()
 
     fun addOnRemoteParticipantLeftEventHandler(handler: CallCompositeEventHandler<CallCompositeRemoteParticipantLeftEvent>) =
@@ -69,7 +72,6 @@ internal class CallCompositeEventsHandler {
 
     fun removeOnRemoteParticipantLeftEventHandler(handler: CallCompositeEventHandler<CallCompositeRemoteParticipantLeftEvent>) =
         remoteParticipantRemovedHandlers.remove(handler)
-    /* </CUSTOM_CALL_HEADER> */
     fun getOnAudioSelectionChangedEventHandlers() = audioSelectionChangedEventHandlers.asIterable()
 
     fun getOnMultitaskingStateChangedEventHandlers() = multitaskingStateChangedEvent.asIterable()
@@ -131,4 +133,16 @@ internal class CallCompositeEventsHandler {
     }
 
     fun getOnIncomingCallHandlers() = incomingCallEventHandlers.asIterable()
+
+    /*  <CALL_START_TIME> */
+    fun getOnCallStartTimeUpdatedHandlers() = callStartTimeUpdatedEventHandlers.asIterable()
+
+    fun addOnCallStartTimeUpdatedEventHandler(eventHandler: CallCompositeEventHandler<Date>) {
+        callStartTimeUpdatedEventHandlers.add(eventHandler)
+    }
+
+    fun removeOnCallStartTimeUpdatedEventHandler(eventHandler: CallCompositeEventHandler<Date>) {
+        callStartTimeUpdatedEventHandlers.remove(eventHandler)
+    }
+    /* </CALL_START_TIME> */
 }

@@ -87,7 +87,5 @@ internal interface DependencyInjectionContainer {
     val capabilitiesManager: CapabilitiesManager
     val captionsDataManager: CaptionsDataManager
 
-    /* <CUSTOM_CALL_HEADER> */
     val updatableOptionsManager: UpdatableOptionsManager
-    /* </CUSTOM_CALL_HEADER> */
 }

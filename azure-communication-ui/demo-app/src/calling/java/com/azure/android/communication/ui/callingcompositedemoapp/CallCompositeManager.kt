@@ -56,15 +56,16 @@ import com.azure.android.communication.ui.callingcompositedemoapp.features.Setti
 import com.azure.android.communication.ui.callingcompositedemoapp.views.DismissCompositeButtonView
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.flow.MutableStateFlow
+/*  <CALL_START_TIME> */
+import java.util.Date
+/* </CALL_START_TIME> */
 import java.util.UUID
 
 class CallCompositeManager(private val context: Context) {
     val callCompositeCallStateStateFlow = MutableStateFlow("")
     private var callComposite: CallComposite? = null
     private var incomingCallId: String? = null
-    /* <CUSTOM_CALL_HEADER> */
     private var callScreenHeaderOptions: CallCompositeCallScreenHeaderViewData? = null
-    /* </CUSTOM_CALL_HEADER> */
     private var remoteParticipantsCount = 0
 
     fun launch(
@@ -289,9 +290,19 @@ class CallCompositeManager(private val context: Context) {
     ) {
         callComposite.addOnErrorEventHandler(CallLauncherActivityErrorHandler(context, callComposite))
 
+        /*  <CALL_START_TIME> */
+        callComposite.addOnCallStartTimeUpdatedEventHandler { startTime ->
+            toast(context, "Call start time updated: $startTime")
+        }
+        /* </CALL_START_TIME> */
+
         val callStateEventHandler: ((CallCompositeCallStateChangedEvent) -> Unit) = {
             callCompositeCallStateStateFlow.value = it.code.toString()
-            toast(context, "Call State: ${it.code}.")
+            var callStartTime: Date? = null
+            /*  <CALL_START_TIME> */
+            callStartTime = callComposite.getCallStartTime()
+            /* </CALL_START_TIME> */
+            toast(context, "Call State: ${it.code}. start time: $callStartTime ")
         }
 
         callComposite.addOnCallStateChangedEventHandler(callStateEventHandler)
@@ -310,14 +321,12 @@ class CallCompositeManager(private val context: Context) {
         }
         callComposite.addOnDismissedEventHandler(onDismissedEventHandler)
 
-        /* <CUSTOM_CALL_HEADER> */
         callComposite.addOnRemoteParticipantLeftEventHandler { event ->
             toast(context, "Remote participant removed: ${event.identifiers.count()}")
             event.identifiers.forEach {
                 Log.d(CallLauncherActivity.TAG, "Remote participant removed: ${it.rawId}")
             }
         }
-        /* </CUSTOM_CALL_HEADER> */
 
         callComposite.addOnPictureInPictureChangedEventHandler {
             toast(context, "isInPictureInPicture: " + it.isInPictureInPicture)
@@ -329,7 +338,6 @@ class CallCompositeManager(private val context: Context) {
                 Log.d(CallLauncherActivity.TAG, "Remote participant joined: ${it.rawId}")
             }
             remoteParticipantsCount += event.identifiers.count()
-            /* <CUSTOM_CALL_HEADER> */
             val titleUpdateCount = SettingsFeatures.getCallScreenInformationTitleUpdateParticipantCount()
             if (titleUpdateCount != 0 && titleUpdateCount <= remoteParticipantsCount) {
                 callScreenHeaderOptions?.let {
@@ -342,7 +350,6 @@ class CallCompositeManager(private val context: Context) {
                     it.subtitle = "Custom Call Screen Header: $remoteParticipantsCount participants"
                 }
             }
-            /* </CUSTOM_CALL_HEADER> */
         }
 
         callComposite.addOnAudioSelectionChangedEventHandler { event ->
@@ -715,7 +722,6 @@ class CallCompositeManager(private val context: Context) {
                 )
             }
         }
-        /* <CUSTOM_CALL_HEADER> */
         if (!SettingsFeatures.getCallScreenInformationTitle().isNullOrEmpty() ||
             !SettingsFeatures.getCallScreenInformationSubtitle().isNullOrEmpty() ||
             SettingsFeatures.getCallScreenInformationTitleUpdateParticipantCount() != 0 ||
@@ -723,8 +729,8 @@ class CallCompositeManager(private val context: Context) {
         ) {
             callScreenOptions = callScreenOptions ?: CallCompositeCallScreenOptions()
 
-            callScreenHeaderOptions =
-                CallCompositeCallScreenHeaderViewData()
+            callScreenHeaderOptions = callScreenHeaderOptions
+                ?: CallCompositeCallScreenHeaderViewData()
             SettingsFeatures.getCallScreenInformationTitle()?.let {
                 if (it.isNotEmpty()) {
                     callScreenHeaderOptions?.title = it
@@ -735,9 +741,33 @@ class CallCompositeManager(private val context: Context) {
                     callScreenHeaderOptions?.subtitle = it
                 }
             }
-            callScreenOptions.setHeaderViewData(callScreenHeaderOptions)
         }
-        /* </CUSTOM_CALL_HEADER> */
+        /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
+        if (SettingsFeatures.getAddCustomButtons() == true) {
+            val headerButton1 =
+                CallCompositeCustomButtonViewData(
+                    UUID.randomUUID().toString(),
+                    R.drawable.ic_fluent_chat_24_regular,
+                    "Header Button 1",
+                    fun(it: CallCompositeCustomButtonClickEvent) {
+                        toast(it.context, "Header Button 1 clicked")
+                    }
+                )
+            val headerButton2 =
+                CallCompositeCustomButtonViewData(
+                    UUID.randomUUID().toString(),
+                    R.drawable.ic_fluent_arrow_next_24_regular,
+                    "Header Button 2",
+                    fun(it: CallCompositeCustomButtonClickEvent) {
+                        toast(it.context, "Header Button 2 clicked")
+                    }
+                )
+            callScreenHeaderOptions = callScreenHeaderOptions
+                ?: CallCompositeCallScreenHeaderViewData()
+            callScreenHeaderOptions?.customButtons = listOf(headerButton1, headerButton2)
+        }
+        /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+        callScreenOptions?.setHeaderViewData(callScreenHeaderOptions)
         return callScreenOptions
     }
 

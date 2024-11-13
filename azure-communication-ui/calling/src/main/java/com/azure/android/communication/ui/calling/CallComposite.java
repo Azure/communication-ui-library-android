@@ -34,9 +34,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositePictureInP
 import com.azure.android.communication.ui.calling.models.CallCompositePushNotification;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteOptions;
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent;
-/* <CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantLeftEvent;
-/* </CUSTOM_CALL_HEADER> */
 import com.azure.android.communication.ui.calling.models.CallCompositeRoomLocator;
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData;
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult;
@@ -59,6 +57,9 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 import java.util.Collection;
 import java.util.Collections;
 
+/*  <CALL_START_TIME> */
+import java.util.Date;
+/* </CALL_START_TIME> */
 import java.util.List;
 /* <RTT_POC>
 import java.util.Timer;
@@ -581,7 +582,6 @@ public final class CallComposite {
             final CallCompositeEventHandler<CallCompositeRemoteParticipantJoinedEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().removeOnRemoteParticipantJoinedEventHandler(eventHandler);
     }
-    /* <CUSTOM_CALL_HEADER> */
     /**
      * Add {@link CallCompositeEventHandler}.
      *
@@ -610,7 +610,55 @@ public final class CallComposite {
             final CallCompositeEventHandler<CallCompositeRemoteParticipantLeftEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().removeOnRemoteParticipantLeftEventHandler(eventHandler);
     }
-    /* </CUSTOM_CALL_HEADER> */
+
+    /**
+     * Add {@link CallCompositeEventHandler}.
+     *
+     * <pre>
+     *
+     * &#47;&#47; add on call start time updated handler
+     * callComposite.addOnCallStartTimeUpdatedEventHandler&#40;event -> {
+     *     &#47;&#47; Use call composite to set configurations for call start time
+     * }&#41;;
+     *
+     * </pre>
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    /* <CALL_START_TIME> */
+    public void addOnCallStartTimeUpdatedEventHandler(
+            final CallCompositeEventHandler<Date> eventHandler) {
+        configuration.getCallCompositeEventsHandler().addOnCallStartTimeUpdatedEventHandler(eventHandler);
+    }
+    /* </CALL_START_TIME> */
+
+    /**
+     * Remove {@link CallCompositeEventHandler}.
+     *
+     * @param eventHandler The {@link CallCompositeEventHandler}.
+     */
+    /* <CALL_START_TIME> */
+    public void removeOnCallStartTimeUpdatedEventHandler(
+            final CallCompositeEventHandler<Date> eventHandler) {
+        configuration.getCallCompositeEventsHandler().removeOnCallStartTimeUpdatedEventHandler(eventHandler);
+    }
+    /* </CALL_START_TIME> */
+
+    /**
+     * Get Call Start Time.
+     *
+     * @return {@link Date}
+     */
+    /* <CALL_START_TIME> */
+    public Date getCallStartTime() {
+        final DependencyInjectionContainer container = diContainer;
+        if (container != null) {
+            return container.getCallingService().getCallStartTime();
+        }
+        return null;
+    }
+    /* </CALL_START_TIME> */
+
     /**
      * Add {@link CallCompositeEventHandler}
      *

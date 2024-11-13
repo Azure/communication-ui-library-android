@@ -124,6 +124,52 @@ internal class ButtonViewDataReducerImpl : ButtonViewDataReducer {
                     }
                 )
             }
+            /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
+            is ButtonViewDataAction.CallScreenHeaderCustomButtonIsEnabledUpdated -> {
+                state.copy(
+                    callScreenHeaderCustomButtonsState = state.callScreenHeaderCustomButtonsState.map {
+                        if (it.id == action.id) {
+                            it.copy(isEnabled = action.isEnabled)
+                        } else {
+                            it
+                        }
+                    }
+                )
+            }
+            is ButtonViewDataAction.CallScreenHeaderCustomButtonIsVisibleUpdated -> {
+                state.copy(
+                    callScreenHeaderCustomButtonsState = state.callScreenHeaderCustomButtonsState.map {
+                        if (it.id == action.id) {
+                            it.copy(isVisible = action.isVisible)
+                        } else {
+                            it
+                        }
+                    }
+                )
+            }
+            is ButtonViewDataAction.CallScreenHeaderCustomButtonTitleUpdated -> {
+                state.copy(
+                    callScreenHeaderCustomButtonsState = state.callScreenHeaderCustomButtonsState.map {
+                        if (it.id == action.id) {
+                            it.copy(title = action.title)
+                        } else {
+                            it
+                        }
+                    }
+                )
+            }
+            is ButtonViewDataAction.CallScreenHeaderCustomButtonIconUpdated -> {
+                state.copy(
+                    callScreenHeaderCustomButtonsState = state.callScreenHeaderCustomButtonsState.map {
+                        if (it.id == action.id) {
+                            it.copy(drawableId = action.drawableId)
+                        } else {
+                            it
+                        }
+                    }
+                )
+            }
+            /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             else -> state
         }
     }

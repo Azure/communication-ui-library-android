@@ -2,6 +2,7 @@ package com.azure.android.communication.ui.calling.presentation.manager
 
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
 import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonViewData
+import com.azure.android.communication.ui.calling.models.setDrawableIdChangedEventHandler
 import com.azure.android.communication.ui.calling.models.setEnabledChangedEventHandler
 import com.azure.android.communication.ui.calling.models.setSubtitleChangedEventHandler
 import com.azure.android.communication.ui.calling.models.setTitleChangedEventHandler
@@ -16,7 +17,6 @@ internal class UpdatableOptionsManager(
     private val store: Store<ReduxState>,
 ) {
     fun start() {
-        /* <CUSTOM_CALL_HEADER> */
         configuration.callScreenOptions?.headerViewData?.run {
             setTitleChangedEventHandler {
                 store.dispatch(CallScreenInfoHeaderAction.UpdateTitle(it))
@@ -25,7 +25,6 @@ internal class UpdatableOptionsManager(
                 store.dispatch(CallScreenInfoHeaderAction.UpdateSubtitle(it))
             }
         }
-        /* </CUSTOM_CALL_HEADER> */
         configuration.callScreenOptions?.controlBarOptions?.run {
             cameraButton?.setEnabledChangedEventHandler {
                 store.dispatch(ButtonViewDataAction.CallScreenCameraButtonIsEnabledUpdated(it))
@@ -89,6 +88,9 @@ internal class UpdatableOptionsManager(
                 it.setVisibleChangedEventHandler { isVisible ->
                     store.dispatch(ButtonViewDataAction.CallScreenCustomButtonIsVisibleUpdated(it.id, isVisible))
                 }
+                it.setDrawableIdChangedEventHandler { drawableId ->
+                    store.dispatch(ButtonViewDataAction.CallScreenCustomButtonIconUpdated(it.id, drawableId))
+                }
             }
         }
 
@@ -112,6 +114,20 @@ internal class UpdatableOptionsManager(
                 store.dispatch(ButtonViewDataAction.SetupScreenAudioDeviceButtonIsVisibleUpdated(it))
             }
         }
+
+        /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
+        configuration.callScreenOptions?.headerViewData?.customButtons?.forEach {
+            it.setEnabledChangedEventHandler { isEnabled ->
+                store.dispatch(ButtonViewDataAction.CallScreenHeaderCustomButtonIsEnabledUpdated(it.id, isEnabled))
+            }
+            it.setVisibleChangedEventHandler { isVisible ->
+                store.dispatch(ButtonViewDataAction.CallScreenHeaderCustomButtonIsVisibleUpdated(it.id, isVisible))
+            }
+            it.setDrawableIdChangedEventHandler { drawableId ->
+                store.dispatch(ButtonViewDataAction.CallScreenHeaderCustomButtonIconUpdated(it.id, drawableId))
+            }
+        }
+        /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
     }
 
     fun getButton(id: String): CallCompositeCustomButtonViewData {
@@ -120,6 +136,13 @@ internal class UpdatableOptionsManager(
             ?.let {
                 return it
             }
+        /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
+        configuration.callScreenOptions?.headerViewData?.customButtons
+            ?.find { it.id == id }
+            ?.let {
+                return it
+            }
+        /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
         throw IllegalArgumentException("Button with id $id not found")
     }
 }

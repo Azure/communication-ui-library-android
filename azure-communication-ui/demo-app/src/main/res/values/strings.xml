@@ -86,12 +86,10 @@
     <string name="auto_start_captions_text">Auto start captions.</string>
     <string name="hide_captions_text">Hide captions start/stop UI.</string>
     <string name="default_spoken_language">Default spoken language.</string>
-    <!-- <CUSTOM_CALL_HEADER> -->
-   <string name="call_information_subtitle">Call information subtitle</string>
+    <string name="call_information_subtitle">Call information subtitle</string>
    <string name="update_title_remote_participant_count">Set participant count in title if greater than</string>
    <string name="update_subtitle_remote_participant_count">Set participant count in subtitle if greater than</string>
    <string name="call_information_title">Call information title</string>
-    <!-- </CUSTOM_CALL_HEADER> -->
    <string name="call_custom_buttons_text">Custom Buttons</string>
-   <string name="call_custom_buttons">Add Custom Buttons</string>
+   <string name="call_custom_buttons">Add Custom Buttons to call and modify buttons for setup</string>
 </resources>
