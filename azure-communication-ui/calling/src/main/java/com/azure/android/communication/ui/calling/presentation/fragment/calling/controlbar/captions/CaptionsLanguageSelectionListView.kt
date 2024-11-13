@@ -99,12 +99,12 @@ internal class CaptionsLanguageSelectionListView(
 
     private fun getBottomCellItems(): List<BottomCellItem> {
         val items = mutableListOf<BottomCellItem>()
-        viewModel.languagesListStateFlow.value.forEach { language ->
+        viewModel.languagesListStateFlow.value.forEachIndexed { index, language ->
             items.add(
                 BottomCellItem(
                     icon = null,
                     title = getLocaleDisplayName(language),
-                    "",
+                    "${index + 1} of ${viewModel.languagesListStateFlow.value.size} ${getLocaleDisplayName(language)}",
                     null,
                     null,
                     null,
