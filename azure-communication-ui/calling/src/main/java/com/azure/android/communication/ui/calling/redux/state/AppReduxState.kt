@@ -99,9 +99,7 @@ internal class AppReduxState(
         subtitle = localOptions?.callScreenOptions?.headerViewData?.subtitle,
     )
 
-    /* <RTT_POC>
     override var rttState = RttState()
-    </RTT_POC> */
 
     override var buttonState: ButtonState = ButtonState(
         callScreenCameraButtonState = DefaultButtonState(

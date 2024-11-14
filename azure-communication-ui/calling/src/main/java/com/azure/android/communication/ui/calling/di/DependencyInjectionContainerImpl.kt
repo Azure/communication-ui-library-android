@@ -3,12 +3,7 @@
 
 package com.azure.android.communication.ui.calling.di
 
-/* <RTT_POC>
 import com.azure.android.communication.ui.calling.redux.reducer.RttReducerImpl
-</RTT_POC> */
-/* <RTT_POC>
-import com.azure.android.communication.ui.calling.redux.reducer.RttReducerImpl
-</RTT_POC> */
 import android.content.Context
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.data.CallHistoryRepositoryImpl
@@ -282,9 +277,7 @@ internal class DependencyInjectionContainerImpl(
     private val callScreenInformationHeaderReducer get() = CallScreenInformationHeaderReducerImpl()
     private val buttonOptionsReducer get() = ButtonViewDataReducerImpl()
 
-    /* <RTT_POC>
     private val rttReducer get() = RttReducerImpl()
-    </RTT_POC> */
 
     // Middleware
     private val appMiddleware get() = mutableListOf(callingMiddleware)
@@ -313,10 +306,8 @@ internal class DependencyInjectionContainerImpl(
             /* CUSTOM_CALL_HEADER */
             callScreenInformationHeaderReducer,
             /* CUSTOM_CALL_HEADER */
-            buttonOptionsReducer
-            /* <RTT_POC>
+            buttonOptionsReducer,
             rttReducer,
-            </RTT_POC> */
         ) as Reducer<ReduxState>
     }
     //endregion

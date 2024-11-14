@@ -22,6 +22,7 @@ import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import com.azure.android.communication.ui.calling.redux.state.RttState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.CoroutineScope
@@ -195,11 +196,14 @@ internal class CallingViewModel(
         </RTT_POC> */
 
         captionsListViewModel.init(
-            state.captionsState, state.callState.callingStatus,
-            state.visibilityState, state.buttonState
+            state.captionsState,
+            state.callState.callingStatus,
+            state.visibilityState,
+            state.buttonState,
+            state.rttState,
         )
         captionsLanguageSelectionListViewModel.init(state.captionsState, state.visibilityState)
-        isCaptionsVisibleMutableFlow.value = shouldShowCaptionsUI(state.visibilityState, state.captionsState)
+        isCaptionsVisibleMutableFlow.value = shouldShowCaptionsUI(state.visibilityState, state.captionsState, state.rttState)
         captionsLayoutViewModel.init(state.captionsState, isCaptionsVisibleMutableFlow.value)
 
         moreCallOptionsListViewModel.init(state.visibilityState, state.buttonState)
@@ -373,12 +377,19 @@ internal class CallingViewModel(
         updateOverlayDisplayedState(state.callState.callingStatus)
 
         captionsListViewModel.update(
-            state.captionsState, state.callState.callingStatus,
-            state.visibilityState, state.buttonState
+            state.captionsState,
+            state.callState.callingStatus,
+            state.visibilityState,
+            state.buttonState,
+            state.rttState,
         )
         captionsLanguageSelectionListViewModel.update(state.captionsState, state.visibilityState)
 
-        isCaptionsVisibleMutableFlow.value = shouldShowCaptionsUI(state.visibilityState, state.captionsState)
+        isCaptionsVisibleMutableFlow.value = shouldShowCaptionsUI(
+            state.visibilityState,
+            state.captionsState,
+            state.rttState,
+        )
         captionsLayoutViewModel.update(state.captionsState, isCaptionsVisibleMutableFlow.value)
     }
 
@@ -427,10 +438,12 @@ internal class CallingViewModel(
 
     private fun shouldShowCaptionsUI(
         visibilityState: VisibilityState,
-        captionsState: CaptionsState
+        captionsState: CaptionsState,
+        rttState: RttState,
     ) =
         visibilityState.status == VisibilityStatus.VISIBLE && (
-            captionsState.status == CaptionsStatus.STARTED ||
+                rttState.isRttActive ||
+                captionsState.status == CaptionsStatus.STARTED ||
                 captionsState.status == CaptionsStatus.START_REQUESTED ||
                 captionsState.status == CaptionsStatus.STOP_REQUESTED
             )

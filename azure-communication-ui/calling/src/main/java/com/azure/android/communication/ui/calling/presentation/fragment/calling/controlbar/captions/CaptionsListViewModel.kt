@@ -9,10 +9,12 @@ import com.azure.android.communication.ui.calling.models.CallCompositeButtonView
 import com.azure.android.communication.ui.calling.models.createButtonClickEvent
 import com.azure.android.communication.ui.calling.redux.Dispatch
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
+import com.azure.android.communication.ui.calling.redux.action.RttAction
 import com.azure.android.communication.ui.calling.redux.state.ButtonState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
 import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
+import com.azure.android.communication.ui.calling.redux.state.RttState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,6 +37,7 @@ internal class CaptionsListViewModel(
     val isCaptionsActiveStateFlow = MutableStateFlow(false)
     val isCaptionsToggleEnabledStateFlow = MutableStateFlow(false)
     val isCaptionsToggleVisibleStateFlow = MutableStateFlow(false)
+    val isRttButtonEnabledStateFlow = MutableStateFlow(false)
 
     val isSpokenLanguageButtonVisibleStateFlow = MutableStateFlow(false)
     val isSpokenLanguageButtonEnabledStateFlow = MutableStateFlow(false)
@@ -44,8 +47,9 @@ internal class CaptionsListViewModel(
         callingStatus: CallingStatus,
         visibilityState: VisibilityState,
         buttonState: ButtonState,
+        rttState: RttState,
     ) {
-        updateListView(captionsState, callingStatus, visibilityState.status, buttonState)
+        updateListView(captionsState, callingStatus, visibilityState.status, buttonState, rttState)
     }
 
     fun update(
@@ -53,8 +57,9 @@ internal class CaptionsListViewModel(
         callingStatus: CallingStatus,
         visibilityState: VisibilityState,
         buttonState: ButtonState,
+        rttState: RttState,
     ) {
-        updateListView(captionsState, callingStatus, visibilityState.status, buttonState)
+        updateListView(captionsState, callingStatus, visibilityState.status, buttonState, rttState)
     }
 
     private fun updateListView(
@@ -62,6 +67,7 @@ internal class CaptionsListViewModel(
         callingStatus: CallingStatus,
         visibilityStatus: VisibilityStatus,
         buttonState: ButtonState,
+        rttState: RttState,
     ) {
         activeCaptionLanguageStateFlow.value = captionsState.captionLanguage
         activeSpokenLanguageStateFlow.value = captionsState.spokenLanguage
@@ -76,6 +82,8 @@ internal class CaptionsListViewModel(
         isSpokenLanguageButtonEnabledStateFlow.value = shouldSpokenLanguageButtonBeEnabled(captionsState, buttonState)
 
         displayStateFlow.value = captionsState.showCaptionsToggleUI && visibilityStatus == VisibilityStatus.VISIBLE
+
+        isRttButtonEnabledStateFlow.value = !rttState.isRttActive
 
         logger.debug("CaptionsListViewModel isCaptionsActiveStateFlow: ${isCaptionsActiveStateFlow.value}")
     }
@@ -104,6 +112,11 @@ internal class CaptionsListViewModel(
         dispatch(CaptionsAction.ShowSupportedSpokenLanguagesOptions())
         close()
         callButtonCustomOnClick(context, spokenLanguageButton)
+    }
+
+    fun enableRTT() {
+        dispatch(RttAction.EnableRtt())
+        close()
     }
 
     private fun shouldCaptionsToggleBeEnabled(
