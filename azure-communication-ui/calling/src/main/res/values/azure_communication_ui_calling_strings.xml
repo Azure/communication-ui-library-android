@@ -194,6 +194,7 @@
     <string name="azure_communication_ui_calling_leave_confirm_drawer_cancel_button">Cancel, Button</string>
 
     <!--    Captions-->
+    <string name="azure_communication_ui_calling_captions_rtt_menu">Captions &amp; RTT</string>
     <string name="azure_communication_ui_calling_live_captions_title">Live captions</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Spoken language</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Caption language</string>

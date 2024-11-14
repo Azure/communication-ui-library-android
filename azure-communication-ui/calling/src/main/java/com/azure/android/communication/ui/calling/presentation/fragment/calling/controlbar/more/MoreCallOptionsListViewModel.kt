@@ -55,7 +55,7 @@ internal class MoreCallOptionsListViewModel(
             if (isCaptionsEnabled) {
                 add(
                     Entry(
-                        titleResourceId = R.string.azure_communication_ui_calling_live_captions_title,
+                        titleResourceId = R.string.azure_communication_ui_calling_captions_rtt_menu,
                         icon = R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_selector,
                         isVisible = buttonViewDataState.liveCaptionsButton?.isVisible ?: true && isAnyCaptionsSubMenuButtonsVisible(),
                         isEnabled = buttonViewDataState.liveCaptionsButton?.isEnabled ?: true,
