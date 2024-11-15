@@ -3,10 +3,9 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions
 
-import com.azure.android.communication.ui.calling.redux.Store
+import com.azure.android.communication.ui.calling.redux.Dispatch
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
-import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +15,9 @@ internal enum class LanguageSelectionType {
     SPOKEN
 }
 
-internal class CaptionsLanguageSelectionListViewModel(private val store: Store<ReduxState>) {
+internal class CaptionsLanguageSelectionListViewModel(
+    private val dispatch: Dispatch,
+) {
 
     val displayLanguageListStateFlow = MutableStateFlow(false)
     val updateActiveLanguageStateFlow = MutableStateFlow<String?>(null)
@@ -53,15 +54,15 @@ internal class CaptionsLanguageSelectionListViewModel(private val store: Store<R
     }
 
     fun close() {
-        store.dispatch(CaptionsAction.HideSupportedLanguagesOptions())
-        store.dispatch(CaptionsAction.CloseCaptionsOptions())
+        dispatch(CaptionsAction.HideSupportedLanguagesOptions())
+        dispatch(CaptionsAction.CloseCaptionsOptions())
     }
 
     fun setActiveLanguage(language: String) {
         if (languageSelectionTypeStateFlow == LanguageSelectionType.CAPTION) {
-            store.dispatch(CaptionsAction.SetCaptionLanguageRequested(language))
+            dispatch(CaptionsAction.SetCaptionLanguageRequested(language))
         } else if (languageSelectionTypeStateFlow == LanguageSelectionType.SPOKEN) {
-            store.dispatch(CaptionsAction.SetSpokenLanguageRequested(language))
+            dispatch(CaptionsAction.SetSpokenLanguageRequested(language))
         }
         close()
     }

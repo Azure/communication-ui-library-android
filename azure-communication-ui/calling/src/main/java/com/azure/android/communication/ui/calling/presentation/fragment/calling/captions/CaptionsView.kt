@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Bitmap
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -24,11 +23,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
-import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
-import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
-import com.azure.android.communication.ui.calling.presentation.manager.CaptionsDataManager
 import com.azure.android.communication.ui.calling.utilities.LocaleHelper
 import com.azure.android.communication.ui.calling.utilities.isTablet
 import kotlinx.coroutines.flow.collect
@@ -37,7 +33,7 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
-internal class CaptionsLayout : FrameLayout {
+internal class CaptionsView : FrameLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
@@ -51,8 +47,8 @@ internal class CaptionsLayout : FrameLayout {
     private lateinit var recyclerView: RecyclerView
     private lateinit var captionsStartProgressLayout: LinearLayout
     private lateinit var recyclerViewAdapter: CaptionsRecyclerViewAdapter
-    private var localParticipantIdentifier: CommunicationIdentifier? = null
-    private val captionsData = mutableListOf<CaptionsEntryModel>()
+
+    private val captionsData = mutableListOf<CaptionsRttEntryModel>()
     private var isAtBottom = true
     private var isMaximized = false
 
@@ -117,11 +113,7 @@ internal class CaptionsLayout : FrameLayout {
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         viewModel: CaptionsViewModel,
-        captionsDataManager: CaptionsDataManager,
-        avatarViewManager: AvatarViewManager,
-        identifier: CommunicationIdentifier?
     ) {
-        this.localParticipantIdentifier = identifier
         this.viewModel = viewModel
         recyclerViewAdapter = CaptionsRecyclerViewAdapter(captionsData)
         recyclerView.adapter = recyclerViewAdapter
@@ -134,8 +126,8 @@ internal class CaptionsLayout : FrameLayout {
             }
         })
 
-        captionsDataManager.captionsDataCache.let { data ->
-            captionsData.addAll(data.map { it.into(avatarViewManager, identifier) })
+        viewModel.captionsAndRttDataCache.let { data ->
+            captionsData.addAll(data)
             recyclerViewAdapter.notifyDataSetChanged()
         }
 
@@ -154,38 +146,32 @@ internal class CaptionsLayout : FrameLayout {
             }
         }
 
-        captionsDataManager.resetFlows()
 
         viewLifecycleOwner.lifecycleScope.launch {
-            captionsDataManager.getOnLastCaptionsDataUpdatedStateFlow().collect { data ->
-                data?.let {
-                    val lastCaptionsData = it.into(avatarViewManager, identifier)
-                    updateLastCaptionsData(lastCaptionsData)
+            viewModel.onLastCaptionsDataUpdatedStateFlow.collect {
+                it?.let {
+                    updateLastCaptionsData(it)
                 }
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            captionsDataManager.getOnNewCaptionsDataAddedStateFlow().collect { data ->
-                data?.let {
+            viewModel.onNewCaptionsDataAddedStateFlow.collect { it ->
+                it?.let {
                     applyLayoutDirection(it)
-                    addNewCaptionsData(it.into(avatarViewManager, identifier))
+                    addNewCaptionsData(it)
                 }
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.captionsStartProgressStateFlow.collect {
-                if (it) {
-                    captionsStartProgressLayout.visibility = View.VISIBLE
-                } else {
-                    captionsStartProgressLayout.visibility = View.GONE
-                }
+                captionsStartProgressLayout.isVisible = it
             }
         }
     }
 
-    private fun updateLastCaptionsData(lastCaptionsData: CaptionsEntryModel) {
+    private fun updateLastCaptionsData(lastCaptionsData: CaptionsRttEntryModel) {
         val index = captionsData.size - 1
         if (index >= 0 && captionsData[index].speakerRawId == lastCaptionsData.speakerRawId) {
             val shouldScrollToBottom = isAtBottom
@@ -197,7 +183,7 @@ internal class CaptionsLayout : FrameLayout {
         }
     }
 
-    private fun addNewCaptionsData(newCaptionsData: CaptionsEntryModel) {
+    private fun addNewCaptionsData(newCaptionsData: CaptionsRttEntryModel) {
         if (captionsData.size >= CallingFragment.MAX_CAPTIONS_DATA_SIZE) {
             captionsData.removeAt(0)
             recyclerViewAdapter.notifyItemRemoved(0)
@@ -238,10 +224,10 @@ internal class CaptionsLayout : FrameLayout {
     }
 
     // required when RTL language is selected for captions text
-    private fun applyLayoutDirection(it: CaptionsRecord) {
-        if (LocaleHelper.isRTL(it.languageCode) && layoutDirection != LAYOUT_DIRECTION_RTL) {
+    private fun applyLayoutDirection(captionsRecord: CaptionsRttEntryModel) {
+        if (LocaleHelper.isRTL(captionsRecord.languageCode) && layoutDirection != LAYOUT_DIRECTION_RTL) {
             captionsLinearLayout.layoutDirection = LAYOUT_DIRECTION_RTL
-        } else if (!LocaleHelper.isRTL(it.languageCode) && layoutDirection != LAYOUT_DIRECTION_LTR) {
+        } else if (!LocaleHelper.isRTL(captionsRecord.languageCode) && layoutDirection != LAYOUT_DIRECTION_LTR) {
             captionsLinearLayout.layoutDirection = LAYOUT_DIRECTION_LTR
         }
     }
@@ -344,26 +330,4 @@ internal class CaptionsLayout : FrameLayout {
             }
         }
     }
-}
-
-internal fun CaptionsRecord.into(avatarViewManager: AvatarViewManager, identifier: CommunicationIdentifier?): CaptionsEntryModel {
-    var speakerName = this.displayName
-    var bitMap: Bitmap? = null
-
-    val remoteParticipantViewData = avatarViewManager.getRemoteParticipantViewData(this.speakerRawId)
-    if (remoteParticipantViewData != null) {
-        speakerName = remoteParticipantViewData.displayName
-        bitMap = remoteParticipantViewData.avatarBitmap
-    }
-    val localParticipantViewData = avatarViewManager.callCompositeLocalOptions?.participantViewData
-    if (localParticipantViewData != null && identifier?.rawId == this.speakerRawId) {
-        speakerName = localParticipantViewData.displayName
-        bitMap = localParticipantViewData.avatarBitmap
-    }
-    return CaptionsEntryModel(
-        displayName = speakerName,
-        displayText = this.displayText,
-        avatarBitmap = bitMap,
-        speakerRawId = this.speakerRawId,
-    )
 }

@@ -149,7 +149,7 @@ internal class CallingViewModelFactory(
     }
 
     val onHoldOverlayViewModel by lazy {
-        OnHoldOverlayViewModel { store.dispatch(it) }
+        OnHoldOverlayViewModel(store::dispatch)
     }
 
     val lobbyErrorHeaderViewModel by lazy { LobbyErrorHeaderViewModel(store::dispatch) }
@@ -163,6 +163,6 @@ internal class CallingViewModelFactory(
             logger = logger,
         )
     }
-    val captionsLanguageSelectionListViewModel by lazy { CaptionsLanguageSelectionListViewModel(store) }
+    val captionsLanguageSelectionListViewModel by lazy { CaptionsLanguageSelectionListViewModel(store::dispatch) }
     val captionsViewModel by lazy { CaptionsViewModel() }
 }

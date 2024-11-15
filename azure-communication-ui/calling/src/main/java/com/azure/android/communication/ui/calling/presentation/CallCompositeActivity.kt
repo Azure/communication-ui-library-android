@@ -84,8 +84,8 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     private val instanceId get() = intent.getIntExtra(KEY_INSTANCE_ID, -1)
     private val callHistoryService get() = container.callHistoryService
     private val logger get() = container.logger
-    private val compositeManager get() = container.compositeExitManager
-    private val compositeDataModel get() = container.captionsDataManager
+    private val compositeExitManager get() = container.compositeExitManager
+    private val captionsDataManager get() = container.captionsDataManager
     private val updatableOptionsManager get() = container.updatableOptionsManager
     private lateinit var visibilityStatusFlow: MutableStateFlow<VisibilityStatus>
 
@@ -158,7 +158,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         notificationService.start(lifecycleScope, instanceId)
         callHistoryService.start(lifecycleScope)
         callStateHandler.start(lifecycleScope)
-        compositeDataModel.start(lifecycleScope)
+        captionsDataManager.start(lifecycleScope)
 
         listeningPair.collect {
             supportViewModel.update(it.navigationState)
@@ -214,7 +214,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
             if (isFinishing && store.getCurrentState().navigationState.navigationState == NavigationStatus.EXIT) {
                 store.dispatch(CallingAction.CallEndRequested())
-                compositeManager.onCompositeDestroy()
+                compositeExitManager.onCompositeDestroy()
                 CallCompositeInstanceManager.removeCallComposite(instanceId)
             }
         }

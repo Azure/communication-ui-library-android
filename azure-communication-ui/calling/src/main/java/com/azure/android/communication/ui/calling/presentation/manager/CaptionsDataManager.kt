@@ -22,9 +22,10 @@ internal class CaptionsDataManager(
     private val appStore: AppStore<ReduxState>
 ) {
     private val captionsNewDataStateFlow = MutableStateFlow<CaptionsRecord?>(null)
+    private val captionsLastDataUpdatedStateFlow = MutableStateFlow<CaptionsRecord?>(null)
+
     fun getOnNewCaptionsDataAddedStateFlow() = captionsNewDataStateFlow
 
-    private val captionsLastDataUpdatedStateFlow = MutableStateFlow<CaptionsRecord?>(null)
     fun getOnLastCaptionsDataUpdatedStateFlow() = captionsLastDataUpdatedStateFlow
 
     // cache to get last captions on screen rotation

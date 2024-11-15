@@ -5,9 +5,10 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.graphics.Bitmap
 
-internal data class CaptionsEntryModel(
+internal data class CaptionsRttEntryModel(
     val displayName: String,
     val displayText: String,
     val avatarBitmap: Bitmap?,
     val speakerRawId: String,
+    val languageCode: String,
 )

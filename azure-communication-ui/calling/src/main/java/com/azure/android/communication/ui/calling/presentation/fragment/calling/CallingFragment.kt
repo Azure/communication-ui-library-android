@@ -33,7 +33,7 @@ import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivityViewModel
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerView
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsLayout
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay.ConnectingOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.CaptionsLanguageSelectionListView
@@ -76,8 +76,6 @@ internal class CallingFragment :
     private val videoViewManager get() = activityViewModel.container.videoViewManager
     private val avatarViewManager get() = activityViewModel.container.avatarViewManager
     private val viewModel get() = activityViewModel.callingViewModel
-    private val captionsDataManager get() = activityViewModel.container.captionsDataManager
-    private val configuration get() = activityViewModel.container.configuration
 
     private val closeToUser = 0f
     private lateinit var callScreenLayout: ConstraintLayout
@@ -106,7 +104,7 @@ internal class CallingFragment :
     private lateinit var captionsListView: CaptionsListView
     private lateinit var captionsLanguageSelectionListView: CaptionsLanguageSelectionListView
     private lateinit var captionsWrapper: View
-    private lateinit var captionsLayout: CaptionsLayout
+    private lateinit var captionsView: CaptionsView
     private lateinit var captionsTopAnchor: View
     private lateinit var captionsBottomAnchor: View
     private lateinit var captionsOverlay: View
@@ -265,12 +263,12 @@ internal class CallingFragment :
         captionsBottomAnchor = view.findViewById(R.id.captions_bottom_anchor)
         captionsWrapper = view.findViewById(R.id.azure_communication_ui_calling_captions_view_wrapper)
         captionsOverlay = view.findViewById(R.id.azure_communication_ui_calling_captions_overlay)
-        captionsLayout = view.findViewById(R.id.azure_communication_ui_calling_captions_linear_layout)
-        captionsLayout.minimizeCallback = this::minimizeCaptions
-        captionsLayout.maximizeCallback = this::maximizeCaptions
-        captionsLayout.start(viewLifecycleOwner, viewModel.captionsLayoutViewModel, captionsDataManager, avatarViewManager, configuration.identifier)
+        captionsView = view.findViewById(R.id.azure_communication_ui_calling_captions_linear_layout)
+        captionsView.minimizeCallback = this::minimizeCaptions
+        captionsView.maximizeCallback = this::maximizeCaptions
+        captionsView.start(viewLifecycleOwner, viewModel.captionsLayoutViewModel)
 
-        captionsOverlay.setOnClickListener { captionsLayout.minimizeCaptionsLayout() }
+        captionsOverlay.setOnClickListener { captionsView.minimizeCaptionsLayout() }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -379,7 +377,7 @@ internal class CallingFragment :
         if (this::toastNotificationView.isInitialized) toastNotificationView.stop()
         if (this::captionsListView.isInitialized) captionsListView.stop()
         if (this::captionsLanguageSelectionListView.isInitialized) captionsLanguageSelectionListView.stop()
-        if (this::captionsLayout.isInitialized) captionsLayout.stop()
+        if (this::captionsView.isInitialized) captionsView.stop()
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
@@ -462,6 +460,6 @@ internal class CallingFragment :
         captionsBottomAnchor.getLocationOnScreen(location)
         val captionsBottomAnchorBottomY = location[1] + captionsBottomAnchor.height
 
-        captionsLayout.maxHeight = captionsBottomAnchorBottomY - captionsTopAnchorBottomY
+        captionsView.maxHeight = captionsBottomAnchorBottomY - captionsTopAnchorBottomY
     }
 }
