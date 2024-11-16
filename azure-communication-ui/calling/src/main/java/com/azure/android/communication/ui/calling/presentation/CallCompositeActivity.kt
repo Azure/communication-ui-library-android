@@ -42,8 +42,8 @@ import com.azure.android.communication.ui.calling.redux.action.PipAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import com.azure.android.communication.ui.calling.utilities.collect
-import com.azure.android.communication.ui.calling.utilities.convertDpToPx
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
+import com.azure.android.communication.ui.calling.utilities.isKeyboardOpen
 import com.azure.android.communication.ui.calling.utilities.isTablet
 import com.azure.android.communication.ui.calling.utilities.launchAll
 import com.microsoft.fluentui.util.activity
@@ -191,9 +191,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         // Track if keyboard is open or closed
         val rootView = findViewById<View>(R.id.azure_communication_ui_root_view)
         rootView.viewTreeObserver.addOnGlobalLayoutListener {
-            val heightDiff = rootView.rootView.height - rootView.height
-            val isKeyboardOpen = heightDiff > convertDpToPx(200)
-            store.dispatch(DeviceConfigurationAction.KeyboardVisibilityChanged(isKeyboardOpen))
+            store.dispatch(DeviceConfigurationAction.KeyboardVisibilityChanged(isKeyboardOpen()))
         }
     }
 
