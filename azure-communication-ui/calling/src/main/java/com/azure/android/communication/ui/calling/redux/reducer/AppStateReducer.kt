@@ -22,6 +22,7 @@ internal class AppStateReducer(
     private val callScreenInformationHeaderReducer: CallScreenInformationHeaderReducer,
     private val buttonViewDataReducer: ButtonViewDataReducer,
     private val rttReducer: RttReducer,
+    private val deviceConfigurationReducer: DeviceConfigurationReducer,
 ) : Reducer<AppReduxState> {
 
     override fun reduce(state: AppReduxState, action: Action): AppReduxState {
@@ -55,6 +56,7 @@ internal class AppStateReducer(
         appState.callScreenInfoHeaderState = callScreenInformationHeaderReducer.reduce(state.callScreenInfoHeaderState, action)
         appState.buttonState = buttonViewDataReducer.reduce(state.buttonState, action)
         appState.rttState = rttReducer.reduce(state.rttState, action)
+        appState.deviceConfigurationState = deviceConfigurationReducer.reduce(state.deviceConfigurationState, action)
         return appState
     }
 }

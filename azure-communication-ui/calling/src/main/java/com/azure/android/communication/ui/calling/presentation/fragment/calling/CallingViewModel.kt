@@ -116,6 +116,7 @@ internal class CallingViewModel(
             capabilities = state.localParticipantState.capabilities,
             buttonViewDataState = state.buttonState,
             controlBarOptions = callScreenOptions?.controlBarOptions,
+            deviceConfigurationState = state.deviceConfigurationState,
         )
 
         localParticipantViewModel.init(
@@ -217,6 +218,7 @@ internal class CallingViewModel(
             captionsDataManager,
             localUserIdentifier,
             avatarViewManager,
+            state.deviceConfigurationState,
             )
 
         moreCallOptionsListViewModel.init(state.visibilityState, state.buttonState)
@@ -253,6 +255,7 @@ internal class CallingViewModel(
             state.localParticipantState.audioVideoMode,
             state.localParticipantState.capabilities,
             state.buttonState,
+            deviceConfigurationState = state.deviceConfigurationState,
         )
 
         localParticipantViewModel.update(
@@ -403,7 +406,11 @@ internal class CallingViewModel(
             state.captionsState,
             state.rttState,
         )
-        captionsLayoutViewModel.update(state.captionsState, isCaptionsVisibleMutableFlow.value)
+        captionsLayoutViewModel.update(
+            state.captionsState,
+            isCaptionsVisibleMutableFlow.value,
+            state.deviceConfigurationState,
+        )
     }
 
     private fun getLobbyParticipantsForHeader(state: ReduxState) =

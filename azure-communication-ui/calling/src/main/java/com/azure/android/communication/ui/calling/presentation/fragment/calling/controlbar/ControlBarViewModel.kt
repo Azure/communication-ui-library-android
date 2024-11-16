@@ -22,6 +22,7 @@ import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.DefaultButtonState
+import com.azure.android.communication.ui.calling.redux.state.DeviceConfigurationState
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
@@ -76,8 +77,9 @@ internal class ControlBarViewModel(
         capabilities: Set<ParticipantCapabilityType>,
         buttonViewDataState: ButtonState,
         controlBarOptions: CallCompositeCallScreenControlBarOptions?,
+        deviceConfigurationState: DeviceConfigurationState,
     ) {
-        isVisibleStateFlow = MutableStateFlow(shouldBeVisible(visibilityState))
+        isVisibleStateFlow = MutableStateFlow(shouldBeVisible(visibilityState, deviceConfigurationState))
 
         isCameraButtonVisibleFlow = MutableStateFlow(
             shouldCameraBeVisibility(
@@ -140,9 +142,10 @@ internal class ControlBarViewModel(
         audioVideoMode: CallCompositeAudioVideoMode,
         capabilities: Set<ParticipantCapabilityType>,
         buttonViewDataState: ButtonState,
+        deviceConfigurationState: DeviceConfigurationState,
     ) {
 
-        isVisibleStateFlow.value = shouldBeVisible(visibilityState)
+        isVisibleStateFlow.value = shouldBeVisible(visibilityState, deviceConfigurationState)
 
         isCameraButtonVisibleFlow.value = shouldCameraBeVisibility(
             audioVideoMode,
@@ -227,7 +230,13 @@ internal class ControlBarViewModel(
 
     private fun shouldBeVisible(
         visibilityState: VisibilityState,
+        deviceConfigurationState: DeviceConfigurationState,
     ): Boolean {
+        if (!deviceConfigurationState.isTablet &&
+            deviceConfigurationState.isPortrait &&
+            deviceConfigurationState.isSoftwareKeyboardVisible) {
+            return false
+        }
         return visibilityState.status != VisibilityStatus.PIP_MODE_ENTERED
     }
 

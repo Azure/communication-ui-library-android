@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.di
 
-import com.azure.android.communication.ui.calling.redux.reducer.RttReducerImpl
 import android.content.Context
 import com.azure.android.communication.ui.calling.CallComposite
 import com.azure.android.communication.ui.calling.data.CallHistoryRepositoryImpl
@@ -58,6 +57,8 @@ import com.azure.android.communication.ui.calling.redux.reducer.ParticipantState
 import com.azure.android.communication.ui.calling.redux.reducer.PermissionStateReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.PipReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.Reducer
+import com.azure.android.communication.ui.calling.redux.reducer.RttReducerImpl
+import com.azure.android.communication.ui.calling.redux.reducer.DeviceConfigurationReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.ToastNotificationReducerImpl
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
@@ -278,6 +279,7 @@ internal class DependencyInjectionContainerImpl(
     private val buttonOptionsReducer get() = ButtonViewDataReducerImpl()
 
     private val rttReducer get() = RttReducerImpl()
+    private val softwareKeyboardReducer get() = DeviceConfigurationReducerImpl()
 
     // Middleware
     private val appMiddleware get() = mutableListOf(callingMiddleware)
@@ -308,6 +310,7 @@ internal class DependencyInjectionContainerImpl(
             /* CUSTOM_CALL_HEADER */
             buttonOptionsReducer,
             rttReducer,
+            softwareKeyboardReducer,
         ) as Reducer<ReduxState>
     }
     //endregion

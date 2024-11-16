@@ -8,6 +8,7 @@ import com.azure.android.communication.ui.calling.presentation.manager.AvatarVie
 import com.azure.android.communication.ui.calling.presentation.manager.CaptionsDataManager
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
 import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
+import com.azure.android.communication.ui.calling.redux.state.DeviceConfigurationState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,6 +18,7 @@ import kotlinx.coroutines.launch
 internal class CaptionsViewModel {
     private lateinit var isVisibleMutableFlow: MutableStateFlow<Boolean>
     private lateinit var captionsStartInProgressStateMutableFlow: MutableStateFlow<Boolean>
+    private lateinit var softwareKeyboardStateMutableFlow: MutableStateFlow<Boolean>
 
     private val captionsData = mutableListOf<CaptionsRttEntryModel>()
     private val onLastCaptionsDataUpdatedMutableStateFlow = MutableStateFlow<CaptionsRttEntryModel?>(null)
@@ -25,6 +27,8 @@ internal class CaptionsViewModel {
     val captionsAndRttDataCache: List<CaptionsRttEntryModel> = captionsData
     val onLastCaptionsDataUpdatedStateFlow: StateFlow<CaptionsRttEntryModel?> = onLastCaptionsDataUpdatedMutableStateFlow
     val onNewCaptionsDataAddedStateFlow: StateFlow<CaptionsRttEntryModel?> = onNewCaptionsDataAddedMutableStateFlow
+    val softwareKeyboardStateFlow: StateFlow<Boolean>
+        get() = softwareKeyboardStateMutableFlow
 
     val isVisibleFlow: StateFlow<Boolean>
         get() = isVisibleMutableFlow
@@ -34,9 +38,11 @@ internal class CaptionsViewModel {
     fun update(
         captionsState: CaptionsState,
         isVisible: Boolean,
+        deviceConfigurationState: DeviceConfigurationState,
     ) {
         isVisibleMutableFlow.value = isVisible
         captionsStartInProgressStateMutableFlow.value = canShowCaptionsStartInProgressUI(captionsState)
+        softwareKeyboardStateMutableFlow.value = deviceConfigurationState.isSoftwareKeyboardVisible
     }
 
     fun init(
@@ -46,9 +52,11 @@ internal class CaptionsViewModel {
         captionsDataManager: CaptionsDataManager,
         localParticipantIdentifier: CommunicationIdentifier?,
         avatarViewManager: AvatarViewManager,
+        deviceConfigurationState: DeviceConfigurationState,
     ) {
         isVisibleMutableFlow = MutableStateFlow(isVisible)
         captionsStartInProgressStateMutableFlow = MutableStateFlow(canShowCaptionsStartInProgressUI(captionsState))
+        softwareKeyboardStateMutableFlow = MutableStateFlow(deviceConfigurationState.isSoftwareKeyboardVisible)
 
         captionsDataManager.captionsDataCache.let { data ->
             captionsData.addAll(data.map { it.into(avatarViewManager, localParticipantIdentifier) })

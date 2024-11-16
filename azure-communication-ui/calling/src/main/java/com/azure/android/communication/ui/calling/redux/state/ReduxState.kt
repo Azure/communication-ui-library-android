@@ -19,4 +19,5 @@ internal interface ReduxState {
     val callScreenInfoHeaderState: CallScreenInfoHeaderState
     var rttState: RttState
     val buttonState: ButtonState
+    var deviceConfigurationState: DeviceConfigurationState
 }

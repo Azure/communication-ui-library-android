@@ -171,4 +171,10 @@ internal class AppReduxState(
         } ?: emptyList()
         /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
     )
+
+    override var deviceConfigurationState = DeviceConfigurationState(
+        isSoftwareKeyboardVisible = false,
+        isTablet = false,
+        isPortrait = false,
+    )
 }

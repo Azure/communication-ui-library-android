@@ -169,6 +169,12 @@ internal class CaptionsView : FrameLayout {
                 captionsStartProgressLayout.isVisible = it
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.softwareKeyboardStateFlow.collect {
+                scrollToBottom()
+            }
+        }
     }
 
     private fun updateLastCaptionsData(lastCaptionsData: CaptionsRttEntryModel) {
