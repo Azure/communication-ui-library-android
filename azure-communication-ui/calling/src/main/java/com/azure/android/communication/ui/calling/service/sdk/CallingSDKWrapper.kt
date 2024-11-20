@@ -146,9 +146,9 @@ internal class CallingSDKWrapper(
 
     override fun getRttSharedFlow() = callingSDKEventHandler.getRttTextSharedFlow()
 
-    override fun sendRttMessage(message: String) {
+    override fun sendRttMessage(message: String, isFinalized: Boolean) {
         val rttFeature = call.realTimeTextCallFeature as RealTimeTextCallFeature
-        rttFeature.send(message)
+        rttFeature.send(message, isFinalized)
     }
 
     //endregion

@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
-import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
@@ -13,9 +12,7 @@ import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.presentation.fragment.BaseViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.CallingViewModelFactory
-import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
-import com.azure.android.communication.ui.calling.presentation.manager.CaptionsDataManager
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
@@ -41,9 +38,6 @@ internal class CallingViewModel(
     val avMode: CallCompositeAudioVideoMode,
     private val callType: CallType? = null,
     private val capabilitiesManager: CapabilitiesManager,
-    private val captionsDataManager: CaptionsDataManager,
-    private val localUserIdentifier: CommunicationIdentifier?,
-    private val avatarViewManager: AvatarViewManager,
 ) :
     BaseViewModel(store) {
 

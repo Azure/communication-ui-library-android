@@ -549,6 +549,7 @@ internal class CallingSDKEventHandler(
                 senderUserRawId = it.entry.sender.identifier.rawId,
                 senderName = "", // it.entry.sender.displayName,
                 localCreatedTime = it.entry.localCreatedTime,
+                isLocal = it.entry.isLocal,
             )
             rttTextSharedFlow.emit(rttMessage)
         }

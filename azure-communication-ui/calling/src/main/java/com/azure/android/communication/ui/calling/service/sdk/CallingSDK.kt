@@ -86,8 +86,7 @@ internal interface CallingSDK {
     //endregion
 
     fun getRttSharedFlow(): SharedFlow<RttMessage>
-
-    fun sendRttMessage(message: String)
+    fun sendRttMessage(message: String, isFinalized: Boolean)
 
     fun setTelecomManagerAudioRoute(audioRoute: Int)
 

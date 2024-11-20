@@ -96,6 +96,7 @@ internal class DependencyInjectionContainerImpl(
             callingService,
             appStore,
             avatarViewManager,
+            configuration.localUserIdentifier,
         )
     }
 

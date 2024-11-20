@@ -147,7 +147,7 @@ internal class CallingMiddlewareImpl(
                     callingMiddlewareActionHandler.setCaptionsCaptionLanguage(action.language, store)
                 }
                 is RttAction.SendRtt -> {
-                    callingMiddlewareActionHandler.sendRttMessage(action.message, store)
+                    callingMiddlewareActionHandler.sendRttMessage(action.message, action.isFinalized, store)
                 }
             }
             next(action)

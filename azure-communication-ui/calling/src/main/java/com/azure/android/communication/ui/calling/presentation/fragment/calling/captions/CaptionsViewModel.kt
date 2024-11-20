@@ -65,7 +65,7 @@ internal class CaptionsViewModel(
         captionsState: CaptionsState
     ) = captionsState.status == CaptionsStatus.START_REQUESTED
 
-    fun sendRttMessage(message: String) {
-        dispatch(RttAction.SendRtt(message))
+    fun sendRttMessage(message: String, isFinal: Boolean) {
+        dispatch(RttAction.SendRtt(message, isFinal))
     }
 }

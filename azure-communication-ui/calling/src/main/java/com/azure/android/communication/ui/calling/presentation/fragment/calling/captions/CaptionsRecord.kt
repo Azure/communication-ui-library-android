@@ -20,4 +20,5 @@ internal data class CaptionsRttRecord(
     val isFinal: Boolean,
     val timestamp: Date,
     val type: CaptionsRttType,
+    val isLocal: Boolean? = null,
 )

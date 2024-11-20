@@ -107,7 +107,7 @@ internal interface CallingMiddlewareActionHandler {
     fun stopCaptions(store: Store<ReduxState>)
     fun setCaptionsSpokenLanguage(language: String, store: Store<ReduxState>)
     fun setCaptionsCaptionLanguage(language: String, store: Store<ReduxState>)
-    fun sendRttMessage(message: String, store: Store<ReduxState>)
+    fun sendRttMessage(message: String, isFinalized: Boolean, store: Store<ReduxState>)
 }
 
 internal class CallingMiddlewareActionHandlerImpl(
@@ -938,11 +938,11 @@ internal class CallingMiddlewareActionHandlerImpl(
         }
     }
 
-    override fun sendRttMessage(message: String, store: Store<ReduxState>) {
+    override fun sendRttMessage(message: String, isFinalized: Boolean, store: Store<ReduxState>) {
         if (!store.getCurrentState().rttState.isRttActive) {
             store.dispatch(RttAction.EnableRtt())
         }
-        callingService.sendRttMessage(message)
+        callingService.sendRttMessage(message, isFinalized)
     }
 
     private fun subscribeRttStateUpdate(store: Store<ReduxState>) {
@@ -951,7 +951,6 @@ internal class CallingMiddlewareActionHandlerImpl(
                 if (!store.getCurrentState().rttState.isRttActive) {
                     store.dispatch(RttAction.EnableRtt())
                 }
-//                store.dispatch(RttAction.RttMessagesUpdated(it.first, it.second))
             }
         }
     }

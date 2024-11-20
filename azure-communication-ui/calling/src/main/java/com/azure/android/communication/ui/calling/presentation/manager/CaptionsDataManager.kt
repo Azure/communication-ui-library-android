@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.manager
 
 import android.graphics.Bitmap
+import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsData
 import com.azure.android.communication.ui.calling.models.CaptionsResultType
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
@@ -26,6 +27,7 @@ internal class CaptionsDataManager(
     private val callingService: CallingService,
     private val appStore: AppStore<ReduxState>,
     private val avatarViewManager: AvatarViewManager,
+    private val localParticipantIdentifier: CommunicationIdentifier?,
 ) {
     private val mutex = Mutex()
     private val captionsAndRttMutableList = mutableListOf<CaptionsRttRecord>()
@@ -54,7 +56,7 @@ internal class CaptionsDataManager(
                         languageCode = languageCode,
                         isFinal = captionData.resultType == CaptionsResultType.FINAL,
                         timestamp = captionData.timestamp,
-                        type = CaptionsRttType.CAPTIONS
+                        type = CaptionsRttType.CAPTIONS,
                     )
 
                     removeOverflownCaptionsFromCache()
@@ -75,7 +77,8 @@ internal class CaptionsDataManager(
                         languageCode = null,
                         isFinal = rttRecord.isFinalized,
                         timestamp = rttRecord.localCreatedTime,
-                        type = CaptionsRttType.RTT
+                        type = CaptionsRttType.RTT,
+                        isLocal = rttRecord.isLocal,
                     )
 
                     removeOverflownCaptionsFromCache()
@@ -163,6 +166,14 @@ internal class CaptionsDataManager(
 
     private fun getParticipantCustomizationsBitmap(speakerRawId: String): Pair<String?, Bitmap?> {
         val remoteParticipantViewData = avatarViewManager.getRemoteParticipantViewData(speakerRawId)
-        return Pair(remoteParticipantViewData?.displayName, remoteParticipantViewData?.avatarBitmap)
+        if (remoteParticipantViewData!= null) {
+            return Pair(remoteParticipantViewData.displayName, remoteParticipantViewData.avatarBitmap)
+        }
+
+        val localParticipantViewData = avatarViewManager.callCompositeLocalOptions?.participantViewData
+        if (localParticipantViewData != null && localParticipantIdentifier?.rawId == speakerRawId) {
+            return Pair(localParticipantViewData.displayName, localParticipantViewData.avatarBitmap)
+        }
+        return Pair(null, null)
     }
 }

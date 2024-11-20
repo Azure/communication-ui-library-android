@@ -93,9 +93,6 @@ internal class CallCompositeActivityViewModel(
                 ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             callType = container.configuration.callConfig.callType,
             capabilitiesManager = container.capabilitiesManager,
-            captionsDataManager = container.captionsDataManager,
-            localUserIdentifier = container.configuration.localUserIdentifier,
-            avatarViewManager = container.avatarViewManager,
         )
     }
 }

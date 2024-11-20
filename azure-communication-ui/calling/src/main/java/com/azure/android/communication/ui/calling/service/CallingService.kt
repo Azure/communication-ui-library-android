@@ -194,8 +194,8 @@ internal class CallingService(
         return callingSdk.startCall(cameraState, audioState)
     }
 
-    fun sendRttMessage(message: String) {
-        callingSdk.sendRttMessage(message)
+    fun sendRttMessage(message: String, isFinalized: Boolean) {
+        callingSdk.sendRttMessage(message, isFinalized)
     }
 
     fun getLogFiles(): List<File> = callingSdk.getLogFiles()

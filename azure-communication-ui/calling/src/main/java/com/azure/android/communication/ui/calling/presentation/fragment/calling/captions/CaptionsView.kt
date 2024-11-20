@@ -19,6 +19,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.core.view.marginTop
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,7 +49,6 @@ internal class CaptionsView : FrameLayout {
     private lateinit var captionsStartProgressLayout: LinearLayout
     private lateinit var recyclerViewAdapter: CaptionsRecyclerViewAdapter
 
-//    private val captionsData = mutableListOf<CaptionsRttEntryModel>()
     private var isAtBottom = true
     private var isMaximized = false
 
@@ -85,29 +85,13 @@ internal class CaptionsView : FrameLayout {
             resizeButton.setOnClickListener { this.onResizeButtonClicked() }
         }
 
+        rttInputText.addTextChangedListener {
+            onEditTextChanged()
+        }
+
         rttInputText.setOnEditorActionListener { view, actionId, _ ->
             onEditTextAction(view, actionId)
         }
-    }
-
-    private fun onEditTextAction(view: TextView, actionId: Int): Boolean {
-        if (actionId == EditorInfo.IME_ACTION_SEND) {
-            // Handle the "Send" action
-            val message = view.text.toString()
-            if (message.isNotBlank()) {
-                viewModel.sendRttMessage(message)
-
-                view.text = ""
-                view.requestFocus()
-
-                // Ensure the keyboard remains visible
-                val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
-            }
-            return true
-        }
-
-        return false
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -175,9 +159,38 @@ internal class CaptionsView : FrameLayout {
         )
     }
 
+    private fun onEditTextChanged() {
+        val message = rttInputText.text.toString()
+        if (message.isNotBlank()) {
+            viewModel.sendRttMessage(message, false)
+        }
+    }
+
+    private fun onEditTextAction(view: TextView, actionId: Int): Boolean {
+        if (actionId == EditorInfo.IME_ACTION_SEND) {
+            val message = view.text.toString()
+            viewModel.sendRttMessage(message, true)
+            if (message.isNotBlank()) {
+                view.text = ""
+                view.requestFocus()
+
+                // Ensure the keyboard remains visible
+                val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+            }
+            return true
+        }
+
+        return false
+    }
+
     private fun onItemUpdated(index: Int) {
         if (index >= 0) {
             val shouldScrollToBottom = isAtBottom
+            val updatedItem = viewModel.captionsAndRttData[index]
+            if (updatedItem.type == CaptionsRttType.RTT && updatedItem.isLocal == true && updatedItem.isFinal) {
+                rttInputText.text.clear()
+            }
             recyclerViewAdapter.notifyItemChanged(index)
             requestAccessibilityFocus(index)
             if (shouldScrollToBottom) {
