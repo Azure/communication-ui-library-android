@@ -17,12 +17,7 @@ internal class RttReducerImpl : RttReducer {
             is RttAction.EnableRtt -> {
                 state.copy(isRttActive = true)
             }
-            is RttAction.SendRtt -> {
-                // Do nothing? I think middleware should handle this
-                state
-            }
-            // TODO: Will become RttAction.RttMessagesUpdated (plural, pull list from sdk)
-            is RttAction.IncomingMessageReceived -> {
+            is RttAction.RttMessagesUpdated -> {
                 val text = action.rttContent
                 val participantId = action.participantId
                 val lastParticipantMessage = state.messages.findLast {
@@ -30,23 +25,15 @@ internal class RttReducerImpl : RttReducer {
                 }
 
                 if (lastParticipantMessage != null) {
-                    // Update the current message with new characters
-                    val updatedMessages = state.messages.toMutableList()
-                    updatedMessages.replaceAll {
-                        if (it == lastParticipantMessage) {
-                            lastParticipantMessage.copy(
-                                message = lastParticipantMessage.message + text
-                            )
-                        } else {
-                            it
-                        }
-                    }
-                    return state.copy(messages = updatedMessages, isRttActive = true)
+                    lastParticipantMessage.message = lastParticipantMessage.message + text
+                    println(state)
+                    return state
                 } else {
                     var updatedMessages = state.messages + RttMessage(text, participantId)
                     if (updatedMessages.size > 5) {
                         updatedMessages = updatedMessages.subList(1, updatedMessages.size)
                     }
+                    println(state)
                     return state.copy(messages = updatedMessages)
                 }
             }

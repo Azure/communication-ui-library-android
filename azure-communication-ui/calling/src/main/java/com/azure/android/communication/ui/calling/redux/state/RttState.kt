@@ -11,7 +11,7 @@ internal data class RttState(
 )
 
 internal data class RttMessage(
-    val message: String,
+    var message: String,
     val participantID: String) {
     val isFinalized = message.endsWith("\n")
     val prettyMessage: String by lazy {

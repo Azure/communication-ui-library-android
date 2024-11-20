@@ -91,7 +91,7 @@ internal class CaptionsView : FrameLayout {
                 // Handle the "Send" action
                 val message = view.text.toString()
                 if (message.isNotBlank()) {
-//                    sendMessage(message)
+                    viewModel.sendRttMessage(message)
 
                     view.text = ""
 

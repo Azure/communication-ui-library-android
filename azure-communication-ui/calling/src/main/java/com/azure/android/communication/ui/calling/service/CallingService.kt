@@ -3,11 +3,11 @@
 
 package com.azure.android.communication.ui.calling.service
 
+/*  <CALL_START_TIME> */
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsData
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsType
 import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
-import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.CapabilitiesChangedEvent
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
@@ -15,6 +15,8 @@ import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticMo
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantRole
+import com.azure.android.communication.ui.calling.models.RttMessage
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
@@ -30,7 +32,6 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.io.File
-/*  <CALL_START_TIME> */
 import java.util.Date
 /* </CALL_START_TIME> */
 
@@ -47,9 +48,6 @@ internal class CallingService(
         MutableSharedFlow<Map<String, ParticipantInfoModel>>()
     private val dominantSpeakersSharedFlow = MutableSharedFlow<List<String>>()
     private var callInfoModelSharedFlow = MutableSharedFlow<CallInfoModel>()
-    /* <RTT_POC>
-    private val rttStateSharedFlow = MutableSharedFlow<Pair<String, String>>()
-    </RTT_POC> */
 
     private val coroutineScope = CoroutineScope((coroutineContextProvider.Default))
     private var callingStatus: CallingStatus = CallingStatus.NONE
@@ -145,9 +143,7 @@ internal class CallingService(
 
     fun getCamerasCountStateFlow() = callingSdk.getCamerasCountStateFlow()
 
-    /* <RTT_POC>
-    fun getRttStateFlow(): SharedFlow<Pair<String, String>> = rttStateSharedFlow
-    </RTT_POC> */
+    fun getRttStateFlow(): SharedFlow<RttMessage> = callingSdk.getRttSharedFlow()
 
     fun endCall() = callingSdk.endCall()
 
@@ -196,6 +192,10 @@ internal class CallingService(
         }
         </RTT_POC> */
         return callingSdk.startCall(cameraState, audioState)
+    }
+
+    fun sendRttMessage(message: String) {
+        callingSdk.sendRttMessage(message)
     }
 
     fun getLogFiles(): List<File> = callingSdk.getLogFiles()

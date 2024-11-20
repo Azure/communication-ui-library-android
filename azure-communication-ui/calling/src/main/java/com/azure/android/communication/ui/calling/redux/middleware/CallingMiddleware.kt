@@ -17,6 +17,7 @@ import com.azure.android.communication.ui.calling.redux.action.LifecycleAction
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
+import com.azure.android.communication.ui.calling.redux.action.RttAction
 import com.azure.android.communication.ui.calling.redux.action.ToastNotificationAction
 import com.azure.android.communication.ui.calling.redux.middleware.handler.CallingMiddlewareActionHandler
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
@@ -144,6 +145,9 @@ internal class CallingMiddlewareImpl(
                 }
                 is CaptionsAction.SetCaptionLanguageRequested -> {
                     callingMiddlewareActionHandler.setCaptionsCaptionLanguage(action.language, store)
+                }
+                is RttAction.SendRtt -> {
+                    callingMiddlewareActionHandler.sendRttMessage(action.message, store)
                 }
             }
             next(action)

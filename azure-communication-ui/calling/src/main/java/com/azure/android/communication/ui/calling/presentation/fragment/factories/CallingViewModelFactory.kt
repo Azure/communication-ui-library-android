@@ -164,5 +164,5 @@ internal class CallingViewModelFactory(
         )
     }
     val captionsLanguageSelectionListViewModel by lazy { CaptionsLanguageSelectionListViewModel(store::dispatch) }
-    val captionsViewModel by lazy { CaptionsViewModel() }
+    val captionsViewModel by lazy { CaptionsViewModel(store::dispatch) }
 }

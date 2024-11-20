@@ -6,6 +6,8 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.CaptionsDataManager
+import com.azure.android.communication.ui.calling.redux.action.Action
+import com.azure.android.communication.ui.calling.redux.action.RttAction
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
 import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 import com.azure.android.communication.ui.calling.redux.state.DeviceConfigurationState
@@ -15,7 +17,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-internal class CaptionsViewModel {
+internal class CaptionsViewModel(
+    private val dispatch: (Action) -> Unit,
+) {
     private lateinit var isVisibleMutableFlow: MutableStateFlow<Boolean>
     private lateinit var captionsStartInProgressStateMutableFlow: MutableStateFlow<Boolean>
     private lateinit var softwareKeyboardStateMutableFlow: MutableStateFlow<Boolean>
@@ -58,9 +62,9 @@ internal class CaptionsViewModel {
         captionsStartInProgressStateMutableFlow = MutableStateFlow(canShowCaptionsStartInProgressUI(captionsState))
         softwareKeyboardStateMutableFlow = MutableStateFlow(deviceConfigurationState.isSoftwareKeyboardVisible)
 
-        captionsDataManager.captionsDataCache.let { data ->
-            captionsData.addAll(data.map { it.into(avatarViewManager, localParticipantIdentifier) })
-        }
+        captionsData.addAll(
+            captionsDataManager.captionsDataCache.map { it.into(avatarViewManager, localParticipantIdentifier) }
+        )
 
         captionsDataManager.resetFlows()
 
@@ -83,4 +87,8 @@ internal class CaptionsViewModel {
     private fun canShowCaptionsStartInProgressUI(
         captionsState: CaptionsState
     ) = captionsState.status == CaptionsStatus.START_REQUESTED
+
+    fun sendRttMessage(message: String) {
+        dispatch(RttAction.SendRtt(message))
+    }
 }

@@ -10,5 +10,5 @@ internal data class CaptionsRttEntryModel(
     val displayText: String,
     val avatarBitmap: Bitmap?,
     val speakerRawId: String,
-    val languageCode: String,
+    val languageCode: String?,
 )

@@ -8,13 +8,19 @@ import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import java.util.Date
 
+internal enum class CaptionsRttType {
+    CAPTIONS,
+    RTT,
+}
+
 internal data class CaptionsRecord(
     val displayName: String,
     val displayText: String,
     val speakerRawId: String,
-    val languageCode: String,
+    val languageCode: String?,
     val isFinal: Boolean,
-    val timestamp: Date
+    val timestamp: Date,
+    val type: CaptionsRttType,
 )
 
 internal fun CaptionsRecord.into(avatarViewManager: AvatarViewManager, identifier: CommunicationIdentifier?): CaptionsRttEntryModel {
