@@ -24,11 +24,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.azure.android.communication.ui.calling.implementation.R
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.utilities.LocaleHelper
 import com.azure.android.communication.ui.calling.utilities.isTablet
+import com.azure.android.communication.ui.calling.utilities.launchAll
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -48,7 +47,7 @@ internal class CaptionsView : FrameLayout {
     private lateinit var captionsStartProgressLayout: LinearLayout
     private lateinit var recyclerViewAdapter: CaptionsRecyclerViewAdapter
 
-    private val captionsData = mutableListOf<CaptionsRttEntryModel>()
+//    private val captionsData = mutableListOf<CaptionsRttEntryModel>()
     private var isAtBottom = true
     private var isMaximized = false
 
@@ -115,7 +114,7 @@ internal class CaptionsView : FrameLayout {
         viewModel: CaptionsViewModel,
     ) {
         this.viewModel = viewModel
-        recyclerViewAdapter = CaptionsRecyclerViewAdapter(captionsData)
+        recyclerViewAdapter = CaptionsRecyclerViewAdapter(viewModel.captionsAndRttData)
         recyclerView.adapter = recyclerViewAdapter
         recyclerView.layoutManager = LinearLayoutManager(this.context)
 
@@ -126,93 +125,73 @@ internal class CaptionsView : FrameLayout {
             }
         })
 
-        viewModel.captionsAndRttDataCache.let { data ->
-            captionsData.addAll(data)
-            recyclerViewAdapter.notifyDataSetChanged()
-        }
-
         recyclerView.post {
             recyclerView.scrollToPosition(recyclerViewAdapter.itemCount - 1)
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.isVisibleFlow.collect {
-                if (it) {
-                    captionsLinearLayout.visibility = View.VISIBLE
-                    captionsLinearLayout.post { scrollToBottom() }
-                } else {
-                    captionsLinearLayout.visibility = View.GONE
+        viewLifecycleOwner.lifecycleScope.launchAll(
+            {
+                viewModel.isVisibleFlow.collect {
+                    if (it) {
+                        captionsLinearLayout.visibility = View.VISIBLE
+                        captionsLinearLayout.post { scrollToBottom() }
+                    } else {
+                        captionsLinearLayout.visibility = View.GONE
+                    }
+                }
+            },
+            {
+                viewModel.recordUpdatedAtPositionSharedFlow.collect {
+                    onItemUpdated(it)
+                }
+            },
+            {
+                viewModel.recordInsertedAtPositionSharedFlow.collect {
+                    onItemAdded(it)
+                }
+            },
+            {
+                viewModel.recordRemovedAtPositionSharedFlow.collect {
+                    onItemRemoved(it)
+                }
+            },
+            {
+                viewModel.captionsStartProgressStateFlow.collect {
+                    captionsStartProgressLayout.isVisible = it
+                }
+            },
+            {
+                viewModel.softwareKeyboardStateFlow.collect {
+                    scrollToBottom()
                 }
             }
-        }
-
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.onLastCaptionsDataUpdatedStateFlow.collect {
-                it?.let {
-                    updateLastCaptionsData(it)
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.onNewCaptionsDataAddedStateFlow.collect { it ->
-                it?.let {
-                    applyLayoutDirection(it)
-                    addNewCaptionsData(it)
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.captionsStartProgressStateFlow.collect {
-                captionsStartProgressLayout.isVisible = it
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.softwareKeyboardStateFlow.collect {
-                scrollToBottom()
-            }
-        }
+        )
     }
 
-    private fun updateLastCaptionsData(lastCaptionsData: CaptionsRttEntryModel) {
-        val index = captionsData.size - 1
-        if (index >= 0 && captionsData[index].speakerRawId == lastCaptionsData.speakerRawId) {
+    private fun onItemUpdated(index: Int) {
+        if (index >= 0) {
             val shouldScrollToBottom = isAtBottom
-            captionsData[index] = lastCaptionsData
-            updateRecyclerViewItem(index)
+            recyclerViewAdapter.notifyItemChanged(index)
+            requestAccessibilityFocus(index)
             if (shouldScrollToBottom) {
                 scrollToBottom()
             }
         }
     }
 
-    private fun addNewCaptionsData(newCaptionsData: CaptionsRttEntryModel) {
-        if (captionsData.size >= CallingFragment.MAX_CAPTIONS_DATA_SIZE) {
-            captionsData.removeAt(0)
-            recyclerViewAdapter.notifyItemRemoved(0)
-        }
+    private fun onItemRemoved(index: Int) {
+        recyclerViewAdapter.notifyItemRemoved(index)
+    }
 
+    private fun onItemAdded(index: Int) {
         val layoutManager = recyclerView.layoutManager as LinearLayoutManager
         val shouldScrollToBottom = isAtBottom || layoutManager.findLastVisibleItemPosition() == layoutManager.itemCount - 1
 
-        captionsData.add(newCaptionsData)
-        insertRecyclerViewItem(captionsData.size - 1)
+        recyclerViewAdapter.notifyItemInserted(index)
+        requestAccessibilityFocus(index)
         if (shouldScrollToBottom) {
             scrollToBottom()
         }
-    }
-
-    private fun updateRecyclerViewItem(position: Int) {
-        recyclerViewAdapter.notifyItemChanged(position)
-        requestAccessibilityFocus(position)
-    }
-
-    private fun insertRecyclerViewItem(position: Int) {
-        recyclerViewAdapter.notifyItemInserted(position)
-        requestAccessibilityFocus(position)
     }
 
     private fun requestAccessibilityFocus(position: Int) {
@@ -230,7 +209,7 @@ internal class CaptionsView : FrameLayout {
     }
 
     // required when RTL language is selected for captions text
-    private fun applyLayoutDirection(captionsRecord: CaptionsRttEntryModel) {
+    private fun applyLayoutDirection(captionsRecord: CaptionsRttRecord) {
         if (LocaleHelper.isRTL(captionsRecord.languageCode) && layoutDirection != LAYOUT_DIRECTION_RTL) {
             captionsLinearLayout.layoutDirection = LAYOUT_DIRECTION_RTL
         } else if (!LocaleHelper.isRTL(captionsRecord.languageCode) && layoutDirection != LAYOUT_DIRECTION_LTR) {
@@ -239,7 +218,6 @@ internal class CaptionsView : FrameLayout {
     }
 
     fun stop() {
-        captionsData.clear()
         recyclerView.adapter = null
         recyclerView.layoutManager = null
         recyclerView.removeAllViews()

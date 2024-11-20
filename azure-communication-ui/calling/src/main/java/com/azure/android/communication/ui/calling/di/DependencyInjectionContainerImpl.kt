@@ -49,6 +49,7 @@ import com.azure.android.communication.ui.calling.redux.reducer.CallDiagnosticsR
 import com.azure.android.communication.ui.calling.redux.reducer.CallScreenInformationHeaderReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.CallStateReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.CaptionsReducerImpl
+import com.azure.android.communication.ui.calling.redux.reducer.DeviceConfigurationReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.ErrorReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.LifecycleReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.LocalParticipantStateReducerImpl
@@ -58,7 +59,6 @@ import com.azure.android.communication.ui.calling.redux.reducer.PermissionStateR
 import com.azure.android.communication.ui.calling.redux.reducer.PipReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.Reducer
 import com.azure.android.communication.ui.calling.redux.reducer.RttReducerImpl
-import com.azure.android.communication.ui.calling.redux.reducer.DeviceConfigurationReducerImpl
 import com.azure.android.communication.ui.calling.redux.reducer.ToastNotificationReducerImpl
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
@@ -92,7 +92,11 @@ internal class DependencyInjectionContainerImpl(
     }
 
     override val captionsDataManager by lazy {
-        CaptionsDataManager(callingService, appStore)
+        CaptionsDataManager(
+            callingService,
+            appStore,
+            avatarViewManager,
+        )
     }
 
     override val navigationRouter by lazy {

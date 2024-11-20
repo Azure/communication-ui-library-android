@@ -4,8 +4,6 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.captions
 
 import android.graphics.Bitmap
-import com.azure.android.communication.common.CommunicationIdentifier
-import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import java.util.Date
 
 internal enum class CaptionsRttType {
@@ -13,7 +11,8 @@ internal enum class CaptionsRttType {
     RTT,
 }
 
-internal data class CaptionsRecord(
+internal data class CaptionsRttRecord(
+    val avatarBitmap: Bitmap?,
     val displayName: String,
     val displayText: String,
     val speakerRawId: String,
@@ -22,26 +21,3 @@ internal data class CaptionsRecord(
     val timestamp: Date,
     val type: CaptionsRttType,
 )
-
-internal fun CaptionsRecord.into(avatarViewManager: AvatarViewManager, identifier: CommunicationIdentifier?): CaptionsRttEntryModel {
-    var speakerName = this.displayName
-    var bitMap: Bitmap? = null
-
-    val remoteParticipantViewData = avatarViewManager.getRemoteParticipantViewData(this.speakerRawId)
-    if (remoteParticipantViewData != null) {
-        speakerName = remoteParticipantViewData.displayName
-        bitMap = remoteParticipantViewData.avatarBitmap
-    }
-    val localParticipantViewData = avatarViewManager.callCompositeLocalOptions?.participantViewData
-    if (localParticipantViewData != null && identifier?.rawId == this.speakerRawId) {
-        speakerName = localParticipantViewData.displayName
-        bitMap = localParticipantViewData.avatarBitmap
-    }
-    return CaptionsRttEntryModel(
-        displayName = speakerName,
-        displayText = this.displayText,
-        avatarBitmap = bitMap,
-        speakerRawId = this.speakerRawId,
-        languageCode = this.languageCode
-    )
-}

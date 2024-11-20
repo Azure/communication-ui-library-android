@@ -3,34 +3,28 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.captions
 
-import com.azure.android.communication.common.CommunicationIdentifier
-import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.CaptionsDataManager
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.RttAction
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
 import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 import com.azure.android.communication.ui.calling.redux.state.DeviceConfigurationState
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 internal class CaptionsViewModel(
     private val dispatch: (Action) -> Unit,
+    captionsDataManager: CaptionsDataManager,
 ) {
     private lateinit var isVisibleMutableFlow: MutableStateFlow<Boolean>
     private lateinit var captionsStartInProgressStateMutableFlow: MutableStateFlow<Boolean>
     private lateinit var softwareKeyboardStateMutableFlow: MutableStateFlow<Boolean>
 
-    private val captionsData = mutableListOf<CaptionsRttEntryModel>()
-    private val onLastCaptionsDataUpdatedMutableStateFlow = MutableStateFlow<CaptionsRttEntryModel?>(null)
-    private val onNewCaptionsDataAddedMutableStateFlow = MutableStateFlow<CaptionsRttEntryModel?>(null)
+    val captionsAndRttData = captionsDataManager.captionsAndRttData
+    val recordUpdatedAtPositionSharedFlow = captionsDataManager.recordUpdatedAtPositionSharedFlow
+    val recordInsertedAtPositionSharedFlow = captionsDataManager.recordInsertedAtPositionSharedFlow
+    val recordRemovedAtPositionSharedFlow = captionsDataManager.recordRemovedAtPositionSharedFlow
 
-    val captionsAndRttDataCache: List<CaptionsRttEntryModel> = captionsData
-    val onLastCaptionsDataUpdatedStateFlow: StateFlow<CaptionsRttEntryModel?> = onLastCaptionsDataUpdatedMutableStateFlow
-    val onNewCaptionsDataAddedStateFlow: StateFlow<CaptionsRttEntryModel?> = onNewCaptionsDataAddedMutableStateFlow
     val softwareKeyboardStateFlow: StateFlow<Boolean>
         get() = softwareKeyboardStateMutableFlow
 
@@ -50,38 +44,13 @@ internal class CaptionsViewModel(
     }
 
     fun init(
-        coroutineScope: CoroutineScope,
         captionsState: CaptionsState,
         isVisible: Boolean,
-        captionsDataManager: CaptionsDataManager,
-        localParticipantIdentifier: CommunicationIdentifier?,
-        avatarViewManager: AvatarViewManager,
         deviceConfigurationState: DeviceConfigurationState,
     ) {
         isVisibleMutableFlow = MutableStateFlow(isVisible)
         captionsStartInProgressStateMutableFlow = MutableStateFlow(canShowCaptionsStartInProgressUI(captionsState))
         softwareKeyboardStateMutableFlow = MutableStateFlow(deviceConfigurationState.isSoftwareKeyboardVisible)
-
-        captionsData.addAll(
-            captionsDataManager.captionsDataCache.map { it.into(avatarViewManager, localParticipantIdentifier) }
-        )
-
-        captionsDataManager.resetFlows()
-
-        coroutineScope.launch {
-            captionsDataManager.getOnLastCaptionsDataUpdatedStateFlow().collect { data ->
-                data?.let {
-                    onLastCaptionsDataUpdatedMutableStateFlow.value = it.into(avatarViewManager, localParticipantIdentifier)
-                }
-            }
-        }
-        coroutineScope.launch {
-            captionsDataManager.getOnNewCaptionsDataAddedStateFlow().collect { data ->
-                data?.let {
-                    onNewCaptionsDataAddedMutableStateFlow.value = it.into(avatarViewManager, localParticipantIdentifier)
-                }
-            }
-        }
     }
 
     private fun canShowCaptionsStartInProgressUI(

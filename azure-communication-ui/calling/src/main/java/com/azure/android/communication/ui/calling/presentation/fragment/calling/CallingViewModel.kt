@@ -212,14 +212,10 @@ internal class CallingViewModel(
         captionsLanguageSelectionListViewModel.init(state.captionsState, state.visibilityState)
         isCaptionsVisibleMutableFlow.value = shouldShowCaptionsUI(state.visibilityState, state.captionsState, state.rttState)
         captionsLayoutViewModel.init(
-            coroutineScope,
             state.captionsState,
             isCaptionsVisibleMutableFlow.value,
-            captionsDataManager,
-            localUserIdentifier,
-            avatarViewManager,
             state.deviceConfigurationState,
-            )
+        )
 
         moreCallOptionsListViewModel.init(state.visibilityState, state.buttonState)
         super.init(coroutineScope)
