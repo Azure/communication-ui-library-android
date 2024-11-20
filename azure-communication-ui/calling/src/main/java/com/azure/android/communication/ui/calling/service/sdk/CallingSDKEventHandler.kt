@@ -30,6 +30,7 @@ import com.azure.android.communication.calling.ParticipantsUpdatedListener
 import com.azure.android.communication.calling.PropertyChangedListener
 import com.azure.android.communication.calling.RealTimeTextCallFeature
 import com.azure.android.communication.calling.RealTimeTextInfoUpdatedListener
+import com.azure.android.communication.calling.RealTimeTextResultType
 import com.azure.android.communication.calling.RecordingCallFeature
 import com.azure.android.communication.calling.RemoteParticipant
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
@@ -550,6 +551,7 @@ internal class CallingSDKEventHandler(
                 senderName = "", // it.entry.sender.displayName,
                 localCreatedTime = it.entry.localCreatedTime,
                 isLocal = it.entry.isLocal,
+                isFinalized = it.entry.resultType == RealTimeTextResultType.FINAL,
             )
             rttTextSharedFlow.emit(rttMessage)
         }

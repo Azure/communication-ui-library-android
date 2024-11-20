@@ -11,6 +11,5 @@ internal data class RttMessage(
     val senderName: String,
     val localCreatedTime: Date,
     val isLocal: Boolean,
-) {
-    val isFinalized = message.endsWith("\n")
-}
+    val isFinalized: Boolean,
+)
