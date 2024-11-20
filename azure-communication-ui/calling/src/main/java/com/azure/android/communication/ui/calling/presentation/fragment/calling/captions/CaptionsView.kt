@@ -16,6 +16,7 @@ import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.core.view.marginTop
 import androidx.lifecycle.LifecycleOwner
@@ -72,8 +73,7 @@ internal class CaptionsView : FrameLayout {
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         if (isTablet(context)) {
-            // TODO: check if rtt is enabled via view model
-            rttInputText.isVisible = true
+            rttInputText.isVisible = viewModel.isRttInputVisibleFlow.value
             resizeButton.isVisible = false
             headerDragHandle.isVisible = false
 
@@ -85,27 +85,29 @@ internal class CaptionsView : FrameLayout {
             resizeButton.setOnClickListener { this.onResizeButtonClicked() }
         }
 
-        rttInputText.setOnEditorActionListener { view, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_SEND) {
-                // Handle the "Send" action
-                val message = view.text.toString()
-                if (message.isNotBlank()) {
-                    viewModel.sendRttMessage(message)
-
-                    view.text = ""
-
-                    // Keep focus on the EditText to prevent the keyboard from hiding
-                    view.requestFocus()
-
-                    // Ensure the keyboard remains visible
-                    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
-                }
-                true
-            } else {
-                false
-            }
+        rttInputText.setOnEditorActionListener { view, actionId, _ ->
+            onEditTextAction(view, actionId)
         }
+    }
+
+    private fun onEditTextAction(view: TextView, actionId: Int): Boolean {
+        if (actionId == EditorInfo.IME_ACTION_SEND) {
+            // Handle the "Send" action
+            val message = view.text.toString()
+            if (message.isNotBlank()) {
+                viewModel.sendRttMessage(message)
+
+                view.text = ""
+                view.requestFocus()
+
+                // Ensure the keyboard remains visible
+                val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+            }
+            return true
+        }
+
+        return false
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -138,6 +140,11 @@ internal class CaptionsView : FrameLayout {
                     } else {
                         captionsLinearLayout.visibility = View.GONE
                     }
+                }
+            },
+            {
+                viewModel.isRttInputVisibleFlow.collect {
+                    rttInputText.isVisible = it && isMaximized
                 }
             },
             {
@@ -233,7 +240,7 @@ internal class CaptionsView : FrameLayout {
     }
 
     private fun maximizeCaptionsLayout() {
-        rttInputText.visibility = View.VISIBLE
+        rttInputText.isVisible = viewModel.isRttInputVisibleFlow.value
         resizeButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_minimize_20_regular)
         resizeButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_minimize_captions_and_rtt)
         isMaximized = true
@@ -242,7 +249,7 @@ internal class CaptionsView : FrameLayout {
 
     fun minimizeCaptionsLayout() {
         hideKeyboard(rttInputText)
-        rttInputText.visibility = View.GONE
+        rttInputText.isVisible = false
         resizeButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_maximize_20_regular)
         resizeButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_maximize_captions_and_rtt)
         isMaximized = false

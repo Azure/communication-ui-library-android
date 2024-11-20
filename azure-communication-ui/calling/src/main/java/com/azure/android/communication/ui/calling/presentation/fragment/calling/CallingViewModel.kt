@@ -213,6 +213,7 @@ internal class CallingViewModel(
         isCaptionsVisibleMutableFlow.value = shouldShowCaptionsUI(state.visibilityState, state.captionsState, state.rttState)
         captionsLayoutViewModel.init(
             state.captionsState,
+            state.rttState,
             isCaptionsVisibleMutableFlow.value,
             state.deviceConfigurationState,
         )
@@ -404,6 +405,7 @@ internal class CallingViewModel(
         )
         captionsLayoutViewModel.update(
             state.captionsState,
+            state.rttState,
             isCaptionsVisibleMutableFlow.value,
             state.deviceConfigurationState,
         )

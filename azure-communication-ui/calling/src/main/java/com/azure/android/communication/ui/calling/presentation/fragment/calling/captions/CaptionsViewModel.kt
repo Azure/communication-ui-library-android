@@ -9,6 +9,7 @@ import com.azure.android.communication.ui.calling.redux.action.RttAction
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
 import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 import com.azure.android.communication.ui.calling.redux.state.DeviceConfigurationState
+import com.azure.android.communication.ui.calling.redux.state.RttState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -17,6 +18,7 @@ internal class CaptionsViewModel(
     captionsDataManager: CaptionsDataManager,
 ) {
     private lateinit var isVisibleMutableFlow: MutableStateFlow<Boolean>
+    private lateinit var isRttInputVisibleMutableFlow: MutableStateFlow<Boolean>
     private lateinit var captionsStartInProgressStateMutableFlow: MutableStateFlow<Boolean>
     private lateinit var softwareKeyboardStateMutableFlow: MutableStateFlow<Boolean>
 
@@ -30,25 +32,31 @@ internal class CaptionsViewModel(
 
     val isVisibleFlow: StateFlow<Boolean>
         get() = isVisibleMutableFlow
+    val isRttInputVisibleFlow: StateFlow<Boolean>
+        get() = isRttInputVisibleMutableFlow
     val captionsStartProgressStateFlow: StateFlow<Boolean>
         get() = captionsStartInProgressStateMutableFlow
 
     fun update(
         captionsState: CaptionsState,
+        rttState: RttState,
         isVisible: Boolean,
         deviceConfigurationState: DeviceConfigurationState,
     ) {
         isVisibleMutableFlow.value = isVisible
+        isRttInputVisibleMutableFlow.value = rttState.isRttActive
         captionsStartInProgressStateMutableFlow.value = canShowCaptionsStartInProgressUI(captionsState)
         softwareKeyboardStateMutableFlow.value = deviceConfigurationState.isSoftwareKeyboardVisible
     }
 
     fun init(
         captionsState: CaptionsState,
+        rttState: RttState,
         isVisible: Boolean,
         deviceConfigurationState: DeviceConfigurationState,
     ) {
         isVisibleMutableFlow = MutableStateFlow(isVisible)
+        isRttInputVisibleMutableFlow = MutableStateFlow(rttState.isRttActive)
         captionsStartInProgressStateMutableFlow = MutableStateFlow(canShowCaptionsStartInProgressUI(captionsState))
         softwareKeyboardStateMutableFlow = MutableStateFlow(deviceConfigurationState.isSoftwareKeyboardVisible)
     }
