@@ -102,7 +102,7 @@ internal class CaptionsView : FrameLayout {
         this.viewModel = viewModel
         recyclerViewAdapter = CaptionsRecyclerViewAdapter(viewModel.captionsAndRttData)
         recyclerView.adapter = recyclerViewAdapter
-        recyclerView.layoutManager = LinearLayoutManager(this.context)
+        recyclerView.layoutManager = LinearLayoutManager(this.context).apply { stackFromEnd = true }
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

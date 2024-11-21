@@ -135,7 +135,8 @@
             android:background="@color/azure_communication_ui_calling_color_bottom_drawer_background"
             android:layout_width="match_parent"
             android:scrollbars="vertical"
-             android:layout_height="0dp"/>
+            android:layout_height="0dp"
+            />
 
         <EditText
             android:id="@+id/rtt_input_text"
