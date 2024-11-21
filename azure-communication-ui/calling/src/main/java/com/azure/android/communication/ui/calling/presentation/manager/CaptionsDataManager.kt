@@ -22,6 +22,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.time.Duration
 import java.time.Instant
+import kotlin.math.max
 
 internal class CaptionsDataManager(
     private val callingService: CallingService,
@@ -146,8 +147,23 @@ internal class CaptionsDataManager(
     }
 
     private suspend fun addNewCaption(data: CaptionsRttRecord) {
-        captionsAndRttMutableList.add(data)
-        recordInsertedAtPositionMutableSharedFlow.emit(captionsAndRttMutableList.size - 1)
+        val lastCaptionFromSameUser = captionsAndRttMutableList.lastOrNull()
+
+        // RTT message that is local is still typing has to be displayed last until it is finalized
+        var index =
+        if (data.isLocal != true &&
+            lastCaptionFromSameUser?.type == CaptionsRttType.RTT &&
+            lastCaptionFromSameUser.isLocal == true &&
+            !lastCaptionFromSameUser.isFinal
+        )
+            captionsAndRttMutableList.size - 1
+        else
+            captionsAndRttMutableList.size
+
+        index = max(0, index)
+
+        captionsAndRttMutableList.add(index, data)
+        recordInsertedAtPositionMutableSharedFlow.emit(index)
     }
 
     private suspend fun updateLastCaption(lastCaptionFromSameUser: CaptionsRttRecord, captionsRecord: CaptionsRttRecord) {
