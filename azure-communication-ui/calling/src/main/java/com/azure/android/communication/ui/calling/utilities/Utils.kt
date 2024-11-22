@@ -6,6 +6,8 @@ import android.content.res.Configuration
 import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlin.math.roundToInt
 
 internal fun isTablet(context: Context): Boolean {
@@ -42,4 +44,15 @@ internal fun Activity.isKeyboardOpen(): Boolean {
 internal fun Activity.hideKeyboard() {
     val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(getRootView().windowToken, 0)
+}
+
+internal open class EventFlow {
+    protected val _events = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+    val events: SharedFlow<Unit> = _events
+}
+
+internal class MutableEventFlow: EventFlow() {
+    fun emit() {
+        _events.tryEmit(Unit)
+    }
 }

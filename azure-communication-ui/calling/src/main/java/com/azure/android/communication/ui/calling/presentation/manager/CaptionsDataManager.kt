@@ -11,8 +11,11 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsRttRecord
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsRttType
 import com.azure.android.communication.ui.calling.redux.AppStore
+import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
+import com.azure.android.communication.ui.calling.utilities.EventFlow
+import com.azure.android.communication.ui.calling.utilities.MutableEventFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -32,16 +35,20 @@ internal class CaptionsDataManager(
     private val localParticipantIdentifier: CommunicationIdentifier?,
 ) {
     private val mutex = Mutex()
+    private var isCaptionsOn = false
     private val captionsAndRttMutableList = mutableListOf<CaptionsRttRecord>()
     private val recordRemovedAtPositionMutableSharedFlow = MutableSharedFlow<Int>()
     private val recordUpdatedAtPositionMutableSharedFlow = MutableSharedFlow<Int>()
     private val recordInsertedAtPositionMutableSharedFlow = MutableSharedFlow<Int>()
     private var isRttInfoItemAdded = false
+    private val captionsRttUpdatedMutableEventFlow = MutableEventFlow()
 
     val captionsAndRttData: List<CaptionsRttRecord> = captionsAndRttMutableList
     val recordUpdatedAtPositionSharedFlow: SharedFlow<Int> = recordUpdatedAtPositionMutableSharedFlow
     val recordInsertedAtPositionSharedFlow: SharedFlow<Int> = recordInsertedAtPositionMutableSharedFlow
     val recordRemovedAtPositionSharedFlow: SharedFlow<Int> = recordRemovedAtPositionMutableSharedFlow
+
+    val captionsRttUpdated: EventFlow = captionsRttUpdatedMutableEventFlow
 
     fun start(coroutineScope: CoroutineScope) {
         coroutineScope.launch {
@@ -95,6 +102,13 @@ internal class CaptionsDataManager(
                 mutex.withLock {
                     if (state.rttState.isRttActive) {
                         ensureRttMessageIsDisplayed()
+                    }
+                    if (state.captionsState.status == CaptionsStatus.STARTED && !isCaptionsOn) {
+                        isCaptionsOn = true
+                    }
+                    if (state.captionsState.status == CaptionsStatus.STOPPED && isCaptionsOn) {
+                        isCaptionsOn = false
+                        removeCaptions()
                     }
                 }
             }
@@ -221,5 +235,10 @@ internal class CaptionsDataManager(
             return Pair(localParticipantViewData.displayName, localParticipantViewData.avatarBitmap)
         }
         return Pair(null, null)
+    }
+
+    private fun removeCaptions() {
+        captionsAndRttMutableList.removeAll { it.type == CaptionsRttType.CAPTIONS }
+        captionsRttUpdatedMutableEventFlow.emit()
     }
 }

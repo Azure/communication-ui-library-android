@@ -27,6 +27,7 @@ internal class CaptionsViewModel(
     val recordUpdatedAtPositionSharedFlow = captionsDataManager.recordUpdatedAtPositionSharedFlow
     val recordInsertedAtPositionSharedFlow = captionsDataManager.recordInsertedAtPositionSharedFlow
     val recordRemovedAtPositionSharedFlow = captionsDataManager.recordRemovedAtPositionSharedFlow
+    val captionsRttUpdatedSharedFlow = captionsDataManager.captionsRttUpdated.events
 
     val softwareKeyboardStateFlow: StateFlow<Boolean>
         get() = softwareKeyboardStateMutableFlow

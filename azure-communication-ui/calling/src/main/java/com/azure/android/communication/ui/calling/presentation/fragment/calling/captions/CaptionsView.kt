@@ -136,13 +136,18 @@ internal class CaptionsView : FrameLayout {
                 }
             },
             {
+                viewModel.captionsRttUpdatedSharedFlow.collect {
+                    recyclerViewAdapter.notifyDataSetChanged()
+                }
+            },
+            {
                 viewModel.recordInsertedAtPositionSharedFlow.collect {
                     onItemAdded(it)
                 }
             },
             {
                 viewModel.recordRemovedAtPositionSharedFlow.collect {
-                    onItemRemoved(it)
+                    recyclerViewAdapter.notifyItemRemoved(it)
                 }
             },
             {
@@ -205,10 +210,6 @@ internal class CaptionsView : FrameLayout {
                 scrollToBottom()
             }
         }
-    }
-
-    private fun onItemRemoved(index: Int) {
-        recyclerViewAdapter.notifyItemRemoved(index)
     }
 
     private fun onItemAdded(index: Int) {
