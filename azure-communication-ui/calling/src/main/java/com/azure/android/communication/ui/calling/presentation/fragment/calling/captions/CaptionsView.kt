@@ -182,8 +182,8 @@ internal class CaptionsView : FrameLayout {
     private fun onEditTextAction(view: TextView, actionId: Int): Boolean {
         if (actionId == EditorInfo.IME_ACTION_SEND) {
             val message = view.text.toString()
-            viewModel.sendRttMessage(message, true)
             if (message.isNotBlank()) {
+                viewModel.sendRttMessage(message, true)
                 view.text = ""
                 view.requestFocus()
 

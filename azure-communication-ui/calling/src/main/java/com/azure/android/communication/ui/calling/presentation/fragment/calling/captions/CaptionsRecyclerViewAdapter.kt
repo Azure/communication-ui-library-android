@@ -23,9 +23,10 @@ internal class CaptionsRecyclerViewAdapter(
         val displayNameTextView: TextView =
             view.findViewById(R.id.azure_communication_ui_calling_caption_display_name)
 
+        val rttIndicator: View =
+            view.findViewById(R.id.azure_communication_ui_calling_caption_rtt_indicator)
         val rttTypingIndicator: View =
             view.findViewById(R.id.azure_communication_ui_calling_caption_rtt_typing_indicator)
-
         val rttTypingIndicatorText: View =
             view.findViewById(R.id.azure_communication_ui_calling_caption_rtt_typing_indicator_text)
 
@@ -61,8 +62,11 @@ internal class CaptionsRecyclerViewAdapter(
             holder.avatarView.avatarImageBitmap = bitMap
         }
 
-        val isRttTyping = captionsRttRecord.type == CaptionsRttType.RTT && !captionsRttRecord.isFinal
+        val isRtt = captionsRttRecord.type == CaptionsRttType.RTT
+        val isRttTyping = isRtt && !captionsRttRecord.isFinal
         holder.rttTypingIndicator.isVisible = isRttTyping
         holder.rttTypingIndicatorText.isVisible = isRttTyping
+
+        holder.rttIndicator.isVisible = isRtt && !isRttTyping
     }
 }
