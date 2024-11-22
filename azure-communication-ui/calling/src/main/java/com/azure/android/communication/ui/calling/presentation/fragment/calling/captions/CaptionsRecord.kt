@@ -9,6 +9,7 @@ import java.util.Date
 internal enum class CaptionsRttType {
     CAPTIONS,
     RTT,
+    RTT_INFO,
 }
 
 internal data class CaptionsRttRecord(

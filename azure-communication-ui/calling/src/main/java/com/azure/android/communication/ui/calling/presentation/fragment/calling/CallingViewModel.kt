@@ -16,6 +16,7 @@ import com.azure.android.communication.ui.calling.presentation.manager.Capabilit
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.action.RttAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
 import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
@@ -398,10 +399,10 @@ internal class CallingViewModel(
             state.rttState,
         )
         captionsLayoutViewModel.update(
-            state.captionsState,
-            state.rttState,
-            isCaptionsVisibleMutableFlow.value,
-            state.deviceConfigurationState,
+            captionsState = state.captionsState,
+            rttState = state.rttState,
+            isVisible = isCaptionsVisibleMutableFlow.value,
+            deviceConfigurationState = state.deviceConfigurationState,
         )
     }
 
@@ -459,4 +460,8 @@ internal class CallingViewModel(
                 captionsState.status == CaptionsStatus.START_REQUESTED ||
                 captionsState.status == CaptionsStatus.STOP_REQUESTED
             )
+
+    fun minimizeCaptions() {
+        dispatchAction(RttAction.UpdateMaximized(false))
+    }
 }

@@ -4,10 +4,8 @@
 package com.azure.android.communication.ui.calling.redux.action
 
 internal sealed class RttAction : Action {
-    class RttMessagesUpdated(val rttContent: String, val participantId: String) : RttAction()
     class SendRtt(val message: String, val isFinalized: Boolean) : RttAction()
 
-    class DisableRttLocally() : RttAction()
-
-    class EnableRtt(): RttAction()
+    class EnableRtt: RttAction()
+    class UpdateMaximized(val isMaximized: Boolean): RttAction()
 }

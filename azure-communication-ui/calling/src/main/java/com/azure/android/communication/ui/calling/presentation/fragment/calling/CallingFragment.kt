@@ -268,7 +268,7 @@ internal class CallingFragment :
         captionsView.maximizeCallback = this::maximizeCaptions
         captionsView.start(viewLifecycleOwner, viewModel.captionsLayoutViewModel)
 
-        captionsOverlay.setOnClickListener { captionsView.minimizeCaptionsLayout() }
+        captionsOverlay.setOnClickListener { viewModel.minimizeCaptions() }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

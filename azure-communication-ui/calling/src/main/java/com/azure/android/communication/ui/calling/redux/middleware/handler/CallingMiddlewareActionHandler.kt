@@ -3,9 +3,6 @@
 
 package com.azure.android.communication.ui.calling.redux.middleware.handler
 
-/* <RTT_POC>
-import com.azure.android.communication.ui.calling.redux.action.RttAction
-</RTT_POC> */
 import android.telecom.CallAudioState
 import com.azure.android.communication.calling.CallingCommunicationException
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration

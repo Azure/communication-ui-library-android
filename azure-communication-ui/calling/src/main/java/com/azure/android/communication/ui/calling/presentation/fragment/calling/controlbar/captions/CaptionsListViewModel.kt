@@ -116,6 +116,7 @@ internal class CaptionsListViewModel(
 
     fun enableRTT() {
         dispatch(RttAction.EnableRtt())
+        dispatch(RttAction.UpdateMaximized(true))
         close()
     }
 

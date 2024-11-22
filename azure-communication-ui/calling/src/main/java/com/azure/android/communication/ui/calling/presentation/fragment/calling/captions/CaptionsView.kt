@@ -50,7 +50,6 @@ internal class CaptionsView : FrameLayout {
     private lateinit var recyclerViewAdapter: CaptionsRecyclerViewAdapter
 
     private var isAtBottom = true
-    private var isMaximized = false
 
     var maximizeCallback: () -> Unit = {}
     var minimizeCallback: () -> Unit = {}
@@ -128,7 +127,7 @@ internal class CaptionsView : FrameLayout {
             },
             {
                 viewModel.isRttInputVisibleFlow.collect {
-                    rttInputText.isVisible = it && isMaximized
+                    rttInputText.isVisible = it
                 }
             },
             {
@@ -155,7 +154,16 @@ internal class CaptionsView : FrameLayout {
                 viewModel.softwareKeyboardStateFlow.collect {
                     scrollToBottom()
                 }
-            }
+            },
+            {
+                viewModel.isMaximizedFlow.collect {
+                    if (it) {
+                        onMaximizeCaptionsLayout()
+                    } else {
+                        onMinimizeCaptionsLayout()
+                    }
+                }
+            },
         )
     }
 
@@ -245,27 +253,25 @@ internal class CaptionsView : FrameLayout {
     }
 
     private fun onResizeButtonClicked() {
-        if (isMaximized) {
-            minimizeCaptionsLayout()
+        if (viewModel.isMaximizedFlow.value) {
+            viewModel.minimizeCaptionsLayout()
         } else {
-            maximizeCaptionsLayout()
+            viewModel.maximizeCaptionsLayout()
         }
     }
 
-    private fun maximizeCaptionsLayout() {
+    private fun onMaximizeCaptionsLayout() {
         rttInputText.isVisible = viewModel.isRttInputVisibleFlow.value
         resizeButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_minimize_20_regular)
         resizeButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_minimize_captions_and_rtt)
-        isMaximized = true
         maximizeCallback()
     }
 
-    fun minimizeCaptionsLayout() {
+    private fun onMinimizeCaptionsLayout() {
         hideKeyboard(rttInputText)
         rttInputText.isVisible = false
         resizeButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_maximize_20_regular)
         resizeButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_maximize_captions_and_rtt)
-        isMaximized = false
         scrollToBottom()
         minimizeCallback()
     }
@@ -288,7 +294,7 @@ internal class CaptionsView : FrameLayout {
                     initialMarginTop = view.marginTop
                     initialTouchY = motionEvent.rawY
 
-                    if (isMaximized) {
+                    if (viewModel.isMaximizedFlow.value) {
                         maximizedHeight = view.height
                     }
                     true
@@ -298,7 +304,7 @@ internal class CaptionsView : FrameLayout {
                     val deltaY = motionEvent.rawY - initialTouchY
 
                     var newMarginTop = (deltaY + initialMarginTop).toInt()
-                    if (isMaximized) {
+                    if (viewModel.isMaximizedFlow.value) {
                         if (minHeight > maximizedHeight - newMarginTop) {
                             newMarginTop = maximizedHeight - minHeight
                         }
@@ -319,10 +325,10 @@ internal class CaptionsView : FrameLayout {
                     val params = view.layoutParams as MarginLayoutParams
 
                     if (abs(params.topMargin) > 150) {
-                        if (isMaximized) {
-                            minimizeCaptionsLayout()
+                        if (viewModel.isMaximizedFlow.value) {
+                            viewModel.minimizeCaptionsLayout()
                         } else {
-                            maximizeCaptionsLayout()
+                            viewModel.maximizeCaptionsLayout()
                         }
                     }
 

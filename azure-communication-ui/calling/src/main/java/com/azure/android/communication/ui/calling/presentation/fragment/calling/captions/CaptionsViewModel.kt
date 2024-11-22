@@ -21,6 +21,7 @@ internal class CaptionsViewModel(
     private lateinit var isRttInputVisibleMutableFlow: MutableStateFlow<Boolean>
     private lateinit var captionsStartInProgressStateMutableFlow: MutableStateFlow<Boolean>
     private lateinit var softwareKeyboardStateMutableFlow: MutableStateFlow<Boolean>
+    private lateinit var isMaximizedMutableFlow: MutableStateFlow<Boolean>
 
     val captionsAndRttData = captionsDataManager.captionsAndRttData
     val recordUpdatedAtPositionSharedFlow = captionsDataManager.recordUpdatedAtPositionSharedFlow
@@ -32,6 +33,9 @@ internal class CaptionsViewModel(
 
     val isVisibleFlow: StateFlow<Boolean>
         get() = isVisibleMutableFlow
+    val isMaximizedFlow: StateFlow<Boolean>
+        get() = isMaximizedMutableFlow
+
     val isRttInputVisibleFlow: StateFlow<Boolean>
         get() = isRttInputVisibleMutableFlow
     val captionsStartProgressStateFlow: StateFlow<Boolean>
@@ -44,7 +48,8 @@ internal class CaptionsViewModel(
         deviceConfigurationState: DeviceConfigurationState,
     ) {
         isVisibleMutableFlow.value = isVisible
-        isRttInputVisibleMutableFlow.value = rttState.isRttActive
+        isMaximizedMutableFlow.value = rttState.isMaximized
+        isRttInputVisibleMutableFlow.value = rttState.isRttActive && rttState.isMaximized
         captionsStartInProgressStateMutableFlow.value = canShowCaptionsStartInProgressUI(captionsState)
         softwareKeyboardStateMutableFlow.value = deviceConfigurationState.isSoftwareKeyboardVisible
     }
@@ -56,7 +61,8 @@ internal class CaptionsViewModel(
         deviceConfigurationState: DeviceConfigurationState,
     ) {
         isVisibleMutableFlow = MutableStateFlow(isVisible)
-        isRttInputVisibleMutableFlow = MutableStateFlow(rttState.isRttActive)
+        isMaximizedMutableFlow = MutableStateFlow(rttState.isMaximized)
+        isRttInputVisibleMutableFlow = MutableStateFlow(rttState.isRttActive && rttState.isMaximized)
         captionsStartInProgressStateMutableFlow = MutableStateFlow(canShowCaptionsStartInProgressUI(captionsState))
         softwareKeyboardStateMutableFlow = MutableStateFlow(deviceConfigurationState.isSoftwareKeyboardVisible)
     }
@@ -67,5 +73,13 @@ internal class CaptionsViewModel(
 
     fun sendRttMessage(message: String, isFinal: Boolean) {
         dispatch(RttAction.SendRtt(message, isFinal))
+    }
+
+    fun maximizeCaptionsLayout() {
+        dispatch(RttAction.UpdateMaximized(true))
+    }
+
+    fun minimizeCaptionsLayout() {
+        dispatch(RttAction.UpdateMaximized(false))
     }
 }

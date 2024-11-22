@@ -22,6 +22,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.time.Duration
 import java.time.Instant
+import java.util.Date
 import kotlin.math.max
 
 internal class CaptionsDataManager(
@@ -32,9 +33,10 @@ internal class CaptionsDataManager(
 ) {
     private val mutex = Mutex()
     private val captionsAndRttMutableList = mutableListOf<CaptionsRttRecord>()
+    private val recordRemovedAtPositionMutableSharedFlow = MutableSharedFlow<Int>()
     private val recordUpdatedAtPositionMutableSharedFlow = MutableSharedFlow<Int>()
     private val recordInsertedAtPositionMutableSharedFlow = MutableSharedFlow<Int>()
-    private val recordRemovedAtPositionMutableSharedFlow = MutableSharedFlow<Int>()
+    private var isRttInfoItemAdded = false
 
     val captionsAndRttData: List<CaptionsRttRecord> = captionsAndRttMutableList
     val recordUpdatedAtPositionSharedFlow: SharedFlow<Int> = recordUpdatedAtPositionMutableSharedFlow
@@ -87,6 +89,16 @@ internal class CaptionsDataManager(
                 }
             }
         }
+
+        coroutineScope.launch {
+            appStore.getStateFlow().collect { state ->
+                mutex.withLock {
+                    if (state.rttState.isRttActive) {
+                        ensureRttMessageIsDisplayed()
+                    }
+                }
+            }
+        }
     }
 
     private fun shouldSkipCaption(captionData: CallCompositeCaptionsData): Boolean {
@@ -111,12 +123,30 @@ internal class CaptionsDataManager(
     }
 
     private suspend fun handleRttData(newCaptionsRecord: CaptionsRttRecord) {
+        ensureRttMessageIsDisplayed()
         val lastCaptionFromSameUser = getLastCaptionFromUser(newCaptionsRecord.speakerRawId, CaptionsRttType.RTT)
 
         if (lastCaptionFromSameUser?.isFinal == false) {
             updateLastCaption(lastCaptionFromSameUser, newCaptionsRecord)
         } else {
             addNewCaption(newCaptionsRecord)
+        }
+    }
+
+    private suspend fun ensureRttMessageIsDisplayed() {
+        if (!isRttInfoItemAdded) {
+            val rttInfoItem = CaptionsRttRecord(
+                avatarBitmap = null,
+                displayName = "",
+                displayText = "",
+                speakerRawId = "",
+                languageCode = null,
+                isFinal = true,
+                timestamp = Date.from(Instant.now()),
+                type = CaptionsRttType.RTT_INFO,
+            )
+            addNewCaption(rttInfoItem)
+            isRttInfoItemAdded = true
         }
     }
 
