@@ -8,6 +8,7 @@
     <color name="azure_communication_ui_calling_color_bottom_drawer_background">#FFFFFF</color>
     <color name="azure_communication_ui_calling_color_surface">#E1E1E1</color>
     <color name="azure_communication_ui_calling_color_disabled">#E1E1E1</color>
+    <color name="azure_communication_ui_calling_color_rtt_info">#E1E1E1</color>
     <color name="azure_communication_ui_calling_color_error">#D92C2C</color>
     <color name="azure_communication_ui_calling_color_warning">#FFD335</color>
     <color name="azure_communication_ui_calling_color_success">#13A10E</color>

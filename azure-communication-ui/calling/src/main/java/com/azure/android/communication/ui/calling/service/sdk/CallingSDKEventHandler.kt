@@ -29,7 +29,7 @@ import com.azure.android.communication.calling.ParticipantsUpdatedEvent
 import com.azure.android.communication.calling.ParticipantsUpdatedListener
 import com.azure.android.communication.calling.PropertyChangedListener
 import com.azure.android.communication.calling.RealTimeTextCallFeature
-import com.azure.android.communication.calling.RealTimeTextInfoUpdatedListener
+import com.azure.android.communication.calling.RealTimeTextInfoReceivedListener
 import com.azure.android.communication.calling.RealTimeTextResultType
 import com.azure.android.communication.calling.RecordingCallFeature
 import com.azure.android.communication.calling.RemoteParticipant
@@ -256,7 +256,7 @@ internal class CallingSDKEventHandler(
         subscribeToUserFacingDiagnosticsEvents()
 
         rttFeature = call.feature { RealTimeTextCallFeature::class.java }
-        rttFeature.addOnEntryUpdatedListener(onRttEntryUpdated)
+        rttFeature.addOnInfoReceivedListener(onRttEntryUpdated)
     }
 
 
@@ -312,7 +312,7 @@ internal class CallingSDKEventHandler(
         call?.removeOnStartTimeUpdatedListener(onStartTimeUpdated)
         /* </CALL_START_TIME> */
         unsubscribeFromUserFacingDiagnosticsEvents()
-        rttFeature.removeOnEntryUpdatedListener(onRttEntryUpdated)
+        rttFeature.removeOnInfoReceivedListener(onRttEntryUpdated)
     }
 
     fun onCaptionsStart(callCaptions: CallCaptions) {
@@ -543,15 +543,15 @@ internal class CallingSDKEventHandler(
         }
     }
 
-    private val onRttEntryUpdated = RealTimeTextInfoUpdatedListener {
+    private val onRttEntryUpdated = RealTimeTextInfoReceivedListener {
         coroutineScope.launch {
             val rttMessage = RttMessage(
-                message = it.entry.text,
-                senderUserRawId = it.entry.sender.identifier.rawId,
-                senderName = "", // it.entry.sender.displayName,
-                localCreatedTime = it.entry.localCreatedTime,
-                isLocal = it.entry.isLocal,
-                isFinalized = it.entry.resultType == RealTimeTextResultType.FINAL,
+                message = it.info.text,
+                senderUserRawId = it.info.sender.identifier.rawId,
+                senderName = "", // it.info.sender.displayName,
+                localCreatedTime = it.info.receivedTime,
+                isLocal = it.info.isLocal,
+                isFinalized = it.info.resultType == RealTimeTextResultType.FINAL,
             )
             rttTextSharedFlow.emit(rttMessage)
         }

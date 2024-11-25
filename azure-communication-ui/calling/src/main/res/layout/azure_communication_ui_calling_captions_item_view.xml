@@ -7,11 +7,44 @@
     xmlns:tools="http://schemas.android.com/tools"
 
     android:id="@+id/azure_communication_ui_calling_captions_item_view"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:background="@color/azure_communication_ui_calling_color_bottom_drawer_background"
     >
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/azure_communication_ui_calling_caption_rtt_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/azure_communication_ui_calling_rtt_info"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        >
+        <ImageView
+            android:id="@+id/azure_communication_ui_calling_caption_rtt_info_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:importantForAccessibility="no"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:alpha="0.5"
+            app:srcCompat="@drawable/azure_communication_ui_calling_ic_fluent_slide_text_call_20_regular"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/azure_communication_ui_calling_caption_rtt_info_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/azure_communication_ui_calling_color_action_bar_subtext"
+            android:textSize="13sp"
+            android:text="Real-time text (RTT) is enabled for the entire duration of this meeting and is seen by all participants."
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
         android:id="@+id/azure_communication_ui_calling_caption_rtt_typing_indicator"
@@ -25,7 +58,7 @@
         />
 
     <LinearLayout
-
+        android:id="@+id/azure_communication_ui_calling_caption_rtt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"

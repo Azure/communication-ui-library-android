@@ -30,6 +30,12 @@ internal class CaptionsRecyclerViewAdapter(
         val rttTypingIndicatorText: View =
             view.findViewById(R.id.azure_communication_ui_calling_caption_rtt_typing_indicator_text)
 
+        val rttInfo: View =
+            view.findViewById(R.id.azure_communication_ui_calling_caption_rtt_info)
+
+        val captionContainer: View =
+            view.findViewById(R.id.azure_communication_ui_calling_caption_rtt)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CaptionsViewHolder {
@@ -68,5 +74,8 @@ internal class CaptionsRecyclerViewAdapter(
         holder.rttTypingIndicatorText.isVisible = isRttTyping
 
         holder.rttIndicator.isVisible = isRtt && !isRttTyping
+
+        holder.rttInfo.isVisible = captionsRttRecord.type == CaptionsRttType.RTT_INFO
+        holder.captionContainer.isVisible = captionsRttRecord.type != CaptionsRttType.RTT_INFO
     }
 }
