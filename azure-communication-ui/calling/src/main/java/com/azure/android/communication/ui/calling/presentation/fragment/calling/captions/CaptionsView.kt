@@ -41,7 +41,6 @@ internal class CaptionsView : FrameLayout {
     private lateinit var headerDragHandle: View
     private lateinit var headerText: TextView
     private lateinit var captionsButton: ImageButton
-    private lateinit var captionsExpandingView: View
     private lateinit var resizeButton: ImageButton
     private lateinit var rttInputText: EditText
     private lateinit var captionsLinearLayout: FrameLayout
@@ -65,7 +64,6 @@ internal class CaptionsView : FrameLayout {
         headerDragHandle = findViewById(R.id.azure_communication_ui_calling_captions_header_drag_handle)
         headerText = findViewById(R.id.azure_communication_ui_call_captions_header_text)
         captionsButton = findViewById(R.id.azure_communication_ui_calling_captions_on_button)
-        captionsExpandingView = findViewById(R.id.azure_communication_ui_calling_captions_expanding_view)
         resizeButton = findViewById(R.id.azure_communication_ui_calling_captions_resize_button)
         rttInputText = findViewById(R.id.rtt_input_text)
         captionsLinearLayout = findViewById(R.id.azure_communication_ui_calling_captions_linear_layout)
@@ -163,22 +161,19 @@ internal class CaptionsView : FrameLayout {
             },
             {
                 viewModel.isMaximizedFlow.collect {
-                    if (it) {
-                        onMaximizeCaptionsLayout()
-                    } else {
-                        onMinimizeCaptionsLayout()
+                    // Only update the layout if it is not a tablet
+                    if (!isTablet(context)) {
+                        if (it) {
+                            onMaximizeCaptionsLayout()
+                        } else {
+                            onMinimizeCaptionsLayout()
+                        }
                     }
                 }
             },
             {
                 viewModel.headerTypeFlow.collect {
-                    val stringId =
-                    when (it) {
-                        CaptionsViewModel.HeaderType.CAPTIONS -> R.string.azure_communication_ui_calling_captions_header
-                        CaptionsViewModel.HeaderType.RTT -> R.string.azure_communication_ui_calling_rtt_header
-                        CaptionsViewModel.HeaderType.CAPTIONS_AND_RTT -> R.string.azure_communication_ui_calling_captions_rtt_menu
-                    }
-                    headerText.text = context.getString(stringId)
+                    updateHeader(it)
                 }
             },
         )
@@ -274,7 +269,6 @@ internal class CaptionsView : FrameLayout {
     }
 
     private fun onMaximizeCaptionsLayout() {
-        rttInputText.isVisible = viewModel.isRttInputVisibleFlow.value
         resizeButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_minimize_20_regular)
         resizeButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_minimize_captions_and_rtt)
         maximizeCallback()
@@ -282,7 +276,6 @@ internal class CaptionsView : FrameLayout {
 
     private fun onMinimizeCaptionsLayout() {
         hideKeyboard(rttInputText)
-        rttInputText.isVisible = false
         resizeButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_maximize_20_regular)
         resizeButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_maximize_captions_and_rtt)
         scrollToBottom()
@@ -352,5 +345,15 @@ internal class CaptionsView : FrameLayout {
                 else -> false
             }
         }
+    }
+
+    private fun updateHeader(headerType: CaptionsViewModel.HeaderType) {
+        val stringId =
+            when (headerType) {
+                CaptionsViewModel.HeaderType.CAPTIONS -> R.string.azure_communication_ui_calling_captions_header
+                CaptionsViewModel.HeaderType.RTT -> R.string.azure_communication_ui_calling_rtt_header
+                CaptionsViewModel.HeaderType.CAPTIONS_AND_RTT -> R.string.azure_communication_ui_calling_captions_rtt_menu
+            }
+        headerText.text = context.getString(stringId)
     }
 }

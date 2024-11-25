@@ -54,7 +54,7 @@ internal class CaptionsViewModel(
     ) {
         isVisibleMutableFlow.value = isVisible
         isMaximizedMutableFlow.value = rttState.isMaximized
-        isRttInputVisibleMutableFlow.value = rttState.isRttActive && rttState.isMaximized
+        isRttInputVisibleMutableFlow.value = shouldRttInputBeVisible(rttState, deviceConfigurationState)
         captionsStartInProgressStateMutableFlow.value = canShowCaptionsStartInProgressUI(captionsState)
         softwareKeyboardStateMutableFlow.value = deviceConfigurationState.isSoftwareKeyboardVisible
         headerTypeMutableFlow.value = getHeaderType(captionsState.status, rttState.isRttActive)
@@ -68,10 +68,17 @@ internal class CaptionsViewModel(
     ) {
         isVisibleMutableFlow = MutableStateFlow(isVisible)
         isMaximizedMutableFlow = MutableStateFlow(rttState.isMaximized)
-        isRttInputVisibleMutableFlow = MutableStateFlow(rttState.isRttActive && rttState.isMaximized)
+        isRttInputVisibleMutableFlow = MutableStateFlow(shouldRttInputBeVisible(rttState, deviceConfigurationState))
         captionsStartInProgressStateMutableFlow = MutableStateFlow(canShowCaptionsStartInProgressUI(captionsState))
         softwareKeyboardStateMutableFlow = MutableStateFlow(deviceConfigurationState.isSoftwareKeyboardVisible)
         headerTypeMutableFlow = MutableStateFlow(getHeaderType(captionsState.status, rttState.isRttActive))
+    }
+
+    private fun shouldRttInputBeVisible(
+        rttState: RttState,
+        deviceConfigurationState: DeviceConfigurationState,
+        ): Boolean {
+        return rttState.isRttActive && (rttState.isMaximized || deviceConfigurationState.isTablet)
     }
 
     private fun canShowCaptionsStartInProgressUI(
