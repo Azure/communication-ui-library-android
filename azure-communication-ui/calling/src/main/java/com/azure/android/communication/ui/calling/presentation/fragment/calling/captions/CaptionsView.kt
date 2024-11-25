@@ -74,7 +74,6 @@ internal class CaptionsView : FrameLayout {
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         if (isTablet(context)) {
-            rttInputText.isVisible = viewModel.isRttInputVisibleFlow.value
             resizeButton.isVisible = false
             headerDragHandle.isVisible = false
 
