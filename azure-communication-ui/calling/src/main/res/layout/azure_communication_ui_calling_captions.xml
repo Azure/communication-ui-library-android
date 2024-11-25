@@ -88,7 +88,7 @@
                 android:padding="5dp"
                 >
                 <TextView
-                    android:id="@+id/azure_communication_ui_call_participant_number_text"
+                    android:id="@+id/azure_communication_ui_call_captions_header_text"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:fontFamily="sans-serif-medium"
@@ -98,7 +98,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:textColor="@color/azure_communication_ui_calling_color_on_background"
                     android:textSize="16sp"
-                    android:text="@string/azure_communication_ui_calling_captions_header"
+                    android:text="@string/azure_communication_ui_calling_captions_rtt_menu"
                     />
                 <ImageButton
                     android:id="@+id/azure_communication_ui_calling_captions_on_button"

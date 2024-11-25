@@ -22,6 +22,7 @@ internal class CaptionsViewModel(
     private lateinit var captionsStartInProgressStateMutableFlow: MutableStateFlow<Boolean>
     private lateinit var softwareKeyboardStateMutableFlow: MutableStateFlow<Boolean>
     private lateinit var isMaximizedMutableFlow: MutableStateFlow<Boolean>
+    private lateinit var headerTypeMutableFlow: MutableStateFlow<HeaderType>
 
     val captionsAndRttData = captionsDataManager.captionsAndRttData
     val recordUpdatedAtPositionSharedFlow = captionsDataManager.recordUpdatedAtPositionSharedFlow
@@ -42,6 +43,9 @@ internal class CaptionsViewModel(
     val captionsStartProgressStateFlow: StateFlow<Boolean>
         get() = captionsStartInProgressStateMutableFlow
 
+    val headerTypeFlow: StateFlow<HeaderType>
+        get() = headerTypeMutableFlow
+
     fun update(
         captionsState: CaptionsState,
         rttState: RttState,
@@ -53,6 +57,7 @@ internal class CaptionsViewModel(
         isRttInputVisibleMutableFlow.value = rttState.isRttActive && rttState.isMaximized
         captionsStartInProgressStateMutableFlow.value = canShowCaptionsStartInProgressUI(captionsState)
         softwareKeyboardStateMutableFlow.value = deviceConfigurationState.isSoftwareKeyboardVisible
+        headerTypeMutableFlow.value = getHeaderType(captionsState.status, rttState.isRttActive)
     }
 
     fun init(
@@ -66,6 +71,7 @@ internal class CaptionsViewModel(
         isRttInputVisibleMutableFlow = MutableStateFlow(rttState.isRttActive && rttState.isMaximized)
         captionsStartInProgressStateMutableFlow = MutableStateFlow(canShowCaptionsStartInProgressUI(captionsState))
         softwareKeyboardStateMutableFlow = MutableStateFlow(deviceConfigurationState.isSoftwareKeyboardVisible)
+        headerTypeMutableFlow = MutableStateFlow(getHeaderType(captionsState.status, rttState.isRttActive))
     }
 
     private fun canShowCaptionsStartInProgressUI(
@@ -82,5 +88,26 @@ internal class CaptionsViewModel(
 
     fun minimizeCaptionsLayout() {
         dispatch(RttAction.UpdateMaximized(false))
+    }
+
+
+    private fun getHeaderType(
+        captionsStatus: CaptionsStatus,
+        rttActive: Boolean
+    ): HeaderType {
+        val captionsActive = captionsStatus == CaptionsStatus.STARTED || captionsStatus == CaptionsStatus.START_REQUESTED
+        return if (captionsActive && rttActive) {
+            HeaderType.CAPTIONS_AND_RTT
+        } else if (captionsActive) {
+            HeaderType.CAPTIONS
+        } else {
+            HeaderType.RTT
+        }
+    }
+
+    internal enum class HeaderType {
+        CAPTIONS,
+        RTT,
+        CAPTIONS_AND_RTT,
     }
 }

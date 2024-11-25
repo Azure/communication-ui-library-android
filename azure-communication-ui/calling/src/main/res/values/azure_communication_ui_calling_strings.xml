@@ -208,7 +208,8 @@
     <string name="azure_communication_ui_calling_view_rtt_confirmation_message">Real-time text (RTT) will be turned on for everyone in the call.</string>
     <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">Turn on</string>
 
-    <string name="azure_communication_ui_calling_captions_header">Real-time text</string>
+    <string name="azure_communication_ui_calling_rtt_header">Real-time text</string>
+    <string name="azure_communication_ui_calling_captions_header">Captions</string>
     <string name="azure_communication_ui_calling_maximize_captions_and_rtt">Maximize captions and RTT, Button</string>
     <string name="azure_communication_ui_calling_minimize_captions_and_rtt">Minimize captions and RTT, Button</string>
     <string name="azure_communication_ui_calling_rtt_edit_text_hint">Type message in real-time</string>

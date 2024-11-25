@@ -39,6 +39,7 @@ internal class CaptionsView : FrameLayout {
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     private lateinit var headerDragHandle: View
+    private lateinit var headerText: TextView
     private lateinit var captionsButton: ImageButton
     private lateinit var captionsExpandingView: View
     private lateinit var resizeButton: ImageButton
@@ -62,6 +63,7 @@ internal class CaptionsView : FrameLayout {
 
         super.onFinishInflate()
         headerDragHandle = findViewById(R.id.azure_communication_ui_calling_captions_header_drag_handle)
+        headerText = findViewById(R.id.azure_communication_ui_call_captions_header_text)
         captionsButton = findViewById(R.id.azure_communication_ui_calling_captions_on_button)
         captionsExpandingView = findViewById(R.id.azure_communication_ui_calling_captions_expanding_view)
         resizeButton = findViewById(R.id.azure_communication_ui_calling_captions_resize_button)
@@ -167,6 +169,17 @@ internal class CaptionsView : FrameLayout {
                     } else {
                         onMinimizeCaptionsLayout()
                     }
+                }
+            },
+            {
+                viewModel.headerTypeFlow.collect {
+                    val stringId =
+                    when (it) {
+                        CaptionsViewModel.HeaderType.CAPTIONS -> R.string.azure_communication_ui_calling_captions_header
+                        CaptionsViewModel.HeaderType.RTT -> R.string.azure_communication_ui_calling_rtt_header
+                        CaptionsViewModel.HeaderType.CAPTIONS_AND_RTT -> R.string.azure_communication_ui_calling_captions_rtt_menu
+                    }
+                    headerText.text = context.getString(stringId)
                 }
             },
         )
