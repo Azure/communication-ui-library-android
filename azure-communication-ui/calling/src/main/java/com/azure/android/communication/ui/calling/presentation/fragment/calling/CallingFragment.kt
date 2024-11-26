@@ -3,9 +3,6 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
-/* <RTT_POC>
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttView
-</RTT_POC> */
 import android.content.Context
 import android.content.res.Configuration
 import android.hardware.Sensor
@@ -108,20 +105,12 @@ internal class CallingFragment :
     private lateinit var captionsTopAnchor: View
     private lateinit var captionsBottomAnchor: View
     private lateinit var captionsOverlay: View
-    /* <RTT_POC>
-    private lateinit var rttView: RttView
-    </RTT_POC> */
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.init(viewLifecycleOwner.lifecycleScope)
 
         callScreenLayout = view.findViewById(R.id.azure_communication_ui_calling_call_frame_layout)
-
-        /* <RTT_POC>
-        rttView = view.findViewById(R.id.azure_communication_ui_call_rtt_view)
-        rttView.start(viewLifecycleOwner, viewModel.rttViewModel)
-        </RTT_POC> */
 
         confirmLeaveOverlayView =
             LeaveConfirmView(viewModel.confirmLeaveOverlayViewModel, this.requireContext())
@@ -306,7 +295,7 @@ internal class CallingFragment :
             context?.applicationContext?.getSystemService(Context.POWER_SERVICE) as PowerManager
         wakeLock =
             powerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, javaClass.name)
-        wakeLock.acquire()
+
         sensorManager.registerListener(
             this,
             sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY),
@@ -345,7 +334,6 @@ internal class CallingFragment :
         super.onPause()
         if (this::wakeLock.isInitialized) {
             if (wakeLock.isHeld) {
-                wakeLock.setReferenceCounted(false)
                 wakeLock.release()
             }
         }
@@ -383,14 +371,16 @@ internal class CallingFragment :
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
 
     override fun onSensorChanged(event: SensorEvent) {
+        if (activity?.isKeyboardOpen() == true) {
+            return
+        }
         if (event.sensor.type == Sensor.TYPE_PROXIMITY) {
             if (event.values[0] == closeToUser) {
                 if (!wakeLock.isHeld) {
                     wakeLock.acquire()
                 }
             } else {
-                if (!wakeLock.isHeld) {
-                    wakeLock.setReferenceCounted(false)
+                if (wakeLock.isHeld) {
                     wakeLock.release()
                 }
             }

@@ -68,11 +68,10 @@ internal class CallingViewModel(
     val captionsListViewModel = callingViewModelProvider.captionsListViewModel
     val captionsLanguageSelectionListViewModel = callingViewModelProvider.captionsLanguageSelectionListViewModel
     val captionsLayoutViewModel = callingViewModelProvider.captionsViewModel
-    /* <RTT_POC>
-    val rttViewModel = callingViewModelProvider.rttViewModel
-    </RTT_POC> */
-
     val isCaptionsVisibleFlow: StateFlow<Boolean> = isCaptionsVisibleMutableFlow
+
+    var isKeyboardOpen: Boolean = false
+        private set
 
     fun switchFloatingHeader() {
         floatingHeaderViewModel.switchFloatingHeader()
@@ -214,6 +213,7 @@ internal class CallingViewModel(
         )
 
         moreCallOptionsListViewModel.init(state.visibilityState, state.buttonState)
+        isKeyboardOpen = state.deviceConfigurationState.isSoftwareKeyboardVisible
         super.init(coroutineScope)
     }
 
@@ -366,13 +366,6 @@ internal class CallingViewModel(
                 state.callState,
                 state.visibilityState,
             )
-
-            /* <RTT_POC>
-            rttViewModel.update(
-                state.rttState.messages,
-                state.rttState.isRttActive
-            )
-            </RTT_POC> */
         }
 
         confirmLeaveOverlayViewModel.update(state.visibilityState)
@@ -404,6 +397,7 @@ internal class CallingViewModel(
             isVisible = isCaptionsVisibleMutableFlow.value,
             deviceConfigurationState = state.deviceConfigurationState,
         )
+        isKeyboardOpen = state.deviceConfigurationState.isSoftwareKeyboardVisible
     }
 
     private fun getLobbyParticipantsForHeader(state: ReduxState) =

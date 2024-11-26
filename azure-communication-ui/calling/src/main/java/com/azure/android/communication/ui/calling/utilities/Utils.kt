@@ -6,9 +6,10 @@ import android.content.res.Configuration
 import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat.Type
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlin.math.roundToInt
 
 internal fun isTablet(context: Context): Boolean {
     return (
@@ -35,10 +36,8 @@ internal fun Context.convertDpToPx(dp: Float): Float {
 }
 
 internal fun Activity.isKeyboardOpen(): Boolean {
-    val rootView = this.getRootView()
-    val heightDiff = rootView.rootView.height - rootView.height
-    val marginOfError = this.convertDpToPx(200F).roundToInt()
-    return heightDiff > marginOfError
+    val insets = ViewCompat.getRootWindowInsets(this.getRootView())
+    return insets?.isVisible(Type.ime()) == true
 }
 
 internal fun Activity.hideKeyboard() {
