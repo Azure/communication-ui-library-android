@@ -3,10 +3,6 @@
 
 package com.azure.android.communication.ui.calling.service.sdk
 
-
-/* <RTT_POC>
-import com.azure.android.communication.ui.calling.data.model.RawRttPayload
- </RTT_POC> */
 /*  <CALL_START_TIME> */
 /* </CALL_START_TIME> */
 
@@ -115,10 +111,6 @@ internal class CallingSDKEventHandler(
     private lateinit var rttFeature: RealTimeTextCallFeature
 
     private var rttTextSharedFlow = MutableSharedFlow<RttMessage>()
-    /* <RTT_POC>
-    private lateinit var dataChannelCallFeature: DataChannelCallFeature
-    private var receiver: DataChannelReceiver? = null
-    </RTT_POC> */
     private var networkDiagnostics: NetworkDiagnostics? = null
     private var mediaDiagnostics: MediaDiagnostics? = null
     private var callType: CallType? = null
@@ -258,31 +250,6 @@ internal class CallingSDKEventHandler(
         rttFeature = call.feature { RealTimeTextCallFeature::class.java }
         rttFeature.addOnInfoReceivedListener(onRttEntryUpdated)
     }
-
-
-    /* <RTT_POC>
-    private fun subscribeToRttEvents() {
-        dataChannelCallFeature.addOnReceiverCreatedListener { evt ->
-            this.receiver = evt.receiver
-            evt.receiver.addOnMessageReceivedListener {
-                val message: DataChannelMessage = evt.receiver.receiveMessage()
-                val channel = evt.receiver.channelId
-                var participant = evt.receiver.senderIdentifier
-
-                if (channel == 24) {
-                    val jsonString = String(message.data, StandardCharsets.UTF_8)
-                    // {s:"asd"} is the format, I want messageText to be "asd" by
-                    // parsing the JSON to map and grabbing the S field
-                    // Use GSON and RawRttPayload to parse the JSON
-                    val parsedMessage = Gson().fromJson(jsonString, RawRttPayload::class.java).s
-                    coroutineScope.launch {
-                         rttTextSharedFlow.emit(Pair(parsedMessage, participant.rawId))
-                    }
-                }
-            }
-        }
-    }
-    </RTT_POC> */
 
     fun onEndCall() {
         if (call == null) return
@@ -544,15 +511,21 @@ internal class CallingSDKEventHandler(
     }
 
     private val onRttEntryUpdated = RealTimeTextInfoReceivedListener {
+        val id = it.info.sender.identifier.rawId
         coroutineScope.launch {
             val rttMessage = RttMessage(
                 message = it.info.text,
-                senderUserRawId = it.info.sender.identifier.rawId,
+                senderUserRawId = id,
                 senderName = "", // it.info.sender.displayName,
                 localCreatedTime = it.info.receivedTime,
                 isLocal = it.info.isLocal,
                 isFinalized = it.info.resultType == RealTimeTextResultType.FINAL,
             )
+
+            // Update participant's typing status
+            remoteParticipantsInfoModelMap[id]?.isTypingRtt = !rttMessage.isFinalized
+            onRemoteParticipantPropertyChange(id)
+
             rttTextSharedFlow.emit(rttMessage)
         }
     }
@@ -678,7 +651,8 @@ internal class CallingSDKEventHandler(
             ),
             cameraVideoStreamModel = createVideoStreamModel(participant, MediaStreamType.VIDEO),
             modifiedTimestamp = currentTimestamp,
-            participantStatus = participant.state.into()
+            participantStatus = participant.state.into(),
+            isTypingRtt = false,
         )
     }
 
