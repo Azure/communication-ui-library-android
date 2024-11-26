@@ -102,20 +102,20 @@
                     />
                 <ImageButton
                     android:id="@+id/azure_communication_ui_calling_captions_on_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
                     app:srcCompat="@drawable/azure_communication_ui_calling_ic_fluent_closed_caption_24_regular_color"
                     android:background="@color/azure_communication_ui_calling_color_button_background_transparent"
                     android:contentDescription="@string/azure_communication_ui_calling_maximize_captions_and_rtt"
                     app:layout_constraintEnd_toStartOf="@+id/azure_communication_ui_calling_captions_resize_button"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginEnd="14dp"
+                    android:layout_marginEnd="6dp"
                     />
                 <ImageButton
                     android:id="@+id/azure_communication_ui_calling_captions_resize_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
                     app:srcCompat="@drawable/azure_communication_ui_calling_ic_fluent_arrow_maximize_20_regular"
                     android:background="@color/azure_communication_ui_calling_color_button_background_transparent"
                     android:contentDescription="@string/azure_communication_ui_calling_maximize_captions_and_rtt"
@@ -153,7 +153,9 @@
             android:textColorHint="@color/azure_communication_ui_calling_color_on_background"
             android:padding="12dp"
             android:autofillHints="none"
-            android:imeOptions="actionSend" />
+            android:imeOptions="actionSend"
+            android:maxLength="2000"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsView>

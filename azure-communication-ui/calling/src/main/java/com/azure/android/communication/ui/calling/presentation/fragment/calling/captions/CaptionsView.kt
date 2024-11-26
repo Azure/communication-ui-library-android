@@ -90,6 +90,10 @@ internal class CaptionsView : FrameLayout {
         rttInputText.setOnEditorActionListener { view, actionId, _ ->
             onEditTextAction(view, actionId)
         }
+
+        captionsButton.setOnClickListener {
+            viewModel.toggleCaptions()
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -176,6 +180,19 @@ internal class CaptionsView : FrameLayout {
                     updateHeader(it)
                 }
             },
+            {
+                viewModel.isCaptionsButtonEnabledStateFlow.collect {
+                    captionsButton.isEnabled = it
+                }
+            },
+            {
+                viewModel.isCaptionsActiveStateFlow.collect {
+                    val resourceId =
+                        if (it) R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_regular_color
+                        else R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_off_24_regular
+                    captionsButton.setImageResource(resourceId)
+                }
+            }
         )
     }
 

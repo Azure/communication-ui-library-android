@@ -49,45 +49,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <include
-        layout="@layout/azure_communication_ui_calling_call_lobby_overlay"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/captions_bottom_anchor"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <include
-        layout="@layout/azure_communication_ui_calling_connecting_lobby_overlay"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/captions_bottom_anchor"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <include layout="@layout/azure_communication_ui_calling_toast_notification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/captions_bottom_anchor"
-        />
-
-    <include
-        layout="@layout/azure_communication_ui_calling_call_hold_overlay"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/captions_bottom_anchor"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
     <FrameLayout
         android:id="@+id/captions_top_anchor"
         android:layout_width="0dp"
@@ -133,6 +94,46 @@
             />
     </LinearLayout>
 
+    <include
+        layout="@layout/azure_communication_ui_calling_call_lobby_overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_calling_control_bar_view_wrapper"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <include
+        layout="@layout/azure_communication_ui_calling_connecting_lobby_overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_calling_control_bar_view_wrapper"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <include layout="@layout/azure_communication_ui_calling_toast_notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/captions_bottom_anchor"
+        />
+
+    <include
+        layout="@layout/azure_communication_ui_calling_call_hold_overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_calling_control_bar_view_wrapper"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+
     <LinearLayout
         android:id="@+id/azure_communication_ui_calling_control_bar_view_wrapper"
         android:layout_width="0dp"
@@ -150,19 +151,6 @@
             android:accessibilityTraversalAfter="@id/azure_communication_ui_calling_captions_view_wrapper"
             />
     </LinearLayout>
-
-    <!-- <RTT_POC>
-    <com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttView
-        android:id="@+id/azure_communication_ui_call_rtt_view"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:background="@drawable/azure_communication_ui_calling_corner_radius_rectangle_4dp_background"
-        android:padding="4dp"
-        />
-    </RTT_POC> -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import com.azure.android.communication.ui.calling.presentation.manager.CaptionsDataManager
 import com.azure.android.communication.ui.calling.redux.action.Action
+import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.action.RttAction
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
 import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
@@ -23,6 +24,8 @@ internal class CaptionsViewModel(
     private lateinit var softwareKeyboardStateMutableFlow: MutableStateFlow<Boolean>
     private lateinit var isMaximizedMutableFlow: MutableStateFlow<Boolean>
     private lateinit var headerTypeMutableFlow: MutableStateFlow<HeaderType>
+    private lateinit var isCaptionsButtonEnabledMutableStateFlow: MutableStateFlow<Boolean>
+    private lateinit var isCaptionsActiveMutableStateFlow: MutableStateFlow<Boolean>
 
     val captionsAndRttData = captionsDataManager.captionsAndRttData
     val recordUpdatedAtPositionSharedFlow = captionsDataManager.recordUpdatedAtPositionSharedFlow
@@ -46,6 +49,12 @@ internal class CaptionsViewModel(
     val headerTypeFlow: StateFlow<HeaderType>
         get() = headerTypeMutableFlow
 
+    val isCaptionsButtonEnabledStateFlow: StateFlow<Boolean>
+        get() = isCaptionsButtonEnabledMutableStateFlow
+
+    val isCaptionsActiveStateFlow: StateFlow<Boolean>
+        get() = isCaptionsActiveMutableStateFlow
+
     fun update(
         captionsState: CaptionsState,
         rttState: RttState,
@@ -58,6 +67,8 @@ internal class CaptionsViewModel(
         captionsStartInProgressStateMutableFlow.value = canShowCaptionsStartInProgressUI(captionsState)
         softwareKeyboardStateMutableFlow.value = deviceConfigurationState.isSoftwareKeyboardVisible
         headerTypeMutableFlow.value = getHeaderType(captionsState.status, rttState.isRttActive)
+        isCaptionsButtonEnabledMutableStateFlow.value = shouldCaptionsButtonBeEnabled(captionsState)
+        isCaptionsActiveMutableStateFlow.value = captionsState.status == CaptionsStatus.STARTED
     }
 
     fun init(
@@ -72,6 +83,8 @@ internal class CaptionsViewModel(
         captionsStartInProgressStateMutableFlow = MutableStateFlow(canShowCaptionsStartInProgressUI(captionsState))
         softwareKeyboardStateMutableFlow = MutableStateFlow(deviceConfigurationState.isSoftwareKeyboardVisible)
         headerTypeMutableFlow = MutableStateFlow(getHeaderType(captionsState.status, rttState.isRttActive))
+        isCaptionsButtonEnabledMutableStateFlow = MutableStateFlow(shouldCaptionsButtonBeEnabled(captionsState))
+        isCaptionsActiveMutableStateFlow = MutableStateFlow(captionsState.status == CaptionsStatus.STARTED)
     }
 
     private fun shouldRttInputBeVisible(
@@ -109,6 +122,18 @@ internal class CaptionsViewModel(
             HeaderType.CAPTIONS
         } else {
             HeaderType.RTT
+        }
+    }
+
+    private fun shouldCaptionsButtonBeEnabled(captionsState: CaptionsState): Boolean {
+        return captionsState.status != CaptionsStatus.START_REQUESTED && captionsState.status != CaptionsStatus.STOP_REQUESTED
+    }
+
+    fun toggleCaptions() {
+        if (isCaptionsActiveMutableStateFlow.value) {
+            dispatch(CaptionsAction.StopRequested())
+        } else {
+            dispatch(CaptionsAction.StartRequested(null))
         }
     }
 
