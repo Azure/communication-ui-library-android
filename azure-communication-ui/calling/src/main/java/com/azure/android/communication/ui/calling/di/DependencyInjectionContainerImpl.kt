@@ -25,6 +25,7 @@ import com.azure.android.communication.ui.calling.presentation.manager.AvatarVie
 import com.azure.android.communication.ui.calling.presentation.manager.CameraStatusHook
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.presentation.manager.CaptionsDataManager
+import com.azure.android.communication.ui.calling.presentation.manager.CaptionsStatusHook
 import com.azure.android.communication.ui.calling.presentation.manager.CompositeExitManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManagerImpl
@@ -208,6 +209,7 @@ internal class DependencyInjectionContainerImpl(
                 ParticipantAddedOrRemovedHook(),
                 MicStatusHook(),
                 SwitchCameraStatusHook(),
+                CaptionsStatusHook(),
             )
         )
     }

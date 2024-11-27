@@ -13,6 +13,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioOperationalSt
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
+import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import kotlinx.coroutines.flow.collect
 
@@ -138,6 +139,19 @@ internal class CameraStatusHook : AccessibilityHook() {
         return when (newState.localParticipantState.cameraState.operation) {
             CameraOperationalStatus.ON -> context.getString(R.string.azure_communication_ui_calling_setup_view_button_video_on)
             CameraOperationalStatus.OFF -> context.getString(R.string.azure_communication_ui_calling_setup_view_button_video_off)
+            else -> ""
+        }
+    }
+}
+
+internal class CaptionsStatusHook : AccessibilityHook() {
+    override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean =
+        (lastState.captionsState.status != newState.captionsState.status)
+
+    override fun message(lastState: ReduxState, newState: ReduxState, context: Context): String {
+        return when (newState.captionsState.status) {
+            CaptionsStatus.STARTED -> context.getString(R.string.azure_communication_ui_calling_captions_is_on)
+            CaptionsStatus.STOPPED -> context.getString(R.string.azure_communication_ui_calling_captions_is_off)
             else -> ""
         }
     }

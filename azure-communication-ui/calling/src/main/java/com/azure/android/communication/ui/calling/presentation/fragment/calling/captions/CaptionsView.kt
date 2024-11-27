@@ -187,10 +187,15 @@ internal class CaptionsView : FrameLayout {
             },
             {
                 viewModel.isCaptionsActiveStateFlow.collect {
-                    val resourceId =
-                        if (it) R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_regular_color
-                        else R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_off_24_regular
-                    captionsButton.setImageResource(resourceId)
+                    if (it){
+                        captionsButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_regular_color)
+                        captionsButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_captions_turn_off)
+                    } else {
+                        captionsButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_off_24_regular)
+                        captionsButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_captions_turn_on)
+                    }
+
+
                 }
             }
         )
