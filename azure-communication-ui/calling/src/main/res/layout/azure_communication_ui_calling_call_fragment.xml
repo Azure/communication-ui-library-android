@@ -76,6 +76,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/azure_communication_ui_call_main_layout"
         android:visibility="gone"
         android:clickable="true"
+        android:importantForAccessibility="no"
         />
 
     <LinearLayout

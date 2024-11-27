@@ -180,12 +180,12 @@ internal class LocalParticipantView : ConstraintLayout {
             viewModel.getIsOverlayDisplayedFlow().collect {
                 if (it) {
                     ViewCompat.setImportantForAccessibility(
-                        switchCameraButton,
+                        this@LocalParticipantView,
                         ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
                     )
                 } else {
                     ViewCompat.setImportantForAccessibility(
-                        switchCameraButton,
+                        this@LocalParticipantView,
                         ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES
                     )
                 }

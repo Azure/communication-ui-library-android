@@ -135,7 +135,7 @@ internal class ParticipantGridView : GridLayout {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            participantGridViewModel.getIsLobbyOverlayDisplayedFlow().collect {
+            participantGridViewModel.getIsOverlayDisplayedFlow().collect {
                 if (it) {
                     ViewCompat.setImportantForAccessibility(
                         gridView,

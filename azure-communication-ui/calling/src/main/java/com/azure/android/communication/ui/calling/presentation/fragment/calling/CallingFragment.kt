@@ -273,6 +273,13 @@ internal class CallingFragment :
     }
 
     private fun onBackPressed() {
+
+        // If captions are maximized, minimize them.
+        if (viewModel.isCaptionsMaximized) {
+            viewModel.minimizeCaptions()
+            return
+        }
+
         // On some devices the close keyboard button is triggering back button.
         // If keyboard was open, we should just close it.
         if (activity?.isKeyboardOpen() == true) {

@@ -12,6 +12,7 @@ import com.azure.android.communication.ui.calling.redux.state.ButtonState
 /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
 import com.azure.android.communication.ui.calling.redux.state.CallScreenInfoHeaderState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.RttState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -60,12 +61,13 @@ internal class InfoHeaderViewModel(
         buttonState: ButtonState,
         /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
         requestCallEndCallback: () -> Unit,
+        rttState: RttState,
     ) {
         titleStateFlow = MutableStateFlow(callScreenInfoHeaderState.title)
         subtitleStateFlow = MutableStateFlow(callScreenInfoHeaderState.subtitle)
         displayFloatingHeaderFlow = MutableStateFlow(false)
         numberOfParticipantsFlow = MutableStateFlow(numberOfRemoteParticipants)
-        isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayed(callingStatus))
+        isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayed(callingStatus, rttState))
         this.requestCallEndCallback = requestCallEndCallback
         /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
         this.buttonState = buttonState
@@ -81,6 +83,8 @@ internal class InfoHeaderViewModel(
         /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
         buttonState: ButtonState,
         /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+        callingStatus: CallingStatus,
+        rttState: RttState,
     ) {
         /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
         this.buttonState = buttonState
@@ -95,6 +99,8 @@ internal class InfoHeaderViewModel(
         /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
         updateCustomButtonsState(buttonState)
         /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+
+        isOverlayDisplayedFlow.value = isOverlayDisplayed(callingStatus, rttState)
     }
 
     /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
@@ -125,10 +131,6 @@ internal class InfoHeaderViewModel(
     }
     /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
 
-    fun updateIsOverlayDisplayed(callingStatus: CallingStatus) {
-        isOverlayDisplayedFlow.value = isOverlayDisplayed(callingStatus)
-    }
-
     fun switchFloatingHeader() {
         displayFloatingHeaderFlow.value = !displayFloatingHeaderFlow.value
     }
@@ -137,8 +139,13 @@ internal class InfoHeaderViewModel(
         displayFloatingHeaderFlow.value = false
     }
 
-    private fun isOverlayDisplayed(callingStatus: CallingStatus) =
-        callingStatus == CallingStatus.IN_LOBBY || callingStatus == CallingStatus.LOCAL_HOLD
+    private fun isOverlayDisplayed(callingStatus: CallingStatus,
+                                   rttState: RttState,
+                                   ): Boolean {
+        return callingStatus == CallingStatus.IN_LOBBY ||
+                callingStatus == CallingStatus.LOCAL_HOLD ||
+                rttState.isMaximized
+    }
 
     fun requestCallEnd() {
         requestCallEndCallback()
