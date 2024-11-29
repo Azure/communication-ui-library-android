@@ -187,7 +187,9 @@ class CallLauncherActivity : AppCompatActivity() {
                     groupCallRadioButton.isChecked = false
                     oneToNCallRadioButton.isChecked = false
                     teamsMeetingPasscode.visibility = View.VISIBLE
+                    teamsMeetingPasscode.setText(BuildConfig.TEAMS_MEETING_PASSCODE)
                     teamsMeetingId.visibility = View.VISIBLE
+                    teamsMeetingId.setText(BuildConfig.TEAMS_MEETING_ID)
                     roomsMeetingRadioButton.isChecked = false
                 }
             }
