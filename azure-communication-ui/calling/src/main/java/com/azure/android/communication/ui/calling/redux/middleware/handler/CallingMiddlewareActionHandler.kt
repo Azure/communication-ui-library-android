@@ -669,6 +669,9 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun stopCaptions(store: Store<ReduxState>) {
+        if (!store.getStateFlow().value.rttState.isRttActive) {
+            store.dispatch(RttAction.UpdateMaximized(false))
+        }
         callingService.stopCaptions()
             .handle { _, error: Throwable? ->
                 if (error != null) {

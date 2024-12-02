@@ -174,6 +174,8 @@ internal class CallingViewModel(
         participantGridViewModel.init(
             state.callState.callingStatus,
             state.rttState,
+            state.deviceConfigurationState,
+            state.captionsState,
         )
 
         lobbyHeaderViewModel.init(
@@ -285,6 +287,8 @@ internal class CallingViewModel(
                 visibilityStatus = state.visibilityState.status,
                 callingStatus = state.callState.callingStatus,
                 rttState = state.rttState,
+                deviceConfigurationState = state.deviceConfigurationState,
+                captionsState = state.captionsState,
             )
             floatingHeaderViewModel.dismiss()
             lobbyHeaderViewModel.dismiss()
@@ -313,6 +317,8 @@ internal class CallingViewModel(
                 visibilityStatus = state.visibilityState.status,
                 callingStatus = state.callState.callingStatus,
                 rttState = state.rttState,
+                deviceConfigurationState = state.deviceConfigurationState,
+                captionsState = state.captionsState,
             )
 
             floatingHeaderViewModel.update(

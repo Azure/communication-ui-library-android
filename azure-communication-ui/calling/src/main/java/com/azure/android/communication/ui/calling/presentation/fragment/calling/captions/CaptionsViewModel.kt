@@ -22,6 +22,8 @@ internal class CaptionsViewModel(
     private lateinit var isRttInputVisibleMutableFlow: MutableStateFlow<Boolean>
     private lateinit var captionsStartInProgressStateMutableFlow: MutableStateFlow<Boolean>
     private lateinit var softwareKeyboardStateMutableFlow: MutableStateFlow<Boolean>
+    private lateinit var isPortraitMutableFlow: MutableStateFlow<Boolean>
+
     private lateinit var isMaximizedMutableFlow: MutableStateFlow<Boolean>
     private lateinit var headerTypeMutableFlow: MutableStateFlow<HeaderType>
     private lateinit var isCaptionsButtonEnabledMutableStateFlow: MutableStateFlow<Boolean>
@@ -35,6 +37,9 @@ internal class CaptionsViewModel(
 
     val softwareKeyboardStateFlow: StateFlow<Boolean>
         get() = softwareKeyboardStateMutableFlow
+
+    val isPortraitFlow: StateFlow<Boolean>
+        get() = isPortraitMutableFlow
 
     val isVisibleFlow: StateFlow<Boolean>
         get() = isVisibleMutableFlow
@@ -66,6 +71,7 @@ internal class CaptionsViewModel(
         isRttInputVisibleMutableFlow.value = shouldRttInputBeVisible(rttState, deviceConfigurationState)
         captionsStartInProgressStateMutableFlow.value = canShowCaptionsStartInProgressUI(captionsState)
         softwareKeyboardStateMutableFlow.value = deviceConfigurationState.isSoftwareKeyboardVisible
+        isPortraitMutableFlow.value = deviceConfigurationState.isPortrait
         headerTypeMutableFlow.value = getHeaderType(captionsState.status, rttState.isRttActive)
         isCaptionsButtonEnabledMutableStateFlow.value = shouldCaptionsButtonBeEnabled(captionsState)
         isCaptionsActiveMutableStateFlow.value = captionsState.status == CaptionsStatus.STARTED
@@ -82,6 +88,7 @@ internal class CaptionsViewModel(
         isRttInputVisibleMutableFlow = MutableStateFlow(shouldRttInputBeVisible(rttState, deviceConfigurationState))
         captionsStartInProgressStateMutableFlow = MutableStateFlow(canShowCaptionsStartInProgressUI(captionsState))
         softwareKeyboardStateMutableFlow = MutableStateFlow(deviceConfigurationState.isSoftwareKeyboardVisible)
+        isPortraitMutableFlow = MutableStateFlow(deviceConfigurationState.isPortrait)
         headerTypeMutableFlow = MutableStateFlow(getHeaderType(captionsState.status, rttState.isRttActive))
         isCaptionsButtonEnabledMutableStateFlow = MutableStateFlow(shouldCaptionsButtonBeEnabled(captionsState))
         isCaptionsActiveMutableStateFlow = MutableStateFlow(captionsState.status == CaptionsStatus.STARTED)
@@ -91,7 +98,8 @@ internal class CaptionsViewModel(
         rttState: RttState,
         deviceConfigurationState: DeviceConfigurationState,
         ): Boolean {
-        return rttState.isRttActive && (rttState.isMaximized || deviceConfigurationState.isTablet)
+        return rttState.isRttActive &&
+                (rttState.isMaximized || deviceConfigurationState.isTablet || !deviceConfigurationState.isPortrait)
     }
 
     private fun canShowCaptionsStartInProgressUI(

@@ -13,8 +13,6 @@
     android:padding="6dp"
     android:visibility="gone"
     tools:visibility="visible"
-    android:background="@drawable/azure_communication_ui_calling_top_corner_radius_rectangle_8dp"
-    android:elevation="4dp"
     >
 
     <LinearLayout

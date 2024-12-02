@@ -57,7 +57,6 @@ internal class CaptionsView : FrameLayout {
     private val minHeight = (115 * resources.displayMetrics.density).toInt()
     var maxHeight: Int = 0
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onFinishInflate() {
 
         super.onFinishInflate()
@@ -70,18 +69,6 @@ internal class CaptionsView : FrameLayout {
         recyclerView = findViewById(R.id.azure_communication_ui_calling_captions_recycler_view)
         captionsStartProgressLayout = findViewById(R.id.azure_communication_ui_calling_captions_starting_layout)
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-
-        if (isTablet(context)) {
-            resizeButton.isVisible = false
-            headerDragHandle.isVisible = false
-
-            (captionsButton.layoutParams as MarginLayoutParams).marginEnd = 0
-        } else {
-            captionsLinearLayout.setOnTouchListener(ResizableTouchListener())
-            (captionsLinearLayout.layoutParams as MarginLayoutParams).marginStart = 0
-
-            resizeButton.setOnClickListener { this.onResizeButtonClicked() }
-        }
 
         rttInputText.addTextChangedListener {
             onEditTextChanged()
@@ -96,12 +83,25 @@ internal class CaptionsView : FrameLayout {
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+    @SuppressLint("NotifyDataSetChanged", "ClickableViewAccessibility")
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         viewModel: CaptionsViewModel,
     ) {
         this.viewModel = viewModel
+
+        if (isTablet(context) || !viewModel.isPortraitFlow.value) {
+            resizeButton.isVisible = false
+            headerDragHandle.isVisible = false
+
+            (captionsButton.layoutParams as MarginLayoutParams).marginEnd = 0
+        } else {
+            captionsLinearLayout.setOnTouchListener(ResizableTouchListener())
+            (captionsLinearLayout.layoutParams as MarginLayoutParams).marginStart = 0
+
+            resizeButton.setOnClickListener { this.onResizeButtonClicked() }
+        }
+
         recyclerViewAdapter = CaptionsRecyclerViewAdapter(viewModel.captionsAndRttData)
         recyclerView.adapter = recyclerViewAdapter
         recyclerView.layoutManager = LinearLayoutManager(this.context).apply { stackFromEnd = true }
@@ -166,7 +166,7 @@ internal class CaptionsView : FrameLayout {
             {
                 viewModel.isMaximizedFlow.collect {
                     // Only update the layout if it is not a tablet
-                    if (!isTablet(context)) {
+                    if (!isTablet(context) && viewModel.isPortraitFlow.value) {
                         if (it) {
                             onMaximizeCaptionsLayout()
                         } else {

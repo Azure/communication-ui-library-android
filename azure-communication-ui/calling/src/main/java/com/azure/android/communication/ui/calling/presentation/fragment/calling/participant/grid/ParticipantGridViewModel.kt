@@ -6,6 +6,9 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.ParticipantGridCellViewModelFactory
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CaptionsState
+import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
+import com.azure.android.communication.ui.calling.redux.state.DeviceConfigurationState
 import com.azure.android.communication.ui.calling.redux.state.RttState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,15 +30,22 @@ internal class ParticipantGridViewModel(
     private var remoteParticipantStateModifiedTimeStamp: Number = 0
     private var dominantSpeakersStateModifiedTimestamp: Number = 0
     private var visibilityStatus: VisibilityStatus? = null
-    private var isRttStateMaximized: Boolean = false
-    private var callingStatus: CallingStatus? = null
     private lateinit var isOverlayDisplayedFlow: MutableStateFlow<Boolean>
+    private lateinit var isVerticalStyleGridMutableFlow: MutableStateFlow<Boolean>
+    
+    val isVerticalStyleGridFlow: StateFlow<Boolean>
+        get() = isVerticalStyleGridMutableFlow
 
     fun init(
         callingStatus: CallingStatus,
         rttState: RttState,
+        deviceConfigurationState: DeviceConfigurationState,
+        captionsState: CaptionsState,
     ) {
         isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayed(callingStatus, rttState))
+        isVerticalStyleGridMutableFlow = MutableStateFlow(
+            shouldUseVerticalStyleGrid(deviceConfigurationState, rttState, captionsState)
+        )
     }
 
     fun clear() {
@@ -69,18 +79,9 @@ internal class ParticipantGridViewModel(
         visibilityStatus: VisibilityStatus,
         callingStatus: CallingStatus,
         rttState: RttState,
+        deviceConfigurationState: DeviceConfigurationState,
+        captionsState: CaptionsState,
     ) {
-        if (remoteParticipantsMapUpdatedTimestamp == remoteParticipantStateModifiedTimeStamp &&
-            dominantSpeakersModifiedTimestamp == dominantSpeakersStateModifiedTimestamp &&
-            this.visibilityStatus == visibilityStatus &&
-            this.callingStatus == callingStatus &&
-            isRttStateMaximized == rttState.isMaximized
-        ) {
-            return
-        }
-        this.callingStatus = callingStatus
-        isRttStateMaximized = rttState.isMaximized
-
         remoteParticipantStateModifiedTimeStamp = remoteParticipantsMapUpdatedTimestamp
         dominantSpeakersStateModifiedTimestamp = dominantSpeakersModifiedTimestamp
         this.visibilityStatus = visibilityStatus
@@ -106,6 +107,18 @@ internal class ParticipantGridViewModel(
 
         updateDisplayedParticipants(remoteParticipantsMapSorted.toMutableMap())
         isOverlayDisplayedFlow.value = isOverlayDisplayed(callingStatus, rttState)
+        isVerticalStyleGridMutableFlow.value = shouldUseVerticalStyleGrid(deviceConfigurationState, rttState, captionsState)
+    }
+
+    private fun shouldUseVerticalStyleGrid(
+        deviceConfigurationState: DeviceConfigurationState,
+        rttState: RttState,
+        captionsState: CaptionsState,
+    ): Boolean {
+        return deviceConfigurationState.isPortrait ||
+                rttState.isRttActive ||
+                captionsState.status == CaptionsStatus.STARTED ||
+                captionsState.status == CaptionsStatus.START_REQUESTED
     }
 
     private fun getParticipantSharingScreen(
