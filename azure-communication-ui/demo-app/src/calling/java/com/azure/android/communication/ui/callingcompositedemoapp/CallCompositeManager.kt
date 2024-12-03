@@ -56,9 +56,9 @@ import com.azure.android.communication.ui.callingcompositedemoapp.features.Setti
 import com.azure.android.communication.ui.callingcompositedemoapp.views.DismissCompositeButtonView
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.flow.MutableStateFlow
-/*  <CALL_START_TIME> */
+/*  <CALL_START_TIME>
 import java.util.Date
-/* </CALL_START_TIME> */
+</CALL_START_TIME> */
 import java.util.UUID
 
 class CallCompositeManager(private val context: Context) {
@@ -290,18 +290,18 @@ class CallCompositeManager(private val context: Context) {
     ) {
         callComposite.addOnErrorEventHandler(CallLauncherActivityErrorHandler(context, callComposite))
 
-        /*  <CALL_START_TIME> */
+        /*  <CALL_START_TIME>
         callComposite.addOnCallStartTimeUpdatedEventHandler { startTime ->
             toast(context, "Call start time updated: $startTime")
         }
-        /* </CALL_START_TIME> */
+        </CALL_START_TIME> */
 
         val callStateEventHandler: ((CallCompositeCallStateChangedEvent) -> Unit) = {
             callCompositeCallStateStateFlow.value = it.code.toString()
             var callStartTime: Date? = null
-            /*  <CALL_START_TIME> */
+            /*  <CALL_START_TIME>
             callStartTime = callComposite.getCallStartTime()
-            /* </CALL_START_TIME> */
+            </CALL_START_TIME> */
             toast(context, "Call State: ${it.code}. start time: $callStartTime ")
         }
 
