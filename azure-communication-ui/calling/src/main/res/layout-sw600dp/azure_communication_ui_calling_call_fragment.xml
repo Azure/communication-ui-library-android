@@ -93,9 +93,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_calling_control_bar_view_lands_wrapper"
-
-        android:background="@drawable/azure_communication_ui_calling_left_radius_rectangle_8dp"
-        android:elevation="2dp"
         >
         <include
             layout="@layout/azure_communication_ui_calling_captions"
