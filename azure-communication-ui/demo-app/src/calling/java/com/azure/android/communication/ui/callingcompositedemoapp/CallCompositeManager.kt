@@ -56,9 +56,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.features.Setti
 import com.azure.android.communication.ui.callingcompositedemoapp.views.DismissCompositeButtonView
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.flow.MutableStateFlow
-/*  <CALL_START_TIME>
 import java.util.Date
-</CALL_START_TIME> */
 import java.util.UUID
 
 class CallCompositeManager(private val context: Context) {
