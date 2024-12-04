@@ -14,6 +14,9 @@ import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelec
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallCancelledEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantLeftEvent
+/*  <CALL_START_TIME>
+import java.util.Date
+</CALL_START_TIME> */
 
 internal class CallCompositeEventsHandler {
     // mutableSet does preserve element iteration order
@@ -41,6 +44,11 @@ internal class CallCompositeEventsHandler {
 
     private val incomingCallCancelledEventHandlers =
         mutableSetOf<CallCompositeEventHandler<CallCompositeIncomingCallCancelledEvent>>()
+
+    /*  <CALL_START_TIME>
+    private val callStartTimeUpdatedEventHandlers =
+        mutableSetOf<CallCompositeEventHandler<Date>>()
+    </CALL_START_TIME> */
 
     fun getOnErrorHandlers() = errorHandlers.asIterable()
 
@@ -125,4 +133,16 @@ internal class CallCompositeEventsHandler {
     }
 
     fun getOnIncomingCallHandlers() = incomingCallEventHandlers.asIterable()
+
+    /*  <CALL_START_TIME>
+    fun getOnCallStartTimeUpdatedHandlers() = callStartTimeUpdatedEventHandlers.asIterable()
+
+    fun addOnCallStartTimeUpdatedEventHandler(eventHandler: CallCompositeEventHandler<Date>) {
+        callStartTimeUpdatedEventHandlers.add(eventHandler)
+    }
+
+    fun removeOnCallStartTimeUpdatedEventHandler(eventHandler: CallCompositeEventHandler<Date>) {
+        callStartTimeUpdatedEventHandlers.remove(eventHandler)
+    }
+    </CALL_START_TIME> */
 }

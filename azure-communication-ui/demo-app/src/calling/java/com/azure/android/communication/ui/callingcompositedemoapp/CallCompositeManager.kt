@@ -56,6 +56,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.features.Setti
 import com.azure.android.communication.ui.callingcompositedemoapp.views.DismissCompositeButtonView
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.flow.MutableStateFlow
+import java.util.Date
 import java.util.UUID
 
 class CallCompositeManager(private val context: Context) {
@@ -287,9 +288,19 @@ class CallCompositeManager(private val context: Context) {
     ) {
         callComposite.addOnErrorEventHandler(CallLauncherActivityErrorHandler(context, callComposite))
 
+        /*  <CALL_START_TIME>
+        callComposite.addOnCallStartTimeUpdatedEventHandler { startTime ->
+            toast(context, "Call start time updated: $startTime")
+        }
+        </CALL_START_TIME> */
+
         val callStateEventHandler: ((CallCompositeCallStateChangedEvent) -> Unit) = {
             callCompositeCallStateStateFlow.value = it.code.toString()
-            toast(context, "Call State: ${it.code}.")
+            var callStartTime: Date? = null
+            /*  <CALL_START_TIME>
+            callStartTime = callComposite.getCallStartTime()
+            </CALL_START_TIME> */
+            toast(context, "Call State: ${it.code}. start time: $callStartTime ")
         }
 
         callComposite.addOnCallStateChangedEventHandler(callStateEventHandler)
@@ -729,7 +740,7 @@ class CallCompositeManager(private val context: Context) {
                 }
             }
         }
-        /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0>
+        /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
         if (SettingsFeatures.getAddCustomButtons() == true) {
             val headerButton1 =
                 CallCompositeCustomButtonViewData(
@@ -753,7 +764,7 @@ class CallCompositeManager(private val context: Context) {
                 ?: CallCompositeCallScreenHeaderViewData()
             callScreenHeaderOptions?.customButtons = listOf(headerButton1, headerButton2)
         }
-        </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+        /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
         callScreenOptions?.setHeaderViewData(callScreenHeaderOptions)
         return callScreenOptions
     }

@@ -91,5 +91,5 @@
    <string name="update_subtitle_remote_participant_count">Set participant count in subtitle if greater than</string>
    <string name="call_information_title">Call information title</string>
    <string name="call_custom_buttons_text">Custom Buttons</string>
-   <string name="call_custom_buttons">Add Custom Buttons</string>
+   <string name="call_custom_buttons">Add Custom Buttons to call and modify buttons for setup</string>
 </resources>
