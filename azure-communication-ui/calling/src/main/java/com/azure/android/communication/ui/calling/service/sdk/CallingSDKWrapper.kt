@@ -22,7 +22,6 @@ import com.azure.android.communication.calling.JoinCallOptions
 import com.azure.android.communication.calling.JoinMeetingLocator
 import com.azure.android.communication.calling.OutgoingAudioOptions
 import com.azure.android.communication.calling.OutgoingVideoOptions
-import com.azure.android.communication.calling.RealTimeTextCallFeature
 import com.azure.android.communication.calling.RoomCallLocator
 import com.azure.android.communication.calling.StartCallOptions
 import com.azure.android.communication.calling.StartCaptionsOptions
@@ -147,7 +146,7 @@ internal class CallingSDKWrapper(
     override fun getRttSharedFlow() = callingSDKEventHandler.getRttTextSharedFlow()
 
     override fun sendRttMessage(message: String, isFinalized: Boolean) {
-        val rttFeature = call.realTimeTextCallFeature as RealTimeTextCallFeature
+        val rttFeature = call.feature(Features.REAL_TIME_TEXT)
         rttFeature.send(message, isFinalized)
     }
 

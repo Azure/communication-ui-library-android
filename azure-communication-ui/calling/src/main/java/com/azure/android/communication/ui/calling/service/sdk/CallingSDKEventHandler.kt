@@ -516,7 +516,7 @@ internal class CallingSDKEventHandler(
             val rttMessage = RttMessage(
                 message = it.info.text,
                 senderUserRawId = id,
-                senderName = "", // it.info.sender.displayName,
+                senderName = it.info.sender.displayName,
                 localCreatedTime = it.info.receivedTime,
                 isLocal = it.info.isLocal,
                 isFinalized = it.info.resultType == RealTimeTextResultType.FINAL,
