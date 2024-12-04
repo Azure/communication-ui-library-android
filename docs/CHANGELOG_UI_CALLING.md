@@ -1,4 +1,9 @@
 # Azure Communication UI Calling Release History
+## 1.13.0 (2024-12-04)
+
+### Features
+- Call screen header custom button
+
 ## 1.12.0 (2024-10-31)
 
 ### Features
