@@ -4,10 +4,8 @@ package com.azure.android.communication.ui.calling.models;
 
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler;
 
-/* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
 import java.util.ArrayList;
 import java.util.List;
-/* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
 
 /**
  * Options for the {@link CallCompositeCallScreenHeaderViewData}.
@@ -18,10 +16,7 @@ public final class CallCompositeCallScreenHeaderViewData {
 
     private String title;
     private String subtitle;
-    /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
     private List<CallCompositeCustomButtonViewData> customButtons = new ArrayList<>();
-    /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
-
     /**
      * Create a {@link CallCompositeCallScreenHeaderViewData} object.
      */
@@ -76,7 +71,6 @@ public final class CallCompositeCallScreenHeaderViewData {
         return title;
     }
 
-    /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
     /**
      * Set a custom button to the call composite.
      * @param button {@link CallCompositeCallScreenControlBarOptions}
@@ -93,5 +87,4 @@ public final class CallCompositeCallScreenHeaderViewData {
     public List<CallCompositeCustomButtonViewData> getCustomButtons() {
         return customButtons;
     }
-    /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
 }

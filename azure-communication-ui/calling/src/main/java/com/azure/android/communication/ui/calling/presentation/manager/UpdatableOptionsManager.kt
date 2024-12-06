@@ -115,7 +115,6 @@ internal class UpdatableOptionsManager(
             }
         }
 
-        /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
         configuration.callScreenOptions?.headerViewData?.customButtons?.forEach {
             it.setEnabledChangedEventHandler { isEnabled ->
                 store.dispatch(ButtonViewDataAction.CallScreenHeaderCustomButtonIsEnabledUpdated(it.id, isEnabled))
@@ -127,7 +126,6 @@ internal class UpdatableOptionsManager(
                 store.dispatch(ButtonViewDataAction.CallScreenHeaderCustomButtonIconUpdated(it.id, drawableId))
             }
         }
-        /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
     }
 
     fun getButton(id: String): CallCompositeCustomButtonViewData {
@@ -136,13 +134,11 @@ internal class UpdatableOptionsManager(
             ?.let {
                 return it
             }
-        /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
         configuration.callScreenOptions?.headerViewData?.customButtons
             ?.find { it.id == id }
             ?.let {
                 return it
             }
-        /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
         throw IllegalArgumentException("Button with id $id not found")
     }
 }
