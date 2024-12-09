@@ -41,9 +41,8 @@
             android:layout_marginStart="10dp"
             android:textColor="@color/azure_communication_ui_calling_color_action_bar_subtext"
             android:textSize="13sp"
-            android:text="Real-time text (RTT) is enabled for the entire duration of this meeting and is seen by all participants."
+            android:text="@string/azure_communication_ui_calling_rtt_info"
             />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
@@ -92,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="RTT typing"
+                android:text="@string/azure_communication_ui_calling_rtt_typing"
                 android:textSize="11sp"
                 android:paddingVertical="1dp"
                 android:paddingHorizontal="3dp"
@@ -106,7 +105,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="RTT"
+                android:text="@string/azure_communication_ui_calling_rtt"
                 android:textSize="11sp"
                 android:paddingVertical="1dp"
                 android:paddingHorizontal="3dp"
@@ -116,7 +115,6 @@
                 android:textColor="@color/azure_communication_ui_calling_color_action_bar_subtext"
                 />
         </LinearLayout>
-
         <TextView
             android:id="@+id/azure_communication_ui_calling_caption_info_text"
             android:layout_width="match_parent"
@@ -125,6 +123,4 @@
             android:textColor="@color/azure_communication_ui_calling_color_on_background"
             android:textSize="13sp" />
     </LinearLayout>
-
-
 </LinearLayout>
