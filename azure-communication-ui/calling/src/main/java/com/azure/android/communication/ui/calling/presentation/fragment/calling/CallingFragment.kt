@@ -253,9 +253,13 @@ internal class CallingFragment :
         captionsWrapper = view.findViewById(R.id.azure_communication_ui_calling_captions_view_wrapper)
         captionsOverlay = view.findViewById(R.id.azure_communication_ui_calling_captions_overlay)
         captionsView = view.findViewById(R.id.azure_communication_ui_calling_captions_linear_layout)
-        captionsView.minimizeCallback = this::minimizeCaptions
-        captionsView.maximizeCallback = this::maximizeCaptions
-        captionsView.start(viewLifecycleOwner, viewModel.captionsLayoutViewModel)
+
+        captionsView.start(
+            viewLifecycleOwner = viewLifecycleOwner,
+            viewModel = viewModel.captionsLayoutViewModel,
+            maximizeCallback = this::maximizeCaptions,
+            minimizeCallback = this::minimizeCaptions
+        )
 
         captionsOverlay.setOnClickListener { viewModel.minimizeCaptions() }
     }

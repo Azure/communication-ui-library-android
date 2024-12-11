@@ -52,7 +52,9 @@ internal class CaptionsView : FrameLayout {
     private var isAtBottom = true
 
     var maximizeCallback: () -> Unit = {}
+        private set
     var minimizeCallback: () -> Unit = {}
+        private set
 
     private val minHeight = (115 * resources.displayMetrics.density).toInt()
     var maxHeight: Int = 0
@@ -60,14 +62,17 @@ internal class CaptionsView : FrameLayout {
     override fun onFinishInflate() {
 
         super.onFinishInflate()
-        headerDragHandle = findViewById(R.id.azure_communication_ui_calling_captions_header_drag_handle)
+        headerDragHandle =
+            findViewById(R.id.azure_communication_ui_calling_captions_header_drag_handle)
         headerText = findViewById(R.id.azure_communication_ui_call_captions_header_text)
         captionsButton = findViewById(R.id.azure_communication_ui_calling_captions_on_button)
         resizeButton = findViewById(R.id.azure_communication_ui_calling_captions_resize_button)
         rttInputText = findViewById(R.id.rtt_input_text)
-        captionsLinearLayout = findViewById(R.id.azure_communication_ui_calling_captions_linear_layout)
+        captionsLinearLayout =
+            findViewById(R.id.azure_communication_ui_calling_captions_linear_layout)
         recyclerView = findViewById(R.id.azure_communication_ui_calling_captions_recycler_view)
-        captionsStartProgressLayout = findViewById(R.id.azure_communication_ui_calling_captions_starting_layout)
+        captionsStartProgressLayout =
+            findViewById(R.id.azure_communication_ui_calling_captions_starting_layout)
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         rttInputText.addTextChangedListener {
@@ -87,8 +92,12 @@ internal class CaptionsView : FrameLayout {
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         viewModel: CaptionsViewModel,
+        maximizeCallback: () -> Unit = {},
+        minimizeCallback: () -> Unit = {}
     ) {
         this.viewModel = viewModel
+        this.maximizeCallback = maximizeCallback
+        this.minimizeCallback = minimizeCallback
 
         if (isTablet(context) || !viewModel.isPortraitFlow.value) {
             resizeButton.isVisible = false
@@ -187,12 +196,14 @@ internal class CaptionsView : FrameLayout {
             },
             {
                 viewModel.isCaptionsActiveStateFlow.collect {
-                    if (it){
+                    if (it) {
                         captionsButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_regular_color)
-                        captionsButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_captions_turn_off)
+                        captionsButton.contentDescription =
+                            context.getString(R.string.azure_communication_ui_calling_captions_turn_off)
                     } else {
                         captionsButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_off_24_regular)
-                        captionsButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_captions_turn_on)
+                        captionsButton.contentDescription =
+                            context.getString(R.string.azure_communication_ui_calling_captions_turn_on)
                     }
 
 
@@ -217,7 +228,8 @@ internal class CaptionsView : FrameLayout {
                 view.requestFocus()
 
                 // Ensure the keyboard remains visible
-                val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                val imm =
+                    context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
             }
             return true
@@ -234,30 +246,45 @@ internal class CaptionsView : FrameLayout {
                 rttInputText.text.clear()
             }
             recyclerViewAdapter.notifyItemChanged(index)
-            requestAccessibilityFocus(index)
             if (shouldScrollToBottom) {
                 scrollToBottom()
             }
+            announceAccessibility(index)
         }
     }
 
     private fun onItemAdded(index: Int) {
         val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-        val shouldScrollToBottom = isAtBottom || layoutManager.findLastVisibleItemPosition() == layoutManager.itemCount - 1
+        val shouldScrollToBottom =
+            isAtBottom || layoutManager.findLastVisibleItemPosition() == layoutManager.itemCount - 1
 
         recyclerViewAdapter.notifyItemInserted(index)
-        requestAccessibilityFocus(index)
         if (shouldScrollToBottom) {
             scrollToBottom()
         }
+        applyLayoutDirection(index)
+        announceAccessibility(index)
     }
 
-    private fun requestAccessibilityFocus(position: Int) {
-        val accessibilityManager = this.context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
+    private fun announceAccessibility(position: Int) {
+        val accessibilityManager =
+            this.context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
         if (accessibilityManager.isEnabled) {
-            recyclerView.post {
-                val viewHolder = recyclerView.findViewHolderForAdapterPosition(position)
-                viewHolder?.itemView?.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+            val captionsRttData = viewModel.captionsAndRttData[position]
+
+            val text =
+                if (captionsRttData.type == CaptionsRttType.RTT_INFO) {
+                    context.getString(R.string.azure_communication_ui_calling_rtt_info)
+                } else if (captionsRttData.type == CaptionsRttType.RTT && captionsRttData.isLocal != true && captionsRttData.isFinal) {
+                    val name = captionsRttData.displayName.ifEmpty { context.getString(R.string.azure_communication_ui_calling_view_participant_drawer_unnamed) }
+                    "$name: ${captionsRttData.displayText}"
+                } else null
+
+            text?.let {
+                val event = AccessibilityEvent.obtain()
+                event.eventType = AccessibilityEvent.TYPE_ANNOUNCEMENT
+                event.text.add(it)
+                accessibilityManager.sendAccessibilityEvent(event)
             }
         }
     }
@@ -267,7 +294,9 @@ internal class CaptionsView : FrameLayout {
     }
 
     // required when RTL language is selected for captions text
-    private fun applyLayoutDirection(captionsRecord: CaptionsRttRecord) {
+    private fun applyLayoutDirection(position: Int) {
+        val captionsRecord = viewModel.captionsAndRttData[position]
+
         if (LocaleHelper.isRTL(captionsRecord.languageCode) && layoutDirection != LAYOUT_DIRECTION_RTL) {
             captionsLinearLayout.layoutDirection = LAYOUT_DIRECTION_RTL
         } else if (!LocaleHelper.isRTL(captionsRecord.languageCode) && layoutDirection != LAYOUT_DIRECTION_LTR) {
