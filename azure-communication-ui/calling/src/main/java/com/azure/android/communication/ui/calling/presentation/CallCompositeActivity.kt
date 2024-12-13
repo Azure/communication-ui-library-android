@@ -352,6 +352,8 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             else -> {
                 configuration.localizationConfig!!.layoutDirection?.let {
                     window?.decorView?.layoutDirection = it
+                    window?.decorView?.textDirection =
+                        if (it == LayoutDirection.RTL) View.TEXT_DIRECTION_RTL else View.TEXT_DIRECTION_LTR
                 }
                 configuration.localizationConfig!!.locale
             }

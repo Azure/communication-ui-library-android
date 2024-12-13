@@ -26,7 +26,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.azure.android.communication.ui.calling.implementation.R
-import com.azure.android.communication.ui.calling.utilities.LocaleHelper
 import com.azure.android.communication.ui.calling.utilities.isTablet
 import com.azure.android.communication.ui.calling.utilities.launchAll
 import kotlinx.coroutines.flow.collect
@@ -262,7 +261,6 @@ internal class CaptionsView : FrameLayout {
         if (shouldScrollToBottom) {
             scrollToBottom()
         }
-        applyLayoutDirection(index)
         announceAccessibility(index)
     }
 
@@ -291,17 +289,6 @@ internal class CaptionsView : FrameLayout {
 
     private fun scrollToBottom() {
         recyclerView.scrollToPosition(recyclerViewAdapter.itemCount - 1)
-    }
-
-    // required when RTL language is selected for captions text
-    private fun applyLayoutDirection(position: Int) {
-        val captionsRecord = viewModel.captionsAndRttData[position]
-
-        if (LocaleHelper.isRTL(captionsRecord.languageCode) && layoutDirection != LAYOUT_DIRECTION_RTL) {
-            captionsLinearLayout.layoutDirection = LAYOUT_DIRECTION_RTL
-        } else if (!LocaleHelper.isRTL(captionsRecord.languageCode) && layoutDirection != LAYOUT_DIRECTION_LTR) {
-            captionsLinearLayout.layoutDirection = LAYOUT_DIRECTION_LTR
-        }
     }
 
     fun stop() {
