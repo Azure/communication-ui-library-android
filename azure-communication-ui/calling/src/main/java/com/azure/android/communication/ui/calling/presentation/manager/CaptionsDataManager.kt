@@ -156,7 +156,7 @@ internal class CaptionsDataManager(
         val lastCaptionFromSameUser = getLastCaptionFromUser(newCaptionsRecord.speakerRawId, CaptionsRttType.RTT)
 
         if (lastCaptionFromSameUser?.isFinal == false) {
-            if (newCaptionsRecord.displayText.isBlank()) {
+            if (newCaptionsRecord.displayText.isEmpty()) {
                 val indexToBeRemoved = captionsAndRttMutableList.indexOf(lastCaptionFromSameUser)
                 removeAtIndex(indexToBeRemoved)
             } else {
