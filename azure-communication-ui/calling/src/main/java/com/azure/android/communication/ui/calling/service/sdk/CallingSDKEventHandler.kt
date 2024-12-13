@@ -511,20 +511,28 @@ internal class CallingSDKEventHandler(
     }
 
     private val onRttEntryUpdated = RealTimeTextInfoReceivedListener {
-        val id = it.info.sender.identifier.rawId
+        var id: String? = null
+        var senderName: String? = null
+        if (!it.info.isLocal) {
+            id = it.info.sender.identifier.rawId
+            senderName = it.info.sender.displayName
+        }
+
         coroutineScope.launch {
             val rttMessage = RttMessage(
                 message = it.info.text,
                 senderUserRawId = id,
-                senderName = it.info.sender.displayName,
+                senderName = senderName,
                 localCreatedTime = it.info.receivedTime,
                 isLocal = it.info.isLocal,
                 isFinalized = it.info.resultType == RealTimeTextResultType.FINAL,
             )
 
             // Update participant's typing status
-            remoteParticipantsInfoModelMap[id]?.isTypingRtt = !rttMessage.isFinalized
-            onRemoteParticipantPropertyChange(id)
+            id?.let {
+                remoteParticipantsInfoModelMap[id]?.isTypingRtt = !rttMessage.isFinalized
+                onRemoteParticipantPropertyChange(id)
+            }
 
             rttTextSharedFlow.emit(rttMessage)
         }

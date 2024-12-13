@@ -7,8 +7,8 @@ import java.util.Date
 
 internal data class RttMessage(
     val message: String,
-    val senderUserRawId: String,
-    val senderName: String,
+    val senderUserRawId: String?,
+    val senderName: String?,
     val localCreatedTime: Date,
     val isLocal: Boolean,
     val isFinalized: Boolean,

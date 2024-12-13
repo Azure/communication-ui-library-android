@@ -14,9 +14,9 @@ internal enum class CaptionsRttType {
 
 internal data class CaptionsRttRecord(
     val avatarBitmap: Bitmap?,
-    val displayName: String,
+    val displayName: String?,
     val displayText: String,
-    val speakerRawId: String,
+    val speakerRawId: String?,
     val languageCode: String?,
     val isFinal: Boolean,
     val timestamp: Date,

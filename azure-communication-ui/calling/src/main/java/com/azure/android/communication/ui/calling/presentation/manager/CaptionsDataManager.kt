@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsData
 import com.azure.android.communication.ui.calling.models.CaptionsResultType
+import com.azure.android.communication.ui.calling.models.RttMessage
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsRttRecord
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsRttType
@@ -33,6 +34,7 @@ internal class CaptionsDataManager(
     private val appStore: AppStore<ReduxState>,
     private val avatarViewManager: AvatarViewManager,
     private val localParticipantIdentifier: CommunicationIdentifier?,
+    private val localParticipantDisplayName: String?,
 ) {
     private val mutex = Mutex()
     private var isCaptionsOn = false
@@ -57,7 +59,12 @@ internal class CaptionsDataManager(
                     if (shouldSkipCaption(captionData)) return@collect
 
                     val (captionText, languageCode) = getCaptionTextAndLanguage(captionData)
-                    val (customizedDisplayName, avatar) = getParticipantCustomizationsBitmap(captionData.speakerRawId)
+                    val (customizedDisplayName, avatar) =
+                        if (localParticipantIdentifier?.rawId == captionData.speakerRawId)
+                            getLocalParticipantCustomizations()
+                        else
+                            getParticipantCustomizations(captionData.speakerRawId)
+
                     val record = CaptionsRttRecord(
                         avatarBitmap = avatar,
                         displayName = customizedDisplayName ?: captionData.speakerName,
@@ -78,10 +85,14 @@ internal class CaptionsDataManager(
         coroutineScope.launch {
             callingService.getRttStateFlow().collect { rttRecord ->
                 mutex.withLock {
-                    val (customizedDisplayName, avatar) = getParticipantCustomizationsBitmap(rttRecord.senderUserRawId)
+                    val displayName = getRttSenderDisplayName(rttRecord)
+                    val (customizedDisplayName, avatar) = if (rttRecord.isLocal)
+                        getLocalParticipantCustomizations()
+                    else
+                        getParticipantCustomizations(rttRecord.senderUserRawId)
                     val captionsRecord = CaptionsRttRecord(
                         avatarBitmap = avatar,
-                        displayName = customizedDisplayName ?: rttRecord.senderName,
+                        displayName = customizedDisplayName ?: displayName,
                         displayText = rttRecord.message,
                         speakerRawId = rttRecord.senderUserRawId,
                         languageCode = null,
@@ -178,7 +189,7 @@ internal class CaptionsDataManager(
         }
     }
 
-    private fun getLastCaptionFromUser(speakerRawId: String, type: CaptionsRttType): CaptionsRttRecord? {
+    private fun getLastCaptionFromUser(speakerRawId: String?, type: CaptionsRttType): CaptionsRttRecord? {
         return captionsAndRttMutableList.lastOrNull { it.type == type && it.speakerRawId == speakerRawId }
     }
 
@@ -224,15 +235,34 @@ internal class CaptionsDataManager(
         return finalizedCaptionsRecord
     }
 
-    private fun getParticipantCustomizationsBitmap(speakerRawId: String): Pair<String?, Bitmap?> {
-        val remoteParticipantViewData = avatarViewManager.getRemoteParticipantViewData(speakerRawId)
-        if (remoteParticipantViewData!= null) {
-            return Pair(remoteParticipantViewData.displayName, remoteParticipantViewData.avatarBitmap)
-        }
 
-        val localParticipantViewData = avatarViewManager.callCompositeLocalOptions?.participantViewData
-        if (localParticipantViewData != null && localParticipantIdentifier?.rawId == speakerRawId) {
-            return Pair(localParticipantViewData.displayName, localParticipantViewData.avatarBitmap)
+    private fun getRttSenderDisplayName(rttRecord: RttMessage): String? {
+        return if (rttRecord.isLocal) {
+            localParticipantDisplayName
+        } else {
+            rttRecord.senderName
+        }
+    }
+    private fun getLocalParticipantCustomizations(): Pair<String?, Bitmap?> {
+        val localParticipantViewData =
+            avatarViewManager.callCompositeLocalOptions?.participantViewData
+        if (localParticipantViewData != null) {
+            return Pair(
+                localParticipantViewData.displayName,
+                localParticipantViewData.avatarBitmap
+            )
+        }
+        return Pair(null, null)
+    }
+    private fun getParticipantCustomizations(participantRawId: String?): Pair<String?, Bitmap?> {
+        participantRawId?.let {
+            val remoteParticipantViewData = avatarViewManager.getRemoteParticipantViewData(participantRawId)
+            if (remoteParticipantViewData != null) {
+                return Pair(
+                    remoteParticipantViewData.displayName,
+                    remoteParticipantViewData.avatarBitmap
+                )
+            }
         }
         return Pair(null, null)
     }

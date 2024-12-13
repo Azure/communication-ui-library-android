@@ -98,6 +98,7 @@ internal class DependencyInjectionContainerImpl(
             appStore,
             avatarViewManager,
             configuration.localUserIdentifier,
+            configuration.displayName,
         )
     }
 

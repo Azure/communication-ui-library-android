@@ -276,7 +276,7 @@ internal class CaptionsView : FrameLayout {
                 if (captionsRttData.type == CaptionsRttType.RTT_INFO) {
                     context.getString(R.string.azure_communication_ui_calling_rtt_info)
                 } else if (captionsRttData.type == CaptionsRttType.RTT && captionsRttData.isLocal != true && captionsRttData.isFinal) {
-                    val name = captionsRttData.displayName.ifEmpty { context.getString(R.string.azure_communication_ui_calling_view_participant_drawer_unnamed) }
+                    val name = captionsRttData.displayName.orEmpty().ifEmpty { context.getString(R.string.azure_communication_ui_calling_view_participant_drawer_unnamed) }
                     "$name: ${captionsRttData.displayText}"
                 } else null
 

@@ -50,7 +50,7 @@ internal class CaptionsRecyclerViewAdapter(
         val captionsRttRecord = captionsRttRecords[position]
         holder.messageTextView.text = captionsRttRecord.displayText
         var speakerName = captionsRttRecord.displayName
-        if (speakerName.isEmpty()) {
+        if (speakerName.isNullOrEmpty()) {
             speakerName =
                 holder.messageTextView.context.getString(R.string.azure_communication_ui_calling_view_participant_drawer_unnamed)
         }
