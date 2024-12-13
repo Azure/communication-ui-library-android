@@ -123,37 +123,41 @@
             android:imeOptions="actionSend"
             android:maxLength="2000"
             />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:id="@+id/azure_communication_ui_calling_captions_starting_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="horizontal">
 
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="@string/azure_communication_ui_calling_starting_captions"
-            android:indeterminateTint="?attr/azure_communication_ui_calling_primary_color" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            style="@style/AzureCommunicationUICalling.ButtonText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/azure_communication_ui_calling_starting_captions"
-            android:drawablePadding="4dp"
-            android:focusable="true"
+        <LinearLayout
+            android:id="@+id/azure_communication_ui_calling_captions_starting_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/azure_communication_ui_calling_captions_header"
             android:gravity="center"
-            android:importantForAccessibility="yes"
-            android:stateListAnimator="@null"
-            android:text="@string/azure_communication_ui_calling_starting_captions"
-            android:textColor="@color/azure_communication_ui_calling_color_action_bar_subtext"
-            android:textSize="@dimen/azure_communication_ui_calling_connecting_textsize" />
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:background="@color/azure_communication_ui_calling_color_call_lobby_overlay"
+            android:clickable="true"
+            >
 
+            <ProgressBar
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/azure_communication_ui_calling_starting_captions"
+                android:indeterminateTint="?attr/azure_communication_ui_calling_primary_color" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/AzureCommunicationUICalling.ButtonText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/azure_communication_ui_calling_starting_captions"
+                android:drawablePadding="4dp"
+                android:focusable="true"
+                android:gravity="center"
+                android:importantForAccessibility="yes"
+                android:stateListAnimator="@null"
+                android:text="@string/azure_communication_ui_calling_starting_captions"
+                android:textColor="@color/azure_communication_ui_calling_color_action_bar_subtext"
+                android:textSize="@dimen/azure_communication_ui_calling_connecting_textsize" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsView>
