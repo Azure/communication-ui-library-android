@@ -213,9 +213,7 @@ internal class CaptionsView : FrameLayout {
 
     private fun onEditTextChanged() {
         val message = rttInputText.text.toString()
-        if (message.isNotBlank()) {
-            viewModel.sendRttMessage(message, false)
-        }
+        viewModel.sendRttMessage(message, false)
     }
 
     private fun onEditTextAction(view: TextView, actionId: Int): Boolean {
