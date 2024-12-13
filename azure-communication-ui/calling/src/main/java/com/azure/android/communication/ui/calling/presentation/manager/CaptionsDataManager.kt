@@ -134,9 +134,13 @@ internal class CaptionsDataManager(
 
     private suspend fun removeOverflownCaptionsFromCache() {
         if (captionsAndRttMutableList.size >= CallingFragment.MAX_CAPTIONS_DATA_SIZE) {
-            captionsAndRttMutableList.removeAt(0)
-            recordRemovedAtPositionMutableSharedFlow.emit(0)
+            removeAtIndex(0)
         }
+    }
+
+    private suspend fun removeAtIndex(index: Int) {
+        captionsAndRttMutableList.removeAt(index)
+        recordRemovedAtPositionMutableSharedFlow.emit(index)
     }
 
     private fun getCaptionTextAndLanguage(captionData: CallCompositeCaptionsData): Pair<String, String?> {
@@ -152,7 +156,12 @@ internal class CaptionsDataManager(
         val lastCaptionFromSameUser = getLastCaptionFromUser(newCaptionsRecord.speakerRawId, CaptionsRttType.RTT)
 
         if (lastCaptionFromSameUser?.isFinal == false) {
-            updateLastCaption(lastCaptionFromSameUser, newCaptionsRecord)
+            if (newCaptionsRecord.displayText.isBlank()) {
+                val indexToBeRemoved = captionsAndRttMutableList.indexOf(lastCaptionFromSameUser)
+                removeAtIndex(indexToBeRemoved)
+            } else {
+                updateLastCaption(lastCaptionFromSameUser, newCaptionsRecord)
+            }
         } else {
             addNewCaption(newCaptionsRecord)
         }
