@@ -5,7 +5,9 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import com.azure.android.communication.ui.calling.redux.Dispatch
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
+import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
+import com.azure.android.communication.ui.calling.redux.state.NavigationState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,23 +29,29 @@ internal class CaptionsLanguageSelectionListViewModel(
     fun init(
         captionsState: CaptionsState,
         visibilityState: VisibilityState,
+        navigationState: NavigationState,
     ) {
-        updateListView(captionsState, visibilityState.status)
+        updateListView(captionsState, visibilityState.status, navigationState)
     }
 
     fun update(
         captionsState: CaptionsState,
         visibilityState: VisibilityState,
+        navigationState: NavigationState,
     ) {
-        updateListView(captionsState, visibilityState.status)
+        updateListView(captionsState, visibilityState.status, navigationState)
     }
 
-    private fun updateListView(captionsState: CaptionsState, status: VisibilityStatus) {
-        if (captionsState.showSupportedCaptionLanguagesSelections) {
+    private fun updateListView(
+        captionsState: CaptionsState,
+        status: VisibilityStatus,
+        navigationState: NavigationState,
+        ) {
+        if (navigationState.showSupportedCaptionLanguagesSelections) {
             languageSelectionTypeStateFlow = LanguageSelectionType.CAPTION
             updateActiveLanguageStateFlow.value = captionsState.captionLanguage
             languagesListStateFlow.value = captionsState.supportedCaptionLanguages
-        } else if (captionsState.showSupportedSpokenLanguagesSelection) {
+        } else if (navigationState.showSupportedSpokenLanguagesSelection) {
             languageSelectionTypeStateFlow = LanguageSelectionType.SPOKEN
             updateActiveLanguageStateFlow.value = captionsState.spokenLanguage
             languagesListStateFlow.value = captionsState.supportedSpokenLanguages
@@ -54,8 +62,8 @@ internal class CaptionsLanguageSelectionListViewModel(
     }
 
     fun close() {
-        dispatch(CaptionsAction.HideSupportedLanguagesOptions())
-        dispatch(CaptionsAction.CloseCaptionsOptions())
+        dispatch(NavigationAction.HideSupportedLanguagesOptions())
+        dispatch(NavigationAction.CloseCaptionsOptions())
     }
 
     fun setActiveLanguage(language: String) {

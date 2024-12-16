@@ -102,7 +102,7 @@ internal class CallingViewModel(
             callState = state.callState,
             requestCallEndCallback = this::requestCallEnd,
             openAudioDeviceSelectionMenuCallback = audioDeviceListViewModel::displayAudioDeviceSelectionMenu,
-            openMoreMenuCallback = moreCallOptionsListViewModel::display,
+//            openMoreMenuCallback = moreCallOptionsListViewModel::display,
             visibilityState = state.visibilityState,
             audioVideoMode = state.localParticipantState.audioVideoMode,
             capabilities = state.localParticipantState.capabilities,
@@ -202,8 +202,9 @@ internal class CallingViewModel(
             state.visibilityState,
             state.buttonState,
             state.rttState,
+            state.navigationState,
         )
-        captionsLanguageSelectionListViewModel.init(state.captionsState, state.visibilityState)
+        captionsLanguageSelectionListViewModel.init(state.captionsState, state.visibilityState, state.navigationState)
         isCaptionsVisibleMutableFlow.value = shouldShowCaptionsUI(state.visibilityState, state.captionsState, state.rttState)
         captionsLayoutViewModel.init(
             state.captionsState,
@@ -212,7 +213,11 @@ internal class CallingViewModel(
             state.deviceConfigurationState,
         )
 
-        moreCallOptionsListViewModel.init(state.visibilityState, state.buttonState)
+        moreCallOptionsListViewModel.init(
+            state.visibilityState,
+            state.buttonState,
+            state.navigationState
+        )
         isCaptionsMaximized = state.rttState.isMaximized
         super.init(coroutineScope)
     }
@@ -380,7 +385,11 @@ internal class CallingViewModel(
         }
 
         confirmLeaveOverlayViewModel.update(state.visibilityState)
-        moreCallOptionsListViewModel.update(state.visibilityState, state.buttonState)
+        moreCallOptionsListViewModel.update(
+            state.visibilityState,
+            state.buttonState,
+            state.navigationState
+        )
 
         state.localParticipantState.cameraState.error?.let {
             errorInfoViewModel.updateCallCompositeError(it)
@@ -392,8 +401,13 @@ internal class CallingViewModel(
             state.visibilityState,
             state.buttonState,
             state.rttState,
+            state.navigationState,
         )
-        captionsLanguageSelectionListViewModel.update(state.captionsState, state.visibilityState)
+        captionsLanguageSelectionListViewModel.update(
+            state.captionsState,
+            state.visibilityState,
+            state.navigationState
+        )
 
         isCaptionsVisibleMutableFlow.value = shouldShowCaptionsUI(
             state.visibilityState,

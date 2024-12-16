@@ -147,6 +147,31 @@ internal class CaptionsListView(
         val isRttButtonEnabledStateFlow = viewModel.isRttButtonEnabledStateFlow.value
 
         val items = mutableListOf<BottomCellItem>()
+
+        items.add(
+            BottomCellItem(
+                icon = ContextCompat.getDrawable(
+                    context, R.drawable.azure_communication_ui_calling_ic_fluent_chevron_left_24_filled
+                ),
+                title = context.getString(R.string.azure_communication_ui_calling_captions_rtt_menu),
+                contentDescription = "",
+                accessoryImage = null,
+                accessoryColor = null,
+                accessoryImageDescription = null,
+                isChecked = null,
+                participantViewData = null,
+                isOnHold = null,
+                itemType = BottomCellItemType.BottomMenuCenteredTitle,
+                onClickAction = {
+                    viewModel.back()
+                },
+                showToggleButton = false,
+                isToggleButtonOn = false,
+                isEnabled = true,
+                toggleButtonAction = null,
+            )
+        )
+
         if (isToggleVisible) {
             items.add(
                 BottomCellItem(

@@ -13,6 +13,7 @@ import com.azure.android.communication.ui.calling.models.createButtonClickEvent
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
+import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
@@ -60,7 +61,6 @@ internal class ControlBarViewModel(
     // Callbacks
     lateinit var requestCallEnd: () -> Unit
     lateinit var openAudioDeviceSelectionMenu: () -> Unit
-    lateinit var openMoreMenu: () -> Unit
 
     private lateinit var isMoreButtonVisibleFlow: MutableStateFlow<Boolean>
 
@@ -71,7 +71,6 @@ internal class ControlBarViewModel(
         callState: CallingState,
         requestCallEndCallback: () -> Unit,
         openAudioDeviceSelectionMenuCallback: () -> Unit,
-        openMoreMenuCallback: () -> Unit,
         visibilityState: VisibilityState,
         audioVideoMode: CallCompositeAudioVideoMode,
         capabilities: Set<ParticipantCapabilityType>,
@@ -128,7 +127,6 @@ internal class ControlBarViewModel(
 
         requestCallEnd = requestCallEndCallback
         openAudioDeviceSelectionMenu = openAudioDeviceSelectionMenuCallback
-        openMoreMenu = openMoreMenuCallback
 
         this.controlBarOptions = controlBarOptions
     }
@@ -226,6 +224,10 @@ internal class ControlBarViewModel(
 
     fun onAudioDeviceClick(context: Context) {
         callOnClickHandler(context, controlBarOptions?.audioDeviceButton)
+    }
+
+    fun openMoreMenu() {
+        dispatch(NavigationAction.ShowMoreMenu())
     }
 
     private fun shouldBeVisible(

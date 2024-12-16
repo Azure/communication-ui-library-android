@@ -12,9 +12,9 @@ import com.azure.android.communication.ui.calling.models.createCustomButtonClick
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.presentation.manager.UpdatableOptionsManager
 import com.azure.android.communication.ui.calling.redux.Dispatch
-import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.ButtonState
+import com.azure.android.communication.ui.calling.redux.state.NavigationState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -62,7 +62,7 @@ internal class MoreCallOptionsListViewModel(
                         showRightArrow = true,
                     ) { context ->
                         callOnClickHandler(context, liveCaptionsButton)
-                        dispatch(CaptionsAction.ShowCaptionsOptions())
+                        dispatch(NavigationAction.ShowCaptionsOptions())
                     }
                 )
             }
@@ -123,12 +123,9 @@ internal class MoreCallOptionsListViewModel(
         }
     }
 
-    fun display() {
-        displayStateFlow.value = true
-    }
-
     fun close() {
-        displayStateFlow.value = false
+//        displayStateFlow.value = false
+        dispatch(NavigationAction.CloseMoreMenu())
     }
 
     fun requestReportIssueScreen() {
@@ -138,19 +135,22 @@ internal class MoreCallOptionsListViewModel(
     fun init(
         visibilityState: VisibilityState,
         buttonViewDataState: ButtonState,
+        navigationState: NavigationState,
     ) {
         listEntriesMutableStateFlow = MutableStateFlow(createButtons(buttonViewDataState))
-        update(visibilityState, buttonViewDataState)
+        update(visibilityState, buttonViewDataState, navigationState)
     }
 
     fun update(
         visibilityState: VisibilityState,
         buttonViewDataState: ButtonState,
+        navigationState: NavigationState,
     ) {
         if (visibilityState.status != VisibilityStatus.VISIBLE)
             close()
 
         listEntriesMutableStateFlow.value = createButtons(buttonViewDataState)
+        displayStateFlow.value = navigationState.showMoreMenu
     }
 
     private fun isAnyCaptionsSubMenuButtonsVisible(): Boolean {
