@@ -37,6 +37,8 @@ internal class CaptionsView : FrameLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
+    private var isInitialized = false
+
     private lateinit var headerDragHandle: View
     private lateinit var headerText: TextView
     private lateinit var captionsButton: ImageButton
@@ -75,7 +77,10 @@ internal class CaptionsView : FrameLayout {
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         rttInputText.addTextChangedListener {
-            onEditTextChanged()
+            // Ignore initial text restoration
+            if (isInitialized) {
+                onEditTextChanged()
+            }
         }
 
         rttInputText.setOnEditorActionListener { view, actionId, _ ->
@@ -85,6 +90,8 @@ internal class CaptionsView : FrameLayout {
         captionsButton.setOnClickListener {
             viewModel.toggleCaptions()
         }
+
+        post { isInitialized = true }
     }
 
     @SuppressLint("NotifyDataSetChanged", "ClickableViewAccessibility")
