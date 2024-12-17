@@ -108,7 +108,8 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         // Inflate everything else
         volumeControlStream = AudioManager.STREAM_VOICE_CALL
 
-            window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
+        window.addFlags(
+            WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
                 WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON or
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
         )
