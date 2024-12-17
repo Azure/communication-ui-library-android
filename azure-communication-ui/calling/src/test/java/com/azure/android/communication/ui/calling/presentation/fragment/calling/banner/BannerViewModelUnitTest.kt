@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.RttState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -34,8 +35,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -43,11 +45,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -71,8 +73,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -80,11 +83,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -108,8 +111,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -117,11 +121,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -146,8 +150,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -155,11 +160,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -189,8 +194,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -198,11 +204,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -232,8 +238,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -241,11 +248,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -276,8 +283,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -285,11 +293,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -320,8 +328,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -329,11 +338,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -368,8 +377,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -377,11 +387,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -416,8 +426,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -425,11 +436,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -465,8 +476,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -474,11 +486,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -514,8 +526,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -523,11 +536,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -557,8 +570,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -566,11 +580,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -601,8 +615,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -610,11 +625,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -644,8 +659,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -653,11 +669,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -688,8 +704,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -697,11 +714,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -732,8 +749,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -741,11 +759,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -776,8 +794,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -785,11 +804,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -820,8 +839,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -829,11 +849,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -864,8 +884,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -873,11 +894,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -913,8 +934,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -922,11 +944,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -962,8 +984,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -971,11 +994,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1011,8 +1034,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1020,11 +1044,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1060,8 +1084,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1069,11 +1094,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1108,8 +1133,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1117,11 +1143,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1157,8 +1183,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1166,11 +1193,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1205,8 +1232,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1214,11 +1242,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1254,8 +1282,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1263,11 +1292,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1303,8 +1332,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1312,11 +1342,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1352,8 +1382,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1361,11 +1392,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1401,8 +1432,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1410,11 +1442,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1450,8 +1482,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1459,11 +1492,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1499,8 +1532,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1508,11 +1542,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1548,8 +1582,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1557,11 +1592,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1597,8 +1632,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1606,11 +1642,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1646,8 +1682,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1655,11 +1692,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1681,11 +1718,12 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, bannerViewModel.bannerInfoTypeStateFlow.value)
@@ -1706,11 +1744,12 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val rttState = RttState(false)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.PIP_MODE_ENTERED))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.PIP_MODE_ENTERED), rttState)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, bannerViewModel.bannerInfoTypeStateFlow.value)
@@ -1726,17 +1765,19 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             isRecording = true,
             isTranscribing = false,
         )
+        val rttState = RttState(false)
 
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, rttState)
 
             // act
             bannerViewModel.update(
                 testCallingState,
-                VisibilityState(VisibilityStatus.PIP_MODE_ENTERED)
+                VisibilityState(VisibilityStatus.PIP_MODE_ENTERED),
+                rttState,
             )
 
             // assert
@@ -1747,7 +1788,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             Assert.assertEquals(false, bannerViewModel.shouldShowBannerStateFlow.value)
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), rttState)
 
             // assert
             Assert.assertEquals(
@@ -1763,7 +1804,8 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
                     isRecording = false,
                     isTranscribing = false,
                 ),
-                VisibilityState(VisibilityStatus.VISIBLE)
+                VisibilityState(VisibilityStatus.VISIBLE),
+                rttState,
             )
 
             // assert
@@ -1780,7 +1822,8 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
                     isRecording = false,
                     isTranscribing = false,
                 ),
-                VisibilityState(VisibilityStatus.PIP_MODE_ENTERED)
+                VisibilityState(VisibilityStatus.PIP_MODE_ENTERED),
+                rttState
             )
 
             // assert
@@ -1797,7 +1840,8 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
                     isRecording = true,
                     isTranscribing = true,
                 ),
-                VisibilityState(VisibilityStatus.PIP_MODE_ENTERED)
+                VisibilityState(VisibilityStatus.PIP_MODE_ENTERED),
+                rttState
             )
 
             // assert
@@ -1814,7 +1858,8 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
                     isRecording = true,
                     isTranscribing = true,
                 ),
-                VisibilityState(VisibilityStatus.VISIBLE)
+                VisibilityState(VisibilityStatus.VISIBLE),
+                rttState
             )
 
             // assert

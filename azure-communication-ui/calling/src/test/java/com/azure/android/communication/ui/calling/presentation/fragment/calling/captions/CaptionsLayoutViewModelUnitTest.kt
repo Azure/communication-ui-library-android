@@ -4,20 +4,57 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.captions
 
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
+import com.azure.android.communication.ui.calling.presentation.manager.CaptionsDataManager
+import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
 import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
+import com.azure.android.communication.ui.calling.redux.state.DeviceConfigurationState
+import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import com.azure.android.communication.ui.calling.redux.state.RttState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
+import com.azure.android.communication.ui.calling.service.CallingService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import org.junit.Assert
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
 internal class CaptionsLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
+
+    @Mock
+    private lateinit var callingService: CallingService
+    @Mock
+    private lateinit var appStore: AppStore<ReduxState>
+
+    @Mock
+    private lateinit var avatarViewManager: AvatarViewManager
+
+    private lateinit var captionsDataManager: CaptionsDataManager
+
+    private lateinit var deviceConfigurationState: DeviceConfigurationState
+
+
+    @Before
+    fun setUp() {
+        deviceConfigurationState = DeviceConfigurationState(
+            isSoftwareKeyboardVisible = false,
+            isTablet = false,
+            isPortrait = false,
+        )
+        captionsDataManager = CaptionsDataManager(
+            callingService,
+            appStore,
+            avatarViewManager,
+            null
+        )
+    }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
@@ -25,14 +62,16 @@ internal class CaptionsLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
 
             // arrange
-            val viewModel = CaptionsViewModel()
+            val viewModel = CaptionsViewModel({}, CaptionsDataManager())
 
             val resultDisplayErrorHeaderStateFlow =
                 mutableListOf<Boolean?>()
 
             viewModel.init(
                 CaptionsState(isCaptionsUIEnabled = false, status = CaptionsStatus.NONE),
-                VisibilityState(VisibilityStatus.VISIBLE)
+                rttState = RttState(),
+                isVisible = true,
+                deviceConfigurationState,
             )
 
             val displayErrorJob = launch {
