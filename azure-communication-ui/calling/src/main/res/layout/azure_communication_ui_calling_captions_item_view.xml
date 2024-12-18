@@ -32,6 +32,7 @@
             app:srcCompat="@drawable/azure_communication_ui_calling_ic_fluent_slide_text_call_20_regular"
             />
         <TextView
+            android:id="@+id/azure_communication_ui_calling_caption_rtt_info_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@id/azure_communication_ui_calling_caption_rtt_info_icon"

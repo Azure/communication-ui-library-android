@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.captions
 
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +33,8 @@ internal class CaptionsRecyclerViewAdapter(
 
         val rttInfo: View =
             view.findViewById(R.id.azure_communication_ui_calling_caption_rtt_info)
+        val rttInfoLabel: TextView =
+            view.findViewById(R.id.azure_communication_ui_calling_caption_rtt_info_label)
 
         val captionContainer: View =
             view.findViewById(R.id.azure_communication_ui_calling_caption_rtt)
@@ -76,6 +79,7 @@ internal class CaptionsRecyclerViewAdapter(
         holder.rttIndicator.isVisible = isRtt && !isRttTyping
 
         holder.rttInfo.isVisible = captionsRttRecord.type == CaptionsRttType.RTT_INFO
+        holder.rttInfoLabel.movementMethod = LinkMovementMethod.getInstance()
         holder.captionContainer.isVisible = captionsRttRecord.type != CaptionsRttType.RTT_INFO
     }
 }
