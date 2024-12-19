@@ -38,7 +38,6 @@ internal class CaptionsRecyclerViewAdapter(
 
         val captionContainer: View =
             view.findViewById(R.id.azure_communication_ui_calling_caption_rtt)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CaptionsViewHolder {

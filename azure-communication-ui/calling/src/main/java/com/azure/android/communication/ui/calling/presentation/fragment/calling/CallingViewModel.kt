@@ -466,7 +466,7 @@ internal class CallingViewModel(
         rttState: RttState,
     ) =
         visibilityState.status == VisibilityStatus.VISIBLE && (
-                rttState.isRttActive ||
+            rttState.isRttActive ||
                 captionsState.status == CaptionsStatus.STARTED ||
                 captionsState.status == CaptionsStatus.START_REQUESTED ||
                 captionsState.status == CaptionsStatus.STOP_REQUESTED

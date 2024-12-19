@@ -104,8 +104,11 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         }
 
         store.dispatch(DeviceConfigurationAction.IsTableChanged(isTablet(this)))
-        store.dispatch(DeviceConfigurationAction.IsPortraitChanged(
-            resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT))
+        store.dispatch(
+            DeviceConfigurationAction.IsPortraitChanged(
+                resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+            )
+        )
 
         val listeningPair = Pair(lifecycleScope, store)
         visibilityStatusFlow = MutableStateFlow(store.getCurrentState().visibilityState.status)

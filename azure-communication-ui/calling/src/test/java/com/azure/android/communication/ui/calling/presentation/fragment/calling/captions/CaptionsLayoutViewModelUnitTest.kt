@@ -40,7 +40,6 @@ internal class CaptionsLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
 
     private lateinit var deviceConfigurationState: DeviceConfigurationState
 
-
     @Before
     fun setUp() {
         deviceConfigurationState = DeviceConfigurationState(

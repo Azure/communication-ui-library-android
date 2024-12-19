@@ -46,7 +46,7 @@ internal class CaptionsLanguageSelectionListViewModel(
         captionsState: CaptionsState,
         status: VisibilityStatus,
         navigationState: NavigationState,
-        ) {
+    ) {
         if (navigationState.showSupportedCaptionLanguagesSelections) {
             languageSelectionTypeStateFlow = LanguageSelectionType.CAPTION
             updateActiveLanguageStateFlow.value = captionsState.captionLanguage

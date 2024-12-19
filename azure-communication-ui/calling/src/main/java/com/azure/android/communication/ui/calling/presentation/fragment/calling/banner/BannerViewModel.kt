@@ -22,11 +22,11 @@ internal class BannerViewModel {
     private var hideWhileInPip: Boolean = false
 
     val bannerInfoTypeStateFlow: StateFlow<BannerInfoType>
-        get () = bannerInfoTypeStateMutableFlow
+        get() = bannerInfoTypeStateMutableFlow
     val isOverlayDisplayedFlow: StateFlow<Boolean>
-        get () = isOverlayDisplayedMutableFlow
+        get() = isOverlayDisplayedMutableFlow
     val shouldShowBannerStateFlow: StateFlow<Boolean>
-        get () = shouldShowBannerStateMutableFlow
+        get() = shouldShowBannerStateMutableFlow
 
     var displayedBannerType: BannerInfoType
         get() = _displayedBannerType
@@ -37,7 +37,7 @@ internal class BannerViewModel {
     fun init(
         callingState: CallingState,
         rttState: RttState,
-        ) {
+    ) {
         bannerInfoTypeStateMutableFlow = MutableStateFlow(
             createBannerInfoType(
                 callingState.isRecording,
@@ -168,10 +168,10 @@ internal class BannerViewModel {
     private fun isOverlayDisplayed(
         callingStatus: CallingStatus,
         rttState: RttState,
-        ): Boolean {
+    ): Boolean {
         return callingStatus == CallingStatus.IN_LOBBY ||
-                callingStatus == CallingStatus.LOCAL_HOLD ||
-                rttState.isMaximized
+            callingStatus == CallingStatus.LOCAL_HOLD ||
+            rttState.isMaximized
     }
 }
 

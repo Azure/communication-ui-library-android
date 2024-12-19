@@ -50,7 +50,7 @@ internal open class EventFlow {
     val events: SharedFlow<Unit> = _events
 }
 
-internal class MutableEventFlow: EventFlow() {
+internal class MutableEventFlow : EventFlow() {
     fun emit() {
         _events.tryEmit(Unit)
     }

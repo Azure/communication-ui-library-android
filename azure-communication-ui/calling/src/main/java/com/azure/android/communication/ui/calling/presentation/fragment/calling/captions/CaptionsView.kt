@@ -211,8 +211,6 @@ internal class CaptionsView : FrameLayout {
                         captionsButton.contentDescription =
                             context.getString(R.string.azure_communication_ui_calling_captions_turn_on)
                     }
-
-
                 }
             }
         )

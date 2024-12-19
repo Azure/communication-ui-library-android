@@ -215,14 +215,14 @@ internal class CaptionsDataManager(
 
         // RTT message that is local is still typing has to be displayed last until it is finalized
         var index =
-        if (data.isLocal != true &&
-            lastCaptionFromSameUser?.type == CaptionsRttType.RTT &&
-            lastCaptionFromSameUser.isLocal == true &&
-            !lastCaptionFromSameUser.isFinal
-        )
-            captionsAndRttMutableList.size - 1
-        else
-            captionsAndRttMutableList.size
+            if (data.isLocal != true &&
+                lastCaptionFromSameUser?.type == CaptionsRttType.RTT &&
+                lastCaptionFromSameUser.isLocal == true &&
+                !lastCaptionFromSameUser.isFinal
+            )
+                captionsAndRttMutableList.size - 1
+            else
+                captionsAndRttMutableList.size
 
         index = max(0, index)
 
@@ -243,7 +243,6 @@ internal class CaptionsDataManager(
         recordUpdatedAtPositionMutableSharedFlow.emit(captionIndex)
         return finalizedCaptionsRecord
     }
-
 
     private fun getRttSenderDisplayName(rttRecord: RttMessage): String? {
         return if (rttRecord.isLocal) {

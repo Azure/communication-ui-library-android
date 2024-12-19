@@ -170,8 +170,8 @@ internal class LocalParticipantViewModel(
 
     private fun isOverlayDisplayed(callingStatus: CallingStatus, rttState: RttState): Boolean {
         return callingStatus == CallingStatus.IN_LOBBY ||
-                callingStatus == CallingStatus.LOCAL_HOLD ||
-                rttState.isMaximized
+            callingStatus == CallingStatus.LOCAL_HOLD ||
+            rttState.isMaximized
     }
 
     internal data class VideoModel(

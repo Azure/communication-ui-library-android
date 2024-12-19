@@ -236,7 +236,8 @@ internal class ControlBarViewModel(
     ): Boolean {
         if (!deviceConfigurationState.isTablet &&
             deviceConfigurationState.isPortrait &&
-            deviceConfigurationState.isSoftwareKeyboardVisible) {
+            deviceConfigurationState.isSoftwareKeyboardVisible
+        ) {
             return false
         }
         return visibilityState.status != VisibilityStatus.PIP_MODE_ENTERED

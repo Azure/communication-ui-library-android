@@ -284,7 +284,7 @@ internal class CaptionsListView(
                 viewModel.enableRTT()
             }
             .setNegativeButton(
-                 context.getString(R.string.azure_communication_ui_calling_notification_dismiss_accessibility_label)
+                context.getString(R.string.azure_communication_ui_calling_notification_dismiss_accessibility_label)
             ) { _, _ -> }
         rttConfirmDialog = dialog.create()
         rttConfirmDialog.show()

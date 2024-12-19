@@ -97,9 +97,9 @@ internal class CaptionsViewModel(
     private fun shouldRttInputBeVisible(
         rttState: RttState,
         deviceConfigurationState: DeviceConfigurationState,
-        ): Boolean {
+    ): Boolean {
         return rttState.isRttActive &&
-                (rttState.isMaximized || deviceConfigurationState.isTablet || !deviceConfigurationState.isPortrait)
+            (rttState.isMaximized || deviceConfigurationState.isTablet || !deviceConfigurationState.isPortrait)
     }
 
     private fun canShowCaptionsStartInProgressUI(
@@ -117,7 +117,6 @@ internal class CaptionsViewModel(
     fun minimizeCaptionsLayout() {
         dispatch(RttAction.UpdateMaximized(false))
     }
-
 
     private fun getHeaderType(
         captionsStatus: CaptionsStatus,

@@ -32,7 +32,7 @@ internal class ParticipantGridViewModel(
     private var visibilityStatus: VisibilityStatus? = null
     private lateinit var isOverlayDisplayedFlow: MutableStateFlow<Boolean>
     private lateinit var isVerticalStyleGridMutableFlow: MutableStateFlow<Boolean>
-    
+
     val isVerticalStyleGridFlow: StateFlow<Boolean>
         get() = isVerticalStyleGridMutableFlow
 
@@ -69,7 +69,6 @@ internal class ParticipantGridViewModel(
     }
 
     fun getIsOverlayDisplayedFlow(): StateFlow<Boolean> = isOverlayDisplayedFlow
-
 
     fun update(
         remoteParticipantsMapUpdatedTimestamp: Number,
@@ -116,9 +115,9 @@ internal class ParticipantGridViewModel(
         captionsState: CaptionsState,
     ): Boolean {
         return deviceConfigurationState.isPortrait ||
-                rttState.isRttActive ||
-                captionsState.status == CaptionsStatus.STARTED ||
-                captionsState.status == CaptionsStatus.START_REQUESTED
+            rttState.isRttActive ||
+            captionsState.status == CaptionsStatus.STARTED ||
+            captionsState.status == CaptionsStatus.START_REQUESTED
     }
 
     private fun getParticipantSharingScreen(
@@ -271,7 +270,7 @@ internal class ParticipantGridViewModel(
 
     private fun isOverlayDisplayed(callingStatus: CallingStatus, rttState: RttState): Boolean {
         return callingStatus == CallingStatus.IN_LOBBY ||
-                callingStatus == CallingStatus.LOCAL_HOLD ||
-                rttState.isMaximized
+            callingStatus == CallingStatus.LOCAL_HOLD ||
+            rttState.isMaximized
     }
 }

@@ -193,7 +193,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 any(),
             )
             verify(mockLocalParticipantViewModel, times(1)).update(
-                any(), any(), any(), any(), any(), any(), any(), any(), any(),  any(),
+                any(), any(), any(), any(), any(), any(), any(), any(), any(), any(),
             )
 
             flowJob.cancel()
