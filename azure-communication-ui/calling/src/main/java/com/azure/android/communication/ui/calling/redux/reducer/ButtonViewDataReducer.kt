@@ -124,7 +124,6 @@ internal class ButtonViewDataReducerImpl : ButtonViewDataReducer {
                     }
                 )
             }
-            /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
             is ButtonViewDataAction.CallScreenHeaderCustomButtonIsEnabledUpdated -> {
                 state.copy(
                     callScreenHeaderCustomButtonsState = state.callScreenHeaderCustomButtonsState.map {
@@ -169,7 +168,6 @@ internal class ButtonViewDataReducerImpl : ButtonViewDataReducer {
                     }
                 )
             }
-            /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             else -> state
         }
     }

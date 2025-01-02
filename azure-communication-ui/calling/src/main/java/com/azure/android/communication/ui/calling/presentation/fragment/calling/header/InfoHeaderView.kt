@@ -29,10 +29,8 @@ internal class InfoHeaderView : ConstraintLayout {
     private lateinit var subtitleText: TextView
     private lateinit var displayParticipantsImageButton: ImageButton
     private lateinit var backButton: ImageButton
-    /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
     private lateinit var customButton1: ImageButton
     private lateinit var customButton2: ImageButton
-    /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
     private lateinit var infoHeaderViewModel: InfoHeaderViewModel
     private lateinit var displayParticipantListCallback: () -> Unit
 
@@ -57,10 +55,8 @@ internal class InfoHeaderView : ConstraintLayout {
                 infoHeaderViewModel.requestCallEnd()
             }
         }
-        /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
         customButton1 = findViewById(R.id.azure_communication_ui_call_header_custom_button_1)
         customButton2 = findViewById(R.id.azure_communication_ui_call_header_custom_button_2)
-        /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
     }
 
     fun start(
@@ -137,7 +133,6 @@ internal class InfoHeaderView : ConstraintLayout {
                     }
                 }
             },
-            /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
             {
                 infoHeaderViewModel.getCustomButton1StateFlow().collect { button ->
                     updateCustomButton(button, customButton1)
@@ -148,11 +143,9 @@ internal class InfoHeaderView : ConstraintLayout {
                     updateCustomButton(button, customButton2)
                 }
             }
-            /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
         )
     }
 
-    /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
     private fun updateCustomButton(customButtonEntry: InfoHeaderViewModel.CustomButtonEntry?, customButton: ImageButton) {
         customButton.visibility = if (customButtonEntry?.isVisible == true) View.VISIBLE else View.GONE
         customButtonEntry?.let {
@@ -163,7 +156,6 @@ internal class InfoHeaderView : ConstraintLayout {
             }
         }
     }
-    /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
 
     private fun setupAccessibility() {
         displayParticipantsImageButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_participant_list_open_accessibility_label)
