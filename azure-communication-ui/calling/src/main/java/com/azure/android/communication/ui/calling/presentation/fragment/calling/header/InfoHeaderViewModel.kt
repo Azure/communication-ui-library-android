@@ -60,8 +60,8 @@ internal class InfoHeaderViewModel(
         /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
         buttonState: ButtonState,
         /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
-        requestCallEndCallback: () -> Unit,
         rttState: RttState,
+        requestCallEndCallback: () -> Unit,
     ) {
         titleStateFlow = MutableStateFlow(callScreenInfoHeaderState.title)
         subtitleStateFlow = MutableStateFlow(callScreenInfoHeaderState.subtitle)

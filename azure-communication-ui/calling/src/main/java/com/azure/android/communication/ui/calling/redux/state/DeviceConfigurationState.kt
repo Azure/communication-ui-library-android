@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling.redux.state
 
 internal data class DeviceConfigurationState(
-    val isSoftwareKeyboardVisible: Boolean,
-    val isTablet: Boolean,
-    val isPortrait: Boolean,
+    val isSoftwareKeyboardVisible: Boolean = false,
+    val isTablet: Boolean = false,
+    val isPortrait: Boolean = false,
 )

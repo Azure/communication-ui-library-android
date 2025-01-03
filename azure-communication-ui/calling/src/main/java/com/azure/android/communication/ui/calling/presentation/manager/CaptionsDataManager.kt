@@ -83,7 +83,7 @@ internal class CaptionsDataManager(
         }
 
         coroutineScope.launch {
-            callingService.getRttStateFlow().collect { rttRecord ->
+            callingService.getRttFlow().collect { rttRecord ->
                 mutex.withLock {
                     val displayName = getRttSenderDisplayName(rttRecord)
                     val (customizedDisplayName, avatar) = if (rttRecord.isLocal)

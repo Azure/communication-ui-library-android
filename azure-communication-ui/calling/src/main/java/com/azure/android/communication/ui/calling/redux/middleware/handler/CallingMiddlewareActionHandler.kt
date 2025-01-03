@@ -669,7 +669,7 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun stopCaptions(store: Store<ReduxState>) {
-        if (!store.getStateFlow().value.rttState.isRttActive) {
+        if (!store.getCurrentState().rttState.isRttActive) {
             store.dispatch(RttAction.UpdateMaximized(false))
         }
         callingService.stopCaptions()
@@ -947,7 +947,7 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     private fun subscribeRttStateUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
-            callingService.getRttStateFlow().collect {
+            callingService.getRttFlow().collect {
                 if (!store.getCurrentState().rttState.isRttActive) {
                     store.dispatch(RttAction.EnableRtt())
                 }

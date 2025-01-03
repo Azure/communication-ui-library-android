@@ -143,7 +143,7 @@ internal class CallingService(
 
     fun getCamerasCountStateFlow() = callingSdk.getCamerasCountStateFlow()
 
-    fun getRttStateFlow(): SharedFlow<RttMessage> = callingSdk.getRttSharedFlow()
+    fun getRttFlow(): Flow<RttMessage> = callingSdk.getRttSharedFlow()
 
     fun endCall() = callingSdk.endCall()
 

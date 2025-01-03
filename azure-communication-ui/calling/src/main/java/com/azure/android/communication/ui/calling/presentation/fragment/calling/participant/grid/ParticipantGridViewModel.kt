@@ -81,6 +81,17 @@ internal class ParticipantGridViewModel(
         deviceConfigurationState: DeviceConfigurationState,
         captionsState: CaptionsState,
     ) {
+
+        isOverlayDisplayedFlow.value = isOverlayDisplayed(callingStatus, rttState)
+        isVerticalStyleGridMutableFlow.value = shouldUseVerticalStyleGrid(deviceConfigurationState, rttState, captionsState)
+
+        if (remoteParticipantsMapUpdatedTimestamp == remoteParticipantStateModifiedTimeStamp &&
+            dominantSpeakersModifiedTimestamp == dominantSpeakersStateModifiedTimestamp &&
+            this.visibilityStatus == visibilityStatus
+        ) {
+            return
+        }
+
         remoteParticipantStateModifiedTimeStamp = remoteParticipantsMapUpdatedTimestamp
         dominantSpeakersStateModifiedTimestamp = dominantSpeakersModifiedTimestamp
         this.visibilityStatus = visibilityStatus
@@ -105,8 +116,6 @@ internal class ParticipantGridViewModel(
         updateRemoteParticipantsVideoStreams(remoteParticipantsMapSorted)
 
         updateDisplayedParticipants(remoteParticipantsMapSorted.toMutableMap())
-        isOverlayDisplayedFlow.value = isOverlayDisplayed(callingStatus, rttState)
-        isVerticalStyleGridMutableFlow.value = shouldUseVerticalStyleGrid(deviceConfigurationState, rttState, captionsState)
     }
 
     private fun shouldUseVerticalStyleGrid(

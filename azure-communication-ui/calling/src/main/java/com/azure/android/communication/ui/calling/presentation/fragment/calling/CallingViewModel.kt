@@ -131,8 +131,8 @@ internal class CallingViewModel(
             /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
             state.buttonState,
             /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
-            this::requestCallEndOnBackPressed,
             state.rttState,
+            this::requestCallEndOnBackPressed,
         )
 
         audioDeviceListViewModel.init(

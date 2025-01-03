@@ -69,6 +69,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
                 appState.buttonState,
                 /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+                appState.rttState,
             ) { }
 
             val resultListFromNumberOfParticipantsFlow =
@@ -86,6 +87,8 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
                 appState.buttonState,
                 /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+                appState.callState.callingStatus,
+                appState.rttState,
             )
 
             // assert
@@ -143,6 +146,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
                 appState.buttonState,
                 /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+                appState.rttState,
             ) {}
 
             val resultListFromIsLobbyOverlayDisplayedFlow =
@@ -154,8 +158,20 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             // act
-            floatingHeaderViewModel.updateIsOverlayDisplayed(CallingStatus.CONNECTED)
-            floatingHeaderViewModel.updateIsOverlayDisplayed(CallingStatus.IN_LOBBY)
+            floatingHeaderViewModel.update(
+                1,
+                appState.callScreenInfoHeaderState,
+                appState.buttonState,
+                CallingStatus.CONNECTED,
+                appState.rttState,
+            )
+            floatingHeaderViewModel.update(
+                1,
+                appState.callScreenInfoHeaderState,
+                appState.buttonState,
+                CallingStatus.IN_LOBBY,
+                appState.rttState,
+            )
 
             // assert
             Assert.assertEquals(
@@ -218,6 +234,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
                 appState.buttonState,
                 /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+                appState.rttState,
             ) { }
 
             val resultListFromNumberOfParticipantsFlow =
@@ -249,6 +266,8 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
                 appState.buttonState,
                 /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+                CallingStatus.CONNECTED,
+                appState.rttState,
             )
 
             // assert
@@ -315,6 +334,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
                 appState.buttonState,
                 /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+                appState.rttState,
             ) { }
 
             val customButton1StateFlow =
@@ -354,6 +374,8 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
                 buttonState1,
                 /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+                CallingStatus.CONNECTED,
+                appState.rttState,
             )
 
             Assert.assertEquals(2, customButton1StateFlow.size)
@@ -374,6 +396,8 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
                 buttonState2,
                 /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+                CallingStatus.CONNECTED,
+                appState.rttState,
             )
 
             Assert.assertEquals(2, customButton1StateFlow.size)
