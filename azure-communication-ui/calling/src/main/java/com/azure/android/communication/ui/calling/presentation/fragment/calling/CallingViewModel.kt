@@ -18,7 +18,6 @@ import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
 import com.azure.android.communication.ui.calling.redux.action.RttAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
-import com.azure.android.communication.ui.calling.redux.state.CaptionsState
 import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
@@ -205,7 +204,8 @@ internal class CallingViewModel(
             state.navigationState,
         )
         captionsLanguageSelectionListViewModel.init(state.captionsState, state.visibilityState, state.navigationState)
-        isCaptionsVisibleMutableFlow.value = shouldShowCaptionsUI(state.visibilityState, state.captionsState, state.rttState)
+        isCaptionsVisibleMutableFlow.value =
+            shouldShowCaptionsUI(state.visibilityState, state.captionsState.status, state.rttState)
         captionsLayoutViewModel.init(
             state.captionsState,
             state.rttState,
@@ -411,7 +411,7 @@ internal class CallingViewModel(
 
         isCaptionsVisibleMutableFlow.value = shouldShowCaptionsUI(
             state.visibilityState,
-            state.captionsState,
+            state.captionsState.status,
             state.rttState,
         )
         captionsLayoutViewModel.update(
@@ -460,17 +460,17 @@ internal class CallingViewModel(
         confirmLeaveOverlayViewModel.confirm()
     }
 
-    private fun shouldShowCaptionsUI(
+    fun shouldShowCaptionsUI(
         visibilityState: VisibilityState,
-        captionsState: CaptionsState,
+        captionsStatus: CaptionsStatus,
         rttState: RttState,
     ) =
         visibilityState.status == VisibilityStatus.VISIBLE && (
             rttState.isRttActive ||
-                captionsState.status == CaptionsStatus.STARTED ||
-                captionsState.status == CaptionsStatus.START_REQUESTED ||
-                captionsState.status == CaptionsStatus.STOP_REQUESTED
-            )
+            captionsStatus == CaptionsStatus.STARTED ||
+            captionsStatus == CaptionsStatus.START_REQUESTED ||
+            captionsStatus == CaptionsStatus.STOP_REQUESTED
+        )
 
     fun minimizeCaptions() {
         dispatchAction(RttAction.UpdateMaximized(false))
