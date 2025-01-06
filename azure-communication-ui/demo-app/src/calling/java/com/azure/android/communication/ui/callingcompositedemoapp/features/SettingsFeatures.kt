@@ -35,6 +35,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_MIC_ON
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_RTL_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SETUP_SCREEN_CAMERA_ENABLED_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SETUP_SCREEN_MIC_ENABLED_VALUE
+import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SHOW_CALL_DURATION
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SKIP_SETUP_SCREEN_VALUE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SPOKEN_LANGUAGE
 import com.azure.android.communication.ui.callingcompositedemoapp.DEFAULT_SPOKEN_LANGUAGE_KEY
@@ -57,6 +58,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.SETTINGS_SHARE
 import com.azure.android.communication.ui.callingcompositedemoapp.SETUP_SCREEN_CAMERA_ENABLED
 import com.azure.android.communication.ui.callingcompositedemoapp.SETUP_SCREEN_MIC_ENABLED
 import com.azure.android.communication.ui.callingcompositedemoapp.SETUP_SCREEN_ORIENTATION_SHARED_PREF_KEY
+import com.azure.android.communication.ui.callingcompositedemoapp.SHOW_CALL_DURATION_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.SKIP_SETUP_SCREEN_VALUE_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.TELECOM_MANAGER_INTEGRATION_OPTION_KEY
 import com.azure.android.communication.ui.callingcompositedemoapp.USE_DEPRECATED_LAUNCH_KEY
@@ -114,6 +116,18 @@ class SettingsFeatures {
                 CALL_INFORMATION_DEFAULT_TITLE,
             )
         }
+
+        fun getCallScreenShowCallDuration(): Boolean? {
+            return if (sharedPrefs.contains(SHOW_CALL_DURATION_KEY)) {
+                sharedPrefs.getBoolean(
+                    SHOW_CALL_DURATION_KEY,
+                    DEFAULT_SHOW_CALL_DURATION
+                )
+            } else {
+                null
+            }
+        }
+
         fun getLayoutDirection(): Int? {
             val isRTLKey =
                 LANGUAGE_ISRTL_VALUE_SHARED_PREF_KEY +

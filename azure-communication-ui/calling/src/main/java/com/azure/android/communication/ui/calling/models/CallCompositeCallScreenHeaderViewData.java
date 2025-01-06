@@ -13,9 +13,15 @@ import java.util.List;
 public final class CallCompositeCallScreenHeaderViewData {
     CallCompositeEventHandler<String> titleChangedEventHandler;
     CallCompositeEventHandler<String> subtitleChangedEventHandler;
+    /* <CALL_START_TIME> */
+    CallCompositeEventHandler<Boolean> showCallDurationChangedEventHandler;
+    /* </CALL_START_TIME> */
 
     private String title;
     private String subtitle;
+    /* <CALL_START_TIME> */
+    private Boolean showCallDuration = true;
+    /* </CALL_START_TIME> */
     private List<CallCompositeCustomButtonViewData> customButtons = new ArrayList<>();
     /**
      * Create a {@link CallCompositeCallScreenHeaderViewData} object.
@@ -87,4 +93,30 @@ public final class CallCompositeCallScreenHeaderViewData {
     public List<CallCompositeCustomButtonViewData> getCustomButtons() {
         return customButtons;
     }
+
+    /* <CALL_START_TIME> */
+    /**
+     * Set the show call duration.
+     *
+     * @param showCallDuration The show call duration.
+     * @return The {@link CallCompositeCallScreenHeaderViewData} object itself.
+     */
+    public CallCompositeCallScreenHeaderViewData setShowCallDuration(
+            final Boolean showCallDuration) {
+        this.showCallDuration = showCallDuration;
+        if (showCallDurationChangedEventHandler != null) {
+            showCallDurationChangedEventHandler.handle(showCallDuration);
+        }
+        return this;
+    }
+
+    /**
+     * Get the show call duration.
+     *
+     * @return {@link Boolean} The show call duration.
+     */
+    public Boolean getShowCallDuration() {
+        return showCallDuration;
+    }
+    /* </CALL_START_TIME> */
 }

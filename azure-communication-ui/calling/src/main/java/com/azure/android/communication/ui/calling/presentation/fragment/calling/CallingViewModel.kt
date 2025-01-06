@@ -122,6 +122,9 @@ internal class CallingViewModel(
             state.callScreenInfoHeaderState,
             state.buttonState,
             this::requestCallEndOnBackPressed,
+            /* <CALL_START_TIME> */
+            state.callState.callStartTime,
+            /* </CALL_START_TIME> */
         )
 
         audioDeviceListViewModel.init(
@@ -295,6 +298,9 @@ internal class CallingViewModel(
                 totalParticipantCountExceptHidden,
                 state.callScreenInfoHeaderState,
                 state.buttonState,
+                /* <CALL_START_TIME> */
+                state.callState.callStartTime
+                /* </CALL_START_TIME> */
             )
 
             lobbyHeaderViewModel.update(

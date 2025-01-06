@@ -20,6 +20,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.mock
+/* <CALL_START_TIME> */
+import java.util.Date
+/* </CALL_START_TIME> */
 
 @RunWith(MockitoJUnitRunner::class)
 internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
@@ -63,9 +66,19 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             floatingHeaderViewModel.init(
                 appState.callState.callingStatus,
                 expectedParticipantMap.count(),
-                CallScreenInfoHeaderState(null, null),
+                CallScreenInfoHeaderState(
+                    null,
+                    null,
+                    /* <CALL_START_TIME> */
+                    false
+                    /* </CALL_START_TIME> */
+                ),
                 appState.buttonState,
-            ) { }
+                { },
+                /* <CALL_START_TIME> */
+                null,
+                /* </CALL_START_TIME> */
+            )
 
             val resultListFromNumberOfParticipantsFlow =
                 mutableListOf<Int>()
@@ -78,8 +91,17 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             // act
             floatingHeaderViewModel.update(
                 expectedParticipantMap.count(),
-                CallScreenInfoHeaderState(null, null),
+                CallScreenInfoHeaderState(
+                    null,
+                    null,
+                    /* <CALL_START_TIME> */
+                    false
+                    /* </CALL_START_TIME> */
+                ),
                 appState.buttonState,
+                /* <CALL_START_TIME> */
+                null,
+                /* </CALL_START_TIME> */
             )
 
             // assert
@@ -131,9 +153,19 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             floatingHeaderViewModel.init(
                 appState.callState.callingStatus,
                 expectedParticipantMap.count(),
-                CallScreenInfoHeaderState(null, null),
+                CallScreenInfoHeaderState(
+                    null,
+                    null,
+                    /* <CALL_START_TIME> */
+                    false
+                    /* </CALL_START_TIME> */
+                ),
                 appState.buttonState,
-            ) {}
+                {},
+                /* <CALL_START_TIME> */
+                null,
+                /* </CALL_START_TIME> */
+            )
 
             val resultListFromIsLobbyOverlayDisplayedFlow =
                 mutableListOf<Boolean>()
@@ -202,9 +234,18 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             floatingHeaderViewModel.init(
                 appState.callState.callingStatus,
                 expectedParticipantMap.count(),
-                CallScreenInfoHeaderState(title, subtitle),
+                CallScreenInfoHeaderState(
+                    title, subtitle,
+                    /* <CALL_START_TIME> */
+                    false
+                    /* </CALL_START_TIME> */
+                ),
                 appState.buttonState,
-            ) { }
+                { },
+                /* <CALL_START_TIME> */
+                null,
+                /* </CALL_START_TIME> */
+            )
 
             val resultListFromNumberOfParticipantsFlow =
                 mutableListOf<Int>()
@@ -231,8 +272,17 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             // act
             floatingHeaderViewModel.update(
                 expectedParticipantMap.count(),
-                CallScreenInfoHeaderState(null, null),
+                CallScreenInfoHeaderState(
+                    null,
+                    null,
+                    /* <CALL_START_TIME> */
+                    false
+                    /* </CALL_START_TIME> */
+                ),
                 appState.buttonState,
+                /* <CALL_START_TIME> */
+                null,
+                /* </CALL_START_TIME> */
             )
 
             // assert
@@ -256,6 +306,104 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             flowJobSubtitle.cancel()
         }
     }
+
+    /* <CALL_START_TIME> */
+    @ExperimentalCoroutinesApi
+    @Test
+    fun floatingHeaderViewModel_update_then_showCallDuration() {
+        runScopedTest {
+            val appState = AppReduxState("", false, false)
+
+            val participantInfoModel1 = mock<ParticipantInfoModel> {}
+            val participantInfoModel2 = mock<ParticipantInfoModel> {}
+            val participantInfoModel3 = mock<ParticipantInfoModel> {}
+            val expectedParticipantMap: Map<String, ParticipantInfoModel> = mapOf(
+                "p1" to participantInfoModel1,
+                "p2" to participantInfoModel2,
+                "p3" to participantInfoModel3
+            )
+            val timestamp: Number = System.currentTimeMillis()
+
+            appState.remoteParticipantState = RemoteParticipantsState(
+                expectedParticipantMap,
+                timestamp,
+                listOf(),
+                0,
+                lobbyErrorCode = null,
+                totalParticipantCount = 0,
+            )
+            appState.callState = CallingState(
+                CallingStatus.CONNECTED,
+                joinCallIsRequested = false,
+                isRecording = false,
+                isTranscribing = false
+            )
+
+            val floatingHeaderViewModel = InfoHeaderViewModel(
+                false,
+                mock(), mock()
+            )
+            floatingHeaderViewModel.init(
+                appState.callState.callingStatus,
+                expectedParticipantMap.count(),
+                CallScreenInfoHeaderState(null, null, false),
+                appState.buttonState,
+                { },
+                null,
+            )
+
+            val resultListFromDisplayCallDurationFlow =
+                mutableListOf<Boolean>()
+            val resultListFromCallDurationFlow =
+                mutableListOf<String>()
+
+            val flowJobDisplayCallDuration = launch {
+                floatingHeaderViewModel.getDisplayCallDurationFlow()
+                    .toList(resultListFromDisplayCallDurationFlow)
+            }
+
+            val flowJobCallDuration = launch {
+                floatingHeaderViewModel.getCallDurationFlow()
+                    .toList(resultListFromCallDurationFlow)
+            }
+
+            // act
+            floatingHeaderViewModel.update(
+                expectedParticipantMap.count(),
+                CallScreenInfoHeaderState(null, null, true),
+                appState.buttonState,
+                Date(),
+            )
+
+            // add delay to get timer update
+            Thread.sleep(2000)
+
+            // assert
+            Assert.assertEquals(
+                false,
+                resultListFromDisplayCallDurationFlow[0]
+            )
+
+            Assert.assertEquals(
+                true,
+                resultListFromDisplayCallDurationFlow[1]
+            )
+
+            Assert.assertEquals(
+                "00:00",
+                resultListFromCallDurationFlow[0]
+            )
+
+            Assert.assertEquals(
+                "00:01",
+                resultListFromCallDurationFlow[1]
+            )
+
+            flowJobDisplayCallDuration.cancel()
+            flowJobCallDuration.cancel()
+        }
+    }
+    /* </CALL_START_TIME> */
 
     @ExperimentalCoroutinesApi
     @Test
@@ -291,9 +439,18 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             floatingHeaderViewModel.init(
                 appState.callState.callingStatus,
                 expectedParticipantMap.count(),
-                CallScreenInfoHeaderState(title, subtitle),
+                CallScreenInfoHeaderState(
+                    title, subtitle,
+                    /* <CALL_START_TIME> */
+                    false
+                    /* </CALL_START_TIME> */
+                ),
                 appState.buttonState,
-            ) { }
+                { },
+                /* <CALL_START_TIME> */
+                null,
+                /* </CALL_START_TIME> */
+            )
 
             val customButton1StateFlow =
                 mutableListOf<InfoHeaderViewModel.CustomButtonEntry?>()
@@ -328,8 +485,16 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             val buttonState1 = ButtonState(callScreenHeaderCustomButtonsState = listOf(button1))
             floatingHeaderViewModel.update(
                 expectedParticipantMap.count(),
-                CallScreenInfoHeaderState(null, null),
+                CallScreenInfoHeaderState(
+                    null, null,
+                    /* <CALL_START_TIME> */
+                    false
+                    /* </CALL_START_TIME> */
+                ),
                 buttonState1,
+                /* <CALL_START_TIME> */
+                null,
+                /* </CALL_START_TIME> */
             )
 
             Assert.assertEquals(2, customButton1StateFlow.size)
@@ -346,8 +511,17 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             // act
             floatingHeaderViewModel.update(
                 expectedParticipantMap.count(),
-                CallScreenInfoHeaderState(null, null),
+                CallScreenInfoHeaderState(
+                    null,
+                    null,
+                    /* <CALL_START_TIME> */
+                    false
+                    /* </CALL_START_TIME> */
+                ),
                 buttonState2,
+                /* <CALL_START_TIME> */
+                null,
+                /* </CALL_START_TIME> */
             )
 
             Assert.assertEquals(2, customButton1StateFlow.size)
