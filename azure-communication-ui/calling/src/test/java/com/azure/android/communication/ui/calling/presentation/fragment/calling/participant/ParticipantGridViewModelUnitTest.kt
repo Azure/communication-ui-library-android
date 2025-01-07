@@ -69,7 +69,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 rttState,
                 deviceConfigurationState,
                 captionsState,
-                )
+            )
 
             // assert
             assertEquals(
@@ -141,7 +141,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 rttState,
                 deviceConfigurationState,
                 captionsState,
-                )
+            )
 
             // assert
             assertEquals(
@@ -202,7 +202,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 rttState,
                 deviceConfigurationState,
                 captionsState,
-                )
+            )
 
             // assert
             assertEquals(
@@ -264,7 +264,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 rttState,
                 deviceConfigurationState,
                 captionsState,
-                )
+            )
             participantGridViewModel.update(
                 100,
                 remoteParticipantsMap.toMutableMap(),
@@ -275,7 +275,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 rttState,
                 deviceConfigurationState,
                 captionsState,
-                )
+            )
 
             // assert
             assertEquals(
@@ -343,7 +343,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 rttState,
                 deviceConfigurationState,
                 captionsState,
-                )
+            )
 
             // assert
             assertEquals(
@@ -430,7 +430,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 rttState,
                 deviceConfigurationState,
                 captionsState,
-                )
+            )
 
             // assert first update
             assertEquals(
@@ -455,7 +455,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 rttState,
                 deviceConfigurationState,
                 captionsState,
-                )
+            )
 
             // assert state flow called only once
             assertEquals(
@@ -524,7 +524,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 rttState,
                 deviceConfigurationState,
                 captionsState,
-                )
+            )
 
             // assert first update
             assertEquals(
@@ -549,7 +549,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 rttState,
                 deviceConfigurationState,
                 captionsState,
-                )
+            )
 
             // assert state updated count
             assertEquals(
@@ -617,7 +617,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 rttState,
                 deviceConfigurationState,
                 captionsState,
-                )
+            )
 
             // assert
             assertEquals(
@@ -646,7 +646,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 rttState,
                 deviceConfigurationState,
                 captionsState,
-                )
+            )
 
             // assert new list
             assertEquals(
@@ -718,7 +718,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 rttState,
                 deviceConfigurationState,
                 captionsState,
-                )
+            )
 
             // assert
             assertEquals(
@@ -803,7 +803,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 rttState,
                 deviceConfigurationState,
                 captionsState,
-                )
+            )
 
             // assert
             assertEquals(
@@ -836,7 +836,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 rttState,
                 deviceConfigurationState,
                 captionsState,
-                )
+            )
 
             // assert new list
             participantViewModelFirst = emitResultFromRemoteParticipantsSharedFlow[1][0]
@@ -931,7 +931,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 rttState,
                 deviceConfigurationState,
                 captionsState,
-                )
+            )
 
             // assert
             assertEquals(
@@ -964,7 +964,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 rttState,
                 deviceConfigurationState,
                 captionsState,
-                )
+            )
 
             // assert new list
 
@@ -1037,7 +1037,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 rttState,
                 deviceConfigurationState,
                 captionsState,
-                )
+            )
 
             // assert
 
@@ -1113,7 +1113,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 rttState,
                 deviceConfigurationState,
                 captionsState,
-                )
+            )
 
             // assert
 
@@ -1192,7 +1192,7 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 rttState,
                 deviceConfigurationState,
                 captionsState,
-                )
+            )
 
             // assert
 

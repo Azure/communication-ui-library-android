@@ -172,7 +172,7 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
                 rttState = rttState,
                 deviceConfigurationState = deviceConfigurationState,
                 captionsState = captionsState,
-                )
+            )
 
             // assert state flows
             Assert.assertEquals("user one", participantViewModel.getDisplayNameStateFlow().value)
