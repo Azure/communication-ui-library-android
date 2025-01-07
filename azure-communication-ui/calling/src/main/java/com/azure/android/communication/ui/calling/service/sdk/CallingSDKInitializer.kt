@@ -121,7 +121,7 @@ internal class CallingSDKInitializer(
                         options
                     )
                     logger.info("creating call agent")
-                    createCallAgentFutureCompletableFuture.whenComplete { callAgent: CallAgent, error: Throwable? ->
+                    createCallAgentFutureCompletableFuture.whenComplete { callAgent, error ->
                         if (error != null) {
                             callAgentCompletableFuture!!.completeExceptionally(error)
                         } else {
