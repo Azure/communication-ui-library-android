@@ -113,13 +113,16 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         val listeningPair = Pair(lifecycleScope, store)
         visibilityStatusFlow = MutableStateFlow(store.getCurrentState().visibilityState.status)
 
-        // Call super
         super.onCreate(savedInstanceState)
         syncPipMode()
         // Inflate everything else
         volumeControlStream = AudioManager.STREAM_VOICE_CALL
 
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        window.addFlags(
+            WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON or
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+        )
         configureLocalization()
         setStatusBarColor()
         setNavigationBarColor()

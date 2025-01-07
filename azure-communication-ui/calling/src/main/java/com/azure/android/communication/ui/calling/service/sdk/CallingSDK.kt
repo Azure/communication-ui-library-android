@@ -27,13 +27,14 @@ import com.azure.android.communication.ui.calling.models.RttMessage
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
-import java9.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.io.File
+/* <CALL_START_TIME> */
 import java.util.Date
 /* </CALL_START_TIME> */
+import java.util.concurrent.CompletableFuture
 
 /**
  * An interface that describes our interactions with the underlying calling SDK.

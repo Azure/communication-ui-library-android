@@ -73,6 +73,9 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.any
+/* <CALL_START_TIME> */
+import org.mockito.kotlin.anyOrNull
+/* </CALL_START_TIME> */
 import org.mockito.kotlin.argThat
 import org.mockito.kotlin.doAnswer
 import org.mockito.kotlin.mock
@@ -127,7 +130,6 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
 
     private lateinit var mockCallingViewModelProvider: CallingViewModelFactory
     private lateinit var mockAppStore: AppStore<ReduxState>
-
 
     @Before
     fun setUp() {
@@ -330,11 +332,12 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             verify(mockFloatingHeaderViewModel, times(1)).update(
                 any(),
                 any(),
-                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
-                any(),
-                /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
                 any(),
                 any(),
+                any(),
+                /* <CALL_START_TIME> */
+                anyOrNull(),
+                /* </CALL_START_TIME> */
             )
             verify(mockParticipantListViewModel, times(1)).update(any(), any(), any(), any(), any())
             verify(mockBannerViewModel, times(1)).update(any(), any(), any(),)
@@ -396,11 +399,12 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             verify(mockFloatingHeaderViewModel, times(1)).update(
                 any(),
                 any(),
-                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
-                any(),
-                /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
                 any(),
                 any(),
+                any(),
+                /* <CALL_START_TIME> */
+                anyOrNull(),
+                /* </CALL_START_TIME> */
             )
             verify(mockParticipantListViewModel, times(1)).update(any(), any(), any(), any(), any())
             verify(mockBannerViewModel, times(1)).update(any(), any(), any(),)
@@ -463,11 +467,12 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             verify(mockFloatingHeaderViewModel, times(0)).update(
                 any(),
                 any(),
-                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
-                any(),
-                /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
                 any(),
                 any(),
+                any(),
+                /* <CALL_START_TIME> */
+                any(),
+                /* </CALL_START_TIME> */
             )
             verify(mockParticipantListViewModel, times(0)).update(any(), any(), any(), any(), any())
             verify(mockBannerViewModel, times(0)).update(any(), any(), any(),)
@@ -808,7 +813,6 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         mockAppStore.getCurrentState().localParticipantState = getLocalUserState(capabilities = capabilities)
         val timestamp: Number = System.currentTimeMillis()
 
-
         val callingViewModel = CallingViewModel(
             mockAppStore,
             mockCallingViewModelProvider,
@@ -968,11 +972,12 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         verify(mockFloatingHeaderViewModel, times(1)).update(
             argThat { count -> count == expectedParticipantCountOnFloatingHeader },
             any(),
-            /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
-            any(),
-            /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             any(),
             any(),
+            any(),
+            /* <CALL_START_TIME> */
+            anyOrNull(),
+            /* </CALL_START_TIME> */
         )
         verify(
             mockParticipantListViewModel,

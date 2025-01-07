@@ -3,7 +3,8 @@
 
 package com.azure.android.communication.ui.calling.service.sdk
 
-import java9.util.concurrent.CompletableFuture
+import com.azure.android.communication.ui.calling.utilities.toJavaUtil
+import java.util.concurrent.CompletableFuture
 import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVideoStream
 
 internal class LocalVideoStreamWrapper(override val native: NativeLocalVideoStream) : LocalVideoStream {
@@ -12,5 +13,6 @@ internal class LocalVideoStreamWrapper(override val native: NativeLocalVideoStre
 
     override fun switchSource(deviceInfo: VideoDeviceInfo): CompletableFuture<Void> {
         return native.switchSource(deviceInfo.native as com.azure.android.communication.calling.VideoDeviceInfo)
+            .toJavaUtil()
     }
 }

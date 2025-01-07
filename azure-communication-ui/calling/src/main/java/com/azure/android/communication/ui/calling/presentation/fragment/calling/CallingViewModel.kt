@@ -101,7 +101,6 @@ internal class CallingViewModel(
             callState = state.callState,
             requestCallEndCallback = this::requestCallEnd,
             openAudioDeviceSelectionMenuCallback = audioDeviceListViewModel::displayAudioDeviceSelectionMenu,
-//            openMoreMenuCallback = moreCallOptionsListViewModel::display,
             visibilityState = state.visibilityState,
             audioVideoMode = state.localParticipantState.audioVideoMode,
             capabilities = state.localParticipantState.capabilities,
@@ -127,11 +126,12 @@ internal class CallingViewModel(
             state.callState.callingStatus,
             remoteParticipantsForGridView.count(),
             state.callScreenInfoHeaderState,
-            /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
             state.buttonState,
-            /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             state.rttState,
             this::requestCallEndOnBackPressed,
+            /* <CALL_START_TIME> */
+            state.callState.callStartTime,
+            /* </CALL_START_TIME> */
         )
 
         audioDeviceListViewModel.init(
@@ -329,11 +329,12 @@ internal class CallingViewModel(
             floatingHeaderViewModel.update(
                 totalParticipantCountExceptHidden,
                 state.callScreenInfoHeaderState,
-                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
                 state.buttonState,
-                /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
                 state.callState.callingStatus,
                 state.rttState,
+                /* <CALL_START_TIME> */
+                state.callState.callStartTime
+                /* </CALL_START_TIME> */
             )
 
             lobbyHeaderViewModel.update(
@@ -467,10 +468,10 @@ internal class CallingViewModel(
     ) =
         visibilityState.status == VisibilityStatus.VISIBLE && (
             rttState.isRttActive ||
-            captionsStatus == CaptionsStatus.STARTED ||
-            captionsStatus == CaptionsStatus.START_REQUESTED ||
-            captionsStatus == CaptionsStatus.STOP_REQUESTED
-        )
+                captionsStatus == CaptionsStatus.STARTED ||
+                captionsStatus == CaptionsStatus.START_REQUESTED ||
+                captionsStatus == CaptionsStatus.STOP_REQUESTED
+            )
 
     fun minimizeCaptions() {
         dispatchAction(RttAction.UpdateMaximized(false))

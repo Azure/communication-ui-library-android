@@ -13,7 +13,7 @@ import com.azure.android.communication.ui.calling.service.sdk.RemoteParticipant
 import com.azure.android.communication.ui.calling.service.sdk.RemoteVideoStream
 import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRenderer
 import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRendererView
-import java9.util.concurrent.CompletableFuture
+import java.util.concurrent.CompletableFuture
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
