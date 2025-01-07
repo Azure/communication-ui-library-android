@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.service.sdk
 
-/*  <CALL_START_TIME> */
 import android.view.View
 import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.CreateViewOptions
@@ -30,9 +29,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.io.File
+/* <CALL_START_TIME> */
 import java.util.Date
-import java.util.concurrent.CompletableFuture
 /* </CALL_START_TIME> */
+import java.util.concurrent.CompletableFuture
 
 /**
  * An interface that describes our interactions with the underlying calling SDK.
