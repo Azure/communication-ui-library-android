@@ -456,11 +456,16 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
 
     /*  <CALL_START_TIME> */
     override fun getCallStartTimeSharedFlow(): SharedFlow<Date> {
-        return MutableSharedFlow()
+        var date = Date()
+        return MutableSharedFlow<Date>().apply {
+            coroutineScope.launch {
+                emit(date)
+            }
+        }
     }
 
     override fun getCallStartTime(): Date? {
-        return null
+        return Date()
     }
     /* </CALL_START_TIME> */
 
