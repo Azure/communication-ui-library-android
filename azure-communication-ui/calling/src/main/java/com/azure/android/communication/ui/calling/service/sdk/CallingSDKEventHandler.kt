@@ -500,7 +500,7 @@ internal class CallingSDKEventHandler(
 
     private fun onTotalParticipantCountChanged() {
         coroutineScope.launch {
-            // substract local participant from total participantCount
+            // subtract local participant from total participantCount
             totalRemoteParticipantCountSharedFlow.emit((call?.totalParticipantCount ?: 1) - 1)
         }
     }
@@ -530,7 +530,7 @@ internal class CallingSDKEventHandler(
 
             // Update participant's typing status
             id?.let {
-                remoteParticipantsInfoModelMap[id]?.isTypingRtt = !rttMessage.isFinalized
+                remoteParticipantsInfoModelMap[id]?.isTypingRtt = !rttMessage.isFinalized && rttMessage.message.isNotEmpty()
                 onRemoteParticipantPropertyChange(id)
             }
 

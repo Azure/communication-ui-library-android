@@ -242,11 +242,8 @@ internal class CaptionsView : FrameLayout {
 
     private fun onItemUpdated(index: Int) {
         if (index >= 0) {
+            clearInputIfLocalFinalized(index)
             val shouldScrollToBottom = isAtBottom
-            val updatedItem = viewModel.captionsAndRttData[index]
-            if (updatedItem.type == CaptionsRttType.RTT && updatedItem.isLocal == true && updatedItem.isFinal) {
-                rttInputText.text.clear()
-            }
             recyclerViewAdapter.notifyItemChanged(index)
             if (shouldScrollToBottom) {
                 scrollToBottom()
@@ -256,6 +253,7 @@ internal class CaptionsView : FrameLayout {
     }
 
     private fun onItemAdded(index: Int) {
+        clearInputIfLocalFinalized(index)
         val layoutManager = recyclerView.layoutManager as LinearLayoutManager
         val shouldScrollToBottom =
             isAtBottom || layoutManager.findLastVisibleItemPosition() == layoutManager.itemCount - 1
@@ -265,6 +263,13 @@ internal class CaptionsView : FrameLayout {
             scrollToBottom()
         }
         announceAccessibility(index)
+    }
+
+    private fun clearInputIfLocalFinalized(index: Int) {
+        val updatedItem = viewModel.captionsAndRttData[index]
+        if (updatedItem.type == CaptionsRttType.RTT && updatedItem.isLocal == true && updatedItem.isFinal) {
+            rttInputText.text.clear()
+        }
     }
 
     private fun announceAccessibility(position: Int) {

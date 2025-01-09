@@ -27,7 +27,6 @@ import kotlinx.coroutines.sync.withLock
 import java.time.Duration
 import java.time.Instant
 import java.util.Date
-import kotlin.math.max
 
 internal class CaptionsDataManager(
     private val callingService: CallingService,
@@ -138,11 +137,6 @@ internal class CaptionsDataManager(
         }
     }
 
-    private suspend fun removeAtIndex(index: Int) {
-        captionsAndRttMutableList.removeAt(index)
-        recordRemovedAtPositionMutableSharedFlow.emit(index)
-    }
-
     private fun getCaptionTextAndLanguage(captionData: CallCompositeCaptionsData): Pair<String, String?> {
         return if (!captionData.captionText.isNullOrEmpty()) {
             captionData.captionText to captionData.captionLanguage
@@ -211,29 +205,40 @@ internal class CaptionsDataManager(
     }
 
     private suspend fun addNewCaption(data: CaptionsRttRecord) {
-        val lastCaptionFromSameUser = captionsAndRttMutableList.lastOrNull()
+        var index = 0
+        if (data.type == CaptionsRttType.CAPTIONS) {
+            index = captionsAndRttMutableList.indexOfLast {
+                it.type == CaptionsRttType.CAPTIONS || it.isFinal
+            } + 1
+        } else {
+            index = captionsAndRttMutableList.size
 
-        // RTT message that is local is still typing has to be displayed last until it is finalized
-        var index =
-            if (data.isLocal != true &&
-                lastCaptionFromSameUser?.type == CaptionsRttType.RTT &&
-                lastCaptionFromSameUser.isLocal == true &&
-                !lastCaptionFromSameUser.isFinal
-            )
-                captionsAndRttMutableList.size - 1
-            else
-                captionsAndRttMutableList.size
+            if (captionsAndRttMutableList.lastOrNull()?.isLocal == true &&
+                captionsAndRttMutableList.lastOrNull()?.isFinal == false) {
+                index -= 1
+            }
+        }
 
-        index = max(0, index)
-
-        captionsAndRttMutableList.add(index, data)
-        recordInsertedAtPositionMutableSharedFlow.emit(index)
+        insertCaption(index, data)
     }
 
     private suspend fun updateLastCaption(lastCaptionFromSameUser: CaptionsRttRecord, captionsRecord: CaptionsRttRecord) {
         val lastCaptionIndex = captionsAndRttMutableList.indexOf(lastCaptionFromSameUser)
-        captionsAndRttMutableList[lastCaptionIndex] = captionsRecord
-        recordUpdatedAtPositionMutableSharedFlow.emit(lastCaptionIndex)
+
+        if (captionsRecord.type == CaptionsRttType.RTT) {
+            val moveToIndex = captionsAndRttMutableList.indexOfLast {
+                it.type == CaptionsRttType.CAPTIONS || it.isFinal
+            } + 1
+
+            if (captionsRecord.isFinal && lastCaptionIndex != moveToIndex) {
+                removeAtIndex(lastCaptionIndex)
+                insertCaption(moveToIndex, captionsRecord)
+            } else {
+                updateAtIndex(lastCaptionIndex, captionsRecord)
+            }
+        } else {
+            updateAtIndex(lastCaptionIndex, captionsRecord)
+        }
     }
 
     private suspend fun finalizeLastCaption(captionsRecord: CaptionsRttRecord): CaptionsRttRecord {
@@ -273,6 +278,21 @@ internal class CaptionsDataManager(
             }
         }
         return Pair(null, null)
+    }
+
+    private suspend fun insertCaption(index: Int, data: CaptionsRttRecord) {
+        captionsAndRttMutableList.add(index, data)
+        recordInsertedAtPositionMutableSharedFlow.emit(index)
+    }
+
+    private suspend fun updateAtIndex(index: Int, data: CaptionsRttRecord) {
+        captionsAndRttMutableList[index] = data
+        recordUpdatedAtPositionMutableSharedFlow.emit(index)
+    }
+
+    private suspend fun removeAtIndex(index: Int) {
+        captionsAndRttMutableList.removeAt(index)
+        recordRemovedAtPositionMutableSharedFlow.emit(index)
     }
 
     private fun removeCaptions() {
