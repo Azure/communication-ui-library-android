@@ -107,7 +107,8 @@ internal class CaptionsViewModel(
     ) = captionsState.status == CaptionsStatus.START_REQUESTED
 
     fun sendRttMessage(message: String, isFinal: Boolean) {
-        dispatch(RttAction.SendRtt(message, isFinal))
+        val strippedMessage = message.replace("\n", " ")
+        dispatch(RttAction.SendRtt(strippedMessage, isFinal))
     }
 
     fun maximizeCaptionsLayout() {
