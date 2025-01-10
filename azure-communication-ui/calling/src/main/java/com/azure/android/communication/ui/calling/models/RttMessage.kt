@@ -12,4 +12,5 @@ internal data class RttMessage(
     val localCreatedTime: Date,
     val isLocal: Boolean,
     val isFinalized: Boolean,
+    val sequenceId: Int,
 )

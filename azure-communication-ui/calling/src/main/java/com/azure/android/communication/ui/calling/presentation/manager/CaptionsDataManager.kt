@@ -18,15 +18,18 @@ import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.utilities.EventFlow
 import com.azure.android.communication.ui.calling.utilities.MutableEventFlow
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.time.Duration
 import java.time.Instant
 import java.util.Date
+import kotlin.math.min
 
 internal class CaptionsDataManager(
     private val callingService: CallingService,
@@ -99,6 +102,7 @@ internal class CaptionsDataManager(
                         timestamp = rttRecord.localCreatedTime,
                         type = CaptionsRttType.RTT,
                         isLocal = rttRecord.isLocal,
+                        rttSequenceId = rttRecord.sequenceId,
                     )
 
                     removeOverflownCaptionsFromCache()
@@ -121,6 +125,15 @@ internal class CaptionsDataManager(
                         removeCaptions()
                     }
                 }
+            }
+        }
+
+        coroutineScope.launch {
+            while (isActive) {
+                mutex.withLock {
+                    cleanDeadRecords()
+                }
+                delay(timeMillis = 10000)
             }
         }
     }
@@ -149,12 +162,12 @@ internal class CaptionsDataManager(
         ensureRttMessageIsDisplayed()
         val lastCaptionFromSameUser = getLastCaptionFromUser(newCaptionsRecord.speakerRawId, CaptionsRttType.RTT)
 
-        if (lastCaptionFromSameUser?.isFinal == false) {
+        if (lastCaptionFromSameUser != null && lastCaptionFromSameUser.rttSequenceId == newCaptionsRecord.rttSequenceId) {
             if (newCaptionsRecord.displayText.isEmpty()) {
                 val indexToBeRemoved = captionsAndRttMutableList.indexOf(lastCaptionFromSameUser)
                 removeAtIndex(indexToBeRemoved)
             } else {
-                updateLastCaption(lastCaptionFromSameUser, newCaptionsRecord)
+                updateCaptionsRttRecord(lastCaptionFromSameUser, newCaptionsRecord)
             }
         } else {
             addNewCaption(newCaptionsRecord)
@@ -186,7 +199,7 @@ internal class CaptionsDataManager(
         }
 
         if (lastCaptionFromSameUser?.isFinal == false) {
-            updateLastCaption(lastCaptionFromSameUser, newCaptionsRecord)
+            updateCaptionsRttRecord(lastCaptionFromSameUser, newCaptionsRecord)
         } else {
             addNewCaption(newCaptionsRecord)
         }
@@ -214,7 +227,8 @@ internal class CaptionsDataManager(
             index = captionsAndRttMutableList.size
 
             if (captionsAndRttMutableList.lastOrNull()?.isLocal == true &&
-                captionsAndRttMutableList.lastOrNull()?.isFinal == false) {
+                captionsAndRttMutableList.lastOrNull()?.isFinal == false
+            ) {
                 index -= 1
             }
         }
@@ -222,17 +236,18 @@ internal class CaptionsDataManager(
         insertCaption(index, data)
     }
 
-    private suspend fun updateLastCaption(lastCaptionFromSameUser: CaptionsRttRecord, captionsRecord: CaptionsRttRecord) {
+    private suspend fun updateCaptionsRttRecord(lastCaptionFromSameUser: CaptionsRttRecord, captionsRecord: CaptionsRttRecord) {
         val lastCaptionIndex = captionsAndRttMutableList.indexOf(lastCaptionFromSameUser)
 
         if (captionsRecord.type == CaptionsRttType.RTT) {
-            val moveToIndex = captionsAndRttMutableList.indexOfLast {
+            var moveToIndex = captionsAndRttMutableList.indexOfLast {
                 it.type == CaptionsRttType.CAPTIONS || it.isFinal
             } + 1
+            moveToIndex = min(moveToIndex, captionsAndRttMutableList.size)
 
             if (captionsRecord.isFinal && lastCaptionIndex != moveToIndex) {
-                removeAtIndex(lastCaptionIndex)
                 insertCaption(moveToIndex, captionsRecord)
+                removeAtIndex(lastCaptionIndex)
             } else {
                 updateAtIndex(lastCaptionIndex, captionsRecord)
             }
@@ -298,5 +313,14 @@ internal class CaptionsDataManager(
     private fun removeCaptions() {
         captionsAndRttMutableList.removeAll { it.type == CaptionsRttType.CAPTIONS }
         captionsRttUpdatedMutableEventFlow.emit()
+    }
+
+    private suspend fun cleanDeadRecords() {
+        for (i in captionsAndRttData.indices) {
+            val item = captionsAndRttData[i]
+            if (!item.isFinal && item.timestamp < Date.from(Instant.now().minusSeconds(10))) {
+                updateAtIndex(i, item.copy(isFinal = true))
+            }
+        }
     }
 }

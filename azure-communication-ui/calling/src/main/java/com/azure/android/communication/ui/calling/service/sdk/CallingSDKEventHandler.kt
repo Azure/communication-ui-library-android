@@ -526,6 +526,7 @@ internal class CallingSDKEventHandler(
                 localCreatedTime = it.info.receivedTime,
                 isLocal = it.info.isLocal,
                 isFinalized = it.info.resultType == RealTimeTextResultType.FINAL,
+                sequenceId = it.info.sequenceId,
             )
 
             // Update participant's typing status
