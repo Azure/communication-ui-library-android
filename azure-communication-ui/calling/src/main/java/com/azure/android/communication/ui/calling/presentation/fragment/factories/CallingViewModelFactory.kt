@@ -3,12 +3,6 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.factories
 
-/* <RTT_POC>
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttViewModel
-</RTT_POC> */
-/* <RTT_POC>
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttViewModel
-</RTT_POC> */
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
@@ -55,12 +49,6 @@ internal class CallingViewModelFactory(
     private val isCaptionsEnabled: Boolean = false,
     private val logger: Logger,
 ) : BaseViewModelFactory(store) {
-
-    /* <RTT_POC>
-    val rttViewModel by lazy {
-        RttViewModel()
-    }
-    </RTT_POC> */
 
     val moreCallOptionsListViewModel by lazy {
         MoreCallOptionsListViewModel(

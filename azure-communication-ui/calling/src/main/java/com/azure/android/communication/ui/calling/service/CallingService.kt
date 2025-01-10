@@ -184,13 +184,6 @@ internal class CallingService(
             }
         }
 
-        /* <RTT_POC>
-        coroutineScope.launch {
-            callingSdk.getRttSharedFlow().collect {
-                rttStateSharedFlow.emit(it)
-            }
-        }
-        </RTT_POC> */
         return callingSdk.startCall(cameraState, audioState)
     }
 
