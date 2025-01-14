@@ -160,9 +160,12 @@ internal class CaptionsDataManager(
 
     private suspend fun handleRttData(newCaptionsRecord: CaptionsRttRecord) {
         ensureRttMessageIsDisplayed()
-        val lastCaptionFromSameUser = getLastCaptionFromUser(newCaptionsRecord.speakerRawId, CaptionsRttType.RTT)
+        val lastCaptionFromSameUser = captionsAndRttMutableList.lastOrNull {
+            it.speakerRawId == newCaptionsRecord.speakerRawId &&
+                    it.rttSequenceId == newCaptionsRecord.rttSequenceId
+        }
 
-        if (lastCaptionFromSameUser != null && lastCaptionFromSameUser.rttSequenceId == newCaptionsRecord.rttSequenceId) {
+        if (lastCaptionFromSameUser != null) {
             if (newCaptionsRecord.displayText.isEmpty()) {
                 val indexToBeRemoved = captionsAndRttMutableList.indexOf(lastCaptionFromSameUser)
                 removeAtIndex(indexToBeRemoved)
@@ -170,7 +173,9 @@ internal class CaptionsDataManager(
                 updateCaptionsRttRecord(lastCaptionFromSameUser, newCaptionsRecord)
             }
         } else {
-            addNewCaption(newCaptionsRecord)
+            if (newCaptionsRecord.displayText.isNotEmpty()) {
+                addNewCaption(newCaptionsRecord)
+            }
         }
     }
 

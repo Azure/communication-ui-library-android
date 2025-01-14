@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -92,7 +93,8 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             }
 
             // Act
-            captionsDataManager.start(TestScope(UnconfinedTestDispatcher()))
+            val testScope = TestScope(UnconfinedTestDispatcher())
+            captionsDataManager.start(testScope)
             val flowJob = launch {
                 captionsSharedFlow.emit(captionData)
             }
@@ -114,6 +116,7 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             assertEquals(CaptionsRttType.CAPTIONS, newCaption.type)
             flowJob.cancel()
             insertedJob.cancel()
+            testScope.cancel()
         }
     }
 
@@ -141,6 +144,7 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
                 isFinalized = true,
                 isLocal = false,
                 localCreatedTime = timestamp,
+                sequenceId = 1,
             )
 
             val addedData = mutableListOf<Int>()
@@ -150,7 +154,8 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             }
 
             // Act
-            captionsDataManager.start(TestScope(UnconfinedTestDispatcher()))
+            val testScope = TestScope(UnconfinedTestDispatcher())
+            captionsDataManager.start(testScope)
             val flowJob = launch {
                 rttSharedFlow.emit(rttMessage)
             }
@@ -180,6 +185,7 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
 
             flowJob.cancel()
             insertedJob.cancel()
+            testScope.cancel()
         }
     }
 
@@ -224,7 +230,8 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             }
 
             // Act
-            captionsDataManager.start(TestScope(UnconfinedTestDispatcher()))
+            val testScope = TestScope(UnconfinedTestDispatcher())
+            captionsDataManager.start(testScope)
             val flowJob = launch {
                 captionsSharedFlow.emit(captionData)
                 val updatedCaptionData = CallCompositeCaptionsData(
@@ -262,12 +269,13 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             flowJob.cancel()
             insertedJob.cancel()
             updatedJob.cancel()
+            testScope.cancel()
         }
     }
 
     @Test
     @ExperimentalCoroutinesApi
-    fun captionsDataManagerUnitTest_when_onRttFlowUpdate_notifySpokenText() {
+    fun captionsDataManagerUnitTest_when_onRttFlowUpdate_notifyUpdated() {
         runScopedTest {
             // Arrange
             val appState = AppReduxState(
@@ -289,6 +297,7 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
                 isFinalized = false,
                 isLocal = false,
                 localCreatedTime = timestamp,
+                sequenceId = 1,
             )
 
             val addedData = mutableListOf<Int>()
@@ -303,7 +312,8 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             }
 
             // Act
-            captionsDataManager.start(TestScope(UnconfinedTestDispatcher()))
+            val testScope = TestScope(UnconfinedTestDispatcher())
+            captionsDataManager.start(testScope)
 
             val flowJob = launch {
                 rttSharedFlow.emit(rttMessage)
@@ -314,6 +324,7 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
                     isFinalized = true,
                     isLocal = false,
                     localCreatedTime = timestamp,
+                    sequenceId = 1,
                 )
                 rttSharedFlow.emit(updatedRttData)
             }
@@ -338,6 +349,64 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             flowJob.cancel()
             insertedJob.cancel()
             updatedJob.cancel()
+            testScope.cancel()
+        }
+    }
+
+
+    @Test
+    @ExperimentalCoroutinesApi
+    fun captionsDataManagerUnitTest_when_captionLanguageIsActive_doesNotNotifyIfCaptionTextIsBlank() {
+        runScopedTest {
+            // Arrange
+            val appState = AppReduxState(
+                displayName = "",
+            )
+
+            val captionsSharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
+            val rttSharedFlow = MutableSharedFlow<RttMessage>()
+            val appStateFlow = MutableStateFlow<ReduxState>(appState)
+
+            `when`(callingService.getCaptionsReceivedSharedFlow()).thenReturn(captionsSharedFlow)
+            `when`(callingService.getRttFlow()).thenReturn(rttSharedFlow)
+            `when`(appStore.getStateFlow()).thenReturn(appStateFlow)
+            `when`(appStore.getCurrentState()).thenReturn(appState)
+            val timestamp = Date()
+            val captionData = CallCompositeCaptionsData(
+                speakerName = "Speaker",
+                captionText = null,
+                speakerRawId = "123",
+                captionLanguage = "en",
+                spokenText = "aaa",
+                spokenLanguage = "bb",
+                resultType = CaptionsResultType.FINAL,
+                timestamp = timestamp
+            )
+
+            val addedData = mutableListOf<Int>()
+
+            val insertedJob = launch {
+                captionsDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+            }
+
+            // Act
+            val testScope = TestScope(UnconfinedTestDispatcher())
+            captionsDataManager.start(testScope)
+            val flowJob = launch {
+                captionsSharedFlow.emit(captionData)
+            }
+            flowJob.join()
+
+            // Assert
+            assertEquals(0, addedData.size)
+            assertEquals(0, addedData[0])
+
+            val newCaption = captionsDataManager.captionsAndRttData.last()
+            assertNull(newCaption)
+
+            flowJob.cancel()
+            insertedJob.cancel()
+            testScope.cancel()
         }
     }
 

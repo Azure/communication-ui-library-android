@@ -44,7 +44,6 @@ import com.azure.android.communication.ui.calling.redux.state.CameraOperationalS
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.azure.android.communication.ui.calling.utilities.toJavaUtil
-import java.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -52,6 +51,7 @@ import kotlinx.coroutines.flow.StateFlow
 import java.io.File
 import java.util.Collections
 import java.util.Date
+import java.util.concurrent.CompletableFuture
 import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVideoStream
 /* </CALL_START_TIME> */
 
