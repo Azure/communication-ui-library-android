@@ -3,10 +3,8 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
-/* <RTT_POC>
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttView
-</RTT_POC> */
 import android.content.Context
+import android.content.res.Configuration
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -14,11 +12,16 @@ import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
+import android.transition.ChangeBounds
+import android.transition.TransitionManager
 import android.util.DisplayMetrics
 import android.util.LayoutDirection
 import android.view.View
 import android.view.accessibility.AccessibilityManager
 import androidx.activity.addCallback
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -27,7 +30,7 @@ import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivityViewModel
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerView
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsLayout
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay.ConnectingOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.CaptionsLanguageSelectionListView
@@ -47,6 +50,12 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListView
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListView
 import com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ErrorInfoView
+import com.azure.android.communication.ui.calling.utilities.convertDpToPx
+import com.azure.android.communication.ui.calling.utilities.hideKeyboard
+import com.azure.android.communication.ui.calling.utilities.isKeyboardOpen
+import com.azure.android.communication.ui.calling.utilities.isTablet
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 internal class CallingFragment :
     Fragment(R.layout.azure_communication_ui_calling_call_fragment), SensorEventListener {
@@ -64,10 +73,9 @@ internal class CallingFragment :
     private val videoViewManager get() = activityViewModel.container.videoViewManager
     private val avatarViewManager get() = activityViewModel.container.avatarViewManager
     private val viewModel get() = activityViewModel.callingViewModel
-    private val captionsDataManager get() = activityViewModel.container.captionsDataManager
-    private val configuration get() = activityViewModel.container.configuration
 
     private val closeToUser = 0f
+    private lateinit var callScreenLayout: ConstraintLayout
     private lateinit var controlBarView: ControlBarView
     private lateinit var confirmLeaveOverlayView: LeaveConfirmView
     private lateinit var localParticipantView: LocalParticipantView
@@ -92,19 +100,17 @@ internal class CallingFragment :
     private lateinit var lobbyErrorHeaderView: LobbyErrorHeaderView
     private lateinit var captionsListView: CaptionsListView
     private lateinit var captionsLanguageSelectionListView: CaptionsLanguageSelectionListView
-    private lateinit var captionsLayout: CaptionsLayout
-    /* <RTT_POC>
-    private lateinit var rttView: RttView
-    </RTT_POC> */
+    private lateinit var captionsWrapper: View
+    private lateinit var captionsView: CaptionsView
+    private lateinit var captionsTopAnchor: View
+    private lateinit var captionsBottomAnchor: View
+    private lateinit var captionsOverlay: View
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.init(viewLifecycleOwner.lifecycleScope)
 
-        /* <RTT_POC>
-        rttView = view.findViewById(R.id.azure_communication_ui_call_rtt_view)
-        rttView.start(viewLifecycleOwner, viewModel.rttViewModel)
-        </RTT_POC> */
+        callScreenLayout = view.findViewById(R.id.azure_communication_ui_calling_call_frame_layout)
 
         confirmLeaveOverlayView =
             LeaveConfirmView(viewModel.confirmLeaveOverlayViewModel, this.requireContext())
@@ -242,8 +248,20 @@ internal class CallingFragment :
         val halfScreenHeight = displayMetrics.heightPixels / 2
         captionsLanguageSelectionListView.start(viewLifecycleOwner, halfScreenHeight)
 
-        captionsLayout = view.findViewById(R.id.azure_communication_ui_calling_captions_linear_layout)
-        captionsLayout.start(viewLifecycleOwner, viewModel.captionsLayoutViewModel, captionsDataManager, avatarViewManager, configuration.identifier)
+        captionsTopAnchor = view.findViewById(R.id.captions_top_anchor)
+        captionsBottomAnchor = view.findViewById(R.id.captions_bottom_anchor)
+        captionsWrapper = view.findViewById(R.id.azure_communication_ui_calling_captions_view_wrapper)
+        captionsOverlay = view.findViewById(R.id.azure_communication_ui_calling_captions_overlay)
+        captionsView = view.findViewById(R.id.azure_communication_ui_calling_captions_linear_layout)
+
+        captionsView.start(
+            viewLifecycleOwner = viewLifecycleOwner,
+            viewModel = viewModel.captionsLayoutViewModel,
+            maximizeCallback = this::maximizeCaptions,
+            minimizeCallback = this::minimizeCaptions
+        )
+
+        captionsOverlay.setOnClickListener { viewModel.minimizeCaptions() }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -260,6 +278,19 @@ internal class CallingFragment :
 
     private fun onBackPressed() {
 
+        // If captions are maximized, minimize them.
+        if (viewModel.isCaptionsMaximized) {
+            viewModel.minimizeCaptions()
+            return
+        }
+
+        // On some devices the close keyboard button is triggering back button.
+        // If keyboard was open, we should just close it.
+        if (activity?.isKeyboardOpen() == true) {
+            activity?.hideKeyboard()
+            return
+        }
+
         if (viewModel.multitaskingEnabled) {
             (activity as? MultitaskingCallCompositeActivity)?.hide()
         } else {
@@ -275,19 +306,45 @@ internal class CallingFragment :
             context?.applicationContext?.getSystemService(Context.POWER_SERVICE) as PowerManager
         wakeLock =
             powerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, javaClass.name)
-        wakeLock.acquire()
+
         sensorManager.registerListener(
             this,
             sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY),
             SensorManager.SENSOR_DELAY_NORMAL
         )
+
+        context?.let { context ->
+            if (isTablet(context)) {
+                val isLandScape =
+                    resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+                val captionsWrapperLayout =
+                    captionsWrapper.layoutParams as ConstraintLayout.LayoutParams
+                captionsWrapperLayout.matchConstraintPercentWidth =
+                    if (isLandScape) 0.33f else 0.45f
+                captionsWrapper.layoutParams = captionsWrapperLayout
+            }
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.isCaptionsVisibleFlow.collect {
+                    val height = if (it) 150 else 0
+                    val layoutParams = captionsBottomAnchor.layoutParams
+                    layoutParams.height = context.convertDpToPx(height).toInt()
+                    captionsBottomAnchor.layoutParams = layoutParams
+
+                    captionsWrapper.isVisible = it
+                }
+            }
+        }
+
+        captionsTopAnchor.post {
+            calculateAndSetCaptionsLayoutMaxHeight()
+        }
     }
 
     override fun onPause() {
         super.onPause()
         if (this::wakeLock.isInitialized) {
             if (wakeLock.isHeld) {
-                wakeLock.setReferenceCounted(false)
                 wakeLock.release()
             }
         }
@@ -319,20 +376,22 @@ internal class CallingFragment :
         if (this::toastNotificationView.isInitialized) toastNotificationView.stop()
         if (this::captionsListView.isInitialized) captionsListView.stop()
         if (this::captionsLanguageSelectionListView.isInitialized) captionsLanguageSelectionListView.stop()
-        if (this::captionsLayout.isInitialized) captionsLayout.stop()
+        if (this::captionsView.isInitialized) captionsView.stop()
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
 
     override fun onSensorChanged(event: SensorEvent) {
+        if (activity?.isKeyboardOpen() == true) {
+            return
+        }
         if (event.sensor.type == Sensor.TYPE_PROXIMITY) {
             if (event.values[0] == closeToUser) {
                 if (!wakeLock.isHeld) {
                     wakeLock.acquire()
                 }
             } else {
-                if (!wakeLock.isHeld) {
-                    wakeLock.setReferenceCounted(false)
+                if (wakeLock.isHeld) {
                     wakeLock.release()
                 }
             }
@@ -364,5 +423,44 @@ internal class CallingFragment :
 
     private fun switchFloatingHeader() {
         viewModel.switchFloatingHeader()
+    }
+
+    private fun maximizeCaptions() {
+        captionsOverlay.isVisible = true
+        updateConstraintTopTo(R.id.captions_top_anchor, ConstraintSet.BOTTOM)
+    }
+
+    private fun minimizeCaptions() {
+        captionsOverlay.isVisible = false
+        updateConstraintTopTo(R.id.captions_bottom_anchor, ConstraintSet.TOP)
+    }
+
+    private fun updateConstraintTopTo(
+        targetViewId: Int,
+        constraint: Int,
+    ) {
+        val nestedViewId = R.id.azure_communication_ui_calling_captions_view_wrapper
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(callScreenLayout)
+        constraintSet.clear(nestedViewId, ConstraintSet.TOP)
+        constraintSet.connect(nestedViewId, ConstraintSet.TOP, targetViewId, constraint)
+
+        val animationDuration: Long = 100
+        val transition = ChangeBounds()
+        transition.duration = animationDuration
+        TransitionManager.beginDelayedTransition(callScreenLayout, transition)
+
+        constraintSet.applyTo(callScreenLayout)
+    }
+
+    private fun calculateAndSetCaptionsLayoutMaxHeight() {
+        val location = IntArray(2)
+        captionsTopAnchor.getLocationOnScreen(location)
+        val captionsTopAnchorBottomY = location[1] + captionsTopAnchor.height
+
+        captionsBottomAnchor.getLocationOnScreen(location)
+        val captionsBottomAnchorBottomY = location[1] + captionsBottomAnchor.height
+
+        captionsView.maxHeight = captionsBottomAnchorBottomY - captionsTopAnchorBottomY
     }
 }

@@ -3,57 +3,139 @@
 
 package com.azure.android.communication.ui.calling.presentation.manager
 
+import android.graphics.Bitmap
+import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsData
 import com.azure.android.communication.ui.calling.models.CaptionsResultType
+import com.azure.android.communication.ui.calling.models.RttMessage
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsRecord
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsRttRecord
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsRttType
 import com.azure.android.communication.ui.calling.redux.AppStore
+import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
+import com.azure.android.communication.ui.calling.utilities.EventFlow
+import com.azure.android.communication.ui.calling.utilities.MutableEventFlow
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import java.time.Duration
 import java.time.Instant
+import java.util.Date
+import kotlin.math.min
 
 internal class CaptionsDataManager(
     private val callingService: CallingService,
-    private val appStore: AppStore<ReduxState>
+    private val appStore: AppStore<ReduxState>,
+    private val avatarViewManager: AvatarViewManager,
+    private val localParticipantIdentifier: CommunicationIdentifier?,
+    private val localParticipantDisplayName: String?,
 ) {
-    private val captionsNewDataStateFlow = MutableStateFlow<CaptionsRecord?>(null)
-    fun getOnNewCaptionsDataAddedStateFlow() = captionsNewDataStateFlow
+    private val mutex = Mutex()
+    private var isCaptionsOn = false
+    private val captionsAndRttMutableList = mutableListOf<CaptionsRttRecord>()
+    private val recordRemovedAtPositionMutableSharedFlow = MutableSharedFlow<Int>()
+    private val recordUpdatedAtPositionMutableSharedFlow = MutableSharedFlow<Int>()
+    private val recordInsertedAtPositionMutableSharedFlow = MutableSharedFlow<Int>()
+    private var isRttInfoItemAdded = false
+    private val captionsRttUpdatedMutableEventFlow = MutableEventFlow()
 
-    private val captionsLastDataUpdatedStateFlow = MutableStateFlow<CaptionsRecord?>(null)
-    fun getOnLastCaptionsDataUpdatedStateFlow() = captionsLastDataUpdatedStateFlow
+    val captionsAndRttData: List<CaptionsRttRecord> = captionsAndRttMutableList
+    val recordUpdatedAtPositionSharedFlow: SharedFlow<Int> = recordUpdatedAtPositionMutableSharedFlow
+    val recordInsertedAtPositionSharedFlow: SharedFlow<Int> = recordInsertedAtPositionMutableSharedFlow
+    val recordRemovedAtPositionSharedFlow: SharedFlow<Int> = recordRemovedAtPositionMutableSharedFlow
 
-    // cache to get last captions on screen rotation
-    val captionsDataCache = mutableListOf<CaptionsRecord>()
-
-    fun resetFlows() {
-        captionsNewDataStateFlow.value = null
-        captionsLastDataUpdatedStateFlow.value = null
-    }
+    val captionsRttUpdated: EventFlow = captionsRttUpdatedMutableEventFlow
 
     fun start(coroutineScope: CoroutineScope) {
         coroutineScope.launch {
             callingService.getCaptionsReceivedSharedFlow().collect { captionData ->
-                if (shouldSkipCaption(captionData)) return@collect
+                mutex.withLock {
+                    if (shouldSkipCaption(captionData)) return@collect
 
-                updateCaptionsDataCache()
+                    val (captionText, languageCode) = getCaptionTextAndLanguage(captionData)
+                    val (customizedDisplayName, avatar) =
+                        if (localParticipantIdentifier?.rawId == captionData.speakerRawId)
+                            getLocalParticipantCustomizations()
+                        else
+                            getParticipantCustomizations(captionData.speakerRawId)
 
-                val (captionText, languageCode) = extractCaptionTextAndLanguage(captionData)
+                    val record = CaptionsRttRecord(
+                        avatarBitmap = avatar,
+                        displayName = customizedDisplayName ?: captionData.speakerName,
+                        displayText = captionText,
+                        speakerRawId = captionData.speakerRawId,
+                        languageCode = languageCode,
+                        isFinal = captionData.resultType == CaptionsResultType.FINAL,
+                        timestamp = captionData.timestamp,
+                        lastUpdated = Date(),
+                        type = CaptionsRttType.CAPTIONS,
+                    )
 
-                val data = CaptionsRecord(
-                    captionData.speakerName,
-                    captionText,
-                    captionData.speakerRawId,
-                    languageCode,
-                    captionData.resultType == CaptionsResultType.FINAL,
-                    captionData.timestamp
-                )
+                    removeOverflownCaptionsFromCache()
+                    handleCaptionData(record)
+                }
+            }
+        }
 
-                handleCaptionData(captionData, data)
+        coroutineScope.launch {
+            callingService.getRttFlow().collect { rttRecord ->
+                mutex.withLock {
+                    val displayName = getRttSenderDisplayName(rttRecord)
+                    val (customizedDisplayName, avatar) = if (rttRecord.isLocal)
+                        getLocalParticipantCustomizations()
+                    else
+                        getParticipantCustomizations(rttRecord.senderUserRawId)
+                    val captionsRecord = CaptionsRttRecord(
+                        avatarBitmap = avatar,
+                        displayName = customizedDisplayName ?: displayName,
+                        displayText = rttRecord.message,
+                        speakerRawId = rttRecord.senderUserRawId,
+                        languageCode = null,
+                        isFinal = rttRecord.isFinalized,
+                        timestamp = rttRecord.localCreatedTime,
+                        lastUpdated = Date(),
+                        type = CaptionsRttType.RTT,
+                        isLocal = rttRecord.isLocal,
+                        rttSequenceId = rttRecord.sequenceId,
+                    )
+
+                    removeOverflownCaptionsFromCache()
+                    handleRttData(captionsRecord)
+                }
+            }
+        }
+
+        coroutineScope.launch {
+            appStore.getStateFlow().collect { state ->
+                mutex.withLock {
+                    if (state.rttState.isRttActive) {
+                        ensureRttMessageIsDisplayed()
+                    }
+                    if (state.captionsState.status == CaptionsStatus.STARTED && !isCaptionsOn) {
+                        isCaptionsOn = true
+                    }
+                    if (state.captionsState.status == CaptionsStatus.STOPPED && isCaptionsOn) {
+                        isCaptionsOn = false
+                        removeCaptions()
+                    }
+                }
+            }
+        }
+
+        coroutineScope.launch {
+            while (isActive) {
+                mutex.withLock {
+                    cleanDeadRecords()
+                }
+                delay(timeMillis = 10000)
             }
         }
     }
@@ -64,65 +146,189 @@ internal class CaptionsDataManager(
         return !activeCaptionLanguage.isNullOrEmpty() && captionData.captionLanguage.isNullOrEmpty()
     }
 
-    private fun updateCaptionsDataCache() {
-        if (captionsDataCache.size >= CallingFragment.MAX_CAPTIONS_DATA_SIZE) {
-            captionsDataCache.removeAt(0)
+    private suspend fun removeOverflownCaptionsFromCache() {
+        if (captionsAndRttMutableList.size >= CallingFragment.MAX_CAPTIONS_DATA_SIZE) {
+            removeAtIndex(0)
         }
     }
 
-    private fun extractCaptionTextAndLanguage(captionData: CallCompositeCaptionsData): Pair<String, String> {
+    private fun getCaptionTextAndLanguage(captionData: CallCompositeCaptionsData): Pair<String, String?> {
         return if (!captionData.captionText.isNullOrEmpty()) {
-            captionData.captionText to (captionData.captionLanguage ?: "")
+            captionData.captionText to captionData.captionLanguage
         } else {
             captionData.spokenText to captionData.spokenLanguage
         }
     }
 
-    private fun handleCaptionData(captionData: CallCompositeCaptionsData, data: CaptionsRecord) {
-        val lastCaption = captionsDataCache.lastOrNull()
+    private suspend fun handleRttData(newCaptionsRecord: CaptionsRttRecord) {
+        ensureRttMessageIsDisplayed()
+        val lastCaptionFromSameUser = captionsAndRttMutableList.lastOrNull {
+            it.speakerRawId == newCaptionsRecord.speakerRawId &&
+                it.rttSequenceId == newCaptionsRecord.rttSequenceId
+        }
 
-        when {
-            shouldAddNewCaption(lastCaption) -> addNewCaption(data)
-            shouldUpdateLastCaption(lastCaption, captionData) -> updateLastCaption(data)
-            shouldFinalizeLastCaption(lastCaption, captionData) -> finalizeLastCaptionAndAddNew(data, lastCaption!!)
+        if (lastCaptionFromSameUser != null) {
+            if (newCaptionsRecord.displayText.isEmpty()) {
+                val indexToBeRemoved = captionsAndRttMutableList.indexOf(lastCaptionFromSameUser)
+                removeAtIndex(indexToBeRemoved)
+            } else {
+                updateCaptionsRttRecord(lastCaptionFromSameUser, newCaptionsRecord)
+            }
+        } else {
+            if (newCaptionsRecord.displayText.isNotEmpty()) {
+                addNewCaption(newCaptionsRecord)
+            }
         }
     }
 
-    private fun shouldAddNewCaption(lastCaption: CaptionsRecord?): Boolean {
-        return lastCaption == null || lastCaption.isFinal
-    }
-
-    private fun shouldUpdateLastCaption(lastCaption: CaptionsRecord?, captionData: CallCompositeCaptionsData): Boolean {
-        return lastCaption != null && lastCaption.speakerRawId == captionData.speakerRawId
-    }
-
-    private fun shouldFinalizeLastCaption(lastCaption: CaptionsRecord?, captionData: CallCompositeCaptionsData): Boolean {
-        if (lastCaption == null) return false
-        val duration = Duration.between(Instant.ofEpochMilli(lastCaption.timestamp.time), Instant.ofEpochMilli(captionData.timestamp.time))
-        val result = duration.toMillis() > CallingFragment.MAX_CAPTIONS_PARTIAL_DATA_TIME_LIMIT
-        return result
-    }
-
-    private fun addNewCaption(data: CaptionsRecord) {
-        captionsNewDataStateFlow.value = data
-        captionsDataCache.add(data)
-    }
-
-    private fun updateLastCaption(data: CaptionsRecord) {
-        if (captionsDataCache.size < 1) {
-            return
+    private suspend fun ensureRttMessageIsDisplayed() {
+        if (!isRttInfoItemAdded) {
+            val rttInfoItem = CaptionsRttRecord(
+                avatarBitmap = null,
+                displayName = "",
+                displayText = "",
+                speakerRawId = "",
+                languageCode = null,
+                isFinal = true,
+                timestamp = Date(),
+                lastUpdated = Date(),
+                type = CaptionsRttType.RTT_INFO,
+            )
+            addNewCaption(rttInfoItem)
+            isRttInfoItemAdded = true
         }
-        captionsDataCache[captionsDataCache.size - 1] = data
-        captionsLastDataUpdatedStateFlow.value = data
     }
 
-    private fun finalizeLastCaptionAndAddNew(data: CaptionsRecord, lastCaption: CaptionsRecord) {
-        val updatedLastCaption = lastCaption.copy(isFinal = true)
-        if (captionsDataCache.size < 1) {
-            return
+    private suspend fun handleCaptionData(newCaptionsRecord: CaptionsRttRecord) {
+        var lastCaptionFromSameUser = getLastCaptionFromUser(newCaptionsRecord.speakerRawId, CaptionsRttType.CAPTIONS)
+
+        if (lastCaptionFromSameUser != null && shouldFinalizeLastCaption(lastCaptionFromSameUser, newCaptionsRecord)) {
+            lastCaptionFromSameUser = finalizeLastCaption(lastCaptionFromSameUser)
         }
-        captionsDataCache[captionsDataCache.size - 1] = updatedLastCaption
-        captionsLastDataUpdatedStateFlow.value = updatedLastCaption
-        addNewCaption(data)
+
+        if (lastCaptionFromSameUser?.isFinal == false) {
+            updateCaptionsRttRecord(lastCaptionFromSameUser, newCaptionsRecord)
+        } else {
+            addNewCaption(newCaptionsRecord)
+        }
+    }
+
+    private fun getLastCaptionFromUser(speakerRawId: String?, type: CaptionsRttType): CaptionsRttRecord? {
+        return captionsAndRttMutableList.lastOrNull { it.type == type && it.speakerRawId == speakerRawId }
+    }
+
+    private fun shouldFinalizeLastCaption(lastCaption: CaptionsRttRecord, newCaptionsRecord: CaptionsRttRecord): Boolean {
+        val duration = Duration.between(
+            Instant.ofEpochMilli(lastCaption.timestamp.time),
+            Instant.ofEpochMilli(newCaptionsRecord.timestamp.time)
+        )
+        return duration.toMillis() > CallingFragment.MAX_CAPTIONS_PARTIAL_DATA_TIME_LIMIT
+    }
+
+    private suspend fun addNewCaption(data: CaptionsRttRecord) {
+        var index = 0
+        if (data.type == CaptionsRttType.CAPTIONS) {
+            index = captionsAndRttMutableList.indexOfLast {
+                it.type == CaptionsRttType.CAPTIONS || it.isFinal
+            } + 1
+        } else {
+            index = captionsAndRttMutableList.size
+
+            if (captionsAndRttMutableList.lastOrNull()?.isLocal == true &&
+                captionsAndRttMutableList.lastOrNull()?.isFinal == false
+            ) {
+                index -= 1
+            }
+        }
+
+        insertCaption(index, data)
+    }
+
+    private suspend fun updateCaptionsRttRecord(lastCaptionFromSameUser: CaptionsRttRecord, captionsRecord: CaptionsRttRecord) {
+        val lastCaptionIndex = captionsAndRttMutableList.indexOf(lastCaptionFromSameUser)
+
+        if (captionsRecord.type == CaptionsRttType.RTT) {
+            var moveToIndex = captionsAndRttMutableList.indexOfLast {
+                it.type == CaptionsRttType.CAPTIONS || it.isFinal
+            } + 1
+            moveToIndex = min(moveToIndex, captionsAndRttMutableList.size)
+
+            if (captionsRecord.isFinal && lastCaptionIndex != moveToIndex) {
+                insertCaption(moveToIndex, captionsRecord)
+                removeAtIndex(lastCaptionIndex)
+            } else {
+                updateAtIndex(lastCaptionIndex, captionsRecord)
+            }
+        } else {
+            updateAtIndex(lastCaptionIndex, captionsRecord)
+        }
+    }
+
+    private suspend fun finalizeLastCaption(captionsRecord: CaptionsRttRecord): CaptionsRttRecord {
+        val captionIndex = captionsAndRttMutableList.indexOf(captionsRecord)
+        val finalizedCaptionsRecord = captionsRecord.copy(isFinal = true)
+        captionsAndRttMutableList[captionIndex] = finalizedCaptionsRecord
+        recordUpdatedAtPositionMutableSharedFlow.emit(captionIndex)
+        return finalizedCaptionsRecord
+    }
+
+    private fun getRttSenderDisplayName(rttRecord: RttMessage): String? {
+        return if (rttRecord.isLocal) {
+            localParticipantDisplayName
+        } else {
+            rttRecord.senderName
+        }
+    }
+    private fun getLocalParticipantCustomizations(): Pair<String?, Bitmap?> {
+        val localParticipantViewData =
+            avatarViewManager.callCompositeLocalOptions?.participantViewData
+        if (localParticipantViewData != null) {
+            return Pair(
+                localParticipantViewData.displayName,
+                localParticipantViewData.avatarBitmap
+            )
+        }
+        return Pair(null, null)
+    }
+    private fun getParticipantCustomizations(participantRawId: String?): Pair<String?, Bitmap?> {
+        participantRawId?.let {
+            val remoteParticipantViewData = avatarViewManager.getRemoteParticipantViewData(participantRawId)
+            if (remoteParticipantViewData != null) {
+                return Pair(
+                    remoteParticipantViewData.displayName,
+                    remoteParticipantViewData.avatarBitmap
+                )
+            }
+        }
+        return Pair(null, null)
+    }
+
+    private suspend fun insertCaption(index: Int, data: CaptionsRttRecord) {
+        captionsAndRttMutableList.add(index, data)
+        recordInsertedAtPositionMutableSharedFlow.emit(index)
+    }
+
+    private suspend fun updateAtIndex(index: Int, data: CaptionsRttRecord) {
+        captionsAndRttMutableList[index] = data
+        recordUpdatedAtPositionMutableSharedFlow.emit(index)
+    }
+
+    private suspend fun removeAtIndex(index: Int) {
+        captionsAndRttMutableList.removeAt(index)
+        recordRemovedAtPositionMutableSharedFlow.emit(index)
+    }
+
+    private fun removeCaptions() {
+        captionsAndRttMutableList.removeAll { it.type == CaptionsRttType.CAPTIONS }
+        captionsRttUpdatedMutableEventFlow.emit()
+    }
+
+    private suspend fun cleanDeadRecords() {
+        for (i in captionsAndRttData.indices) {
+            val item = captionsAndRttData[i]
+            if (!item.isFinal && item.lastUpdated < Date.from(Instant.now().minusSeconds(10))) {
+                updateAtIndex(i, item.copy(isFinal = true))
+            }
+        }
     }
 }

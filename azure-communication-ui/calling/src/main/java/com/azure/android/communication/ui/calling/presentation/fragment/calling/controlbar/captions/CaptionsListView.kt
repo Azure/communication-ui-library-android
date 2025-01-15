@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
@@ -28,6 +29,7 @@ internal class CaptionsListView(
     private var recyclerView: RecyclerView
     private lateinit var menuDrawer: DrawerDialog
     private lateinit var bottomCellAdapter: BottomCellAdapter
+    private lateinit var rttConfirmDialog: AlertDialog
 
     init {
         inflate(context, R.layout.azure_communication_ui_calling_listview, this)
@@ -93,6 +95,11 @@ internal class CaptionsListView(
                     redrawCaptionsListView()
                 }
             },
+            {
+                viewModel.isRttButtonEnabledStateFlow.collect {
+                    redrawCaptionsListView()
+                }
+            },
         )
     }
 
@@ -137,8 +144,36 @@ internal class CaptionsListView(
         val isToggleVisible = viewModel.isCaptionsToggleVisibleStateFlow.value
         val isSpokenLanguageButtonVisible = viewModel.isSpokenLanguageButtonVisibleStateFlow.value
         val isSpokenLanguageButtonEnabled = viewModel.isSpokenLanguageButtonEnabledStateFlow.value
+        val isRttButtonEnabledStateFlow = viewModel.isRttButtonEnabledStateFlow.value
 
         val items = mutableListOf<BottomCellItem>()
+
+        items.add(
+            BottomCellItem(
+                icon = ContextCompat.getDrawable(
+                    context, R.drawable.azure_communication_ui_calling_ic_fluent_chevron_left_24_filled
+                ),
+                title = context.getString(R.string.azure_communication_ui_calling_captions_rtt_menu),
+                iconContentDescription = context.getString(R.string.azure_communication_ui_calling_view_go_back),
+                contentDescription = null,
+                accessoryImage = null,
+                accessoryColor = null,
+                accessoryImageDescription = null,
+                isChecked = null,
+                participantViewData = null,
+                isOnHold = null,
+                itemType = BottomCellItemType.BottomMenuCenteredTitle,
+                onClickAction = null,
+                iconOnClickAction = {
+                    viewModel.back()
+                },
+                showToggleButton = false,
+                isToggleButtonOn = false,
+                isEnabled = true,
+                toggleButtonAction = null,
+            )
+        )
+
         if (isToggleVisible) {
             items.add(
                 BottomCellItem(
@@ -146,7 +181,7 @@ internal class CaptionsListView(
                         context, R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_selector
                     ),
                     title = context.getString(R.string.azure_communication_ui_calling_live_captions_title),
-                    contentDescription = "",
+                    contentDescription = null,
                     accessoryImage = null,
                     accessoryColor = null,
                     accessoryImageDescription = null,
@@ -172,14 +207,14 @@ internal class CaptionsListView(
                         R.drawable.azure_communication_ui_calling_ic_fluent_spoken_language_24_selector
                     ),
                     title = context.getString(R.string.azure_communication_ui_calling_captions_spoken_language_title),
-                    "",
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
+                    contentDescription = null,
+                    accessoryImage = null,
+                    accessoryColor = null,
+                    accessoryImageDescription = null,
+                    isChecked = null,
+                    participantViewData = null,
                     isOnHold = null,
-                    BottomCellItemType.BottomMenuAction,
+                    itemType = BottomCellItemType.BottomMenuAction,
                     showRightArrow = true,
                     subtitle = LocaleHelper.getLocaleDisplayName(activeSpokenLanguage),
                     onClickAction = {
@@ -197,14 +232,14 @@ internal class CaptionsListView(
                         R.drawable.azure_communication_ui_calling_ic_fluent_caption_language_24_selector
                     ),
                     title = context.getString(R.string.azure_communication_ui_calling_captions_caption_language_title),
-                    "",
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
+                    contentDescription = null,
+                    accessoryImage = null,
+                    accessoryColor = null,
+                    accessoryImageDescription = null,
+                    isChecked = null,
+                    participantViewData = null,
                     isOnHold = null,
-                    BottomCellItemType.BottomMenuAction,
+                    itemType = BottomCellItemType.BottomMenuAction,
                     showRightArrow = true,
                     subtitle = LocaleHelper.getLocaleDisplayName(activeCaptionLanguage),
                     onClickAction = {
@@ -215,6 +250,45 @@ internal class CaptionsListView(
             )
         }
 
+        items.add(
+            BottomCellItem(
+                icon = ContextCompat.getDrawable(
+                    context,
+                    R.drawable.azure_communication_ui_calling_ic_fluent_slide_text_call_20_regular
+                ),
+                title = context.getString(R.string.azure_communication_ui_calling_captions_turn_on_rtt),
+                contentDescription = null,
+                accessoryImage = null,
+                accessoryColor = null,
+                accessoryImageDescription = null,
+                isChecked = null,
+                participantViewData = null,
+                isOnHold = null,
+                itemType = BottomCellItemType.BottomMenuAction,
+                onClickAction = {
+                    showStartRttConfirm()
+                },
+                isEnabled = isRttButtonEnabledStateFlow,
+                showTopDivider = true,
+            )
+        )
+
         return items
+    }
+
+    private fun showStartRttConfirm() {
+        val dialog = AlertDialog.Builder(context, R.style.AzureCommunicationUICalling_AlertDialog_Theme)
+            .setTitle(context.getString(R.string.azure_communication_ui_calling_view_rtt_confirmation_title))
+            .setMessage(context.getString(R.string.azure_communication_ui_calling_view_rtt_confirmation_message))
+            .setPositiveButton(
+                context.getString(R.string.azure_communication_ui_calling_view_rtt_confirmation_confirm)
+            ) { _, _ ->
+                viewModel.enableRTT()
+            }
+            .setNegativeButton(
+                context.getString(R.string.azure_communication_ui_calling_notification_dismiss_accessibility_label)
+            ) { _, _ -> }
+        rttConfirmDialog = dialog.create()
+        rttConfirmDialog.show()
     }
 }

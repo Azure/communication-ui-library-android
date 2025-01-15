@@ -31,6 +31,7 @@
             android:excludeFromRecents="true"
             android:taskAffinity="com.azure.android.communication.ui.calling.presentation.CallCompositeActivity"
             android:theme="@style/AzureCommunicationUICalling.Theme"
+            android:windowSoftInputMode="adjustResize"
             android:showOnLockScreen="true"
             android:turnScreenOn="true"
             />
@@ -43,6 +44,7 @@
             android:excludeFromRecents="true"
             android:taskAffinity="com.azure.android.communication.ui.calling.presentation.CallCompositeActivity"
             android:theme="@style/AzureCommunicationUICalling.Theme"
+            android:windowSoftInputMode="adjustResize"
             android:showOnLockScreen="true"
             android:turnScreenOn="true"
             />
@@ -56,6 +58,7 @@
             android:launchMode="singleTop"
             android:theme="@style/AzureCommunicationUICalling.Theme"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:showOnLockScreen="true"
             android:turnScreenOn="true"
             />

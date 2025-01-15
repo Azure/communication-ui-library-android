@@ -92,7 +92,7 @@ internal class ParticipantGridCellViewModel(
             participant.isCameraDisabled
         )
 
-        this.isSpeakingStateFlow.value = participant.isSpeaking && !participant.isMuted
+        this.isSpeakingStateFlow.value = participant.isSpeaking || participant.isTypingRtt
         this.participantModifiedTimestamp = participant.modifiedTimestamp
         this.isCallingStateFlow.value = isCalling(participant.participantStatus)
     }

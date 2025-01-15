@@ -74,6 +74,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                     /* </CALL_START_TIME> */
                 ),
                 appState.buttonState,
+                appState.rttState,
                 { },
                 /* <CALL_START_TIME> */
                 null,
@@ -99,6 +100,8 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                     /* </CALL_START_TIME> */
                 ),
                 appState.buttonState,
+                appState.callState.callingStatus,
+                appState.rttState,
                 /* <CALL_START_TIME> */
                 null,
                 /* </CALL_START_TIME> */
@@ -161,6 +164,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                     /* </CALL_START_TIME> */
                 ),
                 appState.buttonState,
+                appState.rttState,
                 {},
                 /* <CALL_START_TIME> */
                 null,
@@ -176,8 +180,26 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             // act
-            floatingHeaderViewModel.updateIsOverlayDisplayed(CallingStatus.CONNECTED)
-            floatingHeaderViewModel.updateIsOverlayDisplayed(CallingStatus.IN_LOBBY)
+            floatingHeaderViewModel.update(
+                1,
+                appState.callScreenInfoHeaderState,
+                appState.buttonState,
+                CallingStatus.CONNECTED,
+                appState.rttState,
+                /* <CALL_START_TIME> */
+                null,
+                /* </CALL_START_TIME> */
+            )
+            floatingHeaderViewModel.update(
+                1,
+                appState.callScreenInfoHeaderState,
+                appState.buttonState,
+                CallingStatus.IN_LOBBY,
+                appState.rttState,
+                /* <CALL_START_TIME> */
+                null,
+                /* </CALL_START_TIME> */
+            )
 
             // assert
             Assert.assertEquals(
@@ -241,6 +263,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                     /* </CALL_START_TIME> */
                 ),
                 appState.buttonState,
+                appState.rttState,
                 { },
                 /* <CALL_START_TIME> */
                 null,
@@ -280,6 +303,8 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                     /* </CALL_START_TIME> */
                 ),
                 appState.buttonState,
+                CallingStatus.CONNECTED,
+                appState.rttState,
                 /* <CALL_START_TIME> */
                 null,
                 /* </CALL_START_TIME> */
@@ -348,6 +373,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 expectedParticipantMap.count(),
                 CallScreenInfoHeaderState(null, null, false),
                 appState.buttonState,
+                appState.rttState,
                 { },
                 null,
             )
@@ -372,6 +398,8 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 expectedParticipantMap.count(),
                 CallScreenInfoHeaderState(null, null, true),
                 appState.buttonState,
+                appState.callState.callingStatus,
+                appState.rttState,
                 Date(),
             )
 
@@ -446,6 +474,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                     /* </CALL_START_TIME> */
                 ),
                 appState.buttonState,
+                appState.rttState,
                 { },
                 /* <CALL_START_TIME> */
                 null,
@@ -492,6 +521,8 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                     /* </CALL_START_TIME> */
                 ),
                 buttonState1,
+                CallingStatus.CONNECTED,
+                appState.rttState,
                 /* <CALL_START_TIME> */
                 null,
                 /* </CALL_START_TIME> */
@@ -519,6 +550,8 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                     /* </CALL_START_TIME> */
                 ),
                 buttonState2,
+                CallingStatus.CONNECTED,
+                appState.rttState,
                 /* <CALL_START_TIME> */
                 null,
                 /* </CALL_START_TIME> */

@@ -10,4 +10,11 @@ internal enum class NavigationStatus {
     EXIT,
 }
 
-internal data class NavigationState(val navigationState: NavigationStatus, val supportVisible: Boolean = false)
+internal data class NavigationState(
+    val navigationState: NavigationStatus,
+    val supportVisible: Boolean = false,
+    val showCaptionsToggleUI: Boolean = false,
+    val showSupportedSpokenLanguagesSelection: Boolean = false,
+    val showSupportedCaptionLanguagesSelections: Boolean = false,
+    val showMoreMenu: Boolean = false,
+)

@@ -88,33 +88,33 @@ internal class LeaveConfirmView(
             val bottomCellItems = mutableListOf(
                 // Leave title
                 BottomCellItem(
-                    null,
-                    context.getString(R.string.azure_communication_ui_calling_view_leave_call),
-                    context.getString(R.string.azure_communication_ui_calling_view_leave_confirm_menu),
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    false,
-                    BottomCellItemType.BottomMenuTitle,
-                    null
+                    icon = null,
+                    title = context.getString(R.string.azure_communication_ui_calling_view_leave_call),
+                    contentDescription = context.getString(R.string.azure_communication_ui_calling_view_leave_confirm_menu),
+                    accessoryImage = null,
+                    accessoryColor = null,
+                    accessoryImageDescription = null,
+                    isChecked = null,
+                    participantViewData = null,
+                    isOnHold = false,
+                    itemType = BottomCellItemType.BottomMenuTitle,
+                    onClickAction = null
                 ),
 
                 // Leave
                 BottomCellItem(
-                    ContextCompat.getDrawable(
+                    icon = ContextCompat.getDrawable(
                         context,
                         R.drawable.azure_communication_ui_calling_leave_confirm_telephone_24
                     ),
-                    context.getString(R.string.azure_communication_ui_calling_view_leave_call_button_text),
-                    context.getString(R.string.azure_communication_ui_calling_leave_confirm_drawer_leave_button),
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    false,
+                    title = context.getString(R.string.azure_communication_ui_calling_view_leave_call_button_text),
+                    contentDescription = context.getString(R.string.azure_communication_ui_calling_leave_confirm_drawer_leave_button),
+                    accessoryImage = null,
+                    accessoryColor = null,
+                    accessoryImageDescription = null,
+                    isChecked = null,
+                    participantViewData = null,
+                    isOnHold = false,
                     onClickAction = {
                         viewModel.confirm()
                     }
@@ -122,18 +122,18 @@ internal class LeaveConfirmView(
 
                 // Cancel
                 BottomCellItem(
-                    ContextCompat.getDrawable(
+                    icon = ContextCompat.getDrawable(
                         context,
                         R.drawable.azure_communication_ui_calling_leave_confirm_dismiss_24
                     ),
-                    context.getString(R.string.azure_communication_ui_calling_view_leave_call_cancel),
-                    context.getString(R.string.azure_communication_ui_calling_leave_confirm_drawer_cancel_button),
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    false,
+                    title = context.getString(R.string.azure_communication_ui_calling_view_leave_call_cancel),
+                    contentDescription = context.getString(R.string.azure_communication_ui_calling_leave_confirm_drawer_cancel_button),
+                    accessoryImage = null,
+                    accessoryColor = null,
+                    accessoryImageDescription = null,
+                    isChecked = null,
+                    participantViewData = null,
+                    isOnHold = false,
                     onClickAction = {
                         cancelLeaveConfirm()
                     },

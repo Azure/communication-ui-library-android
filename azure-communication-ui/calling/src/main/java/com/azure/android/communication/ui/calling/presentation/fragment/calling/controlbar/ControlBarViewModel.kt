@@ -13,6 +13,7 @@ import com.azure.android.communication.ui.calling.models.createButtonClickEvent
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
+import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
@@ -22,6 +23,7 @@ import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.redux.state.DefaultButtonState
+import com.azure.android.communication.ui.calling.redux.state.DeviceConfigurationState
 import com.azure.android.communication.ui.calling.redux.state.PermissionState
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
@@ -59,7 +61,6 @@ internal class ControlBarViewModel(
     // Callbacks
     lateinit var requestCallEnd: () -> Unit
     lateinit var openAudioDeviceSelectionMenu: () -> Unit
-    lateinit var openMoreMenu: () -> Unit
 
     private lateinit var isMoreButtonVisibleFlow: MutableStateFlow<Boolean>
 
@@ -70,14 +71,14 @@ internal class ControlBarViewModel(
         callState: CallingState,
         requestCallEndCallback: () -> Unit,
         openAudioDeviceSelectionMenuCallback: () -> Unit,
-        openMoreMenuCallback: () -> Unit,
         visibilityState: VisibilityState,
         audioVideoMode: CallCompositeAudioVideoMode,
         capabilities: Set<ParticipantCapabilityType>,
         buttonViewDataState: ButtonState,
         controlBarOptions: CallCompositeCallScreenControlBarOptions?,
+        deviceConfigurationState: DeviceConfigurationState,
     ) {
-        isVisibleStateFlow = MutableStateFlow(shouldBeVisible(visibilityState))
+        isVisibleStateFlow = MutableStateFlow(shouldBeVisible(visibilityState, deviceConfigurationState))
 
         isCameraButtonVisibleFlow = MutableStateFlow(
             shouldCameraBeVisibility(
@@ -126,7 +127,6 @@ internal class ControlBarViewModel(
 
         requestCallEnd = requestCallEndCallback
         openAudioDeviceSelectionMenu = openAudioDeviceSelectionMenuCallback
-        openMoreMenu = openMoreMenuCallback
 
         this.controlBarOptions = controlBarOptions
     }
@@ -140,9 +140,10 @@ internal class ControlBarViewModel(
         audioVideoMode: CallCompositeAudioVideoMode,
         capabilities: Set<ParticipantCapabilityType>,
         buttonViewDataState: ButtonState,
+        deviceConfigurationState: DeviceConfigurationState,
     ) {
 
-        isVisibleStateFlow.value = shouldBeVisible(visibilityState)
+        isVisibleStateFlow.value = shouldBeVisible(visibilityState, deviceConfigurationState)
 
         isCameraButtonVisibleFlow.value = shouldCameraBeVisibility(
             audioVideoMode,
@@ -225,9 +226,20 @@ internal class ControlBarViewModel(
         callOnClickHandler(context, controlBarOptions?.audioDeviceButton)
     }
 
+    fun openMoreMenu() {
+        dispatch(NavigationAction.ShowMoreMenu())
+    }
+
     private fun shouldBeVisible(
         visibilityState: VisibilityState,
+        deviceConfigurationState: DeviceConfigurationState,
     ): Boolean {
+        if (!deviceConfigurationState.isTablet &&
+            deviceConfigurationState.isPortrait &&
+            deviceConfigurationState.isSoftwareKeyboardVisible
+        ) {
+            return false
+        }
         return visibilityState.status != VisibilityStatus.PIP_MODE_ENTERED
     }
 

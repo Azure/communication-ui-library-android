@@ -11,11 +11,13 @@ internal enum class BottomCellItemType {
     BottomMenuAction,
     BottomMenuActionNoIcon,
     BottomMenuTitle,
-    BottomMenuCenteredTitle
+    BottomMenuCenteredTitle,
 }
 
 internal data class BottomCellItem(
     var icon: Drawable?,
+    var iconContentDescription: String? = null,
+    var iconOnClickAction: ((View) -> Unit)? = null,
     var title: String?,
     var contentDescription: String?,
     var accessoryImage: Drawable?,
@@ -33,5 +35,6 @@ internal data class BottomCellItem(
     var isToggleButtonOn: Boolean = false,
     var subtitle: String? = null,
     var toggleButtonAction: ((View, Boolean) -> Unit)? = null,
-    var admitAllButtonAction: ((View) -> Unit)? = null
+    var admitAllButtonAction: ((View) -> Unit)? = null,
+    val showTopDivider: Boolean = false,
 )

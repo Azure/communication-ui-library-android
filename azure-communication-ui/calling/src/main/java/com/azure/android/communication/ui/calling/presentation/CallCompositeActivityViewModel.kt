@@ -77,6 +77,7 @@ internal class CallCompositeActivityViewModel(
                 debugInfoManager = container.debugInfoManager,
                 capabilitiesManager = container.capabilitiesManager,
                 updatableOptionsManager = container.updatableOptionsManager,
+                captionsDataManager = container.captionsDataManager,
                 showSupportFormOption = container.configuration.callCompositeEventsHandler.getOnUserReportedHandlers().any(),
                 enableMultitasking = container.configuration.enableMultitasking,
                 isTelecomManagerEnabled = container.configuration.telecomManagerOptions != null,
@@ -91,7 +92,7 @@ internal class CallCompositeActivityViewModel(
             avMode = container.configuration.callCompositeLocalOptions?.audioVideoMode
                 ?: CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
             callType = container.configuration.callConfig.callType,
-            capabilitiesManager = container.capabilitiesManager
+            capabilitiesManager = container.capabilitiesManager,
         )
     }
 }

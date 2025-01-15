@@ -4,41 +4,124 @@
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
     android:id="@+id/azure_communication_ui_calling_captions_item_view"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="2dp">
+    android:orientation="horizontal"
+    android:background="@color/azure_communication_ui_calling_color_bottom_drawer_background"
+    >
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/azure_communication_ui_calling_caption_rtt_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/azure_communication_ui_calling_rtt_info"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        >
+        <ImageView
+            android:id="@+id/azure_communication_ui_calling_caption_rtt_info_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:importantForAccessibility="no"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:alpha="0.5"
+            app:srcCompat="@drawable/azure_communication_ui_calling_ic_fluent_slide_text_call_20_regular"
+            />
+        <TextView
+            android:id="@+id/azure_communication_ui_calling_caption_rtt_info_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/azure_communication_ui_calling_caption_rtt_info_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/azure_communication_ui_calling_color_action_bar_subtext"
+            android:textSize="13sp"
+            android:text="@string/azure_communication_ui_calling_rtt_info"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/azure_communication_ui_calling_caption_rtt_typing_indicator"
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:background="@color/azure_communication_ui_calling_color_primary"
+        android:layout_marginEnd="5dp"
+        android:alpha="0.5"
+        android:visibility="gone"
+        tools:visibility="visible"
+        />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/azure_communication_ui_calling_caption_rtt"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:padding="2dp">
 
-        <com.microsoft.fluentui.persona.AvatarView
-            android:id="@+id/azure_communication_ui_calling_caption_avatar_view"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginEnd="4dp"
-            app:fluentui_avatarSize="xsmall" />
-
-        <TextView
-            android:id="@+id/azure_communication_ui_calling_caption_display_name"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:textColor="@color/azure_communication_ui_calling_color_action_bar_subtext"
-            android:textSize="11sp" />
-    </LinearLayout>
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/azure_communication_ui_calling_caption_info_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:textColor="@color/azure_communication_ui_calling_color_on_background"
-        android:textSize="13sp" />
+            <com.microsoft.fluentui.persona.AvatarView
+                android:id="@+id/azure_communication_ui_calling_caption_avatar_view"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="4dp"
+                app:fluentui_avatarSize="xsmall" />
+
+            <TextView
+                android:id="@+id/azure_communication_ui_calling_caption_display_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/azure_communication_ui_calling_color_action_bar_subtext"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/azure_communication_ui_calling_caption_rtt_typing_indicator_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@string/azure_communication_ui_calling_rtt_typing"
+                android:textSize="11sp"
+                android:paddingVertical="1dp"
+                android:paddingHorizontal="3dp"
+                android:background="@drawable/azure_communication_ui_calling_rtt_typing"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:textColor="@color/azure_communication_ui_calling_color_action_bar_subtext"
+                />
+            <TextView
+                android:id="@+id/azure_communication_ui_calling_caption_rtt_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@string/azure_communication_ui_calling_rtt"
+                android:textSize="11sp"
+                android:paddingVertical="1dp"
+                android:paddingHorizontal="3dp"
+                android:background="@drawable/azure_communication_ui_calling_rtt_typing"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:textColor="@color/azure_communication_ui_calling_color_action_bar_subtext"
+                />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/azure_communication_ui_calling_caption_info_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:textColor="@color/azure_communication_ui_calling_color_on_background"
+            android:textSize="13sp" />
+    </LinearLayout>
 </LinearLayout>

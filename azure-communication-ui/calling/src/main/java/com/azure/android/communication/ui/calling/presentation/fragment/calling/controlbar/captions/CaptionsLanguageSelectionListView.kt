@@ -104,14 +104,14 @@ internal class CaptionsLanguageSelectionListView(
                 BottomCellItem(
                     icon = null,
                     title = getLocaleDisplayName(language),
-                    "",
-                    null,
-                    null,
-                    null,
-                    language == viewModel.updateActiveLanguageStateFlow.value,
-                    null,
-                    null,
-                    BottomCellItemType.BottomMenuActionNoIcon,
+                    contentDescription = "",
+                    accessoryImage = null,
+                    accessoryColor = null,
+                    accessoryImageDescription = null,
+                    isChecked = language == viewModel.updateActiveLanguageStateFlow.value,
+                    participantViewData = null,
+                    isOnHold = null,
+                    itemType = BottomCellItemType.BottomMenuActionNoIcon,
                     onClickAction = {
                         viewModel.setActiveLanguage(language)
                     }
@@ -120,22 +120,22 @@ internal class CaptionsLanguageSelectionListView(
         }
         if (viewModel.languageSelectionTypeStateFlow != null) {
             items.add(
-                0,
-                BottomCellItem(
+                index = 0,
+                element = BottomCellItem(
                     icon = null,
                     title = if (viewModel.languageSelectionTypeStateFlow == LanguageSelectionType.CAPTION) {
                         context.getString(R.string.azure_communication_ui_calling_captions_caption_language_title)
                     } else {
                         context.getString(R.string.azure_communication_ui_calling_captions_spoken_language_title)
                     },
-                    "",
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
+                    contentDescription = "",
+                    accessoryImage = null,
+                    accessoryColor = null,
+                    accessoryImageDescription = null,
+                    isChecked = null,
+                    participantViewData = null,
                     isOnHold = null,
-                    BottomCellItemType.BottomMenuCenteredTitle,
+                    itemType = BottomCellItemType.BottomMenuCenteredTitle,
                     onClickAction = null
                 )
             )

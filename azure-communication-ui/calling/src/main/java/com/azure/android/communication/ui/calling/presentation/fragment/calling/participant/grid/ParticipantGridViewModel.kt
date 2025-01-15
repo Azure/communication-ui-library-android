@@ -6,6 +6,10 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.ParticipantGridCellViewModelFactory
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CaptionsState
+import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
+import com.azure.android.communication.ui.calling.redux.state.DeviceConfigurationState
+import com.azure.android.communication.ui.calling.redux.state.RttState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,12 +30,22 @@ internal class ParticipantGridViewModel(
     private var remoteParticipantStateModifiedTimeStamp: Number = 0
     private var dominantSpeakersStateModifiedTimestamp: Number = 0
     private var visibilityStatus: VisibilityStatus? = null
-    private lateinit var isLobbyOverlayDisplayedFlow: MutableStateFlow<Boolean>
+    private lateinit var isOverlayDisplayedFlow: MutableStateFlow<Boolean>
+    private lateinit var isVerticalStyleGridMutableFlow: MutableStateFlow<Boolean>
+
+    val isVerticalStyleGridFlow: StateFlow<Boolean>
+        get() = isVerticalStyleGridMutableFlow
 
     fun init(
         callingStatus: CallingStatus,
+        rttState: RttState,
+        deviceConfigurationState: DeviceConfigurationState,
+        captionsState: CaptionsState,
     ) {
-        isLobbyOverlayDisplayedFlow = MutableStateFlow(isLobbyOverlayDisplayed(callingStatus))
+        isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayed(callingStatus, rttState))
+        isVerticalStyleGridMutableFlow = MutableStateFlow(
+            shouldUseVerticalStyleGrid(deviceConfigurationState, rttState, captionsState)
+        )
     }
 
     fun clear() {
@@ -54,11 +68,7 @@ internal class ParticipantGridViewModel(
             maxRemoteParticipantSize else 1
     }
 
-    fun getIsLobbyOverlayDisplayedFlow(): StateFlow<Boolean> = isLobbyOverlayDisplayedFlow
-
-    fun updateIsLobbyOverlayDisplayed(callingStatus: CallingStatus) {
-        isLobbyOverlayDisplayedFlow.value = isLobbyOverlayDisplayed(callingStatus)
-    }
+    fun getIsOverlayDisplayedFlow(): StateFlow<Boolean> = isOverlayDisplayedFlow
 
     fun update(
         remoteParticipantsMapUpdatedTimestamp: Number,
@@ -66,7 +76,15 @@ internal class ParticipantGridViewModel(
         dominantSpeakersInfo: List<String>,
         dominantSpeakersModifiedTimestamp: Number,
         visibilityStatus: VisibilityStatus,
+        callingStatus: CallingStatus,
+        rttState: RttState,
+        deviceConfigurationState: DeviceConfigurationState,
+        captionsState: CaptionsState,
     ) {
+
+        isOverlayDisplayedFlow.value = isOverlayDisplayed(callingStatus, rttState)
+        isVerticalStyleGridMutableFlow.value = shouldUseVerticalStyleGrid(deviceConfigurationState, rttState, captionsState)
+
         if (remoteParticipantsMapUpdatedTimestamp == remoteParticipantStateModifiedTimeStamp &&
             dominantSpeakersModifiedTimestamp == dominantSpeakersStateModifiedTimestamp &&
             this.visibilityStatus == visibilityStatus
@@ -98,6 +116,17 @@ internal class ParticipantGridViewModel(
         updateRemoteParticipantsVideoStreams(remoteParticipantsMapSorted)
 
         updateDisplayedParticipants(remoteParticipantsMapSorted.toMutableMap())
+    }
+
+    private fun shouldUseVerticalStyleGrid(
+        deviceConfigurationState: DeviceConfigurationState,
+        rttState: RttState,
+        captionsState: CaptionsState,
+    ): Boolean {
+        return deviceConfigurationState.isPortrait ||
+            rttState.isRttActive ||
+            captionsState.status == CaptionsStatus.STARTED ||
+            captionsState.status == CaptionsStatus.START_REQUESTED
     }
 
     private fun getParticipantSharingScreen(
@@ -248,6 +277,9 @@ internal class ParticipantGridViewModel(
         updateVideoStreamsCallback?.invoke(usersVideoStream)
     }
 
-    private fun isLobbyOverlayDisplayed(callingStatus: CallingStatus) =
-        callingStatus == CallingStatus.IN_LOBBY
+    private fun isOverlayDisplayed(callingStatus: CallingStatus, rttState: RttState): Boolean {
+        return callingStatus == CallingStatus.IN_LOBBY ||
+            callingStatus == CallingStatus.LOCAL_HOLD ||
+            rttState.isMaximized
+    }
 }

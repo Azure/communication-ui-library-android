@@ -3,12 +3,6 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.factories
 
-/* <RTT_POC>
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttViewModel
-</RTT_POC> */
-/* <RTT_POC>
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.rtt.RttViewModel
-</RTT_POC> */
 import com.azure.android.communication.ui.calling.configuration.CallType
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenControlBarOptions
@@ -33,6 +27,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
+import com.azure.android.communication.ui.calling.presentation.manager.CaptionsDataManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.presentation.manager.UpdatableOptionsManager
 import com.azure.android.communication.ui.calling.redux.Store
@@ -45,6 +40,7 @@ internal class CallingViewModelFactory(
     private val debugInfoManager: DebugInfoManager,
     private val capabilitiesManager: CapabilitiesManager,
     private val updatableOptionsManager: UpdatableOptionsManager,
+    private val captionsDataManager: CaptionsDataManager,
     private val showSupportFormOption: Boolean = false,
     private val enableMultitasking: Boolean,
     private val isTelecomManagerEnabled: Boolean = false,
@@ -53,12 +49,6 @@ internal class CallingViewModelFactory(
     private val isCaptionsEnabled: Boolean = false,
     private val logger: Logger,
 ) : BaseViewModelFactory(store) {
-
-    /* <RTT_POC>
-    val rttViewModel by lazy {
-        RttViewModel()
-    }
-    </RTT_POC> */
 
     val moreCallOptionsListViewModel by lazy {
         MoreCallOptionsListViewModel(
@@ -147,7 +137,7 @@ internal class CallingViewModelFactory(
     }
 
     val onHoldOverlayViewModel by lazy {
-        OnHoldOverlayViewModel { store.dispatch(it) }
+        OnHoldOverlayViewModel(store::dispatch)
     }
 
     val lobbyErrorHeaderViewModel by lazy { LobbyErrorHeaderViewModel(store::dispatch) }
@@ -161,6 +151,11 @@ internal class CallingViewModelFactory(
             logger = logger,
         )
     }
-    val captionsLanguageSelectionListViewModel by lazy { CaptionsLanguageSelectionListViewModel(store) }
-    val captionsViewModel by lazy { CaptionsViewModel() }
+    val captionsLanguageSelectionListViewModel by lazy { CaptionsLanguageSelectionListViewModel(store::dispatch) }
+    val captionsViewModel by lazy {
+        CaptionsViewModel(
+            store::dispatch,
+            captionsDataManager,
+        )
+    }
 }
