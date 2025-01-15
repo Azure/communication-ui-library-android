@@ -20,6 +20,7 @@ internal data class CaptionsRttRecord(
     val languageCode: String?,
     val isFinal: Boolean,
     val timestamp: Date,
+    val lastUpdated: Date,
     val type: CaptionsRttType,
     val isLocal: Boolean? = null,
     val rttSequenceId: Int? = null,

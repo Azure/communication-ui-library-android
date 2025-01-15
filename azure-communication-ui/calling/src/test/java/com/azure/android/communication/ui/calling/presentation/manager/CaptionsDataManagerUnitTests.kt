@@ -7,22 +7,23 @@ import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsData
 import com.azure.android.communication.ui.calling.models.CaptionsResultType
 import com.azure.android.communication.ui.calling.models.RttMessage
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsRttRecord
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsRttType
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
+import com.azure.android.communication.ui.calling.redux.state.CaptionsState
+import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.advanceTimeBy
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
@@ -353,14 +354,20 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
         }
     }
 
-
     @Test
     @ExperimentalCoroutinesApi
-    fun captionsDataManagerUnitTest_when_captionLanguageIsActive_doesNotNotifyIfCaptionTextIsBlank() {
+    fun captionsDataManagerUnitTest_when_captionLanguageIsActive_doesNotNotifyIfCaptionLanguageIsBlank() {
         runScopedTest {
             // Arrange
             val appState = AppReduxState(
                 displayName = "",
+            )
+            appState.captionsState = CaptionsState(
+               captionLanguage = "en",
+                spokenLanguage = "en",
+                isCaptionsUIEnabled = true,
+                isTranslationSupported = true,
+                status = CaptionsStatus.STARTED,
             )
 
             val captionsSharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
@@ -374,9 +381,9 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             val timestamp = Date()
             val captionData = CallCompositeCaptionsData(
                 speakerName = "Speaker",
-                captionText = null,
+                captionText = "Hello",
                 speakerRawId = "123",
-                captionLanguage = "en",
+                captionLanguage = "",
                 spokenText = "aaa",
                 spokenLanguage = "bb",
                 resultType = CaptionsResultType.FINAL,
@@ -399,9 +406,8 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
 
             // Assert
             assertEquals(0, addedData.size)
-            assertEquals(0, addedData[0])
 
-            val newCaption = captionsDataManager.captionsAndRttData.last()
+            val newCaption = captionsDataManager.captionsAndRttData.lastOrNull()
             assertNull(newCaption)
 
             flowJob.cancel()
@@ -410,287 +416,370 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
         }
     }
 
-//    @Test
-//    @ExperimentalCoroutinesApi
-//    fun captionsDataManagerUnitTest_when_captionLanguageIsActive_doesNotNotifyIfCaptionTextIsBlank() {
-//        runScopedTest {
-//            // Arrange
-//            val sharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
-//            val currentState = AppReduxState(displayName = "")
-//            currentState.captionsState = CaptionsState(
-//                captionLanguage = "en",
-//                spokenLanguage = "en",
-//                isCaptionsUIEnabled = true,
-//                isTranslationSupported = true,
-//                status = CaptionsStatus.STARTED,
-//            )
-//            `when`(callingService.getCaptionsReceivedSharedFlow()).thenReturn(sharedFlow)
-//            `when`(appStore.getCurrentState()).thenReturn(currentState)
-//            val timestamp = Date()
-//            val captionData = CallCompositeCaptionsData(
-//                speakerName = "Speaker",
-//                captionText = "",
-//                speakerRawId = "123",
-//                captionLanguage = "",
-//                spokenText = "abc",
-//                spokenLanguage = "def",
-//                resultType = CaptionsResultType.PARTIAL,
-//                timestamp = timestamp
-//            )
-//
-//            // Act
-//            captionsDataManager.start(TestScope(UnconfinedTestDispatcher()))
-//            val flowJob = launch {
-//                sharedFlow.emit(captionData)
-//            }
-//            flowJob.join()
-//
-//            // Assert
-//            val newCaption = captionsDataManager.getOnNewCaptionsDataAddedStateFlow().value
-//            assertNull(newCaption)
-//            flowJob.cancel()
-//        }
-//    }
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun captionsDataManagerUnitTest_when_stateFlowUpdated_multipleUpdates() {
+        runScopedTest {
+            // Arrange
+            val appState = AppReduxState(
+                displayName = "",
+            )
+            val captionsSharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
+            val rttSharedFlow = MutableSharedFlow<RttMessage>()
+            val appStateFlow = MutableStateFlow<ReduxState>(appState)
 
-//    @OptIn(ExperimentalCoroutinesApi::class)
-//    @Test
-//    fun captionsDataManagerUnitTest_when_stateFlowUpdated_multipleUpdates() {
-//        runScopedTest {
-//            // Arrange
-//            val sharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
-//            `when`(callingService.getCaptionsReceivedSharedFlow()).thenReturn(sharedFlow)
-//            `when`(appStore.getCurrentState()).thenReturn(
-//                AppReduxState(
-//                    displayName = "",
-//                )
-//            )
-//
-//            val timestamp = Date()
-//            val captionDataAdd1 = createCaptionData("123", "abc", "def", CaptionsResultType.PARTIAL, timestamp)
-//            val captionDataUpdate1 = createCaptionData("123", "abc234", "def", CaptionsResultType.FINAL, Date())
-//            val captionDataAdd2 = createCaptionData("456", "xyz", "uvw", CaptionsResultType.PARTIAL, Date())
-//            val captionDataUpdate2 = createCaptionData("456", "xyz890", "uvw", CaptionsResultType.PARTIAL, Date())
-//
-//            val addedData = mutableListOf<Int>()
-//            val updatedData = mutableListOf<Int>()
-//
-//            // Act
-//            val insertedJob = launch {
-//                captionsDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
-//            }
-//
-//            val updatedJob = launch {
-//                captionsDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
-//            }
-//
-//            captionsDataManager.start(TestScope(UnconfinedTestDispatcher()))
-//
-//            val jobList = mutableListOf<Job>()
-//            val data = listOf(captionDataAdd1, captionDataUpdate1, captionDataAdd2, captionDataUpdate2)
-//            data.forEach {
-//                val job = launch {
-//                    sharedFlow.emit(it)
-//                }
-//                jobList.add(job)
-//                job.join()
-//            }
-//
-//            // Assert
-//            assertEquals(3, addedData.size)
-//            assertEquals(3, updatedData.size)
-//
-//            assertNull(addedData[0])
-//            assertNull(updatedData[0])
-//
-//            val addedData1 = captionsDataManager.captionsAndRttData[1]
-//            val addedData2 = captionsDataManager.captionsAndRttData[2]
-//
-//            assertEquals("abc", addedData1.displayText)
-//            assertEquals("abc234", addedData1.displayText)
-//
-//            assertEquals("xyz", addedData2.displayText)
-//            assertEquals("xyz890", addedData2.displayText)
-//
-//            assertEquals(2, captionsDataManager.captionsAndRttData.size)
-//
-//            insertedJob.cancel()
-//            updatedJob.cancel()
-//            jobList.forEach {
-//                it.cancel()
-//            }
-//        }
-//    }
-//
-//    @OptIn(ExperimentalCoroutinesApi::class)
-//    @Test
-//    fun captionsDataManagerUnitTest_when_stateFlowUpdated_multipleUpdatesOnlyForLastSpeaker() {
-//        runScopedTest {
-//            // Arrange
-//            val sharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
-//            `when`(callingService.getCaptionsReceivedSharedFlow()).thenReturn(sharedFlow)
-//            `when`(appStore.getCurrentState()).thenReturn(
-//                AppReduxState(
-//                    displayName = "",
-//                )
-//            )
-//
-//            val timestamp = Date()
-//            val captionDataAdd1 = createCaptionData("123", "abc", "def", CaptionsResultType.PARTIAL, timestamp)
-//            val captionDataUpdate1 = createCaptionData("123", "abc234", "def", CaptionsResultType.PARTIAL, Date())
-//            val captionDataAdd2 = createCaptionData("456", "xyz", "uvw", CaptionsResultType.PARTIAL, Date())
-//            val captionDataUpdate2 = createCaptionData("456", "xyz890", "uvw", CaptionsResultType.PARTIAL, Date())
-//
-//            val addedData = mutableListOf<CaptionsRecord?>()
-//            val updatedData = mutableListOf<CaptionsRecord?>()
-//
-//            // Act
-//            val addedDataJob = collectStateFlow(captionsDataManager.getOnNewCaptionsDataAddedStateFlow(), addedData)
-//            val updatedDataJob = collectStateFlow(captionsDataManager.getOnLastCaptionsDataUpdatedStateFlow(), updatedData)
-//
-//            captionsDataManager.start(TestScope(UnconfinedTestDispatcher()))
-//
-//            val jobList = mutableListOf<Job>()
-//            val data = listOf(captionDataAdd1, captionDataUpdate1, captionDataAdd2, captionDataUpdate2)
-//            data.forEach {
-//                val job = launch {
-//                    sharedFlow.emit(it)
-//                }
-//                jobList.add(job)
-//                job.join()
-//            }
-//
-//            // Assert
-//            assertEquals(2, addedData.size)
-//            assertEquals(2, updatedData.size)
-//
-//            assertNull(addedData[0])
-//            assertNull(updatedData[0])
-//
-//            assertEquals("abc", addedData[1]?.displayText)
-//            assertEquals("abc234", updatedData[1]?.displayText)
-//
-//            assertEquals(1, captionsDataManager.captionsDataCache.size)
-//
-//            addedDataJob.cancel()
-//            updatedDataJob.cancel()
-//            jobList.forEach {
-//                it.cancel()
-//            }
-//        }
-//    }
-//
-//    @OptIn(ExperimentalCoroutinesApi::class)
-//    @Test
-//    fun captionsDataManagerUnitTest_when_stateFlowAddedUpdated_maxSize() {
-//        runScopedTest {
-//            // Arrange
-//            val sharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
-//            `when`(callingService.getCaptionsReceivedSharedFlow()).thenReturn(sharedFlow)
-//            `when`(appStore.getCurrentState()).thenReturn(
-//                AppReduxState(
-//                    displayName = "",
-//                )
-//            )
-//
-//            val timestamp = Date()
-//            val captionsDataList = mutableListOf<CallCompositeCaptionsData>()
-//            for (i in 0 until 60) {
-//                captionsDataList.add(createCaptionData(i.toString(), "abc", "def", CaptionsResultType.FINAL, timestamp))
-//            }
-//
-//            val addedData = mutableListOf<CaptionsRecord?>()
-//            val updatedData = mutableListOf<CaptionsRecord?>()
-//
-//            // Act
-//            val addedDataJob = collectStateFlow(captionsDataManager.getOnNewCaptionsDataAddedStateFlow(), addedData)
-//            val updatedDataJob = collectStateFlow(captionsDataManager.getOnLastCaptionsDataUpdatedStateFlow(), updatedData)
-//
-//            captionsDataManager.start(TestScope(UnconfinedTestDispatcher()))
-//
-//            val jobList = mutableListOf<Job>()
-//            captionsDataList.forEach {
-//                val job = launch {
-//                    sharedFlow.emit(it)
-//                }
-//                jobList.add(job)
-//                job.join()
-//            }
-//
-//            // Assert
-//            assertEquals(61, addedData.size)
-//            assertEquals(1, updatedData.size)
-//
-//            assertNull(addedData[0])
-//            assertNull(updatedData[0])
-//            assertEquals(50, captionsDataManager.captionsDataCache.size)
-//
-//            addedDataJob.cancel()
-//            updatedDataJob.cancel()
-//            jobList.forEach {
-//                it.cancel()
-//            }
-//        }
-//    }
-//
-//    @OptIn(ExperimentalCoroutinesApi::class)
-//    @Test
-//    fun captionsDataManagerUnitTest_when_stateFlowUpdated_bothAddAndUpdate_ifDelayIsGreaterThanFewMs() {
-//        runScopedTest {
-//            // Arrange
-//            val sharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
-//            `when`(callingService.getCaptionsReceivedSharedFlow()).thenReturn(sharedFlow)
-//            `when`(appStore.getCurrentState()).thenReturn(
-//                AppReduxState(
-//                    displayName = "",
-//                )
-//            )
-//
-//            val timestamp = Date()
-//            val timestampUpdated = Date().apply {
-//                time += 6000
-//            }
-//            val captionDataAdd1 = createCaptionData("123", "abc", "def", CaptionsResultType.PARTIAL, timestamp)
-//            val captionDataUpdate1 = createCaptionData("234", "abc234", "def", CaptionsResultType.PARTIAL, timestampUpdated)
-//
-//            val addedData = mutableListOf<CaptionsRecord?>()
-//            val updatedData = mutableListOf<CaptionsRecord?>()
-//
-//            // Act
-//            val addedDataJob = collectStateFlow(captionsDataManager.getOnNewCaptionsDataAddedStateFlow(), addedData)
-//            val updatedDataJob = collectStateFlow(captionsDataManager.getOnLastCaptionsDataUpdatedStateFlow(), updatedData)
-//
-//            captionsDataManager.start(TestScope(UnconfinedTestDispatcher()))
-//
-//            val jobList = mutableListOf<Job>()
-//            val data = listOf(captionDataAdd1, captionDataUpdate1)
-//            data.forEach {
-//                val job = launch {
-//                    sharedFlow.emit(it)
-//                }
-//                jobList.add(job)
-//                job.join()
-//            }
-//
-//            // Assert
-//            assertEquals(3, addedData.size)
-//            assertEquals(2, updatedData.size)
-//
-//            assertNull(addedData[0])
-//            assertNull(updatedData[0])
-//
-//            assertEquals("abc", addedData[1]?.displayText)
-//            assertEquals("abc", updatedData[1]?.displayText)
-//            assertEquals("abc234", addedData[2]?.displayText)
-//
-//            assertEquals(2, captionsDataManager.captionsDataCache.size)
-//
-//            addedDataJob.cancel()
-//            updatedDataJob.cancel()
-//            jobList.forEach {
-//                it.cancel()
-//            }
-//        }
-//    }
+            `when`(callingService.getCaptionsReceivedSharedFlow()).thenReturn(captionsSharedFlow)
+            `when`(callingService.getRttFlow()).thenReturn(rttSharedFlow)
+            `when`(appStore.getStateFlow()).thenReturn(appStateFlow)
+            `when`(appStore.getCurrentState()).thenReturn(appState)
+
+            val timestamp = Date()
+            val captionDataAdd1 = createCaptionData("123", "abc", "def", CaptionsResultType.PARTIAL, timestamp)
+            val captionDataUpdate1 = createCaptionData("123", "abc234", "def", CaptionsResultType.FINAL, Date())
+            val captionDataAdd2 = createCaptionData("456", "xyz", "uvw", CaptionsResultType.PARTIAL, Date())
+            val captionDataUpdate2 = createCaptionData("456", "xyz890", "uvw", CaptionsResultType.PARTIAL, Date())
+
+            val addedData = mutableListOf<Int>()
+            val updatedData = mutableListOf<Int>()
+
+            // Act
+            val insertedJob = launch {
+                captionsDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+            }
+
+            val updatedJob = launch {
+                captionsDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
+            }
+
+            val testScope = TestScope(UnconfinedTestDispatcher())
+            captionsDataManager.start(testScope)
+
+            val jobList = mutableListOf<Job>()
+            val data = listOf(captionDataAdd1, captionDataUpdate1, captionDataAdd2, captionDataUpdate2)
+            data.forEach {
+                val job = launch {
+                    captionsSharedFlow.emit(it)
+                }
+                jobList.add(job)
+                job.join()
+            }
+
+            // Assert
+            assertEquals(2, addedData.size)
+            assertEquals(2, updatedData.size)
+
+            assertEquals(0, addedData[0])
+            assertEquals(1, addedData[1])
+            assertEquals(0, updatedData[0])
+            assertEquals(1, updatedData[1])
+
+
+            val captionsAndRttData1 = captionsDataManager.captionsAndRttData[0]
+            val captionsAndRttData2 = captionsDataManager.captionsAndRttData[1]
+
+            assertEquals("123", captionsAndRttData1.speakerRawId)
+            assertEquals("abc234", captionsAndRttData1.displayText)
+
+            assertEquals("456", captionsAndRttData2.speakerRawId)
+            assertEquals("xyz890", captionsAndRttData2.displayText)
+
+            assertEquals(2, captionsDataManager.captionsAndRttData.size)
+
+            insertedJob.cancel()
+            updatedJob.cancel()
+            jobList.forEach {
+                it.cancel()
+            }
+            testScope.cancel()
+        }
+    }
+
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun captionsDataManagerUnitTest_when_stateFlowUpdated_multipleOutOfOrderUpdates() {
+        runScopedTest {
+            // Arrange
+            val appState = AppReduxState(
+                displayName = "",
+            )
+            val captionsSharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
+            val rttSharedFlow = MutableSharedFlow<RttMessage>()
+            val appStateFlow = MutableStateFlow<ReduxState>(appState)
+
+            `when`(callingService.getCaptionsReceivedSharedFlow()).thenReturn(captionsSharedFlow)
+            `when`(callingService.getRttFlow()).thenReturn(rttSharedFlow)
+            `when`(appStore.getStateFlow()).thenReturn(appStateFlow)
+            `when`(appStore.getCurrentState()).thenReturn(appState)
+
+            val timestamp = Date()
+            val captionDataAdd1 = createCaptionData("123", "abc", "def", CaptionsResultType.PARTIAL, timestamp)
+            val captionDataUpdate1 = createCaptionData("123", "abc234", "def", CaptionsResultType.FINAL, Date())
+            val captionDataAdd2 = createCaptionData("456", "xyz", "uvw", CaptionsResultType.PARTIAL, Date())
+            val captionDataUpdate2 = createCaptionData("456", "xyz890", "uvw", CaptionsResultType.PARTIAL, Date())
+
+            val addedData = mutableListOf<Int>()
+            val updatedData = mutableListOf<Int>()
+
+            // Act
+            val insertedJob = launch {
+                captionsDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+            }
+
+            val updatedJob = launch {
+                captionsDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
+            }
+
+            val testScope = TestScope(UnconfinedTestDispatcher())
+            captionsDataManager.start(testScope)
+
+            val jobList = mutableListOf<Job>()
+            val data = listOf(captionDataAdd1, captionDataAdd2, captionDataUpdate1, captionDataUpdate2)
+            data.forEach {
+                val job = launch {
+                    captionsSharedFlow.emit(it)
+                }
+                jobList.add(job)
+                job.join()
+            }
+
+            // Assert
+            assertEquals(2, addedData.size)
+            assertEquals(2, updatedData.size)
+
+            assertEquals(0, addedData[0])
+            assertEquals(1, addedData[1])
+            assertEquals(0, updatedData[0])
+            assertEquals(1, updatedData[1])
+
+
+            val captionsAndRttData1 = captionsDataManager.captionsAndRttData[0]
+            val captionsAndRttData2 = captionsDataManager.captionsAndRttData[1]
+
+            assertEquals("123", captionsAndRttData1.speakerRawId)
+            assertEquals("abc234", captionsAndRttData1.displayText)
+
+            assertEquals("456", captionsAndRttData2.speakerRawId)
+            assertEquals("xyz890", captionsAndRttData2.displayText)
+
+            assertEquals(2, captionsDataManager.captionsAndRttData.size)
+
+            insertedJob.cancel()
+            updatedJob.cancel()
+            jobList.forEach {
+                it.cancel()
+            }
+            testScope.cancel()
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun captionsDataManagerUnitTest_when_stateFlowAddedUpdated_maxSize() {
+        runScopedTest {
+            // Arrange
+            val appState = AppReduxState(
+                displayName = "",
+            )
+            val captionsSharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
+            val rttSharedFlow = MutableSharedFlow<RttMessage>()
+            val appStateFlow = MutableStateFlow<ReduxState>(appState)
+
+            `when`(callingService.getCaptionsReceivedSharedFlow()).thenReturn(captionsSharedFlow)
+            `when`(callingService.getRttFlow()).thenReturn(rttSharedFlow)
+            `when`(appStore.getStateFlow()).thenReturn(appStateFlow)
+            `when`(appStore.getCurrentState()).thenReturn(appState)
+
+            val timestamp = Date()
+            val captionsDataList = mutableListOf<CallCompositeCaptionsData>()
+            for (i in 0 until 60) {
+                captionsDataList.add(createCaptionData(i.toString(), "abc", "def", CaptionsResultType.FINAL, timestamp))
+            }
+
+            val addedData = mutableListOf<Int>()
+            val updatedData = mutableListOf<Int>()
+
+            // Act
+            val insertedJob = launch {
+                captionsDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+            }
+
+            val updatedJob = launch {
+                captionsDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
+            }
+
+            val testScope = TestScope(UnconfinedTestDispatcher())
+            captionsDataManager.start(testScope)
+
+            val jobList = mutableListOf<Job>()
+            captionsDataList.forEach {
+                val job = launch {
+                    captionsSharedFlow.emit(it)
+                }
+                jobList.add(job)
+                job.join()
+            }
+
+            // Assert
+            assertEquals(60, addedData.size)
+            assertEquals(0, updatedData.size)
+
+            assertEquals(50, captionsDataManager.captionsAndRttData.size)
+
+            insertedJob.cancel()
+            updatedJob.cancel()
+            jobList.forEach {
+                it.cancel()
+            }
+            testScope.cancel()
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun captionsDataManagerUnitTest_when_stateFlowUpdated_bothAddAndUpdate_ifDelayIsGreaterThanFewMs() {
+        runScopedTest {
+            // Arrange
+            val appState = AppReduxState(
+                displayName = "",
+            )
+            val captionsSharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
+            val rttSharedFlow = MutableSharedFlow<RttMessage>()
+            val appStateFlow = MutableStateFlow<ReduxState>(appState)
+
+            `when`(callingService.getCaptionsReceivedSharedFlow()).thenReturn(captionsSharedFlow)
+            `when`(callingService.getRttFlow()).thenReturn(rttSharedFlow)
+            `when`(appStore.getStateFlow()).thenReturn(appStateFlow)
+            `when`(appStore.getCurrentState()).thenReturn(appState)
+
+            val timestamp = Date()
+            val timestampUpdated = Date().apply {
+                time += 6000
+            }
+            val captionDataAdd1 = createCaptionData("123", "abc", "def", CaptionsResultType.PARTIAL, timestamp)
+            val captionDataUpdate1 = createCaptionData("234", "abc234", "def", CaptionsResultType.PARTIAL, timestampUpdated)
+
+            val addedData = mutableListOf<Int>()
+            val updatedData = mutableListOf<Int>()
+
+
+            // Act
+            val insertedJob = launch {
+                captionsDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+            }
+
+            val updatedJob = launch {
+                captionsDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
+            }
+
+            val testScope = TestScope(UnconfinedTestDispatcher())
+            captionsDataManager.start(testScope)
+
+            val jobList = mutableListOf<Job>()
+            val data = listOf(captionDataAdd1, captionDataUpdate1)
+            data.forEach {
+                val job = launch {
+                    captionsSharedFlow.emit(it)
+                }
+                jobList.add(job)
+                job.join()
+            }
+
+            // Assert
+            assertEquals(2, addedData.size)
+            assertEquals(0, updatedData.size)
+
+            val addedRecord1 = captionsDataManager.captionsAndRttData[addedData[0]]
+            val addedRecord2 = captionsDataManager.captionsAndRttData[addedData[1]]
+
+            assertEquals("abc", addedRecord1.displayText)
+            assertEquals("abc234", addedRecord2.displayText)
+
+            assertEquals(2, captionsDataManager.captionsAndRttData.size)
+
+            insertedJob.cancel()
+            updatedJob.cancel()
+            jobList.forEach {
+                it.cancel()
+            }
+            testScope.cancel()
+        }
+    }
+
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun captionsDataManagerUnitTest_when_stateFlowUpdated_afterTimeoutRttCommitted() {
+        runScopedTest {
+            // Arrange
+            val appState = AppReduxState(
+                displayName = "",
+            )
+
+            val captionsSharedFlow = MutableSharedFlow<CallCompositeCaptionsData>()
+            val rttSharedFlow = MutableSharedFlow<RttMessage>()
+            val appStateFlow = MutableStateFlow<ReduxState>(appState)
+
+            `when`(callingService.getCaptionsReceivedSharedFlow()).thenReturn(captionsSharedFlow)
+            `when`(callingService.getRttFlow()).thenReturn(rttSharedFlow)
+            `when`(appStore.getStateFlow()).thenReturn(appStateFlow)
+            val timestamp = Date()
+            val rttMessage = RttMessage(
+                senderName = "Speaker",
+                message = "Hello",
+                senderUserRawId = "123",
+                isFinalized = false,
+                isLocal = false,
+                localCreatedTime = timestamp,
+                sequenceId = 1,
+            )
+
+            val addedData = mutableListOf<Int>()
+            val updatedData = mutableListOf<Int>()
+
+            val insertedJob = launch {
+                captionsDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+            }
+
+            val updatedJob = launch {
+                captionsDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
+            }
+
+            // Act
+            val testScope = TestScope(UnconfinedTestDispatcher())
+            captionsDataManager.start(testScope)
+
+            val flowJob = launch {
+                rttSharedFlow.emit(rttMessage)
+            }
+            flowJob.join()
+
+            Thread.sleep(/* millis = */ 20000)
+            advanceTimeBy(/* time = */ 20000)
+
+            // Assert
+            assertEquals(2, captionsDataManager.captionsAndRttData.size)
+
+            assertEquals(2, addedData.size)
+
+            assertEquals(1, updatedData.size)
+            assertEquals(1, updatedData[0])
+
+            val newMessage = captionsDataManager.captionsAndRttData.last()
+            assertNotNull(newMessage)
+            assertEquals("Hello", newMessage.displayText)
+            assertEquals("Speaker", newMessage.displayName)
+            assertEquals("123", newMessage.speakerRawId)
+            assertEquals(timestamp, newMessage.timestamp)
+            assertTrue(newMessage.isFinal)
+            assertEquals(false, newMessage.isLocal)
+            assertEquals(CaptionsRttType.RTT, newMessage.type)
+
+            insertedJob.cancel()
+            updatedJob.cancel()
+            testScope.cancel()
+        }
+    }
 
     private fun createCaptionData(
         speakerRawId: String,
@@ -709,12 +798,5 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             resultType = resultType,
             timestamp = timestamp
         )
-    }
-
-    private fun CoroutineScope.collectStateFlow(
-        stateFlow: StateFlow<CaptionsRttRecord?>,
-        collector: MutableList<CaptionsRttRecord?>
-    ) = launch {
-        stateFlow.toList(collector)
     }
 }

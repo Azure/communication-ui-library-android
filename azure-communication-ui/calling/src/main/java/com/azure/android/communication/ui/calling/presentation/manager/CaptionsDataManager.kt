@@ -75,6 +75,7 @@ internal class CaptionsDataManager(
                         languageCode = languageCode,
                         isFinal = captionData.resultType == CaptionsResultType.FINAL,
                         timestamp = captionData.timestamp,
+                        lastUpdated = Date(),
                         type = CaptionsRttType.CAPTIONS,
                     )
 
@@ -100,6 +101,7 @@ internal class CaptionsDataManager(
                         languageCode = null,
                         isFinal = rttRecord.isFinalized,
                         timestamp = rttRecord.localCreatedTime,
+                        lastUpdated = Date(),
                         type = CaptionsRttType.RTT,
                         isLocal = rttRecord.isLocal,
                         rttSequenceId = rttRecord.sequenceId,
@@ -188,7 +190,8 @@ internal class CaptionsDataManager(
                 speakerRawId = "",
                 languageCode = null,
                 isFinal = true,
-                timestamp = Date.from(Instant.now()),
+                timestamp = Date(),
+                lastUpdated = Date(),
                 type = CaptionsRttType.RTT_INFO,
             )
             addNewCaption(rttInfoItem)
@@ -323,7 +326,7 @@ internal class CaptionsDataManager(
     private suspend fun cleanDeadRecords() {
         for (i in captionsAndRttData.indices) {
             val item = captionsAndRttData[i]
-            if (!item.isFinal && item.timestamp < Date.from(Instant.now().minusSeconds(10))) {
+            if (!item.isFinal && item.lastUpdated < Date.from(Instant.now().minusSeconds(10))) {
                 updateAtIndex(i, item.copy(isFinal = true))
             }
         }
