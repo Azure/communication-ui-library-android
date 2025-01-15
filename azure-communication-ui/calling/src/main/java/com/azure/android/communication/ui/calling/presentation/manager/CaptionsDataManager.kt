@@ -164,7 +164,7 @@ internal class CaptionsDataManager(
         ensureRttMessageIsDisplayed()
         val lastCaptionFromSameUser = captionsAndRttMutableList.lastOrNull {
             it.speakerRawId == newCaptionsRecord.speakerRawId &&
-                    it.rttSequenceId == newCaptionsRecord.rttSequenceId
+                it.rttSequenceId == newCaptionsRecord.rttSequenceId
         }
 
         if (lastCaptionFromSameUser != null) {

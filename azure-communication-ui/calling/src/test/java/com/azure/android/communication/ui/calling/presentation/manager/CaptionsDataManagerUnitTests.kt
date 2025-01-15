@@ -363,7 +363,7 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
                 displayName = "",
             )
             appState.captionsState = CaptionsState(
-               captionLanguage = "en",
+                captionLanguage = "en",
                 spokenLanguage = "en",
                 isCaptionsUIEnabled = true,
                 isTranslationSupported = true,
@@ -473,7 +473,6 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             assertEquals(0, updatedData[0])
             assertEquals(1, updatedData[1])
 
-
             val captionsAndRttData1 = captionsDataManager.captionsAndRttData[0]
             val captionsAndRttData2 = captionsDataManager.captionsAndRttData[1]
 
@@ -493,7 +492,6 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             testScope.cancel()
         }
     }
-
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
@@ -551,7 +549,6 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             assertEquals(1, addedData[1])
             assertEquals(0, updatedData[0])
             assertEquals(1, updatedData[1])
-
 
             val captionsAndRttData1 = captionsDataManager.captionsAndRttData[0]
             val captionsAndRttData2 = captionsDataManager.captionsAndRttData[1]
@@ -662,7 +659,6 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             val addedData = mutableListOf<Int>()
             val updatedData = mutableListOf<Int>()
 
-
             // Act
             val insertedJob = launch {
                 captionsDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
@@ -705,7 +701,6 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             testScope.cancel()
         }
     }
-
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
