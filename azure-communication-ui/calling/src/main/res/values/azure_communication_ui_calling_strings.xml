@@ -205,6 +205,7 @@
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Unable to change caption language</string>
     <string name="azure_communication_ui_calling_rtt_info">Real-time text (RTT) is enabled for the entire duration of this meeting and is seen by all participants. <a href='https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text'>Learn more</a></string>
     <string name="azure_communication_ui_calling_rtt">RTT</string>
+    <string name="azure_communication_ui_calling_rtt_message_sent">Message sent</string>
     <string name="azure_communication_ui_calling_rtt_typing">RTT typing</string>
     <string name="azure_communication_ui_calling_captions_turn_on_rtt">Turn on RTT for this call</string>
     <string name="azure_communication_ui_calling_captions_turn_on">Turn captions on</string>

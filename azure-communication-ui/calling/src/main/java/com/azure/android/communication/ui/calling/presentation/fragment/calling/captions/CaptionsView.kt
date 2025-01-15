@@ -283,9 +283,15 @@ internal class CaptionsView : FrameLayout {
             val text =
                 if (captionsRttData.type == CaptionsRttType.RTT_INFO) {
                     context.getString(R.string.azure_communication_ui_calling_rtt_info)
-                } else if (captionsRttData.type == CaptionsRttType.RTT && captionsRttData.isLocal != true && captionsRttData.isFinal) {
-                    val name = captionsRttData.displayName.orEmpty().ifEmpty { context.getString(R.string.azure_communication_ui_calling_view_participant_drawer_unnamed) }
-                    "$name: ${captionsRttData.displayText}"
+                } else if (captionsRttData.type == CaptionsRttType.RTT && captionsRttData.isFinal) {
+                    if (captionsRttData.isLocal == true) {
+                        context.getString(R.string.azure_communication_ui_calling_rtt_message_sent)
+                    } else {
+                        val name = captionsRttData.displayName.orEmpty().ifEmpty {
+                            context.getString(R.string.azure_communication_ui_calling_view_participant_drawer_unnamed)
+                        }
+                        "$name: ${captionsRttData.displayText}"
+                    }
                 } else null
 
             text?.let {
