@@ -16,32 +16,37 @@ internal open class BottomCellViewHolder(itemView: View) : RecyclerView.ViewHold
     private val admitAllButton: Button? = itemView.findViewById(R.id.azure_communication_ui_calling_admit_all_button)
 
     open fun setCellData(bottomCellItem: BottomCellItem) {
-
         if (bottomCellItem.icon != null) {
             icon.setImageDrawable(bottomCellItem.icon)
-            icon.setOnClickListener(bottomCellItem.onClickAction)
+            icon.contentDescription = bottomCellItem.iconContentDescription
+            if (bottomCellItem.iconOnClickAction != null) {
+                icon.setOnClickListener(bottomCellItem.iconOnClickAction)
+
+                itemView.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+            }
         } else {
             icon.visibility = View.GONE
+
+            if (bottomCellItem.contentDescription != null)
+                itemView.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_YES
+            else
+                itemView.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_AUTO
         }
 
         title.text = bottomCellItem.title
+        title.contentDescription = bottomCellItem.contentDescription
         if (bottomCellItem.subtitle?.isNotEmpty() == true) {
             val subtitleTextView: TextView = itemView.findViewById(R.id.azure_communication_ui_calling_bottom_drawer_sub_title)
             subtitleTextView.visibility = View.VISIBLE
             subtitleTextView.text = bottomCellItem.subtitle
         }
-        title.isEnabled = bottomCellItem.isEnabled
-        itemView.contentDescription = bottomCellItem.contentDescription
-        if (bottomCellItem.contentDescription != null)
-            itemView.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_YES
-        else
-            itemView.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_AUTO
 
-        // The for BottomMenuCenteredTitle whole item is clickable only if there is no icon, otherwise the icon only is clickable
-        if (bottomCellItem.itemType != BottomCellItemType.BottomMenuCenteredTitle || bottomCellItem.icon == null) {
-            itemView.setOnClickListener(bottomCellItem.onClickAction)
-            itemView.isClickable = bottomCellItem.onClickAction != null && bottomCellItem.isEnabled
-        }
+        itemView.isEnabled = bottomCellItem.isEnabled
+        itemView.contentDescription = bottomCellItem.contentDescription
+
+        itemView.setOnClickListener(bottomCellItem.onClickAction)
+        itemView.isClickable = bottomCellItem.onClickAction != null
+
         admitAllButton?.visibility = if (bottomCellItem.showAdmitAllButton) View.VISIBLE else View.GONE
         admitAllButton?.setOnClickListener(bottomCellItem.admitAllButtonAction)
     }

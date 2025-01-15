@@ -16,6 +16,8 @@ internal enum class BottomCellItemType {
 
 internal data class BottomCellItem(
     var icon: Drawable?,
+    var iconContentDescription: String? = null,
+    var iconOnClickAction: ((View) -> Unit)? = null,
     var title: String?,
     var contentDescription: String?,
     var accessoryImage: Drawable?,

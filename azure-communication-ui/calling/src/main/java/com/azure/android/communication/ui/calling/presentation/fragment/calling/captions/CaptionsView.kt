@@ -268,7 +268,9 @@ internal class CaptionsView : FrameLayout {
     private fun clearInputIfLocalFinalized(index: Int) {
         val updatedItem = viewModel.captionsAndRttData[index]
         if (updatedItem.type == CaptionsRttType.RTT && updatedItem.isLocal == true && updatedItem.isFinal) {
+            rttInputText.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO // Disable accessibility temporarily
             rttInputText.text.clear()
+            rttInputText.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_YES // Re-enable accessibility
         }
     }
 

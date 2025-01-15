@@ -317,15 +317,15 @@ internal class ParticipantListView(
         }
 
         return BottomCellItem(
-            null,
-            displayName,
-            contentDescription,
-            if (status != ParticipantStatus.IN_LOBBY) micIcon else null,
-            if (status != ParticipantStatus.IN_LOBBY) R.color.azure_communication_ui_calling_color_participant_list_mute_mic else null,
-            micAccessibilityAnnouncement,
-            isMuted,
-            participantViewData,
-            isOnHold,
+            icon = null,
+            title = displayName,
+            contentDescription = contentDescription,
+            accessoryImage = if (status != ParticipantStatus.IN_LOBBY) micIcon else null,
+            accessoryColor = if (status != ParticipantStatus.IN_LOBBY) R.color.azure_communication_ui_calling_color_participant_list_mute_mic else null,
+            accessoryImageDescription = micAccessibilityAnnouncement,
+            isChecked = isMuted,
+            participantViewData = participantViewData,
+            isOnHold = isOnHold,
             onClickAction = {
                 when (status) {
                     ParticipantStatus.IN_LOBBY -> showAdmitDialog(userIdentifier, displayName)

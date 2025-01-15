@@ -17,7 +17,6 @@ import com.microsoft.fluentui.persona.AvatarView
 
 internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder(itemView) {
     private val topDivider: ImageView = itemView.findViewById(R.id.azure_communication_ui_cell_bottom_drawer_divider)
-    private val icon: ImageView = itemView.findViewById(R.id.azure_communication_ui_cell_icon)
     private val avatarView: AvatarView =
         itemView.findViewById(R.id.azure_communication_ui_participant_list_avatar)
     private val avatarViewForImage: AvatarView =
@@ -40,7 +39,6 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
                 if (bottomCellItem.isChecked == true) View.VISIBLE else View.INVISIBLE
             avatarView.visibility = View.GONE
             avatarViewForImage.visibility = View.GONE
-            icon.visibility = View.GONE
             showMoreImageView.visibility = View.GONE
             additionalText.visibility = View.GONE
             switchCompat.visibility = View.GONE
@@ -51,8 +49,6 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
             // Exit with early return because setting the title is the only thing we need to do
             return
         }
-        // force bitmap update be setting resource to 0
-//        avatarView.setImageResource(0)
         if (bottomCellItem.icon == null) {
             ViewCompat.setAccessibilityDelegate(
                 itemView,
@@ -75,7 +71,6 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
             }
 
             // Hide icon and avatarViewForImage. Show avatar for initials.
-            icon.visibility = View.GONE
             avatarView.visibility = View.VISIBLE
             avatarViewForImage.visibility = View.GONE
             bottomCellItem.participantViewData?.let { participantViewData ->
@@ -91,7 +86,6 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
                 }
             }
         } else {
-            icon.setImageDrawable(bottomCellItem.icon)
             avatarView.visibility = View.GONE
             avatarViewForImage.visibility = View.GONE
         }

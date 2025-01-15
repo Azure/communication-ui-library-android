@@ -197,13 +197,14 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         // Track if keyboard is open or closed
         val rootView = findViewById<View>(R.id.azure_communication_ui_root_view)
         rootView.viewTreeObserver.addOnGlobalLayoutListener {
-            store.dispatch(DeviceConfigurationAction.KeyboardVisibilityChanged(isKeyboardOpen()))
+            if (store.getCurrentState().deviceConfigurationState.isSoftwareKeyboardVisible != isKeyboardOpen()) {
+                store.dispatch(DeviceConfigurationAction.KeyboardVisibilityChanged(isKeyboardOpen()))
+            }
         }
     }
 
     private fun initPipMode() {
         if (configuration.enableSystemPiPWhenMultitasking &&
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
             activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE) == true
         ) {
             store.dispatch(

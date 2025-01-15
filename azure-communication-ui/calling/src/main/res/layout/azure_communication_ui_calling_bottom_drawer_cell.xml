@@ -29,6 +29,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/azure_communication_ui_calling_ic_fluent_speaker_2_24_filled_composite_button_enabled"
+        android:importantForAccessibility="no"
         />
 
     <com.microsoft.fluentui.persona.AvatarView
