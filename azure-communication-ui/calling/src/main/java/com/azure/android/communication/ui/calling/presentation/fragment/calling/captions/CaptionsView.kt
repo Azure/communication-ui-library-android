@@ -325,6 +325,7 @@ internal class CaptionsView : FrameLayout {
     private fun onMaximizeCaptionsLayout() {
         resizeButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_minimize_20_regular)
         resizeButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_minimize_captions_and_rtt)
+        resizeButton.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
         maximizeCallback()
     }
 
@@ -332,6 +333,7 @@ internal class CaptionsView : FrameLayout {
         hideKeyboard(rttInputText)
         resizeButton.setImageResource(R.drawable.azure_communication_ui_calling_ic_fluent_arrow_maximize_20_regular)
         resizeButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_maximize_captions_and_rtt)
+        resizeButton.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
         scrollToBottom()
         minimizeCallback()
     }
