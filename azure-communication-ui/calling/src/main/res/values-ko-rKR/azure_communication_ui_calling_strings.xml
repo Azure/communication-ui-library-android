@@ -48,7 +48,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">1명의 사용자와 통화</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">%1$d명과 통화</string>
     <string name="azure_communication_ui_calling_view_go_back">뒤로</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">%1$s (me)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(자신)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">명명되지 않은 참가자</string>
     <string name="azure_communication_ui_calling_view_leave_call">통화를 종료하시겠어요?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">나가기</string>
