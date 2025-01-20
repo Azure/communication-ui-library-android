@@ -48,9 +48,8 @@ internal class ParticipantListView(
         viewLifecycleOwner.lifecycleScope.launch {
             avatarViewManager.getRemoteParticipantsPersonaSharedFlow().collect {
                 if (participantListDrawer.isShowing) {
-                    updateRemoteParticipantListContent(
-                        viewModel.viewViewModelStateFlow.value.remoteParticipantList,
-                        viewModel.viewViewModelStateFlow.value.totalActiveParticipantCount
+                    updateParticipantListContent(
+                        viewModel.viewViewModelStateFlow.value,
                     )
                 }
             }
@@ -68,7 +67,7 @@ internal class ParticipantListView(
 
                 // To avoid, unnecessary updated to list, the state will update lists only when displayed
                 if (participantListDrawer.isShowing) {
-                    updateRemoteParticipantListContent(vvm.remoteParticipantList, vvm.totalActiveParticipantCount)
+                    updateParticipantListContent(vvm)
                 }
 
                 if (::admitDeclineAlertDialog.isInitialized && admitDeclineAlertDialog.isShowing &&
@@ -112,12 +111,11 @@ internal class ParticipantListView(
         participantTable.layoutManager = LinearLayoutManager(context)
     }
 
-    private fun updateRemoteParticipantListContent(
-        participantListCellModelList: List<ParticipantListCellModel>,
-        totalActiveParticipantCount: Int,
+    private fun updateParticipantListContent(
+        participantListViewViewModel: ParticipantListViewViewModel,
     ) {
         if (this::bottomCellAdapter.isInitialized) {
-            val bottomCellItems = generateBottomCellItems(participantListCellModelList, totalActiveParticipantCount)
+            val bottomCellItems = generateBottomCellItems(participantListViewViewModel)
             updateTableHeight(bottomCellItems.size)
             with(bottomCellAdapter) {
                 setBottomCellItems(bottomCellItems)
@@ -144,16 +142,18 @@ internal class ParticipantListView(
     }
 
     private fun generateBottomCellItems(
-        remoteParticipantCellModels: List<ParticipantListCellModel>,
-        totalActiveParticipantCount: Int,
+        participantListViewViewModel: ParticipantListViewViewModel,
     ): MutableList<BottomCellItem> {
+        val totalActiveParticipantCount = participantListViewViewModel.totalActiveParticipantCount
         val bottomCellItemsInCallParticipants = mutableListOf<BottomCellItem>()
         val bottomCellItemsInLobbyParticipants = mutableListOf<BottomCellItem>()
         // since we can not get resources from model class, we create the local participant list cell
         // with suffix in this way
-        val localParticipantViewModel = viewModel.createLocalParticipantListCellViewModel(
-            resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant)
-        )
+        val localParticipantViewModel = participantListViewViewModel.localParticipantListCell
+        val localParticipantDisplayName = (
+            localParticipantViewModel.displayName + " " +
+                resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant)
+            ).trim()
         val localParticipantViewData =
             avatarViewManager.callCompositeLocalOptions?.participantViewData
         bottomCellItemsInCallParticipants
@@ -161,7 +161,7 @@ internal class ParticipantListView(
                 generateBottomCellItem(
                     getLocalParticipantNameToDisplay(
                         localParticipantViewData,
-                        localParticipantViewModel.displayName
+                        localParticipantDisplayName
                     ),
                     localParticipantViewModel.isMuted,
                     localParticipantViewData,
@@ -171,7 +171,7 @@ internal class ParticipantListView(
                 )
             )
 
-        for (remoteParticipant in remoteParticipantCellModels) {
+        for (remoteParticipant in participantListViewViewModel.remoteParticipantList) {
             val remoteParticipantViewData =
                 avatarViewManager.getRemoteParticipantViewData(remoteParticipant.userIdentifier)
             val finalName =
@@ -222,7 +222,8 @@ internal class ParticipantListView(
             )
         )
 
-        val plusMoreParticipants = totalActiveParticipantCount - remoteParticipantCellModels.count()
+        val plusMoreParticipants = participantListViewViewModel.totalActiveParticipantCount -
+            participantListViewViewModel.remoteParticipantList.count()
 
         if (plusMoreParticipants > 0) {
             bottomCellItemsInCallParticipants.add(

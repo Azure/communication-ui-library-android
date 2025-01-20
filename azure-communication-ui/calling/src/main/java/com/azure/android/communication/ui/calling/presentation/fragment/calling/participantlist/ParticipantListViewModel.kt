@@ -19,17 +19,9 @@ internal class ParticipantListViewModel(
 ) {
     private val localUserIdentifier = ""
     private lateinit var viewViewModelMutableStateFlow: MutableStateFlow<ParticipantListViewViewModel>
-    private lateinit var localParticipantListCellMutableFlow: MutableStateFlow<ParticipantListCellModel>
     private lateinit var displayParticipantMenuCallback: (userIdentifier: String, displayName: String?) -> Unit
 
     val viewViewModelStateFlow: StateFlow<ParticipantListViewViewModel> get() = viewViewModelMutableStateFlow
-
-    fun createLocalParticipantListCellViewModel(suffix: String) = ParticipantListCellModel(
-        (localParticipantListCellMutableFlow.value.displayName.trim() + " " + suffix).trim(),
-        localParticipantListCellMutableFlow.value.isMuted,
-        "",
-        false
-    )
 
     fun init(
         participantMap: Map<String, ParticipantInfoModel>,
@@ -50,9 +42,6 @@ internal class ParticipantListViewModel(
                 isDisplayed = false
             )
         )
-
-        localParticipantListCellMutableFlow =
-            MutableStateFlow(getLocalParticipantListCellModel(localUserState))
 
         this.displayParticipantMenuCallback = displayParticipantMenuCallback
     }
