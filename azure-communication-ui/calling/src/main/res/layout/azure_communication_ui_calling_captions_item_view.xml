@@ -101,20 +101,6 @@
                 tools:visibility="visible"
                 android:textColor="@color/azure_communication_ui_calling_color_action_bar_subtext"
                 />
-            <TextView
-                android:id="@+id/azure_communication_ui_calling_caption_rtt_indicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:text="@string/azure_communication_ui_calling_rtt"
-                android:textSize="11sp"
-                android:paddingVertical="1dp"
-                android:paddingHorizontal="3dp"
-                android:background="@drawable/azure_communication_ui_calling_rtt_typing"
-                android:visibility="gone"
-                tools:visibility="visible"
-                android:textColor="@color/azure_communication_ui_calling_color_action_bar_subtext"
-                />
         </LinearLayout>
         <TextView
             android:id="@+id/azure_communication_ui_calling_caption_info_text"
