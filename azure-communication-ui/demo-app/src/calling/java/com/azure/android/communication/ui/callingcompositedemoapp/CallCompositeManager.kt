@@ -366,6 +366,24 @@ class CallCompositeManager(private val context: Context) {
                 RemoteParticipantJoinedHandler(callComposite, context)
             )
         }
+
+        callComposite.addOnCallStateChangedEventHandler {
+            if (it.code == CallCompositeCallStateCode.CONNECTED) {
+                callComposite.addOnAudioStreamStateChangedListener {
+                    println("RW addOnStateChangedListener message ${it.message}")
+                    println("RW addOnStateChangedListener stream not null ${it.stream != null}")
+                }
+                callComposite.addOnMixedAudioBufferReceivedListener {
+                    // Received a raw audio buffers(java.nio.ByteBuffer).
+                    println("RW addOnMixedAudioBufferReceivedListener")
+                    val byteArray = ByteArray(100)
+                    it.audioBuffer.buffer.get(byteArray)
+
+                    println("RW addOnMixedAudioBufferReceivedListener ${byteArray.size}")
+                    println("RW byteArray ${byteArray.joinToString(", ") { it.toString() }}")
+                }
+            }
+        }
     }
 
     fun dismissCallComposite() {

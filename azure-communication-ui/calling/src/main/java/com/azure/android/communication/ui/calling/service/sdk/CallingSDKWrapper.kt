@@ -3,8 +3,15 @@
 
 package com.azure.android.communication.ui.calling.service.sdk
 
+/*  <CALL_START_TIME> */
+/* </CALL_START_TIME> */
+/*  <CALL_START_TIME> */
+
 import android.content.Context
 import com.azure.android.communication.calling.AcceptCallOptions
+import com.azure.android.communication.calling.AudioStreamChannelMode
+import com.azure.android.communication.calling.AudioStreamFormat
+import com.azure.android.communication.calling.AudioStreamSampleRate
 import com.azure.android.communication.calling.Call
 import com.azure.android.communication.calling.CallAgent
 import com.azure.android.communication.calling.CallClient
@@ -15,11 +22,14 @@ import com.azure.android.communication.calling.DeviceManager
 import com.azure.android.communication.calling.Features
 import com.azure.android.communication.calling.GroupCallLocator
 import com.azure.android.communication.calling.HangUpOptions
-import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVideoStream
+import com.azure.android.communication.calling.IncomingAudioOptions
 import com.azure.android.communication.calling.JoinCallOptions
 import com.azure.android.communication.calling.JoinMeetingLocator
 import com.azure.android.communication.calling.OutgoingAudioOptions
 import com.azure.android.communication.calling.OutgoingVideoOptions
+import com.azure.android.communication.calling.RawIncomingAudioStream
+import com.azure.android.communication.calling.RawIncomingAudioStreamOptions
+import com.azure.android.communication.calling.RawIncomingAudioStreamProperties
 import com.azure.android.communication.calling.RoomCallLocator
 import com.azure.android.communication.calling.StartCallOptions
 import com.azure.android.communication.calling.StartCaptionsOptions
@@ -42,17 +52,17 @@ import com.azure.android.communication.ui.calling.redux.state.CameraOperationalS
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.azure.android.communication.ui.calling.utilities.toJavaUtil
-import java.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-/*  <CALL_START_TIME> */
 import kotlinx.coroutines.flow.SharedFlow
-/* </CALL_START_TIME> */
 import kotlinx.coroutines.flow.StateFlow
 import java.io.File
 import java.util.Collections
-/*  <CALL_START_TIME> */
 import java.util.Date
+import java.util.concurrent.CompletableFuture
+import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVideoStream
+
+
 /* </CALL_START_TIME> */
 
 internal class CallingSDKWrapper(
@@ -77,6 +87,8 @@ internal class CallingSDKWrapper(
 
     private var videoDevicesUpdatedListener: VideoDevicesUpdatedListener? = null
     private var camerasCountStateFlow = MutableStateFlow(0)
+
+    override var rawIncomingAudioStream: RawIncomingAudioStream? = null
 
     private val callConfig: CallConfiguration
         get() {
@@ -642,7 +654,24 @@ internal class CallingSDKWrapper(
             nullableCall = incomingCall.accept(context, acceptCallOptions)?.get()
             callingSDKEventHandler.onCallCreated(call, callConfig.callType)
         } else {
+
+            val audioStreamOptions = RawIncomingAudioStreamOptions()
+            val properties = RawIncomingAudioStreamProperties()
+                .setFormat(AudioStreamFormat.PCM16_BIT)
+                .setSampleRate(AudioStreamSampleRate.HZ_44100)
+                .setChannelMode(AudioStreamChannelMode.STEREO)
+            audioStreamOptions.setProperties(properties)
+
+            val incomingAudioOptions = IncomingAudioOptions()
+
+            rawIncomingAudioStream = RawIncomingAudioStream(audioStreamOptions)
+
+            incomingAudioOptions.setStream(rawIncomingAudioStream)
+
+
             val joinCallOptions = JoinCallOptions()
+            joinCallOptions.incomingAudioOptions = incomingAudioOptions
+
             joinCallOptions.outgoingAudioOptions = audioOptions
             videoOptions?.let { joinCallOptions.outgoingVideoOptions = videoOptions }
             val callLocator: JoinMeetingLocator = when (callConfig.callType) {

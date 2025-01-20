@@ -326,7 +326,7 @@ internal class DependencyInjectionContainerImpl(
 
     override val logger: Logger by lazy { defaultLogger }
 
-    private val callingSDKWrapper: CallingSDK by lazy {
+    override val callingSDKWrapper: CallingSDK by lazy {
         customCallingSDK
             ?: CallingSDKWrapper(
                 applicationContext,

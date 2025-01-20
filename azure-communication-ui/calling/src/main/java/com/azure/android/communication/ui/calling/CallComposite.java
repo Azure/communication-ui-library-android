@@ -9,6 +9,8 @@ import static com.azure.android.communication.ui.calling.service.sdk.TypeConvers
 import android.content.Context;
 import android.content.Intent;
 
+import com.azure.android.communication.calling.AudioStreamStateChangedListener;
+import com.azure.android.communication.calling.IncomingMixedAudioListener;
 import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.common.CommunicationTokenCredential;
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration;
@@ -1026,5 +1028,31 @@ public final class CallComposite {
                     final String incomingCallId,
                     final CallCompositeLocalOptions localOptions) {
         launchComposite(context, null, null, incomingCallId, localOptions, true);
+    }
+
+    public CompletableFuture<Void>  addOnAudioStreamStateChangedListener(
+            final AudioStreamStateChangedListener listener) {
+        final CompletableFuture<Void> resumeFuture = new CompletableFuture<>();
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer;
+            container.getCallingSDKWrapper().getRawIncomingAudioStream().addOnStateChangedListener(listener);
+        } else {
+            resumeFuture.completeExceptionally(new IllegalStateException("CallComposite is not initialized"));
+        }
+        return resumeFuture;
+    }
+
+    public CompletableFuture<Void>  addOnMixedAudioBufferReceivedListener(
+            final IncomingMixedAudioListener listener) {
+        final CompletableFuture<Void> resumeFuture = new CompletableFuture<>();
+        if (diContainer != null) {
+            final DependencyInjectionContainer container = diContainer;
+            container.getCallingSDKWrapper()
+                    .getRawIncomingAudioStream()
+                    .addOnMixedAudioBufferReceivedListener(listener);
+        } else {
+            resumeFuture.completeExceptionally(new IllegalStateException("CallComposite is not initialized"));
+        }
+        return resumeFuture;
     }
 }

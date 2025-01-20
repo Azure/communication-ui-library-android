@@ -3,12 +3,15 @@
 
 package com.azure.android.communication.ui.calling.service.sdk
 
+/* <CALL_START_TIME> */
+/* </CALL_START_TIME> */
 import android.view.View
 import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.CreateViewOptions
 import com.azure.android.communication.calling.MediaStreamType
 import com.azure.android.communication.calling.ParticipantState
 import com.azure.android.communication.calling.PropertyChangedListener
+import com.azure.android.communication.calling.RawIncomingAudioStream
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
 import com.azure.android.communication.calling.ScalingMode
 import com.azure.android.communication.calling.VideoDeviceType
@@ -29,9 +32,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.io.File
-/* <CALL_START_TIME> */
 import java.util.Date
-/* </CALL_START_TIME> */
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -107,6 +108,8 @@ internal interface CallingSDK {
     /*  <CALL_START_TIME> */
     fun getCallStartTime(): Date?
     /* </CALL_START_TIME> */
+
+    val rawIncomingAudioStream: RawIncomingAudioStream?
 }
 
 internal interface RemoteParticipant {

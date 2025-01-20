@@ -33,6 +33,7 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallHistoryService
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.service.NotificationService
+import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
 import java.lang.ref.WeakReference
 
 // Dependency Container for the Call Composite Activity
@@ -77,6 +78,8 @@ internal interface DependencyInjectionContainer {
 
     // Calling Service
     val callingService: CallingService
+
+    val callingSDKWrapper: CallingSDK
 
     // Added for Screenshot ability.
     //
