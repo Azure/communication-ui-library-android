@@ -48,7 +48,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Appel avec 1 personne</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Appel avec %1$d personnes</string>
     <string name="azure_communication_ui_calling_view_go_back">Retour</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(moi)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">%1$s (me)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Participant sans nom</string>
     <string name="azure_communication_ui_calling_view_leave_call">Quitter l’appel ?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Quitter</string>

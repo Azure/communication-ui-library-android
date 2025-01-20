@@ -150,10 +150,7 @@ internal class ParticipantListView(
         // since we can not get resources from model class, we create the local participant list cell
         // with suffix in this way
         val localParticipantViewModel = participantListContent.localParticipantListCell
-        val localParticipantDisplayName = (
-            localParticipantViewModel.displayName + " " +
-                resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant)
-            ).trim()
+
         val localParticipantViewData =
             avatarViewManager.callCompositeLocalOptions?.participantViewData
         bottomCellItemsInCallParticipants
@@ -161,7 +158,7 @@ internal class ParticipantListView(
                 generateBottomCellItem(
                     getLocalParticipantNameToDisplay(
                         localParticipantViewData,
-                        localParticipantDisplayName
+                        localParticipantViewModel.displayName,
                     ),
                     localParticipantViewModel.isMuted,
                     localParticipantViewData,
@@ -282,12 +279,12 @@ internal class ParticipantListView(
         participantViewData: CallCompositeParticipantViewData?,
         displayName: String,
     ): String {
-        participantViewData?.displayName?.let {
-            if (it.trim().isNotEmpty()) {
-                return it + " " + resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant)
-            }
-        }
-        return displayName
+        val localParticipantDisplayName = if (participantViewData?.displayName != null)
+            participantViewData.displayName else displayName
+
+        return resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant)
+            .format(localParticipantDisplayName)
+            .trim()
     }
 
     private fun generateBottomCellItem(
