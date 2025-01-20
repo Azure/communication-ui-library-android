@@ -113,10 +113,10 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             participantListViewModel.init(initialRemoteParticipantsMap, localUserState, true, { _, _ -> }, initialRemoteParticipantsMap.size)
 
             val resultListFromRemoteParticipantListCellStateFlow =
-                mutableListOf<ParticipantListViewViewModel>()
+                mutableListOf<ParticipantListContent>()
 
             val flowJob = launch {
-                participantListViewModel.viewViewModelStateFlow
+                participantListViewModel.participantListContentStateFlow
                     .toList(resultListFromRemoteParticipantListCellStateFlow)
             }
 
@@ -218,10 +218,10 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             )
 
             val resultListFromLocalParticipantListCellStateFlow =
-                mutableListOf<ParticipantListViewViewModel>()
+                mutableListOf<ParticipantListContent>()
 
             val flowJob = launch {
-                participantListViewModel.viewViewModelStateFlow
+                participantListViewModel.participantListContentStateFlow
                     .toList(resultListFromLocalParticipantListCellStateFlow)
             }
 
@@ -295,10 +295,10 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             )
 
             val resultListFromDisplayParticipantListStateFlow =
-                mutableListOf<ParticipantListViewViewModel>()
+                mutableListOf<ParticipantListContent>()
 
             val flowJob = launch {
-                participantListViewModel.viewViewModelStateFlow
+                participantListViewModel.participantListContentStateFlow
                     .toList(resultListFromDisplayParticipantListStateFlow)
             }
 
@@ -361,10 +361,10 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             )
 
             val resultListFromDisplayParticipantListStateFlow =
-                mutableListOf<ParticipantListViewViewModel>()
+                mutableListOf<ParticipantListContent>()
 
             val flowJob = launch {
-                participantListViewModel.viewViewModelStateFlow
+                participantListViewModel.participantListContentStateFlow
                     .toList(resultListFromDisplayParticipantListStateFlow)
             }
 
@@ -462,10 +462,10 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             participantListViewModel.init(initialRemoteParticipantsMap, localUserState, true, { _, _ -> }, initialRemoteParticipantsMap.count())
 
             val resultListFromRemoteParticipantListCellStateFlow =
-                mutableListOf<ParticipantListViewViewModel>()
+                mutableListOf<ParticipantListContent>()
 
             val flowJob = launch {
-                participantListViewModel.viewViewModelStateFlow
+                participantListViewModel.participantListContentStateFlow
                     .toList(resultListFromRemoteParticipantListCellStateFlow)
             }
 
@@ -569,10 +569,10 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             participantListViewModel.init(initialRemoteParticipantsMap, localUserState, false, { _, _ -> }, updatedRemoteParticipantsMap.size)
 
             val resultListFromRemoteParticipantListCellStateFlow =
-                mutableListOf<ParticipantListViewViewModel>()
+                mutableListOf<ParticipantListContent>()
 
             val flowJob = launch {
-                participantListViewModel.viewViewModelStateFlow
+                participantListViewModel.participantListContentStateFlow
                     .toList(resultListFromRemoteParticipantListCellStateFlow)
             }
 
@@ -686,10 +686,10 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
             participantListViewModel.init(initialRemoteParticipantsMap, localUserState, true, { _, _ -> }, initialRemoteParticipantsMap.size)
 
             val resultListFromRemoteParticipantListCellStateFlow =
-                mutableListOf<ParticipantListViewViewModel>()
+                mutableListOf<ParticipantListContent>()
 
             val flowJob = launch {
-                participantListViewModel.viewViewModelStateFlow
+                participantListViewModel.participantListContentStateFlow
                     .toList(resultListFromRemoteParticipantListCellStateFlow)
             }
 

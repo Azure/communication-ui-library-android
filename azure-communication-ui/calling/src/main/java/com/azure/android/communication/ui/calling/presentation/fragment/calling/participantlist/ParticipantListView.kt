@@ -49,14 +49,14 @@ internal class ParticipantListView(
             avatarViewManager.getRemoteParticipantsPersonaSharedFlow().collect {
                 if (participantListDrawer.isShowing) {
                     updateParticipantListContent(
-                        viewModel.viewViewModelStateFlow.value,
+                        viewModel.participantListContentStateFlow.value,
                     )
                 }
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.viewViewModelStateFlow.collect { vvm ->
+            viewModel.participantListContentStateFlow.collect { vvm ->
                 if (vvm.isDisplayed) {
                     showParticipantList()
                 } else {
@@ -112,10 +112,10 @@ internal class ParticipantListView(
     }
 
     private fun updateParticipantListContent(
-        participantListViewViewModel: ParticipantListViewViewModel,
+        participantListContent: ParticipantListContent,
     ) {
         if (this::bottomCellAdapter.isInitialized) {
-            val bottomCellItems = generateBottomCellItems(participantListViewViewModel)
+            val bottomCellItems = generateBottomCellItems(participantListContent)
             updateTableHeight(bottomCellItems.size)
             with(bottomCellAdapter) {
                 setBottomCellItems(bottomCellItems)
@@ -130,7 +130,7 @@ internal class ParticipantListView(
         var titles = 1
 
         // title for in lobby participants
-        if (viewModel.viewViewModelStateFlow.value.remoteParticipantList.any { it.status == ParticipantStatus.IN_LOBBY }) {
+        if (viewModel.participantListContentStateFlow.value.remoteParticipantList.any { it.status == ParticipantStatus.IN_LOBBY }) {
             titles += 1
         }
 
@@ -142,14 +142,14 @@ internal class ParticipantListView(
     }
 
     private fun generateBottomCellItems(
-        participantListViewViewModel: ParticipantListViewViewModel,
+        participantListContent: ParticipantListContent,
     ): MutableList<BottomCellItem> {
-        val totalActiveParticipantCount = participantListViewViewModel.totalActiveParticipantCount
+        val totalActiveParticipantCount = participantListContent.totalActiveParticipantCount
         val bottomCellItemsInCallParticipants = mutableListOf<BottomCellItem>()
         val bottomCellItemsInLobbyParticipants = mutableListOf<BottomCellItem>()
         // since we can not get resources from model class, we create the local participant list cell
         // with suffix in this way
-        val localParticipantViewModel = participantListViewViewModel.localParticipantListCell
+        val localParticipantViewModel = participantListContent.localParticipantListCell
         val localParticipantDisplayName = (
             localParticipantViewModel.displayName + " " +
                 resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant)
@@ -171,7 +171,7 @@ internal class ParticipantListView(
                 )
             )
 
-        for (remoteParticipant in participantListViewViewModel.remoteParticipantList) {
+        for (remoteParticipant in participantListContent.remoteParticipantList) {
             val remoteParticipantViewData =
                 avatarViewManager.getRemoteParticipantViewData(remoteParticipant.userIdentifier)
             val finalName =
@@ -222,8 +222,8 @@ internal class ParticipantListView(
             )
         )
 
-        val plusMoreParticipants = participantListViewViewModel.totalActiveParticipantCount -
-            participantListViewViewModel.remoteParticipantList.count()
+        val plusMoreParticipants = participantListContent.totalActiveParticipantCount -
+            participantListContent.remoteParticipantList.count()
 
         if (plusMoreParticipants > 0) {
             bottomCellItemsInCallParticipants.add(
