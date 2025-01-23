@@ -119,15 +119,14 @@ internal class CallingViewModel(
             state.localParticipantState.cameraState.camerasCount,
             state.visibilityState.status,
             avMode,
-            state.rttState,
+            isOverlayDisplayedOverGrid(state),
         )
 
         floatingHeaderViewModel.init(
-            state.callState.callingStatus,
             remoteParticipantsForGridView.count(),
             state.callScreenInfoHeaderState,
             state.buttonState,
-            state.rttState,
+            isOverlayDisplayedOverGrid(state),
             this::requestCallEndOnBackPressed,
             /* <CALL_START_TIME> */
             state.callState.callStartTime,
@@ -140,7 +139,7 @@ internal class CallingViewModel(
         )
         bannerViewModel.init(
             state.callState,
-            state.rttState,
+            isOverlayDisplayedOverGrid(state),
         )
 
         participantMenuViewModel.init(
@@ -158,7 +157,7 @@ internal class CallingViewModel(
             state.remoteParticipantState.totalParticipantCount,
         )
 
-        waitingLobbyOverlayViewModel.init(state.callState.callingStatus)
+        waitingLobbyOverlayViewModel.init(shouldDisplayLobbyOverlay(state))
 
         connectingLobbyOverlayViewModel.init(
             state.callState,
@@ -171,8 +170,8 @@ internal class CallingViewModel(
         holdOverlayViewModel.init(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 
         participantGridViewModel.init(
-            state.callState.callingStatus,
             state.rttState,
+            isOverlayDisplayedOverGrid(state),
             state.deviceConfigurationState,
             state.captionsState,
         )
@@ -265,7 +264,7 @@ internal class CallingViewModel(
             state.localParticipantState.cameraState.camerasCount,
             state.visibilityState.status,
             avMode,
-            state.rttState,
+            shouldDisplayLobbyOverlay(state),
         )
 
         audioDeviceListViewModel.update(
@@ -273,7 +272,7 @@ internal class CallingViewModel(
             state.visibilityState
         )
 
-        waitingLobbyOverlayViewModel.update(state.callState.callingStatus)
+        waitingLobbyOverlayViewModel.update(shouldDisplayLobbyOverlay(state))
         connectingLobbyOverlayViewModel.update(
             state.callState,
             state.localParticipantState.cameraState.operation,
@@ -290,8 +289,8 @@ internal class CallingViewModel(
                 dominantSpeakersInfo = listOf(),
                 dominantSpeakersModifiedTimestamp = System.currentTimeMillis(),
                 visibilityStatus = state.visibilityState.status,
-                callingStatus = state.callState.callingStatus,
                 rttState = state.rttState,
+                isOverlayDisplayedOverGrid = isOverlayDisplayedOverGrid(state),
                 deviceConfigurationState = state.deviceConfigurationState,
                 captionsState = state.captionsState,
             )
@@ -309,7 +308,7 @@ internal class CallingViewModel(
                 state.localParticipantState.cameraState.camerasCount,
                 state.visibilityState.status,
                 avMode,
-                state.rttState,
+                shouldDisplayLobbyOverlay(state),
             )
         }
 
@@ -320,8 +319,8 @@ internal class CallingViewModel(
                 dominantSpeakersInfo = state.remoteParticipantState.dominantSpeakersInfo,
                 dominantSpeakersModifiedTimestamp = state.remoteParticipantState.dominantSpeakersModifiedTimestamp,
                 visibilityStatus = state.visibilityState.status,
-                callingStatus = state.callState.callingStatus,
                 rttState = state.rttState,
+                isOverlayDisplayedOverGrid = isOverlayDisplayedOverGrid(state),
                 deviceConfigurationState = state.deviceConfigurationState,
                 captionsState = state.captionsState,
             )
@@ -330,8 +329,7 @@ internal class CallingViewModel(
                 totalParticipantCountExceptHidden,
                 state.callScreenInfoHeaderState,
                 state.buttonState,
-                state.callState.callingStatus,
-                state.rttState,
+                isOverlayDisplayedOverGrid(state),
                 /* <CALL_START_TIME> */
                 state.callState.callStartTime
                 /* </CALL_START_TIME> */
@@ -381,7 +379,7 @@ internal class CallingViewModel(
             bannerViewModel.update(
                 state.callState,
                 state.visibilityState,
-                state.rttState,
+                isOverlayDisplayedOverGrid(state),
             )
         }
 
@@ -475,5 +473,14 @@ internal class CallingViewModel(
 
     fun minimizeCaptions() {
         dispatchAction(RttAction.UpdateMaximized(false))
+    }
+
+    private fun shouldDisplayLobbyOverlay(state: ReduxState) =
+        state.callState.callingStatus == CallingStatus.IN_LOBBY
+
+    private fun isOverlayDisplayedOverGrid(state: ReduxState): Boolean {
+        return shouldDisplayLobbyOverlay(state) ||
+            state.callState.callingStatus == CallingStatus.LOCAL_HOLD ||
+            state.rttState.isMaximized
     }
 }

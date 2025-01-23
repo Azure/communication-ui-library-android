@@ -334,7 +334,6 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 any(),
                 any(),
                 any(),
-                any(),
                 /* <CALL_START_TIME> */
                 anyOrNull(),
                 /* </CALL_START_TIME> */
@@ -397,7 +396,6 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             // assert
             verify(mockParticipantGridViewModel, times(1)).update(any(), any(), any(), any(), any(), any(), any(), any(), any(),)
             verify(mockFloatingHeaderViewModel, times(1)).update(
-                any(),
                 any(),
                 any(),
                 any(),
@@ -465,7 +463,6 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             // assert
             verify(mockParticipantGridViewModel, times(0)).update(any(), any(), any(), any(), any(), any(), any(), any(), any(),)
             verify(mockFloatingHeaderViewModel, times(0)).update(
-                any(),
                 any(),
                 any(),
                 any(),
@@ -971,7 +968,6 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
         )
         verify(mockFloatingHeaderViewModel, times(1)).update(
             argThat { count -> count == expectedParticipantCountOnFloatingHeader },
-            any(),
             any(),
             any(),
             any(),

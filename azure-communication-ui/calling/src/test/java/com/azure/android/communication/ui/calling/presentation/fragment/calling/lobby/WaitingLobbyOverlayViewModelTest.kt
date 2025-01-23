@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby
 
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import org.junit.Assert
@@ -22,7 +21,7 @@ internal class WaitingLobbyOverlayViewModelTest : ACSBaseTestCoroutine() {
             // arrange
             val viewModel = WaitingLobbyOverlayViewModel()
             viewModel.init(
-                CallingStatus.CONNECTED,
+                shouldDisplayLobbyOverlay = false
             )
 
             val modelFlow = mutableListOf<Boolean>()
@@ -32,7 +31,7 @@ internal class WaitingLobbyOverlayViewModelTest : ACSBaseTestCoroutine() {
 
             // act
             viewModel.update(
-                CallingStatus.IN_LOBBY,
+                shouldDisplayLobbyOverlay = true,
             )
 
             // assert

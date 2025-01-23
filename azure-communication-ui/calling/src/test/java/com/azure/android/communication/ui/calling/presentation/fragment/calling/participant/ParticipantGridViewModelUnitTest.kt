@@ -52,8 +52,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             val captionsState = CaptionsState()
 
             participantGridViewModel.init(
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -65,8 +65,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 listOf(),
                 0,
                 visibilityStatus,
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -124,8 +124,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             val dominantSpeakersInfo = listOf("user8", "user7", "user6", "user5", "user4", "user3", "user2", "user1")
 
             participantGridViewModel.init(
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -137,8 +137,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 dominantSpeakersInfo,
                 System.currentTimeMillis(),
                 visibilityStatus,
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -185,8 +185,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             val dominantSpeakersInfo = listOf("user9", "user8", "user1", "user4", "user5", "user7", "user6", "user3", "user2")
 
             participantGridViewModel.init(
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -198,8 +198,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 dominantSpeakersInfo,
                 System.currentTimeMillis(),
                 visibilityStatus,
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -247,8 +247,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             val dominantSpeakersInfo = listOf("user1", "user2")
 
             participantGridViewModel.init(
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -260,8 +260,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 dominantSpeakersInfo,
                 System.currentTimeMillis(),
                 visibilityStatus,
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -271,8 +271,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 dominantSpeakersInfo,
                 100,
                 visibilityStatus,
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -326,8 +326,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             val dominantSpeakersInfoNew = listOf("user8", "user2")
 
             participantGridViewModel.init(
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -339,8 +339,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 dominantSpeakersInfo,
                 modifiedTimestamp,
                 visibilityStatus,
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -364,8 +364,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 dominantSpeakersInfoNew,
                 modifiedTimestamp,
                 visibilityStatus,
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -414,8 +414,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             val captionsState = CaptionsState()
 
             participantGridViewModel.init(
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -426,8 +426,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 listOf(),
                 0,
                 visibilityStatus,
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -451,8 +451,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 listOf(),
                 0,
                 visibilityStatus,
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -507,8 +507,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             val dominantSpeakersInfoNew = listOf("user8", "user3", "user2")
 
             participantGridViewModel.init(
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -520,8 +520,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 dominantSpeakersInfo,
                 100,
                 visibilityStatus,
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -545,8 +545,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 dominantSpeakersInfoNew,
                 300,
                 visibilityStatus,
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -600,8 +600,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             val dominantSpeakersInfoNew = listOf("user1", "user3", "user2")
 
             participantGridViewModel.init(
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -613,8 +613,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 dominantSpeakersInfo,
                 89,
                 visibilityStatus,
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -642,8 +642,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 dominantSpeakersInfoNew,
                 300,
                 visibilityStatus,
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -701,8 +701,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             val dominantSpeakersInfo = listOf("user22", "user23", "user21", "user6", "user5", "user4", "user3", "user1",)
 
             participantGridViewModel.init(
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -714,8 +714,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 dominantSpeakersInfo,
                 5,
                 visibilityStatus,
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -786,8 +786,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             val dominantSpeakersInfoNew = listOf("user1", "user23", "user4", "user3", "user22", "user21", "user6", "user5")
 
             participantGridViewModel.init(
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -799,8 +799,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 dominantSpeakersInfo,
                 5,
                 visibilityStatus,
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -832,8 +832,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 dominantSpeakersInfoNew,
                 10,
                 visibilityStatus,
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -914,8 +914,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             val dominantSpeakersInfoNew = listOf("user1", "user23", "user4", "user3", "user22", "user21", "user6", "user5")
 
             participantGridViewModel.init(
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -927,8 +927,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 dominantSpeakersInfo,
                 5,
                 visibilityStatus,
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -960,8 +960,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 dominantSpeakersInfoNew,
                 10,
                 visibilityStatus,
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -1020,8 +1020,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             val dominantSpeakersInfo = listOf<String>()
 
             participantGridViewModel.init(
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -1033,8 +1033,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 dominantSpeakersInfo,
                 5,
                 visibilityStatus,
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -1096,8 +1096,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             val dominantSpeakersInfo = listOf("user6", "user7")
 
             participantGridViewModel.init(
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -1109,8 +1109,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 dominantSpeakersInfo,
                 5,
                 visibilityStatus,
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -1175,8 +1175,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
             val dominantSpeakersInfo = listOf("user7", "user8")
 
             participantGridViewModel.init(
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )
@@ -1188,8 +1188,8 @@ internal class ParticipantGridViewModelUnitTest : ACSBaseTestCoroutine() {
                 dominantSpeakersInfo,
                 5,
                 visibilityStatus,
-                callingStatus,
                 rttState,
+                isOverlayDisplayedOverGrid = false,
                 deviceConfigurationState,
                 captionsState,
             )

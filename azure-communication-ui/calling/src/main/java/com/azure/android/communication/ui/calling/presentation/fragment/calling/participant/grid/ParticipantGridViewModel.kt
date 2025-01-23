@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.ParticipantGridCellViewModelFactory
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
 import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 import com.azure.android.communication.ui.calling.redux.state.DeviceConfigurationState
@@ -37,12 +36,12 @@ internal class ParticipantGridViewModel(
         get() = isVerticalStyleGridMutableFlow
 
     fun init(
-        callingStatus: CallingStatus,
         rttState: RttState,
+        isOverlayDisplayedOverGrid: Boolean,
         deviceConfigurationState: DeviceConfigurationState,
         captionsState: CaptionsState,
     ) {
-        isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayed(callingStatus, rttState))
+        isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayedOverGrid)
         isVerticalStyleGridMutableFlow = MutableStateFlow(
             shouldUseVerticalStyleGrid(deviceConfigurationState, rttState, captionsState)
         )
@@ -76,13 +75,13 @@ internal class ParticipantGridViewModel(
         dominantSpeakersInfo: List<String>,
         dominantSpeakersModifiedTimestamp: Number,
         visibilityStatus: VisibilityStatus,
-        callingStatus: CallingStatus,
         rttState: RttState,
+        isOverlayDisplayedOverGrid: Boolean,
         deviceConfigurationState: DeviceConfigurationState,
         captionsState: CaptionsState,
     ) {
 
-        isOverlayDisplayedFlow.value = isOverlayDisplayed(callingStatus, rttState)
+        isOverlayDisplayedFlow.value = isOverlayDisplayedOverGrid
         isVerticalStyleGridMutableFlow.value = shouldUseVerticalStyleGrid(deviceConfigurationState, rttState, captionsState)
 
         if (remoteParticipantsMapUpdatedTimestamp == remoteParticipantStateModifiedTimeStamp &&
@@ -275,11 +274,5 @@ internal class ParticipantGridViewModel(
             }
         }
         updateVideoStreamsCallback?.invoke(usersVideoStream)
-    }
-
-    private fun isOverlayDisplayed(callingStatus: CallingStatus, rttState: RttState): Boolean {
-        return callingStatus == CallingStatus.IN_LOBBY ||
-            callingStatus == CallingStatus.LOCAL_HOLD ||
-            rttState.isMaximized
     }
 }

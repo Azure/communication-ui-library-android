@@ -90,7 +90,7 @@ internal class CaptionsRttDataManagerUnitTests : ACSBaseTestCoroutine() {
             val addedData = mutableListOf<Int>()
 
             val insertedJob = launch {
-                captionsRttDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+                captionsRttDataManager.recordInsertedAtPosition.toList(addedData)
             }
 
             // Act
@@ -151,7 +151,7 @@ internal class CaptionsRttDataManagerUnitTests : ACSBaseTestCoroutine() {
             val addedData = mutableListOf<Int>()
 
             val insertedJob = launch {
-                captionsRttDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+                captionsRttDataManager.recordInsertedAtPosition.toList(addedData)
             }
 
             // Act
@@ -223,11 +223,11 @@ internal class CaptionsRttDataManagerUnitTests : ACSBaseTestCoroutine() {
             val updatedData = mutableListOf<Int>()
 
             val insertedJob = launch {
-                captionsRttDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+                captionsRttDataManager.recordInsertedAtPosition.toList(addedData)
             }
 
             val updatedJob = launch {
-                captionsRttDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
+                captionsRttDataManager.recordUpdatedAtPosition.toList(updatedData)
             }
 
             // Act
@@ -305,11 +305,11 @@ internal class CaptionsRttDataManagerUnitTests : ACSBaseTestCoroutine() {
             val updatedData = mutableListOf<Int>()
 
             val insertedJob = launch {
-                captionsRttDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+                captionsRttDataManager.recordInsertedAtPosition.toList(addedData)
             }
 
             val updatedJob = launch {
-                captionsRttDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
+                captionsRttDataManager.recordUpdatedAtPosition.toList(updatedData)
             }
 
             // Act
@@ -393,7 +393,7 @@ internal class CaptionsRttDataManagerUnitTests : ACSBaseTestCoroutine() {
             val addedData = mutableListOf<Int>()
 
             val insertedJob = launch {
-                captionsRttDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+                captionsRttDataManager.recordInsertedAtPosition.toList(addedData)
             }
 
             // Act
@@ -444,11 +444,11 @@ internal class CaptionsRttDataManagerUnitTests : ACSBaseTestCoroutine() {
 
             // Act
             val insertedJob = launch {
-                captionsRttDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+                captionsRttDataManager.recordInsertedAtPosition.toList(addedData)
             }
 
             val updatedJob = launch {
-                captionsRttDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
+                captionsRttDataManager.recordUpdatedAtPosition.toList(updatedData)
             }
 
             val testScope = TestScope(UnconfinedTestDispatcher())
@@ -521,11 +521,11 @@ internal class CaptionsRttDataManagerUnitTests : ACSBaseTestCoroutine() {
 
             // Act
             val insertedJob = launch {
-                captionsRttDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+                captionsRttDataManager.recordInsertedAtPosition.toList(addedData)
             }
 
             val updatedJob = launch {
-                captionsRttDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
+                captionsRttDataManager.recordUpdatedAtPosition.toList(updatedData)
             }
 
             val testScope = TestScope(UnconfinedTestDispatcher())
@@ -598,11 +598,11 @@ internal class CaptionsRttDataManagerUnitTests : ACSBaseTestCoroutine() {
 
             // Act
             val insertedJob = launch {
-                captionsRttDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+                captionsRttDataManager.recordInsertedAtPosition.toList(addedData)
             }
 
             val updatedJob = launch {
-                captionsRttDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
+                captionsRttDataManager.recordUpdatedAtPosition.toList(updatedData)
             }
 
             val testScope = TestScope(UnconfinedTestDispatcher())
@@ -661,11 +661,11 @@ internal class CaptionsRttDataManagerUnitTests : ACSBaseTestCoroutine() {
 
             // Act
             val insertedJob = launch {
-                captionsRttDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+                captionsRttDataManager.recordInsertedAtPosition.toList(addedData)
             }
 
             val updatedJob = launch {
-                captionsRttDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
+                captionsRttDataManager.recordUpdatedAtPosition.toList(updatedData)
             }
 
             val testScope = TestScope(UnconfinedTestDispatcher())
@@ -733,11 +733,11 @@ internal class CaptionsRttDataManagerUnitTests : ACSBaseTestCoroutine() {
             val updatedData = mutableListOf<Int>()
 
             val insertedJob = launch {
-                captionsRttDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+                captionsRttDataManager.recordInsertedAtPosition.toList(addedData)
             }
 
             val updatedJob = launch {
-                captionsRttDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
+                captionsRttDataManager.recordUpdatedAtPosition.toList(updatedData)
             }
 
             // Act

@@ -4,8 +4,6 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.banner
 
 import com.azure.android.communication.ui.calling.redux.state.CallingState
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
-import com.azure.android.communication.ui.calling.redux.state.RttState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,7 +34,7 @@ internal class BannerViewModel {
 
     fun init(
         callingState: CallingState,
-        rttState: RttState,
+        isOverlayDisplayedOverGrid: Boolean,
     ) {
         bannerInfoTypeStateMutableFlow = MutableStateFlow(
             createBannerInfoType(
@@ -44,13 +42,13 @@ internal class BannerViewModel {
                 callingState.isTranscribing
             )
         )
-        isOverlayDisplayedMutableFlow = MutableStateFlow(isOverlayDisplayed(callingState.callingStatus, rttState))
+        isOverlayDisplayedMutableFlow = MutableStateFlow(isOverlayDisplayedOverGrid)
     }
 
     fun update(
         callingState: CallingState,
         visibilityState: VisibilityState,
-        rttState: RttState,
+        isOverlayDisplayedOverGrid: Boolean,
     ) {
 
         if (hideWhileInPip && visibilityState.status == VisibilityStatus.VISIBLE) {
@@ -74,7 +72,7 @@ internal class BannerViewModel {
             hideWhileInPip = true
             return
         }
-        isOverlayDisplayedMutableFlow.value = isOverlayDisplayed(callingState.callingStatus, rttState)
+        isOverlayDisplayedMutableFlow.value = isOverlayDisplayedOverGrid
     }
 
     fun setDisplayedBannerType(bannerInfoType: BannerInfoType) {
@@ -164,13 +162,6 @@ internal class BannerViewModel {
             transcriptionState = ComplianceState.OFF
         }
     }
-
-    private fun isOverlayDisplayed(
-        callingStatus: CallingStatus,
-        rttState: RttState,
-    ) = callingStatus == CallingStatus.IN_LOBBY ||
-            callingStatus == CallingStatus.LOCAL_HOLD ||
-            rttState.isMaximized
 }
 
 internal enum class ComplianceState {

@@ -9,7 +9,6 @@ import com.azure.android.communication.ui.calling.redux.action.LocalParticipantA
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
-import com.azure.android.communication.ui.calling.redux.state.RttState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -58,13 +57,12 @@ internal class LocalParticipantViewModel(
         camerasCount: Int,
         pipStatus: VisibilityStatus,
         avMode: CallCompositeAudioVideoMode,
-        rttState: RttState,
+        isOverlayDisplayedOverGrid: Boolean,
     ) {
         val viewMode = getLocalParticipantViewMode(numberOfRemoteParticipants)
         val displayVideo = shouldDisplayVideo(videoStreamID)
-        val displayLobbyOverlay = shouldDisplayLobbyOverlay(callingState)
         val displayFullScreenAvatar =
-            shouldDisplayFullScreenAvatar(displayVideo, displayLobbyOverlay, viewMode, callingState)
+            shouldDisplayFullScreenAvatar(displayVideo, viewMode, callingState)
 
         videoStatusFlow.value = VideoModel(displayVideo, videoStreamID, viewMode)
         displayNameStateFlow.value = displayName
@@ -87,7 +85,7 @@ internal class LocalParticipantViewModel(
         numberOfRemoteParticipantsFlow.value = numberOfRemoteParticipants
 
         isVisibleFlow.value = isVisible(displayVideo, pipStatus, displayFullScreenAvatar, avMode)
-        isOverlayDisplayedFlow.value = isOverlayDisplayed(callingState, rttState)
+        isOverlayDisplayedFlow.value = isOverlayDisplayedOverGrid
     }
 
     private fun isVisible(displayVideo: Boolean, pipStatus: VisibilityStatus, displayFullScreenAvatar: Boolean, avMode: CallCompositeAudioVideoMode): Boolean {
@@ -116,14 +114,13 @@ internal class LocalParticipantViewModel(
         camerasCount: Int,
         pipStatus: VisibilityStatus,
         avMode: CallCompositeAudioVideoMode,
-        rttState: RttState,
+        isOverlayDisplayedOverGrid: Boolean,
     ) {
 
         val viewMode = getLocalParticipantViewMode(numberOfRemoteParticipants)
         val displayVideo = shouldDisplayVideo(videoStreamID)
-        val displayLobbyOverlay = shouldDisplayLobbyOverlay(callingState)
         val displayFullScreenAvatar =
-            shouldDisplayFullScreenAvatar(displayVideo, displayLobbyOverlay, viewMode, callingState)
+            shouldDisplayFullScreenAvatar(displayVideo, viewMode, callingState)
 
         videoStatusFlow = MutableStateFlow(VideoModel(displayVideo, videoStreamID, viewMode))
         displayNameStateFlow = MutableStateFlow(displayName)
@@ -142,7 +139,7 @@ internal class LocalParticipantViewModel(
             cameraDeviceSelectionStatus != CameraDeviceSelectionStatus.SWITCHING
         )
         cameraDeviceSelectionFlow = MutableStateFlow(cameraDeviceSelectionStatus)
-        isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayed(callingState, rttState))
+        isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayedOverGrid)
         numberOfRemoteParticipantsFlow = MutableStateFlow(numberOfRemoteParticipants)
         isVisibleFlow = MutableStateFlow(isVisible(displayVideo, pipStatus, displayFullScreenAvatar, avMode))
     }
@@ -153,25 +150,15 @@ internal class LocalParticipantViewModel(
 
     private fun shouldDisplayFullScreenAvatar(
         displayVideo: Boolean,
-        displayLobbyOverlay: Boolean,
         viewMode: LocalParticipantViewMode,
         callingState: CallingStatus,
     ) =
-        !displayVideo && viewMode == LocalParticipantViewMode.FULL_SCREEN && !displayLobbyOverlay &&
+        !displayVideo && viewMode == LocalParticipantViewMode.FULL_SCREEN &&
             callingState == CallingStatus.CONNECTED
-
-    private fun shouldDisplayLobbyOverlay(callingStatus: CallingStatus) =
-        callingStatus == CallingStatus.IN_LOBBY
 
     private fun getLocalParticipantViewMode(numberOfRemoteParticipants: Int): LocalParticipantViewMode {
         return if (numberOfRemoteParticipants > 0)
             LocalParticipantViewMode.SELFIE_PIP else LocalParticipantViewMode.FULL_SCREEN
-    }
-
-    private fun isOverlayDisplayed(callingStatus: CallingStatus, rttState: RttState): Boolean {
-        return callingStatus == CallingStatus.IN_LOBBY ||
-            callingStatus == CallingStatus.LOCAL_HOLD ||
-            rttState.isMaximized
     }
 
     internal data class VideoModel(

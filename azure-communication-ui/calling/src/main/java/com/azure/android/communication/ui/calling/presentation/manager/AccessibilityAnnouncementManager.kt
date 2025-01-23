@@ -153,5 +153,5 @@ internal class CaptionsStatusHook : AccessibilityHook() {
             CaptionsStatus.STARTED -> context.getString(R.string.azure_communication_ui_calling_captions_is_on)
             CaptionsStatus.STOPPED -> context.getString(R.string.azure_communication_ui_calling_captions_is_off)
             else -> ""
-    }
+        }
 }
