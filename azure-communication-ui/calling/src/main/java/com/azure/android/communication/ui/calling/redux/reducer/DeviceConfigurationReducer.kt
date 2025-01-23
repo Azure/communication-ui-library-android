@@ -11,13 +11,13 @@ internal interface DeviceConfigurationReducer : Reducer<DeviceConfigurationState
 internal class DeviceConfigurationReducerImpl : DeviceConfigurationReducer {
     override fun reduce(state: DeviceConfigurationState, action: Action): DeviceConfigurationState {
         return when (action) {
-            is DeviceConfigurationAction.KeyboardVisibilityChanged -> {
+            is DeviceConfigurationAction.ToggleKeyboardVisibility -> {
                 state.copy(isSoftwareKeyboardVisible = action.isSoftwareKeyboardVisible)
             }
-            is DeviceConfigurationAction.IsTableChanged -> {
+            is DeviceConfigurationAction.ToggleTabletMode -> {
                 state.copy(isTablet = action.isTablet)
             }
-            is DeviceConfigurationAction.IsPortraitChanged -> {
+            is DeviceConfigurationAction.TogglePortraitMode -> {
                 state.copy(isPortrait = action.isPortrait)
             }
             else -> state

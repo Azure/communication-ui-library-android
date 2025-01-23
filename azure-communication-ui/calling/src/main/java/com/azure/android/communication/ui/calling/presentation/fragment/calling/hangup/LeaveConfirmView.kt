@@ -88,17 +88,10 @@ internal class LeaveConfirmView(
             val bottomCellItems = mutableListOf(
                 // Leave title
                 BottomCellItem(
-                    icon = null,
                     title = context.getString(R.string.azure_communication_ui_calling_view_leave_call),
                     contentDescription = context.getString(R.string.azure_communication_ui_calling_view_leave_confirm_menu),
-                    accessoryImage = null,
-                    accessoryColor = null,
-                    accessoryImageDescription = null,
-                    isChecked = null,
-                    participantViewData = null,
                     isOnHold = false,
                     itemType = BottomCellItemType.BottomMenuTitle,
-                    onClickAction = null
                 ),
 
                 // Leave
@@ -109,11 +102,6 @@ internal class LeaveConfirmView(
                     ),
                     title = context.getString(R.string.azure_communication_ui_calling_view_leave_call_button_text),
                     contentDescription = context.getString(R.string.azure_communication_ui_calling_leave_confirm_drawer_leave_button),
-                    accessoryImage = null,
-                    accessoryColor = null,
-                    accessoryImageDescription = null,
-                    isChecked = null,
-                    participantViewData = null,
                     isOnHold = false,
                     onClickAction = {
                         viewModel.confirm()
@@ -128,11 +116,6 @@ internal class LeaveConfirmView(
                     ),
                     title = context.getString(R.string.azure_communication_ui_calling_view_leave_call_cancel),
                     contentDescription = context.getString(R.string.azure_communication_ui_calling_leave_confirm_drawer_cancel_button),
-                    accessoryImage = null,
-                    accessoryColor = null,
-                    accessoryImageDescription = null,
-                    isChecked = null,
-                    participantViewData = null,
                     isOnHold = false,
                     onClickAction = {
                         cancelLeaveConfirm()

@@ -155,22 +155,13 @@ internal class CaptionsListView(
                 ),
                 title = context.getString(R.string.azure_communication_ui_calling_captions_rtt_menu),
                 iconContentDescription = context.getString(R.string.azure_communication_ui_calling_view_go_back),
-                contentDescription = null,
-                accessoryImage = null,
-                accessoryColor = null,
-                accessoryImageDescription = null,
-                isChecked = null,
-                participantViewData = null,
-                isOnHold = null,
                 itemType = BottomCellItemType.BottomMenuCenteredTitle,
-                onClickAction = null,
                 iconOnClickAction = {
                     viewModel.back()
                 },
                 showToggleButton = false,
                 isToggleButtonOn = false,
                 isEnabled = true,
-                toggleButtonAction = null,
             )
         )
 
@@ -181,15 +172,6 @@ internal class CaptionsListView(
                         context, R.drawable.azure_communication_ui_calling_ic_fluent_closed_caption_24_selector
                     ),
                     title = context.getString(R.string.azure_communication_ui_calling_live_captions_title),
-                    contentDescription = null,
-                    accessoryImage = null,
-                    accessoryColor = null,
-                    accessoryImageDescription = null,
-                    isChecked = null,
-                    participantViewData = null,
-                    isOnHold = null,
-                    itemType = BottomCellItemType.BottomMenuAction,
-                    onClickAction = null,
                     showToggleButton = true,
                     isToggleButtonOn = isCaptionsActive,
                     isEnabled = isToggleEnabled,
@@ -207,13 +189,6 @@ internal class CaptionsListView(
                         R.drawable.azure_communication_ui_calling_ic_fluent_spoken_language_24_selector
                     ),
                     title = context.getString(R.string.azure_communication_ui_calling_captions_spoken_language_title),
-                    contentDescription = null,
-                    accessoryImage = null,
-                    accessoryColor = null,
-                    accessoryImageDescription = null,
-                    isChecked = null,
-                    participantViewData = null,
-                    isOnHold = null,
                     itemType = BottomCellItemType.BottomMenuAction,
                     showRightArrow = true,
                     subtitle = LocaleHelper.getLocaleDisplayName(activeSpokenLanguage),
@@ -232,13 +207,6 @@ internal class CaptionsListView(
                         R.drawable.azure_communication_ui_calling_ic_fluent_caption_language_24_selector
                     ),
                     title = context.getString(R.string.azure_communication_ui_calling_captions_caption_language_title),
-                    contentDescription = null,
-                    accessoryImage = null,
-                    accessoryColor = null,
-                    accessoryImageDescription = null,
-                    isChecked = null,
-                    participantViewData = null,
-                    isOnHold = null,
                     itemType = BottomCellItemType.BottomMenuAction,
                     showRightArrow = true,
                     subtitle = LocaleHelper.getLocaleDisplayName(activeCaptionLanguage),
@@ -257,13 +225,6 @@ internal class CaptionsListView(
                     R.drawable.azure_communication_ui_calling_ic_fluent_slide_text_call_20_regular
                 ),
                 title = context.getString(R.string.azure_communication_ui_calling_captions_turn_on_rtt),
-                contentDescription = null,
-                accessoryImage = null,
-                accessoryColor = null,
-                accessoryImageDescription = null,
-                isChecked = null,
-                participantViewData = null,
-                isOnHold = null,
                 itemType = BottomCellItemType.BottomMenuAction,
                 onClickAction = {
                     showStartRttConfirm()

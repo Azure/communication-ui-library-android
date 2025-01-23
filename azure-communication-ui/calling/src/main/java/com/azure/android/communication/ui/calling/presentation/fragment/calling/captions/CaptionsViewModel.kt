@@ -3,7 +3,7 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.captions
 
-import com.azure.android.communication.ui.calling.presentation.manager.CaptionsDataManager
+import com.azure.android.communication.ui.calling.presentation.manager.CaptionsRttDataManager
 import com.azure.android.communication.ui.calling.redux.action.Action
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.action.RttAction
@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal class CaptionsViewModel(
     private val dispatch: (Action) -> Unit,
-    captionsDataManager: CaptionsDataManager,
+    captionsRttDataManager: CaptionsRttDataManager,
 ) {
     private lateinit var isVisibleMutableFlow: MutableStateFlow<Boolean>
     private lateinit var isRttInputVisibleMutableFlow: MutableStateFlow<Boolean>
@@ -29,11 +29,11 @@ internal class CaptionsViewModel(
     private lateinit var isCaptionsButtonEnabledMutableStateFlow: MutableStateFlow<Boolean>
     private lateinit var isCaptionsActiveMutableStateFlow: MutableStateFlow<Boolean>
 
-    val captionsAndRttData = captionsDataManager.captionsAndRttData
-    val recordUpdatedAtPositionSharedFlow = captionsDataManager.recordUpdatedAtPositionSharedFlow
-    val recordInsertedAtPositionSharedFlow = captionsDataManager.recordInsertedAtPositionSharedFlow
-    val recordRemovedAtPositionSharedFlow = captionsDataManager.recordRemovedAtPositionSharedFlow
-    val captionsRttUpdatedSharedFlow = captionsDataManager.captionsRttUpdated.events
+    val captionsAndRttData = captionsRttDataManager.captionsAndRttData
+    val recordUpdatedAtPositionSharedFlow = captionsRttDataManager.recordUpdatedAtPosition
+    val recordInsertedAtPositionSharedFlow = captionsRttDataManager.recordInsertedAtPosition
+    val recordRemovedAtPositionSharedFlow = captionsRttDataManager.recordRemovedAtPosition
+    val captionsRttUpdatedSharedFlow = captionsRttDataManager.captionsRttUpdated.events
 
     val softwareKeyboardStateFlow: StateFlow<Boolean>
         get() = softwareKeyboardStateMutableFlow

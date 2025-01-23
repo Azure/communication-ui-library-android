@@ -30,7 +30,7 @@ import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.presentation.CallCompositeActivityViewModel
 import com.azure.android.communication.ui.calling.presentation.MultitaskingCallCompositeActivity
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.banner.BannerView
-import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsView
+import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsRttView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.connecting.overlay.ConnectingOverlayView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.ControlBarView
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar.captions.CaptionsLanguageSelectionListView
@@ -63,6 +63,11 @@ internal class CallingFragment :
         private const val LEAVE_CONFIRM_VIEW_KEY = "LeaveConfirmView"
         private const val AUDIO_DEVICE_LIST_VIEW_KEY = "AudioDeviceListView"
         private const val PARTICIPANT_LIST_VIEW_KEY = "ParticipantListView"
+        private const val CAPTIONS_TABLET_WIDTH = 0.45f
+        private const val CAPTIONS_TABLET_WIDTH_LANDSCAPE = 0.33f
+        private const val CAPTIONS_ANIMATION_DURATION = 100L
+        private const val CAPTIONS_BOTTOM_ANCHOR_HEIGHT = 150
+        private const val CAPTIONS_BOTTOM_ANCHOR_HEIGHT_HIDE = 0
         const val MAX_CAPTIONS_DATA_SIZE = 50
         const val MAX_CAPTIONS_PARTIAL_DATA_TIME_LIMIT = 5000
     }
@@ -101,7 +106,7 @@ internal class CallingFragment :
     private lateinit var captionsListView: CaptionsListView
     private lateinit var captionsLanguageSelectionListView: CaptionsLanguageSelectionListView
     private lateinit var captionsWrapper: View
-    private lateinit var captionsView: CaptionsView
+    private lateinit var captionsRttView: CaptionsRttView
     private lateinit var captionsTopAnchor: View
     private lateinit var captionsBottomAnchor: View
     private lateinit var captionsOverlay: View
@@ -252,9 +257,9 @@ internal class CallingFragment :
         captionsBottomAnchor = view.findViewById(R.id.captions_bottom_anchor)
         captionsWrapper = view.findViewById(R.id.azure_communication_ui_calling_captions_view_wrapper)
         captionsOverlay = view.findViewById(R.id.azure_communication_ui_calling_captions_overlay)
-        captionsView = view.findViewById(R.id.azure_communication_ui_calling_captions_linear_layout)
+        captionsRttView = view.findViewById(R.id.azure_communication_ui_calling_captions_linear_layout)
 
-        captionsView.start(
+        captionsRttView.start(
             viewLifecycleOwner = viewLifecycleOwner,
             viewModel = viewModel.captionsLayoutViewModel,
             maximizeCallback = this::maximizeCaptions,
@@ -320,13 +325,13 @@ internal class CallingFragment :
                 val captionsWrapperLayout =
                     captionsWrapper.layoutParams as ConstraintLayout.LayoutParams
                 captionsWrapperLayout.matchConstraintPercentWidth =
-                    if (isLandScape) 0.33f else 0.45f
+                    if (isLandScape) CAPTIONS_TABLET_WIDTH_LANDSCAPE else CAPTIONS_TABLET_WIDTH
                 captionsWrapper.layoutParams = captionsWrapperLayout
             }
 
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.isCaptionsVisibleFlow.collect {
-                    val height = if (it) 150 else 0
+                    val height = if (it) CAPTIONS_BOTTOM_ANCHOR_HEIGHT else CAPTIONS_BOTTOM_ANCHOR_HEIGHT_HIDE
                     val layoutParams = captionsBottomAnchor.layoutParams
                     layoutParams.height = context.convertDpToPx(height).toInt()
                     captionsBottomAnchor.layoutParams = layoutParams
@@ -376,7 +381,7 @@ internal class CallingFragment :
         if (this::toastNotificationView.isInitialized) toastNotificationView.stop()
         if (this::captionsListView.isInitialized) captionsListView.stop()
         if (this::captionsLanguageSelectionListView.isInitialized) captionsLanguageSelectionListView.stop()
-        if (this::captionsView.isInitialized) captionsView.stop()
+        if (this::captionsRttView.isInitialized) captionsRttView.stop()
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
@@ -445,7 +450,7 @@ internal class CallingFragment :
         constraintSet.clear(nestedViewId, ConstraintSet.TOP)
         constraintSet.connect(nestedViewId, ConstraintSet.TOP, targetViewId, constraint)
 
-        val animationDuration: Long = 100
+        val animationDuration: Long = CAPTIONS_ANIMATION_DURATION
         val transition = ChangeBounds()
         transition.duration = animationDuration
         TransitionManager.beginDelayedTransition(callScreenLayout, transition)
@@ -461,6 +466,6 @@ internal class CallingFragment :
         captionsBottomAnchor.getLocationOnScreen(location)
         val captionsBottomAnchorBottomY = location[1] + captionsBottomAnchor.height
 
-        captionsView.maxHeight = captionsBottomAnchorBottomY - captionsTopAnchorBottomY
+        captionsRttView.maxHeight = captionsBottomAnchorBottomY - captionsTopAnchorBottomY
     }
 }

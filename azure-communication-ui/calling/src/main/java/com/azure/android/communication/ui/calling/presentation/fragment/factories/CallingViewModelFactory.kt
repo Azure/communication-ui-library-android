@@ -27,7 +27,7 @@ import com.azure.android.communication.ui.calling.presentation.fragment.calling.
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist.ParticipantListViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.common.audiodevicelist.AudioDeviceListViewModel
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
-import com.azure.android.communication.ui.calling.presentation.manager.CaptionsDataManager
+import com.azure.android.communication.ui.calling.presentation.manager.CaptionsRttDataManager
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager
 import com.azure.android.communication.ui.calling.presentation.manager.UpdatableOptionsManager
 import com.azure.android.communication.ui.calling.redux.Store
@@ -40,7 +40,7 @@ internal class CallingViewModelFactory(
     private val debugInfoManager: DebugInfoManager,
     private val capabilitiesManager: CapabilitiesManager,
     private val updatableOptionsManager: UpdatableOptionsManager,
-    private val captionsDataManager: CaptionsDataManager,
+    private val captionsRttDataManager: CaptionsRttDataManager,
     private val showSupportFormOption: Boolean = false,
     private val enableMultitasking: Boolean,
     private val isTelecomManagerEnabled: Boolean = false,
@@ -155,7 +155,7 @@ internal class CallingViewModelFactory(
     val captionsViewModel by lazy {
         CaptionsViewModel(
             store::dispatch,
-            captionsDataManager,
+            captionsRttDataManager,
         )
     }
 }

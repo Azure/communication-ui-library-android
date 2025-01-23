@@ -51,9 +51,8 @@ internal class CaptionsListViewModel(
         buttonState: ButtonState,
         rttState: RttState,
         navigationState: NavigationState,
-    ) {
+    ) =
         updateListView(captionsState, callingStatus, visibilityState.status, buttonState, rttState, navigationState)
-    }
 
     fun update(
         captionsState: CaptionsState,
@@ -62,9 +61,8 @@ internal class CaptionsListViewModel(
         buttonState: ButtonState,
         rttState: RttState,
         navigationState: NavigationState,
-    ) {
+    ) =
         updateListView(captionsState, callingStatus, visibilityState.status, buttonState, rttState, navigationState)
-    }
 
     private fun updateListView(
         captionsState: CaptionsState,

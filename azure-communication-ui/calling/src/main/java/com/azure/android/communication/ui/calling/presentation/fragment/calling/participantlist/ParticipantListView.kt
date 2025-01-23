@@ -205,20 +205,12 @@ internal class ParticipantListView(
         bottomCellItemsInCallParticipants.add(
             0,
             BottomCellItem(
-                icon = null,
                 title = context.getString(
                     R.string.azure_communication_ui_calling_participant_list_in_call_n_people,
                     totalActiveParticipantCount + 1 // add one for local participant
                 ),
-                contentDescription = "",
-                accessoryImage = null,
-                accessoryColor = null,
-                accessoryImageDescription = null,
-                isChecked = null,
-                participantViewData = null,
                 isOnHold = false,
                 itemType = BottomCellItemType.BottomMenuTitle,
-                onClickAction = null
             )
         )
 
@@ -227,20 +219,12 @@ internal class ParticipantListView(
         if (plusMoreParticipants > 0) {
             bottomCellItemsInCallParticipants.add(
                 BottomCellItem(
-                    icon = null,
                     title = context.getString(
                         R.string.azure_communication_ui_calling_participant_list_in_call_plus_more_people,
                         plusMoreParticipants
                     ),
-                    contentDescription = "",
-                    accessoryImage = null,
-                    accessoryColor = null,
-                    accessoryImageDescription = null,
-                    isChecked = null,
-                    participantViewData = null,
                     isOnHold = false,
                     itemType = BottomCellItemType.BottomMenuTitle,
-                    onClickAction = null
                 )
             )
         }
@@ -249,20 +233,11 @@ internal class ParticipantListView(
             bottomCellItemsInLobbyParticipants.add(
                 0,
                 BottomCellItem(
-                    icon = null,
                     title = context.getString(
                         R.string.azure_communication_ui_calling_participant_list_in_lobby_n_people,
                         bottomCellItemsInLobbyParticipants.size
                     ),
-                    contentDescription = "",
-                    accessoryImage = null,
-                    accessoryColor = null,
-                    accessoryImageDescription = null,
-                    isChecked = null,
-                    participantViewData = null,
-                    isOnHold = null,
                     itemType = BottomCellItemType.BottomMenuTitle,
-                    onClickAction = null,
                     showAdmitAllButton = true,
                     admitAllButtonAction = {
                         admitAllLobbyParticipants()
@@ -317,7 +292,6 @@ internal class ParticipantListView(
         }
 
         return BottomCellItem(
-            icon = null,
             title = displayName,
             contentDescription = contentDescription,
             accessoryImage = if (status != ParticipantStatus.IN_LOBBY) micIcon else null,

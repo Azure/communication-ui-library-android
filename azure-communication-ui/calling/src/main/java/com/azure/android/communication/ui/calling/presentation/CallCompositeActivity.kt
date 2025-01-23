@@ -88,7 +88,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     private val callHistoryService get() = container.callHistoryService
     private val logger get() = container.logger
     private val compositeExitManager get() = container.compositeExitManager
-    private val captionsDataManager get() = container.captionsDataManager
+    private val captionsDataManager get() = container.captionsRttDataManager
     private val updatableOptionsManager get() = container.updatableOptionsManager
     private lateinit var visibilityStatusFlow: MutableStateFlow<VisibilityStatus>
 
@@ -103,9 +103,9 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             return
         }
 
-        store.dispatch(DeviceConfigurationAction.IsTableChanged(isTablet(this)))
+        store.dispatch(DeviceConfigurationAction.ToggleTabletMode(isTablet(this)))
         store.dispatch(
-            DeviceConfigurationAction.IsPortraitChanged(
+            DeviceConfigurationAction.TogglePortraitMode(
                 resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
             )
         )
@@ -198,7 +198,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         val rootView = findViewById<View>(R.id.azure_communication_ui_root_view)
         rootView.viewTreeObserver.addOnGlobalLayoutListener {
             if (store.getCurrentState().deviceConfigurationState.isSoftwareKeyboardVisible != isKeyboardOpen()) {
-                store.dispatch(DeviceConfigurationAction.KeyboardVisibilityChanged(isKeyboardOpen()))
+                store.dispatch(DeviceConfigurationAction.ToggleKeyboardVisibility(isKeyboardOpen()))
             }
         }
     }

@@ -33,9 +33,13 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
-internal class CaptionsView : FrameLayout {
+internal class CaptionsRttView : FrameLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+
+    companion object {
+        private const val RESIZE_DRAG_RELEASE_THRESHOLD = 150
+    }
 
     private var isInitialized = false
 
@@ -386,7 +390,7 @@ internal class CaptionsView : FrameLayout {
                 MotionEvent.ACTION_UP -> {
                     val params = view.layoutParams as MarginLayoutParams
 
-                    if (abs(params.topMargin) > 150) {
+                    if (abs(params.topMargin) > RESIZE_DRAG_RELEASE_THRESHOLD) {
                         if (viewModel.isMaximizedFlow.value) {
                             viewModel.minimizeCaptionsLayout()
                         } else {

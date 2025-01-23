@@ -145,14 +145,13 @@ internal class CameraStatusHook : AccessibilityHook() {
 }
 
 internal class CaptionsStatusHook : AccessibilityHook() {
-    override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean =
+    override fun shouldTrigger(lastState: ReduxState, newState: ReduxState) =
         (lastState.captionsState.status != newState.captionsState.status)
 
-    override fun message(lastState: ReduxState, newState: ReduxState, context: Context): String {
-        return when (newState.captionsState.status) {
+    override fun message(lastState: ReduxState, newState: ReduxState, context: Context) =
+        when (newState.captionsState.status) {
             CaptionsStatus.STARTED -> context.getString(R.string.azure_communication_ui_calling_captions_is_on)
             CaptionsStatus.STOPPED -> context.getString(R.string.azure_communication_ui_calling_captions_is_off)
             else -> ""
-        }
     }
 }

@@ -199,11 +199,9 @@ internal class InfoHeaderViewModel(
     private fun isOverlayDisplayed(
         callingStatus: CallingStatus,
         rttState: RttState,
-    ): Boolean {
-        return callingStatus == CallingStatus.IN_LOBBY ||
+    ) = callingStatus == CallingStatus.IN_LOBBY ||
             callingStatus == CallingStatus.LOCAL_HOLD ||
             rttState.isMaximized
-    }
 
     data class CustomButtonEntry(
         val id: String,

@@ -2,7 +2,7 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsRttView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/azure_communication_ui_calling_captions_linear_layout"
@@ -160,4 +160,4 @@
                 android:textSize="@dimen/azure_communication_ui_calling_connecting_textsize" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsView>
+</com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsRttView>

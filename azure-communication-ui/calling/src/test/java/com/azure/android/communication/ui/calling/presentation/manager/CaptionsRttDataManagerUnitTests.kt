@@ -37,7 +37,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import java.util.Date
 
 @RunWith(MockitoJUnitRunner::class)
-internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
+internal class CaptionsRttDataManagerUnitTests : ACSBaseTestCoroutine() {
     @Mock
     private lateinit var callingService: CallingService
     @Mock
@@ -45,11 +45,11 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
     @Mock
     private lateinit var avatarViewManager: AvatarViewManager
 
-    private lateinit var captionsDataManager: CaptionsDataManager
+    private lateinit var captionsRttDataManager: CaptionsRttDataManager
 
     @Before
     fun setUp() {
-        captionsDataManager = CaptionsDataManager(
+        captionsRttDataManager = CaptionsRttDataManager(
             callingService = callingService,
             appStore = appStore,
             avatarViewManager = avatarViewManager,
@@ -90,12 +90,12 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             val addedData = mutableListOf<Int>()
 
             val insertedJob = launch {
-                captionsDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+                captionsRttDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
             }
 
             // Act
             val testScope = TestScope(UnconfinedTestDispatcher())
-            captionsDataManager.start(testScope)
+            captionsRttDataManager.start(testScope)
             val flowJob = launch {
                 captionsSharedFlow.emit(captionData)
             }
@@ -105,7 +105,7 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             assertEquals(1, addedData.size)
             assertEquals(0, addedData[0])
 
-            val newCaption = captionsDataManager.captionsAndRttData.last()
+            val newCaption = captionsRttDataManager.captionsAndRttData.last()
             assertNotNull(newCaption)
             assertEquals("Hello", newCaption.displayText)
             assertEquals("Speaker", newCaption.displayName)
@@ -151,12 +151,12 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             val addedData = mutableListOf<Int>()
 
             val insertedJob = launch {
-                captionsDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+                captionsRttDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
             }
 
             // Act
             val testScope = TestScope(UnconfinedTestDispatcher())
-            captionsDataManager.start(testScope)
+            captionsRttDataManager.start(testScope)
             val flowJob = launch {
                 rttSharedFlow.emit(rttMessage)
             }
@@ -167,13 +167,13 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             assertEquals(0, addedData[0])
             assertEquals(1, addedData[1])
 
-            val rttInfoMessage = captionsDataManager.captionsAndRttData[0]
+            val rttInfoMessage = captionsRttDataManager.captionsAndRttData[0]
 
             assertNotNull(rttInfoMessage)
             assertTrue(rttInfoMessage.isFinal)
             assertEquals(CaptionsRttType.RTT_INFO, rttInfoMessage.type)
 
-            val newMessage = captionsDataManager.captionsAndRttData[1]
+            val newMessage = captionsRttDataManager.captionsAndRttData[1]
 
             assertNotNull(newMessage)
             assertEquals("Hello", newMessage.displayText)
@@ -223,16 +223,16 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             val updatedData = mutableListOf<Int>()
 
             val insertedJob = launch {
-                captionsDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+                captionsRttDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
             }
 
             val updatedJob = launch {
-                captionsDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
+                captionsRttDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
             }
 
             // Act
             val testScope = TestScope(UnconfinedTestDispatcher())
-            captionsDataManager.start(testScope)
+            captionsRttDataManager.start(testScope)
             val flowJob = launch {
                 captionsSharedFlow.emit(captionData)
                 val updatedCaptionData = CallCompositeCaptionsData(
@@ -256,7 +256,7 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             assertEquals(1, updatedData.size)
             assertEquals(0, updatedData[0])
 
-            val newCaption = captionsDataManager.captionsAndRttData.last()
+            val newCaption = captionsRttDataManager.captionsAndRttData.last()
             assertNotNull(newCaption)
             assertEquals("Hello World", newCaption.displayText)
             assertEquals("Speaker", newCaption.displayName)
@@ -305,16 +305,16 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             val updatedData = mutableListOf<Int>()
 
             val insertedJob = launch {
-                captionsDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+                captionsRttDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
             }
 
             val updatedJob = launch {
-                captionsDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
+                captionsRttDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
             }
 
             // Act
             val testScope = TestScope(UnconfinedTestDispatcher())
-            captionsDataManager.start(testScope)
+            captionsRttDataManager.start(testScope)
 
             val flowJob = launch {
                 rttSharedFlow.emit(rttMessage)
@@ -337,7 +337,7 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             assertEquals(1, updatedData.size)
             assertEquals(1, updatedData[0])
 
-            val newMessage = captionsDataManager.captionsAndRttData.last()
+            val newMessage = captionsRttDataManager.captionsAndRttData.last()
             assertNotNull(newMessage)
             assertEquals("Hello World", newMessage.displayText)
             assertEquals("Speaker", newMessage.displayName)
@@ -393,12 +393,12 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             val addedData = mutableListOf<Int>()
 
             val insertedJob = launch {
-                captionsDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+                captionsRttDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
             }
 
             // Act
             val testScope = TestScope(UnconfinedTestDispatcher())
-            captionsDataManager.start(testScope)
+            captionsRttDataManager.start(testScope)
             val flowJob = launch {
                 captionsSharedFlow.emit(captionData)
             }
@@ -407,7 +407,7 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             // Assert
             assertEquals(0, addedData.size)
 
-            val newCaption = captionsDataManager.captionsAndRttData.lastOrNull()
+            val newCaption = captionsRttDataManager.captionsAndRttData.lastOrNull()
             assertNull(newCaption)
 
             flowJob.cancel()
@@ -444,15 +444,15 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
 
             // Act
             val insertedJob = launch {
-                captionsDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+                captionsRttDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
             }
 
             val updatedJob = launch {
-                captionsDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
+                captionsRttDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
             }
 
             val testScope = TestScope(UnconfinedTestDispatcher())
-            captionsDataManager.start(testScope)
+            captionsRttDataManager.start(testScope)
 
             val jobList = mutableListOf<Job>()
             val data = listOf(captionDataAdd1, captionDataUpdate1, captionDataAdd2, captionDataUpdate2)
@@ -473,8 +473,8 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             assertEquals(0, updatedData[0])
             assertEquals(1, updatedData[1])
 
-            val captionsAndRttData1 = captionsDataManager.captionsAndRttData[0]
-            val captionsAndRttData2 = captionsDataManager.captionsAndRttData[1]
+            val captionsAndRttData1 = captionsRttDataManager.captionsAndRttData[0]
+            val captionsAndRttData2 = captionsRttDataManager.captionsAndRttData[1]
 
             assertEquals("123", captionsAndRttData1.speakerRawId)
             assertEquals("abc234", captionsAndRttData1.displayText)
@@ -482,7 +482,7 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             assertEquals("456", captionsAndRttData2.speakerRawId)
             assertEquals("xyz890", captionsAndRttData2.displayText)
 
-            assertEquals(2, captionsDataManager.captionsAndRttData.size)
+            assertEquals(2, captionsRttDataManager.captionsAndRttData.size)
 
             insertedJob.cancel()
             updatedJob.cancel()
@@ -521,15 +521,15 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
 
             // Act
             val insertedJob = launch {
-                captionsDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+                captionsRttDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
             }
 
             val updatedJob = launch {
-                captionsDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
+                captionsRttDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
             }
 
             val testScope = TestScope(UnconfinedTestDispatcher())
-            captionsDataManager.start(testScope)
+            captionsRttDataManager.start(testScope)
 
             val jobList = mutableListOf<Job>()
             val data = listOf(captionDataAdd1, captionDataAdd2, captionDataUpdate1, captionDataUpdate2)
@@ -550,8 +550,8 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             assertEquals(0, updatedData[0])
             assertEquals(1, updatedData[1])
 
-            val captionsAndRttData1 = captionsDataManager.captionsAndRttData[0]
-            val captionsAndRttData2 = captionsDataManager.captionsAndRttData[1]
+            val captionsAndRttData1 = captionsRttDataManager.captionsAndRttData[0]
+            val captionsAndRttData2 = captionsRttDataManager.captionsAndRttData[1]
 
             assertEquals("123", captionsAndRttData1.speakerRawId)
             assertEquals("abc234", captionsAndRttData1.displayText)
@@ -559,7 +559,7 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             assertEquals("456", captionsAndRttData2.speakerRawId)
             assertEquals("xyz890", captionsAndRttData2.displayText)
 
-            assertEquals(2, captionsDataManager.captionsAndRttData.size)
+            assertEquals(2, captionsRttDataManager.captionsAndRttData.size)
 
             insertedJob.cancel()
             updatedJob.cancel()
@@ -598,15 +598,15 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
 
             // Act
             val insertedJob = launch {
-                captionsDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+                captionsRttDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
             }
 
             val updatedJob = launch {
-                captionsDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
+                captionsRttDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
             }
 
             val testScope = TestScope(UnconfinedTestDispatcher())
-            captionsDataManager.start(testScope)
+            captionsRttDataManager.start(testScope)
 
             val jobList = mutableListOf<Job>()
             captionsDataList.forEach {
@@ -621,7 +621,7 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             assertEquals(60, addedData.size)
             assertEquals(0, updatedData.size)
 
-            assertEquals(50, captionsDataManager.captionsAndRttData.size)
+            assertEquals(50, captionsRttDataManager.captionsAndRttData.size)
 
             insertedJob.cancel()
             updatedJob.cancel()
@@ -661,15 +661,15 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
 
             // Act
             val insertedJob = launch {
-                captionsDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+                captionsRttDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
             }
 
             val updatedJob = launch {
-                captionsDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
+                captionsRttDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
             }
 
             val testScope = TestScope(UnconfinedTestDispatcher())
-            captionsDataManager.start(testScope)
+            captionsRttDataManager.start(testScope)
 
             val jobList = mutableListOf<Job>()
             val data = listOf(captionDataAdd1, captionDataUpdate1)
@@ -685,13 +685,13 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             assertEquals(2, addedData.size)
             assertEquals(0, updatedData.size)
 
-            val addedRecord1 = captionsDataManager.captionsAndRttData[addedData[0]]
-            val addedRecord2 = captionsDataManager.captionsAndRttData[addedData[1]]
+            val addedRecord1 = captionsRttDataManager.captionsAndRttData[addedData[0]]
+            val addedRecord2 = captionsRttDataManager.captionsAndRttData[addedData[1]]
 
             assertEquals("abc", addedRecord1.displayText)
             assertEquals("abc234", addedRecord2.displayText)
 
-            assertEquals(2, captionsDataManager.captionsAndRttData.size)
+            assertEquals(2, captionsRttDataManager.captionsAndRttData.size)
 
             insertedJob.cancel()
             updatedJob.cancel()
@@ -733,16 +733,16 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             val updatedData = mutableListOf<Int>()
 
             val insertedJob = launch {
-                captionsDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
+                captionsRttDataManager.recordInsertedAtPositionSharedFlow.toList(addedData)
             }
 
             val updatedJob = launch {
-                captionsDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
+                captionsRttDataManager.recordUpdatedAtPositionSharedFlow.toList(updatedData)
             }
 
             // Act
             val testScope = TestScope(UnconfinedTestDispatcher())
-            captionsDataManager.start(testScope)
+            captionsRttDataManager.start(testScope)
 
             val flowJob = launch {
                 rttSharedFlow.emit(rttMessage)
@@ -753,14 +753,14 @@ internal class CaptionsDataManagerUnitTests : ACSBaseTestCoroutine() {
             advanceTimeBy(/* time = */ 20000)
 
             // Assert
-            assertEquals(2, captionsDataManager.captionsAndRttData.size)
+            assertEquals(2, captionsRttDataManager.captionsAndRttData.size)
 
             assertEquals(2, addedData.size)
 
             assertEquals(1, updatedData.size)
             assertEquals(1, updatedData[0])
 
-            val newMessage = captionsDataManager.captionsAndRttData.last()
+            val newMessage = captionsRttDataManager.captionsAndRttData.last()
             assertNotNull(newMessage)
             assertEquals("Hello", newMessage.displayText)
             assertEquals("Speaker", newMessage.displayName)

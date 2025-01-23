@@ -511,6 +511,7 @@ internal class CallingSDKEventHandler(
     }
 
     private val onRttEntryUpdated = RealTimeTextInfoReceivedListener {
+        // TODO: read user information not only for remote participants
         var id: String? = null
         var senderName: String? = null
         if (!it.info.isLocal) {

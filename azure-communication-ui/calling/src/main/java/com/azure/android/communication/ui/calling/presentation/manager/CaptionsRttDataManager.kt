@@ -17,13 +17,13 @@ import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.utilities.EventFlow
 import com.azure.android.communication.ui.calling.utilities.MutableEventFlow
+import com.azure.android.communication.ui.calling.utilities.launchAll
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.time.Duration
@@ -31,7 +31,7 @@ import java.time.Instant
 import java.util.Date
 import kotlin.math.min
 
-internal class CaptionsDataManager(
+internal class CaptionsRttDataManager(
     private val callingService: CallingService,
     private val appStore: AppStore<ReduxState>,
     private val avatarViewManager: AvatarViewManager,
@@ -41,102 +41,119 @@ internal class CaptionsDataManager(
     private val mutex = Mutex()
     private var isCaptionsOn = false
     private val captionsAndRttMutableList = mutableListOf<CaptionsRttRecord>()
-    private val recordRemovedAtPositionMutableSharedFlow = MutableSharedFlow<Int>()
-    private val recordUpdatedAtPositionMutableSharedFlow = MutableSharedFlow<Int>()
-    private val recordInsertedAtPositionMutableSharedFlow = MutableSharedFlow<Int>()
+    private val mutableRecordRemovedAtPosition = MutableSharedFlow<Int>()
+    private val mutableRecordUpdatedAtPosition = MutableSharedFlow<Int>()
+    private val mutableRecordInsertedAtPosition = MutableSharedFlow<Int>()
     private var isRttInfoItemAdded = false
     private val captionsRttUpdatedMutableEventFlow = MutableEventFlow()
 
     val captionsAndRttData: List<CaptionsRttRecord> = captionsAndRttMutableList
-    val recordUpdatedAtPositionSharedFlow: SharedFlow<Int> = recordUpdatedAtPositionMutableSharedFlow
-    val recordInsertedAtPositionSharedFlow: SharedFlow<Int> = recordInsertedAtPositionMutableSharedFlow
-    val recordRemovedAtPositionSharedFlow: SharedFlow<Int> = recordRemovedAtPositionMutableSharedFlow
+    val recordUpdatedAtPosition: SharedFlow<Int> = mutableRecordUpdatedAtPosition
+    val recordInsertedAtPosition: SharedFlow<Int> = mutableRecordInsertedAtPosition
+    val recordRemovedAtPosition: SharedFlow<Int> = mutableRecordRemovedAtPosition
 
     val captionsRttUpdated: EventFlow = captionsRttUpdatedMutableEventFlow
 
     fun start(coroutineScope: CoroutineScope) {
-        coroutineScope.launch {
-            callingService.getCaptionsReceivedSharedFlow().collect { captionData ->
-                mutex.withLock {
-                    if (shouldSkipCaption(captionData)) return@collect
-
-                    val (captionText, languageCode) = getCaptionTextAndLanguage(captionData)
-                    val (customizedDisplayName, avatar) =
-                        if (localParticipantIdentifier?.rawId == captionData.speakerRawId)
-                            getLocalParticipantCustomizations()
-                        else
-                            getParticipantCustomizations(captionData.speakerRawId)
-
-                    val record = CaptionsRttRecord(
-                        avatarBitmap = avatar,
-                        displayName = customizedDisplayName ?: captionData.speakerName,
-                        displayText = captionText,
-                        speakerRawId = captionData.speakerRawId,
-                        languageCode = languageCode,
-                        isFinal = captionData.resultType == CaptionsResultType.FINAL,
-                        timestamp = captionData.timestamp,
-                        lastUpdated = Date(),
-                        type = CaptionsRttType.CAPTIONS,
-                    )
-
-                    removeOverflownCaptionsFromCache()
-                    handleCaptionData(record)
-                }
+        coroutineScope.launchAll(
+            {
+                startCaptionsConsumption()
+            },
+            {
+                startRttConsumption()
+            },
+            {
+                startStateConsumption()
+            },
+            {
+                startCleanupProcessing(coroutineScope)
             }
-        }
+        )
+    }
 
-        coroutineScope.launch {
-            callingService.getRttFlow().collect { rttRecord ->
-                mutex.withLock {
-                    val displayName = getRttSenderDisplayName(rttRecord)
-                    val (customizedDisplayName, avatar) = if (rttRecord.isLocal)
+    private suspend fun startCaptionsConsumption() {
+        callingService.getCaptionsReceivedSharedFlow().collect { captionData ->
+            mutex.withLock {
+                if (shouldSkipCaption(captionData)) return@collect
+
+                val (captionText, languageCode) = getCaptionTextAndLanguage(captionData)
+                val (customizedDisplayName, avatar) =
+                    if (localParticipantIdentifier?.rawId == captionData.speakerRawId)
                         getLocalParticipantCustomizations()
                     else
-                        getParticipantCustomizations(rttRecord.senderUserRawId)
-                    val captionsRecord = CaptionsRttRecord(
-                        avatarBitmap = avatar,
-                        displayName = customizedDisplayName ?: displayName,
-                        displayText = rttRecord.message,
-                        speakerRawId = rttRecord.senderUserRawId,
-                        languageCode = null,
-                        isFinal = rttRecord.isFinalized,
-                        timestamp = rttRecord.localCreatedTime,
-                        lastUpdated = Date(),
-                        type = CaptionsRttType.RTT,
-                        isLocal = rttRecord.isLocal,
-                        rttSequenceId = rttRecord.sequenceId,
-                    )
+                        getParticipantCustomizations(captionData.speakerRawId)
 
-                    removeOverflownCaptionsFromCache()
-                    handleRttData(captionsRecord)
+                val record = CaptionsRttRecord(
+                    avatarBitmap = avatar,
+                    displayName = customizedDisplayName ?: captionData.speakerName,
+                    displayText = captionText,
+                    speakerRawId = captionData.speakerRawId,
+                    languageCode = languageCode,
+                    isFinal = captionData.resultType == CaptionsResultType.FINAL,
+                    timestamp = captionData.timestamp,
+                    lastUpdated = Date(),
+                    type = CaptionsRttType.CAPTIONS,
+                )
+
+                removeOverflownCaptionsFromCache()
+                handleCaptionData(record)
+            }
+        }
+    }
+
+    private suspend fun startRttConsumption() {
+        callingService.getRttFlow().collect { rttRecord ->
+            mutex.withLock {
+                val displayName = getRttSenderDisplayName(rttRecord)
+                val (customizedDisplayName, avatar) = if (rttRecord.isLocal)
+                    getLocalParticipantCustomizations()
+                else
+                    getParticipantCustomizations(rttRecord.senderUserRawId)
+                val captionsRecord = CaptionsRttRecord(
+                    avatarBitmap = avatar,
+                    displayName = customizedDisplayName ?: displayName,
+                    displayText = rttRecord.message,
+                    speakerRawId = rttRecord.senderUserRawId,
+                    languageCode = null,
+                    isFinal = rttRecord.isFinalized,
+                    timestamp = rttRecord.localCreatedTime,
+                    lastUpdated = Date(),
+                    type = CaptionsRttType.RTT,
+                    isLocal = rttRecord.isLocal,
+                    rttSequenceId = rttRecord.sequenceId,
+                )
+
+                removeOverflownCaptionsFromCache()
+                handleRttData(captionsRecord)
+            }
+        }
+    }
+
+    private suspend fun startStateConsumption() {
+        appStore.getStateFlow().collect { state ->
+            mutex.withLock {
+                if (state.rttState.isRttActive) {
+                    ensureRttMessageIsDisplayed()
+                }
+                if (state.captionsState.status == CaptionsStatus.STARTED && !isCaptionsOn) {
+                    isCaptionsOn = true
+                }
+                if (state.captionsState.status == CaptionsStatus.STOPPED && isCaptionsOn) {
+                    isCaptionsOn = false
+                    removeCaptions()
                 }
             }
         }
+    }
 
-        coroutineScope.launch {
-            appStore.getStateFlow().collect { state ->
-                mutex.withLock {
-                    if (state.rttState.isRttActive) {
-                        ensureRttMessageIsDisplayed()
-                    }
-                    if (state.captionsState.status == CaptionsStatus.STARTED && !isCaptionsOn) {
-                        isCaptionsOn = true
-                    }
-                    if (state.captionsState.status == CaptionsStatus.STOPPED && isCaptionsOn) {
-                        isCaptionsOn = false
-                        removeCaptions()
-                    }
-                }
+    private suspend fun startCleanupProcessing(
+        coroutineScope1: CoroutineScope
+    ) {
+        while (coroutineScope1.isActive) {
+            mutex.withLock {
+                cleanDeadRecords()
             }
-        }
-
-        coroutineScope.launch {
-            while (isActive) {
-                mutex.withLock {
-                    cleanDeadRecords()
-                }
-                delay(timeMillis = 10000)
-            }
+            delay(timeMillis = 10000)
         }
     }
 
@@ -163,8 +180,7 @@ internal class CaptionsDataManager(
     private suspend fun handleRttData(newCaptionsRecord: CaptionsRttRecord) {
         ensureRttMessageIsDisplayed()
         val lastCaptionFromSameUser = captionsAndRttMutableList.lastOrNull {
-            it.speakerRawId == newCaptionsRecord.speakerRawId &&
-                it.rttSequenceId == newCaptionsRecord.rttSequenceId
+            it.rttSequenceId == newCaptionsRecord.rttSequenceId
         }
 
         if (lastCaptionFromSameUser != null) {
@@ -268,7 +284,7 @@ internal class CaptionsDataManager(
         val captionIndex = captionsAndRttMutableList.indexOf(captionsRecord)
         val finalizedCaptionsRecord = captionsRecord.copy(isFinal = true)
         captionsAndRttMutableList[captionIndex] = finalizedCaptionsRecord
-        recordUpdatedAtPositionMutableSharedFlow.emit(captionIndex)
+        mutableRecordUpdatedAtPosition.emit(captionIndex)
         return finalizedCaptionsRecord
     }
 
@@ -305,17 +321,17 @@ internal class CaptionsDataManager(
 
     private suspend fun insertCaption(index: Int, data: CaptionsRttRecord) {
         captionsAndRttMutableList.add(index, data)
-        recordInsertedAtPositionMutableSharedFlow.emit(index)
+        mutableRecordInsertedAtPosition.emit(index)
     }
 
     private suspend fun updateAtIndex(index: Int, data: CaptionsRttRecord) {
         captionsAndRttMutableList[index] = data
-        recordUpdatedAtPositionMutableSharedFlow.emit(index)
+        mutableRecordUpdatedAtPosition.emit(index)
     }
 
     private suspend fun removeAtIndex(index: Int) {
         captionsAndRttMutableList.removeAt(index)
-        recordRemovedAtPositionMutableSharedFlow.emit(index)
+        mutableRecordRemovedAtPosition.emit(index)
     }
 
     private fun removeCaptions() {

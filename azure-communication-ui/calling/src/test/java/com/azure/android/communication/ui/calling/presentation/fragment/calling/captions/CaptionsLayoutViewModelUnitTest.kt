@@ -5,7 +5,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
-import com.azure.android.communication.ui.calling.presentation.manager.CaptionsDataManager
+import com.azure.android.communication.ui.calling.presentation.manager.CaptionsRttDataManager
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
 import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
@@ -34,7 +34,7 @@ internal class CaptionsLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
     @Mock
     private lateinit var avatarViewManager: AvatarViewManager
 
-    private lateinit var captionsDataManager: CaptionsDataManager
+    private lateinit var captionsRttDataManager: CaptionsRttDataManager
 
     private lateinit var deviceConfigurationState: DeviceConfigurationState
 
@@ -45,7 +45,7 @@ internal class CaptionsLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
             isTablet = false,
             isPortrait = false,
         )
-        captionsDataManager = CaptionsDataManager(
+        captionsRttDataManager = CaptionsRttDataManager(
             callingService,
             appStore,
             avatarViewManager,
@@ -118,6 +118,6 @@ internal class CaptionsLayoutViewModelUnitTest : ACSBaseTestCoroutine() {
     }
 
     private fun buildCaptionsViewModel(): CaptionsViewModel {
-        return CaptionsViewModel({}, captionsDataManager)
+        return CaptionsViewModel({}, captionsRttDataManager)
     }
 }

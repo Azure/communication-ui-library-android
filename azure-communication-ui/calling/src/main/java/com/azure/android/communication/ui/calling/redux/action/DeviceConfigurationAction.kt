@@ -4,7 +4,7 @@
 package com.azure.android.communication.ui.calling.redux.action
 
 internal sealed class DeviceConfigurationAction : Action {
-    class KeyboardVisibilityChanged(val isSoftwareKeyboardVisible: Boolean) : DeviceConfigurationAction()
-    class IsTableChanged(val isTablet: Boolean) : DeviceConfigurationAction()
-    class IsPortraitChanged(val isPortrait: Boolean) : DeviceConfigurationAction()
+    class ToggleKeyboardVisibility(val isSoftwareKeyboardVisible: Boolean) : DeviceConfigurationAction()
+    class ToggleTabletMode(val isTablet: Boolean) : DeviceConfigurationAction()
+    class TogglePortraitMode(val isPortrait: Boolean) : DeviceConfigurationAction()
 }

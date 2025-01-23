@@ -77,7 +77,7 @@ internal class CallCompositeActivityViewModel(
                 debugInfoManager = container.debugInfoManager,
                 capabilitiesManager = container.capabilitiesManager,
                 updatableOptionsManager = container.updatableOptionsManager,
-                captionsDataManager = container.captionsDataManager,
+                captionsRttDataManager = container.captionsRttDataManager,
                 showSupportFormOption = container.configuration.callCompositeEventsHandler.getOnUserReportedHandlers().any(),
                 enableMultitasking = container.configuration.enableMultitasking,
                 isTelecomManagerEnabled = container.configuration.telecomManagerOptions != null,

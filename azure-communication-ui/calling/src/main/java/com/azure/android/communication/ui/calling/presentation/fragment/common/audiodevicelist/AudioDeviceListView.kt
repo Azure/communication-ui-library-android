@@ -103,15 +103,12 @@ internal class AudioDeviceListView(
                             true -> context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_headphone)
                             false -> context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_android)
                         },
-                        contentDescription = null,
                         accessoryImage = ContextCompat.getDrawable(
                             context,
                             R.drawable.ms_ic_checkmark_24_filled
                         ),
-                        accessoryColor = null,
                         accessoryImageDescription = context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
                         isChecked = initialDevice == AudioDeviceSelectionStatus.RECEIVER_SELECTED,
-                        participantViewData = null,
                         isOnHold = false,
                         onClickAction = {
                             viewModel.switchAudioDevice(AudioDeviceSelectionStatus.RECEIVER_REQUESTED)
@@ -128,15 +125,12 @@ internal class AudioDeviceListView(
                         R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_filled_composite_button_enabled
                     ),
                     title = context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_speaker),
-                    contentDescription = null,
                     accessoryImage = ContextCompat.getDrawable(
                         context,
                         R.drawable.ms_ic_checkmark_24_filled
                     ),
-                    accessoryColor = null,
                     accessoryImageDescription = context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
                     isChecked = initialDevice == AudioDeviceSelectionStatus.SPEAKER_SELECTED,
-                    participantViewData = null,
                     isOnHold = false,
                     onClickAction = {
                         viewModel.switchAudioDevice(AudioDeviceSelectionStatus.SPEAKER_REQUESTED)
@@ -155,16 +149,12 @@ internal class AudioDeviceListView(
                             R.drawable.azure_communication_ui_calling_ic_fluent_speaker_bluetooth_24_regular
                         ),
                         title = viewModel.audioStateFlow.value.bluetoothState.deviceName,
-                        contentDescription = null,
                         accessoryImage = ContextCompat.getDrawable(
                             context,
                             R.drawable.ms_ic_checkmark_24_filled
                         ),
-
-                        accessoryColor = null,
                         accessoryImageDescription = context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
                         isChecked = initialDevice == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED,
-                        participantViewData = null,
                         isOnHold = false,
                         onClickAction = {
                             viewModel.switchAudioDevice(AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED)
