@@ -103,9 +103,7 @@ internal class AppReduxState(
         /* </CALL_START_TIME> */
     )
 
-    /* <RTT_POC>
     override var rttState = RttState()
-    </RTT_POC> */
 
     override var buttonState: ButtonState = ButtonState(
         callScreenCameraButtonState = DefaultButtonState(
@@ -174,5 +172,11 @@ internal class AppReduxState(
                 drawableId = it.drawableId,
             )
         } ?: emptyList()
+    )
+
+    override var deviceConfigurationState = DeviceConfigurationState(
+        isSoftwareKeyboardVisible = false,
+        isTablet = false,
+        isPortrait = false,
     )
 }

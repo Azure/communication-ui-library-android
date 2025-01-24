@@ -8,13 +8,6 @@ import com.azure.android.communication.calling.CallCaptions
 import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.CapabilitiesCallFeature
 import com.azure.android.communication.calling.CapabilitiesChangedListener
-
-/* <RTT_POC>
-import com.azure.android.communication.calling.DataChannelCallFeature
-import com.azure.android.communication.calling.DataChannelMessage
-import com.azure.android.communication.calling.DataChannelReceiver
-import java.nio.charset.StandardCharsets
-</RTT_POC> */
 import com.azure.android.communication.calling.CommunicationCaptions
 import com.azure.android.communication.calling.CommunicationCaptionsListener
 import com.azure.android.communication.calling.DiagnosticFlagChangedListener
@@ -28,6 +21,9 @@ import com.azure.android.communication.calling.NetworkDiagnostics
 import com.azure.android.communication.calling.ParticipantsUpdatedEvent
 import com.azure.android.communication.calling.ParticipantsUpdatedListener
 import com.azure.android.communication.calling.PropertyChangedListener
+import com.azure.android.communication.calling.RealTimeTextCallFeature
+import com.azure.android.communication.calling.RealTimeTextInfoReceivedListener
+import com.azure.android.communication.calling.RealTimeTextResultType
 import com.azure.android.communication.calling.RecordingCallFeature
 import com.azure.android.communication.calling.RemoteParticipant
 import com.azure.android.communication.calling.RemoteVideoStreamsUpdatedListener
@@ -35,13 +31,9 @@ import com.azure.android.communication.calling.TeamsCaptions
 import com.azure.android.communication.calling.TeamsCaptionsListener
 import com.azure.android.communication.calling.TranscriptionCallFeature
 import com.azure.android.communication.ui.calling.configuration.CallType
-/* <RTT_POC>
-import com.azure.android.communication.ui.calling.data.model.RawRttPayload
- </RTT_POC> */
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsData
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsType
-import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.CallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.CallDiagnosticQuality
 import com.azure.android.communication.ui.calling.models.CapabilitiesChangedEvent
@@ -51,6 +43,8 @@ import com.azure.android.communication.ui.calling.models.NetworkCallDiagnostic
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantRole
+import com.azure.android.communication.ui.calling.models.RttMessage
 import com.azure.android.communication.ui.calling.models.into
 import com.azure.android.communication.ui.calling.utilities.CoroutineContextProvider
 import kotlinx.coroutines.CoroutineScope
@@ -67,7 +61,6 @@ import kotlinx.coroutines.launch
 import java.util.Date
 /* </CALL_START_TIME> */
 import java.util.concurrent.CompletableFuture
-
 import com.azure.android.communication.calling.CapabilitiesChangedEvent as SdkCapabilitiesChangedEvent
 
 internal class CallingSDKEventHandler(
@@ -114,11 +107,9 @@ internal class CallingSDKEventHandler(
     private lateinit var transcriptionFeature: TranscriptionCallFeature
     private lateinit var dominantSpeakersCallFeature: DominantSpeakersCallFeature
     private lateinit var capabilitiesFeature: CapabilitiesCallFeature
-    /* <RTT_POC>
-    private var rttTextSharedFlow = MutableSharedFlow<Pair<String, String>>()
-    private lateinit var dataChannelCallFeature: DataChannelCallFeature
-    private var receiver: DataChannelReceiver? = null
-    </RTT_POC> */
+    private lateinit var rttFeature: RealTimeTextCallFeature
+
+    private var rttTextSharedFlow = MutableSharedFlow<RttMessage>()
     private var networkDiagnostics: NetworkDiagnostics? = null
     private var mediaDiagnostics: MediaDiagnostics? = null
     private var callType: CallType? = null
@@ -178,9 +169,7 @@ internal class CallingSDKEventHandler(
     //endregion
     fun getDominantSpeakersSharedFlow(): SharedFlow<DominantSpeakersInfo> = dominantSpeakersSharedFlow
 
-    /* <RTT_POC>
-    fun getRttTextSharedFlow(): SharedFlow<Pair<String, String>> = rttTextSharedFlow
-    </RTT_POC> */
+    fun getRttTextSharedFlow(): SharedFlow<RttMessage> = rttTextSharedFlow
 
     //region Captions
     private val onCaptionsTypeChanged =
@@ -252,39 +241,14 @@ internal class CallingSDKEventHandler(
         transcriptionFeature.addOnIsTranscriptionActiveChangedListener(onTranscriptionChanged)
         dominantSpeakersCallFeature = call.feature { DominantSpeakersCallFeature::class.java }
         dominantSpeakersCallFeature.addOnDominantSpeakersChangedListener(onDominantSpeakersChanged)
-        /* <RTT_POC>
-        dataChannelCallFeature = call.feature { DataChannelCallFeature::class.java }
-        subscribeToRttEvents()
-        </RTT_POC> */
 
         capabilitiesFeature = call.feature { CapabilitiesCallFeature::class.java }
         capabilitiesFeature.addOnCapabilitiesChangedListener(onCapabilitiesChanged)
         subscribeToUserFacingDiagnosticsEvents()
-    }
 
-    /* <RTT_POC>
-    private fun subscribeToRttEvents() {
-        dataChannelCallFeature.addOnReceiverCreatedListener { evt ->
-            this.receiver = evt.receiver
-            evt.receiver.addOnMessageReceivedListener {
-                val message: DataChannelMessage = evt.receiver.receiveMessage()
-                val channel = evt.receiver.channelId
-                var participant = evt.receiver.senderIdentifier
-
-                if (channel == 24) {
-                    val jsonString = String(message.data, StandardCharsets.UTF_8)
-                    // {s:"asd"} is the format, I want messageText to be "asd" by
-                    // parsing the JSON to map and grabbing the S field
-                    // Use GSON and RawRttPayload to parse the JSON
-                    val parsedMessage = Gson().fromJson(jsonString, RawRttPayload::class.java).s
-                    coroutineScope.launch {
-                         rttTextSharedFlow.emit(Pair(parsedMessage, participant.rawId))
-                    }
-                }
-            }
-        }
+        rttFeature = call.feature { RealTimeTextCallFeature::class.java }
+        rttFeature.addOnInfoReceivedListener(onRttEntryUpdated)
     }
-    </RTT_POC> */
 
     fun onEndCall() {
         if (call == null) return
@@ -314,6 +278,7 @@ internal class CallingSDKEventHandler(
         call?.removeOnStartTimeUpdatedListener(onStartTimeUpdated)
         /* </CALL_START_TIME> */
         unsubscribeFromUserFacingDiagnosticsEvents()
+        rttFeature.removeOnInfoReceivedListener(onRttEntryUpdated)
     }
 
     fun onCaptionsStart(callCaptions: CallCaptions) {
@@ -534,13 +499,43 @@ internal class CallingSDKEventHandler(
 
     private fun onTotalParticipantCountChanged() {
         coroutineScope.launch {
-            // substract local participant from total participantCount
+            // subtract local participant from total participantCount
             totalRemoteParticipantCountSharedFlow.emit((call?.totalParticipantCount ?: 1) - 1)
         }
     }
     private fun onCapabilitiesChanged(capabilitiesChangedEvent: SdkCapabilitiesChangedEvent) {
         coroutineScope.launch {
             callCapabilitiesEventSharedFlow.emit(capabilitiesChangedEvent.into())
+        }
+    }
+
+    private val onRttEntryUpdated = RealTimeTextInfoReceivedListener {
+        // TODO: read user information not only for remote participants
+        var id: String? = null
+        var senderName: String? = null
+        if (!it.info.isLocal) {
+            id = it.info.sender.identifier.rawId
+            senderName = it.info.sender.displayName
+        }
+
+        coroutineScope.launch {
+            val rttMessage = RttMessage(
+                message = it.info.text,
+                senderUserRawId = id,
+                senderName = senderName,
+                localCreatedTime = it.info.receivedTime,
+                isLocal = it.info.isLocal,
+                isFinalized = it.info.resultType == RealTimeTextResultType.FINAL,
+                sequenceId = it.info.sequenceId,
+            )
+
+            // Update participant's typing status
+            id?.let {
+                remoteParticipantsInfoModelMap[id]?.isTypingRtt = !rttMessage.isFinalized && rttMessage.message.isNotEmpty()
+                onRemoteParticipantPropertyChange(id)
+            }
+
+            rttTextSharedFlow.emit(rttMessage)
         }
     }
 
@@ -665,7 +660,8 @@ internal class CallingSDKEventHandler(
             ),
             cameraVideoStreamModel = createVideoStreamModel(participant, MediaStreamType.VIDEO),
             modifiedTimestamp = currentTimestamp,
-            participantStatus = participant.state.into()
+            participantStatus = participant.state.into(),
+            isTypingRtt = false,
         )
     }
 

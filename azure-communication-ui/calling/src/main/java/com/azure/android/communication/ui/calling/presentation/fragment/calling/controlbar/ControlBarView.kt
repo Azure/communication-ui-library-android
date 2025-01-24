@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.controlbar
 
 import android.content.Context
-import android.content.res.Configuration
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +19,7 @@ import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
+import com.azure.android.communication.ui.calling.utilities.isTablet
 import com.azure.android.communication.ui.calling.utilities.launchAll
 import kotlinx.coroutines.flow.collect
 
@@ -135,7 +135,7 @@ internal class ControlBarView : ConstraintLayout {
     }
 
     private fun updateChainStyle() {
-        if (isTablet())
+        if (isTablet(context))
             return
 
         val layout =
@@ -160,15 +160,6 @@ internal class ControlBarView : ConstraintLayout {
         (moreButton.layoutParams as LayoutParams).verticalChainStyle = layout
         (endCallButton.layoutParams as LayoutParams).horizontalChainStyle = layout
         (endCallButton.layoutParams as LayoutParams).verticalChainStyle = layout
-    }
-    private fun isTablet(): Boolean {
-        return (
-            (
-                context.resources.configuration.screenLayout
-                    and Configuration.SCREENLAYOUT_SIZE_MASK
-                )
-                >= Configuration.SCREENLAYOUT_SIZE_LARGE
-            )
     }
 
     private fun accessibilityNonSelectableViews() = setOf(micToggle, cameraToggle)
