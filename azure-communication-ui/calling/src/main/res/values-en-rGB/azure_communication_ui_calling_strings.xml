@@ -68,6 +68,7 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">Share diagnostics info</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnostics info</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Call with: %1$s</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Recording has started.</b> By joining, you are
