@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.service.sdk
 
-/*  <CALL_START_TIME> */
 import android.view.View
 import com.azure.android.communication.calling.CameraFacing
 import com.azure.android.communication.calling.CreateViewOptions

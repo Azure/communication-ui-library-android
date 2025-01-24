@@ -3,9 +3,6 @@
 
 package com.azure.android.communication.ui.calling.service.sdk
 
-/*  <CALL_START_TIME> */
-/* </CALL_START_TIME> */
-
 import com.azure.android.communication.calling.Call
 import com.azure.android.communication.calling.CallCaptions
 import com.azure.android.communication.calling.CallState
@@ -60,7 +57,9 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.launch
+/*  <CALL_START_TIME> */
 import java.util.Date
+/* </CALL_START_TIME> */
 import java.util.concurrent.CompletableFuture
 import com.azure.android.communication.calling.CapabilitiesChangedEvent as SdkCapabilitiesChangedEvent
 

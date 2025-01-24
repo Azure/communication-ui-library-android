@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.service
 
-/*  <CALL_START_TIME> */
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsData
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsType
@@ -32,6 +31,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.io.File
+/*  <CALL_START_TIME> */
 import java.util.Date
 /* </CALL_START_TIME> */
 
