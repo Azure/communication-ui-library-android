@@ -34,8 +34,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, false)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -43,11 +44,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -71,8 +72,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -80,11 +82,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -108,8 +110,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -117,11 +120,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -146,8 +149,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -155,11 +159,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -189,8 +193,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -198,11 +203,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -232,8 +237,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -241,11 +247,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -276,8 +282,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -285,11 +292,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -320,8 +327,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -329,11 +337,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -368,8 +376,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -377,11 +386,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -416,8 +425,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -425,11 +435,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -465,8 +475,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -474,11 +485,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -514,8 +525,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -523,11 +535,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -557,8 +569,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -566,11 +579,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -601,8 +614,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -610,11 +624,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -644,8 +658,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -653,11 +668,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -688,8 +703,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -697,11 +713,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -732,8 +748,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -741,11 +758,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -776,8 +793,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -785,11 +803,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -820,8 +838,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -829,11 +848,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -864,8 +883,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -873,11 +893,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -913,8 +933,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -922,11 +943,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -962,8 +983,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -971,11 +993,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1011,8 +1033,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1020,11 +1043,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1060,8 +1083,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1069,11 +1093,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1108,8 +1132,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1117,11 +1142,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1157,8 +1182,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1166,11 +1192,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1205,8 +1231,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1214,11 +1241,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1254,8 +1281,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1263,11 +1291,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1303,8 +1331,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1312,11 +1341,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1352,8 +1381,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1361,11 +1391,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1401,8 +1431,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1410,11 +1441,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1450,8 +1481,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1459,11 +1491,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1499,8 +1531,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1508,11 +1541,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1548,8 +1581,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1557,11 +1591,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1597,8 +1631,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1606,11 +1641,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1646,8 +1681,9 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             val resultBannerInfoTypeStateFlow = mutableListOf<BannerInfoType>()
             val flowJob = launch {
@@ -1655,11 +1691,11 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             for (callingState in setupCallingStatus) {
-                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE))
+                bannerViewModel.update(callingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
             }
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, resultBannerInfoTypeStateFlow.last())
@@ -1681,11 +1717,12 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, bannerViewModel.bannerInfoTypeStateFlow.value)
@@ -1706,11 +1743,12 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
+            val isOverlayDisplayedOverGrid = false
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.PIP_MODE_ENTERED))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.PIP_MODE_ENTERED), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(expectedBannerInfoType, bannerViewModel.bannerInfoTypeStateFlow.value)
@@ -1726,17 +1764,19 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             isRecording = true,
             isTranscribing = false,
         )
+        val isOverlayDisplayedOverGrid = false
 
         runScopedTest {
             // arrange
             val initialCallingState = CallingState(CallingStatus.CONNECTED)
             val bannerViewModel = BannerViewModel()
-            bannerViewModel.init(initialCallingState)
+            bannerViewModel.init(initialCallingState, isOverlayDisplayedOverGrid)
 
             // act
             bannerViewModel.update(
                 testCallingState,
-                VisibilityState(VisibilityStatus.PIP_MODE_ENTERED)
+                VisibilityState(VisibilityStatus.PIP_MODE_ENTERED),
+                isOverlayDisplayedOverGrid,
             )
 
             // assert
@@ -1747,7 +1787,7 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
             Assert.assertEquals(false, bannerViewModel.shouldShowBannerStateFlow.value)
 
             // act
-            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE))
+            bannerViewModel.update(testCallingState, VisibilityState(VisibilityStatus.VISIBLE), isOverlayDisplayedOverGrid)
 
             // assert
             Assert.assertEquals(
@@ -1763,7 +1803,8 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
                     isRecording = false,
                     isTranscribing = false,
                 ),
-                VisibilityState(VisibilityStatus.VISIBLE)
+                VisibilityState(VisibilityStatus.VISIBLE),
+                isOverlayDisplayedOverGrid,
             )
 
             // assert
@@ -1780,7 +1821,8 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
                     isRecording = false,
                     isTranscribing = false,
                 ),
-                VisibilityState(VisibilityStatus.PIP_MODE_ENTERED)
+                VisibilityState(VisibilityStatus.PIP_MODE_ENTERED),
+                isOverlayDisplayedOverGrid,
             )
 
             // assert
@@ -1797,7 +1839,8 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
                     isRecording = true,
                     isTranscribing = true,
                 ),
-                VisibilityState(VisibilityStatus.PIP_MODE_ENTERED)
+                VisibilityState(VisibilityStatus.PIP_MODE_ENTERED),
+                isOverlayDisplayedOverGrid,
             )
 
             // assert
@@ -1814,7 +1857,8 @@ internal class BannerViewModelUnitTest : ACSBaseTestCoroutine() {
                     isRecording = true,
                     isTranscribing = true,
                 ),
-                VisibilityState(VisibilityStatus.VISIBLE)
+                VisibilityState(VisibilityStatus.VISIBLE),
+                isOverlayDisplayedOverGrid,
             )
 
             // assert

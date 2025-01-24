@@ -40,5 +40,5 @@ internal class CallCompositeConfiguration {
     var disableInternalPushForIncomingCall: Boolean = false
     var capabilitiesChangedNotificationMode: CallCompositeCapabilitiesChangedNotificationMode? = null
     var setupScreenOptions: CallCompositeSetupScreenOptions? = null
-    var identifier: CommunicationIdentifier? = null
+    var localUserIdentifier: CommunicationIdentifier? = null
 }

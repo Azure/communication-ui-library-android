@@ -6,7 +6,10 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
+import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.state.CaptionsState
+import com.azure.android.communication.ui.calling.redux.state.NavigationState
+import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
@@ -32,7 +35,7 @@ internal class CaptionsLanguageSelectionListViewModelUnitTest : ACSBaseTestCorou
     fun setUp() {
         store = mock<AppStore<ReduxState>> {}
         `when`(store.dispatch(any())).then { }
-        viewModel = CaptionsLanguageSelectionListViewModel(store)
+        viewModel = CaptionsLanguageSelectionListViewModel(store::dispatch)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -40,16 +43,19 @@ internal class CaptionsLanguageSelectionListViewModelUnitTest : ACSBaseTestCorou
     fun captionsLanguageSelectionListViewModel_when_init_shouldSetInitialState() = runScopedTest {
         // Arrange
         val captionsState = CaptionsState(
-            showSupportedCaptionLanguagesSelections = true,
             captionLanguage = "en",
             supportedCaptionLanguages = listOf("en", "fr"),
-            showSupportedSpokenLanguagesSelection = false,
             spokenLanguage = "",
             supportedSpokenLanguages = emptyList()
         )
+        val navigationState = NavigationState(
+            navigationState = NavigationStatus.IN_CALL,
+            showSupportedCaptionLanguagesSelections = true,
+            showSupportedSpokenLanguagesSelection = false,
+        )
         val visibilityState = VisibilityState(VisibilityStatus.VISIBLE)
         // Act
-        viewModel.init(captionsState, visibilityState)
+        viewModel.init(captionsState, visibilityState, navigationState)
 
         // Assert
         assertEquals(LanguageSelectionType.CAPTION, viewModel.languageSelectionTypeStateFlow)
@@ -63,29 +69,35 @@ internal class CaptionsLanguageSelectionListViewModelUnitTest : ACSBaseTestCorou
     fun captionsLanguageSelectionListViewModel_when_update_shouldUpdateState() = runScopedTest {
         // Arrange
         val initialCaptionsState = CaptionsState(
-            showSupportedCaptionLanguagesSelections = true,
             captionLanguage = "en",
             supportedCaptionLanguages = listOf("en", "fr"),
-            showSupportedSpokenLanguagesSelection = false,
             spokenLanguage = "",
             supportedSpokenLanguages = emptyList()
         )
+        val navigationState = NavigationState(
+            navigationState = NavigationStatus.IN_CALL,
+            showSupportedCaptionLanguagesSelections = true,
+            showSupportedSpokenLanguagesSelection = false,
+        )
         val visibilityState = VisibilityState(VisibilityStatus.VISIBLE)
 
-        viewModel.init(initialCaptionsState, visibilityState)
+        viewModel.init(initialCaptionsState, visibilityState, navigationState)
 
         val updatedCaptionsState = CaptionsState(
-            showSupportedCaptionLanguagesSelections = false,
             captionLanguage = "",
             supportedCaptionLanguages = emptyList(),
-            showSupportedSpokenLanguagesSelection = true,
             spokenLanguage = "es",
             supportedSpokenLanguages = listOf("es", "de")
+        )
+        val updatedNavigationState = NavigationState(
+            navigationState = NavigationStatus.IN_CALL,
+            showSupportedCaptionLanguagesSelections = false,
+            showSupportedSpokenLanguagesSelection = true,
         )
         val updatedVisibilityState = VisibilityState(VisibilityStatus.VISIBLE)
 
         // Act
-        viewModel.update(updatedCaptionsState, updatedVisibilityState)
+        viewModel.update(updatedCaptionsState, updatedVisibilityState, updatedNavigationState)
 
         // Assert
         assertEquals(LanguageSelectionType.SPOKEN, viewModel.languageSelectionTypeStateFlow)
@@ -101,8 +113,8 @@ internal class CaptionsLanguageSelectionListViewModelUnitTest : ACSBaseTestCorou
         viewModel.close()
 
         // Assert
-        verify(store).dispatch(argThat { action -> action is CaptionsAction.HideSupportedLanguagesOptions })
-        verify(store).dispatch(argThat { action -> action is CaptionsAction.CloseCaptionsOptions })
+        verify(store).dispatch(argThat { action -> action is NavigationAction.HideSupportedLanguagesOptions })
+        verify(store).dispatch(argThat { action -> action is NavigationAction.CloseCaptionsOptions })
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -110,24 +122,27 @@ internal class CaptionsLanguageSelectionListViewModelUnitTest : ACSBaseTestCorou
     fun captionsLanguageSelectionListViewModel_when_setActiveLanguageAndCaptionLanguageSelected_shouldDispatchCorrectActions() = runScopedTest {
         // Arrange
         val captionsState = CaptionsState(
-            showSupportedCaptionLanguagesSelections = true,
             captionLanguage = "en",
             supportedCaptionLanguages = listOf("en", "fr"),
-            showSupportedSpokenLanguagesSelection = false,
             spokenLanguage = "",
             supportedSpokenLanguages = emptyList()
         )
+        val updatedNavigationState = NavigationState(
+            navigationState = NavigationStatus.IN_CALL,
+            showSupportedCaptionLanguagesSelections = true,
+            showSupportedSpokenLanguagesSelection = false,
+        )
         val visibilityState = VisibilityState(VisibilityStatus.VISIBLE)
 
-        viewModel.init(captionsState, visibilityState)
+        viewModel.init(captionsState, visibilityState, updatedNavigationState)
 
         // Act
         viewModel.setActiveLanguage("fr")
 
         // Assert
         verify(store).dispatch(argThat { action -> action is CaptionsAction.SetCaptionLanguageRequested && action.language == "fr" })
-        verify(store).dispatch(argThat { action -> action is CaptionsAction.HideSupportedLanguagesOptions })
-        verify(store).dispatch(argThat { action -> action is CaptionsAction.CloseCaptionsOptions })
+        verify(store).dispatch(argThat { action -> action is NavigationAction.HideSupportedLanguagesOptions })
+        verify(store).dispatch(argThat { action -> action is NavigationAction.CloseCaptionsOptions })
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -135,23 +150,26 @@ internal class CaptionsLanguageSelectionListViewModelUnitTest : ACSBaseTestCorou
     fun captionsLanguageSelectionListViewModel_when_setActiveLanguageAndSpokenLanguageSelected_shouldDispatchCorrectActions() = runScopedTest {
         // Arrange
         val captionsState = CaptionsState(
-            showSupportedCaptionLanguagesSelections = false,
             captionLanguage = "",
             supportedCaptionLanguages = emptyList(),
-            showSupportedSpokenLanguagesSelection = true,
             spokenLanguage = "en",
             supportedSpokenLanguages = listOf("en", "fr")
         )
+        val updatedNavigationState = NavigationState(
+            navigationState = NavigationStatus.IN_CALL,
+            showSupportedCaptionLanguagesSelections = false,
+            showSupportedSpokenLanguagesSelection = true,
+        )
         val visibilityState = VisibilityState(VisibilityStatus.VISIBLE)
 
-        viewModel.init(captionsState, visibilityState)
+        viewModel.init(captionsState, visibilityState, updatedNavigationState)
 
         // Act
         viewModel.setActiveLanguage("fr")
 
         // Assert
         verify(store).dispatch(argThat { action -> action is CaptionsAction.SetSpokenLanguageRequested && action.language == "fr" })
-        verify(store).dispatch(argThat { action -> action is CaptionsAction.HideSupportedLanguagesOptions })
-        verify(store).dispatch(argThat { action -> action is CaptionsAction.CloseCaptionsOptions })
+        verify(store).dispatch(argThat { action -> action is NavigationAction.HideSupportedLanguagesOptions })
+        verify(store).dispatch(argThat { action -> action is NavigationAction.CloseCaptionsOptions })
     }
 }

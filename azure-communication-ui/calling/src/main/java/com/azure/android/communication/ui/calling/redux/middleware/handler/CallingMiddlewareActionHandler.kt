@@ -31,18 +31,16 @@ import com.azure.android.communication.ui.calling.models.into
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
+import com.azure.android.communication.ui.calling.redux.action.CallDiagnosticsAction
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.action.LifecycleAction
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
-import com.azure.android.communication.ui.calling.redux.action.CallDiagnosticsAction
-/* <RTT_POC>
 import com.azure.android.communication.ui.calling.redux.action.RttAction
-</RTT_POC> */
-import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.action.ToastNotificationAction
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
@@ -106,6 +104,7 @@ internal interface CallingMiddlewareActionHandler {
     fun stopCaptions(store: Store<ReduxState>)
     fun setCaptionsSpokenLanguage(language: String, store: Store<ReduxState>)
     fun setCaptionsCaptionLanguage(language: String, store: Store<ReduxState>)
+    fun sendRttMessage(message: String, isFinalized: Boolean, store: Store<ReduxState>)
 }
 
 internal class CallingMiddlewareActionHandlerImpl(
@@ -338,9 +337,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         subscribeToCallStartTimeUpdates(store)
         /* </CALL_START_TIME> */
 
-        /* <RTT_POC>
         subscribeRttStateUpdate(store)
-        </RTT_POC> */
 
         callingService.startCall(
             store.getCurrentState().localParticipantState.cameraState,
@@ -672,6 +669,9 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun stopCaptions(store: Store<ReduxState>) {
+        if (!store.getCurrentState().rttState.isRttActive) {
+            store.dispatch(RttAction.UpdateMaximized(false))
+        }
         callingService.stopCaptions()
             .handle { _, error: Throwable? ->
                 if (error != null) {
@@ -938,15 +938,22 @@ internal class CallingMiddlewareActionHandlerImpl(
         }
     }
 
-    /* <RTT_POC>
+    override fun sendRttMessage(message: String, isFinalized: Boolean, store: Store<ReduxState>) {
+        if (!store.getCurrentState().rttState.isRttActive) {
+            store.dispatch(RttAction.EnableRtt())
+        }
+        callingService.sendRttMessage(message, isFinalized)
+    }
+
     private fun subscribeRttStateUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
-            callingService.getRttStateFlow().collect {
-                store.dispatch(RttAction.IncomingMessageReceived(it.first, it.second))
+            callingService.getRttFlow().collect {
+                if (!store.getCurrentState().rttState.isRttActive) {
+                    store.dispatch(RttAction.EnableRtt())
+                }
             }
         }
     }
-    </RTT_POC> */
 
     private fun tryCameraOn(store: Store<ReduxState>) {
         val state = store.getCurrentState()
