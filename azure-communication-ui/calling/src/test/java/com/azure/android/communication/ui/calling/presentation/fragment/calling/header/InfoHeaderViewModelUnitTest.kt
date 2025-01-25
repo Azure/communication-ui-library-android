@@ -64,7 +64,6 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 mock(), mock()
             )
             floatingHeaderViewModel.init(
-                appState.callState.callingStatus,
                 expectedParticipantMap.count(),
                 CallScreenInfoHeaderState(
                     null,
@@ -74,6 +73,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                     /* </CALL_START_TIME> */
                 ),
                 appState.buttonState,
+                isOverlayDisplayedOverGrid = false,
                 { },
                 /* <CALL_START_TIME> */
                 null,
@@ -99,6 +99,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                     /* </CALL_START_TIME> */
                 ),
                 appState.buttonState,
+                isOverlayDisplayedOverGrid = false,
                 /* <CALL_START_TIME> */
                 null,
                 /* </CALL_START_TIME> */
@@ -151,7 +152,6 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 mock(), mock()
             )
             floatingHeaderViewModel.init(
-                appState.callState.callingStatus,
                 expectedParticipantMap.count(),
                 CallScreenInfoHeaderState(
                     null,
@@ -161,6 +161,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                     /* </CALL_START_TIME> */
                 ),
                 appState.buttonState,
+                isOverlayDisplayedOverGrid = false,
                 {},
                 /* <CALL_START_TIME> */
                 null,
@@ -176,8 +177,24 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             // act
-            floatingHeaderViewModel.updateIsOverlayDisplayed(CallingStatus.CONNECTED)
-            floatingHeaderViewModel.updateIsOverlayDisplayed(CallingStatus.IN_LOBBY)
+            floatingHeaderViewModel.update(
+                1,
+                appState.callScreenInfoHeaderState,
+                appState.buttonState,
+                isOverlayDisplayedOverGrid = false,
+                /* <CALL_START_TIME> */
+                null,
+                /* </CALL_START_TIME> */
+            )
+            floatingHeaderViewModel.update(
+                1,
+                appState.callScreenInfoHeaderState,
+                appState.buttonState,
+                isOverlayDisplayedOverGrid = true,
+                /* <CALL_START_TIME> */
+                null,
+                /* </CALL_START_TIME> */
+            )
 
             // assert
             Assert.assertEquals(
@@ -232,7 +249,6 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 mock(), mock()
             )
             floatingHeaderViewModel.init(
-                appState.callState.callingStatus,
                 expectedParticipantMap.count(),
                 CallScreenInfoHeaderState(
                     title, subtitle,
@@ -241,6 +257,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                     /* </CALL_START_TIME> */
                 ),
                 appState.buttonState,
+                isOverlayDisplayedOverGrid = false,
                 { },
                 /* <CALL_START_TIME> */
                 null,
@@ -280,6 +297,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                     /* </CALL_START_TIME> */
                 ),
                 appState.buttonState,
+                isOverlayDisplayedOverGrid = true,
                 /* <CALL_START_TIME> */
                 null,
                 /* </CALL_START_TIME> */
@@ -344,10 +362,10 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 mock(), mock()
             )
             floatingHeaderViewModel.init(
-                appState.callState.callingStatus,
                 expectedParticipantMap.count(),
                 CallScreenInfoHeaderState(null, null, false),
                 appState.buttonState,
+                isOverlayDisplayedOverGrid = false,
                 { },
                 null,
             )
@@ -372,6 +390,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 expectedParticipantMap.count(),
                 CallScreenInfoHeaderState(null, null, true),
                 appState.buttonState,
+                isOverlayDisplayedOverGrid = false,
                 Date(),
             )
 
@@ -437,7 +456,6 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 mock(), mock()
             )
             floatingHeaderViewModel.init(
-                appState.callState.callingStatus,
                 expectedParticipantMap.count(),
                 CallScreenInfoHeaderState(
                     title, subtitle,
@@ -446,6 +464,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                     /* </CALL_START_TIME> */
                 ),
                 appState.buttonState,
+                isOverlayDisplayedOverGrid = false,
                 { },
                 /* <CALL_START_TIME> */
                 null,
@@ -492,6 +511,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                     /* </CALL_START_TIME> */
                 ),
                 buttonState1,
+                isOverlayDisplayedOverGrid = false,
                 /* <CALL_START_TIME> */
                 null,
                 /* </CALL_START_TIME> */
@@ -519,6 +539,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                     /* </CALL_START_TIME> */
                 ),
                 buttonState2,
+                isOverlayDisplayedOverGrid = false,
                 /* <CALL_START_TIME> */
                 null,
                 /* </CALL_START_TIME> */
