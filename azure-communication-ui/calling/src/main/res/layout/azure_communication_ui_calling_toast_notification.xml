@@ -18,6 +18,7 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_calling_control_bar_view_wrapper"
     tools:visibility="visible"
+    android:focusable="true"
     >
     <RelativeLayout
         android:layout_width="wrap_content"
