@@ -131,6 +131,7 @@ internal class CallingViewModel(
             /* <CALL_START_TIME> */
             state.callState.callStartTime,
             /* </CALL_START_TIME> */
+            state.visibilityState.status,
         )
 
         audioDeviceListViewModel.init(
@@ -331,8 +332,9 @@ internal class CallingViewModel(
                 state.buttonState,
                 isOverlayDisplayedOverGrid(state),
                 /* <CALL_START_TIME> */
-                state.callState.callStartTime
+                state.callState.callStartTime,
                 /* </CALL_START_TIME> */
+                state.visibilityState.status,
             )
 
             lobbyHeaderViewModel.update(
