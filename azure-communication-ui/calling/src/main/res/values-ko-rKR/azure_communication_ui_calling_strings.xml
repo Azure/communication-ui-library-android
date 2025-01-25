@@ -69,6 +69,7 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">진단 정보</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">진단 정보 공유 단추</string>
     <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Call with: %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">Participant list</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>녹음을 시작했습니다.</b>참가하면 이 모임을 전사하는데
