@@ -104,6 +104,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
+                                isTypingRtt = false,
                             )
                         )
                     ),
@@ -187,6 +188,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
+                                isTypingRtt = false,
                             )
                         )
                     ),
@@ -263,6 +265,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
+                                isTypingRtt = false,
                             )
                         ),
                         Pair(
@@ -283,6 +286,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
+                                isTypingRtt = false,
                             )
                         )
                     ),
@@ -376,6 +380,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
+                                isTypingRtt = false,
                             )
                         ),
                         Pair(
@@ -396,6 +401,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
+                                isTypingRtt = false,
                             )
                         )
                     ),
@@ -493,6 +499,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
+                                isTypingRtt = false,
                             )
                         ),
                         Pair(
@@ -513,6 +520,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
+                                isTypingRtt = false,
                             )
                         ),
                         Pair(
@@ -533,6 +541,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
+                                isTypingRtt = false,
                             )
                         )
                     ),
@@ -589,6 +598,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
+                                isTypingRtt = false,
                             )
                         ),
                         Pair(
@@ -609,6 +619,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
+                                isTypingRtt = false,
                             )
                         )
                     ),
@@ -704,6 +715,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
+                                isTypingRtt = false,
                             )
                         ),
                     ),
@@ -762,6 +774,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
+                                isTypingRtt = false,
                             )
                         ),
                         Pair(
@@ -782,6 +795,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
+                                isTypingRtt = false,
                             )
                         )
                     ),
@@ -882,6 +896,7 @@ internal class RemoteParticipantHandlerUnitTests : ACSBaseTestCoroutine() {
                                 ),
                                 modifiedTimestamp = 456,
                                 participantStatus = null,
+                                isTypingRtt = false,
                             )
                         ),
                     ),

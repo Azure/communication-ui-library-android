@@ -4,7 +4,6 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid
 
 import android.content.Context
-import android.content.res.Configuration
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.View
@@ -135,7 +134,7 @@ internal class ParticipantGridView : GridLayout {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            participantGridViewModel.getIsLobbyOverlayDisplayedFlow().collect {
+            participantGridViewModel.getIsOverlayDisplayedFlow().collect {
                 if (it) {
                     ViewCompat.setImportantForAccessibility(
                         gridView,
@@ -219,7 +218,7 @@ internal class ParticipantGridView : GridLayout {
             }
             THREE_PARTICIPANTS -> {
                 // for 3 first participant will take two cells
-                if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                if (participantGridViewModel.isVerticalStyleGridFlow.value) {
                     addParticipantToGrid(
                         columnSpan = 2,
                         participantGridCellView = displayedRemoteParticipantsView[0]
@@ -242,7 +241,7 @@ internal class ParticipantGridView : GridLayout {
             FIVE_PARTICIPANTS -> {
                 // for 5 number of participants, first participant will take two cells only on phones (< 7inch)
                 if (isTabletScreen()) {
-                    if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    if (participantGridViewModel.isVerticalStyleGridFlow.value) {
                         addParticipantToGrid(
                             columnSpan = 2,
                             rowSpan = 3,
@@ -284,7 +283,7 @@ internal class ParticipantGridView : GridLayout {
                         }
                     }
                 } else {
-                    if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    if (participantGridViewModel.isVerticalStyleGridFlow.value) {
                         addParticipantToGrid(
                             columnSpan = 2,
                             participantGridCellView = displayedRemoteParticipantsView[0]
@@ -306,7 +305,7 @@ internal class ParticipantGridView : GridLayout {
                 }
             }
             SEVEN_PARTICIPANTS -> {
-                if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                if (participantGridViewModel.isVerticalStyleGridFlow.value) {
                     addParticipantToGrid(
                         rowSpan = 4,
                         participantGridCellView = displayedRemoteParticipantsView[0]
@@ -347,7 +346,7 @@ internal class ParticipantGridView : GridLayout {
                 }
             }
             EIGHT_PARTICIPANTS -> {
-                if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                if (participantGridViewModel.isVerticalStyleGridFlow.value) {
                     displayedRemoteParticipantsView.forEachIndexed { index, participantGridCellView ->
                         if (index < 2) {
                             addParticipantToGrid(
@@ -398,7 +397,7 @@ internal class ParticipantGridView : GridLayout {
                 setGridRowsColumn(rows = 1, columns = 1)
             }
             2 -> {
-                if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                if (participantGridViewModel.isVerticalStyleGridFlow.value) {
                     setGridRowsColumn(rows = 2, columns = 1)
                 } else {
                     setGridRowsColumn(rows = 1, columns = 2)
@@ -407,7 +406,7 @@ internal class ParticipantGridView : GridLayout {
             3, 4 -> {
                 setGridRowsColumn(rows = 2, columns = 2)
             } 6 -> {
-                if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                if (participantGridViewModel.isVerticalStyleGridFlow.value) {
                     setGridRowsColumn(rows = 3, columns = 2)
                 } else {
                     setGridRowsColumn(rows = 2, columns = 3)
@@ -415,13 +414,13 @@ internal class ParticipantGridView : GridLayout {
             }
             5 -> {
                 if (isTabletScreen()) {
-                    if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    if (participantGridViewModel.isVerticalStyleGridFlow.value) {
                         setGridRowsColumn(rows = 6, columns = 4)
                     } else {
                         setGridRowsColumn(rows = 4, columns = 6)
                     }
                 } else {
-                    if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    if (participantGridViewModel.isVerticalStyleGridFlow.value) {
                         setGridRowsColumn(rows = 3, columns = 2)
                     } else {
                         setGridRowsColumn(rows = 2, columns = 3)
@@ -429,7 +428,7 @@ internal class ParticipantGridView : GridLayout {
                 }
             }
             7 -> {
-                if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                if (participantGridViewModel.isVerticalStyleGridFlow.value) {
                     setGridRowsColumn(rows = 12, columns = 2)
                 } else {
                     setGridRowsColumn(rows = 2, columns = 12)

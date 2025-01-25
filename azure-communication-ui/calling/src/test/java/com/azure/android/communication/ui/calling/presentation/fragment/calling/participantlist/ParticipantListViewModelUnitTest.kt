@@ -4,8 +4,8 @@
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.participantlist
 
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.models.VideoStreamModel
@@ -47,7 +47,6 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
                 modifiedTimestamp = 456,
-                speakingTimestamp = 567,
             )
             val expectedInitialRemoteParticipantList: List<ParticipantListCellModel> =
                 initialRemoteParticipantsMap.values.map {
@@ -69,7 +68,6 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video_stream_2", StreamType.VIDEO),
                 modifiedTimestamp = 111,
-                speakingTimestamp = 222
             )
             updatedRemoteParticipantsMap["user3"] = getParticipantInfoModel(
                 "user three",
@@ -78,7 +76,6 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video_stream_3", StreamType.VIDEO),
                 modifiedTimestamp = 2121,
-                speakingTimestamp = 3232
             )
             val expectedUpdatedRemoteParticipantList: List<ParticipantListCellModel> =
                 updatedRemoteParticipantsMap.values.map {
@@ -151,7 +148,6 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
                 modifiedTimestamp = 456,
-                speakingTimestamp = 567
             )
 
             val initialExpectedLocalUserState = LocalUserState(
@@ -263,7 +259,6 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
                 modifiedTimestamp = 456,
-                speakingTimestamp = 567
             )
 
             val initialExpectedLocalUserState = LocalUserState(
@@ -329,7 +324,6 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
                 modifiedTimestamp = 456,
-                speakingTimestamp = 567
             )
 
             val initialExpectedLocalUserState = LocalUserState(
@@ -395,7 +389,6 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
                 modifiedTimestamp = 456,
-                speakingTimestamp = 567,
             )
             val expectedInitialRemoteParticipantList: List<ParticipantListCellModel> =
                 initialRemoteParticipantsMap.values.map {
@@ -417,7 +410,6 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video_stream_2", StreamType.VIDEO),
                 modifiedTimestamp = 111,
-                speakingTimestamp = 222
             )
             updatedRemoteParticipantsMap["user3"] = getParticipantInfoModel(
                 "user three",
@@ -426,7 +418,6 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video_stream_3", StreamType.VIDEO),
                 modifiedTimestamp = 2121,
-                speakingTimestamp = 3232,
                 status = ParticipantStatus.IN_LOBBY
             )
             val expectedUpdatedRemoteParticipantList: List<ParticipantListCellModel> =
@@ -501,7 +492,6 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
                 modifiedTimestamp = 456,
-                speakingTimestamp = 567,
             )
             val expectedInitialRemoteParticipantList: List<ParticipantListCellModel> =
                 initialRemoteParticipantsMap.values.map {
@@ -523,7 +513,6 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video_stream_2", StreamType.VIDEO),
                 modifiedTimestamp = 111,
-                speakingTimestamp = 222
             )
             val expectedUpdatedRemoteParticipantList: List<ParticipantListCellModel> =
                 updatedRemoteParticipantsMap.values.map {
@@ -543,7 +532,6 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video_stream_3", StreamType.VIDEO),
                 modifiedTimestamp = 2121,
-                speakingTimestamp = 3232,
                 status = ParticipantStatus.IN_LOBBY
             )
 
@@ -608,7 +596,6 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
                 modifiedTimestamp = 456,
-                speakingTimestamp = 567,
             )
             val expectedInitialRemoteParticipantList: List<ParticipantListCellModel> =
                 initialRemoteParticipantsMap.values.map {
@@ -630,7 +617,6 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video_stream_3", StreamType.VIDEO),
                 modifiedTimestamp = 2121,
-                speakingTimestamp = 3232,
                 status = ParticipantStatus.IN_LOBBY
             )
             updatedRemoteParticipantsMap["user2"] = getParticipantInfoModel(
@@ -640,7 +626,6 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video_stream_2", StreamType.VIDEO),
                 modifiedTimestamp = 111,
-                speakingTimestamp = 222,
                 status = ParticipantStatus.HOLD
             )
             val expectedUpdatedRemoteParticipantList: List<ParticipantListCellModel> =
@@ -660,7 +645,6 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video_stream_2", StreamType.VIDEO),
                 modifiedTimestamp = 111,
-                speakingTimestamp = 222,
                 status = ParticipantStatus.DISCONNECTED
             )
 
@@ -716,10 +700,10 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
         userIdentifier: String,
         isMuted: Boolean,
         isSpeaking: Boolean,
+        isTypingRtt: Boolean = false,
         screenShareVideoStreamModel: VideoStreamModel? = null,
         cameraVideoStreamModel: VideoStreamModel? = null,
         modifiedTimestamp: Number,
-        speakingTimestamp: Number,
         status: ParticipantStatus = ParticipantStatus.CONNECTED,
     ) = ParticipantInfoModel(
         displayName,
@@ -727,6 +711,7 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
         isMuted,
         false,
         isSpeaking,
+        isTypingRtt,
         status,
         screenShareVideoStreamModel,
         cameraVideoStreamModel,

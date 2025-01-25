@@ -113,4 +113,75 @@ internal class NavigationReducerUnitTest {
         // assert
         Assert.assertFalse(newState.supportVisible)
     }
+
+    @Test
+    fun navigationReducer_reduce_when_actionShowCaptionsOptions_then_changeStateToShowCaptionsToggleUI() {
+        // arrange
+        val reducer = NavigationReducerImpl()
+        val oldState = NavigationState(navigationState = NavigationStatus.IN_CALL, showCaptionsToggleUI = false)
+        val action = NavigationAction.ShowCaptionsOptions()
+
+        // act
+        val newState = reducer.reduce(oldState, action)
+
+        // assert
+        Assert.assertEquals(true, newState.showCaptionsToggleUI)
+    }
+
+    @Test
+    fun navigationReducer_reduce_when_actionCloseCaptionsOptions_then_changeStateToCloseCaptionsToggleUI() {
+        // arrange
+        val reducer = NavigationReducerImpl()
+        val oldState = NavigationState(navigationState = NavigationStatus.IN_CALL, showCaptionsToggleUI = true)
+        val action = NavigationAction.CloseCaptionsOptions()
+
+        // act
+        val newState = reducer.reduce(oldState, action)
+
+        // assert
+        Assert.assertEquals(false, newState.showCaptionsToggleUI)
+    }
+
+    @Test
+    fun navigationReducer_reduce_when_actionShowSupportedSpokenLanguagesOptions_then_changeStateToShowSupportedSpokenLanguagesSelection() {
+        // arrange
+        val reducer = NavigationReducerImpl()
+        val oldState = NavigationState(navigationState = NavigationStatus.IN_CALL, showSupportedSpokenLanguagesSelection = false)
+        val action = NavigationAction.ShowSupportedSpokenLanguagesOptions()
+
+        // act
+        val newState = reducer.reduce(oldState, action)
+
+        // assert
+        Assert.assertEquals(true, newState.showSupportedSpokenLanguagesSelection)
+    }
+
+    @Test
+    fun navigationReducer_reduce_when_actionShowSupportedCaptionLanguagesOptions_then_changeStateToShowSupportedCaptionLanguagesSelections() {
+        // arrange
+        val reducer = NavigationReducerImpl()
+        val oldState = NavigationState(navigationState = NavigationStatus.IN_CALL, showSupportedCaptionLanguagesSelections = false)
+        val action = NavigationAction.ShowSupportedCaptionLanguagesOptions()
+
+        // act
+        val newState = reducer.reduce(oldState, action)
+
+        // assert
+        Assert.assertEquals(true, newState.showSupportedCaptionLanguagesSelections)
+    }
+
+    @Test
+    fun navigationReducer_reduce_when_actionHideSupportedLanguagesOptions_then_changeStateToHideSupportedLanguagesSelections() {
+        // arrange
+        val reducer = NavigationReducerImpl()
+        val oldState = NavigationState(navigationState = NavigationStatus.IN_CALL, showSupportedSpokenLanguagesSelection = true, showSupportedCaptionLanguagesSelections = true)
+        val action = NavigationAction.HideSupportedLanguagesOptions()
+
+        // act
+        val newState = reducer.reduce(oldState, action)
+
+        // assert
+        Assert.assertEquals(false, newState.showSupportedSpokenLanguagesSelection)
+        Assert.assertEquals(false, newState.showSupportedCaptionLanguagesSelections)
+    }
 }

@@ -22,6 +22,7 @@ import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagn
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantRole
+import com.azure.android.communication.ui.calling.models.RttMessage
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
@@ -84,9 +85,9 @@ internal interface CallingSDK {
 
     //endregion
 
-    /* <RTT_POC>
-    fun getRttSharedFlow(): SharedFlow<Pair<String, String>>
-    </RTT_POC> */
+    fun getRttSharedFlow(): SharedFlow<RttMessage>
+    fun sendRttMessage(message: String, isFinalized: Boolean)
+
     fun setTelecomManagerAudioRoute(audioRoute: Int)
 
     //region Captions

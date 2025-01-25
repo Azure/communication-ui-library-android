@@ -90,12 +90,7 @@ internal class MoreCallOptionsListView(
                         entry.icon ?: android.R.drawable.ic_dialog_alert
                     ),
                     title = title,
-                    contentDescription = null,
-                    accessoryImage = null,
-                    accessoryColor = null,
-                    accessoryImageDescription = null,
                     isChecked = false,
-                    participantViewData = null,
                     isOnHold = false,
                     showRightArrow = entry.showRightArrow,
                     isEnabled = entry.isEnabled,

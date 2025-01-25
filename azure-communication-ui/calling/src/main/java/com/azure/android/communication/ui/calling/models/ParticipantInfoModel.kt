@@ -20,6 +20,7 @@ internal data class ParticipantInfoModel(
     var isMuted: Boolean,
     var isCameraDisabled: Boolean,
     var isSpeaking: Boolean,
+    var isTypingRtt: Boolean,
     var participantStatus: ParticipantStatus?,
     var screenShareVideoStreamModel: VideoStreamModel?,
     var cameraVideoStreamModel: VideoStreamModel?,

@@ -15,7 +15,6 @@ import com.azure.android.communication.calling.DeviceManager
 import com.azure.android.communication.calling.Features
 import com.azure.android.communication.calling.GroupCallLocator
 import com.azure.android.communication.calling.HangUpOptions
-import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVideoStream
 import com.azure.android.communication.calling.JoinCallOptions
 import com.azure.android.communication.calling.JoinMeetingLocator
 import com.azure.android.communication.calling.OutgoingAudioOptions
@@ -42,7 +41,6 @@ import com.azure.android.communication.ui.calling.redux.state.CameraOperationalS
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.azure.android.communication.ui.calling.utilities.toJavaUtil
-import java.util.concurrent.CompletableFuture
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 /*  <CALL_START_TIME> */
@@ -54,6 +52,8 @@ import java.util.Collections
 /*  <CALL_START_TIME> */
 import java.util.Date
 /* </CALL_START_TIME> */
+import java.util.concurrent.CompletableFuture
+import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVideoStream
 
 internal class CallingSDKWrapper(
     private val context: Context,
@@ -144,10 +144,12 @@ internal class CallingSDKWrapper(
         return callClient?.debugInfo?.supportFiles ?: Collections.emptyList()
     }
 
-    /* <RTT_POC>
     override fun getRttSharedFlow() = callingSDKEventHandler.getRttTextSharedFlow()
 
-    </RTT_POC> */
+    override fun sendRttMessage(message: String, isFinalized: Boolean) {
+        val rttFeature = call.feature(Features.REAL_TIME_TEXT)
+        rttFeature.send(message, isFinalized)
+    }
 
     //endregion
     override fun getDominantSpeakersSharedFlow() =

@@ -7,6 +7,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     >
+    <ImageView
+        android:id="@+id/azure_communication_ui_cell_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/azure_communication_ui_calling_ic_fluent_speaker_2_24_filled_composite_button_enabled"
+        />
     <TextView
         android:id="@+id/azure_communication_ui_cell_text"
         android:layout_width="wrap_content"
