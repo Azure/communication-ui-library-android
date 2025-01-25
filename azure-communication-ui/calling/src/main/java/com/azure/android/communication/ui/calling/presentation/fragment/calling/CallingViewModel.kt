@@ -131,7 +131,6 @@ internal class CallingViewModel(
             /* <CALL_START_TIME> */
             state.callState.callStartTime,
             /* </CALL_START_TIME> */
-            state.visibilityState.status,
         )
 
         audioDeviceListViewModel.init(

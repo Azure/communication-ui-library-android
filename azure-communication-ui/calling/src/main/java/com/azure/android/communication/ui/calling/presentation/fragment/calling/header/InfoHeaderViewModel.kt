@@ -65,7 +65,6 @@ internal class InfoHeaderViewModel(
         /* <CALL_START_TIME> */
         callStartTime: Date?,
         /* </CALL_START_TIME> */
-        visibilityStatus: VisibilityStatus,
     ) {
         titleStateFlow = MutableStateFlow(callScreenInfoHeaderState.title)
         subtitleStateFlow = MutableStateFlow(callScreenInfoHeaderState.subtitle)

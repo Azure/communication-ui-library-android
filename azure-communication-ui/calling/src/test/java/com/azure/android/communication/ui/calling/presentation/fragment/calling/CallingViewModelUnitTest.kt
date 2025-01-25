@@ -337,6 +337,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 /* <CALL_START_TIME> */
                 anyOrNull(),
                 /* </CALL_START_TIME> */
+                any(),
             )
             verify(mockParticipantListViewModel, times(1)).update(any(), any(), any(), any(), any())
             verify(mockBannerViewModel, times(1)).update(any(), any(), any(),)
@@ -403,6 +404,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 /* <CALL_START_TIME> */
                 anyOrNull(),
                 /* </CALL_START_TIME> */
+                any(),
             )
             verify(mockParticipantListViewModel, times(1)).update(any(), any(), any(), any(), any())
             verify(mockBannerViewModel, times(1)).update(any(), any(), any(),)
@@ -470,6 +472,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 /* <CALL_START_TIME> */
                 any(),
                 /* </CALL_START_TIME> */
+                any(),
             )
             verify(mockParticipantListViewModel, times(0)).update(any(), any(), any(), any(), any())
             verify(mockBannerViewModel, times(0)).update(any(), any(), any(),)
@@ -974,6 +977,7 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             /* <CALL_START_TIME> */
             anyOrNull(),
             /* </CALL_START_TIME> */
+            any(),
         )
         verify(
             mockParticipantListViewModel,
