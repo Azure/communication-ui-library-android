@@ -48,7 +48,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Puhelu yhden henkilön kanssa</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Soita %1$d henkilölle</string>
     <string name="azure_communication_ui_calling_view_go_back">Edellinen</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(minä)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s (me)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Nimetön osallistuja</string>
     <string name="azure_communication_ui_calling_view_leave_call">Poistutaanko puhelusta?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Poistu</string>
