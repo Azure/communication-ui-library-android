@@ -68,6 +68,8 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">Partager les informations de diagnostic</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Informations de diagnostic</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Bouton Partager les informations de diagnostic</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Call with: %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">Participant list</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>La transcription a démarré.</b> En participant, vous

@@ -10,6 +10,8 @@ import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 import com.azure.android.communication.ui.calling.redux.state.DeviceConfigurationState
 import com.azure.android.communication.ui.calling.redux.state.RttState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
+import com.azure.android.communication.ui.calling.utilities.EventFlow
+import com.azure.android.communication.ui.calling.utilities.MutableEventFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.lang.Integer.min
@@ -25,6 +27,8 @@ internal class ParticipantGridViewModel(
     private var displayedRemoteParticipantsViewModelMap =
         mutableMapOf<String, ParticipantGridCellViewModel>()
 
+    private val mutableParticipantUpdated = MutableEventFlow()
+
     private var updateVideoStreamsCallback: ((List<Pair<String, String>>) -> Unit)? = null
     private var remoteParticipantStateModifiedTimeStamp: Number = 0
     private var dominantSpeakersStateModifiedTimestamp: Number = 0
@@ -34,6 +38,8 @@ internal class ParticipantGridViewModel(
 
     val isVerticalStyleGridFlow: StateFlow<Boolean>
         get() = isVerticalStyleGridMutableFlow
+
+    val participantUpdated: EventFlow = mutableParticipantUpdated
 
     fun init(
         rttState: RttState,
@@ -201,6 +207,9 @@ internal class ParticipantGridViewModel(
             remoteParticipantsUpdatedStateFlow.value =
                 displayedRemoteParticipantsViewModelMap.values.toList()
         }
+
+        // participants list may not be changed, but their state may be changed, like isMuted
+        mutableParticipantUpdated.emit()
     }
 
     private fun sortRemoteParticipants(
