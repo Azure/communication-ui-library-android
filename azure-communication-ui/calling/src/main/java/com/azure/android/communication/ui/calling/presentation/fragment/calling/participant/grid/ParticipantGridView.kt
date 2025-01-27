@@ -183,6 +183,10 @@ internal class ParticipantGridView : GridLayout {
                 getGlobalVisibleRect(sourceRectHint)
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            participantGridViewModel.participantUpdated.events.collect { updateContentDescription() }
+        }
     }
 
     fun stop() {
@@ -203,6 +207,19 @@ internal class ParticipantGridView : GridLayout {
         setGridRowsColumns(displayedRemoteParticipantsViewModel.size)
 
         displayParticipants(displayedRemoteParticipantsView)
+    }
+
+    private fun updateContentDescription() {
+        val muted = context.getString(R.string.azure_communication_ui_calling_view_participant_list_muted_accessibility_label)
+        val unmuted = context.getString(R.string.azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label)
+        val callWith = context.getString(R.string.azure_communication_ui_calling_view_call_with_accessibility_label)
+
+        val participants = participantGridViewModel.getRemoteParticipantsUpdateStateFlow().value.joinToString {
+            val muteState = if (it.getIsMutedStateFlow().value) muted else unmuted
+            "${it.getDisplayNameStateFlow().value}, $muteState."
+        }
+
+        gridView.contentDescription = callWith.format(participants)
     }
 
     private fun displayParticipants(
