@@ -9,6 +9,7 @@ import com.azure.android.communication.ui.calling.models.createCustomButtonClick
 import com.azure.android.communication.ui.calling.presentation.manager.UpdatableOptionsManager
 import com.azure.android.communication.ui.calling.redux.state.ButtonState
 import com.azure.android.communication.ui.calling.redux.state.CallScreenInfoHeaderState
+import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 /* <CALL_START_TIME> */
@@ -23,7 +24,7 @@ internal class InfoHeaderViewModel(
     private val updatableOptionsManager: UpdatableOptionsManager,
     private val logger: Logger,
 ) {
-    private lateinit var displayFloatingHeaderFlow: MutableStateFlow<Boolean>
+    private lateinit var isVisible: MutableStateFlow<Boolean>
     private lateinit var isOverlayDisplayedFlow: MutableStateFlow<Boolean>
     private lateinit var numberOfParticipantsFlow: MutableStateFlow<Int>
     /* <CALL_START_TIME> */
@@ -50,7 +51,7 @@ internal class InfoHeaderViewModel(
     fun getCallDurationFlow(): StateFlow<String> = callDurationFlow
     /* </CALL_START_TIME> */
     fun getIsOverlayDisplayedFlow(): StateFlow<Boolean> = isOverlayDisplayedFlow
-    fun getDisplayFloatingHeaderFlow(): StateFlow<Boolean> = displayFloatingHeaderFlow
+    fun getIsVisible(): StateFlow<Boolean> = isVisible
     fun getNumberOfParticipantsFlow(): StateFlow<Int> = numberOfParticipantsFlow
     fun getCustomButton1StateFlow(): StateFlow<CustomButtonEntry?> = customButton1MutableStateFlow
     fun getCustomButton2StateFlow(): StateFlow<CustomButtonEntry?> = customButton2MutableStateFlow
@@ -67,7 +68,7 @@ internal class InfoHeaderViewModel(
     ) {
         titleStateFlow = MutableStateFlow(callScreenInfoHeaderState.title)
         subtitleStateFlow = MutableStateFlow(callScreenInfoHeaderState.subtitle)
-        displayFloatingHeaderFlow = MutableStateFlow(false)
+        isVisible = MutableStateFlow(false)
         numberOfParticipantsFlow = MutableStateFlow(numberOfRemoteParticipants)
         isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayedOverGrid)
         this.requestCallEndCallback = requestCallEndCallback
@@ -89,6 +90,7 @@ internal class InfoHeaderViewModel(
         /* <CALL_START_TIME> */
         callStartTime: Date?,
         /* </CALL_START_TIME> */
+        visibilityStatus: VisibilityStatus,
     ) {
         this.buttonState = buttonState
         titleStateFlow.value = callScreenInfoHeaderState.title
@@ -103,20 +105,25 @@ internal class InfoHeaderViewModel(
             callDurationFlow.value = ""
         }
         /* </CALL_START_TIME> */
-        if (!displayedOnLaunch) {
+        if (!displayedOnLaunch && visibilityStatus == VisibilityStatus.VISIBLE) {
             displayedOnLaunch = true
-            switchFloatingHeader()
+            isVisible.value = true
         }
         updateCustomButtonsState(buttonState)
         isOverlayDisplayedFlow.value = isOverlayDisplayedOverGrid
+
+        if (visibilityStatus != VisibilityStatus.VISIBLE) {
+            println("DEBUG: visibilityStatus != VisibilityStatus.VISIBLE")
+            dismiss()
+        }
     }
 
     fun switchFloatingHeader() {
-        displayFloatingHeaderFlow.value = !displayFloatingHeaderFlow.value
+        isVisible.value = !isVisible.value
     }
 
     fun dismiss() {
-        displayFloatingHeaderFlow.value = false
+        isVisible.value = false
     }
 
     fun requestCallEnd() {

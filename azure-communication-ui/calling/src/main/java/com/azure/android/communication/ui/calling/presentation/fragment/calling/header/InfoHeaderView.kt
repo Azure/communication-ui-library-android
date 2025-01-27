@@ -70,22 +70,17 @@ internal class InfoHeaderView : ConstraintLayout {
         viewLifecycleOwner: LifecycleOwner,
         infoHeaderViewModel: InfoHeaderViewModel,
         displayParticipantList: () -> Unit,
-        accessibilityEnabled: Boolean
     ) {
         this.infoHeaderViewModel = infoHeaderViewModel
         this.displayParticipantListCallback = displayParticipantList
         setupAccessibility()
         viewLifecycleOwner.lifecycleScope.launchAll(
             {
-                if (accessibilityEnabled) {
-                    floatingHeader.visibility = View.VISIBLE
-                } else {
-                    infoHeaderViewModel.getDisplayFloatingHeaderFlow().collect {
-                        floatingHeader.visibility = if (it) View.VISIBLE else View.GONE
-                        // If we are on television, set the focus to the participants button
-                        if (it && isAndroidTV(context)) {
-                            displayParticipantsImageButton.requestFocus()
-                        }
+                infoHeaderViewModel.getIsVisible().collect {
+                    floatingHeader.visibility = if (it) View.VISIBLE else View.GONE
+                    // If we are on television, set the focus to the participants button
+                    if (it && isAndroidTV(context)) {
+                        displayParticipantsImageButton.requestFocus()
                     }
                 }
             },

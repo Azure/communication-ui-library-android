@@ -47,7 +47,6 @@ internal class UpperMessageBarNotificationView : ConstraintLayout {
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         upperMessageBarNotificationViewModel: UpperMessageBarNotificationViewModel,
-        accessibilityEnabled: Boolean
     ) {
         this.upperMessageBarNotificationViewModel = upperMessageBarNotificationViewModel
         setupAccessibility()
