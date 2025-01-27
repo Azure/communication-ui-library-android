@@ -162,7 +162,6 @@ internal class CallingFragment :
             viewLifecycleOwner,
             viewModel.floatingHeaderViewModel,
             this::displayParticipantList,
-            accessibilityManager.isEnabled
         )
         lobbyHeaderView = view.findViewById(R.id.azure_communication_ui_calling_lobby_header)
         lobbyHeaderView.start(
@@ -181,7 +180,6 @@ internal class CallingFragment :
         upperMessageBarNotificationLayoutView.start(
             viewLifecycleOwner,
             viewModel.upperMessageBarNotificationLayoutViewModel,
-            accessibilityManager.isEnabled
         )
 
         toastNotificationView = view.findViewById(R.id.azure_communication_ui_calling_toast_notification)

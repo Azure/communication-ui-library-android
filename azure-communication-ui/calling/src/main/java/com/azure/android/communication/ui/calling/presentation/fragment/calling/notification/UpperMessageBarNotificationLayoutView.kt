@@ -29,7 +29,6 @@ internal class UpperMessageBarNotificationLayoutView : LinearLayout {
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         upperMessageBarNotificationLayoutViewModel: UpperMessageBarNotificationLayoutViewModel,
-        accessibilityEnabled: Boolean
     ) {
         this.upperMessageBarNotificationLayoutViewModel = upperMessageBarNotificationLayoutViewModel
         upperMessageBarNotificationLayout.visibility = View.VISIBLE
@@ -45,7 +44,6 @@ internal class UpperMessageBarNotificationLayoutView : LinearLayout {
                     upperMessageBarNotificationView.start(
                         viewLifecycleOwner,
                         it,
-                        accessibilityEnabled
                     )
 
                     val layoutParams = LinearLayout.LayoutParams(upperMessageBarNotificationLayout.layoutParams)
