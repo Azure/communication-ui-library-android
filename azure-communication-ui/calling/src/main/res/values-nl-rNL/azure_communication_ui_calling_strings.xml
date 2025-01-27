@@ -68,6 +68,8 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">Diagnostische gegevens delen</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnostische gegevens</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Knop Diagnostische gegevens delen</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Call with: %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">Participant list</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Opname is gestart.</b> Door deel te nemen geeft
