@@ -80,7 +80,6 @@ internal class LocalParticipantView : ConstraintLayout {
 
         if (isAndroidTV(context)) {
             pipAvatar.avatarSize = AvatarSize.MEDIUM
-            // guideline.setGuidelinePercent(0.85f)
             (localPipWrapper.layoutParams as LayoutParams).dimensionRatio = "4:3"
         }
     }
@@ -180,12 +179,12 @@ internal class LocalParticipantView : ConstraintLayout {
             viewModel.getIsOverlayDisplayedFlow().collect {
                 if (it) {
                     ViewCompat.setImportantForAccessibility(
-                        switchCameraButton,
+                        this@LocalParticipantView,
                         ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
                     )
                 } else {
                     ViewCompat.setImportantForAccessibility(
-                        switchCameraButton,
+                        this@LocalParticipantView,
                         ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES
                     )
                 }

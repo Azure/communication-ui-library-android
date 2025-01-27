@@ -11,6 +11,13 @@ internal sealed class NavigationAction :
     class CallLaunchWithoutSetup : NavigationAction()
     class HideSupportForm : NavigationAction()
     class ShowSupportForm : NavigationAction()
+    class ShowCaptionsOptions : NavigationAction()
+    class CloseCaptionsOptions : NavigationAction()
+    class ShowSupportedSpokenLanguagesOptions : NavigationAction()
+    class ShowSupportedCaptionLanguagesOptions : NavigationAction()
+    class HideSupportedLanguagesOptions : NavigationAction()
+    class ShowMoreMenu : NavigationAction()
+    class CloseMoreMenu : NavigationAction()
 
     override fun equals(other: Any?): Boolean {
         return this.javaClass == other?.javaClass

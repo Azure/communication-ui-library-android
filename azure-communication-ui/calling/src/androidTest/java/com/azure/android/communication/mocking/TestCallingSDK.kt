@@ -514,12 +514,6 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
         return emptyList()
     }
 
-/* <RTT_POC>
-override fun getRttSharedFlow(): SharedFlow<Pair<String, String>> {
-    TODO("Not yet implemented")
-}
-</RTT_POC> */
-
     override fun setTelecomManagerAudioRoute(audioRoute: Int) {
     }
 

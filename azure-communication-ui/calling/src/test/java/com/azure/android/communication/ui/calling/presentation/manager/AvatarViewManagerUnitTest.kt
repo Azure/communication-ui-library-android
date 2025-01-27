@@ -8,6 +8,7 @@ import android.widget.ImageView
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantViewData
 import com.azure.android.communication.ui.calling.configuration.RemoteParticipantsConfiguration
+import com.azure.android.communication.ui.calling.helper.StandardTestContextProvider
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 import com.azure.android.communication.ui.calling.models.CallCompositeParticipantViewData
 import com.azure.android.communication.ui.calling.models.CallCompositeSetParticipantViewDataResult
@@ -20,7 +21,6 @@ import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
 import com.azure.android.communication.ui.calling.service.sdk.CommunicationIdentifier
-import com.azure.android.communication.ui.calling.helper.StandardTestContextProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -174,8 +174,8 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                 userIdentifier = "test",
                                 isMuted = true,
                                 isCameraDisabled = false,
-
                                 isSpeaking = true,
+                                isTypingRtt = false,
                                 cameraVideoStreamModel = VideoStreamModel(
                                     videoStreamID = "video",
                                     StreamType.VIDEO
@@ -240,6 +240,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                 isMuted = true,
                                 isCameraDisabled = false,
                                 isSpeaking = true,
+                                isTypingRtt = false,
                                 cameraVideoStreamModel = VideoStreamModel(
                                     videoStreamID = "video",
                                     StreamType.VIDEO
@@ -304,6 +305,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                 isMuted = true,
                                 isCameraDisabled = false,
                                 isSpeaking = true,
+                                isTypingRtt = false,
                                 cameraVideoStreamModel = VideoStreamModel(
                                     videoStreamID = "video",
                                     StreamType.VIDEO
@@ -377,6 +379,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                 isMuted = true,
                                 isCameraDisabled = false,
                                 isSpeaking = true,
+                                isTypingRtt = false,
                                 cameraVideoStreamModel = VideoStreamModel(
                                     videoStreamID = "video",
                                     StreamType.VIDEO
@@ -465,6 +468,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                 isMuted = true,
                                 isCameraDisabled = false,
                                 isSpeaking = true,
+                                isTypingRtt = false,
                                 cameraVideoStreamModel = VideoStreamModel(
                                     videoStreamID = "video",
                                     StreamType.VIDEO
@@ -544,6 +548,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                 isMuted = true,
                                 isCameraDisabled = false,
                                 isSpeaking = true,
+                                isTypingRtt = false,
                                 cameraVideoStreamModel = VideoStreamModel(
                                     videoStreamID = "video",
                                     StreamType.VIDEO
@@ -643,6 +648,7 @@ internal class AvatarViewManagerUnitTest : ACSBaseTestCoroutine() {
                                 isMuted = true,
                                 isCameraDisabled = false,
                                 isSpeaking = true,
+                                isTypingRtt = false,
                                 cameraVideoStreamModel = VideoStreamModel(
                                     videoStreamID = "video",
                                     StreamType.VIDEO

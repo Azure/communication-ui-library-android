@@ -102,16 +102,9 @@ internal class CaptionsLanguageSelectionListView(
         viewModel.languagesListStateFlow.value.forEach { language ->
             items.add(
                 BottomCellItem(
-                    icon = null,
                     title = getLocaleDisplayName(language),
-                    "",
-                    null,
-                    null,
-                    null,
-                    language == viewModel.updateActiveLanguageStateFlow.value,
-                    null,
-                    null,
-                    BottomCellItemType.BottomMenuActionNoIcon,
+                    isChecked = language == viewModel.updateActiveLanguageStateFlow.value,
+                    itemType = BottomCellItemType.BottomMenuActionNoIcon,
                     onClickAction = {
                         viewModel.setActiveLanguage(language)
                     }
@@ -120,23 +113,14 @@ internal class CaptionsLanguageSelectionListView(
         }
         if (viewModel.languageSelectionTypeStateFlow != null) {
             items.add(
-                0,
-                BottomCellItem(
-                    icon = null,
+                index = 0,
+                element = BottomCellItem(
                     title = if (viewModel.languageSelectionTypeStateFlow == LanguageSelectionType.CAPTION) {
                         context.getString(R.string.azure_communication_ui_calling_captions_caption_language_title)
                     } else {
                         context.getString(R.string.azure_communication_ui_calling_captions_spoken_language_title)
                     },
-                    "",
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    isOnHold = null,
-                    BottomCellItemType.BottomMenuCenteredTitle,
-                    onClickAction = null
+                    itemType = BottomCellItemType.BottomMenuCenteredTitle,
                 )
             )
         }

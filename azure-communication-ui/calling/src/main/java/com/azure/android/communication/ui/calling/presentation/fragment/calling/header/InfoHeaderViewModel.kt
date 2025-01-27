@@ -9,7 +9,6 @@ import com.azure.android.communication.ui.calling.models.createCustomButtonClick
 import com.azure.android.communication.ui.calling.presentation.manager.UpdatableOptionsManager
 import com.azure.android.communication.ui.calling.redux.state.ButtonState
 import com.azure.android.communication.ui.calling.redux.state.CallScreenInfoHeaderState
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 /* <CALL_START_TIME> */
@@ -57,10 +56,10 @@ internal class InfoHeaderViewModel(
     fun getCustomButton2StateFlow(): StateFlow<CustomButtonEntry?> = customButton2MutableStateFlow
 
     fun init(
-        callingStatus: CallingStatus,
         numberOfRemoteParticipants: Int,
         callScreenInfoHeaderState: CallScreenInfoHeaderState,
         buttonState: ButtonState,
+        isOverlayDisplayedOverGrid: Boolean,
         requestCallEndCallback: () -> Unit,
         /* <CALL_START_TIME> */
         callStartTime: Date?,
@@ -70,7 +69,7 @@ internal class InfoHeaderViewModel(
         subtitleStateFlow = MutableStateFlow(callScreenInfoHeaderState.subtitle)
         displayFloatingHeaderFlow = MutableStateFlow(false)
         numberOfParticipantsFlow = MutableStateFlow(numberOfRemoteParticipants)
-        isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayed(callingStatus))
+        isOverlayDisplayedFlow = MutableStateFlow(isOverlayDisplayedOverGrid)
         this.requestCallEndCallback = requestCallEndCallback
         this.buttonState = buttonState
         customButton1MutableStateFlow = MutableStateFlow(null)
@@ -86,6 +85,7 @@ internal class InfoHeaderViewModel(
         numberOfRemoteParticipants: Int,
         callScreenInfoHeaderState: CallScreenInfoHeaderState,
         buttonState: ButtonState,
+        isOverlayDisplayedOverGrid: Boolean,
         /* <CALL_START_TIME> */
         callStartTime: Date?,
         /* </CALL_START_TIME> */
@@ -108,10 +108,7 @@ internal class InfoHeaderViewModel(
             switchFloatingHeader()
         }
         updateCustomButtonsState(buttonState)
-    }
-
-    fun updateIsOverlayDisplayed(callingStatus: CallingStatus) {
-        isOverlayDisplayedFlow.value = isOverlayDisplayed(callingStatus)
+        isOverlayDisplayedFlow.value = isOverlayDisplayedOverGrid
     }
 
     fun switchFloatingHeader() {
@@ -136,9 +133,6 @@ internal class InfoHeaderViewModel(
             logger.error("Call screen control bar custom button onClick exception.", e)
         }
     }
-
-    private fun isOverlayDisplayed(callingStatus: CallingStatus) =
-        callingStatus == CallingStatus.IN_LOBBY || callingStatus == CallingStatus.LOCAL_HOLD
 
     /* <CALL_START_TIME> */
     private fun startTimer(callStartDate: Date) {

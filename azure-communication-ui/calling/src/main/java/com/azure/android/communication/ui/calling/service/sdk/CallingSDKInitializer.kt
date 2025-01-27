@@ -102,7 +102,8 @@ internal class CallingSDKInitializer(
     fun createCallAgent(): CompletableFuture<CallAgent> {
         if (callAgentCompletableFuture == null || callAgentCompletableFuture!!.isCompletedExceptionally) {
             callAgentCompletableFuture = CompletableFuture<CallAgent>()
-            val options = CallAgentOptions().apply { displayName = callCompositeConfiguration.displayName }
+            val options = CallAgentOptions()
+            callCompositeConfiguration.displayName?.let { options.displayName = it }
             callCompositeConfiguration.telecomManagerOptions?.let {
                 if (it.telecomManagerIntegrationMode == CallCompositeTelecomManagerIntegrationMode.SDK_PROVIDED_TELECOM_MANAGER) {
                     options.telecomManagerOptions = TelecomManagerOptions(it.phoneAccountId)

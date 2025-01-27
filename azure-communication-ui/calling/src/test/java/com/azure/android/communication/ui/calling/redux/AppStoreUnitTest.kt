@@ -38,15 +38,16 @@ internal class AppStoreUnitTest : ACSBaseTestCoroutine() {
             val participantMap: MutableMap<String, ParticipantInfoModel> = HashMap()
             participantMap["user"] =
                 ParticipantInfoModel(
-                    "user",
-                    "id",
-                    false,
-                    false,
-                    false,
-                    ParticipantStatus.HOLD,
-                    null,
-                    null,
-                    0,
+                    displayName = "user",
+                    userIdentifier = "id",
+                    isMuted = false,
+                    isCameraDisabled = false,
+                    isSpeaking = false,
+                    isTypingRtt = false,
+                    participantStatus = ParticipantStatus.HOLD,
+                    screenShareVideoStreamModel = null,
+                    cameraVideoStreamModel = null,
+                    modifiedTimestamp = 0,
                 )
             stateTest.remoteParticipantState = RemoteParticipantsState(participantMap, 0, listOf(), 0, null, participantMap.size)
 
