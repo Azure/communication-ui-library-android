@@ -15,7 +15,6 @@ import com.azure.android.communication.calling.DeviceManager
 import com.azure.android.communication.calling.Features
 import com.azure.android.communication.calling.GroupCallLocator
 import com.azure.android.communication.calling.HangUpOptions
-import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVideoStream
 import com.azure.android.communication.calling.JoinCallOptions
 import com.azure.android.communication.calling.JoinMeetingLocator
 import com.azure.android.communication.calling.OutgoingAudioOptions
@@ -41,7 +40,7 @@ import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelect
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraState
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
-import java9.util.concurrent.CompletableFuture
+import com.azure.android.communication.ui.calling.utilities.toJavaUtil
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 /*  <CALL_START_TIME> */
@@ -53,6 +52,8 @@ import java.util.Collections
 /*  <CALL_START_TIME> */
 import java.util.Date
 /* </CALL_START_TIME> */
+import java.util.concurrent.CompletableFuture
+import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVideoStream
 
 internal class CallingSDKWrapper(
     private val context: Context,
@@ -72,7 +73,7 @@ internal class CallingSDKWrapper(
     private var localVideoStreamCompletableFuture: CompletableFuture<LocalVideoStream>? = null
     private var endCallCompletableFuture: CompletableFuture<Void>? = null
     private var camerasInitializedCompletableFuture: CompletableFuture<Void>? = null
-    private var setupCallCompletableFuture: CompletableFuture<Void> = CompletableFuture()
+    private val setupCallCompletableFuture: CompletableFuture<Void> = CompletableFuture()
 
     private var videoDevicesUpdatedListener: VideoDevicesUpdatedListener? = null
     private var camerasCountStateFlow = MutableStateFlow(0)
@@ -143,10 +144,12 @@ internal class CallingSDKWrapper(
         return callClient?.debugInfo?.supportFiles ?: Collections.emptyList()
     }
 
-    /* <RTT_POC>
     override fun getRttSharedFlow() = callingSDKEventHandler.getRttTextSharedFlow()
 
-    </RTT_POC> */
+    override fun sendRttMessage(message: String, isFinalized: Boolean) {
+        val rttFeature = call.feature(Features.REAL_TIME_TEXT)
+        rttFeature.send(message, isFinalized)
+    }
 
     //endregion
     override fun getDominantSpeakersSharedFlow() =
@@ -212,7 +215,7 @@ internal class CallingSDKWrapper(
             option.isForEveryone = true
         }
         </END_CALL_FOR_ALL> */
-        endCallCompletableFuture = call.hangUp(option)
+        endCallCompletableFuture = call.hangUp(option).toJavaUtil()
         return endCallCompletableFuture!!
     }
 
@@ -308,17 +311,21 @@ internal class CallingSDKWrapper(
     }
 
     override fun setupCall(): CompletableFuture<Void> {
-        callingSDKInitializer.setupCallClient()?.whenComplete { callClient, _ ->
-            this.callClient = callClient
-            createDeviceManager().handle { _, error: Throwable? ->
+        val setupCallClientFuture = callingSDKInitializer.setupCallClient()!!
+
+        setupCallClientFuture
+            .thenCompose {
+                this.callClient = it
+                CompletableFuture.allOf(createDeviceManager(), createCallAgent())
+            }
+            .whenComplete { _, error ->
                 if (error != null) {
                     setupCallCompletableFuture.completeExceptionally(error)
                 } else {
                     setupCallCompletableFuture.complete(null)
                 }
             }
-            createCallAgent()
-        }
+
         return setupCallCompletableFuture
     }
 
@@ -376,6 +383,7 @@ internal class CallingSDKWrapper(
         this.getLocalVideoStream()
             .thenCompose { videoStream: LocalVideoStream ->
                 call.startVideo(context, videoStream.native as NativeLocalVideoStream)
+                    .toJavaUtil()
                     .whenComplete { _, error: Throwable? ->
                         if (error != null) {
                             result.completeExceptionally(error)
@@ -420,11 +428,11 @@ internal class CallingSDKWrapper(
     }
 
     override fun turnOnMicAsync(): CompletableFuture<Void> {
-        return call.unmute(context)
+        return call.unmute(context).toJavaUtil()
     }
 
     override fun turnOffMicAsync(): CompletableFuture<Void> {
-        return call.mute(context)
+        return call.mute(context).toJavaUtil()
     }
 
     override fun getLocalVideoStream(): CompletableFuture<LocalVideoStream> {
@@ -601,7 +609,7 @@ internal class CallingSDKWrapper(
     }
     //endregion
 
-    private fun createCallAgent(): java.util.concurrent.CompletableFuture<CallAgent> {
+    private fun createCallAgent(): CompletableFuture<CallAgent> {
         return callingSDKInitializer.createCallAgent()
     }
 
@@ -692,16 +700,13 @@ internal class CallingSDKWrapper(
                 }
         }
 
-        CompletableFuture.allOf(
-            deviceManagerCompletableFuture,
-        )
         return deviceManagerCompletableFuture
     }
 
     private fun initializeCameras(): CompletableFuture<Void> {
         if (camerasInitializedCompletableFuture == null) {
             camerasInitializedCompletableFuture = CompletableFuture<Void>()
-            getDeviceManagerCompletableFuture().whenComplete { deviceManager: DeviceManager?, _: Throwable? ->
+            getDeviceManagerCompletableFuture().whenComplete { deviceManager, _ ->
 
                 completeCamerasInitializedCompletableFuture()
                 videoDevicesUpdatedListener =

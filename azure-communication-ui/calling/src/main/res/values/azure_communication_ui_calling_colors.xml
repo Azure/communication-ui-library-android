@@ -8,6 +8,7 @@
     <color name="azure_communication_ui_calling_color_bottom_drawer_background">#FFFFFF</color>
     <color name="azure_communication_ui_calling_color_surface">#E1E1E1</color>
     <color name="azure_communication_ui_calling_color_disabled">#E1E1E1</color>
+    <color name="azure_communication_ui_calling_color_rtt_info">#E1E1E1</color>
     <color name="azure_communication_ui_calling_color_error">#D92C2C</color>
     <color name="azure_communication_ui_calling_color_warning">#FFD335</color>
     <color name="azure_communication_ui_calling_color_success">#13A10E</color>
@@ -40,6 +41,9 @@
     <color name="azure_communication_ui_calling_color_button_background_transparent">#00000000</color>
     <color name="azure_communication_ui_calling_color_floating_header">#99000000</color>
     <color name="azure_communication_ui_calling_color_button_switch_camera">#66000000</color>
+    <color name="azure_communication_ui_calling_color_captions_header_buttons">#66000000</color>
+    <color name="azure_communication_ui_calling_captions_overlay">#50000000</color>
+    <color name="azure_communication_ui_calling_color_drag_handle">#66000000</color>
     <color name="azure_communication_ui_calling_color_transparent_background">#000000</color>
     <color name="azure_communication_ui_calling_color_snack_bar_background">#FFF8DF</color>
     <color name="azure_communication_ui_calling_color_snack_bar_text_color">#8F761E</color>

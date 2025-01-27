@@ -3,7 +3,6 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.lobby
 
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -13,19 +12,14 @@ internal class WaitingLobbyOverlayViewModel {
     fun getDisplayLobbyOverlayFlow(): StateFlow<Boolean> = displayLobbyOverlayFlow
 
     fun init(
-        callingState: CallingStatus,
+        shouldDisplayLobbyOverlay: Boolean,
     ) {
-        val displayLobbyOverlay = shouldDisplayLobbyOverlay(callingState)
-        displayLobbyOverlayFlow = MutableStateFlow(displayLobbyOverlay)
+        displayLobbyOverlayFlow = MutableStateFlow(shouldDisplayLobbyOverlay)
     }
 
     fun update(
-        callingState: CallingStatus,
+        shouldDisplayLobbyOverlay: Boolean,
     ) {
-        val displayLobbyOverlay = shouldDisplayLobbyOverlay(callingState)
-        displayLobbyOverlayFlow.value = displayLobbyOverlay
+        displayLobbyOverlayFlow.value = shouldDisplayLobbyOverlay
     }
-
-    private fun shouldDisplayLobbyOverlay(callingStatus: CallingStatus) =
-        callingStatus == CallingStatus.IN_LOBBY
 }

@@ -26,7 +26,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
-import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
 import com.azure.android.communication.ui.callingcompositedemoapp.features.AdditionalFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.features.FeatureFlags
@@ -354,13 +353,6 @@ class CallLauncherActivity : AppCompatActivity() {
                 showAlert(message)
                 return
             }
-        }
-
-        try {
-            CommunicationTokenCredential(acsToken)
-        } catch (e: Exception) {
-            showAlert("Invalid token")
-            return
         }
 
         callCompositeManager.launch(

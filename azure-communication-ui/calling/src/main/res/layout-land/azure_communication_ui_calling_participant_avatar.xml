@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.microsoft.fluentui.persona.AvatarView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/azure_communication_ui_participant_view_avatar"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:fluentui_avatarSize="large"
+    app:fluentui_name="User"
+    tools:showIn="@layout/azure_communication_ui_calling_participant_avatar_view" />

@@ -16,13 +16,18 @@ import com.azure.android.communication.ui.calling.presentation.manager.Capabilit
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.action.RttAction
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 import com.azure.android.communication.ui.calling.redux.state.LifecycleStatus
 import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import com.azure.android.communication.ui.calling.redux.state.RttState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 internal class CallingViewModel(
     store: Store<ReduxState>,
@@ -35,6 +40,11 @@ internal class CallingViewModel(
     private val capabilitiesManager: CapabilitiesManager,
 ) :
     BaseViewModel(store) {
+
+    private var isCaptionsVisibleMutableFlow = MutableStateFlow(false)
+    // This is a flag to ensure that the call is started only once
+    // This is to avoid a lag between updating isDefaultParametersCallStarted
+    private var callStartRequested = false
 
     val moreCallOptionsListViewModel = callingViewModelProvider.moreCallOptionsListViewModel
     val participantGridViewModel = callingViewModelProvider.participantGridViewModel
@@ -57,13 +67,8 @@ internal class CallingViewModel(
     val captionsListViewModel = callingViewModelProvider.captionsListViewModel
     val captionsLanguageSelectionListViewModel = callingViewModelProvider.captionsLanguageSelectionListViewModel
     val captionsLayoutViewModel = callingViewModelProvider.captionsViewModel
-    /* <RTT_POC>
-    val rttViewModel = callingViewModelProvider.rttViewModel
-    </RTT_POC> */
-
-    // This is a flag to ensure that the call is started only once
-    // This is to avoid a lag between updating isDefaultParametersCallStarted
-    private var callStartRequested = false
+    val isCaptionsVisibleFlow: StateFlow<Boolean> = isCaptionsVisibleMutableFlow
+    var isCaptionsMaximized: Boolean = false
 
     fun switchFloatingHeader() {
         floatingHeaderViewModel.switchFloatingHeader()
@@ -96,12 +101,12 @@ internal class CallingViewModel(
             callState = state.callState,
             requestCallEndCallback = this::requestCallEnd,
             openAudioDeviceSelectionMenuCallback = audioDeviceListViewModel::displayAudioDeviceSelectionMenu,
-            openMoreMenuCallback = moreCallOptionsListViewModel::display,
             visibilityState = state.visibilityState,
             audioVideoMode = state.localParticipantState.audioVideoMode,
             capabilities = state.localParticipantState.capabilities,
             buttonViewDataState = state.buttonState,
             controlBarOptions = callScreenOptions?.controlBarOptions,
+            deviceConfigurationState = state.deviceConfigurationState,
         )
 
         localParticipantViewModel.init(
@@ -113,17 +118,19 @@ internal class CallingViewModel(
             state.localParticipantState.cameraState.device,
             state.localParticipantState.cameraState.camerasCount,
             state.visibilityState.status,
-            avMode
+            avMode,
+            isOverlayDisplayedOverGrid(state),
         )
 
         floatingHeaderViewModel.init(
-            state.callState.callingStatus,
             remoteParticipantsForGridView.count(),
             state.callScreenInfoHeaderState,
-            /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
             state.buttonState,
-            /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+            isOverlayDisplayedOverGrid(state),
             this::requestCallEndOnBackPressed,
+            /* <CALL_START_TIME> */
+            state.callState.callStartTime,
+            /* </CALL_START_TIME> */
         )
 
         audioDeviceListViewModel.init(
@@ -131,7 +138,8 @@ internal class CallingViewModel(
             state.visibilityState
         )
         bannerViewModel.init(
-            state.callState
+            state.callState,
+            isOverlayDisplayedOverGrid(state),
         )
 
         participantMenuViewModel.init(
@@ -141,7 +149,7 @@ internal class CallingViewModel(
         participantListViewModel.init(
             state.remoteParticipantState.participantMap,
             state.localParticipantState,
-            canShowLobby(
+            shouldShowLobby(
                 state.localParticipantState.capabilities,
                 state.visibilityState
             ),
@@ -149,7 +157,7 @@ internal class CallingViewModel(
             state.remoteParticipantState.totalParticipantCount,
         )
 
-        waitingLobbyOverlayViewModel.init(state.callState.callingStatus)
+        waitingLobbyOverlayViewModel.init(shouldDisplayLobbyOverlay(state))
 
         connectingLobbyOverlayViewModel.init(
             state.callState,
@@ -161,12 +169,17 @@ internal class CallingViewModel(
         )
         holdOverlayViewModel.init(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 
-        participantGridViewModel.init(state.callState.callingStatus)
+        participantGridViewModel.init(
+            state.rttState,
+            isOverlayDisplayedOverGrid(state),
+            state.deviceConfigurationState,
+            state.captionsState,
+        )
 
         lobbyHeaderViewModel.init(
             state.callState.callingStatus,
             getLobbyParticipantsForHeader(state),
-            canShowLobby(
+            shouldShowLobby(
                 state.localParticipantState.capabilities,
                 state.visibilityState
             )
@@ -175,26 +188,36 @@ internal class CallingViewModel(
         lobbyErrorHeaderViewModel.init(
             state.callState.callingStatus,
             state.remoteParticipantState.lobbyErrorCode,
-            canShowLobby(
+            shouldShowLobby(
                 state.localParticipantState.capabilities,
                 state.visibilityState,
             )
         )
-        /* <RTT_POC>
-        rttViewModel.init(
-            state.rttState.messages,
-            state.rttState.isRttActive
-        )
-        </RTT_POC> */
 
         captionsListViewModel.init(
-            state.captionsState, state.callState.callingStatus,
-            state.visibilityState, state.buttonState
+            state.captionsState,
+            state.callState.callingStatus,
+            state.visibilityState,
+            state.buttonState,
+            state.rttState,
+            state.navigationState,
         )
-        captionsLanguageSelectionListViewModel.init(state.captionsState, state.visibilityState)
-        captionsLayoutViewModel.init(state.captionsState, state.visibilityState)
+        captionsLanguageSelectionListViewModel.init(state.captionsState, state.visibilityState, state.navigationState)
+        isCaptionsVisibleMutableFlow.value =
+            shouldShowCaptionsUI(state.visibilityState, state.captionsState.status, state.rttState)
+        captionsLayoutViewModel.init(
+            state.captionsState,
+            state.rttState,
+            isCaptionsVisibleMutableFlow.value,
+            state.deviceConfigurationState,
+        )
 
-        moreCallOptionsListViewModel.init(state.visibilityState, state.buttonState)
+        moreCallOptionsListViewModel.init(
+            state.visibilityState,
+            state.buttonState,
+            state.navigationState
+        )
+        isCaptionsMaximized = state.rttState.isMaximized
         super.init(coroutineScope)
     }
 
@@ -228,6 +251,7 @@ internal class CallingViewModel(
             state.localParticipantState.audioVideoMode,
             state.localParticipantState.capabilities,
             state.buttonState,
+            deviceConfigurationState = state.deviceConfigurationState,
         )
 
         localParticipantViewModel.update(
@@ -239,7 +263,8 @@ internal class CallingViewModel(
             state.localParticipantState.cameraState.device,
             state.localParticipantState.cameraState.camerasCount,
             state.visibilityState.status,
-            avMode
+            avMode,
+            shouldDisplayLobbyOverlay(state),
         )
 
         audioDeviceListViewModel.update(
@@ -247,7 +272,7 @@ internal class CallingViewModel(
             state.visibilityState
         )
 
-        waitingLobbyOverlayViewModel.update(state.callState.callingStatus)
+        waitingLobbyOverlayViewModel.update(shouldDisplayLobbyOverlay(state))
         connectingLobbyOverlayViewModel.update(
             state.callState,
             state.localParticipantState.cameraState.operation,
@@ -257,15 +282,17 @@ internal class CallingViewModel(
         )
         holdOverlayViewModel.update(state.callState.callingStatus, state.audioSessionState.audioFocusStatus)
 
-        participantGridViewModel.updateIsLobbyOverlayDisplayed(state.callState.callingStatus)
-
         if (state.callState.callingStatus == CallingStatus.LOCAL_HOLD) {
             participantGridViewModel.update(
                 remoteParticipantsMapUpdatedTimestamp = System.currentTimeMillis(),
                 remoteParticipantsMap = mapOf(),
                 dominantSpeakersInfo = listOf(),
                 dominantSpeakersModifiedTimestamp = System.currentTimeMillis(),
-                state.visibilityState.status,
+                visibilityStatus = state.visibilityState.status,
+                rttState = state.rttState,
+                isOverlayDisplayedOverGrid = isOverlayDisplayedOverGrid(state),
+                deviceConfigurationState = state.deviceConfigurationState,
+                captionsState = state.captionsState,
             )
             floatingHeaderViewModel.dismiss()
             lobbyHeaderViewModel.dismiss()
@@ -280,31 +307,38 @@ internal class CallingViewModel(
                 state.localParticipantState.cameraState.device,
                 state.localParticipantState.cameraState.camerasCount,
                 state.visibilityState.status,
-                avMode
+                avMode,
+                shouldDisplayLobbyOverlay(state),
             )
         }
 
         if (shouldUpdateRemoteParticipantsViewModels(state)) {
             participantGridViewModel.update(
-                state.remoteParticipantState.participantMapModifiedTimestamp,
-                remoteParticipantsForGridView,
-                state.remoteParticipantState.dominantSpeakersInfo,
-                state.remoteParticipantState.dominantSpeakersModifiedTimestamp,
-                state.visibilityState.status,
+                remoteParticipantsMapUpdatedTimestamp = state.remoteParticipantState.participantMapModifiedTimestamp,
+                remoteParticipantsMap = remoteParticipantsForGridView,
+                dominantSpeakersInfo = state.remoteParticipantState.dominantSpeakersInfo,
+                dominantSpeakersModifiedTimestamp = state.remoteParticipantState.dominantSpeakersModifiedTimestamp,
+                visibilityStatus = state.visibilityState.status,
+                rttState = state.rttState,
+                isOverlayDisplayedOverGrid = isOverlayDisplayedOverGrid(state),
+                deviceConfigurationState = state.deviceConfigurationState,
+                captionsState = state.captionsState,
             )
 
             floatingHeaderViewModel.update(
                 totalParticipantCountExceptHidden,
                 state.callScreenInfoHeaderState,
-                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
                 state.buttonState,
-                /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+                isOverlayDisplayedOverGrid(state),
+                /* <CALL_START_TIME> */
+                state.callState.callStartTime
+                /* </CALL_START_TIME> */
             )
 
             lobbyHeaderViewModel.update(
                 state.callState.callingStatus,
                 getLobbyParticipantsForHeader(state),
-                canShowLobby(
+                shouldShowLobby(
                     state.localParticipantState.capabilities,
                     state.visibilityState
                 )
@@ -313,7 +347,7 @@ internal class CallingViewModel(
             lobbyErrorHeaderViewModel.update(
                 state.callState.callingStatus,
                 state.remoteParticipantState.lobbyErrorCode,
-                canShowLobby(
+                shouldShowLobby(
                     state.localParticipantState.capabilities,
                     state.visibilityState
                 )
@@ -335,7 +369,7 @@ internal class CallingViewModel(
                 state.remoteParticipantState.participantMap,
                 state.localParticipantState,
                 state.visibilityState,
-                canShowLobby(
+                shouldShowLobby(
                     state.localParticipantState.capabilities,
                     state.visibilityState
                 ),
@@ -345,39 +379,55 @@ internal class CallingViewModel(
             bannerViewModel.update(
                 state.callState,
                 state.visibilityState,
+                isOverlayDisplayedOverGrid(state),
             )
-
-            /* <RTT_POC>
-            rttViewModel.update(
-                state.rttState.messages,
-                state.rttState.isRttActive
-            )
-            </RTT_POC> */
         }
 
         confirmLeaveOverlayViewModel.update(state.visibilityState)
-        moreCallOptionsListViewModel.update(state.visibilityState, state.buttonState)
+        moreCallOptionsListViewModel.update(
+            state.visibilityState,
+            state.buttonState,
+            state.navigationState
+        )
 
         state.localParticipantState.cameraState.error?.let {
             errorInfoViewModel.updateCallCompositeError(it)
         }
 
-        updateOverlayDisplayedState(state.callState.callingStatus)
-
         captionsListViewModel.update(
-            state.captionsState, state.callState.callingStatus,
-            state.visibilityState, state.buttonState
+            state.captionsState,
+            state.callState.callingStatus,
+            state.visibilityState,
+            state.buttonState,
+            state.rttState,
+            state.navigationState,
         )
-        captionsLanguageSelectionListViewModel.update(state.captionsState, state.visibilityState)
-        captionsLayoutViewModel.update(state.captionsState, state.visibilityState)
+        captionsLanguageSelectionListViewModel.update(
+            state.captionsState,
+            state.visibilityState,
+            state.navigationState
+        )
+
+        isCaptionsVisibleMutableFlow.value = shouldShowCaptionsUI(
+            state.visibilityState,
+            state.captionsState.status,
+            state.rttState,
+        )
+        captionsLayoutViewModel.update(
+            captionsState = state.captionsState,
+            rttState = state.rttState,
+            isVisible = isCaptionsVisibleMutableFlow.value,
+            deviceConfigurationState = state.deviceConfigurationState,
+        )
+        isCaptionsMaximized = state.rttState.isMaximized
     }
 
     private fun getLobbyParticipantsForHeader(state: ReduxState) =
-        if (canShowLobby(state.localParticipantState.capabilities, state.visibilityState))
+        if (shouldShowLobby(state.localParticipantState.capabilities, state.visibilityState))
             state.remoteParticipantState.participantMap.filter { it.value.participantStatus == ParticipantStatus.IN_LOBBY }
         else mapOf()
 
-    private fun canShowLobby(
+    private fun shouldShowLobby(
         capabilities: Set<ParticipantCapabilityType>,
         visibilityState: VisibilityState,
     ): Boolean {
@@ -405,13 +455,32 @@ internal class CallingViewModel(
         return isOutgoingCallInProgress || isOnRemoteHold || isConnected
     }
 
-    private fun updateOverlayDisplayedState(callingStatus: CallingStatus) {
-        floatingHeaderViewModel.updateIsOverlayDisplayed(callingStatus)
-        bannerViewModel.updateIsOverlayDisplayed(callingStatus)
-        localParticipantViewModel.updateIsOverlayDisplayed(callingStatus)
-    }
-
     private fun leaveCallWithoutConfirmation() {
         confirmLeaveOverlayViewModel.confirm()
+    }
+
+    fun shouldShowCaptionsUI(
+        visibilityState: VisibilityState,
+        captionsStatus: CaptionsStatus,
+        rttState: RttState,
+    ) =
+        visibilityState.status == VisibilityStatus.VISIBLE && (
+            rttState.isRttActive ||
+                captionsStatus == CaptionsStatus.STARTED ||
+                captionsStatus == CaptionsStatus.START_REQUESTED ||
+                captionsStatus == CaptionsStatus.STOP_REQUESTED
+            )
+
+    fun minimizeCaptions() {
+        dispatchAction(RttAction.UpdateMaximized(false))
+    }
+
+    private fun shouldDisplayLobbyOverlay(state: ReduxState) =
+        state.callState.callingStatus == CallingStatus.IN_LOBBY
+
+    private fun isOverlayDisplayedOverGrid(state: ReduxState): Boolean {
+        return shouldDisplayLobbyOverlay(state) ||
+            state.callState.callingStatus == CallingStatus.LOCAL_HOLD ||
+            state.rttState.isMaximized
     }
 }

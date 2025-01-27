@@ -28,6 +28,27 @@ internal class NavigationReducerImpl : NavigationReducer {
             is NavigationAction.ShowSupportForm -> {
                 state.copy(supportVisible = true)
             }
+            is NavigationAction.ShowCaptionsOptions -> {
+                state.copy(showCaptionsToggleUI = true)
+            }
+            is NavigationAction.CloseCaptionsOptions -> {
+                state.copy(showCaptionsToggleUI = false)
+            }
+            is NavigationAction.ShowSupportedSpokenLanguagesOptions -> {
+                state.copy(showSupportedSpokenLanguagesSelection = true)
+            }
+            is NavigationAction.ShowSupportedCaptionLanguagesOptions -> {
+                state.copy(showSupportedCaptionLanguagesSelections = true)
+            }
+            is NavigationAction.HideSupportedLanguagesOptions -> {
+                state.copy(showSupportedSpokenLanguagesSelection = false, showSupportedCaptionLanguagesSelections = false)
+            }
+            is NavigationAction.ShowMoreMenu -> {
+                state.copy(showMoreMenu = true)
+            }
+            is NavigationAction.CloseMoreMenu -> {
+                state.copy(showMoreMenu = false)
+            }
             else -> state
         }
     }

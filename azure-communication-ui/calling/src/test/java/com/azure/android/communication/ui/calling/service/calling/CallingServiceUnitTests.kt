@@ -7,39 +7,38 @@ import com.azure.android.communication.calling.CallParticipantRole
 import com.azure.android.communication.calling.CallState
 import com.azure.android.communication.calling.CallingCommunicationErrors
 import com.azure.android.communication.calling.CallingCommunicationException
-import com.azure.android.communication.ui.calling.service.CallingService
-import com.azure.android.communication.ui.calling.error.ErrorCode
-import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
-import com.azure.android.communication.ui.calling.helper.MockitoHelper.any
-import com.azure.android.communication.ui.calling.redux.state.CallingStatus
-import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
-import com.azure.android.communication.ui.calling.redux.state.CameraState
-import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
-import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
-import com.azure.android.communication.ui.calling.redux.state.AudioState
-import com.azure.android.communication.ui.calling.redux.state.BluetoothState
-import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
-import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
-import com.azure.android.communication.ui.calling.service.sdk.CallingStateWrapper
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
-import com.azure.android.communication.ui.calling.models.ParticipantRole
+import com.azure.android.communication.ui.calling.error.ErrorCode
+import com.azure.android.communication.ui.calling.helper.MockitoHelper.any
 import com.azure.android.communication.ui.calling.helper.UnconfinedTestContextProvider
+import com.azure.android.communication.ui.calling.models.CallCompositeEventCode
+import com.azure.android.communication.ui.calling.models.CallCompositeLobbyErrorCode
 import com.azure.android.communication.ui.calling.models.CallInfoModel
 import com.azure.android.communication.ui.calling.models.MediaCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.NetworkQualityCallDiagnosticModel
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
+import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
+import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
+import com.azure.android.communication.ui.calling.redux.state.AudioState
+import com.azure.android.communication.ui.calling.redux.state.BluetoothState
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
+import com.azure.android.communication.ui.calling.redux.state.CameraState
+import com.azure.android.communication.ui.calling.redux.state.CameraTransmissionStatus
+import com.azure.android.communication.ui.calling.service.CallingService
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDK
+import com.azure.android.communication.ui.calling.service.sdk.CallingStateWrapper
 import com.azure.android.communication.ui.calling.service.sdk.CallingStateWrapper.Companion.CALL_END_REASON_EVICTED
 import com.azure.android.communication.ui.calling.service.sdk.CallingStateWrapper.Companion.CALL_END_REASON_SUB_CODE_DECLINED
 import com.azure.android.communication.ui.calling.service.sdk.DominantSpeakersInfo
 import com.azure.android.communication.ui.calling.service.sdk.LocalVideoStream
 import com.azure.android.communication.ui.calling.service.sdk.getLobbyErrorCode
 import com.azure.android.communication.ui.calling.service.sdk.into
-
-import java9.util.concurrent.CompletableFuture
+import java.util.concurrent.CompletableFuture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -314,6 +313,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 isMuted = false,
                 isCameraDisabled = false,
                 isSpeaking = false,
+                isTypingRtt = false,
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 0,
@@ -325,6 +325,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 isMuted = false,
                 isCameraDisabled = false,
                 isSpeaking = false,
+                isTypingRtt = false,
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 0,
@@ -336,6 +337,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 isMuted = false,
                 isCameraDisabled = false,
                 isSpeaking = false,
+                isTypingRtt = false,
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 0,
@@ -347,6 +349,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 isMuted = false,
                 isCameraDisabled = false,
                 isSpeaking = false,
+                isTypingRtt = false,
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 0,
@@ -358,6 +361,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 isMuted = false,
                 isCameraDisabled = false,
                 isSpeaking = false,
+                isTypingRtt = false,
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 0,
@@ -369,6 +373,7 @@ internal class CallingServiceUnitTests : ACSBaseTestCoroutine() {
                 isMuted = false,
                 isCameraDisabled = false,
                 isSpeaking = false,
+                isTypingRtt = false,
                 screenShareVideoStreamModel = null,
                 cameraVideoStreamModel = null,
                 modifiedTimestamp = 0,

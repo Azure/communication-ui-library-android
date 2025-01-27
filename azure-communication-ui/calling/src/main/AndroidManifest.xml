@@ -31,6 +31,9 @@
             android:excludeFromRecents="true"
             android:taskAffinity="com.azure.android.communication.ui.calling.presentation.CallCompositeActivity"
             android:theme="@style/AzureCommunicationUICalling.Theme"
+            android:windowSoftInputMode="adjustResize"
+            android:showOnLockScreen="true"
+            android:turnScreenOn="true"
             />
 
         <activity
@@ -41,6 +44,9 @@
             android:excludeFromRecents="true"
             android:taskAffinity="com.azure.android.communication.ui.calling.presentation.CallCompositeActivity"
             android:theme="@style/AzureCommunicationUICalling.Theme"
+            android:windowSoftInputMode="adjustResize"
+            android:showOnLockScreen="true"
+            android:turnScreenOn="true"
             />
         <uses-library
             android:name="org.apache.http.legacy"
@@ -52,6 +58,9 @@
             android:launchMode="singleTop"
             android:theme="@style/AzureCommunicationUICalling.Theme"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            android:showOnLockScreen="true"
+            android:turnScreenOn="true"
             />
 
         <service

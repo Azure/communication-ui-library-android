@@ -22,7 +22,4 @@ internal data class CaptionsState(
     val captionLanguage: String? = null,
     val isTranslationSupported: Boolean = false,
     val captionsType: CallCompositeCaptionsType = CallCompositeCaptionsType.NONE,
-    val showCaptionsToggleUI: Boolean = false,
-    val showSupportedSpokenLanguagesSelection: Boolean = false,
-    val showSupportedCaptionLanguagesSelections: Boolean = false,
 )

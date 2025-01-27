@@ -113,15 +113,8 @@ internal class ParticipantMenuView(
             BottomCellItem(
                 icon = null,
                 title = viewModel.displayName ?: "",
-                contentDescription = null,
-                accessoryImage = null,
-                accessoryColor = null,
-                accessoryImageDescription = null,
-                isChecked = null,
-                participantViewData = null,
                 isOnHold = false,
                 itemType = BottomCellItemType.BottomMenuCenteredTitle,
-                onClickAction = null
             ),
             BottomCellItem(
                 icon = ContextCompat.getDrawable(
@@ -130,11 +123,6 @@ internal class ParticipantMenuView(
                 ),
                 title = context.getString(R.string.azure_communication_ui_calling_view_participant_menu_remove),
                 contentDescription = removeParticipantContentDescription,
-                accessoryImage = null,
-                accessoryColor = null,
-                accessoryImageDescription = null,
-                isChecked = null,
-                participantViewData = null,
                 isOnHold = false,
                 isEnabled = viewModel.remoteParticipantEnabledFlow.value,
                 onClickAction = {

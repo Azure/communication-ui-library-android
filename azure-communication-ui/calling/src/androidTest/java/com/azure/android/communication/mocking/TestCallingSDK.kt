@@ -456,11 +456,16 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
 
     /*  <CALL_START_TIME> */
     override fun getCallStartTimeSharedFlow(): SharedFlow<Date> {
-        return MutableSharedFlow()
+        var date = Date()
+        return MutableSharedFlow<Date>().apply {
+            coroutineScope.launch {
+                emit(date)
+            }
+        }
     }
 
     override fun getCallStartTime(): Date? {
-        return null
+        return Date()
     }
     /* </CALL_START_TIME> */
 
@@ -508,12 +513,6 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
     override fun getLogFiles(): List<File> {
         return emptyList()
     }
-
-/* <RTT_POC>
-override fun getRttSharedFlow(): SharedFlow<Pair<String, String>> {
-    TODO("Not yet implemented")
-}
-</RTT_POC> */
 
     override fun setTelecomManagerAudioRoute(audioRoute: Int) {
     }

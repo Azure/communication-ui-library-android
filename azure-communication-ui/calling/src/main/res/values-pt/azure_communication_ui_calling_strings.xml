@@ -68,6 +68,8 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">Compartilhar informações de diagnóstico</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Informações de diagnóstico</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Botão Compartilhar informações de diagnóstico</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Call with: %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">Participant list</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>A transcrição foi iniciada.</b> Ingressando, você está
@@ -193,5 +195,22 @@ dando consentimento para que esta reunião seja transcrita.
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Não é possível parar as legendas</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Não é possível alterar o idioma falado</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Não é possível alterar o idioma da legenda</string>
-
+   <string name="azure_communication_ui_calling_captions_rtt_menu">Captions &amp; RTT</string>
+   <string name="azure_communication_ui_calling_rtt_info">Real-time text (RTT) is enabled for the entire duration of this meeting and is seen by all participants. <a href='https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text'>Learn more</a></string>
+   <string name="azure_communication_ui_calling_rtt">RTT</string>
+   <string name="azure_communication_ui_calling_rtt_message_sent">Message sent</string>
+   <string name="azure_communication_ui_calling_rtt_typing">RTT typing</string>
+   <string name="azure_communication_ui_calling_captions_turn_on_rtt">Turn on RTT for this call</string>
+   <string name="azure_communication_ui_calling_captions_turn_on">Turn captions on</string>
+   <string name="azure_communication_ui_calling_captions_turn_off">Turn captions off</string>
+   <string name="azure_communication_ui_calling_captions_is_on">Captions are on</string>
+   <string name="azure_communication_ui_calling_captions_is_off">Captions are off</string>
+   <string name="azure_communication_ui_calling_view_rtt_confirmation_title">Turn on RTT?</string>
+   <string name="azure_communication_ui_calling_view_rtt_confirmation_message">Real-time text (RTT) will be turned on for everyone in the call.</string>
+   <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">Turn on</string>
+   <string name="azure_communication_ui_calling_rtt_header">Real-time text</string>
+   <string name="azure_communication_ui_calling_captions_header">Captions</string>
+   <string name="azure_communication_ui_calling_maximize_captions_and_rtt">Maximize captions and RTT</string>
+   <string name="azure_communication_ui_calling_minimize_captions_and_rtt">Minimize captions and RTT</string>
+   <string name="azure_communication_ui_calling_rtt_edit_text_hint">Type message in real-time</string>
 </resources>
