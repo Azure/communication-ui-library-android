@@ -12,6 +12,7 @@ import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CustomButtonState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
+import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -103,6 +104,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 /* <CALL_START_TIME> */
                 null,
                 /* </CALL_START_TIME> */
+                VisibilityStatus.VISIBLE,
             )
 
             // assert
@@ -185,6 +187,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 /* <CALL_START_TIME> */
                 null,
                 /* </CALL_START_TIME> */
+                VisibilityStatus.VISIBLE,
             )
             floatingHeaderViewModel.update(
                 1,
@@ -194,6 +197,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 /* <CALL_START_TIME> */
                 null,
                 /* </CALL_START_TIME> */
+                VisibilityStatus.VISIBLE,
             )
 
             // assert
@@ -301,6 +305,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 /* <CALL_START_TIME> */
                 null,
                 /* </CALL_START_TIME> */
+                VisibilityStatus.VISIBLE,
             )
 
             // assert
@@ -392,6 +397,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 appState.buttonState,
                 isOverlayDisplayedOverGrid = false,
                 Date(),
+                VisibilityStatus.VISIBLE,
             )
 
             // add delay to get timer update
@@ -515,6 +521,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 /* <CALL_START_TIME> */
                 null,
                 /* </CALL_START_TIME> */
+                VisibilityStatus.VISIBLE,
             )
 
             Assert.assertEquals(2, customButton1StateFlow.size)
@@ -543,6 +550,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 /* <CALL_START_TIME> */
                 null,
                 /* </CALL_START_TIME> */
+                VisibilityStatus.VISIBLE,
             )
 
             Assert.assertEquals(2, customButton1StateFlow.size)
@@ -556,6 +564,126 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
 
             flowButton1.cancel()
             flowButton2.cancel()
+        }
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun floatingHeaderViewModel_update_then_isNotVisibleIfVisibilityStateNotVisible() {
+        runScopedTest {
+
+            val appState = AppReduxState("", false, false)
+
+            val participantInfoModel1 = mock<ParticipantInfoModel> {}
+            val participantInfoModel2 = mock<ParticipantInfoModel> {}
+            val participantInfoModel3 = mock<ParticipantInfoModel> {}
+            val expectedParticipantMap: Map<String, ParticipantInfoModel> = mapOf(
+                "p1" to participantInfoModel1,
+                "p2" to participantInfoModel2,
+                "p3" to participantInfoModel3
+            )
+            val timestamp: Number = System.currentTimeMillis()
+
+            appState.remoteParticipantState = RemoteParticipantsState(
+                expectedParticipantMap,
+                timestamp,
+                listOf(),
+                0,
+                lobbyErrorCode = null,
+                totalParticipantCount = 0,
+            )
+            appState.callState = CallingState(
+                CallingStatus.CONNECTED,
+                joinCallIsRequested = false,
+                isRecording = false,
+                isTranscribing = false
+            )
+
+            val floatingHeaderViewModel = InfoHeaderViewModel(
+                false,
+                mock(), mock()
+            )
+            floatingHeaderViewModel.init(
+                expectedParticipantMap.count(),
+                CallScreenInfoHeaderState(
+                    null,
+                    null,
+                    /* <CALL_START_TIME> */
+                    false
+                    /* </CALL_START_TIME> */
+                ),
+                appState.buttonState,
+                isOverlayDisplayedOverGrid = false,
+                { },
+                /* <CALL_START_TIME> */
+                null,
+                /* </CALL_START_TIME> */
+            )
+
+            val isVisibleFlow = mutableListOf<Boolean>()
+
+            val flowJob = launch {
+                floatingHeaderViewModel.getIsVisible().toList(isVisibleFlow)
+            }
+
+            // act
+            floatingHeaderViewModel.update(
+                expectedParticipantMap.count(),
+                CallScreenInfoHeaderState(
+                    null,
+                    null,
+                    /* <CALL_START_TIME> */
+                    false
+                    /* </CALL_START_TIME> */
+                ),
+                appState.buttonState,
+                isOverlayDisplayedOverGrid = false,
+                /* <CALL_START_TIME> */
+                null,
+                /* </CALL_START_TIME> */
+                VisibilityStatus.PIP_MODE_ENTERED,
+            )
+
+            floatingHeaderViewModel.update(
+                expectedParticipantMap.count(),
+                CallScreenInfoHeaderState(
+                    null,
+                    null,
+                    /* <CALL_START_TIME> */
+                    false
+                    /* </CALL_START_TIME> */
+                ),
+                appState.buttonState,
+                isOverlayDisplayedOverGrid = false,
+                /* <CALL_START_TIME> */
+                null,
+                /* </CALL_START_TIME> */
+                VisibilityStatus.VISIBLE,
+            )
+
+            floatingHeaderViewModel.update(
+                expectedParticipantMap.count(),
+                CallScreenInfoHeaderState(
+                    null,
+                    null,
+                    /* <CALL_START_TIME> */
+                    false
+                    /* </CALL_START_TIME> */
+                ),
+                appState.buttonState,
+                isOverlayDisplayedOverGrid = false,
+                /* <CALL_START_TIME> */
+                null,
+                /* </CALL_START_TIME> */
+                VisibilityStatus.HIDDEN,
+            )
+
+            // assert
+            Assert.assertFalse(isVisibleFlow[0])
+            Assert.assertTrue(isVisibleFlow[1])
+            Assert.assertFalse(isVisibleFlow[2])
+
+            flowJob.cancel()
         }
     }
 }

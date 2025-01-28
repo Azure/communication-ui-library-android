@@ -124,8 +124,8 @@ internal class MoreCallOptionsListViewModel(
     }
 
     fun close() {
-//        displayStateFlow.value = false
-        dispatch(NavigationAction.CloseMoreMenu())
+        if (displayStateFlow.value)
+            dispatch(NavigationAction.CloseMoreMenu())
     }
 
     fun requestReportIssueScreen() {
