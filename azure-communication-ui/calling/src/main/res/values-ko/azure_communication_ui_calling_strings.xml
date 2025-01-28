@@ -159,6 +159,7 @@
     <string name="azure_communication_ui_calling_report_issue_title">문제 신고</string>
     <string name="azure_communication_ui_calling_logs_attach_notice">로그를 자동으로 첨부합니다.</string>
     <string name="azure_communication_ui_calling_privacy_policy_label">개인정보처리방침</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">Privacy Policy. Link.</string>
     <string name="azure_communication_ui_calling_describe_your_issue_hint_text">문제를 설명해 주세요...</string>
     <string name="azure_communication_ui_calling_cancel_button_label">취소</string>
     <string name="azure_communication_ui_calling_attach_screenshot">스크린샷 첨부</string>
@@ -197,6 +198,7 @@
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">캡션 언어를 변경할 수 없음</string>
     <string name="azure_communication_ui_calling_captions_rtt_menu">Captions &amp; RTT</string>
     <string name="azure_communication_ui_calling_rtt_info">Real-time text (RTT) is enabled for the entire duration of this meeting and is seen by all participants. <a href='https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text'>Learn more</a></string>
+    <string name="azure_communication_ui_calling_rtt_info_accessibility">Real-time text (RTT) is enabled for the entire duration of this meeting and is seen by all participants. Learn more. Link</string>
     <string name="azure_communication_ui_calling_rtt">RTT</string>
     <string name="azure_communication_ui_calling_rtt_message_sent">Message sent</string>
     <string name="azure_communication_ui_calling_rtt_typing">RTT typing</string>
