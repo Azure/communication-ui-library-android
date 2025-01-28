@@ -196,22 +196,22 @@
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">يتعذّر إيقاف التسميات التوضيحية</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">يتعذّر تغيير اللغة المنطوقة</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">يتعذّر تغيير لغة التسمية التوضيحية</string>
-    <string name="azure_communication_ui_calling_captions_rtt_menu">Captions &amp; RTT</string>
-    <string name="azure_communication_ui_calling_rtt_info">Real-time text (RTT) is enabled for the entire duration of this meeting and is seen by all participants. <a href='https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text'>Learn more</a></string>
-    <string name="azure_communication_ui_calling_rtt">RTT</string>
-    <string name="azure_communication_ui_calling_rtt_message_sent">Message sent</string>
-    <string name="azure_communication_ui_calling_rtt_typing">RTT typing</string>
-    <string name="azure_communication_ui_calling_captions_turn_on_rtt">Turn on RTT for this call</string>
-    <string name="azure_communication_ui_calling_captions_turn_on">Turn captions on</string>
-    <string name="azure_communication_ui_calling_captions_turn_off">Turn captions off</string>
-    <string name="azure_communication_ui_calling_captions_is_on">Captions are on</string>
-    <string name="azure_communication_ui_calling_captions_is_off">Captions are off</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">Turn on RTT?</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">Real-time text (RTT) will be turned on for everyone in the call.</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">Turn on</string>
-    <string name="azure_communication_ui_calling_rtt_header">Real-time text</string>
-    <string name="azure_communication_ui_calling_captions_header">Captions</string>
-    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">Maximize captions and RTT</string>
-    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">Minimize captions and RTT</string>
-    <string name="azure_communication_ui_calling_rtt_edit_text_hint">Type message in real-time</string>
+    <string name="azure_communication_ui_calling_captions_rtt_menu">التسميات التوضيحية &amp; RTT</string>
+    <string name="azure_communication_ui_calling_rtt_info">تم تمكين نص الوقت الحقيقي (RTT) طوال مدة هذا الاجتماع ويمكن لجميع المشاركين مشاهدته. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">معرفة المزيد</a></string>
+    <string name="azure_communication_ui_calling_rtt">عرض الكتابة في الوقت الحقيقي (RTT)</string>
+    <string name="azure_communication_ui_calling_rtt_message_sent">تم إرسال الرسالة</string>
+    <string name="azure_communication_ui_calling_rtt_typing">عرض الكتابة في الوقت الحقيقي (RTT) قيد الكتابة</string>
+    <string name="azure_communication_ui_calling_captions_turn_on_rtt">تشغيل RTT لهذه المكالمة</string>
+    <string name="azure_communication_ui_calling_captions_turn_on">تشغيل التسميات التوضيحية</string>
+    <string name="azure_communication_ui_calling_captions_turn_off">إيقاف تشغيل التسميات التوضيحية</string>
+    <string name="azure_communication_ui_calling_captions_is_on">التسميات التوضيحية قيد التشغيل</string>
+    <string name="azure_communication_ui_calling_captions_is_off">التسميات التوضيحية قيد الإيقاف</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">هل تريد تشغيل عرض الكتابة في الوقت الحقيقي؟</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">سيتم تشغيل النص في الوقت الحقيقي (RTT) للجميع في المكالمة.</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">تشغيل</string>
+    <string name="azure_communication_ui_calling_rtt_header">نص حقيقي</string>
+    <string name="azure_communication_ui_calling_captions_header">تسميات توضيحية</string>
+    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">تكبير التسميات التوضيحية وRTT</string>
+    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">تصغير التسميات التوضيحية وRTT</string>
+    <string name="azure_communication_ui_calling_rtt_edit_text_hint">كتابة الرسالة في الوقت الحقيقي</string>
 </resources>
