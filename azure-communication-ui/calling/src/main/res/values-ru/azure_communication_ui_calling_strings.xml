@@ -48,7 +48,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Звонок с 1 пользователем</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Звонок с несколькими (%1$d) людьми</string>
     <string name="azure_communication_ui_calling_view_go_back">Назад</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(Я)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(me)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Участник без имени</string>
     <string name="azure_communication_ui_calling_view_leave_call">Покинуть звонок?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Покинуть</string>
@@ -196,23 +196,23 @@
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Не удалось остановить субтитры</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Не удалось изменить язык речи</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Не удалось изменить язык субтитров</string>
-    <string name="azure_communication_ui_calling_captions_rtt_menu">Captions &amp; RTT</string>
-    <string name="azure_communication_ui_calling_rtt_info">Real-time text (RTT) is enabled for the entire duration of this meeting and is seen by all participants. <a href='https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text'>Learn more</a></string>
+    <string name="azure_communication_ui_calling_captions_rtt_menu">Субтитры и ввод в режиме реального времени</string>
+    <string name="azure_communication_ui_calling_rtt_info">Текст в режиме реального времени (RTT) включен на весь период этого собрания и виден всем участникам. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">Дополнительные сведения</a></string>
     <string name="azure_communication_ui_calling_rtt_info_accessibility">Real-time text (RTT) is enabled for the entire duration of this meeting and is seen by all participants. Learn more. Link</string>
-    <string name="azure_communication_ui_calling_rtt">RTT</string>
-    <string name="azure_communication_ui_calling_rtt_message_sent">Message sent</string>
-    <string name="azure_communication_ui_calling_rtt_typing">RTT typing</string>
-    <string name="azure_communication_ui_calling_captions_turn_on_rtt">Turn on RTT for this call</string>
-    <string name="azure_communication_ui_calling_captions_turn_on">Turn captions on</string>
-    <string name="azure_communication_ui_calling_captions_turn_off">Turn captions off</string>
-    <string name="azure_communication_ui_calling_captions_is_on">Captions are on</string>
-    <string name="azure_communication_ui_calling_captions_is_off">Captions are off</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">Turn on RTT?</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">Real-time text (RTT) will be turned on for everyone in the call.</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">Turn on</string>
-    <string name="azure_communication_ui_calling_rtt_header">Real-time text</string>
-    <string name="azure_communication_ui_calling_captions_header">Captions</string>
-    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">Maximize captions and RTT</string>
-    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">Minimize captions and RTT</string>
-    <string name="azure_communication_ui_calling_rtt_edit_text_hint">Type message in real-time</string>
+    <string name="azure_communication_ui_calling_rtt">Ввод в режиме реального времени</string>
+    <string name="azure_communication_ui_calling_rtt_message_sent">Сообщение отправлено</string>
+    <string name="azure_communication_ui_calling_rtt_typing">Ввод с клавиатуры в режиме реального времени</string>
+    <string name="azure_communication_ui_calling_captions_turn_on_rtt">Включить ввод в режиме реального времени для этого звонка</string>
+    <string name="azure_communication_ui_calling_captions_turn_on">Включить субтитры</string>
+    <string name="azure_communication_ui_calling_captions_turn_off">Отключить субтитры</string>
+    <string name="azure_communication_ui_calling_captions_is_on">Субтитры включены</string>
+    <string name="azure_communication_ui_calling_captions_is_off">Субтитры отключены</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">Включить ввод в режиме реального времени?</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">Ввод текста в режиме реального времени (RTT) будет включен для всех участников звонка.</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">Включить</string>
+    <string name="azure_communication_ui_calling_rtt_header">Текст в режиме реального времени</string>
+    <string name="azure_communication_ui_calling_captions_header">Субтитры</string>
+    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">Развернуть субтитры и ввод в режиме реального времени</string>
+    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">Свернуть субтитры и ввод в режиме реального времени</string>
+    <string name="azure_communication_ui_calling_rtt_edit_text_hint">Введите сообщение в режиме реального времени</string>
 </resources>

@@ -48,7 +48,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">与 1 个人通话</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">与 %1$d 人通话</string>
     <string name="azure_communication_ui_calling_view_go_back">返回</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(我)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(me)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">未命名的参与者</string>
     <string name="azure_communication_ui_calling_view_leave_call">离开会议?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">离开</string>
@@ -196,23 +196,23 @@
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">无法停止字幕</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">无法更改口语</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">无法更改标题语言</string>
-    <string name="azure_communication_ui_calling_captions_rtt_menu">Captions &amp; RTT</string>
-    <string name="azure_communication_ui_calling_rtt_info">Real-time text (RTT) is enabled for the entire duration of this meeting and is seen by all participants. <a href='https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text'>Learn more</a></string>
+    <string name="azure_communication_ui_calling_captions_rtt_menu">字幕和字幕RTT</string>
+    <string name="azure_communication_ui_calling_rtt_info">在此会议的整个持续时间内启用了实时文本 (RTT)，并且所有参与者都可以看到该文本。<a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">了解详细</a></string>
     <string name="azure_communication_ui_calling_rtt_info_accessibility">Real-time text (RTT) is enabled for the entire duration of this meeting and is seen by all participants. Learn more. Link</string>
     <string name="azure_communication_ui_calling_rtt">RTT</string>
-    <string name="azure_communication_ui_calling_rtt_message_sent">Message sent</string>
-    <string name="azure_communication_ui_calling_rtt_typing">RTT typing</string>
-    <string name="azure_communication_ui_calling_captions_turn_on_rtt">Turn on RTT for this call</string>
-    <string name="azure_communication_ui_calling_captions_turn_on">Turn captions on</string>
-    <string name="azure_communication_ui_calling_captions_turn_off">Turn captions off</string>
-    <string name="azure_communication_ui_calling_captions_is_on">Captions are on</string>
-    <string name="azure_communication_ui_calling_captions_is_off">Captions are off</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">Turn on RTT?</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">Real-time text (RTT) will be turned on for everyone in the call.</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">Turn on</string>
-    <string name="azure_communication_ui_calling_rtt_header">Real-time text</string>
-    <string name="azure_communication_ui_calling_captions_header">Captions</string>
-    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">Maximize captions and RTT</string>
-    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">Minimize captions and RTT</string>
-    <string name="azure_communication_ui_calling_rtt_edit_text_hint">Type message in real-time</string>
+    <string name="azure_communication_ui_calling_rtt_message_sent">已发送消息</string>
+    <string name="azure_communication_ui_calling_rtt_typing">RTT 键入</string>
+    <string name="azure_communication_ui_calling_captions_turn_on_rtt">为此通话启用 RTT</string>
+    <string name="azure_communication_ui_calling_captions_turn_on">打开辅助字幕</string>
+    <string name="azure_communication_ui_calling_captions_turn_off">关闭辅助字幕</string>
+    <string name="azure_communication_ui_calling_captions_is_on">字幕已打开</string>
+    <string name="azure_communication_ui_calling_captions_is_off">字幕已关闭</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">是否启用 RTT?</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">将为通话中的每个人启用实时文本(RTT)。</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">打开</string>
+    <string name="azure_communication_ui_calling_rtt_header">实时文本</string>
+    <string name="azure_communication_ui_calling_captions_header">辅助字幕</string>
+    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">最大化字幕和 RTT</string>
+    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">最小化字幕和 RTT</string>
+    <string name="azure_communication_ui_calling_rtt_edit_text_hint">实时键入消息</string>
 </resources>

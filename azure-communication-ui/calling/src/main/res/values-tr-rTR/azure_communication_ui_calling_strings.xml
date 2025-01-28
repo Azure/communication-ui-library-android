@@ -48,7 +48,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">1 kişi ile arama</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">%1$d kişi ile arama</string>
     <string name="azure_communication_ui_calling_view_go_back">Geri</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(ben)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(me)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Adsız katılımcı</string>
     <string name="azure_communication_ui_calling_view_leave_call">Aramadan ayrıl?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Ayrıl</string>
@@ -196,23 +196,23 @@
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Alt yazılar durdurulamadı</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Konuşma dili değiştirilemedi</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Açıklamalı alt yazı dili değiştirilemedi</string>
-    <string name="azure_communication_ui_calling_captions_rtt_menu">Captions &amp; RTT</string>
-    <string name="azure_communication_ui_calling_rtt_info">Real-time text (RTT) is enabled for the entire duration of this meeting and is seen by all participants. <a href='https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text'>Learn more</a></string>
+    <string name="azure_communication_ui_calling_captions_rtt_menu">Alt yazılar &amp; RTT</string>
+    <string name="azure_communication_ui_calling_rtt_info">Gerçek zamanlı metin (RTT) bu toplantı süresi boyunca etkindir ve tüm katılımcılar tarafından görülebilir. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">Daha fazla bilgi</a></string>
     <string name="azure_communication_ui_calling_rtt_info_accessibility">Real-time text (RTT) is enabled for the entire duration of this meeting and is seen by all participants. Learn more. Link</string>
     <string name="azure_communication_ui_calling_rtt">RTT</string>
-    <string name="azure_communication_ui_calling_rtt_message_sent">Message sent</string>
-    <string name="azure_communication_ui_calling_rtt_typing">RTT typing</string>
-    <string name="azure_communication_ui_calling_captions_turn_on_rtt">Turn on RTT for this call</string>
-    <string name="azure_communication_ui_calling_captions_turn_on">Turn captions on</string>
-    <string name="azure_communication_ui_calling_captions_turn_off">Turn captions off</string>
-    <string name="azure_communication_ui_calling_captions_is_on">Captions are on</string>
-    <string name="azure_communication_ui_calling_captions_is_off">Captions are off</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">Turn on RTT?</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">Real-time text (RTT) will be turned on for everyone in the call.</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">Turn on</string>
-    <string name="azure_communication_ui_calling_rtt_header">Real-time text</string>
-    <string name="azure_communication_ui_calling_captions_header">Captions</string>
-    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">Maximize captions and RTT</string>
-    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">Minimize captions and RTT</string>
-    <string name="azure_communication_ui_calling_rtt_edit_text_hint">Type message in real-time</string>
+    <string name="azure_communication_ui_calling_rtt_message_sent">İleti gönderildi</string>
+    <string name="azure_communication_ui_calling_rtt_typing">RTT yazma</string>
+    <string name="azure_communication_ui_calling_captions_turn_on_rtt">Bu arama için RTT\'yi aç</string>
+    <string name="azure_communication_ui_calling_captions_turn_on">Alt yazıları aç</string>
+    <string name="azure_communication_ui_calling_captions_turn_off">Alt yazıları kapat</string>
+    <string name="azure_communication_ui_calling_captions_is_on">Alt yazı açık</string>
+    <string name="azure_communication_ui_calling_captions_is_off">Alt yazı kapalı</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">RTT açılsın mı?</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">Aramadaki herkes için gerçek zamanlı metin (RTT) açılacak.</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">Aç</string>
+    <string name="azure_communication_ui_calling_rtt_header">Gerçek zamanlı metin</string>
+    <string name="azure_communication_ui_calling_captions_header">Alt yazılar</string>
+    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">Alt yazılar ve RTT ile ekranı kapla</string>
+    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">Alt yazıları ve RTT’yi küçült</string>
+    <string name="azure_communication_ui_calling_rtt_edit_text_hint">Gerçek zamanlı bir ileti yazın</string>
 </resources>
