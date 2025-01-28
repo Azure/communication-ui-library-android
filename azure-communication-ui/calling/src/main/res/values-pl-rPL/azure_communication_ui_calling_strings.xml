@@ -189,6 +189,7 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">Napisy na żywo</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Język mówiony</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d of %3$d</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Język napisów</string>
     <string name="azure_communication_ui_calling_starting_captions">Trwa uruchamianie napisów...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">Nie można uruchomić napisów</string>

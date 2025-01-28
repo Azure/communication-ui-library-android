@@ -189,6 +189,7 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">实时辅助字幕</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">口语</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d of %3$d</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">辅助字幕语言</string>
     <string name="azure_communication_ui_calling_starting_captions">正在启动字幕...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">无法启动字幕</string>

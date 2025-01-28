@@ -100,10 +100,17 @@ internal class CaptionsLanguageSelectionListView(
     private fun getBottomCellItems(): List<BottomCellItem> {
         val items = mutableListOf<BottomCellItem>()
         viewModel.languagesListStateFlow.value.forEachIndexed { index, language ->
+            val contentDescription = context.getString(
+                R.string.azure_communication_ui_calling_list_item,
+                getLocaleDisplayName(language),
+                (index + 1),
+                viewModel.languagesListStateFlow.value.size,
+            )
+
             items.add(
                 BottomCellItem(
                     title = getLocaleDisplayName(language),
-                    contentDescription = "${index + 1} of ${viewModel.languagesListStateFlow.value.size} ${getLocaleDisplayName(language)}",
+                    contentDescription = contentDescription,
                     isChecked = language == viewModel.updateActiveLanguageStateFlow.value,
                     itemType = BottomCellItemType.BottomMenuActionNoIcon,
                     onClickAction = {
