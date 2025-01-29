@@ -210,7 +210,7 @@
     <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">Turn on</string>
     <string name="azure_communication_ui_calling_rtt_header">Real-time text</string>
     <string name="azure_communication_ui_calling_captions_header">Captions</string>
-    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">Maximize captions and RTT</string>
-    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">Minimize captions and RTT</string>
+    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">Maximise captions and RTT</string>
+    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">Minimise captions and RTT</string>
     <string name="azure_communication_ui_calling_rtt_edit_text_hint">Type message in real-time</string>
 </resources>

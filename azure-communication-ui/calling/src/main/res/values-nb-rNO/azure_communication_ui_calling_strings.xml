@@ -195,22 +195,22 @@
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Kan ikke stoppe teksting</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Kan ikke endre talespråk</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Kan ikke endre språk for teksting</string>
-    <string name="azure_communication_ui_calling_captions_rtt_menu">Captions &amp; RTT</string>
-    <string name="azure_communication_ui_calling_rtt_info">Real-time text (RTT) is enabled for the entire duration of this meeting and is seen by all participants. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">Learn more</a></string>
-    <string name="azure_communication_ui_calling_rtt">RTT</string>
-    <string name="azure_communication_ui_calling_rtt_message_sent">Message sent</string>
-    <string name="azure_communication_ui_calling_rtt_typing">RTT typing</string>
-    <string name="azure_communication_ui_calling_captions_turn_on_rtt">Turn on RTT for this call</string>
-    <string name="azure_communication_ui_calling_captions_turn_on">Turn captions on</string>
-    <string name="azure_communication_ui_calling_captions_turn_off">Turn captions off</string>
-    <string name="azure_communication_ui_calling_captions_is_on">Captions are on</string>
-    <string name="azure_communication_ui_calling_captions_is_off">Captions are off</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">Turn on RTT?</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">Real-time text (RTT) will be turned on for everyone in the call.</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">Turn on</string>
-    <string name="azure_communication_ui_calling_rtt_header">Real-time text</string>
-    <string name="azure_communication_ui_calling_captions_header">Captions</string>
-    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">Maximize captions and RTT</string>
-    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">Minimize captions and RTT</string>
-    <string name="azure_communication_ui_calling_rtt_edit_text_hint">Type message in real-time</string>
+    <string name="azure_communication_ui_calling_captions_rtt_menu">Undertekster og RTT</string>
+    <string name="azure_communication_ui_calling_rtt_info">Sanntidstekst (RTT) er aktivert for hele varigheten av dette møtet og vises av alle deltakerne. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">Mer informasjon</a></string>
+    <string name="azure_communication_ui_calling_rtt">Skriving i sanntid</string>
+    <string name="azure_communication_ui_calling_rtt_message_sent">Melding sendt</string>
+    <string name="azure_communication_ui_calling_rtt_typing">Skriving i sanntid</string>
+    <string name="azure_communication_ui_calling_captions_turn_on_rtt">Aktiver RTT for denne samtalen</string>
+    <string name="azure_communication_ui_calling_captions_turn_on">Aktiver undertekst</string>
+    <string name="azure_communication_ui_calling_captions_turn_off">Deaktiver undertekst</string>
+    <string name="azure_communication_ui_calling_captions_is_on">Undertekst er på</string>
+    <string name="azure_communication_ui_calling_captions_is_off">Undertekst er av</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">Aktivere RTT?</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">Sanntidstekst (RTT) aktiveres for alle i samtalen.</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">Aktiver</string>
+    <string name="azure_communication_ui_calling_rtt_header">Tekst i sanntid</string>
+    <string name="azure_communication_ui_calling_captions_header">Undertekster</string>
+    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">Maksimer undertekster og RTT</string>
+    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">Minimer undertekster og RTT</string>
+    <string name="azure_communication_ui_calling_rtt_edit_text_hint">Skriv inn melding i sanntid</string>
 </resources>
