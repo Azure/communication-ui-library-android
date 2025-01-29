@@ -68,8 +68,8 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">Partager les informations de diagnostic</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Informations de diagnostic</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Bouton Partager les informations de diagnostic</string>
-    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Call with: %1$s</string>
-    <string name="azure_communication_ui_calling_view_participant_list">Participant list</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Appel avec : %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">Liste des participants</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>La transcription a démarré.</b> En participant, vous
@@ -189,28 +189,29 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">Sous-titres en direct</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Langue parlée</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d of %3$d</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Langue des sous-titres</string>
     <string name="azure_communication_ui_calling_starting_captions">Démarrage des légendes...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">Impossible de démarrer les légendes</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Il est impossible d’arrêter les légendes</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Il est impossible de modifier la langue parlée</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Il est impossible de modifier la langue des légendes</string>
-    <string name="azure_communication_ui_calling_captions_rtt_menu">Captions &amp; RTT</string>
-    <string name="azure_communication_ui_calling_rtt_info">Real-time text (RTT) is enabled for the entire duration of this meeting and is seen by all participants. <a href='https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text'>Learn more</a></string>
+    <string name="azure_communication_ui_calling_captions_rtt_menu">Légendes &amp; RTT</string>
+    <string name="azure_communication_ui_calling_rtt_info">Le texte en temps réel (RTT) est activé pendant toute la durée de cette réunion et est visible par tous les participants. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">En savoir plus</a></string>
     <string name="azure_communication_ui_calling_rtt">RTT</string>
-    <string name="azure_communication_ui_calling_rtt_message_sent">Message sent</string>
-    <string name="azure_communication_ui_calling_rtt_typing">RTT typing</string>
-    <string name="azure_communication_ui_calling_captions_turn_on_rtt">Turn on RTT for this call</string>
-    <string name="azure_communication_ui_calling_captions_turn_on">Turn captions on</string>
-    <string name="azure_communication_ui_calling_captions_turn_off">Turn captions off</string>
-    <string name="azure_communication_ui_calling_captions_is_on">Captions are on</string>
-    <string name="azure_communication_ui_calling_captions_is_off">Captions are off</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">Turn on RTT?</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">Real-time text (RTT) will be turned on for everyone in the call.</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">Turn on</string>
-    <string name="azure_communication_ui_calling_rtt_header">Real-time text</string>
-    <string name="azure_communication_ui_calling_captions_header">Captions</string>
-    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">Maximize captions and RTT</string>
-    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">Minimize captions and RTT</string>
-    <string name="azure_communication_ui_calling_rtt_edit_text_hint">Type message in real-time</string>
+    <string name="azure_communication_ui_calling_rtt_message_sent">Message envoyé</string>
+    <string name="azure_communication_ui_calling_rtt_typing">Saisie RTT</string>
+    <string name="azure_communication_ui_calling_captions_turn_on_rtt">Activer RTT pour cet appel</string>
+    <string name="azure_communication_ui_calling_captions_turn_on">Activer les sous-titres</string>
+    <string name="azure_communication_ui_calling_captions_turn_off">Désactiver les sous-titres</string>
+    <string name="azure_communication_ui_calling_captions_is_on">Les sous-titres sont activés</string>
+    <string name="azure_communication_ui_calling_captions_is_off">Les sous-titres sont désactivés</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">Activation de la RTT ?</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">Le texte en temps réel (RTT) sera activé pour tous les participants à l’appel.</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">Activer</string>
+    <string name="azure_communication_ui_calling_rtt_header">Texte en temps réel</string>
+    <string name="azure_communication_ui_calling_captions_header">Sous-titres</string>
+    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">Maximiser les sous-titres et la RTT</string>
+    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">Minimiser les légendes et la RTT</string>
+    <string name="azure_communication_ui_calling_rtt_edit_text_hint">Tapez votre message en temps réel</string>
 </resources>

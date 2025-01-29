@@ -68,8 +68,8 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">Diagnostische gegevens delen</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnostische gegevens</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Knop Diagnostische gegevens delen</string>
-    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Call with: %1$s</string>
-    <string name="azure_communication_ui_calling_view_participant_list">Participant list</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Bellen met: %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">Lijst van deelnemers</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Opname is gestart.</b> Door deel te nemen geeft
@@ -189,28 +189,29 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">Live-ondertitels</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Gesproken taal</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d of %3$d</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Taal van ondertiteling</string>
     <string name="azure_communication_ui_calling_starting_captions">Ondertitels starten...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">Kan ondertitels niet starten</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Kan ondertitels niet stoppen</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Kan de gesproken talen niet wijzigen</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Kan de taal van de ondertiteling niet wijzigen</string>
-    <string name="azure_communication_ui_calling_captions_rtt_menu">Captions &amp; RTT</string>
-    <string name="azure_communication_ui_calling_rtt_info">Real-time text (RTT) is enabled for the entire duration of this meeting and is seen by all participants. <a href='https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text'>Learn more</a></string>
+    <string name="azure_communication_ui_calling_captions_rtt_menu">Bijschriften &amp; RTT</string>
+    <string name="azure_communication_ui_calling_rtt_info">Realtime-tekst (RTT) is ingeschakeld voor de hele duur van deze vergadering en wordt gezien door alle deelnemers. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">Meer informatie</a></string>
     <string name="azure_communication_ui_calling_rtt">RTT</string>
-    <string name="azure_communication_ui_calling_rtt_message_sent">Message sent</string>
-    <string name="azure_communication_ui_calling_rtt_typing">RTT typing</string>
-    <string name="azure_communication_ui_calling_captions_turn_on_rtt">Turn on RTT for this call</string>
-    <string name="azure_communication_ui_calling_captions_turn_on">Turn captions on</string>
-    <string name="azure_communication_ui_calling_captions_turn_off">Turn captions off</string>
-    <string name="azure_communication_ui_calling_captions_is_on">Captions are on</string>
-    <string name="azure_communication_ui_calling_captions_is_off">Captions are off</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">Turn on RTT?</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">Real-time text (RTT) will be turned on for everyone in the call.</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">Turn on</string>
-    <string name="azure_communication_ui_calling_rtt_header">Real-time text</string>
-    <string name="azure_communication_ui_calling_captions_header">Captions</string>
-    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">Maximize captions and RTT</string>
-    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">Minimize captions and RTT</string>
-    <string name="azure_communication_ui_calling_rtt_edit_text_hint">Type message in real-time</string>
+    <string name="azure_communication_ui_calling_rtt_message_sent">Bericht verzonden</string>
+    <string name="azure_communication_ui_calling_rtt_typing">RTT typen</string>
+    <string name="azure_communication_ui_calling_captions_turn_on_rtt">RTT inschakelen voor dit gesprek</string>
+    <string name="azure_communication_ui_calling_captions_turn_on">Ondertitels inschakelen</string>
+    <string name="azure_communication_ui_calling_captions_turn_off">Ondertitels uitschakelen</string>
+    <string name="azure_communication_ui_calling_captions_is_on">Ondertiteling is aan</string>
+    <string name="azure_communication_ui_calling_captions_is_off">Ondertiteling is uit</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">RTT inschakelen?</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">Typen in realtime (real-time text of RTT) wordt ingeschakeld voor iedereen in het gesprek.</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">Inschakelen</string>
+    <string name="azure_communication_ui_calling_rtt_header">Real-time tekst</string>
+    <string name="azure_communication_ui_calling_captions_header">Ondertitels</string>
+    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">Bijschriften en RTT maximaliseren</string>
+    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">Bijschriften en RTT minimaliseren</string>
+    <string name="azure_communication_ui_calling_rtt_edit_text_hint">Bericht in realtime typen</string>
 </resources>
