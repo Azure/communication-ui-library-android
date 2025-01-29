@@ -101,7 +101,7 @@ internal class ParticipantAddedOrRemovedHook : AccessibilityHook() {
 
     private fun filterParticipants(model: Map.Entry<String, ParticipantInfoModel>): Boolean {
         return model.value.participantStatus == ParticipantStatus.CONNECTED ||
-                model.value.participantStatus == ParticipantStatus.HOLD
+            model.value.participantStatus == ParticipantStatus.HOLD
     }
 }
 
