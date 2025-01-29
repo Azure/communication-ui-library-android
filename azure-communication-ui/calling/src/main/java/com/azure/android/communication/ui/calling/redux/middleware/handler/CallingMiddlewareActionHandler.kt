@@ -469,7 +469,9 @@ internal class CallingMiddlewareActionHandlerImpl(
                 )
             }
         } else {
-            store.dispatch(ToastNotificationAction.DismissNotification())
+            store.dispatch(ToastNotificationAction.DismissNotification(ToastNotificationKind.NETWORK_RECEIVE_QUALITY))
+            store.dispatch(ToastNotificationAction.DismissNotification(ToastNotificationKind.NETWORK_SEND_QUALITY))
+            store.dispatch(ToastNotificationAction.DismissNotification(ToastNotificationKind.NETWORK_RECONNECTION_QUALITY))
         }
     }
 
@@ -545,7 +547,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                         )
                     )
                 } else {
-                    store.dispatch(ToastNotificationAction.DismissNotification())
+                    store.dispatch(ToastNotificationAction.DismissNotification(ToastNotificationKind.SPEAKING_WHILE_MICROPHONE_IS_MUTED))
                 }
             }
             MediaCallDiagnostic.CAMERA_START_FAILED -> {
@@ -571,7 +573,7 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun dismissNotification(store: Store<ReduxState>) {
-        store.getCurrentState().toastNotificationState.kind?.let { kind: ToastNotificationKind ->
+        store.getCurrentState().toastNotificationState.kinds.forEach { kind: ToastNotificationKind ->
 
             if (kind == ToastNotificationKind.NETWORK_UNAVAILABLE) {
                 val model = NetworkCallDiagnosticModel(

@@ -21,5 +21,5 @@ internal enum class ToastNotificationKind {
 }
 
 internal data class ToastNotificationState(
-    val kind: ToastNotificationKind?,
+    val kinds: List<ToastNotificationKind>,
 )

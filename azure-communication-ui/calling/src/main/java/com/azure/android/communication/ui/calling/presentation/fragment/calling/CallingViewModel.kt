@@ -217,6 +217,9 @@ internal class CallingViewModel(
             state.buttonState,
             state.navigationState
         )
+        toastNotificationViewModel.init(
+            coroutineScope,
+        )
         isCaptionsMaximized = state.rttState.isMaximized
         super.init(coroutineScope)
     }
