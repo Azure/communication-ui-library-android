@@ -48,7 +48,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">1 kişi ile arama</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">%1$d kişi ile arama</string>
     <string name="azure_communication_ui_calling_view_go_back">Geri</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(me)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(ben)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Adsız katılımcı</string>
     <string name="azure_communication_ui_calling_view_leave_call">Aramadan ayrıl?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Ayrıl</string>
@@ -68,8 +68,8 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">Tanılama bilgilerini paylaş</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Tanılama bilgileri</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Tanılama bilgilerini paylaş Düğmesi</string>
-    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Call with: %1$s</string>
-    <string name="azure_communication_ui_calling_view_participant_list">Participant list</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Şununla ara: %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">Katılımcı listesi</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Kayıt başlatıldı.</b> Katılarak,
@@ -198,7 +198,7 @@
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Açıklamalı alt yazı dili değiştirilemedi</string>
     <string name="azure_communication_ui_calling_captions_rtt_menu">Alt yazılar &amp; RTT</string>
     <string name="azure_communication_ui_calling_rtt_info">Gerçek zamanlı metin (RTT) bu toplantı süresi boyunca etkindir ve tüm katılımcılar tarafından görülebilir. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">Daha fazla bilgi</a></string>
-    <string name="azure_communication_ui_calling_rtt_info_accessibility">Real-time text (RTT) is enabled for the entire duration of this meeting and is seen by all participants. Learn more. Link</string>
+    <string name="azure_communication_ui_calling_rtt_info_accessibility">Gerçek zamanlı metin (RTT) bu toplantı süresi boyunca etkindir ve tüm katılımcılar tarafından görülebilir. Daha fazla bilgi edinin. Bağlantı</string>
     <string name="azure_communication_ui_calling_rtt">RTT</string>
     <string name="azure_communication_ui_calling_rtt_message_sent">İleti gönderildi</string>
     <string name="azure_communication_ui_calling_rtt_typing">RTT yazma</string>

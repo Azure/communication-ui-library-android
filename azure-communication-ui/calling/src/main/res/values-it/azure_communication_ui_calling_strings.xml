@@ -68,8 +68,8 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">Condividi informazioni di diagnostica</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Informazioni di diagnostica</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Pulsante Condividi informazioni di diagnostica</string>
-    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Call with: %1$s</string>
-    <string name="azure_communication_ui_calling_view_participant_list">Participant list</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Chiamata con: %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">Elenco partecipanti</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>La registrazione è stata avviata.</b> Partecipando,
@@ -198,7 +198,7 @@
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Impossibile cambiare la lingua dei sottotitoli</string>
     <string name="azure_communication_ui_calling_captions_rtt_menu">Didascalie e scrittura in tempo reale</string>
     <string name="azure_communication_ui_calling_rtt_info">La scrittura in tempo reale (RTT) è abilitata per l\'intera durata della riunione ed è visibile per tutti i partecipanti. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">Altre informazioni</a></string>
-    <string name="azure_communication_ui_calling_rtt_info_accessibility">Real-time text (RTT) is enabled for the entire duration of this meeting and is seen by all participants. Learn more. Link</string>
+    <string name="azure_communication_ui_calling_rtt_info_accessibility">Il testo in tempo reale (RTT) è abilitato per l\'intera durata della riunione e viene visualizzato da tutti i partecipanti. Ulteriori informazioni. Collegamento</string>
     <string name="azure_communication_ui_calling_rtt">Scrittura in tempo reale</string>
     <string name="azure_communication_ui_calling_rtt_message_sent">Messaggio inviato</string>
     <string name="azure_communication_ui_calling_rtt_typing">Digitazione scrittura in tempo reale</string>

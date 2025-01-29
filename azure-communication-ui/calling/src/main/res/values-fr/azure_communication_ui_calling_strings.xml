@@ -48,7 +48,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Appel avec 1 personne</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Appel avec %1$d personnes</string>
     <string name="azure_communication_ui_calling_view_go_back">Retour</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(me)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(moi)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Participant sans nom</string>
     <string name="azure_communication_ui_calling_view_leave_call">Quitter l’appel ?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Quitter</string>
@@ -68,8 +68,8 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">Partager les informations de diagnostic</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Informations de diagnostic</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Bouton Partager les informations de diagnostic</string>
-    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Call with: %1$s</string>
-    <string name="azure_communication_ui_calling_view_participant_list">Participant list</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Appel avec : %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">Liste des participants</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>La transcription a démarré.</b> En participant, vous
@@ -198,7 +198,7 @@
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Il est impossible de modifier la langue des légendes</string>
     <string name="azure_communication_ui_calling_captions_rtt_menu">Légendes &amp; RTT</string>
     <string name="azure_communication_ui_calling_rtt_info">Le texte en temps réel (RTT) est activé pendant toute la durée de cette réunion et est visible par tous les participants. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">En savoir plus</a></string>
-    <string name="azure_communication_ui_calling_rtt_info_accessibility">Real-time text (RTT) is enabled for the entire duration of this meeting and is seen by all participants. Learn more. Link</string>
+    <string name="azure_communication_ui_calling_rtt_info_accessibility">Le texte en temps réel (RTT) est activé pendant toute la durée de cette réunion et est visible par tous les participants. Pour en savoir plus. Lien</string>
     <string name="azure_communication_ui_calling_rtt">RTT</string>
     <string name="azure_communication_ui_calling_rtt_message_sent">Message envoyé</string>
     <string name="azure_communication_ui_calling_rtt_typing">Saisie RTT</string>

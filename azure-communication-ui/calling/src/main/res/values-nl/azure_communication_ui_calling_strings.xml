@@ -48,7 +48,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Gesprek met 1 persoon</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Bellen met %1$d personen</string>
     <string name="azure_communication_ui_calling_view_go_back">Terug</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(me)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(ik)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Naamloze deelnemer</string>
     <string name="azure_communication_ui_calling_view_leave_call">Gesprek verlaten?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Verlaten</string>
@@ -159,7 +159,7 @@
     <string name="azure_communication_ui_calling_report_issue_title">Probleem melden</string>
     <string name="azure_communication_ui_calling_logs_attach_notice">Logboeken worden automatisch bijgevoegd.</string>
     <string name="azure_communication_ui_calling_privacy_policy_label">Privacybeleid</string>
-    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">Privacy Policy. Link.</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">Privacybeleid. Koppeling.</string>
     <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Beschrijf uw probleem...</string>
     <string name="azure_communication_ui_calling_cancel_button_label">Annuleren</string>
     <string name="azure_communication_ui_calling_attach_screenshot">Schermopname bijvoegen</string>
@@ -198,7 +198,7 @@
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Kan de taal van de ondertiteling niet wijzigen</string>
     <string name="azure_communication_ui_calling_captions_rtt_menu">Bijschriften &amp; RTT</string>
     <string name="azure_communication_ui_calling_rtt_info">Realtime-tekst (RTT) is ingeschakeld voor de hele duur van deze vergadering en wordt gezien door alle deelnemers. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">Meer informatie</a></string>
-    <string name="azure_communication_ui_calling_rtt_info_accessibility">Real-time text (RTT) is enabled for the entire duration of this meeting and is seen by all participants. Learn more. Link</string>
+    <string name="azure_communication_ui_calling_rtt_info_accessibility">Realtime-tekst (RTT) is ingeschakeld voor de hele duur van deze vergadering en wordt gezien door alle deelnemers. Meer informatie. Verbinden</string>
     <string name="azure_communication_ui_calling_rtt">RTT</string>
     <string name="azure_communication_ui_calling_rtt_message_sent">Bericht verzonden</string>
     <string name="azure_communication_ui_calling_rtt_typing">RTT typen</string>

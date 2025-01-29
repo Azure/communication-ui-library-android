@@ -48,7 +48,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Samtale med 1 person</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Ring med %1$d personer</string>
     <string name="azure_communication_ui_calling_view_go_back">Tilbake</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(me)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(meg)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Deltaker uten navn</string>
     <string name="azure_communication_ui_calling_view_leave_call">Vil du forlate samtalen?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Forlat</string>
@@ -68,8 +68,8 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">Del diagnoseinformasjon</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnoseinformasjon</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Knapp for å dele diagnoseinformasjon</string>
-    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Call with: %1$s</string>
-    <string name="azure_communication_ui_calling_view_participant_list">Participant list</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Samtale med: %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">Deltakerliste</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Opptak er startet.</b> Ved å bli med, gir du
@@ -198,7 +198,7 @@
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Kan ikke endre språk for teksting</string>
     <string name="azure_communication_ui_calling_captions_rtt_menu">Undertekster og RTT</string>
     <string name="azure_communication_ui_calling_rtt_info">Sanntidstekst (RTT) er aktivert for hele varigheten av dette møtet og vises av alle deltakerne. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">Mer informasjon</a></string>
-    <string name="azure_communication_ui_calling_rtt_info_accessibility">Real-time text (RTT) is enabled for the entire duration of this meeting and is seen by all participants. Learn more. Link</string>
+    <string name="azure_communication_ui_calling_rtt_info_accessibility">Sanntidstekst (RTT) er aktivert for hele varigheten av dette møtet og vises av alle deltakerne. Mer informasjon. Lenke</string>
     <string name="azure_communication_ui_calling_rtt">Skriving i sanntid</string>
     <string name="azure_communication_ui_calling_rtt_message_sent">Melding sendt</string>
     <string name="azure_communication_ui_calling_rtt_typing">Skriving i sanntid</string>
