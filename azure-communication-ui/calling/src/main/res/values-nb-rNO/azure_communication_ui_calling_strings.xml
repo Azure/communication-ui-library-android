@@ -68,8 +68,8 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">Del diagnoseinformasjon</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnoseinformasjon</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Knapp for å dele diagnoseinformasjon</string>
-    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Call with: %1$s</string>
-    <string name="azure_communication_ui_calling_view_participant_list">Participant list</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Samtale med: %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">Deltakerliste</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Opptak er startet.</b> Ved å bli med, gir du
@@ -189,6 +189,7 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">Underteksting</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Talespråk</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d of %3$d</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Språk for undertekst</string>
     <string name="azure_communication_ui_calling_starting_captions">Starter teksting ...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">Kan ikke starte teksting</string>

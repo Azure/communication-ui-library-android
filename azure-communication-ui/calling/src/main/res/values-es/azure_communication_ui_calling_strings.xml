@@ -68,8 +68,8 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">Compartir información de diagnóstico</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Información de diagnóstico</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Botón Compartir información de diagnóstico</string>
-    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Call with: %1$s</string>
-    <string name="azure_communication_ui_calling_view_participant_list">Participant list</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Llamar con: %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">Lista de participantes</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Se ha iniciado la grabación.</b> Al unirse, está
@@ -189,6 +189,7 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">Subtítulos en directo</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Idioma hablado</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d of %3$d</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Idioma de subtítulos</string>
     <string name="azure_communication_ui_calling_starting_captions">Iniciando subtítulos...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">No se pueden iniciar los subtítulos</string>

@@ -68,8 +68,8 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">Tanılama bilgilerini paylaş</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Tanılama bilgileri</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Tanılama bilgilerini paylaş Düğmesi</string>
-    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Call with: %1$s</string>
-    <string name="azure_communication_ui_calling_view_participant_list">Participant list</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Şununla ara: %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">Katılımcı listesi</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Kayıt başlatıldı.</b> Katılarak,
@@ -189,6 +189,7 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">Canlı alt yazılar</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Konuşma dili</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d of %3$d</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Alt yazı dili</string>
     <string name="azure_communication_ui_calling_starting_captions">Alt yazılar başlatılıyor...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">Alt yazılar başlatılamadı</string>

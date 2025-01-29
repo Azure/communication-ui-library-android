@@ -189,6 +189,7 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">Live-ondertitels</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Gesproken taal</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d of %3$d</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Taal van ondertiteling</string>
     <string name="azure_communication_ui_calling_starting_captions">Ondertitels starten...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">Kan ondertitels niet starten</string>

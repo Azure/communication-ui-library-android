@@ -68,8 +68,8 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">Partager les informations de diagnostic</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Informations de diagnostic</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Bouton Partager les informations de diagnostic</string>
-    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Call with: %1$s</string>
-    <string name="azure_communication_ui_calling_view_participant_list">Participant list</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Appel avec : %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">Liste des participants</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>La transcription a démarré.</b> En participant, vous
@@ -189,6 +189,7 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">Sous-titres en direct</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Langue parlée</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d of %3$d</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Langue des sous-titres</string>
     <string name="azure_communication_ui_calling_starting_captions">Démarrage des légendes...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">Impossible de démarrer les légendes</string>
