@@ -68,8 +68,8 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">Jaa diagnostiikkatiedot</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnostiikkatiedot</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Jaa diagnostiikkatiedot -painike</string>
-    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Call with: %1$s</string>
-    <string name="azure_communication_ui_calling_view_participant_list">Participant list</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Puhelu: %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">Osallistujaluettelo</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Tallennus on aloitettu.</b> Liittymällä annat
@@ -189,28 +189,29 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">Live-tekstitys</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Puhuttu kieli</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d of %3$d</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Tekstityksen kieli</string>
     <string name="azure_communication_ui_calling_starting_captions">Aloitetaan tekstitystä...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">Tekstitystä ei voi käynnistää</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Tekstitystä ei voi pysäyttää</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Puhuttua kieltä ei voi vaihtaa</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Kuvatekstin kieltä ei voi vaihtaa</string>
-    <string name="azure_communication_ui_calling_captions_rtt_menu">Captions &amp; RTT</string>
-    <string name="azure_communication_ui_calling_rtt_info">Real-time text (RTT) is enabled for the entire duration of this meeting and is seen by all participants. <a href='https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text'>Learn more</a></string>
-    <string name="azure_communication_ui_calling_rtt">RTT</string>
-    <string name="azure_communication_ui_calling_rtt_message_sent">Message sent</string>
-    <string name="azure_communication_ui_calling_rtt_typing">RTT typing</string>
-    <string name="azure_communication_ui_calling_captions_turn_on_rtt">Turn on RTT for this call</string>
-    <string name="azure_communication_ui_calling_captions_turn_on">Turn captions on</string>
-    <string name="azure_communication_ui_calling_captions_turn_off">Turn captions off</string>
-    <string name="azure_communication_ui_calling_captions_is_on">Captions are on</string>
-    <string name="azure_communication_ui_calling_captions_is_off">Captions are off</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">Turn on RTT?</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">Real-time text (RTT) will be turned on for everyone in the call.</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">Turn on</string>
-    <string name="azure_communication_ui_calling_rtt_header">Real-time text</string>
-    <string name="azure_communication_ui_calling_captions_header">Captions</string>
-    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">Maximize captions and RTT</string>
-    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">Minimize captions and RTT</string>
-    <string name="azure_communication_ui_calling_rtt_edit_text_hint">Type message in real-time</string>
+    <string name="azure_communication_ui_calling_captions_rtt_menu">Tekstitykset &amp; RTT</string>
+    <string name="azure_communication_ui_calling_rtt_info">Reaaliaikainen teksti (RTT) on käytössä koko kokouksen keston ajan, ja kaikki osallistujat voivat nähdä sen. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">Lisätietoja</a></string>
+    <string name="azure_communication_ui_calling_rtt">Reaaliaikainen kirjoitus</string>
+    <string name="azure_communication_ui_calling_rtt_message_sent">Viesti lähetetty</string>
+    <string name="azure_communication_ui_calling_rtt_typing">Reaaliaikainen kirjoitus</string>
+    <string name="azure_communication_ui_calling_captions_turn_on_rtt">Ota reaaliaikainen kirjoitus käyttöön tässä puhelussa</string>
+    <string name="azure_communication_ui_calling_captions_turn_on">Ota tekstitykset käyttöön</string>
+    <string name="azure_communication_ui_calling_captions_turn_off">Poista tekstitykset käytöstä</string>
+    <string name="azure_communication_ui_calling_captions_is_on">Tekstitykset ovat käytössä</string>
+    <string name="azure_communication_ui_calling_captions_is_off">Tekstitykset eivät ole käytössä</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">Otetaanko RTT käyttöön?</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">Reaaliaikainen kirjoitus (RTT) otetaan käyttöön kaikille puhelun osallistujille.</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">Ota käyttöön</string>
+    <string name="azure_communication_ui_calling_rtt_header">Reaaliaikainen teksti</string>
+    <string name="azure_communication_ui_calling_captions_header">Tekstitykset</string>
+    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">Suurenna tekstitykset ja RTT</string>
+    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">Pienennä tekstitykset ja RTT</string>
+    <string name="azure_communication_ui_calling_rtt_edit_text_hint">Kirjoita viesti reaaliaikaisesti</string>
 </resources>

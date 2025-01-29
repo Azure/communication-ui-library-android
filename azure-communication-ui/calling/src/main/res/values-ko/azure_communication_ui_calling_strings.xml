@@ -68,8 +68,8 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">진단 정보 공유</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">진단 정보</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">진단 정보 공유 단추</string>
-    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Call with: %1$s</string>
-    <string name="azure_communication_ui_calling_view_participant_list">Participant list</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">통화 상대: %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">참가자 목록</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>녹음을 시작했습니다.</b>참가하면 이 모임을 전사하는데
@@ -189,28 +189,29 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">라이브 캡션</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">음성 언어</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d of %3$d</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">캡션 언어</string>
     <string name="azure_communication_ui_calling_starting_captions">캡션 시작 중...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">캡션을 시작할 수 없음</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">캡션을 중지할 수 없음</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">음성 언어를 변경할 수 없음</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">캡션 언어를 변경할 수 없음</string>
-    <string name="azure_communication_ui_calling_captions_rtt_menu">Captions &amp; RTT</string>
-    <string name="azure_communication_ui_calling_rtt_info">Real-time text (RTT) is enabled for the entire duration of this meeting and is seen by all participants. <a href='https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text'>Learn more</a></string>
+    <string name="azure_communication_ui_calling_captions_rtt_menu">캡션 &amp; RTT</string>
+    <string name="azure_communication_ui_calling_rtt_info">RTT(실시간 텍스트)는 이 모임의 전체 기간에 사용할 수 있으며 모든 참가자가 볼 수 있습니다. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">자세한 정보</a></string>
     <string name="azure_communication_ui_calling_rtt">RTT</string>
-    <string name="azure_communication_ui_calling_rtt_message_sent">Message sent</string>
-    <string name="azure_communication_ui_calling_rtt_typing">RTT typing</string>
-    <string name="azure_communication_ui_calling_captions_turn_on_rtt">Turn on RTT for this call</string>
-    <string name="azure_communication_ui_calling_captions_turn_on">Turn captions on</string>
-    <string name="azure_communication_ui_calling_captions_turn_off">Turn captions off</string>
-    <string name="azure_communication_ui_calling_captions_is_on">Captions are on</string>
-    <string name="azure_communication_ui_calling_captions_is_off">Captions are off</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">Turn on RTT?</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">Real-time text (RTT) will be turned on for everyone in the call.</string>
-    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">Turn on</string>
-    <string name="azure_communication_ui_calling_rtt_header">Real-time text</string>
-    <string name="azure_communication_ui_calling_captions_header">Captions</string>
-    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">Maximize captions and RTT</string>
-    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">Minimize captions and RTT</string>
-    <string name="azure_communication_ui_calling_rtt_edit_text_hint">Type message in real-time</string>
+    <string name="azure_communication_ui_calling_rtt_message_sent">메시지 전송됨</string>
+    <string name="azure_communication_ui_calling_rtt_typing">RTT 입력 중</string>
+    <string name="azure_communication_ui_calling_captions_turn_on_rtt">이 통화에 대한 RTT 켜기</string>
+    <string name="azure_communication_ui_calling_captions_turn_on">캡션 켜기</string>
+    <string name="azure_communication_ui_calling_captions_turn_off">캡션 끄기</string>
+    <string name="azure_communication_ui_calling_captions_is_on">캡션 켜짐</string>
+    <string name="azure_communication_ui_calling_captions_is_off">캡션 꺼짐</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">RTT를 켜시겠습니까?</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">통화 중인 모든 사용자에 대해 RTT(실시간 입력)가 켜집니다.</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">켜기</string>
+    <string name="azure_communication_ui_calling_rtt_header">실시간 텍스트</string>
+    <string name="azure_communication_ui_calling_captions_header">캡션</string>
+    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">캡션 및 RTT 최대화</string>
+    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">캡션 및 RTT 최소화</string>
+    <string name="azure_communication_ui_calling_rtt_edit_text_hint">실시간으로 메시지 입력</string>
 </resources>
