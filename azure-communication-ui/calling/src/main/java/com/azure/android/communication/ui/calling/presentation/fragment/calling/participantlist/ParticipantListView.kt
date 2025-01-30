@@ -272,10 +272,10 @@ internal class ParticipantListView(
         val localParticipantDisplayName = if (participantViewData?.displayName != null)
             participantViewData.displayName else displayName
 
-        return resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant_format,
+        return resources.getString(
+            R.string.azure_communication_ui_calling_view_participant_drawer_local_participant_format,
             localParticipantDisplayName,
         )
-
     }
 
     private fun generateBottomCellItem(
