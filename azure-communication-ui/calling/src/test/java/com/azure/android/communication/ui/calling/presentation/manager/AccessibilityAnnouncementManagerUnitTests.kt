@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.calling.presentation.manager
 import android.content.Context
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.implementation.R
+import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
@@ -429,6 +430,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                     "a",
                     mock {
                         on { displayName } doAnswer { "user" }
+                        on { participantStatus } doAnswer { ParticipantStatus.CONNECTED }
                     }
                 )
             ),
@@ -455,7 +457,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
     }
 
     @Test
-    fun participantAddedOrRemovedHook_message_reduxStateHasRemovedParticipants_then_returnLeftMessage() {
+    fun participantAddedOrRemovedHook_message_reduxStateHasRemovedParticipantsInLobby_then_returnEmptyMessage() {
         // Arrange
         val reduxState = AppReduxState("", false, false)
         val participantAddedOrRemovedHook = ParticipantAddedOrRemovedHook()
@@ -474,6 +476,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                     "a",
                     mock {
                         on { displayName } doAnswer { "user" }
+                        on { participantStatus } doAnswer { ParticipantStatus.CONNECTED }
                     }
                 )
             ),
@@ -498,5 +501,44 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
 
         // Assert
         Assert.assertEquals(message, "user has left the meeting")
+    }
+
+    @Test
+    fun participantAddedOrRemovedHook_message_reduxStateHasRemovedParticipants_then_returnLeftMessage() {
+        // Arrange
+        val reduxState = AppReduxState("", false, false)
+        val participantAddedOrRemovedHook = ParticipantAddedOrRemovedHook()
+        val mockContext = mock<Context> { }
+        reduxState.callState = CallingState(CallingStatus.CONNECTED)
+        reduxState.remoteParticipantState = RemoteParticipantsState(
+            mapOf(
+                Pair(
+                    "a",
+                    mock {
+                        on { participantStatus } doAnswer { ParticipantStatus.IN_LOBBY }
+                    }
+                )
+            ),
+            5000,
+            listOf(),
+            0,
+            lobbyErrorCode = null,
+            totalParticipantCount = 1
+        )
+
+        // Act
+        val message =
+            participantAddedOrRemovedHook.message(
+                reduxState,
+                AppReduxState(
+                    "",
+                    false,
+                    false,
+                ),
+                mockContext
+            )
+
+        // Assert
+        Assert.assertEquals(message, "")
     }
 }

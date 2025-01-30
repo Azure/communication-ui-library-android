@@ -51,7 +51,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_timer_format_with_minutes" translatable="false">%02d:%02d</string>
     <string name="azure_communication_ui_calling_view_info_header_call_timer_format_with_seconds" translatable="false">%02d</string>
     <string name="azure_communication_ui_calling_view_go_back">Back</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(me)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s (me)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Unnamed participant</string>
     <string name="azure_communication_ui_calling_view_leave_call">Leave call?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Leave</string>

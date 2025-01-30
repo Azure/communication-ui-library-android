@@ -8,6 +8,8 @@ import android.content.Context
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityManager
 import com.azure.android.communication.ui.calling.implementation.R
+import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
@@ -67,18 +69,19 @@ internal class ParticipantAddedOrRemovedHook : AccessibilityHook() {
             callJoinTime = System.currentTimeMillis()
             return false
         }
-        val shouldRun = lastState.remoteParticipantState.participantMap.size != newState.remoteParticipantState.participantMap.size
+        val lastStateCount = lastState.remoteParticipantState.participantMap.filter(this::filterParticipants).size
 
-        if (shouldRun && (System.currentTimeMillis() - callJoinTime) > 1000) {
-            return true
-        }
+        val newStateCount = newState.remoteParticipantState.participantMap.filter(this::filterParticipants).size
+        val shouldRun = lastStateCount != newStateCount
 
-        return false
+        println("ParticipantAddedOrRemovedHook: shouldRun: $shouldRun, time: ${(System.currentTimeMillis() - callJoinTime) > 1000}")
+
+        return shouldRun && (System.currentTimeMillis() - callJoinTime) > 1000
     }
 
     override fun message(lastState: ReduxState, newState: ReduxState, context: Context): String {
-        val oldList = lastState.remoteParticipantState.participantMap.values
-        val newList = newState.remoteParticipantState.participantMap.values
+        val oldList = lastState.remoteParticipantState.participantMap.filter(this::filterParticipants).values
+        val newList = newState.remoteParticipantState.participantMap.filter(this::filterParticipants).values
 
         val added = newList.filter { !oldList.contains(it) }
         val removed = oldList.filter { !newList.contains(it) }
@@ -94,6 +97,11 @@ internal class ParticipantAddedOrRemovedHook : AccessibilityHook() {
         // }
 
         return result
+    }
+
+    private fun filterParticipants(model: Map.Entry<String, ParticipantInfoModel>): Boolean {
+        return model.value.participantStatus == ParticipantStatus.CONNECTED ||
+            model.value.participantStatus == ParticipantStatus.HOLD
     }
 }
 
