@@ -48,7 +48,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Appel avec 1 personne</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Appel avec %1$d personnes</string>
     <string name="azure_communication_ui_calling_view_go_back">Retour</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(moi)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s (me)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Participant sans nom</string>
     <string name="azure_communication_ui_calling_view_leave_call">Quitter l’appel ?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Quitter</string>
@@ -190,6 +190,7 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">Sous-titres en direct</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Langue parlée</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d of %3$d</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Langue des sous-titres</string>
     <string name="azure_communication_ui_calling_starting_captions">Démarrage des légendes...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">Impossible de démarrer les légendes</string>

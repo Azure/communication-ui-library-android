@@ -48,7 +48,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Llamada con 1 persona</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Llamada con %1$d personas</string>
     <string name="azure_communication_ui_calling_view_go_back">Atrás</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(yo)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s (me)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Participante sin nombre</string>
     <string name="azure_communication_ui_calling_view_leave_call">¿Quieres abandonar la llamada?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Salir</string>
@@ -190,6 +190,7 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">Subtítulos en directo</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Idioma hablado</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d of %3$d</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Idioma de subtítulos</string>
     <string name="azure_communication_ui_calling_starting_captions">Iniciando subtítulos...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">No se pueden iniciar los subtítulos</string>

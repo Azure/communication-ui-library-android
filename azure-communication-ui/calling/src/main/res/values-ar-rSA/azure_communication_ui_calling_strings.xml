@@ -48,7 +48,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">الاتصال مع شخص</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">الاتصال بـ %1$d من الأشخاص</string>
     <string name="azure_communication_ui_calling_view_go_back">رجوع</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(أنا)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s (me)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">مشارك غير مسمى</string>
     <string name="azure_communication_ui_calling_view_leave_call">هل تريد مغادرة المكالمة؟</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">مغادرة</string>
@@ -190,6 +190,7 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">نص الكلام المباشر</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">اللغة المنطوقة</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d of %3$d</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">لغة التسمية التوضيحية</string>
     <string name="azure_communication_ui_calling_starting_captions">يتم الآن بدء التسميات التوضيحية...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">يتعذّر بدء تشغيل التسميات التوضيحية</string>
