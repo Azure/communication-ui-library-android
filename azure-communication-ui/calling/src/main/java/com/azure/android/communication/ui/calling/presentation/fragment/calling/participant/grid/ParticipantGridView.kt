@@ -212,14 +212,16 @@ internal class ParticipantGridView : GridLayout {
     private fun updateContentDescription() {
         val muted = context.getString(R.string.azure_communication_ui_calling_view_participant_list_muted_accessibility_label)
         val unmuted = context.getString(R.string.azure_communication_ui_calling_view_participant_list_unmuted_accessibility_label)
-        val callWith = context.getString(R.string.azure_communication_ui_calling_view_call_with_accessibility_label)
 
-        val participants = participantGridViewModel.getRemoteParticipantsUpdateStateFlow().value.joinToString {
-            val muteState = if (it.getIsMutedStateFlow().value) muted else unmuted
-            "${it.getDisplayNameStateFlow().value}, $muteState."
-        }
+        val participants =
+            participantGridViewModel.getRemoteParticipantsUpdateStateFlow().value.joinToString {
+                val muteState = if (it.getIsMutedStateFlow().value) muted else unmuted
+                "${it.getDisplayNameStateFlow().value}, $muteState."
+            }
 
-        gridView.contentDescription = callWith.format(participants)
+        gridView.contentDescription = if (participants.isNotEmpty())
+            context.getString(R.string.azure_communication_ui_calling_view_call_with_accessibility_label, participants)
+        else context.getString(R.string.azure_communication_ui_calling_view_info_header_waiting_for_others_to_join)
     }
 
     private fun displayParticipants(
