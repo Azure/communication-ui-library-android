@@ -404,7 +404,7 @@ internal class CallingFragment :
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putBoolean(LEAVE_CONFIRM_VIEW_KEY, viewModel.confirmLeaveOverlayViewModel.getShouldDisplayLeaveConfirmFlow().value)
         outState.putBoolean(AUDIO_DEVICE_LIST_VIEW_KEY, viewModel.audioDeviceListViewModel.displayAudioDeviceSelectionMenuStateFlow.value)
-        outState.putBoolean(PARTICIPANT_LIST_VIEW_KEY, viewModel.participantListViewModel.viewViewModelStateFlow.value.isDisplayed)
+        outState.putBoolean(PARTICIPANT_LIST_VIEW_KEY, viewModel.participantListViewModel.participantListContentStateFlow.value.isDisplayed)
         super.onSaveInstanceState(outState)
     }
 
