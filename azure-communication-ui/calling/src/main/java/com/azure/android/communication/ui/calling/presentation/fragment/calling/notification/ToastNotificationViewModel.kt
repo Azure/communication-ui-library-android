@@ -31,9 +31,8 @@ internal class ToastNotificationViewModel(private val dispatch: (Action) -> Unit
     }
 
     fun update(toastNotificationState: ToastNotificationState) {
-        // Remove persistent notifications that are not in the new state.
-        // Non-persistent notifications are removed after a certain time by cleanup process.
-        displayedNotifications.removeIf { it.kind !in toastNotificationState.kinds && it.isPersistent }
+        // Remove notifications that are not in the new state.
+        displayedNotifications.removeIf { it.kind !in toastNotificationState.kinds }
 
         // Add new notifications
         addNewNotifications(toastNotificationState)
@@ -143,6 +142,22 @@ internal class ToastNotificationViewModel(private val dispatch: (Action) -> Unit
                         displayToastNotification(
                             notificationIconId = R.drawable.azure_communication_ui_calling_ic_fluent_info_24_regular,
                             notificationMessageId = R.string.azure_communication_ui_calling_error_captions_failed_to_set_caption_language,
+                            isPersistent = false,
+                            kind,
+                        )
+
+                    ToastNotificationKind.MUTED ->
+                        displayToastNotification(
+                            notificationIconId = R.drawable.azure_communication_ui_calling_ic_fluent_mic_off_24_filled,
+                            notificationMessageId = R.string.azure_communication_ui_calling_setup_view_button_mic_off,
+                            isPersistent = false,
+                            kind,
+                        )
+
+                    ToastNotificationKind.UNMUTED ->
+                        displayToastNotification(
+                            notificationIconId = R.drawable.azure_communication_ui_calling_ic_fluent_mic_on_24_filled,
+                            notificationMessageId = R.string.azure_communication_ui_calling_setup_view_button_mic_on,
                             isPersistent = false,
                             kind,
                         )

@@ -9,7 +9,6 @@ import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityManager
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.redux.Store
-import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
@@ -119,19 +118,6 @@ internal class SwitchCameraStatusHook : AccessibilityHook() {
     }
 }
 
-internal class MicStatusHook : AccessibilityHook() {
-    override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean =
-        (lastState.localParticipantState.audioState.operation != newState.localParticipantState.audioState.operation)
-
-    override fun message(lastState: ReduxState, newState: ReduxState, context: Context): String {
-        return when (newState.localParticipantState.audioState.operation) {
-            AudioOperationalStatus.ON -> context.getString(R.string.azure_communication_ui_calling_setup_view_button_mic_on)
-            AudioOperationalStatus.OFF -> context.getString(R.string.azure_communication_ui_calling_setup_view_button_mic_off)
-            AudioOperationalStatus.PENDING -> ""
-        }
-    }
-}
-
 internal class CameraStatusHook : AccessibilityHook() {
     override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean =
         (lastState.localParticipantState.cameraState.operation != newState.localParticipantState.cameraState.operation)
@@ -179,6 +165,8 @@ internal class NotificationStatusHook : AccessibilityHook() {
                     ToastNotificationKind.CAPTIONS_FAILED_TO_STOP -> R.string.azure_communication_ui_calling_error_captions_failed_to_stop
                     ToastNotificationKind.CAPTIONS_FAILED_TO_SET_SPOKEN_LANGUAGE -> R.string.azure_communication_ui_calling_error_captions_failed_to_set_spoken_language
                     ToastNotificationKind.CAPTIONS_FAILED_TO_SET_CAPTION_LANGUAGE -> R.string.azure_communication_ui_calling_error_captions_failed_to_set_caption_language
+                    ToastNotificationKind.MUTED -> R.string.azure_communication_ui_calling_setup_view_button_mic_off
+                    ToastNotificationKind.UNMUTED -> R.string.azure_communication_ui_calling_setup_view_button_mic_on
                 }
                 context.getString(resourceId)
             }

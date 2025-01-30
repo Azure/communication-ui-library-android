@@ -105,6 +105,10 @@ internal interface CallingMiddlewareActionHandler {
     fun setCaptionsSpokenLanguage(language: String, store: Store<ReduxState>)
     fun setCaptionsCaptionLanguage(language: String, store: Store<ReduxState>)
     fun sendRttMessage(message: String, isFinalized: Boolean, store: Store<ReduxState>)
+    fun onUpdateAudioStateOperation(
+        audioOperationalStatus: AudioOperationalStatus,
+        store: Store<ReduxState>
+    )
 }
 
 internal class CallingMiddlewareActionHandlerImpl(
@@ -733,13 +737,17 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     private fun subscribeIsMutedUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
-            callingService.getIsMutedSharedFlow().collect {
-                val action = if (it) {
-                    LocalParticipantAction.AudioStateOperationUpdated(AudioOperationalStatus.OFF)
+            callingService.getIsMutedSharedFlow().collect { isMuted ->
+                val currentAudioState = store.getCurrentState().localParticipantState.audioState.operation
+                if (isMuted) {
+                    if (currentAudioState != AudioOperationalStatus.OFF) {
+                        store.dispatch(LocalParticipantAction.AudioStateOperationUpdated(AudioOperationalStatus.OFF))
+                    }
                 } else {
-                    LocalParticipantAction.AudioStateOperationUpdated(AudioOperationalStatus.ON)
+                    if (currentAudioState != AudioOperationalStatus.ON) {
+                        store.dispatch(LocalParticipantAction.AudioStateOperationUpdated(AudioOperationalStatus.ON))
+                    }
                 }
-                store.dispatch(action)
             }
         }
     }
@@ -945,6 +953,20 @@ internal class CallingMiddlewareActionHandlerImpl(
             store.dispatch(RttAction.EnableRtt())
         }
         callingService.sendRttMessage(message, isFinalized)
+    }
+
+    override fun onUpdateAudioStateOperation(
+        audioOperationalStatus: AudioOperationalStatus,
+        store: Store<ReduxState>
+    ) {
+        if (audioOperationalStatus == AudioOperationalStatus.ON) {
+            store.dispatch(ToastNotificationAction.DismissNotification(ToastNotificationKind.MUTED))
+            store.dispatch(ToastNotificationAction.ShowNotification(ToastNotificationKind.UNMUTED))
+        }
+        if (audioOperationalStatus == AudioOperationalStatus.OFF) {
+            store.dispatch(ToastNotificationAction.DismissNotification(ToastNotificationKind.UNMUTED))
+            store.dispatch(ToastNotificationAction.ShowNotification(ToastNotificationKind.MUTED))
+        }
     }
 
     private fun subscribeRttStateUpdate(store: Store<ReduxState>) {
