@@ -159,6 +159,7 @@
     <string name="azure_communication_ui_calling_report_issue_title">الإبلاغ عن مشكلة</string>
     <string name="azure_communication_ui_calling_logs_attach_notice">سنقوم بإرفاق السجلات تلقائيًا.</string>
     <string name="azure_communication_ui_calling_privacy_policy_label">نهج الخصوصية</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">نهج الخصوصية. ارتباط.</string>
     <string name="azure_communication_ui_calling_describe_your_issue_hint_text">يُرجى وصف مشكلتك...</string>
     <string name="azure_communication_ui_calling_cancel_button_label">إلغاء</string>
     <string name="azure_communication_ui_calling_attach_screenshot">إرفاق لقطة الشاشة</string>
@@ -198,6 +199,7 @@
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">يتعذّر تغيير لغة التسمية التوضيحية</string>
     <string name="azure_communication_ui_calling_captions_rtt_menu">التسميات التوضيحية &amp; RTT</string>
     <string name="azure_communication_ui_calling_rtt_info">تم تمكين نص الوقت الحقيقي (RTT) طوال مدة هذا الاجتماع ويمكن لجميع المشاركين مشاهدته. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">معرفة المزيد</a></string>
+    <string name="azure_communication_ui_calling_rtt_info_accessibility">تم تمكين نص الوقت الحقيقي (RTT) طوال مدة هذا الاجتماع ويمكن لجميع المشاركين مشاهدته. التعرف على المزيد. رابط</string>
     <string name="azure_communication_ui_calling_rtt">عرض الكتابة في الوقت الحقيقي (RTT)</string>
     <string name="azure_communication_ui_calling_rtt_message_sent">تم إرسال الرسالة</string>
     <string name="azure_communication_ui_calling_rtt_typing">عرض الكتابة في الوقت الحقيقي (RTT) قيد الكتابة</string>

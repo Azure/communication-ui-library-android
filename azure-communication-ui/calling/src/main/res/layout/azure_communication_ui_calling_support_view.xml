@@ -82,5 +82,6 @@
                     android:layout_marginStart="8dp"
                     style="@style/TextAppearance.FluentUI.Caption"
                     android:text="@string/azure_communication_ui_calling_privacy_policy_label"
+                    android:contentDescription="@string/azure_communication_ui_calling_privacy_policy_label_accessibility"
                     />
 </androidx.constraintlayout.widget.ConstraintLayout>
