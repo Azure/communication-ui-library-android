@@ -159,6 +159,7 @@
     <string name="azure_communication_ui_calling_report_issue_title">Zgłoś problem</string>
     <string name="azure_communication_ui_calling_logs_attach_notice">Automatycznie dołączymy dzienniki.</string>
     <string name="azure_communication_ui_calling_privacy_policy_label">Zasady ochrony prywatności</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">Zasady ochrony prywatności. Link.</string>
     <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Opisz swój problem...</string>
     <string name="azure_communication_ui_calling_cancel_button_label">Anuluj</string>
     <string name="azure_communication_ui_calling_attach_screenshot">Załącz wycinek ekranu</string>
@@ -198,6 +199,7 @@
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Nie można zmienić języka napisów</string>
     <string name="azure_communication_ui_calling_captions_rtt_menu">Napisy i RTT</string>
     <string name="azure_communication_ui_calling_rtt_info">Tekst w czasie rzeczywistym jest włączony przez cały czas trwania tego spotkania i jest widoczny dla wszystkich uczestników. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">Dowiedz się więcej</a></string>
+    <string name="azure_communication_ui_calling_rtt_info_accessibility">Tekst w czasie rzeczywistym jest włączony przez cały czas trwania tego spotkania i jest widoczny dla wszystkich uczestników. Dowiedz się więcej. Łącze</string>
     <string name="azure_communication_ui_calling_rtt">Pisanie w czasie rzeczywistym</string>
     <string name="azure_communication_ui_calling_rtt_message_sent">Wiadomość została wysłana</string>
     <string name="azure_communication_ui_calling_rtt_typing">Pisanie w czasie rzeczywistym</string>

@@ -159,6 +159,7 @@
     <string name="azure_communication_ui_calling_report_issue_title">回報問題</string>
     <string name="azure_communication_ui_calling_logs_attach_notice">我們將會自動附加記錄。</string>
     <string name="azure_communication_ui_calling_privacy_policy_label">隱私權原則</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">隱私權原則。連結。</string>
     <string name="azure_communication_ui_calling_describe_your_issue_hint_text">請描述您的問題...</string>
     <string name="azure_communication_ui_calling_cancel_button_label">取消</string>
     <string name="azure_communication_ui_calling_attach_screenshot">附加螢幕擷取畫面</string>
@@ -198,6 +199,7 @@
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">無法變更輔助字幕語言</string>
     <string name="azure_communication_ui_calling_captions_rtt_menu">輔助字幕與 RTT</string>
     <string name="azure_communication_ui_calling_rtt_info">此會議的整個期間已啟用即時文字 (RTT)，所有參與者皆可看到。<a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">深入瞭解</a></string>
+    <string name="azure_communication_ui_calling_rtt_info_accessibility">此會議的整個期間已啟用即時文字 (RTT)，所有參與者皆可看到。瞭解更多資訊。連結</string>
     <string name="azure_communication_ui_calling_rtt">RTT</string>
     <string name="azure_communication_ui_calling_rtt_message_sent">訊息已傳送</string>
     <string name="azure_communication_ui_calling_rtt_typing">RTT 輸入</string>

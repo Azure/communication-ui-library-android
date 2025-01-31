@@ -159,6 +159,7 @@
     <string name="azure_communication_ui_calling_report_issue_title">Segnala problema</string>
     <string name="azure_communication_ui_calling_logs_attach_notice">I log verranno allegati automaticamente.</string>
     <string name="azure_communication_ui_calling_privacy_policy_label">Informativa sulla privacy</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">Privacy Policy. Link.</string>
     <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Descrivi il problema qui...</string>
     <string name="azure_communication_ui_calling_cancel_button_label">Annulla</string>
     <string name="azure_communication_ui_calling_attach_screenshot">Allega screenshot</string>
@@ -198,6 +199,7 @@
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Impossibile cambiare la lingua dei sottotitoli</string>
     <string name="azure_communication_ui_calling_captions_rtt_menu">Didascalie e scrittura in tempo reale</string>
     <string name="azure_communication_ui_calling_rtt_info">La scrittura in tempo reale (RTT) è abilitata per l\'intera durata della riunione ed è visibile per tutti i partecipanti. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">Altre informazioni</a></string>
+    <string name="azure_communication_ui_calling_rtt_info_accessibility">Il testo in tempo reale (RTT) è abilitato per l\'intera durata della riunione e viene visualizzato da tutti i partecipanti. Ulteriori informazioni. Collegamento</string>
     <string name="azure_communication_ui_calling_rtt">Scrittura in tempo reale</string>
     <string name="azure_communication_ui_calling_rtt_message_sent">Messaggio inviato</string>
     <string name="azure_communication_ui_calling_rtt_typing">Digitazione scrittura in tempo reale</string>
