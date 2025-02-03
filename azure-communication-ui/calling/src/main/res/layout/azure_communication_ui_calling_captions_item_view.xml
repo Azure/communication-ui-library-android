@@ -43,6 +43,7 @@
             android:textColor="@color/azure_communication_ui_calling_color_action_bar_subtext"
             android:textSize="13sp"
             android:text="@string/azure_communication_ui_calling_rtt_info"
+            android:contentDescription="@string/azure_communication_ui_calling_rtt_info_accessibility"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

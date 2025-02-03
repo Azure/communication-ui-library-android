@@ -159,6 +159,7 @@
     <string name="azure_communication_ui_calling_report_issue_title">問題の報告</string>
     <string name="azure_communication_ui_calling_logs_attach_notice">ログは自動的に添付されます。</string>
     <string name="azure_communication_ui_calling_privacy_policy_label">プライバシー ポリシー</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">プライバシー ポリシー。リンク。</string>
     <string name="azure_communication_ui_calling_describe_your_issue_hint_text">問題を説明してください...</string>
     <string name="azure_communication_ui_calling_cancel_button_label">取り消す</string>
     <string name="azure_communication_ui_calling_attach_screenshot">スクリーンショットを添付する</string>
@@ -198,6 +199,7 @@
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">キャプションの言語を変更できません</string>
     <string name="azure_communication_ui_calling_captions_rtt_menu">キャプションと RTT</string>
     <string name="azure_communication_ui_calling_rtt_info">リアルタイム テキスト (RTT) は、この会議の全期間で有効になっており、すべての参加者に表示されます。<a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">詳細情報の</a></string>
+    <string name="azure_communication_ui_calling_rtt_info_accessibility">リアルタイム テキスト (RTT) は、この会議の全期間で有効になっており、すべての参加者に表示されます。詳細情報。リンク</string>
     <string name="azure_communication_ui_calling_rtt">RTT</string>
     <string name="azure_communication_ui_calling_rtt_message_sent">メッセージを送信しました</string>
     <string name="azure_communication_ui_calling_rtt_typing">RTT 入力</string>

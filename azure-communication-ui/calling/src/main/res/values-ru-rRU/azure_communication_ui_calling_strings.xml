@@ -159,6 +159,7 @@
     <string name="azure_communication_ui_calling_report_issue_title">Сообщить о проблеме</string>
     <string name="azure_communication_ui_calling_logs_attach_notice">Журналы будут вложены автоматически.</string>
     <string name="azure_communication_ui_calling_privacy_policy_label">Политика конфиденциальности</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">Политика конфиденциальности. Ссылка.</string>
     <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Опишите свою проблему...</string>
     <string name="azure_communication_ui_calling_cancel_button_label">Отмена</string>
     <string name="azure_communication_ui_calling_attach_screenshot">Вложить снимок экрана</string>
@@ -198,6 +199,7 @@
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Не удалось изменить язык субтитров</string>
     <string name="azure_communication_ui_calling_captions_rtt_menu">Субтитры и ввод в режиме реального времени</string>
     <string name="azure_communication_ui_calling_rtt_info">Текст в режиме реального времени (RTT) включен на весь период этого собрания и виден всем участникам. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">Дополнительные сведения</a></string>
+    <string name="azure_communication_ui_calling_rtt_info_accessibility">Текст в режиме реального времени (RTT) включен на весь период этого собрания и виден всем участникам. Подробнее. Связь</string>
     <string name="azure_communication_ui_calling_rtt">Ввод в режиме реального времени</string>
     <string name="azure_communication_ui_calling_rtt_message_sent">Сообщение отправлено</string>
     <string name="azure_communication_ui_calling_rtt_typing">Ввод с клавиатуры в режиме реального времени</string>
