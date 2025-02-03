@@ -46,9 +46,9 @@ extends:
               Service: 'e312ec77-9c77-48a7-9837-32fe6d08d460'
               BuildOutputUsage: 'test'
           - task: JavaToolInstaller@0
-            displayName: 'Configure Java 11'
+            displayName: 'Configure Java 17'
             inputs:
-              versionSpec: '11'
+              versionSpec: '17'
               jdkArchitectureOption: 'x64'
               jdkSourceOption: 'PreInstalled'
           - task: Gradle@3
