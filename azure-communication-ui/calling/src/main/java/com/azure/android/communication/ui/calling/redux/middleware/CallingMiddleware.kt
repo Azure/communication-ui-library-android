@@ -71,6 +71,9 @@ internal class CallingMiddlewareImpl(
                 is LocalParticipantAction.MicOnTriggered -> {
                     callingMiddlewareActionHandler.turnMicOn(store)
                 }
+                is LocalParticipantAction.AudioStateOperationUpdated -> {
+                    callingMiddlewareActionHandler.onUpdateAudioStateOperation(action.audioOperationalStatus, store)
+                }
                 is CallingAction.HoldRequested -> {
                     callingMiddlewareActionHandler.hold(store)
                 }

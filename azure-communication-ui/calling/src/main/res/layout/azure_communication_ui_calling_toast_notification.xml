@@ -4,7 +4,6 @@
   -->
 <com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/azure_communication_ui_calling_toast_notification"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -13,52 +12,15 @@
     android:layout_marginEnd="8dp"
     android:layout_marginBottom="8dp"
     android:paddingHorizontal="8dp"
-    android:visibility="gone"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintBottom_toTopOf="@+id/azure_communication_ui_calling_control_bar_view_wrapper"
-    tools:visibility="visible"
-    android:focusable="true"
     >
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/azure_communication_ui_calling_toast_notification_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clipChildren="false"
-        android:padding="8dp"
-        android:alpha="0.8"
-        android:background="@drawable/azure_communication_ui_calling_corner_radius_rectangle_6dp_floating_header"
-        android:importantForAccessibility="yes"
+        android:orientation="vertical"
+        android:gravity="center"
         >
-        <RelativeLayout
-            android:id="@+id/blank"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-           >
-            <ImageView
-                android:id="@+id/azure_communication_ui_calling_toast_notification_icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_toLeftOf="@id/message_container"
-                android:layout_marginRight="-24dp"
-                android:layout_centerVertical="true"
-                android:backgroundTint="@color/azure_communication_ui_calling_color_button_background_transparent"
-                app:srcCompat="@drawable/azure_communication_ui_calling_ic_fluent_mic_off_24_filled_composite_button_filled_grey"
-                />
-            <LinearLayout
-                android:id="@+id/message_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="32dp"
-                android:layout_centerVertical="true">
-                <TextView
-                    android:id="@+id/azure_communication_ui_calling_toast_notification_message"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
-                    android:textColor="@color/azure_communication_ui_calling_color_call_diagnostic_notification_text"
-                    />
-            </LinearLayout>
-        </RelativeLayout>
-    </RelativeLayout>
+    </LinearLayout>
+
 </com.azure.android.communication.ui.calling.presentation.fragment.calling.notification.ToastNotificationView>
 

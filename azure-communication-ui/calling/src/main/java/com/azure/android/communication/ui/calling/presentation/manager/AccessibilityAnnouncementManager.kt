@@ -11,12 +11,12 @@ import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.redux.Store
-import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CaptionsStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import com.azure.android.communication.ui.calling.redux.state.ToastNotificationKind
 import kotlinx.coroutines.flow.collect
 
 // Manager to hook into accessibility and provide announcements
@@ -126,19 +126,6 @@ internal class SwitchCameraStatusHook : AccessibilityHook() {
     }
 }
 
-internal class MicStatusHook : AccessibilityHook() {
-    override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean =
-        (lastState.localParticipantState.audioState.operation != newState.localParticipantState.audioState.operation)
-
-    override fun message(lastState: ReduxState, newState: ReduxState, context: Context): String {
-        return when (newState.localParticipantState.audioState.operation) {
-            AudioOperationalStatus.ON -> context.getString(R.string.azure_communication_ui_calling_setup_view_button_mic_on)
-            AudioOperationalStatus.OFF -> context.getString(R.string.azure_communication_ui_calling_setup_view_button_mic_off)
-            AudioOperationalStatus.PENDING -> ""
-        }
-    }
-}
-
 internal class CameraStatusHook : AccessibilityHook() {
     override fun shouldTrigger(lastState: ReduxState, newState: ReduxState): Boolean =
         (lastState.localParticipantState.cameraState.operation != newState.localParticipantState.cameraState.operation)
@@ -162,4 +149,34 @@ internal class CaptionsStatusHook : AccessibilityHook() {
             CaptionsStatus.STOPPED -> context.getString(R.string.azure_communication_ui_calling_captions_is_off)
             else -> ""
         }
+}
+
+internal class NotificationStatusHook : AccessibilityHook() {
+    override fun shouldTrigger(lastState: ReduxState, newState: ReduxState) =
+        newState.toastNotificationState.kinds
+            .any { kind -> kind !in lastState.toastNotificationState.kinds }
+
+    override fun message(lastState: ReduxState, newState: ReduxState, context: Context): String {
+        return newState.toastNotificationState.kinds
+            .filter { kind -> kind !in lastState.toastNotificationState.kinds }
+            .joinToString(separator = ". ") { kind ->
+                val resourceId = when (kind) {
+                    ToastNotificationKind.NETWORK_RECEIVE_QUALITY -> R.string.azure_communication_ui_calling_diagnostics_network_quality_low
+                    ToastNotificationKind.NETWORK_SEND_QUALITY -> R.string.azure_communication_ui_calling_diagnostics_network_quality_low
+                    ToastNotificationKind.NETWORK_RECONNECTION_QUALITY -> R.string.azure_communication_ui_calling_diagnostics_network_reconnecting
+                    ToastNotificationKind.NETWORK_UNAVAILABLE, ToastNotificationKind.NETWORK_RELAYS_UNREACHABLE -> R.string.azure_communication_ui_calling_diagnostics_network_reconnecting
+                    ToastNotificationKind.SPEAKING_WHILE_MICROPHONE_IS_MUTED -> R.string.azure_communication_ui_calling_diagnostics_you_are_muted
+                    ToastNotificationKind.CAMERA_START_FAILED, ToastNotificationKind.CAMERA_START_TIMED_OUT -> R.string.azure_communication_ui_calling_diagnostics_unable_to_start_camera
+                    ToastNotificationKind.SOME_FEATURES_LOST -> R.string.azure_communication_ui_calling_view_capabilities_changed_toast_features_lost
+                    ToastNotificationKind.SOME_FEATURES_GAINED -> R.string.azure_communication_ui_calling_view_capabilities_changed_toast_features_gained
+                    ToastNotificationKind.CAPTIONS_FAILED_TO_START -> R.string.azure_communication_ui_calling_error_captions_failed_to_start
+                    ToastNotificationKind.CAPTIONS_FAILED_TO_STOP -> R.string.azure_communication_ui_calling_error_captions_failed_to_stop
+                    ToastNotificationKind.CAPTIONS_FAILED_TO_SET_SPOKEN_LANGUAGE -> R.string.azure_communication_ui_calling_error_captions_failed_to_set_spoken_language
+                    ToastNotificationKind.CAPTIONS_FAILED_TO_SET_CAPTION_LANGUAGE -> R.string.azure_communication_ui_calling_error_captions_failed_to_set_caption_language
+                    ToastNotificationKind.MUTED -> R.string.azure_communication_ui_calling_setup_view_button_mic_off
+                    ToastNotificationKind.UNMUTED -> R.string.azure_communication_ui_calling_setup_view_button_mic_on
+                }
+                context.getString(resourceId)
+            }
+    }
 }
