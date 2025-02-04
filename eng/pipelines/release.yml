@@ -129,6 +129,12 @@ extends:
               ls $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app
 
               echo '$(system.defaultWorkingDirectory)/azure-communication-ui/demo-app'
+        - task: JavaToolInstaller@0
+            displayName: 'Configure Java 17'
+            inputs:
+              versionSpec: '17'
+              jdkArchitectureOption: 'x64'
+              jdkSourceOption: 'PreInstalled'
         - task: Gradle@3
           displayName: gradlew ktlintCheck
           inputs:
@@ -136,8 +142,6 @@ extends:
             cwd: azure-communication-ui
             tasks: ktlintCheck
             publishJUnitResults: false
-            javaHomeOption: 'JDKVersion'
-            jdkVersionOption: '1.11'
         - task: Gradle@3
           displayName: gradlew build
           inputs:
@@ -145,24 +149,18 @@ extends:
             cwd: azure-communication-ui
             tasks: build --stacktrace
             publishJUnitResults: false
-            javaHomeOption: 'JDKVersion'
-            jdkVersionOption: '1.11'
         - task: Gradle@3
           displayName: publish calling to local dir
           inputs:
             wrapperScript: azure-communication-ui/gradlew
             cwd: azure-communication-ui/calling
             tasks: publishReleasePublicationToLocalDirectoryRepository
-            javaHomeOption: 'JDKVersion'
-            jdkVersionOption: '1.11'
         - task: Gradle@3
           displayName: publish chat to local dir
           inputs:
             wrapperScript: azure-communication-ui/gradlew
             cwd: azure-communication-ui/chat
             tasks: publishReleasePublicationToLocalDirectoryRepository
-            javaHomeOption: 'JDKVersion'
-            jdkVersionOption: '1.11'
         - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
           displayName: Put .pom file to the .aar file
           inputs:
