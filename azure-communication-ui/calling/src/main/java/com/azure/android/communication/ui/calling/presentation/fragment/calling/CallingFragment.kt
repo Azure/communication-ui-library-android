@@ -185,7 +185,6 @@ internal class CallingFragment :
         toastNotificationView.start(
             viewLifecycleOwner,
             viewModel.toastNotificationViewModel,
-            accessibilityManager.isEnabled
         )
 
         audioDeviceListView =

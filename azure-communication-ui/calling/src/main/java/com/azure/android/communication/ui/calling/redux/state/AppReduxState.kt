@@ -90,7 +90,7 @@ internal class AppReduxState(
         mediaCallDiagnostic = null
     )
 
-    override var toastNotificationState: ToastNotificationState = ToastNotificationState(null)
+    override var toastNotificationState: ToastNotificationState = ToastNotificationState(emptyList())
 
     override var captionsState: CaptionsState = CaptionsState(isCaptionsUIEnabled = showCaptionsUI)
 
