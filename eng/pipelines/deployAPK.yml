@@ -188,8 +188,6 @@ extends:
             cwd: azure-communication-ui
             tasks: ktlintCheck
             publishJUnitResults: false
-            javaHomeOption: 'JDKVersion'
-            jdkVersionOption: '1.11'
         - task: Gradle@3
           displayName: gradlew assembleDebug --stacktrace
           enabled: False
