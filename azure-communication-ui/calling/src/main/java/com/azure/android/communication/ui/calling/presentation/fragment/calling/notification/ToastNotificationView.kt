@@ -5,10 +5,9 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
-import android.view.accessibility.AccessibilityEvent
-import android.view.accessibility.AccessibilityNodeInfo
+import android.view.LayoutInflater
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -22,47 +21,36 @@ internal class ToastNotificationView : ConstraintLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
-    private lateinit var toastNotificationView: View
-    private lateinit var toastNotificationIconImageView: ImageView
-    private lateinit var toastNotificationMessageTextView: TextView
+    private lateinit var notificationContainer: LinearLayout
     private lateinit var toastNotificationViewModel: ToastNotificationViewModel
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        toastNotificationView = findViewById(R.id.azure_communication_ui_calling_toast_notification)
-        toastNotificationMessageTextView =
-            findViewById(R.id.azure_communication_ui_calling_toast_notification_message)
-        toastNotificationIconImageView =
-            findViewById(R.id.azure_communication_ui_calling_toast_notification_icon)
+        notificationContainer = findViewById(R.id.azure_communication_ui_calling_toast_notification_container)
     }
 
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         toastNotificationViewModel: ToastNotificationViewModel,
-        accessibilityEnabled: Boolean
     ) {
         this.toastNotificationViewModel = toastNotificationViewModel
 
         viewLifecycleOwner.lifecycleScope.launch {
-            toastNotificationViewModel.toastNotificationModelFlow.collect {
-                if (it != null) {
-                    visibility = View.VISIBLE
+            toastNotificationViewModel.displayedNotificationsFlow.collect {
+                notificationContainer.removeAllViews()
 
-                    if (accessibilityEnabled) {
-                        performAccessibilityAction(AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS, null)
-                        sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED)
-                        sendAccessibilityEvent(AccessibilityEvent.WINDOWS_CHANGE_ACCESSIBILITY_FOCUSED)
-                    }
+                val inflater = LayoutInflater.from(context)
 
-                    toastNotificationIconImageView.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            context,
-                            it.notificationIconId
-                        )
-                    )
-                    toastNotificationMessageTextView.text = context.getString(it.notificationMessageId)
-                } else {
-                    visibility = View.GONE
+                for (item in it) {
+                    val itemView = inflater.inflate(R.layout.azure_communication_ui_calling_toast_notification_item, notificationContainer, false)
+
+                    val icon = itemView.findViewById<ImageView>(R.id.azure_communication_ui_calling_toast_notification_icon)
+                    val text = itemView.findViewById<TextView>(R.id.azure_communication_ui_calling_toast_notification_message)
+
+                    icon.setImageDrawable(ContextCompat.getDrawable(context, item.notificationIconId))
+                    text.text = context.getString(item.notificationMessageId)
+
+                    notificationContainer.addView(itemView)
                 }
             }
         }

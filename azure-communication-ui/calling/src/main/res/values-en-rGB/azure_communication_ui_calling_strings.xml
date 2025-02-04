@@ -159,6 +159,7 @@
     <string name="azure_communication_ui_calling_report_issue_title">Report Issue</string>
     <string name="azure_communication_ui_calling_logs_attach_notice">We\'ll automatically attach logs.</string>
     <string name="azure_communication_ui_calling_privacy_policy_label">Privacy Policy</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">Privacy Policy. Link.</string>
     <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Please describe your issue...</string>
     <string name="azure_communication_ui_calling_cancel_button_label">Cancel</string>
     <string name="azure_communication_ui_calling_attach_screenshot">Attach screenshot</string>
@@ -198,6 +199,7 @@
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Unable to change caption language</string>
     <string name="azure_communication_ui_calling_captions_rtt_menu">Captions &amp; RTT</string>
     <string name="azure_communication_ui_calling_rtt_info">Real-time text (RTT) is enabled for the entire duration of this meeting and is seen by all participants. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">Learn more</a></string>
+    <string name="azure_communication_ui_calling_rtt_info_accessibility">Real-time text (RTT) is enabled for the entire duration of this meeting and is seen by all participants. Learn more. Link</string>
     <string name="azure_communication_ui_calling_rtt">RTT</string>
     <string name="azure_communication_ui_calling_rtt_message_sent">Message sent</string>
     <string name="azure_communication_ui_calling_rtt_typing">RTT typing</string>

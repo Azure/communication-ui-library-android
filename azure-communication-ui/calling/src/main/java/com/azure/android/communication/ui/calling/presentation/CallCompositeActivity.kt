@@ -370,7 +370,7 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         resources.updateConfiguration(config, resources.displayMetrics)
 
         supportView.layoutDirection =
-            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
+            activity?.window?.decorView?.layoutDirection ?: View.LAYOUT_DIRECTION_LOCALE
     }
 
     private fun getCameraPermissionLauncher(): ActivityResultLauncher<String> {

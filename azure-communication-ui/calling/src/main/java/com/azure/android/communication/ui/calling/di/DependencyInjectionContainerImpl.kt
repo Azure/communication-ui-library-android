@@ -31,9 +31,9 @@ import com.azure.android.communication.ui.calling.presentation.manager.DebugInfo
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManagerImpl
 import com.azure.android.communication.ui.calling.presentation.manager.LifecycleManagerImpl
 import com.azure.android.communication.ui.calling.presentation.manager.MeetingJoinedHook
-import com.azure.android.communication.ui.calling.presentation.manager.MicStatusHook
 import com.azure.android.communication.ui.calling.presentation.manager.MultitaskingManager
 import com.azure.android.communication.ui.calling.presentation.manager.NetworkManager
+import com.azure.android.communication.ui.calling.presentation.manager.NotificationStatusHook
 import com.azure.android.communication.ui.calling.presentation.manager.ParticipantAddedOrRemovedHook
 import com.azure.android.communication.ui.calling.presentation.manager.PermissionManager
 import com.azure.android.communication.ui.calling.presentation.manager.SwitchCameraStatusHook
@@ -208,9 +208,9 @@ internal class DependencyInjectionContainerImpl(
                 MeetingJoinedHook(),
                 CameraStatusHook(),
                 ParticipantAddedOrRemovedHook(),
-                MicStatusHook(),
                 SwitchCameraStatusHook(),
                 CaptionsStatusHook(),
+                NotificationStatusHook(),
             )
         )
     }

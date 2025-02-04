@@ -3,6 +3,7 @@
 
 package com.azure.android.communication.ui.callingcompositedemoapp
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -64,6 +65,7 @@ class CallLauncherActivity : AppCompatActivity() {
         getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
     }
 
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (shouldFinish()) {

@@ -159,6 +159,7 @@
     <string name="azure_communication_ui_calling_report_issue_title">דווח על בעיה</string>
     <string name="azure_communication_ui_calling_logs_attach_notice">אנו נצרף יומני רישום באופן אוטומטי.</string>
     <string name="azure_communication_ui_calling_privacy_policy_label">מדיניות פרטיות</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">מדיניות פרטיות. קישור.</string>
     <string name="azure_communication_ui_calling_describe_your_issue_hint_text">תאר את הבעיה שלך...</string>
     <string name="azure_communication_ui_calling_cancel_button_label">ביטול</string>
     <string name="azure_communication_ui_calling_attach_screenshot">צרף צילום מסך</string>
@@ -198,6 +199,7 @@
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">לא ניתן לשנות את שפת הכתוביות</string>
     <string name="azure_communication_ui_calling_captions_rtt_menu">כתוביות ו- RTT</string>
     <string name="azure_communication_ui_calling_rtt_info">טקסט בזמן אמת (RTT) זמין למשך הזמן המלא של פגישה זו והוא מוצג על-ידי כל המשתתפים. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">מידע נוסף</a></string>
+    <string name="azure_communication_ui_calling_rtt_info_accessibility">טקסט בזמן אמת (RTT) זמין למשך הזמן המלא של פגישה זו והוא מוצג על-ידי כל המשתתפים. למד עוד. קישור</string>
     <string name="azure_communication_ui_calling_rtt">RTT</string>
     <string name="azure_communication_ui_calling_rtt_message_sent">ההודעה נשלחה</string>
     <string name="azure_communication_ui_calling_rtt_typing">הקלדת RTT</string>

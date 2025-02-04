@@ -15,7 +15,6 @@ import android.os.PowerManager
 import android.transition.ChangeBounds
 import android.transition.TransitionManager
 import android.util.DisplayMetrics
-import android.util.LayoutDirection
 import android.view.View
 import android.view.accessibility.AccessibilityManager
 import androidx.activity.addCallback
@@ -120,7 +119,7 @@ internal class CallingFragment :
         confirmLeaveOverlayView =
             LeaveConfirmView(viewModel.confirmLeaveOverlayViewModel, this.requireContext())
         confirmLeaveOverlayView.layoutDirection =
-            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
+            activity?.window?.decorView?.layoutDirection ?: View.LAYOUT_DIRECTION_LOCALE
         confirmLeaveOverlayView.start(
             viewLifecycleOwner
         )
@@ -186,13 +185,12 @@ internal class CallingFragment :
         toastNotificationView.start(
             viewLifecycleOwner,
             viewModel.toastNotificationViewModel,
-            accessibilityManager.isEnabled
         )
 
         audioDeviceListView =
             AudioDeviceListView(viewModel.audioDeviceListViewModel, this.requireContext())
         audioDeviceListView.layoutDirection =
-            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
+            activity?.window?.decorView?.layoutDirection ?: View.LAYOUT_DIRECTION_LOCALE
         audioDeviceListView.start(viewLifecycleOwner)
 
         participantListView = ParticipantListView(
@@ -201,7 +199,7 @@ internal class CallingFragment :
             avatarViewManager,
         )
         participantListView.layoutDirection =
-            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
+            activity?.window?.decorView?.layoutDirection ?: View.LAYOUT_DIRECTION_LOCALE
         participantListView.start(viewLifecycleOwner)
 
         participantMenuView = ParticipantMenuView(
@@ -209,7 +207,7 @@ internal class CallingFragment :
             viewModel.participantMenuViewModel,
         )
         participantMenuView.layoutDirection =
-            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
+            activity?.window?.decorView?.layoutDirection ?: View.LAYOUT_DIRECTION_LOCALE
         participantMenuView.start(viewLifecycleOwner)
 
         bannerView = view.findViewById(R.id.azure_communication_ui_call_banner)
@@ -229,7 +227,7 @@ internal class CallingFragment :
             viewModel.moreCallOptionsListViewModel
         )
         moreCallOptionsListView.layoutDirection =
-            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
+            activity?.window?.decorView?.layoutDirection ?: View.LAYOUT_DIRECTION_LOCALE
         moreCallOptionsListView.start(viewLifecycleOwner)
 
         captionsListView = CaptionsListView(
@@ -237,7 +235,7 @@ internal class CallingFragment :
             viewModel = viewModel.captionsListViewModel,
         )
         captionsListView.layoutDirection =
-            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
+            activity?.window?.decorView?.layoutDirection ?: View.LAYOUT_DIRECTION_LOCALE
         captionsListView.start(viewLifecycleOwner)
 
         captionsLanguageSelectionListView = CaptionsLanguageSelectionListView(
@@ -245,7 +243,7 @@ internal class CallingFragment :
             viewModel = viewModel.captionsLanguageSelectionListViewModel
         )
         captionsLanguageSelectionListView.layoutDirection =
-            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
+            activity?.window?.decorView?.layoutDirection ?: View.LAYOUT_DIRECTION_LOCALE
         val displayMetrics = DisplayMetrics()
         requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
         val halfScreenHeight = displayMetrics.heightPixels / 2

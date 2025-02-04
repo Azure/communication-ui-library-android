@@ -7,5 +7,5 @@ import com.azure.android.communication.ui.calling.redux.state.ToastNotificationK
 
 internal sealed class ToastNotificationAction : Action {
     class ShowNotification(val kind: ToastNotificationKind) : ToastNotificationAction()
-    class DismissNotification : ToastNotificationAction()
+    class DismissNotification(val kind: ToastNotificationKind) : ToastNotificationAction()
 }

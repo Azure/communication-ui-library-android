@@ -159,6 +159,7 @@
     <string name="azure_communication_ui_calling_report_issue_title">Rapporter problem</string>
     <string name="azure_communication_ui_calling_logs_attach_notice">Vi legger ved logger automatisk.</string>
     <string name="azure_communication_ui_calling_privacy_policy_label">Personvern</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">Privacy Policy. Link.</string>
     <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Beskriv problemet ditt...</string>
     <string name="azure_communication_ui_calling_cancel_button_label">Avbryt</string>
     <string name="azure_communication_ui_calling_attach_screenshot">Legg ved skjermbilde</string>
@@ -198,6 +199,7 @@
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Kan ikke endre språk for teksting</string>
     <string name="azure_communication_ui_calling_captions_rtt_menu">Undertekster og RTT</string>
     <string name="azure_communication_ui_calling_rtt_info">Sanntidstekst (RTT) er aktivert for hele varigheten av dette møtet og vises av alle deltakerne. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">Mer informasjon</a></string>
+    <string name="azure_communication_ui_calling_rtt_info_accessibility">Sanntidstekst (RTT) er aktivert for hele varigheten av dette møtet og vises av alle deltakerne. Mer informasjon. Lenke</string>
     <string name="azure_communication_ui_calling_rtt">Skriving i sanntid</string>
     <string name="azure_communication_ui_calling_rtt_message_sent">Melding sendt</string>
     <string name="azure_communication_ui_calling_rtt_typing">Skriving i sanntid</string>

@@ -168,6 +168,7 @@ android {
     packagingOptions {
         resources.excludes.add("META-INF/*")
     }
+    namespace 'com.azure.android.communication.ui.callingcompositedemoapp'
 }
 
 dependencies {
