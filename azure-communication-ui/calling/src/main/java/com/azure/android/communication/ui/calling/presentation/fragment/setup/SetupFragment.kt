@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.calling.presentation.fragment.setup
 
 import android.os.Build
 import android.os.Bundle
-import android.util.LayoutDirection
 import android.view.View
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -89,7 +88,7 @@ internal class SetupFragment :
         audioDeviceListView =
             AudioDeviceListView(viewModel.audioDeviceListViewModel, this.requireContext())
         audioDeviceListView.layoutDirection =
-            activity?.window?.decorView?.layoutDirection ?: LayoutDirection.LOCALE
+            activity?.window?.decorView?.layoutDirection ?: View.LAYOUT_DIRECTION_LOCALE
         audioDeviceListView.start(viewLifecycleOwner)
 
         setupControlsView = view.findViewById(R.id.azure_communication_ui_setup_buttons)
