@@ -282,41 +282,40 @@
                 app:layout_constraintTop_toTopOf="parent"
                 />
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+            <ProgressBar
+                android:id="@+id/azure_communication_ui_setup_start_call_progress_bar"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 app:layout_constraintBottom_toBottomOf="@+id/azure_communication_ui_setup_start_call_button_text"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/azure_communication_ui_setup_start_call_joining_text"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/azure_communication_ui_setup_start_call_button_text"
-                android:orientation="horizontal"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                android:layout_marginEnd="8dp"
+                android:indeterminateTint="?attr/azure_communication_ui_calling_primary_color"
+                android:visibility="gone"
+                tools:visibility="visible"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/azure_communication_ui_setup_start_call_joining_text"
+                style="@style/AzureCommunicationUICalling.ButtonText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/azure_communication_ui_setup_start_call_button_text"
+                app:layout_constraintStart_toEndOf="@+id/azure_communication_ui_setup_start_call_progress_bar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/azure_communication_ui_setup_start_call_button_text"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                android:drawablePadding="4dp"
                 android:gravity="center"
-                >
-
-                <ProgressBar
-                    android:id="@+id/azure_communication_ui_setup_start_call_progress_bar"
-                    style="?android:attr/progressBarStyleLarge"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginEnd="8dp"
-                    android:indeterminateTint="?attr/azure_communication_ui_calling_primary_color"
-                    android:visibility="gone"
-                    />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/azure_communication_ui_setup_start_call_joining_text"
-                    style="@style/AzureCommunicationUICalling.ButtonText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="4dp"
-                    android:gravity="center"
-                    android:stateListAnimator="@null"
-                    android:text="@string/azure_communication_ui_calling_setup_view_button_connecting_call"
-                    android:textColor="@color/azure_communication_ui_calling_color_text_primary"
-                    android:visibility="gone"
-                    />
-
-            </LinearLayout>
+                android:stateListAnimator="@null"
+                android:text="@string/azure_communication_ui_calling_setup_view_button_connecting_call"
+                android:textColor="@color/azure_communication_ui_calling_color_text_primary"
+                android:visibility="gone"
+                tools:visibility="visible"
+                />
 
         </com.azure.android.communication.ui.calling.presentation.fragment.setup.components.JoinCallButtonHolderView>
 
