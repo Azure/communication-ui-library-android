@@ -4,10 +4,10 @@
 package com.azure.android.communication.ui.calling.utilities.implementation;
 
 import android.content.Context;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.azure.android.communication.ui.calling.implementation.R;
 import com.microsoft.fluentui.drawer.DrawerDialog;
@@ -41,7 +41,7 @@ public class CompositeDrawerDialog extends DrawerDialog {
     private void onShow() {
         // Not a great solution to use the CoordinatorLayout, but it's the only way to set the content description.
         // The issue is posted to the FluentUI library: https://github.com/microsoft/fluentui-android/issues/758
-        final CoordinatorLayout coordinatorLayout = findViewById(R.id.drawer_container);
+        final View coordinatorLayout = findViewById(R.id.drawer_container);
 
         if (coordinatorLayout != null) {
             coordinatorLayout.setContentDescription(getContext().getString(contentDescription));
