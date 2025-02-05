@@ -39,6 +39,8 @@ public class CompositeDrawerDialog extends DrawerDialog {
     }
 
     private void onShow() {
+        // Not a great solution to use the CoordinatorLayout, but it's the only way to set the content description.
+        // The issue is posted to the FluentUI library: https://github.com/microsoft/fluentui-android/issues/758
         final CoordinatorLayout coordinatorLayout = findViewById(R.id.drawer_container);
 
         if (coordinatorLayout != null) {
