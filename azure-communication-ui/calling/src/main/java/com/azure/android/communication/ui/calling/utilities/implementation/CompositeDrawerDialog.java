@@ -15,14 +15,15 @@ import com.microsoft.fluentui.drawer.DrawerDialog;
 public class CompositeDrawerDialog extends DrawerDialog {
     private final int contentDescription;
 
-    public CompositeDrawerDialog(@NonNull Context context, @NonNull BehaviorType behaviorType, int contentDescription) {
+    public CompositeDrawerDialog(
+            final @NonNull Context context, final @NonNull BehaviorType behaviorType, final int contentDescription) {
         super(context, behaviorType);
         this.contentDescription = contentDescription;
         initOnShow();
     }
 
     @Override
-    public void setOnShowListener(@Nullable OnShowListener listener) {
+    public void setOnShowListener(final @Nullable OnShowListener listener) {
         super.setOnShowListener(dialog -> {
             onShow();
             if (listener != null) {
@@ -38,7 +39,7 @@ public class CompositeDrawerDialog extends DrawerDialog {
     }
 
     private void onShow() {
-        CoordinatorLayout coordinatorLayout = findViewById(R.id.drawer_container);
+        final CoordinatorLayout coordinatorLayout = findViewById(R.id.drawer_container);
 
         if (coordinatorLayout != null) {
             coordinatorLayout.setContentDescription(getContext().getString(contentDescription));
