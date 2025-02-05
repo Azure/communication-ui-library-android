@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
 import com.azure.android.communication.ui.calling.utilities.BottomCellItemType
 import com.azure.android.communication.ui.calling.utilities.LocaleHelper.Companion.getLocaleDisplayName
+import com.azure.android.communication.ui.calling.utilities.implementation.CompositeDrawerDialog
 import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -83,7 +84,11 @@ internal class CaptionsLanguageSelectionListView(
     }
 
     private fun initializeDrawer() {
-        menuDrawer = DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM)
+        menuDrawer = CompositeDrawerDialog(
+            context,
+            DrawerDialog.BehaviorType.BOTTOM,
+            R.string.azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label,
+        )
         menuDrawer.setContentView(this)
         menuDrawer.setOnDismissListener {
             viewModel.close()

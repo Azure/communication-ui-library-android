@@ -8,6 +8,7 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Speaker</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Headset</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">Device options. Close button.</string>
     <string name="azure_communication_ui_calling_switch_camera_button_front">Front camera on, switch to back camera</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">Back camera on, switch to front camera</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Select Audio Device %1$s</string>
@@ -70,6 +71,10 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Share diagnostics info Button</string>
     <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Call with: %1$s</string>
     <string name="azure_communication_ui_calling_view_participant_list">Participant list</string>
+    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">More options. Close button.</string>
+    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">Participant list. Close button.</string>
+    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">Captions &amp; RTT menu. Close button.</string>
+    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">Spoken language menu. Close button.</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Recording has started.</b> By joining, you are

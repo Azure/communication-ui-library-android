@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
 import com.azure.android.communication.ui.calling.utilities.BottomCellItemType
+import com.azure.android.communication.ui.calling.utilities.implementation.CompositeDrawerDialog
 import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -80,7 +81,11 @@ internal class ParticipantMenuView(
         participantTable.adapter = bottomCellAdapter
         participantTable.layoutManager = LinearLayoutManager(context)
 
-        menuDrawer = DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM)
+        menuDrawer = CompositeDrawerDialog(
+            context,
+            DrawerDialog.BehaviorType.BOTTOM,
+            R.string.azure_communication_ui_calling_view_participant_list_accessibility_label,
+        )
         menuDrawer.setOnDismissListener {
             viewModel.close()
         }

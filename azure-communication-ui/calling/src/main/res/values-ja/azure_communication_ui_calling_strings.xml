@@ -8,6 +8,7 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">スピーカー</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">ヘッドセット</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">Device options. Close button.</string>
     <string name="azure_communication_ui_calling_switch_camera_button_front">フロント カメラ オン、背面カメラに切り替える</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">背面カメラ オン、フロント カメラに切り替える</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">オーディオ デバイス %1$s の選択</string>
@@ -70,6 +71,10 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">診断情報の共有ボタン</string>
     <string name="azure_communication_ui_calling_view_call_with_accessibility_label">%1$s さんとの通話</string>
     <string name="azure_communication_ui_calling_view_participant_list">参加者リスト</string>
+    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">More options. Close button.</string>
+    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">Participant list. Close button.</string>
+    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">Captions &amp; RTT menu. Close button.</string>
+    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">Spoken language menu. Close button.</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>レコーディングが開始されました。</b> 参加すると、

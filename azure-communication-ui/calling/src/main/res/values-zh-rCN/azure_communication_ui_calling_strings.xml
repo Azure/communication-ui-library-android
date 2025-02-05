@@ -8,6 +8,7 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">扬声器</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">蓝牙</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">耳麦</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">Device options. Close button.</string>
     <string name="azure_communication_ui_calling_switch_camera_button_front">前置摄像头开启，切换到后置摄像头</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">后置摄像头开启，切换到前置摄像头</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">选择音频设备 %1$s</string>
@@ -70,6 +71,10 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">共享诊断信息按钮</string>
     <string name="azure_communication_ui_calling_view_call_with_accessibility_label">通话对象: %1$s</string>
     <string name="azure_communication_ui_calling_view_participant_list">参与者列表</string>
+    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">More options. Close button.</string>
+    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">Participant list. Close button.</string>
+    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">Captions &amp; RTT menu. Close button.</string>
+    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">Spoken language menu. Close button.</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>录制已开始。</b>加入即表示你

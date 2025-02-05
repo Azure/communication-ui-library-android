@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
+import com.azure.android.communication.ui.calling.utilities.implementation.CompositeDrawerDialog
 import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -65,7 +66,11 @@ internal class MoreCallOptionsListView(
     }
 
     private fun initializeDrawer() {
-        menuDrawer = DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM)
+        menuDrawer = CompositeDrawerDialog(
+            context,
+            DrawerDialog.BehaviorType.BOTTOM,
+            R.string.azure_communication_ui_calling_view_more_menu_list_accessibility_label,
+        )
         menuDrawer.setContentView(this)
         menuDrawer.setOnDismissListener {
             viewModel.close()
