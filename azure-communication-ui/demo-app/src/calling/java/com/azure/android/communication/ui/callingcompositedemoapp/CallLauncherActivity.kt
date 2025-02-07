@@ -65,6 +65,7 @@ class CallLauncherActivity : AppCompatActivity() {
         getSharedPreferences(SETTINGS_SHARED_PREFS, Context.MODE_PRIVATE)
     }
 
+    // suppress UnspecifiedRegisterReceiverFlag to be able to use registerReceiver for under API 33
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

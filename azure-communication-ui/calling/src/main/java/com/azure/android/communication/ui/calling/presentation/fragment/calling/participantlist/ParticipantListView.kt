@@ -5,9 +5,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.app.AlertDialog
 import android.content.Context
-import android.view.View
 import android.view.accessibility.AccessibilityManager
-import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
@@ -21,6 +19,7 @@ import com.azure.android.communication.ui.calling.presentation.manager.AvatarVie
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
 import com.azure.android.communication.ui.calling.utilities.BottomCellItemType
+import com.azure.android.communication.ui.calling.utilities.implementation.CompositeDrawerDialog
 import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -32,7 +31,7 @@ internal class ParticipantListView(
 ) : RelativeLayout(context) {
     private var participantTable: RecyclerView
 
-    private lateinit var participantListDrawer: DrawerDialog
+    private lateinit var participantListDrawer: CompositeDrawerDialog
     private lateinit var bottomCellAdapter: BottomCellAdapter
     private lateinit var accessibilityManager: AccessibilityManager
     private var admitDeclinePopUpParticipantId = ""
@@ -41,14 +40,6 @@ internal class ParticipantListView(
     init {
         inflate(context, R.layout.azure_communication_ui_calling_listview, this)
         participantTable = findViewById(R.id.bottom_drawer_table)
-        participantTable.accessibilityDelegate = object : AccessibilityDelegate() {
-            override fun onInitializeAccessibilityNodeInfo(host: View, info: AccessibilityNodeInfo) {
-                super.onInitializeAccessibilityNodeInfo(host, info)
-                // Clear the class name to prevent it from being treated as a list
-                info.className = View::class.java.name
-                info.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_participant_list)
-            }
-        }
         this.setBackgroundResource(R.color.azure_communication_ui_calling_color_bottom_drawer_background)
     }
 
@@ -110,7 +101,12 @@ internal class ParticipantListView(
     private fun initializeParticipantListDrawer() {
         accessibilityManager =
             context?.applicationContext?.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
-        participantListDrawer = DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM)
+        participantListDrawer =
+            CompositeDrawerDialog(
+                context,
+                DrawerDialog.BehaviorType.BOTTOM,
+                R.string.azure_communication_ui_calling_view_participant_list_accessibility_label,
+            )
         participantListDrawer.setOnDismissListener {
             viewModel.closeParticipantList()
         }

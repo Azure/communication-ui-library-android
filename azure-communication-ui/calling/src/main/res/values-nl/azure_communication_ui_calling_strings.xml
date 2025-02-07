@@ -8,6 +8,7 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Luidspreker</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Headset</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">Device options. Close button.</string>
     <string name="azure_communication_ui_calling_switch_camera_button_front">Camera aan voorzijde ingeschakeld, overschakelen naar camera aan achterzijde</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">Camera aan achterzijde ingeschakeld, overschakelen naar camera aan voorzijde</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Audioapparaat %1$s selecteren</string>
@@ -70,6 +71,10 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Knop Diagnostische gegevens delen</string>
     <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Bellen met: %1$s</string>
     <string name="azure_communication_ui_calling_view_participant_list">Lijst van deelnemers</string>
+    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">More options. Close button.</string>
+    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">Participant list. Close button.</string>
+    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">Captions &amp; RTT menu. Close button.</string>
+    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">Spoken language menu. Close button.</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Opname is gestart.</b> Door deel te nemen geeft

@@ -8,6 +8,7 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Hoparlör</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Mikrofonlu kulaklık</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">Device options. Close button.</string>
     <string name="azure_communication_ui_calling_switch_camera_button_front">Ön kamera açık, arka kameraya geç</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">Arka kamera açık, ön kameraya geç</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">%1$s Ses Cihazını Seç</string>
@@ -70,6 +71,10 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Tanılama bilgilerini paylaş Düğmesi</string>
     <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Şununla ara: %1$s</string>
     <string name="azure_communication_ui_calling_view_participant_list">Katılımcı listesi</string>
+    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">More options. Close button.</string>
+    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">Participant list. Close button.</string>
+    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">Captions &amp; RTT menu. Close button.</string>
+    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">Spoken language menu. Close button.</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Kayıt başlatıldı.</b> Katılarak,
