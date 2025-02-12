@@ -53,6 +53,7 @@ internal class CaptionsRttView : FrameLayout {
     private lateinit var recyclerView: RecyclerView
     private lateinit var captionsStartProgressLayout: LinearLayout
     private lateinit var recyclerViewAdapter: CaptionsRecyclerViewAdapter
+    private lateinit var hintTextInput: TextView
 
     private var isAtBottom = true
 
@@ -78,6 +79,8 @@ internal class CaptionsRttView : FrameLayout {
         recyclerView = findViewById(R.id.azure_communication_ui_calling_captions_recycler_view)
         captionsStartProgressLayout =
             findViewById(R.id.azure_communication_ui_calling_captions_starting_layout)
+        hintTextInput = findViewById(R.id.hint_rtt_text_view)
+
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         rttInputText.addTextChangedListener {
@@ -94,7 +97,6 @@ internal class CaptionsRttView : FrameLayout {
         captionsButton.setOnClickListener {
             viewModel.toggleCaptions()
         }
-
         post { isInitialized = true }
     }
 
@@ -150,6 +152,7 @@ internal class CaptionsRttView : FrameLayout {
             {
                 viewModel.isRttInputVisibleFlow.collect {
                     rttInputText.isVisible = it
+                    hintTextInput.isVisible = it
                 }
             },
             {
@@ -223,6 +226,7 @@ internal class CaptionsRttView : FrameLayout {
     private fun onEditTextChanged() {
         val message = rttInputText.text.toString()
         viewModel.sendRttMessage(message, false)
+        hintTextInput.visibility = if (message.isNotBlank()) View.INVISIBLE else View.VISIBLE
     }
 
     private fun onEditTextAction(view: TextView, actionId: Int): Boolean {
