@@ -52,7 +52,7 @@ internal class SetupFragment :
             activityViewModel.container.logger,
             this::exitComposite
         )
-        callCompositeActivity?.setSupportActionBar(toolbarView)
+        callCompositeActivity.setSupportActionBar(toolbarView)
 
         setupGradientView = view.findViewById(R.id.azure_communication_ui_setup_gradient)
         setupGradientView.start(viewLifecycleOwner, viewModel.setupGradientViewModel)
