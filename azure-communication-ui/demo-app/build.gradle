@@ -192,7 +192,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
     implementation 'com.google.firebase:firebase-messaging:24.0.0'
 
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")
+    callingImplementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")
     androidTestImplementation('com.microsoft.appcenter:espresso-test-extension:1.4')
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     androidTestImplementation 'net.java.dev.jna:jna:5.10.0'
