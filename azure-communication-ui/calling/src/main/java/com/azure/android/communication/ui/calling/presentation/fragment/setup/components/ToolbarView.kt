@@ -8,13 +8,13 @@ import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 
-internal class ToolbarView : Toolbar {
+internal class ToolbarView : LinearLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
@@ -29,8 +29,6 @@ internal class ToolbarView : Toolbar {
         navigationButton = findViewById(R.id.azure_communication_ui_navigation_button)
         toolbarTitle = findViewById(R.id.azure_communication_ui_toolbar_title)
         toolbarSubtitle = findViewById(R.id.azure_communication_ui_toolbar_subtitle)
-        this.isFocusable = true
-        this.isFocusableInTouchMode = true
     }
 
     fun start(
@@ -44,7 +42,6 @@ internal class ToolbarView : Toolbar {
         navigationButton.setOnClickListener {
             exitComposite()
         }
-        navigationButton.requestFocus()
     }
 
     fun stop() {
