@@ -50,8 +50,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:clickable="true"
-        android:focusableInTouchMode="true"
         app:layout_constraintBottom_toBottomOf="@id/azure_communication_ui_guideline_bottom"
         app:layout_constraintEnd_toEndOf="@id/azure_communication_ui_guideline_right"
         app:layout_constraintStart_toStartOf="@id/azure_communication_ui_guideline_left"
@@ -63,8 +61,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:focusable="true"
-            android:focusableInTouchMode="true"/>
+            />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/azure_communication_ui_setup_video_layout"
@@ -73,8 +70,6 @@
             android:layout_marginBottom="20dp"
             android:background="@drawable/azure_communication_ui_calling_corner_radius_rectangle_4dp"
             android:backgroundTint="@color/azure_communication_ui_calling_color_surface"
-            android:clickable="true"
-            android:focusableInTouchMode="true"
             app:layout_constraintBottom_toTopOf="@id/azure_communication_ui_setup_join_call_holder"
             app:layout_constraintTop_toBottomOf="@id/azure_communication_setup_toolbar"
             app:layout_constraintEnd_toEndOf="parent"
@@ -318,18 +313,5 @@
                 />
 
         </com.azure.android.communication.ui.calling.presentation.fragment.setup.components.JoinCallButtonHolderView>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            >
-
-            <include layout="@layout/azure_communication_ui_calling_listview" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

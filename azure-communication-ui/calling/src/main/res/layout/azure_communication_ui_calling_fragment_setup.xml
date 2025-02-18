@@ -10,8 +10,7 @@
     android:layout_height="match_parent"
     android:background="@color/azure_communication_ui_calling_color_background"
     android:gravity="center_horizontal"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp"
+
     tools:context="com.azure.android.communication.ui.calling.presentation.fragment.setup.SetupFragment"
     >
 
@@ -20,18 +19,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:focusable="true"
-        android:focusableInTouchMode="true"/>
+        />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/azure_communication_ui_setup_video_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="20dp"
+        android:layout_marginHorizontal="16dp"
         android:background="@drawable/azure_communication_ui_calling_corner_radius_rectangle_4dp"
         android:backgroundTint="@color/azure_communication_ui_calling_color_surface"
-        android:clickable="true"
-        android:focusableInTouchMode="true"
         app:layout_constraintBottom_toTopOf="@id/azure_communication_ui_setup_join_call_holder"
         app:layout_constraintTop_toBottomOf="@id/azure_communication_setup_toolbar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -198,6 +196,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="13dp"
+        android:layout_marginHorizontal="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -209,10 +208,11 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:backgroundTint="@color/azure_communication_ui_calling_primary_selector"
-            android:nextFocusUp="@id/azure_communication_ui_setup_camera_button"
             android:clickable="true"
             android:enabled="true"
             android:focusable="true"
+            android:contentDescription="@string/azure_communication_ui_calling_setup_view_button_join_call"
+            android:importantForAccessibility="yes"
             app:layout_constraintBottom_toBottomOf="@+id/azure_communication_ui_setup_start_call_button_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -279,17 +279,4 @@
             />
 
     </com.azure.android.communication.ui.calling.presentation.fragment.setup.components.JoinCallButtonHolderView>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
-
-        <include layout="@layout/azure_communication_ui_calling_listview" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

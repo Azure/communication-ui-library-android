@@ -20,4 +20,6 @@
     <dimen name="azure_communication_ui_calling_inner_frame_layout_padding">5dp</dimen>
     <dimen name="azure_communication_ui_calling_fab_margin">16dp</dimen>
 
+    <dimen name="azure_communication_ui_calling_setup_toolbar_min_height">60dp</dimen>
+    <dimen name="azure_communication_ui_calling_setup_toolbar_elevation">4dp</dimen>
 </resources>
