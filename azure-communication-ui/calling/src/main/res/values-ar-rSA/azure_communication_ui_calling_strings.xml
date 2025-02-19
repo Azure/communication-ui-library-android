@@ -69,8 +69,8 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">مشاركة معلومات التشخيص</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">معلومات التشخيص</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">زر مشاركة معلومات التشخيص</string>
-    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Call with: %1$s</string>
-    <string name="azure_communication_ui_calling_view_participant_list">Participant list</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">مكالمة مع: %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">قائمة المشاركين</string>
     <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">More options. Close button.</string>
     <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">Participant list. Close button.</string>
     <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">Captions &amp; RTT menu. Close button.</string>
@@ -177,9 +177,9 @@
     <string name="azure_communication_ui_calling_call_view_calling">يتم الآن الاتصال...</string>
 
     <!-- Participant menu actions -->
-    <string name="azure_communication_ui_calling_view_participant_menu_mute">Mute</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">كتم الصوت</string>
     <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">قائمة كتم صوت المشاركين</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove">Remove from call</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">إزالة من المكالمة</string>
     <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">قائمة إزالة مشارك من المكالمة</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">تم تحديث إعدادات المكالمة. قد لا تتوفر بعض الميزات لك.</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">تم تحديث إعدادات المكالمة. قد تتوفر الآن بعض الإجراءات الإضافية لك.</string>

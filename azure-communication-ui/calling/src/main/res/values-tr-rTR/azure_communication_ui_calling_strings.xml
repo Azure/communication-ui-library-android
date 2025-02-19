@@ -164,7 +164,7 @@
     <string name="azure_communication_ui_calling_report_issue_title">Sorun Bildir</string>
     <string name="azure_communication_ui_calling_logs_attach_notice">Günlükler otomatik olarak eklenir.</string>
     <string name="azure_communication_ui_calling_privacy_policy_label">Gizlilik İlkesi</string>
-    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">Privacy Policy. Link.</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">Gizlilik İlkesi. Bağlantı.</string>
     <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Lütfen sorununuzu açıklayın...</string>
     <string name="azure_communication_ui_calling_cancel_button_label">İptal</string>
     <string name="azure_communication_ui_calling_attach_screenshot">Ekran görüntüsü ekle</string>
