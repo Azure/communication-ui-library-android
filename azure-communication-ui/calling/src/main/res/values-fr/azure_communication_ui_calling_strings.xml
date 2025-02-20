@@ -164,7 +164,7 @@
     <string name="azure_communication_ui_calling_report_issue_title">Signaler un problème</string>
     <string name="azure_communication_ui_calling_logs_attach_notice">Nous allons automatiquement joindre les journaux.</string>
     <string name="azure_communication_ui_calling_privacy_policy_label">Politique de confidentialité</string>
-    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">Privacy Policy. Link.</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">Politique de confidentialité. Lien.</string>
     <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Décrivez votre problème ici...</string>
     <string name="azure_communication_ui_calling_cancel_button_label">Annuler</string>
     <string name="azure_communication_ui_calling_attach_screenshot">Joindre une capture d’écran</string>

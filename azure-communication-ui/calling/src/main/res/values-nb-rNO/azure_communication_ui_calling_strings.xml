@@ -164,7 +164,7 @@
     <string name="azure_communication_ui_calling_report_issue_title">Rapporter problem</string>
     <string name="azure_communication_ui_calling_logs_attach_notice">Vi legger ved logger automatisk.</string>
     <string name="azure_communication_ui_calling_privacy_policy_label">Personvern</string>
-    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">Privacy Policy. Link.</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">Personvernerklæring. Kobling.</string>
     <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Beskriv problemet ditt...</string>
     <string name="azure_communication_ui_calling_cancel_button_label">Avbryt</string>
     <string name="azure_communication_ui_calling_attach_screenshot">Legg ved skjermbilde</string>

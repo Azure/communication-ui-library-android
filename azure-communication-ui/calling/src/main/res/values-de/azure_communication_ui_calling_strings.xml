@@ -164,7 +164,7 @@
     <string name="azure_communication_ui_calling_report_issue_title">Problem melden</string>
     <string name="azure_communication_ui_calling_logs_attach_notice">Protokolle werden automatisch angefügt.</string>
     <string name="azure_communication_ui_calling_privacy_policy_label">Datenschutzrichtlinie</string>
-    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">Privacy Policy. Link.</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">Datenschutzrichtlinie. Link.</string>
     <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Beschreiben Sie Ihr Problem...</string>
     <string name="azure_communication_ui_calling_cancel_button_label">Abbrechen</string>
     <string name="azure_communication_ui_calling_attach_screenshot">Screenshot anfügen</string>
