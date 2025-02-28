@@ -28,8 +28,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -37,6 +40,7 @@ import com.azure.android.communication.ui.chat.R
 import com.azure.android.communication.ui.chat.presentation.ui.chat.UITestTags
 import com.azure.android.communication.ui.chat.redux.action.Action
 import com.azure.android.communication.ui.chat.redux.action.ChatAction
+import kotlinx.coroutines.delay
 
 @Composable
 internal fun MessageInputView(
@@ -45,8 +49,17 @@ internal fun MessageInputView(
     postAction: (Action) -> Unit,
     keyboardActions: KeyboardActions = KeyboardActions(),
     sendMessageEnabled: Boolean,
+    autoFocus: Boolean = false
 ) {
     var focusState by rememberSaveable { mutableStateOf(false) }
+    val focusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(Unit) {
+        if (autoFocus) {
+            delay(300) // Give UI some time to compose
+            focusRequester.requestFocus()
+        }
+    }
 
     MessageInput(
         onTextChanged = {
@@ -59,7 +72,8 @@ internal fun MessageInputView(
         onTextFieldFocused = { focusState = it },
         focusState = focusState,
         contentDescription = contentDescription,
-        keyboardActions = keyboardActions
+        keyboardActions = keyboardActions,
+        focusRequester = focusRequester,
     )
 }
 
@@ -72,6 +86,7 @@ internal fun MessageInput(
     focusState: Boolean,
     contentDescription: String,
     keyboardActions: KeyboardActions,
+    focusRequester: FocusRequester,
 ) {
 
     val outlineColor = ChatCompositeTheme.colors.outlineColor
@@ -90,6 +105,7 @@ internal fun MessageInput(
             .fillMaxWidth(fraction = 0.9f)
             .padding(6.dp)
             .heightIn(40.dp, maxInputHeight)
+            .focusRequester(focusRequester)
             .onFocusChanged { onTextFieldFocused(it.isFocused) }
             .testTag(UITestTags.MESSAGE_INPUT_BOX)
             .then(semantics),
