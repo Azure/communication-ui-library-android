@@ -20,6 +20,7 @@ public final class ChatAdapterBuilder {
     private CommunicationTokenCredential credential;
     private String displayName;
     private String threadId;
+    private boolean hasAutofocus;
 
 
     /**
@@ -73,12 +74,22 @@ public final class ChatAdapterBuilder {
     }
 
     /**
+     * Sets chat Auto focus
+     * @param hasAutofocus
+     * @return
+     */
+    public ChatAdapterBuilder hasAutoFocus(final boolean hasAutofocus) {
+        this.hasAutofocus = hasAutofocus;
+        return this;
+    }
+
+    /**
      * Builds the {@link ChatAdapter} class.
      *
      * @return {@link ChatAdapter}
      */
     public ChatAdapter build() {
         final ChatCompositeConfiguration config = new ChatCompositeConfiguration();
-        return new ChatAdapter(config, endpoint, identity, credential, threadId, displayName);
+        return new ChatAdapter(config, endpoint, identity, credential, threadId, displayName, hasAutofocus);
     }
 }

@@ -54,6 +54,7 @@ internal fun ChatScreen(
     viewModel: ChatScreenViewModel,
     stateViewModel: ChatScreenStateViewModel = viewModel(),
     showActionBar: Boolean = false,
+    inputAutoFocus: Boolean = false,
 ) {
     val scaffoldState = rememberScaffoldState()
     val listState = rememberLazyListState()
@@ -161,7 +162,8 @@ internal fun ChatScreen(
                                 }
                                 viewModel.postAction(it)
                             },
-                            sendMessageEnabled = viewModel.sendMessageEnabled
+                            sendMessageEnabled = viewModel.sendMessageEnabled,
+                            inputAutoFocus = inputAutoFocus
                         )
                     }
                 }

@@ -42,6 +42,7 @@ internal fun NavigatableBaseScreen(
     viewModel: ChatScreenViewModel,
     stateViewModel: ChatScreenStateViewModel = viewModel(),
     showActionBar: Boolean = false,
+    inputAutoFocus: Boolean = false,
 ) {
     BackHandler(enabled = viewModel.navigationStatus != NavigationStatus.NONE, onBack = {
         viewModel.postAction(NavigationAction.Pop())
@@ -54,7 +55,8 @@ internal fun NavigatableBaseScreen(
         ChatScreen(
             viewModel = viewModel,
             stateViewModel = stateViewModel,
-            showActionBar = showActionBar
+            showActionBar = showActionBar,
+            inputAutoFocus = inputAutoFocus,
         )
 
         AnimatedVisibility(

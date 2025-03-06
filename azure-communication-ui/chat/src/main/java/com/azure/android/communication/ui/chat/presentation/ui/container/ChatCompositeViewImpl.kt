@@ -60,7 +60,7 @@ internal class ChatCompositeViewImpl(
             onChanged = {
                 composeView.setContent {
                     ChatCompositeTheme {
-                        NavigatableBaseScreen(viewModel = it, showActionBar = showActionBar)
+                        NavigatableBaseScreen(viewModel = it, showActionBar = showActionBar,  inputAutoFocus = chatAdapter.autoFocus)
                     }
                 }
             },

@@ -25,6 +25,7 @@ public final class ChatAdapter {
     private static int instanceIdCounter = 0;
     final Integer instanceId = instanceIdCounter++;
     private ChatContainer chatContainer;
+    private boolean autoFocus = false;
     private final String endpoint;
     private final CommunicationIdentifier identity;
     private final CommunicationTokenCredential credential;
@@ -37,7 +38,8 @@ public final class ChatAdapter {
                 final CommunicationIdentifier identity,
                 final CommunicationTokenCredential credential,
                 final String threadId,
-                final String displayName) {
+                final String displayName,
+                final boolean autoFocus) {
 
         this.endpoint = endpoint;
         this.identity = identity;
@@ -45,6 +47,7 @@ public final class ChatAdapter {
         this.threadId = threadId;
         this.displayName = displayName;
         this.configuration = configuration;
+        this.autoFocus = autoFocus;
     }
 
 
@@ -114,5 +117,9 @@ public final class ChatAdapter {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ChatCompositeActivityImpl.Companion.setChatAdapter(this);
         context.startActivity(intent);
+    }
+
+    public boolean getAutoFocus() {
+        return autoFocus;
     }
 }

@@ -27,6 +27,7 @@ internal fun BottomBarView(
     messageInputTextState: MutableState<String>,
     sendMessageEnabled: Boolean = true,
     postAction: (Action) -> Unit,
+    inputAutoFocus: Boolean = false,
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
@@ -38,7 +39,8 @@ internal fun BottomBarView(
             contentDescription = stringResource(R.string.azure_communication_ui_chat_message_input_view_content_description),
             messageInputTextState = messageInputTextState,
             postAction = postAction,
-            sendMessageEnabled = sendMessageEnabled
+            sendMessageEnabled = sendMessageEnabled,
+            autoFocus = inputAutoFocus
         )
 
         SendMessageButtonView(
@@ -76,5 +78,5 @@ private fun sendButtonOnclick(
 @Preview
 @Composable
 internal fun PreviewBottomBarView() {
-    BottomBarView(remember { mutableStateOf("") },) {}
+    BottomBarView(remember { mutableStateOf("") }, postAction = {}) 
 }
