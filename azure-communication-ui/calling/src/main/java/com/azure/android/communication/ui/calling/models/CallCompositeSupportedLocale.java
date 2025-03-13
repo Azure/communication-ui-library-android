@@ -63,24 +63,16 @@ public final class CallCompositeSupportedLocale {
     public static Collection<Locale> getSupportedLocales() {
         final List<Field> fields = CollectionsKt.filter(
                 Arrays.asList(CallCompositeSupportedLocale.class.getDeclaredFields()),
-                new Function1<Member, Boolean>() {
-                    @Override
-                    public Boolean invoke(final Member member) {
-                        return Modifier.isStatic(member.getModifiers())
-                                && Modifier.isFinal(member.getModifiers());
-                    }
-                }
+                (Function1<Member, Boolean>) member -> Modifier.isStatic(member.getModifiers())
+                        && Modifier.isFinal(member.getModifiers())
         );
-        return CollectionsKt.map(fields, new Function1<Field, Locale>() {
-            @Override
-            public Locale invoke(final Field field) {
-                try {
-                    return (Locale) field.get(Locale.class);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-                return null;
+        return CollectionsKt.map(fields, field -> {
+            try {
+                return (Locale) field.get(Locale.class);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
             }
+            return null;
         });
     }
 }

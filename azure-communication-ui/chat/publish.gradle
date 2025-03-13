@@ -23,12 +23,12 @@ publishing {
             pom {
                 name = "${LIB_GROUP_ID}:${CHAT_LIB_ARTIFACT_ID}"
                 description = CHAT_LIB_DESCRIPTION
-                url = "https://github.com/Azure/communication-ui-library-android"
+                url = "https://github.com/travinhloc/communication-ui-library-android"
 
                 licenses {
                     license {
                         name = 'MIT License'
-                        url = 'https://github.com/Azure/communication-ui-library-android/blob/main/LICENSE.md'
+                        url = 'https://github.com/travinhloc/communication-ui-library-android/blob/main/LICENSE.md'
                     }
                 }
                 developers {
@@ -38,9 +38,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection = 'scm:git:git://github.com/Azure/communication-ui-library-android.git'
-                    developerConnection = 'scm:git:ssh:github.com:Azure/communication-ui-library-android.git'
-                    url = 'https://github.com/Azure/communication-ui-library-android'
+                    connection = 'scm:git:git://github.com/travinhloc/communication-ui-library-android.git'
+                    developerConnection = 'scm:git:ssh:github.com:travinhloc/communication-ui-library-android.git'
+                    url = 'https://github.com/travinhloc/communication-ui-library-android'
                 }
             }
             groupId LIB_GROUP_ID
