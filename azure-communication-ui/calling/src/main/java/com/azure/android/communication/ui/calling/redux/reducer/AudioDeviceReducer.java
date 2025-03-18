@@ -4,6 +4,7 @@ import com.azure.android.communication.ui.calling.redux.action.AudioDeviceAction
 import com.azure.android.communication.ui.calling.redux.state.AudioDevice;
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceState;
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceType;
+import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSwitchingState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,25 +24,54 @@ public final class AudioDeviceReducer {
      * @return New state
      */
     public static AudioDeviceState reduce(final AudioDeviceState state, final Object action) {
-        if (action instanceof AudioDeviceAction.DeviceConnected) {
+        if (action instanceof AudioDeviceAction.DeviceSwitchStarted) {
+            return handleDeviceSwitchStarted(state, (AudioDeviceAction.DeviceSwitchStarted) action);
+        } else if (action instanceof AudioDeviceAction.DeviceSwitchCompleted) {
+            return handleDeviceSwitchCompleted(state, (AudioDeviceAction.DeviceSwitchCompleted) action);
+        } else if (action instanceof AudioDeviceAction.DeviceSwitchFailed) {
+            return handleDeviceSwitchFailed(state, (AudioDeviceAction.DeviceSwitchFailed) action);
+        } else if (action instanceof AudioDeviceAction.DeviceConnected) {
             return handleDeviceConnected(state, (AudioDeviceAction.DeviceConnected) action);
         } else if (action instanceof AudioDeviceAction.DeviceDisconnected) {
             return handleDeviceDisconnected(state, (AudioDeviceAction.DeviceDisconnected) action);
-        } else if (action instanceof AudioDeviceAction.DeviceSelected) {
-            return handleDeviceSelected(state, (AudioDeviceAction.DeviceSelected) action);
         } else if (action instanceof AudioDeviceAction.DevicesDiscovered) {
             return handleDevicesDiscovered(state, (AudioDeviceAction.DevicesDiscovered) action);
         } else if (action instanceof AudioDeviceAction.WiredHeadsetStateChanged) {
             return handleWiredHeadsetStateChanged(state, (AudioDeviceAction.WiredHeadsetStateChanged) action);
         } else if (action instanceof AudioDeviceAction.BluetoothStateChanged) {
             return handleBluetoothStateChanged(state, (AudioDeviceAction.BluetoothStateChanged) action);
+        } else if (action instanceof AudioDeviceAction.AudioBecomingNoisy) {
+            return handleAudioBecomingNoisy(state, (AudioDeviceAction.AudioBecomingNoisy) action);
         }
         return state;
+    }
+
+    private static AudioDeviceState handleDeviceSwitchStarted(
+            AudioDeviceState state,
+            AudioDeviceAction.DeviceSwitchStarted action) {
+        return state.withSwitchingToDevice(action.getTargetDevice());
+    }
+
+    private static AudioDeviceState handleDeviceSwitchCompleted(
+            AudioDeviceState state,
+            AudioDeviceAction.DeviceSwitchCompleted action) {
+        return state.withSwitchingCompleted(action.getDevice());
+    }
+
+    private static AudioDeviceState handleDeviceSwitchFailed(
+            AudioDeviceState state,
+            AudioDeviceAction.DeviceSwitchFailed action) {
+        return state.withSwitchingFailed(action.getFallbackDevice(), action.getError());
     }
 
     private static AudioDeviceState handleDeviceConnected(
             AudioDeviceState state,
             AudioDeviceAction.DeviceConnected action) {
+        // Don't modify state during device switching
+        if (state.getSwitchingState() == AudioDeviceSwitchingState.SWITCHING) {
+            return state;
+        }
+
         AudioDevice newDevice = action.getDevice();
         List<AudioDevice> updatedDevices = new ArrayList<>(state.getAvailableDevices());
         
@@ -62,6 +92,11 @@ public final class AudioDeviceReducer {
     private static AudioDeviceState handleDeviceDisconnected(
             AudioDeviceState state,
             AudioDeviceAction.DeviceDisconnected action) {
+        // Don't modify state during device switching
+        if (state.getSwitchingState() == AudioDeviceSwitchingState.SWITCHING) {
+            return state;
+        }
+
         AudioDevice disconnectedDevice = action.getDevice();
         List<AudioDevice> updatedDevices = new ArrayList<>(state.getAvailableDevices());
         updatedDevices.remove(disconnectedDevice);
@@ -75,19 +110,14 @@ public final class AudioDeviceReducer {
         return state.withAvailableDevices(updatedDevices);
     }
 
-    private static AudioDeviceState handleDeviceSelected(
-            AudioDeviceState state,
-            AudioDeviceAction.DeviceSelected action) {
-        AudioDevice selectedDevice = action.getDevice();
-        if (state.getAvailableDevices().contains(selectedDevice)) {
-            return state.withCurrentDevice(selectedDevice);
-        }
-        return state;
-    }
-
     private static AudioDeviceState handleDevicesDiscovered(
             AudioDeviceState state,
             AudioDeviceAction.DevicesDiscovered action) {
+        // Don't modify state during device switching
+        if (state.getSwitchingState() == AudioDeviceSwitchingState.SWITCHING) {
+            return state;
+        }
+
         List<AudioDevice> newDevices = action.getDevices();
         
         // If current device is no longer available, switch to highest priority device
@@ -110,6 +140,21 @@ public final class AudioDeviceReducer {
             AudioDeviceState state,
             AudioDeviceAction.BluetoothStateChanged action) {
         return state.withBluetoothConnected(action.isConnected());
+    }
+
+    private static AudioDeviceState handleAudioBecomingNoisy(
+            AudioDeviceState state,
+            AudioDeviceAction.AudioBecomingNoisy action) {
+        // Don't modify state during device switching
+        if (state.getSwitchingState() == AudioDeviceSwitchingState.SWITCHING) {
+            return state;
+        }
+
+        AudioDevice fallbackDevice = action.getFallbackDevice();
+        if (state.getAvailableDevices().contains(fallbackDevice)) {
+            return state.withCurrentDevice(fallbackDevice);
+        }
+        return state;
     }
 
     private static AudioDevice findHighestPriorityDevice(List<AudioDevice> devices) {

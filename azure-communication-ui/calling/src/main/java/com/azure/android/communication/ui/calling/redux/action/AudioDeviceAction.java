@@ -12,6 +12,84 @@ public abstract class AudioDeviceAction {
     }
 
     /**
+     * Action dispatched when user requests to switch to a device.
+     */
+    public static final class SelectDeviceRequested {
+        private final AudioDevice device;
+
+        public SelectDeviceRequested(AudioDevice device) {
+            this.device = device;
+        }
+
+        public AudioDevice getDevice() {
+            return device;
+        }
+    }
+
+    /**
+     * Action dispatched when device switching begins.
+     */
+    public static final class DeviceSwitchStarted {
+        private final AudioDevice targetDevice;
+        private final AudioDevice previousDevice;
+
+        public DeviceSwitchStarted(AudioDevice targetDevice, AudioDevice previousDevice) {
+            this.targetDevice = targetDevice;
+            this.previousDevice = previousDevice;
+        }
+
+        public AudioDevice getTargetDevice() {
+            return targetDevice;
+        }
+
+        public AudioDevice getPreviousDevice() {
+            return previousDevice;
+        }
+    }
+
+    /**
+     * Action dispatched when device switch completes successfully.
+     */
+    public static final class DeviceSwitchCompleted {
+        private final AudioDevice device;
+
+        public DeviceSwitchCompleted(AudioDevice device) {
+            this.device = device;
+        }
+
+        public AudioDevice getDevice() {
+            return device;
+        }
+    }
+
+    /**
+     * Action dispatched when device switch fails.
+     */
+    public static final class DeviceSwitchFailed {
+        private final AudioDevice targetDevice;
+        private final AudioDevice fallbackDevice;
+        private final String error;
+
+        public DeviceSwitchFailed(AudioDevice targetDevice, AudioDevice fallbackDevice, String error) {
+            this.targetDevice = targetDevice;
+            this.fallbackDevice = fallbackDevice;
+            this.error = error;
+        }
+
+        public AudioDevice getTargetDevice() {
+            return targetDevice;
+        }
+
+        public AudioDevice getFallbackDevice() {
+            return fallbackDevice;
+        }
+
+        public String getError() {
+            return error;
+        }
+    }
+
+    /**
      * Action dispatched when a new audio device is connected.
      */
     public static final class DeviceConnected {
@@ -33,21 +111,6 @@ public abstract class AudioDeviceAction {
         private final AudioDevice device;
 
         public DeviceDisconnected(AudioDevice device) {
-            this.device = device;
-        }
-
-        public AudioDevice getDevice() {
-            return device;
-        }
-    }
-
-    /**
-     * Action dispatched when an audio device is manually selected.
-     */
-    public static final class DeviceSelected {
-        private final AudioDevice device;
-
-        public DeviceSelected(AudioDevice device) {
             this.device = device;
         }
 
@@ -98,6 +161,21 @@ public abstract class AudioDeviceAction {
 
         public boolean isConnected() {
             return connected;
+        }
+    }
+
+    /**
+     * Action dispatched when audio becomes noisy.
+     */
+    public static final class AudioBecomingNoisy {
+        private final AudioDevice fallbackDevice;
+
+        public AudioBecomingNoisy(AudioDevice fallbackDevice) {
+            this.fallbackDevice = fallbackDevice;
+        }
+
+        public AudioDevice getFallbackDevice() {
+            return fallbackDevice;
         }
     }
 }

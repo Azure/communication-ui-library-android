@@ -6,26 +6,30 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
 
-import com.azure.android.communication.ui.calling.redux.action.AudioDeviceAction;
 import com.azure.android.communication.ui.calling.redux.state.AudioDevice;
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceType;
-import com.azure.android.communication.ui.calling.redux.Store;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Service for managing audio device state and system audio routing.
+ * Service for managing system audio routing and device detection.
  */
 public final class AudioDeviceService {
     private final Context context;
     private final AudioManager audioManager;
-    private final Store store;
+    private final AudioDeviceCallback callback;
     private final BroadcastReceiver audioDeviceReceiver;
 
-    public AudioDeviceService(Context context, Store store) {
+    /**
+     * Creates a new instance of AudioDeviceService.
+     *
+     * @param context Android context
+     * @param callback Callback for audio device events
+     */
+    public AudioDeviceService(Context context, AudioDeviceCallback callback) {
         this.context = context;
-        this.store = store;
+        this.callback = callback;
         this.audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         this.audioDeviceReceiver = createAudioDeviceReceiver();
     }
@@ -41,7 +45,7 @@ public final class AudioDeviceService {
         context.registerReceiver(audioDeviceReceiver, filter);
 
         // Initial device discovery
-        updateAvailableDevices();
+        notifyAvailableDevices();
     }
 
     /**
@@ -52,30 +56,35 @@ public final class AudioDeviceService {
     }
 
     /**
-     * Switch to a specific audio device.
+     * Configure system audio routing for a specific device.
      *
-     * @param device The device to switch to
+     * @param device The device to configure
+     * @return true if configuration was successful
      */
-    public void selectDevice(AudioDevice device) {
-        switch (device.getType()) {
-            case SPEAKER:
-                audioManager.setMode(AudioManager.MODE_NORMAL);
-                audioManager.setSpeakerphoneOn(true);
-                audioManager.setBluetoothScoOn(false);
-                break;
-            case BLUETOOTH:
-                audioManager.setMode(AudioManager.MODE_NORMAL);
-                audioManager.setSpeakerphoneOn(false);
-                audioManager.setBluetoothScoOn(true);
-                audioManager.startBluetoothSco();
-                break;
-            case WIRED_HEADSET:
-                audioManager.setMode(AudioManager.MODE_NORMAL);
-                audioManager.setSpeakerphoneOn(false);
-                audioManager.setBluetoothScoOn(false);
-                break;
+    public boolean configureAudioRouting(AudioDevice device) {
+        try {
+            switch (device.getType()) {
+                case SPEAKER:
+                    audioManager.setMode(AudioManager.MODE_NORMAL);
+                    audioManager.setSpeakerphoneOn(true);
+                    audioManager.setBluetoothScoOn(false);
+                    break;
+                case BLUETOOTH:
+                    audioManager.setMode(AudioManager.MODE_NORMAL);
+                    audioManager.setSpeakerphoneOn(false);
+                    audioManager.setBluetoothScoOn(true);
+                    audioManager.startBluetoothSco();
+                    break;
+                case WIRED_HEADSET:
+                    audioManager.setMode(AudioManager.MODE_NORMAL);
+                    audioManager.setSpeakerphoneOn(false);
+                    audioManager.setBluetoothScoOn(false);
+                    break;
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
         }
-        store.dispatch(new AudioDeviceAction.DeviceSelected(device));
     }
 
     private BroadcastReceiver createAudioDeviceReceiver() {
@@ -103,37 +112,35 @@ public final class AudioDeviceService {
     }
 
     private void handleWiredHeadsetConnection(boolean connected) {
-        store.dispatch(new AudioDeviceAction.WiredHeadsetStateChanged(connected));
+        callback.onWiredHeadsetStateChanged(connected);
+        AudioDevice headset = new AudioDevice(AudioDeviceType.WIRED_HEADSET, "wired_headset", "Wired Headset");
         if (connected) {
-            AudioDevice headset = new AudioDevice(AudioDeviceType.WIRED_HEADSET, "wired_headset", "Wired Headset");
-            store.dispatch(new AudioDeviceAction.DeviceConnected(headset));
+            callback.onDeviceConnected(headset);
         } else {
-            AudioDevice headset = new AudioDevice(AudioDeviceType.WIRED_HEADSET, "wired_headset", "Wired Headset");
-            store.dispatch(new AudioDeviceAction.DeviceDisconnected(headset));
+            callback.onDeviceDisconnected(headset);
         }
-        updateAvailableDevices();
+        notifyAvailableDevices();
     }
 
     private void handleBluetoothScoStateChange(int state) {
         boolean connected = state == AudioManager.SCO_AUDIO_STATE_CONNECTED;
-        store.dispatch(new AudioDeviceAction.BluetoothStateChanged(connected));
+        callback.onBluetoothStateChanged(connected);
+        AudioDevice bluetooth = new AudioDevice(AudioDeviceType.BLUETOOTH, "bluetooth", "Bluetooth");
         if (connected) {
-            AudioDevice bluetooth = new AudioDevice(AudioDeviceType.BLUETOOTH, "bluetooth", "Bluetooth");
-            store.dispatch(new AudioDeviceAction.DeviceConnected(bluetooth));
+            callback.onDeviceConnected(bluetooth);
         } else {
-            AudioDevice bluetooth = new AudioDevice(AudioDeviceType.BLUETOOTH, "bluetooth", "Bluetooth");
-            store.dispatch(new AudioDeviceAction.DeviceDisconnected(bluetooth));
+            callback.onDeviceDisconnected(bluetooth);
         }
-        updateAvailableDevices();
+        notifyAvailableDevices();
     }
 
     private void handleAudioBecomingNoisy() {
-        // Switch to speaker when audio becomes noisy (e.g. headphones unplugged)
         AudioDevice speaker = new AudioDevice(AudioDeviceType.SPEAKER, "speaker", "Speaker");
-        selectDevice(speaker);
+        configureAudioRouting(speaker);
+        callback.onAudioBecomingNoisy();
     }
 
-    private void updateAvailableDevices() {
+    private void notifyAvailableDevices() {
         List<AudioDevice> devices = new ArrayList<>();
         
         // Speaker is always available
@@ -149,6 +156,18 @@ public final class AudioDeviceService {
             devices.add(new AudioDevice(AudioDeviceType.BLUETOOTH, "bluetooth", "Bluetooth"));
         }
 
-        store.dispatch(new AudioDeviceAction.DevicesDiscovered(devices));
+        callback.onAvailableDevicesChanged(devices);
+    }
+
+    /**
+     * Callback interface for audio device events.
+     */
+    public interface AudioDeviceCallback {
+        void onDeviceConnected(AudioDevice device);
+        void onDeviceDisconnected(AudioDevice device);
+        void onAvailableDevicesChanged(List<AudioDevice> devices);
+        void onWiredHeadsetStateChanged(boolean connected);
+        void onBluetoothStateChanged(boolean connected);
+        void onAudioBecomingNoisy();
     }
 }
