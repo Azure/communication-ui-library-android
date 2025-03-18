@@ -100,7 +100,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Sluiten</string>
     <string name="azure_communication_ui_calling_alert_title">Waarschuwing</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Mogelijk bent u uit de vergadering verwijderd of is de verbinding verbroken. Probeer opnieuw mee te doen.</string>
+    <string name="azure_communication_ui_calling_call_end_with_error">Mogelijk bent u uit de vergadering verwijderd of is de verbinding verbroken. Probeer opnieuw mee te doen.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Kan niet deelnemen aan de oproep vanwege een fout.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">U bent verwijderd uit het gesprek.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Kan niet deelnemen aan gesprek. Controleer de netwerkverbinding.</string>

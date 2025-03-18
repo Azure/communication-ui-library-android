@@ -100,7 +100,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Ignora</string>
     <string name="azure_communication_ui_calling_alert_title">Avviso</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">È possibile che tu sia stato rimosso dalla riunione o che abbia perso la connessione. Prova a partecipare di nuovo.</string>
+    <string name="azure_communication_ui_calling_call_end_with_error">È possibile che tu sia stato rimosso dalla riunione o che abbia perso la connessione. Prova a partecipare di nuovo.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Impossibile partecipare alla chiamata a causa di un errore.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Sei stato rimosso dalla chiamata.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Impossibile partecipare alla chiamata. Controlla la connessione di rete.</string>

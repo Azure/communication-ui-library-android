@@ -89,7 +89,7 @@ internal class ErrorInfoView(private val rootView: View) {
             return rootView.context.getText(R.string.azure_communication_ui_calling_call_state_evicted)
         }
         return when (it.errorCode) {
-            ErrorCode.CALL_END_FAILED -> rootView.context.getText(R.string.azure_communication_ui_calling_call_state_error_call_end)
+            ErrorCode.CALL_END_FAILED -> rootView.context.getText(R.string.azure_communication_ui_calling_call_end_with_error)
             ErrorCode.CALL_JOIN_FAILED -> rootView.context.getText(R.string.azure_communication_ui_calling_snack_bar_text_error_call_join)
             ErrorCode.NETWORK_NOT_AVAILABLE -> rootView.context.getString(R.string.azure_communication_ui_calling_no_connection_available)
             ErrorCode.MICROPHONE_NOT_AVAILABLE -> rootView.context.getString(R.string.azure_communication_ui_calling_mic_used)
