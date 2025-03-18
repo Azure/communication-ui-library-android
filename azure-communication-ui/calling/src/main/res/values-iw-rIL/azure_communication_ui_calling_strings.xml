@@ -8,7 +8,7 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">רמקול</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">אוזניות</string>
-    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">Device options. Close button.</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">אפשרויות התקן. לחצן סגירה.</string>
     <string name="azure_communication_ui_calling_switch_camera_button_front">מצלמה קדמית מופעלת, עבור למצלמה אחורית</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">מצלמה אחורית מופעלת, עבור למצלמה קדמית</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">בחר התקן שמע %1$s</string>
@@ -49,7 +49,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">שיחה עם אדם אחד</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">שיחה עם %1$d אנשים</string>
     <string name="azure_communication_ui_calling_view_go_back">הקודם</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s (me)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s (אני)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">משתתף ללא שם</string>
     <string name="azure_communication_ui_calling_view_leave_call">לעזוב שיחה?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">עזוב</string>
@@ -71,10 +71,10 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">לחצן שתף פרטי אבחון</string>
     <string name="azure_communication_ui_calling_view_call_with_accessibility_label">שיחה עם: %1$s</string>
     <string name="azure_communication_ui_calling_view_participant_list">רשימת משתתפים</string>
-    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">More options. Close button.</string>
-    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">Participant list. Close button.</string>
-    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">Captions &amp; RTT menu. Close button.</string>
-    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">Spoken language menu. Close button.</string>
+    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">אפשרויות נוספות. לחצן סגירה.</string>
+    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">רשימת משתתפים. לחצן סגירה.</string>
+    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">תפריט כתוביות ו- RTT. לחצן סגירה.</string>
+    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">תפריט שפה מדוברת. לחצן סגירה.</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>ההקלטה התחילה.</b> על-ידי הצטרפות, אתה
@@ -100,7 +100,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">התעלם</string>
     <string name="azure_communication_ui_calling_alert_title">התראה</string>
-    <string name="azure_communication_ui_calling_call_end_with_error">ייתכן שהוסרת מהפגישה או שהחיבור שלך אבד. נסה להצטרף שוב.</string>
+    <string name="azure_communication_ui_calling_call_end_with_error">You were removed from the call due to an error or lost connection. Please try to rejoin the call.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">לא ניתן להצטרף לשיחה עקב שגיאה.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">הוסרת מהשיחה.</string>
     <string name="azure_communication_ui_calling_no_connection_available">לא ניתן להצטרף לשיחה. בדוק את חיבור הרשת שלך.</string>
@@ -195,7 +195,7 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">כתוביות בשידור חי</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">שפה מדוברת</string>
-    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d of %3$d</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s. ‏%2$d מתוך %3$d</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">שפת כתוביות</string>
     <string name="azure_communication_ui_calling_starting_captions">מאתחל כתוביות...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">לא ניתן להפעיל כתוביות</string>

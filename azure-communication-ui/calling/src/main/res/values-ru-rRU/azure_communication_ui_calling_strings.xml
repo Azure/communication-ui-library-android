@@ -8,7 +8,7 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Динамик</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Гарнитура</string>
-    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">Device options. Close button.</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">Параметры устройства. Кнопка "Закрыть".</string>
     <string name="azure_communication_ui_calling_switch_camera_button_front">Фронтальная камера включена, переключиться на заднюю камеру</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">Задняя камера включена, переключиться на фронтальную камеру</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Выбрать звуковое устройство %1$s</string>
@@ -49,7 +49,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Звонок с 1 пользователем</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Звонок с несколькими (%1$d) людьми</string>
     <string name="azure_communication_ui_calling_view_go_back">Назад</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s (me)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s (я)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Участник без имени</string>
     <string name="azure_communication_ui_calling_view_leave_call">Покинуть звонок?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Покинуть</string>
@@ -71,10 +71,10 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Кнопка "Поделиться диагностическими сведениями"</string>
     <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Звонок с: %1$s</string>
     <string name="azure_communication_ui_calling_view_participant_list">Список участников</string>
-    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">More options. Close button.</string>
-    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">Participant list. Close button.</string>
-    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">Captions &amp; RTT menu. Close button.</string>
-    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">Spoken language menu. Close button.</string>
+    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">Дополнительные параметры. Кнопка "Закрыть".</string>
+    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">Список участников. Кнопка "Закрыть".</string>
+    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">Меню "Субтитры и ввод в режиме реального времени". Кнопка "Закрыть".</string>
+    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">Меню "Язык докладчика". Кнопка "Закрыть".</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Началась запись.</b> Присоединяясь, вы
@@ -100,7 +100,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Закрыть</string>
     <string name="azure_communication_ui_calling_alert_title">Оповещение</string>
-    <string name="azure_communication_ui_calling_call_end_with_error">Возможно, вы были удалены из собрания или потеряли подключение. Попробуйте присоединиться еще раз.</string>
+    <string name="azure_communication_ui_calling_call_end_with_error">You were removed from the call due to an error or lost connection. Please try to rejoin the call.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Не удалось присоединиться к звонку из-за ошибки.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Вас удалили из вызова.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Не удалось присоединиться к звонку. Проверьте сетевое подключение.</string>
@@ -195,7 +195,7 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">Субтитры</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Язык речи</string>
-    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d of %3$d</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d из %3$d</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Язык субтитров</string>
     <string name="azure_communication_ui_calling_starting_captions">Запуск субтитров...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">Не удается запустить субтитры</string>
