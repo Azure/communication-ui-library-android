@@ -8,7 +8,7 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">スピーカー</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">ヘッドセット</string>
-    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">Device options. Close button.</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">デバイス オプション。[閉じる] ボタン。</string>
     <string name="azure_communication_ui_calling_switch_camera_button_front">フロント カメラ オン、背面カメラに切り替える</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">背面カメラ オン、フロント カメラに切り替える</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">オーディオ デバイス %1$s の選択</string>
@@ -49,7 +49,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">1 人のユーザーと通話</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">%1$d 人のユーザーと通話</string>
     <string name="azure_communication_ui_calling_view_go_back">戻る</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s (me)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s (自分)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">名前のない参加者</string>
     <string name="azure_communication_ui_calling_view_leave_call">通話を終了しますか?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">退出</string>
@@ -71,10 +71,10 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">診断情報の共有ボタン</string>
     <string name="azure_communication_ui_calling_view_call_with_accessibility_label">%1$s さんとの通話</string>
     <string name="azure_communication_ui_calling_view_participant_list">参加者リスト</string>
-    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">More options. Close button.</string>
-    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">Participant list. Close button.</string>
-    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">Captions &amp; RTT menu. Close button.</string>
-    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">Spoken language menu. Close button.</string>
+    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">その他のオプション。[閉じる] ボタン。</string>
+    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">参加者リスト。[閉じる] ボタン。</string>
+    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">キャプションと RTT メニュー。[閉じる] ボタン。</string>
+    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">音声言語メニュー。[閉じる] ボタン。</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>レコーディングが開始されました。</b> 参加すると、
@@ -100,7 +100,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">却下</string>
     <string name="azure_communication_ui_calling_alert_title">アラート</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">会議から削除されたか、接続が失われた可能性があります。もう一度参加してみてください。</string>
+    <string name="azure_communication_ui_calling_call_end_with_error">エラーが発生したか、接続が失われたため、通話から削除されました。もう一度通話に参加してみてください。</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">エラーが発生したため、通話に参加できません。</string>
     <string name="azure_communication_ui_calling_call_state_evicted">通話から削除されました。</string>
     <string name="azure_communication_ui_calling_no_connection_available">通話に参加できません。ネットワーク接続を確認してください。</string>
@@ -195,7 +195,7 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">ライブ キャプション</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">音声言語</string>
-    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d of %3$d</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s。%3$d 個中 %2$d 個目</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">字幕言語</string>
     <string name="azure_communication_ui_calling_starting_captions">キャプションを開始しています...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">キャプションを開始できません</string>

@@ -8,7 +8,7 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Haut-parleur</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Casque</string>
-    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">Device options. Close button.</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">Options du périphérique. Bouton Fermer.</string>
     <string name="azure_communication_ui_calling_switch_camera_button_front">Caméra avant activée, passer à la caméra arrière</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">Caméra arrière activée, passer vers la caméra avant</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Sélectionner le périphérique audio %1$s</string>
@@ -49,7 +49,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Appel avec 1 personne</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Appel avec %1$d personnes</string>
     <string name="azure_communication_ui_calling_view_go_back">Retour</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s (me)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s (moi)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Participant sans nom</string>
     <string name="azure_communication_ui_calling_view_leave_call">Quitter l’appel ?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Quitter</string>
@@ -71,10 +71,10 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Bouton Partager les informations de diagnostic</string>
     <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Appel avec : %1$s</string>
     <string name="azure_communication_ui_calling_view_participant_list">Liste des participants</string>
-    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">More options. Close button.</string>
-    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">Participant list. Close button.</string>
-    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">Captions &amp; RTT menu. Close button.</string>
-    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">Spoken language menu. Close button.</string>
+    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">Plus d’options. Bouton Fermer.</string>
+    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">Liste des participants. Bouton Fermer.</string>
+    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">Menu Légendes et RTT. Bouton Fermer.</string>
+    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">Menu Langue parlée. Bouton Fermer.</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>La transcription a démarré.</b> En participant, vous
@@ -100,7 +100,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Ignorer</string>
     <string name="azure_communication_ui_calling_alert_title">Alerte</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Vous avez peut-être été supprimé de la réunion ou perdu votre connexion. Réessayez de rejoindre la réunion.</string>
+    <string name="azure_communication_ui_calling_call_end_with_error">Vous avez été supprimé de l’appel en raison d’une erreur ou d’une perte de connexion. Essayez de rejoindre l’appel.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Impossible de rejoindre l’appel en raison d’une erreur.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Vous avez été retiré de l’appel.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Impossible de rejoindre l’appel. Vérifiez votre connexion réseau.</string>
@@ -195,7 +195,7 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">Sous-titres en direct</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Langue parlée</string>
-    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d of %3$d</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d sur %3$d</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Langue des sous-titres</string>
     <string name="azure_communication_ui_calling_starting_captions">Démarrage des légendes...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">Impossible de démarrer les légendes</string>

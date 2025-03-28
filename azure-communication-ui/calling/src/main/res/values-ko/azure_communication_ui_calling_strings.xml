@@ -8,7 +8,7 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">스피커</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">헤드셋</string>
-    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">Device options. Close button.</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">디바이스 옵션. 닫기 단추.</string>
     <string name="azure_communication_ui_calling_switch_camera_button_front">전면 카메라 켜기, 뒤로 카메라로 전환</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">후면 카메라 켜기, 전면 카메라로 전환</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">오디오 장치 %1$s 선택</string>
@@ -49,7 +49,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">1명의 사용자와 통화</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">%1$d명과 통화</string>
     <string name="azure_communication_ui_calling_view_go_back">뒤로</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s (me)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s(나)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">명명되지 않은 참가자</string>
     <string name="azure_communication_ui_calling_view_leave_call">통화를 종료하시겠어요?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">나가기</string>
@@ -71,10 +71,10 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">진단 정보 공유 단추</string>
     <string name="azure_communication_ui_calling_view_call_with_accessibility_label">통화 상대: %1$s</string>
     <string name="azure_communication_ui_calling_view_participant_list">참가자 목록</string>
-    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">More options. Close button.</string>
-    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">Participant list. Close button.</string>
-    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">Captions &amp; RTT menu. Close button.</string>
-    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">Spoken language menu. Close button.</string>
+    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">더 많은 옵션. 닫기 단추.</string>
+    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">참가자 목록. 닫기 단추.</string>
+    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">캡션 및 RTT 메뉴입니다. 닫기 단추.</string>
+    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">음성 언어 메뉴. 닫기 단추.</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>녹음을 시작했습니다.</b>참가하면 이 모임을 전사하는데
@@ -100,7 +100,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">해제</string>
     <string name="azure_communication_ui_calling_alert_title">알림</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">모임에서 제거되거나 연결이 끊어진 것 같습니다. 다시 시도하세요.</string>
+    <string name="azure_communication_ui_calling_call_end_with_error">오류 또는 연결 끊김으로 인해 통화에서 제외되었습니다. 통화에 다시 참가해 보세요.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">오류로 인해 통화에 참가할 수 없습니다.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">통화에서 제거되었습니다.</string>
     <string name="azure_communication_ui_calling_no_connection_available">통화에 참가할 수 없습니다. 네트워크 연결을 확인하세요.</string>
@@ -195,7 +195,7 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">라이브 캡션</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">음성 언어</string>
-    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d of %3$d</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d/%3$d개</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">캡션 언어</string>
     <string name="azure_communication_ui_calling_starting_captions">캡션 시작 중...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">캡션을 시작할 수 없음</string>

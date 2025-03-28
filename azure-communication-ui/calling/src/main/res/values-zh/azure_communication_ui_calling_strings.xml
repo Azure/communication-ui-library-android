@@ -8,7 +8,7 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">扬声器</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">蓝牙</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">耳麦</string>
-    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">Device options. Close button.</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">设备选项。关闭按钮。</string>
     <string name="azure_communication_ui_calling_switch_camera_button_front">前置摄像头开启，切换到后置摄像头</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">后置摄像头开启，切换到前置摄像头</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">选择音频设备 %1$s</string>
@@ -49,7 +49,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">与 1 个人通话</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">与 %1$d 人通话</string>
     <string name="azure_communication_ui_calling_view_go_back">返回</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s (me)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s (我)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">未命名的参与者</string>
     <string name="azure_communication_ui_calling_view_leave_call">离开会议?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">离开</string>
@@ -71,10 +71,10 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">共享诊断信息按钮</string>
     <string name="azure_communication_ui_calling_view_call_with_accessibility_label">通话对象: %1$s</string>
     <string name="azure_communication_ui_calling_view_participant_list">参与者列表</string>
-    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">More options. Close button.</string>
-    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">Participant list. Close button.</string>
-    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">Captions &amp; RTT menu. Close button.</string>
-    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">Spoken language menu. Close button.</string>
+    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">更多选项。关闭按钮。</string>
+    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">参与者列表。关闭按钮。</string>
+    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">辅助字幕和 RTT 菜单。关闭按钮。</string>
+    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">讲述语言菜单。关闭按钮。</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>录制已开始。</b>加入即表示你
@@ -100,7 +100,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">关闭</string>
     <string name="azure_communication_ui_calling_alert_title">警报</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">系统可能已将你从会议中删除，或者你的连接已中断。请再次尝试加入。</string>
+    <string name="azure_communication_ui_calling_call_end_with_error">由于出现错误或连接断开，您已从通话中删除。请尝试重新加入呼叫。</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">由于出现错误，无法加入呼叫。</string>
     <string name="azure_communication_ui_calling_call_state_evicted">已将你从通话中移除。</string>
     <string name="azure_communication_ui_calling_no_connection_available">无法加入呼叫。请检查网络连接。</string>
@@ -195,7 +195,7 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">实时辅助字幕</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">口语</string>
-    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d of %3$d</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s。第 %2$d 个(共 %3$d 个)</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">辅助字幕语言</string>
     <string name="azure_communication_ui_calling_starting_captions">正在启动字幕...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">无法启动字幕</string>
