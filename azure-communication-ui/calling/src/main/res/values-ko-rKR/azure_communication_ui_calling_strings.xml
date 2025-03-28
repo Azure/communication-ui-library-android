@@ -100,7 +100,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">해제</string>
     <string name="azure_communication_ui_calling_alert_title">알림</string>
-    <string name="azure_communication_ui_calling_call_end_with_error">You were removed from the call due to an error or lost connection. Please try to rejoin the call.</string>
+    <string name="azure_communication_ui_calling_call_end_with_error">오류 또는 연결 끊김으로 인해 통화에서 제외되었습니다. 통화에 다시 참가해 보세요.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">오류로 인해 통화에 참가할 수 없습니다.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">통화에서 제거되었습니다.</string>
     <string name="azure_communication_ui_calling_no_connection_available">통화에 참가할 수 없습니다. 네트워크 연결을 확인하세요.</string>

@@ -100,7 +100,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Закрыть</string>
     <string name="azure_communication_ui_calling_alert_title">Оповещение</string>
-    <string name="azure_communication_ui_calling_call_end_with_error">You were removed from the call due to an error or lost connection. Please try to rejoin the call.</string>
+    <string name="azure_communication_ui_calling_call_end_with_error">Вы были удалены из звонка из-за ошибки или потери соединения. Попробуйте присоединиться к звонку еще раз.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Не удалось присоединиться к звонку из-за ошибки.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Вас удалили из вызова.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Не удалось присоединиться к звонку. Проверьте сетевое подключение.</string>

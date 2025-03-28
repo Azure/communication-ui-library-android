@@ -100,7 +100,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Odrzuć</string>
     <string name="azure_communication_ui_calling_alert_title">Alert</string>
-    <string name="azure_communication_ui_calling_call_end_with_error">You were removed from the call due to an error or lost connection. Please try to rejoin the call.</string>
+    <string name="azure_communication_ui_calling_call_end_with_error">Usunięto Cię z połączenia z powodu błędu lub utraty połączenia. Spróbuj ponownie dołączyć do rozmowy.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Nie można dołączyć do połączenia z powodu błędu.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Usunięto Cię z rozmowy.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Nie można dołączyć do rozmowy. Sprawdź połączenie sieciowe.</string>

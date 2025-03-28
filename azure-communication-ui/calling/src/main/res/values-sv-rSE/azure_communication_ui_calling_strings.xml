@@ -100,7 +100,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Stäng</string>
     <string name="azure_communication_ui_calling_alert_title">Avisering</string>
-    <string name="azure_communication_ui_calling_call_end_with_error">You were removed from the call due to an error or lost connection. Please try to rejoin the call.</string>
+    <string name="azure_communication_ui_calling_call_end_with_error">Du togs bort från samtalet på grund av ett fel eller att anslutningen bröts. Försök att återansluta till samtalet.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Det gick inte att ansluta till samtalet på grund av ett fel.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Du togs bort från samtalet.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Det går inte att ansluta till samtalet. Kontrollera nätverksanslutningen.</string>
