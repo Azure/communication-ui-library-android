@@ -29,19 +29,15 @@ import com.azure.android.communication.ui.calling.redux.state.NavigationState
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
 import com.azure.android.communication.ui.calling.service.CallingService
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.junit.MockitoJUnitRunner
-import org.mockito.kotlin.any
-import org.mockito.kotlin.argThat
-import org.mockito.kotlin.doAnswer
-import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.times
-import org.mockito.kotlin.verify
+import org.junit.runners.JUnit4
 import java.util.concurrent.CompletableFuture
 
-@RunWith(MockitoJUnitRunner::class)
+@RunWith(JUnit4::class)
 internal class CameraSwitchingAfterBackgroundTest : ACSBaseTestCoroutine() {
 
     @Test
@@ -75,10 +71,10 @@ internal class CameraSwitchingAfterBackgroundTest : ACSBaseTestCoroutine() {
         // Mock camera switch future
         val cameraSwitchCompletableFuture = CompletableFuture<CameraDeviceSelectionStatus>()
 
-        val mockCallingService: CallingService = mock {
-            on { turnCameraOff() } doReturn cameraOffCompletableFuture
-            on { turnCameraOn() } doReturn cameraOnCompletableFuture
-            on { switchCamera() } doReturn cameraSwitchCompletableFuture
+        val mockCallingService = mockk<CallingService> {
+            every { turnCameraOff() } returns cameraOffCompletableFuture
+            every { turnCameraOn() } returns cameraOnCompletableFuture
+            every { switchCamera() } returns cameraSwitchCompletableFuture
         }
 
         val handler = CallingMiddlewareActionHandlerImpl(
@@ -88,9 +84,9 @@ internal class CameraSwitchingAfterBackgroundTest : ACSBaseTestCoroutine() {
             CapabilitiesManager(CallType.GROUP_CALL)
         )
 
-        val mockAppStore = mock<AppStore<ReduxState>> {
-            on { getCurrentState() } doReturn appState
-            on { dispatch(any()) } doAnswer { }
+        val mockAppStore = mockk<AppStore<ReduxState>> {
+            every { getCurrentState() } returns appState
+            every { dispatch(any()) } returns Unit
         }
 
         // act - simulate background transition
@@ -140,37 +136,37 @@ internal class CameraSwitchingAfterBackgroundTest : ACSBaseTestCoroutine() {
         cameraSwitchCompletableFuture.complete(CameraDeviceSelectionStatus.BACK)
 
         // assert
-        verify(mockAppStore, times(1)).dispatch(
-            argThat { action ->
+        verify(exactly = 1) {
+            mockAppStore.dispatch(match { action ->
                 action is LifecycleAction.EnterBackgroundSucceeded
-            }
-        )
+            })
+        }
         
-        verify(mockAppStore, times(1)).dispatch(
-            argThat { action ->
+        verify(exactly = 1) {
+            mockAppStore.dispatch(match { action ->
                 action is LocalParticipantAction.CameraPauseSucceeded
-            }
-        )
+            })
+        }
         
-        verify(mockAppStore, times(1)).dispatch(
-            argThat { action ->
+        verify(exactly = 1) {
+            mockAppStore.dispatch(match { action ->
                 action is LifecycleAction.EnterForegroundSucceeded
-            }
-        )
+            })
+        }
         
-        verify(mockAppStore, times(1)).dispatch(
-            argThat { action ->
+        verify(exactly = 1) {
+            mockAppStore.dispatch(match { action ->
                 action is LocalParticipantAction.CameraOnSucceeded &&
                     action.videoStreamID == "videoStreamId"
-            }
-        )
+            })
+        }
         
-        verify(mockAppStore, times(1)).dispatch(
-            argThat { action ->
+        verify(exactly = 1) {
+            mockAppStore.dispatch(match { action ->
                 action is LocalParticipantAction.CameraSwitchSucceeded &&
                         action.cameraDeviceSelectionStatus == CameraDeviceSelectionStatus.BACK
-            }
-        )
+            })
+        }
     }
 
     @Test
@@ -205,10 +201,10 @@ internal class CameraSwitchingAfterBackgroundTest : ACSBaseTestCoroutine() {
         val cameraSwitchCompletableFuture = CompletableFuture<CameraDeviceSelectionStatus>()
         val error = Exception("Camera switch failed")
 
-        val mockCallingService: CallingService = mock {
-            on { turnCameraOff() } doReturn cameraOffCompletableFuture
-            on { turnCameraOn() } doReturn cameraOnCompletableFuture
-            on { switchCamera() } doReturn cameraSwitchCompletableFuture
+        val mockCallingService = mockk<CallingService> {
+            every { turnCameraOff() } returns cameraOffCompletableFuture
+            every { turnCameraOn() } returns cameraOnCompletableFuture
+            every { switchCamera() } returns cameraSwitchCompletableFuture
         }
 
         val handler = CallingMiddlewareActionHandlerImpl(
@@ -218,9 +214,9 @@ internal class CameraSwitchingAfterBackgroundTest : ACSBaseTestCoroutine() {
             CapabilitiesManager(CallType.GROUP_CALL)
         )
 
-        val mockAppStore = mock<AppStore<ReduxState>> {
-            on { getCurrentState() } doReturn appState
-            on { dispatch(any()) } doAnswer { }
+        val mockAppStore = mockk<AppStore<ReduxState>> {
+            every { getCurrentState() } returns appState
+            every { dispatch(any()) } returns Unit
         }
 
         // act - simulate background transition
@@ -270,37 +266,37 @@ internal class CameraSwitchingAfterBackgroundTest : ACSBaseTestCoroutine() {
         cameraSwitchCompletableFuture.completeExceptionally(error)
 
         // assert
-        verify(mockAppStore, times(1)).dispatch(
-            argThat { action ->
+        verify(exactly = 1) {
+            mockAppStore.dispatch(match { action ->
                 action is LifecycleAction.EnterBackgroundSucceeded
-            }
-        )
+            })
+        }
         
-        verify(mockAppStore, times(1)).dispatch(
-            argThat { action ->
+        verify(exactly = 1) {
+            mockAppStore.dispatch(match { action ->
                 action is LocalParticipantAction.CameraPauseSucceeded
-            }
-        )
+            })
+        }
         
-        verify(mockAppStore, times(1)).dispatch(
-            argThat { action ->
+        verify(exactly = 1) {
+            mockAppStore.dispatch(match { action ->
                 action is LifecycleAction.EnterForegroundSucceeded
-            }
-        )
+            })
+        }
         
-        verify(mockAppStore, times(1)).dispatch(
-            argThat { action ->
+        verify(exactly = 1) {
+            mockAppStore.dispatch(match { action ->
                 action is LocalParticipantAction.CameraOnSucceeded &&
                     action.videoStreamID == "videoStreamId"
-            }
-        )
+            })
+        }
         
-        verify(mockAppStore, times(1)).dispatch(
-            argThat { action ->
+        verify(exactly = 1) {
+            mockAppStore.dispatch(match { action ->
                 action is LocalParticipantAction.CameraSwitchFailed &&
                     action.error.cause == error &&
                     action.error.errorCode == ErrorCode.SWITCH_CAMERA_FAILED
-            }
-        )
+            })
+        }
     }
 }
