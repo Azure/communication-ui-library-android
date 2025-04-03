@@ -113,7 +113,6 @@ dependencies {
     testImplementation "junit:junit:$junit_version"
     testImplementation "org.mockito:mockito-inline:$mockito_inline_version"
     testImplementation "org.mockito.kotlin:mockito-kotlin:$mockito_kotlin_version"
-    testImplementation "io.mockk:mockk:$mockk_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$jetbrains_kotlinx_coroutines_test_version"
     testImplementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-test', version: '1.6.4', ext: 'pom'
 
