@@ -8,6 +8,7 @@ import static com.azure.android.communication.ui.calling.service.sdk.TypeConvers
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.common.CommunicationTokenCredential;
@@ -700,7 +701,7 @@ public final class CallComposite {
      * @return {@link CallCompositeDebugInfo}
      */
     public CallCompositeDebugInfo getDebugInfo(final Context context) {
-        AndroidThreeTen.init(context.getApplicationContext());
+        initAndroidThreeTen(context.getApplicationContext());
         final DebugInfoManager debugInfoManager = getDebugInfoManager(context.getApplicationContext());
         return debugInfoManager.getDebugInfo();
     }
@@ -778,7 +779,7 @@ public final class CallComposite {
                                  final CallCompositeRemoteOptions remoteOptions,
                                  final CallCompositeLocalOptions localOptions,
                                  final boolean isTest) {
-        AndroidThreeTen.init(context.getApplicationContext());
+        initAndroidThreeTen(context.getApplicationContext());
 
         UUID groupId = null;
         String meetingLink = null;
@@ -829,7 +830,7 @@ public final class CallComposite {
                                  final String incomingCallId,
                                  final CallCompositeLocalOptions localOptions,
                                  final boolean isTest) {
-        AndroidThreeTen.init(context.getApplicationContext());
+        initAndroidThreeTen(context.getApplicationContext());
 
         UUID groupId = null;
         String meetingLink = null;
@@ -1005,5 +1006,14 @@ public final class CallComposite {
                     final String incomingCallId,
                     final CallCompositeLocalOptions localOptions) {
         launchComposite(context, null, null, incomingCallId, localOptions, true);
+    }
+
+    private void initAndroidThreeTen(final Context context) {
+        try {
+            AndroidThreeTen.init(context.getApplicationContext());
+        } catch (IllegalStateException e) {
+            // AndroidThreeTen is already initialized
+            Log.d("CallCompositeManager", "AndroidThreeTen already initialized", e);
+        }
     }
 }

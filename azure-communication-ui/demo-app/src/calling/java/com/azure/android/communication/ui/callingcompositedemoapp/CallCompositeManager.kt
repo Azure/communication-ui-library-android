@@ -55,6 +55,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.features.Addit
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.views.DismissCompositeButtonView
 import com.google.firebase.messaging.FirebaseMessaging
+import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.Date
 import java.util.UUID
@@ -65,6 +66,16 @@ class CallCompositeManager(private val context: Context) {
     private var incomingCallId: String? = null
     private var callScreenHeaderOptions: CallCompositeCallScreenHeaderViewData? = null
     private var remoteParticipantsCount = 0
+
+    init {
+        try {
+            AndroidThreeTen.init(context.applicationContext)
+        } catch (e: java.lang.IllegalStateException) {
+            // AndroidThreeTen is already initialized
+            // Ignore this exception
+            Log.d("CallCompositeManager", "AndroidThreeTen already initialized", e)
+        }
+    }
 
     fun launch(
         applicationContext: Context,

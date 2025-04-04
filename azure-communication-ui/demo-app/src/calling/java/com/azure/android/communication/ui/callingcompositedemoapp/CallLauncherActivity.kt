@@ -284,6 +284,7 @@ class CallLauncherActivity : AppCompatActivity() {
                 IntentFilter(CALL_LAUNCHER_BROADCAST_ACTION)
             )
         }
+        autoRegisterPushIfNeeded()
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -534,6 +535,7 @@ class CallLauncherActivity : AppCompatActivity() {
             acsToken!!,
             userName!!
         )
+        sharedPreference.edit().putBoolean("PUSH_REGISTERED", true).apply()
     }
 
     private fun unregisterPushNotification() {
@@ -544,6 +546,7 @@ class CallLauncherActivity : AppCompatActivity() {
             acsToken!!,
             userName!!
         )
+        sharedPreference.edit().putBoolean("PUSH_REGISTERED", false).apply()
     }
 
     private fun ActivityCallLauncherBinding.cacheTokenAndDisplayName() {
@@ -555,6 +558,13 @@ class CallLauncherActivity : AppCompatActivity() {
         initCallCompositeManager()
         newIntent.action?.let {
             onIntentAction(it, newIntent.extras)
+        }
+    }
+
+    private fun autoRegisterPushIfNeeded() {
+        val wasRegistered = sharedPreference.getBoolean("PUSH_REGISTERED", false)
+        if (wasRegistered) {
+            registerPushNotification()
         }
     }
 }
