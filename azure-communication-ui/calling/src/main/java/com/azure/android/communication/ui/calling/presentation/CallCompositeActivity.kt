@@ -22,6 +22,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.calling.CallCompositeException
@@ -109,7 +111,10 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
             )
         )
-
+        if (Build.VERSION.SDK_INT >= 35) {
+            // Turn OFF edge-to-edge behavior
+            WindowCompat.setDecorFitsSystemWindows(window, true)
+        }
         val listeningPair = Pair(lifecycleScope, store)
         visibilityStatusFlow = MutableStateFlow(store.getCurrentState().visibilityState.status)
 

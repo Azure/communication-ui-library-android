@@ -102,6 +102,7 @@ dependencies {
     implementation "com.microsoft.fluentui:fluentui_drawer:$microsoft_fluent_ui_version"
     implementation "com.microsoft.fluentui:fluentui_persona:$microsoft_fluent_ui_version"
     implementation "com.microsoft.fluentui:fluentui_transients:$microsoft_fluent_ui_version"
+    implementation "androidx.activity:activity-ktx:$androidx_activity_ktx_version"
 
     api 'com.jakewharton.threetenabp:threetenabp:1.4.4'
 
