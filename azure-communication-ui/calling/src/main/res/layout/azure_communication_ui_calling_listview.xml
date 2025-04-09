@@ -3,11 +3,18 @@
    Licensed under the MIT License.
   -->
 
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/bottom_drawer_table"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/audio_drawer_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/azure_communication_ui_calling_corner_radius_rectangle_4dp"
-    android:backgroundTint="@color/azure_communication_ui_calling_color_bottom_drawer_background"
-    />
+    android:backgroundTint="@color/azure_communication_ui_calling_color_bottom_drawer_background">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/bottom_drawer_table"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/azure_communication_ui_calling_corner_radius_rectangle_4dp"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"
+        />
+</FrameLayout>
