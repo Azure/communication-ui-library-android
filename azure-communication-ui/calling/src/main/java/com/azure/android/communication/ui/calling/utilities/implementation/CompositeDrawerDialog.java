@@ -8,6 +8,10 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.azure.android.communication.ui.calling.implementation.R;
 import com.microsoft.fluentui.drawer.DrawerDialog;
@@ -39,12 +43,24 @@ public class CompositeDrawerDialog extends DrawerDialog {
     }
 
     private void onShow() {
+        final View drawer = findViewById(R.id.drawer_container);
+        final RecyclerView recyclerView = findViewById(R.id.bottom_drawer_table);
+
+        ViewCompat.setOnApplyWindowInsetsListener(drawer, (v, windowInsets) -> {
+            final Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+
+            // Set padding on the child, not the container
+            recyclerView.setPadding(
+                    insets.left,
+                    insets.top,
+                    insets.right,
+                    insets.bottom + 150
+            );
+
+            return WindowInsetsCompat.CONSUMED;
+        });
         // Temporary using the drawer container, it's the only way to set the content description at the moment.
         // The issue is posted to the FluentUI library: https://github.com/microsoft/fluentui-android/issues/758
-        final View view = findViewById(R.id.drawer_container);
-
-        if (view != null) {
-            view.setContentDescription(getContext().getString(contentDescription));
-        }
+        drawer.setContentDescription(getContext().getString(contentDescription));
     }
 }
