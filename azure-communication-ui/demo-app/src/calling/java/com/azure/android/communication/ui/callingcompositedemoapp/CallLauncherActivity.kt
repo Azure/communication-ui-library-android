@@ -22,9 +22,14 @@ import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.callingcompositedemoapp.databinding.ActivityCallLauncherBinding
@@ -72,6 +77,11 @@ class CallLauncherActivity : AppCompatActivity() {
         if (shouldFinish()) {
             finish()
             return
+        }
+
+        if (Build.VERSION.SDK_INT >= 35) {
+            // Turn OFF edge-to-edge behavior
+            WindowCompat.setDecorFitsSystemWindows(window, true)
         }
         isActivityRunning = true
         createNotificationChannels()
@@ -283,6 +293,14 @@ class CallLauncherActivity : AppCompatActivity() {
                 callLauncherBroadCastReceiver,
                 IntentFilter(CALL_LAUNCHER_BROADCAST_ACTION)
             )
+        }
+        if (Build.VERSION.SDK_INT >= 35) {
+            ViewCompat.setOnApplyWindowInsetsListener(binding.launchActivity) { view, windowInsets ->
+
+                view.updatePadding(0, 150, 0, 0)
+
+                WindowInsetsCompat.CONSUMED
+            }
         }
         autoRegisterPushIfNeeded()
     }

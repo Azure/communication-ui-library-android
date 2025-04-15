@@ -148,7 +148,6 @@ internal open class CallCompositeActivity : AppCompatActivity() {
                 val statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
                 val navBarHeight = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
 
-                // Apply padding only if needed (optional)
                 view.updatePadding(top = statusBarHeight, bottom = navBarHeight)
 
                 insets
