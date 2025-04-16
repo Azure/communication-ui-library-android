@@ -4,6 +4,7 @@
 package com.azure.android.communication.ui.calling.utilities.implementation;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.view.View;
 
@@ -51,17 +52,20 @@ public class CompositeDrawerDialog extends DrawerDialog {
             ViewCompat.setOnApplyWindowInsetsListener(drawer, (view, windowInsets) -> {
                 final Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
 
-                // Apply insets as padding to the RecyclerView
+                final int orientation = view.getResources().getConfiguration().orientation;
+                final boolean isPortrait = orientation == Configuration.ORIENTATION_PORTRAIT;
+
                 recyclerView.setPadding(
                         insets.left,
                         insets.top,
                         insets.right,
-                        insets.bottom + 150
+                        isPortrait ? insets.bottom + 150 : insets.bottom
                 );
 
                 return WindowInsetsCompat.CONSUMED;
             });
         }
+
 
         // Temporary using the drawer container, it's the only way to set the content description at the moment.
         // The issue is posted to the FluentUI library: https://github.com/microsoft/fluentui-android/issues/758

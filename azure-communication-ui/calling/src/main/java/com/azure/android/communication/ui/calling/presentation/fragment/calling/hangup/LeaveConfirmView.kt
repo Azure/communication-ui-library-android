@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Build
 import android.view.View
 import android.widget.RelativeLayout
@@ -81,9 +82,15 @@ internal class LeaveConfirmView(
         leaveConfirmMenuDrawer.setContentView(this)
         if (Build.VERSION.SDK_INT >= 35) {
             ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
+                val orientation = resources.configuration.orientation
                 val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemGestures())
-                view.updatePadding(0, 0, 0, insets.bottom + 76)
 
+                // Apply padding only in portrait orientation
+                if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    view.updatePadding(0, 0, 0, insets.bottom + 76)
+                } else {
+                    view.updatePadding(0, 0, 0, 0)
+                }
                 WindowInsetsCompat.CONSUMED
             }
         }
