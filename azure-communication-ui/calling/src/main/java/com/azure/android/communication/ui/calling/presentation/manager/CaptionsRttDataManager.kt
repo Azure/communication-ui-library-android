@@ -365,7 +365,7 @@ internal class CaptionsRttDataManager(
         if (!lastRtt.isFinal || caption.type != CaptionsRttType.CAPTIONS) return false
 
         val sameSpeaker = caption.speakerRawId?.contains(lastRtt.speakerRawId ?: "") == true
-        val sameText = lastRtt.dispslayText.trim() == caption.displayText.trim()
+        val sameText = lastRtt.displayText.trim() == caption.displayText.trim()
 
         return sameSpeaker && sameText
     }
