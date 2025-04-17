@@ -216,12 +216,9 @@ internal class CaptionsRttDataManager(
     }
 
     private suspend fun handleCaptionData(newCaptionsRecord: CaptionsRttRecord) {
-        val lastFinalRtt = captionsAndRttMutableList
-            .lastOrNull { it.type == CaptionsRttType.RTT && it.isFinal }
-
         if (
             appStore.getCurrentState().callState.isTranscribing &&
-            isDuplicateRttAndCaption(lastFinalRtt, newCaptionsRecord)
+            isDuplicateRttAndCaption(newCaptionsRecord)
         ) {
             return // Skip this duplicate caption
         }
@@ -358,15 +355,14 @@ internal class CaptionsRttDataManager(
     }
 
     private fun isDuplicateRttAndCaption(
-        lastRtt: CaptionsRttRecord?,
-        caption: CaptionsRttRecord
+        newCaptionsRecord: CaptionsRttRecord
     ): Boolean {
-        if (lastRtt == null) return false
-        if (!lastRtt.isFinal || caption.type != CaptionsRttType.CAPTIONS) return false
+        val lastFinalRtt = captionsAndRttMutableList
+            .lastOrNull { it.type == CaptionsRttType.RTT && it.isFinal && it.speakerRawId == newCaptionsRecord.speakerRawId }
 
-        val sameSpeaker = caption.speakerRawId?.contains(lastRtt.speakerRawId ?: "") == true
-        val sameText = lastRtt.displayText.trim() == caption.displayText.trim()
+        if (lastFinalRtt == null)
+            return false
 
-        return sameSpeaker && sameText
+        return lastFinalRtt.displayText.trim() == newCaptionsRecord.displayText.trim()
     }
 }
