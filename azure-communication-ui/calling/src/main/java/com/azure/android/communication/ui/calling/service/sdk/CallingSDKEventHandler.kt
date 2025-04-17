@@ -510,13 +510,8 @@ internal class CallingSDKEventHandler(
     }
 
     private val onRttEntryUpdated = RealTimeTextInfoReceivedListener {
-        // TODO: read user information not only for remote participants
-        var id: String? = null
-        var senderName: String? = null
-        if (!it.info.isLocal) {
-            id = it.info.sender.identifier.rawId
-            senderName = it.info.sender.displayName
-        }
+        val id: String? = it.info.sender.identifier.rawId
+        val senderName: String? = it.info.sender.displayName
 
         coroutineScope.launch {
             val rttMessage = RttMessage(
