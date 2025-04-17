@@ -358,7 +358,11 @@ internal class CaptionsRttDataManager(
         newCaptionsRecord: CaptionsRttRecord
     ): Boolean {
         val lastFinalRtt = captionsAndRttMutableList
-            .lastOrNull { it.type == CaptionsRttType.RTT && it.isFinal && it.speakerRawId == newCaptionsRecord.speakerRawId }
+            .lastOrNull {
+                it.type == CaptionsRttType.RTT &&
+                        it.isFinal &&
+                        newCaptionsRecord.speakerRawId?.contains(it.speakerRawId ?: "") == true
+            }
 
         if (lastFinalRtt == null)
             return false
