@@ -221,7 +221,8 @@ internal class CaptionsRttDataManager(
 
         // Check if this caption is a duplicate of the last final RTT
         if (appStore.getCurrentState().callState.isTranscribing &&
-            isDuplicateRttAndCaption(lastFinalRtt, newCaptionsRecord)) {
+            isDuplicateRttAndCaption(lastFinalRtt, newCaptionsRecord))
+        {
             return // Skip this duplicate caption
         }
         var lastCaptionFromSameUser = getLastCaptionFromUser(newCaptionsRecord.speakerRawId, CaptionsRttType.CAPTIONS)
@@ -364,9 +365,8 @@ internal class CaptionsRttDataManager(
         if (!lastRtt.isFinal || caption.type != CaptionsRttType.CAPTIONS) return false
 
         val sameSpeaker = caption.speakerRawId?.contains(lastRtt.speakerRawId ?: "") == true
-        val sameText = lastRtt.displayText.trim() == caption.displayText.trim()
+        val sameText = lastRtt.dispslayText.trim() == caption.displayText.trim()
 
         return sameSpeaker && sameText
     }
-
 }
