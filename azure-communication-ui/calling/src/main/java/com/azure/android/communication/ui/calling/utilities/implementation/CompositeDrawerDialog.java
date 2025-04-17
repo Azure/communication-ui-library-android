@@ -48,6 +48,9 @@ public class CompositeDrawerDialog extends DrawerDialog {
         final View drawer = findViewById(R.id.drawer_container);
         if (Build.VERSION.SDK_INT >= 35) {
             final RecyclerView recyclerView = findViewById(R.id.bottom_drawer_table);
+            if (recyclerView == null) {
+                return;
+            }
 
             ViewCompat.setOnApplyWindowInsetsListener(drawer, (view, windowInsets) -> {
                 final Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
