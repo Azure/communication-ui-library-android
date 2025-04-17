@@ -219,10 +219,10 @@ internal class CaptionsRttDataManager(
         val lastFinalRtt = captionsAndRttMutableList
             .lastOrNull { it.type == CaptionsRttType.RTT && it.isFinal }
 
-        // Check if this caption is a duplicate of the last final RTT
-        if (appStore.getCurrentState().callState.isTranscribing &&
-            isDuplicateRttAndCaption(lastFinalRtt, newCaptionsRecord))
-        {
+        if (
+            appStore.getCurrentState().callState.isTranscribing &&
+            isDuplicateRttAndCaption(lastFinalRtt, newCaptionsRecord)
+        ) {
             return // Skip this duplicate caption
         }
         var lastCaptionFromSameUser = getLastCaptionFromUser(newCaptionsRecord.speakerRawId, CaptionsRttType.CAPTIONS)
