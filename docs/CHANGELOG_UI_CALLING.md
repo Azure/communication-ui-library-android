@@ -1,4 +1,8 @@
 # Azure Communication UI Calling Release History
+## 1.14.0 (2025-04-17)
+
+### Features
+- Real time text support
 
 ## 1.14.0-beta.2 (2025-04-10)
 
