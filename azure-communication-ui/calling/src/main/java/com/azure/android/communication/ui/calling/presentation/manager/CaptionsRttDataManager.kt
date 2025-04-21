@@ -216,6 +216,12 @@ internal class CaptionsRttDataManager(
     }
 
     private suspend fun handleCaptionData(newCaptionsRecord: CaptionsRttRecord) {
+        if (
+            appStore.getCurrentState().callState.isTranscribing &&
+            isDuplicateRttAndCaption(newCaptionsRecord)
+        ) {
+            return // Skip this duplicate caption
+        }
         var lastCaptionFromSameUser = getLastCaptionFromUser(newCaptionsRecord.speakerRawId, CaptionsRttType.CAPTIONS)
 
         if (lastCaptionFromSameUser != null && shouldFinalizeLastCaption(lastCaptionFromSameUser, newCaptionsRecord)) {
@@ -346,5 +352,19 @@ internal class CaptionsRttDataManager(
                 updateAtIndex(i, item.copy(isFinal = true))
             }
         }
+    }
+
+    private fun isDuplicateRttAndCaption(
+        newCaptionsRecord: CaptionsRttRecord
+    ): Boolean {
+        val lastFinalRtt = captionsAndRttMutableList
+            .lastOrNull {
+                it.type == CaptionsRttType.RTT && it.isFinal && newCaptionsRecord.speakerRawId?.contains(it.speakerRawId ?: "") == true
+            }
+
+        if (lastFinalRtt == null)
+            return false
+
+        return lastFinalRtt.displayText.trim() == newCaptionsRecord.displayText.trim()
     }
 }
