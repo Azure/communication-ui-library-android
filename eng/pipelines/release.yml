@@ -10,7 +10,7 @@ resources:
     name: 1ESPipelineTemplates/1ESPipelineTemplates
     ref: refs/tags/release
 extends:
-  template: v1/1ES.Unofficial.PipelineTemplate.yml@1esPipelines
+  template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
   parameters:
     pool:
       os: linux
@@ -137,7 +137,7 @@ extends:
             tasks: ktlintCheck
             publishJUnitResults: false
             javaHomeOption: 'JDKVersion'
-            jdkVersionOption: '1.11'
+            jdkVersionOption: '1.17'
         - task: Gradle@3
           displayName: gradlew build
           inputs:
@@ -146,7 +146,7 @@ extends:
             tasks: build --stacktrace
             publishJUnitResults: false
             javaHomeOption: 'JDKVersion'
-            jdkVersionOption: '1.11'
+            jdkVersionOption: '1.17'
         - task: Gradle@3
           displayName: publish calling to local dir
           inputs:
@@ -154,7 +154,7 @@ extends:
             cwd: azure-communication-ui/calling
             tasks: publishReleasePublicationToLocalDirectoryRepository
             javaHomeOption: 'JDKVersion'
-            jdkVersionOption: '1.11'
+            jdkVersionOption: '1.17'
         - task: Gradle@3
           displayName: publish chat to local dir
           inputs:
@@ -162,7 +162,7 @@ extends:
             cwd: azure-communication-ui/chat
             tasks: publishReleasePublicationToLocalDirectoryRepository
             javaHomeOption: 'JDKVersion'
-            jdkVersionOption: '1.11'
+            jdkVersionOption: '1.17'
         - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
           displayName: Put .pom file to the .aar file
           inputs:

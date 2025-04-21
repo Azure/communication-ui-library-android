@@ -8,6 +8,7 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Динамик</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Гарнитура</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">Параметры устройства. Кнопка "Закрыть".</string>
     <string name="azure_communication_ui_calling_switch_camera_button_front">Фронтальная камера включена, переключиться на заднюю камеру</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">Задняя камера включена, переключиться на фронтальную камеру</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Выбрать звуковое устройство %1$s</string>
@@ -48,7 +49,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Звонок с 1 пользователем</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Звонок с несколькими (%1$d) людьми</string>
     <string name="azure_communication_ui_calling_view_go_back">Назад</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(Я)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s (я)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Участник без имени</string>
     <string name="azure_communication_ui_calling_view_leave_call">Покинуть звонок?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Покинуть</string>
@@ -68,6 +69,12 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">Поделиться диагностическими сведениями</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Диагностические сведения</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Кнопка "Поделиться диагностическими сведениями"</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Звонок с: %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">Список участников</string>
+    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">Дополнительные параметры. Кнопка "Закрыть".</string>
+    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">Список участников. Кнопка "Закрыть".</string>
+    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">Меню "Субтитры и ввод в режиме реального времени". Кнопка "Закрыть".</string>
+    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">Меню "Язык докладчика". Кнопка "Закрыть".</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Началась запись.</b> Присоединяясь, вы
@@ -93,7 +100,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Закрыть</string>
     <string name="azure_communication_ui_calling_alert_title">Оповещение</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Возможно, вы были удалены из собрания или потеряли подключение. Попробуйте присоединиться еще раз.</string>
+    <string name="azure_communication_ui_calling_call_end_with_error">Вы были удалены из звонка из-за ошибки или потери соединения. Попробуйте присоединиться к звонку еще раз.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Не удалось присоединиться к звонку из-за ошибки.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Вас удалили из вызова.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Не удалось присоединиться к звонку. Проверьте сетевое подключение.</string>
@@ -157,6 +164,7 @@
     <string name="azure_communication_ui_calling_report_issue_title">Сообщить о проблеме</string>
     <string name="azure_communication_ui_calling_logs_attach_notice">Журналы будут вложены автоматически.</string>
     <string name="azure_communication_ui_calling_privacy_policy_label">Политика конфиденциальности</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">Политика конфиденциальности. Ссылка.</string>
     <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Опишите свою проблему...</string>
     <string name="azure_communication_ui_calling_cancel_button_label">Отмена</string>
     <string name="azure_communication_ui_calling_attach_screenshot">Вложить снимок экрана</string>
@@ -187,11 +195,30 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">Субтитры</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Язык речи</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d из %3$d</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Язык субтитров</string>
     <string name="azure_communication_ui_calling_starting_captions">Запуск субтитров...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">Не удается запустить субтитры</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Не удалось остановить субтитры</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Не удалось изменить язык речи</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Не удалось изменить язык субтитров</string>
-
+    <string name="azure_communication_ui_calling_captions_rtt_menu">Субтитры и ввод в режиме реального времени</string>
+    <string name="azure_communication_ui_calling_rtt_info">Текст в режиме реального времени (RTT) включен на весь период этого собрания и виден всем участникам. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">Дополнительные сведения</a></string>
+    <string name="azure_communication_ui_calling_rtt_info_accessibility">Текст в режиме реального времени (RTT) включен на весь период этого собрания и виден всем участникам. Подробнее. Связь</string>
+    <string name="azure_communication_ui_calling_rtt">Ввод в режиме реального времени</string>
+    <string name="azure_communication_ui_calling_rtt_message_sent">Сообщение отправлено</string>
+    <string name="azure_communication_ui_calling_rtt_typing">Ввод с клавиатуры в режиме реального времени</string>
+    <string name="azure_communication_ui_calling_captions_turn_on_rtt">Включить ввод в режиме реального времени для этого звонка</string>
+    <string name="azure_communication_ui_calling_captions_turn_on">Включить субтитры</string>
+    <string name="azure_communication_ui_calling_captions_turn_off">Отключить субтитры</string>
+    <string name="azure_communication_ui_calling_captions_is_on">Субтитры включены</string>
+    <string name="azure_communication_ui_calling_captions_is_off">Субтитры отключены</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">Включить ввод в режиме реального времени?</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">Ввод текста в режиме реального времени (RTT) будет включен для всех участников звонка.</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">Включить</string>
+    <string name="azure_communication_ui_calling_rtt_header">Текст в режиме реального времени</string>
+    <string name="azure_communication_ui_calling_captions_header">Субтитры</string>
+    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">Развернуть субтитры и ввод в режиме реального времени</string>
+    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">Свернуть субтитры и ввод в режиме реального времени</string>
+    <string name="azure_communication_ui_calling_rtt_edit_text_hint">Введите сообщение в режиме реального времени</string>
 </resources>

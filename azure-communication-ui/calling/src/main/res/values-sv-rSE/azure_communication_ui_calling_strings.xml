@@ -8,6 +8,7 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Högtalare</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Headset</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">Enhetsalternativ. Knappen Stäng.</string>
     <string name="azure_communication_ui_calling_switch_camera_button_front">Framåtkamera på, växla till bakåtkamera</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">Bakåtkamera på, växla till kameran på framsidan</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Välj ljudenhet %1$s</string>
@@ -48,7 +49,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Ring med 1 person</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Ring med %1$d personer</string>
     <string name="azure_communication_ui_calling_view_go_back">Tillbaka</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(jag)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s (jag)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Namnlös deltagare</string>
     <string name="azure_communication_ui_calling_view_leave_call">Vill du lämna samtalet?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Lämna</string>
@@ -68,6 +69,12 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">Dela diagnostikinformation</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnostikinformation</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Knappen Dela diagnostikinformation</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Ring med: %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">Deltagarlista</string>
+    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">Fler alternativ. Knappen Stäng.</string>
+    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">Deltagarlista. Knappen Stäng.</string>
+    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">Meny för undertexter och skrift i realtid. Knappen Stäng.</string>
+    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">Meny för talat språk. Knappen Stäng.</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Inspelning har startat.</b> Genom att ansluta
@@ -93,7 +100,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Stäng</string>
     <string name="azure_communication_ui_calling_alert_title">Avisering</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Du kan ha tagits bort från mötet eller förlorat anslutningen. Försök att ansluta igen.</string>
+    <string name="azure_communication_ui_calling_call_end_with_error">Du togs bort från samtalet på grund av ett fel eller att anslutningen bröts. Försök att återansluta till samtalet.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Det gick inte att ansluta till samtalet på grund av ett fel.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Du togs bort från samtalet.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Det går inte att ansluta till samtalet. Kontrollera nätverksanslutningen.</string>
@@ -157,6 +164,7 @@
     <string name="azure_communication_ui_calling_report_issue_title">Rapportera problem</string>
     <string name="azure_communication_ui_calling_logs_attach_notice">Loggar bifogas automatiskt.</string>
     <string name="azure_communication_ui_calling_privacy_policy_label">Sekretesspolicy</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">Sekretesspolicy. Länk.</string>
     <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Beskriv problemet ...</string>
     <string name="azure_communication_ui_calling_cancel_button_label">Avbryt</string>
     <string name="azure_communication_ui_calling_attach_screenshot">Bifoga skärmbild</string>
@@ -187,11 +195,30 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">Liveundertexter</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Talat språk</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d av %3$d</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Språk för undertext</string>
     <string name="azure_communication_ui_calling_starting_captions">Startar undertexter ...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">Det går inte att starta undertexter</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Det går inte att stoppa undertexter</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Det gör inte att ändra talat språk</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Det går inte att ändra språket för undertexter</string>
-
+    <string name="azure_communication_ui_calling_captions_rtt_menu">Undertexter &amp; RTT</string>
+    <string name="azure_communication_ui_calling_rtt_info">Realtidstext (RTT) har aktiverats för hela mötets varaktighet och visas av alla deltagare. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">Läs mer</a></string>
+    <string name="azure_communication_ui_calling_rtt_info_accessibility">Realtidstext (RTT) har aktiverats för hela mötets varaktighet och visas av alla deltagare. Lära sig mer. Länk</string>
+    <string name="azure_communication_ui_calling_rtt">RTT</string>
+    <string name="azure_communication_ui_calling_rtt_message_sent">Meddelandet har skickats</string>
+    <string name="azure_communication_ui_calling_rtt_typing">RTT-inmatning</string>
+    <string name="azure_communication_ui_calling_captions_turn_on_rtt">Aktivera RTT för det här samtalet</string>
+    <string name="azure_communication_ui_calling_captions_turn_on">Aktivera undertexter</string>
+    <string name="azure_communication_ui_calling_captions_turn_off">Inaktivera undertexter</string>
+    <string name="azure_communication_ui_calling_captions_is_on">Textning för hörselskadade är på</string>
+    <string name="azure_communication_ui_calling_captions_is_off">Textning för hörselskadade är av</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">Aktivera RTT?</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">Realtidstext (RTT) aktiveras för alla i samtalet.</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">Aktivera</string>
+    <string name="azure_communication_ui_calling_rtt_header">Realtidstext</string>
+    <string name="azure_communication_ui_calling_captions_header">Bildtexter</string>
+    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">Maximera undertexter och RTT</string>
+    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">Minimera undertexter och RTT</string>
+    <string name="azure_communication_ui_calling_rtt_edit_text_hint">Skriv meddelande i realtid</string>
 </resources>

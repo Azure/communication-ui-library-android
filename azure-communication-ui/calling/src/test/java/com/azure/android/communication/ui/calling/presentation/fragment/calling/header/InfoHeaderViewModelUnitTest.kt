@@ -12,6 +12,7 @@ import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CustomButtonState
 import com.azure.android.communication.ui.calling.redux.state.RemoteParticipantsState
+import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -20,6 +21,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.mock
+/* <CALL_START_TIME>
+import java.util.Date
+</CALL_START_TIME> */
 
 @RunWith(MockitoJUnitRunner::class)
 internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
@@ -58,18 +62,24 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val floatingHeaderViewModel = InfoHeaderViewModel(
                 false,
-                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
                 mock(), mock()
-                /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             )
             floatingHeaderViewModel.init(
-                appState.callState.callingStatus,
                 expectedParticipantMap.count(),
-                CallScreenInfoHeaderState(null, null),
-                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
+                CallScreenInfoHeaderState(
+                    null,
+                    null,
+                    /* <CALL_START_TIME>
+                    false
+                    </CALL_START_TIME> */
+                ),
                 appState.buttonState,
-                /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
-            ) { }
+                isOverlayDisplayedOverGrid = false,
+                { },
+                /* <CALL_START_TIME>
+                null,
+                </CALL_START_TIME> */
+            )
 
             val resultListFromNumberOfParticipantsFlow =
                 mutableListOf<Int>()
@@ -82,10 +92,19 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             // act
             floatingHeaderViewModel.update(
                 expectedParticipantMap.count(),
-                CallScreenInfoHeaderState(null, null),
-                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
+                CallScreenInfoHeaderState(
+                    null,
+                    null,
+                    /* <CALL_START_TIME>
+                    false
+                    </CALL_START_TIME> */
+                ),
                 appState.buttonState,
-                /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+                isOverlayDisplayedOverGrid = false,
+                /* <CALL_START_TIME>
+                null,
+                </CALL_START_TIME> */
+                VisibilityStatus.VISIBLE,
             )
 
             // assert
@@ -132,18 +151,24 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val floatingHeaderViewModel = InfoHeaderViewModel(
                 false,
-                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
                 mock(), mock()
-                /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             )
             floatingHeaderViewModel.init(
-                appState.callState.callingStatus,
                 expectedParticipantMap.count(),
-                CallScreenInfoHeaderState(null, null),
-                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
+                CallScreenInfoHeaderState(
+                    null,
+                    null,
+                    /* <CALL_START_TIME>
+                    false
+                    </CALL_START_TIME> */
+                ),
                 appState.buttonState,
-                /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
-            ) {}
+                isOverlayDisplayedOverGrid = false,
+                {},
+                /* <CALL_START_TIME>
+                null,
+                </CALL_START_TIME> */
+            )
 
             val resultListFromIsLobbyOverlayDisplayedFlow =
                 mutableListOf<Boolean>()
@@ -154,8 +179,26 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             }
 
             // act
-            floatingHeaderViewModel.updateIsOverlayDisplayed(CallingStatus.CONNECTED)
-            floatingHeaderViewModel.updateIsOverlayDisplayed(CallingStatus.IN_LOBBY)
+            floatingHeaderViewModel.update(
+                1,
+                appState.callScreenInfoHeaderState,
+                appState.buttonState,
+                isOverlayDisplayedOverGrid = false,
+                /* <CALL_START_TIME>
+                null,
+                </CALL_START_TIME> */
+                VisibilityStatus.VISIBLE,
+            )
+            floatingHeaderViewModel.update(
+                1,
+                appState.callScreenInfoHeaderState,
+                appState.buttonState,
+                isOverlayDisplayedOverGrid = true,
+                /* <CALL_START_TIME>
+                null,
+                </CALL_START_TIME> */
+                VisibilityStatus.VISIBLE,
+            )
 
             // assert
             Assert.assertEquals(
@@ -207,18 +250,23 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
 
             val floatingHeaderViewModel = InfoHeaderViewModel(
                 false,
-                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
                 mock(), mock()
-                /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
             )
             floatingHeaderViewModel.init(
-                appState.callState.callingStatus,
                 expectedParticipantMap.count(),
-                CallScreenInfoHeaderState(title, subtitle),
-                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
+                CallScreenInfoHeaderState(
+                    title, subtitle,
+                    /* <CALL_START_TIME>
+                    false
+                    </CALL_START_TIME> */
+                ),
                 appState.buttonState,
-                /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
-            ) { }
+                isOverlayDisplayedOverGrid = false,
+                { },
+                /* <CALL_START_TIME>
+                null,
+                </CALL_START_TIME> */
+            )
 
             val resultListFromNumberOfParticipantsFlow =
                 mutableListOf<Int>()
@@ -245,10 +293,19 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             // act
             floatingHeaderViewModel.update(
                 expectedParticipantMap.count(),
-                CallScreenInfoHeaderState(null, null),
-                /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
+                CallScreenInfoHeaderState(
+                    null,
+                    null,
+                    /* <CALL_START_TIME>
+                    false
+                    </CALL_START_TIME> */
+                ),
                 appState.buttonState,
-                /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+                isOverlayDisplayedOverGrid = true,
+                /* <CALL_START_TIME>
+                null,
+                </CALL_START_TIME> */
+                VisibilityStatus.VISIBLE,
             )
 
             // assert
@@ -273,7 +330,106 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
         }
     }
 
-    /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
+    /* <CALL_START_TIME>
+    @ExperimentalCoroutinesApi
+    @Test
+    fun floatingHeaderViewModel_update_then_showCallDuration() {
+        runScopedTest {
+            val appState = AppReduxState("", false, false)
+
+            val participantInfoModel1 = mock<ParticipantInfoModel> {}
+            val participantInfoModel2 = mock<ParticipantInfoModel> {}
+            val participantInfoModel3 = mock<ParticipantInfoModel> {}
+            val expectedParticipantMap: Map<String, ParticipantInfoModel> = mapOf(
+                "p1" to participantInfoModel1,
+                "p2" to participantInfoModel2,
+                "p3" to participantInfoModel3
+            )
+            val timestamp: Number = System.currentTimeMillis()
+
+            appState.remoteParticipantState = RemoteParticipantsState(
+                expectedParticipantMap,
+                timestamp,
+                listOf(),
+                0,
+                lobbyErrorCode = null,
+                totalParticipantCount = 0,
+            )
+            appState.callState = CallingState(
+                CallingStatus.CONNECTED,
+                joinCallIsRequested = false,
+                isRecording = false,
+                isTranscribing = false
+            )
+
+            val floatingHeaderViewModel = InfoHeaderViewModel(
+                false,
+                mock(), mock()
+            )
+            floatingHeaderViewModel.init(
+                expectedParticipantMap.count(),
+                CallScreenInfoHeaderState(null, null, false),
+                appState.buttonState,
+                isOverlayDisplayedOverGrid = false,
+                { },
+                null,
+            )
+
+            val resultListFromDisplayCallDurationFlow =
+                mutableListOf<Boolean>()
+            val resultListFromCallDurationFlow =
+                mutableListOf<String>()
+
+            val flowJobDisplayCallDuration = launch {
+                floatingHeaderViewModel.getDisplayCallDurationFlow()
+                    .toList(resultListFromDisplayCallDurationFlow)
+            }
+
+            val flowJobCallDuration = launch {
+                floatingHeaderViewModel.getCallDurationFlow()
+                    .toList(resultListFromCallDurationFlow)
+            }
+
+            // act
+            floatingHeaderViewModel.update(
+                expectedParticipantMap.count(),
+                CallScreenInfoHeaderState(null, null, true),
+                appState.buttonState,
+                isOverlayDisplayedOverGrid = false,
+                Date(),
+                VisibilityStatus.VISIBLE,
+            )
+
+            // add delay to get timer update
+            Thread.sleep(2000)
+
+            // assert
+            Assert.assertEquals(
+                false,
+                resultListFromDisplayCallDurationFlow[0]
+            )
+
+            Assert.assertEquals(
+                true,
+                resultListFromDisplayCallDurationFlow[1]
+            )
+
+            Assert.assertEquals(
+                "00:00",
+                resultListFromCallDurationFlow[0]
+            )
+
+            Assert.assertEquals(
+                "00:01",
+                resultListFromCallDurationFlow[1]
+            )
+
+            flowJobDisplayCallDuration.cancel()
+            flowJobCallDuration.cancel()
+        }
+    }
+    </CALL_START_TIME> */
+
     @ExperimentalCoroutinesApi
     @Test
     fun floatingHeaderViewModel_update_then_displayCustomButtons() {
@@ -306,11 +462,20 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 mock(), mock()
             )
             floatingHeaderViewModel.init(
-                appState.callState.callingStatus,
                 expectedParticipantMap.count(),
-                CallScreenInfoHeaderState(title, subtitle),
+                CallScreenInfoHeaderState(
+                    title, subtitle,
+                    /* <CALL_START_TIME>
+                    false
+                    </CALL_START_TIME> */
+                ),
                 appState.buttonState,
-            ) { }
+                isOverlayDisplayedOverGrid = false,
+                { },
+                /* <CALL_START_TIME>
+                null,
+                </CALL_START_TIME> */
+            )
 
             val customButton1StateFlow =
                 mutableListOf<InfoHeaderViewModel.CustomButtonEntry?>()
@@ -345,8 +510,18 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             val buttonState1 = ButtonState(callScreenHeaderCustomButtonsState = listOf(button1))
             floatingHeaderViewModel.update(
                 expectedParticipantMap.count(),
-                CallScreenInfoHeaderState(null, null),
+                CallScreenInfoHeaderState(
+                    null, null,
+                    /* <CALL_START_TIME>
+                    false
+                    </CALL_START_TIME> */
+                ),
                 buttonState1,
+                isOverlayDisplayedOverGrid = false,
+                /* <CALL_START_TIME>
+                null,
+                </CALL_START_TIME> */
+                VisibilityStatus.VISIBLE,
             )
 
             Assert.assertEquals(2, customButton1StateFlow.size)
@@ -363,8 +538,19 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             // act
             floatingHeaderViewModel.update(
                 expectedParticipantMap.count(),
-                CallScreenInfoHeaderState(null, null),
+                CallScreenInfoHeaderState(
+                    null,
+                    null,
+                    /* <CALL_START_TIME>
+                    false
+                    </CALL_START_TIME> */
+                ),
                 buttonState2,
+                isOverlayDisplayedOverGrid = false,
+                /* <CALL_START_TIME>
+                null,
+                </CALL_START_TIME> */
+                VisibilityStatus.VISIBLE,
             )
 
             Assert.assertEquals(2, customButton1StateFlow.size)
@@ -380,5 +566,124 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             flowButton2.cancel()
         }
     }
-    /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun floatingHeaderViewModel_update_then_isNotVisibleIfVisibilityStateNotVisible() {
+        runScopedTest {
+
+            val appState = AppReduxState("", false, false)
+
+            val participantInfoModel1 = mock<ParticipantInfoModel> {}
+            val participantInfoModel2 = mock<ParticipantInfoModel> {}
+            val participantInfoModel3 = mock<ParticipantInfoModel> {}
+            val expectedParticipantMap: Map<String, ParticipantInfoModel> = mapOf(
+                "p1" to participantInfoModel1,
+                "p2" to participantInfoModel2,
+                "p3" to participantInfoModel3
+            )
+            val timestamp: Number = System.currentTimeMillis()
+
+            appState.remoteParticipantState = RemoteParticipantsState(
+                expectedParticipantMap,
+                timestamp,
+                listOf(),
+                0,
+                lobbyErrorCode = null,
+                totalParticipantCount = 0,
+            )
+            appState.callState = CallingState(
+                CallingStatus.CONNECTED,
+                joinCallIsRequested = false,
+                isRecording = false,
+                isTranscribing = false
+            )
+
+            val floatingHeaderViewModel = InfoHeaderViewModel(
+                false,
+                mock(), mock()
+            )
+            floatingHeaderViewModel.init(
+                expectedParticipantMap.count(),
+                CallScreenInfoHeaderState(
+                    null,
+                    null,
+                    /* <CALL_START_TIME>
+                    false
+                    </CALL_START_TIME> */
+                ),
+                appState.buttonState,
+                isOverlayDisplayedOverGrid = false,
+                { },
+                /* <CALL_START_TIME>
+                null,
+                </CALL_START_TIME> */
+            )
+
+            val isVisibleFlow = mutableListOf<Boolean>()
+
+            val flowJob = launch {
+                floatingHeaderViewModel.getIsVisible().toList(isVisibleFlow)
+            }
+
+            // act
+            floatingHeaderViewModel.update(
+                expectedParticipantMap.count(),
+                CallScreenInfoHeaderState(
+                    null,
+                    null,
+                    /* <CALL_START_TIME>
+                    false
+                    </CALL_START_TIME> */
+                ),
+                appState.buttonState,
+                isOverlayDisplayedOverGrid = false,
+                /* <CALL_START_TIME>
+                null,
+                </CALL_START_TIME> */
+                VisibilityStatus.PIP_MODE_ENTERED,
+            )
+
+            floatingHeaderViewModel.update(
+                expectedParticipantMap.count(),
+                CallScreenInfoHeaderState(
+                    null,
+                    null,
+                    /* <CALL_START_TIME>
+                    false
+                    </CALL_START_TIME> */
+                ),
+                appState.buttonState,
+                isOverlayDisplayedOverGrid = false,
+                /* <CALL_START_TIME>
+                null,
+                </CALL_START_TIME> */
+                VisibilityStatus.VISIBLE,
+            )
+
+            floatingHeaderViewModel.update(
+                expectedParticipantMap.count(),
+                CallScreenInfoHeaderState(
+                    null,
+                    null,
+                    /* <CALL_START_TIME>
+                    false
+                    </CALL_START_TIME> */
+                ),
+                appState.buttonState,
+                isOverlayDisplayedOverGrid = false,
+                /* <CALL_START_TIME>
+                null,
+                </CALL_START_TIME> */
+                VisibilityStatus.HIDDEN,
+            )
+
+            // assert
+            Assert.assertFalse(isVisibleFlow[0])
+            Assert.assertTrue(isVisibleFlow[1])
+            Assert.assertFalse(isVisibleFlow[2])
+
+            flowJob.cancel()
+        }
+    }
 }

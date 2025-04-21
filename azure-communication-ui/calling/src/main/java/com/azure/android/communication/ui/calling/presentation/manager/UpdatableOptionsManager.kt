@@ -4,6 +4,9 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonViewData
 import com.azure.android.communication.ui.calling.models.setDrawableIdChangedEventHandler
 import com.azure.android.communication.ui.calling.models.setEnabledChangedEventHandler
+/* <CALL_START_TIME>
+import com.azure.android.communication.ui.calling.models.setShowCallDurationChangedEventHandler
+</CALL_START_TIME> */
 import com.azure.android.communication.ui.calling.models.setSubtitleChangedEventHandler
 import com.azure.android.communication.ui.calling.models.setTitleChangedEventHandler
 import com.azure.android.communication.ui.calling.models.setVisibleChangedEventHandler
@@ -24,6 +27,11 @@ internal class UpdatableOptionsManager(
             setSubtitleChangedEventHandler {
                 store.dispatch(CallScreenInfoHeaderAction.UpdateSubtitle(it))
             }
+            /* <CALL_START_TIME>
+            setShowCallDurationChangedEventHandler {
+                store.dispatch(CallScreenInfoHeaderAction.UpdateShowCallDuration(it ?: true))
+            }
+            </CALL_START_TIME> */
         }
         configuration.callScreenOptions?.controlBarOptions?.run {
             cameraButton?.setEnabledChangedEventHandler {
@@ -115,7 +123,6 @@ internal class UpdatableOptionsManager(
             }
         }
 
-        /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
         configuration.callScreenOptions?.headerViewData?.customButtons?.forEach {
             it.setEnabledChangedEventHandler { isEnabled ->
                 store.dispatch(ButtonViewDataAction.CallScreenHeaderCustomButtonIsEnabledUpdated(it.id, isEnabled))
@@ -127,7 +134,6 @@ internal class UpdatableOptionsManager(
                 store.dispatch(ButtonViewDataAction.CallScreenHeaderCustomButtonIconUpdated(it.id, drawableId))
             }
         }
-        /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
     }
 
     fun getButton(id: String): CallCompositeCustomButtonViewData {
@@ -136,13 +142,11 @@ internal class UpdatableOptionsManager(
             ?.let {
                 return it
             }
-        /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
         configuration.callScreenOptions?.headerViewData?.customButtons
             ?.find { it.id == id }
             ?.let {
                 return it
             }
-        /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
         throw IllegalArgumentException("Button with id $id not found")
     }
 }

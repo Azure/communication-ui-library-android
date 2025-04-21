@@ -8,13 +8,13 @@ import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.logger.Logger
 import com.azure.android.communication.ui.calling.models.CallCompositeLocalOptions
 
-internal class ToolbarView : Toolbar {
+internal class ToolbarView : LinearLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
@@ -29,8 +29,6 @@ internal class ToolbarView : Toolbar {
         navigationButton = findViewById(R.id.azure_communication_ui_navigation_button)
         toolbarTitle = findViewById(R.id.azure_communication_ui_toolbar_title)
         toolbarSubtitle = findViewById(R.id.azure_communication_ui_toolbar_subtitle)
-        this.isFocusable = true
-        this.isFocusableInTouchMode = true
     }
 
     fun start(
@@ -44,7 +42,6 @@ internal class ToolbarView : Toolbar {
         navigationButton.setOnClickListener {
             exitComposite()
         }
-        navigationButton.requestFocus()
     }
 
     fun stop() {
@@ -57,7 +54,7 @@ internal class ToolbarView : Toolbar {
         val titleText = if (!TextUtils.isEmpty(localOptions?.setupScreenViewData?.title)) {
             localOptions?.setupScreenViewData?.title
         } else {
-            context.applicationContext.getString(R.string.azure_communication_ui_calling_call_setup_action_bar_title)
+            context.getString(R.string.azure_communication_ui_calling_call_setup_action_bar_title)
         }
 
         toolbarTitle.text = titleText
@@ -68,7 +65,7 @@ internal class ToolbarView : Toolbar {
                 val subtitleText = localOptions?.setupScreenViewData?.subtitle
                 toolbarSubtitle.visibility = View.VISIBLE
                 toolbarSubtitle.text = subtitleText
-                toolbarSubtitle.contentDescription = subtitleText + " " + context.applicationContext.getString(R.string.azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement)
+                toolbarSubtitle.contentDescription = subtitleText + " " + context.getString(R.string.azure_communication_ui_calling_call_setup_toolbar_subtitle_announcement)
             } else {
                 logger.error(
                     "Provided setupScreenViewData has subtitle, but no title provided. In this case subtitle is not displayed."

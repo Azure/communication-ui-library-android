@@ -8,6 +8,7 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Głośnik</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Zestaw słuchawkowy</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">Opcje urządzenia. Przycisk zamykania.</string>
     <string name="azure_communication_ui_calling_switch_camera_button_front">Włączona kamera przednia, przełącz do tylnej kamery</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">Włączona kamera tylna, przełącz do przedniej kamery</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Wybierz urządzenie audio %1$s</string>
@@ -48,7 +49,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Rozmowa z 1 osobą</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Rozmowa z %1$d osobami</string>
     <string name="azure_communication_ui_calling_view_go_back">Wstecz</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(ja)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s (ja)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Uczestnik bez nazwy</string>
     <string name="azure_communication_ui_calling_view_leave_call">Opuścić rozmowę?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Wyjdź</string>
@@ -68,6 +69,12 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">Udostępnij informacje diagnostyczne</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Informacje diagnostyczne</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Przycisk Udostępnij informacje diagnostyczne</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Rozmowa z: %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">Lista uczestników</string>
+    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">Więcej opcji. Przycisk zamykania.</string>
+    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">Lista uczestników. Przycisk zamykania.</string>
+    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">Menu napisów i RTT. Przycisk zamykania.</string>
+    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">Menu języka mówionego. Przycisk zamykania.</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Rozpoczęto nagrywanie.</b> Dołączając, 
@@ -93,7 +100,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Odrzuć</string>
     <string name="azure_communication_ui_calling_alert_title">Alert</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Być może usunięto Cię ze spotkania lub utracono połączenie. Spróbuj ponownie dołączyć.</string>
+    <string name="azure_communication_ui_calling_call_end_with_error">Usunięto Cię z połączenia z powodu błędu lub utraty połączenia. Spróbuj ponownie dołączyć do rozmowy.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Nie można dołączyć do połączenia z powodu błędu.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Usunięto Cię z rozmowy.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Nie można dołączyć do rozmowy. Sprawdź połączenie sieciowe.</string>
@@ -157,6 +164,7 @@
     <string name="azure_communication_ui_calling_report_issue_title">Zgłoś problem</string>
     <string name="azure_communication_ui_calling_logs_attach_notice">Automatycznie dołączymy dzienniki.</string>
     <string name="azure_communication_ui_calling_privacy_policy_label">Zasady ochrony prywatności</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">Zasady ochrony prywatności. Link.</string>
     <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Opisz swój problem...</string>
     <string name="azure_communication_ui_calling_cancel_button_label">Anuluj</string>
     <string name="azure_communication_ui_calling_attach_screenshot">Załącz wycinek ekranu</string>
@@ -187,11 +195,30 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">Napisy na żywo</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Język mówiony</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d z %3$d</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Język napisów</string>
     <string name="azure_communication_ui_calling_starting_captions">Trwa uruchamianie napisów...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">Nie można uruchomić napisów</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Nie można zatrzymać napisów</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Nie można zmienić języka mówionego</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Nie można zmienić języka napisów</string>
-
+    <string name="azure_communication_ui_calling_captions_rtt_menu">Napisy i RTT</string>
+    <string name="azure_communication_ui_calling_rtt_info">Tekst w czasie rzeczywistym jest włączony przez cały czas trwania tego spotkania i jest widoczny dla wszystkich uczestników. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">Dowiedz się więcej</a></string>
+    <string name="azure_communication_ui_calling_rtt_info_accessibility">Tekst w czasie rzeczywistym jest włączony przez cały czas trwania tego spotkania i jest widoczny dla wszystkich uczestników. Dowiedz się więcej. Łącze</string>
+    <string name="azure_communication_ui_calling_rtt">Pisanie w czasie rzeczywistym</string>
+    <string name="azure_communication_ui_calling_rtt_message_sent">Wiadomość została wysłana</string>
+    <string name="azure_communication_ui_calling_rtt_typing">Pisanie w czasie rzeczywistym</string>
+    <string name="azure_communication_ui_calling_captions_turn_on_rtt">Włącz funkcję Pisanie w czasie rzeczywistym dla tego połączenia</string>
+    <string name="azure_communication_ui_calling_captions_turn_on">Włącz napisy</string>
+    <string name="azure_communication_ui_calling_captions_turn_off">Wyłącz napisy</string>
+    <string name="azure_communication_ui_calling_captions_is_on">Napisy są włączone</string>
+    <string name="azure_communication_ui_calling_captions_is_off">Napisy są wyłączone</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">Włączyć pisanie w czasie rzeczywistym?</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">Pisanie w czasie rzeczywistym (RTT) zostanie włączone dla wszystkich uczestników rozmowy.</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">Włącz</string>
+    <string name="azure_communication_ui_calling_rtt_header">Pisanie w czasie rzeczywistym</string>
+    <string name="azure_communication_ui_calling_captions_header">Napisy</string>
+    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">Maksymalizowanie napisów i RTT</string>
+    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">Minimalizowanie napisów i RTT</string>
+    <string name="azure_communication_ui_calling_rtt_edit_text_hint">Wpisywanie wiadomości w czasie rzeczywistym</string>
 </resources>

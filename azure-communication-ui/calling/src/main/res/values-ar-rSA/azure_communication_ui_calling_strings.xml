@@ -8,6 +8,7 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">مكبر الصوت</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">سماعة الرأس</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">خيارات الجهاز. زر إغلاق.</string>
     <string name="azure_communication_ui_calling_switch_camera_button_front">الكاميرا الأمامية قيد التشغيل، التبديل إلى الكاميرا الخلفية</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">الكاميرا الخلفية قيد التشغيل، التبديل إلى الكاميرا الأمامية</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">تحديد جهاز الصوت %1$s</string>
@@ -48,7 +49,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">الاتصال مع شخص</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">الاتصال بـ %1$d من الأشخاص</string>
     <string name="azure_communication_ui_calling_view_go_back">رجوع</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(أنا)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s (أنا)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">مشارك غير مسمى</string>
     <string name="azure_communication_ui_calling_view_leave_call">هل تريد مغادرة المكالمة؟</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">مغادرة</string>
@@ -68,6 +69,12 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">مشاركة معلومات التشخيص</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">معلومات التشخيص</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">زر مشاركة معلومات التشخيص</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">مكالمة مع: %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">قائمة المشاركين</string>
+    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">خيارات إضافية. زر إغلاق.</string>
+    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">قائمة المشاركين. زر إغلاق.</string>
+    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">قائمة التسميات التوضيحية وعرض الكتابة في الوقت الحقيقي. زر إغلاق.</string>
+    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">قائمة اللغة المنطوقة. زر إغلاق.</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>لقد بدأ التسجيل.</b> من خلال الانضمام، فأنت
@@ -93,7 +100,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">تجاهل</string>
     <string name="azure_communication_ui_calling_alert_title">تنبيه</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">ربما تمت إزالتك من الاجتماع، أو فقدت الاتصال. حاول الانضمام مرة أخرى.</string>
+    <string name="azure_communication_ui_calling_call_end_with_error">تمت إزالتك من المكالمة بسبب خطأ أو فقد الاتصال. الرجاء محاولة إعادة الانضمام إلى المكالمة.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">يتعذر الانضمام إلى المكالمة بسبب حدوث خطأ.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">تمت إزالتك من المكالمة.</string>
     <string name="azure_communication_ui_calling_no_connection_available">تعذر الانضمام إلى المكالمة. تحقق من اتصال الشبكة.</string>
@@ -157,6 +164,7 @@
     <string name="azure_communication_ui_calling_report_issue_title">الإبلاغ عن مشكلة</string>
     <string name="azure_communication_ui_calling_logs_attach_notice">سنقوم بإرفاق السجلات تلقائيًا.</string>
     <string name="azure_communication_ui_calling_privacy_policy_label">نهج الخصوصية</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">نهج الخصوصية. ارتباط.</string>
     <string name="azure_communication_ui_calling_describe_your_issue_hint_text">يُرجى وصف مشكلتك...</string>
     <string name="azure_communication_ui_calling_cancel_button_label">إلغاء</string>
     <string name="azure_communication_ui_calling_attach_screenshot">إرفاق لقطة الشاشة</string>
@@ -169,9 +177,9 @@
     <string name="azure_communication_ui_calling_call_view_calling">يتم الآن الاتصال...</string>
 
     <!-- Participant menu actions -->
-    <string name="azure_communication_ui_calling_view_participant_menu_mute">Mute</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_mute">كتم الصوت</string>
     <string name="azure_communication_ui_calling_view_participant_menu_mute_accessibility_label">قائمة كتم صوت المشاركين</string>
-    <string name="azure_communication_ui_calling_view_participant_menu_remove">Remove from call</string>
+    <string name="azure_communication_ui_calling_view_participant_menu_remove">إزالة من المكالمة</string>
     <string name="azure_communication_ui_calling_view_participant_menu_remove_accessibility_label">قائمة إزالة مشارك من المكالمة</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_lost">تم تحديث إعدادات المكالمة. قد لا تتوفر بعض الميزات لك.</string>
     <string name="azure_communication_ui_calling_view_capabilities_changed_toast_features_gained">تم تحديث إعدادات المكالمة. قد تتوفر الآن بعض الإجراءات الإضافية لك.</string>
@@ -187,11 +195,30 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">نص الكلام المباشر</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">اللغة المنطوقة</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d من %3$d</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">لغة التسمية التوضيحية</string>
     <string name="azure_communication_ui_calling_starting_captions">يتم الآن بدء التسميات التوضيحية...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">يتعذّر بدء تشغيل التسميات التوضيحية</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">يتعذّر إيقاف التسميات التوضيحية</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">يتعذّر تغيير اللغة المنطوقة</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">يتعذّر تغيير لغة التسمية التوضيحية</string>
-
+    <string name="azure_communication_ui_calling_captions_rtt_menu">التسميات التوضيحية &amp; RTT</string>
+    <string name="azure_communication_ui_calling_rtt_info">تم تمكين نص الوقت الحقيقي (RTT) طوال مدة هذا الاجتماع ويمكن لجميع المشاركين مشاهدته. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">معرفة المزيد</a></string>
+    <string name="azure_communication_ui_calling_rtt_info_accessibility">تم تمكين نص الوقت الحقيقي (RTT) طوال مدة هذا الاجتماع ويمكن لجميع المشاركين مشاهدته. التعرف على المزيد. رابط</string>
+    <string name="azure_communication_ui_calling_rtt">عرض الكتابة في الوقت الحقيقي (RTT)</string>
+    <string name="azure_communication_ui_calling_rtt_message_sent">تم إرسال الرسالة</string>
+    <string name="azure_communication_ui_calling_rtt_typing">عرض الكتابة في الوقت الحقيقي (RTT) قيد الكتابة</string>
+    <string name="azure_communication_ui_calling_captions_turn_on_rtt">تشغيل RTT لهذه المكالمة</string>
+    <string name="azure_communication_ui_calling_captions_turn_on">تشغيل التسميات التوضيحية</string>
+    <string name="azure_communication_ui_calling_captions_turn_off">إيقاف تشغيل التسميات التوضيحية</string>
+    <string name="azure_communication_ui_calling_captions_is_on">التسميات التوضيحية قيد التشغيل</string>
+    <string name="azure_communication_ui_calling_captions_is_off">التسميات التوضيحية قيد الإيقاف</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">هل تريد تشغيل عرض الكتابة في الوقت الحقيقي؟</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">سيتم تشغيل النص في الوقت الحقيقي (RTT) للجميع في المكالمة.</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">تشغيل</string>
+    <string name="azure_communication_ui_calling_rtt_header">نص حقيقي</string>
+    <string name="azure_communication_ui_calling_captions_header">تسميات توضيحية</string>
+    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">تكبير التسميات التوضيحية وRTT</string>
+    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">تصغير التسميات التوضيحية وRTT</string>
+    <string name="azure_communication_ui_calling_rtt_edit_text_hint">كتابة الرسالة في الوقت الحقيقي</string>
 </resources>

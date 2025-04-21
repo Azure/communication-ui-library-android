@@ -3,16 +3,18 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.captions
 
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.calling.implementation.R
 import com.microsoft.fluentui.persona.AvatarView
 
 internal class CaptionsRecyclerViewAdapter(
-    private val captionsData: List<CaptionsEntryModel>
+    private val captionsRttRecords: List<CaptionsRttRecord>
 ) : RecyclerView.Adapter<CaptionsRecyclerViewAdapter.CaptionsViewHolder>() {
     class CaptionsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val messageTextView: TextView =
@@ -21,6 +23,19 @@ internal class CaptionsRecyclerViewAdapter(
             view.findViewById(R.id.azure_communication_ui_calling_caption_avatar_view)
         val displayNameTextView: TextView =
             view.findViewById(R.id.azure_communication_ui_calling_caption_display_name)
+
+        val rttTypingIndicator: View =
+            view.findViewById(R.id.azure_communication_ui_calling_caption_rtt_typing_indicator)
+        val rttTypingIndicatorText: View =
+            view.findViewById(R.id.azure_communication_ui_calling_caption_rtt_typing_indicator_text)
+
+        val rttInfo: View =
+            view.findViewById(R.id.azure_communication_ui_calling_caption_rtt_info)
+        val rttInfoLabel: TextView =
+            view.findViewById(R.id.azure_communication_ui_calling_caption_rtt_info_label)
+
+        val captionContainer: View =
+            view.findViewById(R.id.azure_communication_ui_calling_caption_rtt)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CaptionsViewHolder {
@@ -29,12 +44,13 @@ internal class CaptionsRecyclerViewAdapter(
         return CaptionsViewHolder(view)
     }
 
-    override fun getItemCount() = captionsData.size
+    override fun getItemCount() = captionsRttRecords.size
 
     override fun onBindViewHolder(holder: CaptionsViewHolder, position: Int) {
-        holder.messageTextView.text = captionsData[position].displayText
-        var speakerName = captionsData[position].displayName
-        if (speakerName.isEmpty()) {
+        val captionsRttRecord = captionsRttRecords[position]
+        holder.messageTextView.text = captionsRttRecord.displayText
+        var speakerName = captionsRttRecord.displayName
+        if (speakerName.isNullOrEmpty()) {
             speakerName =
                 holder.messageTextView.context.getString(R.string.azure_communication_ui_calling_view_participant_drawer_unnamed)
         }
@@ -44,12 +60,21 @@ internal class CaptionsRecyclerViewAdapter(
         if (holder.avatarView.name != speakerName) {
             holder.avatarView.name = speakerName
         }
-        val bitMap = captionsData[position].avatarBitmap
+        val bitMap = captionsRttRecord.avatarBitmap
 
         if (bitMap == null) {
             holder.avatarView.avatarImageBitmap = null
-        } else if (captionsData[position].avatarBitmap != holder.avatarView.avatarImageBitmap) {
+        } else if (captionsRttRecord.avatarBitmap != holder.avatarView.avatarImageBitmap) {
             holder.avatarView.avatarImageBitmap = bitMap
         }
+
+        val isRtt = captionsRttRecord.type == CaptionsRttType.RTT
+        val isRttTyping = isRtt && !captionsRttRecord.isFinal
+        holder.rttTypingIndicator.isVisible = isRttTyping
+        holder.rttTypingIndicatorText.isVisible = isRttTyping
+
+        holder.rttInfo.isVisible = captionsRttRecord.type == CaptionsRttType.RTT_INFO
+        holder.rttInfoLabel.movementMethod = LinkMovementMethod.getInstance()
+        holder.captionContainer.isVisible = captionsRttRecord.type != CaptionsRttType.RTT_INFO
     }
 }

@@ -4,7 +4,13 @@ package com.azure.android.communication.ui.calling
 
 import androidx.test.platform.app.InstrumentationRegistry
 import com.azure.android.communication.BaseUiTest
+/* <CALL_START_TIME>
+import com.azure.android.communication.assertDisplayed
+</CALL_START_TIME> */
 import com.azure.android.communication.assertTextDisplayed
+/* <CALL_START_TIME>
+import com.azure.android.communication.assertViewNotDisplayed
+</CALL_START_TIME> */
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.tapOnScreen
@@ -290,4 +296,76 @@ internal class CustomInfoHeaderTest : BaseUiTest() {
         tapOnScreen()
         assertTextDisplayed(subtitle)
     }
+
+    /* <CALL_START_TIME>
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun testCallDurationIsDisplayed() = runTest {
+        injectDependencies(testScheduler)
+
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        val options = CallCompositeCallScreenOptions().setHeaderViewData(
+            CallCompositeCallScreenHeaderViewData()
+                .setShowCallDuration(true)
+        )
+        val communicationTokenRefreshOptions =
+            CommunicationTokenRefreshOptions({ "token" }, true)
+        val communicationTokenCredential =
+            CommunicationTokenCredential(communicationTokenRefreshOptions)
+
+        val callComposite = CallCompositeBuilder().credential(communicationTokenCredential).displayName("test")
+            .applicationContext(appContext).build()
+
+        // Launch the UI.
+        callComposite.launchTest(
+            appContext,
+            CallCompositeTeamsMeetingLinkLocator("https:teams.meeting"),
+            CallCompositeLocalOptions().setCallScreenOptions(options)
+        )
+
+        tapWhenDisplayed(joinCallId)
+        waitUntilDisplayed(endCallId)
+
+        // Assert duration displayed.
+        assertDisplayed(callDurationTextView)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun testCallDurationIsDisplayedWithInitialFalseThenChangeToTrue() = runTest {
+        injectDependencies(testScheduler)
+
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        val headerViewData = CallCompositeCallScreenHeaderViewData().setShowCallDuration(false)
+        val options = CallCompositeCallScreenOptions().setHeaderViewData(
+            headerViewData
+        )
+        val communicationTokenRefreshOptions =
+            CommunicationTokenRefreshOptions({ "token" }, true)
+        val communicationTokenCredential =
+            CommunicationTokenCredential(communicationTokenRefreshOptions)
+
+        val callComposite = CallCompositeBuilder().credential(communicationTokenCredential).displayName("test")
+            .applicationContext(appContext).build()
+
+        // Launch the UI.
+        callComposite.launchTest(
+            appContext,
+            CallCompositeTeamsMeetingLinkLocator("https:teams.meeting"),
+            CallCompositeLocalOptions().setCallScreenOptions(options)
+        )
+
+        tapWhenDisplayed(joinCallId)
+        waitUntilDisplayed(endCallId)
+
+        // Assert duration not displayed.
+        assertViewNotDisplayed(callDurationTextView)
+
+        // show duration
+        headerViewData.setShowCallDuration(true)
+
+        // Assert duration displayed.
+        assertDisplayed(callDurationTextView)
+    }
+    </CALL_START_TIME> */
 }

@@ -8,6 +8,7 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">喇叭</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">藍牙</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">耳機</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">裝置選項。關閉按鈕。</string>
     <string name="azure_communication_ui_calling_switch_camera_button_front">前置相機開啟，切換到後置相機</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">後置相機開啟，切換到前置相機</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">選取音訊裝置 %1$s</string>
@@ -48,7 +49,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">與 1 個人通話</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">與 %1$d 個人通話</string>
     <string name="azure_communication_ui_calling_view_go_back">上一步</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(我)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s (我)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">未命名的參與者</string>
     <string name="azure_communication_ui_calling_view_leave_call">離開通話</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">離開</string>
@@ -68,6 +69,12 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">分享診斷資訊</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">診斷資訊</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">共用診斷資訊按鈕</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">通話對象: %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">參與者清單</string>
+    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">其他選項。關閉按鈕。</string>
+    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">參與者清單。關閉按鈕。</string>
+    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">輔助字幕與 RTT 功能表。關閉按鈕。</string>
+    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">口語語言功能表。關閉按鈕。</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>錄製已開始。</b>一旦加入，即表示您
@@ -93,7 +100,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">關閉</string>
     <string name="azure_communication_ui_calling_alert_title">警示</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">您可能已從會議中移除，或中斷您的連線。再次嘗試加入。</string>
+    <string name="azure_communication_ui_calling_call_end_with_error">由於發生錯誤或連線中斷，您已從通話中移除。請嘗試重新加入通話。</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">發生錯誤，因此無法加入通話。</string>
     <string name="azure_communication_ui_calling_call_state_evicted">已從通話中移除您。</string>
     <string name="azure_communication_ui_calling_no_connection_available">無法加入通話。檢查您的網路連線。</string>
@@ -157,6 +164,7 @@
     <string name="azure_communication_ui_calling_report_issue_title">回報問題</string>
     <string name="azure_communication_ui_calling_logs_attach_notice">我們將會自動附加記錄。</string>
     <string name="azure_communication_ui_calling_privacy_policy_label">隱私權原則</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">隱私權原則。連結。</string>
     <string name="azure_communication_ui_calling_describe_your_issue_hint_text">請描述您的問題...</string>
     <string name="azure_communication_ui_calling_cancel_button_label">取消</string>
     <string name="azure_communication_ui_calling_attach_screenshot">附加螢幕擷取畫面</string>
@@ -187,11 +195,30 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">即時輔助字幕</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">口語語言</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s。%2$d / %3$d</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">輔助字幕語言</string>
     <string name="azure_communication_ui_calling_starting_captions">正在啟動輔助字幕...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">無法啟動輔助字幕</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">無法停止輔助字幕</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">無法變更口說語言</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">無法變更輔助字幕語言</string>
-
+    <string name="azure_communication_ui_calling_captions_rtt_menu">輔助字幕與 RTT</string>
+    <string name="azure_communication_ui_calling_rtt_info">此會議的整個期間已啟用即時文字 (RTT)，所有參與者皆可看到。<a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">深入瞭解</a></string>
+    <string name="azure_communication_ui_calling_rtt_info_accessibility">此會議的整個期間已啟用即時文字 (RTT)，所有參與者皆可看到。瞭解更多資訊。連結</string>
+    <string name="azure_communication_ui_calling_rtt">RTT</string>
+    <string name="azure_communication_ui_calling_rtt_message_sent">訊息已傳送</string>
+    <string name="azure_communication_ui_calling_rtt_typing">RTT 輸入</string>
+    <string name="azure_communication_ui_calling_captions_turn_on_rtt">開啟此通話的即時輸入</string>
+    <string name="azure_communication_ui_calling_captions_turn_on">開啟輔助字幕</string>
+    <string name="azure_communication_ui_calling_captions_turn_off">關閉輔助字幕</string>
+    <string name="azure_communication_ui_calling_captions_is_on">字幕開啟中</string>
+    <string name="azure_communication_ui_calling_captions_is_off">字幕關閉中</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">開啟 RTT?</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">將為通話中的所有人開啟即時輸入 (RTT)。</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">開啟</string>
+    <string name="azure_communication_ui_calling_rtt_header">即時文字</string>
+    <string name="azure_communication_ui_calling_captions_header">輔助字幕</string>
+    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">最大化輔助字幕與 RTT</string>
+    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">最小化輔助字幕與 RTT</string>
+    <string name="azure_communication_ui_calling_rtt_edit_text_hint">即時輸入訊息</string>
 </resources>

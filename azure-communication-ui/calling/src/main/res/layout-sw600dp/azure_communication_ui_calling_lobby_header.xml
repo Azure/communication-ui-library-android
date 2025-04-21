@@ -28,7 +28,6 @@
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
         android:layout_marginStart="12dp"
-        android:contentDescription="@string/azure_communication_ui_calling_lobby_header_icon_content_description"
         android:importantForAccessibility="no"
         app:srcCompat="@drawable/azure_communication_ui_calling_ic_fluent_lobby_header_24"
         app:tint="@color/azure_communication_ui_calling_color_white"

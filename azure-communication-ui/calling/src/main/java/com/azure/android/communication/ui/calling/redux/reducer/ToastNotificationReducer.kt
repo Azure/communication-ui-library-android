@@ -13,10 +13,10 @@ internal class ToastNotificationReducerImpl : ToastNotificationReducer {
     override fun reduce(state: ToastNotificationState, action: Action): ToastNotificationState {
         return when (action) {
             is ToastNotificationAction.ShowNotification -> {
-                state.copy(kind = action.kind)
+                state.copy(kinds = state.kinds + action.kind)
             }
             is ToastNotificationAction.DismissNotification -> {
-                state.copy(kind = null)
+                state.copy(kinds = state.kinds.filter { it != action.kind })
             }
             else -> state
         }

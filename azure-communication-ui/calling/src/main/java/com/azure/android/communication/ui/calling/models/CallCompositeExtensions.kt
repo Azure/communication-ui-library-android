@@ -20,6 +20,11 @@ internal fun CallCompositeCallScreenHeaderViewData.setSubtitleChangedEventHandle
 internal fun CallCompositeCallScreenHeaderViewData.setTitleChangedEventHandler(handler: CallCompositeEventHandler<String?>) {
     this.titleChangedEventHandler = handler
 }
+/* <CALL_START_TIME>
+internal fun CallCompositeCallScreenHeaderViewData.setShowCallDurationChangedEventHandler(handler: CallCompositeEventHandler<Boolean?>) {
+    this.showCallDurationChangedEventHandler = handler
+}
+</CALL_START_TIME> */
 
 internal fun createButtonClickEvent(
     context: Context,

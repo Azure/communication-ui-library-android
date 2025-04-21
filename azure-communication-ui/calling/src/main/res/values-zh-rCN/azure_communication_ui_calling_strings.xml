@@ -8,6 +8,7 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">扬声器</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">蓝牙</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">耳麦</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">设备选项。关闭按钮。</string>
     <string name="azure_communication_ui_calling_switch_camera_button_front">前置摄像头开启，切换到后置摄像头</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">后置摄像头开启，切换到前置摄像头</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">选择音频设备 %1$s</string>
@@ -48,7 +49,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">与 1 个人通话</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">与 %1$d 人通话</string>
     <string name="azure_communication_ui_calling_view_go_back">返回</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(我)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s (我)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">未命名的参与者</string>
     <string name="azure_communication_ui_calling_view_leave_call">离开会议?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">离开</string>
@@ -68,6 +69,12 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">共享诊断信息</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">诊断信息</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">共享诊断信息按钮</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">通话对象: %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">参与者列表</string>
+    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">更多选项。关闭按钮。</string>
+    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">参与者列表。关闭按钮。</string>
+    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">辅助字幕和 RTT 菜单。关闭按钮。</string>
+    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">讲述语言菜单。关闭按钮。</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>录制已开始。</b>加入即表示你
@@ -93,7 +100,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">关闭</string>
     <string name="azure_communication_ui_calling_alert_title">警报</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">系统可能已将你从会议中删除，或者你的连接已中断。请再次尝试加入。</string>
+    <string name="azure_communication_ui_calling_call_end_with_error">由于出现错误或连接断开，您已从通话中删除。请尝试重新加入呼叫。</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">由于出现错误，无法加入呼叫。</string>
     <string name="azure_communication_ui_calling_call_state_evicted">已将你从通话中移除。</string>
     <string name="azure_communication_ui_calling_no_connection_available">无法加入呼叫。请检查网络连接。</string>
@@ -157,6 +164,7 @@
     <string name="azure_communication_ui_calling_report_issue_title">报告问题</string>
     <string name="azure_communication_ui_calling_logs_attach_notice">我们将自动附加日志。</string>
     <string name="azure_communication_ui_calling_privacy_policy_label">隐私策略</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">隐私策略。链接。</string>
     <string name="azure_communication_ui_calling_describe_your_issue_hint_text">请描述你的问题...</string>
     <string name="azure_communication_ui_calling_cancel_button_label">取消</string>
     <string name="azure_communication_ui_calling_attach_screenshot">附加屏幕截图</string>
@@ -187,11 +195,30 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">实时辅助字幕</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">口语</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s。第 %2$d 个(共 %3$d 个)</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">辅助字幕语言</string>
     <string name="azure_communication_ui_calling_starting_captions">正在启动字幕...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">无法启动字幕</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">无法停止字幕</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">无法更改口语</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">无法更改标题语言</string>
-
+    <string name="azure_communication_ui_calling_captions_rtt_menu">字幕和字幕RTT</string>
+    <string name="azure_communication_ui_calling_rtt_info">在此会议的整个持续时间内启用了实时文本 (RTT)，并且所有参与者都可以看到该文本。<a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">了解详细</a></string>
+    <string name="azure_communication_ui_calling_rtt_info_accessibility">此会议的整个持续时间都启用了实时文本 (RTT)，所有参与者都可以看到它。了解详细信息。链接</string>
+    <string name="azure_communication_ui_calling_rtt">RTT</string>
+    <string name="azure_communication_ui_calling_rtt_message_sent">已发送消息</string>
+    <string name="azure_communication_ui_calling_rtt_typing">RTT 键入</string>
+    <string name="azure_communication_ui_calling_captions_turn_on_rtt">为此通话启用 RTT</string>
+    <string name="azure_communication_ui_calling_captions_turn_on">打开辅助字幕</string>
+    <string name="azure_communication_ui_calling_captions_turn_off">关闭辅助字幕</string>
+    <string name="azure_communication_ui_calling_captions_is_on">字幕已打开</string>
+    <string name="azure_communication_ui_calling_captions_is_off">字幕已关闭</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">是否启用 RTT?</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">将为通话中的每个人启用实时文本(RTT)。</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">打开</string>
+    <string name="azure_communication_ui_calling_rtt_header">实时文本</string>
+    <string name="azure_communication_ui_calling_captions_header">辅助字幕</string>
+    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">最大化字幕和 RTT</string>
+    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">最小化字幕和 RTT</string>
+    <string name="azure_communication_ui_calling_rtt_edit_text_hint">实时键入消息</string>
 </resources>

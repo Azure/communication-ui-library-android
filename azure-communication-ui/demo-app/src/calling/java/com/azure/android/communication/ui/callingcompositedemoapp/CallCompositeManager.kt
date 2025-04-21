@@ -55,6 +55,7 @@ import com.azure.android.communication.ui.callingcompositedemoapp.features.Addit
 import com.azure.android.communication.ui.callingcompositedemoapp.features.SettingsFeatures
 import com.azure.android.communication.ui.callingcompositedemoapp.views.DismissCompositeButtonView
 import com.google.firebase.messaging.FirebaseMessaging
+import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.Date
 import java.util.UUID
@@ -66,6 +67,16 @@ class CallCompositeManager(private val context: Context) {
     private var callScreenHeaderOptions: CallCompositeCallScreenHeaderViewData? = null
     private var remoteParticipantsCount = 0
 
+    init {
+        try {
+            AndroidThreeTen.init(context.applicationContext)
+        } catch (e: java.lang.IllegalStateException) {
+            // AndroidThreeTen is already initialized
+            // Ignore this exception
+            Log.d("CallCompositeManager", "AndroidThreeTen already initialized", e)
+        }
+    }
+
     fun launch(
         applicationContext: Context,
         identity: String,
@@ -73,7 +84,6 @@ class CallCompositeManager(private val context: Context) {
         displayName: String,
         groupId: UUID?,
         roomId: String?,
-        /* <MEETING_ID_LOCATOR> */
         meetingLink: String?,
         meetingId: String?,
         meetingPasscode: String?,
@@ -156,7 +166,6 @@ class CallCompositeManager(private val context: Context) {
 
                 !meetingLink.isNullOrEmpty() -> CallCompositeTeamsMeetingLinkLocator(meetingLink)
                 !meetingId.isNullOrEmpty() -> CallCompositeTeamsMeetingIdLocator(meetingId, meetingPasscode)
-                /* </MEETING_ID_LOCATOR> */
                 roomId != null -> CallCompositeRoomLocator(roomId)
                 else -> throw IllegalArgumentException("Cannot launch call composite with provided arguments.")
             }
@@ -176,7 +185,6 @@ class CallCompositeManager(private val context: Context) {
                 groupId != null -> CallCompositeGroupCallLocator(groupId)
                 !meetingLink.isNullOrEmpty() -> CallCompositeTeamsMeetingLinkLocator(meetingLink)
                 !meetingId.isNullOrEmpty() -> CallCompositeTeamsMeetingIdLocator(meetingId, meetingPasscode)
-                /* </MEETING_ID_LOCATOR> */
                 roomId != null -> CallCompositeRoomLocator(roomId)
                 else -> throw IllegalArgumentException("Cannot launch call composite with provided arguments.")
             }
@@ -722,6 +730,9 @@ class CallCompositeManager(private val context: Context) {
         }
         if (!SettingsFeatures.getCallScreenInformationTitle().isNullOrEmpty() ||
             !SettingsFeatures.getCallScreenInformationSubtitle().isNullOrEmpty() ||
+            /* <CALL_START_TIME>
+            SettingsFeatures.getCallScreenShowCallDuration() != null ||
+            </CALL_START_TIME> */
             SettingsFeatures.getCallScreenInformationTitleUpdateParticipantCount() != 0 ||
             SettingsFeatures.getCallScreenInformationSubtitleUpdateParticipantCount() != 0
         ) {
@@ -739,8 +750,12 @@ class CallCompositeManager(private val context: Context) {
                     callScreenHeaderOptions?.subtitle = it
                 }
             }
+            /* <CALL_START_TIME>
+            SettingsFeatures.getCallScreenShowCallDuration()?.let {
+                callScreenHeaderOptions?.showCallDuration = it
+            }
+            </CALL_START_TIME> */
         }
-        /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
         if (SettingsFeatures.getAddCustomButtons() == true) {
             val headerButton1 =
                 CallCompositeCustomButtonViewData(
@@ -764,7 +779,6 @@ class CallCompositeManager(private val context: Context) {
                 ?: CallCompositeCallScreenHeaderViewData()
             callScreenHeaderOptions?.customButtons = listOf(headerButton1, headerButton2)
         }
-        /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
         callScreenOptions?.setHeaderViewData(callScreenHeaderOptions)
         return callScreenOptions
     }

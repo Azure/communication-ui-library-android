@@ -6,11 +6,9 @@ package com.azure.android.communication.ui.calling.presentation.manager
 import android.content.Context
 import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.implementation.R
+import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.redux.state.AppReduxState
-import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
-import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioState
-import com.azure.android.communication.ui.calling.redux.state.BluetoothState
 import com.azure.android.communication.ui.calling.redux.state.CallingState
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
@@ -176,150 +174,6 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
 
         // Act
         val result = cameraStatusHook.shouldTrigger(reduxState, reduxState)
-
-        // Assert
-        Assert.assertEquals(result, false)
-    }
-
-    @Test
-    fun micStatusHook_message_reduxStateOn_then_returnMicOn() {
-        // Arrange
-        val reduxState = AppReduxState("", false, false)
-        val micStatusHook = MicStatusHook()
-        val mockContext = mock<Context> {
-            on { getString(R.string.azure_communication_ui_calling_setup_view_button_mic_on) } doAnswer { "Mic on" }
-        }
-        reduxState.localParticipantState = LocalUserState(
-            mock {},
-            AudioState(
-                AudioOperationalStatus.ON,
-                AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
-                BluetoothState(true, "")
-            ),
-            "",
-            "",
-            localParticipantRole = null
-        )
-
-        // Act
-        val message = micStatusHook.message(
-            AppReduxState("", false, false),
-            reduxState, mockContext
-        )
-
-        // Assert
-        Assert.assertEquals(message, "Mic on")
-    }
-
-    @Test
-    fun micStatusHook_message_reduxStateOff_then_returnVideoOff() {
-        // Arrange
-        val reduxState = AppReduxState("", false, false)
-        val micStatusHook = MicStatusHook()
-        val mockContext = mock<Context> {
-            on { getString(R.string.azure_communication_ui_calling_setup_view_button_mic_off) } doAnswer { "Mic off" }
-        }
-        reduxState.localParticipantState = LocalUserState(
-            mock {},
-            AudioState(
-                AudioOperationalStatus.OFF,
-                AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
-                BluetoothState(true, "")
-            ),
-            "",
-            "",
-            localParticipantRole = null
-        )
-
-        // Act
-        val message = micStatusHook.message(
-            AppReduxState("", false, false),
-            reduxState,
-            mockContext
-        )
-
-        // Assert
-        Assert.assertEquals(message, "Mic off")
-    }
-
-    @Test
-    fun micStatusHook_message_reduxStateOthers_then_returnEmpty() {
-        // Arrange
-        val reduxState = AppReduxState("", false, false)
-        val micStatusHook = MicStatusHook()
-        val mockContext = mock<Context> { }
-        reduxState.localParticipantState = LocalUserState(
-            mock {},
-            AudioState(
-                AudioOperationalStatus.PENDING,
-                AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
-                BluetoothState(true, "")
-            ),
-            "",
-            "",
-            localParticipantRole = null
-        )
-
-        // Act
-        val message = micStatusHook.message(
-            AppReduxState("", false, false),
-            reduxState, mockContext
-        )
-
-        // Assert
-        Assert.assertEquals(message, "")
-    }
-
-    @Test
-    fun micStatusHook_shouldTrigger_reduxStateDiffer_then_returnTrue() {
-        // Arrange
-        val reduxState = AppReduxState("", false, false)
-        val micStatusHook = MicStatusHook()
-        reduxState.localParticipantState = LocalUserState(
-            mock {},
-            AudioState(
-                AudioOperationalStatus.PENDING,
-                AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
-                BluetoothState(true, "")
-            ),
-            "",
-            "",
-            localParticipantRole = null
-        )
-
-        // Act
-        val result = micStatusHook.shouldTrigger(
-            AppReduxState(
-                "",
-                false,
-                false,
-            ),
-            reduxState
-        )
-
-        // Assert
-        Assert.assertEquals(result, true)
-    }
-
-    @Test
-    fun micStatusHook_shouldTrigger_reduxStateSame_then_returnFalse() {
-        // Arrange
-        val reduxState = AppReduxState("", false, false)
-        val micStatusHook = MicStatusHook()
-        reduxState.localParticipantState = LocalUserState(
-            mock {},
-            AudioState(
-                AudioOperationalStatus.PENDING,
-                AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED,
-                BluetoothState(true, "")
-            ),
-            "",
-            "",
-            localParticipantRole = null
-        )
-
-        // Act
-        val result = micStatusHook.shouldTrigger(reduxState, reduxState)
 
         // Assert
         Assert.assertEquals(result, false)
@@ -576,6 +430,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                     "a",
                     mock {
                         on { displayName } doAnswer { "user" }
+                        on { participantStatus } doAnswer { ParticipantStatus.CONNECTED }
                     }
                 )
             ),
@@ -602,7 +457,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
     }
 
     @Test
-    fun participantAddedOrRemovedHook_message_reduxStateHasRemovedParticipants_then_returnLeftMessage() {
+    fun participantAddedOrRemovedHook_message_reduxStateHasRemovedParticipantsInLobby_then_returnEmptyMessage() {
         // Arrange
         val reduxState = AppReduxState("", false, false)
         val participantAddedOrRemovedHook = ParticipantAddedOrRemovedHook()
@@ -621,6 +476,7 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
                     "a",
                     mock {
                         on { displayName } doAnswer { "user" }
+                        on { participantStatus } doAnswer { ParticipantStatus.CONNECTED }
                     }
                 )
             ),
@@ -645,5 +501,44 @@ internal class AccessibilityAnnouncementManagerUnitTests : ACSBaseTestCoroutine(
 
         // Assert
         Assert.assertEquals(message, "user has left the meeting")
+    }
+
+    @Test
+    fun participantAddedOrRemovedHook_message_reduxStateHasRemovedParticipants_then_returnLeftMessage() {
+        // Arrange
+        val reduxState = AppReduxState("", false, false)
+        val participantAddedOrRemovedHook = ParticipantAddedOrRemovedHook()
+        val mockContext = mock<Context> { }
+        reduxState.callState = CallingState(CallingStatus.CONNECTED)
+        reduxState.remoteParticipantState = RemoteParticipantsState(
+            mapOf(
+                Pair(
+                    "a",
+                    mock {
+                        on { participantStatus } doAnswer { ParticipantStatus.IN_LOBBY }
+                    }
+                )
+            ),
+            5000,
+            listOf(),
+            0,
+            lobbyErrorCode = null,
+            totalParticipantCount = 1
+        )
+
+        // Act
+        val message =
+            participantAddedOrRemovedHook.message(
+                reduxState,
+                AppReduxState(
+                    "",
+                    false,
+                    false,
+                ),
+                mockContext
+            )
+
+        // Assert
+        Assert.assertEquals(message, "")
     }
 }

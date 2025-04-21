@@ -8,6 +8,7 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Lautsprecher</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Headset</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">Geräteoptionen. Schaltfläche „Schließen“.</string>
     <string name="azure_communication_ui_calling_switch_camera_button_front">Vordere Kamera eingeschaltet, auf hintere Kamera umschalten</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">Rückseitige Kamera eingeschaltet, Umschalten auf vordere Kamera</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Audiogerät %1$s auswählen</string>
@@ -48,7 +49,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Anruf mit 1 Person</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Anruf mit %1$d Personen</string>
     <string name="azure_communication_ui_calling_view_go_back">Zurück</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(ich)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s (ich)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Unbenannter Teilnehmer</string>
     <string name="azure_communication_ui_calling_view_leave_call">Anruf verlassen?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Verlassen</string>
@@ -68,6 +69,12 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">Diagnoseinformationen freigeben</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnoseinformationen</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Schaltfläche „Diagnoseinformationen freigeben“</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Anruf mit: %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">Teilnehmerliste</string>
+    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">Weitere Optionen. Schaltfläche „Schließen“.</string>
+    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">Teilnehmerliste. Schaltfläche „Schließen“.</string>
+    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">Untertitel und RTT-Menü. Schaltfläche „Schließen“.</string>
+    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">Menü „Gesprochene Sprache“. Schaltfläche „Schließen“.</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Die Transkription hat begonnen.</b> Indem Sie sich anmelden, erklären Sie
@@ -93,7 +100,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Schließen</string>
     <string name="azure_communication_ui_calling_alert_title">Warnung</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Möglicherweise wurden Sie aus der Besprechung entfernt oder Ihre Verbindung wurde unterbrochen. Versuchen Sie, erneut beizutreten.</string>
+    <string name="azure_communication_ui_calling_call_end_with_error">Sie wurden aufgrund eines Fehlers oder einer unterbrochenen Verbindung aus dem Anruf entfernt. Versuchen Sie, erneut am Anruf teilzunehmen.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Teilnahme am Anruf aufgrund eines Fehlers nicht möglich.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Sie wurden aus dem Anruf entfernt.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Teilnahme am Anruf nicht möglich. Überprüfen Sie Ihre Netzwerkverbindung.</string>
@@ -157,6 +164,7 @@
     <string name="azure_communication_ui_calling_report_issue_title">Problem melden</string>
     <string name="azure_communication_ui_calling_logs_attach_notice">Protokolle werden automatisch angefügt.</string>
     <string name="azure_communication_ui_calling_privacy_policy_label">Datenschutzrichtlinie</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">Datenschutzrichtlinie. Link.</string>
     <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Beschreiben Sie Ihr Problem...</string>
     <string name="azure_communication_ui_calling_cancel_button_label">Abbrechen</string>
     <string name="azure_communication_ui_calling_attach_screenshot">Screenshot anfügen</string>
@@ -187,11 +195,30 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">Liveuntertitel</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Gesprochene Sprache</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d von %3$d</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Sprache für Untertitel</string>
     <string name="azure_communication_ui_calling_starting_captions">Untertitel werden gestartet...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">Untertitel können nicht gestartet werden</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Untertitel können nicht beendet werden</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Die gesprochene Sprache kann nicht geändert werden</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Die Sprache der Untertitel kann nicht geändert werden</string>
-
+    <string name="azure_communication_ui_calling_captions_rtt_menu">Untertitel &amp; RTT</string>
+    <string name="azure_communication_ui_calling_rtt_info">Echtzeittext (RTT) ist für die gesamte Dauer dieser Besprechung aktiviert und wird von allen Teilnehmern angezeigt. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">Weitere Informationen</a></string>
+    <string name="azure_communication_ui_calling_rtt_info_accessibility">Echtzeittext (RTT) ist für die gesamte Dauer dieser Besprechung aktiviert und wird von allen Teilnehmern angezeigt. Weitere Informationen. Verbinden</string>
+    <string name="azure_communication_ui_calling_rtt">RTT</string>
+    <string name="azure_communication_ui_calling_rtt_message_sent">Nachricht gesendet</string>
+    <string name="azure_communication_ui_calling_rtt_typing">RTT-Eingabe</string>
+    <string name="azure_communication_ui_calling_captions_turn_on_rtt">RTT für diesen Anruf aktivieren</string>
+    <string name="azure_communication_ui_calling_captions_turn_on">Untertitel aktivieren</string>
+    <string name="azure_communication_ui_calling_captions_turn_off">Untertitel deaktivieren</string>
+    <string name="azure_communication_ui_calling_captions_is_on">Untertitel werden angezeigt</string>
+    <string name="azure_communication_ui_calling_captions_is_off">Untertitel sind deaktiviert</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">RTT aktivieren?</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">Echtzeittext (RTT) wird für alle Teilnehmer des Anrufs aktiviert.</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">Aktivieren</string>
+    <string name="azure_communication_ui_calling_rtt_header">Echtzeittext</string>
+    <string name="azure_communication_ui_calling_captions_header">Untertitel</string>
+    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">Untertitel und RTT maximieren</string>
+    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">Untertitel und RTT minimieren</string>
+    <string name="azure_communication_ui_calling_rtt_edit_text_hint">Nachricht in Echtzeit eingeben</string>
 </resources>

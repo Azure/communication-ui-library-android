@@ -60,6 +60,7 @@ android {
             exclude({ it.file.absolutePath.contains("/generated/") })
         }
     }
+    namespace 'com.azure.android.communication.ui.chat'
     if (!shouldByPassMavenPublish()) {
         publishing {
             multipleVariants('release') {

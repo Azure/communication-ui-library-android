@@ -31,18 +31,16 @@ import com.azure.android.communication.ui.calling.models.into
 import com.azure.android.communication.ui.calling.presentation.manager.CapabilitiesManager
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.AudioSessionAction
+import com.azure.android.communication.ui.calling.redux.action.CallDiagnosticsAction
 import com.azure.android.communication.ui.calling.redux.action.CallingAction
+import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.action.ErrorAction
 import com.azure.android.communication.ui.calling.redux.action.LifecycleAction
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.ParticipantAction
 import com.azure.android.communication.ui.calling.redux.action.PermissionAction
-import com.azure.android.communication.ui.calling.redux.action.CallDiagnosticsAction
-/* <RTT_POC>
 import com.azure.android.communication.ui.calling.redux.action.RttAction
-</RTT_POC> */
-import com.azure.android.communication.ui.calling.redux.action.CaptionsAction
 import com.azure.android.communication.ui.calling.redux.action.ToastNotificationAction
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
@@ -106,6 +104,11 @@ internal interface CallingMiddlewareActionHandler {
     fun stopCaptions(store: Store<ReduxState>)
     fun setCaptionsSpokenLanguage(language: String, store: Store<ReduxState>)
     fun setCaptionsCaptionLanguage(language: String, store: Store<ReduxState>)
+    fun sendRttMessage(message: String, isFinalized: Boolean, store: Store<ReduxState>)
+    fun onUpdateAudioStateOperation(
+        audioOperationalStatus: AudioOperationalStatus,
+        store: Store<ReduxState>
+    )
 }
 
 internal class CallingMiddlewareActionHandlerImpl(
@@ -338,9 +341,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         subscribeToCallStartTimeUpdates(store)
         </CALL_START_TIME> */
 
-        /* <RTT_POC>
         subscribeRttStateUpdate(store)
-        </RTT_POC> */
 
         callingService.startCall(
             store.getCurrentState().localParticipantState.cameraState,
@@ -472,7 +473,9 @@ internal class CallingMiddlewareActionHandlerImpl(
                 )
             }
         } else {
-            store.dispatch(ToastNotificationAction.DismissNotification())
+            store.dispatch(ToastNotificationAction.DismissNotification(ToastNotificationKind.NETWORK_RECEIVE_QUALITY))
+            store.dispatch(ToastNotificationAction.DismissNotification(ToastNotificationKind.NETWORK_SEND_QUALITY))
+            store.dispatch(ToastNotificationAction.DismissNotification(ToastNotificationKind.NETWORK_RECONNECTION_QUALITY))
         }
     }
 
@@ -548,7 +551,7 @@ internal class CallingMiddlewareActionHandlerImpl(
                         )
                     )
                 } else {
-                    store.dispatch(ToastNotificationAction.DismissNotification())
+                    store.dispatch(ToastNotificationAction.DismissNotification(ToastNotificationKind.SPEAKING_WHILE_MICROPHONE_IS_MUTED))
                 }
             }
             MediaCallDiagnostic.CAMERA_START_FAILED -> {
@@ -574,7 +577,7 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun dismissNotification(store: Store<ReduxState>) {
-        store.getCurrentState().toastNotificationState.kind?.let { kind: ToastNotificationKind ->
+        store.getCurrentState().toastNotificationState.kinds.forEach { kind: ToastNotificationKind ->
 
             if (kind == ToastNotificationKind.NETWORK_UNAVAILABLE) {
                 val model = NetworkCallDiagnosticModel(
@@ -672,6 +675,9 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun stopCaptions(store: Store<ReduxState>) {
+        if (!store.getCurrentState().rttState.isRttActive) {
+            store.dispatch(RttAction.UpdateMaximized(false))
+        }
         callingService.stopCaptions()
             .handle { _, error: Throwable? ->
                 if (error != null) {
@@ -731,13 +737,17 @@ internal class CallingMiddlewareActionHandlerImpl(
 
     private fun subscribeIsMutedUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
-            callingService.getIsMutedSharedFlow().collect {
-                val action = if (it) {
-                    LocalParticipantAction.AudioStateOperationUpdated(AudioOperationalStatus.OFF)
+            callingService.getIsMutedSharedFlow().collect { isMuted ->
+                val currentAudioState = store.getCurrentState().localParticipantState.audioState.operation
+                if (isMuted) {
+                    if (currentAudioState != AudioOperationalStatus.OFF) {
+                        store.dispatch(LocalParticipantAction.AudioStateOperationUpdated(AudioOperationalStatus.OFF))
+                    }
                 } else {
-                    LocalParticipantAction.AudioStateOperationUpdated(AudioOperationalStatus.ON)
+                    if (currentAudioState != AudioOperationalStatus.ON) {
+                        store.dispatch(LocalParticipantAction.AudioStateOperationUpdated(AudioOperationalStatus.ON))
+                    }
                 }
-                store.dispatch(action)
             }
         }
     }
@@ -938,15 +948,36 @@ internal class CallingMiddlewareActionHandlerImpl(
         }
     }
 
-    /* <RTT_POC>
+    override fun sendRttMessage(message: String, isFinalized: Boolean, store: Store<ReduxState>) {
+        if (!store.getCurrentState().rttState.isRttActive) {
+            store.dispatch(RttAction.EnableRtt())
+        }
+        callingService.sendRttMessage(message, isFinalized)
+    }
+
+    override fun onUpdateAudioStateOperation(
+        audioOperationalStatus: AudioOperationalStatus,
+        store: Store<ReduxState>
+    ) {
+        if (audioOperationalStatus == AudioOperationalStatus.ON) {
+            store.dispatch(ToastNotificationAction.DismissNotification(ToastNotificationKind.MUTED))
+            store.dispatch(ToastNotificationAction.ShowNotification(ToastNotificationKind.UNMUTED))
+        }
+        if (audioOperationalStatus == AudioOperationalStatus.OFF) {
+            store.dispatch(ToastNotificationAction.DismissNotification(ToastNotificationKind.UNMUTED))
+            store.dispatch(ToastNotificationAction.ShowNotification(ToastNotificationKind.MUTED))
+        }
+    }
+
     private fun subscribeRttStateUpdate(store: Store<ReduxState>) {
         coroutineScope.launch {
-            callingService.getRttStateFlow().collect {
-                store.dispatch(RttAction.IncomingMessageReceived(it.first, it.second))
+            callingService.getRttFlow().collect {
+                if (!store.getCurrentState().rttState.isRttActive) {
+                    store.dispatch(RttAction.EnableRtt())
+                }
             }
         }
     }
-    </RTT_POC> */
 
     private fun tryCameraOn(store: Store<ReduxState>) {
         val state = store.getCurrentState()

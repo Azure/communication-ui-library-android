@@ -11,11 +11,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
+import androidx.core.view.isVisible
 import com.azure.android.communication.ui.calling.implementation.R
 import com.microsoft.fluentui.persona.AvatarView
 
 internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder(itemView) {
-    private val icon: ImageView = itemView.findViewById(R.id.azure_communication_ui_cell_icon)
+    private val topDivider: ImageView = itemView.findViewById(R.id.azure_communication_ui_cell_bottom_drawer_divider)
     private val avatarView: AvatarView =
         itemView.findViewById(R.id.azure_communication_ui_participant_list_avatar)
     private val avatarViewForImage: AvatarView =
@@ -30,13 +31,14 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
         itemView.isEnabled = bottomCellItem.isEnabled
         itemView.alpha = if (bottomCellItem.isEnabled) 1.0f else 0.5f
 
+        topDivider.isVisible = bottomCellItem.showTopDivider
+
         if (bottomCellItem.itemType == BottomCellItemType.BottomMenuActionNoIcon) {
             accessoryImageView.contentDescription = bottomCellItem.accessoryImageDescription
             accessoryImageView.visibility =
                 if (bottomCellItem.isChecked == true) View.VISIBLE else View.INVISIBLE
             avatarView.visibility = View.GONE
             avatarViewForImage.visibility = View.GONE
-            icon.visibility = View.GONE
             showMoreImageView.visibility = View.GONE
             additionalText.visibility = View.GONE
             switchCompat.visibility = View.GONE
@@ -47,8 +49,6 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
             // Exit with early return because setting the title is the only thing we need to do
             return
         }
-        // force bitmap update be setting resource to 0
-//        avatarView.setImageResource(0)
         if (bottomCellItem.icon == null) {
             ViewCompat.setAccessibilityDelegate(
                 itemView,
@@ -71,7 +71,6 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
             }
 
             // Hide icon and avatarViewForImage. Show avatar for initials.
-            icon.visibility = View.GONE
             avatarView.visibility = View.VISIBLE
             avatarViewForImage.visibility = View.GONE
             bottomCellItem.participantViewData?.let { participantViewData ->
@@ -87,7 +86,6 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
                 }
             }
         } else {
-            icon.setImageDrawable(bottomCellItem.icon)
             avatarView.visibility = View.GONE
             avatarViewForImage.visibility = View.GONE
         }
@@ -110,8 +108,8 @@ internal class BottomCellActionViewHolder(itemView: View) : BottomCellViewHolder
         switchCompat.visibility = if (bottomCellItem.showToggleButton) View.VISIBLE else View.GONE
         switchCompat.isEnabled = bottomCellItem.isEnabled
         switchCompat.isChecked = bottomCellItem.isToggleButtonOn
-        switchCompat.setOnCheckedChangeListener { buttonView, isChecked ->
-            bottomCellItem.toggleButtonAction?.invoke(buttonView, isChecked)
+        switchCompat.setOnClickListener {
+            bottomCellItem.toggleButtonAction?.invoke(switchCompat, switchCompat.isChecked)
         }
     }
 

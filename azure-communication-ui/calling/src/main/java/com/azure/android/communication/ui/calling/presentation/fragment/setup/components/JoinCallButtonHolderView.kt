@@ -80,7 +80,7 @@ internal class JoinCallButtonHolderView : ConstraintLayout {
     private fun onDisableJoinCallButtonChanged(isBlocked: Boolean) {
         if (isBlocked) {
             setupJoinCallButton.visibility = GONE
-            setupJoinCallButtonText.visibility = GONE
+            setupJoinCallButtonText.visibility = INVISIBLE
             progressBar.visibility = VISIBLE
             joiningCallText.visibility = VISIBLE
 

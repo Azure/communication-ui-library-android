@@ -19,6 +19,7 @@ import com.azure.android.communication.ui.calling.presentation.manager.AvatarVie
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
 import com.azure.android.communication.ui.calling.utilities.BottomCellItemType
+import com.azure.android.communication.ui.calling.utilities.implementation.CompositeDrawerDialog
 import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -30,7 +31,7 @@ internal class ParticipantListView(
 ) : RelativeLayout(context) {
     private var participantTable: RecyclerView
 
-    private lateinit var participantListDrawer: DrawerDialog
+    private lateinit var participantListDrawer: CompositeDrawerDialog
     private lateinit var bottomCellAdapter: BottomCellAdapter
     private lateinit var accessibilityManager: AccessibilityManager
     private var admitDeclinePopUpParticipantId = ""
@@ -48,16 +49,15 @@ internal class ParticipantListView(
         viewLifecycleOwner.lifecycleScope.launch {
             avatarViewManager.getRemoteParticipantsPersonaSharedFlow().collect {
                 if (participantListDrawer.isShowing) {
-                    updateRemoteParticipantListContent(
-                        viewModel.viewViewModelStateFlow.value.remoteParticipantList,
-                        viewModel.viewViewModelStateFlow.value.totalActiveParticipantCount
+                    updateParticipantListContent(
+                        viewModel.participantListContentStateFlow.value,
                     )
                 }
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.viewViewModelStateFlow.collect { vvm ->
+            viewModel.participantListContentStateFlow.collect { vvm ->
                 if (vvm.isDisplayed) {
                     showParticipantList()
                 } else {
@@ -68,7 +68,7 @@ internal class ParticipantListView(
 
                 // To avoid, unnecessary updated to list, the state will update lists only when displayed
                 if (participantListDrawer.isShowing) {
-                    updateRemoteParticipantListContent(vvm.remoteParticipantList, vvm.totalActiveParticipantCount)
+                    updateParticipantListContent(vvm)
                 }
 
                 if (::admitDeclineAlertDialog.isInitialized && admitDeclineAlertDialog.isShowing &&
@@ -101,7 +101,12 @@ internal class ParticipantListView(
     private fun initializeParticipantListDrawer() {
         accessibilityManager =
             context?.applicationContext?.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
-        participantListDrawer = DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM)
+        participantListDrawer =
+            CompositeDrawerDialog(
+                context,
+                DrawerDialog.BehaviorType.BOTTOM,
+                R.string.azure_communication_ui_calling_view_participant_list_accessibility_label,
+            )
         participantListDrawer.setOnDismissListener {
             viewModel.closeParticipantList()
         }
@@ -112,12 +117,11 @@ internal class ParticipantListView(
         participantTable.layoutManager = LinearLayoutManager(context)
     }
 
-    private fun updateRemoteParticipantListContent(
-        participantListCellModelList: List<ParticipantListCellModel>,
-        totalActiveParticipantCount: Int,
+    private fun updateParticipantListContent(
+        participantListContent: ParticipantListContent,
     ) {
         if (this::bottomCellAdapter.isInitialized) {
-            val bottomCellItems = generateBottomCellItems(participantListCellModelList, totalActiveParticipantCount)
+            val bottomCellItems = generateBottomCellItems(participantListContent)
             updateTableHeight(bottomCellItems.size)
             with(bottomCellAdapter) {
                 setBottomCellItems(bottomCellItems)
@@ -132,7 +136,7 @@ internal class ParticipantListView(
         var titles = 1
 
         // title for in lobby participants
-        if (viewModel.viewViewModelStateFlow.value.remoteParticipantList.any { it.status == ParticipantStatus.IN_LOBBY }) {
+        if (viewModel.participantListContentStateFlow.value.remoteParticipantList.any { it.status == ParticipantStatus.IN_LOBBY }) {
             titles += 1
         }
 
@@ -144,16 +148,15 @@ internal class ParticipantListView(
     }
 
     private fun generateBottomCellItems(
-        remoteParticipantCellModels: List<ParticipantListCellModel>,
-        totalActiveParticipantCount: Int,
+        participantListContent: ParticipantListContent,
     ): MutableList<BottomCellItem> {
+        val totalActiveParticipantCount = participantListContent.totalActiveParticipantCount
         val bottomCellItemsInCallParticipants = mutableListOf<BottomCellItem>()
         val bottomCellItemsInLobbyParticipants = mutableListOf<BottomCellItem>()
         // since we can not get resources from model class, we create the local participant list cell
         // with suffix in this way
-        val localParticipantViewModel = viewModel.createLocalParticipantListCellViewModel(
-            resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant)
-        )
+        val localParticipantViewModel = participantListContent.localParticipantListCell
+
         val localParticipantViewData =
             avatarViewManager.callCompositeLocalOptions?.participantViewData
         bottomCellItemsInCallParticipants
@@ -161,7 +164,7 @@ internal class ParticipantListView(
                 generateBottomCellItem(
                     getLocalParticipantNameToDisplay(
                         localParticipantViewData,
-                        localParticipantViewModel.displayName
+                        localParticipantViewModel.displayName,
                     ),
                     localParticipantViewModel.isMuted,
                     localParticipantViewData,
@@ -171,7 +174,7 @@ internal class ParticipantListView(
                 )
             )
 
-        for (remoteParticipant in remoteParticipantCellModels) {
+        for (remoteParticipant in participantListContent.remoteParticipantList) {
             val remoteParticipantViewData =
                 avatarViewManager.getRemoteParticipantViewData(remoteParticipant.userIdentifier)
             val finalName =
@@ -202,45 +205,35 @@ internal class ParticipantListView(
             }
         }
         bottomCellItemsInCallParticipants.sortWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.title!! })
+
+        val inCallNPeople = context.getString(
+            R.string.azure_communication_ui_calling_participant_list_in_call_n_people,
+            totalActiveParticipantCount + 1 // add one for local participant
+        )
         bottomCellItemsInCallParticipants.add(
             0,
             BottomCellItem(
-                icon = null,
-                title = context.getString(
-                    R.string.azure_communication_ui_calling_participant_list_in_call_n_people,
-                    totalActiveParticipantCount + 1 // add one for local participant
-                ),
-                contentDescription = "",
-                accessoryImage = null,
-                accessoryColor = null,
-                accessoryImageDescription = null,
-                isChecked = null,
-                participantViewData = null,
+                title = inCallNPeople,
+                contentDescription = inCallNPeople,
                 isOnHold = false,
                 itemType = BottomCellItemType.BottomMenuTitle,
-                onClickAction = null
             )
         )
 
-        val plusMoreParticipants = totalActiveParticipantCount - remoteParticipantCellModels.count()
+        val plusMoreParticipants = participantListContent.totalActiveParticipantCount -
+            participantListContent.remoteParticipantList.count()
 
         if (plusMoreParticipants > 0) {
+            val plusMorePeople = context.getString(
+                R.string.azure_communication_ui_calling_participant_list_in_call_plus_more_people,
+                plusMoreParticipants
+            )
             bottomCellItemsInCallParticipants.add(
                 BottomCellItem(
-                    icon = null,
-                    title = context.getString(
-                        R.string.azure_communication_ui_calling_participant_list_in_call_plus_more_people,
-                        plusMoreParticipants
-                    ),
-                    contentDescription = "",
-                    accessoryImage = null,
-                    accessoryColor = null,
-                    accessoryImageDescription = null,
-                    isChecked = null,
-                    participantViewData = null,
+                    title = plusMorePeople,
+                    contentDescription = plusMorePeople,
                     isOnHold = false,
                     itemType = BottomCellItemType.BottomMenuTitle,
-                    onClickAction = null
                 )
             )
         }
@@ -249,20 +242,11 @@ internal class ParticipantListView(
             bottomCellItemsInLobbyParticipants.add(
                 0,
                 BottomCellItem(
-                    icon = null,
                     title = context.getString(
                         R.string.azure_communication_ui_calling_participant_list_in_lobby_n_people,
                         bottomCellItemsInLobbyParticipants.size
                     ),
-                    contentDescription = "",
-                    accessoryImage = null,
-                    accessoryColor = null,
-                    accessoryImageDescription = null,
-                    isChecked = null,
-                    participantViewData = null,
-                    isOnHold = null,
                     itemType = BottomCellItemType.BottomMenuTitle,
-                    onClickAction = null,
                     showAdmitAllButton = true,
                     admitAllButtonAction = {
                         admitAllLobbyParticipants()
@@ -281,12 +265,13 @@ internal class ParticipantListView(
         participantViewData: CallCompositeParticipantViewData?,
         displayName: String,
     ): String {
-        participantViewData?.displayName?.let {
-            if (it.trim().isNotEmpty()) {
-                return it + " " + resources.getString(R.string.azure_communication_ui_calling_view_participant_drawer_local_participant)
-            }
-        }
-        return displayName
+        val localParticipantDisplayName = if (participantViewData?.displayName != null)
+            participantViewData.displayName else displayName
+
+        return resources.getString(
+            R.string.azure_communication_ui_calling_view_participant_drawer_local_participant_format,
+            localParticipantDisplayName,
+        )
     }
 
     private fun generateBottomCellItem(
@@ -309,23 +294,22 @@ internal class ParticipantListView(
         )
         val onHoldAnnouncement: String = if (isOnHold == true) context.getString(R.string.azure_communication_ui_calling_remote_participant_on_hold) else ""
         val contentDescription = if (onHoldAnnouncement.isNotEmpty()) {
-            displayName + onHoldAnnouncement + context.getString(R.string.azure_communication_ui_calling_view_participant_list_dismiss_list)
+            "$displayName. $onHoldAnnouncement, ${context.getString(R.string.azure_communication_ui_calling_view_participant_list_dismiss_list)}"
         } else if (status == ParticipantStatus.IN_LOBBY) {
-            displayName + context.getString(R.string.azure_communication_ui_calling_view_participant_list_dismiss_lobby_list)
+            "$displayName. ${context.getString(R.string.azure_communication_ui_calling_view_participant_list_dismiss_lobby_list)}"
         } else {
-            displayName + micAccessibilityAnnouncement + context.getString(R.string.azure_communication_ui_calling_view_participant_list_dismiss_list)
+            "$displayName. $micAccessibilityAnnouncement, ${context.getString(R.string.azure_communication_ui_calling_view_participant_list_dismiss_list)}"
         }
 
         return BottomCellItem(
-            null,
-            displayName,
-            contentDescription,
-            if (status != ParticipantStatus.IN_LOBBY) micIcon else null,
-            if (status != ParticipantStatus.IN_LOBBY) R.color.azure_communication_ui_calling_color_participant_list_mute_mic else null,
-            micAccessibilityAnnouncement,
-            isMuted,
-            participantViewData,
-            isOnHold,
+            title = displayName,
+            contentDescription = contentDescription,
+            accessoryImage = if (status != ParticipantStatus.IN_LOBBY) micIcon else null,
+            accessoryColor = if (status != ParticipantStatus.IN_LOBBY) R.color.azure_communication_ui_calling_color_participant_list_mute_mic else null,
+            accessoryImageDescription = micAccessibilityAnnouncement,
+            isChecked = isMuted,
+            participantViewData = participantViewData,
+            isOnHold = isOnHold,
             onClickAction = {
                 when (status) {
                     ParticipantStatus.IN_LOBBY -> showAdmitDialog(userIdentifier, displayName)

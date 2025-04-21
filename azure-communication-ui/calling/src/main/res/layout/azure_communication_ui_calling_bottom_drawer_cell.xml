@@ -6,8 +6,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:minHeight="48dp"
     android:focusable="true"
     >
+
+    <ImageView
+        android:id="@+id/azure_communication_ui_cell_bottom_drawer_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:importantForAccessibility="no"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/azure_communication_ui_calling_color_surface"
+        />
 
     <ImageView
         android:id="@+id/azure_communication_ui_cell_icon"
@@ -18,6 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/azure_communication_ui_calling_ic_fluent_speaker_2_24_filled_composite_button_enabled"
+        android:importantForAccessibility="no"
         />
 
     <com.microsoft.fluentui.persona.AvatarView
@@ -67,8 +80,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:ellipsize="end"
-            android:singleLine="true"
             android:text="@string/azure_communication_ui_calling_audio_device_drawer_android"
             android:textColor="@color/azure_communication_ui_calling_toggle_selector" />
 
@@ -145,17 +156,5 @@
         android:layout_height="wrap_content"
         app:barrierDirection="start"
         app:constraint_referenced_ids="azure_communication_ui_cell_check_mark, azure_communication_ui_cell_additional_text"
-        />
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="47.5dp"
-        android:layout_marginEnd="10dp"
-        android:importantForAccessibility="no"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

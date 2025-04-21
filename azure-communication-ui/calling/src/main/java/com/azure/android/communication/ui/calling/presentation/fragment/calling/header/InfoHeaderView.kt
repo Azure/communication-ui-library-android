@@ -10,6 +10,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.calling.implementation.R
@@ -27,12 +28,13 @@ internal class InfoHeaderView : ConstraintLayout {
     private lateinit var headerView: View
     private lateinit var participantNumberText: TextView
     private lateinit var subtitleText: TextView
+    /* <CALL_START_TIME>
+    private lateinit var callDurationText: TextView
+    </CALL_START_TIME> */
     private lateinit var displayParticipantsImageButton: ImageButton
     private lateinit var backButton: ImageButton
-    /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
     private lateinit var customButton1: ImageButton
     private lateinit var customButton2: ImageButton
-    /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
     private lateinit var infoHeaderViewModel: InfoHeaderViewModel
     private lateinit var displayParticipantListCallback: () -> Unit
 
@@ -43,6 +45,9 @@ internal class InfoHeaderView : ConstraintLayout {
         participantNumberText =
             findViewById(R.id.azure_communication_ui_call_participant_number_text)
         subtitleText = findViewById(R.id.azure_communication_ui_call_header_subtitle)
+        /* <CALL_START_TIME>
+        callDurationText = findViewById(R.id.azure_communication_ui_call_header_duration)
+        </CALL_START_TIME> */
         displayParticipantsImageButton =
             findViewById(R.id.azure_communication_ui_call_bottom_drawer_button)
         displayParticipantsImageButton.setOnClickListener {
@@ -57,32 +62,25 @@ internal class InfoHeaderView : ConstraintLayout {
                 infoHeaderViewModel.requestCallEnd()
             }
         }
-        /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
         customButton1 = findViewById(R.id.azure_communication_ui_call_header_custom_button_1)
         customButton2 = findViewById(R.id.azure_communication_ui_call_header_custom_button_2)
-        /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
     }
 
     fun start(
         viewLifecycleOwner: LifecycleOwner,
         infoHeaderViewModel: InfoHeaderViewModel,
         displayParticipantList: () -> Unit,
-        accessibilityEnabled: Boolean
     ) {
         this.infoHeaderViewModel = infoHeaderViewModel
         this.displayParticipantListCallback = displayParticipantList
         setupAccessibility()
         viewLifecycleOwner.lifecycleScope.launchAll(
             {
-                if (accessibilityEnabled) {
-                    floatingHeader.visibility = View.VISIBLE
-                } else {
-                    infoHeaderViewModel.getDisplayFloatingHeaderFlow().collect {
-                        floatingHeader.visibility = if (it) View.VISIBLE else View.GONE
-                        // If we are on television, set the focus to the participants button
-                        if (it && isAndroidTV(context)) {
-                            displayParticipantsImageButton.requestFocus()
-                        }
+                infoHeaderViewModel.getIsVisible().collect {
+                    floatingHeader.visibility = if (it) View.VISIBLE else View.GONE
+                    // If we are on television, set the focus to the participants button
+                    if (it && isAndroidTV(context)) {
+                        displayParticipantsImageButton.requestFocus()
                     }
                 }
             },
@@ -137,7 +135,6 @@ internal class InfoHeaderView : ConstraintLayout {
                     }
                 }
             },
-            /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
             {
                 infoHeaderViewModel.getCustomButton1StateFlow().collect { button ->
                     updateCustomButton(button, customButton1)
@@ -147,12 +144,22 @@ internal class InfoHeaderView : ConstraintLayout {
                 infoHeaderViewModel.getCustomButton2StateFlow().collect { button ->
                     updateCustomButton(button, customButton2)
                 }
+            },
+            /* <CALL_START_TIME>
+            {
+                infoHeaderViewModel.getDisplayCallDurationFlow().collect {
+                    callDurationText.isVisible = it
+                }
+            },
+            {
+                infoHeaderViewModel.getCallDurationFlow().collect {
+                    callDurationText.text = it
+                }
             }
-            /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+            </CALL_START_TIME> */
         )
     }
 
-    /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
     private fun updateCustomButton(customButtonEntry: InfoHeaderViewModel.CustomButtonEntry?, customButton: ImageButton) {
         customButton.visibility = if (customButtonEntry?.isVisible == true) View.VISIBLE else View.GONE
         customButtonEntry?.let {
@@ -163,7 +170,6 @@ internal class InfoHeaderView : ConstraintLayout {
             }
         }
     }
-    /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
 
     private fun setupAccessibility() {
         displayParticipantsImageButton.contentDescription = context.getString(R.string.azure_communication_ui_calling_view_participant_list_open_accessibility_label)

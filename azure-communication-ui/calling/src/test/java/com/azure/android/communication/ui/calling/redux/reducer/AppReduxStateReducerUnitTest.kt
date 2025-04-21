@@ -77,6 +77,12 @@ internal class AppReduxStateReducerUnitTest {
     @Mock
     private lateinit var buttonOptionsReducer: ButtonViewDataReducerImpl
 
+    @Mock
+    private lateinit var rttReducer: RttReducerImpl
+
+    @Mock
+    private lateinit var deviceConfigurationReducer: DeviceConfigurationReducerImpl
+
     @Test
     fun appStateReducer_reduce_when_invoked_then_callAllReducers() {
 
@@ -97,6 +103,8 @@ internal class AppReduxStateReducerUnitTest {
                 mockCaptionsReducer,
                 mockCallScreenInformationHeaderReducer,
                 buttonOptionsReducer,
+                rttReducer,
+                deviceConfigurationReducer,
             )
         val action = NavigationAction.CallLaunched()
         val state = AppReduxState("", false, false)
@@ -210,6 +218,14 @@ internal class AppReduxStateReducerUnitTest {
 
         Mockito.`when`(buttonOptionsReducer.reduce(state.buttonState, action)).thenReturn(
             state.buttonState
+        )
+
+        Mockito.`when`(rttReducer.reduce(state.rttState, action)).thenReturn(
+            state.rttState
+        )
+
+        Mockito.`when`(deviceConfigurationReducer.reduce(state.deviceConfigurationState, action)).thenReturn(
+            state.deviceConfigurationState
         )
 
         // act

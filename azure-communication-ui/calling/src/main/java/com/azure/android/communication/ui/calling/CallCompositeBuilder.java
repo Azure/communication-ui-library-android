@@ -252,7 +252,7 @@ public final class CallCompositeBuilder {
         /*  <DEFAULT_AUDIO_MODE:0>
         config.setAudioSelectionMode(audioSelectionMode);
         </DEFAULT_AUDIO_MODE:0> */
-        config.setIdentifier(userId);
+        config.setLocalUserIdentifier(userId);
         return new CallComposite(config);
     }
 }
