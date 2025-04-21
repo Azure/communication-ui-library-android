@@ -8,7 +8,7 @@ resources:
     name: 1ESPipelineTemplates/1ESPipelineTemplates
     ref: refs/tags/release
 extends:
-  template: v1/1ES.Unofficial.PipelineTemplate.yml@1esPipelines
+  template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
   parameters:
     pool:
       os: linux
@@ -183,7 +183,7 @@ extends:
             tasks: ktlintCheck
             publishJUnitResults: false
             javaHomeOption: 'JDKVersion'
-            jdkVersionOption: '1.11'
+            jdkVersionOption: '1.17'
         - task: Gradle@3
           displayName: gradlew assembleDebug --stacktrace
           enabled: False
@@ -193,7 +193,7 @@ extends:
             tasks: assembleDebug --stacktrace
             publishJUnitResults: false
             javaHomeOption: 'JDKVersion'
-            jdkVersionOption: '1.11'
+            jdkVersionOption: '1.17'
         - task: Gradle@3
           displayName: gradlew assemble$(build_variant) --stacktrace
           inputs:
@@ -203,7 +203,7 @@ extends:
             tasks: assemble$(build_variant) --stacktrace
             publishJUnitResults: false
             javaHomeOption: 'JDKVersion'
-            jdkVersionOption: '1.11'
+            jdkVersionOption: '1.17'
         - task: Gradle@3
           displayName: publish $(build_variant) to local dir
           inputs:
@@ -211,7 +211,7 @@ extends:
             cwd: azure-communication-ui/$(build_variant)
             tasks: publishReleasePublicationToLocalDirectoryRepository
             javaHomeOption: 'JDKVersion'
-            jdkVersionOption: '1.11'
+            jdkVersionOption: '1.17'
         - task: Gradle@3
           displayName: gradlew test --stacktrace
           enabled: False
@@ -221,7 +221,7 @@ extends:
             tasks: test --stacktrace
             publishJUnitResults: false
             javaHomeOption: 'JDKVersion'
-            jdkVersionOption: '1.11'
+            jdkVersionOption: '1.17'
         - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
           displayName: print release folder files
           inputs:

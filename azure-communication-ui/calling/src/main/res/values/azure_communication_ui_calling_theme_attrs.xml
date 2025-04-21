@@ -12,4 +12,7 @@
     <attr name="azure_communication_ui_calling_primary_color_tint10" type="color|reference" />
     <attr name="azure_communication_ui_calling_primary_color_tint20" type="color|reference" />
     <attr name="azure_communication_ui_calling_primary_color_tint30" type="color|reference" />
+
+    <attr name="azure_communication_ui_calling_primary_color_shade20" type="color|reference" />
+    <attr name="azure_communication_ui_calling_primary_color_shade30" type="color|reference" />
 </resources>

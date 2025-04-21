@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelecti
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
+import com.azure.android.communication.ui.calling.utilities.implementation.CompositeDrawerDialog
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
@@ -74,7 +75,11 @@ internal class AudioDeviceListView(
     }
 
     private fun initializeAudioDeviceDrawer() {
-        audioDeviceDrawer = DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM)
+        audioDeviceDrawer = CompositeDrawerDialog(
+            context,
+            DrawerDialog.BehaviorType.BOTTOM,
+            R.string.azure_communication_ui_calling_audio_device_drawer_accessibility_label,
+        )
         audioDeviceDrawer.setContentView(this)
         audioDeviceDrawer.setOnDismissListener {
             viewModel.closeAudioDeviceSelectionMenu()
@@ -95,24 +100,21 @@ internal class AudioDeviceListView(
                 // Receiver (default)
                 bottomCellItems.add(
                     BottomCellItem(
-                        ContextCompat.getDrawable(
+                        icon = ContextCompat.getDrawable(
                             context,
                             R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_regular_composite_button_filled
                         ),
-                        when (viewModel.audioStateFlow.value.isHeadphonePlugged) {
+                        title = when (viewModel.audioStateFlow.value.isHeadphonePlugged) {
                             true -> context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_headphone)
                             false -> context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_android)
                         },
-                        null,
-                        ContextCompat.getDrawable(
+                        accessoryImage = ContextCompat.getDrawable(
                             context,
                             R.drawable.ms_ic_checkmark_24_filled
                         ),
-                        null,
-                        context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
+                        accessoryImageDescription = context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
                         isChecked = initialDevice == AudioDeviceSelectionStatus.RECEIVER_SELECTED,
-                        null,
-                        false,
+                        isOnHold = false,
                         onClickAction = {
                             viewModel.switchAudioDevice(AudioDeviceSelectionStatus.RECEIVER_REQUESTED)
                             audioDeviceDrawer.dismiss()
@@ -123,21 +125,18 @@ internal class AudioDeviceListView(
 
             bottomCellItems.add(
                 BottomCellItem(
-                    ContextCompat.getDrawable(
+                    icon = ContextCompat.getDrawable(
                         context,
                         R.drawable.azure_communication_ui_calling_ic_fluent_speaker_2_24_filled_composite_button_enabled
                     ),
-                    context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_speaker),
-                    null,
-                    ContextCompat.getDrawable(
+                    title = context.getString(R.string.azure_communication_ui_calling_audio_device_drawer_speaker),
+                    accessoryImage = ContextCompat.getDrawable(
                         context,
                         R.drawable.ms_ic_checkmark_24_filled
                     ),
-                    null,
-                    context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
+                    accessoryImageDescription = context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
                     isChecked = initialDevice == AudioDeviceSelectionStatus.SPEAKER_SELECTED,
-                    null,
-                    false,
+                    isOnHold = false,
                     onClickAction = {
                         viewModel.switchAudioDevice(AudioDeviceSelectionStatus.SPEAKER_REQUESTED)
                         audioDeviceDrawer.dismiss()
@@ -150,22 +149,18 @@ internal class AudioDeviceListView(
                 bottomCellItems.removeAt(0)
                 bottomCellItems.add(
                     BottomCellItem(
-                        ContextCompat.getDrawable(
+                        icon = ContextCompat.getDrawable(
                             context,
                             R.drawable.azure_communication_ui_calling_ic_fluent_speaker_bluetooth_24_regular
                         ),
-                        viewModel.audioStateFlow.value.bluetoothState.deviceName,
-                        null,
-                        ContextCompat.getDrawable(
+                        title = viewModel.audioStateFlow.value.bluetoothState.deviceName,
+                        accessoryImage = ContextCompat.getDrawable(
                             context,
                             R.drawable.ms_ic_checkmark_24_filled
                         ),
-
-                        null,
-                        context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
+                        accessoryImageDescription = context.getString(R.string.azure_communication_ui_calling_setup_view_audio_device_selected_accessibility_label),
                         isChecked = initialDevice == AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED,
-                        null,
-                        false,
+                        isOnHold = false,
                         onClickAction = {
                             viewModel.switchAudioDevice(AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED)
                             audioDeviceDrawer.dismiss()

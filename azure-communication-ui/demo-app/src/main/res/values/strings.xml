@@ -66,6 +66,7 @@
     <string name="enable_multitasking_option">Enable Multitasking</string>
     <string name="enable_pip_when_multitasking_option">Enable Pip when multitasking</string>
     <string name="display_leave_call_confirmation">Display Leave Call Confirmation</string>
+    <string name="show_call_duration">Show call duration</string>
     <string name="call_screen_settings">Call screen settings</string>
     <string name="setup_screen_settings">Setup screen settings</string>
     <string name="setup_screen_settings_camera_enabled">Camera is enabled</string>

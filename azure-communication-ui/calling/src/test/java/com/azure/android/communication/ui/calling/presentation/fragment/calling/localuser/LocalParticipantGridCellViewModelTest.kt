@@ -3,13 +3,13 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.localuser
 
+import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.redux.AppStore
 import com.azure.android.communication.ui.calling.redux.state.AudioOperationalStatus
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
 import com.azure.android.communication.ui.calling.redux.state.CameraDeviceSelectionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
-import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.models.CallCompositeAudioVideoMode
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -44,7 +44,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
 
             val isMutedFlow = mutableListOf<Boolean>()
@@ -62,7 +63,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
 
             viewModel.update(
@@ -74,7 +76,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
 
             viewModel.update(
@@ -86,7 +89,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
 
             viewModel.update(
@@ -98,7 +102,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
 
             // assert
@@ -130,7 +135,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
 
             val displayNameFlow = mutableListOf<String?>()
@@ -148,7 +154,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
 
             // assert
@@ -178,7 +185,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
 
             val modelFlow = mutableListOf<LocalParticipantViewModel.VideoModel>()
@@ -196,7 +204,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
 
             viewModel.update(
@@ -208,7 +217,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
 
             viewModel.update(
@@ -220,7 +230,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
 
             // assert
@@ -265,7 +276,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
 
             val modelFlow = mutableListOf<Boolean>()
@@ -283,7 +295,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
             viewModel.update(
                 displayName,
@@ -294,7 +307,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
             viewModel.update(
                 displayName,
@@ -305,7 +319,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
             viewModel.update(
                 displayName,
@@ -316,7 +331,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
 
             // assert
@@ -353,7 +369,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
 
             val modelFlow = mutableListOf<Boolean>()
@@ -371,7 +388,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
             viewModel.update(
                 displayName,
@@ -382,7 +400,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
             viewModel.update(
                 displayName,
@@ -393,7 +412,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
             viewModel.update(
                 displayName,
@@ -404,7 +424,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
 
             // assert
@@ -439,7 +460,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
 
             val modelFlow = mutableListOf<Boolean>()
@@ -457,7 +479,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
             viewModel.update(
                 displayName,
@@ -468,7 +491,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.SWITCHING,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
             viewModel.update(
                 displayName,
@@ -479,7 +503,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
             viewModel.update(
                 displayName,
@@ -490,7 +515,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.SWITCHING,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
             viewModel.update(
                 displayName,
@@ -501,7 +527,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
             viewModel.update(
                 displayName,
@@ -512,7 +539,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
 
             // assert
@@ -551,7 +579,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_ONLY
+                CallCompositeAudioVideoMode.AUDIO_ONLY,
+                isOverlayDisplayedOverGrid = false,
             )
 
             assertFalse(viewModel.getIsVisibleFlow().value)
@@ -582,7 +611,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_ONLY
+                CallCompositeAudioVideoMode.AUDIO_ONLY,
+                isOverlayDisplayedOverGrid = false,
             )
 
             assertTrue(viewModel.getIsVisibleFlow().value)
@@ -613,7 +643,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 0,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
 
             val getDisplayPipSwitchCameraButtonFlow = mutableListOf<Boolean>()
@@ -639,7 +670,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
             viewModel.update(
                 displayName,
@@ -650,7 +682,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 0,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
             viewModel.update(
                 displayName,
@@ -661,7 +694,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 2,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
             viewModel.update(
                 displayName,
@@ -672,7 +706,8 @@ internal class LocalParticipantGridCellViewModelTest : ACSBaseTestCoroutine() {
                 CameraDeviceSelectionStatus.FRONT,
                 0,
                 VisibilityStatus.VISIBLE,
-                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO
+                CallCompositeAudioVideoMode.AUDIO_AND_VIDEO,
+                isOverlayDisplayedOverGrid = false,
             )
 
             // assert

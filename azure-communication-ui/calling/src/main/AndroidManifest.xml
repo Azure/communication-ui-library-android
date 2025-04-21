@@ -2,9 +2,7 @@
    Copyright (c) Microsoft Corporation. All rights reserved.
    Licensed under the MIT License.
   -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.azure.android.communication.ui.calling.implementation"
-    >
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -31,6 +29,9 @@
             android:excludeFromRecents="true"
             android:taskAffinity="com.azure.android.communication.ui.calling.presentation.CallCompositeActivity"
             android:theme="@style/AzureCommunicationUICalling.Theme"
+            android:windowSoftInputMode="adjustResize"
+            android:showOnLockScreen="true"
+            android:turnScreenOn="true"
             />
 
         <activity
@@ -41,6 +42,9 @@
             android:excludeFromRecents="true"
             android:taskAffinity="com.azure.android.communication.ui.calling.presentation.CallCompositeActivity"
             android:theme="@style/AzureCommunicationUICalling.Theme"
+            android:windowSoftInputMode="adjustResize"
+            android:showOnLockScreen="true"
+            android:turnScreenOn="true"
             />
         <uses-library
             android:name="org.apache.http.legacy"
@@ -52,6 +56,9 @@
             android:launchMode="singleTop"
             android:theme="@style/AzureCommunicationUICalling.Theme"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            android:showOnLockScreen="true"
+            android:turnScreenOn="true"
             />
 
         <service

@@ -34,7 +34,6 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
                 modifiedTimestamp = 456,
-                speakingTimestamp = 567,
             )
             val resultHeaderStateFlow =
                 mutableListOf<Boolean?>()
@@ -92,7 +91,6 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
                 modifiedTimestamp = 456,
-                speakingTimestamp = 567,
             )
             val resultHeaderStateFlow =
                 mutableListOf<Boolean?>()
@@ -122,7 +120,6 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
                 modifiedTimestamp = 456,
-                speakingTimestamp = 567,
             )
             lobbyHeaderViewModel.update(
                 CallingStatus.CONNECTED,
@@ -170,7 +167,6 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
                 modifiedTimestamp = 456,
-                speakingTimestamp = 567,
             )
             val resultHeaderStateFlow =
                 mutableListOf<Boolean?>()
@@ -199,7 +195,6 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
                 modifiedTimestamp = 456,
-                speakingTimestamp = 567,
             )
             lobbyHeaderViewModel.update(
                 CallingStatus.CONNECTED,
@@ -237,7 +232,6 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
                 modifiedTimestamp = 456,
-                speakingTimestamp = 567,
             )
             val resultHeaderStateFlow =
                 mutableListOf<Boolean?>()
@@ -266,7 +260,6 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 isSpeaking = true,
                 cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
                 modifiedTimestamp = 456,
-                speakingTimestamp = 567,
             )
             lobbyHeaderViewModel.update(
                 CallingStatus.EARLY_MEDIA,
@@ -342,10 +335,10 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
         userIdentifier: String,
         isMuted: Boolean,
         isSpeaking: Boolean,
+        isTypingRtt: Boolean = false,
         screenShareVideoStreamModel: VideoStreamModel? = null,
         cameraVideoStreamModel: VideoStreamModel? = null,
         modifiedTimestamp: Number,
-        speakingTimestamp: Number,
         status: ParticipantStatus = ParticipantStatus.CONNECTED,
     ) = ParticipantInfoModel(
         displayName,
@@ -353,6 +346,7 @@ internal class LobbyHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
         isMuted,
         false,
         isSpeaking,
+        isTypingRtt,
         status,
         screenShareVideoStreamModel,
         cameraVideoStreamModel,

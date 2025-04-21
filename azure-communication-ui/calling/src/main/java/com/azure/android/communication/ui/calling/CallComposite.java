@@ -8,6 +8,7 @@ import static com.azure.android.communication.ui.calling.service.sdk.TypeConvers
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.azure.android.communication.common.CommunicationIdentifier;
 import com.azure.android.communication.common.CommunicationTokenCredential;
@@ -46,9 +47,6 @@ import com.azure.android.communication.ui.calling.presentation.MultitaskingCallC
 import com.azure.android.communication.ui.calling.presentation.PiPCallCompositeActivity;
 import com.azure.android.communication.ui.calling.presentation.manager.DebugInfoManager;
 import com.azure.android.communication.ui.calling.redux.action.PipAction;
-/* <RTT_POC>
-import com.azure.android.communication.ui.calling.redux.action.RttAction;
-</RTT_POC> */
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus;
 import com.azure.android.communication.ui.calling.service.sdk.CallingSDKInitializer;
 import com.azure.android.communication.ui.calling.utilities.TestHelper;
@@ -61,10 +59,6 @@ import java.util.Collections;
 import java.util.Date;
 </CALL_START_TIME> */
 import java.util.List;
-/* <RTT_POC>
-import java.util.Timer;
-import java.util.TimerTask;
-<RTT_POC> */
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -707,7 +701,7 @@ public final class CallComposite {
      * @return {@link CallCompositeDebugInfo}
      */
     public CallCompositeDebugInfo getDebugInfo(final Context context) {
-        AndroidThreeTen.init(context.getApplicationContext());
+        initAndroidThreeTen(context.getApplicationContext());
         final DebugInfoManager debugInfoManager = getDebugInfoManager(context.getApplicationContext());
         return debugInfoManager.getDebugInfo();
     }
@@ -785,7 +779,7 @@ public final class CallComposite {
                                  final CallCompositeRemoteOptions remoteOptions,
                                  final CallCompositeLocalOptions localOptions,
                                  final boolean isTest) {
-        AndroidThreeTen.init(context.getApplicationContext());
+        initAndroidThreeTen(context.getApplicationContext());
 
         UUID groupId = null;
         String meetingLink = null;
@@ -836,7 +830,7 @@ public final class CallComposite {
                                  final String incomingCallId,
                                  final CallCompositeLocalOptions localOptions,
                                  final boolean isTest) {
-        AndroidThreeTen.init(context.getApplicationContext());
+        initAndroidThreeTen(context.getApplicationContext());
 
         UUID groupId = null;
         String meetingLink = null;
@@ -941,20 +935,6 @@ public final class CallComposite {
     private void showUI(final Context context,
                         final boolean isTest) {
 
-        /* <RTT_POC>
-        // Simulates incoming RTT Message data for UI Dev
-        new Timer().scheduleAtFixedRate(
-                new TimerTask() {
-                    @Override
-                    public void run() {
-                        if (Math.random() < 0.01) {
-                            diContainer.getAppStore().dispatch(new RttAction.IncomingMessageReceived("Hello", "abc"));
-                        }
-
-                    }
-                }, 0, 10);
-        </RTT_POC> */
-
         Class activityClass = CallCompositeActivity.class;
 
         if (configuration.getEnableMultitasking()) {
@@ -1026,5 +1006,14 @@ public final class CallComposite {
                     final String incomingCallId,
                     final CallCompositeLocalOptions localOptions) {
         launchComposite(context, null, null, incomingCallId, localOptions, true);
+    }
+
+    private void initAndroidThreeTen(final Context context) {
+        try {
+            AndroidThreeTen.init(context.getApplicationContext());
+        } catch (IllegalStateException e) {
+            // AndroidThreeTen is already initialized
+            Log.d("CallCompositeManager", "AndroidThreeTen already initialized", e);
+        }
     }
 }

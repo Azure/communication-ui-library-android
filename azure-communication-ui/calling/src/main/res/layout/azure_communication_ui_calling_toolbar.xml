@@ -8,61 +8,57 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/azure_communication_ui_calling_color_background"
-    android:fitsSystemWindows="true"
-    android:minHeight="20dp"
-    android:nextFocusRight="@+id/azure_communication_ui_navigation_button"
-    app:contentInsetLeft="0dp"
-    app:contentInsetStart="0dp"
-    app:contentInsetStartWithNavigation="0dp">
+    android:minHeight="40dp"
+
+    android:focusable="false"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:elevation="@dimen/azure_communication_ui_calling_setup_toolbar_elevation"
+    >
+
+    <ImageButton
+        android:id="@+id/azure_communication_ui_navigation_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/azure_communication_ui_calling_color_background"
+        android:contentDescription="@string/azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement"
+        android:focusable="true"
+        android:src="@drawable/azure_communication_ui_calling_ic_fluent_arrow_left_24_filled"
+        android:importantForAccessibility="yes"
+        android:padding="8dp"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginStart="20dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-            android:id="@+id/azure_communication_ui_navigation_button"
+        <TextView
+            android:id="@+id/azure_communication_ui_toolbar_title"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@color/azure_communication_ui_calling_color_background"
-            android:contentDescription="@string/azure_communication_ui_calling_call_setup_toolbar_navigation_button_announcement"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:nextFocusLeft="@+id/azure_communication_setup_toolbar"
-            android:nextFocusRight="@+id/azure_communication_ui_toolbar_title"
-            android:src="@drawable/azure_communication_ui_calling_ic_fluent_arrow_left_24_filled" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:orientation="vertical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_gravity="center_vertical"
+            android:focusable="true"
+            android:accessibilityHeading="true"
+            android:textColor="@color/azure_communication_ui_calling_color_action_bar_text"
+            android:importantForAccessibility="yes"
+            />
 
-            <TextView
-                android:id="@+id/azure_communication_ui_toolbar_title"
-                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:accessibilityHeading="true"
-                android:nextFocusLeft="@+id/azure_communication_ui_navigation_button"
-                android:textColor="@color/azure_communication_ui_calling_color_action_bar_text" />
-
-            <TextView
-                android:id="@+id/azure_communication_ui_toolbar_subtitle"
-                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:textColor="@color/azure_communication_ui_calling_color_action_bar_subtext"
-                android:visibility="gone" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/azure_communication_ui_toolbar_subtitle"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:focusable="true"
+            android:textColor="@color/azure_communication_ui_calling_color_action_bar_subtext"
+            android:visibility="gone"
+            android:importantForAccessibility="yes"
+            />
     </LinearLayout>
 
 </com.azure.android.communication.ui.calling.presentation.fragment.setup.components.ToolbarView>

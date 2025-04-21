@@ -16,6 +16,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.calling.implementation.R
+import com.azure.android.communication.ui.calling.utilities.implementation.CompositeDrawerDialog
 import com.microsoft.fluentui.drawer.DrawerDialog
 import com.microsoft.fluentui.widget.Button
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -34,7 +35,11 @@ internal class SupportView : ConstraintLayout {
     private val privacyPolicyButton: AppCompatTextView by lazy { findViewById(R.id.azure_communication_ui_support_form_privacy_link) }
 
     private val menuDrawer: DrawerDialog by lazy {
-        DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM).apply {
+        CompositeDrawerDialog(
+            context,
+            DrawerDialog.BehaviorType.BOTTOM,
+            R.string.azure_communication_ui_calling_view_participant_list_accessibility_label,
+        ).apply {
             setContentView(this@SupportView)
             setCanceledOnTouchOutside(true)
             setFade(0.5f)

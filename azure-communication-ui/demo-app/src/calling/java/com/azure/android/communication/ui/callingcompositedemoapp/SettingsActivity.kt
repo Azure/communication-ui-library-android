@@ -49,6 +49,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var callScreenOrientationArrayAdapter: ArrayAdapter<String>
     private lateinit var setupScreenOrientationArrayAdapter: ArrayAdapter<String>
     private lateinit var displayLeaveCallConfirmationCheckBox: CheckBox
+    private lateinit var showCallDurationCheckBox: CheckBox
     private lateinit var enableMultitaskingCheckbox: CheckBox
     private lateinit var enablePipWhenMultitaskingCheckbox: CheckBox
     private lateinit var telecomManagerIntegrationOptions: List<String>
@@ -162,6 +163,7 @@ class SettingsActivity : AppCompatActivity() {
         updateSubtitle()
 
         updateDisplayLeaveCallConfirmationCheckbox()
+        updateShowCallDurationCheckbox()
 
         updateCustomButtonsCheckbox()
 
@@ -286,6 +288,12 @@ class SettingsActivity : AppCompatActivity() {
                         view.isChecked
                     ).apply()
                 }
+                R.id.show_call_duration_check_box -> {
+                    sharedPreference.edit().putBoolean(
+                        SHOW_CALL_DURATION_KEY,
+                        view.isChecked
+                    ).apply()
+                }
                 R.id.deprecated_launch_checkbox -> {
                     sharedPreference.edit().putBoolean(
                         USE_DEPRECATED_LAUNCH_KEY,
@@ -360,6 +368,7 @@ class SettingsActivity : AppCompatActivity() {
         enablePipWhenMultitaskingCheckbox = findViewById(R.id.multitasking_pip_check_box)
         audioOnlyModeCheckBox = findViewById(R.id.audio_only_check_box)
         displayLeaveCallConfirmationCheckBox = findViewById(R.id.display_leave_call_confirmation_check_box)
+        showCallDurationCheckBox = findViewById(R.id.show_call_duration_check_box)
         telecomManagerAutoCompleteTextView = findViewById(R.id.telecom_manager_selection_auto_complete_text_view)
         telecomManagerAdapterLayout = findViewById(R.id.telecom_manager_selection_adapter_layout)
         useDeprecatedLaunchCheckbox = findViewById(R.id.deprecated_launch_checkbox)
@@ -649,6 +658,14 @@ class SettingsActivity : AppCompatActivity() {
         displayLeaveCallConfirmationCheckBox.isChecked = isChecked
     }
 
+    private fun updateShowCallDurationCheckbox() {
+        val isChecked = sharedPreference.getBoolean(
+            SHOW_CALL_DURATION_KEY,
+            DEFAULT_SHOW_CALL_DURATION
+        )
+        showCallDurationCheckBox.isChecked = isChecked
+    }
+
     private fun updateCustomButtonsCheckbox() {
         addCustomButtonsCheckbox.isChecked = sharedPreference.getBoolean(
             ADD_CUSTOM_BUTTONS_KEY,
@@ -747,3 +764,6 @@ const val CALL_INFORMATION_SUBTITLE_KEY = "CALL_INFORMATION_SUBTITLE"
 const val CALL_INFORMATION_SUBTITLE_DEFAULT = ""
 const val ADD_CUSTOM_BUTTONS_KEY = "ADD_CUSTOM_BUTTONS"
 const val DEFAULT_ADD_CUSTOM_BUTTONS = false
+
+const val SHOW_CALL_DURATION_KEY = "SHOW_CALL_DURATION"
+const val DEFAULT_SHOW_CALL_DURATION = true

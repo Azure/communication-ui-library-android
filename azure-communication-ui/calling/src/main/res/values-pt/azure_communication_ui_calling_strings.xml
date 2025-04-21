@@ -8,6 +8,7 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Alto-falante</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Headset</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">Opções do dispositivo. Botão Fechar.</string>
     <string name="azure_communication_ui_calling_switch_camera_button_front">Câmera frontal ligada, alterne para a câmera traseira</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">Câmera traseira ligada, alterne para a câmera frontal</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Selecionar o Dispositivo de Áudio %1$s</string>
@@ -48,7 +49,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Chamada com 1 pessoa</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Ligar com %1$d pessoas</string>
     <string name="azure_communication_ui_calling_view_go_back">Voltar</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(eu)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s (eu)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Participante Sem Nome</string>
     <string name="azure_communication_ui_calling_view_leave_call">Sair da chamada?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Sair</string>
@@ -68,6 +69,12 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">Compartilhar informações de diagnóstico</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Informações de diagnóstico</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Botão Compartilhar informações de diagnóstico</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Chamada com: %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">Lista de participantes</string>
+    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">Mais opções. Botão Fechar.</string>
+    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">Lista de participantes. Botão Fechar.</string>
+    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">Menu de Legendas e RTT. Botão Fechar.</string>
+    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">Menu de idioma falado. Botão Fechar.</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>A transcrição foi iniciada.</b> Ingressando, você está
@@ -93,7 +100,7 @@ dando consentimento para que esta reunião seja transcrita.
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Ignorar</string>
     <string name="azure_communication_ui_calling_alert_title">Alerta</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Você pode ter sido removido da reunião ou perdido a conexão. Tente entrar novamente.</string>
+    <string name="azure_communication_ui_calling_call_end_with_error">Você foi removido da chamada devido a um erro ou à perda de conexão. Tente reingressar na chamada.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Não é possível ingressar na chamada devido a um erro.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">Você foi removido da chamada.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Não é possível ingressar na chamada. Verifique sua conexão de rede.</string>
@@ -157,6 +164,7 @@ dando consentimento para que esta reunião seja transcrita.
     <string name="azure_communication_ui_calling_report_issue_title">Relatar Problema</string>
     <string name="azure_communication_ui_calling_logs_attach_notice">Nós anexaremos automaticamente os registros.</string>
     <string name="azure_communication_ui_calling_privacy_policy_label">Política de Privacidade</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">Política de Privacidade. Link.</string>
     <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Descreva seu problema...</string>
     <string name="azure_communication_ui_calling_cancel_button_label">Cancelar</string>
     <string name="azure_communication_ui_calling_attach_screenshot">Anexar captura de tela</string>
@@ -187,11 +195,30 @@ dando consentimento para que esta reunião seja transcrita.
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">Legendas ao vivo</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Idioma falado</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d de %3$d</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Idioma da legenda</string>
     <string name="azure_communication_ui_calling_starting_captions">Iniciando legendas...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">Não é possível iniciar as legendas</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Não é possível parar as legendas</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Não é possível alterar o idioma falado</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Não é possível alterar o idioma da legenda</string>
-
+    <string name="azure_communication_ui_calling_captions_rtt_menu">Legendas e RTT</string>
+    <string name="azure_communication_ui_calling_rtt_info">O texto em tempo real (RTT) está habilitado durante toda a reunião e é visto por todos os participantes. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">Saiba mais</a></string>
+    <string name="azure_communication_ui_calling_rtt_info_accessibility">O texto em tempo real (RTT) está habilitado durante toda a reunião e é visto por todos os participantes. Saiba Mais. Link</string>
+    <string name="azure_communication_ui_calling_rtt">RTT</string>
+    <string name="azure_communication_ui_calling_rtt_message_sent">Mensagem enviada</string>
+    <string name="azure_communication_ui_calling_rtt_typing">Digitação RTT</string>
+    <string name="azure_communication_ui_calling_captions_turn_on_rtt">Habilitar a RTT para esta chamada</string>
+    <string name="azure_communication_ui_calling_captions_turn_on">Ativar legendas</string>
+    <string name="azure_communication_ui_calling_captions_turn_off">Desativar legendas</string>
+    <string name="azure_communication_ui_calling_captions_is_on">Legendas ativadas</string>
+    <string name="azure_communication_ui_calling_captions_is_off">Legendas desativadas</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">Ativar o RTT?</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">A digitação em tempo real (RTT) será ativada para todos na chamada.</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">Habilitar</string>
+    <string name="azure_communication_ui_calling_rtt_header">Texto em Tempo real</string>
+    <string name="azure_communication_ui_calling_captions_header">Legendas</string>
+    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">Maximizar legendas e RTT</string>
+    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">Minimizar legendas e RTT</string>
+    <string name="azure_communication_ui_calling_rtt_edit_text_hint">Digitar mensagem em tempo real</string>
 </resources>

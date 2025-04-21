@@ -30,6 +30,14 @@
             @color/fluentui_communication_tint_30
         </item>
 
+        <item name="azure_communication_ui_calling_primary_color_shade20">
+            @color/fluentui_communication_shade_20
+        </item>
+
+        <item name="azure_communication_ui_calling_primary_color_shade30">
+            @color/fluentui_communication_shade_30
+        </item>
+
         <item name="android:colorControlHighlight">
             @color/azure_communication_ui_calling_color_focus_highlight
         </item>

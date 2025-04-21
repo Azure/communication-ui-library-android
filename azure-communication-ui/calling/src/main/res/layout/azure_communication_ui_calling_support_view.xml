@@ -70,6 +70,8 @@
                     app:layout_constraintTop_toBottomOf="@id/azure_communication_ui_user_message_edit_text"
                     android:layout_marginBottom="24dp"
                     android:text="@string/azure_communication_ui_calling_logs_attach_notice"
+                    android:importantForAccessibility="yes"
+                    android:focusable="true"
                     />
 
                 <TextView
@@ -82,5 +84,6 @@
                     android:layout_marginStart="8dp"
                     style="@style/TextAppearance.FluentUI.Caption"
                     android:text="@string/azure_communication_ui_calling_privacy_policy_label"
+                    android:contentDescription="@string/azure_communication_ui_calling_privacy_policy_label_accessibility"
                     />
 </androidx.constraintlayout.widget.ConstraintLayout>

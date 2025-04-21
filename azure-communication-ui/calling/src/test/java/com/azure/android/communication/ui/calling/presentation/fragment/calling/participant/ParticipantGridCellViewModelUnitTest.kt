@@ -3,15 +3,19 @@
 
 package com.azure.android.communication.ui.calling.presentation.fragment.calling.participant
 
+import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
 import com.azure.android.communication.ui.calling.models.ParticipantInfoModel
+import com.azure.android.communication.ui.calling.models.ParticipantStatus
 import com.azure.android.communication.ui.calling.models.StreamType
 import com.azure.android.communication.ui.calling.models.VideoStreamModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridCellViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.ParticipantGridViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.participant.grid.VideoViewModel
 import com.azure.android.communication.ui.calling.presentation.fragment.factories.ParticipantGridCellViewModelFactory
-import com.azure.android.communication.ui.calling.ACSBaseTestCoroutine
-import com.azure.android.communication.ui.calling.models.ParticipantStatus
+import com.azure.android.communication.ui.calling.redux.state.CallingStatus
+import com.azure.android.communication.ui.calling.redux.state.CaptionsState
+import com.azure.android.communication.ui.calling.redux.state.DeviceConfigurationState
+import com.azure.android.communication.ui.calling.redux.state.RttState
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
@@ -37,9 +41,9 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
                 "user1",
                 isMuted = true,
                 isSpeaking = true,
+                isTypingRtt = false,
                 cameraVideoStreamModel = VideoStreamModel("video", StreamType.VIDEO),
                 modifiedTimestamp = 456,
-                speakingTimestamp = 567
             )
 
             val emitResultFromRemoteParticipantsSharedFlow =
@@ -50,10 +54,30 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
 
-            val pipStatus = VisibilityStatus.VISIBLE
+            val callingState = CallingStatus.CONNECTED
+            val visibilityStatus = VisibilityStatus.VISIBLE
+            val rttState = RttState()
+            val deviceConfigurationState = DeviceConfigurationState()
+            val captionsState = CaptionsState()
 
+            participantGridViewModel.init(
+                rttState,
+                isOverlayDisplayedOverGrid = false,
+                deviceConfigurationState,
+                captionsState,
+            )
             // act
-            participantGridViewModel.update(234, remoteParticipantsMap.toMutableMap(), listOf(), 0, pipStatus)
+            participantGridViewModel.update(
+                234,
+                remoteParticipantsMap.toMutableMap(),
+                listOf(),
+                0,
+                visibilityStatus,
+                rttState,
+                isOverlayDisplayedOverGrid = false,
+                deviceConfigurationState,
+                captionsState,
+            )
 
             // assert
             val participantViewModel = emitResultFromRemoteParticipantsSharedFlow[1][0]
@@ -85,9 +109,9 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
                 "user1",
                 isMuted = true,
                 isSpeaking = true,
+                isTypingRtt = false,
                 cameraVideoStreamModel = VideoStreamModel("video", StreamType.VIDEO),
                 modifiedTimestamp = 456,
-                speakingTimestamp = 567
             )
 
             val emitResultFromRemoteParticipantsSharedFlow =
@@ -97,10 +121,31 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipStatus = VisibilityStatus.VISIBLE
+            val callingState = CallingStatus.CONNECTED
+            val visibilityStatus = VisibilityStatus.VISIBLE
+            val rttState = RttState()
+            val deviceConfigurationState = DeviceConfigurationState()
+            val captionsState = CaptionsState()
+
+            participantGridViewModel.init(
+                rttState,
+                isOverlayDisplayedOverGrid = false,
+                deviceConfigurationState,
+                captionsState,
+            )
 
             // act
-            participantGridViewModel.update(234, remoteParticipantsMap.toMutableMap(), listOf(), 0, pipStatus)
+            participantGridViewModel.update(
+                remoteParticipantsMapUpdatedTimestamp = 234,
+                remoteParticipantsMap = remoteParticipantsMap.toMutableMap(),
+                dominantSpeakersInfo = listOf(),
+                dominantSpeakersModifiedTimestamp = 0,
+                visibilityStatus = visibilityStatus,
+                rttState = rttState,
+                isOverlayDisplayedOverGrid = false,
+                deviceConfigurationState = deviceConfigurationState,
+                captionsState = captionsState,
+            )
             remoteParticipantsMap["user1"]!!.modifiedTimestamp = 555
             remoteParticipantsMap["user1"]!!.isMuted = false
 
@@ -117,7 +162,17 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
             Assert.assertEquals(false, participantViewModel.getIsSpeakingStateFlow().value)
             Assert.assertEquals(456, participantViewModel.getParticipantModifiedTimestamp())
 
-            participantGridViewModel.update(236, remoteParticipantsMap.toMutableMap(), listOf(), 0, pipStatus)
+            participantGridViewModel.update(
+                remoteParticipantsMapUpdatedTimestamp = 236,
+                remoteParticipantsMap = remoteParticipantsMap.toMutableMap(),
+                dominantSpeakersInfo = listOf(),
+                dominantSpeakersModifiedTimestamp = 0,
+                visibilityStatus = visibilityStatus,
+                rttState = rttState,
+                isOverlayDisplayedOverGrid = false,
+                deviceConfigurationState = deviceConfigurationState,
+                captionsState = captionsState,
+            )
 
             // assert state flows
             Assert.assertEquals("user one", participantViewModel.getDisplayNameStateFlow().value)
@@ -143,9 +198,9 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
                 "user1",
                 isMuted = true,
                 isSpeaking = true,
+                isTypingRtt = false,
                 cameraVideoStreamModel = VideoStreamModel("video", StreamType.VIDEO),
                 modifiedTimestamp = 456,
-                speakingTimestamp = 567
             )
 
             val emitResultFromRemoteParticipantsSharedFlow =
@@ -155,13 +210,44 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
                 participantGridViewModel.getRemoteParticipantsUpdateStateFlow()
                     .toList(emitResultFromRemoteParticipantsSharedFlow)
             }
-            val pipStatus = VisibilityStatus.VISIBLE
+            val visibilityStatus = VisibilityStatus.VISIBLE
+            val callingState = CallingStatus.CONNECTED
+            val rttState = RttState()
+            val deviceConfigurationState = DeviceConfigurationState()
+            val captionsState = CaptionsState()
+
+            participantGridViewModel.init(
+                rttState,
+                isOverlayDisplayedOverGrid = false,
+                deviceConfigurationState,
+                captionsState,
+            )
 
             // act
-            participantGridViewModel.update(234, remoteParticipantsMap.toMutableMap(), listOf(), 0, pipStatus)
+            participantGridViewModel.update(
+                remoteParticipantsMapUpdatedTimestamp = 234,
+                remoteParticipantsMap = remoteParticipantsMap.toMutableMap(),
+                dominantSpeakersInfo = listOf(),
+                dominantSpeakersModifiedTimestamp = 0,
+                visibilityStatus = visibilityStatus,
+                rttState = rttState,
+                isOverlayDisplayedOverGrid = false,
+                deviceConfigurationState = deviceConfigurationState,
+                captionsState = captionsState,
+            )
             remoteParticipantsMap["user1"]!!.modifiedTimestamp = 456
             remoteParticipantsMap["user1"]!!.isSpeaking = false
-            participantGridViewModel.update(236, remoteParticipantsMap.toMutableMap(), listOf(), 0, pipStatus)
+            participantGridViewModel.update(
+                remoteParticipantsMapUpdatedTimestamp = 236,
+                remoteParticipantsMap = remoteParticipantsMap.toMutableMap(),
+                dominantSpeakersInfo = listOf(),
+                dominantSpeakersModifiedTimestamp = 0,
+                visibilityStatus = visibilityStatus,
+                rttState = rttState,
+                isOverlayDisplayedOverGrid = false,
+                deviceConfigurationState = deviceConfigurationState,
+                captionsState = captionsState,
+            )
 
             // assert
             val participantViewModel = emitResultFromRemoteParticipantsSharedFlow[1][0]
@@ -354,13 +440,13 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
                     "user1",
                     isMuted = false,
                     isSpeaking = false,
+                    isTypingRtt = false,
                     screenShareVideoStreamModel = null,
                     cameraVideoStreamModel = VideoStreamModel(
                         "video",
                         StreamType.VIDEO
                     ),
                     modifiedTimestamp = 456,
-                    speakingTimestamp = 567
                 ),
             )
 
@@ -431,6 +517,7 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
                     "user1",
                     isMuted = false,
                     isSpeaking = false,
+                    isTypingRtt = false,
                     VideoStreamModel(
                         "screen",
                         StreamType.SCREEN_SHARING
@@ -440,7 +527,6 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
                         StreamType.VIDEO
                     ),
                     modifiedTimestamp = 456,
-                    speakingTimestamp = 567
                 ),
             )
 
@@ -507,13 +593,13 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
                     "user1",
                     isMuted = false,
                     isSpeaking = false,
+                    isTypingRtt = false,
                     null,
                     VideoStreamModel(
                         "video",
                         StreamType.VIDEO
                     ),
                     modifiedTimestamp = 456,
-                    speakingTimestamp = 567
                 ),
             )
 
@@ -537,20 +623,20 @@ internal class ParticipantGridCellViewModelUnitTest : ACSBaseTestCoroutine() {
         userIdentifier: String,
         isMuted: Boolean,
         isSpeaking: Boolean,
+        isTypingRtt: Boolean,
         screenShareVideoStreamModel: VideoStreamModel? = null,
         cameraVideoStreamModel: VideoStreamModel? = null,
         modifiedTimestamp: Number,
-        speakingTimestamp: Number,
     ) = ParticipantInfoModel(
         displayName,
         userIdentifier,
         isMuted,
         false,
         isSpeaking,
+        isTypingRtt,
         ParticipantStatus.CONNECTED,
         screenShareVideoStreamModel,
         cameraVideoStreamModel,
         modifiedTimestamp,
-
     )
 }

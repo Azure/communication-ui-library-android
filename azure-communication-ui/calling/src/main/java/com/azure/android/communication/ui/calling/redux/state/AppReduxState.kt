@@ -90,18 +90,20 @@ internal class AppReduxState(
         mediaCallDiagnostic = null
     )
 
-    override var toastNotificationState: ToastNotificationState = ToastNotificationState(null)
+    override var toastNotificationState: ToastNotificationState = ToastNotificationState(emptyList())
 
     override var captionsState: CaptionsState = CaptionsState(isCaptionsUIEnabled = showCaptionsUI)
 
     override var callScreenInfoHeaderState: CallScreenInfoHeaderState = CallScreenInfoHeaderState(
         title = localOptions?.callScreenOptions?.headerViewData?.title,
         subtitle = localOptions?.callScreenOptions?.headerViewData?.subtitle,
+        /* <CALL_START_TIME> */
+        // By default display call duration until Contoso set to false
+        showCallDuration = localOptions?.callScreenOptions?.headerViewData?.showCallDuration ?: true,
+        /* </CALL_START_TIME> */
     )
 
-    /* <RTT_POC>
     override var rttState = RttState()
-    </RTT_POC> */
 
     override var buttonState: ButtonState = ButtonState(
         callScreenCameraButtonState = DefaultButtonState(
@@ -161,7 +163,6 @@ internal class AppReduxState(
                 drawableId = it.drawableId,
             )
         } ?: emptyList(),
-        /* <CALL_SCREEN_HEADER_CUSTOM_BUTTONS:0> */
         callScreenHeaderCustomButtonsState = localOptions?.callScreenOptions?.headerViewData?.customButtons?.map {
             CustomButtonState(
                 id = it.id,
@@ -171,6 +172,11 @@ internal class AppReduxState(
                 drawableId = it.drawableId,
             )
         } ?: emptyList()
-        /* </CALL_SCREEN_HEADER_CUSTOM_BUTTONS> */
+    )
+
+    override var deviceConfigurationState = DeviceConfigurationState(
+        isSoftwareKeyboardVisible = false,
+        isTablet = false,
+        isPortrait = false,
     )
 }

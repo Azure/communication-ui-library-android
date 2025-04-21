@@ -18,8 +18,10 @@ internal enum class ToastNotificationKind {
     CAPTIONS_FAILED_TO_STOP,
     CAPTIONS_FAILED_TO_SET_SPOKEN_LANGUAGE,
     CAPTIONS_FAILED_TO_SET_CAPTION_LANGUAGE,
+    MUTED,
+    UNMUTED
 }
 
 internal data class ToastNotificationState(
-    val kind: ToastNotificationKind?,
+    val kinds: List<ToastNotificationKind>,
 )

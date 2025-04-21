@@ -4,8 +4,7 @@
   -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:color="?attr/azure_communication_ui_calling_primary_color" android:state_focused="true" android:state_enabled="true" app:azure_communication_ui_calling_state_setup_camera_on="false" />
-    <item android:color="?attr/azure_communication_ui_calling_primary_color" android:state_focused="true" android:state_enabled="true" app:azure_communication_ui_calling_state_setup_camera_on="true" />
+    <item android:color="?attr/azure_communication_ui_calling_primary_color" android:state_focused="true" android:state_enabled="true" />
     <item android:color="@color/azure_communication_ui_calling_color_on_surface_disabled" android:state_focused="true" android:state_enabled="false" />
 
     <item android:color="@color/azure_communication_ui_calling_color_on_surface" android:state_enabled="true" app:azure_communication_ui_calling_state_setup_camera_on="false" />

@@ -15,6 +15,7 @@ import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
 import com.azure.android.communication.ui.calling.utilities.BottomCellItemType
 import com.azure.android.communication.ui.calling.utilities.LocaleHelper.Companion.getLocaleDisplayName
+import com.azure.android.communication.ui.calling.utilities.implementation.CompositeDrawerDialog
 import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -83,7 +84,11 @@ internal class CaptionsLanguageSelectionListView(
     }
 
     private fun initializeDrawer() {
-        menuDrawer = DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM)
+        menuDrawer = CompositeDrawerDialog(
+            context,
+            DrawerDialog.BehaviorType.BOTTOM,
+            R.string.azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label,
+        )
         menuDrawer.setContentView(this)
         menuDrawer.setOnDismissListener {
             viewModel.close()
@@ -99,19 +104,20 @@ internal class CaptionsLanguageSelectionListView(
 
     private fun getBottomCellItems(): List<BottomCellItem> {
         val items = mutableListOf<BottomCellItem>()
-        viewModel.languagesListStateFlow.value.forEach { language ->
+        viewModel.languagesListStateFlow.value.forEachIndexed { index, language ->
+            val contentDescription = context.getString(
+                R.string.azure_communication_ui_calling_list_item,
+                getLocaleDisplayName(language),
+                (index + 1),
+                viewModel.languagesListStateFlow.value.size,
+            )
+
             items.add(
                 BottomCellItem(
-                    icon = null,
                     title = getLocaleDisplayName(language),
-                    "",
-                    null,
-                    null,
-                    null,
-                    language == viewModel.updateActiveLanguageStateFlow.value,
-                    null,
-                    null,
-                    BottomCellItemType.BottomMenuActionNoIcon,
+                    contentDescription = contentDescription,
+                    isChecked = language == viewModel.updateActiveLanguageStateFlow.value,
+                    itemType = BottomCellItemType.BottomMenuActionNoIcon,
                     onClickAction = {
                         viewModel.setActiveLanguage(language)
                     }
@@ -120,23 +126,14 @@ internal class CaptionsLanguageSelectionListView(
         }
         if (viewModel.languageSelectionTypeStateFlow != null) {
             items.add(
-                0,
-                BottomCellItem(
-                    icon = null,
+                index = 0,
+                element = BottomCellItem(
                     title = if (viewModel.languageSelectionTypeStateFlow == LanguageSelectionType.CAPTION) {
                         context.getString(R.string.azure_communication_ui_calling_captions_caption_language_title)
                     } else {
                         context.getString(R.string.azure_communication_ui_calling_captions_spoken_language_title)
                     },
-                    "",
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    isOnHold = null,
-                    BottomCellItemType.BottomMenuCenteredTitle,
-                    onClickAction = null
+                    itemType = BottomCellItemType.BottomMenuCenteredTitle,
                 )
             )
         }

@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.utilities
 
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.azure.android.communication.ui.calling.redux.Store
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -30,7 +31,7 @@ internal fun <T> Pair<LifecycleCoroutineScope, Store<T>>.collect(
     second.collect(first, function)
 
 // We also type launch way to much, this will let it be clean.
-internal fun LifecycleCoroutineScope.launchAll(vararg blocks: suspend () -> Unit) {
+internal fun CoroutineScope.launchAll(vararg blocks: suspend () -> Unit) {
     launch {
         blocks.forEach { block ->
             launch { block() }

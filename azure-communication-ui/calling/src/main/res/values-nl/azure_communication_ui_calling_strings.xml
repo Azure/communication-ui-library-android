@@ -8,6 +8,7 @@
     <string name="azure_communication_ui_calling_audio_device_drawer_speaker">Luidspreker</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_bluetooth">Bluetooth</string>
     <string name="azure_communication_ui_calling_audio_device_drawer_headphone">Headset</string>
+    <string name="azure_communication_ui_calling_audio_device_drawer_accessibility_label">Apparaatopties. Knop Sluiten.</string>
     <string name="azure_communication_ui_calling_switch_camera_button_front">Camera aan voorzijde ingeschakeld, overschakelen naar camera aan achterzijde</string>
     <string name="azure_communication_ui_calling_switch_camera_button_back">Camera aan achterzijde ingeschakeld, overschakelen naar camera aan voorzijde</string>
     <string name="azure_communication_ui_calling_setup_audio_device_select_content_description">Audioapparaat %1$s selecteren</string>
@@ -48,7 +49,7 @@
     <string name="azure_communication_ui_calling_view_info_header_call_with_1_person">Gesprek met 1 persoon</string>
     <string name="azure_communication_ui_calling_view_info_header_call_with_n_people">Bellen met %1$d personen</string>
     <string name="azure_communication_ui_calling_view_go_back">Terug</string>
-    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant">(ik)</string>
+    <string name="azure_communication_ui_calling_view_participant_drawer_local_participant_format">%1$s (ik)</string>
     <string name="azure_communication_ui_calling_view_participant_drawer_unnamed">Naamloze deelnemer</string>
     <string name="azure_communication_ui_calling_view_leave_call">Gesprek verlaten?</string>
     <string name="azure_communication_ui_calling_view_leave_call_button_text">Verlaten</string>
@@ -68,6 +69,12 @@
     <string name="azure_communication_ui_calling_view_share_diagnostics">Diagnostische gegevens delen</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_title">Diagnostische gegevens</string>
     <string name="azure_communication_ui_calling_view_share_diagnostics_description">Knop Diagnostische gegevens delen</string>
+    <string name="azure_communication_ui_calling_view_call_with_accessibility_label">Bellen met: %1$s</string>
+    <string name="azure_communication_ui_calling_view_participant_list">Lijst van deelnemers</string>
+    <string name="azure_communication_ui_calling_view_more_menu_list_accessibility_label">Meer opties. Knop Sluiten.</string>
+    <string name="azure_communication_ui_calling_view_participant_list_accessibility_label">Lijst van deelnemers. Knop Sluiten.</string>
+    <string name="azure_communication_ui_calling_view_captions_menu_list_accessibility_label">Bijschriften &amp; RTT-menu. Knop Sluiten.</string>
+    <string name="azure_communication_ui_calling_view_captions_language_menu_list_accessibility_label">Menu gesproken taal. Knop Sluiten.</string>
 
     <!--    Compliance Banner-->
     <string name="azure_communication_ui_calling_view_banner_recording_started"><b>Opname is gestart.</b> Door deel te nemen geeft
@@ -93,7 +100,7 @@
     <!--    PopUp warning-->
     <string name="azure_communication_ui_calling_snack_bar_button_dismiss">Sluiten</string>
     <string name="azure_communication_ui_calling_alert_title">Waarschuwing</string>
-    <string name="azure_communication_ui_calling_call_state_error_call_end">Mogelijk bent u uit de vergadering verwijderd of is de verbinding verbroken. Probeer opnieuw mee te doen.</string>
+    <string name="azure_communication_ui_calling_call_end_with_error">U bent uit de oproep verwijderd vanwege een fout of een verbroken verbinding. Probeer opnieuw deel te nemen aan het gesprek.</string>
     <string name="azure_communication_ui_calling_snack_bar_text_error_call_join">Kan niet deelnemen aan de oproep vanwege een fout.</string>
     <string name="azure_communication_ui_calling_call_state_evicted">U bent verwijderd uit het gesprek.</string>
     <string name="azure_communication_ui_calling_no_connection_available">Kan niet deelnemen aan gesprek. Controleer de netwerkverbinding.</string>
@@ -157,6 +164,7 @@
     <string name="azure_communication_ui_calling_report_issue_title">Probleem melden</string>
     <string name="azure_communication_ui_calling_logs_attach_notice">Logboeken worden automatisch bijgevoegd.</string>
     <string name="azure_communication_ui_calling_privacy_policy_label">Privacybeleid</string>
+    <string name="azure_communication_ui_calling_privacy_policy_label_accessibility">Privacybeleid. Koppeling.</string>
     <string name="azure_communication_ui_calling_describe_your_issue_hint_text">Beschrijf uw probleem...</string>
     <string name="azure_communication_ui_calling_cancel_button_label">Annuleren</string>
     <string name="azure_communication_ui_calling_attach_screenshot">Schermopname bijvoegen</string>
@@ -187,11 +195,30 @@
     <!--    Captions-->
     <string name="azure_communication_ui_calling_live_captions_title">Live-ondertitels</string>
     <string name="azure_communication_ui_calling_captions_spoken_language_title">Gesproken taal</string>
+    <string name="azure_communication_ui_calling_list_item">%1$s. %2$d van %3$d</string>
     <string name="azure_communication_ui_calling_captions_caption_language_title">Taal van ondertiteling</string>
     <string name="azure_communication_ui_calling_starting_captions">Ondertitels starten...</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_start">Kan ondertitels niet starten</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_stop">Kan ondertitels niet stoppen</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_spoken_language">Kan de gesproken talen niet wijzigen</string>
     <string name="azure_communication_ui_calling_error_captions_failed_to_set_caption_language">Kan de taal van de ondertiteling niet wijzigen</string>
-
+    <string name="azure_communication_ui_calling_captions_rtt_menu">Bijschriften &amp; RTT</string>
+    <string name="azure_communication_ui_calling_rtt_info">Realtime-tekst (RTT) is ingeschakeld voor de hele duur van deze vergadering en wordt gezien door alle deelnemers. <a href="https://learn.microsoft.com/en-us/azure/communication-services/concepts/voice-video-calling/real-time-text">Meer informatie</a></string>
+    <string name="azure_communication_ui_calling_rtt_info_accessibility">Realtime-tekst (RTT) is ingeschakeld voor de hele duur van deze vergadering en wordt gezien door alle deelnemers. Meer informatie. Verbinden</string>
+    <string name="azure_communication_ui_calling_rtt">RTT</string>
+    <string name="azure_communication_ui_calling_rtt_message_sent">Bericht verzonden</string>
+    <string name="azure_communication_ui_calling_rtt_typing">RTT typen</string>
+    <string name="azure_communication_ui_calling_captions_turn_on_rtt">RTT inschakelen voor dit gesprek</string>
+    <string name="azure_communication_ui_calling_captions_turn_on">Ondertitels inschakelen</string>
+    <string name="azure_communication_ui_calling_captions_turn_off">Ondertitels uitschakelen</string>
+    <string name="azure_communication_ui_calling_captions_is_on">Ondertiteling is aan</string>
+    <string name="azure_communication_ui_calling_captions_is_off">Ondertiteling is uit</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_title">RTT inschakelen?</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_message">Typen in realtime (real-time text of RTT) wordt ingeschakeld voor iedereen in het gesprek.</string>
+    <string name="azure_communication_ui_calling_view_rtt_confirmation_confirm">Inschakelen</string>
+    <string name="azure_communication_ui_calling_rtt_header">Real-time tekst</string>
+    <string name="azure_communication_ui_calling_captions_header">Ondertitels</string>
+    <string name="azure_communication_ui_calling_maximize_captions_and_rtt">Bijschriften en RTT maximaliseren</string>
+    <string name="azure_communication_ui_calling_minimize_captions_and_rtt">Bijschriften en RTT minimaliseren</string>
+    <string name="azure_communication_ui_calling_rtt_edit_text_hint">Bericht in realtime typen</string>
 </resources>
