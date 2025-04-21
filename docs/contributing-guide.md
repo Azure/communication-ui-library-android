@@ -24,9 +24,7 @@ Begin by cloning the Repo: [https://github.com/Azure/communication-ui-library-an
 
 ### Running a Sample application
 
-For details on development guidelines and instructions on how to build and run the samples, visit the [Demo App](../azure-communication-ui/azure-communication-ui-demo-app)
-
-
+For details on development guidelines and instructions on how to build and run the samples, visit the [Demo App](../azure-communication-ui/demo-app)
 
 ## 2. Submitting a PR
 
