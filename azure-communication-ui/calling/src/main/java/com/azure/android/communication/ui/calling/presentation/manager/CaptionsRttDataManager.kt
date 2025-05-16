@@ -244,7 +244,7 @@ internal class CaptionsRttDataManager(
             Instant.ofEpochMilli(lastCaption.timestamp.time),
             Instant.ofEpochMilli(newCaptionsRecord.timestamp.time)
         )
-        return duration.toMillis() > CallingFragment.MAX_CAPTIONS_PARTIAL_DATA_TIME_LIMIT
+        return !lastCaption.isFinal && duration.toMillis() > CallingFragment.MAX_CAPTIONS_PARTIAL_DATA_TIME_LIMIT
     }
 
     private suspend fun addNewCaption(data: CaptionsRttRecord) {
