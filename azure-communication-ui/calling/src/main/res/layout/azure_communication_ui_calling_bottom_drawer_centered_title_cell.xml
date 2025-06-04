@@ -15,6 +15,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/azure_communication_ui_calling_image_button"
         app:srcCompat="@drawable/azure_communication_ui_calling_ic_fluent_speaker_2_24_filled_composite_button_enabled"
         />
     <TextView

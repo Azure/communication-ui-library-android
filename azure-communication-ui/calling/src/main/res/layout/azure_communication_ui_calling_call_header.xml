@@ -32,6 +32,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
         android:backgroundTint="@color/azure_communication_ui_calling_color_button_background_transparent"
+        android:background="@drawable/azure_communication_ui_calling_image_button"
         android:contentDescription="@string/azure_communication_ui_calling_view_go_back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
