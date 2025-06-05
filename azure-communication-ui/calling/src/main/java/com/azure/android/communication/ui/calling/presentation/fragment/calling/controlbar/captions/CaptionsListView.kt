@@ -20,7 +20,6 @@ import com.azure.android.communication.ui.calling.utilities.LocaleHelper
 import com.azure.android.communication.ui.calling.utilities.implementation.CompositeDrawerDialog
 import com.azure.android.communication.ui.calling.utilities.launchAll
 import com.microsoft.fluentui.drawer.DrawerDialog
-import kotlinx.coroutines.flow.collect
 
 @SuppressLint("ViewConstructor")
 internal class CaptionsListView(
