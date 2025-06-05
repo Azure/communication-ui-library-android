@@ -8,6 +8,7 @@
     android:layout_height="wrap_content"
     android:minHeight="48dp"
     android:focusable="true"
+    android:background="@drawable/azure_communication_ui_calling_image_button"
     >
 
     <ImageView
