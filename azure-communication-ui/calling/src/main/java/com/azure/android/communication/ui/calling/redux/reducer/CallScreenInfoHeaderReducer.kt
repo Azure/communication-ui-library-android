@@ -17,11 +17,11 @@ internal class CallScreenInformationHeaderReducerImpl : CallScreenInformationHea
             is CallScreenInfoHeaderAction.UpdateSubtitle -> {
                 state.copy(subtitle = action.subtitle)
             }
-            /* <CALL_START_TIME> */
+            /* <CALL_START_TIME>
             is CallScreenInfoHeaderAction.UpdateShowCallDuration -> {
                 state.copy(showCallDuration = action.showCallDuration)
             }
-            /* </CALL_START_TIME> */
+            </CALL_START_TIME> */
             else -> state
         }
     }
