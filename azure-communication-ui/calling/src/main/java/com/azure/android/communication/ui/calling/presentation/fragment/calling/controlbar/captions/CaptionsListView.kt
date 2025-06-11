@@ -243,7 +243,7 @@ internal class CaptionsListView(
     }
 
     private fun showStartRttConfirm() {
-        val dialog = AlertDialog.Builder(context, R.style.AzureCommunicationUICalling_AlertDialog_Theme)
+        val dialog = AlertDialog.Builder(context)
             .setTitle(context.getString(R.string.azure_communication_ui_calling_view_rtt_confirmation_title))
             .setMessage(context.getString(R.string.azure_communication_ui_calling_view_rtt_confirmation_message))
             .setPositiveButton(
@@ -254,7 +254,14 @@ internal class CaptionsListView(
             .setNegativeButton(
                 context.getString(R.string.azure_communication_ui_calling_notification_dismiss_accessibility_label)
             ) { _, _ -> }
-        rttConfirmDialog = dialog.create()
-        rttConfirmDialog.show()
+            .create()
+        dialog.setOnShowListener {
+            val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            positiveButton.setBackgroundResource(R.drawable.azure_communication_ui_calling_image_button)
+
+            val negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+            negativeButton.setBackgroundResource(R.drawable.azure_communication_ui_calling_image_button)
+        }
+        dialog.show()
     }
 }
