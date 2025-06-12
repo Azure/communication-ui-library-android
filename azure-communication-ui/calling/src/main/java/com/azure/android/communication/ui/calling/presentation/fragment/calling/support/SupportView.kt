@@ -25,6 +25,7 @@ import com.microsoft.fluentui.drawer.DrawerDialog
 import com.microsoft.fluentui.widget.Button
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collect
 
 /**
  * SupportView is a custom view that is used to display the support form.
@@ -64,7 +65,7 @@ internal class SupportView : ConstraintLayout {
     fun start(viewModel: SupportViewModel, viewLifecycleOwner: LifecycleOwner) {
         // Text Changed, Submit, Cancel Buttons
         bindViewInputs(viewModel)
-        if (Build.VERSION.SDK_INT >= 35) {
+        if (context.applicationInfo.targetSdkVersion >= 35) {
             ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
                 val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemGestures())
                 view.updatePadding(0, 0, 0, insets.bottom + 106)

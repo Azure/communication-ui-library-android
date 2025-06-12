@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.calling.utilities.implementation;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -46,7 +45,7 @@ public class CompositeDrawerDialog extends DrawerDialog {
 
     private void onShow() {
         final View drawer = findViewById(R.id.drawer_container);
-        if (Build.VERSION.SDK_INT >= 35) {
+        if (drawer.getContext().getApplicationInfo().targetSdkVersion >= 35) {
             final RecyclerView recyclerView = findViewById(R.id.bottom_drawer_table);
             if (recyclerView == null) {
                 return;
