@@ -1,4 +1,9 @@
 # Azure Communication UI Calling Release History
+## 1.14.1-beta.1 (2025-06-12)
+
+### Bugfixes
+- Edge-to-edge Android API 35 support
+
 ## 1.14.0 (2025-04-17)
 
 ### Features
