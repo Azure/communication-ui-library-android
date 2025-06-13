@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_VIEW
 import android.net.Uri
-import android.os.Build
 import android.util.AttributeSet
 import android.widget.EditText
 import androidx.appcompat.widget.AppCompatTextView
@@ -25,7 +24,6 @@ import com.microsoft.fluentui.drawer.DrawerDialog
 import com.microsoft.fluentui.widget.Button
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.flow.collect
 
 /**
  * SupportView is a custom view that is used to display the support form.
