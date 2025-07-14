@@ -27,7 +27,7 @@ android {
 ```groovy
 dependencies {
     ...
-    implementation 'com.azure.android:azure-communication-ui-calling:1.11.0'
+    implementation 'com.azure.android:azure-communication-ui-calling:1.14.2'
     ...
 }
 ```
