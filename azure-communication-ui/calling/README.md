@@ -4,7 +4,7 @@
 
 ## Latest Release
 
-- [1.14.2 release](https://github.com/Azure/communication-ui-library-android/releases/tag/calling-v1.14.2)
+- [Latest release](https://github.com/Azure/communication-ui-library-android/releases?q=calling&expanded=true)
 
 ## Getting Started
 
@@ -27,7 +27,7 @@ android {
 ```groovy
 dependencies {
     ...
-    implementation 'com.azure.android:azure-communication-ui-calling:1.14.2'
+    implementation 'com.azure.android:azure-communication-ui-calling:+'
     ...
 }
 ```
