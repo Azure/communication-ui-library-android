@@ -191,7 +191,9 @@ internal class ParticipantListView(
                         remoteParticipant.status
                     )
                 )
-            } else if (remoteParticipant.status != ParticipantStatus.DISCONNECTED) {
+            } else {
+                // Include all participants except those explicitly in DISCONNECTED state
+                // This ensures participants are shown even during state transitions
                 bottomCellItemsInCallParticipants.add(
                     generateBottomCellItem(
                         finalName.ifEmpty { context.getString(R.string.azure_communication_ui_calling_view_participant_drawer_unnamed) },

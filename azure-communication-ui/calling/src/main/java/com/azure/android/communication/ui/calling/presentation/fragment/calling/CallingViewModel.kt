@@ -443,7 +443,6 @@ internal class CallingViewModel(
 
     private fun remoteParticipantsForGridView(participants: Map<String, ParticipantInfoModel>): Map<String, ParticipantInfoModel> =
         participants.filter {
-            it.value.participantStatus != ParticipantStatus.DISCONNECTED &&
                 it.value.participantStatus != ParticipantStatus.IN_LOBBY
         }
 

@@ -548,6 +548,12 @@ internal class CallingSDKEventHandler(
             }
             CallState.CONNECTED -> {
                 addParticipants(call!!.remoteParticipants)
+                // Force update all participants when connected to ensure proper state
+                remoteParticipantsInfoModelMap.forEach { (id, _) ->
+                    remoteParticipantsCacheMap[id]?.let { remoteParticipant ->
+                        remoteParticipantsInfoModelMap[id] = getInfoModelFromRemoteParticipant(remoteParticipant)
+                    }
+                }
                 onRemoteParticipantUpdated()
                 subscribeFeatures()
             }
@@ -566,6 +572,9 @@ internal class CallingSDKEventHandler(
                     CallingStateWrapper(it, callEndStatus.first, callEndStatus.second)
                 )
                 if (callState == CallState.DISCONNECTED || callState == CallState.NONE) {
+                    // Clear participant data when call ends
+                    remoteParticipantsInfoModelMap.clear()
+                    remoteParticipantsCacheMap.clear()
                     recreateFlows()
                 }
             }
@@ -674,6 +683,10 @@ internal class CallingSDKEventHandler(
             val id = addedParticipant.identifier.rawId
             if (!remoteParticipantsCacheMap.containsKey(id)) {
                 onParticipantAdded(id, addedParticipant)
+            } else {
+                // Update existing participant in case they were marked as disconnected
+                remoteParticipantsInfoModelMap[id] = getInfoModelFromRemoteParticipant(addedParticipant)
+                onRemoteParticipantPropertyChange(id)
             }
         }
 
