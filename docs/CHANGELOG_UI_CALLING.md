@@ -1,4 +1,7 @@
 # Azure Communication UI Calling Release History
+## 1.14.3-beta.1 (2025-07-21)
+### Bug Fixes 
+- Fix the rejoin the call, missing remote participant
 
 ## 1.14.2 (2025-06-17)
 ### Bug Fixes 
