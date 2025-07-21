@@ -57,9 +57,9 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.launch
-/*  <CALL_START_TIME> */
+/*  <CALL_START_TIME>
 import java.util.Date
-/* </CALL_START_TIME> */
+</CALL_START_TIME> */
 import java.util.concurrent.CompletableFuture
 import com.azure.android.communication.calling.CapabilitiesChangedEvent as SdkCapabilitiesChangedEvent
 
@@ -78,9 +78,9 @@ internal class CallingSDKEventHandler(
     private var isTranscribingSharedFlow = MutableSharedFlow<Boolean>()
     private var dominantSpeakersSharedFlow = MutableSharedFlow<DominantSpeakersInfo>()
     private var callingStateWrapperSharedFlow = MutableSharedFlow<CallingStateWrapper>()
-    /*  <CALL_START_TIME> */
+    /*  <CALL_START_TIME>
     private var callStartTimeSharedFlow = MutableSharedFlow<Date>()
-    /* </CALL_START_TIME> */
+    </CALL_START_TIME> */
     private var callParticipantRoleSharedFlow = MutableSharedFlow<ParticipantRole?>()
     private var totalRemoteParticipantCountSharedFlow = MutableSharedFlow<Int>()
     private var callIdSharedFlow = MutableStateFlow<String?>(null)
@@ -139,9 +139,9 @@ internal class CallingSDKEventHandler(
 
     fun getRemoteParticipantsMap(): Map<String, RemoteParticipant> = remoteParticipantsCacheMap
 
-    /*  <CALL_START_TIME> */
+    /*  <CALL_START_TIME>
     fun getCallStartTimeSharedFlow(): SharedFlow<Date> = callStartTimeSharedFlow
-    /* </CALL_START_TIME> */
+    </CALL_START_TIME> */
 
     fun getCallingStateWrapperSharedFlow(): SharedFlow<CallingStateWrapper> =
         callingStateWrapperSharedFlow
@@ -197,11 +197,11 @@ internal class CallingSDKEventHandler(
         onCaptionsReceived(it.into())
     }
 
-    /*  <CALL_START_TIME> */
+    /*  <CALL_START_TIME>
     private val onStartTimeUpdated = PropertyChangedListener {
         onStartTimeChange()
     }
-    /* </CALL_START_TIME> */
+    </CALL_START_TIME> */
     // endregion
 
     @OptIn(FlowPreview::class)
@@ -232,9 +232,9 @@ internal class CallingSDKEventHandler(
         call.addOnRemoteParticipantsUpdatedListener(onParticipantsUpdated)
         call.addOnRoleChangedListener(onRoleChanged)
         call.addOnTotalParticipantCountChangedListener(onTotalParticipantCountChanged)
-        /*  <CALL_START_TIME> */
+        /*  <CALL_START_TIME>
         call.addOnStartTimeUpdatedListener(onStartTimeUpdated)
-        /* </CALL_START_TIME> */
+        </CALL_START_TIME> */
         recordingFeature = call.feature { RecordingCallFeature::class.java }
         recordingFeature.addOnIsRecordingActiveChangedListener(onRecordingChanged)
         transcriptionFeature = call.feature { TranscriptionCallFeature::class.java }
@@ -274,9 +274,9 @@ internal class CallingSDKEventHandler(
         call?.removeOnRoleChangedListener(onRoleChanged)
         call?.removeOnTotalParticipantCountChangedListener(onTotalParticipantCountChanged)
         call?.removeOnIsMutedChangedListener(onIsMutedChanged)
-        /*  <CALL_START_TIME> */
+        /*  <CALL_START_TIME>
         call?.removeOnStartTimeUpdatedListener(onStartTimeUpdated)
-        /* </CALL_START_TIME> */
+        </CALL_START_TIME> */
         unsubscribeFromUserFacingDiagnosticsEvents()
         rttFeature.removeOnInfoReceivedListener(onRttEntryUpdated)
     }
@@ -966,7 +966,7 @@ internal class CallingSDKEventHandler(
         }
     }
 
-    /*  <CALL_START_TIME> */
+    /*  <CALL_START_TIME>
     private fun onStartTimeChange() {
         coroutineScope.launch {
             call?.startTime?.let {
@@ -974,5 +974,5 @@ internal class CallingSDKEventHandler(
             }
         }
     }
-    /* </CALL_START_TIME> */
+    </CALL_START_TIME> */
 }
