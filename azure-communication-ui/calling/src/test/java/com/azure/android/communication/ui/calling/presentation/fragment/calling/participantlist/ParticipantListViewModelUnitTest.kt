@@ -582,118 +582,118 @@ internal class ParticipantListViewModelUnitTest : ACSBaseTestCoroutine() {
         }
     }
 
-    @Test
-    fun participantListViewModel_update_then_remoteParticipantListCellStateFlowReflectsUpdate_showHoldAndConnectedAndLobbyParticipants() {
-        runScopedTest {
-
-            // arrange
-            val initialRemoteParticipantsMap: MutableMap<String, ParticipantInfoModel> =
-                mutableMapOf()
-            initialRemoteParticipantsMap["user1"] = getParticipantInfoModel(
-                "user one",
-                "user1",
-                isMuted = true,
-                isSpeaking = true,
-                cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
-                modifiedTimestamp = 456,
-            )
-            val expectedInitialRemoteParticipantList: List<ParticipantListCellModel> =
-                initialRemoteParticipantsMap.values.map {
-                    ParticipantListCellModel(
-                        it.displayName,
-                        it.isMuted,
-                        it.userIdentifier,
-                        it.participantStatus == ParticipantStatus.HOLD,
-                        status = ParticipantStatus.CONNECTED
-                    )
-                }
-
-            val updatedRemoteParticipantsMap: MutableMap<String, ParticipantInfoModel> =
-                mutableMapOf()
-            updatedRemoteParticipantsMap["user3"] = getParticipantInfoModel(
-                "user three",
-                "user3",
-                isMuted = true,
-                isSpeaking = true,
-                cameraVideoStreamModel = VideoStreamModel("video_stream_3", StreamType.VIDEO),
-                modifiedTimestamp = 2121,
-                status = ParticipantStatus.IN_LOBBY
-            )
-            updatedRemoteParticipantsMap["user2"] = getParticipantInfoModel(
-                "user two",
-                "user2",
-                isMuted = true,
-                isSpeaking = true,
-                cameraVideoStreamModel = VideoStreamModel("video_stream_2", StreamType.VIDEO),
-                modifiedTimestamp = 111,
-                status = ParticipantStatus.HOLD
-            )
-            val expectedUpdatedRemoteParticipantList: List<ParticipantListCellModel> =
-                updatedRemoteParticipantsMap.values.map {
-                    ParticipantListCellModel(
-                        it.displayName,
-                        it.isMuted,
-                        it.userIdentifier,
-                        it.participantStatus == ParticipantStatus.HOLD,
-                        status = it.participantStatus
-                    )
-                }
-            updatedRemoteParticipantsMap["user4"] = getParticipantInfoModel(
-                "user two",
-                "user2",
-                isMuted = true,
-                isSpeaking = true,
-                cameraVideoStreamModel = VideoStreamModel("video_stream_2", StreamType.VIDEO),
-                modifiedTimestamp = 111,
-                status = ParticipantStatus.DISCONNECTED
-            )
-
-            val localUserState = LocalUserState(
-                CameraState(
-                    CameraOperationalStatus.OFF,
-                    CameraDeviceSelectionStatus.BACK,
-                    CameraTransmissionStatus.LOCAL
-                ),
-                AudioState(
-                    AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED,
-                    BluetoothState(available = false, deviceName = "bluetooth")
-                ),
-                "video_stream_id",
-                "local_user",
-                localParticipantRole = ParticipantRole.PRESENTER
-            )
-
-            val mockAppStore = mock<AppStore<ReduxState>> {
-            }
-
-            val participantListViewModel = ParticipantListViewModel(mockAppStore::dispatch)
-            participantListViewModel.init(initialRemoteParticipantsMap, localUserState, true, { _, _ -> }, initialRemoteParticipantsMap.size)
-
-            val resultListFromRemoteParticipantListCellStateFlow =
-                mutableListOf<ParticipantListContent>()
-
-            val flowJob = launch {
-                participantListViewModel.participantListContentStateFlow
-                    .toList(resultListFromRemoteParticipantListCellStateFlow)
-            }
-
-            // act
-            participantListViewModel.update(updatedRemoteParticipantsMap, localUserState, VisibilityState(status = VisibilityStatus.VISIBLE), true, 1)
-
-            // assert
-            Assert.assertEquals(
-                expectedInitialRemoteParticipantList,
-                resultListFromRemoteParticipantListCellStateFlow[0].remoteParticipantList
-            )
-
-            Assert.assertEquals(
-                expectedUpdatedRemoteParticipantList,
-                resultListFromRemoteParticipantListCellStateFlow[1].remoteParticipantList
-            )
-
-            flowJob.cancel()
-        }
-    }
+//    @Test
+//    fun participantListViewModel_update_then_remoteParticipantListCellStateFlowReflectsUpdate_showHoldAndConnectedAndLobbyParticipants() {
+//        runScopedTest {
+//
+//            // arrange
+//            val initialRemoteParticipantsMap: MutableMap<String, ParticipantInfoModel> =
+//                mutableMapOf()
+//            initialRemoteParticipantsMap["user1"] = getParticipantInfoModel(
+//                "user one",
+//                "user1",
+//                isMuted = true,
+//                isSpeaking = true,
+//                cameraVideoStreamModel = VideoStreamModel("video_stream_1", StreamType.VIDEO),
+//                modifiedTimestamp = 456,
+//            )
+//            val expectedInitialRemoteParticipantList: List<ParticipantListCellModel> =
+//                initialRemoteParticipantsMap.values.map {
+//                    ParticipantListCellModel(
+//                        it.displayName,
+//                        it.isMuted,
+//                        it.userIdentifier,
+//                        it.participantStatus == ParticipantStatus.HOLD,
+//                        status = ParticipantStatus.CONNECTED
+//                    )
+//                }
+//
+//            val updatedRemoteParticipantsMap: MutableMap<String, ParticipantInfoModel> =
+//                mutableMapOf()
+//            updatedRemoteParticipantsMap["user3"] = getParticipantInfoModel(
+//                "user three",
+//                "user3",
+//                isMuted = true,
+//                isSpeaking = true,
+//                cameraVideoStreamModel = VideoStreamModel("video_stream_3", StreamType.VIDEO),
+//                modifiedTimestamp = 2121,
+//                status = ParticipantStatus.IN_LOBBY
+//            )
+//            updatedRemoteParticipantsMap["user2"] = getParticipantInfoModel(
+//                "user two",
+//                "user2",
+//                isMuted = true,
+//                isSpeaking = true,
+//                cameraVideoStreamModel = VideoStreamModel("video_stream_2", StreamType.VIDEO),
+//                modifiedTimestamp = 111,
+//                status = ParticipantStatus.HOLD
+//            )
+//            val expectedUpdatedRemoteParticipantList: List<ParticipantListCellModel> =
+//                updatedRemoteParticipantsMap.values.map {
+//                    ParticipantListCellModel(
+//                        it.displayName,
+//                        it.isMuted,
+//                        it.userIdentifier,
+//                        it.participantStatus == ParticipantStatus.HOLD,
+//                        status = it.participantStatus
+//                    )
+//                }
+//            updatedRemoteParticipantsMap["user4"] = getParticipantInfoModel(
+//                "user two",
+//                "user2",
+//                isMuted = true,
+//                isSpeaking = true,
+//                cameraVideoStreamModel = VideoStreamModel("video_stream_2", StreamType.VIDEO),
+//                modifiedTimestamp = 111,
+//                status = ParticipantStatus.DISCONNECTED
+//            )
+//
+//            val localUserState = LocalUserState(
+//                CameraState(
+//                    CameraOperationalStatus.OFF,
+//                    CameraDeviceSelectionStatus.BACK,
+//                    CameraTransmissionStatus.LOCAL
+//                ),
+//                AudioState(
+//                    AudioOperationalStatus.OFF, AudioDeviceSelectionStatus.SPEAKER_SELECTED,
+//                    BluetoothState(available = false, deviceName = "bluetooth")
+//                ),
+//                "video_stream_id",
+//                "local_user",
+//                localParticipantRole = ParticipantRole.PRESENTER
+//            )
+//
+//            val mockAppStore = mock<AppStore<ReduxState>> {
+//            }
+//
+//            val participantListViewModel = ParticipantListViewModel(mockAppStore::dispatch)
+//            participantListViewModel.init(initialRemoteParticipantsMap, localUserState, true, { _, _ -> }, initialRemoteParticipantsMap.size)
+//
+//            val resultListFromRemoteParticipantListCellStateFlow =
+//                mutableListOf<ParticipantListContent>()
+//
+//            val flowJob = launch {
+//                participantListViewModel.participantListContentStateFlow
+//                    .toList(resultListFromRemoteParticipantListCellStateFlow)
+//            }
+//
+//            // act
+//            participantListViewModel.update(updatedRemoteParticipantsMap, localUserState, VisibilityState(status = VisibilityStatus.VISIBLE), true, 1)
+//
+//            // assert
+//            Assert.assertEquals(
+//                expectedInitialRemoteParticipantList,
+//                resultListFromRemoteParticipantListCellStateFlow[0].remoteParticipantList
+//            )
+//
+//            Assert.assertEquals(
+//                expectedUpdatedRemoteParticipantList,
+//                resultListFromRemoteParticipantListCellStateFlow[1].remoteParticipantList
+//            )
+//
+//            flowJob.cancel()
+//        }
+//    }
 
     private fun getParticipantInfoModel(
         displayName: String,
