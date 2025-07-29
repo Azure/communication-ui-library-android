@@ -3,19 +3,21 @@
 
 package com.azure.android.communication.ui.calling.configuration.events
 
+/*  <CALL_START_TIME> */
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
-import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
-import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
-import com.azure.android.communication.ui.calling.models.CallCompositePictureInPictureChangedEvent
-import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
-import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
-import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsReceivedEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallCancelledEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallEvent
+import com.azure.android.communication.ui.calling.models.CallCompositePictureInPictureChangedEvent
+import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantLeftEvent
-/*  <CALL_START_TIME> */
+import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent
 import java.util.Date
+
 /* </CALL_START_TIME> */
 
 internal class CallCompositeEventsHandler {
@@ -49,6 +51,8 @@ internal class CallCompositeEventsHandler {
     private val callStartTimeUpdatedEventHandlers =
         mutableSetOf<CallCompositeEventHandler<Date>>()
     /* </CALL_START_TIME> */
+
+    private val onCaptionsReceivedHandlers = mutableSetOf<CallCompositeEventHandler<CallCompositeCaptionsReceivedEvent>>()
 
     fun getOnErrorHandlers() = errorHandlers.asIterable()
 
@@ -145,4 +149,14 @@ internal class CallCompositeEventsHandler {
         callStartTimeUpdatedEventHandlers.remove(eventHandler)
     }
     /* </CALL_START_TIME> */
+
+    fun addOnCaptionsReceivedEventHandler(handler: CallCompositeEventHandler<CallCompositeCaptionsReceivedEvent>) {
+        onCaptionsReceivedHandlers.add(handler)
+    }
+
+    fun removeOnCaptionsReceivedEventHandler(handler: CallCompositeEventHandler<CallCompositeCaptionsReceivedEvent>) {
+        onCaptionsReceivedHandlers.remove(handler)
+    }
+
+    internal fun getCaptionsReceivedEventHandlers() = onCaptionsReceivedHandlers.asIterable()
 }

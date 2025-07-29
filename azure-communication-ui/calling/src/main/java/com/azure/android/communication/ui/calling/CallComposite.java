@@ -22,6 +22,7 @@ import com.azure.android.communication.ui.calling.logger.Logger;
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent;
+import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsReceivedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent;
@@ -671,6 +672,38 @@ public final class CallComposite {
     public void removeOnPictureInPictureChangedEventHandler(
             final CallCompositeEventHandler<CallCompositePictureInPictureChangedEvent> eventHandler) {
         configuration.getCallCompositeEventsHandler().removeOnMultitaskingStateChangedEventHandler(eventHandler);
+    }
+
+    /**
+     * Add on captions received event handler {@link CallCompositeEventHandler}.
+     *
+     * <pre>
+     *
+     * // add on captions received event handler
+     * callComposite.addOnCaptionsReceivedEventHandler(event -> {
+     *     // Process captions received event
+     *     System.out.println(event.getSpeakerName());
+     *     System.out.println(event.getCaptionText());
+     *     System.out.println(event.getIsFinal());
+     * });
+     *
+     * </pre>
+     *
+     * @param handler The {@link CallCompositeEventHandler}.
+     */
+    public void addOnCaptionsReceivedEventHandler(
+            final CallCompositeEventHandler<CallCompositeCaptionsReceivedEvent> handler) {
+        configuration.getCallCompositeEventsHandler().addOnCaptionsReceivedEventHandler(handler);
+    }
+
+    /**
+     * Remove on captions received event handler {@link CallCompositeEventHandler}.
+     *
+     * @param handler The {@link CallCompositeEventHandler}.
+     */
+    public void removeOnCaptionsReceivedEventHandler(
+            final CallCompositeEventHandler<CallCompositeCaptionsReceivedEvent> handler) {
+        configuration.getCallCompositeEventsHandler().removeOnCaptionsReceivedEventHandler(handler);
     }
 
     /**
