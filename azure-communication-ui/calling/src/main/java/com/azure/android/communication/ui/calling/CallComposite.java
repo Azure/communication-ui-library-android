@@ -22,7 +22,9 @@ import com.azure.android.communication.ui.calling.logger.Logger;
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateCode;
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent;
+/* <CAPTIONS_RECEIVED> */
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsReceivedEvent;
+/* </CAPTIONS_RECEIVED> */
 import com.azure.android.communication.ui.calling.models.CallCompositeDebugInfo;
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent;
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent;
@@ -674,6 +676,7 @@ public final class CallComposite {
         configuration.getCallCompositeEventsHandler().removeOnMultitaskingStateChangedEventHandler(eventHandler);
     }
 
+    /* <CAPTIONS_RECEIVED> */
     /**
      * Add on captions received event handler {@link CallCompositeEventHandler}.
      *
@@ -705,6 +708,7 @@ public final class CallComposite {
             final CallCompositeEventHandler<CallCompositeCaptionsReceivedEvent> handler) {
         configuration.getCallCompositeEventsHandler().removeOnCaptionsReceivedEventHandler(handler);
     }
+    /* </CAPTIONS_RECEIVED> */
 
     /**
      * Set {@link CallCompositeParticipantViewData}.

@@ -5,11 +5,15 @@ package com.azure.android.communication.ui.calling.presentation.manager
 
 import android.graphics.Bitmap
 import com.azure.android.communication.common.CommunicationIdentifier
+/* <CAPTIONS_RECEIVED> */
 import com.azure.android.communication.ui.calling.configuration.CallCompositeConfiguration
+/* </CAPTIONS_RECEIVED> */
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsData
 import com.azure.android.communication.ui.calling.models.CaptionsResultType
 import com.azure.android.communication.ui.calling.models.RttMessage
+/* <CAPTIONS_RECEIVED> */
 import com.azure.android.communication.ui.calling.models.createCallCompositeCaptionsReceivedEvent
+/* </CAPTIONS_RECEIVED> */
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.CallingFragment
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsRttRecord
 import com.azure.android.communication.ui.calling.presentation.fragment.calling.captions.CaptionsRttType
@@ -34,7 +38,9 @@ import java.util.Date
 import kotlin.math.min
 
 internal class CaptionsRttDataManager(
+    /* <CAPTIONS_RECEIVED> */
     private val configuration: CallCompositeConfiguration,
+    /* </CAPTIONS_RECEIVED> */
     private val callingService: CallingService,
     private val appStore: AppStore<ReduxState>,
     private val avatarViewManager: AvatarViewManager,
@@ -229,7 +235,9 @@ internal class CaptionsRttDataManager(
 
         if (lastCaptionFromSameUser != null && shouldFinalizeLastCaption(lastCaptionFromSameUser, newCaptionsRecord)) {
             lastCaptionFromSameUser = finalizeLastCaption(lastCaptionFromSameUser)
+            /* <CAPTIONS_RECEIVED> */
             notifyCaptionReceived(lastCaptionFromSameUser)
+            /* </CAPTIONS_RECEIVED> */
         }
 
         if (lastCaptionFromSameUser?.isFinal == false) {
@@ -238,11 +246,14 @@ internal class CaptionsRttDataManager(
             addNewCaption(newCaptionsRecord)
         }
 
+        /* <CAPTIONS_RECEIVED> */
         if (newCaptionsRecord.isFinal) {
             notifyCaptionReceived(newCaptionsRecord)
         }
+        /* </CAPTIONS_RECEIVED> */
     }
 
+    /* <CAPTIONS_RECEIVED> */
     private fun notifyCaptionReceived(finalizedCaptionsRecord: CaptionsRttRecord) {
         val event = createCallCompositeCaptionsReceivedEvent(
             finalizedCaptionsRecord.displayName ?: "",
@@ -256,6 +267,7 @@ internal class CaptionsRttDataManager(
                 handler.handle(event)
             }
     }
+    /* </CAPTIONS_RECEIVED> */
 
     private fun getLastCaptionFromUser(speakerRawId: String?, type: CaptionsRttType): CaptionsRttRecord? {
         return captionsAndRttMutableList.lastOrNull { it.type == type && it.speakerRawId == speakerRawId }

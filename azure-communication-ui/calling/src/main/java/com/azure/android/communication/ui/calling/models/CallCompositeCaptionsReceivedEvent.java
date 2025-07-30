@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
+/* <CAPTIONS_RECEIVED> */
 package com.azure.android.communication.ui.calling.models;
 
 /**
@@ -47,3 +47,4 @@ public class CallCompositeCaptionsReceivedEvent {
      */
     public String getLanguageCode() { return languageCode; }
 }
+/* </CAPTIONS_RECEIVED> */

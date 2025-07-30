@@ -60,7 +60,7 @@ internal fun CallCompositeButtonViewData.setVisibleChangedEventHandler(handler: 
     this.visibleChangedEventHandler = handler
 }
 
-
+/* <CAPTIONS_RECEIVED> */
 internal fun createCallCompositeCaptionsReceivedEvent(
     speakerName: String,
     speakerRawId: String,
@@ -74,4 +74,4 @@ internal fun createCallCompositeCaptionsReceivedEvent(
         languageCode
     )
 }
-
+/* </CAPTIONS_RECEIVED> */

@@ -94,7 +94,9 @@ internal class DependencyInjectionContainerImpl(
 
     override val captionsRttDataManager by lazy {
         CaptionsRttDataManager(
+            /* <CAPTIONS_RECEIVED> */
             configuration,
+            /* </CAPTIONS_RECEIVED> */
             callingService,
             appStore,
             avatarViewManager,

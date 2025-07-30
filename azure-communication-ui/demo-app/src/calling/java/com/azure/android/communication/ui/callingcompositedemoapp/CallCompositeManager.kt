@@ -378,12 +378,14 @@ class CallCompositeManager(private val context: Context) {
             )
         }
 
+        /* <CAPTIONS_RECEIVED> */
         callComposite.addOnCaptionsReceivedEventHandler {
             toast(
                 context,
                 "Captions received: speakerName: ${it.speakerName}, speakerRawId: ${it.speakerRawId}, captionText: ${it.captionText}, languageCode: ${it.languageCode}"
             )
         }
+        /* </CAPTIONS_RECEIVED> */
     }
 
     fun dismissCallComposite() {

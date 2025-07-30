@@ -3,11 +3,13 @@
 
 package com.azure.android.communication.ui.calling.configuration.events
 
-/*  <CALL_START_TIME> */
+
 import com.azure.android.communication.ui.calling.CallCompositeEventHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionChangedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeCallStateChangedEvent
+/* <CAPTIONS_RECEIVED> */
 import com.azure.android.communication.ui.calling.models.CallCompositeCaptionsReceivedEvent
+/* </CAPTIONS_RECEIVED> */
 import com.azure.android.communication.ui.calling.models.CallCompositeDismissedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeErrorEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeIncomingCallCancelledEvent
@@ -16,8 +18,8 @@ import com.azure.android.communication.ui.calling.models.CallCompositePictureInP
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantJoinedEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeRemoteParticipantLeftEvent
 import com.azure.android.communication.ui.calling.models.CallCompositeUserReportedIssueEvent
+/*  <CALL_START_TIME> */
 import java.util.Date
-
 /* </CALL_START_TIME> */
 
 internal class CallCompositeEventsHandler {
@@ -52,7 +54,9 @@ internal class CallCompositeEventsHandler {
         mutableSetOf<CallCompositeEventHandler<Date>>()
     /* </CALL_START_TIME> */
 
+    /* <CAPTIONS_RECEIVED> */
     private val onCaptionsReceivedHandlers = mutableSetOf<CallCompositeEventHandler<CallCompositeCaptionsReceivedEvent>>()
+    /* </CAPTIONS_RECEIVED> */
 
     fun getOnErrorHandlers() = errorHandlers.asIterable()
 
@@ -150,6 +154,7 @@ internal class CallCompositeEventsHandler {
     }
     /* </CALL_START_TIME> */
 
+    /* <CAPTIONS_RECEIVED> */
     fun addOnCaptionsReceivedEventHandler(handler: CallCompositeEventHandler<CallCompositeCaptionsReceivedEvent>) {
         onCaptionsReceivedHandlers.add(handler)
     }
@@ -159,4 +164,5 @@ internal class CallCompositeEventsHandler {
     }
 
     internal fun getCaptionsReceivedEventHandlers() = onCaptionsReceivedHandlers.asIterable()
+    /* </CAPTIONS_RECEIVED> */
 }
