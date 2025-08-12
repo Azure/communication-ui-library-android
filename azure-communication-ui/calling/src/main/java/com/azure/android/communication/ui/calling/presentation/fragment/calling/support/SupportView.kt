@@ -8,10 +8,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_VIEW
 import android.net.Uri
+import android.os.Build
 import android.util.AttributeSet
 import android.widget.EditText
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -20,8 +24,8 @@ import com.azure.android.communication.ui.calling.utilities.implementation.Compo
 import com.microsoft.fluentui.drawer.DrawerDialog
 import com.microsoft.fluentui.widget.Button
 import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collect
 
 /**
  * SupportView is a custom view that is used to display the support form.
@@ -61,7 +65,14 @@ internal class SupportView : ConstraintLayout {
     fun start(viewModel: SupportViewModel, viewLifecycleOwner: LifecycleOwner) {
         // Text Changed, Submit, Cancel Buttons
         bindViewInputs(viewModel)
+        if (context.applicationInfo.targetSdkVersion >= 35) {
+            ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
+                val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemGestures())
+                view.updatePadding(0, 0, 0, insets.bottom + 106)
 
+                WindowInsetsCompat.CONSUMED
+            }
+        }
         // Send Button stat
         bindViewOutputs(viewLifecycleOwner, viewModel)
     }

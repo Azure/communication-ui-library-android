@@ -5,10 +5,15 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Configuration
+import android.os.Build
 import android.view.View
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
+import androidx.core.view.updatePadding
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,9 +23,9 @@ import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
 import com.azure.android.communication.ui.calling.utilities.BottomCellItemType
 import com.microsoft.fluentui.drawer.DrawerDialog
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlin.math.max
+import kotlinx.coroutines.flow.collect
 
 @SuppressLint("ViewConstructor")
 internal class LeaveConfirmView(
@@ -74,6 +79,21 @@ internal class LeaveConfirmView(
     private fun initializeLeaveConfirmMenuDrawer() {
         leaveConfirmMenuDrawer = DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM)
         leaveConfirmMenuDrawer.setContentView(this)
+        if (context.applicationInfo.targetSdkVersion >= 35) {
+            ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
+                val orientation = resources.configuration.orientation
+                val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemGestures())
+
+                // Apply padding only in portrait orientation
+                if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    view.updatePadding(0, 0, 0, insets.bottom + 76)
+                } else {
+                    view.updatePadding(0, 0, 0, 0)
+                }
+                WindowInsetsCompat.CONSUMED
+            }
+        }
+
         leaveConfirmMenuDrawer.setOnDismissListener {
             viewModel.cancel()
         }

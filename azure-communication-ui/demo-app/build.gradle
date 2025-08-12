@@ -13,11 +13,11 @@ if (properties.containsKey("ENABLE_GOOGLE_SERVICES") && properties.getProperty("
 }
 
 android {
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.azure.android.communication.ui.callingcompositedemoapp"
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode ui_library_version_code
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
