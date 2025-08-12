@@ -1,7 +1,7 @@
 # Azure Communication UI Calling Release History
 ## 1.14.3-beta.2 (2025-08-12)
 ### Features
-- Edge-to-Edge support for Anroid 35
+- Edge-to-Edge support for Android 35
 ### Known issue
 - There appears to be a keyboard issue for RTT feature when the edge-to-edge feature is enabled.
 
