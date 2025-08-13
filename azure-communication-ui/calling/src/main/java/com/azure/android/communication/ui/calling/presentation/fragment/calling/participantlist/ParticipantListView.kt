@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.app.AlertDialog
 import android.content.Context
-import android.os.Build
 import android.view.accessibility.AccessibilityManager
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
@@ -25,7 +24,6 @@ import com.azure.android.communication.ui.calling.utilities.BottomCellItem
 import com.azure.android.communication.ui.calling.utilities.BottomCellItemType
 import com.azure.android.communication.ui.calling.utilities.implementation.CompositeDrawerDialog
 import com.microsoft.fluentui.drawer.DrawerDialog
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal class ParticipantListView(
