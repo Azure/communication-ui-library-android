@@ -20,7 +20,6 @@ import com.azure.android.communication.ui.calling.models.CallCompositeParticipan
 import com.azure.android.communication.ui.calling.presentation.VideoViewManager
 import com.azure.android.communication.ui.calling.presentation.manager.AvatarViewManager
 import com.azure.android.communication.ui.calling.service.sdk.VideoStreamRenderer
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal class ParticipantGridView : GridLayout {

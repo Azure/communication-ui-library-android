@@ -6,7 +6,6 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
-import android.os.Build
 import android.view.View
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
@@ -25,7 +24,6 @@ import com.azure.android.communication.ui.calling.utilities.BottomCellItemType
 import com.microsoft.fluentui.drawer.DrawerDialog
 import kotlinx.coroutines.launch
 import kotlin.math.max
-import kotlinx.coroutines.flow.collect
 
 @SuppressLint("ViewConstructor")
 internal class LeaveConfirmView(
