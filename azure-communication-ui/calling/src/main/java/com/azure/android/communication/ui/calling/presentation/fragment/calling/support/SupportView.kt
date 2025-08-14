@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_VIEW
 import android.net.Uri
+import android.os.Build
 import android.util.AttributeSet
 import android.widget.EditText
 import androidx.appcompat.widget.AppCompatTextView
@@ -64,16 +65,48 @@ internal class SupportView : ConstraintLayout {
     fun start(viewModel: SupportViewModel, viewLifecycleOwner: LifecycleOwner) {
         // Text Changed, Submit, Cancel Buttons
         bindViewInputs(viewModel)
-        if (context.applicationInfo.targetSdkVersion >= 35) {
-            ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
-                val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemGestures())
-                view.updatePadding(0, 0, 0, insets.bottom + 106)
-
-                WindowInsetsCompat.CONSUMED
-            }
+        if (Build.VERSION.SDK_INT >= 35) {
+            // Setup window insets handling for edge-to-edge support
+            setupWindowInsetsHandling()
         }
+
         // Send Button stat
         bindViewOutputs(viewLifecycleOwner, viewModel)
+    }
+
+    private fun setupWindowInsetsHandling() {
+        // Only apply window insets handling for API 35+ edge-to-edge support
+        if (android.os.Build.VERSION.SDK_INT >= 35) {
+            ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
+                val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+                val imeInsets = windowInsets.getInsets(WindowInsetsCompat.Type.ime())
+
+                // Apply system bar insets
+                view.updatePadding(
+                    left = insets.left,
+                    right = insets.right
+                )
+
+                // Adjust the entire view's bottom margin to push it above the keyboard
+                val layoutParams = view.layoutParams as? MarginLayoutParams
+                layoutParams?.let {
+                    it.bottomMargin = if (imeInsets.bottom > 0) {
+                        // When keyboard is visible, add margin to push content above it
+                        imeInsets.bottom
+                    } else {
+                        // When keyboard is hidden, use system bar bottom inset
+                        insets.bottom
+                    }
+                    view.layoutParams = it
+                }
+
+                // Return the insets
+                windowInsets
+            }
+
+            // Request that insets be dispatched to this view
+            ViewCompat.requestApplyInsets(this)
+        }
     }
 
     private fun bindViewInputs(viewModel: SupportViewModel) {
