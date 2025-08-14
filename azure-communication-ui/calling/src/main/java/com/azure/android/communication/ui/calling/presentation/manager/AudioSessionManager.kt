@@ -40,7 +40,8 @@ internal class AudioSessionManager(
     /*  <DEFAULT_AUDIO_MODE:0>
     private val audioSelectionMode: CallCompositeAudioSelectionMode? = null,
     </DEFAULT_AUDIO_MODE:0> */
-
+    // Optional custom detector to facilitate unit testing of wired headset logic
+    private val customHeadsetDetector: (() -> Boolean)? = null,
 ) : BluetoothProfile.ServiceListener, BroadcastReceiver() {
 
     private val audioManager by lazy { context.getSystemService(Context.AUDIO_SERVICE) as AudioManager }
@@ -67,6 +68,7 @@ internal class AudioSessionManager(
 
     private var previousAudioDeviceSelectionStatus: AudioDeviceSelectionStatus? = null
     private var priorToBluetoothAudioSelectionStatus: AudioDeviceSelectionStatus? = null
+    private var priorToHeadphoneAudioSelectionStatus: AudioDeviceSelectionStatus? = null
 
     private val btAdapter: BluetoothAdapter? get() {
         val manager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
@@ -141,7 +143,45 @@ internal class AudioSessionManager(
     }
 
     private fun updateHeadphoneStatus() {
-        store.dispatch(LocalParticipantAction.AudioDeviceHeadsetAvailable(isHeadsetActive()))
+        val isHeadphoneConnected = isHeadsetActive()
+        val audioState = store.getCurrentState().localParticipantState.audioState
+        
+        // Auto-connect to headphones if they weren't available but now are
+        // and we're not already on Bluetooth
+        if (isHeadphoneConnected && 
+            !audioState.isHeadphonePlugged && 
+            audioState.device != AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED &&
+            audioState.device != AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED) {
+            
+            // Store the current audio device selection before switching
+            priorToHeadphoneAudioSelectionStatus = audioState.device
+            
+            // Auto-select headphones
+            store.dispatch(
+                LocalParticipantAction.AudioDeviceChangeRequested(
+                    AudioDeviceSelectionStatus.RECEIVER_REQUESTED
+                )
+            )
+        }
+        
+        // Headphones disconnected - revert to previous device
+        if (!isHeadphoneConnected && 
+            audioState.isHeadphonePlugged && 
+            audioState.device == AudioDeviceSelectionStatus.RECEIVER_SELECTED) {
+            
+            // Revert to the previous audio device
+            val revertTo = when (priorToHeadphoneAudioSelectionStatus) {
+                AudioDeviceSelectionStatus.SPEAKER_SELECTED -> AudioDeviceSelectionStatus.SPEAKER_REQUESTED
+                AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED -> AudioDeviceSelectionStatus.BLUETOOTH_SCO_REQUESTED
+                else -> AudioDeviceSelectionStatus.SPEAKER_REQUESTED
+            }
+            
+            store.dispatch(
+                LocalParticipantAction.AudioDeviceChangeRequested(revertTo)
+            )
+        }
+        
+        store.dispatch(LocalParticipantAction.AudioDeviceHeadsetAvailable(isHeadphoneConnected))
     }
 
     // Update the status of bluetooth
@@ -200,6 +240,8 @@ internal class AudioSessionManager(
     }
 
     private fun isHeadsetActive(): Boolean {
+        // Allow tests to inject deterministic behavior
+        customHeadsetDetector?.let { return it() }
         // We support 21+. audioManager.getDevices API was added in 23.
         // audioManager.isWiredHeadsetOn call is for pre-23 devices.
         // M=23, O=26.
@@ -230,6 +272,9 @@ internal class AudioSessionManager(
         if (initialized) return
         initialized = true
 
+        // Check if headphones are already connected before setting default audio
+        val headphonesConnected = isHeadsetActive()
+        
         /*  <DEFAULT_AUDIO_MODE:0>
         if (audioSelectionMode == CallCompositeAudioSelectionMode.RECEIVER) {
             enableEarpiece()
@@ -242,14 +287,23 @@ internal class AudioSessionManager(
                 LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED)
             )
         } else { </DEFAULT_AUDIO_MODE:0> */
-        enableSpeakerPhone()
-        store.dispatch(
-            LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.SPEAKER_SELECTED)
-        )
+        
+        // If headphones are connected, use them by default
+        if (headphonesConnected) {
+            enableEarpiece()
+            store.dispatch(
+                LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.RECEIVER_SELECTED)
+            )
+            store.dispatch(LocalParticipantAction.AudioDeviceHeadsetAvailable(true))
+        } else {
+            enableSpeakerPhone()
+            store.dispatch(
+                LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.SPEAKER_SELECTED)
+            )
+            store.dispatch(LocalParticipantAction.AudioDeviceHeadsetAvailable(false))
+        }
             /*  <DEFAULT_AUDIO_MODE:0>
         } </DEFAULT_AUDIO_MODE:0> */
-
-        updateHeadphoneStatus()
     }
 
     private fun onAudioDeviceStateChange(audioDeviceSelectionStatus: AudioDeviceSelectionStatus) {
