@@ -6,6 +6,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
+import android.os.Build
 import android.view.View
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
@@ -77,7 +78,7 @@ internal class LeaveConfirmView(
     private fun initializeLeaveConfirmMenuDrawer() {
         leaveConfirmMenuDrawer = DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM)
         leaveConfirmMenuDrawer.setContentView(this)
-        if (context.applicationInfo.targetSdkVersion >= 35) {
+        if (Build.VERSION.SDK_INT >= 35) {
             ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
                 val orientation = resources.configuration.orientation
                 val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemGestures())
