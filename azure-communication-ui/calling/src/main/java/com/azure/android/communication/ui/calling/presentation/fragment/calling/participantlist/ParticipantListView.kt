@@ -5,6 +5,7 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.app.AlertDialog
 import android.content.Context
+import android.os.Build
 import android.view.accessibility.AccessibilityManager
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
@@ -80,7 +81,7 @@ internal class ParticipantListView(
                 }
             }
         }
-        if (context.applicationInfo.targetSdkVersion >= 35) {
+        if (Build.VERSION.SDK_INT >= 35) {
             ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
                 val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemGestures())
                 view.updatePadding(0, 0, 0, insets.bottom + 106)
@@ -148,7 +149,7 @@ internal class ParticipantListView(
 
         val density = context.resources.displayMetrics.density
 
-        if (context.applicationInfo.targetSdkVersion >= 35) {
+        if (Build.VERSION.SDK_INT >= 35) {
             // On Android 15+, calculate available height using WindowInsets
             participantTable.post {
                 val windowInsets = ViewCompat.getRootWindowInsets(this)
