@@ -261,6 +261,8 @@ internal class CaptionsListView(
 
             val negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
             negativeButton.setBackgroundResource(R.drawable.azure_communication_ui_calling_image_button)
+
+            dialog.window?.setBackgroundDrawableResource(R.color.azure_communication_ui_calling_color_bottom_drawer_background)
         }
         dialog.show()
     }
