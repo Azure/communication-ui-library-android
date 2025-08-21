@@ -97,10 +97,10 @@ internal class AppReduxState(
     override var callScreenInfoHeaderState: CallScreenInfoHeaderState = CallScreenInfoHeaderState(
         title = localOptions?.callScreenOptions?.headerViewData?.title,
         subtitle = localOptions?.callScreenOptions?.headerViewData?.subtitle,
-        /* <CALL_START_TIME>
+        /* <CALL_START_TIME> */
         // By default display call duration until Contoso set to false
         showCallDuration = localOptions?.callScreenOptions?.headerViewData?.showCallDuration ?: true,
-        </CALL_START_TIME> */
+        /* </CALL_START_TIME> */
     )
 
     override var rttState = RttState()

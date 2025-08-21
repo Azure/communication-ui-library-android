@@ -4,9 +4,9 @@ import com.azure.android.communication.ui.calling.configuration.CallCompositeCon
 import com.azure.android.communication.ui.calling.models.CallCompositeCustomButtonViewData
 import com.azure.android.communication.ui.calling.models.setDrawableIdChangedEventHandler
 import com.azure.android.communication.ui.calling.models.setEnabledChangedEventHandler
-/* <CALL_START_TIME>
+/* <CALL_START_TIME> */
 import com.azure.android.communication.ui.calling.models.setShowCallDurationChangedEventHandler
-</CALL_START_TIME> */
+/* </CALL_START_TIME> */
 import com.azure.android.communication.ui.calling.models.setSubtitleChangedEventHandler
 import com.azure.android.communication.ui.calling.models.setTitleChangedEventHandler
 import com.azure.android.communication.ui.calling.models.setVisibleChangedEventHandler
@@ -27,11 +27,11 @@ internal class UpdatableOptionsManager(
             setSubtitleChangedEventHandler {
                 store.dispatch(CallScreenInfoHeaderAction.UpdateSubtitle(it))
             }
-            /* <CALL_START_TIME>
+            /* <CALL_START_TIME> */
             setShowCallDurationChangedEventHandler {
                 store.dispatch(CallScreenInfoHeaderAction.UpdateShowCallDuration(it ?: true))
             }
-            </CALL_START_TIME> */
+            /* </CALL_START_TIME> */
         }
         configuration.callScreenOptions?.controlBarOptions?.run {
             cameraButton?.setEnabledChangedEventHandler {

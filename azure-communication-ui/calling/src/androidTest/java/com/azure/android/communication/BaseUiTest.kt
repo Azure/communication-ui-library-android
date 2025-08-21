@@ -48,9 +48,9 @@ internal open class BaseUiTest {
     internal val startCallString = R.string.azure_communication_ui_calling_setup_view_start_call
     internal val callingString = R.string.azure_communication_ui_calling_call_view_calling
     internal val audioTextView = R.id.azure_communication_ui_participant_audio_view_display_name
-    /* <CALL_START_TIME>
+    /* <CALL_START_TIME> */
     internal val callDurationTextView = R.id.azure_communication_ui_call_header_duration
-    </CALL_START_TIME> */
+    /* </CALL_START_TIME> */
 
     // Support Form
     internal val sendButtonId = R.id.azure_communication_ui_send_button
