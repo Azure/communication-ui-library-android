@@ -5,9 +5,13 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.app.AlertDialog
 import android.content.Context
+import android.os.Build
 import android.view.accessibility.AccessibilityManager
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +25,6 @@ import com.azure.android.communication.ui.calling.utilities.BottomCellItem
 import com.azure.android.communication.ui.calling.utilities.BottomCellItemType
 import com.azure.android.communication.ui.calling.utilities.implementation.CompositeDrawerDialog
 import com.microsoft.fluentui.drawer.DrawerDialog
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal class ParticipantListView(
@@ -78,6 +81,14 @@ internal class ParticipantListView(
                 }
             }
         }
+        if (Build.VERSION.SDK_INT >= 35) {
+            ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
+                val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemGestures())
+                view.updatePadding(0, 0, 0, insets.bottom + 106)
+
+                WindowInsetsCompat.CONSUMED
+            }
+        }
     }
 
     fun stop() {
@@ -131,22 +142,37 @@ internal class ParticipantListView(
     }
 
     private fun updateTableHeight(listSize: Int) {
-
-        // title for in call participants
         var titles = 1
-
-        // title for in lobby participants
         if (viewModel.participantListContentStateFlow.value.remoteParticipantList.any { it.status == ParticipantStatus.IN_LOBBY }) {
             titles += 1
         }
 
-        // set the height of the list to be half of the screen height or 50dp per item, whichever is smaller
-        participantTable.layoutParams.height =
-            (((listSize - titles) * 50 * context.resources.displayMetrics.density + titles * 30 * context.resources.displayMetrics.density).toInt()).coerceAtMost(
-                context.resources.displayMetrics.heightPixels / 2
-            )
-    }
+        val density = context.resources.displayMetrics.density
 
+        if (Build.VERSION.SDK_INT >= 35) {
+            // On Android 15+, calculate available height using WindowInsets
+            participantTable.post {
+                val windowInsets = ViewCompat.getRootWindowInsets(this)
+                val insets = windowInsets?.getInsets(WindowInsetsCompat.Type.systemBars())
+                val availableHeight = context.resources.displayMetrics.heightPixels - (insets?.top ?: 0) - (insets?.bottom ?: 0)
+
+                val desiredHeight = (((listSize - titles) * 50 * density + titles * 30 * density).toInt())
+                val finalHeight = desiredHeight.coerceAtMost(availableHeight / 2)
+
+                participantTable.layoutParams = participantTable.layoutParams.apply {
+                    height = finalHeight
+                }
+            }
+        } else {
+            // For Android 13 and below: keep existing logic
+            val desiredHeight = (((listSize - titles) * 50 * density + titles * 30 * density).toInt())
+            val finalHeight = desiredHeight.coerceAtMost(context.resources.displayMetrics.heightPixels / 2)
+
+            participantTable.layoutParams = participantTable.layoutParams.apply {
+                height = finalHeight
+            }
+        }
+    }
     private fun generateBottomCellItems(
         participantListContent: ParticipantListContent,
     ): MutableList<BottomCellItem> {

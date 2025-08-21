@@ -15,6 +15,7 @@ import android.util.LayoutDirection
 import android.util.Rational
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
 import android.view.WindowManager
 import androidx.activity.result.ActivityResultLauncher
@@ -22,6 +23,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.calling.CallCompositeException
@@ -94,6 +99,10 @@ internal open class CallCompositeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Before super, we'll set up the DI injector and check the PiP state
+        if (Build.VERSION.SDK_INT >= 35) {
+            // Turn OFF edge-to-edge behavior
+            WindowCompat.setDecorFitsSystemWindows(window, true)
+        }
         try {
             diContainerHolder.instanceId = instanceId
             diContainerHolder.container.callCompositeActivityWeakReference = WeakReference(this)
@@ -132,7 +141,18 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         }
         updatableOptionsManager.start()
         setContentView(R.layout.azure_communication_ui_calling_activity_call_composite)
+        if (Build.VERSION.SDK_INT >= 35) {
+            val rootView = findViewById<ViewGroup>(R.id.azure_communication_ui_fragment_container_view)
 
+            ViewCompat.setOnApplyWindowInsetsListener(rootView) { view, insets ->
+                val statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+                val navBarHeight = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+
+                view.updatePadding(top = statusBarHeight, bottom = navBarHeight)
+
+                insets
+            }
+        }
         permissionManager.start(
             this,
             getAudioPermissionLauncher(),
