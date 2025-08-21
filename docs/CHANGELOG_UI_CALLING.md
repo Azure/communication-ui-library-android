@@ -1,4 +1,8 @@
 # Azure Communication UI Calling Release History
+## 1.14.3-beta.3 (2025-08-21)
+### Bug Fixes
+- Fix RTT feature for Android 35. 
+
 ## 1.14.3-beta.2 (2025-08-12)
 ### Features
 - Edge-to-Edge support for Android 35
