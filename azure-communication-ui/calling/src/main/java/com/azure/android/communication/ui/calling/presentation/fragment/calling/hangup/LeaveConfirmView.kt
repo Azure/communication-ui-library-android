@@ -82,10 +82,12 @@ internal class LeaveConfirmView(
             ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
                 val orientation = resources.configuration.orientation
                 val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemGestures())
-
+                val bottomPadding = view.resources
+                    .getDimension(R.dimen.azure_communication_ui_calling_sheet_bottom_inset)
+                    .toInt()
                 // Apply padding only in portrait orientation
                 if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    view.updatePadding(0, 0, 0, insets.bottom + 76)
+                    view.updatePadding(0, 0, 0, insets.bottom + bottomPadding)
                 } else {
                     view.updatePadding(0, 0, 0, 0)
                 }

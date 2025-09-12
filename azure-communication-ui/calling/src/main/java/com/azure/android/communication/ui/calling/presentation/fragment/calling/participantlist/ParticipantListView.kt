@@ -84,7 +84,10 @@ internal class ParticipantListView(
         if (Build.VERSION.SDK_INT >= 35) {
             ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
                 val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemGestures())
-                view.updatePadding(0, 0, 0, insets.bottom + 106)
+                val bottomPadding = view.resources
+                    .getDimension(R.dimen.azure_communication_ui_calling_sheet_bottom_inset)
+                    .toInt()
+                view.updatePadding(0, 0, 0, insets.bottom + bottomPadding)
 
                 WindowInsetsCompat.CONSUMED
             }
