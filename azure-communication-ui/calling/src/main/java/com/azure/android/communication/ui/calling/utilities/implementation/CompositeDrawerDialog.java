@@ -57,11 +57,13 @@ public class CompositeDrawerDialog extends DrawerDialog {
                 final int orientation = view.getResources().getConfiguration().orientation;
                 final boolean isPortrait = orientation == Configuration.ORIENTATION_PORTRAIT;
 
+                final int bottomPadding = (int) view.getResources()
+                        .getDimension(R.dimen.azure_communication_ui_calling_sheet_bottom_inset);
                 recyclerView.setPadding(
                         insets.left,
                         insets.top,
                         insets.right,
-                        isPortrait ? insets.bottom + 150 : insets.bottom
+                        isPortrait ? insets.bottom + bottomPadding : insets.bottom
                 );
 
                 return WindowInsetsCompat.CONSUMED;
