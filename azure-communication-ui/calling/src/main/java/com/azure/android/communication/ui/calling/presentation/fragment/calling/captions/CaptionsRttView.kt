@@ -127,8 +127,11 @@ internal class CaptionsRttView : FrameLayout {
                     // When keyboard is visible, add padding to push content above it
                     imeInsets.bottom - 100
                 } else {
+                    val bottomPadding = view.resources
+                        .getDimension(R.dimen.azure_communication_ui_calling_sheet_bottom_inset)
+                        .toInt()
                     // When keyboard is hidden, use system bar bottom inset
-                    insets.bottom - 100
+                    insets.bottom + bottomPadding
                 }
             )
 
