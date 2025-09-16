@@ -1,4 +1,9 @@
 # Azure Communication UI Calling Release History
+
+## 1.14.3-beta.4 (2025-09-16)
+### Bug Fixes
+- Fix bottom padding. 
+
 ## 1.14.3-beta.3 (2025-08-21)
 ### Bug Fixes
 - Fix RTT feature for Android 35. 
