@@ -145,6 +145,7 @@ internal fun SdkCapabilityResolutionReason.into(): CapabilityResolutionReason {
         SdkCapabilityResolutionReason.FEATURE_NOT_SUPPORTED -> CapabilityResolutionReason.FEATURE_NOT_SUPPORTED
         SdkCapabilityResolutionReason.NOT_INITIALIZED -> CapabilityResolutionReason.NOT_INITIALIZED
         SdkCapabilityResolutionReason.NOT_CAPABLE -> CapabilityResolutionReason.NOT_CAPABLE
+        SdkCapabilityResolutionReason.EXPLICIT_CONSENT_REQUIRED -> CapabilityResolutionReason.EXPLICIT_CONSENT_REQUIRED
     }
 }
 

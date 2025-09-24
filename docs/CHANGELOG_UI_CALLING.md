@@ -1,5 +1,9 @@
 # Azure Communication UI Calling Release History
 
+## 1.14.3-beta.5 (2025-09-24)
+### Features
+- Support 16 KB page sizes
+
 ## 1.14.3-beta.4 (2025-09-16)
 ### Bug Fixes
 - Fix bottom padding. 

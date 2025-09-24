@@ -39,4 +39,8 @@ internal enum class CapabilityResolutionReason {
      * Not capable
      */
     NOT_CAPABLE,
+    /**
+     * Explicit consent required
+     */
+    EXPLICIT_CONSENT_REQUIRED,
 }
