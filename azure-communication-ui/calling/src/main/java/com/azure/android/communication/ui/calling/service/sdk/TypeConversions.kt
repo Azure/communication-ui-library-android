@@ -3,12 +3,6 @@
 
 package com.azure.android.communication.ui.calling.service.sdk
 
-import com.azure.android.communication.calling.CallingCommunicationErrors as SdkCallingCommunicationErrors
-import com.azure.android.communication.calling.CallingCommunicationException as SdkCallingCommunicationException
-import com.azure.android.communication.calling.CapabilityResolutionReason as SdkCapabilityResolutionReason
-import com.azure.android.communication.calling.CapabilitiesChangedEvent as SdkCapabilitiesChangedEvent
-import com.azure.android.communication.calling.CapabilitiesChangedReason as SdkCapabilitiesChangedReason
-import com.azure.android.communication.calling.ParticipantCapability as SdkParticipantCapability
 import com.azure.android.communication.calling.ParticipantState
 import com.azure.android.communication.common.CommunicationUserIdentifier
 import com.azure.android.communication.common.MicrosoftTeamsUserIdentifier
@@ -22,6 +16,12 @@ import com.azure.android.communication.ui.calling.models.ParticipantCapability
 import com.azure.android.communication.ui.calling.models.ParticipantCapabilityType
 import com.azure.android.communication.ui.calling.models.ParticipantRole
 import com.azure.android.communication.ui.calling.models.ParticipantStatus
+import com.azure.android.communication.calling.CallingCommunicationErrors as SdkCallingCommunicationErrors
+import com.azure.android.communication.calling.CallingCommunicationException as SdkCallingCommunicationException
+import com.azure.android.communication.calling.CapabilitiesChangedEvent as SdkCapabilitiesChangedEvent
+import com.azure.android.communication.calling.CapabilitiesChangedReason as SdkCapabilitiesChangedReason
+import com.azure.android.communication.calling.CapabilityResolutionReason as SdkCapabilityResolutionReason
+import com.azure.android.communication.calling.ParticipantCapability as SdkParticipantCapability
 import com.azure.android.communication.calling.ParticipantCapabilityType as SdkParticipantCapabilityType
 
 internal fun com.azure.android.communication.calling.RemoteParticipant.into(): RemoteParticipant {
@@ -145,6 +145,7 @@ internal fun SdkCapabilityResolutionReason.into(): CapabilityResolutionReason {
         SdkCapabilityResolutionReason.FEATURE_NOT_SUPPORTED -> CapabilityResolutionReason.FEATURE_NOT_SUPPORTED
         SdkCapabilityResolutionReason.NOT_INITIALIZED -> CapabilityResolutionReason.NOT_INITIALIZED
         SdkCapabilityResolutionReason.NOT_CAPABLE -> CapabilityResolutionReason.NOT_CAPABLE
+        SdkCapabilityResolutionReason.EXPLICIT_CONSENT_REQUIRED -> CapabilityResolutionReason.EXPLICIT_CONSENT_REQUIRED
     }
 }
 
