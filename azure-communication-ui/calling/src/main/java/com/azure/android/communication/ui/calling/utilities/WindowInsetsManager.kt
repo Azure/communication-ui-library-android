@@ -44,11 +44,11 @@ internal object WindowInsetsManager {
         }
     }
 
-    fun addListener(listener: ()-> Unit) {
+    fun addListener(listener: () -> Unit) {
         listeners.add(WeakReference(listener))
     }
 
-    fun removeListener(listener: ()-> Unit) {
+    fun removeListener(listener: () -> Unit) {
         listeners.removeAll { it.get() == listener || it.get() == null }
     }
 
@@ -57,4 +57,3 @@ internal object WindowInsetsManager {
         listeners.removeAll { it.get() == null }
     }
 }
-

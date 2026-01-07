@@ -146,8 +146,8 @@ internal open class CallCompositeActivity : AppCompatActivity() {
             ViewCompat.setOnApplyWindowInsetsListener(rootView) { view, insets ->
                 val bars = insets.getInsets(
                     WindowInsetsCompat.Type.systemBars()
-                            or WindowInsetsCompat.Type.displayCutout()
-                            or WindowInsetsCompat.Type.ime()
+                        or WindowInsetsCompat.Type.displayCutout()
+                        or WindowInsetsCompat.Type.ime()
                 )
                 view.setPadding(bars.left, bars.top, bars.right, bars.bottom)
 
