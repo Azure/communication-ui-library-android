@@ -337,9 +337,9 @@ internal class CallingMiddlewareActionHandlerImpl(
         subscribeOnTotalRemoteParticipantCountChanged(store)
         subscribeOnCapabilitiesChanged(store)
         subscribeToCaptionsUpdates(store)
-        /*  <CALL_START_TIME>
+        /*  <CALL_START_TIME> */
         subscribeToCallStartTimeUpdates(store)
-        </CALL_START_TIME> */
+        /* </CALL_START_TIME> */
 
         subscribeRttStateUpdate(store)
 
@@ -1040,7 +1040,7 @@ internal class CallingMiddlewareActionHandlerImpl(
         }
     }
 
-    /*  <CALL_START_TIME>
+    /*  <CALL_START_TIME> */
     private fun subscribeToCallStartTimeUpdates(store: Store<ReduxState>) {
         coroutineScope.launch {
             callingService.getCallStartTimeSharedFlow().collect { date ->
@@ -1055,5 +1055,5 @@ internal class CallingMiddlewareActionHandlerImpl(
             }
         }
     }
-    </CALL_START_TIME> */
+    /* </CALL_START_TIME> */
 }

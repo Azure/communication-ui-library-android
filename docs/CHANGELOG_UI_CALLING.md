@@ -3,6 +3,7 @@
 ### Features
 - Support 16 KB page sizes
 
+## 1.14.3-beta.1 (2025-07-21)
 ### Bug Fixes 
 - Fix the rejoin the call, missing remote participant
 

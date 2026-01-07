@@ -296,18 +296,18 @@ class CallCompositeManager(private val context: Context) {
     ) {
         callComposite.addOnErrorEventHandler(CallLauncherActivityErrorHandler(context, callComposite))
 
-        /*  <CALL_START_TIME>
+        /*  <CALL_START_TIME> */
         callComposite.addOnCallStartTimeUpdatedEventHandler { startTime ->
             toast(context, "Call start time updated: $startTime")
         }
-        </CALL_START_TIME> */
+        /* </CALL_START_TIME> */
 
         val callStateEventHandler: ((CallCompositeCallStateChangedEvent) -> Unit) = {
             callCompositeCallStateStateFlow.value = it.code.toString()
             var callStartTime: Date? = null
-            /*  <CALL_START_TIME>
+            /*  <CALL_START_TIME> */
             callStartTime = callComposite.getCallStartTime()
-            </CALL_START_TIME> */
+            /* </CALL_START_TIME> */
             toast(context, "Call State: ${it.code}. start time: $callStartTime ")
         }
 
@@ -730,9 +730,9 @@ class CallCompositeManager(private val context: Context) {
         }
         if (!SettingsFeatures.getCallScreenInformationTitle().isNullOrEmpty() ||
             !SettingsFeatures.getCallScreenInformationSubtitle().isNullOrEmpty() ||
-            /* <CALL_START_TIME>
+            /* <CALL_START_TIME> */
             SettingsFeatures.getCallScreenShowCallDuration() != null ||
-            </CALL_START_TIME> */
+            /* </CALL_START_TIME> */
             SettingsFeatures.getCallScreenInformationTitleUpdateParticipantCount() != 0 ||
             SettingsFeatures.getCallScreenInformationSubtitleUpdateParticipantCount() != 0
         ) {
@@ -750,11 +750,11 @@ class CallCompositeManager(private val context: Context) {
                     callScreenHeaderOptions?.subtitle = it
                 }
             }
-            /* <CALL_START_TIME>
+            /* <CALL_START_TIME> */
             SettingsFeatures.getCallScreenShowCallDuration()?.let {
                 callScreenHeaderOptions?.showCallDuration = it
             }
-            </CALL_START_TIME> */
+            /* </CALL_START_TIME> */
         }
         if (SettingsFeatures.getAddCustomButtons() == true) {
             val headerButton1 =
