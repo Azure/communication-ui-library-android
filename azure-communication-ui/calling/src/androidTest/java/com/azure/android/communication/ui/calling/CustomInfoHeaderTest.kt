@@ -4,13 +4,13 @@ package com.azure.android.communication.ui.calling
 
 import androidx.test.platform.app.InstrumentationRegistry
 import com.azure.android.communication.BaseUiTest
-/* <CALL_START_TIME>
+/* <CALL_START_TIME> */
 import com.azure.android.communication.assertDisplayed
-</CALL_START_TIME> */
+/* </CALL_START_TIME> */
 import com.azure.android.communication.assertTextDisplayed
-/* <CALL_START_TIME>
+/* <CALL_START_TIME> */
 import com.azure.android.communication.assertViewNotDisplayed
-</CALL_START_TIME> */
+/* </CALL_START_TIME> */
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.common.CommunicationTokenRefreshOptions
 import com.azure.android.communication.tapOnScreen
@@ -297,7 +297,7 @@ internal class CustomInfoHeaderTest : BaseUiTest() {
         assertTextDisplayed(subtitle)
     }
 
-    /* <CALL_START_TIME>
+    /* <CALL_START_TIME> */
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun testCallDurationIsDisplayed() = runTest {
@@ -367,5 +367,5 @@ internal class CustomInfoHeaderTest : BaseUiTest() {
         // Assert duration displayed.
         assertDisplayed(callDurationTextView)
     }
-    </CALL_START_TIME> */
+    /* </CALL_START_TIME> */
 }

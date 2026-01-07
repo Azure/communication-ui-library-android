@@ -12,12 +12,12 @@ import com.azure.android.communication.ui.calling.redux.state.CallScreenInfoHead
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-/* <CALL_START_TIME>
+/* <CALL_START_TIME> */
 import java.util.Date
 import java.util.Locale
 import java.util.Timer
 import kotlin.concurrent.fixedRateTimer
-</CALL_START_TIME> */
+/* </CALL_START_TIME> */
 
 internal class InfoHeaderViewModel(
     val multitaskingEnabled: Boolean,
@@ -27,10 +27,10 @@ internal class InfoHeaderViewModel(
     private lateinit var isVisible: MutableStateFlow<Boolean>
     private lateinit var isOverlayDisplayedFlow: MutableStateFlow<Boolean>
     private lateinit var numberOfParticipantsFlow: MutableStateFlow<Int>
-    /* <CALL_START_TIME>
+    /* <CALL_START_TIME> */
     private lateinit var isCallDurationDisplayedFlow: MutableStateFlow<Boolean>
     private lateinit var callDurationFlow: MutableStateFlow<String>
-    </CALL_START_TIME> */
+    /* </CALL_START_TIME> */
     private lateinit var requestCallEndCallback: () -> Unit
 
     private var displayedOnLaunch = false
@@ -40,16 +40,16 @@ internal class InfoHeaderViewModel(
     private var buttonState: ButtonState? = null
     private lateinit var customButton1MutableStateFlow: MutableStateFlow<CustomButtonEntry?>
     private lateinit var customButton2MutableStateFlow: MutableStateFlow<CustomButtonEntry?>
-    /* <CALL_START_TIME>
+    /* <CALL_START_TIME> */
     private var callDurationTimer: Timer? = null
-    </CALL_START_TIME> */
+    /* </CALL_START_TIME> */
 
     fun getTitleStateFlow(): StateFlow<String?> = titleStateFlow
     fun getSubtitleStateFlow(): StateFlow<String?> = subtitleStateFlow
-    /* <CALL_START_TIME>
+    /* <CALL_START_TIME> */
     fun getDisplayCallDurationFlow(): StateFlow<Boolean> = isCallDurationDisplayedFlow
     fun getCallDurationFlow(): StateFlow<String> = callDurationFlow
-    </CALL_START_TIME> */
+    /* </CALL_START_TIME> */
     fun getIsOverlayDisplayedFlow(): StateFlow<Boolean> = isOverlayDisplayedFlow
     fun getIsVisible(): StateFlow<Boolean> = isVisible
     fun getNumberOfParticipantsFlow(): StateFlow<Int> = numberOfParticipantsFlow
@@ -62,9 +62,9 @@ internal class InfoHeaderViewModel(
         buttonState: ButtonState,
         isOverlayDisplayedOverGrid: Boolean,
         requestCallEndCallback: () -> Unit,
-        /* <CALL_START_TIME>
+        /* <CALL_START_TIME> */
         callStartTime: Date?,
-        </CALL_START_TIME> */
+        /* </CALL_START_TIME> */
     ) {
         titleStateFlow = MutableStateFlow(callScreenInfoHeaderState.title)
         subtitleStateFlow = MutableStateFlow(callScreenInfoHeaderState.subtitle)
@@ -76,10 +76,10 @@ internal class InfoHeaderViewModel(
         customButton1MutableStateFlow = MutableStateFlow(null)
         customButton2MutableStateFlow = MutableStateFlow(null)
         updateCustomButtonsState(buttonState)
-        /* <CALL_START_TIME>
+        /* <CALL_START_TIME> */
         isCallDurationDisplayedFlow = MutableStateFlow(shouldDisplayCallDuration(callScreenInfoHeaderState, callStartTime))
         callDurationFlow = MutableStateFlow("00:00")
-        </CALL_START_TIME> */
+        /* </CALL_START_TIME> */
     }
 
     fun update(
@@ -87,16 +87,16 @@ internal class InfoHeaderViewModel(
         callScreenInfoHeaderState: CallScreenInfoHeaderState,
         buttonState: ButtonState,
         isOverlayDisplayedOverGrid: Boolean,
-        /* <CALL_START_TIME>
+        /* <CALL_START_TIME> */
         callStartTime: Date?,
-        </CALL_START_TIME> */
+        /* </CALL_START_TIME> */
         visibilityStatus: VisibilityStatus,
     ) {
         this.buttonState = buttonState
         titleStateFlow.value = callScreenInfoHeaderState.title
         subtitleStateFlow.value = callScreenInfoHeaderState.subtitle
         numberOfParticipantsFlow.value = numberOfRemoteParticipants
-        /* <CALL_START_TIME>
+        /* <CALL_START_TIME> */
         isCallDurationDisplayedFlow.value = shouldDisplayCallDuration(callScreenInfoHeaderState, callStartTime)
         if (isCallDurationDisplayedFlow.value) {
             callStartTime?.let { startTimer(it) }
@@ -104,7 +104,7 @@ internal class InfoHeaderViewModel(
             stopTimer()
             callDurationFlow.value = ""
         }
-        </CALL_START_TIME> */
+        /* </CALL_START_TIME> */
         if (!displayedOnLaunch && visibilityStatus == VisibilityStatus.VISIBLE) {
             displayedOnLaunch = true
             isVisible.value = true
@@ -141,7 +141,7 @@ internal class InfoHeaderViewModel(
         }
     }
 
-    /* <CALL_START_TIME>
+    /* <CALL_START_TIME> */
     private fun startTimer(callStartDate: Date) {
         if (callDurationTimer != null) {
             return
@@ -171,7 +171,7 @@ internal class InfoHeaderViewModel(
         callScreenInfoHeaderState: CallScreenInfoHeaderState,
         callStartTime: Date?
     ) = callScreenInfoHeaderState.showCallDuration && callStartTime != null
-    </CALL_START_TIME> */
+    /* </CALL_START_TIME> */
 
     private fun updateCustomButtonsState(buttonState: ButtonState) {
         buttonState.callScreenHeaderCustomButtonsState.firstOrNull()?.let {
