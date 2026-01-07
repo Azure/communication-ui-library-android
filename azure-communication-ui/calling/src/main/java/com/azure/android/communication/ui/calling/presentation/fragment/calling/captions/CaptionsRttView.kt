@@ -5,7 +5,6 @@ package com.azure.android.communication.ui.calling.presentation.fragment.calling
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Build
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -18,11 +17,8 @@ import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.marginTop
-import androidx.core.view.updatePadding
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -86,11 +82,6 @@ internal class CaptionsRttView : FrameLayout {
 
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
-        // Handle window insets for edge-to-edge support
-        if (Build.VERSION.SDK_INT >= 35) {
-            setupWindowInsetsHandling()
-        }
-
         rttInputText.addTextChangedListener {
             // Ignore initial text restoration
             if (isInitialized) {
@@ -106,57 +97,6 @@ internal class CaptionsRttView : FrameLayout {
             viewModel.toggleCaptions()
         }
         post { isInitialized = true }
-    }
-
-    private fun setupWindowInsetsHandling() {
-        // Apply window insets handling for API 35+ edge-to-edge support
-        // Apply to the root view (this) instead of just captionsLinearLayout
-        ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            val imeInsets = windowInsets.getInsets(WindowInsetsCompat.Type.ime())
-
-            // Apply system bar insets to the root view
-            view.updatePadding(
-                left = insets.left,
-                right = insets.right
-            )
-
-            // Apply IME insets to the captions layout to push it above keyboard
-            captionsLinearLayout.updatePadding(
-                bottom = if (imeInsets.bottom > 0) {
-                    // When keyboard is visible, add padding to push content above it
-                    imeInsets.bottom - 100
-                } else {
-                    val bottomPadding = view.resources
-                        .getDimension(R.dimen.azure_communication_ui_calling_sheet_bottom_inset)
-                        .toInt()
-                    // When keyboard is hidden, use system bar bottom inset
-                    insets.bottom + bottomPadding
-                }
-            )
-
-            // Ensure the recycler view adjusts its size
-            if (imeInsets.bottom > 0) {
-                // Adjust the recycler view height when keyboard is shown
-                val layoutParams = recyclerView.layoutParams
-                val availableHeight = height - imeInsets.bottom - captionsLinearLayout.paddingTop
-
-                // Ensure minimum height for recycler view
-                if (availableHeight > minHeight) {
-                    post {
-                        scrollToBottom()
-                        // Force layout to recalculate
-                        captionsLinearLayout.requestLayout()
-                    }
-                }
-            }
-
-            // Return the insets so they can be consumed by child views if needed
-            windowInsets
-        }
-
-        // Request that insets be dispatched to this view
-        ViewCompat.requestApplyInsets(this)
     }
 
     @SuppressLint("NotifyDataSetChanged", "ClickableViewAccessibility")

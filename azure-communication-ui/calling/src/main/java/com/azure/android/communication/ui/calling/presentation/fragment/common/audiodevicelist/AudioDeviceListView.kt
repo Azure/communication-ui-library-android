@@ -15,10 +15,10 @@ import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelecti
 import com.azure.android.communication.ui.calling.redux.state.AudioState
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
+import com.azure.android.communication.ui.calling.utilities.WindowInsetsManager
 import com.azure.android.communication.ui.calling.utilities.implementation.CompositeDrawerDialog
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.microsoft.fluentui.drawer.DrawerDialog
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal class AudioDeviceListView(
@@ -34,6 +34,10 @@ internal class AudioDeviceListView(
         inflate(context, R.layout.azure_communication_ui_calling_listview, this)
         deviceTable = findViewById(R.id.bottom_drawer_table)
         this.setBackgroundResource(R.color.azure_communication_ui_calling_color_bottom_drawer_background)
+
+        WindowInsetsManager.addListener {
+            WindowInsetsManager.updatePaddings(this)
+        }
     }
 
     fun start(viewLifecycleOwner: LifecycleOwner) {

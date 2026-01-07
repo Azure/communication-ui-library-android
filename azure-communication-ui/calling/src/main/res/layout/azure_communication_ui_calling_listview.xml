@@ -3,7 +3,7 @@
    Licensed under the MIT License.
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawer_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,6 +15,5 @@
         android:layout_height="wrap_content"
         android:background="@drawable/azure_communication_ui_calling_corner_radius_rectangle_4dp"
         android:clipToPadding="false"
-        android:paddingBottom="16dp"
         />
-</FrameLayout>
+</RelativeLayout>
