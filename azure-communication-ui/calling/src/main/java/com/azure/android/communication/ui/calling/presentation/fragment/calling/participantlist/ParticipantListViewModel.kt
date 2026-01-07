@@ -73,10 +73,10 @@ internal class ParticipantListViewModel(
     private fun participantListRemoteParticipantVisibility(
         it: ParticipantListCellModel,
         canShowLobby: Boolean,
-    ) = (
-        it.status != ParticipantStatus.DISCONNECTED &&
-            if (it.status == ParticipantStatus.IN_LOBBY) canShowLobby else true
-        )
+    ) = when (it.status) {
+        ParticipantStatus.IN_LOBBY -> canShowLobby
+        else -> true // Show all other states including null/connecting states
+    }
 
     fun displayParticipantList() {
         participantListContentMutableStateFlow.value = participantListContentMutableStateFlow.value.copy(isDisplayed = true)

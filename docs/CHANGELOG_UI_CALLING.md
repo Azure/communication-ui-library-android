@@ -1,4 +1,10 @@
 # Azure Communication UI Calling Release History
+## 1.14.3 (2025-10-16)
+### Features
+- Support 16 KB page sizes
+
+### Bug Fixes 
+- Fix the rejoin the call, missing remote participant
 
 ## 1.14.2 (2025-06-17)
 ### Bug Fixes 
