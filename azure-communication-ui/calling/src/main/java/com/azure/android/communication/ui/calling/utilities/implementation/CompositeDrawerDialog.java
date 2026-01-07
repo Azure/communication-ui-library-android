@@ -4,17 +4,12 @@
 package com.azure.android.communication.ui.calling.utilities.implementation;
 
 import android.content.Context;
-import android.content.res.Configuration;
-import android.os.Build;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.view.ViewCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.azure.android.communication.ui.calling.implementation.R;
-import com.azure.android.communication.ui.calling.utilities.WindowInsetsManager;
 import com.microsoft.fluentui.drawer.DrawerDialog;
 
 public class CompositeDrawerDialog extends DrawerDialog {
