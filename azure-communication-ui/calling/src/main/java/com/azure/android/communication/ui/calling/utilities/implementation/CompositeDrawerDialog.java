@@ -39,12 +39,10 @@ public class CompositeDrawerDialog extends DrawerDialog {
     }
 
     private void onShow() {
+        final View drawer = findViewById(R.id.drawer_container);
+
         // Temporary using the drawer container, it's the only way to set the content description at the moment.
         // The issue is posted to the FluentUI library: https://github.com/microsoft/fluentui-android/issues/758
-        final View view = findViewById(R.id.drawer_container);
-
-        if (view != null) {
-            view.setContentDescription(getContext().getString(contentDescription));
-        }
+        drawer.setContentDescription(getContext().getString(contentDescription));
     }
 }

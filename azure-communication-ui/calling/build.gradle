@@ -9,11 +9,11 @@ apply from: file('jacoco.gradle')
 
 android {
     resourcePrefix 'azure_communication_ui_calling_'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         minSdkVersion 26
-        targetSdkVersion 34
+        targetSdkVersion 35
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
         buildConfigField "String", "UI_SDK_VERSION", "\"" + call_library_version_name + "\""
@@ -102,6 +102,7 @@ dependencies {
     implementation "com.microsoft.fluentui:fluentui_drawer:$microsoft_fluent_ui_version"
     implementation "com.microsoft.fluentui:fluentui_persona:$microsoft_fluent_ui_version"
     implementation "com.microsoft.fluentui:fluentui_transients:$microsoft_fluent_ui_version"
+    implementation "androidx.activity:activity-ktx:$androidx_activity_ktx_version"
 
     api 'com.jakewharton.threetenabp:threetenabp:1.4.4'
 

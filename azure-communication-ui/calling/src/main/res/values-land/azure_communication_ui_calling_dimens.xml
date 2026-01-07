@@ -4,4 +4,6 @@
   -->
 <resources>
     <dimen name="azure_communication_ui_calling_setup_toolbar_min_height">40dp</dimen>
+    <dimen name="azure_communication_ui_calling_sheet_right_inset">40dp</dimen>
+    <dimen name="azure_communication_ui_calling_sheet_bottom_inset">0dp</dimen>
 </resources>

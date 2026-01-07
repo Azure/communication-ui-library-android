@@ -15,9 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
+import com.azure.android.communication.ui.calling.utilities.WindowInsetsManager
 import com.azure.android.communication.ui.calling.utilities.implementation.CompositeDrawerDialog
 import com.microsoft.fluentui.drawer.DrawerDialog
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @SuppressLint("ViewConstructor")
@@ -36,6 +36,10 @@ internal class MoreCallOptionsListView(
         this.setBackgroundResource(R.color.azure_communication_ui_calling_color_bottom_drawer_background)
 
         viewModel.shareDiagnostics = ::shareDiagnostics
+
+        WindowInsetsManager.addListener {
+            WindowInsetsManager.updatePaddings(this)
+        }
     }
 
     fun start(viewLifecycleOwner: LifecycleOwner) {

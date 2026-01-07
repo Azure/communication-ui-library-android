@@ -17,8 +17,8 @@ import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
 import com.azure.android.communication.ui.calling.utilities.BottomCellItemType
+import com.azure.android.communication.ui.calling.utilities.WindowInsetsManager
 import com.microsoft.fluentui.drawer.DrawerDialog
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlin.math.max
 
@@ -36,6 +36,10 @@ internal class LeaveConfirmView(
         inflate(context, R.layout.azure_communication_ui_calling_listview, this)
         leaveConfirmMenuTable = findViewById(R.id.bottom_drawer_table)
         setBackgroundResource(R.color.azure_communication_ui_calling_color_bottom_drawer_background)
+
+        WindowInsetsManager.addListener {
+            WindowInsetsManager.updatePaddings(this)
+        }
     }
 
     fun stop() {
@@ -74,6 +78,7 @@ internal class LeaveConfirmView(
     private fun initializeLeaveConfirmMenuDrawer() {
         leaveConfirmMenuDrawer = DrawerDialog(context, DrawerDialog.BehaviorType.BOTTOM)
         leaveConfirmMenuDrawer.setContentView(this)
+
         leaveConfirmMenuDrawer.setOnDismissListener {
             viewModel.cancel()
         }

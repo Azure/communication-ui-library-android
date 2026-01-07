@@ -17,7 +17,7 @@ buildscript {
         androidx_activity_ktx_version = '1.4.0'
         androidx_appcompat_version = '1.4.1'
         androidx_constraint_layout_version = '2.1.4'
-        androidx_core_ktx_version = '1.7.0'
+        androidx_core_ktx_version = '1.16.0'
         androidx_core_testing_version = '2.1.0'
         androidx_espresso_contrib_version = '3.4.0'
         androidx_espresso_core_version = '3.4.0'

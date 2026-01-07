@@ -15,6 +15,7 @@ import android.util.LayoutDirection
 import android.util.Rational
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
 import android.view.WindowManager
 import androidx.activity.result.ActivityResultLauncher
@@ -22,6 +23,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.azure.android.communication.ui.calling.CallCompositeException
@@ -41,6 +45,7 @@ import com.azure.android.communication.ui.calling.redux.action.NavigationAction
 import com.azure.android.communication.ui.calling.redux.action.PipAction
 import com.azure.android.communication.ui.calling.redux.state.NavigationStatus
 import com.azure.android.communication.ui.calling.redux.state.VisibilityStatus
+import com.azure.android.communication.ui.calling.utilities.WindowInsetsManager
 import com.azure.android.communication.ui.calling.utilities.collect
 import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.azure.android.communication.ui.calling.utilities.isKeyboardOpen
@@ -48,7 +53,6 @@ import com.azure.android.communication.ui.calling.utilities.isTablet
 import com.azure.android.communication.ui.calling.utilities.launchAll
 import com.microsoft.fluentui.util.activity
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
 import java.util.Locale
@@ -93,6 +97,10 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     private lateinit var visibilityStatusFlow: MutableStateFlow<VisibilityStatus>
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (Build.VERSION.SDK_INT >= 35) {
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+        }
+
         // Before super, we'll set up the DI injector and check the PiP state
         try {
             diContainerHolder.instanceId = instanceId
@@ -132,7 +140,23 @@ internal open class CallCompositeActivity : AppCompatActivity() {
         }
         updatableOptionsManager.start()
         setContentView(R.layout.azure_communication_ui_calling_activity_call_composite)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            val rootView = findViewById<ViewGroup>(R.id.azure_communication_ui_fragment_container_view)
 
+            ViewCompat.setOnApplyWindowInsetsListener(rootView) { view, insets ->
+                val bars = insets.getInsets(
+                    WindowInsetsCompat.Type.systemBars()
+                        or WindowInsetsCompat.Type.displayCutout()
+                        or WindowInsetsCompat.Type.ime()
+                )
+                view.setPadding(bars.left, bars.top, bars.right, bars.bottom)
+
+                // Store insets for use in dialogs
+                WindowInsetsManager.inserts = bars
+
+                insets
+            }
+        }
         permissionManager.start(
             this,
             getAudioPermissionLauncher(),
