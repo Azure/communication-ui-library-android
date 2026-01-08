@@ -1,4 +1,8 @@
 # Azure Communication UI Calling Release History
+## 1.15.0 (2026-01-07)
+### Features
+- Edge-to-Edge support for Android 35
+
 ## 1.14.3 (2025-10-16)
 ### Features
 - Support 16 KB page sizes
