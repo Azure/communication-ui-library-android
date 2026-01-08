@@ -21,9 +21,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.mock
-/* <CALL_START_TIME> */
+/* <CALL_START_TIME>
 import java.util.Date
-/* </CALL_START_TIME> */
+</CALL_START_TIME> */
 
 @RunWith(MockitoJUnitRunner::class)
 internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
@@ -69,16 +69,16 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallScreenInfoHeaderState(
                     null,
                     null,
-                    /* <CALL_START_TIME> */
+                    /* <CALL_START_TIME>
                     false
-                    /* </CALL_START_TIME> */
+                    </CALL_START_TIME> */
                 ),
                 appState.buttonState,
                 isOverlayDisplayedOverGrid = false,
                 { },
-                /* <CALL_START_TIME> */
+                /* <CALL_START_TIME>
                 null,
-                /* </CALL_START_TIME> */
+                </CALL_START_TIME> */
             )
 
             val resultListFromNumberOfParticipantsFlow =
@@ -95,15 +95,15 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallScreenInfoHeaderState(
                     null,
                     null,
-                    /* <CALL_START_TIME> */
+                    /* <CALL_START_TIME>
                     false
-                    /* </CALL_START_TIME> */
+                    </CALL_START_TIME> */
                 ),
                 appState.buttonState,
                 isOverlayDisplayedOverGrid = false,
-                /* <CALL_START_TIME> */
+                /* <CALL_START_TIME>
                 null,
-                /* </CALL_START_TIME> */
+                </CALL_START_TIME> */
                 VisibilityStatus.VISIBLE,
             )
 
@@ -158,16 +158,16 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallScreenInfoHeaderState(
                     null,
                     null,
-                    /* <CALL_START_TIME> */
+                    /* <CALL_START_TIME>
                     false
-                    /* </CALL_START_TIME> */
+                    </CALL_START_TIME> */
                 ),
                 appState.buttonState,
                 isOverlayDisplayedOverGrid = false,
                 {},
-                /* <CALL_START_TIME> */
+                /* <CALL_START_TIME>
                 null,
-                /* </CALL_START_TIME> */
+                </CALL_START_TIME> */
             )
 
             val resultListFromIsLobbyOverlayDisplayedFlow =
@@ -184,9 +184,9 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 appState.callScreenInfoHeaderState,
                 appState.buttonState,
                 isOverlayDisplayedOverGrid = false,
-                /* <CALL_START_TIME> */
+                /* <CALL_START_TIME>
                 null,
-                /* </CALL_START_TIME> */
+                </CALL_START_TIME> */
                 VisibilityStatus.VISIBLE,
             )
             floatingHeaderViewModel.update(
@@ -194,9 +194,9 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 appState.callScreenInfoHeaderState,
                 appState.buttonState,
                 isOverlayDisplayedOverGrid = true,
-                /* <CALL_START_TIME> */
+                /* <CALL_START_TIME>
                 null,
-                /* </CALL_START_TIME> */
+                </CALL_START_TIME> */
                 VisibilityStatus.VISIBLE,
             )
 
@@ -256,16 +256,16 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 expectedParticipantMap.count(),
                 CallScreenInfoHeaderState(
                     title, subtitle,
-                    /* <CALL_START_TIME> */
+                    /* <CALL_START_TIME>
                     false
-                    /* </CALL_START_TIME> */
+                    </CALL_START_TIME> */
                 ),
                 appState.buttonState,
                 isOverlayDisplayedOverGrid = false,
                 { },
-                /* <CALL_START_TIME> */
+                /* <CALL_START_TIME>
                 null,
-                /* </CALL_START_TIME> */
+                </CALL_START_TIME> */
             )
 
             val resultListFromNumberOfParticipantsFlow =
@@ -296,15 +296,15 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallScreenInfoHeaderState(
                     null,
                     null,
-                    /* <CALL_START_TIME> */
+                    /* <CALL_START_TIME>
                     false
-                    /* </CALL_START_TIME> */
+                    </CALL_START_TIME> */
                 ),
                 appState.buttonState,
                 isOverlayDisplayedOverGrid = true,
-                /* <CALL_START_TIME> */
+                /* <CALL_START_TIME>
                 null,
-                /* </CALL_START_TIME> */
+                </CALL_START_TIME> */
                 VisibilityStatus.VISIBLE,
             )
 
@@ -330,7 +330,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
         }
     }
 
-    /* <CALL_START_TIME> */
+    /* <CALL_START_TIME>
     @ExperimentalCoroutinesApi
     @Test
     fun floatingHeaderViewModel_update_then_showCallDuration() {
@@ -428,7 +428,7 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             flowJobCallDuration.cancel()
         }
     }
-    /* </CALL_START_TIME> */
+    </CALL_START_TIME> */
 
     @ExperimentalCoroutinesApi
     @Test
@@ -465,16 +465,16 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 expectedParticipantMap.count(),
                 CallScreenInfoHeaderState(
                     title, subtitle,
-                    /* <CALL_START_TIME> */
+                    /* <CALL_START_TIME>
                     false
-                    /* </CALL_START_TIME> */
+                    </CALL_START_TIME> */
                 ),
                 appState.buttonState,
                 isOverlayDisplayedOverGrid = false,
                 { },
-                /* <CALL_START_TIME> */
+                /* <CALL_START_TIME>
                 null,
-                /* </CALL_START_TIME> */
+                </CALL_START_TIME> */
             )
 
             val customButton1StateFlow =
@@ -512,15 +512,15 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 expectedParticipantMap.count(),
                 CallScreenInfoHeaderState(
                     null, null,
-                    /* <CALL_START_TIME> */
+                    /* <CALL_START_TIME>
                     false
-                    /* </CALL_START_TIME> */
+                    </CALL_START_TIME> */
                 ),
                 buttonState1,
                 isOverlayDisplayedOverGrid = false,
-                /* <CALL_START_TIME> */
+                /* <CALL_START_TIME>
                 null,
-                /* </CALL_START_TIME> */
+                </CALL_START_TIME> */
                 VisibilityStatus.VISIBLE,
             )
 
@@ -541,15 +541,15 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallScreenInfoHeaderState(
                     null,
                     null,
-                    /* <CALL_START_TIME> */
+                    /* <CALL_START_TIME>
                     false
-                    /* </CALL_START_TIME> */
+                    </CALL_START_TIME> */
                 ),
                 buttonState2,
                 isOverlayDisplayedOverGrid = false,
-                /* <CALL_START_TIME> */
+                /* <CALL_START_TIME>
                 null,
-                /* </CALL_START_TIME> */
+                </CALL_START_TIME> */
                 VisibilityStatus.VISIBLE,
             )
 
@@ -608,16 +608,16 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallScreenInfoHeaderState(
                     null,
                     null,
-                    /* <CALL_START_TIME> */
+                    /* <CALL_START_TIME>
                     false
-                    /* </CALL_START_TIME> */
+                    </CALL_START_TIME> */
                 ),
                 appState.buttonState,
                 isOverlayDisplayedOverGrid = false,
                 { },
-                /* <CALL_START_TIME> */
+                /* <CALL_START_TIME>
                 null,
-                /* </CALL_START_TIME> */
+                </CALL_START_TIME> */
             )
 
             val isVisibleFlow = mutableListOf<Boolean>()
@@ -632,15 +632,15 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallScreenInfoHeaderState(
                     null,
                     null,
-                    /* <CALL_START_TIME> */
+                    /* <CALL_START_TIME>
                     false
-                    /* </CALL_START_TIME> */
+                    </CALL_START_TIME> */
                 ),
                 appState.buttonState,
                 isOverlayDisplayedOverGrid = false,
-                /* <CALL_START_TIME> */
+                /* <CALL_START_TIME>
                 null,
-                /* </CALL_START_TIME> */
+                </CALL_START_TIME> */
                 VisibilityStatus.PIP_MODE_ENTERED,
             )
 
@@ -649,15 +649,15 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallScreenInfoHeaderState(
                     null,
                     null,
-                    /* <CALL_START_TIME> */
+                    /* <CALL_START_TIME>
                     false
-                    /* </CALL_START_TIME> */
+                    </CALL_START_TIME> */
                 ),
                 appState.buttonState,
                 isOverlayDisplayedOverGrid = false,
-                /* <CALL_START_TIME> */
+                /* <CALL_START_TIME>
                 null,
-                /* </CALL_START_TIME> */
+                </CALL_START_TIME> */
                 VisibilityStatus.VISIBLE,
             )
 
@@ -666,15 +666,15 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallScreenInfoHeaderState(
                     null,
                     null,
-                    /* <CALL_START_TIME> */
+                    /* <CALL_START_TIME>
                     false
-                    /* </CALL_START_TIME> */
+                    </CALL_START_TIME> */
                 ),
                 appState.buttonState,
                 isOverlayDisplayedOverGrid = false,
-                /* <CALL_START_TIME> */
+                /* <CALL_START_TIME>
                 null,
-                /* </CALL_START_TIME> */
+                </CALL_START_TIME> */
                 VisibilityStatus.HIDDEN,
             )
 
