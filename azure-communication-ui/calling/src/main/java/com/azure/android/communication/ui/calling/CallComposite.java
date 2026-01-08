@@ -55,9 +55,9 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 import java.util.Collection;
 import java.util.Collections;
 
-/*  <CALL_START_TIME> */
+/*  <CALL_START_TIME>
 import java.util.Date;
-/* </CALL_START_TIME> */
+</CALL_START_TIME> */
 import java.util.List;
 
 import java.util.UUID;
@@ -619,31 +619,31 @@ public final class CallComposite {
      *
      * @param eventHandler The {@link CallCompositeEventHandler}.
      */
-    /* <CALL_START_TIME> */
+    /* <CALL_START_TIME>
     public void addOnCallStartTimeUpdatedEventHandler(
             final CallCompositeEventHandler<Date> eventHandler) {
         configuration.getCallCompositeEventsHandler().addOnCallStartTimeUpdatedEventHandler(eventHandler);
     }
-    /* </CALL_START_TIME> */
+    </CALL_START_TIME> */
 
     /**
      * Remove {@link CallCompositeEventHandler}.
      *
      * @param eventHandler The {@link CallCompositeEventHandler}.
      */
-    /* <CALL_START_TIME> */
+    /* <CALL_START_TIME>
     public void removeOnCallStartTimeUpdatedEventHandler(
             final CallCompositeEventHandler<Date> eventHandler) {
         configuration.getCallCompositeEventsHandler().removeOnCallStartTimeUpdatedEventHandler(eventHandler);
     }
-    /* </CALL_START_TIME> */
+    </CALL_START_TIME> */
 
     /**
      * Get Call Start Time.
      *
      * @return {@link Date}
      */
-    /* <CALL_START_TIME> */
+    /* <CALL_START_TIME>
     public Date getCallStartTime() {
         final DependencyInjectionContainer container = diContainer;
         if (container != null) {
@@ -651,7 +651,7 @@ public final class CallComposite {
         }
         return null;
     }
-    /* </CALL_START_TIME> */
+    </CALL_START_TIME> */
 
     /**
      * Add {@link CallCompositeEventHandler}
