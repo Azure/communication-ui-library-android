@@ -19,9 +19,9 @@ import com.azure.android.communication.ui.calling.presentation.manager.AvatarVie
 import com.azure.android.communication.ui.calling.utilities.BottomCellAdapter
 import com.azure.android.communication.ui.calling.utilities.BottomCellItem
 import com.azure.android.communication.ui.calling.utilities.BottomCellItemType
+import com.azure.android.communication.ui.calling.utilities.WindowInsetsManager
 import com.azure.android.communication.ui.calling.utilities.implementation.CompositeDrawerDialog
 import com.microsoft.fluentui.drawer.DrawerDialog
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal class ParticipantListView(
@@ -41,6 +41,9 @@ internal class ParticipantListView(
         inflate(context, R.layout.azure_communication_ui_calling_listview, this)
         participantTable = findViewById(R.id.bottom_drawer_table)
         this.setBackgroundResource(R.color.azure_communication_ui_calling_color_bottom_drawer_background)
+        WindowInsetsManager.addListener {
+            WindowInsetsManager.updatePaddings(this)
+        }
     }
 
     fun start(viewLifecycleOwner: LifecycleOwner) {
@@ -131,7 +134,6 @@ internal class ParticipantListView(
     }
 
     private fun updateTableHeight(listSize: Int) {
-
         // title for in call participants
         var titles = 1
 
@@ -140,13 +142,16 @@ internal class ParticipantListView(
             titles += 1
         }
 
-        // set the height of the list to be half of the screen height or 50dp per item, whichever is smaller
-        participantTable.layoutParams.height =
-            (((listSize - titles) * 50 * context.resources.displayMetrics.density + titles * 30 * context.resources.displayMetrics.density).toInt()).coerceAtMost(
-                context.resources.displayMetrics.heightPixels / 2
-            )
-    }
+        val density = context.resources.displayMetrics.density
+        val titlesHeight = titles * 30
+        val itemsHeight = (listSize - titles) * 50
+        val desiredHeight = ((itemsHeight + titlesHeight) * density).toInt()
+        val finalHeight = desiredHeight.coerceAtMost(context.resources.displayMetrics.heightPixels / 2)
 
+        participantTable.layoutParams = participantTable.layoutParams.apply {
+            height = finalHeight
+        }
+    }
     private fun generateBottomCellItems(
         participantListContent: ParticipantListContent,
     ): MutableList<BottomCellItem> {

@@ -28,7 +28,6 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.utilities.isTablet
 import com.azure.android.communication.ui.calling.utilities.launchAll
-import kotlinx.coroutines.flow.collect
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min

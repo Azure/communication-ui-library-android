@@ -1,8 +1,35 @@
 # Azure Communication UI Calling Release History
+## 1.15.0 (2026-01-07)
+### Features
+- Edge-to-Edge support for Android 35
+
 ## 1.14.3 (2025-10-16)
 ### Features
 - Support 16 KB page sizes
 
+## 1.14.3-beta.1 (2025-07-21)
+### Bug Fixes 
+- Fix the rejoin the call, missing remote participant
+
+## 1.14.3-beta.5 (2025-09-24)
+### Features
+- Support 16 KB page sizes
+
+## 1.14.3-beta.4 (2025-09-16)
+### Bug Fixes
+- Fix bottom padding. 
+
+## 1.14.3-beta.3 (2025-08-21)
+### Bug Fixes
+- Fix RTT feature for Android 35. 
+
+## 1.14.3-beta.2 (2025-08-12)
+### Features
+- Edge-to-Edge support for Android 35
+### Known issue
+- There appears to be a keyboard issue for RTT feature when the edge-to-edge feature is enabled.
+
+## 1.14.3-beta.1 (2025-07-21)
 ### Bug Fixes 
 - Fix the rejoin the call, missing remote participant
 
