@@ -28,9 +28,9 @@ internal class InfoHeaderView : ConstraintLayout {
     private lateinit var headerView: View
     private lateinit var participantNumberText: TextView
     private lateinit var subtitleText: TextView
-    /* <CALL_START_TIME>
+    /* <CALL_START_TIME> */
     private lateinit var callDurationText: TextView
-    </CALL_START_TIME> */
+    /* </CALL_START_TIME> */
     private lateinit var displayParticipantsImageButton: ImageButton
     private lateinit var backButton: ImageButton
     private lateinit var customButton1: ImageButton
@@ -45,9 +45,9 @@ internal class InfoHeaderView : ConstraintLayout {
         participantNumberText =
             findViewById(R.id.azure_communication_ui_call_participant_number_text)
         subtitleText = findViewById(R.id.azure_communication_ui_call_header_subtitle)
-        /* <CALL_START_TIME>
+        /* <CALL_START_TIME> */
         callDurationText = findViewById(R.id.azure_communication_ui_call_header_duration)
-        </CALL_START_TIME> */
+        /* </CALL_START_TIME> */
         displayParticipantsImageButton =
             findViewById(R.id.azure_communication_ui_call_bottom_drawer_button)
         displayParticipantsImageButton.setOnClickListener {
@@ -145,7 +145,7 @@ internal class InfoHeaderView : ConstraintLayout {
                     updateCustomButton(button, customButton2)
                 }
             },
-            /* <CALL_START_TIME>
+            /* <CALL_START_TIME> */
             {
                 infoHeaderViewModel.getDisplayCallDurationFlow().collect {
                     callDurationText.isVisible = it
@@ -156,7 +156,7 @@ internal class InfoHeaderView : ConstraintLayout {
                     callDurationText.text = it
                 }
             }
-            </CALL_START_TIME> */
+            /* </CALL_START_TIME> */
         )
     }
 
