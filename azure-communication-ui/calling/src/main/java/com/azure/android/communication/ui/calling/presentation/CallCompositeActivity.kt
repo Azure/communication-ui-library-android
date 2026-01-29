@@ -533,11 +533,39 @@ internal open class CallCompositeActivity : AppCompatActivity() {
     }
 
     private fun setNavigationBarColor() {
-        window.navigationBarColor =
-            ContextCompat.getColor(
-                this,
-                R.color.azure_communication_ui_calling_color_status_bar,
-            )
+        val isNightMode = this.resources.configuration.uiMode
+            .and(Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+
+        // Disable system's automatic contrast enforcement so our explicit settings take effect
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            window.isNavigationBarContrastEnforced = false
+        }
+
+        // Set button appearance (dark buttons for light background, light buttons for dark background)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (isNightMode) {
+                // Dark mode: clear light appearance flag -> light/white buttons
+                window.insetsController?.setSystemBarsAppearance(
+                    0,
+                    android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+                )
+            } else {
+                // Light mode: set light appearance -> dark/black buttons
+                window.insetsController?.setSystemBarsAppearance(
+                    android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS,
+                    android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+                )
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            @Suppress("DEPRECATION")
+            if (isNightMode) {
+                window.decorView.systemUiVisibility =
+                    window.decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
+            } else {
+                window.decorView.systemUiVisibility =
+                    window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+            }
+        }
     }
 
     private fun supportedOSLocale(): Locale {
