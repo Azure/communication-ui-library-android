@@ -387,20 +387,9 @@ internal class CallingMiddlewareActionHandlerImpl(
     }
 
     override fun switchCamera(store: Store<ReduxState>) {
-        val currentCamera = store.getCurrentState().localParticipantState.cameraState.device
-
-        callingService.switchCamera().handle { cameraDevice, error: Throwable? ->
-            if (error != null) {
-                store.dispatch(
-                    LocalParticipantAction.CameraSwitchFailed(
-                        currentCamera,
-                        CallCompositeError(ErrorCode.SWITCH_CAMERA_FAILED, error)
-                    )
-                )
-            } else {
-                store.dispatch(LocalParticipantAction.CameraSwitchSucceeded(cameraDevice))
-            }
-        }
+        // Use the enhanced camera switching handler that properly handles
+        // camera switching after background/foreground transitions
+        CameraSwitchingHandler(callingService).switchCamera(store)
     }
 
     override fun turnMicOn(store: Store<ReduxState>) {
