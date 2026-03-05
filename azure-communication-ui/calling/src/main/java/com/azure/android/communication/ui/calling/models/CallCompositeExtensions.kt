@@ -59,3 +59,19 @@ internal fun CallCompositeButtonViewData.setEnabledChangedEventHandler(handler: 
 internal fun CallCompositeButtonViewData.setVisibleChangedEventHandler(handler: CallCompositeEventHandler<Boolean>) {
     this.visibleChangedEventHandler = handler
 }
+
+/* <CAPTIONS_RECEIVED> */
+internal fun createCallCompositeCaptionsReceivedEvent(
+    speakerName: String,
+    speakerRawId: String,
+    captionText: String,
+    languageCode: String,
+): CallCompositeCaptionsReceivedEvent {
+    return CallCompositeCaptionsReceivedEvent(
+        speakerName,
+        speakerRawId,
+        captionText,
+        languageCode
+    )
+}
+/* </CAPTIONS_RECEIVED> */

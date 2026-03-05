@@ -377,6 +377,15 @@ class CallCompositeManager(private val context: Context) {
                 RemoteParticipantJoinedHandler(callComposite, context)
             )
         }
+
+        /* <CAPTIONS_RECEIVED> */
+        callComposite.addOnCaptionsReceivedEventHandler {
+            toast(
+                context,
+                "Captions received: speakerName: ${it.speakerName}, speakerRawId: ${it.speakerRawId}, captionText: ${it.captionText}, languageCode: ${it.languageCode}"
+            )
+        }
+        /* </CAPTIONS_RECEIVED> */
     }
 
     fun dismissCallComposite() {
