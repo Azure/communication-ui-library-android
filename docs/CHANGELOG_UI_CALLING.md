@@ -1,4 +1,8 @@
 # Azure Communication UI Calling Release History
+## 1.15.1 (2026-03-17)
+### Bug Fixes
+- 30 sec delay while launching a CallComposite
+
 ## 1.15.0 (2026-01-07)
 ### Features
 - Edge-to-Edge support for Android 35
