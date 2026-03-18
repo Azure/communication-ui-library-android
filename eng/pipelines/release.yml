@@ -10,7 +10,7 @@ resources:
     name: 1ESPipelineTemplates/M365GPT
     ref: refs/tags/release
 extends:
-  template: v1/M365.Official.PipelineTempalate.yml@M365GPT
+  template: v1/M365.Official.PipelineTemplate.yml@M365GPT
   parameters:
     pool:
       os: linux
