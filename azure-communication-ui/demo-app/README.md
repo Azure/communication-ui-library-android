@@ -40,20 +40,6 @@ library. Showcases use of both Java and Kotlin to run library.
    calling, chat, call-with-chat)
 5. Build and Run
 
-### Published Calling SDK beta
-
-The beta dependency is
-[`com.azure.android:azure-communication-calling:2.17.0-beta.1`](https://repo.maven.apache.org/maven2/com/azure/android/azure-communication-calling/2.17.0-beta.1/),
-published to Maven Central on September 17, 2026. Its matching
-`com.microsoft:trouter-client-android:2.17.0-beta.1` dependency is also published.
-Gradle uses Maven Central and the original POM dependencies; no local
-build-artifact folder is required.
-
-Set `USE_CALLING_SDK_BETA=true` in the ignored `local.properties`, alongside the
-runtime values above, then run `./gradlew :demo-app:assembleCallingDebug`.
-The `calling` library exposes the beta to the demo through its existing
-API dependency. The default GA dependency is unchanged.
-
 ### 1 to N Calling Push Notifications Setup
 
 1. Follow [QuickStart](https://learn.microsoft.com/en-us/azure/communication-services/how-tos/ui-library-sdk/one-to-one-calling?tabs=kotlin&pivots=platform-android) to setup Push Notification Hub for ACS Resource or EventGrid
