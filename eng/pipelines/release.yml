@@ -55,9 +55,9 @@ extends:
 
               export ANDROID_HOME=$PWD/android-sdk
 
-              export ANDROID_COMPILE_SDK="31"
+              export ANDROID_COMPILE_SDK="35"
 
-              export ANDROID_BUILD_TOOLS="32.0.0"
+              export ANDROID_BUILD_TOOLS="35.0.0"
 
               export PATH=$PATH:${ANDROID_HOME}/cmdline-tools/bin/
 

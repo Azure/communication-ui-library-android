@@ -88,9 +88,9 @@ extends:
 
               export ANDROID_HOME=$PWD/android-sdk
 
-              export ANDROID_COMPILE_SDK="34"
+              export ANDROID_COMPILE_SDK="35"
 
-              export ANDROID_BUILD_TOOLS="32.00"
+              export ANDROID_BUILD_TOOLS="35.0.0"
 
               export PATH=$PATH:${ANDROID_HOME}/cmdline-tools/bin/
 
@@ -141,8 +141,6 @@ extends:
               echo MAVEN_REPO_KEY=$(MAVEN_REPO_KEY) >> local.properties
 
               echo ENABLE_GOOGLE_SERVICES=true >> local.properties
-
-              cat local.properties
 
               cd ..
         - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0

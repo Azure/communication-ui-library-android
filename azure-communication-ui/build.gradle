@@ -5,7 +5,7 @@ buildscript {
     }
 
     ext {
-        call_library_version_name = '1.15.0'
+        call_library_version_name = '1.16.0-beta.1'
         chat_library_version_name = '1.0.0-beta.3'
 
         ui_library_version_code = getVersionCode()
@@ -37,7 +37,8 @@ buildscript {
         }
         else {
 
-            // To use Beta Calling SDK and Features, set the following in local.properties:
+            // Beta UI releases use the beta Calling SDK by default.
+            // To override SDK selection, set the following in local.properties:
             //
             // USE_CALLING_SDK_BETA=true
             //
@@ -61,7 +62,7 @@ buildscript {
         // Select GA first, but if that isn't right then BETA
         ext.azure_calling_sdk_version = ext.azure_calling_sdk_version_ga
         isUsingBetaSdk=false
-        if (localProps.getProperty('USE_CALLING_SDK_BETA', 'false').toBoolean()) {
+        if (localProps.getProperty('USE_CALLING_SDK_BETA', call_library_version_name.contains('-beta').toString()).toBoolean()) {
             ext.azure_calling_sdk_version = ext.azure_calling_sdk_version_beta
             isUsingBetaSdk=true
         }
