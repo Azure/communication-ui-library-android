@@ -10,7 +10,7 @@ buildscript {
 
         ui_library_version_code = getVersionCode()
 
-        kotlin_version = '1.7.20'
+        kotlin_version = '1.8.10'
         jacoco_version = '0.8.8'
         junit_version = '4.13.2'
 
