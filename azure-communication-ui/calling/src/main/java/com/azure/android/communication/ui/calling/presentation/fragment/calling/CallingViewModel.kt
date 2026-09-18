@@ -128,9 +128,9 @@ internal class CallingViewModel(
             state.buttonState,
             isOverlayDisplayedOverGrid(state),
             this::requestCallEndOnBackPressed,
-            /* <CALL_START_TIME> */
+            /* <CALL_START_TIME:0>
             state.callState.callStartTime,
-            /* </CALL_START_TIME> */
+            </CALL_START_TIME:0> */
         )
 
         audioDeviceListViewModel.init(
@@ -333,9 +333,9 @@ internal class CallingViewModel(
                 state.callScreenInfoHeaderState,
                 state.buttonState,
                 isOverlayDisplayedOverGrid(state),
-                /* <CALL_START_TIME> */
+                /* <CALL_START_TIME:0>
                 state.callState.callStartTime,
-                /* </CALL_START_TIME> */
+                </CALL_START_TIME:0> */
                 state.visibilityState.status,
             )
 

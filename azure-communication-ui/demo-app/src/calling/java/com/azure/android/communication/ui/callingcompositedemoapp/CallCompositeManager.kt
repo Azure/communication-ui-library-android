@@ -282,10 +282,10 @@ class CallCompositeManager(private val context: Context) {
             isAnythingChanged = true
         }
 
-        /* <END_CALL_FOR_ALL> */
+        /* <END_CALL_FOR_ALL:0>
         localOptions.isOnCallEndTerminateForAll = true
         isAnythingChanged = true
-        /* </END_CALL_FOR_ALL> */
+        </END_CALL_FOR_ALL:0> */
 
         return if (isAnythingChanged) localOptions else null
     }
@@ -296,18 +296,18 @@ class CallCompositeManager(private val context: Context) {
     ) {
         callComposite.addOnErrorEventHandler(CallLauncherActivityErrorHandler(context, callComposite))
 
-        /*  <CALL_START_TIME> */
+        /* <CALL_START_TIME:0>
         callComposite.addOnCallStartTimeUpdatedEventHandler { startTime ->
             toast(context, "Call start time updated: $startTime")
         }
-        /* </CALL_START_TIME> */
+        </CALL_START_TIME:0> */
 
         val callStateEventHandler: ((CallCompositeCallStateChangedEvent) -> Unit) = {
             callCompositeCallStateStateFlow.value = it.code.toString()
             var callStartTime: Date? = null
-            /*  <CALL_START_TIME> */
+            /* <CALL_START_TIME:0>
             callStartTime = callComposite.getCallStartTime()
-            /* </CALL_START_TIME> */
+            </CALL_START_TIME:0> */
             toast(context, "Call State: ${it.code}. start time: $callStartTime ")
         }
 
@@ -730,9 +730,9 @@ class CallCompositeManager(private val context: Context) {
         }
         if (!SettingsFeatures.getCallScreenInformationTitle().isNullOrEmpty() ||
             !SettingsFeatures.getCallScreenInformationSubtitle().isNullOrEmpty() ||
-            /* <CALL_START_TIME> */
+            /* <CALL_START_TIME:0>
             SettingsFeatures.getCallScreenShowCallDuration() != null ||
-            /* </CALL_START_TIME> */
+            </CALL_START_TIME:0> */
             SettingsFeatures.getCallScreenInformationTitleUpdateParticipantCount() != 0 ||
             SettingsFeatures.getCallScreenInformationSubtitleUpdateParticipantCount() != 0
         ) {
@@ -750,11 +750,11 @@ class CallCompositeManager(private val context: Context) {
                     callScreenHeaderOptions?.subtitle = it
                 }
             }
-            /* <CALL_START_TIME> */
+            /* <CALL_START_TIME:0>
             SettingsFeatures.getCallScreenShowCallDuration()?.let {
                 callScreenHeaderOptions?.showCallDuration = it
             }
-            /* </CALL_START_TIME> */
+            </CALL_START_TIME:0> */
         }
         if (SettingsFeatures.getAddCustomButtons() == true) {
             val headerButton1 =
