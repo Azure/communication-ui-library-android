@@ -7,11 +7,16 @@
 
 ## 1.16.0-beta.1 (Unreleased)
 
+### Features
+- Add `CallComposite.getCallStartTime()` and handlers for call start time updates.
+- Add `CallCompositeBuilder.audioSelectionMode(...)`.
+- Add call-duration visibility options to `CallCompositeCallScreenHeaderViewData`.
+- Expose `onCallEndTerminateForAll` in `CallCompositeLocalOptions`, disabled by default.
+
 ### Other Changes
 - Update the Calling SDK dependency to 2.17.0-beta.1.
 - Select the beta Calling SDK by default for beta UI library releases.
 - Update Kotlin to 1.8.10 and the Compose compiler to 1.4.4.
-- No functional public API changes.
 
 ## 1.15.0 (2026-01-07)
 ### Features
