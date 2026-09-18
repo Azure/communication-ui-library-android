@@ -1,4 +1,23 @@
 # Azure Communication UI Calling Release History
+
+## 2.0.0 (Unreleased)
+
+### Major Version Update
+- Version 2.0.0 establishes the latest supported baseline for the Azure Communication Services SDKs. This release does not introduce functional API changes. The major version increment reflects an update to the SDK support baseline, enables the delivery of future break/fix, reliability, and security updates, and updates the licensing framework in the terms of use.
+
+## 1.16.0-beta.1 (Unreleased)
+
+### Features
+- Add `CallComposite.getCallStartTime()` and handlers for call start time updates.
+- Add `CallCompositeBuilder.audioSelectionMode(...)`.
+- Add call-duration visibility options to `CallCompositeCallScreenHeaderViewData`.
+- Expose `onCallEndTerminateForAll` in `CallCompositeLocalOptions`, disabled by default.
+
+### Other Changes
+- Update the Calling SDK dependency to 2.17.0-beta.1.
+- Select the beta Calling SDK by default for beta UI library releases.
+- Update Kotlin to 1.8.10 and the Compose compiler to 1.4.4.
+
 ## 1.15.0 (2026-01-07)
 ### Features
 - Edge-to-Edge support for Android 35

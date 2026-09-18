@@ -3,12 +3,12 @@ trigger: none
 pr: none
 resources:
   repositories:
-  - repository: 1esPipelines
+  - repository: ic3Pipelines
     type: git
-    name: 1ESPipelineTemplates/1ESPipelineTemplates
+    name: ES/internal_build_ic3pt
     ref: refs/tags/release
 extends:
-  template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
+  template: v1/IC3.Official.PipelineTemplate.yml@ic3Pipelines
   parameters:
     pool:
       os: linux
@@ -25,7 +25,7 @@ extends:
     - stage: Stage
       jobs:
       - job: Job_1
-        displayName: Agent job 1
+        displayName: Build test APK for pipeline artifacts
         templateContext:
           outputs:
           - output: pipelineArtifact
@@ -88,9 +88,9 @@ extends:
 
               export ANDROID_HOME=$PWD/android-sdk
 
-              export ANDROID_COMPILE_SDK="34"
+              export ANDROID_COMPILE_SDK="35"
 
-              export ANDROID_BUILD_TOOLS="32.00"
+              export ANDROID_BUILD_TOOLS="35.0.0"
 
               export PATH=$PATH:${ANDROID_HOME}/cmdline-tools/bin/
 
@@ -142,21 +142,7 @@ extends:
 
               echo ENABLE_GOOGLE_SERVICES=true >> local.properties
 
-              cat local.properties
-
               cd ..
-        - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
-          displayName: Set Environment Variables
-          inputs:
-            type: InlineScript
-            script: >-
-              export KEYSTORE_FILEPATH="debug.keystore"
-
-              export KEYSTORE_PASSWORD="android"
-
-              export KEY_ALIAS="androiddebugkey"
-
-              export KEY_PASSWORD="android"
         - task: ms-devlabs.utilitytasks.task-Shellpp.Shellpp@0
           displayName: Add app host link
           inputs:
@@ -196,6 +182,11 @@ extends:
             jdkVersionOption: '1.17'
         - task: Gradle@3
           displayName: gradlew assemble$(build_variant) --stacktrace
+          env:
+            KEYSTORE_FILEPATH: debug.keystore
+            KEYSTORE_PASSWORD: android
+            KEY_ALIAS: androiddebugkey
+            KEY_PASSWORD: android
           inputs:
             wrapperScript: azure-communication-ui/gradlew
             cwd: azure-communication-ui
@@ -258,17 +249,3 @@ extends:
                                   "ToolVersion" : "1.0"
                               }
                           ]
-        - task: AppCenterDistribute@3
-          displayName: Deploy apk to Visual Studio App Center
-          inputs:
-            serverEndpoint: 6468c8a1-cc02-4eea-b8c0-2f48e3a18a39
-            appSlug: Azure-Communication-Services/Azure-Communication-Services-Call-UI-Library-Sample-Android-Internal
-            app: $(system.defaultWorkingDirectory)/azure-communication-ui/demo-app/build/outputs/apk/$(build_variant)/release/demo-app-$(build_variant)-release.apk
-            symbolsType: Android
-            packParentFolder: false
-            releaseNotesInput: >-
-              Source branch: $(Build.SourceBranch)
-
-
-              Build commit: $(Build.Repository.Uri)/commit/$(Build.SourceVersion)
-            isSilent: false
