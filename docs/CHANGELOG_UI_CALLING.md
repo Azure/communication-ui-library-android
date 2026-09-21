@@ -5,10 +5,8 @@
 ### Major Version Update
 - Version 2.0.0 establishes the latest supported baseline for the Azure Communication Services SDKs. This release does not introduce functional API changes. The major version increment reflects an update to the SDK support baseline, enables the delivery of future break/fix, reliability, and security updates, and updates the licensing framework in the terms of use.
 
-## 1.16.0 (Unreleased)
-
 ### Other Changes
-- Update the GA Calling SDK dependency to 2.16.0.
+- Update the GA Calling SDK dependency to 3.0.0.
 - Preserve the published GA API surface. Call start time and duration, default audio selection, and end-call-for-all options remain preview-only and are disabled in this GA release.
 - Retain the Kotlin 1.8.10, Compose compiler 1.4.4, and API 35 build configuration from the beta preparation.
 
