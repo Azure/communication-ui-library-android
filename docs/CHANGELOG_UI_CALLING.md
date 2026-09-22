@@ -5,7 +5,7 @@
 ### Major Version Update
 - Version 2.0.0 establishes the latest supported baseline for the Azure Communication Services SDKs. This release does not introduce functional API changes. The major version increment reflects an update to the SDK support baseline, enables the delivery of future break/fix, reliability, and security updates, and updates the licensing framework in the terms of use.
 
-## 1.16.0-beta.1 (Unreleased)
+## 1.16.0-beta.1 (2026-09-21)
 
 ### Features
 - Add `CallComposite.getCallStartTime()` and handlers for call start time updates.
