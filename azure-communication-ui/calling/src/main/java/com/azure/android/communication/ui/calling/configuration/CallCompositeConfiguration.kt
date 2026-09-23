@@ -8,7 +8,7 @@ import com.azure.android.communication.common.CommunicationIdentifier
 import com.azure.android.communication.common.CommunicationTokenCredential
 import com.azure.android.communication.ui.calling.configuration.events.CallCompositeEventsHandler
 import com.azure.android.communication.ui.calling.models.CallCompositeCapabilitiesChangedNotificationMode
-/* <DEFAULT_AUDIO_MODE:0>
+/*  <DEFAULT_AUDIO_MODE:0>
 import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionMode
 </DEFAULT_AUDIO_MODE:0> */
 import com.azure.android.communication.ui.calling.models.CallCompositeCallScreenOptions
@@ -19,7 +19,7 @@ import com.azure.android.communication.ui.calling.models.CallCompositeSupportedS
 import com.azure.android.communication.ui.calling.models.CallCompositeTelecomManagerOptions
 
 internal class CallCompositeConfiguration {
-    /* <DEFAULT_AUDIO_MODE:0>
+    /*  <DEFAULT_AUDIO_MODE:0>
     var audioSelectionMode: CallCompositeAudioSelectionMode? = null
     </DEFAULT_AUDIO_MODE:0> */
     var themeConfig: Int? = null

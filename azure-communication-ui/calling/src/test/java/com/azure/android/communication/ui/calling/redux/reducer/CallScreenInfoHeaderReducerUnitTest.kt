@@ -17,10 +17,9 @@ internal class CallScreenInfoHeaderReducerUnitTest {
         val reducer = CallScreenInformationHeaderReducerImpl()
         val oldState = CallScreenInfoHeaderState(
             null,
-            null,
-            /* <CALL_START_TIME:0>
+            null, /* <CALL_START_TIME>
             false
-            </CALL_START_TIME:0> */
+            </CALL_START_TIME> */
         )
         val title = "title"
         val action = CallScreenInfoHeaderAction.UpdateTitle(title)
@@ -39,9 +38,9 @@ internal class CallScreenInfoHeaderReducerUnitTest {
         val oldState = CallScreenInfoHeaderState(
             null,
             null,
-            /* <CALL_START_TIME:0>
+            /* <CALL_START_TIME>
             false
-            </CALL_START_TIME:0> */
+            </CALL_START_TIME> */
         )
         val subtitle = "subtitle"
         val action = CallScreenInfoHeaderAction.UpdateSubtitle(subtitle)
@@ -53,7 +52,7 @@ internal class CallScreenInfoHeaderReducerUnitTest {
         Assert.assertEquals(subtitle, updatedState.subtitle)
     }
 
-    /* <CALL_START_TIME:0>
+    /* <CALL_START_TIME>
     @Test
     fun callScreenInformationHeaderReducer_reduce_on_updateShowCallDuration() {
         // arrange
@@ -68,5 +67,5 @@ internal class CallScreenInfoHeaderReducerUnitTest {
         // assert
         Assert.assertEquals(showCallDuration, updatedState.showCallDuration)
     }
-    </CALL_START_TIME:0> */
+    </CALL_START_TIME> */
 }

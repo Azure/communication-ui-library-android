@@ -3,9 +3,6 @@
 
 package com.azure.android.communication.ui.calling.presentation.manager
 
-/* <DEFAULT_AUDIO_MODE:0>
-import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionMode
-</DEFAULT_AUDIO_MODE:0> */
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothHeadset
@@ -15,26 +12,32 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.media.AudioDeviceInfo
 import android.media.AudioManager
-import android.os.Build
-import android.os.Bundle
-import androidx.annotation.RequiresApi
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.coroutineScope
-import com.azure.android.communication.ui.calling.CallCompositeException
 import com.azure.android.communication.ui.calling.implementation.R
 import com.azure.android.communication.ui.calling.redux.Store
 import com.azure.android.communication.ui.calling.redux.action.LocalParticipantAction
 import com.azure.android.communication.ui.calling.redux.state.AudioDeviceSelectionStatus
-import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 import com.azure.android.communication.ui.calling.redux.state.ReduxState
+import kotlinx.coroutines.flow.collect
+import android.media.AudioDeviceInfo
+import android.os.Build
+import android.os.Bundle
+import androidx.annotation.RequiresApi
+
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.coroutineScope
+import com.azure.android.communication.ui.calling.CallCompositeException
+/*  <DEFAULT_AUDIO_MODE:0>
+import com.azure.android.communication.ui.calling.models.CallCompositeAudioSelectionMode
+</DEFAULT_AUDIO_MODE:0> */
 import kotlinx.coroutines.launch
+import java.lang.IllegalArgumentException
+import com.azure.android.communication.ui.calling.redux.state.PermissionStatus
 
 internal class AudioSessionManager(
     private val store: Store<ReduxState>,
     private val context: Context,
-    /* <DEFAULT_AUDIO_MODE:0>
+    /*  <DEFAULT_AUDIO_MODE:0>
     private val audioSelectionMode: CallCompositeAudioSelectionMode? = null,
     </DEFAULT_AUDIO_MODE:0> */
 
@@ -227,7 +230,7 @@ internal class AudioSessionManager(
         if (initialized) return
         initialized = true
 
-        /* <DEFAULT_AUDIO_MODE:0>
+        /*  <DEFAULT_AUDIO_MODE:0>
         if (audioSelectionMode == CallCompositeAudioSelectionMode.RECEIVER) {
             enableEarpiece()
             store.dispatch(
@@ -238,15 +241,13 @@ internal class AudioSessionManager(
             store.dispatch(
                 LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.BLUETOOTH_SCO_SELECTED)
             )
-        } else {
-        </DEFAULT_AUDIO_MODE:0> */
+        } else { </DEFAULT_AUDIO_MODE:0> */
         enableSpeakerPhone()
         store.dispatch(
             LocalParticipantAction.AudioDeviceChangeSucceeded(AudioDeviceSelectionStatus.SPEAKER_SELECTED)
         )
-        /* <DEFAULT_AUDIO_MODE:0>
-        }
-        </DEFAULT_AUDIO_MODE:0> */
+            /*  <DEFAULT_AUDIO_MODE:0>
+        } </DEFAULT_AUDIO_MODE:0> */
 
         updateHeadphoneStatus()
     }
