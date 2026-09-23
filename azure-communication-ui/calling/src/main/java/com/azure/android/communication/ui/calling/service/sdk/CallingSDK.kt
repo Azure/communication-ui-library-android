@@ -30,6 +30,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.io.File
+/* <CALL_START_TIME:0>
+import java.util.Date
+</CALL_START_TIME:0> */
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -61,6 +64,9 @@ internal interface CallingSDK {
     fun getCallingStateWrapperSharedFlow(): SharedFlow<CallingStateWrapper>
     fun getCallIdStateFlow(): StateFlow<String?>
     fun getRemoteParticipantInfoModelSharedFlow(): Flow<Map<String, ParticipantInfoModel>>
+    /* <CALL_START_TIME:0>
+    fun getCallStartTimeSharedFlow(): SharedFlow<Date>
+    </CALL_START_TIME:0> */
     fun getCamerasCountStateFlow(): StateFlow<Int>
     fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?>
     fun admit(userIdentifier: String): CompletableFuture<CallCompositeLobbyErrorCode?>
@@ -98,6 +104,10 @@ internal interface CallingSDK {
     fun getCaptionsEnabledChangedSharedFlow(): SharedFlow<Boolean>
     fun getCaptionsTypeChangedSharedFlow(): SharedFlow<CallCompositeCaptionsType>
     //endregion
+
+    /* <CALL_START_TIME:0>
+    fun getCallStartTime(): Date?
+    </CALL_START_TIME:0> */
 }
 
 internal interface RemoteParticipant {

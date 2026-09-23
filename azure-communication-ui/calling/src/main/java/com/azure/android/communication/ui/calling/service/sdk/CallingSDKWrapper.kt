@@ -43,9 +43,15 @@ import com.azure.android.communication.ui.calling.utilities.isAndroidTV
 import com.azure.android.communication.ui.calling.utilities.toJavaUtil
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+/* <CALL_START_TIME:0>
+import kotlinx.coroutines.flow.SharedFlow
+</CALL_START_TIME:0> */
 import kotlinx.coroutines.flow.StateFlow
 import java.io.File
 import java.util.Collections
+/* <CALL_START_TIME:0>
+import java.util.Date
+</CALL_START_TIME:0> */
 import java.util.concurrent.CompletableFuture
 import com.azure.android.communication.calling.LocalVideoStream as NativeLocalVideoStream
 
@@ -56,6 +62,9 @@ internal class CallingSDKWrapper(
     private val logger: Logger? = null,
     private val callingSDKInitializer: CallingSDKInitializer,
     private val compositeCaptionsOptions: CallCompositeCaptionsOptions? = null,
+    /* <END_CALL_FOR_ALL:0>
+    private val isOnCallEndTerminateForAll: Boolean = false,
+    </END_CALL_FOR_ALL:0> */
 ) : CallingSDK {
     private var nullableCall: Call? = null
     private var callClient: CallClient? = null
@@ -89,6 +98,12 @@ internal class CallingSDKWrapper(
                 throw CallCompositeException("Call is not started", IllegalStateException())
             }
         }
+
+    /* <CALL_START_TIME:0>
+    override fun getCallStartTimeSharedFlow(): SharedFlow<Date> {
+        return callingSDKEventHandler.getCallStartTimeSharedFlow()
+    }
+    </CALL_START_TIME:0> */
 
     override fun getRemoteParticipantsMap(): Map<String, RemoteParticipant> =
         callingSDKEventHandler.getRemoteParticipantsMap().mapValues { it.value.into() }
@@ -195,6 +210,11 @@ internal class CallingSDKWrapper(
 
         callingSDKEventHandler.onEndCall()
         val option = HangUpOptions()
+        /* <END_CALL_FOR_ALL:0>
+        if (isOnCallEndTerminateForAll) {
+            option.isForEveryone = true
+        }
+        </END_CALL_FOR_ALL:0> */
         endCallCompletableFuture = call.hangUp(option).toJavaUtil()
         return endCallCompletableFuture!!
     }
@@ -487,6 +507,15 @@ internal class CallingSDKWrapper(
 
     override fun getCaptionsTypeChangedSharedFlow() =
         callingSDKEventHandler.getCaptionsTypeChangedSharedFlow()
+
+    /* <CALL_START_TIME:0>
+    override fun getCallStartTime(): Date? {
+        if (nullableCall != null) {
+            return call.startTime
+        }
+        return null
+    }
+    </CALL_START_TIME:0> */
 
     override fun startCaptions(spokenLanguage: String?): CompletableFuture<Void> {
         val resultFuture = CompletableFuture<Void>()

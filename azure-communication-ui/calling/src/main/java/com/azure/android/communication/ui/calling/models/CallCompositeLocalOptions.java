@@ -41,6 +41,9 @@ public final class CallCompositeLocalOptions {
 
     private CallCompositeSetupScreenOptions setupScreenOptions = null;
     private CallCompositeCallScreenOptions callScreenOptions = null;
+    /* <END_CALL_FOR_ALL:0>
+    private boolean onCallEndTerminateForAll = false;
+    </END_CALL_FOR_ALL:0> */
 
     /**
      * Create LocalSettings.
@@ -235,4 +238,24 @@ public final class CallCompositeLocalOptions {
         return this;
     }
 
+    /* <END_CALL_FOR_ALL:0>
+    !!!**
+     * Get the value for if call should end for all participants when current user hangs up.
+     * @return The boolean that is currently set.
+     *!!!
+    public boolean isOnCallEndTerminateForAll() {
+        return this.onCallEndTerminateForAll;
+    }
+
+    !!!**
+     * Configure if call should end for all participants when current user hangs up.
+     * @param onCallEndTerminateForAll The boolean value to be used for on call end terminate for all.
+     * The default value is false.
+     * @return The current {@link CallCompositeLocalOptions} object for Fluent use.
+     *!!!
+    public CallCompositeLocalOptions setOnCallEndTerminateForAll(final boolean onCallEndTerminateForAll) {
+        this.onCallEndTerminateForAll = onCallEndTerminateForAll;
+        return this;
+    }
+    </END_CALL_FOR_ALL:0> */
 }

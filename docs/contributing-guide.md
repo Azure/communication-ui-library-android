@@ -53,11 +53,3 @@ Azure Mobile UI Library employs a few practices to ensure the clean code and pro
 ## 3. Having your changes published
 
 Once your PR is merged, your changes are ready to be published in a new version! We do manual publishes of new package versions semi-regularly.
-
-### Integrating a published GA release into main
-
-Use a main-only integration branch when the release branch also has a PR into `develop`. Preserve the published version, dependencies and active code; do not move the release tag or republish the package as part of integration.
-
-For a flag-free GA source snapshot, run `validateFlagLock` and `listFlags` first. Use `deleteFlag -PflagName=FLAG_NAME` only for disabled preview flags: it deletes the entire block, including code. For enabled flags, retain the code and remove only the marker comments. Run `flagLock` afterward to regenerate the lock file, which may be empty. Keep flag tooling available for future development.
-
-Validate the resulting source and compiled API against the published GA artifact, then run the affected builds, tests and PR CI. Keep this destructive preview cleanup out of the develop integration.

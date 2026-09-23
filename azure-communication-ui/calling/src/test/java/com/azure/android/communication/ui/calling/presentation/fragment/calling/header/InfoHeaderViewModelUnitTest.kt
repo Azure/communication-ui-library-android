@@ -21,6 +21,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.mock
+/* <CALL_START_TIME:0>
+import java.util.Date
+</CALL_START_TIME:0> */
 
 @RunWith(MockitoJUnitRunner::class)
 internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
@@ -66,10 +69,16 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallScreenInfoHeaderState(
                     null,
                     null,
+                    /* <CALL_START_TIME:0>
+                    false
+                    </CALL_START_TIME:0> */
                 ),
                 appState.buttonState,
                 isOverlayDisplayedOverGrid = false,
                 { },
+                /* <CALL_START_TIME:0>
+                null,
+                </CALL_START_TIME:0> */
             )
 
             val resultListFromNumberOfParticipantsFlow =
@@ -86,9 +95,15 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallScreenInfoHeaderState(
                     null,
                     null,
+                    /* <CALL_START_TIME:0>
+                    false
+                    </CALL_START_TIME:0> */
                 ),
                 appState.buttonState,
                 isOverlayDisplayedOverGrid = false,
+                /* <CALL_START_TIME:0>
+                null,
+                </CALL_START_TIME:0> */
                 VisibilityStatus.VISIBLE,
             )
 
@@ -143,10 +158,16 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallScreenInfoHeaderState(
                     null,
                     null,
+                    /* <CALL_START_TIME:0>
+                    false
+                    </CALL_START_TIME:0> */
                 ),
                 appState.buttonState,
                 isOverlayDisplayedOverGrid = false,
                 {},
+                /* <CALL_START_TIME:0>
+                null,
+                </CALL_START_TIME:0> */
             )
 
             val resultListFromIsLobbyOverlayDisplayedFlow =
@@ -163,6 +184,9 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 appState.callScreenInfoHeaderState,
                 appState.buttonState,
                 isOverlayDisplayedOverGrid = false,
+                /* <CALL_START_TIME:0>
+                null,
+                </CALL_START_TIME:0> */
                 VisibilityStatus.VISIBLE,
             )
             floatingHeaderViewModel.update(
@@ -170,6 +194,9 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 appState.callScreenInfoHeaderState,
                 appState.buttonState,
                 isOverlayDisplayedOverGrid = true,
+                /* <CALL_START_TIME:0>
+                null,
+                </CALL_START_TIME:0> */
                 VisibilityStatus.VISIBLE,
             )
 
@@ -229,10 +256,16 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 expectedParticipantMap.count(),
                 CallScreenInfoHeaderState(
                     title, subtitle,
+                    /* <CALL_START_TIME:0>
+                    false
+                    </CALL_START_TIME:0> */
                 ),
                 appState.buttonState,
                 isOverlayDisplayedOverGrid = false,
                 { },
+                /* <CALL_START_TIME:0>
+                null,
+                </CALL_START_TIME:0> */
             )
 
             val resultListFromNumberOfParticipantsFlow =
@@ -263,9 +296,15 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallScreenInfoHeaderState(
                     null,
                     null,
+                    /* <CALL_START_TIME:0>
+                    false
+                    </CALL_START_TIME:0> */
                 ),
                 appState.buttonState,
                 isOverlayDisplayedOverGrid = true,
+                /* <CALL_START_TIME:0>
+                null,
+                </CALL_START_TIME:0> */
                 VisibilityStatus.VISIBLE,
             )
 
@@ -290,6 +329,106 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
             flowJobSubtitle.cancel()
         }
     }
+
+    /* <CALL_START_TIME:0>
+    @ExperimentalCoroutinesApi
+    @Test
+    fun floatingHeaderViewModel_update_then_showCallDuration() {
+        runScopedTest {
+            val appState = AppReduxState("", false, false)
+
+            val participantInfoModel1 = mock<ParticipantInfoModel> {}
+            val participantInfoModel2 = mock<ParticipantInfoModel> {}
+            val participantInfoModel3 = mock<ParticipantInfoModel> {}
+            val expectedParticipantMap: Map<String, ParticipantInfoModel> = mapOf(
+                "p1" to participantInfoModel1,
+                "p2" to participantInfoModel2,
+                "p3" to participantInfoModel3
+            )
+            val timestamp: Number = System.currentTimeMillis()
+
+            appState.remoteParticipantState = RemoteParticipantsState(
+                expectedParticipantMap,
+                timestamp,
+                listOf(),
+                0,
+                lobbyErrorCode = null,
+                totalParticipantCount = 0,
+            )
+            appState.callState = CallingState(
+                CallingStatus.CONNECTED,
+                joinCallIsRequested = false,
+                isRecording = false,
+                isTranscribing = false
+            )
+
+            val floatingHeaderViewModel = InfoHeaderViewModel(
+                false,
+                mock(), mock()
+            )
+            floatingHeaderViewModel.init(
+                expectedParticipantMap.count(),
+                CallScreenInfoHeaderState(null, null, false),
+                appState.buttonState,
+                isOverlayDisplayedOverGrid = false,
+                { },
+                null,
+            )
+
+            val resultListFromDisplayCallDurationFlow =
+                mutableListOf<Boolean>()
+            val resultListFromCallDurationFlow =
+                mutableListOf<String>()
+
+            val flowJobDisplayCallDuration = launch {
+                floatingHeaderViewModel.getDisplayCallDurationFlow()
+                    .toList(resultListFromDisplayCallDurationFlow)
+            }
+
+            val flowJobCallDuration = launch {
+                floatingHeaderViewModel.getCallDurationFlow()
+                    .toList(resultListFromCallDurationFlow)
+            }
+
+            // act
+            floatingHeaderViewModel.update(
+                expectedParticipantMap.count(),
+                CallScreenInfoHeaderState(null, null, true),
+                appState.buttonState,
+                isOverlayDisplayedOverGrid = false,
+                Date(),
+                VisibilityStatus.VISIBLE,
+            )
+
+            // add delay to get timer update
+            Thread.sleep(2000)
+
+            // assert
+            Assert.assertEquals(
+                false,
+                resultListFromDisplayCallDurationFlow[0]
+            )
+
+            Assert.assertEquals(
+                true,
+                resultListFromDisplayCallDurationFlow[1]
+            )
+
+            Assert.assertEquals(
+                "00:00",
+                resultListFromCallDurationFlow[0]
+            )
+
+            Assert.assertEquals(
+                "00:01",
+                resultListFromCallDurationFlow[1]
+            )
+
+            flowJobDisplayCallDuration.cancel()
+            flowJobCallDuration.cancel()
+        }
+    }
+    </CALL_START_TIME:0> */
 
     @ExperimentalCoroutinesApi
     @Test
@@ -326,10 +465,16 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 expectedParticipantMap.count(),
                 CallScreenInfoHeaderState(
                     title, subtitle,
+                    /* <CALL_START_TIME:0>
+                    false
+                    </CALL_START_TIME:0> */
                 ),
                 appState.buttonState,
                 isOverlayDisplayedOverGrid = false,
                 { },
+                /* <CALL_START_TIME:0>
+                null,
+                </CALL_START_TIME:0> */
             )
 
             val customButton1StateFlow =
@@ -367,9 +512,15 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 expectedParticipantMap.count(),
                 CallScreenInfoHeaderState(
                     null, null,
+                    /* <CALL_START_TIME:0>
+                    false
+                    </CALL_START_TIME:0> */
                 ),
                 buttonState1,
                 isOverlayDisplayedOverGrid = false,
+                /* <CALL_START_TIME:0>
+                null,
+                </CALL_START_TIME:0> */
                 VisibilityStatus.VISIBLE,
             )
 
@@ -390,9 +541,15 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallScreenInfoHeaderState(
                     null,
                     null,
+                    /* <CALL_START_TIME:0>
+                    false
+                    </CALL_START_TIME:0> */
                 ),
                 buttonState2,
                 isOverlayDisplayedOverGrid = false,
+                /* <CALL_START_TIME:0>
+                null,
+                </CALL_START_TIME:0> */
                 VisibilityStatus.VISIBLE,
             )
 
@@ -451,10 +608,16 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallScreenInfoHeaderState(
                     null,
                     null,
+                    /* <CALL_START_TIME:0>
+                    false
+                    </CALL_START_TIME:0> */
                 ),
                 appState.buttonState,
                 isOverlayDisplayedOverGrid = false,
                 { },
+                /* <CALL_START_TIME:0>
+                null,
+                </CALL_START_TIME:0> */
             )
 
             val isVisibleFlow = mutableListOf<Boolean>()
@@ -469,9 +632,15 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallScreenInfoHeaderState(
                     null,
                     null,
+                    /* <CALL_START_TIME:0>
+                    false
+                    </CALL_START_TIME:0> */
                 ),
                 appState.buttonState,
                 isOverlayDisplayedOverGrid = false,
+                /* <CALL_START_TIME:0>
+                null,
+                </CALL_START_TIME:0> */
                 VisibilityStatus.PIP_MODE_ENTERED,
             )
 
@@ -480,9 +649,15 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallScreenInfoHeaderState(
                     null,
                     null,
+                    /* <CALL_START_TIME:0>
+                    false
+                    </CALL_START_TIME:0> */
                 ),
                 appState.buttonState,
                 isOverlayDisplayedOverGrid = false,
+                /* <CALL_START_TIME:0>
+                null,
+                </CALL_START_TIME:0> */
                 VisibilityStatus.VISIBLE,
             )
 
@@ -491,9 +666,15 @@ internal class InfoHeaderViewModelUnitTest : ACSBaseTestCoroutine() {
                 CallScreenInfoHeaderState(
                     null,
                     null,
+                    /* <CALL_START_TIME:0>
+                    false
+                    </CALL_START_TIME:0> */
                 ),
                 appState.buttonState,
                 isOverlayDisplayedOverGrid = false,
+                /* <CALL_START_TIME:0>
+                null,
+                </CALL_START_TIME:0> */
                 VisibilityStatus.HIDDEN,
             )
 

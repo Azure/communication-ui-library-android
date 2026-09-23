@@ -52,6 +52,9 @@ import java.util.concurrent.atomic.AtomicBoolean
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.io.File
+/* <CALL_START_TIME:0>
+import java.util.Date
+</CALL_START_TIME:0> */
 
 internal interface LocalStreamEventObserver {
     fun onSwitchSource(deviceInfo: VideoDeviceInfo)
@@ -450,6 +453,21 @@ internal class TestCallingSDK(private val callEvents: CallEvents, coroutineConte
 
         return remoteParticipantsInfoModelSharedFlow
     }
+
+    /* <CALL_START_TIME:0>
+    override fun getCallStartTimeSharedFlow(): SharedFlow<Date> {
+        var date = Date()
+        return MutableSharedFlow<Date>().apply {
+            coroutineScope.launch {
+                emit(date)
+            }
+        }
+    }
+
+    override fun getCallStartTime(): Date? {
+        return Date()
+    }
+    </CALL_START_TIME:0> */
 
     override fun getCamerasCountStateFlow(): StateFlow<Int> = getCameraCountStateFlow
     override fun admitAll(): CompletableFuture<CallCompositeLobbyErrorCode?> {
