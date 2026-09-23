@@ -4,9 +4,6 @@
 package com.azure.android.communication.ui.calling.redux.state
 
 import org.threeten.bp.OffsetDateTime
-/* <CALL_START_TIME:0>
-import java.util.Date
-</CALL_START_TIME:0> */
 
 internal enum class CallingStatus {
     NONE,
@@ -39,9 +36,6 @@ internal data class CallingState(
     val isDefaultParametersCallStarted: Boolean = false,
     val callEndReasonCode: Int? = null,
     val callEndReasonSubCode: Int? = null,
-    /* <CALL_START_TIME:0>
-    val callStartTime: Date? = null,
-    </CALL_START_TIME:0> */
 )
 
 internal fun CallingState.isDisconnected() =

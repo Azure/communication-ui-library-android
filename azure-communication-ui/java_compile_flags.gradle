@@ -337,7 +337,7 @@ def purgeDeletions() {
         if (text.contains("DELETE_ME")) {
             def lines = file.readLines()
             def newLines = lines.findAll { line -> !line.contains("DELETE_ME") }
-            file.text = newLines.join(platformLineEnding)+platformLineEnding
+            file.text = newLines.join(FlagInstance.platformLineEnding)+FlagInstance.platformLineEnding
         }
     }
 }
@@ -491,7 +491,7 @@ tasks.register('flagHelp') {
     dependsOn('listFlags')
     doLast {
         def flags = getFlagsStatus()
-        def exampleFlag = flags.iterator().next().flagName()
+        def exampleFlag = flags.isEmpty() ? "YOUR_FLAG_NAME" : flags.iterator().next().flagName()
 
         println "Usage: ./gradlew [listFlags|enableFlag|disableFlag|printFlag|flagLock|syncWithFlagLock|validateFlagLock] -PflagName=[flagName]"
         println "\r\nCommands:"

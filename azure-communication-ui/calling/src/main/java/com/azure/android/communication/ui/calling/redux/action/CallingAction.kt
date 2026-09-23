@@ -4,9 +4,6 @@
 package com.azure.android.communication.ui.calling.redux.action
 
 import com.azure.android.communication.ui.calling.redux.state.CallingStatus
-/* <CALL_START_TIME:0>
-import java.util.Date
-</CALL_START_TIME:0> */
 
 internal sealed class CallingAction : Action {
     class SetupCall : CallingAction()
@@ -22,7 +19,4 @@ internal sealed class CallingAction : Action {
     class IsTranscribingUpdated(val isTranscribing: Boolean) : CallingAction()
     class CallIdUpdated(val callId: String?) : CallingAction()
     class CallRequestedWithoutSetup : CallingAction()
-    /* <CALL_START_TIME:0>
-    class CallStartTimeUpdated(val callStartTime: Date) : CallingAction()
-    </CALL_START_TIME:0> */
 }

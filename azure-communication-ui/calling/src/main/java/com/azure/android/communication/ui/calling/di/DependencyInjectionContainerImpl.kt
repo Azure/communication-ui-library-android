@@ -151,9 +151,6 @@ internal class DependencyInjectionContainerImpl(
         AudioSessionManager(
             appStore,
             applicationContext,
-            /* <DEFAULT_AUDIO_MODE:0>
-            configuration.audioSelectionMode
-            </DEFAULT_AUDIO_MODE:0> */
         )
     }
 
@@ -337,9 +334,6 @@ internal class DependencyInjectionContainerImpl(
                 logger,
                 callingSDKInitializer,
                 compositeCaptionsOptions = localOptions?.captionsOptions,
-                /* <END_CALL_FOR_ALL:0>
-                isOnCallEndTerminateForAll = localOptions?.isOnCallEndTerminateForAll ?: false
-                </END_CALL_FOR_ALL:0> */
             )
     }
 

@@ -5,7 +5,4 @@ package com.azure.android.communication.ui.calling.redux.state
 internal data class CallScreenInfoHeaderState(
     val title: String?,
     val subtitle: String?,
-    /* <CALL_START_TIME:0>
-    val showCallDuration: Boolean,
-    </CALL_START_TIME:0> */
 )

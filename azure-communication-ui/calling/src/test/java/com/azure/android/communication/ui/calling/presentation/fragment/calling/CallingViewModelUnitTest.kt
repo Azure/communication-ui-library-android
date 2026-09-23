@@ -73,9 +73,6 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.any
-/* <CALL_START_TIME:0>
-import org.mockito.kotlin.anyOrNull
-</CALL_START_TIME:0> */
 import org.mockito.kotlin.argThat
 import org.mockito.kotlin.doAnswer
 import org.mockito.kotlin.mock
@@ -334,9 +331,6 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 any(),
                 any(),
                 any(),
-                /* <CALL_START_TIME:0>
-                anyOrNull(),
-                </CALL_START_TIME:0> */
                 any(),
             )
             verify(mockParticipantListViewModel, times(1)).update(any(), any(), any(), any(), any())
@@ -401,9 +395,6 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 any(),
                 any(),
                 any(),
-                /* <CALL_START_TIME:0>
-                anyOrNull(),
-                </CALL_START_TIME:0> */
                 any(),
             )
             verify(mockParticipantListViewModel, times(1)).update(any(), any(), any(), any(), any())
@@ -469,9 +460,6 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
                 any(),
                 any(),
                 any(),
-                /* <CALL_START_TIME:0>
-                any(),
-                </CALL_START_TIME:0> */
                 any(),
             )
             verify(mockParticipantListViewModel, times(0)).update(any(), any(), any(), any(), any())
@@ -974,9 +962,6 @@ internal class CallingViewModelUnitTest : ACSBaseTestCoroutine() {
             any(),
             any(),
             any(),
-            /* <CALL_START_TIME:0>
-            anyOrNull(),
-            </CALL_START_TIME:0> */
             any(),
         )
         verify(
