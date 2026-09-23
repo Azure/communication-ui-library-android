@@ -1,6 +1,6 @@
 # Azure Communication UI Calling Release History
 
-## 2.0.0 (Unreleased)
+## 2.0.0 (2026-09-22)
 
 ### Major Version Update
 - Version 2.0.0 establishes the latest supported baseline for the Azure Communication Services SDKs. This release does not introduce functional API changes. The major version increment reflects an update to the SDK support baseline, enables the delivery of future break/fix, reliability, and security updates, and updates the licensing framework in the terms of use.
