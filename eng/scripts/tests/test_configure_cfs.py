@@ -100,6 +100,15 @@ class ConfigureCfsTests(unittest.TestCase):
     def test_escapes_pipeline_variable_values(self):
         self.assertEqual(CFS.pipeline_value("a%b\r\nc"), "a%AZP25b%0D%0Ac")
 
+    def test_setup_template_uses_the_pipeline_repository(self):
+        for name in ("ci.yml", "release.yml"):
+            with self.subTest(pipeline=name):
+                pipeline = (ROOT / "eng" / "pipelines" / name).read_text(encoding="utf-8")
+                self.assertRegex(
+                    pipeline,
+                    r"(?m)^\s+- template: /eng/pipelines/templates/cfs\.yml@self$",
+                )
+
     def test_private_deployment_requires_successful_validation(self):
         pipeline = (ROOT / "eng" / "pipelines" / "release.yml").read_text(encoding="utf-8")
         self.assertRegex(

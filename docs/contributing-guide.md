@@ -60,7 +60,9 @@ are not required for dependency restoration.
 
 `eng/pipelines/templates/cfs.yml` installs a job-local Gradle init script and
 configures Maven's `central` mirror before `MavenAuthenticate@0` supplies the job
-credentials. Gradle reads the same credential entry for dependency, buildscript,
+credentials. Reference this template as `/eng/pipelines/templates/cfs.yml@self`;
+the enclosing IC3 template is in another repository. Gradle reads the same
+credential entry for dependency, buildscript,
 and plugin repositories. `GRADLE_USER_HOME` applies to subsequent scanner-launched
 Gradle processes as well as the explicit Gradle tasks. Existing private feeds and
 publishing credentials are preserved. No credentials belong in this repository.

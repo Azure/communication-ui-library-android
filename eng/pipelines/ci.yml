@@ -53,7 +53,7 @@ extends:
               versionSpec: '17'
               jdkArchitectureOption: 'x64'
               jdkSourceOption: 'PreInstalled'
-          - template: templates/cfs.yml
+          - template: /eng/pipelines/templates/cfs.yml@self
           - task: Gradle@3
             displayName: 'ktlintCheck'
             inputs:

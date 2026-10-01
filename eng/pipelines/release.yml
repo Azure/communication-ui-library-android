@@ -47,7 +47,7 @@ extends:
         - checkout: self
           clean: true
           fetchTags: false
-        - template: templates/cfs.yml
+        - template: /eng/pipelines/templates/cfs.yml@self
         - task: skvso.servicetree-build-tasks.servicetree-link-build-task.servicetree-link-build-task@1
           displayName: 'ServiceTree: [$(BuildOutputUsage)] '
           condition: always()
