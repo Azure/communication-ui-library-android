@@ -1,0 +1,18 @@
+steps:
+- task: PythonScript@0
+  displayName: Test CFS repository configuration
+  inputs:
+    scriptSource: filePath
+    scriptPath: $(Build.SourcesDirectory)/eng/scripts/tests/test_configure_cfs.py
+  env:
+    GRADLE_USER_HOME: $(Agent.TempDirectory)/cfs-validation-gradle
+- task: PythonScript@0
+  displayName: Configure CFS package resolution
+  inputs:
+    scriptSource: filePath
+    scriptPath: $(Build.SourcesDirectory)/eng/scripts/configure_cfs.py
+    arguments: --gradle-home "$(Agent.TempDirectory)/cfs-gradle"
+- task: MavenAuthenticate@0
+  displayName: Authenticate to SCC PublicPackages
+  inputs:
+    artifactsFeeds: SCC_PublicPackages

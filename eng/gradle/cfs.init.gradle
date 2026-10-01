@@ -1,0 +1,60 @@
+import groovy.util.XmlSlurper
+import org.gradle.api.artifacts.repositories.MavenArtifactRepository
+import org.gradle.authentication.http.BasicAuthentication
+
+def settingsPath = System.getenv('CFS_MAVEN_SETTINGS')
+if (!settingsPath || !new File(settingsPath).isFile()) {
+    throw new GradleException('CFS_MAVEN_SETTINGS must reference the settings file prepared for MavenAuthenticate@0.')
+}
+
+def settingsXml = new XmlSlurper(false, true, false).parse(new File(settingsPath))
+def feedId = 'SCC_PublicPackages'
+def feedUrl = new URI('https://pkgs.dev.azure.com/skype/SCC/_packaging/SCC_PublicPackages/maven/v1')
+def servers = settingsXml.servers.server.findAll { it.id.text() == feedId }
+if (servers.size() != 1 || !servers[0].username.text() || !servers[0].password.text()) {
+    throw new GradleException('Run MavenAuthenticate@0 for SCC_PublicPackages before resolving Gradle dependencies.')
+}
+def feedUsername = servers[0].username.text()
+def feedPassword = servers[0].password.text()
+def publicHosts = [
+    'repo.maven.apache.org',
+    'repo1.maven.org',
+    'maven.google.com',
+    'dl.google.com',
+    'plugins.gradle.org',
+    'plugins-artifacts.gradle.org',
+    'jitpack.io'
+] as Set
+
+def mirrorRepositories = { repositories ->
+    repositories.withType(MavenArtifactRepository).all { repository ->
+        def host = repository.url.host?.toLowerCase(Locale.ROOT)
+        if (publicHosts.contains(host) || repository.url == feedUrl) {
+            repository.url = feedUrl
+            repository.credentials {
+                username = feedUsername
+                password = feedPassword
+            }
+            repository.authentication {
+                if (findByName('basic') == null) {
+                    basic(BasicAuthentication)
+                }
+            }
+        }
+    }
+}
+
+gradle.beforeSettings { settings ->
+    mirrorRepositories(settings.pluginManagement.repositories)
+    // An explicit feed also replaces Gradle's implicit public Plugin Portal.
+    settings.pluginManagement.repositories.maven {
+        name = feedId
+        url = feedUrl
+    }
+    mirrorRepositories(settings.dependencyResolutionManagement.repositories)
+}
+
+gradle.beforeProject { project ->
+    mirrorRepositories(project.buildscript.repositories)
+    mirrorRepositories(project.repositories)
+}
