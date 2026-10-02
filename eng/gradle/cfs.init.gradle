@@ -1,4 +1,4 @@
-import groovy.util.XmlSlurper
+import groovy.xml.XmlSlurper
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository
 import org.gradle.authentication.http.BasicAuthentication
 
