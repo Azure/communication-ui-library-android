@@ -25,6 +25,9 @@ out/
 **/.gradle/*
 build/
 
+# Python tooling
+__pycache__/
+
 # DS_Store files
 *.DS_Store
 
