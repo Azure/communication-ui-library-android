@@ -50,62 +50,6 @@ Azure Mobile UI Library employs a few practices to ensure the clean code and pro
 1. [ktling](https://ktlint.github.io/) is added to enforce coding style and conventions
 
 
-### Internal CI package sources
-
-The internal CI and release pipelines use the project-scoped
-`skype/SCC/SCC_PublicPackages` Azure Artifacts feed. Its upstreams include Maven
-Central, Google Maven, and Gradle Plugin Portal. The effective build identity needs
-the Feed and Upstream Reader (Collaborator) role; package-publishing permissions
-are not required for dependency restoration.
-
-`eng/pipelines/templates/cfs.yml` installs a job-local Gradle init script and
-configures Maven's `central` mirror before `MavenAuthenticate@0` supplies the job
-credentials. Reference this template as `/eng/pipelines/templates/cfs.yml@self`;
-the enclosing IC3 template is in another repository. Gradle reads the same
-credential entry for dependency, buildscript,
-and plugin repositories. `GRADLE_USER_HOME` applies to subsequent scanner-launched
-Gradle processes as well as the explicit Gradle tasks. Existing private feeds and
-publishing credentials are preserved. No credentials belong in this repository.
-Private Maven deployment also requires the preceding pipeline steps to succeed;
-a failed CFS setup or build must not publish a package.
-
-For hosted release validation, set the `validationOnly` pipeline parameter to
-`true`. This omits private-feed authentication and Maven deployment at template
-expansion time, regardless of `isPrivateRelease`. Build, test, package generation,
-security scanners, and internal ADO artifacts/reporting remain enabled. The
-parameter defaults to `false` to preserve normal release behavior.
-
-This setup is internal-CI-only: public consumer/developer builds retain their
-existing repository configuration. Fork PR builds must remain disabled for these
-credentialed internal pipelines; the setup rejects fork jobs rather than making
-internal feed credentials available to them.
-
-Run the configuration tests without an Android SDK:
-
-```sh
-GRADLE_USER_HOME="$PWD/.gradle/cfs-tests" python3 eng/scripts/tests/test_configure_cfs.py
-```
-
-CI enforces `CFSClean`, `CFSClean2`, and the already-required `CFSClean3`. The
-release pipeline additionally uses `DefaultDeny` instead of `Permissive`. Keep
-Javadoc generation and all required package artifacts enabled: AGP 8.8.0's
-generated documentation task attempts external Kotlin/Android documentation
-lookups, which must tolerate blocking under Default Deny. Blocked package-list
-lookups can emit warnings; verify that both Javadoc JARs still contain the generated
-HTML. Blocked connections are not Network Isolation policy violations.
-
-Before rollout, validate both Windows CI and Linux packaging (without publishing),
-including Component Governance and the generated Javadoc JARs. Confirm the policy
-mix in **Start Network Isolation** and zero relevant violations in **Stop Network
-Isolation**. Hosted validation creates normal build records and internal
-security/inventory reports; clean runs count toward automatic policy lock-in.
-Preview the expanded plan before queuing the exact feature-branch commit.
-Apply the fix to every active branch used by these definitions,
-including `develop` and active release branches; do not move published release
-tags. S360's observation window is seven violation-free days and at least three
-clean runs for CFS, and fourteen days and at least eight clean runs for Default
-Deny. These counts alone do not replace functional build validation.
-
 ## 3. Having your changes published
 
 Once your PR is merged, your changes are ready to be published in a new version! We do manual publishes of new package versions semi-regularly.
