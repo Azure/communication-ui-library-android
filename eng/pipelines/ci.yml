@@ -27,6 +27,8 @@ extends:
 
   template: v1/IC3.Official.PipelineTemplate.yml@ic3Pipelines
   parameters:
+    settings:
+      networkIsolationPolicy: Permissive,CFSClean,CFSClean2,CFSClean3
     pool:
       os: windows
       image: windows-2022
@@ -51,6 +53,7 @@ extends:
               versionSpec: '17'
               jdkArchitectureOption: 'x64'
               jdkSourceOption: 'PreInstalled'
+          - template: /eng/pipelines/templates/cfs.yml@self
           - task: Gradle@3
             displayName: 'ktlintCheck'
             inputs:

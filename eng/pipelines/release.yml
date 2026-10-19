@@ -1,6 +1,11 @@
 name: $(date:yyyyMMdd)$(rev:.r)
 trigger: none
 pr: none
+parameters:
+- name: validationOnly
+  displayName: Validate without deploying SDK packages
+  type: boolean
+  default: false
 variables:
   buildVersion: '0.0.1'
 resources:
@@ -12,6 +17,8 @@ resources:
 extends:
   template: v1/IC3.Official.PipelineTemplate.yml@ic3Pipelines
   parameters:
+    settings:
+      networkIsolationPolicy: DefaultDeny,CFSClean,CFSClean2,CFSClean3
     pool:
       os: linux
       image: ubuntu-latest
@@ -40,6 +47,7 @@ extends:
         - checkout: self
           clean: true
           fetchTags: false
+        - template: /eng/pipelines/templates/cfs.yml@self
         - task: skvso.servicetree-build-tasks.servicetree-link-build-task.servicetree-link-build-task@1
           displayName: 'ServiceTree: [$(BuildOutputUsage)] '
           condition: always()
@@ -174,21 +182,22 @@ extends:
             type: InlineScript
             script: ls $(system.defaultWorkingDirectory)/azure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling/$(buildVersion)
         
-        - task: MavenAuthenticate@0
-          displayName: Maven Authenticate
-          enabled: true
-          inputs:
-            artifactsFeeds: csc
-        - script: |
-              echo "********** Running Maven Deploy **********"
-              mvn deploy:deploy-file \
-                -DpomFile=azure-communication-ui-calling-$(buildVersion).pom \
-                -Dfile=azure-communication-ui-calling-$(buildVersion).aar \
-                -Dpackaging=aar \
-                -Dsources=azure-communication-ui-calling-$(buildVersion)-sources.jar \
-                -Djavadoc=azure-communication-ui-calling-$(buildVersion)-javadoc.jar \
-                -Durl=$(CSCMavenRepoUrl) \
-                -DrepositoryId=csc
-          workingDirectory: $(system.defaultWorkingDirectory)/azure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling/$(buildVersion)
-          displayName: deploy to maven
-          condition: eq(variables['isPrivateRelease'], true)
+        - ${{ if not(parameters.validationOnly) }}:
+          - task: MavenAuthenticate@0
+            displayName: Maven Authenticate
+            enabled: true
+            inputs:
+              artifactsFeeds: csc
+          - script: |
+                echo "********** Running Maven Deploy **********"
+                mvn deploy:deploy-file \
+                  -DpomFile=azure-communication-ui-calling-$(buildVersion).pom \
+                  -Dfile=azure-communication-ui-calling-$(buildVersion).aar \
+                  -Dpackaging=aar \
+                  -Dsources=azure-communication-ui-calling-$(buildVersion)-sources.jar \
+                  -Djavadoc=azure-communication-ui-calling-$(buildVersion)-javadoc.jar \
+                  -Durl=$(CSCMavenRepoUrl) \
+                  -DrepositoryId=csc
+            workingDirectory: $(system.defaultWorkingDirectory)/azure-communication-ui/calling/build/publish/com/azure/android/azure-communication-ui-calling/$(buildVersion)
+            displayName: deploy to maven
+            condition: and(succeeded(), eq(variables['isPrivateRelease'], true))
